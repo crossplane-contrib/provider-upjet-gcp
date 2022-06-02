@@ -1,0 +1,7 @@
+apiVersion: cloudplatform.gcp.upbound.io/v1alpha2
+kind: Project
+metadata:
+  name: crossplane-example-1289
+spec:
+  forProvider:
+    projectId:  crossplane-gcp-example-project

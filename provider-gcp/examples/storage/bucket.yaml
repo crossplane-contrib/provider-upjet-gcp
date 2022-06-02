@@ -1,0 +1,12 @@
+apiVersion: storage.gcp.upbound.io/v1alpha2
+kind: Bucket
+metadata:
+  name: example
+  annotations:
+    # Note that this will be the actual bucket name, so it has to be globally
+    #  unique/available.
+    crossplane.io/external-name: crossplane-example-bucket
+spec:
+  forProvider:
+    location: US
+    storageClass: MULTI_REGIONAL

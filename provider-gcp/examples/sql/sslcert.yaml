@@ -1,0 +1,13 @@
+apiVersion: sql.gcp.upbound.io/v1alpha2
+kind: SSLCert
+metadata:
+  name: example
+spec:
+  forProvider:
+    commonName: client-name
+    instanceRef:
+      name: example-instance
+  writeConnectionSecretToRef:
+    name: example-sql-ssl-secret
+    namespace: crossplane-system
+
