@@ -1,0 +1,11 @@
+apiVersion: pubsub.gcp.upbound.io/v1alpha1
+kind: TopicIAMPolicy
+metadata:
+  name: example
+spec:
+  forProvider:
+    policyData: ${data.google_iam_policy.admin.policy_data}
+    project: ${google_pubsub_topic.example.project}
+    topic: example-topic
+  providerConfigRef:
+    name: example

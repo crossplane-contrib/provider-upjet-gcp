@@ -1,0 +1,10 @@
+apiVersion: pubsub.gcp.upbound.io/v1alpha1
+kind: SubscriptionIAMPolicy
+metadata:
+  name: example
+spec:
+  forProvider:
+    policyData: ${data.google_iam_policy.admin.policy_data}
+    subscription: your-subscription-name
+  providerConfigRef:
+    name: example

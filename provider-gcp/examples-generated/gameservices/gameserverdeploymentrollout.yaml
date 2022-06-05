@@ -1,0 +1,10 @@
+apiVersion: gameservices.gcp.upbound.io/v1alpha1
+kind: GameServerDeploymentRollout
+metadata:
+  name: example
+spec:
+  forProvider:
+    defaultGameServerConfig: ${google_game_services_game_server_config.default.name}
+    deploymentId: ${google_game_services_game_server_deployment.default.deployment_id}
+  providerConfigRef:
+    name: example

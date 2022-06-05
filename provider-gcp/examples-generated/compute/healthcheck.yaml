@@ -1,0 +1,13 @@
+apiVersion: compute.gcp.upbound.io/v1alpha1
+kind: HealthCheck
+metadata:
+  name: example
+spec:
+  forProvider:
+    checkIntervalSec: 1
+    name: tcp-health-check
+    tcpHealthCheck:
+    - port: "80"
+    timeoutSec: 1
+  providerConfigRef:
+    name: example

@@ -1,0 +1,13 @@
+apiVersion: identityplatform.gcp.upbound.io/v1alpha1
+kind: TenantDefaultSupportedIdPConfig
+metadata:
+  name: example
+spec:
+  forProvider:
+    clientId: my-client-id
+    clientSecret: secret
+    enabled: true
+    idpId: playgames.google.com
+    tenant: ${google_identity_platform_tenant.tenant.name}
+  providerConfigRef:
+    name: example

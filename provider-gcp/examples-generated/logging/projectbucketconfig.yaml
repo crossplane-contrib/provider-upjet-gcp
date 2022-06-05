@@ -1,0 +1,12 @@
+apiVersion: logging.gcp.upbound.io/v1alpha1
+kind: ProjectBucketConfig
+metadata:
+  name: example
+spec:
+  forProvider:
+    bucketId: _Default
+    location: global
+    project: ${google_project.default.id}
+    retentionDays: 30
+  providerConfigRef:
+    name: example

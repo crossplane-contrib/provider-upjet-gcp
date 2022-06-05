@@ -1,0 +1,19 @@
+apiVersion: pubsub.gcp.upbound.io/v1alpha1
+kind: LiteTopic
+metadata:
+  name: example
+spec:
+  forProvider:
+    name: example-topic
+    partitionConfig:
+    - capacity:
+      - publishMibPerSec: 4
+        subscribeMibPerSec: 8
+      count: 1
+    project: ${data.google_project.project.number}
+    reservationConfig:
+    - throughputReservation: example-reservation
+    retentionConfig:
+    - perPartitionBytes: 32212254720
+  providerConfigRef:
+    name: example

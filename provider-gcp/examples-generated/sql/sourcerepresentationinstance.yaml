@@ -1,0 +1,12 @@
+apiVersion: sql.gcp.upbound.io/v1alpha2
+kind: SourceRepresentationInstance
+metadata:
+  name: example
+spec:
+  forProvider:
+    databaseVersion: MYSQL_8_0
+    host: 10.20.30.40
+    port: 3306
+    region: us-central1
+  providerConfigRef:
+    name: example

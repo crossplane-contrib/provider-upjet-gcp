@@ -1,0 +1,30 @@
+apiVersion: compute.gcp.upbound.io/v1alpha2
+kind: Instance
+metadata:
+  name: example
+spec:
+  forProvider:
+    bootDisk:
+    - initializeParams:
+      - image: debian-cloud/debian-9
+    machineType: e2-medium
+    metadata:
+      foo: bar
+    metadataStartupScript: echo hi > /test.txt
+    networkInterface:
+    - accessConfig:
+      - {}
+      networkRef:
+        name: example
+    scratchDisk:
+    - interface: SCSI
+    serviceAccount:
+    - email: ${google_service_account.default.email}
+      scopes:
+      - cloud-platform
+    tags:
+    - foo
+    - bar
+    zone: us-central1-a
+  providerConfigRef:
+    name: example

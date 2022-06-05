@@ -1,0 +1,13 @@
+apiVersion: cloudidentity.gcp.upbound.io/v1alpha1
+kind: GroupMembership
+metadata:
+  name: example
+spec:
+  forProvider:
+    group: ${google_cloud_identity_group.group.id}
+    preferredMemberKey:
+    - id: ${google_cloud_identity_group.child-group.group_key[0].id}
+    roles:
+    - name: MEMBER
+  providerConfigRef:
+    name: example

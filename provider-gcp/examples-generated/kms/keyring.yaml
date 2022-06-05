@@ -1,0 +1,10 @@
+apiVersion: kms.gcp.upbound.io/v1alpha1
+kind: KeyRing
+metadata:
+  name: example
+spec:
+  forProvider:
+    location: global
+    name: keyring-example
+  providerConfigRef:
+    name: example

@@ -1,0 +1,14 @@
+apiVersion: accessapproval.gcp.upbound.io/v1alpha1
+kind: FolderSettings
+metadata:
+  name: example
+spec:
+  forProvider:
+    enrolledServices:
+    - cloudProduct: all
+    folderId: ${google_folder.my_folder.folder_id}
+    notificationEmails:
+    - testuser@example.com
+    - example.user@example.com
+  providerConfigRef:
+    name: example

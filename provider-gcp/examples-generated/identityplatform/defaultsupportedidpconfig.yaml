@@ -1,0 +1,12 @@
+apiVersion: identityplatform.gcp.upbound.io/v1alpha1
+kind: DefaultSupportedIdPConfig
+metadata:
+  name: example
+spec:
+  forProvider:
+    clientId: client-id
+    clientSecret: secret
+    enabled: true
+    idpId: playgames.google.com
+  providerConfigRef:
+    name: example

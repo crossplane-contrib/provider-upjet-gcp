@@ -1,0 +1,12 @@
+apiVersion: compute.gcp.upbound.io/v1alpha1
+kind: HTTPHealthCheck
+metadata:
+  name: example
+spec:
+  forProvider:
+    checkIntervalSec: 1
+    name: authentication-health-check
+    requestPath: /health_check
+    timeoutSec: 1
+  providerConfigRef:
+    name: example

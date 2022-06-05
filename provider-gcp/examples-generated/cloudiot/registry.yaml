@@ -1,0 +1,9 @@
+apiVersion: cloudiot.gcp.upbound.io/v1alpha1
+kind: Registry
+metadata:
+  name: example
+spec:
+  forProvider:
+    name: cloudiot-registry
+  providerConfigRef:
+    name: example

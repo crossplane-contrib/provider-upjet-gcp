@@ -1,0 +1,12 @@
+apiVersion: dataproc.gcp.upbound.io/v1alpha1
+kind: JobIAMPolicy
+metadata:
+  name: example
+spec:
+  forProvider:
+    jobId: your-dataproc-job
+    policyData: ${data.google_iam_policy.admin.policy_data}
+    project: your-project
+    region: your-region
+  providerConfigRef:
+    name: example

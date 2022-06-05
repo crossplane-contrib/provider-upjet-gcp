@@ -1,0 +1,15 @@
+apiVersion: cloudbuild.gcp.upbound.io/v1alpha1
+kind: Trigger
+metadata:
+  name: example
+spec:
+  forProvider:
+    filename: cloudbuild.yaml
+    substitutions:
+      _BAZ: qux
+      _FOO: bar
+    triggerTemplate:
+    - branchName: main
+      repoName: my-repo
+  providerConfigRef:
+    name: example

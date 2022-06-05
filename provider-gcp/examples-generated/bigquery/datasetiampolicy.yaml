@@ -1,0 +1,10 @@
+apiVersion: bigquery.gcp.upbound.io/v1alpha1
+kind: DatasetIAMPolicy
+metadata:
+  name: example
+spec:
+  forProvider:
+    datasetId: ${google_bigquery_dataset.dataset.dataset_id}
+    policyData: ${data.google_iam_policy.owner.policy_data}
+  providerConfigRef:
+    name: example

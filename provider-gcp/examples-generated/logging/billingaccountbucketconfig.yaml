@@ -1,0 +1,12 @@
+apiVersion: logging.gcp.upbound.io/v1alpha1
+kind: BillingAccountBucketConfig
+metadata:
+  name: example
+spec:
+  forProvider:
+    billingAccount: ${data.google_billing_account.default.billing_account}
+    bucketId: _Default
+    location: global
+    retentionDays: 30
+  providerConfigRef:
+    name: example

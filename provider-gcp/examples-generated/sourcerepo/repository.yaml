@@ -1,0 +1,9 @@
+apiVersion: sourcerepo.gcp.upbound.io/v1alpha1
+kind: Repository
+metadata:
+  name: example
+spec:
+  forProvider:
+    name: my/repository
+  providerConfigRef:
+    name: example

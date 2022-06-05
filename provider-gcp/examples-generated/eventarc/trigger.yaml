@@ -1,0 +1,19 @@
+apiVersion: eventarc.gcp.upbound.io/v1alpha1
+kind: Trigger
+metadata:
+  name: example
+spec:
+  forProvider:
+    destination:
+    - cloudRunService:
+      - region: europe-west1
+        service: cloudrun-srv
+    labels:
+      foo: bar
+    location: europe-west1
+    matchingCriteria:
+    - attribute: type
+      value: google.cloud.pubsub.topic.v1.messagePublished
+    name: name
+  providerConfigRef:
+    name: example

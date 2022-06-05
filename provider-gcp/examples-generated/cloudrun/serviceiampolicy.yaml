@@ -1,0 +1,12 @@
+apiVersion: cloudrun.gcp.upbound.io/v1alpha1
+kind: ServiceIAMPolicy
+metadata:
+  name: example
+spec:
+  forProvider:
+    location: us-central1
+    policyData: ${data.google_iam_policy.admin.policy_data}
+    project: ${google_cloud_run_service.default.project}
+    service: cloudrun-srv
+  providerConfigRef:
+    name: example

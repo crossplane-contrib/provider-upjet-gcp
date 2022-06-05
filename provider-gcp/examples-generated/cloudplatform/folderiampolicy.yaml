@@ -1,0 +1,10 @@
+apiVersion: cloudplatform.gcp.upbound.io/v1alpha1
+kind: FolderIAMPolicy
+metadata:
+  name: example
+spec:
+  forProvider:
+    folder: folders/1234567
+    policyData: ${data.google_iam_policy.admin.policy_data}
+  providerConfigRef:
+    name: example

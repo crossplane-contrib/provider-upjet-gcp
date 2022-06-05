@@ -1,0 +1,12 @@
+apiVersion: apigee.gcp.upbound.io/v1alpha1
+kind: EndpointAttachment
+metadata:
+  name: example
+spec:
+  forProvider:
+    endpointAttachmentId: test1
+    location: '{google_compute_service_attachment location}'
+    orgId: ${google_apigee_organization.apigee_org.id}
+    serviceAttachment: '{google_compute_service_attachment id}'
+  providerConfigRef:
+    name: example

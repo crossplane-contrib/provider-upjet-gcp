@@ -1,0 +1,11 @@
+apiVersion: apigee.gcp.upbound.io/v1alpha1
+kind: Organization
+metadata:
+  name: example
+spec:
+  forProvider:
+    analyticsRegion: us-central1
+    authorizedNetwork: ${google_compute_network.apigee_network.id}
+    projectId: ${data.google_client_config.current.project}
+  providerConfigRef:
+    name: example

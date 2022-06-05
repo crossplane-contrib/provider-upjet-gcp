@@ -1,0 +1,12 @@
+apiVersion: monitoring.gcp.upbound.io/v1alpha1
+kind: CustomService
+metadata:
+  name: example
+spec:
+  forProvider:
+    displayName: My Custom Service custom-srv
+    serviceId: custom-srv
+    telemetry:
+    - resourceName: //product.googleapis.com/foo/foo/services/test
+  providerConfigRef:
+    name: example

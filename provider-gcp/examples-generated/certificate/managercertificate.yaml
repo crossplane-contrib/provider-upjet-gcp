@@ -1,0 +1,18 @@
+apiVersion: certificate.gcp.upbound.io/v1alpha1
+kind: ManagerCertificate
+metadata:
+  name: example
+spec:
+  forProvider:
+    description: The default cert
+    managed:
+    - dnsAuthorizations:
+      - ${google_certificate_manager_dns_authorization.instance.id}
+      - ${google_certificate_manager_dns_authorization.instance2.id}
+      domains:
+      - ${google_certificate_manager_dns_authorization.instance.domain}
+      - ${google_certificate_manager_dns_authorization.instance2.domain}
+    name: dns-cert
+    scope: EDGE_CACHE
+  providerConfigRef:
+    name: example

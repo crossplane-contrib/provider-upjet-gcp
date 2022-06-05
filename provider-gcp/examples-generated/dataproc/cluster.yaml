@@ -1,0 +1,10 @@
+apiVersion: dataproc.gcp.upbound.io/v1alpha1
+kind: Cluster
+metadata:
+  name: example
+spec:
+  forProvider:
+    name: simplecluster
+    region: us-central1
+  providerConfigRef:
+    name: example

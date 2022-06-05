@@ -1,0 +1,10 @@
+apiVersion: compute.gcp.upbound.io/v1alpha1
+kind: TargetHTTPProxy
+metadata:
+  name: example
+spec:
+  forProvider:
+    name: test-proxy
+    urlMap: ${google_compute_url_map.default.id}
+  providerConfigRef:
+    name: example

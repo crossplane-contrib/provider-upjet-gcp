@@ -1,0 +1,36 @@
+apiVersion: dialogflowcx.gcp.upbound.io/v1alpha1
+kind: Flow
+metadata:
+  name: example
+spec:
+  forProvider:
+    description: Test Flow
+    displayName: MyFlow
+    eventHandlers:
+    - event: custom-event
+      triggerFulfillment:
+      - messages:
+        - text:
+          - text:
+            - I didn't get that. Can you say it again?
+        returnPartialResponses: false
+    - event: sys.no-match-default
+      triggerFulfillment:
+      - messages:
+        - text:
+          - text:
+            - Sorry, could you say that again?
+        returnPartialResponses: false
+    - event: sys.no-input-default
+      triggerFulfillment:
+      - messages:
+        - text:
+          - text:
+            - One more time?
+        returnPartialResponses: false
+    nluSettings:
+    - classificationThreshold: 0.3
+      modelType: MODEL_TYPE_STANDARD
+    parent: ${google_dialogflow_cx_agent.agent.id}
+  providerConfigRef:
+    name: example

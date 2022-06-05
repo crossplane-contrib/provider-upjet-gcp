@@ -1,0 +1,15 @@
+apiVersion: datalossprevention.gcp.upbound.io/v1alpha1
+kind: StoredInfoType
+metadata:
+  name: example
+spec:
+  forProvider:
+    description: Description
+    displayName: Displayname
+    parent: projects/my-project-name
+    regex:
+    - groupIndexes:
+      - 2
+      pattern: patient
+  providerConfigRef:
+    name: example

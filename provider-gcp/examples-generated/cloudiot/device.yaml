@@ -1,0 +1,10 @@
+apiVersion: cloudiot.gcp.upbound.io/v1alpha1
+kind: Device
+metadata:
+  name: example
+spec:
+  forProvider:
+    name: cloudiot-device
+    registry: ${google_cloudiot_registry.registry.id}
+  providerConfigRef:
+    name: example

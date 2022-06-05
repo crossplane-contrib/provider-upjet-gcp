@@ -1,0 +1,12 @@
+apiVersion: gameservices.gcp.upbound.io/v1alpha1
+kind: Realm
+metadata:
+  name: example
+spec:
+  forProvider:
+    description: one of the nine
+    location: global
+    realmId: tf-test-realm
+    timeZone: EST
+  providerConfigRef:
+    name: example

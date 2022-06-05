@@ -1,0 +1,11 @@
+apiVersion: compute.gcp.upbound.io/v1alpha2
+kind: ManagedSSLCertificate
+metadata:
+  name: example
+spec:
+  forProvider:
+    managed:
+    - domains:
+      - sslcert.tf-test.club.
+  providerConfigRef:
+    name: example

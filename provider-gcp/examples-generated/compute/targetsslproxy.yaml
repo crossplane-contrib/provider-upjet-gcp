@@ -1,0 +1,12 @@
+apiVersion: compute.gcp.upbound.io/v1alpha1
+kind: TargetSSLProxy
+metadata:
+  name: example
+spec:
+  forProvider:
+    backendService: ${google_compute_backend_service.default.id}
+    name: test-proxy
+    sslCertificates:
+    - ${google_compute_ssl_certificate.default.id}
+  providerConfigRef:
+    name: example

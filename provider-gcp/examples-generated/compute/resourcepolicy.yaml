@@ -1,0 +1,15 @@
+apiVersion: compute.gcp.upbound.io/v1alpha1
+kind: ResourcePolicy
+metadata:
+  name: example
+spec:
+  forProvider:
+    name: policy
+    region: us-central1
+    snapshotSchedulePolicy:
+    - schedule:
+      - dailySchedule:
+        - daysInCycle: 1
+          startTime: "04:00"
+  providerConfigRef:
+    name: example

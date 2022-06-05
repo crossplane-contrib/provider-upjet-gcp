@@ -1,0 +1,14 @@
+apiVersion: compute.gcp.upbound.io/v1alpha1
+kind: BackendBucketSignedURLKey
+metadata:
+  name: example
+spec:
+  forProvider:
+    backendBucket: image-backend-bucket
+    keyValueSecretRef:
+      key: attribute.b64_url
+      name: example-id
+      namespace: crossplane-system
+    name: test-key
+  providerConfigRef:
+    name: example

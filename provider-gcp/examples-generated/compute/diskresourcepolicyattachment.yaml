@@ -1,0 +1,11 @@
+apiVersion: compute.gcp.upbound.io/v1alpha1
+kind: DiskResourcePolicyAttachment
+metadata:
+  name: example
+spec:
+  forProvider:
+    disk: test-disk
+    name: policy
+    zone: us-central1-a
+  providerConfigRef:
+    name: example

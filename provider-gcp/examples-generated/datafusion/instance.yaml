@@ -1,0 +1,11 @@
+apiVersion: datafusion.gcp.upbound.io/v1alpha1
+kind: Instance
+metadata:
+  name: example
+spec:
+  forProvider:
+    name: my-instance
+    region: us-central1
+    type: BASIC
+  providerConfigRef:
+    name: example

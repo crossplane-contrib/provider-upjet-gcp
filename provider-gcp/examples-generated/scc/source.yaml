@@ -1,0 +1,11 @@
+apiVersion: scc.gcp.upbound.io/v1alpha1
+kind: Source
+metadata:
+  name: example
+spec:
+  forProvider:
+    description: My custom Cloud Security Command Center Finding Source
+    displayName: My Source
+    organization: "123456789"
+  providerConfigRef:
+    name: example

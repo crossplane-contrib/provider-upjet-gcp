@@ -1,0 +1,10 @@
+apiVersion: spanner.gcp.upbound.io/v1alpha1
+kind: InstanceIAMPolicy
+metadata:
+  name: example
+spec:
+  forProvider:
+    instance: your-instance-name
+    policyData: ${data.google_iam_policy.admin.policy_data}
+  providerConfigRef:
+    name: example

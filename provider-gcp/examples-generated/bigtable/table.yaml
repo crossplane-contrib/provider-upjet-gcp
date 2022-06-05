@@ -1,0 +1,16 @@
+apiVersion: bigtable.gcp.upbound.io/v1alpha1
+kind: Table
+metadata:
+  name: example
+spec:
+  forProvider:
+    instanceName: tf-instance
+    lifecycle:
+    - prevent_destroy: true
+    name: tf-table
+    splitKeys:
+    - a
+    - b
+    - c
+  providerConfigRef:
+    name: example

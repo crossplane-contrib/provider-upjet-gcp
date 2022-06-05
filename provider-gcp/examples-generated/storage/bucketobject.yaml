@@ -1,0 +1,11 @@
+apiVersion: storage.gcp.upbound.io/v1alpha2
+kind: BucketObject
+metadata:
+  name: example
+spec:
+  forProvider:
+    bucket: image-store
+    name: butterfly01
+    source: /images/nature/garden-tiger-moth.jpg
+  providerConfigRef:
+    name: example

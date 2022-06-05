@@ -1,0 +1,9 @@
+apiVersion: dialogflow.gcp.upbound.io/v1alpha1
+kind: Intent
+metadata:
+  name: example
+spec:
+  forProvider:
+    displayName: basic-intent
+  providerConfigRef:
+    name: example

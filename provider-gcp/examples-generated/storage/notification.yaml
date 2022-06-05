@@ -1,0 +1,16 @@
+apiVersion: storage.gcp.upbound.io/v1alpha1
+kind: Notification
+metadata:
+  name: example
+spec:
+  forProvider:
+    bucket: ${google_storage_bucket.bucket.name}
+    customAttributes:
+      new-attribute: new-attribute-value
+    eventTypes:
+    - OBJECT_FINALIZE
+    - OBJECT_METADATA_UPDATE
+    payloadFormat: JSON_API_V1
+    topic: ${google_pubsub_topic.topic.id}
+  providerConfigRef:
+    name: example

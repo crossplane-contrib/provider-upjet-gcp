@@ -1,0 +1,11 @@
+apiVersion: compute.gcp.upbound.io/v1alpha1
+kind: FirewallPolicy
+metadata:
+  name: example
+spec:
+  forProvider:
+    description: Example Resource
+    parent: organizations/12345
+    shortName: my-policy
+  providerConfigRef:
+    name: example

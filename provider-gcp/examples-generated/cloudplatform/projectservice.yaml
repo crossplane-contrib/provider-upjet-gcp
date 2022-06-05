@@ -1,0 +1,14 @@
+apiVersion: cloudplatform.gcp.upbound.io/v1alpha1
+kind: ProjectService
+metadata:
+  name: example
+spec:
+  forProvider:
+    disableDependentServices: true
+    project: your-project-id
+    service: iam.googleapis.com
+    timeouts:
+    - create: 30m
+      update: 40m
+  providerConfigRef:
+    name: example

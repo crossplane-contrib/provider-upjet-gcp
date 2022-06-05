@@ -1,0 +1,12 @@
+apiVersion: logging.gcp.upbound.io/v1alpha1
+kind: BillingAccountSink
+metadata:
+  name: example
+spec:
+  forProvider:
+    billingAccount: ABCDEF-012345-GHIJKL
+    description: some explanation on what this is
+    destination: storage.googleapis.com/${google_storage_bucket.log-bucket.name}
+    name: my-sink
+  providerConfigRef:
+    name: example

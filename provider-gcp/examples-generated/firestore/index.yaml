@@ -1,0 +1,15 @@
+apiVersion: firestore.gcp.upbound.io/v1alpha1
+kind: Index
+metadata:
+  name: example
+spec:
+  forProvider:
+    collection: chatrooms
+    fields:
+    - fieldPath: name
+      order: ASCENDING
+    - fieldPath: description
+      order: DESCENDING
+    project: my-project-name
+  providerConfigRef:
+    name: example

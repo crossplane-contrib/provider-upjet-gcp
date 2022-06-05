@@ -1,0 +1,10 @@
+apiVersion: iap.gcp.upbound.io/v1alpha1
+kind: TunnelIAMPolicy
+metadata:
+  name: example
+spec:
+  forProvider:
+    policyData: ${data.google_iam_policy.admin.policy_data}
+    project: your-project-id
+  providerConfigRef:
+    name: example

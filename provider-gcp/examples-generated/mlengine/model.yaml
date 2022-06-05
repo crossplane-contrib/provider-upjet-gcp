@@ -1,0 +1,12 @@
+apiVersion: mlengine.gcp.upbound.io/v1alpha1
+kind: Model
+metadata:
+  name: example
+spec:
+  forProvider:
+    description: My model
+    name: default
+    regions:
+    - us-central1
+  providerConfigRef:
+    name: example

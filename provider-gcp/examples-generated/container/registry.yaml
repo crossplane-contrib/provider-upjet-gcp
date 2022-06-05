@@ -1,0 +1,10 @@
+apiVersion: container.gcp.upbound.io/v1alpha1
+kind: Registry
+metadata:
+  name: example
+spec:
+  forProvider:
+    location: EU
+    project: my-project
+  providerConfigRef:
+    name: example

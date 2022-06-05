@@ -1,0 +1,10 @@
+apiVersion: kms.gcp.upbound.io/v1alpha1
+kind: KeyRingIAMPolicy
+metadata:
+  name: example
+spec:
+  forProvider:
+    keyRingId: ${google_kms_key_ring.keyring.id}
+    policyData: ${data.google_iam_policy.admin.policy_data}
+  providerConfigRef:
+    name: example

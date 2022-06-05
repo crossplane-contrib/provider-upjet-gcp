@@ -1,0 +1,11 @@
+apiVersion: firebaserules.gcp.upbound.io/v1alpha1
+kind: Release
+metadata:
+  name: example
+spec:
+  forProvider:
+    name: release
+    project: my-project-name
+    rulesetName: projects/my-project-name/rulesets/${google_firebaserules_ruleset.basic.name}
+  providerConfigRef:
+    name: example

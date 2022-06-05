@@ -1,0 +1,11 @@
+apiVersion: appengine.gcp.upbound.io/v1alpha1
+kind: ServiceNetworkSettings
+metadata:
+  name: example
+spec:
+  forProvider:
+    networkSettings:
+    - ingressTrafficAllowed: INGRESS_TRAFFIC_ALLOWED_INTERNAL_ONLY
+    service: myapp
+  providerConfigRef:
+    name: example

@@ -1,0 +1,13 @@
+apiVersion: compute.gcp.upbound.io/v1alpha1
+kind: NodeGroup
+metadata:
+  name: example
+spec:
+  forProvider:
+    description: example google_compute_node_group for Terraform Google Provider
+    name: soletenant-group
+    nodeTemplate: ${google_compute_node_template.soletenant-tmpl.id}
+    size: 1
+    zone: us-central1-f
+  providerConfigRef:
+    name: example

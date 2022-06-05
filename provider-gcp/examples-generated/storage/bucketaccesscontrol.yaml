@@ -1,0 +1,11 @@
+apiVersion: storage.gcp.upbound.io/v1alpha1
+kind: BucketAccessControl
+metadata:
+  name: example
+spec:
+  forProvider:
+    bucket: ${google_storage_bucket.bucket.name}
+    entity: allUsers
+    role: READER
+  providerConfigRef:
+    name: example

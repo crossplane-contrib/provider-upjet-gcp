@@ -1,0 +1,13 @@
+apiVersion: network.gcp.upbound.io/v1alpha1
+kind: ConnectivityHub
+metadata:
+  name: example
+spec:
+  forProvider:
+    description: A sample hub
+    labels:
+      label-one: value-one
+    name: hub
+    project: my-project-name
+  providerConfigRef:
+    name: example

@@ -1,0 +1,12 @@
+apiVersion: compute.gcp.upbound.io/v1alpha1
+kind: InstanceGroup
+metadata:
+  name: example
+spec:
+  forProvider:
+    description: Terraform test instance group
+    name: terraform-test
+    network: ${google_compute_network.default.id}
+    zone: us-central1-a
+  providerConfigRef:
+    name: example

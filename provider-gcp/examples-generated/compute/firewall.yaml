@@ -1,0 +1,19 @@
+apiVersion: compute.gcp.upbound.io/v1alpha2
+kind: Firewall
+metadata:
+  name: example
+spec:
+  forProvider:
+    allow:
+    - protocol: icmp
+    - ports:
+      - "80"
+      - "8080"
+      - 1000-2000
+      protocol: tcp
+    networkRef:
+      name: example
+    sourceTags:
+    - web
+  providerConfigRef:
+    name: example

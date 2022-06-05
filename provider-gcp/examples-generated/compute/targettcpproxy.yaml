@@ -1,0 +1,10 @@
+apiVersion: compute.gcp.upbound.io/v1alpha1
+kind: TargetTCPProxy
+metadata:
+  name: example
+spec:
+  forProvider:
+    backendService: ${google_compute_backend_service.default.id}
+    name: test-proxy
+  providerConfigRef:
+    name: example

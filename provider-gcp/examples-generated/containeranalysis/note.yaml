@@ -1,0 +1,12 @@
+apiVersion: containeranalysis.gcp.upbound.io/v1alpha1
+kind: Note
+metadata:
+  name: example
+spec:
+  forProvider:
+    attestationAuthority:
+    - hint:
+      - humanReadableName: Attestor Note
+    name: attestor-note
+  providerConfigRef:
+    name: example

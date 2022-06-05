@@ -1,0 +1,10 @@
+apiVersion: datacatalog.gcp.upbound.io/v1alpha1
+kind: TagTemplateIAMPolicy
+metadata:
+  name: example
+spec:
+  forProvider:
+    policyData: ${data.google_iam_policy.admin.policy_data}
+    tagTemplate: ${google_data_catalog_tag_template.basic_tag_template.name}
+  providerConfigRef:
+    name: example

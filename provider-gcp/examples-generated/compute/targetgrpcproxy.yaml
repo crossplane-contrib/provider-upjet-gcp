@@ -1,0 +1,11 @@
+apiVersion: compute.gcp.upbound.io/v1alpha1
+kind: TargetGRPCProxy
+metadata:
+  name: example
+spec:
+  forProvider:
+    name: proxy
+    urlMap: ${google_compute_url_map.urlmap.id}
+    validateForProxyless: true
+  providerConfigRef:
+    name: example

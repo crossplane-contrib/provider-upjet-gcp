@@ -1,0 +1,12 @@
+apiVersion: compute.gcp.upbound.io/v1alpha1
+kind: NetworkEndpoint
+metadata:
+  name: example
+spec:
+  forProvider:
+    instance: ${google_compute_instance.endpoint-instance.name}
+    ipAddress: ${google_compute_instance.endpoint-instance.network_interface[0].network_ip}
+    networkEndpointGroup: my-lb-neg
+    port: ${google_compute_network_endpoint_group.neg.default_port}
+  providerConfigRef:
+    name: example

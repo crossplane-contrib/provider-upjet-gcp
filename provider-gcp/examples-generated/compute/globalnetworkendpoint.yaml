@@ -1,0 +1,11 @@
+apiVersion: compute.gcp.upbound.io/v1alpha1
+kind: GlobalNetworkEndpoint
+metadata:
+  name: example
+spec:
+  forProvider:
+    fqdn: www.example.com
+    globalNetworkEndpointGroup: my-lb-neg
+    port: 90
+  providerConfigRef:
+    name: example

@@ -1,0 +1,10 @@
+apiVersion: healthcare.gcp.upbound.io/v1alpha1
+kind: ConsentStore
+metadata:
+  name: example
+spec:
+  forProvider:
+    dataset: ${google_healthcare_dataset.dataset.id}
+    name: my-consent-store
+  providerConfigRef:
+    name: example

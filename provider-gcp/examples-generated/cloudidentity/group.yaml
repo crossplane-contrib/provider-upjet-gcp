@@ -1,0 +1,15 @@
+apiVersion: cloudidentity.gcp.upbound.io/v1alpha1
+kind: Group
+metadata:
+  name: example
+spec:
+  forProvider:
+    displayName: my-identity-group
+    groupKey:
+    - id: my-identity-group@example.com
+    initialGroupConfig: WITH_INITIAL_OWNER
+    labels:
+      cloudidentity.googleapis.com/groups.discussion_forum: ""
+    parent: customers/A01b123xz
+  providerConfigRef:
+    name: example

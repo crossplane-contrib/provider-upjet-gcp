@@ -1,0 +1,15 @@
+apiVersion: memcache.gcp.upbound.io/v1alpha1
+kind: Instance
+metadata:
+  name: example
+spec:
+  forProvider:
+    authorizedNetwork: ${google_compute_network.peering_network.id}
+    memcacheVersion: MEMCACHE_1_5
+    name: test-instance
+    nodeConfig:
+    - cpuCount: 1
+      memorySizeMb: 1024
+    nodeCount: 1
+  providerConfigRef:
+    name: example

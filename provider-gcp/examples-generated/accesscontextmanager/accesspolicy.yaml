@@ -1,0 +1,10 @@
+apiVersion: accesscontextmanager.gcp.upbound.io/v1alpha1
+kind: AccessPolicy
+metadata:
+  name: example
+spec:
+  forProvider:
+    parent: organizations/123456789
+    title: Org Access Policy
+  providerConfigRef:
+    name: example

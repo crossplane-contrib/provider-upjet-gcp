@@ -1,0 +1,20 @@
+apiVersion: monitoring.gcp.upbound.io/v1alpha1
+kind: Dashboard
+metadata:
+  name: example
+spec:
+  forProvider:
+    dashboardJson: |+
+      {
+        "displayName": "Demo Dashboard",
+        "gridLayout": {
+          "widgets": [
+            {
+              "blank": {}
+            }
+          ]
+        }
+      }
+
+  providerConfigRef:
+    name: example

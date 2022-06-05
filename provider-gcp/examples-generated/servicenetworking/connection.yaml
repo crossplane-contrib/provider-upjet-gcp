@@ -1,0 +1,12 @@
+apiVersion: servicenetworking.gcp.upbound.io/v1alpha1
+kind: Connection
+metadata:
+  name: example
+spec:
+  forProvider:
+    network: ${google_compute_network.peering_network.id}
+    reservedPeeringRanges:
+    - ${google_compute_global_address.private_ip_alloc.name}
+    service: servicenetworking.googleapis.com
+  providerConfigRef:
+    name: example

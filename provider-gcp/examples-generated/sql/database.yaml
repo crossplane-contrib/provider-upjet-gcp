@@ -1,0 +1,10 @@
+apiVersion: sql.gcp.upbound.io/v1alpha2
+kind: Database
+metadata:
+  name: example
+spec:
+  forProvider:
+    instanceRef:
+      name: example
+  providerConfigRef:
+    name: example

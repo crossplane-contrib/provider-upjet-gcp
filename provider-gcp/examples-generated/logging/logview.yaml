@@ -1,0 +1,12 @@
+apiVersion: logging.gcp.upbound.io/v1alpha1
+kind: LogView
+metadata:
+  name: example
+spec:
+  forProvider:
+    bucket: ${google_logging_project_bucket_config.basic.id}
+    description: A logging view configured with Terraform
+    filter: SOURCE("projects/myproject") AND resource.type = "gce_instance" AND LOG_ID("stdout")
+    name: view
+  providerConfigRef:
+    name: example

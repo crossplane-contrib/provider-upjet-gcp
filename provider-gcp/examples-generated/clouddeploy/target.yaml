@@ -1,0 +1,21 @@
+apiVersion: clouddeploy.gcp.upbound.io/v1alpha1
+kind: Target
+metadata:
+  name: example
+spec:
+  forProvider:
+    annotations:
+      my_first_annotation: example-annotation-1
+      my_second_annotation: example-annotation-2
+    description: basic description
+    gke:
+    - cluster: projects/my-project-name/locations/us-west1/clusters/example-cluster-name
+    labels:
+      my_first_label: example-label-1
+      my_second_label: example-label-2
+    location: us-west1
+    name: target
+    project: my-project-name
+    requireApproval: false
+  providerConfigRef:
+    name: example

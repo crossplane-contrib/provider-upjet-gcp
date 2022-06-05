@@ -1,0 +1,14 @@
+apiVersion: dataflow.gcp.upbound.io/v1alpha1
+kind: Job
+metadata:
+  name: example
+spec:
+  forProvider:
+    name: dataflow-job
+    parameters:
+      baz: qux
+      foo: bar
+    tempGcsLocation: gs://my-bucket/tmp_dir
+    templateGcsPath: gs://my-bucket/templates/template_file
+  providerConfigRef:
+    name: example

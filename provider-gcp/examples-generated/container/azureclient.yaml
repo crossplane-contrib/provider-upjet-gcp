@@ -1,0 +1,13 @@
+apiVersion: container.gcp.upbound.io/v1alpha1
+kind: AzureClient
+metadata:
+  name: example
+spec:
+  forProvider:
+    applicationId: 12345678-1234-1234-1234-123456789111
+    location: us-west1
+    name: client-name
+    project: my-project-name
+    tenantId: 12345678-1234-1234-1234-123456789111
+  providerConfigRef:
+    name: example

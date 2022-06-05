@@ -1,0 +1,26 @@
+apiVersion: storage.gcp.upbound.io/v1alpha2
+kind: Bucket
+metadata:
+  name: example
+spec:
+  forProvider:
+    cors:
+    - maxAgeSeconds: 3600
+      method:
+      - GET
+      - HEAD
+      - PUT
+      - POST
+      - DELETE
+      origin:
+      - http://image-store.com
+      responseHeader:
+      - '*'
+    forceDestroy: true
+    location: EU
+    uniformBucketLevelAccess: true
+    website:
+    - mainPageSuffix: index.html
+      notFoundPage: 404.html
+  providerConfigRef:
+    name: example

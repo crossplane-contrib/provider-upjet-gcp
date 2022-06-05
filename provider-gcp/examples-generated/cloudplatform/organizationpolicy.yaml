@@ -1,0 +1,12 @@
+apiVersion: cloudplatform.gcp.upbound.io/v1alpha1
+kind: OrganizationPolicy
+metadata:
+  name: example
+spec:
+  forProvider:
+    booleanPolicy:
+    - enforced: true
+    constraint: compute.disableSerialPortAccess
+    orgId: "123456789"
+  providerConfigRef:
+    name: example

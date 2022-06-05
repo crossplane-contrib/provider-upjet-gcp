@@ -1,0 +1,11 @@
+apiVersion: vpcaccess.gcp.upbound.io/v1alpha1
+kind: Connector
+metadata:
+  name: example
+spec:
+  forProvider:
+    ipCidrRange: 10.8.0.0/28
+    name: vpc-con
+    network: default
+  providerConfigRef:
+    name: example

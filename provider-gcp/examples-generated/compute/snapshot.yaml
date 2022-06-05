@@ -1,0 +1,15 @@
+apiVersion: compute.gcp.upbound.io/v1alpha1
+kind: Snapshot
+metadata:
+  name: example
+spec:
+  forProvider:
+    labels:
+      my_label: value
+    name: my-snapshot
+    sourceDisk: ${google_compute_disk.persistent.id}
+    storageLocations:
+    - us-central1
+    zone: us-central1-a
+  providerConfigRef:
+    name: example

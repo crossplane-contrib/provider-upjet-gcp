@@ -1,0 +1,12 @@
+apiVersion: logging.gcp.upbound.io/v1alpha1
+kind: FolderBucketConfig
+metadata:
+  name: example
+spec:
+  forProvider:
+    bucketId: _Default
+    folder: ${google_folder.default.name}
+    location: global
+    retentionDays: 30
+  providerConfigRef:
+    name: example

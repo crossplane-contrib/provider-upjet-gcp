@@ -1,0 +1,14 @@
+apiVersion: cloudrun.gcp.upbound.io/v1alpha1
+kind: DomainMapping
+metadata:
+  name: example
+spec:
+  forProvider:
+    location: us-central1
+    metadata:
+    - namespace: my-project-name
+    name: verified-domain.com
+    spec:
+    - routeName: cloudrun-srv
+  providerConfigRef:
+    name: example

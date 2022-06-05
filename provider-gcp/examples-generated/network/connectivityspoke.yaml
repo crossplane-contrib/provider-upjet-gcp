@@ -1,0 +1,19 @@
+apiVersion: network.gcp.upbound.io/v1alpha1
+kind: ConnectivitySpoke
+metadata:
+  name: example
+spec:
+  forProvider:
+    description: A sample spoke with a linked routher appliance instance
+    hub: ${google_network_connectivity_hub.basic_hub.id}
+    labels:
+      label-one: value-one
+    linkedRouterApplianceInstances:
+    - instances:
+      - ipAddress: 10.0.0.2
+        virtualMachine: ${google_compute_instance.instance.self_link}
+      siteToSiteDataTransfer: true
+    location: us-west1
+    name: name
+  providerConfigRef:
+    name: example

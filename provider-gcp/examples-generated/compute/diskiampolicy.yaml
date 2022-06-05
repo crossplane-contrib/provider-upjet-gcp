@@ -1,0 +1,12 @@
+apiVersion: compute.gcp.upbound.io/v1alpha1
+kind: DiskIAMPolicy
+metadata:
+  name: example
+spec:
+  forProvider:
+    name: test-disk
+    policyData: ${data.google_iam_policy.admin.policy_data}
+    project: ${google_compute_disk.default.project}
+    zone: us-central1-a
+  providerConfigRef:
+    name: example
