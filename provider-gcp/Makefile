@@ -52,7 +52,7 @@ UP_CHANNEL = main
 # Setup Images
 
 DOCKER_REGISTRY ?= upbound
-IMAGES = provider-gcp-controller
+IMAGES = provider-gcp
 -include build/makelib/image.mk
 
 # ====================================================================================
@@ -101,7 +101,7 @@ run: go.build
 xpkg.build: $(UP)
 	@$(INFO) Building package provider-gcp-$(VERSION).xpkg
 	@mkdir -p $(OUTPUT_DIR)/xpkg
-	@$(UP) xpkg build --controller $(BUILD_REGISTRY)/provider-gcp-controller-$(SAFEHOSTARCH) -f ./package -e ./examples --name ../_output/xpkg/provider-gcp-$(VERSION).xpkg || $(FAIL)
+	@$(UP) xpkg build --controller $(BUILD_REGISTRY)/provider-gcp-$(SAFEHOSTARCH) -f ./package -e ./examples --name ../_output/xpkg/provider-gcp-$(VERSION).xpkg || $(FAIL)
 	@$(OK) Built package provider-gcp-$(VERSION).xpkg
 
 xpkg.push: $(UP)

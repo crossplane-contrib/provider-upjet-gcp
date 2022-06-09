@@ -6,7 +6,7 @@ include ../../../build/makelib/common.mk
 
 # ====================================================================================
 #  Options
-IMAGE = $(BUILD_REGISTRY)/provider-gcp-controller-$(ARCH)
+IMAGE = $(BUILD_REGISTRY)/provider-gcp-$(ARCH)
 include ../../../build/makelib/image.mk
 
 # ====================================================================================
