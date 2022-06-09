@@ -1,11 +1,7 @@
 apiVersion: storage.gcp.upbound.io/v1alpha2
 kind: Bucket
 metadata:
-  name: official-example-bucket
-  annotations:
-    # Note that this will be the actual bucket name, so it has to be globally
-    #  unique/available.
-    crossplane.io/external-name: official-example-bucket
+  name: example
 spec:
   forProvider:
     cors:
