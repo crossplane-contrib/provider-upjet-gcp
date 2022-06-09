@@ -52,7 +52,7 @@ UP_CHANNEL = main
 # Setup Images
 
 DOCKER_REGISTRY ?= crossplane
-IMAGES = provider-gcp provider-gcp-controller
+IMAGES = provider-gcp-controller
 -include build/makelib/image.mk
 
 # ====================================================================================
