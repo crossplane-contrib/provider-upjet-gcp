@@ -106,7 +106,7 @@ xpkg.build: $(UP)
 
 xpkg.push: $(UP)
 	@$(INFO) Pushing package provider-gcp-$(VERSION).xpkg
-	@$(UP) xpkg push -f $(OUTPUT_DIR)/xpkg/provider-gcp-$(VERSION).xpkg upbound/provider-gcp-staging:$(VERSION) || $(FAIL)
+	@$(UP) xpkg push -f $(OUTPUT_DIR)/xpkg/provider-gcp-$(VERSION).xpkg xpkg.upbound.io/upbound/provider-gcp-staging:$(VERSION) || $(FAIL)
 	@$(OK) Pushed package provider-gcp-$(VERSION).xpkg
 
 xpkg.load: $(UP)
