@@ -9,6 +9,9 @@ import (
 	"github.com/upbound/upjet/pkg/types/name"
 )
 
+// VersionV1Beta1 is used to signify that the resource has been tested and external name configured
+const VersionV1Beta1 = "v1beta1"
+
 // GroupKindCalculator returns the correct group and kind name for given TF
 // resource.
 type GroupKindCalculator func(resource string) (string, string)
@@ -110,5 +113,11 @@ func ReplaceGroupWords(group string, count int) GroupKindCalculator {
 		}
 		snakeKind := strings.Join(words[count:], "_")
 		return group, name.NewFromSnake(snakeKind).Camel
+	}
+}
+
+func defaultVersion() tjconfig.ResourceOption {
+	return func(r *tjconfig.Resource) {
+		r.Version = VersionV1Beta1
 	}
 }

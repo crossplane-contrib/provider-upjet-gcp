@@ -13,7 +13,6 @@ import (
 // ResourceConfigurators.
 func Configure(p *config.Provider) {
 	p.AddResourceConfigurator("google_redis_instance", func(r *config.Resource) {
-		r.Version = common.VersionV1alpha2
 		r.ExternalName = config.NameAsIdentifier
 		r.ExternalName.GetExternalNameFn = common.GetNameFromFullyQualifiedID
 		r.ExternalName.GetIDFn = func(ctx context.Context, externalName string, parameters map[string]interface{}, providerConfig map[string]interface{}) (string, error) {

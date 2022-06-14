@@ -29,7 +29,6 @@ const (
 // ResourceConfigurators.
 func Configure(p *config.Provider) { //nolint:gocyclo
 	p.AddResourceConfigurator("google_sql_database_instance", func(r *config.Resource) {
-		r.Version = common.VersionV1alpha2
 		r.ExternalName = config.NameAsIdentifier
 		r.ExternalName.GetExternalNameFn = common.GetNameFromFullyQualifiedID
 		r.ExternalName.GetIDFn = func(_ context.Context, externalName string, parameters map[string]interface{}, providerConfig map[string]interface{}) (string, error) {
@@ -83,7 +82,6 @@ func Configure(p *config.Provider) { //nolint:gocyclo
 		r.UseAsync = true
 	})
 	p.AddResourceConfigurator("google_sql_database", func(r *config.Resource) {
-		r.Version = common.VersionV1alpha2
 		r.ExternalName = config.NameAsIdentifier
 		r.ExternalName.GetExternalNameFn = common.GetNameFromFullyQualifiedID
 		r.ExternalName.GetIDFn = func(_ context.Context, externalName string, parameters map[string]interface{}, providerConfig map[string]interface{}) (string, error) {
@@ -106,7 +104,6 @@ func Configure(p *config.Provider) { //nolint:gocyclo
 		r.UseAsync = true
 	})
 	p.AddResourceConfigurator("google_sql_source_representation_instance", func(r *config.Resource) {
-		r.Version = common.VersionV1alpha2
 		r.ExternalName = config.NameAsIdentifier
 		r.ExternalName.GetExternalNameFn = common.GetNameFromFullyQualifiedID
 		r.ExternalName.GetIDFn = func(_ context.Context, externalName string, parameters map[string]interface{}, providerConfig map[string]interface{}) (string, error) {
@@ -129,7 +126,6 @@ func Configure(p *config.Provider) { //nolint:gocyclo
 		r.UseAsync = true
 	})
 	p.AddResourceConfigurator("google_sql_user", func(r *config.Resource) {
-		r.Version = common.VersionV1alpha2
 		r.ExternalName = config.NameAsIdentifier
 		r.ExternalName.GetExternalNameFn = common.GetNameFromFullyQualifiedID
 		r.ExternalName.GetIDFn = func(_ context.Context, externalName string, parameters map[string]interface{}, providerConfig map[string]interface{}) (string, error) {
@@ -152,7 +148,6 @@ func Configure(p *config.Provider) { //nolint:gocyclo
 		r.UseAsync = true
 	})
 	p.AddResourceConfigurator("google_sql_ssl_cert", func(r *config.Resource) {
-		r.Version = common.VersionV1alpha2
 		r.ExternalName = config.IdentifierFromProvider
 		r.ExternalName.GetExternalNameFn = common.GetNameFromFullyQualifiedID
 		r.ExternalName.GetIDFn = func(_ context.Context, externalName string, parameters map[string]interface{}, providerConfig map[string]interface{}) (string, error) {

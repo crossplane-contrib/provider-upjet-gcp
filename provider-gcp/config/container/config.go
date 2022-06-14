@@ -18,7 +18,6 @@ import (
 // ResourceConfigurators.
 func Configure(p *config.Provider) {
 	p.AddResourceConfigurator("google_container_cluster", func(r *config.Resource) {
-		r.Version = common.VersionV1alpha2
 		r.Kind = "Cluster"
 		r.LateInitializer = config.LateInitializer{
 			IgnoredFields: []string{"cluster_ipv4_cidr", "ip_allocation_policy"},
@@ -85,7 +84,6 @@ func Configure(p *config.Provider) {
 	})
 
 	p.AddResourceConfigurator("google_container_node_pool", func(r *config.Resource) {
-		r.Version = common.VersionV1alpha2
 		r.Kind = "NodePool"
 		r.ExternalName = config.NameAsIdentifier
 		r.ExternalName.GetExternalNameFn = common.GetNameFromFullyQualifiedID

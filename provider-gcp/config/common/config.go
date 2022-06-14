@@ -19,9 +19,6 @@ const (
 
 	// ExtractResourceIDFuncPath holds the GCP resource ID extractor func name
 	ExtractResourceIDFuncPath = "github.com/upbound/official-providers/provider-gcp/config/common.ExtractResourceID()"
-
-	// VersionV1alpha2 is the version to be used for manually configured types.
-	VersionV1alpha2 = "v1alpha2"
 )
 
 var (

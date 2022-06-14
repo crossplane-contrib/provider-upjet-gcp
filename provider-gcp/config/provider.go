@@ -17,7 +17,6 @@ import (
 	"github.com/upbound/official-providers/provider-gcp/config/container"
 	"github.com/upbound/official-providers/provider-gcp/config/dataflow"
 	"github.com/upbound/official-providers/provider-gcp/config/dataproc"
-	"github.com/upbound/official-providers/provider-gcp/config/monitoring"
 	"github.com/upbound/official-providers/provider-gcp/config/project"
 	"github.com/upbound/official-providers/provider-gcp/config/redis"
 	"github.com/upbound/official-providers/provider-gcp/config/sql"
@@ -82,6 +81,7 @@ func GetProvider() *tjconfig.Provider {
 		tjconfig.WithDefaultResourceFn(DefaultResource(
 			groupOverrides(),
 			externalNameConfig(),
+			defaultVersion(),
 		)),
 		tjconfig.WithRootGroup("gcp.upbound.io"),
 		tjconfig.WithShortName("gcp"),
@@ -100,7 +100,6 @@ func GetProvider() *tjconfig.Provider {
 		dataflow.Configure,
 		dataproc.Configure,
 		redis.Configure,
-		monitoring.Configure,
 		project.Configure,
 		storage.Configure,
 		sql.Configure,

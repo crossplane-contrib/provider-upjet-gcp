@@ -14,7 +14,6 @@ import (
 // ResourceConfigurators.
 func Configure(p *config.Provider) {
 	p.AddResourceConfigurator("google_folder", func(r *config.Resource) {
-		r.Version = common.VersionV1alpha2
 		r.ExternalName = config.NameAsIdentifier
 		r.ExternalName.GetExternalNameFn = common.GetNameFromFullyQualifiedID
 		r.ExternalName.GetIDFn = func(_ context.Context, externalName string, parameters map[string]interface{}, providerConfig map[string]interface{}) (string, error) {
@@ -22,7 +21,6 @@ func Configure(p *config.Provider) {
 		}
 	})
 	p.AddResourceConfigurator("google_project", func(r *config.Resource) {
-		r.Version = common.VersionV1alpha2
 		r.ExternalName = config.NameAsIdentifier
 		r.ExternalName.GetExternalNameFn = common.GetNameFromFullyQualifiedID
 		r.ExternalName.GetIDFn = func(_ context.Context, externalName string, parameters map[string]interface{}, providerConfig map[string]interface{}) (string, error) {
@@ -33,7 +31,6 @@ func Configure(p *config.Provider) {
 		r.UseAsync = true
 	})
 	p.AddResourceConfigurator("google_service_account_key", func(r *config.Resource) {
-		r.Version = common.VersionV1alpha2
 		// Note(turkenh): We have to modify schema of "keepers", since it is a
 		// map where elements configured as nil, but needs to be String:
 		r.TerraformResource.
@@ -45,7 +42,6 @@ func Configure(p *config.Provider) {
 		}
 	})
 	p.AddResourceConfigurator("google_service_account", func(r *config.Resource) {
-		r.Version = common.VersionV1alpha2
 		r.Kind = "ServiceAccount"
 		r.ExternalName = config.NameAsIdentifier
 		r.ExternalName.SetIdentifierArgumentFn = func(base map[string]interface{}, externalName string) {
