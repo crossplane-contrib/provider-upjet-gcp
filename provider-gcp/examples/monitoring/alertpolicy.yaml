@@ -1,4 +1,4 @@
-apiVersion: monitoring.gcp.upbound.io/v1alpha2
+apiVersion: monitoring.gcp.upbound.io/v1beta1
 kind: AlertPolicy
 metadata:
   name: example

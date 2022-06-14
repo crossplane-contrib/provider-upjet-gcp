@@ -1,4 +1,4 @@
-apiVersion: cloudplatform.gcp.upbound.io/v1alpha2
+apiVersion: cloudplatform.gcp.upbound.io/v1beta1
 kind: Folder
 metadata:
   name: example
