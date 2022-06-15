@@ -18,32 +18,10 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 
 	p.AddResourceConfigurator("google_compute_managed_ssl_certificate", func(r *config.Resource) {
 		r.Kind = "ManagedSSLCertificate"
-		r.ExternalName = config.NameAsIdentifier
-		r.ExternalName.GetExternalNameFn = common.GetNameFromFullyQualifiedID
-		r.ExternalName.GetIDFn = func(_ context.Context, externalName string, parameters map[string]interface{}, providerConfig map[string]interface{}) (string, error) {
-			project, err := common.GetField(providerConfig, common.KeyProject)
-			if err != nil {
-				return "", err
-			}
-			return fmt.Sprintf("projects/%s/global/sslCertificates/%s", project, externalName), nil
-		}
 		r.UseAsync = true
 	})
 
 	p.AddResourceConfigurator("google_compute_subnetwork", func(r *config.Resource) {
-		r.ExternalName = config.NameAsIdentifier
-		r.ExternalName.GetExternalNameFn = common.GetNameFromFullyQualifiedID
-		r.ExternalName.GetIDFn = func(_ context.Context, externalName string, parameters map[string]interface{}, providerConfig map[string]interface{}) (string, error) {
-			project, err := common.GetField(providerConfig, common.KeyProject)
-			if err != nil {
-				return "", err
-			}
-			region, err := common.GetField(parameters, "region")
-			if err != nil {
-				return "", err
-			}
-			return fmt.Sprintf("projects/%s/regions/%s/subnetworks/%s", project, region, externalName), nil
-		}
 		r.References["network"] = config.Reference{
 			Type: "Network",
 		}
@@ -51,19 +29,6 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 	})
 
 	p.AddResourceConfigurator("google_compute_address", func(r *config.Resource) {
-		r.ExternalName = config.NameAsIdentifier
-		r.ExternalName.GetExternalNameFn = common.GetNameFromFullyQualifiedID
-		r.ExternalName.GetIDFn = func(_ context.Context, externalName string, parameters map[string]interface{}, providerConfig map[string]interface{}) (string, error) {
-			project, err := common.GetField(providerConfig, common.KeyProject)
-			if err != nil {
-				return "", err
-			}
-			region, err := common.GetField(parameters, "region")
-			if err != nil {
-				return "", err
-			}
-			return fmt.Sprintf("projects/%s/regions/%s/addresses/%s", project, region, externalName), nil
-		}
 		r.References["network"] = config.Reference{
 			Type: "Network",
 		}
@@ -73,15 +38,6 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 	})
 
 	p.AddResourceConfigurator("google_compute_firewall", func(r *config.Resource) {
-		r.ExternalName = config.NameAsIdentifier
-		r.ExternalName.GetExternalNameFn = common.GetNameFromFullyQualifiedID
-		r.ExternalName.GetIDFn = func(_ context.Context, externalName string, parameters map[string]interface{}, providerConfig map[string]interface{}) (string, error) {
-			project, err := common.GetField(providerConfig, common.KeyProject)
-			if err != nil {
-				return "", err
-			}
-			return fmt.Sprintf("projects/%s/global/firewalls/%s", project, externalName), nil
-		}
 		r.References["network"] = config.Reference{
 			Type:      "Network",
 			Extractor: common.PathSelfLinkExtractor,
@@ -89,19 +45,6 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 	})
 
 	p.AddResourceConfigurator("google_compute_router", func(r *config.Resource) {
-		r.ExternalName = config.NameAsIdentifier
-		r.ExternalName.GetExternalNameFn = common.GetNameFromFullyQualifiedID
-		r.ExternalName.GetIDFn = func(_ context.Context, externalName string, parameters map[string]interface{}, providerConfig map[string]interface{}) (string, error) {
-			project, err := common.GetField(providerConfig, common.KeyProject)
-			if err != nil {
-				return "", err
-			}
-			region, err := common.GetField(parameters, "region")
-			if err != nil {
-				return "", err
-			}
-			return fmt.Sprintf("projects/%s/regions/%s/routers/%s", project, region, externalName), nil
-		}
 		r.References["network"] = config.Reference{
 			Type:      "Network",
 			Extractor: common.PathSelfLinkExtractor,
@@ -109,23 +52,6 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 	})
 
 	p.AddResourceConfigurator("google_compute_router_nat", func(r *config.Resource) {
-		r.ExternalName = config.NameAsIdentifier
-		r.ExternalName.GetExternalNameFn = common.GetNameFromFullyQualifiedID
-		r.ExternalName.GetIDFn = func(_ context.Context, externalName string, parameters map[string]interface{}, providerConfig map[string]interface{}) (string, error) {
-			project, err := common.GetField(providerConfig, common.KeyProject)
-			if err != nil {
-				return "", err
-			}
-			region, err := common.GetField(parameters, "region")
-			if err != nil {
-				return "", err
-			}
-			router, err := common.GetField(parameters, "router")
-			if err != nil {
-				return "", err
-			}
-			return fmt.Sprintf("projects/%s/regions/%s/routers/%s/%s", project, region, router, externalName), nil
-		}
 		r.References["router"] = config.Reference{
 			Type: "Router",
 		}
@@ -161,20 +87,6 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 			Schema["boot_disk"].Elem.(*schema.Resource).
 			Schema["initialize_params"].Elem.(*schema.Resource).
 			Schema["labels"].Elem = schema.TypeString
-
-		r.ExternalName = config.NameAsIdentifier
-		r.ExternalName.GetExternalNameFn = common.GetNameFromFullyQualifiedID
-		r.ExternalName.GetIDFn = func(_ context.Context, externalName string, parameters map[string]interface{}, providerConfig map[string]interface{}) (string, error) {
-			project, err := common.GetField(providerConfig, common.KeyProject)
-			if err != nil {
-				return "", err
-			}
-			zone, err := common.GetField(parameters, "zone")
-			if err != nil {
-				return "", err
-			}
-			return fmt.Sprintf("projects/%s/zones/%s/instances/%s", project, zone, externalName), nil
-		}
 
 		r.References["network_interface.network"] = config.Reference{
 			Type: "Network",
@@ -219,15 +131,5 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 		}
 
 		r.UseAsync = true
-	})
-
-	p.AddResourceConfigurator("google_compute_network", func(r *config.Resource) {
-		r.ExternalName = config.NameAsIdentifier
-		r.ExternalName.GetExternalNameFn = common.GetNameFromFullyQualifiedID
-		// projects/{{project}}/global/networks/{{name}}
-		r.ExternalName.GetIDFn = func(_ context.Context, externalName string, parameters map[string]interface{}, providerConfig map[string]interface{}) (string, error) {
-			project, err := common.GetField(providerConfig, common.KeyProject)
-			return fmt.Sprintf("projects/%s/global/networks/%s", project, externalName), err
-		}
 	})
 }

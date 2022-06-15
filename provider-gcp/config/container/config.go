@@ -1,10 +1,7 @@
 package container
 
 import (
-	"context"
 	"encoding/base64"
-	"fmt"
-	"strings"
 
 	"github.com/pkg/errors"
 	"github.com/upbound/upjet/pkg/config"
@@ -21,19 +18,6 @@ func Configure(p *config.Provider) {
 		r.Kind = "Cluster"
 		r.LateInitializer = config.LateInitializer{
 			IgnoredFields: []string{"cluster_ipv4_cidr", "ip_allocation_policy"},
-		}
-		r.ExternalName = config.NameAsIdentifier
-		r.ExternalName.GetExternalNameFn = common.GetNameFromFullyQualifiedID
-		r.ExternalName.GetIDFn = func(_ context.Context, externalName string, parameters map[string]interface{}, providerConfig map[string]interface{}) (string, error) {
-			project, err := common.GetField(providerConfig, common.KeyProject)
-			if err != nil {
-				return "", err
-			}
-			location, err := common.GetField(parameters, "location")
-			if err != nil {
-				return "", err
-			}
-			return fmt.Sprintf("projects/%s/locations/%s/clusters/%s", project, location, externalName), nil
 		}
 		r.Sensitive.AdditionalConnectionDetailsFn = func(attr map[string]interface{}) (map[string][]byte, error) {
 			name, err := common.GetField(attr, "name")
@@ -85,21 +69,6 @@ func Configure(p *config.Provider) {
 
 	p.AddResourceConfigurator("google_container_node_pool", func(r *config.Resource) {
 		r.Kind = "NodePool"
-		r.ExternalName = config.NameAsIdentifier
-		r.ExternalName.GetExternalNameFn = common.GetNameFromFullyQualifiedID
-		r.ExternalName.GetIDFn = func(_ context.Context, externalName string, parameters map[string]interface{}, providerConfig map[string]interface{}) (string, error) {
-			project, err := common.GetField(providerConfig, common.KeyProject)
-			if err != nil {
-				return "", err
-			}
-			clusterID, err := common.GetField(parameters, "cluster")
-			if err != nil {
-				return "", err
-			}
-			location := strings.Split(clusterID, "/")[3]
-			cluster := strings.Split(clusterID, "/")[5]
-			return fmt.Sprintf("%s/%s/%s/%s", project, location, cluster, externalName), nil
-		}
 		r.References["cluster"] = config.Reference{
 			Type:      "Cluster",
 			Extractor: common.ExtractResourceIDFuncPath,
