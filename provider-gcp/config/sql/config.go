@@ -29,16 +29,6 @@ const (
 // ResourceConfigurators.
 func Configure(p *config.Provider) { //nolint:gocyclo
 	p.AddResourceConfigurator("google_sql_database_instance", func(r *config.Resource) {
-		r.ExternalName = config.NameAsIdentifier
-		r.ExternalName.GetExternalNameFn = common.GetNameFromFullyQualifiedID
-		r.ExternalName.GetIDFn = func(_ context.Context, externalName string, parameters map[string]interface{}, providerConfig map[string]interface{}) (string, error) {
-			project, err := common.GetField(providerConfig, common.KeyProject)
-			if err != nil {
-				return "", err
-			}
-			return fmt.Sprintf("projects/%s/instances/%s", project, externalName), nil
-		}
-
 		// NOTE(@tnthornton) most of the connection details that were exported
 		// to the connection details secret are marked as non-sensitive for tf.
 		// We need to manually construct the secret details for those items.
@@ -82,21 +72,6 @@ func Configure(p *config.Provider) { //nolint:gocyclo
 		r.UseAsync = true
 	})
 	p.AddResourceConfigurator("google_sql_database", func(r *config.Resource) {
-		r.ExternalName = config.NameAsIdentifier
-		r.ExternalName.GetExternalNameFn = common.GetNameFromFullyQualifiedID
-		r.ExternalName.GetIDFn = func(_ context.Context, externalName string, parameters map[string]interface{}, providerConfig map[string]interface{}) (string, error) {
-			project, err := common.GetField(providerConfig, common.KeyProject)
-			if err != nil {
-				return "", err
-			}
-			instance, err := common.GetField(parameters, "instance")
-			if err != nil {
-				return "", err
-			}
-
-			return fmt.Sprintf("projects/%s/instances/%s/databases/%s", project, instance, externalName), nil
-		}
-
 		r.References["instance"] = config.Reference{
 			Type: "DatabaseInstance",
 		}
@@ -104,21 +79,6 @@ func Configure(p *config.Provider) { //nolint:gocyclo
 		r.UseAsync = true
 	})
 	p.AddResourceConfigurator("google_sql_source_representation_instance", func(r *config.Resource) {
-		r.ExternalName = config.NameAsIdentifier
-		r.ExternalName.GetExternalNameFn = common.GetNameFromFullyQualifiedID
-		r.ExternalName.GetIDFn = func(_ context.Context, externalName string, parameters map[string]interface{}, providerConfig map[string]interface{}) (string, error) {
-			project, err := common.GetField(providerConfig, common.KeyProject)
-			if err != nil {
-				return "", err
-			}
-			instance, err := common.GetField(parameters, "instance")
-			if err != nil {
-				return "", err
-			}
-
-			return fmt.Sprintf("projects/%s/instances/%s/databases/%s", project, instance, externalName), nil
-		}
-
 		r.References["instance"] = config.Reference{
 			Type: "DatabaseInstance",
 		}
@@ -126,21 +86,6 @@ func Configure(p *config.Provider) { //nolint:gocyclo
 		r.UseAsync = true
 	})
 	p.AddResourceConfigurator("google_sql_user", func(r *config.Resource) {
-		r.ExternalName = config.NameAsIdentifier
-		r.ExternalName.GetExternalNameFn = common.GetNameFromFullyQualifiedID
-		r.ExternalName.GetIDFn = func(_ context.Context, externalName string, parameters map[string]interface{}, providerConfig map[string]interface{}) (string, error) {
-			project, err := common.GetField(providerConfig, common.KeyProject)
-			if err != nil {
-				return "", err
-			}
-			instance, err := common.GetField(parameters, "instance")
-			if err != nil {
-				return "", err
-			}
-
-			return fmt.Sprintf("%s/%s/%s", project, instance, externalName), nil
-		}
-
 		r.References["instance"] = config.Reference{
 			Type: "DatabaseInstance",
 		}
