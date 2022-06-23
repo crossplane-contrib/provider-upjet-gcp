@@ -4,7 +4,6 @@ import (
 	// Note(ezgidemirel): we are importing this to embed provider schema document
 	_ "embed"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	tjconfig "github.com/upbound/upjet/pkg/config"
 	"github.com/upbound/upjet/pkg/types/name"
 
@@ -76,13 +75,13 @@ var includeList = []string{
 
 // GetProvider returns provider configuration
 func GetProvider() *tjconfig.Provider {
-	pc := tjconfig.NewProviderWithSchema([]byte(providerSchema), resourcePrefix, modulePath,
-		tjconfig.WithDefaultResourceFn(DefaultResource(
+	pc := tjconfig.NewProvider([]byte(providerSchema), resourcePrefix, modulePath, "",
+		tjconfig.WithDefaultResourceOptions(
 			groupOverrides(),
 			externalNameConfig(),
 			defaultVersion(),
 			externalNameConfigurations(),
-		)),
+		),
 		tjconfig.WithRootGroup("gcp.upbound.io"),
 		tjconfig.WithShortName("gcp"),
 		// Comment out the following line to generate all resources.
@@ -108,14 +107,6 @@ func GetProvider() *tjconfig.Provider {
 
 	pc.ConfigureResources()
 	return pc
-}
-
-// DefaultResource returns a DefaultResourceFn that makes sure the original
-// DefaultResource call is made with given options here.
-func DefaultResource(opts ...tjconfig.ResourceOption) tjconfig.DefaultResourceFn {
-	return func(name string, terraformResource *schema.Resource, orgOpts ...tjconfig.ResourceOption) *tjconfig.Resource {
-		return tjconfig.DefaultResource(name, terraformResource, append(orgOpts, opts...)...)
-	}
 }
 
 func init() {
