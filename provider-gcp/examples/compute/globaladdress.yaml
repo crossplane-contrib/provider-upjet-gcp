@@ -1,0 +1,8 @@
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: GlobalAddress
+metadata:
+  name: example
+spec:
+  forProvider: {}
+  providerConfigRef:
+    name: default

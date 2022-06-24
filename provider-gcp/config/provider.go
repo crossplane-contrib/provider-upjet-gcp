@@ -51,6 +51,18 @@ var includeList = []string{
 	"google_compute_managed_ssl_certificate$",
 	"google_compute_router$",
 	"google_compute_router_nat$",
+	"google_compute_disk$",
+	"google_compute_external_vpn_gateway$",
+	"google_compute_global_address$",
+	"google_compute_global_network_endpoint_group$",
+	"google_compute_ha_vpn_gateway$",
+	"google_compute_health_check$",
+	"google_compute_http_health_check$",
+	"google_compute_https_health_check$",
+	"google_compute_image$",
+	"google_compute_instance_group$",
+	"google_compute_instance_template$",
+	"google_compute_instance_from_template",
 
 	// Container
 	"google_container_cluster",

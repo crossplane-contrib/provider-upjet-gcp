@@ -14,8 +14,20 @@ import (
 	serviceaccount "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/serviceaccount"
 	serviceaccountkey "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/serviceaccountkey"
 	address "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/address"
+	disk "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/disk"
+	externalvpngateway "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/externalvpngateway"
 	firewall "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/firewall"
+	globaladdress "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/globaladdress"
+	globalnetworkendpointgroup "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/globalnetworkendpointgroup"
+	havpngateway "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/havpngateway"
+	healthcheck "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/healthcheck"
+	httphealthcheck "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/httphealthcheck"
+	httpshealthcheck "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/httpshealthcheck"
+	image "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/image"
 	instance "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/instance"
+	instancefromtemplate "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/instancefromtemplate"
+	instancegroup "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/instancegroup"
+	instancetemplate "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/instancetemplate"
 	managedsslcertificate "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/managedsslcertificate"
 	network "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/network"
 	router "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/router"
@@ -45,8 +57,20 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		serviceaccount.Setup,
 		serviceaccountkey.Setup,
 		address.Setup,
+		disk.Setup,
+		externalvpngateway.Setup,
 		firewall.Setup,
+		globaladdress.Setup,
+		globalnetworkendpointgroup.Setup,
+		havpngateway.Setup,
+		healthcheck.Setup,
+		httphealthcheck.Setup,
+		httpshealthcheck.Setup,
+		image.Setup,
 		instance.Setup,
+		instancefromtemplate.Setup,
+		instancegroup.Setup,
+		instancetemplate.Setup,
 		managedsslcertificate.Setup,
 		network.Setup,
 		router.Setup,

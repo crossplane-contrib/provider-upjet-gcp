@@ -1,0 +1,10 @@
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: GlobalNetworkEndpointGroup
+metadata:
+  name: example
+spec:
+  forProvider:
+    defaultPort: 90
+    networkEndpointType: INTERNET_FQDN_PORT
+  providerConfigRef:
+    name: default

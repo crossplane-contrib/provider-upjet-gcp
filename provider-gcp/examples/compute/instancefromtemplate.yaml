@@ -1,0 +1,12 @@
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: InstanceFromTemplate
+metadata:
+  name: example
+spec:
+  forProvider:
+    sourceInstanceTemplateRef:
+      name: example
+    zone: us-central1-a
+    name: example
+  providerConfigRef:
+    name: default
