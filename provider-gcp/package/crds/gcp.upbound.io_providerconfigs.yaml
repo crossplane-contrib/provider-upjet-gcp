@@ -11,7 +11,7 @@ spec:
   names:
     categories:
     - crossplane
-    - provider
+    - providerconfig
     - gcp
     kind: ProviderConfig
     listKind: ProviderConfigList
