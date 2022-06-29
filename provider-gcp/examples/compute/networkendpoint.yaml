@@ -1,0 +1,11 @@
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: NetworkEndpoint
+metadata:
+  name: example
+spec:
+  forProvider:
+    instance: example
+    ipAddress: ""
+    networkEndpointGroup: example
+    port: 90
+    zone: us-central1-a

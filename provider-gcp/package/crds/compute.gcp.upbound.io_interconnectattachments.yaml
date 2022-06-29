@@ -1,0 +1,369 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.8.0
+  creationTimestamp: null
+  name: interconnectattachments.compute.gcp.upbound.io
+spec:
+  group: compute.gcp.upbound.io
+  names:
+    categories:
+    - crossplane
+    - managed
+    - gcp
+    kind: InterconnectAttachment
+    listKind: InterconnectAttachmentList
+    plural: interconnectattachments
+    singular: interconnectattachment
+  scope: Cluster
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
+    - jsonPath: .metadata.annotations.crossplane\.io/external-name
+      name: EXTERNAL-NAME
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1beta1
+    schema:
+      openAPIV3Schema:
+        description: InterconnectAttachment is the Schema for the InterconnectAttachments
+          API
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: InterconnectAttachmentSpec defines the desired state of InterconnectAttachment
+            properties:
+              deletionPolicy:
+                default: Delete
+                description: DeletionPolicy specifies what will happen to the underlying
+                  external when this managed resource is deleted - either "Delete"
+                  or "Orphan" the external resource.
+                enum:
+                - Orphan
+                - Delete
+                type: string
+              forProvider:
+                properties:
+                  adminEnabled:
+                    description: Whether the VLAN attachment is enabled or disabled.  When
+                      using PARTNER type this will Pre-Activate the interconnect attachment
+                    type: boolean
+                  bandwidth:
+                    description: 'Provisioned bandwidth capacity for the interconnect
+                      attachment. For attachments of type DEDICATED, the user can
+                      set the bandwidth. For attachments of type PARTNER, the Google
+                      Partner that is operating the interconnect must set the bandwidth.
+                      Output only for PARTNER type, mutable for PARTNER_PROVIDER and
+                      DEDICATED, Defaults to BPS_10G Possible values: ["BPS_50M",
+                      "BPS_100M", "BPS_200M", "BPS_300M", "BPS_400M", "BPS_500M",
+                      "BPS_1G", "BPS_2G", "BPS_5G", "BPS_10G", "BPS_20G", "BPS_50G"]'
+                    type: string
+                  candidateSubnets:
+                    description: Up to 16 candidate prefixes that can be used to restrict
+                      the allocation of cloudRouterIpAddress and customerRouterIpAddress
+                      for this attachment. All prefixes must be within link-local
+                      address space (169.254.0.0/16) and must be /29 or shorter (/28,
+                      /27, etc). Google will attempt to select an unused /29 from
+                      the supplied candidate prefix(es). The request will fail if
+                      all possible /29s are in use on Google's edge. If not supplied,
+                      Google will randomly select an unused /29 from all of link-local
+                      space.
+                    items:
+                      type: string
+                    type: array
+                  description:
+                    description: An optional description of this resource.
+                    type: string
+                  edgeAvailabilityDomain:
+                    description: Desired availability domain for the attachment. Only
+                      available for type PARTNER, at creation time. For improved reliability,
+                      customers should configure a pair of attachments with one per
+                      availability domain. The selected availability domain will be
+                      provided to the Partner via the pairing key so that the provisioned
+                      circuit will lie in the specified domain. If not specified,
+                      the value will default to AVAILABILITY_DOMAIN_ANY.
+                    type: string
+                  encryption:
+                    description: "Indicates the user-supplied encryption option of
+                      this interconnect attachment: \n NONE is the default value,
+                      which means that the attachment carries unencrypted traffic.
+                      VMs can send traffic to, or receive traffic from, this type
+                      of attachment. \n IPSEC indicates that the attachment carries
+                      only traffic encrypted by an IPsec device such as an HA VPN
+                      gateway. VMs cannot directly send traffic to, or receive traffic
+                      from, such an attachment. To use IPsec-encrypted Cloud Interconnect
+                      create the attachment using this option. \n Not currently available
+                      publicly. Default value: \"NONE\" Possible values: [\"NONE\",
+                      \"IPSEC\"]"
+                    type: string
+                  interconnect:
+                    description: URL of the underlying Interconnect object that this
+                      attachment's traffic will traverse through. Required if type
+                      is DEDICATED, must not be set if type is PARTNER.
+                    type: string
+                  ipsecInternalAddresses:
+                    description: "URL of addresses that have been reserved for the
+                      interconnect attachment, Used only for interconnect attachment
+                      that has the encryption option as IPSEC. \n The addresses must
+                      be RFC 1918 IP address ranges. When creating HA VPN gateway
+                      over the interconnect attachment, if the attachment is configured
+                      to use an RFC 1918 IP address, then the VPN gateway's IP address
+                      will be allocated from the IP address range specified here.
+                      \n For example, if the HA VPN gateway's interface 0 is paired
+                      to this interconnect attachment, then an RFC 1918 IP address
+                      for the VPN gateway interface 0 will be allocated from the IP
+                      address specified for this interconnect attachment. \n If this
+                      field is not specified for interconnect attachment that has
+                      encryption option as IPSEC, later on when creating HA VPN gateway
+                      on this interconnect attachment, the HA VPN gateway's IP address
+                      will be allocated from regional external IP address pool."
+                    items:
+                      type: string
+                    type: array
+                  mtu:
+                    description: Maximum Transmission Unit (MTU), in bytes, of packets
+                      passing through this interconnect attachment. Currently, only
+                      1440 and 1500 are allowed. If not specified, the value will
+                      default to 1440.
+                    type: string
+                  project:
+                    type: string
+                  region:
+                    description: Region where the regional interconnect attachment
+                      resides.
+                    type: string
+                  router:
+                    description: URL of the cloud router to be used for dynamic routing.
+                      This router must be in the same region as this InterconnectAttachment.
+                      The InterconnectAttachment will automatically connect the Interconnect
+                      to the network & region within which the Cloud Router is configured.
+                    type: string
+                  routerRef:
+                    description: A Reference to a named object.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                    required:
+                    - name
+                    type: object
+                  routerSelector:
+                    description: A Selector selects an object.
+                    properties:
+                      matchControllerRef:
+                        description: MatchControllerRef ensures an object with the
+                          same controller reference as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                    type: object
+                  type:
+                    description: 'The type of InterconnectAttachment you wish to create.
+                      Defaults to DEDICATED. Possible values: ["DEDICATED", "PARTNER",
+                      "PARTNER_PROVIDER"]'
+                    type: string
+                  vlanTag8021Q:
+                    description: The IEEE 802.1Q VLAN tag for this attachment, in
+                      the range 2-4094. When using PARTNER type this will be managed
+                      upstream.
+                    type: number
+                type: object
+              providerConfigRef:
+                default:
+                  name: default
+                description: ProviderConfigReference specifies how the provider that
+                  will be used to create, observe, update, and delete this managed
+                  resource should be configured.
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                required:
+                - name
+                type: object
+              providerRef:
+                description: 'ProviderReference specifies the provider that will be
+                  used to create, observe, update, and delete this managed resource.
+                  Deprecated: Please use ProviderConfigReference, i.e. `providerConfigRef`'
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                required:
+                - name
+                type: object
+              publishConnectionDetailsTo:
+                description: PublishConnectionDetailsTo specifies the connection secret
+                  config which contains a name, metadata and a reference to secret
+                  store config to which any connection details for this managed resource
+                  should be written. Connection details frequently include the endpoint,
+                  username, and password required to connect to the managed resource.
+                properties:
+                  configRef:
+                    default:
+                      name: default
+                    description: SecretStoreConfigRef specifies which secret store
+                      config should be used for this ConnectionSecret.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                    required:
+                    - name
+                    type: object
+                  metadata:
+                    description: Metadata is the metadata for connection secret.
+                    properties:
+                      annotations:
+                        additionalProperties:
+                          type: string
+                        description: Annotations are the annotations to be added to
+                          connection secret. - For Kubernetes secrets, this will be
+                          used as "metadata.annotations". - It is up to Secret Store
+                          implementation for others store types.
+                        type: object
+                      labels:
+                        additionalProperties:
+                          type: string
+                        description: Labels are the labels/tags to be added to connection
+                          secret. - For Kubernetes secrets, this will be used as "metadata.labels".
+                          - It is up to Secret Store implementation for others store
+                          types.
+                        type: object
+                      type:
+                        description: Type is the SecretType for the connection secret.
+                          - Only valid for Kubernetes Secret Stores.
+                        type: string
+                    type: object
+                  name:
+                    description: Name is the name of the connection secret.
+                    type: string
+                required:
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: WriteConnectionSecretToReference specifies the namespace
+                  and name of a Secret to which any connection details for this managed
+                  resource should be written. Connection details frequently include
+                  the endpoint, username, and password required to connect to the
+                  managed resource. This field is planned to be replaced in a future
+                  release in favor of PublishConnectionDetailsTo. Currently, both
+                  could be set independently and connection details would be published
+                  to both without affecting each other.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                  namespace:
+                    description: Namespace of the secret.
+                    type: string
+                required:
+                - name
+                - namespace
+                type: object
+            required:
+            - forProvider
+            type: object
+          status:
+            description: InterconnectAttachmentStatus defines the observed state of
+              InterconnectAttachment.
+            properties:
+              atProvider:
+                properties:
+                  cloudRouterIpAddress:
+                    type: string
+                  creationTimestamp:
+                    type: string
+                  customerRouterIpAddress:
+                    type: string
+                  googleReferenceId:
+                    type: string
+                  id:
+                    type: string
+                  pairingKey:
+                    type: string
+                  partnerAsn:
+                    type: string
+                  privateInterconnectInfo:
+                    items:
+                      properties:
+                        tag8021q:
+                          type: number
+                      type: object
+                    type: array
+                  selfLink:
+                    type: string
+                  state:
+                    type: string
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: LastTransitionTime is the last time this condition
+                        transitioned from one status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: A Message containing details about this condition's
+                        last transition from one status to another, if any.
+                      type: string
+                    reason:
+                      description: A Reason for this condition's last transition from
+                        one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True,
+                        False, or Unknown?
+                      type: string
+                    type:
+                      description: Type of this condition. At most one of each condition
+                        type may apply to a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []

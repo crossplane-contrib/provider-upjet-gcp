@@ -1,0 +1,21 @@
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: InstanceGroupManager
+metadata:
+  name: example
+spec:
+  forProvider:
+    autoHealingPolicies:
+    - healthCheckRef:
+        name: example
+      initialDelaySec: 300
+    baseInstanceName: app
+    namedPort:
+    - name: custom
+      port: 8888
+    targetPoolsRefs:
+    - name: example
+    targetSize: 2
+    version:
+    - instanceTemplateRef:
+        name: example
+    zone: us-central1-a

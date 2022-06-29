@@ -1,0 +1,10 @@
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: InstanceIAMPolicy
+metadata:
+  name: example
+spec:
+  forProvider:
+    instanceName: example
+    policyData: "***"
+    project: crossplane-playground
+    zone: us-central1-a

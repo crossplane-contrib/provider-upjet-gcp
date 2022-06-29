@@ -1,0 +1,11 @@
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: InstanceIAMMember
+metadata:
+  name: example
+spec:
+  forProvider:
+    instanceName: example
+    project: crossplane-playground
+    zone: us-central1-a
+    role: "roles/viewer"
+    member: "user:example@example.com"

@@ -280,6 +280,138 @@ func (mg *InstanceGroup) ResolveReferences(ctx context.Context, c client.Reader)
 	return nil
 }
 
+// ResolveReferences of this InstanceGroupManager.
+func (mg *InstanceGroupManager) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var mrsp reference.MultiResolutionResponse
+	var err error
+
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.AutoHealingPolicies); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.AutoHealingPolicies[i3].HealthCheck),
+			Extract:      common.ExtractResourceID(),
+			Reference:    mg.Spec.ForProvider.AutoHealingPolicies[i3].HealthCheckRef,
+			Selector:     mg.Spec.ForProvider.AutoHealingPolicies[i3].HealthCheckSelector,
+			To: reference.To{
+				List:    &HealthCheckList{},
+				Managed: &HealthCheck{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.AutoHealingPolicies[i3].HealthCheck")
+		}
+		mg.Spec.ForProvider.AutoHealingPolicies[i3].HealthCheck = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.AutoHealingPolicies[i3].HealthCheckRef = rsp.ResolvedReference
+
+	}
+	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
+		CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.TargetPools),
+		Extract:       common.ExtractResourceID(),
+		References:    mg.Spec.ForProvider.TargetPoolsRefs,
+		Selector:      mg.Spec.ForProvider.TargetPoolsSelector,
+		To: reference.To{
+			List:    &TargetPoolList{},
+			Managed: &TargetPool{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.TargetPools")
+	}
+	mg.Spec.ForProvider.TargetPools = reference.ToPtrValues(mrsp.ResolvedValues)
+	mg.Spec.ForProvider.TargetPoolsRefs = mrsp.ResolvedReferences
+
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.Version); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Version[i3].InstanceTemplate),
+			Extract:      common.ExtractResourceID(),
+			Reference:    mg.Spec.ForProvider.Version[i3].InstanceTemplateRef,
+			Selector:     mg.Spec.ForProvider.Version[i3].InstanceTemplateSelector,
+			To: reference.To{
+				List:    &InstanceTemplateList{},
+				Managed: &InstanceTemplate{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.Version[i3].InstanceTemplate")
+		}
+		mg.Spec.ForProvider.Version[i3].InstanceTemplate = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.Version[i3].InstanceTemplateRef = rsp.ResolvedReference
+
+	}
+
+	return nil
+}
+
+// ResolveReferences of this InterconnectAttachment.
+func (mg *InterconnectAttachment) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Router),
+		Extract:      common.ExtractResourceID(),
+		Reference:    mg.Spec.ForProvider.RouterRef,
+		Selector:     mg.Spec.ForProvider.RouterSelector,
+		To: reference.To{
+			List:    &RouterList{},
+			Managed: &Router{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.Router")
+	}
+	mg.Spec.ForProvider.Router = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.RouterRef = rsp.ResolvedReference
+
+	return nil
+}
+
+// ResolveReferences of this NetworkEndpointGroup.
+func (mg *NetworkEndpointGroup) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Network),
+		Extract:      common.ExtractResourceID(),
+		Reference:    mg.Spec.ForProvider.NetworkRef,
+		Selector:     mg.Spec.ForProvider.NetworkSelector,
+		To: reference.To{
+			List:    &NetworkList{},
+			Managed: &Network{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.Network")
+	}
+	mg.Spec.ForProvider.Network = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.NetworkRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Subnetwork),
+		Extract:      common.ExtractResourceID(),
+		Reference:    mg.Spec.ForProvider.SubnetworkRef,
+		Selector:     mg.Spec.ForProvider.SubnetworkSelector,
+		To: reference.To{
+			List:    &SubnetworkList{},
+			Managed: &Subnetwork{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.Subnetwork")
+	}
+	mg.Spec.ForProvider.Subnetwork = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.SubnetworkRef = rsp.ResolvedReference
+
+	return nil
+}
+
 // ResolveReferences of this Router.
 func (mg *Router) ResolveReferences(ctx context.Context, c client.Reader) error {
 	r := reference.NewAPIResolver(c, mg)

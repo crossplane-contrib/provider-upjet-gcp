@@ -71,6 +71,40 @@ var externalNameConfigs = map[string]config.ExternalName{
 	"google_compute_instance_template": config.IdentifierFromProvider,
 	// No import
 	"google_compute_instance_from_template": config.IdentifierFromProvider,
+	// Imported by using the following format: projects/{{project}}/regions/{{region}}/resourcePolicies/{{name}}
+	"google_compute_resource_policy": formattedIdentifierUserDefined("projects/%s/regions/%s/resourcePolicies", "project", "region"),
+	// Imported by using the following format: projects/{{project}}/zones/{{zone}}/disks/{{disk}}/{{name}}
+	"google_compute_disk_resource_policy_attachment": config.IdentifierFromProvider,
+	// Imported by using the following format: projects/{{project}}/zones/{{zone}}/disks/{{disk}}
+	"google_compute_disk_iam_policy": config.IdentifierFromProvider,
+	// Imported by using the following format: projects/{{project}}/zones/{{zone}}/disks/{{disk}} roles/viewer
+	"google_compute_disk_iam_binding": config.IdentifierFromProvider,
+	// Imported by using the following format: projects/{{project}}/zones/{{zone}}/disks/{{disk}} roles/viewer user:jane@example.com
+	"google_compute_disk_iam_member": config.IdentifierFromProvider,
+	// Imported by using the following format: {{project}}/{{global_network_endpoint_group}}/{{ip_address}}/{{fqdn}}/{{port}}
+	"google_compute_global_network_endpoint": config.IdentifierFromProvider,
+	// Imported by using the following format: projects/{{project}}/global/images/{{image}}
+	"google_compute_image_iam_policy": config.IdentifierFromProvider,
+	// Imported by using the following format: projects/{{project}}/global/images/{{image}} roles/compute.imageUser
+	"google_compute_image_iam_binding": config.IdentifierFromProvider,
+	// Imported by using the following format: projects/{{project}}/global/images/{{image}} roles/compute.imageUser user:jane@example.com
+	"google_compute_image_iam_member": config.IdentifierFromProvider,
+	// Imported by using the following format: projects/{{project}}/regions/{{region}}/targetPools/{{name}}
+	"google_compute_target_pool": formattedIdentifierUserDefined("projects/%s/regions/%s/targetPools", "project", "region"),
+	// Imported by using the following format: projects/{{project}}/zones/{{zone}}/instanceGroupManagers/{{name}}
+	"google_compute_instance_group_manager": formattedIdentifierUserDefined("projects/%s/zones/%s/targetPools", "project", "zone"),
+	// Imported by using the following format: projects/{{project}}/zones/{{zone}}/instances/{{instance}}
+	"google_compute_instance_iam_policy": config.IdentifierFromProvider,
+	// Imported by using the following format: projects/{{project}}/zones/{{zone}}/instances/{{instance}} roles/compute.osLogin
+	"google_compute_instance_iam_binding": config.IdentifierFromProvider,
+	// Imported by using the following format: projects/{{project}}/zones/{{zone}}/instances/{{instance}} roles/compute.osLogin user:jane@example.com
+	"google_compute_instance_iam_member": config.IdentifierFromProvider,
+	// Imported by using the following format: projects/{{project}}/regions/{{region}}/interconnectAttachments/{{name}}
+	"google_compute_interconnect_attachment": formattedIdentifierUserDefined("projects/%s/regions/%s/interconnectAttachments", "project", "region"),
+	// Imported by using the following format: projects/{{project}}/zones/{{zone}}/networkEndpointGroups/{{name}}
+	"google_compute_network_endpoint_group": formattedIdentifierUserDefined("projects/%s/zones/%s/networkEndpointGroups", "project", "zone"),
+	// Imported by using the following format: {{project}}/{{zone}}/{{network_endpoint_group}}/{{instance}}/{{ip_address}}/{{port}}
+	"google_compute_network_endpoint": config.IdentifierFromProvider,
 
 	// container
 	//

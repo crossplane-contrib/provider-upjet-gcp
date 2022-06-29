@@ -28,8 +28,44 @@ func (l *AddressList) GetItems() []resource.Managed {
 	return items
 }
 
+// GetItems of this DiskIAMBindingList.
+func (l *DiskIAMBindingList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this DiskIAMMemberList.
+func (l *DiskIAMMemberList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this DiskIAMPolicyList.
+func (l *DiskIAMPolicyList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
 // GetItems of this DiskList.
 func (l *DiskList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this DiskResourcePolicyAttachmentList.
+func (l *DiskResourcePolicyAttachmentList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
 	for i := range l.Items {
 		items[i] = &l.Items[i]
@@ -73,6 +109,15 @@ func (l *GlobalNetworkEndpointGroupList) GetItems() []resource.Managed {
 	return items
 }
 
+// GetItems of this GlobalNetworkEndpointList.
+func (l *GlobalNetworkEndpointList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
 // GetItems of this HTTPHealthCheckList.
 func (l *HTTPHealthCheckList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
@@ -109,6 +154,33 @@ func (l *HealthCheckList) GetItems() []resource.Managed {
 	return items
 }
 
+// GetItems of this ImageIAMBindingList.
+func (l *ImageIAMBindingList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this ImageIAMMemberList.
+func (l *ImageIAMMemberList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this ImageIAMPolicyList.
+func (l *ImageIAMPolicyList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
 // GetItems of this ImageList.
 func (l *ImageList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
@@ -136,6 +208,42 @@ func (l *InstanceGroupList) GetItems() []resource.Managed {
 	return items
 }
 
+// GetItems of this InstanceGroupManagerList.
+func (l *InstanceGroupManagerList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this InstanceIAMBindingList.
+func (l *InstanceIAMBindingList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this InstanceIAMMemberList.
+func (l *InstanceIAMMemberList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this InstanceIAMPolicyList.
+func (l *InstanceIAMPolicyList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
 // GetItems of this InstanceList.
 func (l *InstanceList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
@@ -154,6 +262,15 @@ func (l *InstanceTemplateList) GetItems() []resource.Managed {
 	return items
 }
 
+// GetItems of this InterconnectAttachmentList.
+func (l *InterconnectAttachmentList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
 // GetItems of this ManagedSSLCertificateList.
 func (l *ManagedSSLCertificateList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
@@ -163,8 +280,35 @@ func (l *ManagedSSLCertificateList) GetItems() []resource.Managed {
 	return items
 }
 
+// GetItems of this NetworkEndpointGroupList.
+func (l *NetworkEndpointGroupList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this NetworkEndpointList.
+func (l *NetworkEndpointList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
 // GetItems of this NetworkList.
 func (l *NetworkList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this ResourcePolicyList.
+func (l *ResourcePolicyList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
 	for i := range l.Items {
 		items[i] = &l.Items[i]
@@ -192,6 +336,15 @@ func (l *RouterNATList) GetItems() []resource.Managed {
 
 // GetItems of this SubnetworkList.
 func (l *SubnetworkList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this TargetPoolList.
+func (l *TargetPoolList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
 	for i := range l.Items {
 		items[i] = &l.Items[i]

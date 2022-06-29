@@ -1,0 +1,10 @@
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: TargetPool
+metadata:
+  name: example
+spec:
+  forProvider:
+    healthChecks:
+    - example
+    instances:
+    - us-central1-a/example

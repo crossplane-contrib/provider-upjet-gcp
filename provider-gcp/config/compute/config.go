@@ -131,4 +131,37 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 			Extractor: common.ExtractResourceIDFuncPath,
 		}
 	})
+
+	p.AddResourceConfigurator("google_compute_instance_group_manager", func(r *config.Resource) {
+		r.References["auto_healing_policies.health_check"] = config.Reference{
+			Type:      "HealthCheck",
+			Extractor: common.ExtractResourceIDFuncPath,
+		}
+		r.References["version.instance_template"] = config.Reference{
+			Type:      "InstanceTemplate",
+			Extractor: common.ExtractResourceIDFuncPath,
+		}
+		r.References["target_pools"] = config.Reference{
+			Type:      "TargetPool",
+			Extractor: common.ExtractResourceIDFuncPath,
+		}
+	})
+
+	p.AddResourceConfigurator("google_compute_interconnect_attachment", func(r *config.Resource) {
+		r.References["router"] = config.Reference{
+			Type:      "Router",
+			Extractor: common.ExtractResourceIDFuncPath,
+		}
+	})
+
+	p.AddResourceConfigurator("google_compute_network_endpoint_group", func(r *config.Resource) {
+		r.References["network"] = config.Reference{
+			Type:      "Network",
+			Extractor: common.ExtractResourceIDFuncPath,
+		}
+		r.References["subnetwork"] = config.Reference{
+			Type:      "Subnetwork",
+			Extractor: common.ExtractResourceIDFuncPath,
+		}
+	})
 }

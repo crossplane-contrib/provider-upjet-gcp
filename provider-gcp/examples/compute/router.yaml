@@ -1,0 +1,17 @@
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Router
+metadata:
+  name: example
+spec:
+  forProvider:
+    region: us-central1
+    bgp:
+    - advertiseMode: CUSTOM
+      advertisedGroups:
+      - ALL_SUBNETS
+      advertisedIpRanges:
+      - range: 1.2.3.4
+      - range: 6.7.0.0/16
+      asn: 64514
+    networkRef:
+      name: example
