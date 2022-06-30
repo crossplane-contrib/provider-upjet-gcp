@@ -1,0 +1,28 @@
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: InstanceTemplate
+metadata:
+  name: example
+spec:
+  forProvider:
+    canIpForward: false
+    description: This template is used to create app server instances.
+    disk:
+      - autoDelete: false
+        boot: false
+        sourceImage: debian-cloud/debian-9
+    instanceDescription: description assigned to instances
+    labels:
+      environment: dev
+    machineType: e2-medium
+    metadata:
+      foo: bar
+    networkInterface:
+      - network: default
+    scheduling:
+      - automaticRestart: true
+        onHostMaintenance: MIGRATE
+    tags:
+      - foo
+      - bar
+  providerConfigRef:
+    name: default

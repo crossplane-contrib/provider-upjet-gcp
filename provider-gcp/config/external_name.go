@@ -47,6 +47,30 @@ var externalNameConfigs = map[string]config.ExternalName{
 	"google_compute_instance": formattedIdentifierUserDefined("projects/%s/zones/%s/instances", "project", "zone"),
 	// Imported by using the following format: projects/{{project}}/global/networks/{{name}}
 	"google_compute_network": formattedIdentifierUserDefined("projects/%s/global/networks", "project"),
+	// Imported by using the following format: projects/{{project}}/zones/{{zone}}/disks/{{name}}
+	"google_compute_disk": formattedIdentifierUserDefined("projects/%s/zones/%s/disks", "project", "zone"),
+	// Imported by using the following format: projects/{{project}}/global/externalVpnGateways/{{name}}
+	"google_compute_external_vpn_gateway": formattedIdentifierUserDefined("projects/%s/global/externalVpnGateways", "project"),
+	// Imported by using the following format: projects/{{project}}/global/addresses/{{name}}
+	"google_compute_global_address": formattedIdentifierUserDefined("projects/%s/global/addresses", "project"),
+	// Imported by using the following format: projects/{{project}}/global/networkEndpointGroups/{{global_network_endpoint_group}}/{{ip_address}}/{{fqdn}}/{{port}}
+	"google_compute_global_network_endpoint_group": formattedIdentifierUserDefined("projects/%s/global/networkEndpointGroups", "project"),
+	// Imported by using the following format: projects/{{project}}/regions/{{region}}/vpnGateways/{{name}}
+	"google_compute_ha_vpn_gateway": formattedIdentifierUserDefined("projects/%s/regions/%s/vpnGateways", "project", "region"),
+	// Imported by using the following format: projects/{{project}}/global/healthChecks/{{name}}
+	"google_compute_health_check": formattedIdentifierUserDefined("projects/%s/global/healthChecks", "project"),
+	// Imported by using the following format: projects/{{project}}/global/httpHealthChecks/{{name}}
+	"google_compute_http_health_check": formattedIdentifierUserDefined("projects/%s/global/httpHealthChecks", "project"),
+	// Imported by using the following format: projects/{{project}}/global/httpsHealthChecks/{{name}}
+	"google_compute_https_health_check": formattedIdentifierUserDefined("projects/%s/global/httpsHealthChecks", "project"),
+	// Imported by using the following format: projects/{{project}}/global/images/{{name}}
+	"google_compute_image": formattedIdentifierUserDefined("projects/%s/global/images", "project"),
+	// Imported by using the following format: projects/{{project}/zones/{{zone}}/instanceGroups/{{name}}
+	"google_compute_instance_group": formattedIdentifierUserDefined("projects/%s/zones/%s/instanceGroups", "project", "zone"),
+	// Imported by using the following format: projects/{{project}}/global/instanceTemplates/{{name}}
+	"google_compute_instance_template": config.IdentifierFromProvider,
+	// No import
+	"google_compute_instance_from_template": config.IdentifierFromProvider,
 
 	// container
 	//

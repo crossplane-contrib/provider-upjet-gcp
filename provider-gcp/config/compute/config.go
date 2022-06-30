@@ -1,9 +1,6 @@
 package compute
 
 import (
-	"context"
-	"fmt"
-
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/upbound/upjet/pkg/config"
 
@@ -66,16 +63,6 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 		// "boot_disk.initialize_params.labels", since it is a map where
 		// elements configured as nil, defaulting to map[string]string:
 		r.TerraformResource.Schema["metadata"].Elem = schema.TypeString
-
-		r.ExternalName = config.NameAsIdentifier
-		r.ExternalName.GetExternalNameFn = common.GetNameFromFullyQualifiedID
-		r.ExternalName.GetIDFn = func(_ context.Context, externalName string, parameters map[string]interface{}, providerConfig map[string]interface{}) (string, error) {
-			project, err := common.GetField(providerConfig, common.KeyProject)
-			if err != nil {
-				return "", err
-			}
-			return fmt.Sprintf("projects/%s/global/instanceTemplates/%s", project, externalName), nil
-		}
 	})
 
 	p.AddResourceConfigurator("google_compute_instance", func(r *config.Resource) {
@@ -109,27 +96,39 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 			Schema["labels"].Elem = schema.TypeString
 		r.TerraformResource.Schema["metadata"].Elem = schema.TypeString
 
-		r.ExternalName = config.NameAsIdentifier
-		r.ExternalName.GetExternalNameFn = common.GetNameFromFullyQualifiedID
-		r.ExternalName.GetIDFn = func(_ context.Context, externalName string, parameters map[string]interface{}, providerConfig map[string]interface{}) (string, error) {
-			project, err := common.GetField(providerConfig, common.KeyProject)
-			if err != nil {
-				return "", err
-			}
-			zone, err := common.GetField(parameters, "zone")
-			if err != nil {
-				return "", err
-			}
-			return fmt.Sprintf("projects/%s/zones/%s/instances/%s", project, zone, externalName), nil
-		}
-
 		r.References["network_interface.network"] = config.Reference{
 			Type: "Network",
 		}
 		r.References["network_interface.subnetwork"] = config.Reference{
 			Type: "Subnetwork",
 		}
+	})
 
-		r.UseAsync = true
+	p.AddResourceConfigurator("google_compute_instance_group", func(r *config.Resource) {
+		r.References["network"] = config.Reference{
+			Type:      "Network",
+			Extractor: common.ExtractResourceIDFuncPath,
+		}
+	})
+
+	p.AddResourceConfigurator("google_compute_global_address", func(r *config.Resource) {
+		r.References["network"] = config.Reference{
+			Type:      "Network",
+			Extractor: common.ExtractResourceIDFuncPath,
+		}
+	})
+
+	p.AddResourceConfigurator("google_compute_ha_vpn_gateway", func(r *config.Resource) {
+		r.References["network"] = config.Reference{
+			Type:      "Network",
+			Extractor: common.ExtractResourceIDFuncPath,
+		}
+	})
+
+	p.AddResourceConfigurator("google_compute_instance_from_template", func(r *config.Resource) {
+		r.References["source_instance_template"] = config.Reference{
+			Type:      "InstanceTemplate",
+			Extractor: common.ExtractResourceIDFuncPath,
+		}
 	})
 }
