@@ -1,4 +1,4 @@
-apiVersion: sql.gcp.upbound.io/v1alpha2
+apiVersion: sql.gcp.upbound.io/v1beta1
 kind: DatabaseInstance
 metadata:
   name: example
@@ -8,5 +8,3 @@ spec:
     region: us-central1
     settings:
     - tier: db-f1-micro
-  providerConfigRef:
-    name: example

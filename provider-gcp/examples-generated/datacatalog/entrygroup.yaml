@@ -1,9 +1,0 @@
-apiVersion: datacatalog.gcp.upbound.io/v1alpha1
-kind: EntryGroup
-metadata:
-  name: example
-spec:
-  forProvider:
-    entryGroupId: my_group
-  providerConfigRef:
-    name: example

@@ -1,4 +1,4 @@
-apiVersion: compute.gcp.upbound.io/v1alpha2
+apiVersion: compute.gcp.upbound.io/v1beta1
 kind: RouterNAT
 metadata:
   name: example
@@ -12,5 +12,3 @@ spec:
     routerRef:
       name: example
     sourceSubnetworkIpRangesToNat: ALL_SUBNETWORKS_ALL_IP_RANGES
-  providerConfigRef:
-    name: example

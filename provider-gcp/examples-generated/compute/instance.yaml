@@ -1,4 +1,4 @@
-apiVersion: compute.gcp.upbound.io/v1alpha2
+apiVersion: compute.gcp.upbound.io/v1beta1
 kind: Instance
 metadata:
   name: example
@@ -26,5 +26,3 @@ spec:
     - foo
     - bar
     zone: us-central1-a
-  providerConfigRef:
-    name: example

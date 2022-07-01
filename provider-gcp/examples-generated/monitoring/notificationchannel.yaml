@@ -1,4 +1,4 @@
-apiVersion: monitoring.gcp.upbound.io/v1alpha2
+apiVersion: monitoring.gcp.upbound.io/v1beta1
 kind: NotificationChannel
 metadata:
   name: example
@@ -8,5 +8,3 @@ spec:
     labels:
       email_address: fake_email@blahblah.com
     type: email
-  providerConfigRef:
-    name: example

@@ -1,9 +1,6 @@
-apiVersion: compute.gcp.upbound.io/v1alpha1
+apiVersion: compute.gcp.upbound.io/v1beta1
 kind: GlobalAddress
 metadata:
   name: example
 spec:
-  forProvider:
-    name: global-appserver-ip
-  providerConfigRef:
-    name: example
+  forProvider: {}

@@ -1,4 +1,4 @@
-apiVersion: sql.gcp.upbound.io/v1alpha2
+apiVersion: sql.gcp.upbound.io/v1beta1
 kind: User
 metadata:
   name: example
@@ -11,5 +11,3 @@ spec:
       key: example-key
       name: example-secret
       namespace: crossplane-system
-  providerConfigRef:
-    name: example

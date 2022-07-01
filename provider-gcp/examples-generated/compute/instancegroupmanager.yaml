@@ -1,22 +1,21 @@
-apiVersion: compute.gcp.upbound.io/v1alpha1
+apiVersion: compute.gcp.upbound.io/v1beta1
 kind: InstanceGroupManager
 metadata:
   name: example
 spec:
   forProvider:
     autoHealingPolicies:
-    - healthCheck: ${google_compute_health_check.autohealing.id}
+    - healthCheckRef:
+        name: example
       initialDelaySec: 300
     baseInstanceName: app
-    name: appserver-igm
     namedPort:
     - name: customHTTP
       port: 8888
-    targetPools:
-    - ${google_compute_target_pool.appserver.id}
+    targetPoolsRefs:
+    - name: example
     targetSize: 2
     version:
-    - instanceTemplate: ${google_compute_instance_template.appserver.id}
+    - instanceTemplateRef:
+        name: example
     zone: us-central1-a
-  providerConfigRef:
-    name: example

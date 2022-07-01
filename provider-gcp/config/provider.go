@@ -27,8 +27,13 @@ const (
 	modulePath     = "github.com/upbound/official-providers/provider-gcp"
 )
 
-//go:embed schema.json
-var providerSchema string
+var (
+	//go:embed schema.json
+	providerSchema string
+
+	//go:embed provider-metadata.yaml
+	providerMetadata []byte
+)
 
 var skipList = []string{
 	// Note(turkenh): Following two resources conflicts their singular versions
@@ -40,7 +45,7 @@ var skipList = []string{
 
 // GetProvider returns provider configuration
 func GetProvider() *tjconfig.Provider {
-	pc := tjconfig.NewProvider([]byte(providerSchema), resourcePrefix, modulePath, nil,
+	pc := tjconfig.NewProvider([]byte(providerSchema), resourcePrefix, modulePath, providerMetadata,
 		tjconfig.WithDefaultResourceOptions(
 			groupOverrides(),
 			externalNameConfig(),

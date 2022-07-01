@@ -1,4 +1,4 @@
-apiVersion: monitoring.gcp.upbound.io/v1alpha2
+apiVersion: monitoring.gcp.upbound.io/v1beta1
 kind: UptimeCheckConfig
 metadata:
   name: example
@@ -20,5 +20,3 @@ spec:
         project_id: my-project-name
       type: uptime_url
     timeout: 60s
-  providerConfigRef:
-    name: example

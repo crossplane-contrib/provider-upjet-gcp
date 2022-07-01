@@ -10,6 +10,8 @@ export TERRAFORM_PROVIDER_SOURCE := hashicorp/google
 export TERRAFORM_PROVIDER_VERSION := 4.22.0
 export TERRAFORM_PROVIDER_DOWNLOAD_NAME := terraform-provider-google
 export TERRAFORM_PROVIDER_DOWNLOAD_URL_PREFIX := https://releases.hashicorp.com/terraform-provider-google/$(TERRAFORM_PROVIDER_VERSION)
+export TERRAFORM_PROVIDER_REPO ?= https://github.com/hashicorp/terraform-provider-google
+export TERRAFORM_DOCS_PATH ?= website/docs/r
 
 PLATFORMS ?= linux_amd64 linux_arm64
 
@@ -163,6 +165,15 @@ $(TERRAFORM_PROVIDER_SCHEMA): $(TERRAFORM)
 generate.init: $(TERRAFORM_PROVIDER_SCHEMA)
 
 .PHONY: $(TERRAFORM_PROVIDER_SCHEMA)
+
+# ====================================================================================
+# Extract Terraform registry metadata
+metadata:
+	@WORK_DIR=.work ../scripts/scrape_metadata.sh
+
+generate.init: metadata
+
+.PHONY: metadata
 
 # ====================================================================================
 

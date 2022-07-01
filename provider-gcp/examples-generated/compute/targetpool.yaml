@@ -1,4 +1,4 @@
-apiVersion: compute.gcp.upbound.io/v1alpha1
+apiVersion: compute.gcp.upbound.io/v1beta1
 kind: TargetPool
 metadata:
   name: example
@@ -9,6 +9,3 @@ spec:
     instances:
     - us-central1-a/myinstance1
     - us-central1-b/myinstance2
-    name: instance-pool
-  providerConfigRef:
-    name: example

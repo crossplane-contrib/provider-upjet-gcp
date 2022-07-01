@@ -1,9 +1,7 @@
-apiVersion: redis.gcp.upbound.io/v1alpha2
+apiVersion: redis.gcp.upbound.io/v1beta1
 kind: Instance
 metadata:
   name: example
 spec:
   forProvider:
     memorySizeGb: 1
-  providerConfigRef:
-    name: example
