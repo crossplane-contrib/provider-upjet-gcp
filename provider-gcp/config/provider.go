@@ -67,6 +67,7 @@ func GetProvider() *tjconfig.Provider {
 		redis.Configure,
 		storage.Configure,
 		sql.Configure,
+		redis.Configure,
 	} {
 		configure(pc)
 	}
