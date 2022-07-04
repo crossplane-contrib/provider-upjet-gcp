@@ -174,8 +174,8 @@ type DiskParameters struct {
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 
 	// A reference to the zone where the disk resides.
-	// +kubebuilder:validation:Optional
-	Zone *string `json:"zone,omitempty" tf:"zone,omitempty"`
+	// +kubebuilder:validation:Required
+	Zone *string `json:"zone" tf:"zone,omitempty"`
 }
 
 type SourceImageEncryptionKeyObservation struct {

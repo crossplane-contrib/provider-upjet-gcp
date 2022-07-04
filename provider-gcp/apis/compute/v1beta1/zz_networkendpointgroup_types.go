@@ -84,8 +84,8 @@ type NetworkEndpointGroupParameters struct {
 	SubnetworkSelector *v1.Selector `json:"subnetworkSelector,omitempty" tf:"-"`
 
 	// Zone where the network endpoint group is located.
-	// +kubebuilder:validation:Optional
-	Zone *string `json:"zone,omitempty" tf:"zone,omitempty"`
+	// +kubebuilder:validation:Required
+	Zone *string `json:"zone" tf:"zone,omitempty"`
 }
 
 // NetworkEndpointGroupSpec defines the desired state of NetworkEndpointGroup

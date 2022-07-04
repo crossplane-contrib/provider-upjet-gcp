@@ -58,8 +58,8 @@ type TargetPoolParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Where the target pool resides. Defaults to project region.
-	// +kubebuilder:validation:Optional
-	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+	// +kubebuilder:validation:Required
+	Region *string `json:"region" tf:"region,omitempty"`
 
 	// How to distribute load. Options are "NONE" (no affinity). "CLIENT_IP" (hash of the source/dest addresses / ports), and "CLIENT_IP_PROTO" also includes the protocol (default "NONE").
 	// +kubebuilder:validation:Optional

@@ -151,8 +151,8 @@ type SubnetworkParameters_2 struct {
 	Purpose *string `json:"purpose,omitempty" tf:"purpose,omitempty"`
 
 	// The GCP region for this subnetwork.
-	// +kubebuilder:validation:Optional
-	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+	// +kubebuilder:validation:Required
+	Region *string `json:"region" tf:"region,omitempty"`
 
 	// The role of subnetwork. Currently, this field is only used when
 	// purpose = INTERNAL_HTTPS_LOAD_BALANCER. The value can be set to ACTIVE

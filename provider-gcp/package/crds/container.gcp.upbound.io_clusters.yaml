@@ -1159,6 +1159,8 @@ spec:
                           type: string
                       type: object
                     type: array
+                required:
+                - location
                 type: object
               providerConfigRef:
                 default:

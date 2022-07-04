@@ -232,6 +232,7 @@ spec:
                     type: string
                 required:
                 - memorySizeGb
+                - region
                 type: object
               providerConfigRef:
                 default:

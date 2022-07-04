@@ -134,8 +134,8 @@ type InstanceGroupManagerParameters struct {
 	WaitForInstancesStatus *string `json:"waitForInstancesStatus,omitempty" tf:"wait_for_instances_status,omitempty"`
 
 	// The zone that instances in this group should be created in.
-	// +kubebuilder:validation:Optional
-	Zone *string `json:"zone,omitempty" tf:"zone,omitempty"`
+	// +kubebuilder:validation:Required
+	Zone *string `json:"zone" tf:"zone,omitempty"`
 }
 
 type PerInstanceConfigsObservation struct {

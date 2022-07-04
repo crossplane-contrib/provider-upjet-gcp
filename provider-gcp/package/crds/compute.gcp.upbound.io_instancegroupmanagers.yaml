@@ -345,6 +345,7 @@ spec:
                 required:
                 - baseInstanceName
                 - version
+                - zone
                 type: object
               providerConfigRef:
                 default:

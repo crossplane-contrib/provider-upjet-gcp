@@ -142,6 +142,8 @@ spec:
                   zone:
                     description: Zone where the network endpoint group is located.
                     type: string
+                required:
+                - zone
                 type: object
               providerConfigRef:
                 default:

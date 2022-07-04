@@ -211,6 +211,7 @@ spec:
                     type: string
                 required:
                 - ipCidrRange
+                - region
                 type: object
               providerConfigRef:
                 default:

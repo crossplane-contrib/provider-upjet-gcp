@@ -325,8 +325,8 @@ type InstanceParameters struct {
 	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
 	// The zone of the instance. If self_link is provided, this value is ignored. If neither self_link nor zone are provided, the provider zone is used.
-	// +kubebuilder:validation:Optional
-	Zone *string `json:"zone,omitempty" tf:"zone,omitempty"`
+	// +kubebuilder:validation:Required
+	Zone *string `json:"zone" tf:"zone,omitempty"`
 }
 
 type NetworkInterfaceObservation struct {

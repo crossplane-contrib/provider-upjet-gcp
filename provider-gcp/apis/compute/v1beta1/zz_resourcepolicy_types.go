@@ -146,8 +146,8 @@ type ResourcePolicyParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Region where resource policy resides.
-	// +kubebuilder:validation:Optional
-	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+	// +kubebuilder:validation:Required
+	Region *string `json:"region" tf:"region,omitempty"`
 
 	// Policy for creating snapshots of persistent disks.
 	// +kubebuilder:validation:Optional

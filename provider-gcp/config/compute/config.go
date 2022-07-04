@@ -18,11 +18,16 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 		r.UseAsync = true
 	})
 
+	p.AddResourceConfigurator("google_compute_disk", func(r *config.Resource) {
+		config.MarkAsRequired(r.TerraformResource, "zone")
+	})
+
 	p.AddResourceConfigurator("google_compute_subnetwork", func(r *config.Resource) {
 		r.References["network"] = config.Reference{
 			Type: "Network",
 		}
 		r.UseAsync = true
+		config.MarkAsRequired(r.TerraformResource, "region")
 	})
 
 	p.AddResourceConfigurator("google_compute_address", func(r *config.Resource) {
@@ -32,6 +37,7 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 		r.References["subnetwork"] = config.Reference{
 			Type: "Subnetwork",
 		}
+		config.MarkAsRequired(r.TerraformResource, "region")
 	})
 
 	p.AddResourceConfigurator("google_compute_firewall", func(r *config.Resource) {
@@ -46,6 +52,7 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 			Type:      "Network",
 			Extractor: common.PathSelfLinkExtractor,
 		}
+		config.MarkAsRequired(r.TerraformResource, "region")
 	})
 
 	p.AddResourceConfigurator("google_compute_router_nat", func(r *config.Resource) {
@@ -56,6 +63,7 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 			Type: "Subnetwork",
 		}
 		r.UseAsync = true
+		config.MarkAsRequired(r.TerraformResource, "region")
 	})
 
 	p.AddResourceConfigurator("google_compute_instance_template", func(r *config.Resource) {
@@ -81,8 +89,8 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 		r.References["network_interface.subnetwork"] = config.Reference{
 			Type: "Subnetwork",
 		}
-
 		r.UseAsync = true
+		config.MarkAsRequired(r.TerraformResource, "zone")
 	})
 
 	p.AddResourceConfigurator("google_compute_instance_from_template", func(r *config.Resource) {
@@ -109,6 +117,7 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 			Type:      "Network",
 			Extractor: common.ExtractResourceIDFuncPath,
 		}
+		config.MarkAsRequired(r.TerraformResource, "zone")
 	})
 
 	p.AddResourceConfigurator("google_compute_global_address", func(r *config.Resource) {
@@ -123,6 +132,7 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 			Type:      "Network",
 			Extractor: common.ExtractResourceIDFuncPath,
 		}
+		config.MarkAsRequired(r.TerraformResource, "region")
 	})
 
 	p.AddResourceConfigurator("google_compute_instance_from_template", func(r *config.Resource) {
@@ -145,6 +155,7 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 			Type:      "TargetPool",
 			Extractor: common.ExtractResourceIDFuncPath,
 		}
+		config.MarkAsRequired(r.TerraformResource, "zone")
 	})
 
 	p.AddResourceConfigurator("google_compute_interconnect_attachment", func(r *config.Resource) {
@@ -152,6 +163,7 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 			Type:      "Router",
 			Extractor: common.ExtractResourceIDFuncPath,
 		}
+		config.MarkAsRequired(r.TerraformResource, "region")
 	})
 
 	p.AddResourceConfigurator("google_compute_network_endpoint_group", func(r *config.Resource) {
@@ -163,5 +175,14 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 			Type:      "Subnetwork",
 			Extractor: common.ExtractResourceIDFuncPath,
 		}
+		config.MarkAsRequired(r.TerraformResource, "zone")
+	})
+
+	p.AddResourceConfigurator("google_compute_resource_policy", func(r *config.Resource) {
+		config.MarkAsRequired(r.TerraformResource, "region")
+	})
+
+	p.AddResourceConfigurator("google_compute_target_pool", func(r *config.Resource) {
+		config.MarkAsRequired(r.TerraformResource, "region")
 	})
 }

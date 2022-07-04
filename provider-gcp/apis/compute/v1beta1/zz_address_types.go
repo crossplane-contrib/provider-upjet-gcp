@@ -101,8 +101,8 @@ type AddressParameters struct {
 
 	// The Region in which the created address should reside.
 	// If it is not provided, the provider region is used.
-	// +kubebuilder:validation:Optional
-	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+	// +kubebuilder:validation:Required
+	Region *string `json:"region" tf:"region,omitempty"`
 
 	// The URL of the subnetwork in which to reserve the address. If an IP
 	// address is specified, it must be within the subnetwork's IP range.

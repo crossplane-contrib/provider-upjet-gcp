@@ -165,6 +165,8 @@ spec:
                   region:
                     description: Region where the router resides.
                     type: string
+                required:
+                - region
                 type: object
               providerConfigRef:
                 default:

@@ -124,8 +124,8 @@ type RouterParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Region where the router resides.
-	// +kubebuilder:validation:Optional
-	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+	// +kubebuilder:validation:Required
+	Region *string `json:"region" tf:"region,omitempty"`
 }
 
 // RouterSpec defines the desired state of Router

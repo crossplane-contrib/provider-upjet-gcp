@@ -266,6 +266,8 @@ spec:
                       - schedule
                       type: object
                     type: array
+                required:
+                - region
                 type: object
               providerConfigRef:
                 default:

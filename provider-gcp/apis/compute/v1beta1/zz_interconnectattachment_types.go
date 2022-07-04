@@ -139,8 +139,8 @@ type InterconnectAttachmentParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Region where the regional interconnect attachment resides.
-	// +kubebuilder:validation:Optional
-	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+	// +kubebuilder:validation:Required
+	Region *string `json:"region" tf:"region,omitempty"`
 
 	// URL of the cloud router to be used for dynamic routing. This router must be in
 	// the same region as this InterconnectAttachment. The InterconnectAttachment will

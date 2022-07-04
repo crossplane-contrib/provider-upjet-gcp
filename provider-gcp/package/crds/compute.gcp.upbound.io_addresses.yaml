@@ -163,6 +163,8 @@ spec:
                           is selected.
                         type: object
                     type: object
+                required:
+                - region
                 type: object
               providerConfigRef:
                 default:

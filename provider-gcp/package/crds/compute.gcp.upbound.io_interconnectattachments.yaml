@@ -191,6 +191,8 @@ spec:
                       the range 2-4094. When using PARTNER type this will be managed
                       upstream.
                     type: number
+                required:
+                - region
                 type: object
               providerConfigRef:
                 default:

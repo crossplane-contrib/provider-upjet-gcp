@@ -101,6 +101,8 @@ spec:
                       "CLIENT_IP" (hash of the source/dest addresses / ports), and
                       "CLIENT_IP_PROTO" also includes the protocol (default "NONE").
                     type: string
+                required:
+                - region
                 type: object
               providerConfigRef:
                 default:

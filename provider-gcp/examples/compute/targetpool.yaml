@@ -4,6 +4,7 @@ metadata:
   name: example
 spec:
   forProvider:
+    region: us-central1
     healthChecks:
     - example
     instances:

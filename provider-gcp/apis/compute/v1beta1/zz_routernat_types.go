@@ -90,8 +90,8 @@ type RouterNATParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Region where the router and NAT reside.
-	// +kubebuilder:validation:Optional
-	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+	// +kubebuilder:validation:Required
+	Region *string `json:"region" tf:"region,omitempty"`
 
 	// The name of the Cloud Router in which this NAT will be configured.
 	// +crossplane:generate:reference:type=Router
