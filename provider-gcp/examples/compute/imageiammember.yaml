@@ -1,0 +1,10 @@
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: ImageIAMMember
+metadata:
+  name: example
+spec:
+  forProvider:
+    image: example
+    project: crossplane-playground
+    role: "roles/viewer"
+    member: "user:example@example.com"

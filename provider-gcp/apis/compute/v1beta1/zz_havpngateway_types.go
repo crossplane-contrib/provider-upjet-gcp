@@ -55,8 +55,8 @@ type HaVPNGatewayParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The region this gateway should sit in.
-	// +kubebuilder:validation:Optional
-	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+	// +kubebuilder:validation:Required
+	Region *string `json:"region" tf:"region,omitempty"`
 
 	// A list of interfaces on this VPN gateway.
 	// +kubebuilder:validation:Optional

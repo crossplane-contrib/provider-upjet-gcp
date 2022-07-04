@@ -129,8 +129,8 @@ type InstanceParameters struct {
 	RedisVersion *string `json:"redisVersion,omitempty" tf:"redis_version,omitempty"`
 
 	// The name of the Redis region of the instance.
-	// +kubebuilder:validation:Optional
-	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+	// +kubebuilder:validation:Required
+	Region *string `json:"region" tf:"region,omitempty"`
 
 	// Optional. The number of replica nodes. The valid range for the Standard Tier with
 	// read replicas enabled is [1-5] and defaults to 2. If read replicas are not enabled

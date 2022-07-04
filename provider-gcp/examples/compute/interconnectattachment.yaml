@@ -1,0 +1,12 @@
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: InterconnectAttachment
+metadata:
+  name: example
+spec:
+  forProvider:
+    region: us-central1
+    edgeAvailabilityDomain: AVAILABILITY_DOMAIN_1
+    mtu: "1500"
+    routerRef:
+      name: example
+    type: PARTNER

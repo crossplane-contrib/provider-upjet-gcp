@@ -65,6 +65,7 @@ func Configure(p *config.Provider) {
 			}, nil
 		}
 		r.UseAsync = true
+		config.MarkAsRequired(r.TerraformResource, "location")
 	})
 
 	p.AddResourceConfigurator("google_container_node_pool", func(r *config.Resource) {

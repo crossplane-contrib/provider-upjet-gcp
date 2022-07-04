@@ -562,6 +562,7 @@ spec:
                 - bootDisk
                 - machineType
                 - networkInterface
+                - zone
                 type: object
               providerConfigRef:
                 default:

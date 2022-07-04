@@ -126,6 +126,8 @@ spec:
                     description: The zone that this instance group should be created
                       in.
                     type: string
+                required:
+                - zone
                 type: object
               providerConfigRef:
                 default:

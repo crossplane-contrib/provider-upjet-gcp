@@ -225,6 +225,8 @@ spec:
                   zone:
                     description: A reference to the zone where the disk resides.
                     type: string
+                required:
+                - zone
                 type: object
               providerConfigRef:
                 default:

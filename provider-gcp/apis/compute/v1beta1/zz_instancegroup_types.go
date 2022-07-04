@@ -64,8 +64,8 @@ type InstanceGroupParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The zone that this instance group should be created in.
-	// +kubebuilder:validation:Optional
-	Zone *string `json:"zone,omitempty" tf:"zone,omitempty"`
+	// +kubebuilder:validation:Required
+	Zone *string `json:"zone" tf:"zone,omitempty"`
 }
 
 type NamedPortObservation struct {

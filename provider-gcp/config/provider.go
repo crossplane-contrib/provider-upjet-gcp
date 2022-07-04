@@ -17,6 +17,7 @@ import (
 	"github.com/upbound/official-providers/provider-gcp/config/dataflow"
 	"github.com/upbound/official-providers/provider-gcp/config/dataproc"
 	"github.com/upbound/official-providers/provider-gcp/config/project"
+	"github.com/upbound/official-providers/provider-gcp/config/redis"
 	"github.com/upbound/official-providers/provider-gcp/config/sql"
 	"github.com/upbound/official-providers/provider-gcp/config/storage"
 )
@@ -62,6 +63,23 @@ var includeList = []string{
 	"google_compute_instance_group$",
 	"google_compute_instance_template$",
 	"google_compute_instance_from_template",
+	"google_compute_resource_policy$",
+	"google_compute_disk_resource_policy_attachment$",
+	"google_compute_disk_iam_policy$",
+	"google_compute_disk_iam_binding$",
+	"google_compute_disk_iam_member$",
+	"google_compute_global_network_endpoint$",
+	"google_compute_image_iam_policy$",
+	"google_compute_image_iam_binding$",
+	"google_compute_image_iam_member$",
+	"google_compute_target_pool$",
+	"google_compute_instance_group_manager$",
+	"google_compute_instance_iam_policy$",
+	"google_compute_instance_iam_binding$",
+	"google_compute_instance_iam_member$",
+	"google_compute_interconnect_attachment$",
+	"google_compute_network_endpoint_group$",
+	"google_compute_network_endpoint$",
 
 	// Container
 	"google_container_cluster",
@@ -87,7 +105,7 @@ var includeList = []string{
 
 // GetProvider returns provider configuration
 func GetProvider() *tjconfig.Provider {
-	pc := tjconfig.NewProvider([]byte(providerSchema), resourcePrefix, modulePath, "",
+	pc := tjconfig.NewProvider([]byte(providerSchema), resourcePrefix, modulePath, nil,
 		tjconfig.WithDefaultResourceOptions(
 			groupOverrides(),
 			externalNameConfig(),
@@ -111,6 +129,7 @@ func GetProvider() *tjconfig.Provider {
 		dataflow.Configure,
 		dataproc.Configure,
 		project.Configure,
+		redis.Configure,
 		storage.Configure,
 		sql.Configure,
 	} {
