@@ -2,7 +2,9 @@ package sql
 
 import (
 	"context"
+	"errors"
 	"fmt"
+	"strings"
 
 	"github.com/upbound/upjet/pkg/config"
 
@@ -86,6 +88,28 @@ func Configure(p *config.Provider) { //nolint:gocyclo
 		r.UseAsync = true
 	})
 	p.AddResourceConfigurator("google_sql_user", func(r *config.Resource) {
+		r.ExternalName = config.NameAsIdentifier
+		r.ExternalName.GetExternalNameFn = func(tfstate map[string]interface{}) (string, error) {
+			id, ok := tfstate["id"].(string)
+			if !ok {
+				return "", errors.New("cannot get the id field as string in tfstate")
+			}
+			words := strings.Split(id, "/")
+			return words[0], nil
+		}
+		r.ExternalName.GetIDFn = func(_ context.Context, externalName string, parameters map[string]interface{}, providerConfig map[string]interface{}) (string, error) {
+			instance, err := common.GetField(parameters, "instance")
+			if err != nil {
+				return "", err
+			}
+			host, err := common.GetField(parameters, "host")
+			if err != nil {
+				host = ""
+			}
+
+			return fmt.Sprintf("%s/%s/%s", externalName, host, instance), nil
+		}
+
 		r.References["instance"] = config.Reference{
 			Type: "DatabaseInstance",
 		}
