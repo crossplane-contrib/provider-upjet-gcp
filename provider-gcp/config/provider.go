@@ -38,71 +38,6 @@ var skipList = []string{
 	"google_access_context_manager_service_perimeters$",
 }
 
-var includeList = []string{
-	// Storage
-	"google_storage_bucket$",
-
-	// Compute
-	"google_compute_network$",
-	"google_compute_subnetwork$",
-	"google_compute_address$",
-	"google_compute_firewall$",
-	"google_compute_instance$",
-	"google_compute_managed_ssl_certificate$",
-	"google_compute_router$",
-	"google_compute_router_nat$",
-	"google_compute_disk$",
-	"google_compute_external_vpn_gateway$",
-	"google_compute_global_address$",
-	"google_compute_global_network_endpoint_group$",
-	"google_compute_ha_vpn_gateway$",
-	"google_compute_health_check$",
-	"google_compute_http_health_check$",
-	"google_compute_https_health_check$",
-	"google_compute_image$",
-	"google_compute_instance_group$",
-	"google_compute_instance_template$",
-	"google_compute_instance_from_template",
-	"google_compute_resource_policy$",
-	"google_compute_disk_resource_policy_attachment$",
-	"google_compute_disk_iam_policy$",
-	"google_compute_disk_iam_binding$",
-	"google_compute_disk_iam_member$",
-	"google_compute_global_network_endpoint$",
-	"google_compute_image_iam_policy$",
-	"google_compute_image_iam_binding$",
-	"google_compute_image_iam_member$",
-	"google_compute_target_pool$",
-	"google_compute_instance_group_manager$",
-	"google_compute_instance_iam_policy$",
-	"google_compute_instance_iam_binding$",
-	"google_compute_instance_iam_member$",
-	"google_compute_interconnect_attachment$",
-	"google_compute_network_endpoint_group$",
-	"google_compute_network_endpoint$",
-
-	// Container
-	"google_container_cluster",
-	"google_container_node_pool",
-
-	// Monitoring
-	"google_monitoring_alert_policy",
-	"google_monitoring_notification_channel",
-	"google_monitoring_uptime_check_config",
-
-	// Memory Store
-	"google_redis_instance",
-
-	// CloudPlatform
-	"google_folder$",
-	"google_project$",
-	"google_service_account$",
-	"google_service_account_key$",
-
-	// Sql
-	"google_sql_.+",
-}
-
 // GetProvider returns provider configuration
 func GetProvider() *tjconfig.Provider {
 	pc := tjconfig.NewProvider([]byte(providerSchema), resourcePrefix, modulePath, nil,
@@ -115,7 +50,7 @@ func GetProvider() *tjconfig.Provider {
 		tjconfig.WithRootGroup("gcp.upbound.io"),
 		tjconfig.WithShortName("gcp"),
 		// Comment out the following line to generate all resources.
-		tjconfig.WithIncludeList(includeList),
+		tjconfig.WithIncludeList(resourcesWithExternalNameConfig()),
 		tjconfig.WithSkipList(skipList))
 
 	for _, configure := range []func(provider *tjconfig.Provider){
@@ -138,6 +73,19 @@ func GetProvider() *tjconfig.Provider {
 
 	pc.ConfigureResources()
 	return pc
+}
+
+// resourcesWithExternalNameConfig returns the list of resources that have external
+// name configured in ExternalNameConfigs table.
+func resourcesWithExternalNameConfig() []string {
+	l := make([]string, len(externalNameConfigs))
+	i := 0
+	for n := range externalNameConfigs {
+		// Expected format is regex and we'd like to have exact matches.
+		l[i] = n + "$"
+		i++
+	}
+	return l
 }
 
 func init() {
