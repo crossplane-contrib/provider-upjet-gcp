@@ -69,6 +69,8 @@ var groupMap = map[string]GroupKindCalculator{
 	"google_assured_workloads.+":            ReplaceGroupWords("", 2),
 	"google_binary_authorization.+":         ReplaceGroupWords("", 2),
 	"google_container_analysis.+":           ReplaceGroupWords("", 2),
+	"google_container_aws.+":                ReplaceGroupWords("", 2),
+	"google_container_azure.+":              ReplaceGroupWords("", 2),
 	"google_deployment_manager.+":           ReplaceGroupWords("", 2),
 	"google_dialogflow_cx.+":                ReplaceGroupWords("", 2),
 	"google_essential_contacts.+":           ReplaceGroupWords("", 2),
@@ -78,6 +80,7 @@ var groupMap = map[string]GroupKindCalculator{
 	"google_ml_engine.+":                    ReplaceGroupWords("", 2),
 	"google_network_management.+":           ReplaceGroupWords("", 2),
 	"google_network_services.+":             ReplaceGroupWords("", 2),
+	"google_network_connectivity.+":         ReplaceGroupWords("", 2),
 	"google_resource_manager.+":             ReplaceGroupWords("", 2),
 	"google_secret_manager.+":               ReplaceGroupWords("", 2),
 	"google_storage_transfer.+":             ReplaceGroupWords("", 2),
@@ -86,10 +89,8 @@ var groupMap = map[string]GroupKindCalculator{
 	"google_vpc_access.+":                   ReplaceGroupWords("", 2),
 
 	"google_cloud_asset.+":     ReplaceGroupWords("", 2),
-	"google_cloud_build.+":     ReplaceGroupWords("", 2),
 	"google_cloud_functions.+": ReplaceGroupWords("", 2),
 	"google_cloud_identity.+":  ReplaceGroupWords("", 2),
-	"google_cloud_iot.+":       ReplaceGroupWords("", 2),
 	"google_cloud_tasks.+":     ReplaceGroupWords("", 2),
 	"google_cloud_scheduler.+": ReplaceGroupWords("", 2),
 	"google_cloud_run.+":       ReplaceGroupWords("", 2),
@@ -100,6 +101,12 @@ var groupMap = map[string]GroupKindCalculator{
 
 	"google_os_config.+": ReplaceGroupWords("", 2),
 	"google_os_login.+":  ReplaceGroupWords("", 2),
+
+	"google_certificate_manager.+": ReplaceGroupWords("", 2),
+
+	"google_document_ai.+": ReplaceGroupWords("", 2),
+
+	"google_essential_contacts_contact$": ReplaceGroupWords("", 2),
 }
 
 // ReplaceGroupWords uses given group as the group of the resource and removes
