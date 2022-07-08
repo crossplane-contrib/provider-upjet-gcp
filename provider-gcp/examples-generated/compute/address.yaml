@@ -1,8 +1,6 @@
-apiVersion: compute.gcp.upbound.io/v1alpha2
+apiVersion: compute.gcp.upbound.io/v1beta1
 kind: Address
 metadata:
   name: example
 spec:
   forProvider: {}
-  providerConfigRef:
-    name: example

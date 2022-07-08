@@ -1,4 +1,4 @@
-apiVersion: compute.gcp.upbound.io/v1alpha1
+apiVersion: compute.gcp.upbound.io/v1beta1
 kind: InstanceIAMPolicy
 metadata:
   name: example
@@ -8,5 +8,3 @@ spec:
     policyData: ${data.google_iam_policy.admin.policy_data}
     project: ${google_compute_instance.default.project}
     zone: us-central1-a
-  providerConfigRef:
-    name: example

@@ -1,4 +1,4 @@
-apiVersion: compute.gcp.upbound.io/v1alpha2
+apiVersion: compute.gcp.upbound.io/v1beta1
 kind: InstanceFromTemplate
 metadata:
   name: example
@@ -7,7 +7,7 @@ spec:
     canIpForward: false
     labels:
       my_key: my_value
-    sourceInstanceTemplate: ${google_compute_instance_template.tpl.id}
+    name: instance-from-template
+    sourceInstanceTemplateRef:
+      name: example
     zone: us-central1-a
-  providerConfigRef:
-    name: example

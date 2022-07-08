@@ -1,9 +1,0 @@
-apiVersion: storage.gcp.upbound.io/v1alpha1
-kind: HMACKey
-metadata:
-  name: example
-spec:
-  forProvider:
-    serviceAccountEmail: ${google_service_account.service_account.email}
-  providerConfigRef:
-    name: example

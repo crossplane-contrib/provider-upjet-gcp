@@ -1,4 +1,4 @@
-apiVersion: cloudplatform.gcp.upbound.io/v1alpha2
+apiVersion: cloudplatform.gcp.upbound.io/v1beta1
 kind: Project
 metadata:
   name: example
@@ -6,5 +6,3 @@ spec:
   forProvider:
     orgId: "1234567"
     projectId: your-project-id
-  providerConfigRef:
-    name: example

@@ -1,9 +1,0 @@
-apiVersion: compute.gcp.upbound.io/v1alpha1
-kind: SharedVPCHostProject
-metadata:
-  name: example
-spec:
-  forProvider:
-    project: host-project-id
-  providerConfigRef:
-    name: example

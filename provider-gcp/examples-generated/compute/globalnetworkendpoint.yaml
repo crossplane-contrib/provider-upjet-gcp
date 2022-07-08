@@ -1,11 +1,9 @@
-apiVersion: compute.gcp.upbound.io/v1alpha1
+apiVersion: compute.gcp.upbound.io/v1beta1
 kind: GlobalNetworkEndpoint
 metadata:
   name: example
 spec:
   forProvider:
     fqdn: www.example.com
-    globalNetworkEndpointGroup: my-lb-neg
+    globalNetworkEndpointGroup: ${google_compute_global_network_endpoint_group.neg.name}
     port: 90
-  providerConfigRef:
-    name: example
