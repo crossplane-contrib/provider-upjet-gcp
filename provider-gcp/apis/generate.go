@@ -31,7 +31,7 @@ limitations under the License.
 //go:generate rm -rf ../examples-generated
 
 // Scrape metadata from Terraform registry
-//go:generate go run github.com/upbound/upjet/cmd/scraper -n hashicorp/terraform-provider-google -r ../.work/terraform-provider-google -o ../config/provider-metadata.yaml
+//go:generate go run github.com/upbound/upjet/cmd/scraper -n hashicorp/terraform-provider-google -r ../.work/terraform-provider-google/website/docs/r -o ../config/provider-metadata.yaml
 
 // Run Terrajet generator
 //go:generate go run ../cmd/generator/main.go ..
