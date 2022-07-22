@@ -1,0 +1,9 @@
+apiVersion: pubsub.gcp.upbound.io/v1beta1
+kind: SubscriptionIAMMember
+metadata:
+  name: example
+spec:
+  forProvider:
+    member: "user:jane@example.com"
+    role: "roles/viewer"
+    subscription: example

@@ -1,0 +1,10 @@
+apiVersion: pubsub.gcp.upbound.io/v1beta1
+kind: LiteSubscription
+metadata:
+  name: example
+spec:
+  forProvider:
+    zone: us-central1-a
+    deliveryConfig:
+    - deliveryRequirement: DELIVER_AFTER_STORED
+    topic: example

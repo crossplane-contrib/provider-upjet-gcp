@@ -1,0 +1,15 @@
+apiVersion: pubsub.gcp.upbound.io/v1beta1
+kind: Subscription
+metadata:
+  name: example
+spec:
+  forProvider:
+    ackDeadlineSeconds: 20
+    labels:
+      foo: bar
+    pushConfig:
+    - attributes:
+        x-goog-version: v1
+      pushEndpoint: https://example.com/push
+    topicRef:
+      name: example

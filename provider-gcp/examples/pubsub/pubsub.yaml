@@ -1,0 +1,5 @@
+apiVersion: provider.upbound.io/v1alpha1
+kind: PubSub
+metadata:
+  name: example-pubsub
+spec: {}

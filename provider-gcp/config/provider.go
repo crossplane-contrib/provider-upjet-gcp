@@ -17,6 +17,7 @@ import (
 	"github.com/upbound/official-providers/provider-gcp/config/dataflow"
 	"github.com/upbound/official-providers/provider-gcp/config/dataproc"
 	"github.com/upbound/official-providers/provider-gcp/config/project"
+	"github.com/upbound/official-providers/provider-gcp/config/pubsub"
 	"github.com/upbound/official-providers/provider-gcp/config/redis"
 	"github.com/upbound/official-providers/provider-gcp/config/sql"
 	"github.com/upbound/official-providers/provider-gcp/config/storage"
@@ -69,6 +70,7 @@ func GetProvider() *tjconfig.Provider {
 		dataflow.Configure,
 		dataproc.Configure,
 		project.Configure,
+		pubsub.Configure,
 		redis.Configure,
 		storage.Configure,
 		sql.Configure,

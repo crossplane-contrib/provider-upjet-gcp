@@ -1,0 +1,29 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: CompositeResourceDefinition
+metadata:
+  name: pubsubs.provider.upbound.io
+spec:
+  claimNames:
+    kind: PubSubClaim
+    plural: pubsubclaims
+  group: provider.upbound.io
+  names:
+    kind: PubSub
+    plural: pubsubs
+  versions:
+    - name: v1alpha1
+      served: true
+      referenceable: true
+      schema:
+        openAPIV3Schema:
+          type: object
+          properties:
+            status:
+              type: object
+              properties:
+                topicName:
+                  type: string
+      additionalPrinterColumns:
+        - name: TOPIC
+          type: string
+          jsonPath: .status.topicName
