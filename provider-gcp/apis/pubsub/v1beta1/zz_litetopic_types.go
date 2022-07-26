@@ -90,8 +90,6 @@ type ReservationConfigParameters struct {
 
 	// The Reservation to use for this topic's throughput capacity.
 	// +crossplane:generate:reference:type=LiteReservation
-	// +crossplane:generate:reference:refFieldName=ThroughputReservationRef
-	// +crossplane:generate:reference:selectorFieldName=ThroughputReservationSelector
 	// +kubebuilder:validation:Optional
 	ThroughputReservation *string `json:"throughputReservation,omitempty" tf:"throughput_reservation,omitempty"`
 

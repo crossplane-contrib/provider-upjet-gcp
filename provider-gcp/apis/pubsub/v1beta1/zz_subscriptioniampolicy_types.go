@@ -40,8 +40,6 @@ type SubscriptionIAMPolicyParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// +crossplane:generate:reference:type=Subscription
-	// +crossplane:generate:reference:refFieldName=SubscriptionRef
-	// +crossplane:generate:reference:selectorFieldName=SubscriptionSelector
 	// +kubebuilder:validation:Optional
 	Subscription *string `json:"subscription,omitempty" tf:"subscription,omitempty"`
 

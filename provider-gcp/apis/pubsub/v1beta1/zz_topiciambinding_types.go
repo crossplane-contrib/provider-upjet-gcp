@@ -61,8 +61,6 @@ type TopicIAMBindingParameters struct {
 	Role *string `json:"role" tf:"role,omitempty"`
 
 	// +crossplane:generate:reference:type=Topic
-	// +crossplane:generate:reference:refFieldName=TopicRef
-	// +crossplane:generate:reference:selectorFieldName=TopicSelector
 	// +kubebuilder:validation:Optional
 	Topic *string `json:"topic,omitempty" tf:"topic,omitempty"`
 

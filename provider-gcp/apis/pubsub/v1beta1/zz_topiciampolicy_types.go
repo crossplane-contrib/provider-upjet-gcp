@@ -40,8 +40,6 @@ type TopicIAMPolicyParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// +crossplane:generate:reference:type=Topic
-	// +crossplane:generate:reference:refFieldName=TopicRef
-	// +crossplane:generate:reference:selectorFieldName=TopicSelector
 	// +kubebuilder:validation:Optional
 	Topic *string `json:"topic,omitempty" tf:"topic,omitempty"`
 

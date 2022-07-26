@@ -111,6 +111,8 @@ spec:
                   zone:
                     description: The zone of the pubsub lite topic.
                     type: string
+                required:
+                - zone
                 type: object
               providerConfigRef:
                 default:

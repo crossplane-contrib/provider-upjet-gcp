@@ -54,8 +54,6 @@ type LiteSubscriptionParameters struct {
 
 	// A reference to a Topic resource.
 	// +crossplane:generate:reference:type=LiteTopic
-	// +crossplane:generate:reference:refFieldName=TopicRef
-	// +crossplane:generate:reference:selectorFieldName=TopicSelector
 	// +kubebuilder:validation:Optional
 	Topic *string `json:"topic,omitempty" tf:"topic,omitempty"`
 
@@ -66,8 +64,8 @@ type LiteSubscriptionParameters struct {
 	TopicSelector *v1.Selector `json:"topicSelector,omitempty" tf:"-"`
 
 	// The zone of the pubsub lite topic.
-	// +kubebuilder:validation:Optional
-	Zone *string `json:"zone,omitempty" tf:"zone,omitempty"`
+	// +kubebuilder:validation:Required
+	Zone *string `json:"zone" tf:"zone,omitempty"`
 }
 
 // LiteSubscriptionSpec defines the desired state of LiteSubscription

@@ -269,8 +269,6 @@ type SubscriptionParameters struct {
 
 	// A reference to a Topic resource.
 	// +crossplane:generate:reference:type=Topic
-	// +crossplane:generate:reference:refFieldName=TopicRef
-	// +crossplane:generate:reference:selectorFieldName=TopicSelector
 	// +kubebuilder:validation:Optional
 	Topic *string `json:"topic,omitempty" tf:"topic,omitempty"`
 
