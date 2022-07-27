@@ -1,0 +1,8 @@
+apiVersion: pubsub.gcp.upbound.io/v1beta1
+kind: LiteReservation
+metadata:
+  name: example
+spec:
+  forProvider:
+    region: us-central1
+    throughputCapacity: 2

@@ -1,0 +1,5 @@
+apiVersion: provider.upbound.io/v1alpha1
+kind: PubSubClaim
+metadata:
+  name: example-pubsub-claim
+spec: {}

@@ -1,0 +1,8 @@
+apiVersion: pubsub.gcp.upbound.io/v1beta1
+kind: LiteReservation
+metadata:
+  name: example
+spec:
+  forProvider:
+    project: ${data.google_project.project.number}
+    throughputCapacity: 2

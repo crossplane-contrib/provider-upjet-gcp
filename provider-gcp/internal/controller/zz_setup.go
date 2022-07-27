@@ -56,6 +56,18 @@ import (
 	notificationchannel "github.com/upbound/official-providers/provider-gcp/internal/controller/monitoring/notificationchannel"
 	uptimecheckconfig "github.com/upbound/official-providers/provider-gcp/internal/controller/monitoring/uptimecheckconfig"
 	providerconfig "github.com/upbound/official-providers/provider-gcp/internal/controller/providerconfig"
+	litereservation "github.com/upbound/official-providers/provider-gcp/internal/controller/pubsub/litereservation"
+	litesubscription "github.com/upbound/official-providers/provider-gcp/internal/controller/pubsub/litesubscription"
+	litetopic "github.com/upbound/official-providers/provider-gcp/internal/controller/pubsub/litetopic"
+	schema "github.com/upbound/official-providers/provider-gcp/internal/controller/pubsub/schema"
+	subscription "github.com/upbound/official-providers/provider-gcp/internal/controller/pubsub/subscription"
+	subscriptioniambinding "github.com/upbound/official-providers/provider-gcp/internal/controller/pubsub/subscriptioniambinding"
+	subscriptioniammember "github.com/upbound/official-providers/provider-gcp/internal/controller/pubsub/subscriptioniammember"
+	subscriptioniampolicy "github.com/upbound/official-providers/provider-gcp/internal/controller/pubsub/subscriptioniampolicy"
+	topic "github.com/upbound/official-providers/provider-gcp/internal/controller/pubsub/topic"
+	topiciambinding "github.com/upbound/official-providers/provider-gcp/internal/controller/pubsub/topiciambinding"
+	topiciammember "github.com/upbound/official-providers/provider-gcp/internal/controller/pubsub/topiciammember"
+	topiciampolicy "github.com/upbound/official-providers/provider-gcp/internal/controller/pubsub/topiciampolicy"
 	instanceredis "github.com/upbound/official-providers/provider-gcp/internal/controller/redis/instance"
 	database "github.com/upbound/official-providers/provider-gcp/internal/controller/sql/database"
 	databaseinstance "github.com/upbound/official-providers/provider-gcp/internal/controller/sql/databaseinstance"
@@ -116,6 +128,18 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		notificationchannel.Setup,
 		uptimecheckconfig.Setup,
 		providerconfig.Setup,
+		litereservation.Setup,
+		litesubscription.Setup,
+		litetopic.Setup,
+		schema.Setup,
+		subscription.Setup,
+		subscriptioniambinding.Setup,
+		subscriptioniammember.Setup,
+		subscriptioniampolicy.Setup,
+		topic.Setup,
+		topiciambinding.Setup,
+		topiciammember.Setup,
+		topiciampolicy.Setup,
 		instanceredis.Setup,
 		database.Setup,
 		databaseinstance.Setup,

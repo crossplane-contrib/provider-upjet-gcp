@@ -5,6 +5,7 @@ cover.out
 /vendor
 /.vendor-new
 .DS_Store
+.history
 
 # ignore IDE folders
 .vscode/

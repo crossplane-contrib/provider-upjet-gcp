@@ -1,0 +1,6 @@
+apiVersion: pubsub.gcp.upbound.io/v1beta1
+kind: Topic
+metadata:
+  name: example
+spec:
+  forProvider: {}

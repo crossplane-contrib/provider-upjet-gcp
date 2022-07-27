@@ -1,0 +1,14 @@
+apiVersion: pubsub.gcp.upbound.io/v1beta1
+kind: LiteTopic
+metadata:
+  name: example
+spec:
+  forProvider:
+    zone: us-central1-a
+    partitionConfig:
+    - capacity:
+      - publishMibPerSec: 4
+        subscribeMibPerSec: 8
+      count: 1
+    retentionConfig:
+    - perPartitionBytes: "32212254720"
