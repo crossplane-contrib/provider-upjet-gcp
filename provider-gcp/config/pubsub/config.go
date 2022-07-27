@@ -83,9 +83,9 @@ func pubsubLiteConnectionDetails(attr map[string]interface{}) (map[string][]byte
 	}
 	// Note(donovanmuller): If this is a google_pubsub_lite_subscription
 	// resource, then the "topic" attribute will be used to override the
-	// "topic" connection key of the google_pubsub_lite_topic subscribed too
-	// and the "subscription" attribute to the "name" connection key of
-	// the subscription
+	// "topic" connection key of the google_pubsub_lite_topic subscribed
+	// too and the "subscription" attribute to the "name" connection key
+	// of the subscription
 	if a, ok := attr["topic"].(string); ok {
 		conn["topic"] = []byte(a)
 		if a, ok := attr["name"].(string); ok {
@@ -114,9 +114,9 @@ func pubsubConnectionDetails(attr map[string]interface{}) (map[string][]byte, er
 	}
 	// Note(donovanmuller): If this is a google_pubsub_subscription
 	// resource, then the "topic" attribute will be used to override the
-	// "topic" connection key of the google_pubsub_topic subscribed too
-	// and the "subscription" attribute to the "name" connection key of
-	// the subscription
+	// "topic" connection key of the google_pubsub_topic subscribed
+	// too and the "subscription" attribute to the "name" connection key
+	// of the subscription
 	if a, ok := attr["topic"].(string); ok {
 		conn["topic"] = []byte(a)
 		if a, ok := attr["name"].(string); ok {
