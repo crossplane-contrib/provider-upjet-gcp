@@ -64,6 +64,12 @@ func Configure(p *config.Provider) {
 				"kubeconfig": kcb,
 			}, nil
 		}
+		r.References["network"] = config.Reference{
+			Type: "github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.Network",
+		}
+		r.References["subnetwork"] = config.Reference{
+			Type: "github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.Subnetwork",
+		}
 		r.UseAsync = true
 		config.MarkAsRequired(r.TerraformResource, "location")
 	})

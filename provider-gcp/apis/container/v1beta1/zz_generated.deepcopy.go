@@ -744,6 +744,16 @@ func (in *ClusterParameters) DeepCopyInto(out *ClusterParameters) {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
+	if in.NetworkRef != nil {
+		in, out := &in.NetworkRef, &out.NetworkRef
+		*out = new(v1.Reference)
+		**out = **in
+	}
+	if in.NetworkSelector != nil {
+		in, out := &in.NetworkSelector, &out.NetworkSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.NetworkingMode != nil {
 		in, out := &in.NetworkingMode, &out.NetworkingMode
 		*out = new(string)
@@ -834,6 +844,16 @@ func (in *ClusterParameters) DeepCopyInto(out *ClusterParameters) {
 		in, out := &in.Subnetwork, &out.Subnetwork
 		*out = new(string)
 		**out = **in
+	}
+	if in.SubnetworkRef != nil {
+		in, out := &in.SubnetworkRef, &out.SubnetworkRef
+		*out = new(v1.Reference)
+		**out = **in
+	}
+	if in.SubnetworkSelector != nil {
+		in, out := &in.SubnetworkSelector, &out.SubnetworkSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.VerticalPodAutoscaling != nil {
 		in, out := &in.VerticalPodAutoscaling, &out.VerticalPodAutoscaling

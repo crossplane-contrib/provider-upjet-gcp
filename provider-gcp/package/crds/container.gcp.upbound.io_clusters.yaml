@@ -568,6 +568,29 @@ spec:
                       - enabled
                       type: object
                     type: array
+                  networkRef:
+                    description: A Reference to a named object.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                    required:
+                    - name
+                    type: object
+                  networkSelector:
+                    description: A Selector selects an object.
+                    properties:
+                      matchControllerRef:
+                        description: MatchControllerRef ensures an object with the
+                          same controller reference as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                    type: object
                   networkingMode:
                     description: Determines whether alias IPs or routes will be used
                       for pod IPs in the cluster.
@@ -1136,6 +1159,29 @@ spec:
                     description: The name or self_link of the Google Compute Engine
                       subnetwork in which the cluster's instances are launched.
                     type: string
+                  subnetworkRef:
+                    description: A Reference to a named object.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                    required:
+                    - name
+                    type: object
+                  subnetworkSelector:
+                    description: A Selector selects an object.
+                    properties:
+                      matchControllerRef:
+                        description: MatchControllerRef ensures an object with the
+                          same controller reference as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                    type: object
                   verticalPodAutoscaling:
                     description: Vertical Pod Autoscaling automatically adjusts the
                       resources of pods controlled by it.

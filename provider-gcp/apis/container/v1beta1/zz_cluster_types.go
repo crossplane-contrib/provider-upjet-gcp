@@ -302,12 +302,19 @@ type ClusterParameters struct {
 	MonitoringService *string `json:"monitoringService,omitempty" tf:"monitoring_service,omitempty"`
 
 	// The name or self_link of the Google Compute Engine network to which the cluster is connected. For Shared VPC, set this to the self link of the shared network.
+	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.Network
 	// +kubebuilder:validation:Optional
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
 	// Configuration options for the NetworkPolicy feature.
 	// +kubebuilder:validation:Optional
 	NetworkPolicy []NetworkPolicyParameters `json:"networkPolicy,omitempty" tf:"network_policy,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
+
+	// +kubebuilder:validation:Optional
+	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
 
 	// Determines whether alias IPs or routes will be used for pod IPs in the cluster.
 	// +kubebuilder:validation:Optional
@@ -358,8 +365,15 @@ type ClusterParameters struct {
 	ResourceUsageExportConfig []ResourceUsageExportConfigParameters `json:"resourceUsageExportConfig,omitempty" tf:"resource_usage_export_config,omitempty"`
 
 	// The name or self_link of the Google Compute Engine subnetwork in which the cluster's instances are launched.
+	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.Subnetwork
 	// +kubebuilder:validation:Optional
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	SubnetworkRef *v1.Reference `json:"subnetworkRef,omitempty" tf:"-"`
+
+	// +kubebuilder:validation:Optional
+	SubnetworkSelector *v1.Selector `json:"subnetworkSelector,omitempty" tf:"-"`
 
 	// Vertical Pod Autoscaling automatically adjusts the resources of pods controlled by it.
 	// +kubebuilder:validation:Optional
