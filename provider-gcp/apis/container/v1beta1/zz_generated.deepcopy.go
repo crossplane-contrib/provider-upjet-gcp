@@ -747,7 +747,7 @@ func (in *ClusterParameters) DeepCopyInto(out *ClusterParameters) {
 	if in.NetworkRef != nil {
 		in, out := &in.NetworkRef, &out.NetworkRef
 		*out = new(v1.Reference)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.NetworkSelector != nil {
 		in, out := &in.NetworkSelector, &out.NetworkSelector
@@ -848,7 +848,7 @@ func (in *ClusterParameters) DeepCopyInto(out *ClusterParameters) {
 	if in.SubnetworkRef != nil {
 		in, out := &in.SubnetworkRef, &out.SubnetworkRef
 		*out = new(v1.Reference)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.SubnetworkSelector != nil {
 		in, out := &in.SubnetworkSelector, &out.SubnetworkSelector
@@ -3158,7 +3158,7 @@ func (in *NodePoolParameters_2) DeepCopyInto(out *NodePoolParameters_2) {
 	if in.ClusterRef != nil {
 		in, out := &in.ClusterRef, &out.ClusterRef
 		*out = new(v1.Reference)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.ClusterSelector != nil {
 		in, out := &in.ClusterSelector, &out.ClusterSelector

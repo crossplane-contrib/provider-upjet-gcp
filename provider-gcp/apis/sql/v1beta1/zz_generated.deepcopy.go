@@ -640,7 +640,7 @@ func (in *DatabaseParameters) DeepCopyInto(out *DatabaseParameters) {
 	if in.InstanceRef != nil {
 		in, out := &in.InstanceRef, &out.InstanceRef
 		*out = new(v1.Reference)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.InstanceSelector != nil {
 		in, out := &in.InstanceSelector, &out.InstanceSelector
@@ -1190,7 +1190,7 @@ func (in *SSLCertParameters) DeepCopyInto(out *SSLCertParameters) {
 	if in.InstanceRef != nil {
 		in, out := &in.InstanceRef, &out.InstanceRef
 		*out = new(v1.Reference)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.InstanceSelector != nil {
 		in, out := &in.InstanceSelector, &out.InstanceSelector
@@ -1700,7 +1700,7 @@ func (in *UserParameters) DeepCopyInto(out *UserParameters) {
 	if in.InstanceRef != nil {
 		in, out := &in.InstanceRef, &out.InstanceRef
 		*out = new(v1.Reference)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.InstanceSelector != nil {
 		in, out := &in.InstanceSelector, &out.InstanceSelector

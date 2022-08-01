@@ -471,7 +471,7 @@ func (in *LiteSubscriptionParameters) DeepCopyInto(out *LiteSubscriptionParamete
 	if in.TopicRef != nil {
 		in, out := &in.TopicRef, &out.TopicRef
 		*out = new(v1.Reference)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.TopicSelector != nil {
 		in, out := &in.TopicSelector, &out.TopicSelector
@@ -899,7 +899,7 @@ func (in *ReservationConfigParameters) DeepCopyInto(out *ReservationConfigParame
 	if in.ThroughputReservationRef != nil {
 		in, out := &in.ThroughputReservationRef, &out.ThroughputReservationRef
 		*out = new(v1.Reference)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.ThroughputReservationSelector != nil {
 		in, out := &in.ThroughputReservationSelector, &out.ThroughputReservationSelector
@@ -1331,7 +1331,7 @@ func (in *SubscriptionIAMBindingParameters) DeepCopyInto(out *SubscriptionIAMBin
 	if in.SubscriptionRef != nil {
 		in, out := &in.SubscriptionRef, &out.SubscriptionRef
 		*out = new(v1.Reference)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.SubscriptionSelector != nil {
 		in, out := &in.SubscriptionSelector, &out.SubscriptionSelector
@@ -1546,7 +1546,7 @@ func (in *SubscriptionIAMMemberParameters) DeepCopyInto(out *SubscriptionIAMMemb
 	if in.SubscriptionRef != nil {
 		in, out := &in.SubscriptionRef, &out.SubscriptionRef
 		*out = new(v1.Reference)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.SubscriptionSelector != nil {
 		in, out := &in.SubscriptionSelector, &out.SubscriptionSelector
@@ -1704,7 +1704,7 @@ func (in *SubscriptionIAMPolicyParameters) DeepCopyInto(out *SubscriptionIAMPoli
 	if in.SubscriptionRef != nil {
 		in, out := &in.SubscriptionRef, &out.SubscriptionRef
 		*out = new(v1.Reference)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.SubscriptionSelector != nil {
 		in, out := &in.SubscriptionSelector, &out.SubscriptionSelector
@@ -1898,7 +1898,7 @@ func (in *SubscriptionParameters) DeepCopyInto(out *SubscriptionParameters) {
 	if in.TopicRef != nil {
 		in, out := &in.TopicRef, &out.TopicRef
 		*out = new(v1.Reference)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.TopicSelector != nil {
 		in, out := &in.TopicSelector, &out.TopicSelector
@@ -2146,7 +2146,7 @@ func (in *TopicIAMBindingParameters) DeepCopyInto(out *TopicIAMBindingParameters
 	if in.TopicRef != nil {
 		in, out := &in.TopicRef, &out.TopicRef
 		*out = new(v1.Reference)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.TopicSelector != nil {
 		in, out := &in.TopicSelector, &out.TopicSelector
@@ -2361,7 +2361,7 @@ func (in *TopicIAMMemberParameters) DeepCopyInto(out *TopicIAMMemberParameters) 
 	if in.TopicRef != nil {
 		in, out := &in.TopicRef, &out.TopicRef
 		*out = new(v1.Reference)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.TopicSelector != nil {
 		in, out := &in.TopicSelector, &out.TopicSelector
@@ -2519,7 +2519,7 @@ func (in *TopicIAMPolicyParameters) DeepCopyInto(out *TopicIAMPolicyParameters) 
 	if in.TopicRef != nil {
 		in, out := &in.TopicRef, &out.TopicRef
 		*out = new(v1.Reference)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.TopicSelector != nil {
 		in, out := &in.TopicSelector, &out.TopicSelector
