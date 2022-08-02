@@ -36,17 +36,17 @@ func (tr *ManagedZone) GetConnectionDetailsMapping() map[string]string {
 }
 
 // GetObservation of this ManagedZone
-func (tr *ManagedZone) GetObservation() (map[string]interface{}, error) {
+func (tr *ManagedZone) GetObservation() (map[string]any, error) {
 	o, err := json.TFParser.Marshal(tr.Status.AtProvider)
 	if err != nil {
 		return nil, err
 	}
-	base := map[string]interface{}{}
+	base := map[string]any{}
 	return base, json.TFParser.Unmarshal(o, &base)
 }
 
 // SetObservation for this ManagedZone
-func (tr *ManagedZone) SetObservation(obs map[string]interface{}) error {
+func (tr *ManagedZone) SetObservation(obs map[string]any) error {
 	p, err := json.TFParser.Marshal(obs)
 	if err != nil {
 		return err
@@ -63,17 +63,17 @@ func (tr *ManagedZone) GetID() string {
 }
 
 // GetParameters of this ManagedZone
-func (tr *ManagedZone) GetParameters() (map[string]interface{}, error) {
+func (tr *ManagedZone) GetParameters() (map[string]any, error) {
 	p, err := json.TFParser.Marshal(tr.Spec.ForProvider)
 	if err != nil {
 		return nil, err
 	}
-	base := map[string]interface{}{}
+	base := map[string]any{}
 	return base, json.TFParser.Unmarshal(p, &base)
 }
 
 // SetParameters for this ManagedZone
-func (tr *ManagedZone) SetParameters(params map[string]interface{}) error {
+func (tr *ManagedZone) SetParameters(params map[string]any) error {
 	p, err := json.TFParser.Marshal(params)
 	if err != nil {
 		return err
@@ -110,17 +110,17 @@ func (tr *Policy) GetConnectionDetailsMapping() map[string]string {
 }
 
 // GetObservation of this Policy
-func (tr *Policy) GetObservation() (map[string]interface{}, error) {
+func (tr *Policy) GetObservation() (map[string]any, error) {
 	o, err := json.TFParser.Marshal(tr.Status.AtProvider)
 	if err != nil {
 		return nil, err
 	}
-	base := map[string]interface{}{}
+	base := map[string]any{}
 	return base, json.TFParser.Unmarshal(o, &base)
 }
 
 // SetObservation for this Policy
-func (tr *Policy) SetObservation(obs map[string]interface{}) error {
+func (tr *Policy) SetObservation(obs map[string]any) error {
 	p, err := json.TFParser.Marshal(obs)
 	if err != nil {
 		return err
@@ -137,17 +137,17 @@ func (tr *Policy) GetID() string {
 }
 
 // GetParameters of this Policy
-func (tr *Policy) GetParameters() (map[string]interface{}, error) {
+func (tr *Policy) GetParameters() (map[string]any, error) {
 	p, err := json.TFParser.Marshal(tr.Spec.ForProvider)
 	if err != nil {
 		return nil, err
 	}
-	base := map[string]interface{}{}
+	base := map[string]any{}
 	return base, json.TFParser.Unmarshal(p, &base)
 }
 
 // SetParameters for this Policy
-func (tr *Policy) SetParameters(params map[string]interface{}) error {
+func (tr *Policy) SetParameters(params map[string]any) error {
 	p, err := json.TFParser.Marshal(params)
 	if err != nil {
 		return err
