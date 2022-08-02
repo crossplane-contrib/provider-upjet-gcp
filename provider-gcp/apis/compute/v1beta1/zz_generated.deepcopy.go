@@ -197,7 +197,7 @@ func (in *AddressParameters) DeepCopyInto(out *AddressParameters) {
 	if in.NetworkRef != nil {
 		in, out := &in.NetworkRef, &out.NetworkRef
 		*out = new(v1.Reference)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.NetworkSelector != nil {
 		in, out := &in.NetworkSelector, &out.NetworkSelector
@@ -237,7 +237,7 @@ func (in *AddressParameters) DeepCopyInto(out *AddressParameters) {
 	if in.SubnetworkRef != nil {
 		in, out := &in.SubnetworkRef, &out.SubnetworkRef
 		*out = new(v1.Reference)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.SubnetworkSelector != nil {
 		in, out := &in.SubnetworkSelector, &out.SubnetworkSelector
@@ -542,7 +542,7 @@ func (in *AutoHealingPoliciesParameters) DeepCopyInto(out *AutoHealingPoliciesPa
 	if in.HealthCheckRef != nil {
 		in, out := &in.HealthCheckRef, &out.HealthCheckRef
 		*out = new(v1.Reference)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.HealthCheckSelector != nil {
 		in, out := &in.HealthCheckSelector, &out.HealthCheckSelector
@@ -2309,7 +2309,7 @@ func (in *FirewallParameters) DeepCopyInto(out *FirewallParameters) {
 	if in.NetworkRef != nil {
 		in, out := &in.NetworkRef, &out.NetworkRef
 		*out = new(v1.Reference)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.NetworkSelector != nil {
 		in, out := &in.NetworkSelector, &out.NetworkSelector
@@ -2597,7 +2597,7 @@ func (in *GlobalAddressParameters) DeepCopyInto(out *GlobalAddressParameters) {
 	if in.NetworkRef != nil {
 		in, out := &in.NetworkRef, &out.NetworkRef
 		*out = new(v1.Reference)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.NetworkSelector != nil {
 		in, out := &in.NetworkSelector, &out.NetworkSelector
@@ -3694,7 +3694,7 @@ func (in *HaVPNGatewayParameters) DeepCopyInto(out *HaVPNGatewayParameters) {
 	if in.NetworkRef != nil {
 		in, out := &in.NetworkRef, &out.NetworkRef
 		*out = new(v1.Reference)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.NetworkSelector != nil {
 		in, out := &in.NetworkSelector, &out.NetworkSelector
@@ -5417,7 +5417,7 @@ func (in *InstanceFromTemplateNetworkInterfaceParameters) DeepCopyInto(out *Inst
 	if in.NetworkRef != nil {
 		in, out := &in.NetworkRef, &out.NetworkRef
 		*out = new(v1.Reference)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.NetworkSelector != nil {
 		in, out := &in.NetworkSelector, &out.NetworkSelector
@@ -5452,7 +5452,7 @@ func (in *InstanceFromTemplateNetworkInterfaceParameters) DeepCopyInto(out *Inst
 	if in.SubnetworkRef != nil {
 		in, out := &in.SubnetworkRef, &out.SubnetworkRef
 		*out = new(v1.Reference)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.SubnetworkSelector != nil {
 		in, out := &in.SubnetworkSelector, &out.SubnetworkSelector
@@ -5721,7 +5721,7 @@ func (in *InstanceFromTemplateParameters) DeepCopyInto(out *InstanceFromTemplate
 	if in.SourceInstanceTemplateRef != nil {
 		in, out := &in.SourceInstanceTemplateRef, &out.SourceInstanceTemplateRef
 		*out = new(v1.Reference)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.SourceInstanceTemplateSelector != nil {
 		in, out := &in.SourceInstanceTemplateSelector, &out.SourceInstanceTemplateSelector
@@ -6278,7 +6278,9 @@ func (in *InstanceGroupManagerParameters) DeepCopyInto(out *InstanceGroupManager
 	if in.TargetPoolsRefs != nil {
 		in, out := &in.TargetPoolsRefs, &out.TargetPoolsRefs
 		*out = make([]v1.Reference, len(*in))
-		copy(*out, *in)
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.TargetPoolsSelector != nil {
 		in, out := &in.TargetPoolsSelector, &out.TargetPoolsSelector
@@ -6429,7 +6431,7 @@ func (in *InstanceGroupParameters) DeepCopyInto(out *InstanceGroupParameters) {
 	if in.NetworkRef != nil {
 		in, out := &in.NetworkRef, &out.NetworkRef
 		*out = new(v1.Reference)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.NetworkSelector != nil {
 		in, out := &in.NetworkSelector, &out.NetworkSelector
@@ -8746,7 +8748,7 @@ func (in *InterconnectAttachmentParameters) DeepCopyInto(out *InterconnectAttach
 	if in.RouterRef != nil {
 		in, out := &in.RouterRef, &out.RouterRef
 		*out = new(v1.Reference)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.RouterSelector != nil {
 		in, out := &in.RouterSelector, &out.RouterSelector
@@ -9315,7 +9317,7 @@ func (in *NetworkEndpointGroupParameters) DeepCopyInto(out *NetworkEndpointGroup
 	if in.NetworkRef != nil {
 		in, out := &in.NetworkRef, &out.NetworkRef
 		*out = new(v1.Reference)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.NetworkSelector != nil {
 		in, out := &in.NetworkSelector, &out.NetworkSelector
@@ -9335,7 +9337,7 @@ func (in *NetworkEndpointGroupParameters) DeepCopyInto(out *NetworkEndpointGroup
 	if in.SubnetworkRef != nil {
 		in, out := &in.SubnetworkRef, &out.SubnetworkRef
 		*out = new(v1.Reference)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.SubnetworkSelector != nil {
 		in, out := &in.SubnetworkSelector, &out.SubnetworkSelector
@@ -9728,7 +9730,7 @@ func (in *NetworkInterfaceParameters) DeepCopyInto(out *NetworkInterfaceParamete
 	if in.NetworkRef != nil {
 		in, out := &in.NetworkRef, &out.NetworkRef
 		*out = new(v1.Reference)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.NetworkSelector != nil {
 		in, out := &in.NetworkSelector, &out.NetworkSelector
@@ -9763,7 +9765,7 @@ func (in *NetworkInterfaceParameters) DeepCopyInto(out *NetworkInterfaceParamete
 	if in.SubnetworkRef != nil {
 		in, out := &in.SubnetworkRef, &out.SubnetworkRef
 		*out = new(v1.Reference)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.SubnetworkSelector != nil {
 		in, out := &in.SubnetworkSelector, &out.SubnetworkSelector
@@ -10639,7 +10641,7 @@ func (in *RouterNATParameters) DeepCopyInto(out *RouterNATParameters) {
 	if in.RouterRef != nil {
 		in, out := &in.RouterRef, &out.RouterRef
 		*out = new(v1.Reference)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.RouterSelector != nil {
 		in, out := &in.RouterSelector, &out.RouterSelector
@@ -10777,7 +10779,7 @@ func (in *RouterParameters) DeepCopyInto(out *RouterParameters) {
 	if in.NetworkRef != nil {
 		in, out := &in.NetworkRef, &out.NetworkRef
 		*out = new(v1.Reference)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.NetworkSelector != nil {
 		in, out := &in.NetworkSelector, &out.NetworkSelector
@@ -11815,7 +11817,7 @@ func (in *SubnetworkParameters) DeepCopyInto(out *SubnetworkParameters) {
 	if in.NameRef != nil {
 		in, out := &in.NameRef, &out.NameRef
 		*out = new(v1.Reference)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.NameSelector != nil {
 		in, out := &in.NameSelector, &out.NameSelector
@@ -11889,7 +11891,7 @@ func (in *SubnetworkParameters_2) DeepCopyInto(out *SubnetworkParameters_2) {
 	if in.NetworkRef != nil {
 		in, out := &in.NetworkRef, &out.NetworkRef
 		*out = new(v1.Reference)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.NetworkSelector != nil {
 		in, out := &in.NetworkSelector, &out.NetworkSelector
@@ -12480,7 +12482,7 @@ func (in *VersionParameters) DeepCopyInto(out *VersionParameters) {
 	if in.InstanceTemplateRef != nil {
 		in, out := &in.InstanceTemplateRef, &out.InstanceTemplateRef
 		*out = new(v1.Reference)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.InstanceTemplateSelector != nil {
 		in, out := &in.InstanceTemplateSelector, &out.InstanceTemplateSelector
