@@ -36,17 +36,17 @@ func (tr *Database) GetConnectionDetailsMapping() map[string]string {
 }
 
 // GetObservation of this Database
-func (tr *Database) GetObservation() (map[string]interface{}, error) {
+func (tr *Database) GetObservation() (map[string]any, error) {
 	o, err := json.TFParser.Marshal(tr.Status.AtProvider)
 	if err != nil {
 		return nil, err
 	}
-	base := map[string]interface{}{}
+	base := map[string]any{}
 	return base, json.TFParser.Unmarshal(o, &base)
 }
 
 // SetObservation for this Database
-func (tr *Database) SetObservation(obs map[string]interface{}) error {
+func (tr *Database) SetObservation(obs map[string]any) error {
 	p, err := json.TFParser.Marshal(obs)
 	if err != nil {
 		return err
@@ -63,17 +63,17 @@ func (tr *Database) GetID() string {
 }
 
 // GetParameters of this Database
-func (tr *Database) GetParameters() (map[string]interface{}, error) {
+func (tr *Database) GetParameters() (map[string]any, error) {
 	p, err := json.TFParser.Marshal(tr.Spec.ForProvider)
 	if err != nil {
 		return nil, err
 	}
-	base := map[string]interface{}{}
+	base := map[string]any{}
 	return base, json.TFParser.Unmarshal(p, &base)
 }
 
 // SetParameters for this Database
-func (tr *Database) SetParameters(params map[string]interface{}) error {
+func (tr *Database) SetParameters(params map[string]any) error {
 	p, err := json.TFParser.Marshal(params)
 	if err != nil {
 		return err
@@ -110,17 +110,17 @@ func (tr *DatabaseInstance) GetConnectionDetailsMapping() map[string]string {
 }
 
 // GetObservation of this DatabaseInstance
-func (tr *DatabaseInstance) GetObservation() (map[string]interface{}, error) {
+func (tr *DatabaseInstance) GetObservation() (map[string]any, error) {
 	o, err := json.TFParser.Marshal(tr.Status.AtProvider)
 	if err != nil {
 		return nil, err
 	}
-	base := map[string]interface{}{}
+	base := map[string]any{}
 	return base, json.TFParser.Unmarshal(o, &base)
 }
 
 // SetObservation for this DatabaseInstance
-func (tr *DatabaseInstance) SetObservation(obs map[string]interface{}) error {
+func (tr *DatabaseInstance) SetObservation(obs map[string]any) error {
 	p, err := json.TFParser.Marshal(obs)
 	if err != nil {
 		return err
@@ -137,17 +137,17 @@ func (tr *DatabaseInstance) GetID() string {
 }
 
 // GetParameters of this DatabaseInstance
-func (tr *DatabaseInstance) GetParameters() (map[string]interface{}, error) {
+func (tr *DatabaseInstance) GetParameters() (map[string]any, error) {
 	p, err := json.TFParser.Marshal(tr.Spec.ForProvider)
 	if err != nil {
 		return nil, err
 	}
-	base := map[string]interface{}{}
+	base := map[string]any{}
 	return base, json.TFParser.Unmarshal(p, &base)
 }
 
 // SetParameters for this DatabaseInstance
-func (tr *DatabaseInstance) SetParameters(params map[string]interface{}) error {
+func (tr *DatabaseInstance) SetParameters(params map[string]any) error {
 	p, err := json.TFParser.Marshal(params)
 	if err != nil {
 		return err
@@ -184,17 +184,17 @@ func (tr *SourceRepresentationInstance) GetConnectionDetailsMapping() map[string
 }
 
 // GetObservation of this SourceRepresentationInstance
-func (tr *SourceRepresentationInstance) GetObservation() (map[string]interface{}, error) {
+func (tr *SourceRepresentationInstance) GetObservation() (map[string]any, error) {
 	o, err := json.TFParser.Marshal(tr.Status.AtProvider)
 	if err != nil {
 		return nil, err
 	}
-	base := map[string]interface{}{}
+	base := map[string]any{}
 	return base, json.TFParser.Unmarshal(o, &base)
 }
 
 // SetObservation for this SourceRepresentationInstance
-func (tr *SourceRepresentationInstance) SetObservation(obs map[string]interface{}) error {
+func (tr *SourceRepresentationInstance) SetObservation(obs map[string]any) error {
 	p, err := json.TFParser.Marshal(obs)
 	if err != nil {
 		return err
@@ -211,17 +211,17 @@ func (tr *SourceRepresentationInstance) GetID() string {
 }
 
 // GetParameters of this SourceRepresentationInstance
-func (tr *SourceRepresentationInstance) GetParameters() (map[string]interface{}, error) {
+func (tr *SourceRepresentationInstance) GetParameters() (map[string]any, error) {
 	p, err := json.TFParser.Marshal(tr.Spec.ForProvider)
 	if err != nil {
 		return nil, err
 	}
-	base := map[string]interface{}{}
+	base := map[string]any{}
 	return base, json.TFParser.Unmarshal(p, &base)
 }
 
 // SetParameters for this SourceRepresentationInstance
-func (tr *SourceRepresentationInstance) SetParameters(params map[string]interface{}) error {
+func (tr *SourceRepresentationInstance) SetParameters(params map[string]any) error {
 	p, err := json.TFParser.Marshal(params)
 	if err != nil {
 		return err
@@ -258,17 +258,17 @@ func (tr *SSLCert) GetConnectionDetailsMapping() map[string]string {
 }
 
 // GetObservation of this SSLCert
-func (tr *SSLCert) GetObservation() (map[string]interface{}, error) {
+func (tr *SSLCert) GetObservation() (map[string]any, error) {
 	o, err := json.TFParser.Marshal(tr.Status.AtProvider)
 	if err != nil {
 		return nil, err
 	}
-	base := map[string]interface{}{}
+	base := map[string]any{}
 	return base, json.TFParser.Unmarshal(o, &base)
 }
 
 // SetObservation for this SSLCert
-func (tr *SSLCert) SetObservation(obs map[string]interface{}) error {
+func (tr *SSLCert) SetObservation(obs map[string]any) error {
 	p, err := json.TFParser.Marshal(obs)
 	if err != nil {
 		return err
@@ -285,17 +285,17 @@ func (tr *SSLCert) GetID() string {
 }
 
 // GetParameters of this SSLCert
-func (tr *SSLCert) GetParameters() (map[string]interface{}, error) {
+func (tr *SSLCert) GetParameters() (map[string]any, error) {
 	p, err := json.TFParser.Marshal(tr.Spec.ForProvider)
 	if err != nil {
 		return nil, err
 	}
-	base := map[string]interface{}{}
+	base := map[string]any{}
 	return base, json.TFParser.Unmarshal(p, &base)
 }
 
 // SetParameters for this SSLCert
-func (tr *SSLCert) SetParameters(params map[string]interface{}) error {
+func (tr *SSLCert) SetParameters(params map[string]any) error {
 	p, err := json.TFParser.Marshal(params)
 	if err != nil {
 		return err
@@ -332,17 +332,17 @@ func (tr *User) GetConnectionDetailsMapping() map[string]string {
 }
 
 // GetObservation of this User
-func (tr *User) GetObservation() (map[string]interface{}, error) {
+func (tr *User) GetObservation() (map[string]any, error) {
 	o, err := json.TFParser.Marshal(tr.Status.AtProvider)
 	if err != nil {
 		return nil, err
 	}
-	base := map[string]interface{}{}
+	base := map[string]any{}
 	return base, json.TFParser.Unmarshal(o, &base)
 }
 
 // SetObservation for this User
-func (tr *User) SetObservation(obs map[string]interface{}) error {
+func (tr *User) SetObservation(obs map[string]any) error {
 	p, err := json.TFParser.Marshal(obs)
 	if err != nil {
 		return err
@@ -359,17 +359,17 @@ func (tr *User) GetID() string {
 }
 
 // GetParameters of this User
-func (tr *User) GetParameters() (map[string]interface{}, error) {
+func (tr *User) GetParameters() (map[string]any, error) {
 	p, err := json.TFParser.Marshal(tr.Spec.ForProvider)
 	if err != nil {
 		return nil, err
 	}
-	base := map[string]interface{}{}
+	base := map[string]any{}
 	return base, json.TFParser.Unmarshal(p, &base)
 }
 
 // SetParameters for this User
-func (tr *User) SetParameters(params map[string]interface{}) error {
+func (tr *User) SetParameters(params map[string]any) error {
 	p, err := json.TFParser.Marshal(params)
 	if err != nil {
 		return err
