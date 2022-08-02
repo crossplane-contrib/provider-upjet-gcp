@@ -1,0 +1,12 @@
+apiVersion: dns.gcp.upbound.io/v1beta1
+kind: ManagedZone
+metadata:
+  name: example
+spec:
+  forProvider:
+    description: Example DNS zone
+    dnsName: example-281496.com.
+    labels:
+      foo: bar
+    visibility: private
+        

@@ -1,0 +1,385 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.8.0
+  creationTimestamp: null
+  name: managedzones.dns.gcp.upbound.io
+spec:
+  group: dns.gcp.upbound.io
+  names:
+    categories:
+    - crossplane
+    - managed
+    - gcp
+    kind: ManagedZone
+    listKind: ManagedZoneList
+    plural: managedzones
+    singular: managedzone
+  scope: Cluster
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
+    - jsonPath: .metadata.annotations.crossplane\.io/external-name
+      name: EXTERNAL-NAME
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1beta1
+    schema:
+      openAPIV3Schema:
+        description: ManagedZone is the Schema for the ManagedZones API
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: ManagedZoneSpec defines the desired state of ManagedZone
+            properties:
+              deletionPolicy:
+                default: Delete
+                description: DeletionPolicy specifies what will happen to the underlying
+                  external when this managed resource is deleted - either "Delete"
+                  or "Orphan" the external resource.
+                enum:
+                - Orphan
+                - Delete
+                type: string
+              forProvider:
+                properties:
+                  description:
+                    description: A textual description field. Defaults to 'Managed
+                      by Terraform'.
+                    type: string
+                  dnsName:
+                    description: The DNS name of this managed zone, for instance "example.com.".
+                    type: string
+                  dnssecConfig:
+                    description: DNSSEC configuration
+                    items:
+                      properties:
+                        defaultKeySpecs:
+                          description: Specifies parameters that will be used for
+                            generating initial DnsKeys for this ManagedZone. If you
+                            provide a spec for keySigning or zoneSigning, you must
+                            also provide one for the other. default_key_specs can
+                            only be updated when the state is 'off'.
+                          items:
+                            properties:
+                              algorithm:
+                                description: 'String mnemonic specifying the DNSSEC
+                                  algorithm of this key Possible values: ["ecdsap256sha256",
+                                  "ecdsap384sha384", "rsasha1", "rsasha256", "rsasha512"]'
+                                type: string
+                              keyLength:
+                                description: Length of the keys in bits
+                                type: number
+                              keyType:
+                                description: 'Specifies whether this is a key signing
+                                  key (KSK) or a zone signing key (ZSK). Key signing
+                                  keys have the Secure Entry Point flag set and, when
+                                  active, will only be used to sign resource record
+                                  sets of type DNSKEY. Zone signing keys do not have
+                                  the Secure Entry Point flag set and will be used
+                                  to sign all other types of resource record sets.
+                                  Possible values: ["keySigning", "zoneSigning"]'
+                                type: string
+                              kind:
+                                description: Identifies what kind of resource this
+                                  is
+                                type: string
+                            type: object
+                          type: array
+                        kind:
+                          description: Identifies what kind of resource this is
+                          type: string
+                        nonExistence:
+                          description: 'Specifies the mechanism used to provide authenticated
+                            denial-of-existence responses. non_existence can only
+                            be updated when the state is ''off''. Possible values:
+                            ["nsec", "nsec3"]'
+                          type: string
+                        state:
+                          description: 'Specifies whether DNSSEC is enabled, and what
+                            mode it is in Possible values: ["off", "on", "transfer"]'
+                          type: string
+                      type: object
+                    type: array
+                  forceDestroy:
+                    type: boolean
+                  forwardingConfig:
+                    description: The presence for this field indicates that outbound
+                      forwarding is enabled for this zone. The value of this field
+                      contains the set of destinations to forward to.
+                    items:
+                      properties:
+                        targetNameServers:
+                          description: List of target name servers to forward to.
+                            Cloud DNS will select the best available name server if
+                            more than one target is given.
+                          items:
+                            properties:
+                              forwardingPath:
+                                description: 'Forwarding path for this TargetNameServer.
+                                  If unset or ''default'' Cloud DNS will make forwarding
+                                  decision based on address ranges, i.e. RFC1918 addresses
+                                  go to the VPC, Non-RFC1918 addresses go to the Internet.
+                                  When set to ''private'', Cloud DNS will always send
+                                  queries through VPC for this target Possible values:
+                                  ["default", "private"]'
+                                type: string
+                              ipv4Address:
+                                description: IPv4 address of a target name server.
+                                type: string
+                            required:
+                            - ipv4Address
+                            type: object
+                          type: array
+                      required:
+                      - targetNameServers
+                      type: object
+                    type: array
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: A set of key/value label pairs to assign to this
+                      ManagedZone.
+                    type: object
+                  peeringConfig:
+                    description: The presence of this field indicates that DNS Peering
+                      is enabled for this zone. The value of this field contains the
+                      network to peer with.
+                    items:
+                      properties:
+                        targetNetwork:
+                          description: The network with which to peer.
+                          items:
+                            properties:
+                              networkUrl:
+                                description: The id or fully qualified URL of the
+                                  VPC network to forward queries to. This should be
+                                  formatted like 'projects/{project}/global/networks/{network}'
+                                  or 'https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}'
+                                type: string
+                            required:
+                            - networkUrl
+                            type: object
+                          type: array
+                      required:
+                      - targetNetwork
+                      type: object
+                    type: array
+                  privateVisibilityConfig:
+                    description: For privately visible zones, the set of Virtual Private
+                      Cloud resources that the zone is visible from.
+                    items:
+                      properties:
+                        networks:
+                          description: The list of VPC networks that can see this
+                            zone. Until the provider updates to use the Terraform
+                            0.12 SDK in a future release, you may experience issues
+                            with this resource while updating. If you've defined a
+                            'networks' block and add another 'networks' block while
+                            keeping the old block, Terraform will see an incorrect
+                            diff and apply an incorrect update to the resource. If
+                            you encounter this issue, remove all 'networks' blocks
+                            in an update and then apply another update adding all
+                            of them back simultaneously.
+                          items:
+                            properties:
+                              networkUrl:
+                                description: The id or fully qualified URL of the
+                                  VPC network to bind to. This should be formatted
+                                  like 'projects/{project}/global/networks/{network}'
+                                  or 'https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}'
+                                type: string
+                            required:
+                            - networkUrl
+                            type: object
+                          type: array
+                      required:
+                      - networks
+                      type: object
+                    type: array
+                  project:
+                    type: string
+                  visibility:
+                    description: 'The zone''s visibility: public zones are exposed
+                      to the Internet, while private zones are visible only to Virtual
+                      Private Cloud resources. Default value: "public" Possible values:
+                      ["private", "public"]'
+                    type: string
+                required:
+                - dnsName
+                type: object
+              providerConfigRef:
+                default:
+                  name: default
+                description: ProviderConfigReference specifies how the provider that
+                  will be used to create, observe, update, and delete this managed
+                  resource should be configured.
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                required:
+                - name
+                type: object
+              providerRef:
+                description: 'ProviderReference specifies the provider that will be
+                  used to create, observe, update, and delete this managed resource.
+                  Deprecated: Please use ProviderConfigReference, i.e. `providerConfigRef`'
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                required:
+                - name
+                type: object
+              publishConnectionDetailsTo:
+                description: PublishConnectionDetailsTo specifies the connection secret
+                  config which contains a name, metadata and a reference to secret
+                  store config to which any connection details for this managed resource
+                  should be written. Connection details frequently include the endpoint,
+                  username, and password required to connect to the managed resource.
+                properties:
+                  configRef:
+                    default:
+                      name: default
+                    description: SecretStoreConfigRef specifies which secret store
+                      config should be used for this ConnectionSecret.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                    required:
+                    - name
+                    type: object
+                  metadata:
+                    description: Metadata is the metadata for connection secret.
+                    properties:
+                      annotations:
+                        additionalProperties:
+                          type: string
+                        description: Annotations are the annotations to be added to
+                          connection secret. - For Kubernetes secrets, this will be
+                          used as "metadata.annotations". - It is up to Secret Store
+                          implementation for others store types.
+                        type: object
+                      labels:
+                        additionalProperties:
+                          type: string
+                        description: Labels are the labels/tags to be added to connection
+                          secret. - For Kubernetes secrets, this will be used as "metadata.labels".
+                          - It is up to Secret Store implementation for others store
+                          types.
+                        type: object
+                      type:
+                        description: Type is the SecretType for the connection secret.
+                          - Only valid for Kubernetes Secret Stores.
+                        type: string
+                    type: object
+                  name:
+                    description: Name is the name of the connection secret.
+                    type: string
+                required:
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: WriteConnectionSecretToReference specifies the namespace
+                  and name of a Secret to which any connection details for this managed
+                  resource should be written. Connection details frequently include
+                  the endpoint, username, and password required to connect to the
+                  managed resource. This field is planned to be replaced in a future
+                  release in favor of PublishConnectionDetailsTo. Currently, both
+                  could be set independently and connection details would be published
+                  to both without affecting each other.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                  namespace:
+                    description: Namespace of the secret.
+                    type: string
+                required:
+                - name
+                - namespace
+                type: object
+            required:
+            - forProvider
+            type: object
+          status:
+            description: ManagedZoneStatus defines the observed state of ManagedZone.
+            properties:
+              atProvider:
+                properties:
+                  id:
+                    type: string
+                  nameServers:
+                    items:
+                      type: string
+                    type: array
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: LastTransitionTime is the last time this condition
+                        transitioned from one status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: A Message containing details about this condition's
+                        last transition from one status to another, if any.
+                      type: string
+                    reason:
+                      description: A Reason for this condition's last transition from
+                        one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True,
+                        False, or Unknown?
+                      type: string
+                    type:
+                      description: Type of this condition. At most one of each condition
+                        type may apply to a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []

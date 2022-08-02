@@ -5,7 +5,7 @@ metadata:
   labels:
     cloud: gcp
 spec:
-  writeConnectionSecretsToNamespace: crossplane-system
+  writeConnectionSecretsToNamespace: upbound-system
   compositeTypeRef:
     apiVersion: provider.upbound.io/v1alpha1
     kind: PubSub

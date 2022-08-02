@@ -1,0 +1,45 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: Composition
+metadata:
+  name: composite.dnspolicies.provider.upbound.io
+  labels:
+    cloud: gcp
+spec:
+  writeConnectionSecretsToNamespace: upbound-system
+  compositeTypeRef:
+    apiVersion: provider.upbound.io/v1alpha1
+    kind: DnsPolicy
+  patchSets:
+    - name: matchClaimName
+      patches:
+        - fromFieldPath: metadata.name
+          toFieldPath: metadata.name
+        - fromFieldPath: spec.metadata.name
+          toFieldPath: metadata.annotations[crossplane.io/external-name]
+  resources:
+    - base:
+        apiVersion: compute.gcp.upbound.io/v1beta1
+        kind: Network
+        spec:
+          forProvider: {}
+      patches:
+        - type: PatchSet
+          patchSetName: matchClaimName
+    - base:
+        apiVersion: dns.gcp.upbound.io/v1beta1
+        kind: Policy
+        spec:
+          forProvider:
+            alternativeNameServerConfig:
+            - targetNameServers:
+              - forwardingPath: private
+                ipv4Address: 172.16.1.10
+              - ipv4Address: 172.16.1.20
+            enableInboundForwarding: true
+            enableLogging: true
+            networks:
+            - networkSelector:
+                matchControllerRef: true
+      patches:
+        - type: PatchSet
+          patchSetName: matchClaimName

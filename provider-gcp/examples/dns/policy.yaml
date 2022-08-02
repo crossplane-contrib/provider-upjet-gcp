@@ -1,0 +1,17 @@
+apiVersion: dns.gcp.upbound.io/v1beta1
+kind: Policy
+metadata:
+  name: example
+  annotations:
+    upjet.upbound.io/manual-intervention: "One or more ManagedZones must exist and their fully qualified URL's set in spec.forProvider.networks[].networkUrl"
+spec:
+  forProvider:
+    alternativeNameServerConfig:
+    - targetNameServers:
+      - forwardingPath: private
+        ipv4Address: 172.16.1.10
+      - ipv4Address: 172.16.1.20
+    enableInboundForwarding: true
+    enableLogging: true
+    networks:
+    - networkUrl: "https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}"
