@@ -36,6 +36,22 @@ func Configure(p *config.Provider) {
 			if err != nil {
 				return nil, errors.Wrapf(err, "cannot serialize cluster ca data")
 			}
+			clientCertData, err := common.GetField(attr, "master_auth[0].client_certificate")
+			if err != nil {
+				return nil, err
+			}
+			clientCertDataBytes, err := base64.StdEncoding.DecodeString(clientCertData)
+			if err != nil {
+				return nil, errors.Wrapf(err, "cannot serialize cluster client cert data")
+			}
+			clientKeyData, err := common.GetField(attr, "master_auth[0].client_key")
+			if err != nil {
+				return nil, err
+			}
+			clientKeyDataBytes, err := base64.StdEncoding.DecodeString(clientKeyData)
+			if err != nil {
+				return nil, errors.Wrapf(err, "cannot serialize cluster client key data")
+			}
 			kc := clientcmdapi.Config{
 				Kind:       "Config",
 				APIVersion: "v1",
@@ -46,7 +62,10 @@ func Configure(p *config.Provider) {
 					},
 				},
 				AuthInfos: map[string]*clientcmdapi.AuthInfo{
-					name: {},
+					name: {
+						ClientCertificateData: clientCertDataBytes,
+						ClientKeyData:         clientKeyDataBytes,
+					},
 				},
 				Contexts: map[string]*clientcmdapi.Context{
 					name: {
