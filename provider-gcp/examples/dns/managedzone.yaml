@@ -9,4 +9,3 @@ spec:
     labels:
       foo: bar
     visibility: private
-        

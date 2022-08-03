@@ -3,7 +3,7 @@ kind: Policy
 metadata:
   name: example
   annotations:
-    upjet.upbound.io/manual-intervention: "One or more ManagedZones must exist and their fully qualified URL's set in spec.forProvider.networks[].networkUrl"
+    upjet.upbound.io/manual-intervention: "One or more Networks must exist and match references set in spec.forProvider.networks[].networkRef.name"
 spec:
   forProvider:
     alternativeNameServerConfig:
@@ -14,4 +14,5 @@ spec:
     enableInboundForwarding: true
     enableLogging: true
     networks:
-    - networkUrl: "https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}"
+    - networkRef:
+        name: example
