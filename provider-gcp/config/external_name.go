@@ -171,6 +171,8 @@ var externalNameConfigs = map[string]config.ExternalName{
 	//
 	// Imported by using the following format: tf-test-project/image-store-bucket
 	"google_storage_bucket": formattedIdentifierUserDefined("%s", "project"),
+	// No import, configures bucket public access
+	"google_storage_bucket_access_control": config.IdentifierFromProvider,
 }
 
 func containerNodePool() config.ExternalName {

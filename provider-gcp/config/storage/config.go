@@ -26,4 +26,11 @@ func Configure(p *config.Provider) {
 		// Related issue: https://github.com/upbound/official-providers/provider-gcp/issues/12
 		r.OperationTimeouts.Read = 1 * time.Minute
 	})
+
+	p.AddResourceConfigurator("google_storage_bucket_access_control", func(r *config.Resource) {
+		// The reference should be manually inferred, but this is not yet activated for GCP
+		r.References["bucket"] = config.Reference{
+			Type: "Bucket",
+		}
+	})
 }
