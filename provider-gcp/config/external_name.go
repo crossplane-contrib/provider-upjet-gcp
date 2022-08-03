@@ -119,6 +119,8 @@ var externalNameConfigs = map[string]config.ExternalName{
 	"google_dns_managed_zone": formattedIdentifierUserDefined("projects/%s/managedZones/%s", "project"),
 	// Imported by using the following format: projects/{{project}}/policies/{{name}}
 	"google_dns_policy": formattedIdentifierUserDefined("projects/%s/policies/%s", "project"),
+	// Imported by using the following format: projects/{{project}}/managedZones/{{zone}}/rrsets/{{name}}/{{type}}
+	"google_dns_record_set": config.IdentifierFromProvider,
 
 	// monitoring
 	//

@@ -21,4 +21,13 @@ func Configure(p *config.Provider) {
 		}
 		r.UseAsync = true
 	})
+	p.AddResourceConfigurator("google_dns_record_set", func(r *config.Resource) {
+		// r.References["managed_zone"] = config.Reference{
+		// 	Type: "ManagedZone",
+		// }
+
+		// TODO: work out how to handle name and domain
+
+		config.MarkAsRequired(r.TerraformResource, "managed_zone")
+	})
 }
