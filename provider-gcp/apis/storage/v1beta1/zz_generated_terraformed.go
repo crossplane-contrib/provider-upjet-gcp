@@ -98,3 +98,77 @@ func (tr *Bucket) LateInitialize(attrs []byte) (bool, error) {
 func (tr *Bucket) GetTerraformSchemaVersion() int {
 	return 0
 }
+
+// GetTerraformResourceType returns Terraform resource type for this BucketAccessControl
+func (mg *BucketAccessControl) GetTerraformResourceType() string {
+	return "google_storage_bucket_access_control"
+}
+
+// GetConnectionDetailsMapping for this BucketAccessControl
+func (tr *BucketAccessControl) GetConnectionDetailsMapping() map[string]string {
+	return nil
+}
+
+// GetObservation of this BucketAccessControl
+func (tr *BucketAccessControl) GetObservation() (map[string]any, error) {
+	o, err := json.TFParser.Marshal(tr.Status.AtProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(o, &base)
+}
+
+// SetObservation for this BucketAccessControl
+func (tr *BucketAccessControl) SetObservation(obs map[string]any) error {
+	p, err := json.TFParser.Marshal(obs)
+	if err != nil {
+		return err
+	}
+	return json.TFParser.Unmarshal(p, &tr.Status.AtProvider)
+}
+
+// GetID returns ID of underlying Terraform resource of this BucketAccessControl
+func (tr *BucketAccessControl) GetID() string {
+	if tr.Status.AtProvider.ID == nil {
+		return ""
+	}
+	return *tr.Status.AtProvider.ID
+}
+
+// GetParameters of this BucketAccessControl
+func (tr *BucketAccessControl) GetParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.ForProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
+}
+
+// SetParameters for this BucketAccessControl
+func (tr *BucketAccessControl) SetParameters(params map[string]any) error {
+	p, err := json.TFParser.Marshal(params)
+	if err != nil {
+		return err
+	}
+	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
+}
+
+// LateInitialize this BucketAccessControl using its observed tfState.
+// returns True if there are any spec changes for the resource.
+func (tr *BucketAccessControl) LateInitialize(attrs []byte) (bool, error) {
+	params := &BucketAccessControlParameters{}
+	if err := json.TFParser.Unmarshal(attrs, params); err != nil {
+		return false, errors.Wrap(err, "failed to unmarshal Terraform state parameters for late-initialization")
+	}
+	opts := []resource.GenericLateInitializerOption{resource.WithZeroValueJSONOmitEmptyFilter(resource.CNameWildcard)}
+
+	li := resource.NewGenericLateInitializer(opts...)
+	return li.LateInitialize(&tr.Spec.ForProvider, params)
+}
+
+// GetTerraformSchemaVersion returns the associated Terraform schema version
+func (tr *BucketAccessControl) GetTerraformSchemaVersion() int {
+	return 0
+}
