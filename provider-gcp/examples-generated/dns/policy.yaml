@@ -1,0 +1,18 @@
+apiVersion: dns.gcp.upbound.io/v1beta1
+kind: Policy
+metadata:
+  name: example
+spec:
+  forProvider:
+    alternativeNameServerConfig:
+    - targetNameServers:
+      - forwardingPath: private
+        ipv4Address: 172.16.1.10
+      - ipv4Address: 172.16.1.20
+    enableInboundForwarding: true
+    enableLogging: true
+    networks:
+    - networkRef:
+        name: example
+    - networkRef:
+        name: example

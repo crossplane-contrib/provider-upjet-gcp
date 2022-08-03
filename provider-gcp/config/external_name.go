@@ -113,6 +113,15 @@ var externalNameConfigs = map[string]config.ExternalName{
 	// Imported by using the following format: my-gcp-project/us-east1-a/my-cluster/main-pool
 	"google_container_node_pool": containerNodePool(),
 
+	// dns
+	//
+	// Imported by using the following format: projects/{{project}}/managedZones/{{name}}
+	"google_dns_managed_zone": formattedIdentifierUserDefined("projects/%s/managedZones/%s", "project"),
+	// Imported by using the following format: projects/{{project}}/policies/{{name}}
+	"google_dns_policy": formattedIdentifierUserDefined("projects/%s/policies/%s", "project"),
+	// Imported by using the following format: projects/{{project}}/managedZones/{{zone}}/rrsets/{{name}}/{{type}}
+	"google_dns_record_set": config.IdentifierFromProvider,
+
 	// monitoring
 	//
 	// Imported by using the following format: {{name}}

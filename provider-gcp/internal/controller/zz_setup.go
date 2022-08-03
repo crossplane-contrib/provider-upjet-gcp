@@ -52,6 +52,9 @@ import (
 	targetpool "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/targetpool"
 	cluster "github.com/upbound/official-providers/provider-gcp/internal/controller/container/cluster"
 	nodepool "github.com/upbound/official-providers/provider-gcp/internal/controller/container/nodepool"
+	managedzone "github.com/upbound/official-providers/provider-gcp/internal/controller/dns/managedzone"
+	policy "github.com/upbound/official-providers/provider-gcp/internal/controller/dns/policy"
+	recordset "github.com/upbound/official-providers/provider-gcp/internal/controller/dns/recordset"
 	alertpolicy "github.com/upbound/official-providers/provider-gcp/internal/controller/monitoring/alertpolicy"
 	notificationchannel "github.com/upbound/official-providers/provider-gcp/internal/controller/monitoring/notificationchannel"
 	uptimecheckconfig "github.com/upbound/official-providers/provider-gcp/internal/controller/monitoring/uptimecheckconfig"
@@ -125,6 +128,9 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		targetpool.Setup,
 		cluster.Setup,
 		nodepool.Setup,
+		managedzone.Setup,
+		policy.Setup,
+		recordset.Setup,
 		alertpolicy.Setup,
 		notificationchannel.Setup,
 		uptimecheckconfig.Setup,
