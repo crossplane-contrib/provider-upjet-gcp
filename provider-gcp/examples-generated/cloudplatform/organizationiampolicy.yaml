@@ -1,0 +1,8 @@
+apiVersion: cloudplatform.gcp.upbound.io/v1beta1
+kind: OrganizationIAMPolicy
+metadata:
+  name: example
+spec:
+  forProvider:
+    orgId: your-organization-id
+    policyData: ${data.google_iam_policy.admin.policy_data}

@@ -99,6 +99,376 @@ func (tr *Folder) GetTerraformSchemaVersion() int {
 	return 0
 }
 
+// GetTerraformResourceType returns Terraform resource type for this OrganizationIAMAuditConfig
+func (mg *OrganizationIAMAuditConfig) GetTerraformResourceType() string {
+	return "google_organization_iam_audit_config"
+}
+
+// GetConnectionDetailsMapping for this OrganizationIAMAuditConfig
+func (tr *OrganizationIAMAuditConfig) GetConnectionDetailsMapping() map[string]string {
+	return nil
+}
+
+// GetObservation of this OrganizationIAMAuditConfig
+func (tr *OrganizationIAMAuditConfig) GetObservation() (map[string]any, error) {
+	o, err := json.TFParser.Marshal(tr.Status.AtProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(o, &base)
+}
+
+// SetObservation for this OrganizationIAMAuditConfig
+func (tr *OrganizationIAMAuditConfig) SetObservation(obs map[string]any) error {
+	p, err := json.TFParser.Marshal(obs)
+	if err != nil {
+		return err
+	}
+	return json.TFParser.Unmarshal(p, &tr.Status.AtProvider)
+}
+
+// GetID returns ID of underlying Terraform resource of this OrganizationIAMAuditConfig
+func (tr *OrganizationIAMAuditConfig) GetID() string {
+	if tr.Status.AtProvider.ID == nil {
+		return ""
+	}
+	return *tr.Status.AtProvider.ID
+}
+
+// GetParameters of this OrganizationIAMAuditConfig
+func (tr *OrganizationIAMAuditConfig) GetParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.ForProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
+}
+
+// SetParameters for this OrganizationIAMAuditConfig
+func (tr *OrganizationIAMAuditConfig) SetParameters(params map[string]any) error {
+	p, err := json.TFParser.Marshal(params)
+	if err != nil {
+		return err
+	}
+	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
+}
+
+// LateInitialize this OrganizationIAMAuditConfig using its observed tfState.
+// returns True if there are any spec changes for the resource.
+func (tr *OrganizationIAMAuditConfig) LateInitialize(attrs []byte) (bool, error) {
+	params := &OrganizationIAMAuditConfigParameters{}
+	if err := json.TFParser.Unmarshal(attrs, params); err != nil {
+		return false, errors.Wrap(err, "failed to unmarshal Terraform state parameters for late-initialization")
+	}
+	opts := []resource.GenericLateInitializerOption{resource.WithZeroValueJSONOmitEmptyFilter(resource.CNameWildcard)}
+
+	li := resource.NewGenericLateInitializer(opts...)
+	return li.LateInitialize(&tr.Spec.ForProvider, params)
+}
+
+// GetTerraformSchemaVersion returns the associated Terraform schema version
+func (tr *OrganizationIAMAuditConfig) GetTerraformSchemaVersion() int {
+	return 0
+}
+
+// GetTerraformResourceType returns Terraform resource type for this OrganizationIAMBinding
+func (mg *OrganizationIAMBinding) GetTerraformResourceType() string {
+	return "google_organization_iam_binding"
+}
+
+// GetConnectionDetailsMapping for this OrganizationIAMBinding
+func (tr *OrganizationIAMBinding) GetConnectionDetailsMapping() map[string]string {
+	return nil
+}
+
+// GetObservation of this OrganizationIAMBinding
+func (tr *OrganizationIAMBinding) GetObservation() (map[string]any, error) {
+	o, err := json.TFParser.Marshal(tr.Status.AtProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(o, &base)
+}
+
+// SetObservation for this OrganizationIAMBinding
+func (tr *OrganizationIAMBinding) SetObservation(obs map[string]any) error {
+	p, err := json.TFParser.Marshal(obs)
+	if err != nil {
+		return err
+	}
+	return json.TFParser.Unmarshal(p, &tr.Status.AtProvider)
+}
+
+// GetID returns ID of underlying Terraform resource of this OrganizationIAMBinding
+func (tr *OrganizationIAMBinding) GetID() string {
+	if tr.Status.AtProvider.ID == nil {
+		return ""
+	}
+	return *tr.Status.AtProvider.ID
+}
+
+// GetParameters of this OrganizationIAMBinding
+func (tr *OrganizationIAMBinding) GetParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.ForProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
+}
+
+// SetParameters for this OrganizationIAMBinding
+func (tr *OrganizationIAMBinding) SetParameters(params map[string]any) error {
+	p, err := json.TFParser.Marshal(params)
+	if err != nil {
+		return err
+	}
+	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
+}
+
+// LateInitialize this OrganizationIAMBinding using its observed tfState.
+// returns True if there are any spec changes for the resource.
+func (tr *OrganizationIAMBinding) LateInitialize(attrs []byte) (bool, error) {
+	params := &OrganizationIAMBindingParameters{}
+	if err := json.TFParser.Unmarshal(attrs, params); err != nil {
+		return false, errors.Wrap(err, "failed to unmarshal Terraform state parameters for late-initialization")
+	}
+	opts := []resource.GenericLateInitializerOption{resource.WithZeroValueJSONOmitEmptyFilter(resource.CNameWildcard)}
+
+	li := resource.NewGenericLateInitializer(opts...)
+	return li.LateInitialize(&tr.Spec.ForProvider, params)
+}
+
+// GetTerraformSchemaVersion returns the associated Terraform schema version
+func (tr *OrganizationIAMBinding) GetTerraformSchemaVersion() int {
+	return 0
+}
+
+// GetTerraformResourceType returns Terraform resource type for this OrganizationIAMCustomRole
+func (mg *OrganizationIAMCustomRole) GetTerraformResourceType() string {
+	return "google_organization_iam_custom_role"
+}
+
+// GetConnectionDetailsMapping for this OrganizationIAMCustomRole
+func (tr *OrganizationIAMCustomRole) GetConnectionDetailsMapping() map[string]string {
+	return nil
+}
+
+// GetObservation of this OrganizationIAMCustomRole
+func (tr *OrganizationIAMCustomRole) GetObservation() (map[string]any, error) {
+	o, err := json.TFParser.Marshal(tr.Status.AtProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(o, &base)
+}
+
+// SetObservation for this OrganizationIAMCustomRole
+func (tr *OrganizationIAMCustomRole) SetObservation(obs map[string]any) error {
+	p, err := json.TFParser.Marshal(obs)
+	if err != nil {
+		return err
+	}
+	return json.TFParser.Unmarshal(p, &tr.Status.AtProvider)
+}
+
+// GetID returns ID of underlying Terraform resource of this OrganizationIAMCustomRole
+func (tr *OrganizationIAMCustomRole) GetID() string {
+	if tr.Status.AtProvider.ID == nil {
+		return ""
+	}
+	return *tr.Status.AtProvider.ID
+}
+
+// GetParameters of this OrganizationIAMCustomRole
+func (tr *OrganizationIAMCustomRole) GetParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.ForProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
+}
+
+// SetParameters for this OrganizationIAMCustomRole
+func (tr *OrganizationIAMCustomRole) SetParameters(params map[string]any) error {
+	p, err := json.TFParser.Marshal(params)
+	if err != nil {
+		return err
+	}
+	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
+}
+
+// LateInitialize this OrganizationIAMCustomRole using its observed tfState.
+// returns True if there are any spec changes for the resource.
+func (tr *OrganizationIAMCustomRole) LateInitialize(attrs []byte) (bool, error) {
+	params := &OrganizationIAMCustomRoleParameters{}
+	if err := json.TFParser.Unmarshal(attrs, params); err != nil {
+		return false, errors.Wrap(err, "failed to unmarshal Terraform state parameters for late-initialization")
+	}
+	opts := []resource.GenericLateInitializerOption{resource.WithZeroValueJSONOmitEmptyFilter(resource.CNameWildcard)}
+
+	li := resource.NewGenericLateInitializer(opts...)
+	return li.LateInitialize(&tr.Spec.ForProvider, params)
+}
+
+// GetTerraformSchemaVersion returns the associated Terraform schema version
+func (tr *OrganizationIAMCustomRole) GetTerraformSchemaVersion() int {
+	return 0
+}
+
+// GetTerraformResourceType returns Terraform resource type for this OrganizationIAMMember
+func (mg *OrganizationIAMMember) GetTerraformResourceType() string {
+	return "google_organization_iam_member"
+}
+
+// GetConnectionDetailsMapping for this OrganizationIAMMember
+func (tr *OrganizationIAMMember) GetConnectionDetailsMapping() map[string]string {
+	return nil
+}
+
+// GetObservation of this OrganizationIAMMember
+func (tr *OrganizationIAMMember) GetObservation() (map[string]any, error) {
+	o, err := json.TFParser.Marshal(tr.Status.AtProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(o, &base)
+}
+
+// SetObservation for this OrganizationIAMMember
+func (tr *OrganizationIAMMember) SetObservation(obs map[string]any) error {
+	p, err := json.TFParser.Marshal(obs)
+	if err != nil {
+		return err
+	}
+	return json.TFParser.Unmarshal(p, &tr.Status.AtProvider)
+}
+
+// GetID returns ID of underlying Terraform resource of this OrganizationIAMMember
+func (tr *OrganizationIAMMember) GetID() string {
+	if tr.Status.AtProvider.ID == nil {
+		return ""
+	}
+	return *tr.Status.AtProvider.ID
+}
+
+// GetParameters of this OrganizationIAMMember
+func (tr *OrganizationIAMMember) GetParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.ForProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
+}
+
+// SetParameters for this OrganizationIAMMember
+func (tr *OrganizationIAMMember) SetParameters(params map[string]any) error {
+	p, err := json.TFParser.Marshal(params)
+	if err != nil {
+		return err
+	}
+	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
+}
+
+// LateInitialize this OrganizationIAMMember using its observed tfState.
+// returns True if there are any spec changes for the resource.
+func (tr *OrganizationIAMMember) LateInitialize(attrs []byte) (bool, error) {
+	params := &OrganizationIAMMemberParameters{}
+	if err := json.TFParser.Unmarshal(attrs, params); err != nil {
+		return false, errors.Wrap(err, "failed to unmarshal Terraform state parameters for late-initialization")
+	}
+	opts := []resource.GenericLateInitializerOption{resource.WithZeroValueJSONOmitEmptyFilter(resource.CNameWildcard)}
+
+	li := resource.NewGenericLateInitializer(opts...)
+	return li.LateInitialize(&tr.Spec.ForProvider, params)
+}
+
+// GetTerraformSchemaVersion returns the associated Terraform schema version
+func (tr *OrganizationIAMMember) GetTerraformSchemaVersion() int {
+	return 0
+}
+
+// GetTerraformResourceType returns Terraform resource type for this OrganizationIAMPolicy
+func (mg *OrganizationIAMPolicy) GetTerraformResourceType() string {
+	return "google_organization_iam_policy"
+}
+
+// GetConnectionDetailsMapping for this OrganizationIAMPolicy
+func (tr *OrganizationIAMPolicy) GetConnectionDetailsMapping() map[string]string {
+	return nil
+}
+
+// GetObservation of this OrganizationIAMPolicy
+func (tr *OrganizationIAMPolicy) GetObservation() (map[string]any, error) {
+	o, err := json.TFParser.Marshal(tr.Status.AtProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(o, &base)
+}
+
+// SetObservation for this OrganizationIAMPolicy
+func (tr *OrganizationIAMPolicy) SetObservation(obs map[string]any) error {
+	p, err := json.TFParser.Marshal(obs)
+	if err != nil {
+		return err
+	}
+	return json.TFParser.Unmarshal(p, &tr.Status.AtProvider)
+}
+
+// GetID returns ID of underlying Terraform resource of this OrganizationIAMPolicy
+func (tr *OrganizationIAMPolicy) GetID() string {
+	if tr.Status.AtProvider.ID == nil {
+		return ""
+	}
+	return *tr.Status.AtProvider.ID
+}
+
+// GetParameters of this OrganizationIAMPolicy
+func (tr *OrganizationIAMPolicy) GetParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.ForProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
+}
+
+// SetParameters for this OrganizationIAMPolicy
+func (tr *OrganizationIAMPolicy) SetParameters(params map[string]any) error {
+	p, err := json.TFParser.Marshal(params)
+	if err != nil {
+		return err
+	}
+	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
+}
+
+// LateInitialize this OrganizationIAMPolicy using its observed tfState.
+// returns True if there are any spec changes for the resource.
+func (tr *OrganizationIAMPolicy) LateInitialize(attrs []byte) (bool, error) {
+	params := &OrganizationIAMPolicyParameters{}
+	if err := json.TFParser.Unmarshal(attrs, params); err != nil {
+		return false, errors.Wrap(err, "failed to unmarshal Terraform state parameters for late-initialization")
+	}
+	opts := []resource.GenericLateInitializerOption{resource.WithZeroValueJSONOmitEmptyFilter(resource.CNameWildcard)}
+
+	li := resource.NewGenericLateInitializer(opts...)
+	return li.LateInitialize(&tr.Spec.ForProvider, params)
+}
+
+// GetTerraformSchemaVersion returns the associated Terraform schema version
+func (tr *OrganizationIAMPolicy) GetTerraformSchemaVersion() int {
+	return 0
+}
+
 // GetTerraformResourceType returns Terraform resource type for this Project
 func (mg *Project) GetTerraformResourceType() string {
 	return "google_project"

@@ -24,6 +24,16 @@ var externalNameConfigs = map[string]config.ExternalName{
 	//
 	// Folders can be imported using the folder's id, e.g. folders/1234567
 	"google_folder": config.IdentifierFromProvider,
+	// Imported by using the following format: organizations/{{org_id}}/roles/{{role_id}}
+	"google_organization_iam_custom_role": config.IdentifierFromProvider,
+	// Imported by using the following format: your-org-id
+	"google_organization_iam_policy": config.IdentifierFromProvider,
+	// Imported by using the following format: your-org-id roles/viewer
+	"google_organization_iam_binding": config.IdentifierFromProvider,
+	// Imported by using the following format: your-orgid roles/viewer user:foo@example.com
+	"google_organization_iam_member": config.IdentifierFromProvider,
+	// Imported by using the following format: your-organization-id foo.googleapis.com
+	"google_organization_iam_audit_config": config.IdentifierFromProvider,
 	// Projects can be imported using the project_id: your-project-id
 	// Project-ID has a format as following: projects/{{project}}
 	// So, the GetIDFn function implementation for project-id and import method

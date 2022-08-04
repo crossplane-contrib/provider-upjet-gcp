@@ -25,10 +25,10 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
-type ProjectIAMBindingConditionObservation struct {
+type ConditionObservation struct {
 }
 
-type ProjectIAMBindingConditionParameters struct {
+type ConditionParameters struct {
 
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -40,79 +40,73 @@ type ProjectIAMBindingConditionParameters struct {
 	Title *string `json:"title" tf:"title,omitempty"`
 }
 
-type ProjectIAMBindingObservation struct {
+type OrganizationIAMBindingObservation struct {
 	Etag *string `json:"etag,omitempty" tf:"etag,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 }
 
-type ProjectIAMBindingParameters struct {
+type OrganizationIAMBindingParameters struct {
 
 	// +kubebuilder:validation:Optional
-	Condition []ProjectIAMBindingConditionParameters `json:"condition,omitempty" tf:"condition,omitempty"`
+	Condition []ConditionParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
 	// +kubebuilder:validation:Required
 	Members []*string `json:"members" tf:"members,omitempty"`
 
-	// +crossplane:generate:reference:type=Project
-	// +kubebuilder:validation:Optional
-	Project *string `json:"project,omitempty" tf:"project,omitempty"`
-
-	// +kubebuilder:validation:Optional
-	ProjectRef *v1.Reference `json:"projectRef,omitempty" tf:"-"`
-
-	// +kubebuilder:validation:Optional
-	ProjectSelector *v1.Selector `json:"projectSelector,omitempty" tf:"-"`
+	// The numeric ID of the organization in which you want to manage the audit logging config.
+	// +kubebuilder:validation:Required
+	OrgID *string `json:"orgId" tf:"org_id,omitempty"`
 
 	// +kubebuilder:validation:Required
 	Role *string `json:"role" tf:"role,omitempty"`
 }
 
-// ProjectIAMBindingSpec defines the desired state of ProjectIAMBinding
-type ProjectIAMBindingSpec struct {
+// OrganizationIAMBindingSpec defines the desired state of OrganizationIAMBinding
+type OrganizationIAMBindingSpec struct {
 	v1.ResourceSpec `json:",inline"`
-	ForProvider     ProjectIAMBindingParameters `json:"forProvider"`
+	ForProvider     OrganizationIAMBindingParameters `json:"forProvider"`
 }
 
-// ProjectIAMBindingStatus defines the observed state of ProjectIAMBinding.
-type ProjectIAMBindingStatus struct {
+// OrganizationIAMBindingStatus defines the observed state of OrganizationIAMBinding.
+type OrganizationIAMBindingStatus struct {
 	v1.ResourceStatus `json:",inline"`
-	AtProvider        ProjectIAMBindingObservation `json:"atProvider,omitempty"`
+	AtProvider        OrganizationIAMBindingObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 
-// ProjectIAMBinding is the Schema for the ProjectIAMBindings API. <no value>
+// OrganizationIAMBinding is the Schema for the OrganizationIAMBindings API
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
 // +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,gcp}
-type ProjectIAMBinding struct {
+type OrganizationIAMBinding struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              ProjectIAMBindingSpec   `json:"spec"`
-	Status            ProjectIAMBindingStatus `json:"status,omitempty"`
+	Spec              OrganizationIAMBindingSpec   `json:"spec"`
+	Status            OrganizationIAMBindingStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 
-// ProjectIAMBindingList contains a list of ProjectIAMBindings
-type ProjectIAMBindingList struct {
+// OrganizationIAMBindingList contains a list of OrganizationIAMBindings
+type OrganizationIAMBindingList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []ProjectIAMBinding `json:"items"`
+	Items           []OrganizationIAMBinding `json:"items"`
 }
 
 // Repository type metadata.
 var (
-	ProjectIAMBinding_Kind             = "ProjectIAMBinding"
-	ProjectIAMBinding_GroupKind        = schema.GroupKind{Group: CRDGroup, Kind: ProjectIAMBinding_Kind}.String()
-	ProjectIAMBinding_KindAPIVersion   = ProjectIAMBinding_Kind + "." + CRDGroupVersion.String()
-	ProjectIAMBinding_GroupVersionKind = CRDGroupVersion.WithKind(ProjectIAMBinding_Kind)
+	OrganizationIAMBinding_Kind             = "OrganizationIAMBinding"
+	OrganizationIAMBinding_GroupKind        = schema.GroupKind{Group: CRDGroup, Kind: OrganizationIAMBinding_Kind}.String()
+	OrganizationIAMBinding_KindAPIVersion   = OrganizationIAMBinding_Kind + "." + CRDGroupVersion.String()
+	OrganizationIAMBinding_GroupVersionKind = CRDGroupVersion.WithKind(OrganizationIAMBinding_Kind)
 )
 
 func init() {
-	SchemeBuilder.Register(&ProjectIAMBinding{}, &ProjectIAMBindingList{})
+	SchemeBuilder.Register(&OrganizationIAMBinding{}, &OrganizationIAMBindingList{})
 }

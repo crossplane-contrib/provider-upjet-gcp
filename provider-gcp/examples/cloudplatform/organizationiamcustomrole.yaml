@@ -1,0 +1,16 @@
+apiVersion: cloudplatform.gcp.upbound.io/v1beta1
+kind: OrganizationIAMCustomRole
+metadata:
+  name: example
+  annotations:
+    upjet.upbound.io/manual-intervention: "Requires orginazational IAM permissions"
+spec:
+  forProvider:
+    description: A custom role
+    orgId: "123456789"
+    permissions:
+    - iam.roles.list
+    - iam.roles.create
+    - iam.roles.delete
+    roleId: myCustomRole
+    title: My Custom Role

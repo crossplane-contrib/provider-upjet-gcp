@@ -1,0 +1,11 @@
+apiVersion: cloudplatform.gcp.upbound.io/v1beta1
+kind: OrganizationIAMMember
+metadata:
+  name: example
+  annotations:
+    upjet.upbound.io/manual-intervention: "Requires orginazational IAM permissions"
+spec:
+  forProvider:
+    orgId: "123456789"
+    member: "user:jane@example.com"
+    role: "roles/viewer"

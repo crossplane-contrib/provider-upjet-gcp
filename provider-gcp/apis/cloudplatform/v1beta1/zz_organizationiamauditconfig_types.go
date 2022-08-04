@@ -25,10 +25,10 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
-type ProjectIAMAuditConfigAuditLogConfigObservation struct {
+type AuditLogConfigObservation struct {
 }
 
-type ProjectIAMAuditConfigAuditLogConfigParameters struct {
+type AuditLogConfigParameters struct {
 
 	// Identities that do not cause logging for this type of permission. Each entry can have one of the following values:user:{emailid}: An email address that represents a specific Google account. For example, alice@gmail.com or joe@example.com. serviceAccount:{emailid}: An email address that represents a service account. For example, my-other-app@appspot.gserviceaccount.com. group:{emailid}: An email address that represents a Google group. For example, admins@example.com. domain:{domain}: A G Suite domain (primary, instead of alias) name that represents all the users of that domain. For example, google.com or example.com.
 	// +kubebuilder:validation:Optional
@@ -39,80 +39,72 @@ type ProjectIAMAuditConfigAuditLogConfigParameters struct {
 	LogType *string `json:"logType" tf:"log_type,omitempty"`
 }
 
-type ProjectIAMAuditConfigObservation struct {
-
-	// The etag of iam policy
+type OrganizationIAMAuditConfigObservation struct {
 	Etag *string `json:"etag,omitempty" tf:"etag,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 }
 
-type ProjectIAMAuditConfigParameters struct {
+type OrganizationIAMAuditConfigParameters struct {
 
 	// The configuration for logging of each type of permission. This can be specified multiple times.
 	// +kubebuilder:validation:Required
-	AuditLogConfig []ProjectIAMAuditConfigAuditLogConfigParameters `json:"auditLogConfig" tf:"audit_log_config,omitempty"`
+	AuditLogConfig []AuditLogConfigParameters `json:"auditLogConfig" tf:"audit_log_config,omitempty"`
 
-	// +crossplane:generate:reference:type=Project
-	// +kubebuilder:validation:Optional
-	Project *string `json:"project,omitempty" tf:"project,omitempty"`
-
-	// +kubebuilder:validation:Optional
-	ProjectRef *v1.Reference `json:"projectRef,omitempty" tf:"-"`
-
-	// +kubebuilder:validation:Optional
-	ProjectSelector *v1.Selector `json:"projectSelector,omitempty" tf:"-"`
+	// The numeric ID of the organization in which you want to manage the audit logging config.
+	// +kubebuilder:validation:Required
+	OrgID *string `json:"orgId" tf:"org_id,omitempty"`
 
 	// Service which will be enabled for audit logging. The special value allServices covers all services.
 	// +kubebuilder:validation:Required
 	Service *string `json:"service" tf:"service,omitempty"`
 }
 
-// ProjectIAMAuditConfigSpec defines the desired state of ProjectIAMAuditConfig
-type ProjectIAMAuditConfigSpec struct {
+// OrganizationIAMAuditConfigSpec defines the desired state of OrganizationIAMAuditConfig
+type OrganizationIAMAuditConfigSpec struct {
 	v1.ResourceSpec `json:",inline"`
-	ForProvider     ProjectIAMAuditConfigParameters `json:"forProvider"`
+	ForProvider     OrganizationIAMAuditConfigParameters `json:"forProvider"`
 }
 
-// ProjectIAMAuditConfigStatus defines the observed state of ProjectIAMAuditConfig.
-type ProjectIAMAuditConfigStatus struct {
+// OrganizationIAMAuditConfigStatus defines the observed state of OrganizationIAMAuditConfig.
+type OrganizationIAMAuditConfigStatus struct {
 	v1.ResourceStatus `json:",inline"`
-	AtProvider        ProjectIAMAuditConfigObservation `json:"atProvider,omitempty"`
+	AtProvider        OrganizationIAMAuditConfigObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 
-// ProjectIAMAuditConfig is the Schema for the ProjectIAMAuditConfigs API. <no value>
+// OrganizationIAMAuditConfig is the Schema for the OrganizationIAMAuditConfigs API
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
 // +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,gcp}
-type ProjectIAMAuditConfig struct {
+type OrganizationIAMAuditConfig struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              ProjectIAMAuditConfigSpec   `json:"spec"`
-	Status            ProjectIAMAuditConfigStatus `json:"status,omitempty"`
+	Spec              OrganizationIAMAuditConfigSpec   `json:"spec"`
+	Status            OrganizationIAMAuditConfigStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 
-// ProjectIAMAuditConfigList contains a list of ProjectIAMAuditConfigs
-type ProjectIAMAuditConfigList struct {
+// OrganizationIAMAuditConfigList contains a list of OrganizationIAMAuditConfigs
+type OrganizationIAMAuditConfigList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []ProjectIAMAuditConfig `json:"items"`
+	Items           []OrganizationIAMAuditConfig `json:"items"`
 }
 
 // Repository type metadata.
 var (
-	ProjectIAMAuditConfig_Kind             = "ProjectIAMAuditConfig"
-	ProjectIAMAuditConfig_GroupKind        = schema.GroupKind{Group: CRDGroup, Kind: ProjectIAMAuditConfig_Kind}.String()
-	ProjectIAMAuditConfig_KindAPIVersion   = ProjectIAMAuditConfig_Kind + "." + CRDGroupVersion.String()
-	ProjectIAMAuditConfig_GroupVersionKind = CRDGroupVersion.WithKind(ProjectIAMAuditConfig_Kind)
+	OrganizationIAMAuditConfig_Kind             = "OrganizationIAMAuditConfig"
+	OrganizationIAMAuditConfig_GroupKind        = schema.GroupKind{Group: CRDGroup, Kind: OrganizationIAMAuditConfig_Kind}.String()
+	OrganizationIAMAuditConfig_KindAPIVersion   = OrganizationIAMAuditConfig_Kind + "." + CRDGroupVersion.String()
+	OrganizationIAMAuditConfig_GroupVersionKind = CRDGroupVersion.WithKind(OrganizationIAMAuditConfig_Kind)
 )
 
 func init() {
-	SchemeBuilder.Register(&ProjectIAMAuditConfig{}, &ProjectIAMAuditConfigList{})
+	SchemeBuilder.Register(&OrganizationIAMAuditConfig{}, &OrganizationIAMAuditConfigList{})
 }
