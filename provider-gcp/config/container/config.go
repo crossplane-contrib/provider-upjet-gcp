@@ -2,6 +2,7 @@ package container
 
 import (
 	"encoding/base64"
+	"net/url"
 
 	"github.com/pkg/errors"
 	"github.com/upbound/upjet/pkg/config"
@@ -24,10 +25,19 @@ func Configure(p *config.Provider) {
 			if err != nil {
 				return nil, err
 			}
-			server, err := common.GetField(attr, "endpoint")
+			endpoint, err := common.GetField(attr, "endpoint")
 			if err != nil {
 				return nil, err
 			}
+			server, err := url.Parse(endpoint)
+			if err != nil {
+				return nil, errors.Wrapf(err, "cannot parse API server endpoint")
+			}
+			// NOTE(hasheddan): the endpoint returned is just an IP address, and
+			// clients will default to http, causing any authentication
+			// information to be omitted. We set to https to allow
+			// authentication.
+			server.Scheme = "https"
 			caData, err := common.GetField(attr, "master_auth[0].cluster_ca_certificate")
 			if err != nil {
 				return nil, err
@@ -36,17 +46,36 @@ func Configure(p *config.Provider) {
 			if err != nil {
 				return nil, errors.Wrapf(err, "cannot serialize cluster ca data")
 			}
+			clientCertData, err := common.GetField(attr, "master_auth[0].client_certificate")
+			if err != nil {
+				return nil, err
+			}
+			clientCertDataBytes, err := base64.StdEncoding.DecodeString(clientCertData)
+			if err != nil {
+				return nil, errors.Wrapf(err, "cannot serialize cluster client cert data")
+			}
+			clientKeyData, err := common.GetField(attr, "master_auth[0].client_key")
+			if err != nil {
+				return nil, err
+			}
+			clientKeyDataBytes, err := base64.StdEncoding.DecodeString(clientKeyData)
+			if err != nil {
+				return nil, errors.Wrapf(err, "cannot serialize cluster client key data")
+			}
 			kc := clientcmdapi.Config{
 				Kind:       "Config",
 				APIVersion: "v1",
 				Clusters: map[string]*clientcmdapi.Cluster{
 					name: {
-						Server:                   server,
+						Server:                   server.String(),
 						CertificateAuthorityData: caDataBytes,
 					},
 				},
 				AuthInfos: map[string]*clientcmdapi.AuthInfo{
-					name: {},
+					name: {
+						ClientCertificateData: clientCertDataBytes,
+						ClientKeyData:         clientKeyDataBytes,
+					},
 				},
 				Contexts: map[string]*clientcmdapi.Context{
 					name: {
