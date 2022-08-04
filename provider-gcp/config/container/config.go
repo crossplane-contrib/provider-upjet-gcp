@@ -14,7 +14,7 @@ import (
 
 // Configure configures individual resources by adding custom
 // ResourceConfigurators.
-func Configure(p *config.Provider) {
+func Configure(p *config.Provider) { //nolint:gocyclo
 	p.AddResourceConfigurator("google_container_cluster", func(r *config.Resource) {
 		r.Kind = "Cluster"
 		r.LateInitializer = config.LateInitializer{
