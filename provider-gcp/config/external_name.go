@@ -34,6 +34,12 @@ var externalNameConfigs = map[string]config.ExternalName{
 	"google_project_iam_audit_config": config.IdentifierFromProvider,
 	// Service accounts can be imported using their URI, e.g. projects/my-project/serviceAccounts/my-sa@my-project.iam.gserviceaccount.com
 	"google_service_account": googleServiceAccount(),
+	// Imported by using the following format: projects/{your-project-id}/serviceAccounts/{your-service-account-email}
+	"google_service_account_iam_policy": config.IdentifierFromProvider,
+	// Imported by using the following format: projects/{your-project-id}/serviceAccounts/{your-service-account-email} roles/iam.serviceAccountUser expires_after_2019_12_31
+	"google_service_account_iam_binding": config.IdentifierFromProvider,
+	// Imported by using the following format: projects/{your-project-id}/serviceAccounts/{your-service-account-email} roles/iam.serviceAccountUser user:foo@example.com expires_after_2019_12_31
+	"google_service_account_iam_member": config.IdentifierFromProvider,
 	// No import
 	"google_service_account_key": config.IdentifierFromProvider,
 

@@ -16,6 +16,9 @@ import (
 	projectiammember "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/projectiammember"
 	projectiampolicy "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/projectiampolicy"
 	serviceaccount "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/serviceaccount"
+	serviceaccountiambinding "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/serviceaccountiambinding"
+	serviceaccountiammember "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/serviceaccountiammember"
+	serviceaccountiampolicy "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/serviceaccountiampolicy"
 	serviceaccountkey "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/serviceaccountkey"
 	address "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/address"
 	disk "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/disk"
@@ -96,6 +99,9 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		projectiammember.Setup,
 		projectiampolicy.Setup,
 		serviceaccount.Setup,
+		serviceaccountiambinding.Setup,
+		serviceaccountiammember.Setup,
+		serviceaccountiampolicy.Setup,
 		serviceaccountkey.Setup,
 		address.Setup,
 		disk.Setup,
