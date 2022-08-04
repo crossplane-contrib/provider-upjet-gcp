@@ -29,7 +29,7 @@ NAME           INSTALLED   HEALTHY   PACKAGE                                    
 provider-gcp   True        True      xpkg.upbound.io/upbound/provider-gcp:v0.4.1   15s
 ```
 
-View the Crossplane [Provider CRD definition](https://doc.crds.dev/github.com/crossplane/crossplane/pkg.crossplane.io/Provider/v1@v1.8.1) to view all available `Provider` options.
+View the Crossplane [Provider CRD definition](https://doc.crds.dev/github.com/crossplane/crossplane/pkg.crossplane.io/Provider/v1) to view all available `Provider` options.
 
 ## Configure the provider
 The GCP provider requires credentials for authentication to Google Cloud Platform. The GCP provider consumes the credentials from a Kubernetes secret object.
