@@ -11,6 +11,10 @@ import (
 
 	folder "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/folder"
 	project "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/project"
+	projectiamauditconfig "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/projectiamauditconfig"
+	projectiambinding "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/projectiambinding"
+	projectiammember "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/projectiammember"
+	projectiampolicy "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/projectiampolicy"
 	serviceaccount "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/serviceaccount"
 	serviceaccountkey "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/serviceaccountkey"
 	address "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/address"
@@ -87,6 +91,10 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
 		folder.Setup,
 		project.Setup,
+		projectiamauditconfig.Setup,
+		projectiambinding.Setup,
+		projectiammember.Setup,
+		projectiampolicy.Setup,
 		serviceaccount.Setup,
 		serviceaccountkey.Setup,
 		address.Setup,

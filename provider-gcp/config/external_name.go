@@ -24,6 +24,14 @@ var externalNameConfigs = map[string]config.ExternalName{
 	// So, the GetIDFn function implementation for project-id and import method
 	// for project resource seems that different.
 	"google_project": formattedIdentifierWithResourcePrefix("projects"),
+	// Imported by using the following format: your-project-id
+	"google_project_iam_policy": config.IdentifierFromProvider,
+	// Imported by using the following format: your-project-id roles/viewer
+	"google_project_iam_binding": config.IdentifierFromProvider,
+	// Imported by using the following format: your-project-id roles/viewer user:foo@example.com
+	"google_project_iam_member": config.IdentifierFromProvider,
+	// Imported by using the following format: your-project-id foo.googleapis.com
+	"google_project_iam_audit_config": config.IdentifierFromProvider,
 	// Service accounts can be imported using their URI, e.g. projects/my-project/serviceAccounts/my-sa@my-project.iam.gserviceaccount.com
 	"google_service_account": googleServiceAccount(),
 	// No import
