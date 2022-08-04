@@ -163,6 +163,16 @@ var externalNameConfigs = map[string]config.ExternalName{
 	// Imported by using the following format: projects/{{project}}/locations/{{region}}/instances/{{name}}
 	"google_redis_instance": formattedIdentifierUserDefined("projects/%s/locations/%s/instances", "project", "region"),
 
+	// secretmanager
+	//
+	// Imported by using the following format: projects/{{project_id}}/secrets/{{secret_id}}
+	"google_secret_manager_secret": config.IdentifierFromProvider,
+	// "google_secret_manager_secret": googleSecretManagerSecret(),
+
+	// Imported by using the following format: {{name}}/{{name}}
+	"google_secret_manager_secret_version": config.IdentifierFromProvider,
+	// "google_secret_manager_secret_version": config.TemplatedStringAsIdentifier("name", "{{ .externalName }}/{{ .externalName }}"),
+
 	// sql
 	//
 	// Imported by using the following format: projects/{{project}}/instances/{{name}}
