@@ -1,7 +1,9 @@
 apiVersion: storage.gcp.upbound.io/v1beta1
 kind: Bucket
 metadata:
-  name: example
+  labels:
+    testing.upbound.io/example-name: static-site
+  name: static-site
 spec:
   forProvider:
     cors:
@@ -22,3 +24,6 @@ spec:
     website:
     - mainPageSuffix: index.html
       notFoundPage: 404.html
+
+---
+

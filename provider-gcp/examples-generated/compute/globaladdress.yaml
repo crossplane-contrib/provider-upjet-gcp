@@ -1,6 +1,11 @@
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: GlobalAddress
 metadata:
-  name: example
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
 spec:
   forProvider: {}
+
+---
+

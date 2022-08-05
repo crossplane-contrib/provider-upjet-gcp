@@ -1,7 +1,9 @@
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: Instance
 metadata:
-  name: example
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
 spec:
   forProvider:
     bootDisk:
@@ -14,8 +16,9 @@ spec:
     networkInterface:
     - accessConfig:
       - {}
-      networkRef:
-        name: example
+      networkSelector:
+        matchLabels:
+          testing.upbound.io/example-name: example
     scratchDisk:
     - interface: SCSI
     serviceAccount:
@@ -26,3 +29,18 @@ spec:
     - foo
     - bar
     zone: us-central1-a
+
+---
+
+apiVersion: cloudplatform.gcp.upbound.io/v1beta1
+kind: ServiceAccount
+metadata:
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    displayName: Service Account
+
+---
+

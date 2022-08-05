@@ -1,7 +1,9 @@
 apiVersion: dns.gcp.upbound.io/v1beta1
 kind: RecordSet
 metadata:
-  name: example
+  labels:
+    testing.upbound.io/example-name: frontend
+  name: frontend
 spec:
   forProvider:
     managedZone: ${google_dns_managed_zone.prod.name}
@@ -10,3 +12,40 @@ spec:
     - ${google_compute_instance.frontend.network_interface[0].access_config[0].nat_ip}
     ttl: 300
     type: A
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Instance
+metadata:
+  labels:
+    testing.upbound.io/example-name: frontend
+  name: frontend
+spec:
+  forProvider:
+    bootDisk:
+    - initializeParams:
+      - image: debian-cloud/debian-9
+    machineType: g1-small
+    networkInterface:
+    - accessConfig:
+      - {}
+      networkSelector:
+        matchLabels:
+          testing.upbound.io/example-name: example
+    zone: us-central1-b
+
+---
+
+apiVersion: dns.gcp.upbound.io/v1beta1
+kind: ManagedZone
+metadata:
+  labels:
+    testing.upbound.io/example-name: prod
+  name: prod
+spec:
+  forProvider:
+    dnsName: prod.mydomain.com.
+
+---
+

@@ -1,9 +1,57 @@
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: ManagedSSLCertificate
 metadata:
-  name: example
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
 spec:
   forProvider:
     managed:
     - domains:
       - sslcert.tf-test.club.
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: HTTPHealthCheck
+metadata:
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    checkIntervalSec: 1
+    requestPath: /
+    timeoutSec: 1
+
+---
+
+apiVersion: dns.gcp.upbound.io/v1beta1
+kind: ManagedZone
+metadata:
+  labels:
+    testing.upbound.io/example-name: zone
+  name: zone
+spec:
+  forProvider:
+    dnsName: sslcert.tf-test.club.
+
+---
+
+apiVersion: dns.gcp.upbound.io/v1beta1
+kind: RecordSet
+metadata:
+  labels:
+    testing.upbound.io/example-name: set
+  name: set
+spec:
+  forProvider:
+    managedZone: dnszone
+    name: sslcert.tf-test.club.
+    rrdatas:
+    - ${google_compute_global_forwarding_rule.default.ip_address}
+    ttl: 3600
+    type: A
+
+---
+

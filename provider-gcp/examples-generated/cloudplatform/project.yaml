@@ -1,8 +1,13 @@
 apiVersion: cloudplatform.gcp.upbound.io/v1beta1
 kind: Project
 metadata:
-  name: example
+  labels:
+    testing.upbound.io/example-name: my_project
+  name: my-project
 spec:
   forProvider:
     orgId: "1234567"
     projectId: your-project-id
+
+---
+

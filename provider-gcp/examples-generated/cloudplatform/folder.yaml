@@ -1,8 +1,13 @@
 apiVersion: cloudplatform.gcp.upbound.io/v1beta1
 kind: Folder
 metadata:
-  name: example
+  labels:
+    testing.upbound.io/example-name: department1
+  name: department1
 spec:
   forProvider:
     displayName: Department 1
     parent: organizations/1234567
+
+---
+
