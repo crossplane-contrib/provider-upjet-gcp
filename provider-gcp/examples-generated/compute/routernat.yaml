@@ -10,7 +10,9 @@ spec:
     - enable: true
       filter: ERRORS_ONLY
     natIpAllocateOption: AUTO_ONLY
-    region: ${google_compute_router.router.region}
+    regionSelector:
+      matchLabels:
+        testing.upbound.io/example-name: router
     routerSelector:
       matchLabels:
         testing.upbound.io/example-name: router

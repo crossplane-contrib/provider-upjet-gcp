@@ -134,6 +134,16 @@ func (in *DeadLetterPolicyParameters) DeepCopyInto(out *DeadLetterPolicyParamete
 		*out = new(string)
 		**out = **in
 	}
+	if in.DeadLetterTopicRef != nil {
+		in, out := &in.DeadLetterTopicRef, &out.DeadLetterTopicRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.DeadLetterTopicSelector != nil {
+		in, out := &in.DeadLetterTopicSelector, &out.DeadLetterTopicSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.MaxDeliveryAttempts != nil {
 		in, out := &in.MaxDeliveryAttempts, &out.MaxDeliveryAttempts
 		*out = new(float64)
@@ -2510,6 +2520,16 @@ func (in *TopicIAMPolicyParameters) DeepCopyInto(out *TopicIAMPolicyParameters) 
 		in, out := &in.Project, &out.Project
 		*out = new(string)
 		**out = **in
+	}
+	if in.ProjectRef != nil {
+		in, out := &in.ProjectRef, &out.ProjectRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ProjectSelector != nil {
+		in, out := &in.ProjectSelector, &out.ProjectSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.Topic != nil {
 		in, out := &in.Topic, &out.Topic

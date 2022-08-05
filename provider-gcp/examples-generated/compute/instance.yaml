@@ -22,7 +22,9 @@ spec:
     scratchDisk:
     - interface: SCSI
     serviceAccount:
-    - email: ${google_service_account.default.email}
+    - emailSelector:
+        matchLabels:
+          testing.upbound.io/example-name: default
       scopes:
       - cloud-platform
     tags:

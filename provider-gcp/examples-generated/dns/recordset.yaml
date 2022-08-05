@@ -6,8 +6,12 @@ metadata:
   name: frontend
 spec:
   forProvider:
-    managedZone: ${google_dns_managed_zone.prod.name}
-    name: frontend.${google_dns_managed_zone.prod.dns_name}
+    managedZoneSelector:
+      matchLabels:
+        testing.upbound.io/example-name: prod
+    nameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: prod
     rrdatas:
     - ${google_compute_instance.frontend.network_interface[0].access_config[0].nat_ip}
     ttl: 300

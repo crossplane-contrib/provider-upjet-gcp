@@ -90,8 +90,16 @@ type RouterNATParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Region where the router and NAT reside.
-	// +kubebuilder:validation:Required
-	Region *string `json:"region" tf:"region,omitempty"`
+	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.Router
+	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractParamPath("region",false)
+	// +kubebuilder:validation:Optional
+	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	RegionRef *v1.Reference `json:"regionRef,omitempty" tf:"-"`
+
+	// +kubebuilder:validation:Optional
+	RegionSelector *v1.Selector `json:"regionSelector,omitempty" tf:"-"`
 
 	// The name of the Cloud Router in which this NAT will be configured.
 	// +crossplane:generate:reference:type=Router

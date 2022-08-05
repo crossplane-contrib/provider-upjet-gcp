@@ -16,7 +16,9 @@ spec:
       sourceImage: debian-cloud/debian-9
     - autoDelete: false
       boot: false
-      source: ${google_compute_disk.foobar.name}
+      sourceSelector:
+        matchLabels:
+          testing.upbound.io/example-name: foobar
     instanceDescription: description assigned to instances
     labels:
       environment: dev
@@ -30,7 +32,9 @@ spec:
     - automaticRestart: true
       onHostMaintenance: MIGRATE
     serviceAccount:
-    - email: ${google_service_account.default.email}
+    - emailSelector:
+        matchLabels:
+          testing.upbound.io/example-name: default
       scopes:
       - cloud-platform
     tags:

@@ -45,12 +45,27 @@ type RecordSetObservation struct {
 type RecordSetParameters struct {
 
 	// The name of the zone in which this record set will reside.
-	// +kubebuilder:validation:Required
-	ManagedZone *string `json:"managedZone" tf:"managed_zone,omitempty"`
+	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/dns/v1beta1.ManagedZone
+	// +kubebuilder:validation:Optional
+	ManagedZone *string `json:"managedZone,omitempty" tf:"managed_zone,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ManagedZoneRef *v1.Reference `json:"managedZoneRef,omitempty" tf:"-"`
+
+	// +kubebuilder:validation:Optional
+	ManagedZoneSelector *v1.Selector `json:"managedZoneSelector,omitempty" tf:"-"`
 
 	// The DNS name this record set will apply to.
-	// +kubebuilder:validation:Required
-	Name *string `json:"name" tf:"name,omitempty"`
+	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/dns/v1beta1.ManagedZone
+	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractParamPath("dns_name",false)
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	NameRef *v1.Reference `json:"nameRef,omitempty" tf:"-"`
+
+	// +kubebuilder:validation:Optional
+	NameSelector *v1.Selector `json:"nameSelector,omitempty" tf:"-"`
 
 	// The ID of the project in which the resource belongs. If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional

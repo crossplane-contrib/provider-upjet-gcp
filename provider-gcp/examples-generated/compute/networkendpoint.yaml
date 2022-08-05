@@ -6,9 +6,13 @@ metadata:
   name: default-endpoint
 spec:
   forProvider:
-    instance: ${google_compute_instance.endpoint-instance.name}
+    instanceSelector:
+      matchLabels:
+        testing.upbound.io/example-name: endpoint-instance
     ipAddress: ${google_compute_instance.endpoint-instance.network_interface[0].network_ip}
-    networkEndpointGroup: ${google_compute_network_endpoint_group.neg.name}
+    networkEndpointGroupSelector:
+      matchLabels:
+        testing.upbound.io/example-name: neg
     port: ${google_compute_network_endpoint_group.neg.default_port}
 
 ---

@@ -29,7 +29,9 @@ spec:
       oauthScopes:
       - https://www.googleapis.com/auth/cloud-platform
       preemptible: true
-      serviceAccount: ${google_service_account.default.email}
+      serviceAccountSelector:
+        matchLabels:
+          testing.upbound.io/example-name: default
     nodeCount: 1
 
 ---

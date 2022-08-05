@@ -39,7 +39,7 @@ spec:
     - asn: 16550
     networkSelector:
       matchLabels:
-        testing.upbound.io/example-name: foobar
+        testing.upbound.io/example-name: example
 
 ---
 

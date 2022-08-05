@@ -6,10 +6,16 @@ metadata:
   name: policy
 spec:
   forProvider:
-    name: ${google_compute_disk.default.name}
+    nameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
     policyData: ${data.google_iam_policy.admin.policy_data}
-    project: ${google_compute_disk.default.project}
-    zone: us-central1-a
+    projectSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    zoneSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
 
 ---
 

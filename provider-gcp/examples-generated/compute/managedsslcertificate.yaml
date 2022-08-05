@@ -46,8 +46,12 @@ metadata:
   name: set
 spec:
   forProvider:
-    managedZone: dnszone
-    name: sslcert.tf-test.club.
+    managedZoneSelector:
+      matchLabels:
+        testing.upbound.io/example-name: zone
+    nameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
     rrdatas:
     - ${google_compute_global_forwarding_rule.default.ip_address}
     ttl: 3600

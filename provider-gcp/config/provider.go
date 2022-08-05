@@ -5,6 +5,7 @@ import (
 	_ "embed"
 
 	tjconfig "github.com/upbound/upjet/pkg/config"
+	"github.com/upbound/upjet/pkg/registry/reference"
 	"github.com/upbound/upjet/pkg/types/name"
 
 	"github.com/upbound/official-providers/provider-gcp/config/accessapproval"
@@ -58,6 +59,7 @@ func GetProvider() *tjconfig.Provider {
 		tjconfig.WithShortName("gcp"),
 		// Comment out the following line to generate all resources.
 		tjconfig.WithIncludeList(resourcesWithExternalNameConfig()),
+		tjconfig.WithReferenceInjectors([]tjconfig.ReferenceInjector{reference.NewInjector(modulePath)}),
 		tjconfig.WithSkipList(skipList))
 
 	for _, configure := range []func(provider *tjconfig.Provider){

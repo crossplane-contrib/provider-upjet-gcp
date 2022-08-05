@@ -21,6 +21,7 @@ import (
 	"context"
 	reference "github.com/crossplane/crossplane-runtime/pkg/reference"
 	errors "github.com/pkg/errors"
+	resource "github.com/upbound/upjet/pkg/resource"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
@@ -86,6 +87,24 @@ func (mg *Subscription) ResolveReferences(ctx context.Context, c client.Reader) 
 	var rsp reference.ResolutionResponse
 	var err error
 
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.DeadLetterPolicy); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.DeadLetterPolicy[i3].DeadLetterTopic),
+			Extract:      resource.ExtractResourceID(),
+			Reference:    mg.Spec.ForProvider.DeadLetterPolicy[i3].DeadLetterTopicRef,
+			Selector:     mg.Spec.ForProvider.DeadLetterPolicy[i3].DeadLetterTopicSelector,
+			To: reference.To{
+				List:    &TopicList{},
+				Managed: &Topic{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.DeadLetterPolicy[i3].DeadLetterTopic")
+		}
+		mg.Spec.ForProvider.DeadLetterPolicy[i3].DeadLetterTopic = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.DeadLetterPolicy[i3].DeadLetterTopicRef = rsp.ResolvedReference
+
+	}
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Topic),
 		Extract:      reference.ExternalName(),
@@ -241,6 +260,22 @@ func (mg *TopicIAMPolicy) ResolveReferences(ctx context.Context, c client.Reader
 
 	var rsp reference.ResolutionResponse
 	var err error
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Project),
+		Extract:      resource.ExtractParamPath("project", false),
+		Reference:    mg.Spec.ForProvider.ProjectRef,
+		Selector:     mg.Spec.ForProvider.ProjectSelector,
+		To: reference.To{
+			List:    &TopicList{},
+			Managed: &Topic{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.Project")
+	}
+	mg.Spec.ForProvider.Project = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.ProjectRef = rsp.ResolvedReference
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Topic),

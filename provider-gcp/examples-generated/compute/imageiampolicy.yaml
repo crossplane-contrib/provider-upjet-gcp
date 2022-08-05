@@ -6,9 +6,13 @@ metadata:
   name: policy
 spec:
   forProvider:
-    image: ${google_compute_image.example.name}
+    imageSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
     policyData: ${data.google_iam_policy.admin.policy_data}
-    project: ${google_compute_image.example.project}
+    projectSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
 
 ---
 

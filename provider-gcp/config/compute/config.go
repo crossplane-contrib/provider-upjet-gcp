@@ -185,4 +185,8 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 	p.AddResourceConfigurator("google_compute_target_pool", func(r *config.Resource) {
 		config.MarkAsRequired(r.TerraformResource, "region")
 	})
+
+	p.AddResourceConfigurator("google_compute_network_endpoint", func(r *config.Resource) {
+		delete(r.References, "port")
+	})
 }

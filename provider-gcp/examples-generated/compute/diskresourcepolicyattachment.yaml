@@ -6,8 +6,12 @@ metadata:
   name: attachment
 spec:
   forProvider:
-    disk: ${google_compute_disk.ssd.name}
-    name: ${google_compute_resource_policy.policy.name}
+    diskSelector:
+      matchLabels:
+        testing.upbound.io/example-name: ssd
+    nameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: policy
     zone: us-central1-a
 
 ---

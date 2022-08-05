@@ -22,8 +22,61 @@ import (
 	reference "github.com/crossplane/crossplane-runtime/pkg/reference"
 	errors "github.com/pkg/errors"
 	common "github.com/upbound/official-providers/provider-gcp/config/common"
+	resource "github.com/upbound/upjet/pkg/resource"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
+
+// ResolveReferences of this Folder.
+func (mg *Folder) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Parent),
+		Extract:      resource.ExtractParamPath("name", true),
+		Reference:    mg.Spec.ForProvider.ParentRef,
+		Selector:     mg.Spec.ForProvider.ParentSelector,
+		To: reference.To{
+			List:    &FolderList{},
+			Managed: &Folder{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.Parent")
+	}
+	mg.Spec.ForProvider.Parent = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.ParentRef = rsp.ResolvedReference
+
+	return nil
+}
+
+// ResolveReferences of this Project.
+func (mg *Project) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.FolderID),
+		Extract:      resource.ExtractParamPath("name", true),
+		Reference:    mg.Spec.ForProvider.FolderIDRef,
+		Selector:     mg.Spec.ForProvider.FolderIDSelector,
+		To: reference.To{
+			List:    &FolderList{},
+			Managed: &Folder{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.FolderID")
+	}
+	mg.Spec.ForProvider.FolderID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.FolderIDRef = rsp.ResolvedReference
+
+	return nil
+}
 
 // ResolveReferences of this ServiceAccountKey.
 func (mg *ServiceAccountKey) ResolveReferences(ctx context.Context, c client.Reader) error {
