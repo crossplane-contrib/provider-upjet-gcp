@@ -27,6 +27,8 @@ var externalNameConfigs = map[string]config.ExternalName{
 	// Resource with format projects/{{project}}
 	// This resource does not support import
 	"google_project_default_service_accounts": formattedIdentifierWithResourcePrefix("projects"),
+	// Imported by using the following format: your-project-id/iam.googleapis.com
+	"google_project_service": config.IdentifierFromProvider,
 	// Service accounts can be imported using their URI, e.g. projects/my-project/serviceAccounts/my-sa@my-project.iam.gserviceaccount.com
 	"google_service_account": googleServiceAccount(),
 	// No import

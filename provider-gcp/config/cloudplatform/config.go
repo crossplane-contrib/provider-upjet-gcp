@@ -20,6 +20,12 @@ func Configure(p *config.Provider) {
 			Type: "Project",
 		}
 	})
+	p.AddResourceConfigurator("google_project_service", func(r *config.Resource) {
+		r.References["project"] = config.Reference{
+			Type: "Project",
+		}
+		r.UseAsync = true
+	})
 	p.AddResourceConfigurator("google_service_account_key", func(r *config.Resource) {
 		// Note(turkenh): We have to modify schema of "keepers", since it is a
 		// map where elements configured as nil, but needs to be String:

@@ -1,0 +1,12 @@
+apiVersion: cloudplatform.gcp.upbound.io/v1beta1
+kind: ProjectService
+metadata:
+  name: example
+  annotations:
+    upjet.upbound.io/manual-intervention: "Project level resource and is environment specific"
+spec:
+  forProvider:
+    disableDependentServices: false
+    projectRef:
+      name: example
+    service: clouddeploy.googleapis.com
