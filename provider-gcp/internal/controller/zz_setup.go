@@ -11,6 +11,7 @@ import (
 
 	folder "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/folder"
 	project "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/project"
+	projectdefaultserviceaccounts "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/projectdefaultserviceaccounts"
 	serviceaccount "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/serviceaccount"
 	serviceaccountkey "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/serviceaccountkey"
 	address "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/address"
@@ -87,6 +88,7 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
 		folder.Setup,
 		project.Setup,
+		projectdefaultserviceaccounts.Setup,
 		serviceaccount.Setup,
 		serviceaccountkey.Setup,
 		address.Setup,

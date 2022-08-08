@@ -151,6 +151,72 @@ func (mg *Project) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) 
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
+// GetCondition of this ProjectDefaultServiceAccounts.
+func (mg *ProjectDefaultServiceAccounts) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+	return mg.Status.GetCondition(ct)
+}
+
+// GetDeletionPolicy of this ProjectDefaultServiceAccounts.
+func (mg *ProjectDefaultServiceAccounts) GetDeletionPolicy() xpv1.DeletionPolicy {
+	return mg.Spec.DeletionPolicy
+}
+
+// GetProviderConfigReference of this ProjectDefaultServiceAccounts.
+func (mg *ProjectDefaultServiceAccounts) GetProviderConfigReference() *xpv1.Reference {
+	return mg.Spec.ProviderConfigReference
+}
+
+/*
+GetProviderReference of this ProjectDefaultServiceAccounts.
+Deprecated: Use GetProviderConfigReference.
+*/
+func (mg *ProjectDefaultServiceAccounts) GetProviderReference() *xpv1.Reference {
+	return mg.Spec.ProviderReference
+}
+
+// GetPublishConnectionDetailsTo of this ProjectDefaultServiceAccounts.
+func (mg *ProjectDefaultServiceAccounts) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
+	return mg.Spec.PublishConnectionDetailsTo
+}
+
+// GetWriteConnectionSecretToReference of this ProjectDefaultServiceAccounts.
+func (mg *ProjectDefaultServiceAccounts) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
+	return mg.Spec.WriteConnectionSecretToReference
+}
+
+// SetConditions of this ProjectDefaultServiceAccounts.
+func (mg *ProjectDefaultServiceAccounts) SetConditions(c ...xpv1.Condition) {
+	mg.Status.SetConditions(c...)
+}
+
+// SetDeletionPolicy of this ProjectDefaultServiceAccounts.
+func (mg *ProjectDefaultServiceAccounts) SetDeletionPolicy(r xpv1.DeletionPolicy) {
+	mg.Spec.DeletionPolicy = r
+}
+
+// SetProviderConfigReference of this ProjectDefaultServiceAccounts.
+func (mg *ProjectDefaultServiceAccounts) SetProviderConfigReference(r *xpv1.Reference) {
+	mg.Spec.ProviderConfigReference = r
+}
+
+/*
+SetProviderReference of this ProjectDefaultServiceAccounts.
+Deprecated: Use SetProviderConfigReference.
+*/
+func (mg *ProjectDefaultServiceAccounts) SetProviderReference(r *xpv1.Reference) {
+	mg.Spec.ProviderReference = r
+}
+
+// SetPublishConnectionDetailsTo of this ProjectDefaultServiceAccounts.
+func (mg *ProjectDefaultServiceAccounts) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
+	mg.Spec.PublishConnectionDetailsTo = r
+}
+
+// SetWriteConnectionSecretToReference of this ProjectDefaultServiceAccounts.
+func (mg *ProjectDefaultServiceAccounts) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
+	mg.Spec.WriteConnectionSecretToReference = r
+}
+
 // GetCondition of this ServiceAccount.
 func (mg *ServiceAccount) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
 	return mg.Status.GetCondition(ct)
