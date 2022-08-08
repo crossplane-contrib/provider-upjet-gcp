@@ -1,0 +1,9 @@
+apiVersion: cloudplatform.gcp.upbound.io/v1beta1
+kind: ProjectIAMPolicy
+metadata:
+  name: example
+spec:
+  forProvider:
+    policyData: ${data.google_iam_policy.admin.policy_data}
+    projectRef:
+      name: example

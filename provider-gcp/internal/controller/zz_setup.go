@@ -12,9 +12,16 @@ import (
 	folder "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/folder"
 	project "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/project"
 	projectdefaultserviceaccounts "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/projectdefaultserviceaccounts"
+	projectiamauditconfig "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/projectiamauditconfig"
+	projectiambinding "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/projectiambinding"
+	projectiammember "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/projectiammember"
+	projectiampolicy "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/projectiampolicy"
 	projectservice "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/projectservice"
 	projectusageexportbucket "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/projectusageexportbucket"
 	serviceaccount "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/serviceaccount"
+	serviceaccountiambinding "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/serviceaccountiambinding"
+	serviceaccountiammember "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/serviceaccountiammember"
+	serviceaccountiampolicy "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/serviceaccountiampolicy"
 	serviceaccountkey "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/serviceaccountkey"
 	servicenetworkingpeereddnsdomain "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/servicenetworkingpeereddnsdomain"
 	address "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/address"
@@ -76,6 +83,8 @@ import (
 	topiciammember "github.com/upbound/official-providers/provider-gcp/internal/controller/pubsub/topiciammember"
 	topiciampolicy "github.com/upbound/official-providers/provider-gcp/internal/controller/pubsub/topiciampolicy"
 	instanceredis "github.com/upbound/official-providers/provider-gcp/internal/controller/redis/instance"
+	secret "github.com/upbound/official-providers/provider-gcp/internal/controller/secretmanager/secret"
+	secretversion "github.com/upbound/official-providers/provider-gcp/internal/controller/secretmanager/secretversion"
 	database "github.com/upbound/official-providers/provider-gcp/internal/controller/sql/database"
 	databaseinstance "github.com/upbound/official-providers/provider-gcp/internal/controller/sql/databaseinstance"
 	sourcerepresentationinstance "github.com/upbound/official-providers/provider-gcp/internal/controller/sql/sourcerepresentationinstance"
@@ -92,9 +101,16 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		folder.Setup,
 		project.Setup,
 		projectdefaultserviceaccounts.Setup,
+		projectiamauditconfig.Setup,
+		projectiambinding.Setup,
+		projectiammember.Setup,
+		projectiampolicy.Setup,
 		projectservice.Setup,
 		projectusageexportbucket.Setup,
 		serviceaccount.Setup,
+		serviceaccountiambinding.Setup,
+		serviceaccountiammember.Setup,
+		serviceaccountiampolicy.Setup,
 		serviceaccountkey.Setup,
 		servicenetworkingpeereddnsdomain.Setup,
 		address.Setup,
@@ -156,6 +172,8 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		topiciammember.Setup,
 		topiciampolicy.Setup,
 		instanceredis.Setup,
+		secret.Setup,
+		secretversion.Setup,
 		database.Setup,
 		databaseinstance.Setup,
 		sourcerepresentationinstance.Setup,
