@@ -1,0 +1,10 @@
+apiVersion: cloudplatform.gcp.upbound.io/v1beta1
+kind: ProjectUsageExportBucket
+metadata:
+  name: example
+spec:
+  forProvider:
+    bucketRef:
+      name: example
+    projectRef:
+      name: example

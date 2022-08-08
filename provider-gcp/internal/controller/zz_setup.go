@@ -13,6 +13,7 @@ import (
 	project "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/project"
 	projectdefaultserviceaccounts "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/projectdefaultserviceaccounts"
 	projectservice "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/projectservice"
+	projectusageexportbucket "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/projectusageexportbucket"
 	serviceaccount "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/serviceaccount"
 	serviceaccountkey "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/serviceaccountkey"
 	address "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/address"
@@ -91,6 +92,7 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		project.Setup,
 		projectdefaultserviceaccounts.Setup,
 		projectservice.Setup,
+		projectusageexportbucket.Setup,
 		serviceaccount.Setup,
 		serviceaccountkey.Setup,
 		address.Setup,
