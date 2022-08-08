@@ -1,0 +1,8 @@
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: NetworkPeering
+metadata:
+  name: example
+spec:
+  forProvider:
+    network: ${google_compute_network.default.self_link}
+    peerNetwork: ${google_compute_network.other.self_link}

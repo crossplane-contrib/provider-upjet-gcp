@@ -1,0 +1,10 @@
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: NetworkPeering
+metadata:
+  name: example
+  annotations:
+    upjet.upbound.io/manual-intervention: "Requires project name in network and peerNetwork values, which should not be leaked to marketplace"
+spec:
+  forProvider:
+    network: /projects/default/global/networks/example-peering-1
+    peerNetwork: /projects/default/global/networks/example-peering-2
