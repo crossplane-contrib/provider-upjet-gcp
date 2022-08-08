@@ -51,25 +51,22 @@ func Configure(p *config.Provider) {
 	})
 	p.AddResourceConfigurator("google_service_account_iam_policy", func(r *config.Resource) {
 		r.References["service_account_id"] = config.Reference{
-			Type:              "ServiceAccount",
-			RefFieldName:      "ServiceAccountRef",
-			SelectorFieldName: "ServiceAccountSelector",
+			Type:      "ServiceAccount",
+			Extractor: common.ExtractResourceIDFuncPath,
 		}
 		config.MarkAsRequired(r.TerraformResource, "service_account_id")
 	})
 	p.AddResourceConfigurator("google_service_account_iam_binding", func(r *config.Resource) {
 		r.References["service_account_id"] = config.Reference{
-			Type:              "ServiceAccount",
-			RefFieldName:      "ServiceAccountRef",
-			SelectorFieldName: "ServiceAccountSelector",
+			Type:      "ServiceAccount",
+			Extractor: common.ExtractResourceIDFuncPath,
 		}
 		config.MarkAsRequired(r.TerraformResource, "service_account_id")
 	})
 	p.AddResourceConfigurator("google_service_account_iam_member", func(r *config.Resource) {
 		r.References["service_account_id"] = config.Reference{
-			Type:              "ServiceAccount",
-			RefFieldName:      "ServiceAccountRef",
-			SelectorFieldName: "ServiceAccountSelector",
+			Type:      "ServiceAccount",
+			Extractor: common.ExtractResourceIDFuncPath,
 		}
 		config.MarkAsRequired(r.TerraformResource, "service_account_id")
 	})

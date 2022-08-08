@@ -138,9 +138,9 @@ func (mg *ServiceAccountIAMBinding) ResolveReferences(ctx context.Context, c cli
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ServiceAccountID),
-		Extract:      reference.ExternalName(),
-		Reference:    mg.Spec.ForProvider.ServiceAccountRef,
-		Selector:     mg.Spec.ForProvider.ServiceAccountSelector,
+		Extract:      common.ExtractResourceID(),
+		Reference:    mg.Spec.ForProvider.ServiceAccountIDRef,
+		Selector:     mg.Spec.ForProvider.ServiceAccountIDSelector,
 		To: reference.To{
 			List:    &ServiceAccountList{},
 			Managed: &ServiceAccount{},
@@ -150,7 +150,7 @@ func (mg *ServiceAccountIAMBinding) ResolveReferences(ctx context.Context, c cli
 		return errors.Wrap(err, "mg.Spec.ForProvider.ServiceAccountID")
 	}
 	mg.Spec.ForProvider.ServiceAccountID = reference.ToPtrValue(rsp.ResolvedValue)
-	mg.Spec.ForProvider.ServiceAccountRef = rsp.ResolvedReference
+	mg.Spec.ForProvider.ServiceAccountIDRef = rsp.ResolvedReference
 
 	return nil
 }
@@ -164,9 +164,9 @@ func (mg *ServiceAccountIAMMember) ResolveReferences(ctx context.Context, c clie
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ServiceAccountID),
-		Extract:      reference.ExternalName(),
-		Reference:    mg.Spec.ForProvider.ServiceAccountRef,
-		Selector:     mg.Spec.ForProvider.ServiceAccountSelector,
+		Extract:      common.ExtractResourceID(),
+		Reference:    mg.Spec.ForProvider.ServiceAccountIDRef,
+		Selector:     mg.Spec.ForProvider.ServiceAccountIDSelector,
 		To: reference.To{
 			List:    &ServiceAccountList{},
 			Managed: &ServiceAccount{},
@@ -176,7 +176,7 @@ func (mg *ServiceAccountIAMMember) ResolveReferences(ctx context.Context, c clie
 		return errors.Wrap(err, "mg.Spec.ForProvider.ServiceAccountID")
 	}
 	mg.Spec.ForProvider.ServiceAccountID = reference.ToPtrValue(rsp.ResolvedValue)
-	mg.Spec.ForProvider.ServiceAccountRef = rsp.ResolvedReference
+	mg.Spec.ForProvider.ServiceAccountIDRef = rsp.ResolvedReference
 
 	return nil
 }
@@ -190,9 +190,9 @@ func (mg *ServiceAccountIAMPolicy) ResolveReferences(ctx context.Context, c clie
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ServiceAccountID),
-		Extract:      reference.ExternalName(),
-		Reference:    mg.Spec.ForProvider.ServiceAccountRef,
-		Selector:     mg.Spec.ForProvider.ServiceAccountSelector,
+		Extract:      common.ExtractResourceID(),
+		Reference:    mg.Spec.ForProvider.ServiceAccountIDRef,
+		Selector:     mg.Spec.ForProvider.ServiceAccountIDSelector,
 		To: reference.To{
 			List:    &ServiceAccountList{},
 			Managed: &ServiceAccount{},
@@ -202,7 +202,7 @@ func (mg *ServiceAccountIAMPolicy) ResolveReferences(ctx context.Context, c clie
 		return errors.Wrap(err, "mg.Spec.ForProvider.ServiceAccountID")
 	}
 	mg.Spec.ForProvider.ServiceAccountID = reference.ToPtrValue(rsp.ResolvedValue)
-	mg.Spec.ForProvider.ServiceAccountRef = rsp.ResolvedReference
+	mg.Spec.ForProvider.ServiceAccountIDRef = rsp.ResolvedReference
 
 	return nil
 }

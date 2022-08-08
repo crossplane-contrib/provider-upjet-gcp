@@ -37,16 +37,15 @@ type ServiceAccountIAMPolicyParameters struct {
 	PolicyData *string `json:"policyData" tf:"policy_data,omitempty"`
 
 	// +crossplane:generate:reference:type=ServiceAccount
-	// +crossplane:generate:reference:refFieldName=ServiceAccountRef
-	// +crossplane:generate:reference:selectorFieldName=ServiceAccountSelector
+	// +crossplane:generate:reference:extractor=github.com/upbound/official-providers/provider-gcp/config/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	ServiceAccountID *string `json:"serviceAccountId,omitempty" tf:"service_account_id,omitempty"`
 
 	// +kubebuilder:validation:Optional
-	ServiceAccountRef *v1.Reference `json:"serviceAccountRef,omitempty" tf:"-"`
+	ServiceAccountIDRef *v1.Reference `json:"serviceAccountIdRef,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Optional
-	ServiceAccountSelector *v1.Selector `json:"serviceAccountSelector,omitempty" tf:"-"`
+	ServiceAccountIDSelector *v1.Selector `json:"serviceAccountIdSelector,omitempty" tf:"-"`
 }
 
 // ServiceAccountIAMPolicySpec defines the desired state of ServiceAccountIAMPolicy

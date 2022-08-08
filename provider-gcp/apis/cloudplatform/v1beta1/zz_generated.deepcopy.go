@@ -1334,13 +1334,13 @@ func (in *ServiceAccountIAMBindingParameters) DeepCopyInto(out *ServiceAccountIA
 		*out = new(string)
 		**out = **in
 	}
-	if in.ServiceAccountRef != nil {
-		in, out := &in.ServiceAccountRef, &out.ServiceAccountRef
+	if in.ServiceAccountIDRef != nil {
+		in, out := &in.ServiceAccountIDRef, &out.ServiceAccountIDRef
 		*out = new(v1.Reference)
 		(*in).DeepCopyInto(*out)
 	}
-	if in.ServiceAccountSelector != nil {
-		in, out := &in.ServiceAccountSelector, &out.ServiceAccountSelector
+	if in.ServiceAccountIDSelector != nil {
+		in, out := &in.ServiceAccountIDSelector, &out.ServiceAccountIDSelector
 		*out = new(v1.Selector)
 		(*in).DeepCopyInto(*out)
 	}
@@ -1544,13 +1544,13 @@ func (in *ServiceAccountIAMMemberParameters) DeepCopyInto(out *ServiceAccountIAM
 		*out = new(string)
 		**out = **in
 	}
-	if in.ServiceAccountRef != nil {
-		in, out := &in.ServiceAccountRef, &out.ServiceAccountRef
+	if in.ServiceAccountIDRef != nil {
+		in, out := &in.ServiceAccountIDRef, &out.ServiceAccountIDRef
 		*out = new(v1.Reference)
 		(*in).DeepCopyInto(*out)
 	}
-	if in.ServiceAccountSelector != nil {
-		in, out := &in.ServiceAccountSelector, &out.ServiceAccountSelector
+	if in.ServiceAccountIDSelector != nil {
+		in, out := &in.ServiceAccountIDSelector, &out.ServiceAccountIDSelector
 		*out = new(v1.Selector)
 		(*in).DeepCopyInto(*out)
 	}
@@ -1697,13 +1697,13 @@ func (in *ServiceAccountIAMPolicyParameters) DeepCopyInto(out *ServiceAccountIAM
 		*out = new(string)
 		**out = **in
 	}
-	if in.ServiceAccountRef != nil {
-		in, out := &in.ServiceAccountRef, &out.ServiceAccountRef
+	if in.ServiceAccountIDRef != nil {
+		in, out := &in.ServiceAccountIDRef, &out.ServiceAccountIDRef
 		*out = new(v1.Reference)
 		(*in).DeepCopyInto(*out)
 	}
-	if in.ServiceAccountSelector != nil {
-		in, out := &in.ServiceAccountSelector, &out.ServiceAccountSelector
+	if in.ServiceAccountIDSelector != nil {
+		in, out := &in.ServiceAccountIDSelector, &out.ServiceAccountIDSelector
 		*out = new(v1.Selector)
 		(*in).DeepCopyInto(*out)
 	}
