@@ -35,6 +35,8 @@ var externalNameConfigs = map[string]config.ExternalName{
 	"google_service_account": googleServiceAccount(),
 	// No import
 	"google_service_account_key": config.IdentifierFromProvider,
+	// Imported by using the following format: services/{service}/projects/{project}/global/networks/{network}/peeredDnsDomains/{name}
+	"google_service_networking_peered_dns_domain": formattedIdentifierUserDefined("services/%s/projects/%s/global/networks/%s/peeredDnsDomains", "service", "project", "network"),
 
 	// compute
 	//

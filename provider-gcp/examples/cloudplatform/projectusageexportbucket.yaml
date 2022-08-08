@@ -2,6 +2,8 @@ apiVersion: cloudplatform.gcp.upbound.io/v1beta1
 kind: ProjectUsageExportBucket
 metadata:
   name: example
+  annotations:
+    upjet.upbound.io/manual-intervention: "Has dependencies on an existing Bucket"
 spec:
   forProvider:
     bucketRef: 

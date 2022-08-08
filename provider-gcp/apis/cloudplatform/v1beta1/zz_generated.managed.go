@@ -480,3 +480,69 @@ func (mg *ServiceAccountKey) SetPublishConnectionDetailsTo(r *xpv1.PublishConnec
 func (mg *ServiceAccountKey) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }
+
+// GetCondition of this ServiceNetworkingPeeredDNSDomain.
+func (mg *ServiceNetworkingPeeredDNSDomain) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+	return mg.Status.GetCondition(ct)
+}
+
+// GetDeletionPolicy of this ServiceNetworkingPeeredDNSDomain.
+func (mg *ServiceNetworkingPeeredDNSDomain) GetDeletionPolicy() xpv1.DeletionPolicy {
+	return mg.Spec.DeletionPolicy
+}
+
+// GetProviderConfigReference of this ServiceNetworkingPeeredDNSDomain.
+func (mg *ServiceNetworkingPeeredDNSDomain) GetProviderConfigReference() *xpv1.Reference {
+	return mg.Spec.ProviderConfigReference
+}
+
+/*
+GetProviderReference of this ServiceNetworkingPeeredDNSDomain.
+Deprecated: Use GetProviderConfigReference.
+*/
+func (mg *ServiceNetworkingPeeredDNSDomain) GetProviderReference() *xpv1.Reference {
+	return mg.Spec.ProviderReference
+}
+
+// GetPublishConnectionDetailsTo of this ServiceNetworkingPeeredDNSDomain.
+func (mg *ServiceNetworkingPeeredDNSDomain) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
+	return mg.Spec.PublishConnectionDetailsTo
+}
+
+// GetWriteConnectionSecretToReference of this ServiceNetworkingPeeredDNSDomain.
+func (mg *ServiceNetworkingPeeredDNSDomain) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
+	return mg.Spec.WriteConnectionSecretToReference
+}
+
+// SetConditions of this ServiceNetworkingPeeredDNSDomain.
+func (mg *ServiceNetworkingPeeredDNSDomain) SetConditions(c ...xpv1.Condition) {
+	mg.Status.SetConditions(c...)
+}
+
+// SetDeletionPolicy of this ServiceNetworkingPeeredDNSDomain.
+func (mg *ServiceNetworkingPeeredDNSDomain) SetDeletionPolicy(r xpv1.DeletionPolicy) {
+	mg.Spec.DeletionPolicy = r
+}
+
+// SetProviderConfigReference of this ServiceNetworkingPeeredDNSDomain.
+func (mg *ServiceNetworkingPeeredDNSDomain) SetProviderConfigReference(r *xpv1.Reference) {
+	mg.Spec.ProviderConfigReference = r
+}
+
+/*
+SetProviderReference of this ServiceNetworkingPeeredDNSDomain.
+Deprecated: Use SetProviderConfigReference.
+*/
+func (mg *ServiceNetworkingPeeredDNSDomain) SetProviderReference(r *xpv1.Reference) {
+	mg.Spec.ProviderReference = r
+}
+
+// SetPublishConnectionDetailsTo of this ServiceNetworkingPeeredDNSDomain.
+func (mg *ServiceNetworkingPeeredDNSDomain) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
+	mg.Spec.PublishConnectionDetailsTo = r
+}
+
+// SetWriteConnectionSecretToReference of this ServiceNetworkingPeeredDNSDomain.
+func (mg *ServiceNetworkingPeeredDNSDomain) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
+	mg.Spec.WriteConnectionSecretToReference = r
+}

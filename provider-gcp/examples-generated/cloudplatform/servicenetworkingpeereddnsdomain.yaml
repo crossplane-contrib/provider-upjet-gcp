@@ -1,0 +1,12 @@
+apiVersion: cloudplatform.gcp.upbound.io/v1beta1
+kind: ServiceNetworkingPeeredDNSDomain
+metadata:
+  name: example
+spec:
+  forProvider:
+    dnsSuffix: example.com.
+    networkRef:
+      name: example
+    projectRef:
+      name: example
+    service: peering-service

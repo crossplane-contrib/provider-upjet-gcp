@@ -50,4 +50,13 @@ func Configure(p *config.Provider) {
 	p.AddResourceConfigurator("google_service_account", func(r *config.Resource) {
 		r.Kind = "ServiceAccount"
 	})
+	p.AddResourceConfigurator("google_service_networking_peered_dns_domain", func(r *config.Resource) {
+		r.References["project"] = config.Reference{
+			Type: "Project",
+		}
+		r.References["network"] = config.Reference{
+			Type: "github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.Network",
+		}
+		r.UseAsync = true
+	})
 }
