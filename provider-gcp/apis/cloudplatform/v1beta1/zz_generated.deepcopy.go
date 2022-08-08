@@ -767,13 +767,13 @@ func (in *ProjectUsageExportBucketParameters) DeepCopyInto(out *ProjectUsageExpo
 		*out = new(string)
 		**out = **in
 	}
-	if in.BucketRef != nil {
-		in, out := &in.BucketRef, &out.BucketRef
+	if in.BucketNameRef != nil {
+		in, out := &in.BucketNameRef, &out.BucketNameRef
 		*out = new(v1.Reference)
 		(*in).DeepCopyInto(*out)
 	}
-	if in.BucketSelector != nil {
-		in, out := &in.BucketSelector, &out.BucketSelector
+	if in.BucketNameSelector != nil {
+		in, out := &in.BucketNameSelector, &out.BucketNameSelector
 		*out = new(v1.Selector)
 		(*in).DeepCopyInto(*out)
 	}

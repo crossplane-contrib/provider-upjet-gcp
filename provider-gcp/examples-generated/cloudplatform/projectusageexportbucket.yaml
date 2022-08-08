@@ -4,7 +4,7 @@ metadata:
   name: example
 spec:
   forProvider:
-    bucketRef:
+    bucketNameRef:
       name: example
     projectRef:
       name: example

@@ -6,7 +6,7 @@ metadata:
     upjet.upbound.io/manual-intervention: "Has dependencies on an existing Bucket"
 spec:
   forProvider:
-    bucketRef: 
+    bucketNameRef: 
       name: example-usage-tracking-bucket
     projectRef:
       name: example

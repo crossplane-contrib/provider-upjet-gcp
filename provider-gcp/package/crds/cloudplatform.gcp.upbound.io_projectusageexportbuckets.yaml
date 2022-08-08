@@ -68,7 +68,7 @@ spec:
                   bucketName:
                     description: The bucket to store reports in.
                     type: string
-                  bucketRef:
+                  bucketNameRef:
                     description: A Reference to a named object.
                     properties:
                       name:
@@ -102,7 +102,7 @@ spec:
                     required:
                     - name
                     type: object
-                  bucketSelector:
+                  bucketNameSelector:
                     description: A Selector selects an object.
                     properties:
                       matchControllerRef:

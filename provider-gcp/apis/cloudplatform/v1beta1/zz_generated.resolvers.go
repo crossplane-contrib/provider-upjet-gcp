@@ -89,8 +89,8 @@ func (mg *ProjectUsageExportBucket) ResolveReferences(ctx context.Context, c cli
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.BucketName),
 		Extract:      reference.ExternalName(),
-		Reference:    mg.Spec.ForProvider.BucketRef,
-		Selector:     mg.Spec.ForProvider.BucketSelector,
+		Reference:    mg.Spec.ForProvider.BucketNameRef,
+		Selector:     mg.Spec.ForProvider.BucketNameSelector,
 		To: reference.To{
 			List:    &v1beta1.BucketList{},
 			Managed: &v1beta1.Bucket{},
@@ -100,7 +100,7 @@ func (mg *ProjectUsageExportBucket) ResolveReferences(ctx context.Context, c cli
 		return errors.Wrap(err, "mg.Spec.ForProvider.BucketName")
 	}
 	mg.Spec.ForProvider.BucketName = reference.ToPtrValue(rsp.ResolvedValue)
-	mg.Spec.ForProvider.BucketRef = rsp.ResolvedReference
+	mg.Spec.ForProvider.BucketNameRef = rsp.ResolvedReference
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Project),

@@ -33,16 +33,14 @@ type ProjectUsageExportBucketParameters struct {
 
 	// The bucket to store reports in.
 	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/storage/v1beta1.Bucket
-	// +crossplane:generate:reference:refFieldName=BucketRef
-	// +crossplane:generate:reference:selectorFieldName=BucketSelector
 	// +kubebuilder:validation:Optional
 	BucketName *string `json:"bucketName,omitempty" tf:"bucket_name,omitempty"`
 
 	// +kubebuilder:validation:Optional
-	BucketRef *v1.Reference `json:"bucketRef,omitempty" tf:"-"`
+	BucketNameRef *v1.Reference `json:"bucketNameRef,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Optional
-	BucketSelector *v1.Selector `json:"bucketSelector,omitempty" tf:"-"`
+	BucketNameSelector *v1.Selector `json:"bucketNameSelector,omitempty" tf:"-"`
 
 	// A prefix for the reports, for instance, the project name.
 	// +kubebuilder:validation:Optional

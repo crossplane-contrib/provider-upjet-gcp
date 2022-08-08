@@ -31,9 +31,7 @@ func Configure(p *config.Provider) {
 			Type: "Project",
 		}
 		r.References["bucket_name"] = config.Reference{
-			Type:              "github.com/upbound/official-providers/provider-gcp/apis/storage/v1beta1.Bucket",
-			RefFieldName:      "BucketRef",
-			SelectorFieldName: "BucketSelector",
+			Type: "github.com/upbound/official-providers/provider-gcp/apis/storage/v1beta1.Bucket",
 		}
 	})
 	p.AddResourceConfigurator("google_service_account_key", func(r *config.Resource) {
