@@ -1,0 +1,15 @@
+apiVersion: cloudplatform.gcp.upbound.io/v1beta1
+kind: ProjectIAMAuditConfig
+metadata:
+  name: example
+  annotations:
+    upjet.upbound.io/manual-intervention: "Members are dependent on the project and leak sensitive information"
+spec:
+  forProvider:
+    service: allServices
+    auditLogConfig:
+      - logType: DATA_READ
+        exemptedMembers:
+          - "user:joebloggs@hashicorp.com"
+    projectRef:
+      name: example

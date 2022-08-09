@@ -15,6 +15,26 @@ func Configure(p *config.Provider) {
 			"The numeric ID of the organization this project belongs to."
 		r.UseAsync = true
 	})
+	p.AddResourceConfigurator("google_project_iam_policy", func(r *config.Resource) {
+		r.References["project"] = config.Reference{
+			Type: "Project",
+		}
+	})
+	p.AddResourceConfigurator("google_project_iam_binding", func(r *config.Resource) {
+		r.References["project"] = config.Reference{
+			Type: "Project",
+		}
+	})
+	p.AddResourceConfigurator("google_project_iam_member", func(r *config.Resource) {
+		r.References["project"] = config.Reference{
+			Type: "Project",
+		}
+	})
+	p.AddResourceConfigurator("google_project_iam_audit_config", func(r *config.Resource) {
+		r.References["project"] = config.Reference{
+			Type: "Project",
+		}
+	})
 	p.AddResourceConfigurator("google_service_account_key", func(r *config.Resource) {
 		// Note(turkenh): We have to modify schema of "keepers", since it is a
 		// map where elements configured as nil, but needs to be String:
@@ -28,5 +48,26 @@ func Configure(p *config.Provider) {
 	})
 	p.AddResourceConfigurator("google_service_account", func(r *config.Resource) {
 		r.Kind = "ServiceAccount"
+	})
+	p.AddResourceConfigurator("google_service_account_iam_policy", func(r *config.Resource) {
+		r.References["service_account_id"] = config.Reference{
+			Type:      "ServiceAccount",
+			Extractor: common.ExtractResourceIDFuncPath,
+		}
+		config.MarkAsRequired(r.TerraformResource, "service_account_id")
+	})
+	p.AddResourceConfigurator("google_service_account_iam_binding", func(r *config.Resource) {
+		r.References["service_account_id"] = config.Reference{
+			Type:      "ServiceAccount",
+			Extractor: common.ExtractResourceIDFuncPath,
+		}
+		config.MarkAsRequired(r.TerraformResource, "service_account_id")
+	})
+	p.AddResourceConfigurator("google_service_account_iam_member", func(r *config.Resource) {
+		r.References["service_account_id"] = config.Reference{
+			Type:      "ServiceAccount",
+			Extractor: common.ExtractResourceIDFuncPath,
+		}
+		config.MarkAsRequired(r.TerraformResource, "service_account_id")
 	})
 }

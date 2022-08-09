@@ -11,7 +11,14 @@ import (
 
 	folder "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/folder"
 	project "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/project"
+	projectiamauditconfig "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/projectiamauditconfig"
+	projectiambinding "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/projectiambinding"
+	projectiammember "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/projectiammember"
+	projectiampolicy "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/projectiampolicy"
 	serviceaccount "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/serviceaccount"
+	serviceaccountiambinding "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/serviceaccountiambinding"
+	serviceaccountiammember "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/serviceaccountiammember"
+	serviceaccountiampolicy "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/serviceaccountiampolicy"
 	serviceaccountkey "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/serviceaccountkey"
 	address "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/address"
 	disk "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/disk"
@@ -72,6 +79,8 @@ import (
 	topiciammember "github.com/upbound/official-providers/provider-gcp/internal/controller/pubsub/topiciammember"
 	topiciampolicy "github.com/upbound/official-providers/provider-gcp/internal/controller/pubsub/topiciampolicy"
 	instanceredis "github.com/upbound/official-providers/provider-gcp/internal/controller/redis/instance"
+	secret "github.com/upbound/official-providers/provider-gcp/internal/controller/secretmanager/secret"
+	secretversion "github.com/upbound/official-providers/provider-gcp/internal/controller/secretmanager/secretversion"
 	database "github.com/upbound/official-providers/provider-gcp/internal/controller/sql/database"
 	databaseinstance "github.com/upbound/official-providers/provider-gcp/internal/controller/sql/databaseinstance"
 	sourcerepresentationinstance "github.com/upbound/official-providers/provider-gcp/internal/controller/sql/sourcerepresentationinstance"
@@ -87,7 +96,14 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
 		folder.Setup,
 		project.Setup,
+		projectiamauditconfig.Setup,
+		projectiambinding.Setup,
+		projectiammember.Setup,
+		projectiampolicy.Setup,
 		serviceaccount.Setup,
+		serviceaccountiambinding.Setup,
+		serviceaccountiammember.Setup,
+		serviceaccountiampolicy.Setup,
 		serviceaccountkey.Setup,
 		address.Setup,
 		disk.Setup,
@@ -148,6 +164,8 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		topiciammember.Setup,
 		topiciampolicy.Setup,
 		instanceredis.Setup,
+		secret.Setup,
+		secretversion.Setup,
 		database.Setup,
 		databaseinstance.Setup,
 		sourcerepresentationinstance.Setup,

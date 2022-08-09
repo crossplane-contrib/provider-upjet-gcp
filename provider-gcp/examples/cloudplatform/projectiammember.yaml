@@ -1,0 +1,12 @@
+apiVersion: cloudplatform.gcp.upbound.io/v1beta1
+kind: ProjectIAMMember
+metadata:
+  name: example
+  annotations:
+    upjet.upbound.io/manual-intervention: "Members are dependent on the project and leak sensitive information"
+spec:
+  forProvider:
+    member: "user:jane@example.com"
+    role: "roles/viewer"
+    projectRef:
+      name: example
