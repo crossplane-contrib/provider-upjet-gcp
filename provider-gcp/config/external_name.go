@@ -15,6 +15,11 @@ import (
 )
 
 var externalNameConfigs = map[string]config.ExternalName{
+	// composer
+	//
+	// Imported by using the following format: projects/{{project}}/locations/{{region}}/environments/{{name}}
+	"google_composer_environment": formattedIdentifierUserDefined("projects/%s/locations/%s/environments", "project", "region"),
+
 	// cloudplatform
 	//
 	// Folders can be imported using the folder's id, e.g. folders/1234567

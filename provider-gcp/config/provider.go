@@ -10,6 +10,7 @@ import (
 
 	"github.com/upbound/official-providers/provider-gcp/config/accessapproval"
 	"github.com/upbound/official-providers/provider-gcp/config/bigtable"
+	composer "github.com/upbound/official-providers/provider-gcp/config/cloudcomposer"
 	"github.com/upbound/official-providers/provider-gcp/config/cloudfunctions"
 	"github.com/upbound/official-providers/provider-gcp/config/cloudiot"
 	"github.com/upbound/official-providers/provider-gcp/config/cloudplatform"
@@ -68,6 +69,7 @@ func GetProvider() *tjconfig.Provider {
 	for _, configure := range []func(provider *tjconfig.Provider){
 		accessapproval.Configure,
 		bigtable.Configure,
+		composer.Configure,
 		cloudfunctions.Configure,
 		cloudiot.Configure,
 		cloudplatform.Configure,

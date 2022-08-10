@@ -1,0 +1,7 @@
+apiVersion: composer.gcp.upbound.io/v1beta1
+kind: Environment
+metadata:
+  name: example
+spec:
+  forProvider:
+    region: us-central1
