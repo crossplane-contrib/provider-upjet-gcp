@@ -21,6 +21,7 @@ import (
 	serviceaccountiampolicy "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/serviceaccountiampolicy"
 	serviceaccountkey "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/serviceaccountkey"
 	job "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudscheduler/job"
+	queue "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudtasks/queue"
 	address "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/address"
 	disk "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/disk"
 	diskiambinding "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/diskiambinding"
@@ -107,6 +108,7 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		serviceaccountiampolicy.Setup,
 		serviceaccountkey.Setup,
 		job.Setup,
+		queue.Setup,
 		address.Setup,
 		disk.Setup,
 		diskiambinding.Setup,

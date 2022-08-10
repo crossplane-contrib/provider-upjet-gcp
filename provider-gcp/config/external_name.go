@@ -48,6 +48,11 @@ var externalNameConfigs = map[string]config.ExternalName{
 	// Imported by using the following format: projects/{{project}}/locations/{{region}}/jobs/{{name}}
 	"google_cloud_scheduler_job": formattedIdentifierUserDefined("projects/%s/locations/%s/jobs", "project", "region"),
 
+	// cloudtasks
+	//
+	// Imported by using the following format: projects/{{project}}/locations/{{location}}/queues/{{name}}
+	"google_cloud_tasks_queue": formattedIdentifierUserDefined("projects/%s/locations/%s/queues", "project", "location"),
+
 	// compute
 	//
 	// Imported by using the following format: projects/{{project}}/global/sslCertificates/{{name}}

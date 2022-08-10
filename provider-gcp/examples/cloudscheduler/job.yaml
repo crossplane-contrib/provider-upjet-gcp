@@ -4,7 +4,7 @@ metadata:
   name: example
 spec:
   forProvider:
-    region: us-central1-a
+    region: us-central1
     description: Test job
     httpTarget:
     - httpMethod: POST
