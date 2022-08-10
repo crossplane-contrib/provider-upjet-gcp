@@ -13,6 +13,7 @@ import (
 	"github.com/upbound/official-providers/provider-gcp/config/cloudfunctions"
 	"github.com/upbound/official-providers/provider-gcp/config/cloudiot"
 	"github.com/upbound/official-providers/provider-gcp/config/cloudplatform"
+	"github.com/upbound/official-providers/provider-gcp/config/cloudscheduler"
 	"github.com/upbound/official-providers/provider-gcp/config/compute"
 	"github.com/upbound/official-providers/provider-gcp/config/container"
 	"github.com/upbound/official-providers/provider-gcp/config/dataflow"
@@ -68,6 +69,7 @@ func GetProvider() *tjconfig.Provider {
 		bigtable.Configure,
 		cloudfunctions.Configure,
 		cloudiot.Configure,
+		cloudscheduler.Configure,
 		cloudplatform.Configure,
 		container.Configure,
 		compute.Configure,

@@ -43,6 +43,11 @@ var externalNameConfigs = map[string]config.ExternalName{
 	// No import
 	"google_service_account_key": config.IdentifierFromProvider,
 
+	// cloudscheduler
+	//
+	// Imported by using the following format: projects/{{project}}/locations/{{region}}/jobs/{{name}}
+	"google_cloud_scheduler_job": formattedIdentifierUserDefined("projects/%s/locations/%s/jobs", "project", "region"),
+
 	// compute
 	//
 	// Imported by using the following format: projects/{{project}}/global/sslCertificates/{{name}}

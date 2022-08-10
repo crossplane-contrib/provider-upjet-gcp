@@ -20,6 +20,7 @@ import (
 	serviceaccountiammember "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/serviceaccountiammember"
 	serviceaccountiampolicy "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/serviceaccountiampolicy"
 	serviceaccountkey "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/serviceaccountkey"
+	job "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudscheduler/job"
 	address "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/address"
 	disk "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/disk"
 	diskiambinding "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/diskiambinding"
@@ -105,6 +106,7 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		serviceaccountiammember.Setup,
 		serviceaccountiampolicy.Setup,
 		serviceaccountkey.Setup,
+		job.Setup,
 		address.Setup,
 		disk.Setup,
 		diskiambinding.Setup,

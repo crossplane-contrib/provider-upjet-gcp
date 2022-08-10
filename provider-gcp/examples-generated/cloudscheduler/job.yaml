@@ -1,0 +1,12 @@
+apiVersion: cloudscheduler.gcp.upbound.io/v1beta1
+kind: Job
+metadata:
+  name: example
+spec:
+  forProvider:
+    description: test job
+    pubsubTarget:
+    - data: ${base64encode("test")}
+      topicNameRef:
+        name: example
+    schedule: '*/2 * * * *'
