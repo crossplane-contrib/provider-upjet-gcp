@@ -227,6 +227,7 @@ spec:
                     type: string
                 required:
                 - dnsSuffix
+                - service
                 type: object
               providerConfigRef:
                 default:

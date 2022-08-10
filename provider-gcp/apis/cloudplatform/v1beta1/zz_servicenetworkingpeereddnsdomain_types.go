@@ -60,8 +60,8 @@ type ServiceNetworkingPeeredDNSDomainParameters struct {
 	ProjectSelector *v1.Selector `json:"projectSelector,omitempty" tf:"-"`
 
 	// The name of the service to create a peered DNS domain for, e.g. servicenetworking.googleapis.com
-	// +kubebuilder:validation:Optional
-	Service *string `json:"service,omitempty" tf:"service,omitempty"`
+	// +kubebuilder:validation:Required
+	Service *string `json:"service" tf:"service,omitempty"`
 }
 
 // ServiceNetworkingPeeredDNSDomainSpec defines the desired state of ServiceNetworkingPeeredDNSDomain

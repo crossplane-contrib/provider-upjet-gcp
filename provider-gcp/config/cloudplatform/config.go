@@ -96,6 +96,9 @@ func Configure(p *config.Provider) {
 		r.References["network"] = config.Reference{
 			Type: "github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.Network",
 		}
+		config.MarkAsRequired(r.TerraformResource, "project")
+		config.MarkAsRequired(r.TerraformResource, "network")
+		config.MarkAsRequired(r.TerraformResource, "service")
 		r.UseAsync = true
 	})
 }
