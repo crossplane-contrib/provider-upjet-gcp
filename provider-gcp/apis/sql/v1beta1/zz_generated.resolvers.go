@@ -21,6 +21,8 @@ import (
 	"context"
 	reference "github.com/crossplane/crossplane-runtime/pkg/reference"
 	errors "github.com/pkg/errors"
+	v1beta1 "github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1"
+	resource "github.com/upbound/upjet/pkg/resource"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
@@ -46,6 +48,37 @@ func (mg *Database) ResolveReferences(ctx context.Context, c client.Reader) erro
 	}
 	mg.Spec.ForProvider.Instance = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.InstanceRef = rsp.ResolvedReference
+
+	return nil
+}
+
+// ResolveReferences of this DatabaseInstance.
+func (mg *DatabaseInstance) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.Settings); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.ForProvider.Settings[i3].IPConfiguration); i4++ {
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Settings[i3].IPConfiguration[i4].PrivateNetwork),
+				Extract:      resource.ExtractResourceID(),
+				Reference:    mg.Spec.ForProvider.Settings[i3].IPConfiguration[i4].PrivateNetworkRef,
+				Selector:     mg.Spec.ForProvider.Settings[i3].IPConfiguration[i4].PrivateNetworkSelector,
+				To: reference.To{
+					List:    &v1beta1.NetworkList{},
+					Managed: &v1beta1.Network{},
+				},
+			})
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.ForProvider.Settings[i3].IPConfiguration[i4].PrivateNetwork")
+			}
+			mg.Spec.ForProvider.Settings[i3].IPConfiguration[i4].PrivateNetwork = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.Settings[i3].IPConfiguration[i4].PrivateNetworkRef = rsp.ResolvedReference
+
+		}
+	}
 
 	return nil
 }

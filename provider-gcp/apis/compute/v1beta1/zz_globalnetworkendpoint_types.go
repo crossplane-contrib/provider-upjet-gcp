@@ -37,8 +37,15 @@ type GlobalNetworkEndpointParameters struct {
 	Fqdn *string `json:"fqdn,omitempty" tf:"fqdn,omitempty"`
 
 	// The global network endpoint group this endpoint is part of.
-	// +kubebuilder:validation:Required
-	GlobalNetworkEndpointGroup *string `json:"globalNetworkEndpointGroup" tf:"global_network_endpoint_group,omitempty"`
+	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.GlobalNetworkEndpointGroup
+	// +kubebuilder:validation:Optional
+	GlobalNetworkEndpointGroup *string `json:"globalNetworkEndpointGroup,omitempty" tf:"global_network_endpoint_group,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	GlobalNetworkEndpointGroupRef *v1.Reference `json:"globalNetworkEndpointGroupRef,omitempty" tf:"-"`
+
+	// +kubebuilder:validation:Optional
+	GlobalNetworkEndpointGroupSelector *v1.Selector `json:"globalNetworkEndpointGroupSelector,omitempty" tf:"-"`
 
 	// IPv4 address external endpoint.
 	// +kubebuilder:validation:Optional

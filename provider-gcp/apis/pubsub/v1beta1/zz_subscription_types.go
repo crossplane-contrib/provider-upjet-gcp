@@ -41,8 +41,16 @@ type DeadLetterPolicyParameters struct {
 	// The operation will fail if the topic does not exist.
 	// Users should ensure that there is a subscription attached to this topic
 	// since messages published to a topic with no subscriptions are lost.
+	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/pubsub/v1beta1.Topic
+	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	DeadLetterTopic *string `json:"deadLetterTopic,omitempty" tf:"dead_letter_topic,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	DeadLetterTopicRef *v1.Reference `json:"deadLetterTopicRef,omitempty" tf:"-"`
+
+	// +kubebuilder:validation:Optional
+	DeadLetterTopicSelector *v1.Selector `json:"deadLetterTopicSelector,omitempty" tf:"-"`
 
 	// The maximum number of delivery attempts for any message. The value must be
 	// between 5 and 100.

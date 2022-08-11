@@ -21,7 +21,9 @@ import (
 	"context"
 	reference "github.com/crossplane/crossplane-runtime/pkg/reference"
 	errors "github.com/pkg/errors"
+	v1beta1 "github.com/upbound/official-providers/provider-gcp/apis/cloudplatform/v1beta1"
 	common "github.com/upbound/official-providers/provider-gcp/config/common"
+	resource "github.com/upbound/upjet/pkg/resource"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
@@ -63,6 +65,74 @@ func (mg *Address) ResolveReferences(ctx context.Context, c client.Reader) error
 	}
 	mg.Spec.ForProvider.Subnetwork = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.SubnetworkRef = rsp.ResolvedReference
+
+	return nil
+}
+
+// ResolveReferences of this DiskIAMPolicy.
+func (mg *DiskIAMPolicy) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Name),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.ForProvider.NameRef,
+		Selector:     mg.Spec.ForProvider.NameSelector,
+		To: reference.To{
+			List:    &DiskList{},
+			Managed: &Disk{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.Name")
+	}
+	mg.Spec.ForProvider.Name = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.NameRef = rsp.ResolvedReference
+
+	return nil
+}
+
+// ResolveReferences of this DiskResourcePolicyAttachment.
+func (mg *DiskResourcePolicyAttachment) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Disk),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.ForProvider.DiskRef,
+		Selector:     mg.Spec.ForProvider.DiskSelector,
+		To: reference.To{
+			List:    &DiskList{},
+			Managed: &Disk{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.Disk")
+	}
+	mg.Spec.ForProvider.Disk = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.DiskRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Name),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.ForProvider.NameRef,
+		Selector:     mg.Spec.ForProvider.NameSelector,
+		To: reference.To{
+			List:    &ResourcePolicyList{},
+			Managed: &ResourcePolicy{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.Name")
+	}
+	mg.Spec.ForProvider.Name = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.NameRef = rsp.ResolvedReference
 
 	return nil
 }
@@ -119,6 +189,32 @@ func (mg *GlobalAddress) ResolveReferences(ctx context.Context, c client.Reader)
 	return nil
 }
 
+// ResolveReferences of this GlobalNetworkEndpoint.
+func (mg *GlobalNetworkEndpoint) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.GlobalNetworkEndpointGroup),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.ForProvider.GlobalNetworkEndpointGroupRef,
+		Selector:     mg.Spec.ForProvider.GlobalNetworkEndpointGroupSelector,
+		To: reference.To{
+			List:    &GlobalNetworkEndpointGroupList{},
+			Managed: &GlobalNetworkEndpointGroup{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.GlobalNetworkEndpointGroup")
+	}
+	mg.Spec.ForProvider.GlobalNetworkEndpointGroup = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.GlobalNetworkEndpointGroupRef = rsp.ResolvedReference
+
+	return nil
+}
+
 // ResolveReferences of this HaVPNGateway.
 func (mg *HaVPNGateway) ResolveReferences(ctx context.Context, c client.Reader) error {
 	r := reference.NewAPIResolver(c, mg)
@@ -141,6 +237,51 @@ func (mg *HaVPNGateway) ResolveReferences(ctx context.Context, c client.Reader) 
 	}
 	mg.Spec.ForProvider.Network = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.NetworkRef = rsp.ResolvedReference
+
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.VPNInterfaces); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.VPNInterfaces[i3].InterconnectAttachment),
+			Extract:      resource.ExtractParamPath("self_link", true),
+			Reference:    mg.Spec.ForProvider.VPNInterfaces[i3].InterconnectAttachmentRef,
+			Selector:     mg.Spec.ForProvider.VPNInterfaces[i3].InterconnectAttachmentSelector,
+			To: reference.To{
+				List:    &InterconnectAttachmentList{},
+				Managed: &InterconnectAttachment{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.VPNInterfaces[i3].InterconnectAttachment")
+		}
+		mg.Spec.ForProvider.VPNInterfaces[i3].InterconnectAttachment = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.VPNInterfaces[i3].InterconnectAttachmentRef = rsp.ResolvedReference
+
+	}
+
+	return nil
+}
+
+// ResolveReferences of this ImageIAMPolicy.
+func (mg *ImageIAMPolicy) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Image),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.ForProvider.ImageRef,
+		Selector:     mg.Spec.ForProvider.ImageSelector,
+		To: reference.To{
+			List:    &ImageList{},
+			Managed: &Image{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.Image")
+	}
+	mg.Spec.ForProvider.Image = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.ImageRef = rsp.ResolvedReference
 
 	return nil
 }
@@ -186,6 +327,24 @@ func (mg *Instance) ResolveReferences(ctx context.Context, c client.Reader) erro
 		}
 		mg.Spec.ForProvider.NetworkInterface[i3].Subnetwork = reference.ToPtrValue(rsp.ResolvedValue)
 		mg.Spec.ForProvider.NetworkInterface[i3].SubnetworkRef = rsp.ResolvedReference
+
+	}
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.ServiceAccount); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ServiceAccount[i3].Email),
+			Extract:      resource.ExtractParamPath("email", true),
+			Reference:    mg.Spec.ForProvider.ServiceAccount[i3].EmailRef,
+			Selector:     mg.Spec.ForProvider.ServiceAccount[i3].EmailSelector,
+			To: reference.To{
+				List:    &v1beta1.ServiceAccountList{},
+				Managed: &v1beta1.ServiceAccount{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.ServiceAccount[i3].Email")
+		}
+		mg.Spec.ForProvider.ServiceAccount[i3].Email = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.ServiceAccount[i3].EmailRef = rsp.ResolvedReference
 
 	}
 
@@ -344,6 +503,79 @@ func (mg *InstanceGroupManager) ResolveReferences(ctx context.Context, c client.
 	return nil
 }
 
+// ResolveReferences of this InstanceIAMPolicy.
+func (mg *InstanceIAMPolicy) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.InstanceName),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.ForProvider.InstanceNameRef,
+		Selector:     mg.Spec.ForProvider.InstanceNameSelector,
+		To: reference.To{
+			List:    &InstanceList{},
+			Managed: &Instance{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.InstanceName")
+	}
+	mg.Spec.ForProvider.InstanceName = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.InstanceNameRef = rsp.ResolvedReference
+
+	return nil
+}
+
+// ResolveReferences of this InstanceTemplate.
+func (mg *InstanceTemplate) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.Disk); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Disk[i3].Source),
+			Extract:      reference.ExternalName(),
+			Reference:    mg.Spec.ForProvider.Disk[i3].SourceRef,
+			Selector:     mg.Spec.ForProvider.Disk[i3].SourceSelector,
+			To: reference.To{
+				List:    &DiskList{},
+				Managed: &Disk{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.Disk[i3].Source")
+		}
+		mg.Spec.ForProvider.Disk[i3].Source = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.Disk[i3].SourceRef = rsp.ResolvedReference
+
+	}
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.ServiceAccount); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ServiceAccount[i3].Email),
+			Extract:      resource.ExtractParamPath("email", true),
+			Reference:    mg.Spec.ForProvider.ServiceAccount[i3].EmailRef,
+			Selector:     mg.Spec.ForProvider.ServiceAccount[i3].EmailSelector,
+			To: reference.To{
+				List:    &v1beta1.ServiceAccountList{},
+				Managed: &v1beta1.ServiceAccount{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.ServiceAccount[i3].Email")
+		}
+		mg.Spec.ForProvider.ServiceAccount[i3].Email = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.ServiceAccount[i3].EmailRef = rsp.ResolvedReference
+
+	}
+
+	return nil
+}
+
 // ResolveReferences of this InterconnectAttachment.
 func (mg *InterconnectAttachment) ResolveReferences(ctx context.Context, c client.Reader) error {
 	r := reference.NewAPIResolver(c, mg)
@@ -366,6 +598,48 @@ func (mg *InterconnectAttachment) ResolveReferences(ctx context.Context, c clien
 	}
 	mg.Spec.ForProvider.Router = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.RouterRef = rsp.ResolvedReference
+
+	return nil
+}
+
+// ResolveReferences of this NetworkEndpoint.
+func (mg *NetworkEndpoint) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Instance),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.ForProvider.InstanceRef,
+		Selector:     mg.Spec.ForProvider.InstanceSelector,
+		To: reference.To{
+			List:    &InstanceList{},
+			Managed: &Instance{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.Instance")
+	}
+	mg.Spec.ForProvider.Instance = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.InstanceRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.NetworkEndpointGroup),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.ForProvider.NetworkEndpointGroupRef,
+		Selector:     mg.Spec.ForProvider.NetworkEndpointGroupSelector,
+		To: reference.To{
+			List:    &NetworkEndpointGroupList{},
+			Managed: &NetworkEndpointGroup{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.NetworkEndpointGroup")
+	}
+	mg.Spec.ForProvider.NetworkEndpointGroup = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.NetworkEndpointGroupRef = rsp.ResolvedReference
 
 	return nil
 }

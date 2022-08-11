@@ -1,10 +1,35 @@
 apiVersion: pubsub.gcp.upbound.io/v1beta1
 kind: LiteSubscription
 metadata:
+  labels:
+    testing.upbound.io/example-name: example
   name: example
 spec:
   forProvider:
     deliveryConfig:
     - deliveryRequirement: DELIVER_AFTER_STORED
-    topicRef:
-      name: example
+    topicSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+
+---
+
+apiVersion: pubsub.gcp.upbound.io/v1beta1
+kind: LiteTopic
+metadata:
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    partitionConfig:
+    - capacity:
+      - publishMibPerSec: 4
+        subscribeMibPerSec: 8
+      count: 1
+    project: ${data.google_project.project.number}
+    retentionConfig:
+    - perPartitionBytes: 32212254720
+
+---
+

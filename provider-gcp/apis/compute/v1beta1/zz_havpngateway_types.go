@@ -80,8 +80,16 @@ type VPNInterfacesParameters struct {
 	// specified interconnect attachment resource.
 	//
 	// Not currently available publicly.
+	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.InterconnectAttachment
+	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractParamPath("self_link",true)
 	// +kubebuilder:validation:Optional
 	InterconnectAttachment *string `json:"interconnectAttachment,omitempty" tf:"interconnect_attachment,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	InterconnectAttachmentRef *v1.Reference `json:"interconnectAttachmentRef,omitempty" tf:"-"`
+
+	// +kubebuilder:validation:Optional
+	InterconnectAttachmentSelector *v1.Selector `json:"interconnectAttachmentSelector,omitempty" tf:"-"`
 }
 
 // HaVPNGatewaySpec defines the desired state of HaVPNGateway

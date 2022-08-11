@@ -109,12 +109,19 @@ type InstanceTemplateDiskParameters struct {
 	ResourcePolicies []*string `json:"resourcePolicies,omitempty" tf:"resource_policies,omitempty"`
 
 	// The name (not self_link) of the disk (such as those managed by google_compute_disk) to attach. ~> Note: Either source or source_image is required when creating a new instance except for when creating a local SSD.
+	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.Disk
 	// +kubebuilder:validation:Optional
 	Source *string `json:"source,omitempty" tf:"source,omitempty"`
 
 	// The image from which to initialize this disk. This can be one of: the image's self_link, projects/{project}/global/images/{image}, projects/{project}/global/images/family/{family}, global/images/{image}, global/images/family/{family}, family/{family}, {project}/{family}, {project}/{image}, {family}, or {image}. ~> Note: Either source or source_image is required when creating a new instance except for when creating a local SSD.
 	// +kubebuilder:validation:Optional
 	SourceImage *string `json:"sourceImage,omitempty" tf:"source_image,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	SourceRef *v1.Reference `json:"sourceRef,omitempty" tf:"-"`
+
+	// +kubebuilder:validation:Optional
+	SourceSelector *v1.Selector `json:"sourceSelector,omitempty" tf:"-"`
 
 	// The type of Google Compute Engine disk, can be either "SCRATCH" or "PERSISTENT".
 	// +kubebuilder:validation:Optional
@@ -414,8 +421,16 @@ type InstanceTemplateServiceAccountObservation struct {
 type InstanceTemplateServiceAccountParameters struct {
 
 	// The service account e-mail address. If not given, the default Google Compute Engine service account is used.
+	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractParamPath("email",true)
 	// +kubebuilder:validation:Optional
 	Email *string `json:"email,omitempty" tf:"email,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	EmailRef *v1.Reference `json:"emailRef,omitempty" tf:"-"`
+
+	// +kubebuilder:validation:Optional
+	EmailSelector *v1.Selector `json:"emailSelector,omitempty" tf:"-"`
 
 	// A list of service scopes. Both OAuth2 URLs and gcloud short names are supported. To allow full access to all Cloud APIs, use the cloud-platform scope.
 	// +kubebuilder:validation:Required
