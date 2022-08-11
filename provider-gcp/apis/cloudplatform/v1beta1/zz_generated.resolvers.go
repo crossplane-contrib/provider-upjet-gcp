@@ -28,35 +28,14 @@ import (
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
-<<<<<<< HEAD
-// ResolveReferences of this ProjectDefaultServiceAccounts.
-func (mg *ProjectDefaultServiceAccounts) ResolveReferences(ctx context.Context, c client.Reader) error {
-=======
 // ResolveReferences of this Folder.
 func (mg *Folder) ResolveReferences(ctx context.Context, c client.Reader) error {
->>>>>>> e4df16275692144325bd5ca5f88226aed4e09d13
 	r := reference.NewAPIResolver(c, mg)
 
 	var rsp reference.ResolutionResponse
 	var err error
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-<<<<<<< HEAD
-		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Project),
-		Extract:      reference.ExternalName(),
-		Reference:    mg.Spec.ForProvider.ProjectRef,
-		Selector:     mg.Spec.ForProvider.ProjectSelector,
-		To: reference.To{
-			List:    &ProjectList{},
-			Managed: &Project{},
-		},
-	})
-	if err != nil {
-		return errors.Wrap(err, "mg.Spec.ForProvider.Project")
-	}
-	mg.Spec.ForProvider.Project = reference.ToPtrValue(rsp.ResolvedValue)
-	mg.Spec.ForProvider.ProjectRef = rsp.ResolvedReference
-=======
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Parent),
 		Extract:      resource.ExtractParamPath("name", true),
 		Reference:    mg.Spec.ForProvider.ParentRef,
@@ -97,7 +76,32 @@ func (mg *Project) ResolveReferences(ctx context.Context, c client.Reader) error
 	}
 	mg.Spec.ForProvider.FolderID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.FolderIDRef = rsp.ResolvedReference
->>>>>>> e4df16275692144325bd5ca5f88226aed4e09d13
+
+	return nil
+}
+
+// ResolveReferences of this ProjectDefaultServiceAccounts.
+func (mg *ProjectDefaultServiceAccounts) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Project),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.ForProvider.ProjectRef,
+		Selector:     mg.Spec.ForProvider.ProjectSelector,
+		To: reference.To{
+			List:    &ProjectList{},
+			Managed: &Project{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.Project")
+	}
+	mg.Spec.ForProvider.Project = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.ProjectRef = rsp.ResolvedReference
 
 	return nil
 }
@@ -400,22 +404,6 @@ func (mg *ServiceNetworkingPeeredDNSDomain) ResolveReferences(ctx context.Contex
 	}
 	mg.Spec.ForProvider.Network = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.NetworkRef = rsp.ResolvedReference
-
-	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Project),
-		Extract:      reference.ExternalName(),
-		Reference:    mg.Spec.ForProvider.ProjectRef,
-		Selector:     mg.Spec.ForProvider.ProjectSelector,
-		To: reference.To{
-			List:    &ProjectList{},
-			Managed: &Project{},
-		},
-	})
-	if err != nil {
-		return errors.Wrap(err, "mg.Spec.ForProvider.Project")
-	}
-	mg.Spec.ForProvider.Project = reference.ToPtrValue(rsp.ResolvedValue)
-	mg.Spec.ForProvider.ProjectRef = rsp.ResolvedReference
 
 	return nil
 }

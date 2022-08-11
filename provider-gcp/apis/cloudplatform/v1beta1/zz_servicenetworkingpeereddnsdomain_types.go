@@ -49,15 +49,8 @@ type ServiceNetworkingPeeredDNSDomainParameters struct {
 	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
 
 	// The ID of the project that the service account will be created in. Defaults to the provider project configuration.
-	// +crossplane:generate:reference:type=Project
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
-
-	// +kubebuilder:validation:Optional
-	ProjectRef *v1.Reference `json:"projectRef,omitempty" tf:"-"`
-
-	// +kubebuilder:validation:Optional
-	ProjectSelector *v1.Selector `json:"projectSelector,omitempty" tf:"-"`
 
 	// The name of the service to create a peered DNS domain for, e.g. servicenetworking.googleapis.com
 	// +kubebuilder:validation:Required

@@ -1241,6 +1241,16 @@ func (in *ProjectParameters) DeepCopyInto(out *ProjectParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.FolderIDRef != nil {
+		in, out := &in.FolderIDRef, &out.FolderIDRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.FolderIDSelector != nil {
+		in, out := &in.FolderIDSelector, &out.FolderIDSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.Labels != nil {
 		in, out := &in.Labels, &out.Labels
 		*out = make(map[string]*string, len(*in))
@@ -1567,37 +1577,10 @@ func (in *ProjectUsageExportBucketParameters) DeepCopyInto(out *ProjectUsageExpo
 		*out = new(v1.Reference)
 		(*in).DeepCopyInto(*out)
 	}
-<<<<<<< HEAD
 	if in.BucketNameSelector != nil {
 		in, out := &in.BucketNameSelector, &out.BucketNameSelector
 		*out = new(v1.Selector)
 		(*in).DeepCopyInto(*out)
-=======
-	if in.FolderIDRef != nil {
-		in, out := &in.FolderIDRef, &out.FolderIDRef
-		*out = new(v1.Reference)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.FolderIDSelector != nil {
-		in, out := &in.FolderIDSelector, &out.FolderIDSelector
-		*out = new(v1.Selector)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.Labels != nil {
-		in, out := &in.Labels, &out.Labels
-		*out = make(map[string]*string, len(*in))
-		for key, val := range *in {
-			var outVal *string
-			if val == nil {
-				(*out)[key] = nil
-			} else {
-				in, out := &val, &outVal
-				*out = new(string)
-				**out = **in
-			}
-			(*out)[key] = outVal
-		}
->>>>>>> e4df16275692144325bd5ca5f88226aed4e09d13
 	}
 	if in.Prefix != nil {
 		in, out := &in.Prefix, &out.Prefix
@@ -2708,16 +2691,6 @@ func (in *ServiceNetworkingPeeredDNSDomainParameters) DeepCopyInto(out *ServiceN
 		in, out := &in.Project, &out.Project
 		*out = new(string)
 		**out = **in
-	}
-	if in.ProjectRef != nil {
-		in, out := &in.ProjectRef, &out.ProjectRef
-		*out = new(v1.Reference)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.ProjectSelector != nil {
-		in, out := &in.ProjectSelector, &out.ProjectSelector
-		*out = new(v1.Selector)
-		(*in).DeepCopyInto(*out)
 	}
 	if in.Service != nil {
 		in, out := &in.Service, &out.Service

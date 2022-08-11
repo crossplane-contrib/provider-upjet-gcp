@@ -1,12 +1,29 @@
+apiVersion: storage.gcp.upbound.io/v1beta1
+kind: Bucket
+metadata:
+  name: example-usage-tracking-bucket
+  labels:
+    testing.upbound.io/example-name: example
+spec:
+  forProvider:
+    location: US
+    storageClass: MULTI_REGIONAL
+
+---
+
 apiVersion: cloudplatform.gcp.upbound.io/v1beta1
 kind: ProjectUsageExportBucket
 metadata:
   name: example
+  labels:
+    testing.upbound.io/example-name: example
   annotations:
-    upjet.upbound.io/manual-intervention: "Has dependencies on an existing Bucket"
+    upjet.upbound.io/manual-intervention: "Project level resource and is environment specific"
 spec:
   forProvider:
-    bucketNameRef: 
-      name: example-usage-tracking-bucket
-    projectRef:
-      name: example
+    bucketNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    projectSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
