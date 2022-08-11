@@ -1,7 +1,9 @@
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: Disk
 metadata:
-  name: example
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
 spec:
   forProvider:
     image: debian-9-stretch-v20200805
@@ -10,3 +12,6 @@ spec:
     physicalBlockSizeBytes: 4096
     type: pd-ssd
     zone: us-central1-a
+
+---
+

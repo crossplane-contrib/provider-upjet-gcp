@@ -33,8 +33,15 @@ type InstanceIAMPolicyObservation struct {
 
 type InstanceIAMPolicyParameters struct {
 
-	// +kubebuilder:validation:Required
-	InstanceName *string `json:"instanceName" tf:"instance_name,omitempty"`
+	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.Instance
+	// +kubebuilder:validation:Optional
+	InstanceName *string `json:"instanceName,omitempty" tf:"instance_name,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	InstanceNameRef *v1.Reference `json:"instanceNameRef,omitempty" tf:"-"`
+
+	// +kubebuilder:validation:Optional
+	InstanceNameSelector *v1.Selector `json:"instanceNameSelector,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Required
 	PolicyData *string `json:"policyData" tf:"policy_data,omitempty"`

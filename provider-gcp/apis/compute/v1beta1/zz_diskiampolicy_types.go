@@ -33,8 +33,15 @@ type DiskIAMPolicyObservation struct {
 
 type DiskIAMPolicyParameters struct {
 
-	// +kubebuilder:validation:Required
-	Name *string `json:"name" tf:"name,omitempty"`
+	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.Disk
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	NameRef *v1.Reference `json:"nameRef,omitempty" tf:"-"`
+
+	// +kubebuilder:validation:Optional
+	NameSelector *v1.Selector `json:"nameSelector,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Required
 	PolicyData *string `json:"policyData" tf:"policy_data,omitempty"`

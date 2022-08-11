@@ -1,10 +1,15 @@
 apiVersion: sql.gcp.upbound.io/v1beta1
 kind: DatabaseInstance
 metadata:
-  name: example
+  labels:
+    testing.upbound.io/example-name: main
+  name: main
 spec:
   forProvider:
     databaseVersion: POSTGRES_11
     region: us-central1
     settings:
     - tier: db-f1-micro
+
+---
+

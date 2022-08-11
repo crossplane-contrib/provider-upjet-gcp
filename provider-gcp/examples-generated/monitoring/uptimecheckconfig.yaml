@@ -1,7 +1,9 @@
 apiVersion: monitoring.gcp.upbound.io/v1beta1
 kind: UptimeCheckConfig
 metadata:
-  name: example
+  labels:
+    testing.upbound.io/example-name: http
+  name: http
 spec:
   forProvider:
     checkerType: STATIC_IP_CHECKERS
@@ -20,3 +22,6 @@ spec:
         project_id: my-project-name
       type: uptime_url
     timeout: 60s
+
+---
+

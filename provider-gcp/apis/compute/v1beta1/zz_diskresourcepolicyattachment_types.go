@@ -32,13 +32,27 @@ type DiskResourcePolicyAttachmentObservation struct {
 type DiskResourcePolicyAttachmentParameters struct {
 
 	// The name of the disk in which the resource policies are attached to.
-	// +kubebuilder:validation:Required
-	Disk *string `json:"disk" tf:"disk,omitempty"`
+	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.Disk
+	// +kubebuilder:validation:Optional
+	Disk *string `json:"disk,omitempty" tf:"disk,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	DiskRef *v1.Reference `json:"diskRef,omitempty" tf:"-"`
+
+	// +kubebuilder:validation:Optional
+	DiskSelector *v1.Selector `json:"diskSelector,omitempty" tf:"-"`
 
 	// The resource policy to be attached to the disk for scheduling snapshot
 	// creation. Do not specify the self link.
-	// +kubebuilder:validation:Required
-	Name *string `json:"name" tf:"name,omitempty"`
+	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.ResourcePolicy
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	NameRef *v1.Reference `json:"nameRef,omitempty" tf:"-"`
+
+	// +kubebuilder:validation:Optional
+	NameSelector *v1.Selector `json:"nameSelector,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`

@@ -769,8 +769,16 @@ type NodeConfigParameters struct {
 	Preemptible *bool `json:"preemptible,omitempty" tf:"preemptible,omitempty"`
 
 	// The Google Cloud Platform Service Account to be used by the node VMs.
+	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractParamPath("email",true)
 	// +kubebuilder:validation:Optional
 	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ServiceAccountRef *v1.Reference `json:"serviceAccountRef,omitempty" tf:"-"`
+
+	// +kubebuilder:validation:Optional
+	ServiceAccountSelector *v1.Selector `json:"serviceAccountSelector,omitempty" tf:"-"`
 
 	// Shielded Instance options.
 	// +kubebuilder:validation:Optional

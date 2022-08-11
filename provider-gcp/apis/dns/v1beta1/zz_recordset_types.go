@@ -45,8 +45,15 @@ type RecordSetObservation struct {
 type RecordSetParameters struct {
 
 	// The name of the zone in which this record set will reside.
-	// +kubebuilder:validation:Required
-	ManagedZone *string `json:"managedZone" tf:"managed_zone,omitempty"`
+	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/dns/v1beta1.ManagedZone
+	// +kubebuilder:validation:Optional
+	ManagedZone *string `json:"managedZone,omitempty" tf:"managed_zone,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ManagedZoneRef *v1.Reference `json:"managedZoneRef,omitempty" tf:"-"`
+
+	// +kubebuilder:validation:Optional
+	ManagedZoneSelector *v1.Selector `json:"managedZoneSelector,omitempty" tf:"-"`
 
 	// The DNS name this record set will apply to.
 	// +kubebuilder:validation:Required

@@ -1,7 +1,9 @@
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: InstanceTemplate
 metadata:
-  name: example
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
 spec:
   forProvider:
     canIpForward: false
@@ -14,7 +16,9 @@ spec:
       sourceImage: debian-cloud/debian-9
     - autoDelete: false
       boot: false
-      source: ${google_compute_disk.foobar.name}
+      sourceSelector:
+        matchLabels:
+          testing.upbound.io/example-name: foobar
     instanceDescription: description assigned to instances
     labels:
       environment: dev
@@ -28,9 +32,58 @@ spec:
     - automaticRestart: true
       onHostMaintenance: MIGRATE
     serviceAccount:
-    - email: ${google_service_account.default.email}
+    - emailSelector:
+        matchLabels:
+          testing.upbound.io/example-name: default
       scopes:
       - cloud-platform
     tags:
     - foo
     - bar
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Disk
+metadata:
+  labels:
+    testing.upbound.io/example-name: foobar
+  name: foobar
+spec:
+  forProvider:
+    image: ${data.google_compute_image.my_image.self_link}
+    size: 10
+    type: pd-ssd
+    zone: us-central1-a
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: ResourcePolicy
+metadata:
+  labels:
+    testing.upbound.io/example-name: daily_backup
+  name: daily-backup
+spec:
+  forProvider:
+    region: us-central1
+    snapshotSchedulePolicy:
+    - schedule:
+      - dailySchedule:
+        - daysInCycle: 1
+          startTime: "04:00"
+
+---
+
+apiVersion: cloudplatform.gcp.upbound.io/v1beta1
+kind: ServiceAccount
+metadata:
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    displayName: Service Account
+
+---
+
