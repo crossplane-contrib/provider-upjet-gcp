@@ -70,6 +70,7 @@ func Configure(p *config.Provider) {
 		r.References["topic"] = config.Reference{
 			Type: "Topic",
 		}
+		delete(r.References, "project")
 	})
 }
 

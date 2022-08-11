@@ -24,17 +24,24 @@ import (
 	v1beta11 "github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1"
 	v1beta1 "github.com/upbound/official-providers/provider-gcp/apis/storage/v1beta1"
 	common "github.com/upbound/official-providers/provider-gcp/config/common"
+	resource "github.com/upbound/upjet/pkg/resource"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
+<<<<<<< HEAD
 // ResolveReferences of this ProjectDefaultServiceAccounts.
 func (mg *ProjectDefaultServiceAccounts) ResolveReferences(ctx context.Context, c client.Reader) error {
+=======
+// ResolveReferences of this Folder.
+func (mg *Folder) ResolveReferences(ctx context.Context, c client.Reader) error {
+>>>>>>> e4df16275692144325bd5ca5f88226aed4e09d13
 	r := reference.NewAPIResolver(c, mg)
 
 	var rsp reference.ResolutionResponse
 	var err error
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+<<<<<<< HEAD
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Project),
 		Extract:      reference.ExternalName(),
 		Reference:    mg.Spec.ForProvider.ProjectRef,
@@ -49,6 +56,48 @@ func (mg *ProjectDefaultServiceAccounts) ResolveReferences(ctx context.Context, 
 	}
 	mg.Spec.ForProvider.Project = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.ProjectRef = rsp.ResolvedReference
+=======
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Parent),
+		Extract:      resource.ExtractParamPath("name", true),
+		Reference:    mg.Spec.ForProvider.ParentRef,
+		Selector:     mg.Spec.ForProvider.ParentSelector,
+		To: reference.To{
+			List:    &FolderList{},
+			Managed: &Folder{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.Parent")
+	}
+	mg.Spec.ForProvider.Parent = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.ParentRef = rsp.ResolvedReference
+
+	return nil
+}
+
+// ResolveReferences of this Project.
+func (mg *Project) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.FolderID),
+		Extract:      resource.ExtractParamPath("name", true),
+		Reference:    mg.Spec.ForProvider.FolderIDRef,
+		Selector:     mg.Spec.ForProvider.FolderIDSelector,
+		To: reference.To{
+			List:    &FolderList{},
+			Managed: &Folder{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.FolderID")
+	}
+	mg.Spec.ForProvider.FolderID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.FolderIDRef = rsp.ResolvedReference
+>>>>>>> e4df16275692144325bd5ca5f88226aed4e09d13
 
 	return nil
 }

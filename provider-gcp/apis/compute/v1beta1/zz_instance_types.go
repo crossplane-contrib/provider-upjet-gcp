@@ -468,8 +468,16 @@ type ServiceAccountObservation struct {
 type ServiceAccountParameters struct {
 
 	// The service account e-mail address.
+	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractParamPath("email",true)
 	// +kubebuilder:validation:Optional
 	Email *string `json:"email,omitempty" tf:"email,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	EmailRef *v1.Reference `json:"emailRef,omitempty" tf:"-"`
+
+	// +kubebuilder:validation:Optional
+	EmailSelector *v1.Selector `json:"emailSelector,omitempty" tf:"-"`
 
 	// A list of service scopes.
 	// +kubebuilder:validation:Required

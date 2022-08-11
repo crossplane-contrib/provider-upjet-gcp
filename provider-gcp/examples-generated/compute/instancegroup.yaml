@@ -1,10 +1,16 @@
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: InstanceGroup
 metadata:
-  name: example
+  labels:
+    testing.upbound.io/example-name: test
+  name: test
 spec:
   forProvider:
     description: Terraform test instance group
-    networkRef:
-      name: example
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
     zone: us-central1-a
+
+---
+

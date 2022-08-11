@@ -1,6 +1,11 @@
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: Address
 metadata:
-  name: example
+  labels:
+    testing.upbound.io/example-name: ip_address
+  name: ip-address
 spec:
   forProvider: {}
+
+---
+

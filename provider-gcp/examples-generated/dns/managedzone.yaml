@@ -1,10 +1,15 @@
 apiVersion: dns.gcp.upbound.io/v1beta1
 kind: ManagedZone
 metadata:
-  name: example
+  labels:
+    testing.upbound.io/example-name: example-zone
+  name: example-zone
 spec:
   forProvider:
     description: Example DNS zone
     dnsName: example-${random_id.rnd.hex}.com.
     labels:
       foo: bar
+
+---
+

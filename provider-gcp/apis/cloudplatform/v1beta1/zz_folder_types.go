@@ -44,8 +44,16 @@ type FolderParameters struct {
 	DisplayName *string `json:"displayName" tf:"display_name,omitempty"`
 
 	// The resource name of the parent Folder or Organization. Must be of the form folders/{folder_id} or organizations/{org_id}.
-	// +kubebuilder:validation:Required
-	Parent *string `json:"parent" tf:"parent,omitempty"`
+	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/cloudplatform/v1beta1.Folder
+	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractParamPath("name",true)
+	// +kubebuilder:validation:Optional
+	Parent *string `json:"parent,omitempty" tf:"parent,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ParentRef *v1.Reference `json:"parentRef,omitempty" tf:"-"`
+
+	// +kubebuilder:validation:Optional
+	ParentSelector *v1.Selector `json:"parentSelector,omitempty" tf:"-"`
 }
 
 // FolderSpec defines the desired state of Folder

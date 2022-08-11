@@ -1,13 +1,31 @@
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: Subnetwork
 metadata:
-  name: example
+  labels:
+    testing.upbound.io/example-name: network-with-private-secondary-ip-ranges
+  name: network-with-private-secondary-ip-ranges
 spec:
   forProvider:
     ipCidrRange: 10.2.0.0/16
-    networkRef:
-      name: example
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: custom-test
     region: us-central1
     secondaryIpRange:
     - ipCidrRange: 192.168.10.0/24
       rangeName: tf-test-secondary-range-update1
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Network
+metadata:
+  labels:
+    testing.upbound.io/example-name: custom-test
+  name: custom-test
+spec:
+  forProvider:
+    autoCreateSubnetworks: false
+
+---
+

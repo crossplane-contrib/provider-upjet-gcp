@@ -1,13 +1,33 @@
 apiVersion: sql.gcp.upbound.io/v1beta1
 kind: User
 metadata:
-  name: example
+  labels:
+    testing.upbound.io/example-name: users
+  name: users
 spec:
   forProvider:
     host: me.com
-    instanceRef:
-      name: example
+    instanceSelector:
+      matchLabels:
+        testing.upbound.io/example-name: main
     passwordSecretRef:
       key: example-key
       name: example-secret
-      namespace: crossplane-system
+      namespace: upbound-system
+
+---
+
+apiVersion: sql.gcp.upbound.io/v1beta1
+kind: DatabaseInstance
+metadata:
+  labels:
+    testing.upbound.io/example-name: main
+  name: main
+spec:
+  forProvider:
+    databaseVersion: MYSQL_5_7
+    settings:
+    - tier: db-f1-micro
+
+---
+

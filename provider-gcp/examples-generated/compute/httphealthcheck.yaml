@@ -1,9 +1,14 @@
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: HTTPHealthCheck
 metadata:
-  name: example
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
 spec:
   forProvider:
     checkIntervalSec: 1
     requestPath: /health_check
     timeoutSec: 1
+
+---
+

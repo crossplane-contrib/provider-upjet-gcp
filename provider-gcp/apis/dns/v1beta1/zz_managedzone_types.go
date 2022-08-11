@@ -150,8 +150,16 @@ type NetworksParameters struct {
 	// The id or fully qualified URL of the VPC network to bind to.
 	// This should be formatted like 'projects/{project}/global/networks/{network}' or
 	// 'https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}'
-	// +kubebuilder:validation:Required
-	NetworkURL *string `json:"networkUrl" tf:"network_url,omitempty"`
+	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.Network
+	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
+	// +kubebuilder:validation:Optional
+	NetworkURL *string `json:"networkUrl,omitempty" tf:"network_url,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	NetworkURLRef *v1.Reference `json:"networkUrlRef,omitempty" tf:"-"`
+
+	// +kubebuilder:validation:Optional
+	NetworkURLSelector *v1.Selector `json:"networkUrlSelector,omitempty" tf:"-"`
 }
 
 type PeeringConfigObservation struct {
@@ -202,8 +210,16 @@ type TargetNetworkParameters struct {
 	// The id or fully qualified URL of the VPC network to forward queries to.
 	// This should be formatted like 'projects/{project}/global/networks/{network}' or
 	// 'https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}'
-	// +kubebuilder:validation:Required
-	NetworkURL *string `json:"networkUrl" tf:"network_url,omitempty"`
+	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.Network
+	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
+	// +kubebuilder:validation:Optional
+	NetworkURL *string `json:"networkUrl,omitempty" tf:"network_url,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	NetworkURLRef *v1.Reference `json:"networkUrlRef,omitempty" tf:"-"`
+
+	// +kubebuilder:validation:Optional
+	NetworkURLSelector *v1.Selector `json:"networkUrlSelector,omitempty" tf:"-"`
 }
 
 // ManagedZoneSpec defines the desired state of ManagedZone
