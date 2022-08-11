@@ -1,0 +1,10 @@
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: BackendBucket
+metadata:
+  name: example
+spec:
+  forProvider:
+    bucketNameRef:
+      name: example
+    description: Contains beautiful images
+    enableCdn: true

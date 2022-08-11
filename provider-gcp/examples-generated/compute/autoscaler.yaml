@@ -1,0 +1,19 @@
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Autoscaler
+metadata:
+  name: example
+spec:
+  forProvider:
+    autoscalingPolicy:
+    - cooldownPeriod: 60
+      maxReplicas: 5
+      metric:
+      - filter: resource.type = pubsub_subscription AND resource.label.subscription_id
+          = our-subscription
+        name: pubsub.googleapis.com/subscription/num_undelivered_messages
+        single_instance_assignment: 65535
+      minReplicas: 1
+    provider: ${google-beta}
+    targetRef:
+      name: example
+    zone: us-central1-f

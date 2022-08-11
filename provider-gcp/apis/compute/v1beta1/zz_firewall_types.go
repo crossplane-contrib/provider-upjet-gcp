@@ -71,6 +71,16 @@ type DenyParameters struct {
 	Protocol *string `json:"protocol" tf:"protocol,omitempty"`
 }
 
+type FirewallLogConfigObservation struct {
+}
+
+type FirewallLogConfigParameters struct {
+
+	// This field denotes whether to include or exclude metadata for firewall logs. Possible values: ["EXCLUDE_ALL_METADATA", "INCLUDE_ALL_METADATA"]
+	// +kubebuilder:validation:Required
+	Metadata *string `json:"metadata" tf:"metadata,omitempty"`
+}
+
 type FirewallObservation struct {
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
 
@@ -125,7 +135,7 @@ type FirewallParameters struct {
 	// This field denotes the logging options for a particular firewall rule.
 	// If defined, logging is enabled, and logs will be exported to Cloud Logging.
 	// +kubebuilder:validation:Optional
-	LogConfig []LogConfigParameters `json:"logConfig,omitempty" tf:"log_config,omitempty"`
+	LogConfig []FirewallLogConfigParameters `json:"logConfig,omitempty" tf:"log_config,omitempty"`
 
 	// The name or self_link of the network to attach this firewall to.
 	// +crossplane:generate:reference:type=Network
@@ -206,16 +216,6 @@ type FirewallParameters struct {
 	// instances on the specified network.
 	// +kubebuilder:validation:Optional
 	TargetTags []*string `json:"targetTags,omitempty" tf:"target_tags,omitempty"`
-}
-
-type LogConfigObservation struct {
-}
-
-type LogConfigParameters struct {
-
-	// This field denotes whether to include or exclude metadata for firewall logs. Possible values: ["EXCLUDE_ALL_METADATA", "INCLUDE_ALL_METADATA"]
-	// +kubebuilder:validation:Required
-	Metadata *string `json:"metadata" tf:"metadata,omitempty"`
 }
 
 // FirewallSpec defines the desired state of Firewall

@@ -1,0 +1,10 @@
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: AttachedDisk
+metadata:
+  name: example
+spec:
+  forProvider:
+    diskRef:
+      name: example
+    instanceRef:
+      name: example

@@ -782,3 +782,29 @@ func (mg *Subnetwork) ResolveReferences(ctx context.Context, c client.Reader) er
 
 	return nil
 }
+
+// ResolveReferences of this TargetPool.
+func (mg *TargetPool) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var mrsp reference.MultiResolutionResponse
+	var err error
+
+	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
+		CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.HealthChecks),
+		Extract:       reference.ExternalName(),
+		References:    mg.Spec.ForProvider.HealthChecksRefs,
+		Selector:      mg.Spec.ForProvider.HealthChecksSelector,
+		To: reference.To{
+			List:    &HTTPHealthCheckList{},
+			Managed: &HTTPHealthCheck{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.HealthChecks")
+	}
+	mg.Spec.ForProvider.HealthChecks = reference.ToPtrValues(mrsp.ResolvedValues)
+	mg.Spec.ForProvider.HealthChecksRefs = mrsp.ResolvedReferences
+
+	return nil
+}

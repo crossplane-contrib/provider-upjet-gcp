@@ -5,7 +5,7 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.8.0
   creationTimestamp: null
-  name: targetpools.compute.gcp.upbound.io
+  name: backendbucketsignedurlkeys.compute.gcp.upbound.io
 spec:
   group: compute.gcp.upbound.io
   names:
@@ -13,10 +13,10 @@ spec:
     - crossplane
     - managed
     - gcp
-    kind: TargetPool
-    listKind: TargetPoolList
-    plural: targetpools
-    singular: targetpool
+    kind: BackendBucketSignedURLKey
+    listKind: BackendBucketSignedURLKeyList
+    plural: backendbucketsignedurlkeys
+    singular: backendbucketsignedurlkey
   scope: Cluster
   versions:
   - additionalPrinterColumns:
@@ -35,7 +35,8 @@ spec:
     name: v1beta1
     schema:
       openAPIV3Schema:
-        description: TargetPool is the Schema for the TargetPools API
+        description: BackendBucketSignedURLKey is the Schema for the BackendBucketSignedURLKeys
+          API
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -50,7 +51,8 @@ spec:
           metadata:
             type: object
           spec:
-            description: TargetPoolSpec defines the desired state of TargetPool
+            description: BackendBucketSignedURLKeySpec defines the desired state of
+              BackendBucketSignedURLKey
             properties:
               deletionPolicy:
                 default: Delete
@@ -63,59 +65,44 @@ spec:
                 type: string
               forProvider:
                 properties:
-                  backupPool:
-                    description: URL to the backup target pool. Must also set failover_ratio.
+                  backendBucket:
+                    description: The backend bucket this signed URL key belongs.
                     type: string
-                  description:
-                    description: Textual description field.
-                    type: string
-                  failoverRatio:
-                    description: Ratio (0 to 1) of failed nodes before using the backup
-                      pool (which must also be set).
-                    type: number
-                  healthChecks:
-                    description: List of zero or one health check name or self_link.
-                      Only legacy google_compute_http_health_check is supported.
-                    items:
-                      type: string
-                    type: array
-                  healthChecksRefs:
-                    items:
-                      description: A Reference to a named object.
-                      properties:
-                        name:
-                          description: Name of the referenced object.
-                          type: string
-                        policy:
-                          description: Policies for referencing.
-                          properties:
-                            resolution:
-                              default: Required
-                              description: Resolution specifies whether resolution
-                                of this reference is required. The default is 'Required',
-                                which means the reconcile will fail if the reference
-                                cannot be resolved. 'Optional' means this reference
-                                will be a no-op if it cannot be resolved.
-                              enum:
-                              - Required
-                              - Optional
-                              type: string
-                            resolve:
-                              description: Resolve specifies when this reference should
-                                be resolved. The default is 'IfNotPresent', which
-                                will attempt to resolve the reference only when the
-                                corresponding field is not present. Use 'Always' to
-                                resolve the reference on every reconcile.
-                              enum:
-                              - Always
-                              - IfNotPresent
-                              type: string
-                          type: object
-                      required:
-                      - name
-                      type: object
-                    type: array
-                  healthChecksSelector:
+                  backendBucketRef:
+                    description: A Reference to a named object.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: Resolution specifies whether resolution of
+                              this reference is required. The default is 'Required',
+                              which means the reconcile will fail if the reference
+                              cannot be resolved. 'Optional' means this reference
+                              will be a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: Resolve specifies when this reference should
+                              be resolved. The default is 'IfNotPresent', which will
+                              attempt to resolve the reference only when the corresponding
+                              field is not present. Use 'Always' to resolve the reference
+                              on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  backendBucketSelector:
                     description: A Selector selects an object.
                     properties:
                       matchControllerRef:
@@ -154,30 +141,105 @@ spec:
                             type: string
                         type: object
                     type: object
-                  instances:
-                    description: List of instances in the pool. They can be given
-                      as URLs, or in the form of "zone/name". Note that the instances
-                      need not exist at the time of target pool creation, so there
-                      is no need to use the Terraform interpolators to create a dependency
-                      on the instances from the target pool.
-                    items:
-                      type: string
-                    type: array
+                  keyValueSecretRef:
+                    description: 128-bit key value used for signing the URL. The key
+                      value must be a valid RFC 4648 Section 5 base64url encoded string.
+                    properties:
+                      key:
+                        description: The key to select.
+                        type: string
+                      name:
+                        description: Name of the secret.
+                        type: string
+                      namespace:
+                        description: Namespace of the secret.
+                        type: string
+                    required:
+                    - key
+                    - name
+                    - namespace
+                    type: object
+                  name:
+                    description: Name of the signed URL key.
+                    type: string
                   project:
-                    description: The ID of the project in which the resource belongs.
-                      If it is not provided, the provider project is used.
                     type: string
-                  region:
-                    description: Where the target pool resides. Defaults to project
-                      region.
-                    type: string
-                  sessionAffinity:
-                    description: How to distribute load. Options are "NONE" (no affinity).
-                      "CLIENT_IP" (hash of the source/dest addresses / ports), and
-                      "CLIENT_IP_PROTO" also includes the protocol (default "NONE").
-                    type: string
+                  projectRef:
+                    description: A Reference to a named object.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: Resolution specifies whether resolution of
+                              this reference is required. The default is 'Required',
+                              which means the reconcile will fail if the reference
+                              cannot be resolved. 'Optional' means this reference
+                              will be a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: Resolve specifies when this reference should
+                              be resolved. The default is 'IfNotPresent', which will
+                              attempt to resolve the reference only when the corresponding
+                              field is not present. Use 'Always' to resolve the reference
+                              on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  projectSelector:
+                    description: A Selector selects an object.
+                    properties:
+                      matchControllerRef:
+                        description: MatchControllerRef ensures an object with the
+                          same controller reference as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: Resolution specifies whether resolution of
+                              this reference is required. The default is 'Required',
+                              which means the reconcile will fail if the reference
+                              cannot be resolved. 'Optional' means this reference
+                              will be a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: Resolve specifies when this reference should
+                              be resolved. The default is 'IfNotPresent', which will
+                              attempt to resolve the reference only when the corresponding
+                              field is not present. Use 'Always' to resolve the reference
+                              on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
                 required:
-                - region
+                - keyValueSecretRef
+                - name
                 type: object
               providerConfigRef:
                 default:
@@ -351,13 +413,12 @@ spec:
             - forProvider
             type: object
           status:
-            description: TargetPoolStatus defines the observed state of TargetPool.
+            description: BackendBucketSignedURLKeyStatus defines the observed state
+              of BackendBucketSignedURLKey.
             properties:
               atProvider:
                 properties:
                   id:
-                    type: string
-                  selfLink:
                     type: string
                 type: object
               conditions:

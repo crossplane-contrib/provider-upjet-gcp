@@ -5,7 +5,7 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.8.0
   creationTimestamp: null
-  name: targetpools.compute.gcp.upbound.io
+  name: backendbuckets.compute.gcp.upbound.io
 spec:
   group: compute.gcp.upbound.io
   names:
@@ -13,10 +13,10 @@ spec:
     - crossplane
     - managed
     - gcp
-    kind: TargetPool
-    listKind: TargetPoolList
-    plural: targetpools
-    singular: targetpool
+    kind: BackendBucket
+    listKind: BackendBucketList
+    plural: backendbuckets
+    singular: backendbucket
   scope: Cluster
   versions:
   - additionalPrinterColumns:
@@ -35,7 +35,7 @@ spec:
     name: v1beta1
     schema:
       openAPIV3Schema:
-        description: TargetPool is the Schema for the TargetPools API
+        description: BackendBucket is the Schema for the BackendBuckets API
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -50,7 +50,7 @@ spec:
           metadata:
             type: object
           spec:
-            description: TargetPoolSpec defines the desired state of TargetPool
+            description: BackendBucketSpec defines the desired state of BackendBucket
             properties:
               deletionPolicy:
                 default: Delete
@@ -63,59 +63,44 @@ spec:
                 type: string
               forProvider:
                 properties:
-                  backupPool:
-                    description: URL to the backup target pool. Must also set failover_ratio.
+                  bucketName:
+                    description: Cloud Storage bucket name.
                     type: string
-                  description:
-                    description: Textual description field.
-                    type: string
-                  failoverRatio:
-                    description: Ratio (0 to 1) of failed nodes before using the backup
-                      pool (which must also be set).
-                    type: number
-                  healthChecks:
-                    description: List of zero or one health check name or self_link.
-                      Only legacy google_compute_http_health_check is supported.
-                    items:
-                      type: string
-                    type: array
-                  healthChecksRefs:
-                    items:
-                      description: A Reference to a named object.
-                      properties:
-                        name:
-                          description: Name of the referenced object.
-                          type: string
-                        policy:
-                          description: Policies for referencing.
-                          properties:
-                            resolution:
-                              default: Required
-                              description: Resolution specifies whether resolution
-                                of this reference is required. The default is 'Required',
-                                which means the reconcile will fail if the reference
-                                cannot be resolved. 'Optional' means this reference
-                                will be a no-op if it cannot be resolved.
-                              enum:
-                              - Required
-                              - Optional
-                              type: string
-                            resolve:
-                              description: Resolve specifies when this reference should
-                                be resolved. The default is 'IfNotPresent', which
-                                will attempt to resolve the reference only when the
-                                corresponding field is not present. Use 'Always' to
-                                resolve the reference on every reconcile.
-                              enum:
-                              - Always
-                              - IfNotPresent
-                              type: string
-                          type: object
-                      required:
-                      - name
-                      type: object
-                    type: array
-                  healthChecksSelector:
+                  bucketNameRef:
+                    description: A Reference to a named object.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: Resolution specifies whether resolution of
+                              this reference is required. The default is 'Required',
+                              which means the reconcile will fail if the reference
+                              cannot be resolved. 'Optional' means this reference
+                              will be a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: Resolve specifies when this reference should
+                              be resolved. The default is 'IfNotPresent', which will
+                              attempt to resolve the reference only when the corresponding
+                              field is not present. Use 'Always' to resolve the reference
+                              on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  bucketNameSelector:
                     description: A Selector selects an object.
                     properties:
                       matchControllerRef:
@@ -154,30 +139,165 @@ spec:
                             type: string
                         type: object
                     type: object
-                  instances:
-                    description: List of instances in the pool. They can be given
-                      as URLs, or in the form of "zone/name". Note that the instances
-                      need not exist at the time of target pool creation, so there
-                      is no need to use the Terraform interpolators to create a dependency
-                      on the instances from the target pool.
+                  cdnPolicy:
+                    description: Cloud CDN configuration for this Backend Bucket.
+                    items:
+                      properties:
+                        cacheMode:
+                          description: 'Specifies the cache setting for all responses
+                            from this backend. The possible values are: USE_ORIGIN_HEADERS,
+                            FORCE_CACHE_ALL and CACHE_ALL_STATIC Possible values:
+                            ["USE_ORIGIN_HEADERS", "FORCE_CACHE_ALL", "CACHE_ALL_STATIC"]'
+                          type: string
+                        clientTtl:
+                          description: Specifies the maximum allowed TTL for cached
+                            content served by this origin.
+                          type: number
+                        defaultTtl:
+                          description: Specifies the default TTL for cached content
+                            served by this origin for responses that do not have an
+                            existing valid TTL (max-age or s-max-age).
+                          type: number
+                        maxTtl:
+                          description: Specifies the maximum allowed TTL for cached
+                            content served by this origin.
+                          type: number
+                        negativeCaching:
+                          description: Negative caching allows per-status code TTLs
+                            to be set, in order to apply fine-grained caching for
+                            common errors or redirects.
+                          type: boolean
+                        negativeCachingPolicy:
+                          description: Sets a cache TTL for the specified HTTP status
+                            code. negativeCaching must be enabled to configure negativeCachingPolicy.
+                            Omitting the policy and leaving negativeCaching enabled
+                            will use Cloud CDN's default cache TTLs.
+                          items:
+                            properties:
+                              code:
+                                description: The HTTP status code to define a TTL
+                                  against. Only HTTP status codes 300, 301, 308, 404,
+                                  405, 410, 421, 451 and 501 can be specified as values,
+                                  and you cannot specify a status code more than once.
+                                type: number
+                              ttl:
+                                description: The TTL (in seconds) for which to cache
+                                  responses with the corresponding status code. The
+                                  maximum allowed value is 1800s (30 minutes), noting
+                                  that infrequently accessed objects may be evicted
+                                  from the cache before the defined TTL.
+                                type: number
+                            type: object
+                          type: array
+                        serveWhileStale:
+                          description: Serve existing content from the cache (if available)
+                            when revalidating content with the origin, or when an
+                            error is encountered when refreshing the cache.
+                          type: number
+                        signedUrlCacheMaxAgeSec:
+                          description: 'Maximum number of seconds the response to
+                            a signed URL request will be considered fresh. After this
+                            time period, the response will be revalidated before being
+                            served. When serving responses to signed URL requests,
+                            Cloud CDN will internally behave as though all responses
+                            from this backend had a "Cache-Control: public, max-age=[TTL]"
+                            header, regardless of any existing Cache-Control header.
+                            The actual headers served in responses will not be altered.'
+                          type: number
+                      type: object
+                    type: array
+                  customResponseHeaders:
+                    description: Headers that the HTTP/S load balancer should add
+                      to proxied responses.
                     items:
                       type: string
                     type: array
+                  description:
+                    description: An optional textual description of the resource;
+                      provided by the client when the resource is created.
+                    type: string
+                  edgeSecurityPolicy:
+                    description: The security policy associated with this backend
+                      bucket.
+                    type: string
+                  enableCdn:
+                    description: If true, enable Cloud CDN for this BackendBucket.
+                    type: boolean
                   project:
-                    description: The ID of the project in which the resource belongs.
-                      If it is not provided, the provider project is used.
                     type: string
-                  region:
-                    description: Where the target pool resides. Defaults to project
-                      region.
-                    type: string
-                  sessionAffinity:
-                    description: How to distribute load. Options are "NONE" (no affinity).
-                      "CLIENT_IP" (hash of the source/dest addresses / ports), and
-                      "CLIENT_IP_PROTO" also includes the protocol (default "NONE").
-                    type: string
-                required:
-                - region
+                  projectRef:
+                    description: A Reference to a named object.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: Resolution specifies whether resolution of
+                              this reference is required. The default is 'Required',
+                              which means the reconcile will fail if the reference
+                              cannot be resolved. 'Optional' means this reference
+                              will be a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: Resolve specifies when this reference should
+                              be resolved. The default is 'IfNotPresent', which will
+                              attempt to resolve the reference only when the corresponding
+                              field is not present. Use 'Always' to resolve the reference
+                              on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  projectSelector:
+                    description: A Selector selects an object.
+                    properties:
+                      matchControllerRef:
+                        description: MatchControllerRef ensures an object with the
+                          same controller reference as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: Resolution specifies whether resolution of
+                              this reference is required. The default is 'Required',
+                              which means the reconcile will fail if the reference
+                              cannot be resolved. 'Optional' means this reference
+                              will be a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: Resolve specifies when this reference should
+                              be resolved. The default is 'IfNotPresent', which will
+                              attempt to resolve the reference only when the corresponding
+                              field is not present. Use 'Always' to resolve the reference
+                              on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
                 type: object
               providerConfigRef:
                 default:
@@ -351,10 +471,12 @@ spec:
             - forProvider
             type: object
           status:
-            description: TargetPoolStatus defines the observed state of TargetPool.
+            description: BackendBucketStatus defines the observed state of BackendBucket.
             properties:
               atProvider:
                 properties:
+                  creationTimestamp:
+                    type: string
                   id:
                     type: string
                   selfLink:

@@ -71,33 +71,6 @@ type AliasIPRangeParameters struct {
 	SubnetworkRangeName *string `json:"subnetworkRangeName,omitempty" tf:"subnetwork_range_name,omitempty"`
 }
 
-type AttachedDiskObservation struct {
-	DiskEncryptionKeySha256 *string `json:"diskEncryptionKeySha256,omitempty" tf:"disk_encryption_key_sha256,omitempty"`
-}
-
-type AttachedDiskParameters struct {
-
-	// Name with which the attached disk is accessible under /dev/disk/by-id/
-	// +kubebuilder:validation:Optional
-	DeviceName *string `json:"deviceName,omitempty" tf:"device_name,omitempty"`
-
-	// A 256-bit customer-supplied encryption key, encoded in RFC 4648 base64 to encrypt this disk. Only one of kms_key_self_link and disk_encryption_key_raw may be set.
-	// +kubebuilder:validation:Optional
-	DiskEncryptionKeyRawSecretRef *v1.SecretKeySelector `json:"diskEncryptionKeyRawSecretRef,omitempty" tf:"-"`
-
-	// The self_link of the encryption key that is stored in Google Cloud KMS to encrypt this disk. Only one of kms_key_self_link and disk_encryption_key_raw may be set.
-	// +kubebuilder:validation:Optional
-	KMSKeySelfLink *string `json:"kmsKeySelfLink,omitempty" tf:"kms_key_self_link,omitempty"`
-
-	// Read/write mode for the disk. One of "READ_ONLY" or "READ_WRITE".
-	// +kubebuilder:validation:Optional
-	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
-
-	// The name or self_link of the disk attached to this instance.
-	// +kubebuilder:validation:Required
-	Source *string `json:"source" tf:"source,omitempty"`
-}
-
 type BootDiskObservation struct {
 	DiskEncryptionKeySha256 *string `json:"diskEncryptionKeySha256,omitempty" tf:"disk_encryption_key_sha256,omitempty"`
 }
@@ -194,8 +167,35 @@ type InitializeParamsParameters struct {
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
+type InstanceAttachedDiskObservation struct {
+	DiskEncryptionKeySha256 *string `json:"diskEncryptionKeySha256,omitempty" tf:"disk_encryption_key_sha256,omitempty"`
+}
+
+type InstanceAttachedDiskParameters struct {
+
+	// Name with which the attached disk is accessible under /dev/disk/by-id/
+	// +kubebuilder:validation:Optional
+	DeviceName *string `json:"deviceName,omitempty" tf:"device_name,omitempty"`
+
+	// A 256-bit customer-supplied encryption key, encoded in RFC 4648 base64 to encrypt this disk. Only one of kms_key_self_link and disk_encryption_key_raw may be set.
+	// +kubebuilder:validation:Optional
+	DiskEncryptionKeyRawSecretRef *v1.SecretKeySelector `json:"diskEncryptionKeyRawSecretRef,omitempty" tf:"-"`
+
+	// The self_link of the encryption key that is stored in Google Cloud KMS to encrypt this disk. Only one of kms_key_self_link and disk_encryption_key_raw may be set.
+	// +kubebuilder:validation:Optional
+	KMSKeySelfLink *string `json:"kmsKeySelfLink,omitempty" tf:"kms_key_self_link,omitempty"`
+
+	// Read/write mode for the disk. One of "READ_ONLY" or "READ_WRITE".
+	// +kubebuilder:validation:Optional
+	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
+
+	// The name or self_link of the disk attached to this instance.
+	// +kubebuilder:validation:Required
+	Source *string `json:"source" tf:"source,omitempty"`
+}
+
 type InstanceObservation struct {
-	AttachedDisk []AttachedDiskObservation `json:"attachedDisk,omitempty" tf:"attached_disk,omitempty"`
+	AttachedDisk []InstanceAttachedDiskObservation `json:"attachedDisk,omitempty" tf:"attached_disk,omitempty"`
 
 	BootDisk []BootDiskObservation `json:"bootDisk,omitempty" tf:"boot_disk,omitempty"`
 
@@ -230,7 +230,7 @@ type InstanceParameters struct {
 
 	// List of disks attached to the instance
 	// +kubebuilder:validation:Optional
-	AttachedDisk []AttachedDiskParameters `json:"attachedDisk,omitempty" tf:"attached_disk,omitempty"`
+	AttachedDisk []InstanceAttachedDiskParameters `json:"attachedDisk,omitempty" tf:"attached_disk,omitempty"`
 
 	// The boot disk for the instance.
 	// +kubebuilder:validation:Required

@@ -5,7 +5,7 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.8.0
   creationTimestamp: null
-  name: targetpools.compute.gcp.upbound.io
+  name: attacheddisks.compute.gcp.upbound.io
 spec:
   group: compute.gcp.upbound.io
   names:
@@ -13,10 +13,10 @@ spec:
     - crossplane
     - managed
     - gcp
-    kind: TargetPool
-    listKind: TargetPoolList
-    plural: targetpools
-    singular: targetpool
+    kind: AttachedDisk
+    listKind: AttachedDiskList
+    plural: attacheddisks
+    singular: attacheddisk
   scope: Cluster
   versions:
   - additionalPrinterColumns:
@@ -35,7 +35,7 @@ spec:
     name: v1beta1
     schema:
       openAPIV3Schema:
-        description: TargetPool is the Schema for the TargetPools API
+        description: AttachedDisk is the Schema for the AttachedDisks API
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -50,7 +50,7 @@ spec:
           metadata:
             type: object
           spec:
-            description: TargetPoolSpec defines the desired state of TargetPool
+            description: AttachedDiskSpec defines the desired state of AttachedDisk
             properties:
               deletionPolicy:
                 default: Delete
@@ -63,59 +63,54 @@ spec:
                 type: string
               forProvider:
                 properties:
-                  backupPool:
-                    description: URL to the backup target pool. Must also set failover_ratio.
+                  deviceName:
+                    description: Specifies a unique device name of your choice that
+                      is reflected into the /dev/disk/by-id/google-* tree of a Linux
+                      operating system running within the instance. This name can
+                      be used to reference the device for mounting, resizing, and
+                      so on, from within the instance. If not specified, the server
+                      chooses a default device name to apply to this disk, in the
+                      form persistent-disks-x, where x is a number assigned by Google
+                      Compute Engine.
                     type: string
-                  description:
-                    description: Textual description field.
+                  disk:
+                    description: name or self_link of the disk that will be attached.
                     type: string
-                  failoverRatio:
-                    description: Ratio (0 to 1) of failed nodes before using the backup
-                      pool (which must also be set).
-                    type: number
-                  healthChecks:
-                    description: List of zero or one health check name or self_link.
-                      Only legacy google_compute_http_health_check is supported.
-                    items:
-                      type: string
-                    type: array
-                  healthChecksRefs:
-                    items:
-                      description: A Reference to a named object.
-                      properties:
-                        name:
-                          description: Name of the referenced object.
-                          type: string
-                        policy:
-                          description: Policies for referencing.
-                          properties:
-                            resolution:
-                              default: Required
-                              description: Resolution specifies whether resolution
-                                of this reference is required. The default is 'Required',
-                                which means the reconcile will fail if the reference
-                                cannot be resolved. 'Optional' means this reference
-                                will be a no-op if it cannot be resolved.
-                              enum:
-                              - Required
-                              - Optional
-                              type: string
-                            resolve:
-                              description: Resolve specifies when this reference should
-                                be resolved. The default is 'IfNotPresent', which
-                                will attempt to resolve the reference only when the
-                                corresponding field is not present. Use 'Always' to
-                                resolve the reference on every reconcile.
-                              enum:
-                              - Always
-                              - IfNotPresent
-                              type: string
-                          type: object
-                      required:
-                      - name
-                      type: object
-                    type: array
-                  healthChecksSelector:
+                  diskRef:
+                    description: A Reference to a named object.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: Resolution specifies whether resolution of
+                              this reference is required. The default is 'Required',
+                              which means the reconcile will fail if the reference
+                              cannot be resolved. 'Optional' means this reference
+                              will be a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: Resolve specifies when this reference should
+                              be resolved. The default is 'IfNotPresent', which will
+                              attempt to resolve the reference only when the corresponding
+                              field is not present. Use 'Always' to resolve the reference
+                              on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  diskSelector:
                     description: A Selector selects an object.
                     properties:
                       matchControllerRef:
@@ -154,30 +149,174 @@ spec:
                             type: string
                         type: object
                     type: object
-                  instances:
-                    description: List of instances in the pool. They can be given
-                      as URLs, or in the form of "zone/name". Note that the instances
-                      need not exist at the time of target pool creation, so there
-                      is no need to use the Terraform interpolators to create a dependency
-                      on the instances from the target pool.
-                    items:
-                      type: string
-                    type: array
+                  instance:
+                    description: name or self_link of the compute instance that the
+                      disk will be attached to. If the self_link is provided then
+                      zone and project are extracted from the self link. If only the
+                      name is used then zone and project must be defined as properties
+                      on the resource or provider.
+                    type: string
+                  instanceRef:
+                    description: A Reference to a named object.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: Resolution specifies whether resolution of
+                              this reference is required. The default is 'Required',
+                              which means the reconcile will fail if the reference
+                              cannot be resolved. 'Optional' means this reference
+                              will be a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: Resolve specifies when this reference should
+                              be resolved. The default is 'IfNotPresent', which will
+                              attempt to resolve the reference only when the corresponding
+                              field is not present. Use 'Always' to resolve the reference
+                              on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  instanceSelector:
+                    description: A Selector selects an object.
+                    properties:
+                      matchControllerRef:
+                        description: MatchControllerRef ensures an object with the
+                          same controller reference as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: Resolution specifies whether resolution of
+                              this reference is required. The default is 'Required',
+                              which means the reconcile will fail if the reference
+                              cannot be resolved. 'Optional' means this reference
+                              will be a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: Resolve specifies when this reference should
+                              be resolved. The default is 'IfNotPresent', which will
+                              attempt to resolve the reference only when the corresponding
+                              field is not present. Use 'Always' to resolve the reference
+                              on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  mode:
+                    description: The mode in which to attach this disk, either READ_WRITE
+                      or READ_ONLY. If not specified, the default is to attach the
+                      disk in READ_WRITE mode.
+                    type: string
                   project:
-                    description: The ID of the project in which the resource belongs.
-                      If it is not provided, the provider project is used.
+                    description: The project that the referenced compute instance
+                      is a part of. If instance is referenced by its self_link the
+                      project defined in the link will take precedence.
                     type: string
-                  region:
-                    description: Where the target pool resides. Defaults to project
-                      region.
+                  projectRef:
+                    description: A Reference to a named object.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: Resolution specifies whether resolution of
+                              this reference is required. The default is 'Required',
+                              which means the reconcile will fail if the reference
+                              cannot be resolved. 'Optional' means this reference
+                              will be a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: Resolve specifies when this reference should
+                              be resolved. The default is 'IfNotPresent', which will
+                              attempt to resolve the reference only when the corresponding
+                              field is not present. Use 'Always' to resolve the reference
+                              on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  projectSelector:
+                    description: A Selector selects an object.
+                    properties:
+                      matchControllerRef:
+                        description: MatchControllerRef ensures an object with the
+                          same controller reference as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: Resolution specifies whether resolution of
+                              this reference is required. The default is 'Required',
+                              which means the reconcile will fail if the reference
+                              cannot be resolved. 'Optional' means this reference
+                              will be a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: Resolve specifies when this reference should
+                              be resolved. The default is 'IfNotPresent', which will
+                              attempt to resolve the reference only when the corresponding
+                              field is not present. Use 'Always' to resolve the reference
+                              on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  zone:
+                    description: The zone that the referenced compute instance is
+                      located within. If instance is referenced by its self_link the
+                      zone defined in the link will take precedence.
                     type: string
-                  sessionAffinity:
-                    description: How to distribute load. Options are "NONE" (no affinity).
-                      "CLIENT_IP" (hash of the source/dest addresses / ports), and
-                      "CLIENT_IP_PROTO" also includes the protocol (default "NONE").
-                    type: string
-                required:
-                - region
                 type: object
               providerConfigRef:
                 default:
@@ -351,13 +490,11 @@ spec:
             - forProvider
             type: object
           status:
-            description: TargetPoolStatus defines the observed state of TargetPool.
+            description: AttachedDiskStatus defines the observed state of AttachedDisk.
             properties:
               atProvider:
                 properties:
                   id:
-                    type: string
-                  selfLink:
                     type: string
                 type: object
               conditions:

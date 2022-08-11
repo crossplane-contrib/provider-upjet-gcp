@@ -1,0 +1,21 @@
+apiVersion: storage.gcp.upbound.io/v1beta1
+kind: Bucket
+metadata:
+  name: example-backend
+spec:
+  forProvider:
+    location: US
+    storageClass: MULTI_REGIONAL
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: BackendBucket
+metadata:
+  name: example-backend
+spec:
+  forProvider:
+    bucketNameRef:
+      name: example-backend
+    description: Contains beautiful images
+    enableCdn: true

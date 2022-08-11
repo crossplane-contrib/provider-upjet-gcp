@@ -9,7 +9,7 @@ spec:
     disk:
       - autoDelete: false
         boot: false
-        sourceImage: debian-cloud/debian-9
+        sourceImage: debian-cloud/debian-11
     instanceDescription: description assigned to instances
     labels:
       environment: dev
