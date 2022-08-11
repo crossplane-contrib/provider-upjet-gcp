@@ -10,9 +10,7 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: example
     policyData: ${data.google_iam_policy.admin.policy_data}
-    projectSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
+    project: ${google_compute_image.example.project}
 
 ---
 

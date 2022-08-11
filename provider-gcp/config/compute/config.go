@@ -62,6 +62,7 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 		r.References["subnetwork.name"] = config.Reference{
 			Type: "Subnetwork",
 		}
+		delete(r.References, "region")
 		r.UseAsync = true
 		config.MarkAsRequired(r.TerraformResource, "region")
 	})
@@ -188,5 +189,19 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 
 	p.AddResourceConfigurator("google_compute_network_endpoint", func(r *config.Resource) {
 		delete(r.References, "port")
+	})
+
+	p.AddResourceConfigurator("google_compute_image_iam_policy", func(r *config.Resource) {
+		delete(r.References, "project")
+	})
+
+	p.AddResourceConfigurator("google_compute_disk_iam_policy", func(r *config.Resource) {
+		delete(r.References, "project")
+		delete(r.References, "zone")
+	})
+
+	p.AddResourceConfigurator("google_compute_instance_iam_policy", func(r *config.Resource) {
+		delete(r.References, "project")
+		delete(r.References, "zone")
 	})
 }

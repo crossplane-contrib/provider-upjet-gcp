@@ -49,9 +49,7 @@ spec:
     managedZoneSelector:
       matchLabels:
         testing.upbound.io/example-name: zone
-    nameSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
+    name: sslcert.tf-test.club.
     rrdatas:
     - ${google_compute_global_forwarding_rule.default.ip_address}
     ttl: 3600

@@ -2521,16 +2521,6 @@ func (in *TopicIAMPolicyParameters) DeepCopyInto(out *TopicIAMPolicyParameters) 
 		*out = new(string)
 		**out = **in
 	}
-	if in.ProjectRef != nil {
-		in, out := &in.ProjectRef, &out.ProjectRef
-		*out = new(v1.Reference)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.ProjectSelector != nil {
-		in, out := &in.ProjectSelector, &out.ProjectSelector
-		*out = new(v1.Selector)
-		(*in).DeepCopyInto(*out)
-	}
 	if in.Topic != nil {
 		in, out := &in.Topic, &out.Topic
 		*out = new(string)

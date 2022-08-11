@@ -92,38 +92,6 @@ func (mg *DiskIAMPolicy) ResolveReferences(ctx context.Context, c client.Reader)
 	mg.Spec.ForProvider.Name = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.NameRef = rsp.ResolvedReference
 
-	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Project),
-		Extract:      resource.ExtractParamPath("project", false),
-		Reference:    mg.Spec.ForProvider.ProjectRef,
-		Selector:     mg.Spec.ForProvider.ProjectSelector,
-		To: reference.To{
-			List:    &DiskList{},
-			Managed: &Disk{},
-		},
-	})
-	if err != nil {
-		return errors.Wrap(err, "mg.Spec.ForProvider.Project")
-	}
-	mg.Spec.ForProvider.Project = reference.ToPtrValue(rsp.ResolvedValue)
-	mg.Spec.ForProvider.ProjectRef = rsp.ResolvedReference
-
-	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Zone),
-		Extract:      resource.ExtractParamPath("zone", false),
-		Reference:    mg.Spec.ForProvider.ZoneRef,
-		Selector:     mg.Spec.ForProvider.ZoneSelector,
-		To: reference.To{
-			List:    &DiskList{},
-			Managed: &Disk{},
-		},
-	})
-	if err != nil {
-		return errors.Wrap(err, "mg.Spec.ForProvider.Zone")
-	}
-	mg.Spec.ForProvider.Zone = reference.ToPtrValue(rsp.ResolvedValue)
-	mg.Spec.ForProvider.ZoneRef = rsp.ResolvedReference
-
 	return nil
 }
 
@@ -314,22 +282,6 @@ func (mg *ImageIAMPolicy) ResolveReferences(ctx context.Context, c client.Reader
 	}
 	mg.Spec.ForProvider.Image = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.ImageRef = rsp.ResolvedReference
-
-	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Project),
-		Extract:      resource.ExtractParamPath("project", false),
-		Reference:    mg.Spec.ForProvider.ProjectRef,
-		Selector:     mg.Spec.ForProvider.ProjectSelector,
-		To: reference.To{
-			List:    &ImageList{},
-			Managed: &Image{},
-		},
-	})
-	if err != nil {
-		return errors.Wrap(err, "mg.Spec.ForProvider.Project")
-	}
-	mg.Spec.ForProvider.Project = reference.ToPtrValue(rsp.ResolvedValue)
-	mg.Spec.ForProvider.ProjectRef = rsp.ResolvedReference
 
 	return nil
 }
@@ -574,38 +526,6 @@ func (mg *InstanceIAMPolicy) ResolveReferences(ctx context.Context, c client.Rea
 	mg.Spec.ForProvider.InstanceName = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.InstanceNameRef = rsp.ResolvedReference
 
-	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Project),
-		Extract:      resource.ExtractParamPath("project", false),
-		Reference:    mg.Spec.ForProvider.ProjectRef,
-		Selector:     mg.Spec.ForProvider.ProjectSelector,
-		To: reference.To{
-			List:    &InstanceList{},
-			Managed: &Instance{},
-		},
-	})
-	if err != nil {
-		return errors.Wrap(err, "mg.Spec.ForProvider.Project")
-	}
-	mg.Spec.ForProvider.Project = reference.ToPtrValue(rsp.ResolvedValue)
-	mg.Spec.ForProvider.ProjectRef = rsp.ResolvedReference
-
-	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Zone),
-		Extract:      resource.ExtractParamPath("zone", false),
-		Reference:    mg.Spec.ForProvider.ZoneRef,
-		Selector:     mg.Spec.ForProvider.ZoneSelector,
-		To: reference.To{
-			List:    &InstanceList{},
-			Managed: &Instance{},
-		},
-	})
-	if err != nil {
-		return errors.Wrap(err, "mg.Spec.ForProvider.Zone")
-	}
-	mg.Spec.ForProvider.Zone = reference.ToPtrValue(rsp.ResolvedValue)
-	mg.Spec.ForProvider.ZoneRef = rsp.ResolvedReference
-
 	return nil
 }
 
@@ -798,22 +718,6 @@ func (mg *RouterNAT) ResolveReferences(ctx context.Context, c client.Reader) err
 
 	var rsp reference.ResolutionResponse
 	var err error
-
-	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Region),
-		Extract:      resource.ExtractParamPath("region", false),
-		Reference:    mg.Spec.ForProvider.RegionRef,
-		Selector:     mg.Spec.ForProvider.RegionSelector,
-		To: reference.To{
-			List:    &RouterList{},
-			Managed: &Router{},
-		},
-	})
-	if err != nil {
-		return errors.Wrap(err, "mg.Spec.ForProvider.Region")
-	}
-	mg.Spec.ForProvider.Region = reference.ToPtrValue(rsp.ResolvedValue)
-	mg.Spec.ForProvider.RegionRef = rsp.ResolvedReference
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Router),

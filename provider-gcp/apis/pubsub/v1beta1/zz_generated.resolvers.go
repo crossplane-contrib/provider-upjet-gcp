@@ -262,22 +262,6 @@ func (mg *TopicIAMPolicy) ResolveReferences(ctx context.Context, c client.Reader
 	var err error
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Project),
-		Extract:      resource.ExtractParamPath("project", false),
-		Reference:    mg.Spec.ForProvider.ProjectRef,
-		Selector:     mg.Spec.ForProvider.ProjectSelector,
-		To: reference.To{
-			List:    &TopicList{},
-			Managed: &Topic{},
-		},
-	})
-	if err != nil {
-		return errors.Wrap(err, "mg.Spec.ForProvider.Project")
-	}
-	mg.Spec.ForProvider.Project = reference.ToPtrValue(rsp.ResolvedValue)
-	mg.Spec.ForProvider.ProjectRef = rsp.ResolvedReference
-
-	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Topic),
 		Extract:      reference.ExternalName(),
 		Reference:    mg.Spec.ForProvider.TopicRef,

@@ -130,21 +130,5 @@ func (mg *RecordSet) ResolveReferences(ctx context.Context, c client.Reader) err
 	mg.Spec.ForProvider.ManagedZone = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.ManagedZoneRef = rsp.ResolvedReference
 
-	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Name),
-		Extract:      resource.ExtractParamPath("dns_name", false),
-		Reference:    mg.Spec.ForProvider.NameRef,
-		Selector:     mg.Spec.ForProvider.NameSelector,
-		To: reference.To{
-			List:    &ManagedZoneList{},
-			Managed: &ManagedZone{},
-		},
-	})
-	if err != nil {
-		return errors.Wrap(err, "mg.Spec.ForProvider.Name")
-	}
-	mg.Spec.ForProvider.Name = reference.ToPtrValue(rsp.ResolvedValue)
-	mg.Spec.ForProvider.NameRef = rsp.ResolvedReference
-
 	return nil
 }

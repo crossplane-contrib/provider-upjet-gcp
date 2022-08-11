@@ -10,12 +10,8 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: default
     policyData: ${data.google_iam_policy.admin.policy_data}
-    projectSelector:
-      matchLabels:
-        testing.upbound.io/example-name: default
-    zoneSelector:
-      matchLabels:
-        testing.upbound.io/example-name: default
+    project: ${google_compute_disk.default.project}
+    zone: us-central1-a
 
 ---
 
