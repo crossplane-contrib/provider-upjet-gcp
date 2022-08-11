@@ -70,8 +70,16 @@ type BackendParameters struct {
 	// Note that you must specify an Instance Group or Network Endpoint
 	// Group resource using the fully-qualified URL, rather than a
 	// partial URL.
-	// +kubebuilder:validation:Required
-	Group *string `json:"group" tf:"group,omitempty"`
+	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.GlobalNetworkEndpointGroup
+	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
+	// +kubebuilder:validation:Optional
+	Group *string `json:"group,omitempty" tf:"group,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	GroupRef *v1.Reference `json:"groupRef,omitempty" tf:"-"`
+
+	// +kubebuilder:validation:Optional
+	GroupSelector *v1.Selector `json:"groupSelector,omitempty" tf:"-"`
 
 	// The max number of simultaneous connections for the group. Can
 	// be used with either CONNECTION or UTILIZATION balancing modes.

@@ -22,6 +22,7 @@ import (
 	reference "github.com/crossplane/crossplane-runtime/pkg/reference"
 	errors "github.com/pkg/errors"
 	v1beta1 "github.com/upbound/official-providers/provider-gcp/apis/cloudplatform/v1beta1"
+	v1beta11 "github.com/upbound/official-providers/provider-gcp/apis/storage/v1beta1"
 	common "github.com/upbound/official-providers/provider-gcp/config/common"
 	resource "github.com/upbound/upjet/pkg/resource"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
@@ -65,6 +66,251 @@ func (mg *Address) ResolveReferences(ctx context.Context, c client.Reader) error
 	}
 	mg.Spec.ForProvider.Subnetwork = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.SubnetworkRef = rsp.ResolvedReference
+
+	return nil
+}
+
+// ResolveReferences of this AttachedDisk.
+func (mg *AttachedDisk) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Disk),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.ForProvider.DiskRef,
+		Selector:     mg.Spec.ForProvider.DiskSelector,
+		To: reference.To{
+			List:    &DiskList{},
+			Managed: &Disk{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.Disk")
+	}
+	mg.Spec.ForProvider.Disk = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.DiskRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Instance),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.ForProvider.InstanceRef,
+		Selector:     mg.Spec.ForProvider.InstanceSelector,
+		To: reference.To{
+			List:    &InstanceList{},
+			Managed: &Instance{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.Instance")
+	}
+	mg.Spec.ForProvider.Instance = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.InstanceRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Project),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.ForProvider.ProjectRef,
+		Selector:     mg.Spec.ForProvider.ProjectSelector,
+		To: reference.To{
+			List:    &v1beta1.ProjectList{},
+			Managed: &v1beta1.Project{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.Project")
+	}
+	mg.Spec.ForProvider.Project = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.ProjectRef = rsp.ResolvedReference
+
+	return nil
+}
+
+// ResolveReferences of this Autoscaler.
+func (mg *Autoscaler) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Project),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.ForProvider.ProjectRef,
+		Selector:     mg.Spec.ForProvider.ProjectSelector,
+		To: reference.To{
+			List:    &v1beta1.ProjectList{},
+			Managed: &v1beta1.Project{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.Project")
+	}
+	mg.Spec.ForProvider.Project = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.ProjectRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Target),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.ForProvider.TargetRef,
+		Selector:     mg.Spec.ForProvider.TargetSelector,
+		To: reference.To{
+			List:    &InstanceGroupManagerList{},
+			Managed: &InstanceGroupManager{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.Target")
+	}
+	mg.Spec.ForProvider.Target = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.TargetRef = rsp.ResolvedReference
+
+	return nil
+}
+
+// ResolveReferences of this BackendBucket.
+func (mg *BackendBucket) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.BucketName),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.ForProvider.BucketNameRef,
+		Selector:     mg.Spec.ForProvider.BucketNameSelector,
+		To: reference.To{
+			List:    &v1beta11.BucketList{},
+			Managed: &v1beta11.Bucket{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.BucketName")
+	}
+	mg.Spec.ForProvider.BucketName = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.BucketNameRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Project),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.ForProvider.ProjectRef,
+		Selector:     mg.Spec.ForProvider.ProjectSelector,
+		To: reference.To{
+			List:    &v1beta1.ProjectList{},
+			Managed: &v1beta1.Project{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.Project")
+	}
+	mg.Spec.ForProvider.Project = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.ProjectRef = rsp.ResolvedReference
+
+	return nil
+}
+
+// ResolveReferences of this BackendBucketSignedURLKey.
+func (mg *BackendBucketSignedURLKey) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.BackendBucket),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.ForProvider.BackendBucketRef,
+		Selector:     mg.Spec.ForProvider.BackendBucketSelector,
+		To: reference.To{
+			List:    &BackendBucketList{},
+			Managed: &BackendBucket{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.BackendBucket")
+	}
+	mg.Spec.ForProvider.BackendBucket = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.BackendBucketRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Project),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.ForProvider.ProjectRef,
+		Selector:     mg.Spec.ForProvider.ProjectSelector,
+		To: reference.To{
+			List:    &v1beta1.ProjectList{},
+			Managed: &v1beta1.Project{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.Project")
+	}
+	mg.Spec.ForProvider.Project = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.ProjectRef = rsp.ResolvedReference
+
+	return nil
+}
+
+// ResolveReferences of this BackendService.
+func (mg *BackendService) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var mrsp reference.MultiResolutionResponse
+	var err error
+
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.Backend); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Backend[i3].Group),
+			Extract:      resource.ExtractResourceID(),
+			Reference:    mg.Spec.ForProvider.Backend[i3].GroupRef,
+			Selector:     mg.Spec.ForProvider.Backend[i3].GroupSelector,
+			To: reference.To{
+				List:    &GlobalNetworkEndpointGroupList{},
+				Managed: &GlobalNetworkEndpointGroup{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.Backend[i3].Group")
+		}
+		mg.Spec.ForProvider.Backend[i3].Group = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.Backend[i3].GroupRef = rsp.ResolvedReference
+
+	}
+	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
+		CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.HealthChecks),
+		Extract:       reference.ExternalName(),
+		References:    mg.Spec.ForProvider.HealthChecksRefs,
+		Selector:      mg.Spec.ForProvider.HealthChecksSelector,
+		To: reference.To{
+			List:    &HealthCheckList{},
+			Managed: &HealthCheck{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.HealthChecks")
+	}
+	mg.Spec.ForProvider.HealthChecks = reference.ToPtrValues(mrsp.ResolvedValues)
+	mg.Spec.ForProvider.HealthChecksRefs = mrsp.ResolvedReferences
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Project),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.ForProvider.ProjectRef,
+		Selector:     mg.Spec.ForProvider.ProjectSelector,
+		To: reference.To{
+			List:    &v1beta1.ProjectList{},
+			Managed: &v1beta1.Project{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.Project")
+	}
+	mg.Spec.ForProvider.Project = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.ProjectRef = rsp.ResolvedReference
 
 	return nil
 }

@@ -7,7 +7,7 @@ metadata:
 spec:
   forProvider:
     healthChecksRefs:
-    - name: example
+    - name: default
     instances:
     - us-central1-a/myinstance1
     - us-central1-b/myinstance2

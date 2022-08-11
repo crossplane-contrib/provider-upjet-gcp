@@ -571,6 +571,16 @@ func (in *NodeConfigParameters) DeepCopyInto(out *NodeConfigParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.NetworkRef != nil {
+		in, out := &in.NetworkRef, &out.NetworkRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.NetworkSelector != nil {
+		in, out := &in.NetworkSelector, &out.NetworkSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.OAuthScopes != nil {
 		in, out := &in.OAuthScopes, &out.OAuthScopes
 		*out = make([]*string, len(*in))
@@ -587,10 +597,30 @@ func (in *NodeConfigParameters) DeepCopyInto(out *NodeConfigParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.ServiceAccountRef != nil {
+		in, out := &in.ServiceAccountRef, &out.ServiceAccountRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ServiceAccountSelector != nil {
+		in, out := &in.ServiceAccountSelector, &out.ServiceAccountSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.Subnetwork != nil {
 		in, out := &in.Subnetwork, &out.Subnetwork
 		*out = new(string)
 		**out = **in
+	}
+	if in.SubnetworkRef != nil {
+		in, out := &in.SubnetworkRef, &out.SubnetworkRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.SubnetworkSelector != nil {
+		in, out := &in.SubnetworkSelector, &out.SubnetworkSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.Tags != nil {
 		in, out := &in.Tags, &out.Tags
