@@ -37,14 +37,20 @@ type ManagedParameters struct {
 }
 
 type ManagedSSLCertificateObservation struct {
+
+	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
 
+	// Expire time of the certificate.
 	ExpireTime *string `json:"expireTime,omitempty" tf:"expire_time,omitempty"`
 
+	// an identifier for the resource with format projects/{{project}}/global/sslCertificates/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
 
+	// Domains associated with the certificate via Subject Alternative Name.
 	SubjectAlternativeNames []*string `json:"subjectAlternativeNames,omitempty" tf:"subject_alternative_names,omitempty"`
 }
 
@@ -59,15 +65,20 @@ type ManagedSSLCertificateParameters struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Properties relevant to a managed certificate.  These will be used if the
-	// certificate is managed (as indicated by a value of 'MANAGED' in 'type').
+	// certificate is managed .
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Managed []ManagedParameters `json:"managed,omitempty" tf:"managed,omitempty"`
 
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
-	// Enum field whose value is always 'MANAGED' - used to signal to the API
-	// which type this is. Default value: "MANAGED" Possible values: ["MANAGED"]
+	// Enum field whose value is always MANAGED - used to signal to the API
+	// which type this is.
+	// Default value is MANAGED.
+	// Possible values are MANAGED.
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
@@ -86,7 +97,7 @@ type ManagedSSLCertificateStatus struct {
 
 // +kubebuilder:object:root=true
 
-// ManagedSSLCertificate is the Schema for the ManagedSSLCertificates API
+// ManagedSSLCertificate is the Schema for the ManagedSSLCertificates API. An SslCertificate resource, used for HTTPS load balancing.
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

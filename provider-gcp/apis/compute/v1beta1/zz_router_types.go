@@ -45,7 +45,9 @@ type BGPObservation struct {
 
 type BGPParameters struct {
 
-	// User-specified flag to indicate which mode to use for advertisement. Default value: "DEFAULT" Possible values: ["DEFAULT", "CUSTOM"]
+	// User-specified flag to indicate which mode to use for advertisement.
+	// Default value is DEFAULT.
+	// Possible values are DEFAULT and CUSTOM.
 	// +kubebuilder:validation:Optional
 	AdvertiseMode *string `json:"advertiseMode,omitempty" tf:"advertise_mode,omitempty"`
 
@@ -54,7 +56,6 @@ type BGPParameters struct {
 	// is advertised to all peers of the router. These groups will be
 	// advertised in addition to any specified prefixes. Leave this field
 	// blank to advertise no custom groups.
-	//
 	// This enum field has the one valid value: ALL_SUBNETS
 	// +kubebuilder:validation:Optional
 	AdvertisedGroups []*string `json:"advertisedGroups,omitempty" tf:"advertised_groups,omitempty"`
@@ -64,10 +65,11 @@ type BGPParameters struct {
 	// is CUSTOM and is advertised to all peers of the router. These IP
 	// ranges will be advertised in addition to any specified groups.
 	// Leave this field blank to advertise no custom IP ranges.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	AdvertisedIPRanges []AdvertisedIPRangesParameters `json:"advertisedIpRanges,omitempty" tf:"advertised_ip_ranges,omitempty"`
 
-	// Local BGP Autonomous System Number (ASN). Must be an RFC6996
+	// Local BGP Autonomous System Number . Must be an RFC6996
 	// private ASN, either 16-bit or 32-bit. The value will be fixed for
 	// this router resource. All VPN tunnels that link to this router
 	// will have the same local ASN.
@@ -84,16 +86,21 @@ type BGPParameters struct {
 }
 
 type RouterObservation struct {
+
+	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
 
+	// an identifier for the resource with format projects/{{project}}/regions/{{region}}/routers/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
 }
 
 type RouterParameters struct {
 
 	// BGP information specific to this router.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	BGP []BGPParameters `json:"bgp,omitempty" tf:"bgp,omitempty"`
 
@@ -102,8 +109,7 @@ type RouterParameters struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Field to indicate if a router is dedicated to use with encrypted
-	// Interconnect Attachment (IPsec-encrypted Cloud Interconnect feature).
-	//
+	// Interconnect Attachment .
 	// Not currently available publicly.
 	// +kubebuilder:validation:Optional
 	EncryptedInterconnectRouter *bool `json:"encryptedInterconnectRouter,omitempty" tf:"encrypted_interconnect_router,omitempty"`
@@ -120,6 +126,8 @@ type RouterParameters struct {
 	// +kubebuilder:validation:Optional
 	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
 
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
@@ -142,7 +150,7 @@ type RouterStatus struct {
 
 // +kubebuilder:object:root=true
 
-// Router is the Schema for the Routers API
+// Router is the Schema for the Routers API. Represents a Router resource.
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

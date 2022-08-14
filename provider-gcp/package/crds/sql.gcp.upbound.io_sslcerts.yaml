@@ -35,7 +35,8 @@ spec:
     name: v1beta1
     schema:
       openAPIV3Schema:
-        description: SSLCert is the Schema for the SSLCerts API
+        description: SSLCert is the Schema for the SSLCerts API. Creates a new SQL
+          Ssl Cert in Google Cloud SQL.
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -329,18 +330,28 @@ spec:
               atProvider:
                 properties:
                   cert:
+                    description: The actual certificate data for this client certificate.
                     type: string
                   certSerialNumber:
+                    description: The serial number extracted from the certificate
+                      data.
                     type: string
                   createTime:
+                    description: The time when the certificate was created in RFC
+                      3339 format, for example 2012-11-15T16:19:00.094Z.
                     type: string
                   expirationTime:
+                    description: The time when the certificate expires in RFC 3339
+                      format, for example 2012-11-15T16:19:00.094Z.
                     type: string
                   id:
                     type: string
                   serverCaCert:
+                    description: The CA cert of the server this client cert was generated
+                      from.
                     type: string
                   sha1Fingerprint:
+                    description: The SHA1 Fingerprint of the certificate.
                     type: string
                 type: object
               conditions:

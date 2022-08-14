@@ -26,11 +26,15 @@ import (
 )
 
 type LiteReservationObservation struct {
+
+	// an identifier for the resource with format projects/{{project}}/locations/{{region}}/reservations/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 }
 
 type LiteReservationParameters struct {
 
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
@@ -59,7 +63,7 @@ type LiteReservationStatus struct {
 
 // +kubebuilder:object:root=true
 
-// LiteReservation is the Schema for the LiteReservations API
+// LiteReservation is the Schema for the LiteReservations API. A named resource representing a shared pool of capacity.
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

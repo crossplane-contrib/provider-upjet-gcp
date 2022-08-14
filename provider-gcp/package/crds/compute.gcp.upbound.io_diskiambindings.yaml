@@ -35,7 +35,8 @@ spec:
     name: v1beta1
     schema:
       openAPIV3Schema:
-        description: DiskIAMBinding is the Schema for the DiskIAMBindings API
+        description: DiskIAMBinding is the Schema for the DiskIAMBindings API. <no
+          value>
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation

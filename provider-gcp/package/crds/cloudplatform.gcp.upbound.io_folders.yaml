@@ -35,7 +35,8 @@ spec:
     name: v1beta1
     schema:
       openAPIV3Schema:
-        description: Folder is the Schema for the Folders API
+        description: Folder is the Schema for the Folders API. Allows management of
+          a Google Cloud Platform folder.
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -64,7 +65,7 @@ spec:
               forProvider:
                 properties:
                   displayName:
-                    description: The folder's display name. A folder's display name
+                    description: The folder’s display name. A folder’s display name
                       must be unique amongst its siblings, e.g. no two folders with
                       the same parent can share the same display name. The display
                       name must start and end with a letter or digit, may contain
@@ -328,14 +329,21 @@ spec:
               atProvider:
                 properties:
                   createTime:
+                    description: 'Timestamp when the Folder was created. Assigned
+                      by the server. A timestamp in RFC3339 UTC "Zulu" format, accurate
+                      to nanoseconds. Example: "2014-10-02T15:01:23.045123456Z".'
                     type: string
                   folderId:
+                    description: The folder id from the name "folders/{folder_id}"
                     type: string
                   id:
                     type: string
                   lifecycleState:
+                    description: The lifecycle state of the folder such as ACTIVE
+                      or DELETE_REQUESTED.
                     type: string
                   name:
+                    description: The resource name of the Folder. Its format is folders/{folder_id}.
                     type: string
                 type: object
               conditions:

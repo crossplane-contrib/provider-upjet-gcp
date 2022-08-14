@@ -35,7 +35,8 @@ spec:
     name: v1beta1
     schema:
       openAPIV3Schema:
-        description: HaVPNGateway is the Schema for the HaVPNGateways API
+        description: HaVPNGateway is the Schema for the HaVPNGateways API. Represents
+          a VPN gateway running in GCP.
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -144,24 +145,27 @@ spec:
                         type: object
                     type: object
                   project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
                     type: string
                   region:
                     description: The region this gateway should sit in.
                     type: string
                   vpnInterfaces:
-                    description: A list of interfaces on this VPN gateway.
+                    description: A list of interfaces on this VPN gateway. Structure
+                      is documented below.
                     items:
                       properties:
                         id:
                           description: The numeric ID of this VPN gateway interface.
                           type: number
                         interconnectAttachment:
-                          description: "URL of the interconnect attachment resource.
+                          description: URL of the interconnect attachment resource.
                             When the value of this field is present, the VPN Gateway
                             will be used for IPsec-encrypted Cloud Interconnect; all
                             Egress or Ingress traffic for this VPN Gateway interface
                             will go through the specified interconnect attachment
-                            resource. \n Not currently available publicly."
+                            resource. Not currently available publicly.
                           type: string
                         interconnectAttachmentRef:
                           description: A Reference to a named object.
@@ -423,11 +427,16 @@ spec:
                   id:
                     type: string
                   selfLink:
+                    description: The URI of the created resource.
                     type: string
                   vpnInterfaces:
+                    description: A list of interfaces on this VPN gateway. Structure
+                      is documented below.
                     items:
                       properties:
                         ipAddress:
+                          description: The external IP address for this VPN gateway
+                            interface.
                           type: string
                       type: object
                     type: array

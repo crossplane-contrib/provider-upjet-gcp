@@ -31,6 +31,7 @@ type AuthInfoObservation struct {
 type AuthInfoParameters struct {
 
 	// The password to authenticate.
+	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Required
 	PasswordSecretRef v1.SecretKeySelector `json:"passwordSecretRef" tf:"-"`
 
@@ -44,11 +45,13 @@ type ContentMatchersObservation struct {
 
 type ContentMatchersParameters struct {
 
-	// String or regex content to match (max 1024 bytes)
+	// String or regex content to match
 	// +kubebuilder:validation:Required
 	Content *string `json:"content" tf:"content,omitempty"`
 
-	// The type of content matcher that will be applied to the server output, compared to the content string when the check is run. Default value: "CONTAINS_STRING" Possible values: ["CONTAINS_STRING", "NOT_CONTAINS_STRING", "MATCHES_REGEX", "NOT_MATCHES_REGEX"]
+	// The type of content matcher that will be applied to the server output, compared to the content string when the check is run.
+	// Default value is CONTAINS_STRING.
+	// Possible values are CONTAINS_STRING, NOT_CONTAINS_STRING, MATCHES_REGEX, and NOT_MATCHES_REGEX.
 	// +kubebuilder:validation:Optional
 	Matcher *string `json:"matcher,omitempty" tf:"matcher,omitempty"`
 }
@@ -59,6 +62,7 @@ type HTTPCheckObservation struct {
 type HTTPCheckParameters struct {
 
 	// The authentication information. Optional when creating an HTTP check; defaults to empty.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	AuthInfo []AuthInfoParameters `json:"authInfo,omitempty" tf:"auth_info,omitempty"`
 
@@ -66,11 +70,12 @@ type HTTPCheckParameters struct {
 	// +kubebuilder:validation:Optional
 	Body *string `json:"body,omitempty" tf:"body,omitempty"`
 
-	// The content type to use for the check. Possible values: ["TYPE_UNSPECIFIED", "URL_ENCODED"]
+	// The content type to use for the check.
+	// Possible values are TYPE_UNSPECIFIED and URL_ENCODED.
 	// +kubebuilder:validation:Optional
 	ContentType *string `json:"contentType,omitempty" tf:"content_type,omitempty"`
 
-	// The list of headers to send as part of the uptime check request. If two headers have the same key and different values, they should be entered as a single header, with the value being a comma-separated list of all the desired values as described at https://www.w3.org/Protocols/rfc2616/rfc2616.txt (page 31). Entering two separate headers with the same key in a Create call will cause the first to be overwritten by the second. The maximum number of headers allowed is 100.
+	// The list of headers to send as part of the uptime check request. If two headers have the same key and different values, they should be entered as a single header, with the value being a comma-separated list of all the desired values as described at https://www.w3.org/Protocols/rfc2616/rfc2616.txt . Entering two separate headers with the same key in a Create call will cause the first to be overwritten by the second. The maximum number of headers allowed is 100.
 	// +kubebuilder:validation:Optional
 	Headers map[string]*string `json:"headers,omitempty" tf:"headers,omitempty"`
 
@@ -78,7 +83,7 @@ type HTTPCheckParameters struct {
 	// +kubebuilder:validation:Optional
 	MaskHeaders *bool `json:"maskHeaders,omitempty" tf:"mask_headers,omitempty"`
 
-	// The path to the page to run the check against. Will be combined with the host (specified within the MonitoredResource) and port to construct the full URL. If the provided path does not begin with "/", a "/" will be prepended automatically. Optional (defaults to "/").
+	// The path to the page to run the check against. Will be combined with the host  and port to construct the full URL. If the provided path does not begin with "/", a "/" will be prepended automatically. Optional .
 	// +kubebuilder:validation:Optional
 	Path *string `json:"path,omitempty" tf:"path,omitempty"`
 
@@ -86,7 +91,9 @@ type HTTPCheckParameters struct {
 	// +kubebuilder:validation:Optional
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
 
-	// The HTTP request method to use for the check. If set to METHOD_UNSPECIFIED then requestMethod defaults to GET. Default value: "GET" Possible values: ["METHOD_UNSPECIFIED", "GET", "POST"]
+	// The HTTP request method to use for the check. If set to METHOD_UNSPECIFIED then requestMethod defaults to GET.
+	// Default value is GET.
+	// Possible values are METHOD_UNSPECIFIED, GET, and POST.
 	// +kubebuilder:validation:Optional
 	RequestMethod *string `json:"requestMethod,omitempty" tf:"request_method,omitempty"`
 
@@ -108,7 +115,7 @@ type MonitoredResourceParameters struct {
 	// +kubebuilder:validation:Required
 	Labels map[string]*string `json:"labels" tf:"labels,omitempty"`
 
-	// The monitored resource type. This field must match the type field of a MonitoredResourceDescriptor (https://cloud.google.com/monitoring/api/ref_v3/rest/v3/projects.monitoredResourceDescriptors#MonitoredResourceDescriptor) object. For example, the type of a Compute Engine VM instance is gce_instance. For a list of types, see Monitoring resource types (https://cloud.google.com/monitoring/api/resources) and Logging resource types (https://cloud.google.com/logging/docs/api/v2/resource-list).
+	// The monitored resource type. This field must match the type field of a MonitoredResourceDescriptor  object. For example, the type of a Compute Engine VM instance is gce_instance. For a list of types, see Monitoring resource types  and Logging resource types .
 	// +kubebuilder:validation:Required
 	Type *string `json:"type" tf:"type,omitempty"`
 }
@@ -118,11 +125,12 @@ type ResourceGroupObservation struct {
 
 type ResourceGroupParameters struct {
 
-	// The group of resources being monitored. Should be the 'name' of a group
+	// The group of resources being monitored. Should be the name of a group
 	// +kubebuilder:validation:Optional
 	GroupID *string `json:"groupId,omitempty" tf:"group_id,omitempty"`
 
-	// The resource type of the group members. Possible values: ["RESOURCE_TYPE_UNSPECIFIED", "INSTANCE", "AWS_ELB_LOAD_BALANCER"]
+	// The resource type of the group members.
+	// Possible values are RESOURCE_TYPE_UNSPECIFIED, INSTANCE, and AWS_ELB_LOAD_BALANCER.
 	// +kubebuilder:validation:Optional
 	ResourceType *string `json:"resourceType,omitempty" tf:"resource_type,omitempty"`
 }
@@ -138,20 +146,26 @@ type TCPCheckParameters struct {
 }
 
 type UptimeCheckConfigObservation struct {
+
+	// an identifier for the resource with format {{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// A unique resource name for this UptimeCheckConfig. The format is projects/[PROJECT_ID]/uptimeCheckConfigs/[UPTIME_CHECK_ID].
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// The id of the uptime check
 	UptimeCheckID *string `json:"uptimeCheckId,omitempty" tf:"uptime_check_id,omitempty"`
 }
 
 type UptimeCheckConfigParameters struct {
 
-	// The checker type to use for the check. If the monitored resource type is servicedirectory_service, checkerType must be set to VPC_CHECKERS. Possible values: ["STATIC_IP_CHECKERS", "VPC_CHECKERS"]
+	// The checker type to use for the check. If the monitored resource type is servicedirectory_service, checkerType must be set to VPC_CHECKERS.
+	// Possible values are STATIC_IP_CHECKERS and VPC_CHECKERS.
 	// +kubebuilder:validation:Optional
 	CheckerType *string `json:"checkerType,omitempty" tf:"checker_type,omitempty"`
 
 	// The expected content on the page the check is run against. Currently, only the first entry in the list is supported, and other entries will be ignored. The server will look for an exact match of the string in the page response's content. This field is optional and should only be specified if a content match is required.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	ContentMatchers []ContentMatchersParameters `json:"contentMatchers,omitempty" tf:"content_matchers,omitempty"`
 
@@ -160,21 +174,26 @@ type UptimeCheckConfigParameters struct {
 	DisplayName *string `json:"displayName" tf:"display_name,omitempty"`
 
 	// Contains information needed to make an HTTP or HTTPS check.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	HTTPCheck []HTTPCheckParameters `json:"httpCheck,omitempty" tf:"http_check,omitempty"`
 
-	// The monitored resource (https://cloud.google.com/monitoring/api/resources) associated with the configuration. The following monitored resource types are supported for uptime checks:  uptime_url  gce_instance  gae_app  aws_ec2_instance  aws_elb_load_balancer
+	// The monitored resource  associated with the configuration. The following monitored resource types are supported for uptime checks:  uptime_url  gce_instance  gae_app  aws_ec2_instance  aws_elb_load_balancer
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	MonitoredResource []MonitoredResourceParameters `json:"monitoredResource,omitempty" tf:"monitored_resource,omitempty"`
 
-	// How often, in seconds, the uptime check is performed. Currently, the only supported values are 60s (1 minute), 300s (5 minutes), 600s (10 minutes), and 900s (15 minutes). Optional, defaults to 300s.
+	// How often, in seconds, the uptime check is performed. Currently, the only supported values are 60s , 300s , 600s , and 900s . Optional, defaults to 300s.
 	// +kubebuilder:validation:Optional
 	Period *string `json:"period,omitempty" tf:"period,omitempty"`
 
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The group resource associated with the configuration.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	ResourceGroup []ResourceGroupParameters `json:"resourceGroup,omitempty" tf:"resource_group,omitempty"`
 
@@ -183,10 +202,11 @@ type UptimeCheckConfigParameters struct {
 	SelectedRegions []*string `json:"selectedRegions,omitempty" tf:"selected_regions,omitempty"`
 
 	// Contains information needed to make a TCP check.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	TCPCheck []TCPCheckParameters `json:"tcpCheck,omitempty" tf:"tcp_check,omitempty"`
 
-	// The maximum amount of time to wait for the request to complete (must be between 1 and 60 seconds). Accepted formats https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.Duration
+	// The maximum amount of time to wait for the request to complete . Accepted formats https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.Duration
 	// +kubebuilder:validation:Required
 	Timeout *string `json:"timeout" tf:"timeout,omitempty"`
 }
@@ -205,7 +225,7 @@ type UptimeCheckConfigStatus struct {
 
 // +kubebuilder:object:root=true
 
-// UptimeCheckConfig is the Schema for the UptimeCheckConfigs API
+// UptimeCheckConfig is the Schema for the UptimeCheckConfigs API. This message configures which resources and services to monitor for availability.
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

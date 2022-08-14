@@ -35,7 +35,8 @@ spec:
     name: v1beta1
     schema:
       openAPIV3Schema:
-        description: Bucket is the Schema for the Buckets API
+        description: Bucket is the Schema for the Buckets API. Creates a new bucket
+          in Google Cloud Storage.
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -64,8 +65,9 @@ spec:
               forProvider:
                 properties:
                   cors:
-                    description: The bucket's Cross-Origin Resource Sharing (CORS)
-                      configuration.
+                    description: The bucket's Cross-Origin Resource Sharing  configuration.
+                      Multiple blocks of this type are permitted. Structure is documented
+                      below.
                     items:
                       properties:
                         maxAgeSeconds:
@@ -74,9 +76,8 @@ spec:
                           type: number
                         method:
                           description: 'The list of HTTP methods on which to include
-                            CORS response headers, (GET, OPTIONS, POST, etc) Note:
-                            "*" is permitted in the list of methods, and means "any
-                            method".'
+                            CORS response headers,  Note: "*" is permitted in the
+                            list of methods, and means "any method".'
                           items:
                             type: string
                           type: array
@@ -101,15 +102,16 @@ spec:
                       to new objects added to the bucket.
                     type: boolean
                   encryption:
-                    description: The bucket's encryption configuration.
+                    description: The bucket's encryption configuration. Structure
+                      is documented below.
                     items:
                       properties:
                         defaultKmsKeyName:
-                          description: A Cloud KMS key that will be used to encrypt
-                            objects inserted into this bucket, if no encryption method
-                            is specified. You must pay attention to whether the crypto
-                            key is available in the location that this bucket is created
-                            in. See the docs for more details.
+                          description: ': The id of a Cloud KMS key that will be used
+                            to encrypt objects inserted into this bucket, if no encryption
+                            method is specified. You must pay attention to whether
+                            the crypto key is available in the location that this
+                            bucket is created in. See the docs for more details.'
                           type: string
                       required:
                       - defaultKmsKeyName
@@ -123,15 +125,17 @@ spec:
                   labels:
                     additionalProperties:
                       type: string
-                    description: A set of key/value label pairs to assign to the bucket.
+                    description: A map of key/value label pairs to assign to the bucket.
                     type: object
                   lifecycleRule:
-                    description: The bucket's Lifecycle Rules configuration.
+                    description: The bucket's Lifecycle Rules configuration. Multiple
+                      blocks of this type are permitted. Structure is documented below.
                     items:
                       properties:
                         action:
                           description: The Lifecycle Rule's action configuration.
-                            A single block of this type is supported.
+                            A single block of this type is supported. Structure is
+                            documented below.
                           items:
                             properties:
                               storageClass:
@@ -150,6 +154,8 @@ spec:
                           type: array
                         condition:
                           description: The Lifecycle Rule's condition configuration.
+                            A single block of this type is supported. Structure is
+                            documented below.
                           items:
                             properties:
                               age:
@@ -157,33 +163,38 @@ spec:
                                   this condition.
                                 type: number
                               createdBefore:
-                                description: Creation date of an object in RFC 3339
-                                  (e.g. 2017-06-13) to satisfy this condition.
+                                description: A date in the RFC 3339 format YYYY-MM-DD.
+                                  This condition is satisfied when an object is created
+                                  before midnight of the specified date in UTC.
                                 type: string
                               customTimeBefore:
-                                description: Creation date of an object in RFC 3339
-                                  (e.g. 2017-06-13) to satisfy this condition.
+                                description: A date in the RFC 3339 format YYYY-MM-DD.
+                                  This condition is satisfied when the customTime
+                                  metadata for the object is set to an earlier date
+                                  than the date used in this lifecycle condition.
                                 type: string
                               daysSinceCustomTime:
-                                description: Number of days elapsed since the user-specified
-                                  timestamp set on an object.
+                                description: Days since the date set in the customTime
+                                  metadata for the object. This condition is satisfied
+                                  when the current date and time is at least the specified
+                                  number of days after the customTime.
                                 type: number
                               daysSinceNoncurrentTime:
-                                description: Number of days elapsed since the noncurrent
-                                  timestamp of an object. This condition is relevant
-                                  only for versioned objects.
+                                description: Relevant only for versioned objects.
+                                  Number of days elapsed since the noncurrent timestamp
+                                  of an object.
                                 type: number
                               matchesStorageClass:
                                 description: 'Storage Class of objects to satisfy
-                                  this condition. Supported values include: MULTI_REGIONAL,
-                                  REGIONAL, NEARLINE, COLDLINE, ARCHIVE, STANDARD,
+                                  this condition. Supported values include: STANDARD,
+                                  MULTI_REGIONAL, REGIONAL, NEARLINE, COLDLINE, ARCHIVE,
                                   DURABLE_REDUCED_AVAILABILITY.'
                                 items:
                                   type: string
                                 type: array
                               noncurrentTimeBefore:
-                                description: Creation date of an object in RFC 3339
-                                  (e.g. 2017-06-13) to satisfy this condition.
+                                description: Relevant only for versioned objects.
+                                  The date in RFC 3339  when the object became nonconcurrent.
                                 type: string
                               numNewerVersions:
                                 description: Relevant only for versioned objects.
@@ -203,10 +214,11 @@ spec:
                       type: object
                     type: array
                   location:
-                    description: The Google Cloud Storage location
+                    description: The GCS location
                     type: string
                   logging:
                     description: The bucket's Access & Storage Logs configuration.
+                      Structure is documented below.
                     items:
                       properties:
                         logBucket:
@@ -214,8 +226,8 @@ spec:
                           type: string
                         logObjectPrefix:
                           description: The object prefix for log objects. If it's
-                            not provided, by default Google Cloud Storage sets this
-                            to this bucket's name.
+                            not provided, by default GCS sets this to this bucket's
+                            name.
                           type: string
                       required:
                       - logBucket
@@ -230,7 +242,8 @@ spec:
                     type: boolean
                   retentionPolicy:
                     description: Configuration of the bucket's data retention policy
-                      for how long objects in the bucket should be retained.
+                      for how long objects in the bucket should be retained. Structure
+                      is documented below.
                     items:
                       properties:
                         isLocked:
@@ -243,7 +256,7 @@ spec:
                           description: The period of time, in seconds, that objects
                             in the bucket must be retained and cannot be deleted,
                             overwritten, or archived. The value must be less than
-                            3,155,760,000 seconds.
+                            2,147,483,647 seconds.
                           type: number
                       required:
                       - retentionPeriod
@@ -255,10 +268,11 @@ spec:
                       ARCHIVE.'
                     type: string
                   uniformBucketLevelAccess:
-                    description: Enables uniform bucket-level access on a bucket.
+                    description: Enables Uniform bucket-level access access to a bucket.
                     type: boolean
                   versioning:
-                    description: The bucket's Versioning configuration.
+                    description: The bucket's Versioning configuration.  Structure
+                      is documented below.
                     items:
                       properties:
                         enabled:
@@ -270,7 +284,8 @@ spec:
                       type: object
                     type: array
                   website:
-                    description: Configuration if the bucket acts as a website.
+                    description: Configuration if the bucket acts as a website. Structure
+                      is documented below.
                     items:
                       properties:
                         mainPageSuffix:
@@ -465,8 +480,10 @@ spec:
                   id:
                     type: string
                   selfLink:
+                    description: The URI of the created resource.
                     type: string
                   url:
+                    description: The base URL of the bucket, in the format gs://<bucket-name>.
                     type: string
                 type: object
               conditions:

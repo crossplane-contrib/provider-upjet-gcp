@@ -26,10 +26,14 @@ import (
 )
 
 type NetworkEndpointGroupObservation struct {
+
+	// an identifier for the resource with format projects/{{project}}/zones/{{zone}}/networkEndpointGroups/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
 
+	// Number of network endpoints in the network endpoint group.
 	Size *float64 `json:"size,omitempty" tf:"size,omitempty"`
 }
 
@@ -54,11 +58,13 @@ type NetworkEndpointGroupParameters struct {
 
 	// Type of network endpoints in this network endpoint group.
 	// NON_GCP_PRIVATE_IP_PORT is used for hybrid connectivity network
-	// endpoint groups (see https://cloud.google.com/load-balancing/docs/hybrid).
+	// endpoint groups .
 	// Note that NON_GCP_PRIVATE_IP_PORT can only be used with Backend Services
 	// that 1) have the following load balancing schemes: EXTERNAL, EXTERNAL_MANAGED,
 	// INTERNAL_MANAGED, and INTERNAL_SELF_MANAGED and 2) support the RATE or
-	// CONNECTION balancing modes. Default value: "GCE_VM_IP_PORT" Possible values: ["GCE_VM_IP_PORT", "NON_GCP_PRIVATE_IP_PORT"]
+	// CONNECTION balancing modes.
+	// Default value is GCE_VM_IP_PORT.
+	// Possible values are GCE_VM_IP_PORT and NON_GCP_PRIVATE_IP_PORT.
 	// +kubebuilder:validation:Optional
 	NetworkEndpointType *string `json:"networkEndpointType,omitempty" tf:"network_endpoint_type,omitempty"`
 
@@ -68,6 +74,8 @@ type NetworkEndpointGroupParameters struct {
 	// +kubebuilder:validation:Optional
 	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
 
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
@@ -102,7 +110,7 @@ type NetworkEndpointGroupStatus struct {
 
 // +kubebuilder:object:root=true
 
-// NetworkEndpointGroup is the Schema for the NetworkEndpointGroups API
+// NetworkEndpointGroup is the Schema for the NetworkEndpointGroups API. Network endpoint groups (NEGs) are zonal resources that represent collections of IP address and port combinations for GCP resources within a single subnet.
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

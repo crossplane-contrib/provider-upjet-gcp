@@ -26,8 +26,11 @@ import (
 )
 
 type GlobalNetworkEndpointGroupObservation struct {
+
+	// an identifier for the resource with format projects/{{project}}/global/networkEndpointGroups/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
 }
 
@@ -43,10 +46,13 @@ type GlobalNetworkEndpointGroupParameters struct {
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// Type of network endpoints in this network endpoint group. Possible values: ["INTERNET_IP_PORT", "INTERNET_FQDN_PORT"]
+	// Type of network endpoints in this network endpoint group.
+	// Possible values are INTERNET_IP_PORT and INTERNET_FQDN_PORT.
 	// +kubebuilder:validation:Required
 	NetworkEndpointType *string `json:"networkEndpointType" tf:"network_endpoint_type,omitempty"`
 
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
@@ -65,7 +71,7 @@ type GlobalNetworkEndpointGroupStatus struct {
 
 // +kubebuilder:object:root=true
 
-// GlobalNetworkEndpointGroup is the Schema for the GlobalNetworkEndpointGroups API
+// GlobalNetworkEndpointGroup is the Schema for the GlobalNetworkEndpointGroups API. A global network endpoint group contains endpoints that reside outside of Google Cloud.
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
