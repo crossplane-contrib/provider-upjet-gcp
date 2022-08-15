@@ -35,7 +35,8 @@ spec:
     name: v1beta1
     schema:
       openAPIV3Schema:
-        description: ImageIAMMember is the Schema for the ImageIAMMembers API
+        description: ImageIAMMember is the Schema for the ImageIAMMembers API. <no
+          value>
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation

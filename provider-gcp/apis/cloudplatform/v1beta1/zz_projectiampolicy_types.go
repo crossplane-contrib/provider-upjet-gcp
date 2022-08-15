@@ -26,6 +26,8 @@ import (
 )
 
 type ProjectIAMPolicyObservation struct {
+
+	// The etag of the project's IAM policy.
 	Etag *string `json:"etag,omitempty" tf:"etag,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -33,9 +35,14 @@ type ProjectIAMPolicyObservation struct {
 
 type ProjectIAMPolicyParameters struct {
 
+	// The google_iam_policy data source that represents
+	// the IAM policy that will be applied to the project. The policy will be
+	// merged with any existing policy applied to the project.
 	// +kubebuilder:validation:Required
 	PolicyData *string `json:"policyData" tf:"policy_data,omitempty"`
 
+	// The project id of the target project. This is not
+	// inferred from the provider.
 	// +crossplane:generate:reference:type=Project
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
@@ -61,7 +68,7 @@ type ProjectIAMPolicyStatus struct {
 
 // +kubebuilder:object:root=true
 
-// ProjectIAMPolicy is the Schema for the ProjectIAMPolicys API
+// ProjectIAMPolicy is the Schema for the ProjectIAMPolicys API. Collection of resources to manage IAM policy for a project.
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

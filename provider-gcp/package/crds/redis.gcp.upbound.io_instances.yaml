@@ -35,7 +35,8 @@ spec:
     name: v1beta1
     schema:
       openAPIV3Schema:
-        description: Instance is the Schema for the Instances API
+        description: Instance is the Schema for the Instances API. A Google Cloud
+          Redis instance.
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -80,9 +81,9 @@ spec:
                       default network will be used.
                     type: string
                   connectMode:
-                    description: 'The connection mode of the Redis instance. Default
-                      value: "DIRECT_PEERING" Possible values: ["DIRECT_PEERING",
-                      "PRIVATE_SERVICE_ACCESS"]'
+                    description: The connection mode of the Redis instance. Default
+                      value is DIRECT_PEERING. Possible values are DIRECT_PEERING
+                      and PRIVATE_SERVICE_ACCESS.
                     type: string
                   displayName:
                     description: An arbitrary and optional user-provided name for
@@ -101,7 +102,8 @@ spec:
                       is also provided, it must be different from [locationId].
                     type: string
                   maintenancePolicy:
-                    description: Maintenance policy for an instance.
+                    description: Maintenance policy for an instance. Structure is
+                      documented below.
                     items:
                       properties:
                         description:
@@ -113,18 +115,12 @@ spec:
                           description: Optional. Maintenance window that is applied
                             to resources covered by this policy. Minimum 1. For the
                             current version, the maximum number of weekly_window is
-                            expected to be one.
+                            expected to be one. Structure is documented below.
                           items:
                             properties:
                               day:
-                                description: "Required. The day of week that maintenance
-                                  updates occur. \n - DAY_OF_WEEK_UNSPECIFIED: The
-                                  day of the week is unspecified. - MONDAY: Monday
-                                  - TUESDAY: Tuesday - WEDNESDAY: Wednesday - THURSDAY:
-                                  Thursday - FRIDAY: Friday - SATURDAY: Saturday -
-                                  SUNDAY: Sunday Possible values: [\"DAY_OF_WEEK_UNSPECIFIED\",
-                                  \"MONDAY\", \"TUESDAY\", \"WEDNESDAY\", \"THURSDAY\",
-                                  \"FRIDAY\", \"SATURDAY\", \"SUNDAY\"]"
+                                description: Required. The day of week that maintenance
+                                  updates occur.
                                 type: string
                               startTime:
                                 description: Required. Start time of the window in
@@ -160,7 +156,8 @@ spec:
                       type: object
                     type: array
                   maintenanceSchedule:
-                    description: Upcoming maintenance schedule.
+                    description: Upcoming maintenance schedule. Structure is documented
+                      below.
                     items:
                       type: object
                     type: array
@@ -168,16 +165,13 @@ spec:
                     description: Redis memory size in GiB.
                     type: number
                   project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
                     type: string
                   readReplicasMode:
-                    description: 'Optional. Read replica mode. Can only be specified
+                    description: Optional. Read replica mode. Can only be specified
                       when trying to create the instance. If not set, Memorystore
-                      Redis backend will default to READ_REPLICAS_DISABLED. - READ_REPLICAS_DISABLED:
-                      If disabled, read endpoint will not be provided and the instance
-                      cannot scale up or down the number of replicas. - READ_REPLICAS_ENABLED:
-                      If enabled, read endpoint will be provided and the instance
-                      can scale up and down the number of replicas. Possible values:
-                      ["READ_REPLICAS_DISABLED", "READ_REPLICAS_ENABLED"]'
+                      Redis backend will default to READ_REPLICAS_DISABLED.
                     type: string
                   redisConfigs:
                     additionalProperties:
@@ -218,17 +212,12 @@ spec:
                       service access connection, or "auto".
                     type: string
                   tier:
-                    description: "The service tier of the instance. Must be one of
-                      these values: \n - BASIC: standalone instance - STANDARD_HA:
-                      highly available primary/replica instances Default value: \"BASIC\"
-                      Possible values: [\"BASIC\", \"STANDARD_HA\"]"
+                    description: 'The service tier of the instance. Must be one of
+                      these values:'
                     type: string
                   transitEncryptionMode:
-                    description: "The TLS mode of the Redis instance, If not provided,
-                      TLS is disabled for the instance. \n - SERVER_AUTHENTICATION:
-                      Client to Server traffic encryption enabled with server authentication
-                      Default value: \"DISABLED\" Possible values: [\"SERVER_AUTHENTICATION\",
-                      \"DISABLED\"]"
+                    description: The TLS mode of the Redis instance, If not provided,
+                      TLS is disabled for the instance.
                     type: string
                 required:
                 - memorySizeGb
@@ -411,69 +400,130 @@ spec:
               atProvider:
                 properties:
                   createTime:
+                    description: The time the instance was created in RFC3339 UTC
+                      "Zulu" format, accurate to nanoseconds.
                     type: string
                   currentLocationId:
+                    description: The current zone where the Redis endpoint is placed.
+                      For Basic Tier instances, this will always be the same as the
+                      [locationId] provided by the user at creation time. For Standard
+                      Tier instances, this can be either [locationId] or [alternativeLocationId]
+                      and can change after a failover event.
                     type: string
                   host:
+                    description: Hostname or IP address of the exposed Redis endpoint
+                      used by clients to connect to the service.
                     type: string
                   id:
                     type: string
                   maintenancePolicy:
+                    description: Maintenance policy for an instance. Structure is
+                      documented below.
                     items:
                       properties:
                         createTime:
+                          description: Output only. The time when the policy was created.
+                            A timestamp in RFC3339 UTC "Zulu" format, with nanosecond
+                            resolution and up to nine fractional digits.
                           type: string
                         updateTime:
+                          description: Output only. The time when the policy was last
+                            updated. A timestamp in RFC3339 UTC "Zulu" format, with
+                            nanosecond resolution and up to nine fractional digits.
                           type: string
                         weeklyMaintenanceWindow:
+                          description: Optional. Maintenance window that is applied
+                            to resources covered by this policy. Minimum 1. For the
+                            current version, the maximum number of weekly_window is
+                            expected to be one. Structure is documented below.
                           items:
                             properties:
                               duration:
+                                description: 'Output only. Duration of the maintenance
+                                  window. The current window is fixed at 1 hour. A
+                                  duration in seconds with up to nine fractional digits,
+                                  terminated by ''s''. Example: "3.5s".'
                                 type: string
                             type: object
                           type: array
                       type: object
                     type: array
                   maintenanceSchedule:
+                    description: Upcoming maintenance schedule. Structure is documented
+                      below.
                     items:
                       properties:
                         endTime:
+                          description: Output only. The end time of any upcoming scheduled
+                            maintenance for this instance. A timestamp in RFC3339
+                            UTC "Zulu" format, with nanosecond resolution and up to
+                            nine fractional digits.
                           type: string
                         scheduleDeadlineTime:
+                          description: Output only. The deadline that the maintenance
+                            schedule start time can not go beyond, including reschedule.
+                            A timestamp in RFC3339 UTC "Zulu" format, with nanosecond
+                            resolution and up to nine fractional digits.
                           type: string
                         startTime:
+                          description: Output only. The start time of any upcoming
+                            scheduled maintenance for this instance. A timestamp in
+                            RFC3339 UTC "Zulu" format, with nanosecond resolution
+                            and up to nine fractional digits.
                           type: string
                       type: object
                     type: array
                   nodes:
+                    description: Output only. Info per node. Structure is documented
+                      below.
                     items:
                       properties:
                         id:
                           type: string
                         zone:
+                          description: Location of the node.
                           type: string
                       type: object
                     type: array
                   persistenceIamIdentity:
+                    description: Output only. Cloud IAM identity used by import /
+                      export operations to transfer data to/from Cloud Storage. Format
+                      is "serviceAccount:". The value may change over time for a given
+                      instance so should be checked before each import/export operation.
                     type: string
                   port:
+                    description: The port number of the exposed Redis endpoint.
                     type: number
                   readEndpoint:
+                    description: Output only. Hostname or IP address of the exposed
+                      readonly Redis endpoint. Standard tier only. Targets all healthy
+                      replica nodes in instance. Replication is asynchronous and replica
+                      nodes will exhibit some lag behind the primary. Write requests
+                      must target 'host'.
                     type: string
                   readEndpointPort:
+                    description: Output only. The port number of the exposed readonly
+                      redis endpoint. Standard tier only. Write requests should target
+                      'port'.
                     type: number
                   serverCaCerts:
+                    description: List of server CA certificates for the instance.
+                      Structure is documented below.
                     items:
                       properties:
                         cert:
+                          description: The certificate data in PEM format.
                           type: string
                         createTime:
                           type: string
                         expireTime:
+                          description: The time when the certificate expires.
                           type: string
                         serialNumber:
+                          description: Serial number, as extracted from the certificate.
                           type: string
                         sha1Fingerprint:
+                          description: Sha1 Fingerprint of the certificate.
                           type: string
                       type: object
                     type: array

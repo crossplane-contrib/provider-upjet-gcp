@@ -36,7 +36,7 @@ spec:
     schema:
       openAPIV3Schema:
         description: ExternalVPNGateway is the Schema for the ExternalVPNGateways
-          API
+          API. Represents a VPN gateway managed outside of GCP.
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -69,6 +69,7 @@ spec:
                     type: string
                   interface:
                     description: A list of interfaces on this external VPN gateway.
+                      Structure is documented below.
                     items:
                       properties:
                         id:
@@ -87,11 +88,13 @@ spec:
                       type: object
                     type: array
                   project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
                     type: string
                   redundancyType:
-                    description: 'Indicates the redundancy type of this external VPN
-                      gateway Possible values: ["FOUR_IPS_REDUNDANCY", "SINGLE_IP_INTERNALLY_REDUNDANT",
-                      "TWO_IPS_REDUNDANCY"]'
+                    description: Indicates the redundancy type of this external VPN
+                      gateway Possible values are FOUR_IPS_REDUNDANCY, SINGLE_IP_INTERNALLY_REDUNDANT,
+                      and TWO_IPS_REDUNDANCY.
                     type: string
                 type: object
               providerConfigRef:
@@ -273,6 +276,7 @@ spec:
                   id:
                     type: string
                   selfLink:
+                    description: The URI of the created resource.
                     type: string
                 type: object
               conditions:

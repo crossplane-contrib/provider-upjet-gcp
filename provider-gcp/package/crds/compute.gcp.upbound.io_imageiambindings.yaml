@@ -35,7 +35,8 @@ spec:
     name: v1beta1
     schema:
       openAPIV3Schema:
-        description: ImageIAMBinding is the Schema for the ImageIAMBindings API
+        description: ImageIAMBinding is the Schema for the ImageIAMBindings API. <no
+          value>
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation

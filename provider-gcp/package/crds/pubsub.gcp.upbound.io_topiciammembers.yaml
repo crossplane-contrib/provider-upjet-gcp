@@ -35,7 +35,8 @@ spec:
     name: v1beta1
     schema:
       openAPIV3Schema:
-        description: TopicIAMMember is the Schema for the TopicIAMMembers API
+        description: TopicIAMMember is the Schema for the TopicIAMMembers API. <no
+          value>
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation

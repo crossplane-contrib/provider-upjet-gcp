@@ -26,6 +26,8 @@ import (
 )
 
 type DiskResourcePolicyAttachmentObservation struct {
+
+	// an identifier for the resource with format {{project}}/{{zone}}/{{disk}}/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 }
 
@@ -54,6 +56,8 @@ type DiskResourcePolicyAttachmentParameters struct {
 	// +kubebuilder:validation:Optional
 	NameSelector *v1.Selector `json:"nameSelector,omitempty" tf:"-"`
 
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
@@ -76,7 +80,7 @@ type DiskResourcePolicyAttachmentStatus struct {
 
 // +kubebuilder:object:root=true
 
-// DiskResourcePolicyAttachment is the Schema for the DiskResourcePolicyAttachments API
+// DiskResourcePolicyAttachment is the Schema for the DiskResourcePolicyAttachments API. Adds existing resource policies to a disk.
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

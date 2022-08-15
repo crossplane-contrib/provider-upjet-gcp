@@ -30,20 +30,28 @@ type GuestOsFeaturesObservation struct {
 
 type GuestOsFeaturesParameters struct {
 
-	// The type of supported feature. Read [Enabling guest operating system features](https://cloud.google.com/compute/docs/images/create-delete-deprecate-private-images#guest-os-features) to see a list of available options. Possible values: ["MULTI_IP_SUBNET", "SECURE_BOOT", "SEV_CAPABLE", "UEFI_COMPATIBLE", "VIRTIO_SCSI_MULTIQUEUE", "WINDOWS", "GVNIC"]
+	// The type of supported feature. Read Enabling guest operating system features to see a list of available options.
+	// Possible values are MULTI_IP_SUBNET, SECURE_BOOT, SEV_CAPABLE, UEFI_COMPATIBLE, VIRTIO_SCSI_MULTIQUEUE, WINDOWS, and GVNIC.
 	// +kubebuilder:validation:Required
 	Type *string `json:"type" tf:"type,omitempty"`
 }
 
 type ImageObservation struct {
+
+	// Size of the image tar.gz archive stored in Google Cloud Storage .
 	ArchiveSizeBytes *float64 `json:"archiveSizeBytes,omitempty" tf:"archive_size_bytes,omitempty"`
 
+	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
 
+	// an identifier for the resource with format projects/{{project}}/global/images/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// The fingerprint used for optimistic locking of this resource. Used
+	// internally during updates.
 	LabelFingerprint *string `json:"labelFingerprint,omitempty" tf:"label_fingerprint,omitempty"`
 
+	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
 }
 
@@ -54,7 +62,7 @@ type ImageParameters struct {
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// Size of the image when restored onto a persistent disk (in GB).
+	// Size of the image when restored onto a persistent disk .
 	// +kubebuilder:validation:Optional
 	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
 
@@ -68,6 +76,7 @@ type ImageParameters struct {
 
 	// A list of features to enable on the guest operating system.
 	// Applicable only for bootable images.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	GuestOsFeatures []GuestOsFeaturesParameters `json:"guestOsFeatures,omitempty" tf:"guest_os_features,omitempty"`
 
@@ -79,10 +88,13 @@ type ImageParameters struct {
 	// +kubebuilder:validation:Optional
 	Licenses []*string `json:"licenses,omitempty" tf:"licenses,omitempty"`
 
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The parameters of the raw disk image.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	RawDisk []RawDiskParameters `json:"rawDisk,omitempty" tf:"raw_disk,omitempty"`
 
@@ -94,23 +106,11 @@ type ImageParameters struct {
 
 	// URL of the source image used to create this image. In order to create an image, you must provide the full or partial
 	// URL of one of the following:
-	//
-	// * The selfLink URL
-	// * This property
-	// * The rawDisk.source URL
-	// * The sourceDisk URL
 	// +kubebuilder:validation:Optional
 	SourceImage *string `json:"sourceImage,omitempty" tf:"source_image,omitempty"`
 
 	// URL of the source snapshot used to create this image.
-	//
 	// In order to create an image, you must provide the full or partial URL of one of the following:
-	//
-	// * The selfLink URL
-	// * This property
-	// * The sourceImage URL
-	// * The rawDisk.source URL
-	// * The sourceDisk URL
 	// +kubebuilder:validation:Optional
 	SourceSnapshot *string `json:"sourceSnapshot,omitempty" tf:"source_snapshot,omitempty"`
 }
@@ -123,7 +123,9 @@ type RawDiskParameters struct {
 	// The format used to encode and transmit the block device, which
 	// should be TAR. This is just a container and transmission format
 	// and not a runtime format. Provided by the client when the disk
-	// image is created. Default value: "TAR" Possible values: ["TAR"]
+	// image is created.
+	// Default value is TAR.
+	// Possible values are TAR.
 	// +kubebuilder:validation:Optional
 	ContainerType *string `json:"containerType,omitempty" tf:"container_type,omitempty"`
 
@@ -153,7 +155,7 @@ type ImageStatus struct {
 
 // +kubebuilder:object:root=true
 
-// Image is the Schema for the Images API
+// Image is the Schema for the Images API. Represents an Image resource.
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

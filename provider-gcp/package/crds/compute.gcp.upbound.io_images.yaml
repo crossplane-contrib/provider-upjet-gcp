@@ -35,7 +35,7 @@ spec:
     name: v1beta1
     schema:
       openAPIV3Schema:
-        description: Image is the Schema for the Images API
+        description: Image is the Schema for the Images API. Represents an Image resource.
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -69,7 +69,7 @@ spec:
                     type: string
                   diskSizeGb:
                     description: Size of the image when restored onto a persistent
-                      disk (in GB).
+                      disk .
                     type: number
                   family:
                     description: The name of the image family to which this image
@@ -80,15 +80,16 @@ spec:
                     type: string
                   guestOsFeatures:
                     description: A list of features to enable on the guest operating
-                      system. Applicable only for bootable images.
+                      system. Applicable only for bootable images. Structure is documented
+                      below.
                     items:
                       properties:
                         type:
-                          description: 'The type of supported feature. Read [Enabling
-                            guest operating system features](https://cloud.google.com/compute/docs/images/create-delete-deprecate-private-images#guest-os-features)
-                            to see a list of available options. Possible values: ["MULTI_IP_SUBNET",
-                            "SECURE_BOOT", "SEV_CAPABLE", "UEFI_COMPATIBLE", "VIRTIO_SCSI_MULTIQUEUE",
-                            "WINDOWS", "GVNIC"]'
+                          description: The type of supported feature. Read Enabling
+                            guest operating system features to see a list of available
+                            options. Possible values are MULTI_IP_SUBNET, SECURE_BOOT,
+                            SEV_CAPABLE, UEFI_COMPATIBLE, VIRTIO_SCSI_MULTIQUEUE,
+                            WINDOWS, and GVNIC.
                           type: string
                       required:
                       - type
@@ -105,17 +106,20 @@ spec:
                       type: string
                     type: array
                   project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
                     type: string
                   rawDisk:
-                    description: The parameters of the raw disk image.
+                    description: The parameters of the raw disk image. Structure is
+                      documented below.
                     items:
                       properties:
                         containerType:
-                          description: 'The format used to encode and transmit the
+                          description: The format used to encode and transmit the
                             block device, which should be TAR. This is just a container
                             and transmission format and not a runtime format. Provided
                             by the client when the disk image is created. Default
-                            value: "TAR" Possible values: ["TAR"]'
+                            value is TAR. Possible values are TAR.
                           type: string
                         sha1:
                           description: An optional SHA1 checksum of the disk image
@@ -137,17 +141,14 @@ spec:
                       but not both to create an image.
                     type: string
                   sourceImage:
-                    description: "URL of the source image used to create this image.
+                    description: 'URL of the source image used to create this image.
                       In order to create an image, you must provide the full or partial
-                      URL of one of the following: \n * The selfLink URL * This property
-                      * The rawDisk.source URL * The sourceDisk URL"
+                      URL of one of the following:'
                     type: string
                   sourceSnapshot:
-                    description: "URL of the source snapshot used to create this image.
-                      \n In order to create an image, you must provide the full or
-                      partial URL of one of the following: \n * The selfLink URL *
-                      This property * The sourceImage URL * The rawDisk.source URL
-                      * The sourceDisk URL"
+                    description: 'URL of the source snapshot used to create this image.
+                      In order to create an image, you must provide the full or partial
+                      URL of one of the following:'
                     type: string
                 type: object
               providerConfigRef:
@@ -327,14 +328,21 @@ spec:
               atProvider:
                 properties:
                   archiveSizeBytes:
+                    description: Size of the image tar.gz archive stored in Google
+                      Cloud Storage .
                     type: number
                   creationTimestamp:
+                    description: Creation timestamp in RFC3339 text format.
                     type: string
                   id:
+                    description: an identifier for the resource with format projects/{{project}}/global/images/{{name}}
                     type: string
                   labelFingerprint:
+                    description: The fingerprint used for optimistic locking of this
+                      resource. Used internally during updates.
                     type: string
                   selfLink:
+                    description: The URI of the created resource.
                     type: string
                 type: object
               conditions:

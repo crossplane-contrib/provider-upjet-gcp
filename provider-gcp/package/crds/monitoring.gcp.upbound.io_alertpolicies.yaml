@@ -35,7 +35,9 @@ spec:
     name: v1beta1
     schema:
       openAPIV3Schema:
-        description: AlertPolicy is the Schema for the AlertPolicys API
+        description: AlertPolicy is the Schema for the AlertPolicys API. A description
+          of the conditions under which some aspect of your system is considered to
+          be "unhealthy" and the ways to notify people or services about this state.
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -65,7 +67,7 @@ spec:
                 properties:
                   alertStrategy:
                     description: Control over how this alert policy's notification
-                      channels are notified.
+                      channels are notified. Structure is documented below.
                     items:
                       properties:
                         autoClose:
@@ -75,7 +77,7 @@ spec:
                         notificationRateLimit:
                           description: Required for alert policies with a LogMatch
                             condition. This limit is not implemented for alert policies
-                            that are not log-based.
+                            that are not log-based. Structure is documented below.
                           items:
                             properties:
                               period:
@@ -86,20 +88,22 @@ spec:
                       type: object
                     type: array
                   combiner:
-                    description: 'How to combine the results of multiple conditions
-                      to determine if an incident should be opened. Possible values:
-                      ["AND", "OR", "AND_WITH_MATCHING_RESOURCE"]'
+                    description: How to combine the results of multiple conditions
+                      to determine if an incident should be opened. Possible values
+                      are AND, OR, and AND_WITH_MATCHING_RESOURCE.
                     type: string
                   conditions:
                     description: A list of conditions for the policy. The conditions
                       are combined by AND or OR according to the combiner field. If
                       the combined conditions evaluate to true, then an incident is
-                      created. A policy can have from one to six conditions.
+                      created. A policy can have from one to six conditions. Structure
+                      is documented below.
                     items:
                       properties:
                         conditionAbsent:
                           description: A condition that checks that a time series
-                            continues to receive new data points.
+                            continues to receive new data points. Structure is documented
+                            below.
                           items:
                             properties:
                               aggregations:
@@ -234,7 +238,7 @@ spec:
                         conditionMatchedLog:
                           description: A condition that checks for log messages matching
                             given constraints. If set, no other conditions can be
-                            present.
+                            present. Structure is documented below.
                           items:
                             properties:
                               filter:
@@ -259,7 +263,7 @@ spec:
                           type: array
                         conditionMonitoringQueryLanguage:
                           description: A Monitoring Query Language query that outputs
-                            a boolean stream
+                            a boolean stream Structure is documented below.
                           items:
                             properties:
                               duration:
@@ -309,7 +313,7 @@ spec:
                           type: array
                         conditionThreshold:
                           description: A condition that compares a time series against
-                            a threshold.
+                            a threshold. Structure is documented below.
                           items:
                             properties:
                               aggregations:
@@ -403,30 +407,27 @@ spec:
                                   type: object
                                 type: array
                               comparison:
-                                description: 'The comparison to apply between the
-                                  time series (indicated by filter and aggregation)
-                                  and the threshold (indicated by threshold_value).
-                                  The comparison is applied on each time series, with
-                                  the time series on the left-hand side and the threshold
-                                  on the right-hand side. Only COMPARISON_LT and COMPARISON_GT
-                                  are supported currently. Possible values: ["COMPARISON_GT",
-                                  "COMPARISON_GE", "COMPARISON_LT", "COMPARISON_LE",
-                                  "COMPARISON_EQ", "COMPARISON_NE"]'
+                                description: The comparison to apply between the time
+                                  series and the threshold . The comparison is applied
+                                  on each time series, with the time series on the
+                                  left-hand side and the threshold on the right-hand
+                                  side. Only COMPARISON_LT and COMPARISON_GT are supported
+                                  currently. Possible values are COMPARISON_GT, COMPARISON_GE,
+                                  COMPARISON_LT, COMPARISON_LE, COMPARISON_EQ, and
+                                  COMPARISON_NE.
                                 type: string
                               denominatorAggregations:
                                 description: Specifies the alignment of data points
                                   in individual time series selected by denominatorFilter
                                   as well as how to combine the retrieved time series
-                                  together (such as when aggregating multiple streams
-                                  on each resource to a single stream for each resource
-                                  or when aggregating streams across all members of
-                                  a group of resources).When computing ratios, the
-                                  aggregations and denominator_aggregations fields
-                                  must use the same alignment period and produce time
-                                  series that have the same periodicity and labels.This
-                                  field is similar to the one in the MetricService.ListTimeSeries
+                                  together .When computing ratios, the aggregations
+                                  and denominator_aggregations fields must use the
+                                  same alignment period and produce time series that
+                                  have the same periodicity and labels.This field
+                                  is similar to the one in the MetricService.ListTimeSeries
                                   request. It is advisable to use the ListTimeSeries
-                                  method when debugging this field.
+                                  method when debugging this field. Structure is documented
+                                  below.
                                 items:
                                   properties:
                                     alignmentPeriod:
@@ -513,12 +514,10 @@ spec:
                                   is specified, the time series specified by the filter
                                   field will be used as the numerator.The filter is
                                   similar to the one that is specified in the MetricService.ListTimeSeries
-                                  request (that call is useful to verify the time
-                                  series that will be retrieved / processed) and must
-                                  specify the metric type and optionally may contain
-                                  restrictions on resource type, resource labels,
-                                  and metric labels. This field may not exceed 2048
-                                  Unicode characters in length.
+                                  request  and must specify the metric type and optionally
+                                  may contain restrictions on resource type, resource
+                                  labels, and metric labels. This field may not exceed
+                                  2048 Unicode characters in length.
                                 type: string
                               duration:
                                 description: The amount of time that a time series
@@ -598,7 +597,8 @@ spec:
                       documentation to include information to help responders understand,
                       mitigate, escalate, and correct the underlying problems detected
                       by the alerting policy. Notification channels that have limited
-                      capacity might not show this documentation.
+                      capacity might not show this documentation. Structure is documented
+                      below.
                     items:
                       properties:
                         content:
@@ -623,11 +623,13 @@ spec:
                       violations occur on an already opened incident. Each element
                       of this array corresponds to the name field in each of the NotificationChannel
                       objects that are returned from the notificationChannels.list
-                      method. The syntax of the entries in this field is 'projects/[PROJECT_ID]/notificationChannels/[CHANNEL_ID]'
+                      method. The syntax of the entries in this field is projects/[PROJECT_ID]/notificationChannels/[CHANNEL_ID]
                     items:
                       type: string
                     type: array
                   project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
                     type: string
                   userLabels:
                     additionalProperties:
@@ -821,24 +823,42 @@ spec:
               atProvider:
                 properties:
                   conditions:
+                    description: A list of conditions for the policy. The conditions
+                      are combined by AND or OR according to the combiner field. If
+                      the combined conditions evaluate to true, then an incident is
+                      created. A policy can have from one to six conditions. Structure
+                      is documented below.
                     items:
                       properties:
                         name:
+                          description: 'The unique resource name for this condition.
+                            Its syntax is: projects/[PROJECT_ID]/alertPolicies/[POLICY_ID]/conditions/[CONDITION_ID]
+                            [CONDITION_ID] is assigned by Stackdriver Monitoring when
+                            the condition is created as part of a new or updated alerting
+                            policy.'
                           type: string
                       type: object
                     type: array
                   creationRecord:
+                    description: A read-only record of the creation of the alerting
+                      policy. If provided in a call to create or update, this field
+                      will be ignored. Structure is documented below.
                     items:
                       properties:
                         mutateTime:
+                          description: When the change occurred.
                           type: string
                         mutatedBy:
+                          description: The email address of the user making the change.
                           type: string
                       type: object
                     type: array
                   id:
+                    description: an identifier for the resource with format {{name}}
                     type: string
                   name:
+                    description: 'The unique resource name for this policy. Its syntax
+                      is: projects/[PROJECT_ID]/alertPolicies/[ALERT_POLICY_ID]'
                     type: string
                 type: object
               conditions:

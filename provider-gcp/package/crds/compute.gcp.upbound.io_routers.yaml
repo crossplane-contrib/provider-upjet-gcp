@@ -35,7 +35,8 @@ spec:
     name: v1beta1
     schema:
       openAPIV3Schema:
-        description: Router is the Schema for the Routers API
+        description: Router is the Schema for the Routers API. Represents a Router
+          resource.
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -64,21 +65,22 @@ spec:
               forProvider:
                 properties:
                   bgp:
-                    description: BGP information specific to this router.
+                    description: BGP information specific to this router. Structure
+                      is documented below.
                     items:
                       properties:
                         advertiseMode:
-                          description: 'User-specified flag to indicate which mode
-                            to use for advertisement. Default value: "DEFAULT" Possible
-                            values: ["DEFAULT", "CUSTOM"]'
+                          description: User-specified flag to indicate which mode
+                            to use for advertisement. Default value is DEFAULT. Possible
+                            values are DEFAULT and CUSTOM.
                           type: string
                         advertisedGroups:
-                          description: "User-specified list of prefix groups to advertise
+                          description: 'User-specified list of prefix groups to advertise
                             in custom mode. This field can only be populated if advertiseMode
                             is CUSTOM and is advertised to all peers of the router.
                             These groups will be advertised in addition to any specified
                             prefixes. Leave this field blank to advertise no custom
-                            groups. \n This enum field has the one valid value: ALL_SUBNETS"
+                            groups. This enum field has the one valid value: ALL_SUBNETS'
                           items:
                             type: string
                           type: array
@@ -88,7 +90,7 @@ spec:
                             if advertiseMode is CUSTOM and is advertised to all peers
                             of the router. These IP ranges will be advertised in addition
                             to any specified groups. Leave this field blank to advertise
-                            no custom IP ranges.
+                            no custom IP ranges. Structure is documented below.
                           items:
                             properties:
                               description:
@@ -104,11 +106,10 @@ spec:
                             type: object
                           type: array
                         asn:
-                          description: Local BGP Autonomous System Number (ASN). Must
-                            be an RFC6996 private ASN, either 16-bit or 32-bit. The
-                            value will be fixed for this router resource. All VPN
-                            tunnels that link to this router will have the same local
-                            ASN.
+                          description: Local BGP Autonomous System Number . Must be
+                            an RFC6996 private ASN, either 16-bit or 32-bit. The value
+                            will be fixed for this router resource. All VPN tunnels
+                            that link to this router will have the same local ASN.
                           type: number
                         keepaliveInterval:
                           description: The interval in seconds between BGP keepalive
@@ -130,9 +131,9 @@ spec:
                     description: An optional description of this resource.
                     type: string
                   encryptedInterconnectRouter:
-                    description: "Field to indicate if a router is dedicated to use
-                      with encrypted Interconnect Attachment (IPsec-encrypted Cloud
-                      Interconnect feature). \n Not currently available publicly."
+                    description: Field to indicate if a router is dedicated to use
+                      with encrypted Interconnect Attachment . Not currently available
+                      publicly.
                     type: boolean
                   network:
                     description: A reference to the network to which this router belongs.
@@ -211,6 +212,8 @@ spec:
                         type: object
                     type: object
                   project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
                     type: string
                   region:
                     description: Region where the router resides.
@@ -395,10 +398,13 @@ spec:
               atProvider:
                 properties:
                   creationTimestamp:
+                    description: Creation timestamp in RFC3339 text format.
                     type: string
                   id:
+                    description: an identifier for the resource with format projects/{{project}}/regions/{{region}}/routers/{{name}}
                     type: string
                   selfLink:
+                    description: The URI of the created resource.
                     type: string
                 type: object
               conditions:

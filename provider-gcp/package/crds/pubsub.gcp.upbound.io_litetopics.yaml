@@ -35,7 +35,8 @@ spec:
     name: v1beta1
     schema:
       openAPIV3Schema:
-        description: LiteTopic is the Schema for the LiteTopics API
+        description: LiteTopic is the Schema for the LiteTopics API. A named resource
+          to which messages are sent by publishers.
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -64,11 +65,13 @@ spec:
               forProvider:
                 properties:
                   partitionConfig:
-                    description: The settings for this topic's partitions.
+                    description: The settings for this topic's partitions. Structure
+                      is documented below.
                     items:
                       properties:
                         capacity:
-                          description: The capacity configuration.
+                          description: The capacity configuration. Structure is documented
+                            below.
                           items:
                             properties:
                               publishMibPerSec:
@@ -93,12 +96,15 @@ spec:
                       type: object
                     type: array
                   project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
                     type: string
                   region:
                     description: The region of the pubsub lite topic.
                     type: string
                   reservationConfig:
                     description: The settings for this topic's Reservation usage.
+                      Structure is documented below.
                     items:
                       properties:
                         throughputReservation:
@@ -184,7 +190,8 @@ spec:
                       type: object
                     type: array
                   retentionConfig:
-                    description: The settings for a topic's message retention.
+                    description: The settings for a topic's message retention. Structure
+                      is documented below.
                     items:
                       properties:
                         perPartitionBytes:
@@ -390,6 +397,7 @@ spec:
               atProvider:
                 properties:
                   id:
+                    description: an identifier for the resource with format projects/{{project}}/locations/{{zone}}/topics/{{name}}
                     type: string
                 type: object
               conditions:
