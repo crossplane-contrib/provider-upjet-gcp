@@ -65,11 +65,12 @@ spec:
               forProvider:
                 properties:
                   description:
-                    description: An optional description of this resource.
+                    description: An optional description of this resource. An optional
+                      description of this resource.
                     type: string
                   network:
                     description: The network this VPN gateway is accepting traffic
-                      for.
+                      for. The network this VPN gateway is accepting traffic for.
                     type: string
                   networkRef:
                     description: A Reference to a named object.
@@ -149,23 +150,30 @@ spec:
                       If it is not provided, the provider project is used.
                     type: string
                   region:
-                    description: The region this gateway should sit in.
+                    description: The region this gateway should sit in. The region
+                      this gateway should sit in.
                     type: string
                   vpnInterfaces:
                     description: A list of interfaces on this VPN gateway. Structure
-                      is documented below.
+                      is documented below. A list of interfaces on this VPN gateway.
                     items:
                       properties:
                         id:
                           description: The numeric ID of this VPN gateway interface.
                           type: number
                         interconnectAttachment:
-                          description: URL of the interconnect attachment resource.
+                          description: "URL of the interconnect attachment resource.
                             When the value of this field is present, the VPN Gateway
                             will be used for IPsec-encrypted Cloud Interconnect; all
                             Egress or Ingress traffic for this VPN Gateway interface
                             will go through the specified interconnect attachment
-                            resource. Not currently available publicly.
+                            resource. Not currently available publicly. URL of the
+                            interconnect attachment resource. When the value of this
+                            field is present, the VPN Gateway will be used for IPsec-encrypted
+                            Cloud Interconnect; all Egress or Ingress traffic for
+                            this VPN Gateway interface will go through the specified
+                            interconnect attachment resource. \n Not currently available
+                            publicly."
                           type: string
                         interconnectAttachmentRef:
                           description: A Reference to a named object.
@@ -431,11 +439,12 @@ spec:
                     type: string
                   vpnInterfaces:
                     description: A list of interfaces on this VPN gateway. Structure
-                      is documented below.
+                      is documented below. A list of interfaces on this VPN gateway.
                     items:
                       properties:
                         ipAddress:
                           description: The external IP address for this VPN gateway
+                            interface. The external IP address for this VPN gateway
                             interface.
                           type: string
                       type: object

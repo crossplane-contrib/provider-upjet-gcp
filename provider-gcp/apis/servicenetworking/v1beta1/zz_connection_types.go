@@ -35,6 +35,7 @@ type ConnectionObservation struct {
 type ConnectionParameters struct {
 
 	// Name of VPC network connected with service producers using VPC peering.
+	// Name of VPC network connected with service producers using VPC peering.
 	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.Network
 	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
@@ -49,6 +50,7 @@ type ConnectionParameters struct {
 	// Named IP address range of PEERING type reserved for
 	// this service provider. Note that invoking this method with a different range when connection
 	// is already established will not reallocate already provisioned service producer subnetworks.
+	// Named IP address range(s) of PEERING type reserved for this service provider. Note that invoking this method with a different range when connection is already established will not reallocate already provisioned service producer subnetworks.
 	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.GlobalAddress
 	// +kubebuilder:validation:Optional
 	ReservedPeeringRanges []*string `json:"reservedPeeringRanges,omitempty" tf:"reserved_peering_ranges,omitempty"`
@@ -62,6 +64,7 @@ type ConnectionParameters struct {
 	// Provider peering service that is managing peering connectivity for a
 	// service provider organization. For Google services that support this functionality it is
 	// 'servicenetworking.googleapis.com'.
+	// Provider peering service that is managing peering connectivity for a service provider organization. For Google services that support this functionality it is 'servicenetworking.googleapis.com'.
 	// +kubebuilder:validation:Required
 	Service *string `json:"service" tf:"service,omitempty"`
 }

@@ -53,6 +53,15 @@ type ContainersParameters struct {
 	// regardless of whether the variable exists or not.
 	// More info:
 	// https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/#running-a-command-in-a-shell
+	// Arguments to the entrypoint.
+	// The docker image's CMD is used if this is not provided.
+	// Variable references $(VAR_NAME) are expanded using the container's
+	// environment. If a variable cannot be resolved, the reference in the input
+	// string will be unchanged. The $(VAR_NAME) syntax can be escaped with a
+	// double $$, ie: $$(VAR_NAME). Escaped references will never be expanded,
+	// regardless of whether the variable exists or not.
+	// More info:
+	// https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/#running-a-command-in-a-shell
 	// +kubebuilder:validation:Optional
 	Args []*string `json:"args,omitempty" tf:"args,omitempty"`
 
@@ -65,11 +74,21 @@ type ContainersParameters struct {
 	// regardless of whether the variable exists or not.
 	// More info:
 	// https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/#running-a-command-in-a-shell
+	// Entrypoint array. Not executed within a shell.
+	// The docker image's ENTRYPOINT is used if this is not provided.
+	// Variable references $(VAR_NAME) are expanded using the container's
+	// environment. If a variable cannot be resolved, the reference in the input
+	// string will be unchanged. The $(VAR_NAME) syntax can be escaped with a
+	// double $$, ie: $$(VAR_NAME). Escaped references will never be expanded,
+	// regardless of whether the variable exists or not.
+	// More info:
+	// https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/#running-a-command-in-a-shell
 	// +kubebuilder:validation:Optional
 	Command []*string `json:"command,omitempty" tf:"command,omitempty"`
 
 	// List of environment variables to set in the container.
 	// Structure is documented below.
+	// List of environment variables to set in the container.
 	// +kubebuilder:validation:Optional
 	Env []EnvParameters `json:"env,omitempty" tf:"env,omitempty"`
 
@@ -79,9 +98,17 @@ type ContainersParameters struct {
 	// take precedence. Values defined by an Env with a duplicate key will take
 	// precedence.
 	// Structure is documented below.
+	// List of sources to populate environment variables in the container.
+	// All invalid keys will be reported as an event when the container is starting.
+	// When a key exists in multiple sources, the value associated with the last source will
+	// take precedence. Values defined by an Env with a duplicate key will take
+	// precedence.
 	// +kubebuilder:validation:Optional
 	EnvFrom []EnvFromParameters `json:"envFrom,omitempty" tf:"env_from,omitempty"`
 
+	// Docker image name. This is most often a reference to a container located
+	// in the container registry, such as gcr.io/cloudrun/hello
+	// More info: https://kubernetes.io/docs/concepts/containers/images
 	// Docker image name. This is most often a reference to a container located
 	// in the container registry, such as gcr.io/cloudrun/hello
 	// More info: https://kubernetes.io/docs/concepts/containers/images
@@ -92,6 +119,9 @@ type ContainersParameters struct {
 	// More Info:
 	// https://cloud.google.com/run/docs/reference/rest/v1/RevisionSpec#ContainerPort
 	// Structure is documented below.
+	// List of open ports in the container.
+	// More Info:
+	// https://cloud.google.com/run/docs/reference/rest/v1/RevisionSpec#ContainerPort
 	// +kubebuilder:validation:Optional
 	Ports []PortsParameters `json:"ports,omitempty" tf:"ports,omitempty"`
 
@@ -99,15 +129,23 @@ type ContainersParameters struct {
 	// More info:
 	// https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#requests-and-limits
 	// Structure is documented below.
+	// Compute Resources required by this container. Used to set values such as max memory
+	// More info:
+	// https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#requests-and-limits
 	// +kubebuilder:validation:Optional
 	Resources []ResourcesParameters `json:"resources,omitempty" tf:"resources,omitempty"`
 
 	// Volume to mount into the container's filesystem.
 	// Only supports SecretVolumeSources.
 	// Structure is documented below.
+	// Volume to mount into the container's filesystem.
+	// Only supports SecretVolumeSources.
 	// +kubebuilder:validation:Optional
 	VolumeMounts []VolumeMountsParameters `json:"volumeMounts,omitempty" tf:"volume_mounts,omitempty"`
 
+	// Container's working directory.
+	// If not specified, the container runtime's default will be used, which
+	// might be configured in the container image.
 	// Container's working directory.
 	// If not specified, the container runtime's default will be used, which
 	// might be configured in the container image.
@@ -122,15 +160,18 @@ type EnvFromParameters struct {
 
 	// The ConfigMap to select from.
 	// Structure is documented below.
+	// The ConfigMap to select from.
 	// +kubebuilder:validation:Optional
 	ConfigMapRef []ConfigMapRefParameters `json:"configMapRef,omitempty" tf:"config_map_ref,omitempty"`
 
+	// An optional identifier to prepend to each key in the ConfigMap.
 	// An optional identifier to prepend to each key in the ConfigMap.
 	// +kubebuilder:validation:Optional
 	Prefix *string `json:"prefix,omitempty" tf:"prefix,omitempty"`
 
 	// The Secret to select from.
 	// Structure is documented below.
+	// The Secret to select from.
 	// +kubebuilder:validation:Optional
 	SecretRef []SecretRefParameters `json:"secretRef,omitempty" tf:"secret_ref,omitempty"`
 }
@@ -152,11 +193,20 @@ type EnvParameters struct {
 	// references will never be expanded, regardless of whether the variable
 	// exists or not.
 	// Defaults to "".
+	// Variable references $(VAR_NAME) are expanded
+	// using the previous defined environment variables in the container and
+	// any route environment variables. If a variable cannot be resolved,
+	// the reference in the input string will be unchanged. The $(VAR_NAME)
+	// syntax can be escaped with a double $$, ie: $$(VAR_NAME). Escaped
+	// references will never be expanded, regardless of whether the variable
+	// exists or not.
+	// Defaults to "".
 	// +kubebuilder:validation:Optional
 	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 
 	// Source for the environment variable's value. Only supports secret_key_ref.
 	// Structure is documented below.
+	// Source for the environment variable's value. Only supports secret_key_ref.
 	// +kubebuilder:validation:Optional
 	ValueFrom []ValueFromParameters `json:"valueFrom,omitempty" tf:"value_from,omitempty"`
 }
@@ -175,9 +225,17 @@ type ItemsParameters struct {
 	// not specified, the volume defaultMode will be used. This might be in
 	// conflict with other options that affect the file mode, like fsGroup, and
 	// the result can be other mode bits set.
+	// Mode bits to use on this file, must be a value between 0000 and 0777. If
+	// not specified, the volume defaultMode will be used. This might be in
+	// conflict with other options that affect the file mode, like fsGroup, and
+	// the result can be other mode bits set.
 	// +kubebuilder:validation:Optional
 	Mode *float64 `json:"mode,omitempty" tf:"mode,omitempty"`
 
+	// The relative path of the file to map the key to.
+	// May not be an absolute path.
+	// May not contain the path element '..'.
+	// May not start with the string '..'.
 	// The relative path of the file to map the key to.
 	// May not be an absolute path.
 	// May not contain the path element '..'.
@@ -204,6 +262,7 @@ type PortsObservation struct {
 type PortsParameters struct {
 
 	// Port number the container listens on. This must be a valid port number, 0 < x < 65536.
+	// Port number the container listens on. This must be a valid port number, 0 < x < 65536.
 	// +kubebuilder:validation:Optional
 	ContainerPort *float64 `json:"containerPort,omitempty" tf:"container_port,omitempty"`
 
@@ -211,6 +270,7 @@ type PortsParameters struct {
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// Protocol for port. Must be "TCP". Defaults to "TCP".
 	// Protocol for port. Must be "TCP". Defaults to "TCP".
 	// +kubebuilder:validation:Optional
 	Protocol *string `json:"protocol,omitempty" tf:"protocol,omitempty"`
@@ -224,9 +284,17 @@ type ResourcesParameters struct {
 	// Limits describes the maximum amount of compute resources allowed.
 	// The values of the map is string form of the 'quantity' k8s type:
 	// https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/apimachinery/pkg/api/resource/quantity.go
+	// Limits describes the maximum amount of compute resources allowed.
+	// The values of the map is string form of the 'quantity' k8s type:
+	// https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/apimachinery/pkg/api/resource/quantity.go
 	// +kubebuilder:validation:Optional
 	Limits map[string]*string `json:"limits,omitempty" tf:"limits,omitempty"`
 
+	// Requests describes the minimum amount of compute resources required.
+	// If Requests is omitted for a container, it defaults to Limits if that is
+	// explicitly specified, otherwise to an implementation-defined value.
+	// The values of the map is string form of the 'quantity' k8s type:
+	// https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/apimachinery/pkg/api/resource/quantity.go
 	// Requests describes the minimum amount of compute resources required.
 	// If Requests is omitted for a container, it defaults to Limits if that is
 	// explicitly specified, otherwise to an implementation-defined value.
@@ -272,6 +340,10 @@ type SecretParameters struct {
 	// and 0777. Defaults to 0644. Directories within the path are not affected by
 	// this setting. This might be in conflict with other options that affect the
 	// file mode, like fsGroup, and the result can be other mode bits set.
+	// Mode bits to use on created files by default. Must be a value between 0000
+	// and 0777. Defaults to 0644. Directories within the path are not affected by
+	// this setting. This might be in conflict with other options that affect the
+	// file mode, like fsGroup, and the result can be other mode bits set.
 	// +kubebuilder:validation:Optional
 	DefaultMode *float64 `json:"defaultMode,omitempty" tf:"default_mode,omitempty"`
 
@@ -281,6 +353,11 @@ type SecretParameters struct {
 	// Secret Manager and the path will be the name of the file exposed in the
 	// volume. When items are defined, they must specify a key and a path.
 	// Structure is documented below.
+	// If unspecified, the volume will expose a file whose name is the
+	// secret_name.
+	// If specified, the key will be used as the version to fetch from Cloud
+	// Secret Manager and the path will be the name of the file exposed in the
+	// volume. When items are defined, they must specify a key and a path.
 	// +kubebuilder:validation:Optional
 	Items []ItemsParameters `json:"items,omitempty" tf:"items,omitempty"`
 
@@ -289,6 +366,15 @@ type SecretParameters struct {
 	// If the secret is in another project, you must define an alias.
 	// An alias definition has the form:
 	// :projects/<project-id|project-number>/secrets/.
+	// If multiple alias definitions are needed, they must be separated by
+	// commas.
+	// The alias definitions must be set on the run.googleapis.com/secrets
+	// annotation.
+	// The name of the secret in Cloud Secret Manager. By default, the secret
+	// is assumed to be in the same project.
+	// If the secret is in another project, you must define an alias.
+	// An alias definition has the form:
+	// <alias>:projects/<project-id|project-number>/secrets/<secret-name>.
 	// If multiple alias definitions are needed, they must be separated by
 	// commas.
 	// The alias definitions must be set on the run.googleapis.com/secrets
@@ -416,12 +502,24 @@ type ServiceObservation struct {
 	// Cloud Run does not currently support referencing a build that is
 	// responsible for materializing the container image from source.
 	// Structure is documented below.
+	// template holds the latest specification for the Revision to
+	// be stamped out. The template references the container image, and may also
+	// include labels and annotations that should be attached to the Revision.
+	// To correlate a Revision, and/or to force a Revision to be created when the
+	// spec doesn't otherwise change, a nonce label may be provided in the
+	// template metadata. For more details, see:
+	// https://github.com/knative/serving/blob/main/docs/client-conventions.md#associate-modifications-with-revisions
+	//
+	// Cloud Run does not currently support referencing a build that is
+	// responsible for materializing the container image from source.
 	// +kubebuilder:validation:Optional
 	Template []TemplateObservation `json:"template,omitempty" tf:"template,omitempty"`
 
 	// Traffic specifies how to distribute traffic over a collection of Knative Revisions
 	// and Configurations
 	// Structure is documented below.
+	// Traffic specifies how to distribute traffic over a collection of Knative Revisions
+	// and Configurations
 	// +kubebuilder:validation:Optional
 	Traffic []TrafficObservation `json:"traffic,omitempty" tf:"traffic,omitempty"`
 }
@@ -434,6 +532,7 @@ type ServiceParameters struct {
 	// +kubebuilder:validation:Optional
 	AutogenerateRevisionName *bool `json:"autogenerateRevisionName,omitempty" tf:"autogenerate_revision_name,omitempty"`
 
+	// The location of the cloud run instance. eg us-central1
 	// The location of the cloud run instance. eg us-central1
 	// +kubebuilder:validation:Required
 	Location *string `json:"location" tf:"location,omitempty"`
@@ -458,12 +557,24 @@ type ServiceParameters struct {
 	// Cloud Run does not currently support referencing a build that is
 	// responsible for materializing the container image from source.
 	// Structure is documented below.
+	// template holds the latest specification for the Revision to
+	// be stamped out. The template references the container image, and may also
+	// include labels and annotations that should be attached to the Revision.
+	// To correlate a Revision, and/or to force a Revision to be created when the
+	// spec doesn't otherwise change, a nonce label may be provided in the
+	// template metadata. For more details, see:
+	// https://github.com/knative/serving/blob/main/docs/client-conventions.md#associate-modifications-with-revisions
+	//
+	// Cloud Run does not currently support referencing a build that is
+	// responsible for materializing the container image from source.
 	// +kubebuilder:validation:Optional
 	Template []TemplateParameters `json:"template,omitempty" tf:"template,omitempty"`
 
 	// Traffic specifies how to distribute traffic over a collection of Knative Revisions
 	// and Configurations
 	// Structure is documented below.
+	// Traffic specifies how to distribute traffic over a collection of Knative Revisions
+	// and Configurations
 	// +kubebuilder:validation:Optional
 	Traffic []TrafficParameters `json:"traffic,omitempty" tf:"traffic,omitempty"`
 }
@@ -584,6 +695,7 @@ type TemplateObservation struct {
 
 	// RevisionSpec holds the desired state of the Revision .
 	// Structure is documented below.
+	// RevisionSpec holds the desired state of the Revision (from the client).
 	// +kubebuilder:validation:Optional
 	Spec []TemplateSpecObservation `json:"spec,omitempty" tf:"spec,omitempty"`
 }
@@ -602,12 +714,17 @@ type TemplateParameters struct {
 
 	// RevisionSpec holds the desired state of the Revision .
 	// Structure is documented below.
+	// RevisionSpec holds the desired state of the Revision (from the client).
 	// +kubebuilder:validation:Optional
 	Spec []TemplateSpecParameters `json:"spec,omitempty" tf:"spec,omitempty"`
 }
 
 type TemplateSpecObservation struct {
 
+	// ServingState holds a value describing the state the resources
+	// are in for this Revision.
+	// It is expected
+	// that the system will manipulate this based on routability and load.
 	// ServingState holds a value describing the state the resources
 	// are in for this Revision.
 	// It is expected
@@ -619,6 +736,12 @@ type TemplateSpecParameters struct {
 
 	// ContainerConcurrency specifies the maximum allowed in-flight
 	// requests per container of the Revision. Values are:
+	// ContainerConcurrency specifies the maximum allowed in-flight (concurrent)
+	// requests per container of the Revision. Values are:
+	// - '0' thread-safe, the system should manage the max concurrency. This is
+	// the default value.
+	// - '1' not-thread-safe. Single concurrency
+	// - '2-N' thread-safe, max concurrency of N
 	// +kubebuilder:validation:Optional
 	ContainerConcurrency *float64 `json:"containerConcurrency,omitempty" tf:"container_concurrency,omitempty"`
 
@@ -628,9 +751,18 @@ type TemplateSpecParameters struct {
 	// The runtime contract is documented here:
 	// https://github.com/knative/serving/blob/main/docs/runtime-contract.md
 	// Structure is documented below.
+	// Container defines the unit of execution for this Revision.
+	// In the context of a Revision, we disallow a number of the fields of
+	// this Container, including: name, ports, and volumeMounts.
+	// The runtime contract is documented here:
+	// https://github.com/knative/serving/blob/main/docs/runtime-contract.md
 	// +kubebuilder:validation:Optional
 	Containers []ContainersParameters `json:"containers,omitempty" tf:"containers,omitempty"`
 
+	// Email address of the IAM service account associated with the revision of the
+	// service. The service account represents the identity of the running revision,
+	// and determines what permissions the revision has. If not provided, the revision
+	// will use the project's default service account.
 	// Email address of the IAM service account associated with the revision of the
 	// service. The service account represents the identity of the running revision,
 	// and determines what permissions the revision has. If not provided, the revision
@@ -639,11 +771,13 @@ type TemplateSpecParameters struct {
 	ServiceAccountName *string `json:"serviceAccountName,omitempty" tf:"service_account_name,omitempty"`
 
 	// TimeoutSeconds holds the max duration the instance is allowed for responding to a request.
+	// TimeoutSeconds holds the max duration the instance is allowed for responding to a request.
 	// +kubebuilder:validation:Optional
 	TimeoutSeconds *float64 `json:"timeoutSeconds,omitempty" tf:"timeout_seconds,omitempty"`
 
 	// Volume represents a named volume in a container.
 	// Structure is documented below.
+	// Volume represents a named volume in a container.
 	// +kubebuilder:validation:Optional
 	Volumes []VolumesParameters `json:"volumes,omitempty" tf:"volumes,omitempty"`
 }
@@ -662,17 +796,24 @@ type TrafficParameters struct {
 	// Revision of the Configuration should be used for this traffic target. When
 	// provided LatestRevision must be true if RevisionName is empty; it must be
 	// false when RevisionName is non-empty.
+	// LatestRevision may be optionally provided to indicate that the latest ready
+	// Revision of the Configuration should be used for this traffic target. When
+	// provided LatestRevision must be true if RevisionName is empty; it must be
+	// false when RevisionName is non-empty.
 	// +kubebuilder:validation:Optional
 	LatestRevision *bool `json:"latestRevision,omitempty" tf:"latest_revision,omitempty"`
 
+	// Percent specifies percent of the traffic to this Revision or Configuration.
 	// Percent specifies percent of the traffic to this Revision or Configuration.
 	// +kubebuilder:validation:Required
 	Percent *float64 `json:"percent" tf:"percent,omitempty"`
 
 	// RevisionName of a specific revision to which to send this portion of traffic.
+	// RevisionName of a specific revision to which to send this portion of traffic.
 	// +kubebuilder:validation:Optional
 	RevisionName *string `json:"revisionName,omitempty" tf:"revision_name,omitempty"`
 
+	// Tag is optionally used to expose a dedicated url for referencing this target exclusively.
 	// Tag is optionally used to expose a dedicated url for referencing this target exclusively.
 	// +kubebuilder:validation:Optional
 	Tag *string `json:"tag,omitempty" tf:"tag,omitempty"`
@@ -685,6 +826,7 @@ type ValueFromParameters struct {
 
 	// Selects a key  of a secret in Secret Manager.
 	// Structure is documented below.
+	// Selects a key (version) of a secret in Secret Manager.
 	// +kubebuilder:validation:Required
 	SecretKeyRef []SecretKeyRefParameters `json:"secretKeyRef" tf:"secret_key_ref,omitempty"`
 }
@@ -694,6 +836,8 @@ type VolumeMountsObservation struct {
 
 type VolumeMountsParameters struct {
 
+	// Path within the container at which the volume should be mounted.  Must
+	// not contain ':'.
 	// Path within the container at which the volume should be mounted.  Must
 	// not contain ':'.
 	// +kubebuilder:validation:Required
@@ -717,6 +861,9 @@ type VolumesParameters struct {
 	// name is defined in the item path. If no items are defined, the name of
 	// the file is the secret_name.
 	// Structure is documented below.
+	// The secret's value will be presented as the content of a file whose
+	// name is defined in the item path. If no items are defined, the name of
+	// the file is the secret_name.
 	// +kubebuilder:validation:Required
 	Secret []SecretParameters `json:"secret" tf:"secret,omitempty"`
 }

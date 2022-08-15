@@ -31,6 +31,7 @@ type GeoObservation struct {
 type GeoParameters struct {
 
 	// The location name defined in Google Cloud.
+	// The location name defined in Google Cloud.
 	// +kubebuilder:validation:Required
 	Location *string `json:"location" tf:"location,omitempty"`
 
@@ -48,6 +49,7 @@ type RecordSetParameters struct {
 
 	// The name of the zone in which this record set will
 	// reside.
+	// The name of the zone in which this record set will reside.
 	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/dns/v1beta1.ManagedZone
 	// +kubebuilder:validation:Optional
 	ManagedZone *string `json:"managedZone,omitempty" tf:"managed_zone,omitempty"`
@@ -59,17 +61,20 @@ type RecordSetParameters struct {
 	ManagedZoneSelector *v1.Selector `json:"managedZoneSelector,omitempty" tf:"-"`
 
 	// The DNS name this record set will apply to.
+	// The DNS name this record set will apply to.
 	// +kubebuilder:validation:Required
 	Name *string `json:"name" tf:"name,omitempty"`
 
 	// The ID of the project in which the resource belongs. If it
 	// is not provided, the provider project is used.
+	// The ID of the project in which the resource belongs. If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The configuration for steering traffic based on query.
 	// Now you can specify either Weighted Round Robin type or Geolocation type.
 	// Structure is documented below.
+	// The configuration for steering traffic based on query. You can specify either Weighted Round Robin(WRR) type or Geolocation(GEO) type.
 	// +kubebuilder:validation:Optional
 	RoutingPolicy []RoutingPolicyParameters `json:"routingPolicy,omitempty" tf:"routing_policy,omitempty"`
 
@@ -78,9 +83,11 @@ type RecordSetParameters struct {
 	Rrdatas []*string `json:"rrdatas,omitempty" tf:"rrdatas,omitempty"`
 
 	// The time-to-live of this record set .
+	// The time-to-live of this record set (seconds).
 	// +kubebuilder:validation:Optional
 	TTL *float64 `json:"ttl,omitempty" tf:"ttl,omitempty"`
 
+	// The DNS record set type.
 	// The DNS record set type.
 	// +kubebuilder:validation:Required
 	Type *string `json:"type" tf:"type,omitempty"`
@@ -93,11 +100,13 @@ type RoutingPolicyParameters struct {
 
 	// The configuration for Geolocation based routing policy.
 	// Structure is document below.
+	// The configuration for Geo location based routing policy.
 	// +kubebuilder:validation:Optional
 	Geo []GeoParameters `json:"geo,omitempty" tf:"geo,omitempty"`
 
 	// The configuration for Weighted Round Robin based routing policy.
 	// Structure is document below.
+	// The configuration for Weighted Round Robin based routing policy.
 	// +kubebuilder:validation:Optional
 	Wrr []WrrParameters `json:"wrr,omitempty" tf:"wrr,omitempty"`
 }
@@ -111,6 +120,7 @@ type WrrParameters struct {
 	Rrdatas []*string `json:"rrdatas" tf:"rrdatas,omitempty"`
 
 	// Required) The ratio of traffic routed to the target.
+	// The ratio of traffic routed to the target.
 	// +kubebuilder:validation:Required
 	Weight *float64 `json:"weight" tf:"weight,omitempty"`
 }

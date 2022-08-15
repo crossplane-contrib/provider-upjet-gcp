@@ -65,19 +65,25 @@ spec:
               forProvider:
                 properties:
                   certificateId:
-                    description: The unique identifier for the resource.
+                    description: The unique identifier for the resource. The unique
+                      identifier for the resource.
                     type: number
                   description:
-                    description: An optional description of this resource.
+                    description: An optional description of this resource. An optional
+                      description of this resource.
                     type: string
                   managed:
                     description: Properties relevant to a managed certificate.  These
                       will be used if the certificate is managed . Structure is documented
-                      below.
+                      below. Properties relevant to a managed certificate.  These
+                      will be used if the certificate is managed (as indicated by
+                      a value of 'MANAGED' in 'type').
                     items:
                       properties:
                         domains:
                           description: Domains for which a managed SSL certificate
+                            will be valid.  Currently, there can be up to 100 domains
+                            in this list. Domains for which a managed SSL certificate
                             will be valid.  Currently, there can be up to 100 domains
                             in this list.
                           items:
@@ -92,9 +98,11 @@ spec:
                       If it is not provided, the provider project is used.
                     type: string
                   type:
-                    description: Enum field whose value is always MANAGED - used to
-                      signal to the API which type this is. Default value is MANAGED.
-                      Possible values are MANAGED.
+                    description: 'Enum field whose value is always MANAGED - used
+                      to signal to the API which type this is. Default value is MANAGED.
+                      Possible values are MANAGED. Enum field whose value is always
+                      ''MANAGED'' - used to signal to the API which type this is.
+                      Default value: "MANAGED" Possible values: ["MANAGED"]'
                     type: string
                 type: object
               providerConfigRef:
@@ -275,10 +283,12 @@ spec:
               atProvider:
                 properties:
                   creationTimestamp:
-                    description: Creation timestamp in RFC3339 text format.
+                    description: Creation timestamp in RFC3339 text format. Creation
+                      timestamp in RFC3339 text format.
                     type: string
                   expireTime:
-                    description: Expire time of the certificate.
+                    description: Expire time of the certificate. Expire time of the
+                      certificate.
                     type: string
                   id:
                     description: an identifier for the resource with format projects/{{project}}/global/sslCertificates/{{name}}
@@ -288,7 +298,8 @@ spec:
                     type: string
                   subjectAlternativeNames:
                     description: Domains associated with the certificate via Subject
-                      Alternative Name.
+                      Alternative Name. Domains associated with the certificate via
+                      Subject Alternative Name.
                     items:
                       type: string
                     type: array

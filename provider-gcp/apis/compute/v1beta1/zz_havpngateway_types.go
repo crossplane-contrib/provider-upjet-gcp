@@ -33,6 +33,7 @@ type HaVPNGatewayObservation struct {
 
 	// A list of interfaces on this VPN gateway.
 	// Structure is documented below.
+	// A list of interfaces on this VPN gateway.
 	// +kubebuilder:validation:Optional
 	VPNInterfaces []VPNInterfacesObservation `json:"vpnInterfaces,omitempty" tf:"vpn_interfaces,omitempty"`
 }
@@ -40,9 +41,11 @@ type HaVPNGatewayObservation struct {
 type HaVPNGatewayParameters struct {
 
 	// An optional description of this resource.
+	// An optional description of this resource.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// The network this VPN gateway is accepting traffic for.
 	// The network this VPN gateway is accepting traffic for.
 	// +crossplane:generate:reference:type=Network
 	// +crossplane:generate:reference:extractor=github.com/upbound/official-providers/provider-gcp/config/common.ExtractResourceID()
@@ -61,17 +64,20 @@ type HaVPNGatewayParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The region this gateway should sit in.
+	// The region this gateway should sit in.
 	// +kubebuilder:validation:Required
 	Region *string `json:"region" tf:"region,omitempty"`
 
 	// A list of interfaces on this VPN gateway.
 	// Structure is documented below.
+	// A list of interfaces on this VPN gateway.
 	// +kubebuilder:validation:Optional
 	VPNInterfaces []VPNInterfacesParameters `json:"vpnInterfaces,omitempty" tf:"vpn_interfaces,omitempty"`
 }
 
 type VPNInterfacesObservation struct {
 
+	// The external IP address for this VPN gateway interface.
 	// The external IP address for this VPN gateway interface.
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
 }
@@ -87,6 +93,13 @@ type VPNInterfacesParameters struct {
 	// IPsec-encrypted Cloud Interconnect; all Egress or Ingress
 	// traffic for this VPN Gateway interface will go through the
 	// specified interconnect attachment resource.
+	// Not currently available publicly.
+	// URL of the interconnect attachment resource. When the value
+	// of this field is present, the VPN Gateway will be used for
+	// IPsec-encrypted Cloud Interconnect; all Egress or Ingress
+	// traffic for this VPN Gateway interface will go through the
+	// specified interconnect attachment resource.
+	//
 	// Not currently available publicly.
 	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.InterconnectAttachment
 	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractParamPath("self_link",true)

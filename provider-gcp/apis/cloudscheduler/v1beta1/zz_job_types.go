@@ -32,6 +32,7 @@ type AppEngineHTTPTargetParameters struct {
 
 	// App Engine Routing setting for the job.
 	// Structure is documented below.
+	// App Engine Routing setting for the job.
 	// +kubebuilder:validation:Optional
 	AppEngineRouting []AppEngineRoutingParameters `json:"appEngineRouting,omitempty" tf:"app_engine_routing,omitempty"`
 
@@ -58,6 +59,11 @@ type AppEngineHTTPTargetParameters struct {
 	// It can contain a path, query string arguments, and # fragments.
 	// If the relative URL is empty, then the root path "/" will be used.
 	// No spaces are allowed, and the maximum length allowed is 2083 characters
+	// The relative URI.
+	// The relative URL must begin with "/" and must be a valid HTTP relative URL.
+	// It can contain a path, query string arguments, and \# fragments.
+	// If the relative URL is empty, then the root path "/" will be used.
+	// No spaces are allowed, and the maximum length allowed is 2083 characters
 	// +kubebuilder:validation:Required
 	RelativeURI *string `json:"relativeUri" tf:"relative_uri,omitempty"`
 }
@@ -69,14 +75,20 @@ type AppEngineRoutingParameters struct {
 
 	// App instance.
 	// By default, the job is sent to an instance which is available when the job is attempted.
+	// App instance.
+	// By default, the job is sent to an instance which is available when the job is attempted.
 	// +kubebuilder:validation:Optional
 	Instance *string `json:"instance,omitempty" tf:"instance,omitempty"`
 
 	// App service.
 	// By default, the job is sent to the service which is the default service when the job is attempted.
+	// App service.
+	// By default, the job is sent to the service which is the default service when the job is attempted.
 	// +kubebuilder:validation:Optional
 	Service *string `json:"service,omitempty" tf:"service,omitempty"`
 
+	// App version.
+	// By default, the job is sent to the version which is the default version when the job is attempted.
 	// App version.
 	// By default, the job is sent to the version which is the default version when the job is attempted.
 	// +kubebuilder:validation:Optional
@@ -108,15 +120,20 @@ type HTTPTargetParameters struct {
 	// Contains information needed for generating an OAuth token.
 	// This type of authorization should be used when sending requests to a GCP endpoint.
 	// Structure is documented below.
+	// Contains information needed for generating an OAuth token.
+	// This type of authorization should be used when sending requests to a GCP endpoint.
 	// +kubebuilder:validation:Optional
 	OAuthToken []OAuthTokenParameters `json:"oauthToken,omitempty" tf:"oauth_token,omitempty"`
 
 	// Contains information needed for generating an OpenID Connect token.
 	// This type of authorization should be used when sending requests to third party endpoints or Cloud Run.
 	// Structure is documented below.
+	// Contains information needed for generating an OpenID Connect token.
+	// This type of authorization should be used when sending requests to third party endpoints or Cloud Run.
 	// +kubebuilder:validation:Optional
 	OidcToken []OidcTokenParameters `json:"oidcToken,omitempty" tf:"oidc_token,omitempty"`
 
+	// The full URI path that the request will be sent to.
 	// The full URI path that the request will be sent to.
 	// +kubebuilder:validation:Required
 	URI *string `json:"uri" tf:"uri,omitempty"`
@@ -134,6 +151,9 @@ type JobParameters struct {
 	// If the job providers a App Engine HTTP target the cron will
 	// send a request to the service instance
 	// Structure is documented below.
+	// App Engine HTTP target.
+	// If the job providers a App Engine HTTP target the cron will
+	// send a request to the service instance
 	// +kubebuilder:validation:Optional
 	AppEngineHTTPTarget []AppEngineHTTPTargetParameters `json:"appEngineHttpTarget,omitempty" tf:"app_engine_http_target,omitempty"`
 
@@ -141,9 +161,19 @@ type JobParameters struct {
 	// cancelled and the attempt is marked as a DEADLINE_EXCEEDED failure. The failed attempt can be viewed in
 	// execution logs. Cloud Scheduler will retry the job according to the RetryConfig.
 	// The allowed duration for this deadline is:
+	// The deadline for job attempts. If the request handler does not respond by this deadline then the request is
+	// cancelled and the attempt is marked as a DEADLINE_EXCEEDED failure. The failed attempt can be viewed in
+	// execution logs. Cloud Scheduler will retry the job according to the RetryConfig.
+	// The allowed duration for this deadline is:
+	// * For HTTP targets, between 15 seconds and 30 minutes.
+	// * For App Engine HTTP targets, between 15 seconds and 24 hours.
+	// * **Note**: For PubSub targets, this field is ignored - setting it will introduce an unresolvable diff.
+	// A duration in seconds with up to nine fractional digits, terminated by 's'. Example: "3.5s"
 	// +kubebuilder:validation:Optional
 	AttemptDeadline *string `json:"attemptDeadline,omitempty" tf:"attempt_deadline,omitempty"`
 
+	// A human-readable description for the job.
+	// This string must not contain more than 500 characters.
 	// A human-readable description for the job.
 	// This string must not contain more than 500 characters.
 	// +kubebuilder:validation:Optional
@@ -153,6 +183,9 @@ type JobParameters struct {
 	// If the job providers a http_target the cron will
 	// send a request to the targeted url
 	// Structure is documented below.
+	// HTTP target.
+	// If the job providers a http_target the cron will
+	// send a request to the targeted url
 	// +kubebuilder:validation:Optional
 	HTTPTarget []HTTPTargetParameters `json:"httpTarget,omitempty" tf:"http_target,omitempty"`
 
@@ -165,9 +198,13 @@ type JobParameters struct {
 	// If the job providers a Pub/Sub target the cron will publish
 	// a message to the provided topic
 	// Structure is documented below.
+	// Pub/Sub target
+	// If the job providers a Pub/Sub target the cron will publish
+	// a message to the provided topic
 	// +kubebuilder:validation:Optional
 	PubsubTarget []PubsubTargetParameters `json:"pubsubTarget,omitempty" tf:"pubsub_target,omitempty"`
 
+	// Region where the scheduler job resides. If it is not provided, Terraform will use the provider default.
 	// Region where the scheduler job resides. If it is not provided, Terraform will use the provider default.
 	// +kubebuilder:validation:Required
 	Region *string `json:"region" tf:"region,omitempty"`
@@ -176,13 +213,19 @@ type JobParameters struct {
 	// meaning that an acknowledgement is not received from the handler,
 	// then it will be retried with exponential backoff according to the settings
 	// Structure is documented below.
+	// By default, if a job does not complete successfully,
+	// meaning that an acknowledgement is not received from the handler,
+	// then it will be retried with exponential backoff according to the settings
 	// +kubebuilder:validation:Optional
 	RetryConfig []RetryConfigParameters `json:"retryConfig,omitempty" tf:"retry_config,omitempty"`
 
 	// Describes the schedule on which the job will be executed.
+	// Describes the schedule on which the job will be executed.
 	// +kubebuilder:validation:Optional
 	Schedule *string `json:"schedule,omitempty" tf:"schedule,omitempty"`
 
+	// Specifies the time zone to be used in interpreting schedule.
+	// The value of this field must be a time zone name from the tz database.
 	// Specifies the time zone to be used in interpreting schedule.
 	// The value of this field must be a time zone name from the tz database.
 	// +kubebuilder:validation:Optional
@@ -194,6 +237,8 @@ type OAuthTokenObservation struct {
 
 type OAuthTokenParameters struct {
 
+	// OAuth scope to be used for generating OAuth access token. If not specified,
+	// "https://www.googleapis.com/auth/cloud-platform" will be used.
 	// OAuth scope to be used for generating OAuth access token. If not specified,
 	// "https://www.googleapis.com/auth/cloud-platform" will be used.
 	// +kubebuilder:validation:Optional
@@ -212,6 +257,8 @@ type OidcTokenParameters struct {
 
 	// Audience to be used when generating OIDC token. If not specified,
 	// the URI specified in target will be used.
+	// Audience to be used when generating OIDC token. If not specified,
+	// the URI specified in target will be used.
 	// +kubebuilder:validation:Optional
 	Audience *string `json:"audience,omitempty" tf:"audience,omitempty"`
 
@@ -228,11 +275,17 @@ type PubsubTargetParameters struct {
 
 	// Attributes for PubsubMessage.
 	// Pubsub message must contain either non-empty data, or at least one attribute.
+	// Attributes for PubsubMessage.
+	// Pubsub message must contain either non-empty data, or at least one attribute.
 	// +kubebuilder:validation:Optional
 	Attributes map[string]*string `json:"attributes,omitempty" tf:"attributes,omitempty"`
 
 	// The message payload for PubsubMessage.
 	// Pubsub message must contain either non-empty data, or at least one attribute.
+	// A base64-encoded string.
+	// The message payload for PubsubMessage.
+	// Pubsub message must contain either non-empty data, or at least one attribute.
+	//
 	// A base64-encoded string.
 	// +kubebuilder:validation:Optional
 	Data *string `json:"data,omitempty" tf:"data,omitempty"`
@@ -241,6 +294,10 @@ type PubsubTargetParameters struct {
 	// messages will be published when a job is delivered. ~>NOTE:
 	// The topic name must be in the same format as required by PubSub's
 	// PublishRequest.name, e.g. projects/my-project/topics/my-topic.
+	// The full resource name for the Cloud Pub/Sub topic to which
+	// messages will be published when a job is delivered. ~>**NOTE:**
+	// The topic name must be in the same format as required by PubSub's
+	// PublishRequest.name, e.g. 'projects/my-project/topics/my-topic'.
 	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/pubsub/v1beta1.Topic
 	// +kubebuilder:validation:Optional
 	TopicName *string `json:"topicName,omitempty" tf:"topic_name,omitempty"`
@@ -259,9 +316,15 @@ type RetryConfigParameters struct {
 
 	// The maximum amount of time to wait before retrying a job after it fails.
 	// A duration in seconds with up to nine fractional digits, terminated by 's'.
+	// The maximum amount of time to wait before retrying a job after it fails.
+	// A duration in seconds with up to nine fractional digits, terminated by 's'.
 	// +kubebuilder:validation:Optional
 	MaxBackoffDuration *string `json:"maxBackoffDuration,omitempty" tf:"max_backoff_duration,omitempty"`
 
+	// The time between retries will double maxDoublings times.
+	// A job's retry interval starts at minBackoffDuration,
+	// then doubles maxDoublings times, then increases linearly,
+	// and finally retries retries at intervals of maxBackoffDuration up to retryCount times.
 	// The time between retries will double maxDoublings times.
 	// A job's retry interval starts at minBackoffDuration,
 	// then doubles maxDoublings times, then increases linearly,
@@ -272,14 +335,22 @@ type RetryConfigParameters struct {
 	// The time limit for retrying a failed job, measured from time when an execution was first attempted.
 	// If specified with retryCount, the job will be retried until both limits are reached.
 	// A duration in seconds with up to nine fractional digits, terminated by 's'.
+	// The time limit for retrying a failed job, measured from time when an execution was first attempted.
+	// If specified with retryCount, the job will be retried until both limits are reached.
+	// A duration in seconds with up to nine fractional digits, terminated by 's'.
 	// +kubebuilder:validation:Optional
 	MaxRetryDuration *string `json:"maxRetryDuration,omitempty" tf:"max_retry_duration,omitempty"`
 
 	// The minimum amount of time to wait before retrying a job after it fails.
 	// A duration in seconds with up to nine fractional digits, terminated by 's'.
+	// The minimum amount of time to wait before retrying a job after it fails.
+	// A duration in seconds with up to nine fractional digits, terminated by 's'.
 	// +kubebuilder:validation:Optional
 	MinBackoffDuration *string `json:"minBackoffDuration,omitempty" tf:"min_backoff_duration,omitempty"`
 
+	// The number of attempts that the system will make to run a
+	// job using the exponential backoff procedure described by maxDoublings.
+	// Values greater than 5 and negative values are not allowed.
 	// The number of attempts that the system will make to run a
 	// job using the exponential backoff procedure described by maxDoublings.
 	// Values greater than 5 and negative values are not allowed.

@@ -34,6 +34,9 @@ type AlternativeNameServerConfigParameters struct {
 	// all DNS queries are forwarded to a name server that you choose. Names such as .internal
 	// are not available when an alternative name server is specified.
 	// Structure is documented below.
+	// Sets an alternative name server for the associated networks. When specified,
+	// all DNS queries are forwarded to a name server that you choose. Names such as .internal
+	// are not available when an alternative name server is specified.
 	// +kubebuilder:validation:Required
 	TargetNameServers []AlternativeNameServerConfigTargetNameServersParameters `json:"targetNameServers" tf:"target_name_servers,omitempty"`
 }
@@ -47,9 +50,13 @@ type AlternativeNameServerConfigTargetNameServersParameters struct {
 	// decision based on address ranges, i.e. RFC1918 addresses go to the VPC, Non-RFC1918 addresses go
 	// to the Internet. When set to private, Cloud DNS will always send queries through VPC for this target
 	// Possible values are default and private.
+	// Forwarding path for this TargetNameServer. If unset or 'default' Cloud DNS will make forwarding
+	// decision based on address ranges, i.e. RFC1918 addresses go to the VPC, Non-RFC1918 addresses go
+	// to the Internet. When set to 'private', Cloud DNS will always send queries through VPC for this target Possible values: ["default", "private"]
 	// +kubebuilder:validation:Optional
 	ForwardingPath *string `json:"forwardingPath,omitempty" tf:"forwarding_path,omitempty"`
 
+	// IPv4 address to forward to.
 	// IPv4 address to forward to.
 	// +kubebuilder:validation:Required
 	IPv4Address *string `json:"ipv4Address" tf:"ipv4_address,omitempty"`
@@ -69,6 +76,9 @@ type PolicyNetworksParameters struct {
 	// The id or fully qualified URL of the VPC network to forward queries to.
 	// This should be formatted like projects/{project}/global/networks/{network} or
 	// https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}
+	// The id or fully qualified URL of the VPC network to forward queries to.
+	// This should be formatted like 'projects/{project}/global/networks/{network}' or
+	// 'https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}'
 	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.Network
 	// +crossplane:generate:reference:extractor=github.com/upbound/official-providers/provider-gcp/config/common.ExtractResourceID()
 	// +crossplane:generate:reference:refFieldName=NetworkRef
@@ -89,13 +99,21 @@ type PolicyParameters struct {
 	// When specified, all DNS queries are forwarded to a name server that you choose.
 	// Names such as .internal are not available when an alternative name server is specified.
 	// Structure is documented below.
+	// Sets an alternative name server for the associated networks.
+	// When specified, all DNS queries are forwarded to a name server that you choose.
+	// Names such as .internal are not available when an alternative name server is specified.
 	// +kubebuilder:validation:Optional
 	AlternativeNameServerConfig []AlternativeNameServerConfigParameters `json:"alternativeNameServerConfig,omitempty" tf:"alternative_name_server_config,omitempty"`
 
 	// A textual description field. Defaults to 'Managed by Terraform'.
+	// A textual description field. Defaults to 'Managed by Terraform'.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// Allows networks bound to this policy to receive DNS queries sent
+	// by VMs or applications over VPN connections. When enabled, a
+	// virtual IP address will be allocated from each of the sub-networks
+	// that are bound to this policy.
 	// Allows networks bound to this policy to receive DNS queries sent
 	// by VMs or applications over VPN connections. When enabled, a
 	// virtual IP address will be allocated from each of the sub-networks
@@ -105,11 +123,14 @@ type PolicyParameters struct {
 
 	// Controls whether logging is enabled for the networks bound to this policy.
 	// Defaults to no logging if not set.
+	// Controls whether logging is enabled for the networks bound to this policy.
+	// Defaults to no logging if not set.
 	// +kubebuilder:validation:Optional
 	EnableLogging *bool `json:"enableLogging,omitempty" tf:"enable_logging,omitempty"`
 
 	// List of network names specifying networks to which this policy is applied.
 	// Structure is documented below.
+	// List of network names specifying networks to which this policy is applied.
 	// +kubebuilder:validation:Optional
 	Networks []PolicyNetworksParameters `json:"networks,omitempty" tf:"networks,omitempty"`
 

@@ -65,34 +65,58 @@ spec:
               forProvider:
                 properties:
                   autoscalingPolicy:
-                    description: 'The configuration parameters for the autoscaling
+                    description: "The configuration parameters for the autoscaling
                       algorithm. You can define one or more of the policies for an
                       autoscaler: cpuUtilization, customMetricUtilizations, and loadBalancingUtilization.
                       If none of these are specified, the default will be to autoscale
                       based on cpuUtilization to 0.6 or 60%. Structure is documented
-                      below.'
+                      below. The configuration parameters for the autoscaling algorithm.
+                      You can define one or more of the policies for an autoscaler:
+                      cpuUtilization, customMetricUtilizations, and loadBalancingUtilization.
+                      \n If none of these are specified, the default will be to autoscale
+                      based on cpuUtilization to 0.6 or 60%."
                     items:
                       properties:
                         cooldownPeriod:
-                          description: The number of seconds that the autoscaler should
-                            wait before it starts collecting information from a new
-                            instance. This prevents the autoscaler from collecting
+                          description: "The number of seconds that the autoscaler
+                            should wait before it starts collecting information from
+                            a new instance. This prevents the autoscaler from collecting
                             information when the instance is initializing, during
                             which the collected usage would not be reliable. The default
                             time autoscaler waits is 60 seconds. Virtual machine initialization
                             times might vary because of numerous factors. We recommend
                             that you test how long an instance may take to initialize.
                             To do this, create an instance and time the startup process.
+                            The number of seconds that the autoscaler should wait
+                            before it starts collecting information from a new instance.
+                            This prevents the autoscaler from collecting information
+                            when the instance is initializing, during which the collected
+                            usage would not be reliable. The default time autoscaler
+                            waits is 60 seconds. \n Virtual machine initialization
+                            times might vary because of numerous factors. We recommend
+                            that you test how long an instance may take to initialize.
+                            To do this, create an instance and time the startup process."
                           type: number
                         cpuUtilization:
                           description: Defines the CPU utilization policy that allows
                             the autoscaler to scale based on the average CPU utilization
                             of a managed instance group. Structure is documented below.
+                            Defines the CPU utilization policy that allows the autoscaler
+                            to scale based on the average CPU utilization of a managed
+                            instance group.
                           items:
                             properties:
                               predictiveMethod:
-                                description: 'Indicates whether predictive autoscaling
-                                  based on CPU metric is enabled. Valid values are:'
+                                description: "Indicates whether predictive autoscaling
+                                  based on CPU metric is enabled. Valid values are:
+                                  Indicates whether predictive autoscaling based on
+                                  CPU metric is enabled. Valid values are: \n - NONE
+                                  (default). No predictive method is used. The autoscaler
+                                  scales the group to meet current demand based on
+                                  real-time metrics. \n - OPTIMIZE_AVAILABILITY. Predictive
+                                  autoscaling improves availability by monitoring
+                                  daily and weekly load patterns and scaling out ahead
+                                  of anticipated demand."
                                 type: string
                               target:
                                 description: "The target CPU utilization that the
@@ -114,7 +138,8 @@ spec:
                           type: array
                         loadBalancingUtilization:
                           description: Configuration parameters of autoscaling based
-                            on a load balancer. Structure is documented below.
+                            on a load balancer. Structure is documented below. Configuration
+                            parameters of autoscaling based on a load balancer.
                           items:
                             properties:
                               target:
@@ -131,11 +156,16 @@ spec:
                           description: The maximum number of instances that the autoscaler
                             can scale up to. This is required when creating or updating
                             an autoscaler. The maximum number of replicas should not
-                            be lower than minimal number of replicas.
+                            be lower than minimal number of replicas. The maximum
+                            number of instances that the autoscaler can scale up to.
+                            This is required when creating or updating an autoscaler.
+                            The maximum number of replicas should not be lower than
+                            minimal number of replicas.
                           type: number
                         metric:
                           description: Configuration parameters of autoscaling based
-                            on a custom metric. Structure is documented below.
+                            on a custom metric. Structure is documented below. Configuration
+                            parameters of autoscaling based on a custom metric.
                           items:
                             properties:
                               name:
@@ -155,10 +185,13 @@ spec:
                                   for each of the instances."
                                 type: number
                               type:
-                                description: Defines how target utilization value
+                                description: 'Defines how target utilization value
                                   is expressed for a Stackdriver Monitoring metric.
                                   Possible values are GAUGE, DELTA_PER_SECOND, and
-                                  DELTA_PER_MINUTE.
+                                  DELTA_PER_MINUTE. Defines how target utilization
+                                  value is expressed for a Stackdriver Monitoring
+                                  metric. Possible values: ["GAUGE", "DELTA_PER_SECOND",
+                                  "DELTA_PER_MINUTE"]'
                                 type: string
                             required:
                             - name
@@ -168,21 +201,29 @@ spec:
                           description: The minimum number of replicas that the autoscaler
                             can scale down to. This cannot be less than 0. If not
                             provided, autoscaler will choose a default value depending
-                            on maximum number of instances allowed.
+                            on maximum number of instances allowed. The minimum number
+                            of replicas that the autoscaler can scale down to. This
+                            cannot be less than 0. If not provided, autoscaler will
+                            choose a default value depending on maximum number of
+                            instances allowed.
                           type: number
                         mode:
-                          description: Defines operating mode for this policy. Default
+                          description: 'Defines operating mode for this policy. Default
                             value is ON. Possible values are OFF, ONLY_UP, and ON.
+                            Defines operating mode for this policy. Default value:
+                            "ON" Possible values: ["OFF", "ONLY_UP", "ON"]'
                           type: string
                         scaleInControl:
                           description: Defines scale in controls to reduce the risk
                             of response latency and outages due to abrupt scale-in
-                            events Structure is documented below.
+                            events Structure is documented below. Defines scale in
+                            controls to reduce the risk of response latency and outages
+                            due to abrupt scale-in events
                           items:
                             properties:
                               maxScaledInReplicas:
                                 description: A nested object resource Structure is
-                                  documented below.
+                                  documented below. A nested object resource
                                 items:
                                   properties:
                                     fixed:
@@ -206,7 +247,9 @@ spec:
                         scalingSchedules:
                           description: Scaling schedules defined for an autoscaler.
                             Multiple schedules can be set on an autoscaler and they
-                            can overlap. Structure is documented below.
+                            can overlap. Structure is documented below. Scaling schedules
+                            defined for an autoscaler. Multiple schedules can be set
+                            on an autoscaler and they can overlap.
                           items:
                             properties:
                               description:
@@ -216,16 +259,23 @@ spec:
                                 description: A boolean value that specifies if a scaling
                                   schedule can influence autoscaler recommendations.
                                   If set to true, then a scaling schedule has no effect.
+                                  A boolean value that specifies if a scaling schedule
+                                  can influence autoscaler recommendations. If set
+                                  to true, then a scaling schedule has no effect.
                                 type: boolean
                               durationSec:
                                 description: The duration of time intervals  for which
                                   this scaling schedule will be running. The minimum
-                                  allowed value is 300.
+                                  allowed value is 300. The duration of time intervals
+                                  (in seconds) for which this scaling schedule will
+                                  be running. The minimum allowed value is 300.
                                 type: number
                               minRequiredReplicas:
                                 description: Minimum number of VM instances that autoscaler
                                   will recommend in time intervals starting according
-                                  to schedule.
+                                  to schedule. Minimum number of VM instances that
+                                  autoscaler will recommend in time intervals starting
+                                  according to schedule.
                                 type: number
                               name:
                                 type: string
@@ -233,12 +283,18 @@ spec:
                                 description: The start timestamps of time intervals
                                   when this scaling schedule should provide a scaling
                                   signal. This field uses the extended cron format
-                                  .
+                                  . The start timestamps of time intervals when this
+                                  scaling schedule should provide a scaling signal.
+                                  This field uses the extended cron format (with an
+                                  optional year field).
                                 type: string
                               timeZone:
                                 description: 'The time zone to be used when interpreting
                                   the schedule. The value of this field must be a
-                                  time zone name from the tz database: http://en.wikipedia.org/wiki/Tz_database.'
+                                  time zone name from the tz database: http://en.wikipedia.org/wiki/Tz_database.
+                                  The time zone to be used when interpreting the schedule.
+                                  The value of this field must be a time zone name
+                                  from the tz database: http://en.wikipedia.org/wiki/Tz_database.'
                                 type: string
                             required:
                             - durationSec
@@ -338,6 +394,7 @@ spec:
                     type: object
                   zone:
                     description: URL of the zone where the instance group resides.
+                      URL of the zone where the instance group resides.
                     type: string
                 required:
                 - autoscalingPolicy
@@ -520,7 +577,8 @@ spec:
               atProvider:
                 properties:
                   creationTimestamp:
-                    description: Creation timestamp in RFC3339 text format.
+                    description: Creation timestamp in RFC3339 text format. Creation
+                      timestamp in RFC3339 text format.
                     type: string
                   id:
                     description: an identifier for the resource with format projects/{{project}}/zones/{{zone}}/autoscalers/{{name}}

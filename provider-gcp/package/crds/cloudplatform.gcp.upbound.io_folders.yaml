@@ -70,11 +70,18 @@ spec:
                       the same parent can share the same display name. The display
                       name must start and end with a letter or digit, may contain
                       letters, digits, spaces, hyphens and underscores and can be
-                      no longer than 30 characters.
+                      no longer than 30 characters. The folder's display name. A folder's
+                      display name must be unique amongst its siblings, e.g. no two
+                      folders with the same parent can share the same display name.
+                      The display name must start and end with a letter or digit,
+                      may contain letters, digits, spaces, hyphens and underscores
+                      and can be no longer than 30 characters.
                     type: string
                   parent:
                     description: The resource name of the parent Folder or Organization.
                       Must be of the form folders/{folder_id} or organizations/{org_id}.
+                      The resource name of the parent Folder or Organization. Must
+                      be of the form folders/{folder_id} or organizations/{org_id}.
                     type: string
                   parentRef:
                     description: A Reference to a named object.
@@ -331,7 +338,10 @@ spec:
                   createTime:
                     description: 'Timestamp when the Folder was created. Assigned
                       by the server. A timestamp in RFC3339 UTC "Zulu" format, accurate
-                      to nanoseconds. Example: "2014-10-02T15:01:23.045123456Z".'
+                      to nanoseconds. Example: "2014-10-02T15:01:23.045123456Z". Timestamp
+                      when the Folder was created. Assigned by the server. A timestamp
+                      in RFC3339 UTC "Zulu" format, accurate to nanoseconds. Example:
+                      "2014-10-02T15:01:23.045123456Z".'
                     type: string
                   folderId:
                     description: The folder id from the name "folders/{folder_id}"
@@ -340,10 +350,12 @@ spec:
                     type: string
                   lifecycleState:
                     description: The lifecycle state of the folder such as ACTIVE
-                      or DELETE_REQUESTED.
+                      or DELETE_REQUESTED. The lifecycle state of the folder such
+                      as ACTIVE or DELETE_REQUESTED.
                     type: string
                   name:
                     description: The resource name of the Folder. Its format is folders/{folder_id}.
+                      The resource name of the Folder. Its format is folders/{folder_id}.
                     type: string
                 type: object
               conditions:

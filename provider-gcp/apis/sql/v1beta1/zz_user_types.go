@@ -34,17 +34,22 @@ type UserParameters struct {
 	// The deletion policy for the user.
 	// Setting ABANDON allows the resource to be abandoned rather than deleted. This is useful
 	// for Postgres, where users cannot be deleted from the API if they have been granted SQL roles.
+	// The deletion policy for the user. Setting ABANDON allows the resource
+	// to be abandoned rather than deleted. This is useful for Postgres, where users cannot be deleted from the API if they
+	// have been granted SQL roles. Possible values are: "ABANDON".
 	// +kubebuilder:validation:Optional
 	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The host the user can connect from. This is only supported
 	// for MySQL instances. Don't set this field for PostgreSQL instances.
 	// Can be an IP address. Changing this forces a new resource to be created.
+	// The host the user can connect from. This is only supported for MySQL instances. Don't set this field for PostgreSQL instances. Can be an IP address. Changing this forces a new resource to be created.
 	// +kubebuilder:validation:Optional
 	Host *string `json:"host,omitempty" tf:"host,omitempty"`
 
 	// The name of the Cloud SQL instance. Changing this
 	// forces a new resource to be created.
+	// The name of the Cloud SQL instance. Changing this forces a new resource to be created.
 	// +crossplane:generate:reference:type=DatabaseInstance
 	// +kubebuilder:validation:Optional
 	Instance *string `json:"instance,omitempty" tf:"instance,omitempty"`
@@ -58,17 +63,22 @@ type UserParameters struct {
 	// The password for the user. Can be updated. For Postgres
 	// instances this is a Required field, unless type is set to either CLOUD_IAM_USER
 	// or CLOUD_IAM_SERVICE_ACCOUNT.
+	// The password for the user. Can be updated. For Postgres instances this is a Required field, unless type is set to
+	// either CLOUD_IAM_USER or CLOUD_IAM_SERVICE_ACCOUNT.
 	// +kubebuilder:validation:Optional
 	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
 	// The ID of the project in which the resource belongs. If it
 	// is not provided, the provider project is used.
+	// The ID of the project in which the resource belongs. If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The user type. It determines the method to authenticate the
 	// user during login. The default is the database's built-in user type. Flags
 	// include "BUILT_IN", "CLOUD_IAM_USER", or "CLOUD_IAM_SERVICE_ACCOUNT".
+	// The user type. It determines the method to authenticate the user during login.
+	// The default is the database's built-in user type. Flags include "BUILT_IN", "CLOUD_IAM_USER", or "CLOUD_IAM_SERVICE_ACCOUNT".
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }

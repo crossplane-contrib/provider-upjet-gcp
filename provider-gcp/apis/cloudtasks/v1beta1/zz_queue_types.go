@@ -28,6 +28,7 @@ import (
 type AppEngineRoutingOverrideObservation struct {
 
 	// The host that the task is sent to.
+	// The host that the task is sent to.
 	Host *string `json:"host,omitempty" tf:"host,omitempty"`
 }
 
@@ -35,15 +36,24 @@ type AppEngineRoutingOverrideParameters struct {
 
 	// App instance.
 	// By default, the task is sent to an instance which is available when the task is attempted.
+	// App instance.
+	//
+	// By default, the task is sent to an instance which is available when the task is attempted.
 	// +kubebuilder:validation:Optional
 	Instance *string `json:"instance,omitempty" tf:"instance,omitempty"`
 
 	// App service.
 	// By default, the task is sent to the service which is the default service when the task is attempted.
+	// App service.
+	//
+	// By default, the task is sent to the service which is the default service when the task is attempted.
 	// +kubebuilder:validation:Optional
 	Service *string `json:"service,omitempty" tf:"service,omitempty"`
 
 	// App version.
+	// By default, the task is sent to the version which is the default version when the task is attempted.
+	// App version.
+	//
 	// By default, the task is sent to the version which is the default version when the task is attempted.
 	// +kubebuilder:validation:Optional
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
@@ -54,6 +64,8 @@ type QueueObservation struct {
 	// Overrides for task-level appEngineRouting. These settings apply only
 	// to App Engine tasks in this queue
 	// Structure is documented below.
+	// Overrides for task-level appEngineRouting. These settings apply only
+	// to App Engine tasks in this queue
 	// +kubebuilder:validation:Optional
 	AppEngineRoutingOverride []AppEngineRoutingOverrideObservation `json:"appEngineRoutingOverride,omitempty" tf:"app_engine_routing_override,omitempty"`
 
@@ -62,6 +74,15 @@ type QueueObservation struct {
 
 	// Rate limits for task dispatches.
 	// The queue's actual dispatch rate is the result of:
+	// Rate limits for task dispatches.
+	//
+	// The queue's actual dispatch rate is the result of:
+	//
+	// * Number of tasks in the queue
+	// * User-specified throttling: rateLimits, retryConfig, and the queue's state.
+	// * System throttling due to 429 (Too Many Requests) or 503 (Service
+	// Unavailable) responses from the worker, high error rates, or to
+	// smooth sudden large traffic spikes.
 	// +kubebuilder:validation:Optional
 	RateLimits []RateLimitsObservation `json:"rateLimits,omitempty" tf:"rate_limits,omitempty"`
 }
@@ -71,9 +92,12 @@ type QueueParameters struct {
 	// Overrides for task-level appEngineRouting. These settings apply only
 	// to App Engine tasks in this queue
 	// Structure is documented below.
+	// Overrides for task-level appEngineRouting. These settings apply only
+	// to App Engine tasks in this queue
 	// +kubebuilder:validation:Optional
 	AppEngineRoutingOverride []AppEngineRoutingOverrideParameters `json:"appEngineRoutingOverride,omitempty" tf:"app_engine_routing_override,omitempty"`
 
+	// The location of the queue
 	// The location of the queue
 	// +kubebuilder:validation:Required
 	Location *string `json:"location" tf:"location,omitempty"`
@@ -92,16 +116,27 @@ type QueueParameters struct {
 
 	// Rate limits for task dispatches.
 	// The queue's actual dispatch rate is the result of:
+	// Rate limits for task dispatches.
+	//
+	// The queue's actual dispatch rate is the result of:
+	//
+	// * Number of tasks in the queue
+	// * User-specified throttling: rateLimits, retryConfig, and the queue's state.
+	// * System throttling due to 429 (Too Many Requests) or 503 (Service
+	// Unavailable) responses from the worker, high error rates, or to
+	// smooth sudden large traffic spikes.
 	// +kubebuilder:validation:Optional
 	RateLimits []RateLimitsParameters `json:"rateLimits,omitempty" tf:"rate_limits,omitempty"`
 
 	// Settings that determine the retry behavior.
 	// Structure is documented below.
+	// Settings that determine the retry behavior.
 	// +kubebuilder:validation:Optional
 	RetryConfig []RetryConfigParameters `json:"retryConfig,omitempty" tf:"retry_config,omitempty"`
 
 	// Configuration options for writing logs to Stackdriver Logging.
 	// Structure is documented below.
+	// Configuration options for writing logs to Stackdriver Logging.
 	// +kubebuilder:validation:Optional
 	StackdriverLoggingConfig []StackdriverLoggingConfigParameters `json:"stackdriverLoggingConfig,omitempty" tf:"stackdriver_logging_config,omitempty"`
 }
@@ -109,6 +144,12 @@ type QueueParameters struct {
 type RateLimitsObservation struct {
 
 	// The max burst size.
+	// Max burst size limits how fast tasks in queue are processed when many tasks are
+	// in the queue and the rate is high. This field allows the queue to have a high
+	// rate so processing starts shortly after a task is enqueued, but still limits
+	// resource usage when many tasks are enqueued in a short period of time.
+	// The max burst size.
+	//
 	// Max burst size limits how fast tasks in queue are processed when many tasks are
 	// in the queue and the rate is high. This field allows the queue to have a high
 	// rate so processing starts shortly after a task is enqueued, but still limits
@@ -122,10 +163,17 @@ type RateLimitsParameters struct {
 	// be dispatched for this queue. After this threshold has been
 	// reached, Cloud Tasks stops dispatching tasks until the number of
 	// concurrent requests decreases.
+	// The maximum number of concurrent tasks that Cloud Tasks allows to
+	// be dispatched for this queue. After this threshold has been
+	// reached, Cloud Tasks stops dispatching tasks until the number of
+	// concurrent requests decreases.
 	// +kubebuilder:validation:Optional
 	MaxConcurrentDispatches *float64 `json:"maxConcurrentDispatches,omitempty" tf:"max_concurrent_dispatches,omitempty"`
 
 	// The maximum rate at which tasks are dispatched from this queue.
+	// If unspecified when the queue is created, Cloud Tasks will pick the default.
+	// The maximum rate at which tasks are dispatched from this queue.
+	//
 	// If unspecified when the queue is created, Cloud Tasks will pick the default.
 	// +kubebuilder:validation:Optional
 	MaxDispatchesPerSecond *float64 `json:"maxDispatchesPerSecond,omitempty" tf:"max_dispatches_per_second,omitempty"`
@@ -141,9 +189,22 @@ type RetryConfigParameters struct {
 	// If unspecified when the queue is created, Cloud Tasks will pick
 	// the default.
 	// -1 indicates unlimited attempts.
+	// Number of attempts per task.
+	//
+	// Cloud Tasks will attempt the task maxAttempts times (that is, if
+	// the first attempt fails, then there will be maxAttempts - 1
+	// retries). Must be >= -1.
+	//
+	// If unspecified when the queue is created, Cloud Tasks will pick
+	// the default.
+	//
+	// -1 indicates unlimited attempts.
 	// +kubebuilder:validation:Optional
 	MaxAttempts *float64 `json:"maxAttempts,omitempty" tf:"max_attempts,omitempty"`
 
+	// A task will be scheduled for retry between minBackoff and
+	// maxBackoff duration after it fails, if the queue's RetryConfig
+	// specifies that the task should be retried.
 	// A task will be scheduled for retry between minBackoff and
 	// maxBackoff duration after it fails, if the queue's RetryConfig
 	// specifies that the task should be retried.
@@ -151,6 +212,11 @@ type RetryConfigParameters struct {
 	MaxBackoff *string `json:"maxBackoff,omitempty" tf:"max_backoff,omitempty"`
 
 	// The time between retries will double maxDoublings times.
+	// A task's retry interval starts at minBackoff, then doubles maxDoublings times,
+	// then increases linearly, and finally retries retries at intervals of maxBackoff
+	// up to maxAttempts times.
+	// The time between retries will double maxDoublings times.
+	//
 	// A task's retry interval starts at minBackoff, then doubles maxDoublings times,
 	// then increases linearly, and finally retries retries at intervals of maxBackoff
 	// up to maxAttempts times.
@@ -163,9 +229,19 @@ type RetryConfigParameters struct {
 	// been attempted maxAttempts times, no further attempts will be
 	// made and the task will be deleted.
 	// If zero, then the task age is unlimited.
+	// If positive, maxRetryDuration specifies the time limit for
+	// retrying a failed task, measured from when the task was first
+	// attempted. Once maxRetryDuration time has passed and the task has
+	// been attempted maxAttempts times, no further attempts will be
+	// made and the task will be deleted.
+	//
+	// If zero, then the task age is unlimited.
 	// +kubebuilder:validation:Optional
 	MaxRetryDuration *string `json:"maxRetryDuration,omitempty" tf:"max_retry_duration,omitempty"`
 
+	// A task will be scheduled for retry between minBackoff and
+	// maxBackoff duration after it fails, if the queue's RetryConfig
+	// specifies that the task should be retried.
 	// A task will be scheduled for retry between minBackoff and
 	// maxBackoff duration after it fails, if the queue's RetryConfig
 	// specifies that the task should be retried.
@@ -178,6 +254,9 @@ type StackdriverLoggingConfigObservation struct {
 
 type StackdriverLoggingConfigParameters struct {
 
+	// Specifies the fraction of operations to write to Stackdriver Logging.
+	// This field may contain any value between 0.0 and 1.0, inclusive. 0.0 is the
+	// default and means that no operations are logged.
 	// Specifies the fraction of operations to write to Stackdriver Logging.
 	// This field may contain any value between 0.0 and 1.0, inclusive. 0.0 is the
 	// default and means that no operations are logged.

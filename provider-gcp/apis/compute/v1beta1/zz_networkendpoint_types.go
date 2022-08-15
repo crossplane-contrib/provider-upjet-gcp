@@ -35,9 +35,15 @@ type NetworkEndpointParameters struct {
 
 	// IPv4 address of network endpoint. The IP address must belong
 	// to a VM in GCE .
+	// IPv4 address of network endpoint. The IP address must belong
+	// to a VM in GCE (either the primary IP or as part of an aliased IP
+	// range).
 	// +kubebuilder:validation:Required
 	IPAddress *string `json:"ipAddress" tf:"ip_address,omitempty"`
 
+	// The name for a specific VM instance that the IP address belongs to.
+	// This is required for network endpoints of type GCE_VM_IP_PORT.
+	// The instance must be in the same zone of network endpoint group.
 	// The name for a specific VM instance that the IP address belongs to.
 	// This is required for network endpoints of type GCE_VM_IP_PORT.
 	// The instance must be in the same zone of network endpoint group.
@@ -52,6 +58,7 @@ type NetworkEndpointParameters struct {
 	InstanceSelector *v1.Selector `json:"instanceSelector,omitempty" tf:"-"`
 
 	// The network endpoint group this endpoint is part of.
+	// The network endpoint group this endpoint is part of.
 	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.NetworkEndpointGroup
 	// +kubebuilder:validation:Optional
 	NetworkEndpointGroup *string `json:"networkEndpointGroup,omitempty" tf:"network_endpoint_group,omitempty"`
@@ -63,6 +70,7 @@ type NetworkEndpointParameters struct {
 	NetworkEndpointGroupSelector *v1.Selector `json:"networkEndpointGroupSelector,omitempty" tf:"-"`
 
 	// Port number of network endpoint.
+	// Port number of network endpoint.
 	// +kubebuilder:validation:Required
 	Port *float64 `json:"port" tf:"port,omitempty"`
 
@@ -71,6 +79,7 @@ type NetworkEndpointParameters struct {
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	// Zone where the containing network endpoint group is located.
 	// Zone where the containing network endpoint group is located.
 	// +kubebuilder:validation:Optional
 	Zone *string `json:"zone,omitempty" tf:"zone,omitempty"`
