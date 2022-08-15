@@ -1,0 +1,14 @@
+apiVersion: cloudrun.gcp.upbound.io/v1beta1
+kind: ServiceIAMBinding
+metadata:
+  name: example
+  annotations:
+    upjet.upbound.io/manual-intervention: "Members are dependent on the project and leak sensitive information"
+spec:
+  forProvider:
+    location: us-central1
+    members:
+      - "user:jane@example.com"
+    role: "roles/viewer"
+    serviceRef:
+      name: example

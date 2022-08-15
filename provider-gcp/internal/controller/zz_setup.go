@@ -20,6 +20,11 @@ import (
 	serviceaccountiammember "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/serviceaccountiammember"
 	serviceaccountiampolicy "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/serviceaccountiampolicy"
 	serviceaccountkey "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/serviceaccountkey"
+	domainmapping "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudrun/domainmapping"
+	service "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudrun/service"
+	serviceiambinding "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudrun/serviceiambinding"
+	serviceiammember "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudrun/serviceiammember"
+	serviceiampolicy "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudrun/serviceiampolicy"
 	job "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudscheduler/job"
 	queue "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudtasks/queue"
 	environment "github.com/upbound/official-providers/provider-gcp/internal/controller/composer/environment"
@@ -113,6 +118,11 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		serviceaccountiammember.Setup,
 		serviceaccountiampolicy.Setup,
 		serviceaccountkey.Setup,
+		domainmapping.Setup,
+		service.Setup,
+		serviceiambinding.Setup,
+		serviceiammember.Setup,
+		serviceiampolicy.Setup,
 		job.Setup,
 		queue.Setup,
 		environment.Setup,

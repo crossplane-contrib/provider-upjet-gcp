@@ -14,6 +14,7 @@ import (
 	"github.com/upbound/official-providers/provider-gcp/config/cloudfunctions"
 	"github.com/upbound/official-providers/provider-gcp/config/cloudiot"
 	"github.com/upbound/official-providers/provider-gcp/config/cloudplatform"
+	"github.com/upbound/official-providers/provider-gcp/config/cloudrun"
 	"github.com/upbound/official-providers/provider-gcp/config/cloudscheduler"
 	"github.com/upbound/official-providers/provider-gcp/config/cloudtasks"
 	"github.com/upbound/official-providers/provider-gcp/config/compute"
@@ -73,6 +74,7 @@ func GetProvider() *tjconfig.Provider {
 		cloudfunctions.Configure,
 		cloudiot.Configure,
 		cloudplatform.Configure,
+		cloudrun.Configure,
 		cloudscheduler.Configure,
 		cloudtasks.Configure,
 		container.Configure,
