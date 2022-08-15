@@ -38,8 +38,15 @@ type ServiceNetworkingPeeredDNSDomainParameters struct {
 	DNSSuffix *string `json:"dnsSuffix" tf:"dns_suffix,omitempty"`
 
 	// Network in the consumer project to peer with.
-	// +kubebuilder:validation:Required
-	Network *string `json:"network" tf:"network,omitempty"`
+	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.Network
+	// +kubebuilder:validation:Optional
+	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
+
+	// +kubebuilder:validation:Optional
+	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
 
 	// The ID of the project that the service account will be created in. Defaults to the provider project configuration.
 	// +kubebuilder:validation:Optional
