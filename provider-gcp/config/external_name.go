@@ -52,6 +52,19 @@ var externalNameConfigs = map[string]config.ExternalName{
 	// Imported by using the following format: services/{service}/projects/{project}/global/networks/{network}/peeredDnsDomains/{name}
 	"google_service_networking_peered_dns_domain": formattedIdentifierUserDefined("services/%s/projects/%s/global/networks/%s/peeredDnsDomains", "service", "project", "network"),
 
+	// cloudrun
+	//
+	// Imported by using the following format: locations/{{location}}/namespaces/{{project}}/domainmappings/{{name}}
+	"google_cloud_run_domain_mapping": config.IdentifierFromProvider,
+	// Imported by using the following format: locations/{{location}}/namespaces/{{project}}/services/{{name}}
+	"google_cloud_run_service": formattedIdentifierUserDefined("locations/%s/namespaces/%s/services", "location", "project"),
+	// Imported by using the following format: projects/{{project}}/locations/{{location}}/services/{{service}}
+	"google_cloud_run_service_iam_policy": config.IdentifierFromProvider,
+	// Imported by using the following format: projects/{{project}}/locations/{{location}}/services/{{service}} roles/viewer
+	"google_cloud_run_service_iam_binding": config.IdentifierFromProvider,
+	// Imported by using the following format: projects/{{project}}/locations/{{location}}/services/{{service}} roles/viewer user:jane@example.com
+	"google_cloud_run_service_iam_member": config.IdentifierFromProvider,
+
 	// compute
 	//
 	// Imported by using the following format: projects/{{project}}/global/sslCertificates/{{name}}

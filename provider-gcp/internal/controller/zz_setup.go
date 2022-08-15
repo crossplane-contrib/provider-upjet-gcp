@@ -24,6 +24,11 @@ import (
 	serviceaccountiampolicy "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/serviceaccountiampolicy"
 	serviceaccountkey "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/serviceaccountkey"
 	servicenetworkingpeereddnsdomain "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/servicenetworkingpeereddnsdomain"
+	domainmapping "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudrun/domainmapping"
+	service "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudrun/service"
+	serviceiambinding "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudrun/serviceiambinding"
+	serviceiammember "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudrun/serviceiammember"
+	serviceiampolicy "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudrun/serviceiampolicy"
 	address "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/address"
 	disk "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/disk"
 	diskiambinding "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/diskiambinding"
@@ -112,6 +117,11 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		serviceaccountiammember.Setup,
 		serviceaccountiampolicy.Setup,
 		serviceaccountkey.Setup,
+		domainmapping.Setup,
+		service.Setup,
+		serviceiambinding.Setup,
+		serviceiammember.Setup,
+		serviceiampolicy.Setup,
 		servicenetworkingpeereddnsdomain.Setup,
 		address.Setup,
 		disk.Setup,
