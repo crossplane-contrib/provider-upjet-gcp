@@ -68,10 +68,13 @@ spec:
                     description: The autohealing policies for this managed instance
                       group. You can specify only one value. Structure is documented
                       below. For more information, see the official documentation.
+                      The autohealing policies for this managed instance group. You
+                      can specify only one value.
                     items:
                       properties:
                         healthCheck:
                           description: The health check resource that signals autohealing.
+                            The health check resource that signals autohealing.
                           type: string
                         healthCheckRef:
                           description: A Reference to a named object.
@@ -153,6 +156,9 @@ spec:
                           description: The number of seconds that the managed instance
                             group waits before it applies autohealing policies to
                             new instances or recently recreated instances. Between
+                            0 and 3600. The number of seconds that the managed instance
+                            group waits before it applies autohealing policies to
+                            new instances or recently recreated instances. Between
                             0 and 3600.
                           type: number
                       required:
@@ -164,22 +170,27 @@ spec:
                       group. The value must be a valid RFC1035 name. Supported characters
                       are lowercase letters, numbers, and hyphens . Instances are
                       named by appending a hyphen and a random four-character string
-                      to the base instance name.
+                      to the base instance name. The base instance name to use for
+                      instances in this group. The value must be a valid RFC1035 name.
+                      Supported characters are lowercase letters, numbers, and hyphens
+                      (-). Instances are named by appending a hyphen and a random
+                      four-character string to the base instance name.
                     type: string
                   description:
                     description: An optional textual description of the instance group
+                      manager. An optional textual description of the instance group
                       manager.
                     type: string
                   namedPort:
                     description: The named port configuration. See the section below
-                      for details on configuration.
+                      for details on configuration. The named port configuration.
                     items:
                       properties:
                         name:
                           description: The name of the port.
                           type: string
                         port:
-                          description: The port number.
+                          description: The port number. The port number.
                           type: number
                       required:
                       - name
@@ -188,12 +199,16 @@ spec:
                     type: array
                   project:
                     description: The ID of the project in which the resource belongs.
-                      If it is not provided, the provider project is used.
+                      If it is not provided, the provider project is used. The ID
+                      of the project in which the resource belongs. If it is not provided,
+                      the provider project is used.
                     type: string
                   statefulDisk:
                     description: ) Disks created on the instances that will be preserved
                       on instance delete, update, etc. Structure is documented below.
-                      For more information see the official documentation.
+                      For more information see the official documentation. Disks created
+                      on the instances that will be preserved on instance delete,
+                      update, etc.
                     items:
                       properties:
                         deleteRule:
@@ -203,10 +218,18 @@ spec:
                             NEVER - detach the disk when the VM is deleted, but do
                             not delete the disk. ON_PERMANENT_INSTANCE_DELETION will
                             delete the stateful disk when the VM is permanently deleted
-                            from the instance group. The default is NEVER.'
+                            from the instance group. The default is NEVER. A value
+                            that prescribes what should happen to the stateful disk
+                            when the VM instance is deleted. The available options
+                            are NEVER and ON_PERMANENT_INSTANCE_DELETION. NEVER -
+                            detach the disk when the VM is deleted, but do not delete
+                            the disk. ON_PERMANENT_INSTANCE_DELETION will delete the
+                            stateful disk when the VM is permanently deleted from
+                            the instance group. The default is NEVER.'
                           type: string
                         deviceName:
-                          description: ', The device name of the disk to be attached.'
+                          description: ', The device name of the disk to be attached.
+                            The device name of the disk to be attached.'
                           type: string
                       required:
                       - deviceName
@@ -215,7 +238,9 @@ spec:
                   targetPools:
                     description: The full URL of all target pools to which new instances
                       in the group are added. Updating the target pools attribute
-                      does not affect existing instances.
+                      does not affect existing instances. The full URL of all target
+                      pools to which new instances in the group are added. Updating
+                      the target pools attribute does not affect existing instances.
                     items:
                       type: string
                     type: array
@@ -303,30 +328,41 @@ spec:
                   updatePolicy:
                     description: The update policy for this managed instance group.
                       Structure is documented below. For more information, see the
-                      official documentation and API
+                      official documentation and API The update policy for this managed
+                      instance group.
                     items:
                       properties:
                         maxSurgeFixed:
                           description: ', The maximum number of instances that can
                             be created above the specified targetSize during the update
                             process. Conflicts with max_surge_percent. If neither
-                            is set, defaults to 1'
+                            is set, defaults to 1 The maximum number of instances
+                            that can be created above the specified targetSize during
+                            the update process. Conflicts with max_surge_percent.
+                            If neither is set, defaults to 1'
                           type: number
                         maxSurgePercent:
                           description: ', The maximum number of instances that can
                             be created above the specified targetSize during the update
-                            process. Conflicts with max_surge_fixed.'
+                            process. Conflicts with max_surge_fixed. The maximum number
+                            of instances(calculated as percentage) that can be created
+                            above the specified targetSize during the update process.
+                            Conflicts with max_surge_fixed.'
                           type: number
                         maxUnavailableFixed:
                           description: ', The maximum number of instances that can
                             be unavailable during the update process. Conflicts with
                             max_unavailable_percent. If neither is set, defaults to
-                            1'
+                            1 The maximum number of instances that can be unavailable
+                            during the update process. Conflicts with max_unavailable_percent.
+                            If neither is set, defaults to 1.'
                           type: number
                         maxUnavailablePercent:
                           description: ', The maximum number of instances that can
                             be unavailable during the update process. Conflicts with
-                            max_unavailable_fixed.'
+                            max_unavailable_fixed. The maximum number of instances(calculated
+                            as percentage) that can be unavailable during the update
+                            process. Conflicts with max_unavailable_fixed.'
                           type: number
                         minimalAction:
                           description: '- Minimal action to be taken on an instance.
@@ -336,6 +372,14 @@ spec:
                             If you specify a REFRESH, the Updater will attempt to
                             perform that action only. However, if the Updater determines
                             that the minimal action you specify is not enough to perform
+                            the update, it might perform a more disruptive action.
+                            Minimal action to be taken on an instance. You can specify
+                            either REFRESH to update without stopping instances, RESTART
+                            to restart existing instances or REPLACE to delete and
+                            create new instances from the target template. If you
+                            specify a REFRESH, the Updater will attempt to perform
+                            that action only. However, if the Updater determines that
+                            the minimal action you specify is not enough to perform
                             the update, it might perform a more disruptive action.'
                           type: string
                         mostDisruptiveAllowedAction:
@@ -347,7 +391,15 @@ spec:
                             all possible actions. If the Updater determines that the
                             minimal update action needed is more disruptive than most
                             disruptive allowed action you specify it will not perform
-                            the update at all.'
+                            the update at all. Most disruptive action that is allowed
+                            to be taken on an instance. You can specify either NONE
+                            to forbid any actions, REFRESH to allow actions that do
+                            not need instance restart, RESTART to allow actions that
+                            can be applied without instance replacing or REPLACE to
+                            allow all possible actions. If the Updater determines
+                            that the minimal update action needed is more disruptive
+                            than most disruptive allowed action you specify it will
+                            not perform the update at all.'
                           type: string
                         replacementMethod:
                           description: ', The instance replacement method for managed
@@ -355,6 +407,12 @@ spec:
                             If SUBSTITUTE , the group replaces VM instances with new
                             instances that have randomly generated names. If RECREATE,
                             instance names are preserved.  You must also set max_unavailable_fixed
+                            or max_unavailable_percent to be greater than 0. The instance
+                            replacement method for managed instance groups. Valid
+                            values are: "RECREATE", "SUBSTITUTE". If SUBSTITUTE (default),
+                            the group replaces VM instances with new instances that
+                            have randomly generated names. If RECREATE, instance names
+                            are preserved.  You must also set max_unavailable_fixed
                             or max_unavailable_percent to be greater than 0.'
                           type: string
                         type:
@@ -363,7 +421,13 @@ spec:
                             executes actions in order to bring instances to their
                             target versions or OPPORTUNISTIC so that no action is
                             proactively executed but the update will be performed
-                            as part of other actions .'
+                            as part of other actions . The type of update process.
+                            You can specify either PROACTIVE so that the instance
+                            group manager proactively executes actions in order to
+                            bring instances to their target versions or OPPORTUNISTIC
+                            so that no action is proactively executed but the update
+                            will be performed as part of other actions (for example,
+                            resizes or recreateInstances calls).'
                           type: string
                       required:
                       - minimalAction
@@ -373,12 +437,16 @@ spec:
                   version:
                     description: Application versions managed by this instance group.
                       Each version deals with a specific instance template, allowing
-                      canary release scenarios. Structure is documented below.
+                      canary release scenarios. Structure is documented below. Application
+                      versions managed by this instance group. Each version deals
+                      with a specific instance template, allowing canary release scenarios.
                     items:
                       properties:
                         instanceTemplate:
                           description: '- The full URL to an instance template from
-                            which all new instances of this version will be created.'
+                            which all new instances of this version will be created.
+                            The full URL to an instance template from which all new
+                            instances of this version will be created.'
                           type: string
                         instanceTemplateRef:
                           description: A Reference to a named object.
@@ -466,7 +534,9 @@ spec:
                             properties:
                               fixed:
                                 description: ', The number of instances which are
-                                  managed for this version. Conflicts with percent.'
+                                  managed for this version. Conflicts with percent.
+                                  The number of instances which are managed for this
+                                  version. Conflicts with percent.'
                                 type: number
                               percent:
                                 description: ', The number of instances  which are
@@ -475,7 +545,14 @@ spec:
                                   favor of explicitly set target_size values; a managed
                                   instance group with 2 instances and 2 versions,
                                   one of which has a target_size.percent of 60 will
-                                  create 2 instances of that version.'
+                                  create 2 instances of that version. The number of
+                                  instances (calculated as percentage) which are managed
+                                  for this version. Conflicts with fixed. Note that
+                                  when using percent, rounding will be in favor of
+                                  explicitly set target_size values; a managed instance
+                                  group with 2 instances and 2 versions, one of which
+                                  has a target_size.percent of 60 will create 2 instances
+                                  of that version.'
                                 type: number
                             type: object
                           type: array
@@ -483,6 +560,9 @@ spec:
                     type: array
                   waitForInstances:
                     description: Whether to wait for all instances to be created/updated
+                      before returning. Note that if this is set to true and the operation
+                      does not succeed, Terraform will continue trying until it times
+                      out. Whether to wait for all instances to be created/updated
                       before returning. Note that if this is set to true and the operation
                       does not succeed, Terraform will continue trying until it times
                       out.
@@ -494,10 +574,16 @@ spec:
                       is set, it will wait for the version target to be reached and
                       any per instance configs to be effective as well as all instances
                       to be stable before returning. The possible values are STABLE
-                      and UPDATED
+                      and UPDATED When used with wait_for_instances specifies the
+                      status to wait for. When STABLE is specified this resource will
+                      wait until the instances are stable before returning. When UPDATED
+                      is set, it will wait for the version target to be reached and
+                      any per instance configs to be effective as well as all instances
+                      to be stable before returning.
                     type: string
                   zone:
                     description: The zone that instances in this group should be created
+                      in. The zone that instances in this group should be created
                       in.
                     type: string
                 required:
@@ -683,22 +769,25 @@ spec:
               atProvider:
                 properties:
                   fingerprint:
-                    description: The fingerprint of the instance group manager.
+                    description: The fingerprint of the instance group manager. The
+                      fingerprint of the instance group manager.
                     type: string
                   id:
                     description: an identifier for the resource with format projects/{{project}}/zones/{{zone}}/instanceGroupManagers/{{name}}
                     type: string
                   instanceGroup:
                     description: The full URL of the instance group created by the
-                      manager.
+                      manager. The full URL of the instance group created by the manager.
                     type: string
                   operation:
                     type: string
                   selfLink:
-                    description: The URL of the created resource.
+                    description: The URL of the created resource. The URL of the created
+                      resource.
                     type: string
                   status:
-                    description: The status of this managed instance group.
+                    description: The status of this managed instance group. The status
+                      of this managed instance group.
                     items:
                       properties:
                         isStable:

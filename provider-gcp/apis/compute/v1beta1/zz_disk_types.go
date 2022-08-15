@@ -56,6 +56,7 @@ type DiskEncryptionKeyParameters struct {
 type DiskObservation struct {
 
 	// Creation timestamp in RFC3339 text format.
+	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
 
 	// Encrypts the disk using a customer-supplied encryption key.
@@ -67,6 +68,18 @@ type DiskObservation struct {
 	// the disk will be encrypted using an automatically generated key and
 	// you do not need to provide a key to use the disk later.
 	// Structure is documented below.
+	// Encrypts the disk using a customer-supplied encryption key.
+	//
+	// After you encrypt a disk with a customer-supplied key, you must
+	// provide the same key if you use the disk later (e.g. to create a disk
+	// snapshot or an image, or to attach the disk to a virtual machine).
+	//
+	// Customer-supplied encryption keys do not protect access to metadata of
+	// the disk.
+	//
+	// If you do not provide an encryption key when creating the disk, then
+	// the disk will be encrypted using an automatically generated key and
+	// you do not need to provide a key to use the disk later.
 	// +kubebuilder:validation:Optional
 	DiskEncryptionKey []DiskEncryptionKeyObservation `json:"diskEncryptionKey,omitempty" tf:"disk_encryption_key,omitempty"`
 
@@ -75,11 +88,15 @@ type DiskObservation struct {
 
 	// The fingerprint used for optimistic locking of this resource.  Used
 	// internally during updates.
+	// The fingerprint used for optimistic locking of this resource.  Used
+	// internally during updates.
 	LabelFingerprint *string `json:"labelFingerprint,omitempty" tf:"label_fingerprint,omitempty"`
 
 	// Last attach timestamp in RFC3339 text format.
+	// Last attach timestamp in RFC3339 text format.
 	LastAttachTimestamp *string `json:"lastAttachTimestamp,omitempty" tf:"last_attach_timestamp,omitempty"`
 
+	// Last detach timestamp in RFC3339 text format.
 	// Last detach timestamp in RFC3339 text format.
 	LastDetachTimestamp *string `json:"lastDetachTimestamp,omitempty" tf:"last_detach_timestamp,omitempty"`
 
@@ -89,9 +106,16 @@ type DiskObservation struct {
 	// The customer-supplied encryption key of the source image. Required if
 	// the source image is protected by a customer-supplied encryption key.
 	// Structure is documented below.
+	// The customer-supplied encryption key of the source image. Required if
+	// the source image is protected by a customer-supplied encryption key.
 	// +kubebuilder:validation:Optional
 	SourceImageEncryptionKey []SourceImageEncryptionKeyObservation `json:"sourceImageEncryptionKey,omitempty" tf:"source_image_encryption_key,omitempty"`
 
+	// The ID value of the image used to create this disk. This value
+	// identifies the exact image that was used to create this persistent
+	// disk. For example, if you created the persistent disk from an image
+	// that was later deleted and recreated under the same name, the source
+	// image ID would identify the exact version of the image that was used.
 	// The ID value of the image used to create this disk. This value
 	// identifies the exact image that was used to create this persistent
 	// disk. For example, if you created the persistent disk from an image
@@ -103,9 +127,18 @@ type DiskObservation struct {
 	// if the source snapshot is protected by a customer-supplied encryption
 	// key.
 	// Structure is documented below.
+	// The customer-supplied encryption key of the source snapshot. Required
+	// if the source snapshot is protected by a customer-supplied encryption
+	// key.
 	// +kubebuilder:validation:Optional
 	SourceSnapshotEncryptionKey []SourceSnapshotEncryptionKeyObservation `json:"sourceSnapshotEncryptionKey,omitempty" tf:"source_snapshot_encryption_key,omitempty"`
 
+	// The unique ID of the snapshot used to create this disk. This value
+	// identifies the exact snapshot that was used to create this persistent
+	// disk. For example, if you created the persistent disk from a snapshot
+	// that was later deleted and recreated under the same name, the source
+	// snapshot ID would identify the exact version of the snapshot that was
+	// used.
 	// The unique ID of the snapshot used to create this disk. This value
 	// identifies the exact snapshot that was used to create this persistent
 	// disk. For example, if you created the persistent disk from a snapshot
@@ -116,11 +149,15 @@ type DiskObservation struct {
 
 	// Links to the users of the disk  in form:
 	// project/zones/zone/instances/instance
+	// Links to the users of the disk (attached instances) in form:
+	// project/zones/zone/instances/instance
 	Users []*string `json:"users,omitempty" tf:"users,omitempty"`
 }
 
 type DiskParameters struct {
 
+	// An optional description of this resource. Provide this property when
+	// you create the resource.
 	// An optional description of this resource. Provide this property when
 	// you create the resource.
 	// +kubebuilder:validation:Optional
@@ -135,6 +172,18 @@ type DiskParameters struct {
 	// the disk will be encrypted using an automatically generated key and
 	// you do not need to provide a key to use the disk later.
 	// Structure is documented below.
+	// Encrypts the disk using a customer-supplied encryption key.
+	//
+	// After you encrypt a disk with a customer-supplied key, you must
+	// provide the same key if you use the disk later (e.g. to create a disk
+	// snapshot or an image, or to attach the disk to a virtual machine).
+	//
+	// Customer-supplied encryption keys do not protect access to metadata of
+	// the disk.
+	//
+	// If you do not provide an encryption key when creating the disk, then
+	// the disk will be encrypted using an automatically generated key and
+	// you do not need to provide a key to use the disk later.
 	// +kubebuilder:validation:Optional
 	DiskEncryptionKey []DiskEncryptionKeyParameters `json:"diskEncryptionKey,omitempty" tf:"disk_encryption_key,omitempty"`
 
@@ -147,13 +196,28 @@ type DiskParameters struct {
 	// google_compute_image data source.
 	// For instance, the image centos-6-v20180104 includes its family name centos-6.
 	// These images can be referred by family name here.
+	// The image from which to initialize this disk. This can be
+	// one of: the image's 'self_link', 'projects/{project}/global/images/{image}',
+	// 'projects/{project}/global/images/family/{family}', 'global/images/{image}',
+	// 'global/images/family/{family}', 'family/{family}', '{project}/{family}',
+	// '{project}/{image}', '{family}', or '{image}'. If referred by family, the
+	// images names must include the family name. If they don't, use the
+	// [google_compute_image data source](/docs/providers/google/d/compute_image.html).
+	// For instance, the image 'centos-6-v20180104' includes its family name 'centos-6'.
+	// These images can be referred by family name here.
 	// +kubebuilder:validation:Optional
 	Image *string `json:"image,omitempty" tf:"image,omitempty"`
 
 	// Labels to apply to this disk.  A list of key->value pairs.
+	// Labels to apply to this disk.  A list of key->value pairs.
 	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
+	// Physical block size of the persistent disk, in bytes. If not present
+	// in a request, a default value is used. Currently supported sizes
+	// are 4096 and 16384, other sizes may be added in the future.
+	// If an unsupported value is requested, the error message will list
+	// the supported values for the caller's project.
 	// Physical block size of the persistent disk, in bytes. If not present
 	// in a request, a default value is used. Currently supported sizes
 	// are 4096 and 16384, other sizes may be added in the future.
@@ -167,6 +231,7 @@ type DiskParameters struct {
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	// Indicates how many IOPS must be provisioned for the disk.
 	// Indicates how many IOPS must be provisioned for the disk.
 	// +kubebuilder:validation:Optional
 	ProvisionedIops *float64 `json:"provisionedIops,omitempty" tf:"provisioned_iops,omitempty"`
@@ -182,6 +247,19 @@ type DiskParameters struct {
 	// if upsizing is detected but recreates the disk if downsizing is requested.
 	// You can add lifecycle.prevent_destroy in the config to prevent destroying
 	// and recreating.
+	// Size of the persistent disk, specified in GB. You can specify this
+	// field when creating a persistent disk using the 'image' or
+	// 'snapshot' parameter, or specify it alone to create an empty
+	// persistent disk.
+	//
+	// If you specify this field along with 'image' or 'snapshot',
+	// the value must not be less than the size of the image
+	// or the size of the snapshot.
+	//
+	// ~>**NOTE** If you change the size, Terraform updates the disk size
+	// if upsizing is detected but recreates the disk if downsizing is requested.
+	// You can add 'lifecycle.prevent_destroy' in the config to prevent destroying
+	// and recreating.
 	// +kubebuilder:validation:Optional
 	Size *float64 `json:"size,omitempty" tf:"size,omitempty"`
 
@@ -189,12 +267,23 @@ type DiskParameters struct {
 	// a partial or full URL to the resource. If the snapshot is in another
 	// project than this disk, you must supply a full URL. For example, the
 	// following are valid values:
+	// The source snapshot used to create this disk. You can provide this as
+	// a partial or full URL to the resource. If the snapshot is in another
+	// project than this disk, you must supply a full URL. For example, the
+	// following are valid values:
+	//
+	// * 'https://www.googleapis.com/compute/v1/projects/project/global/snapshots/snapshot'
+	// * 'projects/project/global/snapshots/snapshot'
+	// * 'global/snapshots/snapshot'
+	// * 'snapshot'
 	// +kubebuilder:validation:Optional
 	Snapshot *string `json:"snapshot,omitempty" tf:"snapshot,omitempty"`
 
 	// The customer-supplied encryption key of the source image. Required if
 	// the source image is protected by a customer-supplied encryption key.
 	// Structure is documented below.
+	// The customer-supplied encryption key of the source image. Required if
+	// the source image is protected by a customer-supplied encryption key.
 	// +kubebuilder:validation:Optional
 	SourceImageEncryptionKey []SourceImageEncryptionKeyParameters `json:"sourceImageEncryptionKey,omitempty" tf:"source_image_encryption_key,omitempty"`
 
@@ -202,14 +291,20 @@ type DiskParameters struct {
 	// if the source snapshot is protected by a customer-supplied encryption
 	// key.
 	// Structure is documented below.
+	// The customer-supplied encryption key of the source snapshot. Required
+	// if the source snapshot is protected by a customer-supplied encryption
+	// key.
 	// +kubebuilder:validation:Optional
 	SourceSnapshotEncryptionKey []SourceSnapshotEncryptionKeyParameters `json:"sourceSnapshotEncryptionKey,omitempty" tf:"source_snapshot_encryption_key,omitempty"`
 
 	// URL of the disk type resource describing which disk type to use to
 	// create the disk. Provide this when creating the disk.
+	// URL of the disk type resource describing which disk type to use to
+	// create the disk. Provide this when creating the disk.
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 
+	// A reference to the zone where the disk resides.
 	// A reference to the zone where the disk resides.
 	// +kubebuilder:validation:Required
 	Zone *string `json:"zone" tf:"zone,omitempty"`

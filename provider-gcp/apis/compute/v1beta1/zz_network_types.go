@@ -29,6 +29,8 @@ type NetworkObservation struct {
 
 	// The gateway address for default routing out of the network. This value
 	// is selected by GCP.
+	// The gateway address for default routing out of the network. This value
+	// is selected by GCP.
 	GatewayIPv4 *string `json:"gatewayIpv4,omitempty" tf:"gateway_ipv4,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/global/networks/{{name}}
@@ -45,6 +47,12 @@ type NetworkParameters struct {
 	// 10.128.0.0/9 address range.
 	// When set to false, the network is created in "custom subnet mode" so
 	// the user can explicitly connect subnetwork resources.
+	// When set to 'true', the network is created in "auto subnet mode" and
+	// it will create a subnet for each region automatically across the
+	// '10.128.0.0/9' address range.
+	//
+	// When set to 'false', the network is created in "custom subnet mode" so
+	// the user can explicitly connect subnetwork resources.
 	// +kubebuilder:validation:Optional
 	AutoCreateSubnetworks *bool `json:"autoCreateSubnetworks,omitempty" tf:"auto_create_subnetworks,omitempty"`
 
@@ -55,9 +63,13 @@ type NetworkParameters struct {
 
 	// An optional description of this resource. The resource must be
 	// recreated to modify this field.
+	// An optional description of this resource. The resource must be
+	// recreated to modify this field.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// Maximum Transmission Unit in bytes. The minimum value for this field is 1460
+	// and the maximum value is 1500 bytes.
 	// Maximum Transmission Unit in bytes. The minimum value for this field is 1460
 	// and the maximum value is 1500 bytes.
 	// +kubebuilder:validation:Optional
@@ -74,6 +86,11 @@ type NetworkParameters struct {
 	// this network's cloud routers will advertise routes with all
 	// subnetworks of this network, across regions.
 	// Possible values are REGIONAL and GLOBAL.
+	// The network-wide routing mode to use. If set to 'REGIONAL', this
+	// network's cloud routers will only advertise routes with subnetworks
+	// of this network in the same region as the router. If set to 'GLOBAL',
+	// this network's cloud routers will advertise routes with all
+	// subnetworks of this network, across regions. Possible values: ["REGIONAL", "GLOBAL"]
 	// +kubebuilder:validation:Optional
 	RoutingMode *string `json:"routingMode,omitempty" tf:"routing_mode,omitempty"`
 }

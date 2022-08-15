@@ -28,24 +28,30 @@ import (
 type SSLCertObservation struct {
 
 	// The actual certificate data for this client certificate.
+	// The actual certificate data for this client certificate.
 	Cert *string `json:"cert,omitempty" tf:"cert,omitempty"`
 
+	// The serial number extracted from the certificate data.
 	// The serial number extracted from the certificate data.
 	CertSerialNumber *string `json:"certSerialNumber,omitempty" tf:"cert_serial_number,omitempty"`
 
 	// The time when the certificate was created in RFC 3339 format,
 	// for example 2012-11-15T16:19:00.094Z.
+	// The time when the certificate was created in RFC 3339 format, for example 2012-11-15T16:19:00.094Z.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
 	// The time when the certificate expires in RFC 3339 format,
 	// for example 2012-11-15T16:19:00.094Z.
+	// The time when the certificate expires in RFC 3339 format, for example 2012-11-15T16:19:00.094Z.
 	ExpirationTime *string `json:"expirationTime,omitempty" tf:"expiration_time,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// The CA cert of the server this client cert was generated from.
+	// The CA cert of the server this client cert was generated from.
 	ServerCACert *string `json:"serverCaCert,omitempty" tf:"server_ca_cert,omitempty"`
 
+	// The SHA1 Fingerprint of the certificate.
 	// The SHA1 Fingerprint of the certificate.
 	Sha1Fingerprint *string `json:"sha1Fingerprint,omitempty" tf:"sha1_fingerprint,omitempty"`
 }
@@ -54,11 +60,13 @@ type SSLCertParameters struct {
 
 	// The common name to be used in the certificate to identify the
 	// client. Constrained to [a-zA-Z.-_ ]+. Changing this forces a new resource to be created.
+	// The common name to be used in the certificate to identify the client. Constrained to [a-zA-Z.-_ ]+. Changing this forces a new resource to be created.
 	// +kubebuilder:validation:Required
 	CommonName *string `json:"commonName" tf:"common_name,omitempty"`
 
 	// The name of the Cloud SQL instance. Changing this
 	// forces a new resource to be created.
+	// The name of the Cloud SQL instance. Changing this forces a new resource to be created.
 	// +crossplane:generate:reference:type=DatabaseInstance
 	// +kubebuilder:validation:Optional
 	Instance *string `json:"instance,omitempty" tf:"instance,omitempty"`
@@ -71,6 +79,7 @@ type SSLCertParameters struct {
 
 	// The ID of the project in which the resource belongs. If it
 	// is not provided, the provider project is used.
+	// The ID of the project in which the resource belongs. If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }

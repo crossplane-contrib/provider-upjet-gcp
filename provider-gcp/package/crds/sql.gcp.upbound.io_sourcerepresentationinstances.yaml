@@ -67,17 +67,21 @@ spec:
               forProvider:
                 properties:
                   databaseVersion:
-                    description: The MySQL version running on your source database
+                    description: 'The MySQL version running on your source database
                       server. Possible values are MYSQL_5_5, MYSQL_5_6, MYSQL_5_7,
-                      and MYSQL_8_0.
+                      and MYSQL_8_0. The MySQL version running on your source database
+                      server. Possible values: ["MYSQL_5_5", "MYSQL_5_6", "MYSQL_5_7",
+                      "MYSQL_8_0"]'
                     type: string
                   host:
                     description: The externally accessible IPv4 address for the source
-                      database server.
+                      database server. The externally accessible IPv4 address for
+                      the source database server.
                     type: string
                   port:
                     description: The externally accessible port for the source database
-                      server. Defaults to 3306.
+                      server. Defaults to 3306. The externally accessible port for
+                      the source database server. Defaults to 3306.
                     type: number
                   project:
                     description: The ID of the project in which the resource belongs.
@@ -85,7 +89,9 @@ spec:
                     type: string
                   region:
                     description: The Region in which the created instance should reside.
-                      If it is not provided, the provider region is used.
+                      If it is not provided, the provider region is used. The Region
+                      in which the created instance should reside. If it is not provided,
+                      the provider region is used.
                     type: string
                 required:
                 - databaseVersion

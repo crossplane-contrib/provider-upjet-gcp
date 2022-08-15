@@ -28,6 +28,7 @@ import (
 type BackendBucketObservation struct {
 
 	// Creation timestamp in RFC3339 text format.
+	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/global/backendBuckets/{{name}}
@@ -39,6 +40,7 @@ type BackendBucketObservation struct {
 
 type BackendBucketParameters struct {
 
+	// Cloud Storage bucket name.
 	// Cloud Storage bucket name.
 	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/storage/v1beta1.Bucket
 	// +kubebuilder:validation:Optional
@@ -52,22 +54,28 @@ type BackendBucketParameters struct {
 
 	// Cloud CDN configuration for this Backend Bucket.
 	// Structure is documented below.
+	// Cloud CDN configuration for this Backend Bucket.
 	// +kubebuilder:validation:Optional
 	CdnPolicy []CdnPolicyParameters `json:"cdnPolicy,omitempty" tf:"cdn_policy,omitempty"`
 
+	// Headers that the HTTP/S load balancer should add to proxied responses.
 	// Headers that the HTTP/S load balancer should add to proxied responses.
 	// +kubebuilder:validation:Optional
 	CustomResponseHeaders []*string `json:"customResponseHeaders,omitempty" tf:"custom_response_headers,omitempty"`
 
 	// An optional textual description of the resource; provided by the
 	// client when the resource is created.
+	// An optional textual description of the resource; provided by the
+	// client when the resource is created.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// The security policy associated with this backend bucket.
+	// The security policy associated with this backend bucket.
 	// +kubebuilder:validation:Optional
 	EdgeSecurityPolicy *string `json:"edgeSecurityPolicy,omitempty" tf:"edge_security_policy,omitempty"`
 
+	// If true, enable Cloud CDN for this BackendBucket.
 	// If true, enable Cloud CDN for this BackendBucket.
 	// +kubebuilder:validation:Optional
 	EnableCdn *bool `json:"enableCdn,omitempty" tf:"enable_cdn,omitempty"`
@@ -86,22 +94,29 @@ type CdnPolicyParameters struct {
 	// Specifies the cache setting for all responses from this backend.
 	// The possible values are: USE_ORIGIN_HEADERS, FORCE_CACHE_ALL and CACHE_ALL_STATIC
 	// Possible values are USE_ORIGIN_HEADERS, FORCE_CACHE_ALL, and CACHE_ALL_STATIC.
+	// Specifies the cache setting for all responses from this backend.
+	// The possible values are: USE_ORIGIN_HEADERS, FORCE_CACHE_ALL and CACHE_ALL_STATIC Possible values: ["USE_ORIGIN_HEADERS", "FORCE_CACHE_ALL", "CACHE_ALL_STATIC"]
 	// +kubebuilder:validation:Optional
 	CacheMode *string `json:"cacheMode,omitempty" tf:"cache_mode,omitempty"`
 
+	// Specifies the maximum allowed TTL for cached content served by this origin.
 	// Specifies the maximum allowed TTL for cached content served by this origin.
 	// +kubebuilder:validation:Optional
 	ClientTTL *float64 `json:"clientTtl,omitempty" tf:"client_ttl,omitempty"`
 
 	// Specifies the default TTL for cached content served by this origin for responses
 	// that do not have an existing valid TTL .
+	// Specifies the default TTL for cached content served by this origin for responses
+	// that do not have an existing valid TTL (max-age or s-max-age).
 	// +kubebuilder:validation:Optional
 	DefaultTTL *float64 `json:"defaultTtl,omitempty" tf:"default_ttl,omitempty"`
 
 	// Specifies the maximum allowed TTL for cached content served by this origin.
+	// Specifies the maximum allowed TTL for cached content served by this origin.
 	// +kubebuilder:validation:Optional
 	MaxTTL *float64 `json:"maxTtl,omitempty" tf:"max_ttl,omitempty"`
 
+	// Negative caching allows per-status code TTLs to be set, in order to apply fine-grained caching for common errors or redirects.
 	// Negative caching allows per-status code TTLs to be set, in order to apply fine-grained caching for common errors or redirects.
 	// +kubebuilder:validation:Optional
 	NegativeCaching *bool `json:"negativeCaching,omitempty" tf:"negative_caching,omitempty"`
@@ -109,13 +124,24 @@ type CdnPolicyParameters struct {
 	// Sets a cache TTL for the specified HTTP status code. negativeCaching must be enabled to configure negativeCachingPolicy.
 	// Omitting the policy and leaving negativeCaching enabled will use Cloud CDN's default cache TTLs.
 	// Structure is documented below.
+	// Sets a cache TTL for the specified HTTP status code. negativeCaching must be enabled to configure negativeCachingPolicy.
+	// Omitting the policy and leaving negativeCaching enabled will use Cloud CDN's default cache TTLs.
 	// +kubebuilder:validation:Optional
 	NegativeCachingPolicy []NegativeCachingPolicyParameters `json:"negativeCachingPolicy,omitempty" tf:"negative_caching_policy,omitempty"`
 
 	// Serve existing content from the cache  when revalidating content with the origin, or when an error is encountered when refreshing the cache.
+	// Serve existing content from the cache (if available) when revalidating content with the origin, or when an error is encountered when refreshing the cache.
 	// +kubebuilder:validation:Optional
 	ServeWhileStale *float64 `json:"serveWhileStale,omitempty" tf:"serve_while_stale,omitempty"`
 
+	// Maximum number of seconds the response to a signed URL request will
+	// be considered fresh. After this time period,
+	// the response will be revalidated before being served.
+	// When serving responses to signed URL requests,
+	// Cloud CDN will internally behave as though
+	// all responses from this backend had a "Cache-Control: public,
+	// max-age=[TTL]" header, regardless of any existing Cache-Control
+	// header. The actual headers served in responses will not be altered.
 	// Maximum number of seconds the response to a signed URL request will
 	// be considered fresh. After this time period,
 	// the response will be revalidated before being served.
@@ -135,11 +161,15 @@ type NegativeCachingPolicyParameters struct {
 
 	// The HTTP status code to define a TTL against. Only HTTP status codes 300, 301, 308, 404, 405, 410, 421, 451 and 501
 	// can be specified as values, and you cannot specify a status code more than once.
+	// The HTTP status code to define a TTL against. Only HTTP status codes 300, 301, 308, 404, 405, 410, 421, 451 and 501
+	// can be specified as values, and you cannot specify a status code more than once.
 	// +kubebuilder:validation:Optional
 	Code *float64 `json:"code,omitempty" tf:"code,omitempty"`
 
 	// The TTL  for which to cache responses with the corresponding status code. The maximum allowed value is 1800s
 	// , noting that infrequently accessed objects may be evicted from the cache before the defined TTL.
+	// The TTL (in seconds) for which to cache responses with the corresponding status code. The maximum allowed value is 1800s
+	// (30 minutes), noting that infrequently accessed objects may be evicted from the cache before the defined TTL.
 	// +kubebuilder:validation:Optional
 	TTL *float64 `json:"ttl,omitempty" tf:"ttl,omitempty"`
 }

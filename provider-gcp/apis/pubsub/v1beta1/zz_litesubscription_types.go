@@ -32,6 +32,7 @@ type DeliveryConfigParameters struct {
 
 	// When this subscription should send messages to subscribers relative to messages persistence in storage.
 	// Possible values are DELIVER_IMMEDIATELY, DELIVER_AFTER_STORED, and DELIVERY_REQUIREMENT_UNSPECIFIED.
+	// When this subscription should send messages to subscribers relative to messages persistence in storage. Possible values: ["DELIVER_IMMEDIATELY", "DELIVER_AFTER_STORED", "DELIVERY_REQUIREMENT_UNSPECIFIED"]
 	// +kubebuilder:validation:Required
 	DeliveryRequirement *string `json:"deliveryRequirement" tf:"delivery_requirement,omitempty"`
 }
@@ -46,6 +47,7 @@ type LiteSubscriptionParameters struct {
 
 	// The settings for this subscription's message delivery.
 	// Structure is documented below.
+	// The settings for this subscription's message delivery.
 	// +kubebuilder:validation:Optional
 	DeliveryConfig []DeliveryConfigParameters `json:"deliveryConfig,omitempty" tf:"delivery_config,omitempty"`
 
@@ -55,9 +57,11 @@ type LiteSubscriptionParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The region of the pubsub lite topic.
+	// The region of the pubsub lite topic.
 	// +kubebuilder:validation:Optional
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
+	// A reference to a Topic resource.
 	// A reference to a Topic resource.
 	// +crossplane:generate:reference:type=LiteTopic
 	// +kubebuilder:validation:Optional
@@ -69,6 +73,7 @@ type LiteSubscriptionParameters struct {
 	// +kubebuilder:validation:Optional
 	TopicSelector *v1.Selector `json:"topicSelector,omitempty" tf:"-"`
 
+	// The zone of the pubsub lite topic.
 	// The zone of the pubsub lite topic.
 	// +kubebuilder:validation:Required
 	Zone *string `json:"zone" tf:"zone,omitempty"`

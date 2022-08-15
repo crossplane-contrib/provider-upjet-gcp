@@ -36,6 +36,9 @@ type SchemaParameters struct {
 	// The definition of the schema.
 	// This should contain a string representing the full definition of the schema
 	// that is a valid schema definition of the type specified in type.
+	// The definition of the schema.
+	// This should contain a string representing the full definition of the schema
+	// that is a valid schema definition of the type specified in type.
 	// +kubebuilder:validation:Optional
 	Definition *string `json:"definition,omitempty" tf:"definition,omitempty"`
 
@@ -47,6 +50,7 @@ type SchemaParameters struct {
 	// The type of the schema definition
 	// Default value is TYPE_UNSPECIFIED.
 	// Possible values are TYPE_UNSPECIFIED, PROTOCOL_BUFFER, and AVRO.
+	// The type of the schema definition Default value: "TYPE_UNSPECIFIED" Possible values: ["TYPE_UNSPECIFIED", "PROTOCOL_BUFFER", "AVRO"]
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }

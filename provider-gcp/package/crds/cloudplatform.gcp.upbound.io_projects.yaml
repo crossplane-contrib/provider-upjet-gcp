@@ -70,6 +70,11 @@ spec:
                       that, for quota purposes, you will still need to have 1 network
                       slot available to create the project successfully, even if you
                       set auto_create_network to false, since the network will exist
+                      momentarily. Create the 'default' network automatically.  Default
+                      true. If set to false, the default network will be deleted.  Note
+                      that, for quota purposes, you will still need to have 1 network
+                      slot available to create the project successfully, even if you
+                      set auto_create_network to false, since the network will exist
                       momentarily.
                     type: boolean
                   billingAccount:
@@ -77,14 +82,23 @@ spec:
                       belongs to. The user or service account performing this operation
                       with Terraform must have at minimum Billing Account User privileges  on
                       the billing account. See Google Cloud Billing API Access Control
-                      for more details.
+                      for more details. The alphanumeric ID of the billing account
+                      this project belongs to. The user or service account performing
+                      this operation with Terraform must have Billing Account Administrator
+                      privileges (roles/billing.admin) in the organization. See Google
+                      Cloud Billing API Access Control for more details.
                     type: string
                   folderId:
                     description: The numeric ID of the folder this project should
                       be created under. Only one of org_id or folder_id may be specified.
                       If the folder_id is specified, then the project is created under
                       the specified folder. Changing this forces the project to be
-                      migrated to the newly specified folder.
+                      migrated to the newly specified folder. The numeric ID of the
+                      folder this project should be created under. Only one of org_id
+                      or folder_id may be specified. If the folder_id is specified,
+                      then the project is created under the specified folder. Changing
+                      this forces the project to be migrated to the newly specified
+                      folder.
                     type: string
                   folderIdRef:
                     description: A Reference to a named object.
@@ -163,6 +177,7 @@ spec:
                     additionalProperties:
                       type: string
                     description: A set of key/value label pairs to assign to the project.
+                      A set of key/value label pairs to assign to the project.
                     type: object
                   orgId:
                     description: The numeric ID of the organization this project belongs
@@ -170,15 +185,19 @@ spec:
                       one of org_id or folder_id may be specified. If the org_id is
                       specified then the project is created at the top level. Changing
                       this forces the project to be migrated to the newly specified
-                      organization.
+                      organization. The numeric ID of the organization this project
+                      belongs to.
                     type: string
                   projectId:
                     description: The project ID. Changing this forces a new project
+                      to be created. The project ID. Changing this forces a new project
                       to be created.
                     type: string
                   skipDelete:
                     description: If true, the Terraform resource can be deleted without
-                      deleting the Project via the Google API.
+                      deleting the Project via the Google API. If true, the Terraform
+                      resource can be deleted without deleting the Project via the
+                      Google API.
                     type: boolean
                 required:
                 - projectId
@@ -363,7 +382,8 @@ spec:
                     description: an identifier for the resource with format projects/{{project}}
                     type: string
                   number:
-                    description: The numeric identifier of the project.
+                    description: The numeric identifier of the project. The numeric
+                      identifier of the project.
                     type: string
                 type: object
               conditions:
