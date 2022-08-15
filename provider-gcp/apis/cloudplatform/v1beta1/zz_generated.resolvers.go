@@ -21,7 +21,6 @@ import (
 	"context"
 	reference "github.com/crossplane/crossplane-runtime/pkg/reference"
 	errors "github.com/pkg/errors"
-	v1beta11 "github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1"
 	v1beta1 "github.com/upbound/official-providers/provider-gcp/apis/storage/v1beta1"
 	common "github.com/upbound/official-providers/provider-gcp/config/common"
 	resource "github.com/upbound/upjet/pkg/resource"
@@ -378,32 +377,6 @@ func (mg *ServiceAccountKey) ResolveReferences(ctx context.Context, c client.Rea
 	}
 	mg.Spec.ForProvider.ServiceAccountID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.ServiceAccountIDRef = rsp.ResolvedReference
-
-	return nil
-}
-
-// ResolveReferences of this ServiceNetworkingPeeredDNSDomain.
-func (mg *ServiceNetworkingPeeredDNSDomain) ResolveReferences(ctx context.Context, c client.Reader) error {
-	r := reference.NewAPIResolver(c, mg)
-
-	var rsp reference.ResolutionResponse
-	var err error
-
-	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Network),
-		Extract:      reference.ExternalName(),
-		Reference:    mg.Spec.ForProvider.NetworkRef,
-		Selector:     mg.Spec.ForProvider.NetworkSelector,
-		To: reference.To{
-			List:    &v1beta11.NetworkList{},
-			Managed: &v1beta11.Network{},
-		},
-	})
-	if err != nil {
-		return errors.Wrap(err, "mg.Spec.ForProvider.Network")
-	}
-	mg.Spec.ForProvider.Network = reference.ToPtrValue(rsp.ResolvedValue)
-	mg.Spec.ForProvider.NetworkRef = rsp.ResolvedReference
 
 	return nil
 }
