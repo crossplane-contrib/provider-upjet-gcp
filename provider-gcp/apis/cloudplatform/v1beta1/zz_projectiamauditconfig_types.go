@@ -40,6 +40,8 @@ type AuditLogConfigParameters struct {
 }
 
 type ProjectIAMAuditConfigObservation struct {
+
+	// The etag of iam policy
 	Etag *string `json:"etag,omitempty" tf:"etag,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -80,7 +82,7 @@ type ProjectIAMAuditConfigStatus struct {
 
 // +kubebuilder:object:root=true
 
-// ProjectIAMAuditConfig is the Schema for the ProjectIAMAuditConfigs API
+// ProjectIAMAuditConfig is the Schema for the ProjectIAMAuditConfigs API. <no value>
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

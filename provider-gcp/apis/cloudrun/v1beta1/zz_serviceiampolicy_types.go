@@ -26,6 +26,8 @@ import (
 )
 
 type ServiceIAMPolicyObservation struct {
+
+	// The etag of the IAM policy.
 	Etag *string `json:"etag,omitempty" tf:"etag,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -33,20 +35,14 @@ type ServiceIAMPolicyObservation struct {
 
 type ServiceIAMPolicyParameters struct {
 
-	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/cloudrun/v1beta1.Service
-	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractParamPath("location",false)
-	// +kubebuilder:validation:Optional
-	Location *string `json:"location,omitempty" tf:"location,omitempty"`
-
-	// +kubebuilder:validation:Optional
-	LocationRef *v1.Reference `json:"locationRef,omitempty" tf:"-"`
-
-	// +kubebuilder:validation:Optional
-	LocationSelector *v1.Selector `json:"locationSelector,omitempty" tf:"-"`
+	// +kubebuilder:validation:Required
+	Location *string `json:"location" tf:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
 	PolicyData *string `json:"policyData" tf:"policy_data,omitempty"`
 
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the project will be parsed from the identifier of the parent resource. If no project is provided in the parent identifier and no project is specified, the provider project is used.
 	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/cloudplatform/v1beta1.Project
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
@@ -57,6 +53,7 @@ type ServiceIAMPolicyParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectSelector *v1.Selector `json:"projectSelector,omitempty" tf:"-"`
 
+	// Used to find the parent resource to bind the IAM policy to
 	// +crossplane:generate:reference:type=Service
 	// +kubebuilder:validation:Optional
 	Service *string `json:"service,omitempty" tf:"service,omitempty"`
@@ -82,7 +79,7 @@ type ServiceIAMPolicyStatus struct {
 
 // +kubebuilder:object:root=true
 
-// ServiceIAMPolicy is the Schema for the ServiceIAMPolicys API
+// ServiceIAMPolicy is the Schema for the ServiceIAMPolicys API. Collection of resources to manage IAM policy for Cloud Run Service
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

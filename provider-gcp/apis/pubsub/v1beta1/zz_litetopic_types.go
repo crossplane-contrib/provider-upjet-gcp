@@ -40,15 +40,20 @@ type CapacityParameters struct {
 }
 
 type LiteTopicObservation struct {
+
+	// an identifier for the resource with format projects/{{project}}/locations/{{zone}}/topics/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 }
 
 type LiteTopicParameters struct {
 
 	// The settings for this topic's partitions.
+	// Structure is documented below.
 	// +kubebuilder:validation:Required
 	PartitionConfig []PartitionConfigParameters `json:"partitionConfig" tf:"partition_config,omitempty"`
 
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
@@ -57,10 +62,12 @@ type LiteTopicParameters struct {
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
 	// The settings for this topic's Reservation usage.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	ReservationConfig []ReservationConfigParameters `json:"reservationConfig,omitempty" tf:"reservation_config,omitempty"`
 
 	// The settings for a topic's message retention.
+	// Structure is documented below.
 	// +kubebuilder:validation:Required
 	RetentionConfig []RetentionConfigParameters `json:"retentionConfig" tf:"retention_config,omitempty"`
 
@@ -75,6 +82,7 @@ type PartitionConfigObservation struct {
 type PartitionConfigParameters struct {
 
 	// The capacity configuration.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Capacity []CapacityParameters `json:"capacity,omitempty" tf:"capacity,omitempty"`
 
@@ -133,7 +141,7 @@ type LiteTopicStatus struct {
 
 // +kubebuilder:object:root=true
 
-// LiteTopic is the Schema for the LiteTopics API
+// LiteTopic is the Schema for the LiteTopics API. A named resource to which messages are sent by publishers.
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

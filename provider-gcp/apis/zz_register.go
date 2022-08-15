@@ -34,6 +34,7 @@ import (
 	v1beta1pubsub "github.com/upbound/official-providers/provider-gcp/apis/pubsub/v1beta1"
 	v1beta1redis "github.com/upbound/official-providers/provider-gcp/apis/redis/v1beta1"
 	v1beta1secretmanager "github.com/upbound/official-providers/provider-gcp/apis/secretmanager/v1beta1"
+	v1beta1servicenetworking "github.com/upbound/official-providers/provider-gcp/apis/servicenetworking/v1beta1"
 	v1beta1sql "github.com/upbound/official-providers/provider-gcp/apis/sql/v1beta1"
 	v1beta1storage "github.com/upbound/official-providers/provider-gcp/apis/storage/v1beta1"
 	v1alpha1 "github.com/upbound/official-providers/provider-gcp/apis/v1alpha1"
@@ -55,6 +56,7 @@ func init() {
 		v1beta1pubsub.SchemeBuilder.AddToScheme,
 		v1beta1redis.SchemeBuilder.AddToScheme,
 		v1beta1secretmanager.SchemeBuilder.AddToScheme,
+		v1beta1servicenetworking.SchemeBuilder.AddToScheme,
 		v1beta1sql.SchemeBuilder.AddToScheme,
 		v1beta1storage.SchemeBuilder.AddToScheme,
 		v1alpha1.SchemeBuilder.AddToScheme,

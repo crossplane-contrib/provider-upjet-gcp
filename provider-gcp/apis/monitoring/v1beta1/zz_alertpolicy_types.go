@@ -117,23 +117,39 @@ type AggregationsParameters struct {
 }
 
 type AlertPolicyObservation struct {
+
+	// A list of conditions for the policy. The conditions are combined by
+	// AND or OR according to the combiner field. If the combined conditions
+	// evaluate to true, then an incident is created. A policy can have from
+	// one to six conditions.
+	// Structure is documented below.
+	// +kubebuilder:validation:Required
 	Conditions []ConditionsObservation `json:"conditions,omitempty" tf:"conditions,omitempty"`
 
+	// A read-only record of the creation of the alerting policy.
+	// If provided in a call to create or update, this field will
+	// be ignored.
+	// Structure is documented below.
 	CreationRecord []CreationRecordObservation `json:"creationRecord,omitempty" tf:"creation_record,omitempty"`
 
+	// an identifier for the resource with format {{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// The unique resource name for this policy.
+	// Its syntax is: projects/[PROJECT_ID]/alertPolicies/[ALERT_POLICY_ID]
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 }
 
 type AlertPolicyParameters struct {
 
 	// Control over how this alert policy's notification channels are notified.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	AlertStrategy []AlertStrategyParameters `json:"alertStrategy,omitempty" tf:"alert_strategy,omitempty"`
 
 	// How to combine the results of multiple conditions to
-	// determine if an incident should be opened. Possible values: ["AND", "OR", "AND_WITH_MATCHING_RESOURCE"]
+	// determine if an incident should be opened.
+	// Possible values are AND, OR, and AND_WITH_MATCHING_RESOURCE.
 	// +kubebuilder:validation:Required
 	Combiner *string `json:"combiner" tf:"combiner,omitempty"`
 
@@ -141,6 +157,7 @@ type AlertPolicyParameters struct {
 	// AND or OR according to the combiner field. If the combined conditions
 	// evaluate to true, then an incident is created. A policy can have from
 	// one to six conditions.
+	// Structure is documented below.
 	// +kubebuilder:validation:Required
 	Conditions []ConditionsParameters `json:"conditions" tf:"conditions,omitempty"`
 
@@ -156,6 +173,7 @@ type AlertPolicyParameters struct {
 	// to help responders understand, mitigate, escalate, and correct the underlying
 	// problems detected by the alerting policy. Notification channels that have
 	// limited capacity might not show this documentation.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Documentation []DocumentationParameters `json:"documentation,omitempty" tf:"documentation,omitempty"`
 
@@ -169,10 +187,12 @@ type AlertPolicyParameters struct {
 	// to the name field in each of the NotificationChannel objects that are
 	// returned from the notificationChannels.list method. The syntax of the
 	// entries in this field is
-	// 'projects/[PROJECT_ID]/notificationChannels/[CHANNEL_ID]'
+	// projects/[PROJECT_ID]/notificationChannels/[CHANNEL_ID]
 	// +kubebuilder:validation:Optional
 	NotificationChannels []*string `json:"notificationChannels,omitempty" tf:"notification_channels,omitempty"`
 
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
@@ -196,6 +216,7 @@ type AlertStrategyParameters struct {
 
 	// Required for alert policies with a LogMatch condition.
 	// This limit is not implemented for alert policies that are not log-based.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	NotificationRateLimit []NotificationRateLimitParameters `json:"notificationRateLimit,omitempty" tf:"notification_rate_limit,omitempty"`
 }
@@ -440,24 +461,20 @@ type ConditionThresholdParameters struct {
 	Aggregations []ConditionThresholdAggregationsParameters `json:"aggregations,omitempty" tf:"aggregations,omitempty"`
 
 	// The comparison to apply between the time
-	// series (indicated by filter and aggregation)
-	// and the threshold (indicated by
-	// threshold_value). The comparison is applied
+	// series
+	// and the threshold . The comparison is applied
 	// on each time series, with the time series on
 	// the left-hand side and the threshold on the
 	// right-hand side. Only COMPARISON_LT and
-	// COMPARISON_GT are supported currently. Possible values: ["COMPARISON_GT", "COMPARISON_GE", "COMPARISON_LT", "COMPARISON_LE", "COMPARISON_EQ", "COMPARISON_NE"]
+	// COMPARISON_GT are supported currently.
+	// Possible values are COMPARISON_GT, COMPARISON_GE, COMPARISON_LT, COMPARISON_LE, COMPARISON_EQ, and COMPARISON_NE.
 	// +kubebuilder:validation:Required
 	Comparison *string `json:"comparison" tf:"comparison,omitempty"`
 
 	// Specifies the alignment of data points in
 	// individual time series selected by
 	// denominatorFilter as well as how to combine
-	// the retrieved time series together (such as
-	// when aggregating multiple streams on each
-	// resource to a single stream for each
-	// resource or when aggregating streams across
-	// all members of a group of resources).When
+	// the retrieved time series together .When
 	// computing ratios, the aggregations and
 	// denominator_aggregations fields must use the
 	// same alignment period and produce time
@@ -466,6 +483,7 @@ type ConditionThresholdParameters struct {
 	// the MetricService.ListTimeSeries request. It
 	// is advisable to use the ListTimeSeries
 	// method when debugging this field.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	DenominatorAggregations []DenominatorAggregationsParameters `json:"denominatorAggregations,omitempty" tf:"denominator_aggregations,omitempty"`
 
@@ -476,9 +494,7 @@ type ConditionThresholdParameters struct {
 	// series specified by the filter field will be
 	// used as the numerator.The filter is similar
 	// to the one that is specified in the
-	// MetricService.ListTimeSeries request (that
-	// call is useful to verify the time series
-	// that will be retrieved / processed) and must
+	// MetricService.ListTimeSeries request  and must
 	// specify the metric type and optionally may
 	// contain restrictions on resource type,
 	// resource labels, and metric labels. This
@@ -556,6 +572,13 @@ type ConditionThresholdTriggerParameters struct {
 }
 
 type ConditionsObservation struct {
+
+	// The unique resource name for this condition.
+	// Its syntax is:
+	// projects/[PROJECT_ID]/alertPolicies/[POLICY_ID]/conditions/[CONDITION_ID]
+	// [CONDITION_ID] is assigned by Stackdriver Monitoring when
+	// the condition is created as part of a new or updated alerting
+	// policy.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 }
 
@@ -563,20 +586,24 @@ type ConditionsParameters struct {
 
 	// A condition that checks that a time series
 	// continues to receive new data points.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	ConditionAbsent []ConditionAbsentParameters `json:"conditionAbsent,omitempty" tf:"condition_absent,omitempty"`
 
 	// A condition that checks for log messages matching given constraints.
 	// If set, no other conditions can be present.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	ConditionMatchedLog []ConditionMatchedLogParameters `json:"conditionMatchedLog,omitempty" tf:"condition_matched_log,omitempty"`
 
 	// A Monitoring Query Language query that outputs a boolean stream
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	ConditionMonitoringQueryLanguage []ConditionMonitoringQueryLanguageParameters `json:"conditionMonitoringQueryLanguage,omitempty" tf:"condition_monitoring_query_language,omitempty"`
 
 	// A condition that compares a time series against a
 	// threshold.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	ConditionThreshold []ConditionThresholdParameters `json:"conditionThreshold,omitempty" tf:"condition_threshold,omitempty"`
 
@@ -590,8 +617,11 @@ type ConditionsParameters struct {
 }
 
 type CreationRecordObservation struct {
+
+	// When the change occurred.
 	MutateTime *string `json:"mutateTime,omitempty" tf:"mutate_time,omitempty"`
 
+	// The email address of the user making the change.
 	MutatedBy *string `json:"mutatedBy,omitempty" tf:"mutated_by,omitempty"`
 }
 
@@ -749,7 +779,7 @@ type AlertPolicyStatus struct {
 
 // +kubebuilder:object:root=true
 
-// AlertPolicy is the Schema for the AlertPolicys API
+// AlertPolicy is the Schema for the AlertPolicys API. A description of the conditions under which some aspect of your system is considered to be "unhealthy" and the ways to notify people or services about this state.
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

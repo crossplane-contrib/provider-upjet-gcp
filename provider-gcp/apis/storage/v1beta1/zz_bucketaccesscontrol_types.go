@@ -26,10 +26,14 @@ import (
 )
 
 type BucketAccessControlObservation struct {
+
+	// The domain associated with the entity.
 	Domain *string `json:"domain,omitempty" tf:"domain,omitempty"`
 
+	// The email address associated with the entity.
 	Email *string `json:"email,omitempty" tf:"email,omitempty"`
 
+	// an identifier for the resource with format {{bucket}}/{{entity}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 }
 
@@ -64,7 +68,8 @@ type BucketAccessControlParameters struct {
 	// +kubebuilder:validation:Required
 	Entity *string `json:"entity" tf:"entity,omitempty"`
 
-	// The access permission for the entity. Possible values: ["OWNER", "READER", "WRITER"]
+	// The access permission for the entity.
+	// Possible values are OWNER, READER, and WRITER.
 	// +kubebuilder:validation:Optional
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 }
@@ -83,7 +88,7 @@ type BucketAccessControlStatus struct {
 
 // +kubebuilder:object:root=true
 
-// BucketAccessControl is the Schema for the BucketAccessControls API
+// BucketAccessControl is the Schema for the BucketAccessControls API. Bucket ACLs can be managed authoritatively using the [
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

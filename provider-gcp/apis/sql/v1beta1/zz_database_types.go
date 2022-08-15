@@ -26,26 +26,29 @@ import (
 )
 
 type DatabaseObservation struct {
+
+	// an identifier for the resource with format projects/{{project}}/instances/{{instance}}/databases/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
 }
 
 type DatabaseParameters struct {
 
 	// The charset value. See MySQL's
-	// [Supported Character Sets and Collations](https://dev.mysql.com/doc/refman/5.7/en/charset-charsets.html)
-	// and Postgres' [Character Set Support](https://www.postgresql.org/docs/9.6/static/multibyte.html)
+	// Supported Character Sets and Collations
+	// and Postgres' Character Set Support
 	// for more details and supported values. Postgres databases only support
-	// a value of 'UTF8' at creation time.
+	// a value of UTF8 at creation time.
 	// +kubebuilder:validation:Optional
 	Charset *string `json:"charset,omitempty" tf:"charset,omitempty"`
 
 	// The collation value. See MySQL's
-	// [Supported Character Sets and Collations](https://dev.mysql.com/doc/refman/5.7/en/charset-charsets.html)
-	// and Postgres' [Collation Support](https://www.postgresql.org/docs/9.6/static/collation.html)
+	// Supported Character Sets and Collations
+	// and Postgres' Collation Support
 	// for more details and supported values. Postgres databases only support
-	// a value of 'en_US.UTF8' at creation time.
+	// a value of en_US.UTF8 at creation time.
 	// +kubebuilder:validation:Optional
 	Collation *string `json:"collation,omitempty" tf:"collation,omitempty"`
 
@@ -61,6 +64,8 @@ type DatabaseParameters struct {
 	// +kubebuilder:validation:Optional
 	InstanceSelector *v1.Selector `json:"instanceSelector,omitempty" tf:"-"`
 
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
@@ -79,7 +84,7 @@ type DatabaseStatus struct {
 
 // +kubebuilder:object:root=true
 
-// Database is the Schema for the Databases API
+// Database is the Schema for the Databases API. Represents a SQL database inside the Cloud SQL instance, hosted in Google's cloud.
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

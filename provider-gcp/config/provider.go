@@ -26,6 +26,7 @@ import (
 	"github.com/upbound/official-providers/provider-gcp/config/pubsub"
 	"github.com/upbound/official-providers/provider-gcp/config/redis"
 	"github.com/upbound/official-providers/provider-gcp/config/secretmanager"
+	"github.com/upbound/official-providers/provider-gcp/config/servicenetworking"
 	"github.com/upbound/official-providers/provider-gcp/config/sql"
 	"github.com/upbound/official-providers/provider-gcp/config/storage"
 )
@@ -86,6 +87,7 @@ func GetProvider() *tjconfig.Provider {
 		pubsub.Configure,
 		redis.Configure,
 		secretmanager.Configure,
+		servicenetworking.Configure,
 		storage.Configure,
 		sql.Configure,
 		redis.Configure,

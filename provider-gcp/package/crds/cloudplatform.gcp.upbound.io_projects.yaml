@@ -35,7 +35,8 @@ spec:
     name: v1beta1
     schema:
       openAPIV3Schema:
-        description: Project is the Schema for the Projects API
+        description: Project is the Schema for the Projects API. Allows management
+          of a Google Cloud Platform project.
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -74,9 +75,9 @@ spec:
                   billingAccount:
                     description: The alphanumeric ID of the billing account this project
                       belongs to. The user or service account performing this operation
-                      with Terraform must have Billing Account Administrator privileges
-                      (roles/billing.admin) in the organization. See Google Cloud
-                      Billing API Access Control for more details.
+                      with Terraform must have at minimum Billing Account User privileges  on
+                      the billing account. See Google Cloud Billing API Access Control
+                      for more details.
                     type: string
                   folderId:
                     description: The numeric ID of the folder this project should
@@ -165,7 +166,11 @@ spec:
                     type: object
                   orgId:
                     description: The numeric ID of the organization this project belongs
-                      to.
+                      to. Changing this forces a new project to be created.  Only
+                      one of org_id or folder_id may be specified. If the org_id is
+                      specified then the project is created at the top level. Changing
+                      this forces the project to be migrated to the newly specified
+                      organization.
                     type: string
                   projectId:
                     description: The project ID. Changing this forces a new project
@@ -355,8 +360,10 @@ spec:
               atProvider:
                 properties:
                   id:
+                    description: an identifier for the resource with format projects/{{project}}
                     type: string
                   number:
+                    description: The numeric identifier of the project.
                     type: string
                 type: object
               conditions:

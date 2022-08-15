@@ -36,7 +36,7 @@ spec:
     schema:
       openAPIV3Schema:
         description: ManagedSSLCertificate is the Schema for the ManagedSSLCertificates
-          API
+          API. An SslCertificate resource, used for HTTPS load balancing.
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -72,8 +72,8 @@ spec:
                     type: string
                   managed:
                     description: Properties relevant to a managed certificate.  These
-                      will be used if the certificate is managed (as indicated by
-                      a value of 'MANAGED' in 'type').
+                      will be used if the certificate is managed . Structure is documented
+                      below.
                     items:
                       properties:
                         domains:
@@ -88,11 +88,13 @@ spec:
                       type: object
                     type: array
                   project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
                     type: string
                   type:
-                    description: 'Enum field whose value is always ''MANAGED'' - used
-                      to signal to the API which type this is. Default value: "MANAGED"
-                      Possible values: ["MANAGED"]'
+                    description: Enum field whose value is always MANAGED - used to
+                      signal to the API which type this is. Default value is MANAGED.
+                      Possible values are MANAGED.
                     type: string
                 type: object
               providerConfigRef:
@@ -273,14 +275,20 @@ spec:
               atProvider:
                 properties:
                   creationTimestamp:
+                    description: Creation timestamp in RFC3339 text format.
                     type: string
                   expireTime:
+                    description: Expire time of the certificate.
                     type: string
                   id:
+                    description: an identifier for the resource with format projects/{{project}}/global/sslCertificates/{{name}}
                     type: string
                   selfLink:
+                    description: The URI of the created resource.
                     type: string
                   subjectAlternativeNames:
+                    description: Domains associated with the certificate via Subject
+                      Alternative Name.
                     items:
                       type: string
                     type: array

@@ -26,12 +26,17 @@ import (
 )
 
 type AddressObservation struct {
+
+	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
 
+	// an identifier for the resource with format projects/{{project}}/regions/{{region}}/addresses/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
 
+	// The URLs of the resources that are using this address.
 	Users []*string `json:"users,omitempty" tf:"users,omitempty"`
 }
 
@@ -44,7 +49,9 @@ type AddressParameters struct {
 	// +kubebuilder:validation:Optional
 	Address *string `json:"address,omitempty" tf:"address,omitempty"`
 
-	// The type of address to reserve. Default value: "EXTERNAL" Possible values: ["INTERNAL", "EXTERNAL"]
+	// The type of address to reserve.
+	// Default value is EXTERNAL.
+	// Possible values are INTERNAL and EXTERNAL.
 	// +kubebuilder:validation:Optional
 	AddressType *string `json:"addressType,omitempty" tf:"address_type,omitempty"`
 
@@ -66,7 +73,8 @@ type AddressParameters struct {
 	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
 
 	// The networking tier used for configuring this address. If this field is not
-	// specified, it is assumed to be PREMIUM. Possible values: ["PREMIUM", "STANDARD"]
+	// specified, it is assumed to be PREMIUM.
+	// Possible values are PREMIUM and STANDARD.
 	// +kubebuilder:validation:Optional
 	NetworkTier *string `json:"networkTier,omitempty" tf:"network_tier,omitempty"`
 
@@ -74,28 +82,12 @@ type AddressParameters struct {
 	// +kubebuilder:validation:Optional
 	PrefixLength *float64 `json:"prefixLength,omitempty" tf:"prefix_length,omitempty"`
 
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The purpose of this resource, which can be one of the following values:
-	//
-	// * GCE_ENDPOINT for addresses that are used by VM instances, alias IP
-	// ranges, internal load balancers, and similar resources.
-	//
-	// * SHARED_LOADBALANCER_VIP for an address that can be used by multiple
-	// internal load balancers.
-	//
-	// * VPC_PEERING for addresses that are reserved for VPC peer networks.
-	//
-	// * IPSEC_INTERCONNECT for addresses created from a private IP range
-	// that are reserved for a VLAN attachment in an IPsec-encrypted Cloud
-	// Interconnect configuration. These addresses are regional resources.
-	//
-	// * PRIVATE_SERVICE_CONNECT for a private network address that is used
-	// to configure Private Service Connect. Only global internal addresses
-	// can use this purpose.
-	//
-	// This should only be set when using an Internal address.
 	// +kubebuilder:validation:Optional
 	Purpose *string `json:"purpose,omitempty" tf:"purpose,omitempty"`
 
@@ -133,7 +125,7 @@ type AddressStatus struct {
 
 // +kubebuilder:object:root=true
 
-// Address is the Schema for the Addresss API
+// Address is the Schema for the Addresss API. Represents an Address resource.
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

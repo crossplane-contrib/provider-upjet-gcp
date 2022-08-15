@@ -32,9 +32,6 @@ type GRPCHealthCheckParameters struct {
 
 	// The gRPC service name for the health check.
 	// The value of grpcServiceName has the following meanings by convention:
-	// - Empty serviceName means the overall status of all services at the backend.
-	// - Non-empty serviceName means the health of that gRPC service, as defined by the owner of the service.
-	// The grpcServiceName can only be ASCII.
 	// +kubebuilder:validation:Optional
 	GRPCServiceName *string `json:"grpcServiceName,omitempty" tf:"grpc_service_name,omitempty"`
 
@@ -189,18 +186,23 @@ type HealthCheckLogConfigParameters struct {
 }
 
 type HealthCheckObservation struct {
+
+	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
 
+	// an identifier for the resource with format projects/{{project}}/global/healthChecks/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
 
+	// The type of the health check. One of HTTP, HTTPS, TCP, or SSL.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type HealthCheckParameters struct {
 
-	// How often (in seconds) to send a health check. The default value is 5
+	// How often  to send a health check. The default value is 5
 	// seconds.
 	// +kubebuilder:validation:Optional
 	CheckIntervalSec *float64 `json:"checkIntervalSec,omitempty" tf:"check_interval_sec,omitempty"`
@@ -211,14 +213,17 @@ type HealthCheckParameters struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// A nested object resource
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	GRPCHealthCheck []GRPCHealthCheckParameters `json:"grpcHealthCheck,omitempty" tf:"grpc_health_check,omitempty"`
 
 	// A nested object resource
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	HTTPHealthCheck []HTTPHealthCheckParameters `json:"httpHealthCheck,omitempty" tf:"http_health_check,omitempty"`
 
 	// A nested object resource
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	HTTPSHealthCheck []HTTPSHealthCheckParameters `json:"httpsHealthCheck,omitempty" tf:"https_health_check,omitempty"`
 
@@ -228,25 +233,31 @@ type HealthCheckParameters struct {
 	HealthyThreshold *float64 `json:"healthyThreshold,omitempty" tf:"healthy_threshold,omitempty"`
 
 	// A nested object resource
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Http2HealthCheck []Http2HealthCheckParameters `json:"http2HealthCheck,omitempty" tf:"http2_health_check,omitempty"`
 
 	// Configure logging on this health check.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	LogConfig []HealthCheckLogConfigParameters `json:"logConfig,omitempty" tf:"log_config,omitempty"`
 
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// A nested object resource
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	SSLHealthCheck []SSLHealthCheckParameters `json:"sslHealthCheck,omitempty" tf:"ssl_health_check,omitempty"`
 
 	// A nested object resource
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	TCPHealthCheck []TCPHealthCheckParameters `json:"tcpHealthCheck,omitempty" tf:"tcp_health_check,omitempty"`
 
-	// How long (in seconds) to wait before claiming failure.
+	// How long  to wait before claiming failure.
 	// The default value is 5 seconds.  It is invalid for timeoutSec to have
 	// greater value than checkIntervalSec.
 	// +kubebuilder:validation:Optional
@@ -429,7 +440,7 @@ type HealthCheckStatus struct {
 
 // +kubebuilder:object:root=true
 
-// HealthCheck is the Schema for the HealthChecks API
+// HealthCheck is the Schema for the HealthChecks API. Health Checks determine whether instances are responsive and able to do work.
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
