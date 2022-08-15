@@ -67,15 +67,8 @@ type BackendBucketParameters struct {
 	// +kubebuilder:validation:Optional
 	EnableCdn *bool `json:"enableCdn,omitempty" tf:"enable_cdn,omitempty"`
 
-	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/cloudplatform/v1beta1.Project
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
-
-	// +kubebuilder:validation:Optional
-	ProjectRef *v1.Reference `json:"projectRef,omitempty" tf:"-"`
-
-	// +kubebuilder:validation:Optional
-	ProjectSelector *v1.Selector `json:"projectSelector,omitempty" tf:"-"`
 }
 
 type CdnPolicyObservation struct {

@@ -1,6 +1,8 @@
 apiVersion: storage.gcp.upbound.io/v1beta1
 kind: Bucket
 metadata:
+  labels:
+    testing.upbound.io/example-name: example
   name: example-backend-key
 spec:
   forProvider:
@@ -12,11 +14,13 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: BackendBucket
 metadata:
+  labels:
+    testing.upbound.io/example-name: example
   name: example-backend-key
 spec:
-  forProvider:
-    bucketNameRef:
-      name: example-backend-key
+    bucketNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
     description: Contains beautiful images
     enableCdn: true
 
@@ -40,8 +44,9 @@ metadata:
 spec:
   forProvider:
     name: example
-    backendBucketRef:
-      name: example-backend-key
+    backendBucketSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
     keyValueSecretRef:
       key: attribute.b64_url
       name: example-id

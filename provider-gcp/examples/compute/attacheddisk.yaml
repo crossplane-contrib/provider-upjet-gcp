@@ -1,12 +1,12 @@
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: Disk
 metadata:
+  labels:
+    testing.upbound.io/example-name: example
   name: example-attached
 spec:
   forProvider:
     image: debian-11-bullseye-v20220719
-    labels:
-      environment: dev
     physicalBlockSizeBytes: 4096
     type: pd-ssd
     zone: us-central1-a
@@ -16,6 +16,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: Instance
 metadata:
+  labels:
+    testing.upbound.io/example-name: example
   name: example-attached-instance
 spec:
   forProvider:
@@ -32,11 +34,16 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: AttachedDisk
 metadata:
+  labels:
+    testing.upbound.io/example-name: example
   name: example-attached
 spec:
   forProvider:
     zone: us-central1-a
-    diskRef:
-      name: example-attached
-    instanceRef:
-      name: example-attached-instance
+    diskSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    instanceSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+

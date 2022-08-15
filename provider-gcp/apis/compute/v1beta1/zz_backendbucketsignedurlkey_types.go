@@ -32,7 +32,7 @@ type BackendBucketSignedURLKeyObservation struct {
 type BackendBucketSignedURLKeyParameters struct {
 
 	// The backend bucket this signed URL key belongs.
-	// +crossplane:generate:reference:type=BackendBucket
+	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.BackendBucket
 	// +kubebuilder:validation:Optional
 	BackendBucket *string `json:"backendBucket,omitempty" tf:"backend_bucket,omitempty"`
 
@@ -51,15 +51,8 @@ type BackendBucketSignedURLKeyParameters struct {
 	// +kubebuilder:validation:Required
 	Name *string `json:"name" tf:"name,omitempty"`
 
-	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/cloudplatform/v1beta1.Project
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
-
-	// +kubebuilder:validation:Optional
-	ProjectRef *v1.Reference `json:"projectRef,omitempty" tf:"-"`
-
-	// +kubebuilder:validation:Optional
-	ProjectSelector *v1.Selector `json:"projectSelector,omitempty" tf:"-"`
 }
 
 // BackendBucketSignedURLKeySpec defines the desired state of BackendBucketSignedURLKey

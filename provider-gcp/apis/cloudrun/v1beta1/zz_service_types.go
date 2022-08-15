@@ -243,8 +243,16 @@ type SecretKeyRefParameters struct {
 	// An alias definition has the form: :projects/<project-id|project-number>/secrets/.
 	// If multiple alias definitions are needed, they must be separated by commas.
 	// The alias definitions must be set on the run.googleapis.com/secrets annotation.
-	// +kubebuilder:validation:Required
-	Name *string `json:"name" tf:"name,omitempty"`
+	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/secretmanager/v1beta1.Secret
+	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractParamPath("secret_id",false)
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	NameRef *v1.Reference `json:"nameRef,omitempty" tf:"-"`
+
+	// +kubebuilder:validation:Optional
+	NameSelector *v1.Selector `json:"nameSelector,omitempty" tf:"-"`
 }
 
 type SecretObservation struct {
@@ -276,8 +284,16 @@ type SecretParameters struct {
 	// commas.
 	// The alias definitions must be set on the run.googleapis.com/secrets
 	// annotation.
-	// +kubebuilder:validation:Required
-	SecretName *string `json:"secretName" tf:"secret_name,omitempty"`
+	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/secretmanager/v1beta1.Secret
+	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractParamPath("secret_id",false)
+	// +kubebuilder:validation:Optional
+	SecretName *string `json:"secretName,omitempty" tf:"secret_name,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	SecretNameRef *v1.Reference `json:"secretNameRef,omitempty" tf:"-"`
+
+	// +kubebuilder:validation:Optional
+	SecretNameSelector *v1.Selector `json:"secretNameSelector,omitempty" tf:"-"`
 }
 
 type SecretRefLocalObjectReferenceObservation struct {

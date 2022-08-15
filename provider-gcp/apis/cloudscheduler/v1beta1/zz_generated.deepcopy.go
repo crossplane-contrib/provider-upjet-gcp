@@ -323,16 +323,6 @@ func (in *JobParameters) DeepCopyInto(out *JobParameters) {
 		*out = new(string)
 		**out = **in
 	}
-	if in.ProjectRef != nil {
-		in, out := &in.ProjectRef, &out.ProjectRef
-		*out = new(v1.Reference)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.ProjectSelector != nil {
-		in, out := &in.ProjectSelector, &out.ProjectSelector
-		*out = new(v1.Selector)
-		(*in).DeepCopyInto(*out)
-	}
 	if in.PubsubTarget != nil {
 		in, out := &in.PubsubTarget, &out.PubsubTarget
 		*out = make([]PubsubTargetParameters, len(*in))

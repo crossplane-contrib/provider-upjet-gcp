@@ -36,7 +36,8 @@ type AttachedDiskParameters struct {
 	DeviceName *string `json:"deviceName,omitempty" tf:"device_name,omitempty"`
 
 	// name or self_link of the disk that will be attached.
-	// +crossplane:generate:reference:type=Disk
+	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.Disk
+	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Disk *string `json:"disk,omitempty" tf:"disk,omitempty"`
 
@@ -47,7 +48,8 @@ type AttachedDiskParameters struct {
 	DiskSelector *v1.Selector `json:"diskSelector,omitempty" tf:"-"`
 
 	// name or self_link of the compute instance that the disk will be attached to. If the self_link is provided then zone and project are extracted from the self link. If only the name is used then zone and project must be defined as properties on the resource or provider.
-	// +crossplane:generate:reference:type=Instance
+	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.Instance
+	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Instance *string `json:"instance,omitempty" tf:"instance,omitempty"`
 
@@ -62,15 +64,8 @@ type AttachedDiskParameters struct {
 	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
 
 	// The project that the referenced compute instance is a part of. If instance is referenced by its self_link the project defined in the link will take precedence.
-	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/cloudplatform/v1beta1.Project
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
-
-	// +kubebuilder:validation:Optional
-	ProjectRef *v1.Reference `json:"projectRef,omitempty" tf:"-"`
-
-	// +kubebuilder:validation:Optional
-	ProjectSelector *v1.Selector `json:"projectSelector,omitempty" tf:"-"`
 
 	// The zone that the referenced compute instance is located within. If instance is referenced by its self_link the zone defined in the link will take precedence.
 	// +kubebuilder:validation:Optional

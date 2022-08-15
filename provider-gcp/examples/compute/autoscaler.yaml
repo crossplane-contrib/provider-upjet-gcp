@@ -1,6 +1,53 @@
 apiVersion: compute.gcp.upbound.io/v1beta1
+kind: HTTPHealthCheck
+metadata:
+  labels:
+    testing.upbound.io/example-name: example
+  name: example-autoscaler
+spec:
+  forProvider:
+    checkIntervalSec: 1
+    requestPath: /health_check
+    timeoutSec: 1
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: HealthCheck
+metadata:
+  labels:
+    testing.upbound.io/example-name: example
+  name: example-autoscaler
+spec:
+  forProvider:
+    checkIntervalSec: 1
+    tcpHealthCheck:
+      - port: 80
+    timeoutSec: 1
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: TargetPool
+metadata:
+  labels:
+    testing.upbound.io/example-name: example
+  name: example-autoscaler
+spec:
+  forProvider:
+    region: us-central1
+    healthChecksRefs:
+      - name: example-autoscaler
+    instances:
+    - us-central1-a/example-autoscaler
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
 kind: InstanceTemplate
 metadata:
+  labels:
+    testing.upbound.io/example-name: example
   name: example-autoscaler
 spec:
   forProvider:
@@ -18,47 +65,10 @@ spec:
 ---
 
 apiVersion: compute.gcp.upbound.io/v1beta1
-kind: HTTPHealthCheck
-metadata:
-  name: example-autoscaler
-spec:
-  forProvider:
-    checkIntervalSec: 1
-    requestPath: /health_check
-    timeoutSec: 1
-
----
-
-apiVersion: compute.gcp.upbound.io/v1beta1
-kind: HealthCheck
-metadata:
-  name: example-autoscaler
-spec:
-  forProvider:
-    checkIntervalSec: 1
-    tcpHealthCheck:
-      - port: 80
-    timeoutSec: 1
-
----
-
-apiVersion: compute.gcp.upbound.io/v1beta1
-kind: TargetPool
-metadata:
-  name: example-autoscaler
-spec:
-  forProvider:
-    region: us-central1
-    healthChecksRefs:
-      - name: example-autoscaler
-    instances:
-    - us-central1-a/example-autoscaler
-
----
-
-apiVersion: compute.gcp.upbound.io/v1beta1
 kind: InstanceGroupManager
 metadata:
+  labels:
+    testing.upbound.io/example-name: example
   name: example-autoscaler
 spec:
   forProvider:
@@ -74,8 +84,9 @@ spec:
     - name: example-autoscaler
     targetSize: 2
     version:
-    - instanceTemplateRef:
-        name: example-autoscaler
+    - instanceTemplateSelector:
+        matchLabels:
+          testing.upbound.io/example-name: example
     zone: us-central1-a
 
 ---
@@ -83,6 +94,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: Autoscaler
 metadata:
+  labels:
+    testing.upbound.io/example-name: example
   name: example
 spec:
   forProvider:
@@ -91,6 +104,7 @@ spec:
       maxReplicas: 5
       minReplicas: 1
     # InstanceGroupManager
-    targetRef:
-      name: example-autoscaler
+    targetSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
     zone: us-central1-a

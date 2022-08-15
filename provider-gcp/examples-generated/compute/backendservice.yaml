@@ -6,8 +6,8 @@ metadata:
   name: default
 spec:
   forProvider:
-    healthChecksRefs:
-    - name: default
+    healthChecks:
+    - ${google_compute_http_health_check.default.id}
 
 ---
 

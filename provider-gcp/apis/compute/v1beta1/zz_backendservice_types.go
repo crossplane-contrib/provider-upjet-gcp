@@ -269,15 +269,8 @@ type BackendServiceParameters struct {
 	// or serverless NEG as a backend.
 	//
 	// For internal load balancing, a URL to a HealthCheck resource must be specified instead.
-	// +crossplane:generate:reference:type=HealthCheck
 	// +kubebuilder:validation:Optional
 	HealthChecks []*string `json:"healthChecks,omitempty" tf:"health_checks,omitempty"`
-
-	// +kubebuilder:validation:Optional
-	HealthChecksRefs []v1.Reference `json:"healthChecksRefs,omitempty" tf:"-"`
-
-	// +kubebuilder:validation:Optional
-	HealthChecksSelector *v1.Selector `json:"healthChecksSelector,omitempty" tf:"-"`
 
 	// Settings for enabling Cloud Identity Aware Proxy
 	// +kubebuilder:validation:Optional
@@ -351,15 +344,8 @@ type BackendServiceParameters struct {
 	// +kubebuilder:validation:Optional
 	PortName *string `json:"portName,omitempty" tf:"port_name,omitempty"`
 
-	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/cloudplatform/v1beta1.Project
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
-
-	// +kubebuilder:validation:Optional
-	ProjectRef *v1.Reference `json:"projectRef,omitempty" tf:"-"`
-
-	// +kubebuilder:validation:Optional
-	ProjectSelector *v1.Selector `json:"projectSelector,omitempty" tf:"-"`
 
 	// The protocol this BackendService uses to communicate with backends.
 	// The default is HTTP. **NOTE**: HTTP2 is only valid for beta HTTP/2 load balancer

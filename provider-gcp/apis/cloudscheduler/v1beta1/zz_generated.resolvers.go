@@ -21,8 +21,7 @@ import (
 	"context"
 	reference "github.com/crossplane/crossplane-runtime/pkg/reference"
 	errors "github.com/pkg/errors"
-	v1beta1 "github.com/upbound/official-providers/provider-gcp/apis/cloudplatform/v1beta1"
-	v1beta11 "github.com/upbound/official-providers/provider-gcp/apis/pubsub/v1beta1"
+	v1beta1 "github.com/upbound/official-providers/provider-gcp/apis/pubsub/v1beta1"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
@@ -33,22 +32,6 @@ func (mg *Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 	var rsp reference.ResolutionResponse
 	var err error
 
-	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Project),
-		Extract:      reference.ExternalName(),
-		Reference:    mg.Spec.ForProvider.ProjectRef,
-		Selector:     mg.Spec.ForProvider.ProjectSelector,
-		To: reference.To{
-			List:    &v1beta1.ProjectList{},
-			Managed: &v1beta1.Project{},
-		},
-	})
-	if err != nil {
-		return errors.Wrap(err, "mg.Spec.ForProvider.Project")
-	}
-	mg.Spec.ForProvider.Project = reference.ToPtrValue(rsp.ResolvedValue)
-	mg.Spec.ForProvider.ProjectRef = rsp.ResolvedReference
-
 	for i3 := 0; i3 < len(mg.Spec.ForProvider.PubsubTarget); i3++ {
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.PubsubTarget[i3].TopicName),
@@ -56,8 +39,8 @@ func (mg *Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 			Reference:    mg.Spec.ForProvider.PubsubTarget[i3].TopicNameRef,
 			Selector:     mg.Spec.ForProvider.PubsubTarget[i3].TopicNameSelector,
 			To: reference.To{
-				List:    &v1beta11.TopicList{},
-				Managed: &v1beta11.Topic{},
+				List:    &v1beta1.TopicList{},
+				Managed: &v1beta1.Topic{},
 			},
 		})
 		if err != nil {

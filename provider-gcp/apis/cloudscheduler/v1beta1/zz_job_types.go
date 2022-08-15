@@ -153,15 +153,8 @@ type JobParameters struct {
 	// +kubebuilder:validation:Optional
 	HTTPTarget []HTTPTargetParameters `json:"httpTarget,omitempty" tf:"http_target,omitempty"`
 
-	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/cloudplatform/v1beta1.Project
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
-
-	// +kubebuilder:validation:Optional
-	ProjectRef *v1.Reference `json:"projectRef,omitempty" tf:"-"`
-
-	// +kubebuilder:validation:Optional
-	ProjectSelector *v1.Selector `json:"projectSelector,omitempty" tf:"-"`
 
 	// Pub/Sub target
 	// If the job providers a Pub/Sub target the cron will publish
