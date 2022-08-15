@@ -35,7 +35,8 @@ spec:
     name: v1beta1
     schema:
       openAPIV3Schema:
-        description: Project is the Schema for the Projects API
+        description: Project is the Schema for the Projects API. Allows management
+          of a Google Cloud Platform project.
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -74,9 +75,9 @@ spec:
                   billingAccount:
                     description: The alphanumeric ID of the billing account this project
                       belongs to. The user or service account performing this operation
-                      with Terraform must have Billing Account Administrator privileges
-                      (roles/billing.admin) in the organization. See Google Cloud
-                      Billing API Access Control for more details.
+                      with Terraform must have at minimum Billing Account User privileges  on
+                      the billing account. See Google Cloud Billing API Access Control
+                      for more details.
                     type: string
                   folderId:
                     description: The numeric ID of the folder this project should
@@ -85,6 +86,79 @@ spec:
                       the specified folder. Changing this forces the project to be
                       migrated to the newly specified folder.
                     type: string
+                  folderIdRef:
+                    description: A Reference to a named object.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: Resolution specifies whether resolution of
+                              this reference is required. The default is 'Required',
+                              which means the reconcile will fail if the reference
+                              cannot be resolved. 'Optional' means this reference
+                              will be a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: Resolve specifies when this reference should
+                              be resolved. The default is 'IfNotPresent', which will
+                              attempt to resolve the reference only when the corresponding
+                              field is not present. Use 'Always' to resolve the reference
+                              on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  folderIdSelector:
+                    description: A Selector selects an object.
+                    properties:
+                      matchControllerRef:
+                        description: MatchControllerRef ensures an object with the
+                          same controller reference as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: Resolution specifies whether resolution of
+                              this reference is required. The default is 'Required',
+                              which means the reconcile will fail if the reference
+                              cannot be resolved. 'Optional' means this reference
+                              will be a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: Resolve specifies when this reference should
+                              be resolved. The default is 'IfNotPresent', which will
+                              attempt to resolve the reference only when the corresponding
+                              field is not present. Use 'Always' to resolve the reference
+                              on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
                   labels:
                     additionalProperties:
                       type: string
@@ -92,7 +166,11 @@ spec:
                     type: object
                   orgId:
                     description: The numeric ID of the organization this project belongs
-                      to.
+                      to. Changing this forces a new project to be created.  Only
+                      one of org_id or folder_id may be specified. If the org_id is
+                      specified then the project is created at the top level. Changing
+                      this forces the project to be migrated to the newly specified
+                      organization.
                     type: string
                   projectId:
                     description: The project ID. Changing this forces a new project
@@ -282,8 +360,10 @@ spec:
               atProvider:
                 properties:
                   id:
+                    description: an identifier for the resource with format projects/{{project}}
                     type: string
                   number:
+                    description: The numeric identifier of the project.
                     type: string
                 type: object
               conditions:

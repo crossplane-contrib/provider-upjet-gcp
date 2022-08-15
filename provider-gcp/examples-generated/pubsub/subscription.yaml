@@ -1,6 +1,8 @@
 apiVersion: pubsub.gcp.upbound.io/v1beta1
 kind: Subscription
 metadata:
+  labels:
+    testing.upbound.io/example-name: example
   name: example
 spec:
   forProvider:
@@ -11,5 +13,20 @@ spec:
     - attributes:
         x-goog-version: v1
       pushEndpoint: https://example.com/push
-    topicRef:
-      name: example
+    topicSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+
+---
+
+apiVersion: pubsub.gcp.upbound.io/v1beta1
+kind: Topic
+metadata:
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider: {}
+
+---
+

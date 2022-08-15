@@ -36,7 +36,7 @@ spec:
     schema:
       openAPIV3Schema:
         description: InstanceFromTemplate is the Schema for the InstanceFromTemplates
-          API
+          API. Manages a VM instance resource within GCE.
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -246,8 +246,8 @@ spec:
                     description: The minimum CPU platform specified for the VM instance.
                     type: string
                   name:
-                    description: The name of the instance. One of name or self_link
-                      must be provided.
+                    description: A unique name for the resource, required by GCE.
+                      Changing this forces a new resource to be created.
                     type: string
                   networkInterface:
                     description: The networks attached to the instance.
@@ -691,9 +691,8 @@ spec:
                       type: string
                     type: array
                   zone:
-                    description: The zone of the instance. If self_link is provided,
-                      this value is ignored. If neither self_link nor zone are provided,
-                      the provider zone is used.
+                    description: The zone that the machine should be created in. If
+                      not set, the provider zone is used.
                     type: string
                 required:
                 - name
@@ -876,45 +875,75 @@ spec:
               atProvider:
                 properties:
                   bootDisk:
+                    description: The boot disk for the instance.
                     items:
                       properties:
                         diskEncryptionKeySha256:
+                          description: The RFC 4648 base64 encoded SHA-256 hash of
+                            the customer-supplied encryption key that protects this
+                            resource.
                           type: string
                       type: object
                     type: array
                   cpuPlatform:
+                    description: The CPU platform used by this instance.
                     type: string
                   currentStatus:
+                    description: Current status of the instance.
                     type: string
                   id:
                     type: string
                   instanceId:
+                    description: The server-assigned unique identifier of this instance.
                     type: string
                   labelFingerprint:
+                    description: The unique fingerprint of the labels.
                     type: string
                   metadataFingerprint:
+                    description: The unique fingerprint of the metadata.
                     type: string
                   networkInterface:
+                    description: The networks attached to the instance.
                     items:
                       properties:
                         ipv6AccessConfig:
+                          description: An array of IPv6 access configurations for
+                            this interface. Currently, only one IPv6 access config,
+                            DIRECT_IPV6, is supported. If there is no ipv6AccessConfig
+                            specified, then this instance will have no external IPv6
+                            Internet access.
                           items:
                             properties:
                               externalIpv6:
+                                description: The first IPv6 address of the external
+                                  IPv6 range associated with this instance, prefix
+                                  length is stored in externalIpv6PrefixLength in
+                                  ipv6AccessConfig. The field is output only, an IPv6
+                                  address from a subnetwork associated with the instance
+                                  will be allocated dynamically.
                                 type: string
                               externalIpv6PrefixLength:
+                                description: The prefix length of the external IPv6
+                                  range.
                                 type: string
                             type: object
                           type: array
                         ipv6AccessType:
+                          description: One of EXTERNAL, INTERNAL to indicate whether
+                            the IP can be accessed from the Internet. This field is
+                            always inherited from its subnetwork.
                           type: string
                         name:
+                          description: A unique name for the resource, required by
+                            GCE. Changing this forces a new resource to be created.
                           type: string
                       type: object
                     type: array
                   selfLink:
+                    description: The URI of the created resource.
                     type: string
                   tagsFingerprint:
+                    description: The unique fingerprint of the tags.
                     type: string
                 type: object
               conditions:

@@ -35,7 +35,8 @@ spec:
     name: v1beta1
     schema:
       openAPIV3Schema:
-        description: Instance is the Schema for the Instances API
+        description: Instance is the Schema for the Instances API. Manages a VM instance
+          resource within GCE.
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -64,18 +65,17 @@ spec:
               forProvider:
                 properties:
                   advancedMachineFeatures:
-                    description: Controls for advanced machine-related behavior features.
+                    description: Configure Nested Virtualisation and Simultaneous
+                      Hyper Threading  on this VM. Structure is documented below
                     items:
                       properties:
                         enableNestedVirtualization:
-                          description: Whether to enable nested virtualization or
-                            not.
+                          description: Defines whether the instance should have nested
+                            virtualization  enabled. Defaults to false.
                           type: boolean
                         threadsPerCore:
-                          description: The number of threads per physical core. To
-                            disable simultaneous multithreading (SMT) set this to
-                            1. If unset, the maximum number of threads supported per
-                            core by the underlying processor is assumed.
+                          description: he number of threads per physical core. To
+                            disable simultaneous multithreading  set this to 1.
                           type: number
                       type: object
                     type: array
@@ -86,7 +86,9 @@ spec:
                       update will fail.
                     type: boolean
                   attachedDisk:
-                    description: List of disks attached to the instance
+                    description: Additional disks to attach to the instance. Can be
+                      repeated multiple times for multiple disks. Structure is documented
+                      below.
                     items:
                       properties:
                         deviceName:
@@ -132,12 +134,13 @@ spec:
                       type: object
                     type: array
                   bootDisk:
-                    description: The boot disk for the instance.
+                    description: The boot disk for the instance. Structure is documented
+                      below.
                     items:
                       properties:
                         autoDelete:
                           description: Whether the disk will be auto-deleted when
-                            the instance is deleted.
+                            the instance is deleted. Defaults to true.
                           type: boolean
                         deviceName:
                           description: Name with which attached disk will be accessible
@@ -164,21 +167,34 @@ spec:
                           - namespace
                           type: object
                         initializeParams:
-                          description: Parameters with which a disk was created alongside
-                            the instance.
+                          description: Parameters for a new disk that will be created
+                            alongside the new instance. Either initialize_params or
+                            source must be set. Structure is documented below.
                           items:
                             properties:
                               image:
-                                description: The image from which this disk was initialised.
+                                description: 'The image from which to initialize this
+                                  disk. This can be one of: the image''s self_link,
+                                  projects/{project}/global/images/{image}, projects/{project}/global/images/family/{family},
+                                  global/images/{image}, global/images/family/{family},
+                                  family/{family}, {project}/{family}, {project}/{image},
+                                  {family}, or {image}. If referred by family, the
+                                  images names must include the family name. If they
+                                  don''t, use the google_compute_image data source.
+                                  For instance, the image centos-6-v20180104 includes
+                                  its family name centos-6. These images can be referred
+                                  by family name here.'
                                 type: string
                               labels:
                                 additionalProperties:
                                   type: string
-                                description: A set of key/value label pairs assigned
-                                  to the disk.
+                                description: A map of key/value label pairs to assign
+                                  to the instance.
                                 type: object
                               size:
-                                description: The size of the image in gigabytes.
+                                description: The size of the image in gigabytes. If
+                                  not specified, it will inherit the size of its base
+                                  image.
                                 type: number
                               type:
                                 description: The Google Compute Engine disk type.
@@ -203,41 +219,56 @@ spec:
                       type: object
                     type: array
                   canIpForward:
-                    description: Whether sending and receiving of packets with non-matching
-                      source or destination IPs is allowed.
+                    description: Whether to allow sending and receiving of packets
+                      with non-matching source or destination IPs. This defaults to
+                      false.
                     type: boolean
                   confidentialInstanceConfig:
-                    description: The Confidential VM config being used by the instance.  on_host_maintenance
-                      has to be set to TERMINATE or this will fail to create.
+                    description: Enable Confidential Mode on this VM. Structure is
+                      documented below
                     items:
                       properties:
                         enableConfidentialCompute:
                           description: Defines whether the instance should have confidential
-                            compute enabled.
+                            compute enabled. on_host_maintenance has to be set to
+                            TERMINATE or this will fail to create the VM.
                           type: boolean
                       required:
                       - enableConfidentialCompute
                       type: object
                     type: array
                   deletionProtection:
-                    description: Whether deletion protection is enabled on this instance.
+                    description: 'Enable deletion protection on this instance. Defaults
+                      to false. Note: you must disable deletion protection before
+                      removing the resource , or the instance cannot be deleted and
+                      the Terraform run will not complete successfully.'
                     type: boolean
                   description:
-                    description: A brief description of the resource.
+                    description: A brief description of this resource.
                     type: string
                   desiredStatus:
                     description: Desired status of the instance. Either "RUNNING"
                       or "TERMINATED".
                     type: string
                   enableDisplay:
-                    description: Whether the instance has virtual displays enabled.
+                    description: 'Enable Virtual Displays on this instance. Note:
+                      allow_stopping_for_update must be set to true or your instance
+                      must have a desired_status of TERMINATED in order to update
+                      this field.'
                     type: boolean
                   guestAccelerator:
-                    description: List of the type and count of accelerator cards attached
-                      to the instance.
+                    description: 'List of the type and count of accelerator cards
+                      attached to the instance. Structure documented below. Note:
+                      GPU accelerators can only be used with on_host_maintenance option
+                      set to TERMINATE. Note: This field uses attr-as-block mode to
+                      avoid breaking users during the 0.12 upgrade. To explicitly
+                      send a list of zero objects you must use the following syntax:
+                      example=[] For more details about this behavior, see this section.'
                     items:
                       properties:
                         count:
+                          description: The number of the guest accelerator cards exposed
+                            to this instance.
                           type: number
                         type:
                           type: string
@@ -247,14 +278,14 @@ spec:
                     description: A custom hostname for the instance. Must be a fully
                       qualified DNS name and RFC-1035-valid. Valid format is a series
                       of labels 1-63 characters long matching the regular expression
-                      [a-z]([-a-z0-9]*[a-z0-9]), concatenated with periods. The entire
-                      hostname must not exceed 253 characters. Changing this forces
-                      a new resource to be created.
+                      [a-z], concatenated with periods. The entire hostname must not
+                      exceed 253 characters. Changing this forces a new resource to
+                      be created.
                     type: string
                   labels:
                     additionalProperties:
                       type: string
-                    description: A set of key/value label pairs assigned to the instance.
+                    description: A map of key/value label pairs to assign to the instance.
                     type: object
                   machineType:
                     description: The machine type to create.
@@ -262,28 +293,51 @@ spec:
                   metadata:
                     additionalProperties:
                       type: string
-                    description: Metadata key/value pairs made available within the
-                      instance.
+                    description: Metadata key/value pairs to make available from within
+                      the instance. Ssh keys attached in the Cloud Console will be
+                      removed. Add them to your config in order to keep them attached
+                      to your instance.
                     type: object
                   metadataStartupScript:
-                    description: Metadata startup scripts made available within the
-                      instance.
+                    description: An alternative to using the startup-script metadata
+                      key, except this one forces the instance to be recreated if
+                      it is changed. This replaces the startup-script metadata key
+                      on the created instance and thus the two mechanisms are not
+                      allowed to be used simultaneously.  Users are free to use either
+                      mechanism - the only distinction is that this separate attribute
+                      will cause a recreate on modification.  On import, metadata_startup_script
+                      will not be set - if you choose to specify it you will see a
+                      diff immediately after import causing a destroy/recreate operation.
+                      If importing an instance and specifying this value is desired,
+                      you will need to modify your state file manually using terraform
+                      state commands.
                     type: string
                   minCpuPlatform:
-                    description: The minimum CPU platform specified for the VM instance.
+                    description: 'Specifies a minimum CPU platform for the VM instance.
+                      Applicable values are the friendly names of CPU platforms, such
+                      as Intel Haswell or Intel Skylake. See the complete list here.
+                      Note: allow_stopping_for_update must be set to true or your
+                      instance must have a desired_status of TERMINATED in order to
+                      update this field.'
                     type: string
                   networkInterface:
-                    description: The networks attached to the instance.
+                    description: Networks to attach to the instance. This can be specified
+                      multiple times. Structure is documented below.
                     items:
                       properties:
                         accessConfig:
                           description: Access configurations, i.e. IPs via which this
-                            instance can be accessed via the Internet.
+                            instance can be accessed via the Internet. Omit to ensure
+                            that the instance is not accessible from the Internet.
+                            If omitted, ssh provisioners will not work unless Terraform
+                            can send traffic to the instance's network . This block
+                            can be repeated multiple times. Structure documented below.
                           items:
                             properties:
                               natIp:
-                                description: The IP address that is be 1:1 mapped
-                                  to the instance's network ip.
+                                description: The IP address that will be 1:1 mapped
+                                  to the instance's network ip. If not given, one
+                                  will be generated.
                                 type: string
                               networkTier:
                                 description: The networking tier used for configuring
@@ -297,17 +351,23 @@ spec:
                           type: array
                         aliasIpRange:
                           description: An array of alias IP ranges for this network
-                            interface.
+                            interface. Can only be specified for network interfaces
+                            on subnet-mode networks. Structure documented below.
                           items:
                             properties:
                               ipCidrRange:
                                 description: The IP CIDR range represented by this
-                                  alias IP range.
+                                  alias IP range. This IP CIDR range must belong to
+                                  the specified subnetwork and cannot contain IP addresses
+                                  reserved by system or used by other network interfaces.
+                                  This range may be a single IP address , a netmask  or
+                                  a CIDR format string .
                                 type: string
                               subnetworkRangeName:
                                 description: The subnetwork secondary range name specifying
                                   the secondary range from which to allocate the IP
-                                  CIDR range for this alias IP range.
+                                  CIDR range for this alias IP range. If left unspecified,
+                                  the primary range of the subnetwork will be used.
                                 type: string
                             required:
                             - ipCidrRange
@@ -318,7 +378,7 @@ spec:
                             this interface. Currently, only one IPv6 access config,
                             DIRECT_IPV6, is supported. If there is no ipv6AccessConfig
                             specified, then this instance will have no external IPv6
-                            Internet access.
+                            Internet access. Structure documented below.
                           items:
                             properties:
                               networkTier:
@@ -335,11 +395,14 @@ spec:
                             type: object
                           type: array
                         network:
-                          description: The name or self_link of the network attached
-                            to this interface.
+                          description: The name or self_link of the network to attach
+                            this interface to. Either network or subnetwork must be
+                            provided. If network isn't provided it will be inferred
+                            from the subnetwork.
                           type: string
                         networkIp:
-                          description: The private IP address assigned to the instance.
+                          description: The private IP address to assign to the instance.
+                            If empty, the address will be automatically assigned.
                           type: string
                         networkRef:
                           description: A Reference to a named object.
@@ -418,8 +481,8 @@ spec:
                               type: object
                           type: object
                         nicType:
-                          description: The type of vNIC to be used on this interface.
-                            Possible values:GVNIC, VIRTIO_NET
+                          description: 'The type of vNIC to be used on this interface.
+                            Possible values: GVNIC, VIRTIO_NET.'
                           type: string
                         queueCount:
                           description: The networking queue count that's specified
@@ -428,15 +491,27 @@ spec:
                           type: number
                         stackType:
                           description: The stack type for this network interface to
-                            identify whether the IPv6 feature is enabled or not. If
-                            not specified, IPV4_ONLY will be used.
+                            identify whether the IPv6 feature is enabled or not. Values
+                            are IPV4_IPV6 or IPV4_ONLY. If not specified, IPV4_ONLY
+                            will be used.
                           type: string
                         subnetwork:
-                          description: The name or self_link of the subnetwork attached
-                            to this interface.
+                          description: The name or self_link of the subnetwork to
+                            attach this interface to. Either network or subnetwork
+                            must be provided. If network isn't provided it will be
+                            inferred from the subnetwork. The subnetwork must exist
+                            in the same region this instance will be created in. If
+                            the network resource is in legacy mode, do not specify
+                            this field. If the network is in auto subnet mode, specifying
+                            the subnetwork is optional. If the network is in custom
+                            subnet mode, specifying the subnetwork is required.
                           type: string
                         subnetworkProject:
                           description: The project in which the subnetwork belongs.
+                            If the subnetwork is a self_link, this field is ignored
+                            in favor of the project defined in the subnetwork self_link.
+                            If the subnetwork is a name and this field is not provided,
+                            the provider project is used.
                           type: string
                         subnetworkRef:
                           description: A Reference to a named object.
@@ -518,18 +593,16 @@ spec:
                     type: array
                   project:
                     description: The ID of the project in which the resource belongs.
-                      If self_link is provided, this value is ignored. If neither
-                      self_link nor project are provided, the provider project is
-                      used.
+                      If it is not provided, the provider project is used.
                     type: string
                   reservationAffinity:
                     description: Specifies the reservations that this instance can
-                      consume from.
+                      consume from. Structure is documented below.
                     items:
                       properties:
                         specificReservation:
                           description: Specifies the label selector for the reservation
-                            to use.
+                            to use.. Structure is documented below.
                           items:
                             properties:
                               key:
@@ -560,30 +633,38 @@ spec:
                     type: array
                   resourcePolicies:
                     description: A list of short names or self_links of resource policies
-                      to attach to the instance. Currently a max of 1 resource policy
-                      is supported.
+                      to attach to the instance. Modifying this list will cause the
+                      instance to recreate. Currently a max of 1 resource policy is
+                      supported.
                     items:
                       type: string
                     type: array
                   scheduling:
-                    description: The scheduling strategy being used by the instance.
+                    description: The scheduling strategy to use. More details about
+                      this configuration option are detailed below.
                     items:
                       properties:
                         automaticRestart:
                           description: Specifies if the instance should be restarted
-                            if it was terminated by Compute Engine (not a user).
+                            if it was terminated by Compute Engine . Defaults to true.
                           type: boolean
                         minNodeCpus:
+                          description: The minimum number of virtual CPUs this instance
+                            will consume when running on a sole-tenant node.
                           type: number
                         nodeAffinities:
                           description: Specifies node affinities or anti-affinities
                             to determine which sole-tenant nodes your instances and
-                            managed instance groups will use as host systems.
+                            managed instance groups will use as host systems. Read
+                            more on sole-tenant node creation here. Structure documented
+                            below.
                           items:
                             properties:
                               key:
                                 type: string
                               operator:
+                                description: The operator. Can be IN for node-affinities
+                                  or NOT_IN for anti-affinities.
                                 type: string
                               values:
                                 items:
@@ -597,38 +678,133 @@ spec:
                           type: array
                         onHostMaintenance:
                           description: Describes maintenance behavior for the instance.
-                            One of MIGRATE or TERMINATE,
+                            Can be MIGRATE or TERMINATE, for more info, read here.
                           type: string
                         preemptible:
-                          description: Whether the instance is preemptible.
+                          description: Specifies if the instance is preemptible. If
+                            this field is set to true, then automatic_restart must
+                            be set to false.  Defaults to false.
                           type: boolean
                         provisioningModel:
-                          description: Whether the instance is spot. If this is set
-                            as SPOT.
+                          description: Describe the type of preemptible VM. This field
+                            accepts the value STANDARD or SPOT. If the value is STANDARD,
+                            there will be no discount. If this   is set to SPOT, preemptible
+                            should be true and auto_restart should be false. For more
+                            info about SPOT, read here
                           type: string
                       type: object
                     type: array
                   scratchDisk:
-                    description: The scratch disks attached to the instance.
+                    description: Scratch disks to attach to the instance. This can
+                      be specified multiple times for multiple scratch disks. Structure
+                      is documented below.
                     items:
                       properties:
                         interface:
-                          description: The disk interface used for attaching this
-                            disk. One of SCSI or NVME.
+                          description: The disk interface to use for attaching this
+                            disk; either SCSI or NVME.
                           type: string
                       required:
                       - interface
                       type: object
                     type: array
                   serviceAccount:
-                    description: The service account to attach to the instance.
+                    description: 'Service account to attach to the instance. Structure
+                      is documented below. Note: allow_stopping_for_update must be
+                      set to true or your instance must have a desired_status of TERMINATED
+                      in order to update this field.'
                     items:
                       properties:
                         email:
-                          description: The service account e-mail address.
+                          description: 'The service account e-mail address. If not
+                            given, the default Google Compute Engine service account
+                            is used. Note: allow_stopping_for_update must be set to
+                            true or your instance must have a desired_status of TERMINATED
+                            in order to update this field.'
                           type: string
+                        emailRef:
+                          description: A Reference to a named object.
+                          properties:
+                            name:
+                              description: Name of the referenced object.
+                              type: string
+                            policy:
+                              description: Policies for referencing.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: Resolution specifies whether resolution
+                                    of this reference is required. The default is
+                                    'Required', which means the reconcile will fail
+                                    if the reference cannot be resolved. 'Optional'
+                                    means this reference will be a no-op if it cannot
+                                    be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: Resolve specifies when this reference
+                                    should be resolved. The default is 'IfNotPresent',
+                                    which will attempt to resolve the reference only
+                                    when the corresponding field is not present. Use
+                                    'Always' to resolve the reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          required:
+                          - name
+                          type: object
+                        emailSelector:
+                          description: A Selector selects an object.
+                          properties:
+                            matchControllerRef:
+                              description: MatchControllerRef ensures an object with
+                                the same controller reference as the selecting object
+                                is selected.
+                              type: boolean
+                            matchLabels:
+                              additionalProperties:
+                                type: string
+                              description: MatchLabels ensures an object with matching
+                                labels is selected.
+                              type: object
+                            policy:
+                              description: Policies for selection.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: Resolution specifies whether resolution
+                                    of this reference is required. The default is
+                                    'Required', which means the reconcile will fail
+                                    if the reference cannot be resolved. 'Optional'
+                                    means this reference will be a no-op if it cannot
+                                    be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: Resolve specifies when this reference
+                                    should be resolved. The default is 'IfNotPresent',
+                                    which will attempt to resolve the reference only
+                                    when the corresponding field is not present. Use
+                                    'Always' to resolve the reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          type: object
                         scopes:
-                          description: A list of service scopes.
+                          description: 'A list of service scopes. Both OAuth2 URLs
+                            and gcloud short names are supported. To allow full access
+                            to all Cloud APIs, use the cloud-platform scope. See a
+                            complete list of scopes here. Note: allow_stopping_for_update
+                            must be set to true or your instance must have a desired_status
+                            of TERMINATED in order to update this field.'
                           items:
                             type: string
                           type: array
@@ -637,30 +813,49 @@ spec:
                       type: object
                     type: array
                   shieldedInstanceConfig:
-                    description: The shielded vm config being used by the instance.
+                    description: 'Enable Shielded VM on this instance. Shielded VM
+                      provides verifiable integrity to prevent against malware and
+                      rootkits. Defaults to disabled. Structure is documented below.
+                      Note: shielded_instance_config can only be used with boot images
+                      with shielded vm support. See the complete list here. Note:
+                      allow_stopping_for_update must be set to true or your instance
+                      must have a desired_status of TERMINATED in order to update
+                      this field.'
                     items:
                       properties:
                         enableIntegrityMonitoring:
-                          description: Whether integrity monitoring is enabled for
-                            the instance.
+                          description: 'Compare the most recent boot measurements
+                            to the integrity policy baseline and return a pair of
+                            pass/fail results depending on whether they match or not.
+                            Defaults to true. Note: allow_stopping_for_update must
+                            be set to true or your instance must have a desired_status
+                            of TERMINATED in order to update this field.'
                           type: boolean
                         enableSecureBoot:
-                          description: Whether secure boot is enabled for the instance.
+                          description: 'Verify the digital signature of all boot components,
+                            and halt the boot process if signature verification fails.
+                            Defaults to false. Note: allow_stopping_for_update must
+                            be set to true or your instance must have a desired_status
+                            of TERMINATED in order to update this field.'
                           type: boolean
                         enableVtpm:
-                          description: Whether the instance uses vTPM.
+                          description: 'Use a virtualized trusted platform module,
+                            which is a specialized computer chip you can use to encrypt
+                            objects like keys and certificates. Defaults to true.
+                            Note: allow_stopping_for_update must be set to true or
+                            your instance must have a desired_status of TERMINATED
+                            in order to update this field.'
                           type: boolean
                       type: object
                     type: array
                   tags:
-                    description: The list of tags attached to the instance.
+                    description: A list of network tags to attach to the instance.
                     items:
                       type: string
                     type: array
                   zone:
-                    description: The zone of the instance. If self_link is provided,
-                      this value is ignored. If neither self_link nor zone are provided,
-                      the provider zone is used.
+                    description: The zone that the machine should be created in. If
+                      it is not provided, the provider zone is used.
                     type: string
                 required:
                 - bootDisk
@@ -845,52 +1040,91 @@ spec:
               atProvider:
                 properties:
                   attachedDisk:
+                    description: Additional disks to attach to the instance. Can be
+                      repeated multiple times for multiple disks. Structure is documented
+                      below.
                     items:
                       properties:
                         diskEncryptionKeySha256:
+                          description: The RFC 4648 base64 encoded SHA-256 hash of
+                            the customer-supplied encryption key that protects this
+                            resource.
                           type: string
                       type: object
                     type: array
                   bootDisk:
+                    description: The boot disk for the instance. Structure is documented
+                      below.
                     items:
                       properties:
                         diskEncryptionKeySha256:
+                          description: The RFC 4648 base64 encoded SHA-256 hash of
+                            the customer-supplied encryption key that protects this
+                            resource.
                           type: string
                       type: object
                     type: array
                   cpuPlatform:
+                    description: The CPU platform used by this instance.
                     type: string
                   currentStatus:
+                    description: Current status of the instance.
                     type: string
                   id:
+                    description: an identifier for the resource with format projects/{{project}}/zones/{{zone}}/instances/{{name}}
                     type: string
                   instanceId:
+                    description: The server-assigned unique identifier of this instance.
                     type: string
                   labelFingerprint:
+                    description: The unique fingerprint of the labels.
                     type: string
                   metadataFingerprint:
+                    description: The unique fingerprint of the metadata.
                     type: string
                   networkInterface:
+                    description: Networks to attach to the instance. This can be specified
+                      multiple times. Structure is documented below.
                     items:
                       properties:
                         ipv6AccessConfig:
+                          description: An array of IPv6 access configurations for
+                            this interface. Currently, only one IPv6 access config,
+                            DIRECT_IPV6, is supported. If there is no ipv6AccessConfig
+                            specified, then this instance will have no external IPv6
+                            Internet access. Structure documented below.
                           items:
                             properties:
                               externalIpv6:
+                                description: The first IPv6 address of the external
+                                  IPv6 range associated with this instance, prefix
+                                  length is stored in externalIpv6PrefixLength in
+                                  ipv6AccessConfig. The field is output only, an IPv6
+                                  address from a subnetwork associated with the instance
+                                  will be allocated dynamically.
                                 type: string
                               externalIpv6PrefixLength:
+                                description: The prefix length of the external IPv6
+                                  range.
                                 type: string
                             type: object
                           type: array
                         ipv6AccessType:
+                          description: One of EXTERNAL, INTERNAL to indicate whether
+                            the IP can be accessed from the Internet. This field is
+                            always inherited from its subnetwork.
                           type: string
                         name:
+                          description: A unique name for the resource, required by
+                            GCE. Changing this forces a new resource to be created.
                           type: string
                       type: object
                     type: array
                   selfLink:
+                    description: The URI of the created resource.
                     type: string
                   tagsFingerprint:
+                    description: The unique fingerprint of the tags.
                     type: string
                 type: object
               conditions:

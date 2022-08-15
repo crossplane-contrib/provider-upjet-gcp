@@ -1544,6 +1544,16 @@ func (in *DiskIAMPolicyParameters) DeepCopyInto(out *DiskIAMPolicyParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.NameRef != nil {
+		in, out := &in.NameRef, &out.NameRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.NameSelector != nil {
+		in, out := &in.NameSelector, &out.NameSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.PolicyData != nil {
 		in, out := &in.PolicyData, &out.PolicyData
 		*out = new(string)
@@ -1907,10 +1917,30 @@ func (in *DiskResourcePolicyAttachmentParameters) DeepCopyInto(out *DiskResource
 		*out = new(string)
 		**out = **in
 	}
+	if in.DiskRef != nil {
+		in, out := &in.DiskRef, &out.DiskRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.DiskSelector != nil {
+		in, out := &in.DiskSelector, &out.DiskSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
 		*out = new(string)
 		**out = **in
+	}
+	if in.NameRef != nil {
+		in, out := &in.NameRef, &out.NameRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.NameSelector != nil {
+		in, out := &in.NameSelector, &out.NameSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.Project != nil {
 		in, out := &in.Project, &out.Project
@@ -2909,6 +2939,16 @@ func (in *GlobalNetworkEndpointParameters) DeepCopyInto(out *GlobalNetworkEndpoi
 		in, out := &in.GlobalNetworkEndpointGroup, &out.GlobalNetworkEndpointGroup
 		*out = new(string)
 		**out = **in
+	}
+	if in.GlobalNetworkEndpointGroupRef != nil {
+		in, out := &in.GlobalNetworkEndpointGroupRef, &out.GlobalNetworkEndpointGroupRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.GlobalNetworkEndpointGroupSelector != nil {
+		in, out := &in.GlobalNetworkEndpointGroupSelector, &out.GlobalNetworkEndpointGroupSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.IPAddress != nil {
 		in, out := &in.IPAddress, &out.IPAddress
@@ -4710,6 +4750,16 @@ func (in *ImageIAMPolicyParameters) DeepCopyInto(out *ImageIAMPolicyParameters) 
 		in, out := &in.Image, &out.Image
 		*out = new(string)
 		**out = **in
+	}
+	if in.ImageRef != nil {
+		in, out := &in.ImageRef, &out.ImageRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ImageSelector != nil {
+		in, out := &in.ImageSelector, &out.ImageSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.PolicyData != nil {
 		in, out := &in.PolicyData, &out.PolicyData
@@ -7012,6 +7062,16 @@ func (in *InstanceIAMPolicyParameters) DeepCopyInto(out *InstanceIAMPolicyParame
 		*out = new(string)
 		**out = **in
 	}
+	if in.InstanceNameRef != nil {
+		in, out := &in.InstanceNameRef, &out.InstanceNameRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.InstanceNameSelector != nil {
+		in, out := &in.InstanceNameSelector, &out.InstanceNameSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.PolicyData != nil {
 		in, out := &in.PolicyData, &out.PolicyData
 		*out = new(string)
@@ -7680,6 +7740,16 @@ func (in *InstanceTemplateDiskParameters) DeepCopyInto(out *InstanceTemplateDisk
 		in, out := &in.SourceImage, &out.SourceImage
 		*out = new(string)
 		**out = **in
+	}
+	if in.SourceRef != nil {
+		in, out := &in.SourceRef, &out.SourceRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.SourceSelector != nil {
+		in, out := &in.SourceSelector, &out.SourceSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
@@ -8441,6 +8511,16 @@ func (in *InstanceTemplateServiceAccountParameters) DeepCopyInto(out *InstanceTe
 		in, out := &in.Email, &out.Email
 		*out = new(string)
 		**out = **in
+	}
+	if in.EmailRef != nil {
+		in, out := &in.EmailRef, &out.EmailRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.EmailSelector != nil {
+		in, out := &in.EmailSelector, &out.EmailSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.Scopes != nil {
 		in, out := &in.Scopes, &out.Scopes
@@ -9460,10 +9540,30 @@ func (in *NetworkEndpointParameters) DeepCopyInto(out *NetworkEndpointParameters
 		*out = new(string)
 		**out = **in
 	}
+	if in.InstanceRef != nil {
+		in, out := &in.InstanceRef, &out.InstanceRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.InstanceSelector != nil {
+		in, out := &in.InstanceSelector, &out.InstanceSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.NetworkEndpointGroup != nil {
 		in, out := &in.NetworkEndpointGroup, &out.NetworkEndpointGroup
 		*out = new(string)
 		**out = **in
+	}
+	if in.NetworkEndpointGroupRef != nil {
+		in, out := &in.NetworkEndpointGroupRef, &out.NetworkEndpointGroupRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.NetworkEndpointGroupSelector != nil {
+		in, out := &in.NetworkEndpointGroupSelector, &out.NetworkEndpointGroupSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.Port != nil {
 		in, out := &in.Port, &out.Port
@@ -11164,6 +11264,16 @@ func (in *ServiceAccountParameters) DeepCopyInto(out *ServiceAccountParameters) 
 		*out = new(string)
 		**out = **in
 	}
+	if in.EmailRef != nil {
+		in, out := &in.EmailRef, &out.EmailRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.EmailSelector != nil {
+		in, out := &in.EmailSelector, &out.EmailSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.Scopes != nil {
 		in, out := &in.Scopes, &out.Scopes
 		*out = make([]*string, len(*in))
@@ -12443,6 +12553,16 @@ func (in *VPNInterfacesParameters) DeepCopyInto(out *VPNInterfacesParameters) {
 		in, out := &in.InterconnectAttachment, &out.InterconnectAttachment
 		*out = new(string)
 		**out = **in
+	}
+	if in.InterconnectAttachmentRef != nil {
+		in, out := &in.InterconnectAttachmentRef, &out.InterconnectAttachmentRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.InterconnectAttachmentSelector != nil {
+		in, out := &in.InterconnectAttachmentSelector, &out.InterconnectAttachmentSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 }
 

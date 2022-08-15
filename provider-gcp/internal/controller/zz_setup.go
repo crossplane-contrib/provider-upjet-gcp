@@ -20,6 +20,11 @@ import (
 	serviceaccountiammember "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/serviceaccountiammember"
 	serviceaccountiampolicy "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/serviceaccountiampolicy"
 	serviceaccountkey "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/serviceaccountkey"
+	domainmapping "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudrun/domainmapping"
+	service "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudrun/service"
+	serviceiambinding "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudrun/serviceiambinding"
+	serviceiammember "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudrun/serviceiammember"
+	serviceiampolicy "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudrun/serviceiampolicy"
 	address "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/address"
 	disk "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/disk"
 	diskiambinding "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/diskiambinding"
@@ -81,6 +86,7 @@ import (
 	instanceredis "github.com/upbound/official-providers/provider-gcp/internal/controller/redis/instance"
 	secret "github.com/upbound/official-providers/provider-gcp/internal/controller/secretmanager/secret"
 	secretversion "github.com/upbound/official-providers/provider-gcp/internal/controller/secretmanager/secretversion"
+	connection "github.com/upbound/official-providers/provider-gcp/internal/controller/servicenetworking/connection"
 	database "github.com/upbound/official-providers/provider-gcp/internal/controller/sql/database"
 	databaseinstance "github.com/upbound/official-providers/provider-gcp/internal/controller/sql/databaseinstance"
 	sourcerepresentationinstance "github.com/upbound/official-providers/provider-gcp/internal/controller/sql/sourcerepresentationinstance"
@@ -105,6 +111,11 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		serviceaccountiammember.Setup,
 		serviceaccountiampolicy.Setup,
 		serviceaccountkey.Setup,
+		domainmapping.Setup,
+		service.Setup,
+		serviceiambinding.Setup,
+		serviceiammember.Setup,
+		serviceiampolicy.Setup,
 		address.Setup,
 		disk.Setup,
 		diskiambinding.Setup,
@@ -166,6 +177,7 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		instanceredis.Setup,
 		secret.Setup,
 		secretversion.Setup,
+		connection.Setup,
 		database.Setup,
 		databaseinstance.Setup,
 		sourcerepresentationinstance.Setup,

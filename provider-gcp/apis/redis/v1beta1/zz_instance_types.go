@@ -26,28 +26,58 @@ import (
 )
 
 type InstanceObservation struct {
+
+	// The time the instance was created in RFC3339 UTC "Zulu" format,
+	// accurate to nanoseconds.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
+	// The current zone where the Redis endpoint is placed.
+	// For Basic Tier instances, this will always be the same as the
+	// [locationId] provided by the user at creation time. For Standard Tier
+	// instances, this can be either [locationId] or [alternativeLocationId]
+	// and can change after a failover event.
 	CurrentLocationID *string `json:"currentLocationId,omitempty" tf:"current_location_id,omitempty"`
 
+	// Hostname or IP address of the exposed Redis endpoint used by clients
+	// to connect to the service.
 	Host *string `json:"host,omitempty" tf:"host,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// Maintenance policy for an instance.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	MaintenancePolicy []MaintenancePolicyObservation `json:"maintenancePolicy,omitempty" tf:"maintenance_policy,omitempty"`
 
+	// Upcoming maintenance schedule.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	MaintenanceSchedule []MaintenanceScheduleObservation `json:"maintenanceSchedule,omitempty" tf:"maintenance_schedule,omitempty"`
 
+	// Output only. Info per node.
+	// Structure is documented below.
 	Nodes []NodesObservation `json:"nodes,omitempty" tf:"nodes,omitempty"`
 
+	// Output only. Cloud IAM identity used by import / export operations
+	// to transfer data to/from Cloud Storage. Format is "serviceAccount:".
+	// The value may change over time for a given instance so should be
+	// checked before each import/export operation.
 	PersistenceIAMIdentity *string `json:"persistenceIamIdentity,omitempty" tf:"persistence_iam_identity,omitempty"`
 
+	// The port number of the exposed Redis endpoint.
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
 
+	// Output only. Hostname or IP address of the exposed readonly Redis endpoint. Standard tier only.
+	// Targets all healthy replica nodes in instance. Replication is asynchronous and replica nodes
+	// will exhibit some lag behind the primary. Write requests must target 'host'.
 	ReadEndpoint *string `json:"readEndpoint,omitempty" tf:"read_endpoint,omitempty"`
 
+	// Output only. The port number of the exposed readonly redis endpoint. Standard tier only.
+	// Write requests should target 'port'.
 	ReadEndpointPort *float64 `json:"readEndpointPort,omitempty" tf:"read_endpoint_port,omitempty"`
 
+	// List of server CA certificates for the instance.
+	// Structure is documented below.
 	ServerCACerts []ServerCACertsObservation `json:"serverCaCerts,omitempty" tf:"server_ca_certs,omitempty"`
 }
 
@@ -72,7 +102,9 @@ type InstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	AuthorizedNetwork *string `json:"authorizedNetwork,omitempty" tf:"authorized_network,omitempty"`
 
-	// The connection mode of the Redis instance. Default value: "DIRECT_PEERING" Possible values: ["DIRECT_PEERING", "PRIVATE_SERVICE_ACCESS"]
+	// The connection mode of the Redis instance.
+	// Default value is DIRECT_PEERING.
+	// Possible values are DIRECT_PEERING and PRIVATE_SERVICE_ACCESS.
 	// +kubebuilder:validation:Optional
 	ConnectMode *string `json:"connectMode,omitempty" tf:"connect_mode,omitempty"`
 
@@ -93,10 +125,12 @@ type InstanceParameters struct {
 	LocationID *string `json:"locationId,omitempty" tf:"location_id,omitempty"`
 
 	// Maintenance policy for an instance.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	MaintenancePolicy []MaintenancePolicyParameters `json:"maintenancePolicy,omitempty" tf:"maintenance_policy,omitempty"`
 
 	// Upcoming maintenance schedule.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	MaintenanceSchedule []MaintenanceScheduleParameters `json:"maintenanceSchedule,omitempty" tf:"maintenance_schedule,omitempty"`
 
@@ -104,15 +138,13 @@ type InstanceParameters struct {
 	// +kubebuilder:validation:Required
 	MemorySizeGb *float64 `json:"memorySizeGb" tf:"memory_size_gb,omitempty"`
 
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Optional. Read replica mode. Can only be specified when trying to create the instance.
 	// If not set, Memorystore Redis backend will default to READ_REPLICAS_DISABLED.
-	// - READ_REPLICAS_DISABLED: If disabled, read endpoint will not be provided and the
-	// instance cannot scale up or down the number of replicas.
-	// - READ_REPLICAS_ENABLED: If enabled, read endpoint will be provided and the instance
-	// can scale up and down the number of replicas. Possible values: ["READ_REPLICAS_DISABLED", "READ_REPLICAS_ENABLED"]
 	// +kubebuilder:validation:Optional
 	ReadReplicasMode *string `json:"readReplicasMode,omitempty" tf:"read_replicas_mode,omitempty"`
 
@@ -155,24 +187,31 @@ type InstanceParameters struct {
 	SecondaryIPRange *string `json:"secondaryIpRange,omitempty" tf:"secondary_ip_range,omitempty"`
 
 	// The service tier of the instance. Must be one of these values:
-	//
-	// - BASIC: standalone instance
-	// - STANDARD_HA: highly available primary/replica instances Default value: "BASIC" Possible values: ["BASIC", "STANDARD_HA"]
 	// +kubebuilder:validation:Optional
 	Tier *string `json:"tier,omitempty" tf:"tier,omitempty"`
 
 	// The TLS mode of the Redis instance, If not provided, TLS is disabled for the instance.
-	//
-	// - SERVER_AUTHENTICATION: Client to Server traffic encryption enabled with server authentication Default value: "DISABLED" Possible values: ["SERVER_AUTHENTICATION", "DISABLED"]
 	// +kubebuilder:validation:Optional
 	TransitEncryptionMode *string `json:"transitEncryptionMode,omitempty" tf:"transit_encryption_mode,omitempty"`
 }
 
 type MaintenancePolicyObservation struct {
+
+	// Output only. The time when the policy was created.
+	// A timestamp in RFC3339 UTC "Zulu" format, with nanosecond
+	// resolution and up to nine fractional digits.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
+	// Output only. The time when the policy was last updated.
+	// A timestamp in RFC3339 UTC "Zulu" format, with nanosecond
+	// resolution and up to nine fractional digits.
 	UpdateTime *string `json:"updateTime,omitempty" tf:"update_time,omitempty"`
 
+	// Optional. Maintenance window that is applied to resources covered by this policy.
+	// Minimum 1. For the current version, the maximum number
+	// of weekly_window is expected to be one.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	WeeklyMaintenanceWindow []WeeklyMaintenanceWindowObservation `json:"weeklyMaintenanceWindow,omitempty" tf:"weekly_maintenance_window,omitempty"`
 }
 
@@ -187,15 +226,27 @@ type MaintenancePolicyParameters struct {
 	// Optional. Maintenance window that is applied to resources covered by this policy.
 	// Minimum 1. For the current version, the maximum number
 	// of weekly_window is expected to be one.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	WeeklyMaintenanceWindow []WeeklyMaintenanceWindowParameters `json:"weeklyMaintenanceWindow,omitempty" tf:"weekly_maintenance_window,omitempty"`
 }
 
 type MaintenanceScheduleObservation struct {
+
+	// Output only. The end time of any upcoming scheduled maintenance for this instance.
+	// A timestamp in RFC3339 UTC "Zulu" format, with nanosecond
+	// resolution and up to nine fractional digits.
 	EndTime *string `json:"endTime,omitempty" tf:"end_time,omitempty"`
 
+	// Output only. The deadline that the maintenance schedule start time
+	// can not go beyond, including reschedule.
+	// A timestamp in RFC3339 UTC "Zulu" format, with nanosecond
+	// resolution and up to nine fractional digits.
 	ScheduleDeadlineTime *string `json:"scheduleDeadlineTime,omitempty" tf:"schedule_deadline_time,omitempty"`
 
+	// Output only. The start time of any upcoming scheduled maintenance for this instance.
+	// A timestamp in RFC3339 UTC "Zulu" format, with nanosecond
+	// resolution and up to nine fractional digits.
 	StartTime *string `json:"startTime,omitempty" tf:"start_time,omitempty"`
 }
 
@@ -205,6 +256,7 @@ type MaintenanceScheduleParameters struct {
 type NodesObservation struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// Location of the node.
 	Zone *string `json:"zone,omitempty" tf:"zone,omitempty"`
 }
 
@@ -212,14 +264,19 @@ type NodesParameters struct {
 }
 
 type ServerCACertsObservation struct {
+
+	// The certificate data in PEM format.
 	Cert *string `json:"cert,omitempty" tf:"cert,omitempty"`
 
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
+	// The time when the certificate expires.
 	ExpireTime *string `json:"expireTime,omitempty" tf:"expire_time,omitempty"`
 
+	// Serial number, as extracted from the certificate.
 	SerialNumber *string `json:"serialNumber,omitempty" tf:"serial_number,omitempty"`
 
+	// Sha1 Fingerprint of the certificate.
 	Sha1Fingerprint *string `json:"sha1Fingerprint,omitempty" tf:"sha1_fingerprint,omitempty"`
 }
 
@@ -251,21 +308,17 @@ type StartTimeParameters struct {
 }
 
 type WeeklyMaintenanceWindowObservation struct {
+
+	// Output only. Duration of the maintenance window.
+	// The current window is fixed at 1 hour.
+	// A duration in seconds with up to nine fractional digits,
+	// terminated by 's'. Example: "3.5s".
 	Duration *string `json:"duration,omitempty" tf:"duration,omitempty"`
 }
 
 type WeeklyMaintenanceWindowParameters struct {
 
 	// Required. The day of week that maintenance updates occur.
-	//
-	// - DAY_OF_WEEK_UNSPECIFIED: The day of the week is unspecified.
-	// - MONDAY: Monday
-	// - TUESDAY: Tuesday
-	// - WEDNESDAY: Wednesday
-	// - THURSDAY: Thursday
-	// - FRIDAY: Friday
-	// - SATURDAY: Saturday
-	// - SUNDAY: Sunday Possible values: ["DAY_OF_WEEK_UNSPECIFIED", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"]
 	// +kubebuilder:validation:Required
 	Day *string `json:"day" tf:"day,omitempty"`
 
@@ -288,7 +341,7 @@ type InstanceStatus struct {
 
 // +kubebuilder:object:root=true
 
-// Instance is the Schema for the Instances API
+// Instance is the Schema for the Instances API. A Google Cloud Redis instance.
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

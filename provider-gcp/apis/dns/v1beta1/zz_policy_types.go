@@ -33,6 +33,7 @@ type AlternativeNameServerConfigParameters struct {
 	// Sets an alternative name server for the associated networks. When specified,
 	// all DNS queries are forwarded to a name server that you choose. Names such as .internal
 	// are not available when an alternative name server is specified.
+	// Structure is documented below.
 	// +kubebuilder:validation:Required
 	TargetNameServers []AlternativeNameServerConfigTargetNameServersParameters `json:"targetNameServers" tf:"target_name_servers,omitempty"`
 }
@@ -42,9 +43,10 @@ type AlternativeNameServerConfigTargetNameServersObservation struct {
 
 type AlternativeNameServerConfigTargetNameServersParameters struct {
 
-	// Forwarding path for this TargetNameServer. If unset or 'default' Cloud DNS will make forwarding
+	// Forwarding path for this TargetNameServer. If unset or default Cloud DNS will make forwarding
 	// decision based on address ranges, i.e. RFC1918 addresses go to the VPC, Non-RFC1918 addresses go
-	// to the Internet. When set to 'private', Cloud DNS will always send queries through VPC for this target Possible values: ["default", "private"]
+	// to the Internet. When set to private, Cloud DNS will always send queries through VPC for this target
+	// Possible values are default and private.
 	// +kubebuilder:validation:Optional
 	ForwardingPath *string `json:"forwardingPath,omitempty" tf:"forwarding_path,omitempty"`
 
@@ -65,8 +67,8 @@ type PolicyNetworksParameters struct {
 	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
 
 	// The id or fully qualified URL of the VPC network to forward queries to.
-	// This should be formatted like 'projects/{project}/global/networks/{network}' or
-	// 'https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}'
+	// This should be formatted like projects/{project}/global/networks/{network} or
+	// https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}
 	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.Network
 	// +crossplane:generate:reference:extractor=github.com/upbound/official-providers/provider-gcp/config/common.ExtractResourceID()
 	// +crossplane:generate:reference:refFieldName=NetworkRef
@@ -76,6 +78,8 @@ type PolicyNetworksParameters struct {
 }
 
 type PolicyObservation struct {
+
+	// an identifier for the resource with format projects/{{project}}/policies/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 }
 
@@ -84,6 +88,7 @@ type PolicyParameters struct {
 	// Sets an alternative name server for the associated networks.
 	// When specified, all DNS queries are forwarded to a name server that you choose.
 	// Names such as .internal are not available when an alternative name server is specified.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	AlternativeNameServerConfig []AlternativeNameServerConfigParameters `json:"alternativeNameServerConfig,omitempty" tf:"alternative_name_server_config,omitempty"`
 
@@ -104,9 +109,12 @@ type PolicyParameters struct {
 	EnableLogging *bool `json:"enableLogging,omitempty" tf:"enable_logging,omitempty"`
 
 	// List of network names specifying networks to which this policy is applied.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Networks []PolicyNetworksParameters `json:"networks,omitempty" tf:"networks,omitempty"`
 
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
@@ -125,7 +133,7 @@ type PolicyStatus struct {
 
 // +kubebuilder:object:root=true
 
-// Policy is the Schema for the Policys API
+// Policy is the Schema for the Policys API. A policy is a collection of DNS rules applied to one or more Virtual Private Cloud resources.
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

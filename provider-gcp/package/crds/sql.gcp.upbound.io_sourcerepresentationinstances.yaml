@@ -36,7 +36,8 @@ spec:
     schema:
       openAPIV3Schema:
         description: SourceRepresentationInstance is the Schema for the SourceRepresentationInstances
-          API
+          API. A source representation instance is a Cloud SQL instance that represents
+          the source database server to the Cloud SQL replica.
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -66,9 +67,9 @@ spec:
               forProvider:
                 properties:
                   databaseVersion:
-                    description: 'The MySQL version running on your source database
-                      server. Possible values: ["MYSQL_5_5", "MYSQL_5_6", "MYSQL_5_7",
-                      "MYSQL_8_0"]'
+                    description: The MySQL version running on your source database
+                      server. Possible values are MYSQL_5_5, MYSQL_5_6, MYSQL_5_7,
+                      and MYSQL_8_0.
                     type: string
                   host:
                     description: The externally accessible IPv4 address for the source
@@ -79,6 +80,8 @@ spec:
                       server. Defaults to 3306.
                     type: number
                   project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
                     type: string
                   region:
                     description: The Region in which the created instance should reside.
@@ -266,6 +269,7 @@ spec:
               atProvider:
                 properties:
                   id:
+                    description: an identifier for the resource with format projects/{{project}}/instances/{{name}}
                     type: string
                 type: object
               conditions:

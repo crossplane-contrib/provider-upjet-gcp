@@ -35,7 +35,8 @@ spec:
     name: v1beta1
     schema:
       openAPIV3Schema:
-        description: Folder is the Schema for the Folders API
+        description: Folder is the Schema for the Folders API. Allows management of
+          a Google Cloud Platform folder.
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -64,7 +65,7 @@ spec:
               forProvider:
                 properties:
                   displayName:
-                    description: The folder's display name. A folder's display name
+                    description: The folder’s display name. A folder’s display name
                       must be unique amongst its siblings, e.g. no two folders with
                       the same parent can share the same display name. The display
                       name must start and end with a letter or digit, may contain
@@ -75,9 +76,81 @@ spec:
                     description: The resource name of the parent Folder or Organization.
                       Must be of the form folders/{folder_id} or organizations/{org_id}.
                     type: string
+                  parentRef:
+                    description: A Reference to a named object.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: Resolution specifies whether resolution of
+                              this reference is required. The default is 'Required',
+                              which means the reconcile will fail if the reference
+                              cannot be resolved. 'Optional' means this reference
+                              will be a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: Resolve specifies when this reference should
+                              be resolved. The default is 'IfNotPresent', which will
+                              attempt to resolve the reference only when the corresponding
+                              field is not present. Use 'Always' to resolve the reference
+                              on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  parentSelector:
+                    description: A Selector selects an object.
+                    properties:
+                      matchControllerRef:
+                        description: MatchControllerRef ensures an object with the
+                          same controller reference as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: Resolution specifies whether resolution of
+                              this reference is required. The default is 'Required',
+                              which means the reconcile will fail if the reference
+                              cannot be resolved. 'Optional' means this reference
+                              will be a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: Resolve specifies when this reference should
+                              be resolved. The default is 'IfNotPresent', which will
+                              attempt to resolve the reference only when the corresponding
+                              field is not present. Use 'Always' to resolve the reference
+                              on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
                 required:
                 - displayName
-                - parent
                 type: object
               providerConfigRef:
                 default:
@@ -256,14 +329,21 @@ spec:
               atProvider:
                 properties:
                   createTime:
+                    description: 'Timestamp when the Folder was created. Assigned
+                      by the server. A timestamp in RFC3339 UTC "Zulu" format, accurate
+                      to nanoseconds. Example: "2014-10-02T15:01:23.045123456Z".'
                     type: string
                   folderId:
+                    description: The folder id from the name "folders/{folder_id}"
                     type: string
                   id:
                     type: string
                   lifecycleState:
+                    description: The lifecycle state of the folder such as ACTIVE
+                      or DELETE_REQUESTED.
                     type: string
                   name:
+                    description: The resource name of the Folder. Its format is folders/{folder_id}.
                     type: string
                 type: object
               conditions:

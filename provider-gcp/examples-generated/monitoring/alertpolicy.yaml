@@ -1,7 +1,9 @@
 apiVersion: monitoring.gcp.upbound.io/v1beta1
 kind: AlertPolicy
 metadata:
-  name: example
+  labels:
+    testing.upbound.io/example-name: alert_policy
+  name: alert-policy
 spec:
   forProvider:
     combiner: OR
@@ -18,3 +20,6 @@ spec:
     displayName: My Alert Policy
     userLabels:
       foo: bar
+
+---
+

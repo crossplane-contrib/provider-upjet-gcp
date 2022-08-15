@@ -1,9 +1,15 @@
 apiVersion: pubsub.gcp.upbound.io/v1beta1
 kind: SubscriptionIAMPolicy
 metadata:
-  name: example
+  labels:
+    testing.upbound.io/example-name: editor
+  name: editor
 spec:
   forProvider:
     policyData: ${data.google_iam_policy.admin.policy_data}
-    subscriptionRef:
-      name: example
+    subscriptionSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+
+---
+

@@ -26,30 +26,57 @@ import (
 )
 
 type ProjectObservation struct {
+
+	// an identifier for the resource with format projects/{{project}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// The numeric identifier of the project.
 	Number *string `json:"number,omitempty" tf:"number,omitempty"`
 }
 
 type ProjectParameters struct {
 
-	// Create the 'default' network automatically.  Default true. If set to false, the default network will be deleted.  Note that, for quota purposes, you will still need to have 1 network slot available to create the project successfully, even if you set auto_create_network to false, since the network will exist momentarily.
+	// Create the 'default' network automatically.  Default true.
+	// If set to false, the default network will be deleted.  Note that, for quota purposes, you
+	// will still need to have 1 network slot available to create the project successfully, even if
+	// you set auto_create_network to false, since the network will exist momentarily.
 	// +kubebuilder:validation:Optional
 	AutoCreateNetwork *bool `json:"autoCreateNetwork,omitempty" tf:"auto_create_network,omitempty"`
 
-	// The alphanumeric ID of the billing account this project belongs to. The user or service account performing this operation with Terraform must have Billing Account Administrator privileges (roles/billing.admin) in the organization. See Google Cloud Billing API Access Control for more details.
+	// The alphanumeric ID of the billing account this project
+	// belongs to. The user or service account performing this operation with Terraform
+	// must have at minimum Billing Account User privileges  on the billing account.
+	// See Google Cloud Billing API Access Control
+	// for more details.
 	// +kubebuilder:validation:Optional
 	BillingAccount *string `json:"billingAccount,omitempty" tf:"billing_account,omitempty"`
 
-	// The numeric ID of the folder this project should be created under. Only one of org_id or folder_id may be specified. If the folder_id is specified, then the project is created under the specified folder. Changing this forces the project to be migrated to the newly specified folder.
+	// The numeric ID of the folder this project should be
+	// created under. Only one of org_id or folder_id may be
+	// specified. If the folder_id is specified, then the project is
+	// created under the specified folder. Changing this forces the
+	// project to be migrated to the newly specified folder.
+	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/cloudplatform/v1beta1.Folder
+	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractParamPath("name",true)
 	// +kubebuilder:validation:Optional
 	FolderID *string `json:"folderId,omitempty" tf:"folder_id,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	FolderIDRef *v1.Reference `json:"folderIdRef,omitempty" tf:"-"`
+
+	// +kubebuilder:validation:Optional
+	FolderIDSelector *v1.Selector `json:"folderIdSelector,omitempty" tf:"-"`
 
 	// A set of key/value label pairs to assign to the project.
 	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The numeric ID of the organization this project belongs to.
+	// Changing this forces a new project to be created.  Only one of
+	// org_id or folder_id may be specified. If the org_id is
+	// specified then the project is created at the top level. Changing
+	// this forces the project to be migrated to the newly specified
+	// organization.
 	// +kubebuilder:validation:Optional
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
 
@@ -57,7 +84,8 @@ type ProjectParameters struct {
 	// +kubebuilder:validation:Required
 	ProjectID *string `json:"projectId" tf:"project_id,omitempty"`
 
-	// If true, the Terraform resource can be deleted without deleting the Project via the Google API.
+	// If true, the Terraform resource can be deleted
+	// without deleting the Project via the Google API.
 	// +kubebuilder:validation:Optional
 	SkipDelete *bool `json:"skipDelete,omitempty" tf:"skip_delete,omitempty"`
 }
@@ -76,7 +104,7 @@ type ProjectStatus struct {
 
 // +kubebuilder:object:root=true
 
-// Project is the Schema for the Projects API
+// Project is the Schema for the Projects API. Allows management of a Google Cloud Platform project.
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

@@ -32,8 +32,7 @@ type MessageStoragePolicyParameters struct {
 
 	// A list of IDs of GCP regions where messages that are published to
 	// the topic may be persisted in storage. Messages published by
-	// publishers running in non-allowed GCP regions (or running outside
-	// of GCP altogether) will be routed for storage in one of the
+	// publishers running in non-allowed GCP regions  will be routed for storage in one of the
 	// allowed regions. An empty list means that no regions are allowed,
 	// and is not a valid configuration.
 	// +kubebuilder:validation:Required
@@ -45,19 +44,23 @@ type SchemaSettingsObservation struct {
 
 type SchemaSettingsParameters struct {
 
-	// The encoding of messages validated against schema. Default value: "ENCODING_UNSPECIFIED" Possible values: ["ENCODING_UNSPECIFIED", "JSON", "BINARY"]
+	// The encoding of messages validated against schema.
+	// Default value is ENCODING_UNSPECIFIED.
+	// Possible values are ENCODING_UNSPECIFIED, JSON, and BINARY.
 	// +kubebuilder:validation:Optional
 	Encoding *string `json:"encoding,omitempty" tf:"encoding,omitempty"`
 
 	// The name of the schema that messages published should be
 	// validated against. Format is projects/{project}/schemas/{schema}.
-	// The value of this field will be _deleted-schema_
+	// The value of this field will be deleted-schema
 	// if the schema has been deleted.
 	// +kubebuilder:validation:Required
 	Schema *string `json:"schema" tf:"schema,omitempty"`
 }
 
 type TopicObservation struct {
+
+	// an identifier for the resource with format projects/{{project}}/topics/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 }
 
@@ -65,9 +68,9 @@ type TopicParameters struct {
 
 	// The resource name of the Cloud KMS CryptoKey to be used to protect access
 	// to messages published on this topic. Your project's PubSub service account
-	// ('service-{{PROJECT_NUMBER}}@gcp-sa-pubsub.iam.gserviceaccount.com') must have
-	// 'roles/cloudkms.cryptoKeyEncrypterDecrypter' to use this feature.
-	// The expected format is 'projects/*/locations/*/keyRings/*/cryptoKeys/*'
+	// must have
+	// roles/cloudkms.cryptoKeyEncrypterDecrypter to use this feature.
+	// The expected format is projects/*/locations/*/keyRings/*/cryptoKeys/*
 	// +kubebuilder:validation:Optional
 	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
 
@@ -88,13 +91,17 @@ type TopicParameters struct {
 	// Policy constraining the set of Google Cloud Platform regions where
 	// messages published to the topic may be stored. If not present, then no
 	// constraints are in effect.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	MessageStoragePolicy []MessageStoragePolicyParameters `json:"messageStoragePolicy,omitempty" tf:"message_storage_policy,omitempty"`
 
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Settings for validating messages published against a schema.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	SchemaSettings []SchemaSettingsParameters `json:"schemaSettings,omitempty" tf:"schema_settings,omitempty"`
 }
@@ -113,7 +120,7 @@ type TopicStatus struct {
 
 // +kubebuilder:object:root=true
 
-// Topic is the Schema for the Topics API
+// Topic is the Schema for the Topics API. A named resource to which messages are sent by publishers.
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

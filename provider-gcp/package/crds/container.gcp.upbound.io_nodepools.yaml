@@ -35,7 +35,8 @@ spec:
     name: v1beta1
     schema:
       openAPIV3Schema:
-        description: NodePool is the Schema for the NodePools API
+        description: NodePool is the Schema for the NodePools API. Manages a GKE NodePool
+          resource.
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -65,7 +66,8 @@ spec:
                 properties:
                   autoscaling:
                     description: Configuration required by cluster autoscaler to adjust
-                      the size of the node pool to the current cluster usage.
+                      the size of the node pool to the current cluster usage. Structure
+                      is documented below.
                     items:
                       properties:
                         maxNodeCount:
@@ -83,7 +85,9 @@ spec:
                     type: array
                   cluster:
                     description: The cluster to create the node pool for. Cluster
-                      must be present in location provided for zonal clusters.
+                      must be present in location provided for clusters. May be specified
+                      in the format projects/{{project}}/locations/{{location}}/clusters/{{cluster}}
+                      or as just the name of the cluster.
                     type: string
                   clusterRef:
                     description: A Reference to a named object.
@@ -159,16 +163,21 @@ spec:
                         type: object
                     type: object
                   initialNodeCount:
-                    description: The initial number of nodes for the pool. In regional
+                    description: 'The initial number of nodes for the pool. In regional
                       or multi-zonal clusters, this is the number of nodes per zone.
-                      Changing this will force recreation of the resource.
+                      Changing this will force recreation of the resource. WARNING:
+                      Resizing your node pool manually may change this value in your
+                      existing cluster, which will trigger destruction and recreation
+                      on the next Terraform run .  If you don''t need this value,
+                      don''t set it.  If you do need it, you can use a lifecycle block
+                      to ignore subsequent changes to this field.'
                     type: number
                   location:
-                    description: The location (region or zone) of the cluster.
+                    description: The location  of the cluster.
                     type: string
                   management:
                     description: Node management configuration, wherein auto-repair
-                      and auto-upgrade is configured.
+                      and auto-upgrade is configured. Structure is documented below.
                     items:
                       properties:
                         autoRepair:
@@ -183,10 +192,12 @@ spec:
                     description: The maximum number of pods per node in this node
                       pool. Note that this does not work on node pools which are "route-based"
                       - that is, node pools belonging to clusters that do not have
-                      IP Aliasing enabled.
+                      IP Aliasing enabled. See the official documentation for more
+                      information.
                     type: number
                   nodeConfig:
-                    description: The configuration of the nodepool
+                    description: Parameters used in creating the node pool. See google_container_cluster
+                      for schema.
                     items:
                       properties:
                         bootDiskKmsKey:
@@ -223,6 +234,11 @@ spec:
                               gpuPartitionSize:
                                 type: string
                               type:
+                                description: 'The type of the policy. Supports a single
+                                  value: COMPACT. Specifying COMPACT placement policy
+                                  type places node pool''s nodes in a closer physical
+                                  proximity in order to reduce network latency between
+                                  nodes.'
                                 type: string
                             type: object
                           type: array
@@ -288,6 +304,82 @@ spec:
                           description: The Google Cloud Platform Service Account to
                             be used by the node VMs.
                           type: string
+                        serviceAccountRef:
+                          description: A Reference to a named object.
+                          properties:
+                            name:
+                              description: Name of the referenced object.
+                              type: string
+                            policy:
+                              description: Policies for referencing.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: Resolution specifies whether resolution
+                                    of this reference is required. The default is
+                                    'Required', which means the reconcile will fail
+                                    if the reference cannot be resolved. 'Optional'
+                                    means this reference will be a no-op if it cannot
+                                    be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: Resolve specifies when this reference
+                                    should be resolved. The default is 'IfNotPresent',
+                                    which will attempt to resolve the reference only
+                                    when the corresponding field is not present. Use
+                                    'Always' to resolve the reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          required:
+                          - name
+                          type: object
+                        serviceAccountSelector:
+                          description: A Selector selects an object.
+                          properties:
+                            matchControllerRef:
+                              description: MatchControllerRef ensures an object with
+                                the same controller reference as the selecting object
+                                is selected.
+                              type: boolean
+                            matchLabels:
+                              additionalProperties:
+                                type: string
+                              description: MatchLabels ensures an object with matching
+                                labels is selected.
+                              type: object
+                            policy:
+                              description: Policies for selection.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: Resolution specifies whether resolution
+                                    of this reference is required. The default is
+                                    'Required', which means the reconcile will fail
+                                    if the reference cannot be resolved. 'Optional'
+                                    means this reference will be a no-op if it cannot
+                                    be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: Resolve specifies when this reference
+                                    should be resolved. The default is 'IfNotPresent',
+                                    which will attempt to resolve the reference only
+                                    when the corresponding field is not present. Use
+                                    'Always' to resolve the reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          type: object
                         shieldedInstanceConfig:
                           description: Shielded Instance options.
                           items:
@@ -358,7 +450,7 @@ spec:
                       nodes GKE attempts to upgrade at once. The number of nodes upgraded
                       simultaneously is the sum of max_surge and max_unavailable.
                       The maximum number of nodes upgraded simultaneously is limited
-                      to 20.
+                      to 20. Structure is documented below.
                     items:
                       properties:
                         maxSurge:
@@ -567,12 +659,17 @@ spec:
               atProvider:
                 properties:
                   id:
+                    description: an identifier for the resource with format {{project}}/{{location}}/{{cluster}}/{{name}}
                     type: string
                   instanceGroupUrls:
+                    description: The resource URLs of the managed instance groups
+                      associated with this node pool.
                     items:
                       type: string
                     type: array
                   managedInstanceGroupUrls:
+                    description: List of instance group URLs which have been assigned
+                      to this node pool.
                     items:
                       type: string
                     type: array

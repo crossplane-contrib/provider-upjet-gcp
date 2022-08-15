@@ -34,12 +34,15 @@ type RouterNATLogConfigParameters struct {
 	// +kubebuilder:validation:Required
 	Enable *bool `json:"enable" tf:"enable,omitempty"`
 
-	// Specifies the desired filtering of logs on this NAT. Possible values: ["ERRORS_ONLY", "TRANSLATIONS_ONLY", "ALL"]
+	// Specifies the desired filtering of logs on this NAT.
+	// Possible values are ERRORS_ONLY, TRANSLATIONS_ONLY, and ALL.
 	// +kubebuilder:validation:Required
 	Filter *string `json:"filter" tf:"filter,omitempty"`
 }
 
 type RouterNATObservation struct {
+
+	// an identifier for the resource with format {{project}}/{{region}}/{{router}}/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 }
 
@@ -53,21 +56,21 @@ type RouterNATParameters struct {
 	// Enable Dynamic Port Allocation.
 	// If minPorts is set, minPortsPerVm must be set to a power of two greater than or equal to 32.
 	// If minPortsPerVm is not set, a minimum of 32 ports will be allocated to a VM from this NAT config.
-	//
 	// Mutually exclusive with enableEndpointIndependentMapping.
 	// +kubebuilder:validation:Optional
 	EnableDynamicPortAllocation *bool `json:"enableDynamicPortAllocation,omitempty" tf:"enable_dynamic_port_allocation,omitempty"`
 
 	// Specifies if endpoint independent mapping is enabled. This is enabled by default. For more information
-	// see the [official documentation](https://cloud.google.com/nat/docs/overview#specs-rfcs).
+	// see the official documentation.
 	// +kubebuilder:validation:Optional
 	EnableEndpointIndependentMapping *bool `json:"enableEndpointIndependentMapping,omitempty" tf:"enable_endpoint_independent_mapping,omitempty"`
 
-	// Timeout (in seconds) for ICMP connections. Defaults to 30s if not set.
+	// Timeout  for ICMP connections. Defaults to 30s if not set.
 	// +kubebuilder:validation:Optional
 	IcmpIdleTimeoutSec *float64 `json:"icmpIdleTimeoutSec,omitempty" tf:"icmp_idle_timeout_sec,omitempty"`
 
 	// Configuration for logging on NAT
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	LogConfig []RouterNATLogConfigParameters `json:"logConfig,omitempty" tf:"log_config,omitempty"`
 
@@ -76,8 +79,9 @@ type RouterNATParameters struct {
 	MinPortsPerVM *float64 `json:"minPortsPerVm,omitempty" tf:"min_ports_per_vm,omitempty"`
 
 	// How external IPs should be allocated for this NAT. Valid values are
-	// 'AUTO_ONLY' for only allowing NAT IPs allocated by Google Cloud
-	// Platform, or 'MANUAL_ONLY' for only user-allocated NAT IP addresses. Possible values: ["MANUAL_ONLY", "AUTO_ONLY"]
+	// AUTO_ONLY for only allowing NAT IPs allocated by Google Cloud
+	// Platform, or MANUAL_ONLY for only user-allocated NAT IP addresses.
+	// Possible values are MANUAL_ONLY and AUTO_ONLY.
 	// +kubebuilder:validation:Required
 	NATIPAllocateOption *string `json:"natIpAllocateOption" tf:"nat_ip_allocate_option,omitempty"`
 
@@ -86,6 +90,8 @@ type RouterNATParameters struct {
 	// +kubebuilder:validation:Optional
 	NATIps []*string `json:"natIps,omitempty" tf:"nat_ips,omitempty"`
 
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
@@ -105,34 +111,36 @@ type RouterNATParameters struct {
 	RouterSelector *v1.Selector `json:"routerSelector,omitempty" tf:"-"`
 
 	// How NAT should be configured per Subnetwork.
-	// If 'ALL_SUBNETWORKS_ALL_IP_RANGES', all of the
+	// If ALL_SUBNETWORKS_ALL_IP_RANGES, all of the
 	// IP ranges in every Subnetwork are allowed to Nat.
-	// If 'ALL_SUBNETWORKS_ALL_PRIMARY_IP_RANGES', all of the primary IP
+	// If ALL_SUBNETWORKS_ALL_PRIMARY_IP_RANGES, all of the primary IP
 	// ranges in every Subnetwork are allowed to Nat.
-	// 'LIST_OF_SUBNETWORKS': A list of Subnetworks are allowed to Nat
-	// (specified in the field subnetwork below). Note that if this field
+	// LIST_OF_SUBNETWORKS: A list of Subnetworks are allowed to Nat
+	// . Note that if this field
 	// contains ALL_SUBNETWORKS_ALL_IP_RANGES or
 	// ALL_SUBNETWORKS_ALL_PRIMARY_IP_RANGES, then there should not be any
-	// other RouterNat section in any Router for this network in this region. Possible values: ["ALL_SUBNETWORKS_ALL_IP_RANGES", "ALL_SUBNETWORKS_ALL_PRIMARY_IP_RANGES", "LIST_OF_SUBNETWORKS"]
+	// other RouterNat section in any Router for this network in this region.
+	// Possible values are ALL_SUBNETWORKS_ALL_IP_RANGES, ALL_SUBNETWORKS_ALL_PRIMARY_IP_RANGES, and LIST_OF_SUBNETWORKS.
 	// +kubebuilder:validation:Required
 	SourceSubnetworkIPRangesToNAT *string `json:"sourceSubnetworkIpRangesToNat" tf:"source_subnetwork_ip_ranges_to_nat,omitempty"`
 
 	// One or more subnetwork NAT configurations. Only used if
-	// 'source_subnetwork_ip_ranges_to_nat' is set to 'LIST_OF_SUBNETWORKS'
+	// source_subnetwork_ip_ranges_to_nat is set to LIST_OF_SUBNETWORKS
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Subnetwork []SubnetworkParameters `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 
-	// Timeout (in seconds) for TCP established connections.
+	// Timeout  for TCP established connections.
 	// Defaults to 1200s if not set.
 	// +kubebuilder:validation:Optional
 	TCPEstablishedIdleTimeoutSec *float64 `json:"tcpEstablishedIdleTimeoutSec,omitempty" tf:"tcp_established_idle_timeout_sec,omitempty"`
 
-	// Timeout (in seconds) for TCP transitory connections.
+	// Timeout  for TCP transitory connections.
 	// Defaults to 30s if not set.
 	// +kubebuilder:validation:Optional
 	TCPTransitoryIdleTimeoutSec *float64 `json:"tcpTransitoryIdleTimeoutSec,omitempty" tf:"tcp_transitory_idle_timeout_sec,omitempty"`
 
-	// Timeout (in seconds) for UDP connections. Defaults to 30s if not set.
+	// Timeout  for UDP connections. Defaults to 30s if not set.
 	// +kubebuilder:validation:Optional
 	UDPIdleTimeoutSec *float64 `json:"udpIdleTimeoutSec,omitempty" tf:"udp_idle_timeout_sec,omitempty"`
 }
@@ -155,15 +163,15 @@ type SubnetworkParameters struct {
 
 	// List of the secondary ranges of the subnetwork that are allowed
 	// to use NAT. This can be populated only if
-	// 'LIST_OF_SECONDARY_IP_RANGES' is one of the values in
+	// LIST_OF_SECONDARY_IP_RANGES is one of the values in
 	// sourceIpRangesToNat
 	// +kubebuilder:validation:Optional
 	SecondaryIPRangeNames []*string `json:"secondaryIpRangeNames,omitempty" tf:"secondary_ip_range_names,omitempty"`
 
 	// List of options for which source IPs in the subnetwork
 	// should have NAT enabled. Supported values include:
-	// 'ALL_IP_RANGES', 'LIST_OF_SECONDARY_IP_RANGES',
-	// 'PRIMARY_IP_RANGE'.
+	// ALL_IP_RANGES, LIST_OF_SECONDARY_IP_RANGES,
+	// PRIMARY_IP_RANGE.
 	// +kubebuilder:validation:Required
 	SourceIPRangesToNAT []*string `json:"sourceIpRangesToNat" tf:"source_ip_ranges_to_nat,omitempty"`
 }
@@ -182,7 +190,7 @@ type RouterNATStatus struct {
 
 // +kubebuilder:object:root=true
 
-// RouterNAT is the Schema for the RouterNATs API
+// RouterNAT is the Schema for the RouterNATs API. A NAT service created in a router.
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

@@ -26,31 +26,48 @@ import (
 )
 
 type NetworkEndpointObservation struct {
+
+	// an identifier for the resource with format {{project}}/{{zone}}/{{network_endpoint_group}}/{{instance}}/{{ip_address}}/{{port}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 }
 
 type NetworkEndpointParameters struct {
 
 	// IPv4 address of network endpoint. The IP address must belong
-	// to a VM in GCE (either the primary IP or as part of an aliased IP
-	// range).
+	// to a VM in GCE .
 	// +kubebuilder:validation:Required
 	IPAddress *string `json:"ipAddress" tf:"ip_address,omitempty"`
 
 	// The name for a specific VM instance that the IP address belongs to.
 	// This is required for network endpoints of type GCE_VM_IP_PORT.
 	// The instance must be in the same zone of network endpoint group.
+	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.Instance
 	// +kubebuilder:validation:Optional
 	Instance *string `json:"instance,omitempty" tf:"instance,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	InstanceRef *v1.Reference `json:"instanceRef,omitempty" tf:"-"`
+
+	// +kubebuilder:validation:Optional
+	InstanceSelector *v1.Selector `json:"instanceSelector,omitempty" tf:"-"`
+
 	// The network endpoint group this endpoint is part of.
-	// +kubebuilder:validation:Required
-	NetworkEndpointGroup *string `json:"networkEndpointGroup" tf:"network_endpoint_group,omitempty"`
+	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.NetworkEndpointGroup
+	// +kubebuilder:validation:Optional
+	NetworkEndpointGroup *string `json:"networkEndpointGroup,omitempty" tf:"network_endpoint_group,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	NetworkEndpointGroupRef *v1.Reference `json:"networkEndpointGroupRef,omitempty" tf:"-"`
+
+	// +kubebuilder:validation:Optional
+	NetworkEndpointGroupSelector *v1.Selector `json:"networkEndpointGroupSelector,omitempty" tf:"-"`
 
 	// Port number of network endpoint.
 	// +kubebuilder:validation:Required
 	Port *float64 `json:"port" tf:"port,omitempty"`
 
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
@@ -73,7 +90,7 @@ type NetworkEndpointStatus struct {
 
 // +kubebuilder:object:root=true
 
-// NetworkEndpoint is the Schema for the NetworkEndpoints API
+// NetworkEndpoint is the Schema for the NetworkEndpoints API. A Network endpoint represents a IP address and port combination that is part of a specific network endpoint group (NEG).
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

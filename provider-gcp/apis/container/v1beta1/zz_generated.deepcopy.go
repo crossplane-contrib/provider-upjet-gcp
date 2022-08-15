@@ -2086,6 +2086,16 @@ func (in *NodeConfigParameters) DeepCopyInto(out *NodeConfigParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.ServiceAccountRef != nil {
+		in, out := &in.ServiceAccountRef, &out.ServiceAccountRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ServiceAccountSelector != nil {
+		in, out := &in.ServiceAccountSelector, &out.ServiceAccountSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.ShieldedInstanceConfig != nil {
 		in, out := &in.ShieldedInstanceConfig, &out.ShieldedInstanceConfig
 		*out = make([]ShieldedInstanceConfigParameters, len(*in))
@@ -2807,6 +2817,16 @@ func (in *NodePoolNodeConfigParameters_2) DeepCopyInto(out *NodePoolNodeConfigPa
 		in, out := &in.ServiceAccount, &out.ServiceAccount
 		*out = new(string)
 		**out = **in
+	}
+	if in.ServiceAccountRef != nil {
+		in, out := &in.ServiceAccountRef, &out.ServiceAccountRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ServiceAccountSelector != nil {
+		in, out := &in.ServiceAccountSelector, &out.ServiceAccountSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.ShieldedInstanceConfig != nil {
 		in, out := &in.ShieldedInstanceConfig, &out.ShieldedInstanceConfig

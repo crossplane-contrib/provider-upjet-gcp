@@ -5,6 +5,7 @@ import (
 	_ "embed"
 
 	tjconfig "github.com/upbound/upjet/pkg/config"
+	"github.com/upbound/upjet/pkg/registry/reference"
 	"github.com/upbound/upjet/pkg/types/name"
 
 	"github.com/upbound/official-providers/provider-gcp/config/accessapproval"
@@ -12,6 +13,7 @@ import (
 	"github.com/upbound/official-providers/provider-gcp/config/cloudfunctions"
 	"github.com/upbound/official-providers/provider-gcp/config/cloudiot"
 	"github.com/upbound/official-providers/provider-gcp/config/cloudplatform"
+	"github.com/upbound/official-providers/provider-gcp/config/cloudrun"
 	"github.com/upbound/official-providers/provider-gcp/config/compute"
 	"github.com/upbound/official-providers/provider-gcp/config/container"
 	"github.com/upbound/official-providers/provider-gcp/config/dataflow"
@@ -21,6 +23,7 @@ import (
 	"github.com/upbound/official-providers/provider-gcp/config/pubsub"
 	"github.com/upbound/official-providers/provider-gcp/config/redis"
 	"github.com/upbound/official-providers/provider-gcp/config/secretmanager"
+	"github.com/upbound/official-providers/provider-gcp/config/servicenetworking"
 	"github.com/upbound/official-providers/provider-gcp/config/sql"
 	"github.com/upbound/official-providers/provider-gcp/config/storage"
 )
@@ -59,6 +62,7 @@ func GetProvider() *tjconfig.Provider {
 		tjconfig.WithShortName("gcp"),
 		// Comment out the following line to generate all resources.
 		tjconfig.WithIncludeList(resourcesWithExternalNameConfig()),
+		tjconfig.WithReferenceInjectors([]tjconfig.ReferenceInjector{reference.NewInjector(modulePath)}),
 		tjconfig.WithSkipList(skipList))
 
 	for _, configure := range []func(provider *tjconfig.Provider){
@@ -67,6 +71,7 @@ func GetProvider() *tjconfig.Provider {
 		cloudfunctions.Configure,
 		cloudiot.Configure,
 		cloudplatform.Configure,
+		cloudrun.Configure,
 		container.Configure,
 		compute.Configure,
 		dataflow.Configure,
@@ -76,6 +81,7 @@ func GetProvider() *tjconfig.Provider {
 		pubsub.Configure,
 		redis.Configure,
 		secretmanager.Configure,
+		servicenetworking.Configure,
 		storage.Configure,
 		sql.Configure,
 		redis.Configure,

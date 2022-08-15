@@ -35,7 +35,8 @@ spec:
     name: v1beta1
     schema:
       openAPIV3Schema:
-        description: Policy is the Schema for the Policys API
+        description: Policy is the Schema for the Policys API. A policy is a collection
+          of DNS rules applied to one or more Virtual Private Cloud resources.
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -67,7 +68,8 @@ spec:
                     description: Sets an alternative name server for the associated
                       networks. When specified, all DNS queries are forwarded to a
                       name server that you choose. Names such as .internal are not
-                      available when an alternative name server is specified.
+                      available when an alternative name server is specified. Structure
+                      is documented below.
                     items:
                       properties:
                         targetNameServers:
@@ -75,16 +77,17 @@ spec:
                             networks. When specified, all DNS queries are forwarded
                             to a name server that you choose. Names such as .internal
                             are not available when an alternative name server is specified.
+                            Structure is documented below.
                           items:
                             properties:
                               forwardingPath:
-                                description: 'Forwarding path for this TargetNameServer.
-                                  If unset or ''default'' Cloud DNS will make forwarding
+                                description: Forwarding path for this TargetNameServer.
+                                  If unset or default Cloud DNS will make forwarding
                                   decision based on address ranges, i.e. RFC1918 addresses
                                   go to the VPC, Non-RFC1918 addresses go to the Internet.
-                                  When set to ''private'', Cloud DNS will always send
-                                  queries through VPC for this target Possible values:
-                                  ["default", "private"]'
+                                  When set to private, Cloud DNS will always send
+                                  queries through VPC for this target Possible values
+                                  are default and private.
                                 type: string
                               ipv4Address:
                                 description: IPv4 address to forward to.
@@ -113,7 +116,7 @@ spec:
                     type: boolean
                   networks:
                     description: List of network names specifying networks to which
-                      this policy is applied.
+                      this policy is applied. Structure is documented below.
                     items:
                       properties:
                         networkRef:
@@ -194,12 +197,14 @@ spec:
                           type: object
                         networkUrl:
                           description: The id or fully qualified URL of the VPC network
-                            to forward queries to. This should be formatted like 'projects/{project}/global/networks/{network}'
-                            or 'https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}'
+                            to forward queries to. This should be formatted like projects/{project}/global/networks/{network}
+                            or https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}
                           type: string
                       type: object
                     type: array
                   project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
                     type: string
                 type: object
               providerConfigRef:
@@ -379,6 +384,7 @@ spec:
               atProvider:
                 properties:
                   id:
+                    description: an identifier for the resource with format projects/{{project}}/policies/{{name}}
                     type: string
                 type: object
               conditions:

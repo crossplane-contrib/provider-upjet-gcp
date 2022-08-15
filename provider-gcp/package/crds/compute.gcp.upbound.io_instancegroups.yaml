@@ -35,7 +35,8 @@ spec:
     name: v1beta1
     schema:
       openAPIV3Schema:
-        description: InstanceGroup is the Schema for the InstanceGroups API
+        description: InstanceGroup is the Schema for the InstanceGroups API. Manages
+          an Instance Group within GCE.
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -68,13 +69,14 @@ spec:
                     type: string
                   instances:
                     description: List of instances in the group. They should be given
-                      as self_link URLs. When adding instances they must all be in
-                      the same network and zone as the instance group.
+                      as either self_link or id. When adding instances they must all
+                      be in the same network and zone as the instance group.
                     items:
                       type: string
                     type: array
                   namedPort:
-                    description: The named port configuration.
+                    description: The named port configuration. See the section below
+                      for details on configuration. Structure is documented below.
                     items:
                       properties:
                         name:
@@ -92,8 +94,7 @@ spec:
                     description: The URL of the network the instance group is in.
                       If this is different from the network where the instances are
                       in, the creation fails. Defaults to the network where the instances
-                      are in (if neither network nor instances is specified, this
-                      field will be blank).
+                      are in .
                     type: string
                   networkRef:
                     description: A Reference to a named object.
@@ -356,10 +357,13 @@ spec:
               atProvider:
                 properties:
                   id:
+                    description: an identifier for the resource with format projects/{{project}/zones/{{zone}}/instanceGroups/{{name}}
                     type: string
                   selfLink:
+                    description: The URI of the created resource.
                     type: string
                   size:
+                    description: The number of instances in the group.
                     type: number
                 type: object
               conditions:

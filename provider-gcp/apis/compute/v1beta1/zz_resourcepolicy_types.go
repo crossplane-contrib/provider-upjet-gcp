@@ -46,7 +46,8 @@ type DayOfWeeksObservation struct {
 
 type DayOfWeeksParameters struct {
 
-	// The day of the week to create the snapshot. e.g. MONDAY Possible values: ["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"]
+	// The day of the week to create the snapshot. e.g. MONDAY
+	// Possible values are MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, and SUNDAY.
 	// +kubebuilder:validation:Required
 	Day *string `json:"day" tf:"day,omitempty"`
 
@@ -67,9 +68,10 @@ type GroupPlacementPolicyParameters struct {
 	AvailabilityDomainCount *float64 `json:"availabilityDomainCount,omitempty" tf:"availability_domain_count,omitempty"`
 
 	// Collocation specifies whether to place VMs inside the same availability domain on the same low-latency network.
-	// Specify 'COLLOCATED' to enable collocation. Can only be specified with 'vm_count'. If compute instances are created
-	// with a COLLOCATED policy, then exactly 'vm_count' instances must be created at the same time with the resource policy
-	// attached. Possible values: ["COLLOCATED"]
+	// Specify COLLOCATED to enable collocation. Can only be specified with vm_count. If compute instances are created
+	// with a COLLOCATED policy, then exactly vm_count instances must be created at the same time with the resource policy
+	// attached.
+	// Possible values are COLLOCATED.
 	// +kubebuilder:validation:Optional
 	Collocation *string `json:"collocation,omitempty" tf:"collocation,omitempty"`
 
@@ -114,17 +116,22 @@ type InstanceSchedulePolicyParameters struct {
 	TimeZone *string `json:"timeZone" tf:"time_zone,omitempty"`
 
 	// Specifies the schedule for starting instances.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	VMStartSchedule []VMStartScheduleParameters `json:"vmStartSchedule,omitempty" tf:"vm_start_schedule,omitempty"`
 
 	// Specifies the schedule for stopping instances.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	VMStopSchedule []VMStopScheduleParameters `json:"vmStopSchedule,omitempty" tf:"vm_stop_schedule,omitempty"`
 }
 
 type ResourcePolicyObservation struct {
+
+	// an identifier for the resource with format projects/{{project}}/regions/{{region}}/resourcePolicies/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
 }
 
@@ -135,13 +142,17 @@ type ResourcePolicyParameters struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Resource policy for instances used for placement configuration.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	GroupPlacementPolicy []GroupPlacementPolicyParameters `json:"groupPlacementPolicy,omitempty" tf:"group_placement_policy,omitempty"`
 
 	// Resource policy for scheduling instance operations.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	InstanceSchedulePolicy []InstanceSchedulePolicyParameters `json:"instanceSchedulePolicy,omitempty" tf:"instance_schedule_policy,omitempty"`
 
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
@@ -150,6 +161,7 @@ type ResourcePolicyParameters struct {
 	Region *string `json:"region" tf:"region,omitempty"`
 
 	// Policy for creating snapshots of persistent disks.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	SnapshotSchedulePolicy []SnapshotSchedulePolicyParameters `json:"snapshotSchedulePolicy,omitempty" tf:"snapshot_schedule_policy,omitempty"`
 }
@@ -164,7 +176,9 @@ type RetentionPolicyParameters struct {
 	MaxRetentionDays *float64 `json:"maxRetentionDays" tf:"max_retention_days,omitempty"`
 
 	// Specifies the behavior to apply to scheduled snapshots when
-	// the source disk is deleted. Default value: "KEEP_AUTO_SNAPSHOTS" Possible values: ["KEEP_AUTO_SNAPSHOTS", "APPLY_RETENTION_POLICY"]
+	// the source disk is deleted.
+	// Default value is KEEP_AUTO_SNAPSHOTS.
+	// Possible values are KEEP_AUTO_SNAPSHOTS and APPLY_RETENTION_POLICY.
 	// +kubebuilder:validation:Optional
 	OnSourceDiskDelete *string `json:"onSourceDiskDelete,omitempty" tf:"on_source_disk_delete,omitempty"`
 }
@@ -175,14 +189,17 @@ type ScheduleObservation struct {
 type ScheduleParameters struct {
 
 	// The policy will execute every nth day at the specified time.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	DailySchedule []DailyScheduleParameters `json:"dailySchedule,omitempty" tf:"daily_schedule,omitempty"`
 
 	// The policy will execute every nth hour starting at the specified time.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	HourlySchedule []HourlyScheduleParameters `json:"hourlySchedule,omitempty" tf:"hourly_schedule,omitempty"`
 
 	// Allows specifying a snapshot time for each day of the week.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	WeeklySchedule []WeeklyScheduleParameters `json:"weeklySchedule,omitempty" tf:"weekly_schedule,omitempty"`
 }
@@ -201,7 +218,6 @@ type SnapshotPropertiesParameters struct {
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Cloud Storage bucket location to store the auto snapshot
-	// (regional or multi-regional)
 	// +kubebuilder:validation:Optional
 	StorageLocations []*string `json:"storageLocations,omitempty" tf:"storage_locations,omitempty"`
 }
@@ -212,6 +228,7 @@ type SnapshotSchedulePolicyObservation struct {
 type SnapshotSchedulePolicyParameters struct {
 
 	// Retention policy applied to snapshots created by this resource policy.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	RetentionPolicy []RetentionPolicyParameters `json:"retentionPolicy,omitempty" tf:"retention_policy,omitempty"`
 
@@ -220,6 +237,7 @@ type SnapshotSchedulePolicyParameters struct {
 	Schedule []ScheduleParameters `json:"schedule" tf:"schedule,omitempty"`
 
 	// Properties with which the snapshots are created, such as labels.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	SnapshotProperties []SnapshotPropertiesParameters `json:"snapshotProperties,omitempty" tf:"snapshot_properties,omitempty"`
 }
@@ -249,7 +267,8 @@ type WeeklyScheduleObservation struct {
 
 type WeeklyScheduleParameters struct {
 
-	// May contain up to seven (one for each day of the week) snapshot times.
+	// May contain up to seven  snapshot times.
+	// Structure is documented below.
 	// +kubebuilder:validation:Required
 	DayOfWeeks []DayOfWeeksParameters `json:"dayOfWeeks" tf:"day_of_weeks,omitempty"`
 }
@@ -268,7 +287,7 @@ type ResourcePolicyStatus struct {
 
 // +kubebuilder:object:root=true
 
-// ResourcePolicy is the Schema for the ResourcePolicys API
+// ResourcePolicy is the Schema for the ResourcePolicys API. A policy that can be attached to a resource to specify or schedule actions on that resource.
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

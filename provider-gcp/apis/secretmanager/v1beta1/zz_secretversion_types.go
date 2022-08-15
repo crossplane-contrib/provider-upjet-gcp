@@ -26,12 +26,18 @@ import (
 )
 
 type SecretVersionObservation struct {
+
+	// The time at which the Secret was created.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
+	// The time at which the Secret was destroyed. Only present if state is DESTROYED.
 	DestroyTime *string `json:"destroyTime,omitempty" tf:"destroy_time,omitempty"`
 
+	// an identifier for the resource with format {{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// The resource name of the SecretVersion. Format:
+	// projects/{{project}}/secrets/{{secret_id}}/versions/{{version}}
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 }
 
@@ -47,6 +53,7 @@ type SecretVersionParameters struct {
 	Secret *string `json:"secret,omitempty" tf:"secret,omitempty"`
 
 	// The secret data. Must be no larger than 64KiB.
+	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Required
 	SecretDataSecretRef v1.SecretKeySelector `json:"secretDataSecretRef" tf:"-"`
 
@@ -71,7 +78,7 @@ type SecretVersionStatus struct {
 
 // +kubebuilder:object:root=true
 
-// SecretVersion is the Schema for the SecretVersions API
+// SecretVersion is the Schema for the SecretVersions API. A secret version resource.
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

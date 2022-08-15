@@ -1,0 +1,21 @@
+apiVersion: cloudrun.gcp.upbound.io/v1beta1
+kind: ServiceIAMPolicy
+metadata:
+  labels:
+    testing.upbound.io/example-name: policy
+  name: policy
+spec:
+  forProvider:
+    locationSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    policyData: ${data.google_iam_policy.admin.policy_data}
+    projectSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    serviceSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+
+---
+

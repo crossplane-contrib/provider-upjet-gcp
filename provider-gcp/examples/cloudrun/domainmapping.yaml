@@ -1,0 +1,16 @@
+apiVersion: cloudrun.gcp.upbound.io/v1beta1
+kind: DomainMapping
+metadata:
+  name: example
+  annotations:
+    upjet.upbound.io/manual-intervention: "Caller must be authorized to administer the domain example.com"
+spec:
+  forProvider:
+    name: example.com
+    location: us-central1
+    metadata:
+    - namespaceRef:
+        name: example
+    spec:
+    - routeNameRef:
+        name: example

@@ -35,7 +35,9 @@ spec:
     name: v1beta1
     schema:
       openAPIV3Schema:
-        description: Schema is the Schema for the Schemas API
+        description: Schema is the Schema for the Schemas API. A schema is a format
+          that messages must follow, creating a contract between publisher and subscriber
+          that Pub/Sub will enforce.
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -69,11 +71,13 @@ spec:
                       is a valid schema definition of the type specified in type.
                     type: string
                   project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
                     type: string
                   type:
-                    description: 'The type of the schema definition Default value:
-                      "TYPE_UNSPECIFIED" Possible values: ["TYPE_UNSPECIFIED", "PROTOCOL_BUFFER",
-                      "AVRO"]'
+                    description: The type of the schema definition Default value is
+                      TYPE_UNSPECIFIED. Possible values are TYPE_UNSPECIFIED, PROTOCOL_BUFFER,
+                      and AVRO.
                     type: string
                 type: object
               providerConfigRef:
@@ -253,6 +257,7 @@ spec:
               atProvider:
                 properties:
                   id:
+                    description: an identifier for the resource with format projects/{{project}}/schemas/{{name}}
                     type: string
                 type: object
               conditions:

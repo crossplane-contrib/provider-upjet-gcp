@@ -35,7 +35,8 @@ spec:
     name: v1beta1
     schema:
       openAPIV3Schema:
-        description: Firewall is the Schema for the Firewalls API
+        description: Firewall is the Schema for the Firewalls API. Each network has
+          its own firewall controlling access to and from the instances.
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -66,7 +67,7 @@ spec:
                   allow:
                     description: The list of ALLOW rules specified by this firewall.
                       Each rule specifies a protocol and port-range tuple that describes
-                      a permitted connection.
+                      a permitted connection. Structure is documented below.
                     items:
                       properties:
                         ports:
@@ -93,7 +94,7 @@ spec:
                   deny:
                     description: The list of DENY rules specified by this firewall.
                       Each rule specifies a protocol and port-range tuple that describes
-                      a denied connection.
+                      a denied connection. Structure is documented below.
                     items:
                       properties:
                         ports:
@@ -133,10 +134,9 @@ spec:
                     description: 'Direction of traffic to which this firewall applies;
                       default is INGRESS. Note: For INGRESS traffic, it is NOT supported
                       to specify destinationRanges; For EGRESS traffic, it is NOT
-                      supported to specify ''source_ranges'' OR ''source_tags''. For
-                      INGRESS traffic, one of ''source_ranges'', ''source_tags'' or
-                      ''source_service_accounts'' is required. Possible values: ["INGRESS",
-                      "EGRESS"]'
+                      supported to specify source_ranges OR source_tags. For INGRESS
+                      traffic, one of source_ranges, source_tags or source_service_accounts
+                      is required. Possible values are INGRESS and EGRESS.'
                     type: string
                   disabled:
                     description: Denotes whether the firewall rule is disabled, i.e
@@ -148,18 +148,18 @@ spec:
                   enableLogging:
                     description: This field denotes whether to enable logging for
                       a particular firewall rule. If logging is enabled, logs will
-                      be exported to Stackdriver.
+                      be exported to Stackdriver. Deprecated in favor of log_config
                     type: boolean
                   logConfig:
                     description: This field denotes the logging options for a particular
                       firewall rule. If defined, logging is enabled, and logs will
-                      be exported to Cloud Logging.
+                      be exported to Cloud Logging. Structure is documented below.
                     items:
                       properties:
                         metadata:
-                          description: 'This field denotes whether to include or exclude
-                            metadata for firewall logs. Possible values: ["EXCLUDE_ALL_METADATA",
-                            "INCLUDE_ALL_METADATA"]'
+                          description: This field denotes whether to include or exclude
+                            metadata for firewall logs. Possible values are EXCLUDE_ALL_METADATA
+                            and INCLUDE_ALL_METADATA.
                           type: string
                       required:
                       - metadata
@@ -246,12 +246,12 @@ spec:
                     description: Priority for this rule. This is an integer between
                       0 and 65535, both inclusive. When not specified, the value assumed
                       is 1000. Relative priorities determine precedence of conflicting
-                      rules. Lower value of priority implies higher precedence (eg,
-                      a rule with priority 0 has higher precedence than a rule with
-                      priority 1). DENY rules take precedence over ALLOW rules having
-                      equal priority.
+                      rules. Lower value of priority implies higher precedence . DENY
+                      rules take precedence over ALLOW rules having equal priority.
                     type: number
                   project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
                     type: string
                   sourceRanges:
                     description: If source ranges are specified, the firewall will
@@ -262,8 +262,8 @@ spec:
                       within sourceRanges OR the source IP that belongs to a tag listed
                       in the sourceTags property. The connection does not need to
                       match both properties for the firewall to apply. Only IPv4 is
-                      supported. For INGRESS traffic, one of 'source_ranges', 'source_tags'
-                      or 'source_service_accounts' is required.
+                      supported. For INGRESS traffic, one of source_ranges, source_tags
+                      or source_service_accounts is required.
                     items:
                       type: string
                     type: array
@@ -280,7 +280,7 @@ spec:
                       The connection does not need to match both properties for the
                       firewall to apply. sourceServiceAccounts cannot be used at the
                       same time as sourceTags or targetTags. For INGRESS traffic,
-                      one of 'source_ranges', 'source_tags' or 'source_service_accounts'
+                      one of source_ranges, source_tags or source_service_accounts
                       is required.
                     items:
                       type: string
@@ -295,8 +295,8 @@ spec:
                       will apply to traffic that has source IP address within sourceRanges
                       OR the source IP that belongs to a tag listed in the sourceTags
                       property. The connection does not need to match both properties
-                      for the firewall to apply. For INGRESS traffic, one of 'source_ranges',
-                      'source_tags' or 'source_service_accounts' is required.
+                      for the firewall to apply. For INGRESS traffic, one of source_ranges,
+                      source_tags or source_service_accounts is required.
                     items:
                       type: string
                     type: array
@@ -496,10 +496,13 @@ spec:
               atProvider:
                 properties:
                   creationTimestamp:
+                    description: Creation timestamp in RFC3339 text format.
                     type: string
                   id:
+                    description: an identifier for the resource with format projects/{{project}}/global/firewalls/{{name}}
                     type: string
                   selfLink:
+                    description: The URI of the created resource.
                     type: string
                 type: object
               conditions:

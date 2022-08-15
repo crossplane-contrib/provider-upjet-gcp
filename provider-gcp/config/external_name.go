@@ -43,6 +43,19 @@ var externalNameConfigs = map[string]config.ExternalName{
 	// No import
 	"google_service_account_key": config.IdentifierFromProvider,
 
+	// cloudrun
+	//
+	// Imported by using the following format: locations/{{location}}/namespaces/{{project}}/domainmappings/{{name}}
+	"google_cloud_run_domain_mapping": config.IdentifierFromProvider,
+	// Imported by using the following format: locations/{{location}}/namespaces/{{project}}/services/{{name}}
+	"google_cloud_run_service": formattedIdentifierUserDefined("locations/%s/namespaces/%s/services", "location", "project"),
+	// Imported by using the following format: projects/{{project}}/locations/{{location}}/services/{{service}}
+	"google_cloud_run_service_iam_policy": config.IdentifierFromProvider,
+	// Imported by using the following format: projects/{{project}}/locations/{{location}}/services/{{service}} roles/viewer
+	"google_cloud_run_service_iam_binding": config.IdentifierFromProvider,
+	// Imported by using the following format: projects/{{project}}/locations/{{location}}/services/{{service}} roles/viewer user:jane@example.com
+	"google_cloud_run_service_iam_member": config.IdentifierFromProvider,
+
 	// compute
 	//
 	// Imported by using the following format: projects/{{project}}/global/sslCertificates/{{name}}
@@ -187,6 +200,11 @@ var externalNameConfigs = map[string]config.ExternalName{
 	"google_secret_manager_secret_version": config.IdentifierFromProvider,
 	// "google_secret_manager_secret_version": config.TemplatedStringAsIdentifier("name", "{{ .externalName }}/{{ .externalName }}"),
 
+	// service networking
+	//
+	// Imported by using the following format: /projects/{{project}}/global/networks/{{peering-network}}:{{service}}
+	"google_service_networking_connection": config.IdentifierFromProvider,
+
 	// sql
 	//
 	// Imported by using the following format: projects/{{project}}/instances/{{name}}
@@ -208,6 +226,7 @@ var externalNameConfigs = map[string]config.ExternalName{
 	"google_storage_bucket_access_control": config.IdentifierFromProvider,
 }
 
+// Imported by using the following format: my-gcp-project/us-east1-a/my-cluster/main-pool
 func containerNodePool() config.ExternalName {
 	e := config.NameAsIdentifier
 	e.GetExternalNameFn = common.GetNameFromFullyQualifiedID

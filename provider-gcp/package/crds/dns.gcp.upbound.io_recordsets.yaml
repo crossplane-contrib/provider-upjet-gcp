@@ -35,7 +35,8 @@ spec:
     name: v1beta1
     schema:
       openAPIV3Schema:
-        description: RecordSet is the Schema for the RecordSets API
+        description: RecordSet is the Schema for the RecordSets API. Manages a set
+          of DNS records within Google Cloud DNS.
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -67,6 +68,79 @@ spec:
                     description: The name of the zone in which this record set will
                       reside.
                     type: string
+                  managedZoneRef:
+                    description: A Reference to a named object.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: Resolution specifies whether resolution of
+                              this reference is required. The default is 'Required',
+                              which means the reconcile will fail if the reference
+                              cannot be resolved. 'Optional' means this reference
+                              will be a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: Resolve specifies when this reference should
+                              be resolved. The default is 'IfNotPresent', which will
+                              attempt to resolve the reference only when the corresponding
+                              field is not present. Use 'Always' to resolve the reference
+                              on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  managedZoneSelector:
+                    description: A Selector selects an object.
+                    properties:
+                      matchControllerRef:
+                        description: MatchControllerRef ensures an object with the
+                          same controller reference as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: Resolution specifies whether resolution of
+                              this reference is required. The default is 'Required',
+                              which means the reconcile will fail if the reference
+                              cannot be resolved. 'Optional' means this reference
+                              will be a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: Resolve specifies when this reference should
+                              be resolved. The default is 'IfNotPresent', which will
+                              attempt to resolve the reference only when the corresponding
+                              field is not present. Use 'Always' to resolve the reference
+                              on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
                   name:
                     description: The DNS name this record set will apply to.
                     type: string
@@ -76,13 +150,13 @@ spec:
                     type: string
                   routingPolicy:
                     description: The configuration for steering traffic based on query.
-                      You can specify either Weighted Round Robin(WRR) type or Geolocation(GEO)
-                      type.
+                      Now you can specify either Weighted Round Robin type or Geolocation
+                      type. Structure is documented below.
                     items:
                       properties:
                         geo:
-                          description: The configuration for Geo location based routing
-                            policy.
+                          description: The configuration for Geolocation based routing
+                            policy. Structure is document below.
                           items:
                             properties:
                               location:
@@ -99,7 +173,7 @@ spec:
                           type: array
                         wrr:
                           description: The configuration for Weighted Round Robin
-                            based routing policy.
+                            based routing policy. Structure is document below.
                           items:
                             properties:
                               rrdatas:
@@ -107,7 +181,8 @@ spec:
                                   type: string
                                 type: array
                               weight:
-                                description: The ratio of traffic routed to the target.
+                                description: Required) The ratio of traffic routed
+                                  to the target.
                                 type: number
                             required:
                             - rrdatas
@@ -128,13 +203,12 @@ spec:
                       type: string
                     type: array
                   ttl:
-                    description: The time-to-live of this record set (seconds).
+                    description: The time-to-live of this record set .
                     type: number
                   type:
                     description: The DNS record set type.
                     type: string
                 required:
-                - managedZone
                 - name
                 - type
                 type: object
@@ -315,6 +389,7 @@ spec:
               atProvider:
                 properties:
                   id:
+                    description: an identifier for the resource with format projects/{{project}}/managedZones/{{zone}}/rrsets/{{name}}/{{type}}
                     type: string
                 type: object
               conditions:

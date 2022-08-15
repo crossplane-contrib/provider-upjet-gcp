@@ -35,7 +35,9 @@ spec:
     name: v1beta1
     schema:
       openAPIV3Schema:
-        description: ResourcePolicy is the Schema for the ResourcePolicys API
+        description: ResourcePolicy is the Schema for the ResourcePolicys API. A policy
+          that can be attached to a resource to specify or schedule actions on that
+          resource.
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -69,7 +71,7 @@ spec:
                     type: string
                   groupPlacementPolicy:
                     description: Resource policy for instances used for placement
-                      configuration.
+                      configuration. Structure is documented below.
                     items:
                       properties:
                         availabilityDomainCount:
@@ -79,13 +81,13 @@ spec:
                             low latency network
                           type: number
                         collocation:
-                          description: 'Collocation specifies whether to place VMs
+                          description: Collocation specifies whether to place VMs
                             inside the same availability domain on the same low-latency
-                            network. Specify ''COLLOCATED'' to enable collocation.
-                            Can only be specified with ''vm_count''. If compute instances
-                            are created with a COLLOCATED policy, then exactly ''vm_count''
+                            network. Specify COLLOCATED to enable collocation. Can
+                            only be specified with vm_count. If compute instances
+                            are created with a COLLOCATED policy, then exactly vm_count
                             instances must be created at the same time with the resource
-                            policy attached. Possible values: ["COLLOCATED"]'
+                            policy attached. Possible values are COLLOCATED.
                           type: string
                         vmCount:
                           description: Number of vms in this placement group.
@@ -94,6 +96,7 @@ spec:
                     type: array
                   instanceSchedulePolicy:
                     description: Resource policy for scheduling instance operations.
+                      Structure is documented below.
                     items:
                       properties:
                         expirationTime:
@@ -111,6 +114,7 @@ spec:
                           type: string
                         vmStartSchedule:
                           description: Specifies the schedule for starting instances.
+                            Structure is documented below.
                           items:
                             properties:
                               schedule:
@@ -123,6 +127,7 @@ spec:
                           type: array
                         vmStopSchedule:
                           description: Specifies the schedule for stopping instances.
+                            Structure is documented below.
                           items:
                             properties:
                               schedule:
@@ -138,17 +143,20 @@ spec:
                       type: object
                     type: array
                   project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
                     type: string
                   region:
                     description: Region where resource policy resides.
                     type: string
                   snapshotSchedulePolicy:
                     description: Policy for creating snapshots of persistent disks.
+                      Structure is documented below.
                     items:
                       properties:
                         retentionPolicy:
                           description: Retention policy applied to snapshots created
-                            by this resource policy.
+                            by this resource policy. Structure is documented below.
                           items:
                             properties:
                               maxRetentionDays:
@@ -156,10 +164,10 @@ spec:
                                   to be kept.
                                 type: number
                               onSourceDiskDelete:
-                                description: 'Specifies the behavior to apply to scheduled
+                                description: Specifies the behavior to apply to scheduled
                                   snapshots when the source disk is deleted. Default
-                                  value: "KEEP_AUTO_SNAPSHOTS" Possible values: ["KEEP_AUTO_SNAPSHOTS",
-                                  "APPLY_RETENTION_POLICY"]'
+                                  value is KEEP_AUTO_SNAPSHOTS. Possible values are
+                                  KEEP_AUTO_SNAPSHOTS and APPLY_RETENTION_POLICY.
                                 type: string
                             required:
                             - maxRetentionDays
@@ -172,7 +180,7 @@ spec:
                             properties:
                               dailySchedule:
                                 description: The policy will execute every nth day
-                                  at the specified time.
+                                  at the specified time. Structure is documented below.
                                 items:
                                   properties:
                                     daysInCycle:
@@ -191,7 +199,8 @@ spec:
                                 type: array
                               hourlySchedule:
                                 description: The policy will execute every nth hour
-                                  starting at the specified time.
+                                  starting at the specified time. Structure is documented
+                                  below.
                                 items:
                                   properties:
                                     hoursInCycle:
@@ -210,19 +219,19 @@ spec:
                                 type: array
                               weeklySchedule:
                                 description: Allows specifying a snapshot time for
-                                  each day of the week.
+                                  each day of the week. Structure is documented below.
                                 items:
                                   properties:
                                     dayOfWeeks:
-                                      description: May contain up to seven (one for
-                                        each day of the week) snapshot times.
+                                      description: May contain up to seven  snapshot
+                                        times. Structure is documented below.
                                       items:
                                         properties:
                                           day:
-                                            description: 'The day of the week to create
-                                              the snapshot. e.g. MONDAY Possible values:
-                                              ["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY",
-                                              "FRIDAY", "SATURDAY", "SUNDAY"]'
+                                            description: The day of the week to create
+                                              the snapshot. e.g. MONDAY Possible values
+                                              are MONDAY, TUESDAY, WEDNESDAY, THURSDAY,
+                                              FRIDAY, SATURDAY, and SUNDAY.
                                             type: string
                                           startTime:
                                             description: 'Time within the window to
@@ -243,7 +252,7 @@ spec:
                           type: array
                         snapshotProperties:
                           description: Properties with which the snapshots are created,
-                            such as labels.
+                            such as labels. Structure is documented below.
                           items:
                             properties:
                               guestFlush:
@@ -256,7 +265,7 @@ spec:
                                 type: object
                               storageLocations:
                                 description: Cloud Storage bucket location to store
-                                  the auto snapshot (regional or multi-regional)
+                                  the auto snapshot
                                 items:
                                   type: string
                                 type: array
@@ -446,8 +455,10 @@ spec:
               atProvider:
                 properties:
                   id:
+                    description: an identifier for the resource with format projects/{{project}}/regions/{{region}}/resourcePolicies/{{name}}
                     type: string
                   selfLink:
+                    description: The URI of the created resource.
                     type: string
                 type: object
               conditions:

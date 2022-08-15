@@ -29,5 +29,6 @@ func Configure(p *config.Provider) {
 		// TODO: work out how to handle name and domain
 
 		config.MarkAsRequired(r.TerraformResource, "managed_zone")
+		delete(r.References, "name")
 	})
 }

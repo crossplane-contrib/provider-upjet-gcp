@@ -35,7 +35,8 @@ spec:
     name: v1beta1
     schema:
       openAPIV3Schema:
-        description: TargetPool is the Schema for the TargetPools API
+        description: TargetPool is the Schema for the TargetPools API. Manages a Target
+          Pool within GCE.
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -70,8 +71,8 @@ spec:
                     description: Textual description field.
                     type: string
                   failoverRatio:
-                    description: Ratio (0 to 1) of failed nodes before using the backup
-                      pool (which must also be set).
+                    description: Ratio  of failed nodes before using the backup pool
+                      .
                     type: number
                   healthChecks:
                     description: List of zero or one health check name or self_link.
@@ -97,9 +98,8 @@ spec:
                       region.
                     type: string
                   sessionAffinity:
-                    description: How to distribute load. Options are "NONE" (no affinity).
-                      "CLIENT_IP" (hash of the source/dest addresses / ports), and
-                      "CLIENT_IP_PROTO" also includes the protocol (default "NONE").
+                    description: How to distribute load. Options are "NONE" . "CLIENT_IP"
+                      , and "CLIENT_IP_PROTO" also includes the protocol .
                     type: string
                 required:
                 - region
@@ -281,8 +281,10 @@ spec:
               atProvider:
                 properties:
                   id:
+                    description: an identifier for the resource with format projects/{{project}}/regions/{{region}}/targetPools/{{name}}
                     type: string
                   selfLink:
+                    description: The URI of the created resource.
                     type: string
                 type: object
               conditions:

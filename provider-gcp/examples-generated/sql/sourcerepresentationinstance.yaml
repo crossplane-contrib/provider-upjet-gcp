@@ -1,10 +1,15 @@
 apiVersion: sql.gcp.upbound.io/v1beta1
 kind: SourceRepresentationInstance
 metadata:
-  name: example
+  labels:
+    testing.upbound.io/example-name: instance
+  name: instance
 spec:
   forProvider:
     databaseVersion: MYSQL_8_0
     host: 10.20.30.40
     port: 3306
     region: us-central1
+
+---
+
