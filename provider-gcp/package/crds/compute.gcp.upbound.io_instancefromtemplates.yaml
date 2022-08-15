@@ -247,7 +247,8 @@ spec:
                     type: string
                   name:
                     description: A unique name for the resource, required by GCE.
-                      Changing this forces a new resource to be created.
+                      Changing this forces a new resource to be created. The name
+                      of the instance. One of name or self_link must be provided.
                     type: string
                   networkInterface:
                     description: The networks attached to the instance.
@@ -610,7 +611,8 @@ spec:
                     type: array
                   sourceInstanceTemplate:
                     description: Name or self link of an instance template to create
-                      the instance based on.
+                      the instance based on. Name or self link of an instance template
+                      to create the instance based on.
                     type: string
                   sourceInstanceTemplateRef:
                     description: A Reference to a named object.
@@ -692,7 +694,9 @@ spec:
                     type: array
                   zone:
                     description: The zone that the machine should be created in. If
-                      not set, the provider zone is used.
+                      not set, the provider zone is used. The zone of the instance.
+                      If self_link is provided, this value is ignored. If neither
+                      self_link nor zone are provided, the provider zone is used.
                     type: string
                 required:
                 - name
@@ -936,6 +940,7 @@ spec:
                         name:
                           description: A unique name for the resource, required by
                             GCE. Changing this forces a new resource to be created.
+                            The name of the interface
                           type: string
                       type: object
                     type: array

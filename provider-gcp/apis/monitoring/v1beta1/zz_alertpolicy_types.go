@@ -123,6 +123,10 @@ type AlertPolicyObservation struct {
 	// evaluate to true, then an incident is created. A policy can have from
 	// one to six conditions.
 	// Structure is documented below.
+	// A list of conditions for the policy. The conditions are combined by
+	// AND or OR according to the combiner field. If the combined conditions
+	// evaluate to true, then an incident is created. A policy can have from
+	// one to six conditions.
 	// +kubebuilder:validation:Required
 	Conditions []ConditionsObservation `json:"conditions,omitempty" tf:"conditions,omitempty"`
 
@@ -130,6 +134,9 @@ type AlertPolicyObservation struct {
 	// If provided in a call to create or update, this field will
 	// be ignored.
 	// Structure is documented below.
+	// A read-only record of the creation of the alerting policy.
+	// If provided in a call to create or update, this field will
+	// be ignored.
 	CreationRecord []CreationRecordObservation `json:"creationRecord,omitempty" tf:"creation_record,omitempty"`
 
 	// an identifier for the resource with format {{name}}
@@ -144,12 +151,15 @@ type AlertPolicyParameters struct {
 
 	// Control over how this alert policy's notification channels are notified.
 	// Structure is documented below.
+	// Control over how this alert policy's notification channels are notified.
 	// +kubebuilder:validation:Optional
 	AlertStrategy []AlertStrategyParameters `json:"alertStrategy,omitempty" tf:"alert_strategy,omitempty"`
 
 	// How to combine the results of multiple conditions to
 	// determine if an incident should be opened.
 	// Possible values are AND, OR, and AND_WITH_MATCHING_RESOURCE.
+	// How to combine the results of multiple conditions to
+	// determine if an incident should be opened. Possible values: ["AND", "OR", "AND_WITH_MATCHING_RESOURCE"]
 	// +kubebuilder:validation:Required
 	Combiner *string `json:"combiner" tf:"combiner,omitempty"`
 
@@ -158,6 +168,10 @@ type AlertPolicyParameters struct {
 	// evaluate to true, then an incident is created. A policy can have from
 	// one to six conditions.
 	// Structure is documented below.
+	// A list of conditions for the policy. The conditions are combined by
+	// AND or OR according to the combiner field. If the combined conditions
+	// evaluate to true, then an incident is created. A policy can have from
+	// one to six conditions.
 	// +kubebuilder:validation:Required
 	Conditions []ConditionsParameters `json:"conditions" tf:"conditions,omitempty"`
 
@@ -174,9 +188,15 @@ type AlertPolicyParameters struct {
 	// problems detected by the alerting policy. Notification channels that have
 	// limited capacity might not show this documentation.
 	// Structure is documented below.
+	// Documentation that is included with notifications and incidents related
+	// to this policy. Best practice is for the documentation to include information
+	// to help responders understand, mitigate, escalate, and correct the underlying
+	// problems detected by the alerting policy. Notification channels that have
+	// limited capacity might not show this documentation.
 	// +kubebuilder:validation:Optional
 	Documentation []DocumentationParameters `json:"documentation,omitempty" tf:"documentation,omitempty"`
 
+	// Whether or not the policy is enabled. The default is true.
 	// Whether or not the policy is enabled. The default is true.
 	// +kubebuilder:validation:Optional
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
@@ -188,6 +208,13 @@ type AlertPolicyParameters struct {
 	// returned from the notificationChannels.list method. The syntax of the
 	// entries in this field is
 	// projects/[PROJECT_ID]/notificationChannels/[CHANNEL_ID]
+	// Identifies the notification channels to which notifications should be
+	// sent when incidents are opened or closed or when new violations occur
+	// on an already opened incident. Each element of this array corresponds
+	// to the name field in each of the NotificationChannel objects that are
+	// returned from the notificationChannels.list method. The syntax of the
+	// entries in this field is
+	// 'projects/[PROJECT_ID]/notificationChannels/[CHANNEL_ID]'
 	// +kubebuilder:validation:Optional
 	NotificationChannels []*string `json:"notificationChannels,omitempty" tf:"notification_channels,omitempty"`
 
@@ -196,6 +223,11 @@ type AlertPolicyParameters struct {
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	// This field is intended to be used for organizing and identifying the AlertPolicy
+	// objects.The field can contain up to 64 entries. Each key and value is limited
+	// to 63 Unicode characters or 128 bytes, whichever is smaller. Labels and values
+	// can contain only lowercase letters, numerals, underscores, and dashes. Keys
+	// must begin with a letter.
 	// This field is intended to be used for organizing and identifying the AlertPolicy
 	// objects.The field can contain up to 64 entries. Each key and value is limited
 	// to 63 Unicode characters or 128 bytes, whichever is smaller. Labels and values
@@ -211,12 +243,15 @@ type AlertStrategyObservation struct {
 type AlertStrategyParameters struct {
 
 	// If an alert policy that was active has no data for this long, any open incidents will close.
+	// If an alert policy that was active has no data for this long, any open incidents will close.
 	// +kubebuilder:validation:Optional
 	AutoClose *string `json:"autoClose,omitempty" tf:"auto_close,omitempty"`
 
 	// Required for alert policies with a LogMatch condition.
 	// This limit is not implemented for alert policies that are not log-based.
 	// Structure is documented below.
+	// Required for alert policies with a LogMatch condition.
+	// This limit is not implemented for alert policies that are not log-based.
 	// +kubebuilder:validation:Optional
 	NotificationRateLimit []NotificationRateLimitParameters `json:"notificationRateLimit,omitempty" tf:"notification_rate_limit,omitempty"`
 }
@@ -287,6 +322,13 @@ type ConditionMatchedLogParameters struct {
 	// a separate rule for the purposes of triggering notifications.
 	// Label keys and corresponding values can be used in notifications
 	// generated by this condition.
+	// A map from a label key to an extractor expression, which is used to
+	// extract the value for this label key. Each entry in this map is
+	// a specification for how data should be extracted from log entries that
+	// match filter. Each combination of extracted values is treated as
+	// a separate rule for the purposes of triggering notifications.
+	// Label keys and corresponding values can be used in notifications
+	// generated by this condition.
 	// +kubebuilder:validation:Optional
 	LabelExtractors map[string]*string `json:"labelExtractors,omitempty" tf:"label_extractors,omitempty"`
 }
@@ -314,6 +356,7 @@ type ConditionMonitoringQueryLanguageParameters struct {
 	// +kubebuilder:validation:Required
 	Duration *string `json:"duration" tf:"duration,omitempty"`
 
+	// Monitoring Query Language query that outputs a boolean stream.
 	// Monitoring Query Language query that outputs a boolean stream.
 	// +kubebuilder:validation:Required
 	Query *string `json:"query" tf:"query,omitempty"`
@@ -468,6 +511,14 @@ type ConditionThresholdParameters struct {
 	// right-hand side. Only COMPARISON_LT and
 	// COMPARISON_GT are supported currently.
 	// Possible values are COMPARISON_GT, COMPARISON_GE, COMPARISON_LT, COMPARISON_LE, COMPARISON_EQ, and COMPARISON_NE.
+	// The comparison to apply between the time
+	// series (indicated by filter and aggregation)
+	// and the threshold (indicated by
+	// threshold_value). The comparison is applied
+	// on each time series, with the time series on
+	// the left-hand side and the threshold on the
+	// right-hand side. Only COMPARISON_LT and
+	// COMPARISON_GT are supported currently. Possible values: ["COMPARISON_GT", "COMPARISON_GE", "COMPARISON_LT", "COMPARISON_LE", "COMPARISON_EQ", "COMPARISON_NE"]
 	// +kubebuilder:validation:Required
 	Comparison *string `json:"comparison" tf:"comparison,omitempty"`
 
@@ -484,6 +535,22 @@ type ConditionThresholdParameters struct {
 	// is advisable to use the ListTimeSeries
 	// method when debugging this field.
 	// Structure is documented below.
+	// Specifies the alignment of data points in
+	// individual time series selected by
+	// denominatorFilter as well as how to combine
+	// the retrieved time series together (such as
+	// when aggregating multiple streams on each
+	// resource to a single stream for each
+	// resource or when aggregating streams across
+	// all members of a group of resources).When
+	// computing ratios, the aggregations and
+	// denominator_aggregations fields must use the
+	// same alignment period and produce time
+	// series that have the same periodicity and
+	// labels.This field is similar to the one in
+	// the MetricService.ListTimeSeries request. It
+	// is advisable to use the ListTimeSeries
+	// method when debugging this field.
 	// +kubebuilder:validation:Optional
 	DenominatorAggregations []DenominatorAggregationsParameters `json:"denominatorAggregations,omitempty" tf:"denominator_aggregations,omitempty"`
 
@@ -495,6 +562,21 @@ type ConditionThresholdParameters struct {
 	// used as the numerator.The filter is similar
 	// to the one that is specified in the
 	// MetricService.ListTimeSeries request  and must
+	// specify the metric type and optionally may
+	// contain restrictions on resource type,
+	// resource labels, and metric labels. This
+	// field may not exceed 2048 Unicode characters
+	// in length.
+	// A filter that identifies a time series that
+	// should be used as the denominator of a ratio
+	// that will be compared with the threshold. If
+	// a denominator_filter is specified, the time
+	// series specified by the filter field will be
+	// used as the numerator.The filter is similar
+	// to the one that is specified in the
+	// MetricService.ListTimeSeries request (that
+	// call is useful to verify the time series
+	// that will be retrieved / processed) and must
 	// specify the metric type and optionally may
 	// contain restrictions on resource type,
 	// resource labels, and metric labels. This
@@ -536,6 +618,8 @@ type ConditionThresholdParameters struct {
 	// +kubebuilder:validation:Optional
 	Filter *string `json:"filter,omitempty" tf:"filter,omitempty"`
 
+	// A value against which to compare the time
+	// series.
 	// A value against which to compare the time
 	// series.
 	// +kubebuilder:validation:Optional
@@ -587,23 +671,30 @@ type ConditionsParameters struct {
 	// A condition that checks that a time series
 	// continues to receive new data points.
 	// Structure is documented below.
+	// A condition that checks that a time series
+	// continues to receive new data points.
 	// +kubebuilder:validation:Optional
 	ConditionAbsent []ConditionAbsentParameters `json:"conditionAbsent,omitempty" tf:"condition_absent,omitempty"`
 
 	// A condition that checks for log messages matching given constraints.
 	// If set, no other conditions can be present.
 	// Structure is documented below.
+	// A condition that checks for log messages matching given constraints.
+	// If set, no other conditions can be present.
 	// +kubebuilder:validation:Optional
 	ConditionMatchedLog []ConditionMatchedLogParameters `json:"conditionMatchedLog,omitempty" tf:"condition_matched_log,omitempty"`
 
 	// A Monitoring Query Language query that outputs a boolean stream
 	// Structure is documented below.
+	// A Monitoring Query Language query that outputs a boolean stream
 	// +kubebuilder:validation:Optional
 	ConditionMonitoringQueryLanguage []ConditionMonitoringQueryLanguageParameters `json:"conditionMonitoringQueryLanguage,omitempty" tf:"condition_monitoring_query_language,omitempty"`
 
 	// A condition that compares a time series against a
 	// threshold.
 	// Structure is documented below.
+	// A condition that compares a time series against a
+	// threshold.
 	// +kubebuilder:validation:Optional
 	ConditionThreshold []ConditionThresholdParameters `json:"conditionThreshold,omitempty" tf:"condition_threshold,omitempty"`
 
@@ -728,9 +819,15 @@ type DocumentationParameters struct {
 	// The content may not exceed 8,192 Unicode characters and may not
 	// exceed more than 10,240 bytes when encoded in UTF-8 format,
 	// whichever is smaller.
+	// The text of the documentation, interpreted according to mimeType.
+	// The content may not exceed 8,192 Unicode characters and may not
+	// exceed more than 10,240 bytes when encoded in UTF-8 format,
+	// whichever is smaller.
 	// +kubebuilder:validation:Optional
 	Content *string `json:"content,omitempty" tf:"content,omitempty"`
 
+	// The format of the content field. Presently, only the value
+	// "text/markdown" is supported.
 	// The format of the content field. Presently, only the value
 	// "text/markdown" is supported.
 	// +kubebuilder:validation:Optional
@@ -742,6 +839,7 @@ type NotificationRateLimitObservation struct {
 
 type NotificationRateLimitParameters struct {
 
+	// Not more than one notification per period.
 	// Not more than one notification per period.
 	// +kubebuilder:validation:Optional
 	Period *string `json:"period,omitempty" tf:"period,omitempty"`

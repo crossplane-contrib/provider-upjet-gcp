@@ -1,0 +1,13 @@
+apiVersion: composer.gcp.upbound.io/v1beta1
+kind: Environment
+metadata:
+  name: example
+spec:
+  forProvider:
+    region: us-central1
+    config:
+      - nodeConfig:
+        - ipAllocationPolicy:
+            - useIpAliases: true
+              clusterIpv4CidrBlock: 10.80.0.0/14
+              servicesIpv4CidrBlock: 10.84.0.0/20

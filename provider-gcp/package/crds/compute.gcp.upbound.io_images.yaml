@@ -65,31 +65,43 @@ spec:
                 properties:
                   description:
                     description: An optional description of this resource. Provide
-                      this property when you create the resource.
+                      this property when you create the resource. An optional description
+                      of this resource. Provide this property when you create the
+                      resource.
                     type: string
                   diskSizeGb:
                     description: Size of the image when restored onto a persistent
-                      disk .
+                      disk . Size of the image when restored onto a persistent disk
+                      (in GB).
                     type: number
                   family:
                     description: The name of the image family to which this image
                       belongs. You can create disks by specifying an image family
                       instead of a specific image name. The image family always returns
                       its latest image that is not deprecated. The name of the image
-                      family must comply with RFC1035.
+                      family must comply with RFC1035. The name of the image family
+                      to which this image belongs. You can create disks by specifying
+                      an image family instead of a specific image name. The image
+                      family always returns its latest image that is not deprecated.
+                      The name of the image family must comply with RFC1035.
                     type: string
                   guestOsFeatures:
                     description: A list of features to enable on the guest operating
                       system. Applicable only for bootable images. Structure is documented
-                      below.
+                      below. A list of features to enable on the guest operating system.
+                      Applicable only for bootable images.
                     items:
                       properties:
                         type:
-                          description: The type of supported feature. Read Enabling
+                          description: 'The type of supported feature. Read Enabling
                             guest operating system features to see a list of available
                             options. Possible values are MULTI_IP_SUBNET, SECURE_BOOT,
                             SEV_CAPABLE, UEFI_COMPATIBLE, VIRTIO_SCSI_MULTIQUEUE,
-                            WINDOWS, and GVNIC.
+                            WINDOWS, and GVNIC. The type of supported feature. Read
+                            [Enabling guest operating system features](https://cloud.google.com/compute/docs/images/create-delete-deprecate-private-images#guest-os-features)
+                            to see a list of available options. Possible values: ["MULTI_IP_SUBNET",
+                            "SECURE_BOOT", "SEV_CAPABLE", "UEFI_COMPATIBLE", "VIRTIO_SCSI_MULTIQUEUE",
+                            "WINDOWS", "GVNIC"]'
                           type: string
                       required:
                       - type
@@ -98,10 +110,12 @@ spec:
                   labels:
                     additionalProperties:
                       type: string
-                    description: Labels to apply to this Image.
+                    description: Labels to apply to this Image. Labels to apply to
+                      this Image.
                     type: object
                   licenses:
-                    description: Any applicable license URI.
+                    description: Any applicable license URI. Any applicable license
+                      URI.
                     items:
                       type: string
                     type: array
@@ -111,25 +125,35 @@ spec:
                     type: string
                   rawDisk:
                     description: The parameters of the raw disk image. Structure is
-                      documented below.
+                      documented below. The parameters of the raw disk image.
                     items:
                       properties:
                         containerType:
-                          description: The format used to encode and transmit the
+                          description: 'The format used to encode and transmit the
                             block device, which should be TAR. This is just a container
                             and transmission format and not a runtime format. Provided
                             by the client when the disk image is created. Default
-                            value is TAR. Possible values are TAR.
+                            value is TAR. Possible values are TAR. The format used
+                            to encode and transmit the block device, which should
+                            be TAR. This is just a container and transmission format
+                            and not a runtime format. Provided by the client when
+                            the disk image is created. Default value: "TAR" Possible
+                            values: ["TAR"]'
                           type: string
                         sha1:
                           description: An optional SHA1 checksum of the disk image
                             before unpackaging. This is provided by the client when
-                            the disk image is created.
+                            the disk image is created. An optional SHA1 checksum of
+                            the disk image before unpackaging. This is provided by
+                            the client when the disk image is created.
                           type: string
                         source:
                           description: The full Google Cloud Storage URL where disk
                             storage is stored You must provide either this property
-                            or the sourceDisk property but not both.
+                            or the sourceDisk property but not both. The full Google
+                            Cloud Storage URL where disk storage is stored You must
+                            provide either this property or the sourceDisk property
+                            but not both.
                           type: string
                       required:
                       - source
@@ -138,17 +162,27 @@ spec:
                   sourceDisk:
                     description: The source disk to create this image based on. You
                       must provide either this property or the rawDisk.source property
-                      but not both to create an image.
+                      but not both to create an image. The source disk to create this
+                      image based on. You must provide either this property or the
+                      rawDisk.source property but not both to create an image.
                     type: string
                   sourceImage:
-                    description: 'URL of the source image used to create this image.
+                    description: "URL of the source image used to create this image.
                       In order to create an image, you must provide the full or partial
-                      URL of one of the following:'
+                      URL of one of the following: URL of the source image used to
+                      create this image. In order to create an image, you must provide
+                      the full or partial URL of one of the following: \n * The selfLink
+                      URL * This property * The rawDisk.source URL * The sourceDisk
+                      URL"
                     type: string
                   sourceSnapshot:
-                    description: 'URL of the source snapshot used to create this image.
+                    description: "URL of the source snapshot used to create this image.
                       In order to create an image, you must provide the full or partial
-                      URL of one of the following:'
+                      URL of one of the following: URL of the source snapshot used
+                      to create this image. \n In order to create an image, you must
+                      provide the full or partial URL of one of the following: \n
+                      * The selfLink URL * This property * The sourceImage URL * The
+                      rawDisk.source URL * The sourceDisk URL"
                     type: string
                 type: object
               providerConfigRef:
@@ -329,17 +363,21 @@ spec:
                 properties:
                   archiveSizeBytes:
                     description: Size of the image tar.gz archive stored in Google
-                      Cloud Storage .
+                      Cloud Storage . Size of the image tar.gz archive stored in Google
+                      Cloud Storage (in bytes).
                     type: number
                   creationTimestamp:
-                    description: Creation timestamp in RFC3339 text format.
+                    description: Creation timestamp in RFC3339 text format. Creation
+                      timestamp in RFC3339 text format.
                     type: string
                   id:
                     description: an identifier for the resource with format projects/{{project}}/global/images/{{name}}
                     type: string
                   labelFingerprint:
                     description: The fingerprint used for optimistic locking of this
-                      resource. Used internally during updates.
+                      resource. Used internally during updates. The fingerprint used
+                      for optimistic locking of this resource. Used internally during
+                      updates.
                     type: string
                   selfLink:
                     description: The URI of the created resource.

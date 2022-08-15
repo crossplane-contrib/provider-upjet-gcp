@@ -67,7 +67,8 @@ spec:
                 properties:
                   disk:
                     description: The name of the disk in which the resource policies
-                      are attached to.
+                      are attached to. The name of the disk in which the resource
+                      policies are attached to.
                     type: string
                   diskRef:
                     description: A Reference to a named object.
@@ -145,6 +146,8 @@ spec:
                   name:
                     description: The resource policy to be attached to the disk for
                       scheduling snapshot creation. Do not specify the self link.
+                      The resource policy to be attached to the disk for scheduling
+                      snapshot creation. Do not specify the self link.
                     type: string
                   nameRef:
                     description: A Reference to a named object.
@@ -224,7 +227,8 @@ spec:
                       If it is not provided, the provider project is used.
                     type: string
                   zone:
-                    description: A reference to the zone where the disk resides.
+                    description: A reference to the zone where the disk resides. A
+                      reference to the zone where the disk resides.
                     type: string
                 type: object
               providerConfigRef:

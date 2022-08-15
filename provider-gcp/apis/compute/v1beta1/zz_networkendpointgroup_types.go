@@ -34,6 +34,7 @@ type NetworkEndpointGroupObservation struct {
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
 
 	// Number of network endpoints in the network endpoint group.
+	// Number of network endpoints in the network endpoint group.
 	Size *float64 `json:"size,omitempty" tf:"size,omitempty"`
 }
 
@@ -41,14 +42,20 @@ type NetworkEndpointGroupParameters struct {
 
 	// The default port used if the port number is not specified in the
 	// network endpoint.
+	// The default port used if the port number is not specified in the
+	// network endpoint.
 	// +kubebuilder:validation:Optional
 	DefaultPort *float64 `json:"defaultPort,omitempty" tf:"default_port,omitempty"`
 
 	// An optional description of this resource. Provide this property when
 	// you create the resource.
+	// An optional description of this resource. Provide this property when
+	// you create the resource.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// The network to which all network endpoints in the NEG belong.
+	// Uses "default" project network if unspecified.
 	// The network to which all network endpoints in the NEG belong.
 	// Uses "default" project network if unspecified.
 	// +crossplane:generate:reference:type=Network
@@ -65,6 +72,13 @@ type NetworkEndpointGroupParameters struct {
 	// CONNECTION balancing modes.
 	// Default value is GCE_VM_IP_PORT.
 	// Possible values are GCE_VM_IP_PORT and NON_GCP_PRIVATE_IP_PORT.
+	// Type of network endpoints in this network endpoint group.
+	// NON_GCP_PRIVATE_IP_PORT is used for hybrid connectivity network
+	// endpoint groups (see https://cloud.google.com/load-balancing/docs/hybrid).
+	// Note that NON_GCP_PRIVATE_IP_PORT can only be used with Backend Services
+	// that 1) have the following load balancing schemes: EXTERNAL, EXTERNAL_MANAGED,
+	// INTERNAL_MANAGED, and INTERNAL_SELF_MANAGED and 2) support the RATE or
+	// CONNECTION balancing modes. Default value: "GCE_VM_IP_PORT" Possible values: ["GCE_VM_IP_PORT", "NON_GCP_PRIVATE_IP_PORT"]
 	// +kubebuilder:validation:Optional
 	NetworkEndpointType *string `json:"networkEndpointType,omitempty" tf:"network_endpoint_type,omitempty"`
 
@@ -80,6 +94,7 @@ type NetworkEndpointGroupParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Optional subnetwork to which all network endpoints in the NEG belong.
+	// Optional subnetwork to which all network endpoints in the NEG belong.
 	// +crossplane:generate:reference:type=Subnetwork
 	// +crossplane:generate:reference:extractor=github.com/upbound/official-providers/provider-gcp/config/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
@@ -91,6 +106,7 @@ type NetworkEndpointGroupParameters struct {
 	// +kubebuilder:validation:Optional
 	SubnetworkSelector *v1.Selector `json:"subnetworkSelector,omitempty" tf:"-"`
 
+	// Zone where the network endpoint group is located.
 	// Zone where the network endpoint group is located.
 	// +kubebuilder:validation:Required
 	Zone *string `json:"zone" tf:"zone,omitempty"`

@@ -67,38 +67,50 @@ spec:
                   drainNatIps:
                     description: A list of URLs of the IP resources to be drained.
                       These IPs must be valid static external IPs that have been assigned
+                      to the NAT. A list of URLs of the IP resources to be drained.
+                      These IPs must be valid static external IPs that have been assigned
                       to the NAT.
                     items:
                       type: string
                     type: array
                   enableDynamicPortAllocation:
-                    description: Enable Dynamic Port Allocation. If minPorts is set,
+                    description: "Enable Dynamic Port Allocation. If minPorts is set,
                       minPortsPerVm must be set to a power of two greater than or
                       equal to 32. If minPortsPerVm is not set, a minimum of 32 ports
                       will be allocated to a VM from this NAT config. Mutually exclusive
-                      with enableEndpointIndependentMapping.
+                      with enableEndpointIndependentMapping. Enable Dynamic Port Allocation.
+                      If minPorts is set, minPortsPerVm must be set to a power of
+                      two greater than or equal to 32. If minPortsPerVm is not set,
+                      a minimum of 32 ports will be allocated to a VM from this NAT
+                      config. \n Mutually exclusive with enableEndpointIndependentMapping."
                     type: boolean
                   enableEndpointIndependentMapping:
                     description: Specifies if endpoint independent mapping is enabled.
                       This is enabled by default. For more information see the official
-                      documentation.
+                      documentation. Specifies if endpoint independent mapping is
+                      enabled. This is enabled by default. For more information see
+                      the [official documentation](https://cloud.google.com/nat/docs/overview#specs-rfcs).
                     type: boolean
                   icmpIdleTimeoutSec:
                     description: Timeout  for ICMP connections. Defaults to 30s if
-                      not set.
+                      not set. Timeout (in seconds) for ICMP connections. Defaults
+                      to 30s if not set.
                     type: number
                   logConfig:
                     description: Configuration for logging on NAT Structure is documented
-                      below.
+                      below. Configuration for logging on NAT
                     items:
                       properties:
                         enable:
-                          description: Indicates whether or not to export logs.
+                          description: Indicates whether or not to export logs. Indicates
+                            whether or not to export logs.
                           type: boolean
                         filter:
-                          description: Specifies the desired filtering of logs on
+                          description: 'Specifies the desired filtering of logs on
                             this NAT. Possible values are ERRORS_ONLY, TRANSLATIONS_ONLY,
-                            and ALL.
+                            and ALL. Specifies the desired filtering of logs on this
+                            NAT. Possible values: ["ERRORS_ONLY", "TRANSLATIONS_ONLY",
+                            "ALL"]'
                           type: string
                       required:
                       - enable
@@ -107,17 +119,22 @@ spec:
                     type: array
                   minPortsPerVm:
                     description: Minimum number of ports allocated to a VM from this
-                      NAT.
+                      NAT. Minimum number of ports allocated to a VM from this NAT.
                     type: number
                   natIpAllocateOption:
-                    description: How external IPs should be allocated for this NAT.
+                    description: 'How external IPs should be allocated for this NAT.
                       Valid values are AUTO_ONLY for only allowing NAT IPs allocated
                       by Google Cloud Platform, or MANUAL_ONLY for only user-allocated
                       NAT IP addresses. Possible values are MANUAL_ONLY and AUTO_ONLY.
+                      How external IPs should be allocated for this NAT. Valid values
+                      are ''AUTO_ONLY'' for only allowing NAT IPs allocated by Google
+                      Cloud Platform, or ''MANUAL_ONLY'' for only user-allocated NAT
+                      IP addresses. Possible values: ["MANUAL_ONLY", "AUTO_ONLY"]'
                     type: string
                   natIps:
                     description: Self-links of NAT IPs. Only valid if natIpAllocateOption
-                      is set to MANUAL_ONLY.
+                      is set to MANUAL_ONLY. Self-links of NAT IPs. Only valid if
+                      natIpAllocateOption is set to MANUAL_ONLY.
                     items:
                       type: string
                     type: array
@@ -126,11 +143,13 @@ spec:
                       If it is not provided, the provider project is used.
                     type: string
                   region:
-                    description: Region where the router and NAT reside.
+                    description: Region where the router and NAT reside. Region where
+                      the router and NAT reside.
                     type: string
                   router:
                     description: The name of the Cloud Router in which this NAT will
-                      be configured.
+                      be configured. The name of the Cloud Router in which this NAT
+                      will be configured.
                     type: string
                   routerRef:
                     description: A Reference to a named object.
@@ -215,12 +234,24 @@ spec:
                       or ALL_SUBNETWORKS_ALL_PRIMARY_IP_RANGES, then there should
                       not be any other RouterNat section in any Router for this network
                       in this region. Possible values are ALL_SUBNETWORKS_ALL_IP_RANGES,
-                      ALL_SUBNETWORKS_ALL_PRIMARY_IP_RANGES, and LIST_OF_SUBNETWORKS.'
+                      ALL_SUBNETWORKS_ALL_PRIMARY_IP_RANGES, and LIST_OF_SUBNETWORKS.
+                      How NAT should be configured per Subnetwork. If ''ALL_SUBNETWORKS_ALL_IP_RANGES'',
+                      all of the IP ranges in every Subnetwork are allowed to Nat.
+                      If ''ALL_SUBNETWORKS_ALL_PRIMARY_IP_RANGES'', all of the primary
+                      IP ranges in every Subnetwork are allowed to Nat. ''LIST_OF_SUBNETWORKS'':
+                      A list of Subnetworks are allowed to Nat (specified in the field
+                      subnetwork below). Note that if this field contains ALL_SUBNETWORKS_ALL_IP_RANGES
+                      or ALL_SUBNETWORKS_ALL_PRIMARY_IP_RANGES, then there should
+                      not be any other RouterNat section in any Router for this network
+                      in this region. Possible values: ["ALL_SUBNETWORKS_ALL_IP_RANGES",
+                      "ALL_SUBNETWORKS_ALL_PRIMARY_IP_RANGES", "LIST_OF_SUBNETWORKS"]'
                     type: string
                   subnetwork:
                     description: One or more subnetwork NAT configurations. Only used
                       if source_subnetwork_ip_ranges_to_nat is set to LIST_OF_SUBNETWORKS
-                      Structure is documented below.
+                      Structure is documented below. One or more subnetwork NAT configurations.
+                      Only used if 'source_subnetwork_ip_ranges_to_nat' is set to
+                      'LIST_OF_SUBNETWORKS'
                     items:
                       properties:
                         name:
@@ -306,14 +337,20 @@ spec:
                           description: List of the secondary ranges of the subnetwork
                             that are allowed to use NAT. This can be populated only
                             if LIST_OF_SECONDARY_IP_RANGES is one of the values in
-                            sourceIpRangesToNat
+                            sourceIpRangesToNat List of the secondary ranges of the
+                            subnetwork that are allowed to use NAT. This can be populated
+                            only if 'LIST_OF_SECONDARY_IP_RANGES' is one of the values
+                            in sourceIpRangesToNat
                           items:
                             type: string
                           type: array
                         sourceIpRangesToNat:
                           description: 'List of options for which source IPs in the
                             subnetwork should have NAT enabled. Supported values include:
-                            ALL_IP_RANGES, LIST_OF_SECONDARY_IP_RANGES, PRIMARY_IP_RANGE.'
+                            ALL_IP_RANGES, LIST_OF_SECONDARY_IP_RANGES, PRIMARY_IP_RANGE.
+                            List of options for which source IPs in the subnetwork
+                            should have NAT enabled. Supported values include: ''ALL_IP_RANGES'',
+                            ''LIST_OF_SECONDARY_IP_RANGES'', ''PRIMARY_IP_RANGE''.'
                           items:
                             type: string
                           type: array
@@ -323,15 +360,18 @@ spec:
                     type: array
                   tcpEstablishedIdleTimeoutSec:
                     description: Timeout  for TCP established connections. Defaults
-                      to 1200s if not set.
+                      to 1200s if not set. Timeout (in seconds) for TCP established
+                      connections. Defaults to 1200s if not set.
                     type: number
                   tcpTransitoryIdleTimeoutSec:
                     description: Timeout  for TCP transitory connections. Defaults
-                      to 30s if not set.
+                      to 30s if not set. Timeout (in seconds) for TCP transitory connections.
+                      Defaults to 30s if not set.
                     type: number
                   udpIdleTimeoutSec:
                     description: Timeout  for UDP connections. Defaults to 30s if
-                      not set.
+                      not set. Timeout (in seconds) for UDP connections. Defaults
+                      to 30s if not set.
                     type: number
                 required:
                 - natIpAllocateOption

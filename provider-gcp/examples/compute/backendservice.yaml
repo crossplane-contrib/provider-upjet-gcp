@@ -1,0 +1,27 @@
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: HealthCheck
+metadata:
+  labels:
+    testing.upbound.io/example-name: example  
+  name: example-backend-service
+spec:
+  forProvider:
+    checkIntervalSec: 1
+    httpHealthCheck:
+      - port: 80
+    timeoutSec: 1
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: BackendService
+metadata:
+  labels:
+    testing.upbound.io/example-name: example  
+  annotations:
+    upjet.upbound.io/manual-intervention: "HealthCheck URL is enviroment specific"
+  name: example
+spec:
+  forProvider:
+    healthChecks:
+    - https://www.googleapis.com/compute/v1/projects/default/global/healthChecks/example-backend-service

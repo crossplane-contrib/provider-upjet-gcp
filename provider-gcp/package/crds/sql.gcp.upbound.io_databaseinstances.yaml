@@ -69,6 +69,8 @@ spec:
                       of another instance. When this field is set during resource
                       creation, Terraform will attempt to clone another instance as
                       indicated in the context. The configuration is detailed below.
+                      Configuration for creating a new instance as a clone of another
+                      instance.
                     items:
                       properties:
                         allocatedIpRange:
@@ -82,10 +84,13 @@ spec:
                           type: string
                         pointInTime:
                           description: The timestamp of the point in time that should
+                            be restored. The timestamp of the point in time that should
                             be restored.
                           type: string
                         sourceInstanceName:
                           description: Name of the source instance which will be cloned.
+                            The name of the instance from which the point in time
+                            should be restored.
                           type: string
                       required:
                       - sourceInstanceName
@@ -98,18 +103,27 @@ spec:
                       SQLSERVER_2017_ENTERPRISE, SQLSERVER_2017_EXPRESS, SQLSERVER_2017_WEB.
                       SQLSERVER_2019_STANDARD, SQLSERVER_2019_ENTERPRISE, SQLSERVER_2019_EXPRESS,
                       SQLSERVER_2019_WEB. Database Version Policies includes an up-to-date
-                      reference of supported versions.
+                      reference of supported versions. The MySQL, PostgreSQL or SQL
+                      Server (beta) version to use. Supported values include MYSQL_5_6,
+                      MYSQL_5_7, MYSQL_8_0, POSTGRES_9_6, POSTGRES_10, POSTGRES_11,
+                      POSTGRES_12, POSTGRES_13, SQLSERVER_2017_STANDARD, SQLSERVER_2017_ENTERPRISE,
+                      SQLSERVER_2017_EXPRESS, SQLSERVER_2017_WEB. Database Version
+                      Policies includes an up-to-date reference of supported versions.
                     type: string
                   deletionProtection:
                     description: Whether or not to allow Terraform to destroy the
                       instance. Unless this field is set to false in Terraform state,
                       a terraform destroy or terraform apply command that deletes
-                      the instance will fail.
+                      the instance will fail. Used to block Terraform from deleting
+                      a SQL Instance.
                     type: boolean
                   masterInstanceName:
                     description: The name of the existing instance that will act as
                       the master in the replication setup. Note, this requires the
                       master to have binary_log_enabled set, as well as existing backups.
+                      The name of the instance that will act as the master in the
+                      replication setup. Note, this requires the master to have binary_log_enabled
+                      set, as well as existing backups.
                     type: string
                   project:
                     description: The ID of the project in which the resource belongs.
@@ -118,42 +132,63 @@ spec:
                   region:
                     description: The region the instance will sit in. If a region
                       is not provided in the resource definition, the provider region
-                      will be used instead.
+                      will be used instead. The region the instance will sit in. Note,
+                      Cloud SQL is not available in all regions. A valid region must
+                      be provided to use this resource. If a region is not provided
+                      in the resource definition, the provider region will be used
+                      instead, but this will be an apply-time error for instances
+                      if the provider region is not supported with Cloud SQL. If you
+                      choose not to provide the region argument for this resource,
+                      make sure you understand this.
                     type: string
                   replicaConfiguration:
                     description: The configuration for replication. The configuration
-                      is detailed below. Valid only for MySQL instances.
+                      is detailed below. Valid only for MySQL instances. The configuration
+                      for replication.
                     items:
                       properties:
                         caCertificate:
                           description: PEM representation of the trusted CA's x509
+                            certificate. PEM representation of the trusted CA's x509
                             certificate.
                           type: string
                         clientCertificate:
                           description: PEM representation of the replica's x509 certificate.
+                            PEM representation of the replica's x509 certificate.
                           type: string
                         clientKey:
                           description: PEM representation of the replica's private
                             key. The corresponding public key in encoded in the client_certificate.
+                            PEM representation of the replica's private key. The corresponding
+                            public key in encoded in the client_certificate.
                           type: string
                         connectRetryInterval:
                           description: The number of seconds between connect retries.
+                            The number of seconds between connect retries.
                           type: number
                         dumpFilePath:
                           description: Path to a SQL file in GCS from which replica
                             instances are created. Format is gs://bucket/filename.
+                            Path to a SQL file in Google Cloud Storage from which
+                            replica instances are created. Format is gs://bucket/filename.
                           type: string
                         failoverTarget:
                           description: Specifies if the replica is the failover target.
                             If the field is set to true the replica will be designated
                             as a failover replica. If the master instance fails, the
                             replica instance will be promoted as the new master instance.
+                            Specifies if the replica is the failover target. If the
+                            field is set to true the replica will be designated as
+                            a failover replica. If the master instance fails, the
+                            replica instance will be promoted as the new master instance.
                           type: boolean
                         masterHeartbeatPeriod:
                           description: Time in ms between replication heartbeats.
+                            Time in ms between replication heartbeats.
                           type: number
                         passwordSecretRef:
-                          description: Password for the replication connection.
+                          description: Password for the replication connection. Password
+                            for the replication connection.
                           properties:
                             key:
                               description: The key to select.
@@ -173,11 +208,13 @@ spec:
                           description: Permissible ciphers for use in SSL encryption.
                           type: string
                         username:
-                          description: Username for replication connection.
+                          description: Username for replication connection. Username
+                            for replication connection.
                           type: string
                         verifyServerCertificate:
                           description: True if the master's common name value is checked
-                            during the SSL handshake.
+                            during the SSL handshake. True if the master's common
+                            name value is checked during the SSL handshake.
                           type: boolean
                       type: object
                     type: array
@@ -192,12 +229,14 @@ spec:
                     items:
                       properties:
                         backupRunId:
-                          description: The ID of the backup run to restore from.
+                          description: The ID of the backup run to restore from. The
+                            ID of the backup run to restore from.
                           type: number
                         instanceId:
                           description: The ID of the instance that the backup was
                             taken from. If left empty, this instance's ID will be
-                            used.
+                            used. The ID of the instance that the backup was taken
+                            from.
                           type: string
                         project:
                           description: The full project ID of the source instance.
@@ -208,7 +247,8 @@ spec:
                     type: array
                   rootPasswordSecretRef:
                     description: Initial root password. Required for MS SQL Server,
-                      ignored by MySQL and PostgreSQL.
+                      ignored by MySQL and PostgreSQL. Initial root password. Required
+                      for MS SQL Server, ignored by MySQL and PostgreSQL.
                     properties:
                       key:
                         description: The key to select.
@@ -226,19 +266,23 @@ spec:
                     type: object
                   settings:
                     description: The settings to use for the database. The configuration
-                      is detailed below. Required if clone is not set.
+                      is detailed below. Required if clone is not set. The settings
+                      to use for the database. The configuration is detailed below.
                     items:
                       properties:
                         activationPolicy:
                           description: This specifies when the instance should be
-                            active. Can be either ALWAYS, NEVER or ON_DEMAND.
+                            active. Can be either ALWAYS, NEVER or ON_DEMAND. This
+                            specifies when the instance should be active. Can be either
+                            ALWAYS, NEVER or ON_DEMAND.
                           type: string
                         activeDirectoryConfig:
                           items:
                             properties:
                               domain:
                                 description: The domain name for the active directory
-                                  . Can only be used with SQL Server.
+                                  . Can only be used with SQL Server. Domain name
+                                  of the Active Directory for SQL Server (e.g., mydomain.com).
                                 type: string
                             required:
                             - domain
@@ -249,6 +293,11 @@ spec:
                             high availability  or single zone .' For all instances,
                             ensure that settings.backup_configuration.enabled is set
                             to true. For MySQL instances, ensure that settings.backup_configuration.binary_log_enabled
+                            is set to true. For Postgres instances, ensure that settings.backup_configuration.point_in_time_recovery_enabled
+                            is set to true. The availability type of the Cloud SQL
+                            instance, high availability (REGIONAL) or single zone
+                            (ZONAL). For all instances, ensure that settings.backup_configuration.enabled
+                            is set to true. For MySQL instances, ensure that settings.backup_configuration.binary_log_enabled
                             is set to true. For Postgres instances, ensure that settings.backup_configuration.point_in_time_recovery_enabled
                             is set to true.
                           type: string
@@ -264,11 +313,14 @@ spec:
                                       description: Depending on the value of retention_unit,
                                         this is used to determine if a backup needs
                                         to be deleted. If retention_unit is 'COUNT',
-                                        we will retain this many backups.
+                                        we will retain this many backups. Number of
+                                        backups to retain.
                                       type: number
                                     retentionUnit:
                                       description: The unit that 'retained_backups'
-                                        represents. Defaults to COUNT.
+                                        represents. Defaults to COUNT. The unit that
+                                        'retainedBackups' represents. Defaults to
+                                        COUNT
                                       type: string
                                   required:
                                   - retainedBackups
@@ -276,31 +328,41 @@ spec:
                                 type: array
                               binaryLogEnabled:
                                 description: True if binary logging is enabled. Can
-                                  only be used with MySQL.
+                                  only be used with MySQL. True if binary logging
+                                  is enabled. If settings.backup_configuration.enabled
+                                  is false, this must be as well. Can only be used
+                                  with MySQL.
                                 type: boolean
                               enabled:
                                 description: True if backup configuration is enabled.
+                                  True if backup configuration is enabled.
                                 type: boolean
                               location:
                                 description: The region where the backup will be stored
+                                  Location of the backup configuration.
                                 type: string
                               pointInTimeRecoveryEnabled:
                                 description: True if Point-in-time recovery is enabled.
                                   Will restart database if enabled after instance
-                                  creation. Valid only for PostgreSQL instances.
+                                  creation. Valid only for PostgreSQL instances. True
+                                  if Point-in-time recovery is enabled.
                                 type: boolean
                               startTime:
                                 description: HH:MM format time indicating when backup
-                                  configuration starts.
+                                  configuration starts. HH:MM format time indicating
+                                  when backup configuration starts.
                                 type: string
                               transactionLogRetentionDays:
                                 description: The number of days of transaction logs
-                                  we retain for point in time restore, from 1-7.
+                                  we retain for point in time restore, from 1-7. The
+                                  number of days of transaction logs we retain for
+                                  point in time restore, from 1-7.
                                 type: number
                             type: object
                           type: array
                         collation:
-                          description: The name of server instance collation.
+                          description: The name of server instance collation. The
+                            name of server instance collation.
                           type: string
                         databaseFlags:
                           items:
@@ -318,7 +380,9 @@ spec:
                           type: array
                         diskAutoresize:
                           description: Enables auto-resizing of the storage size.
-                            Set to false if you want to set disk_size.
+                            Set to false if you want to set disk_size. Enables auto-resizing
+                            of the storage size. Defaults to true. Set to false if
+                            you want to set disk_size.
                           type: boolean
                         diskAutoresizeLimit:
                           description: The maximum size, in GB, to which storage capacity
@@ -329,9 +393,13 @@ spec:
                           description: The size of data disk, in GB. Size of a running
                             instance cannot be reduced but can be increased. If you
                             want to set this field, set disk_autoresize to false.
+                            The size of data disk, in GB. Size of a running instance
+                            cannot be reduced but can be increased. If you want to
+                            set this field, set disk_autoresize to false.
                           type: number
                         diskType:
-                          description: 'The type of data disk: PD_SSD or PD_HDD.'
+                          description: 'The type of data disk: PD_SSD or PD_HDD. The
+                            type of data disk: PD_SSD or PD_HDD.'
                           type: string
                         insightsConfig:
                           description: Configuration of Query Insights.
@@ -339,18 +407,23 @@ spec:
                             properties:
                               queryInsightsEnabled:
                                 description: True if Query Insights feature is enabled.
+                                  True if Query Insights feature is enabled.
                                 type: boolean
                               queryStringLength:
                                 description: Maximum query length stored in bytes.
-                                  Between 256 and 4500. Default to 1024.
+                                  Between 256 and 4500. Default to 1024. Maximum query
+                                  length stored in bytes. Between 256 and 4500. Default
+                                  to 1024.
                                 type: number
                               recordApplicationTags:
                                 description: True if Query Insights will record application
-                                  tags from query when enabled.
+                                  tags from query when enabled. True if Query Insights
+                                  will record application tags from query when enabled.
                                 type: boolean
                               recordClientAddress:
                                 description: True if Query Insights will record client
-                                  address when enabled.
+                                  address when enabled. True if Query Insights will
+                                  record client address when enabled.
                                 type: boolean
                             type: object
                           type: array
@@ -384,10 +457,19 @@ spec:
                                 description: Whether this Cloud SQL instance should
                                   be assigned a public IPV4 address. At least ipv4_enabled
                                   must be enabled or a private_network must be configured.
+                                  Whether this Cloud SQL instance should be assigned
+                                  a public IPV4 address. At least ipv4_enabled must
+                                  be enabled or a private_network must be configured.
                                 type: boolean
                               privateNetwork:
                                 description: The VPC network from which the Cloud
                                   SQL instance is accessible for private IP. For example, projects/myProject/global/networks/default.
+                                  Specifying a network enables private IP. At least
+                                  ipv4_enabled must be enabled or a private_network
+                                  must be configured. This setting can be updated,
+                                  but it cannot be removed after it is set. The VPC
+                                  network from which the Cloud SQL instance is accessible
+                                  for private IP. For example, projects/myProject/global/networks/default.
                                   Specifying a network enables private IP. At least
                                   ipv4_enabled must be enabled or a private_network
                                   must be configured. This setting can be updated,
@@ -483,9 +565,12 @@ spec:
                               followGaeApplication:
                                 description: A GAE application whose zone to remain
                                   in. Must be in the same region as this instance.
+                                  A Google App Engine application whose zone to remain
+                                  in. Must be in the same region as this instance.
                                 type: string
                               zone:
-                                description: The preferred compute engine zone.
+                                description: The preferred compute engine zone. The
+                                  preferred compute engine zone.
                                 type: string
                             type: object
                           type: array
@@ -496,32 +581,41 @@ spec:
                           items:
                             properties:
                               day:
-                                description: Day of week , starting on Monday
+                                description: Day of week , starting on Monday Day
+                                  of week (1-7), starting on Monday
                                 type: number
                               hour:
                                 description: Hour of day , ignored if day not set
+                                  Hour of day (0-23), ignored if day not set
                                 type: number
                               updateTrack:
-                                description: Receive updates earlier  or later
+                                description: "Receive updates earlier  or later \n
+                                  Receive updates earlier (canary) or later (stable)"
                                 type: string
                             type: object
                           type: array
                         pricingPlan:
                           description: Pricing plan for this instance, can only be
-                            PER_USE.
+                            PER_USE. Pricing plan for this instance, can only be PER_USE.
                           type: string
                         tier:
                           description: The machine type to use. See tiers for more
                             details and supported versions. Postgres supports only
                             shared-core machine types, and custom machine types such
                             as db-custom-2-13312. See the Custom Machine Type Documentation
-                            to learn about specifying custom machine types.
+                            to learn about specifying custom machine types. The machine
+                            type to use. See tiers for more details and supported
+                            versions. Postgres supports only shared-core machine types,
+                            and custom machine types such as db-custom-2-13312. See
+                            the Custom Machine Type Documentation to learn about specifying
+                            custom machine types.
                           type: string
                         userLabels:
                           additionalProperties:
                             type: string
                           description: A set of key/value user label pairs to assign
-                            to the instance.
+                            to the instance. A set of key/value user label pairs to
+                            assign to the instance.
                           type: object
                       required:
                       - tier
@@ -709,12 +803,17 @@ spec:
                   connectionName:
                     description: The connection name of the instance to be used in
                       connection strings. For example, when connecting with Cloud
+                      SQL Proxy. The connection name of the instance to be used in
+                      connection strings. For example, when connecting with Cloud
                       SQL Proxy.
                     type: string
                   firstIpAddress:
                     description: The first IPv4 address of any type assigned. This
                       is to support accessing the first address in the list in a terraform
-                      output when the resource is configured with a count.
+                      output when the resource is configured with a count. The first
+                      IPv4 address of any type assigned. This is to support accessing
+                      the first address in the list in a terraform output when the
+                      resource is configured with a count.
                     type: string
                   id:
                     type: string
@@ -733,16 +832,23 @@ spec:
                     description: The first private  IPv4 address assigned. This is
                       a workaround for an issue fixed in Terraform 0.12 but also provides
                       a convenient way to access an IP of a specific type without
-                      performing filtering in a Terraform config.
+                      performing filtering in a Terraform config. IPv4 address assigned.
+                      This is a workaround for an issue fixed in Terraform 0.12 but
+                      also provides a convenient way to access an IP of a specific
+                      type without performing filtering in a Terraform config.
                     type: string
                   publicIpAddress:
                     description: The first public  IPv4 address assigned. This is
                       a workaround for an issue fixed in Terraform 0.12 but also provides
                       a convenient way to access an IP of a specific type without
-                      performing filtering in a Terraform config.
+                      performing filtering in a Terraform config. IPv4 address assigned.
+                      This is a workaround for an issue fixed in Terraform 0.12 but
+                      also provides a convenient way to access an IP of a specific
+                      type without performing filtering in a Terraform config.
                     type: string
                   selfLink:
-                    description: The URI of the created resource.
+                    description: The URI of the created resource. The URI of the created
+                      resource.
                     type: string
                   serverCaCert:
                     items:
@@ -763,11 +869,13 @@ spec:
                     type: array
                   serviceAccountEmailAddress:
                     description: The service account email address assigned to the
+                      instance. The service account email address assigned to the
                       instance.
                     type: string
                   settings:
                     description: The settings to use for the database. The configuration
-                      is detailed below. Required if clone is not set.
+                      is detailed below. Required if clone is not set. The settings
+                      to use for the database. The configuration is detailed below.
                     items:
                       properties:
                         version:

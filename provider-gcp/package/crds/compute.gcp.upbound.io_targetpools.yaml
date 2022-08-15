@@ -66,40 +66,128 @@ spec:
                 properties:
                   backupPool:
                     description: URL to the backup target pool. Must also set failover_ratio.
+                      URL to the backup target pool. Must also set failover_ratio.
                     type: string
                   description:
-                    description: Textual description field.
+                    description: Textual description field. Textual description field.
                     type: string
                   failoverRatio:
                     description: Ratio  of failed nodes before using the backup pool
-                      .
+                      . Ratio (0 to 1) of failed nodes before using the backup pool
+                      (which must also be set).
                     type: number
                   healthChecks:
                     description: List of zero or one health check name or self_link.
-                      Only legacy google_compute_http_health_check is supported.
+                      Only legacy google_compute_http_health_check is supported. List
+                      of zero or one health check name or self_link. Only legacy google_compute_http_health_check
+                      is supported.
                     items:
                       type: string
                     type: array
+                  healthChecksRefs:
+                    items:
+                      description: A Reference to a named object.
+                      properties:
+                        name:
+                          description: Name of the referenced object.
+                          type: string
+                        policy:
+                          description: Policies for referencing.
+                          properties:
+                            resolution:
+                              default: Required
+                              description: Resolution specifies whether resolution
+                                of this reference is required. The default is 'Required',
+                                which means the reconcile will fail if the reference
+                                cannot be resolved. 'Optional' means this reference
+                                will be a no-op if it cannot be resolved.
+                              enum:
+                              - Required
+                              - Optional
+                              type: string
+                            resolve:
+                              description: Resolve specifies when this reference should
+                                be resolved. The default is 'IfNotPresent', which
+                                will attempt to resolve the reference only when the
+                                corresponding field is not present. Use 'Always' to
+                                resolve the reference on every reconcile.
+                              enum:
+                              - Always
+                              - IfNotPresent
+                              type: string
+                          type: object
+                      required:
+                      - name
+                      type: object
+                    type: array
+                  healthChecksSelector:
+                    description: A Selector selects an object.
+                    properties:
+                      matchControllerRef:
+                        description: MatchControllerRef ensures an object with the
+                          same controller reference as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: Resolution specifies whether resolution of
+                              this reference is required. The default is 'Required',
+                              which means the reconcile will fail if the reference
+                              cannot be resolved. 'Optional' means this reference
+                              will be a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: Resolve specifies when this reference should
+                              be resolved. The default is 'IfNotPresent', which will
+                              attempt to resolve the reference only when the corresponding
+                              field is not present. Use 'Always' to resolve the reference
+                              on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
                   instances:
                     description: List of instances in the pool. They can be given
                       as URLs, or in the form of "zone/name". Note that the instances
                       need not exist at the time of target pool creation, so there
                       is no need to use the Terraform interpolators to create a dependency
-                      on the instances from the target pool.
+                      on the instances from the target pool. List of instances in
+                      the pool. They can be given as URLs, or in the form of "zone/name".
+                      Note that the instances need not exist at the time of target
+                      pool creation, so there is no need to use the Terraform interpolators
+                      to create a dependency on the instances from the target pool.
                     items:
                       type: string
                     type: array
                   project:
                     description: The ID of the project in which the resource belongs.
-                      If it is not provided, the provider project is used.
+                      If it is not provided, the provider project is used. The ID
+                      of the project in which the resource belongs. If it is not provided,
+                      the provider project is used.
                     type: string
                   region:
                     description: Where the target pool resides. Defaults to project
-                      region.
+                      region. Where the target pool resides. Defaults to project region.
                     type: string
                   sessionAffinity:
                     description: How to distribute load. Options are "NONE" . "CLIENT_IP"
-                      , and "CLIENT_IP_PROTO" also includes the protocol .
+                      , and "CLIENT_IP_PROTO" also includes the protocol . How to
+                      distribute load. Options are "NONE" (no affinity). "CLIENT_IP"
+                      (hash of the source/dest addresses / ports), and "CLIENT_IP_PROTO"
+                      also includes the protocol (default "NONE").
                     type: string
                 required:
                 - region
@@ -284,7 +372,8 @@ spec:
                     description: an identifier for the resource with format projects/{{project}}/regions/{{region}}/targetPools/{{name}}
                     type: string
                   selfLink:
-                    description: The URI of the created resource.
+                    description: The URI of the created resource. The URI of the created
+                      resource.
                     type: string
                 type: object
               conditions:

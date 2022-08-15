@@ -1,0 +1,110 @@
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: HTTPHealthCheck
+metadata:
+  labels:
+    testing.upbound.io/example-name: example
+  name: example-autoscaler
+spec:
+  forProvider:
+    checkIntervalSec: 1
+    requestPath: /health_check
+    timeoutSec: 1
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: HealthCheck
+metadata:
+  labels:
+    testing.upbound.io/example-name: example
+  name: example-autoscaler
+spec:
+  forProvider:
+    checkIntervalSec: 1
+    tcpHealthCheck:
+      - port: 80
+    timeoutSec: 1
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: TargetPool
+metadata:
+  labels:
+    testing.upbound.io/example-name: example
+  name: example-autoscaler
+spec:
+  forProvider:
+    region: us-central1
+    healthChecksRefs:
+      - name: example-autoscaler
+    instances:
+    - us-central1-a/example-autoscaler
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: InstanceTemplate
+metadata:
+  labels:
+    testing.upbound.io/example-name: example
+  name: example-autoscaler
+spec:
+  forProvider:
+    canIpForward: false
+    description: This template is used to create app server instances.
+    disk:
+      - autoDelete: false
+        boot: true
+        sourceImage: debian-cloud/debian-11
+    instanceDescription: Description assigned to instances
+    machineType: e2-medium
+    networkInterface:
+      - network: default
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: InstanceGroupManager
+metadata:
+  labels:
+    testing.upbound.io/example-name: example
+  name: example-autoscaler
+spec:
+  forProvider:
+    autoHealingPolicies:
+    - healthCheckRef:
+        name: example-autoscaler
+      initialDelaySec: 300
+    baseInstanceName: app
+    namedPort:
+    - name: custom
+      port: 8888
+    targetPoolsRefs:
+    - name: example-autoscaler
+    targetSize: 2
+    version:
+    - instanceTemplateSelector:
+        matchLabels:
+          testing.upbound.io/example-name: example
+    zone: us-central1-a
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Autoscaler
+metadata:
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    autoscalingPolicy:
+    - cooldownPeriod: 60
+      maxReplicas: 5
+      minReplicas: 1
+    # InstanceGroupManager
+    targetSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    zone: us-central1-a

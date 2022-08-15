@@ -1,0 +1,14 @@
+apiVersion: cloudscheduler.gcp.upbound.io/v1beta1
+kind: Job
+metadata:
+  name: example
+spec:
+  forProvider:
+    region: us-central1
+    description: Test job
+    httpTarget:
+    - httpMethod: POST
+      uri: https://postman-echo.com/post
+      # echo 'test' | base64
+      body: dGVzdAo=
+    schedule: '*/2 * * * *'

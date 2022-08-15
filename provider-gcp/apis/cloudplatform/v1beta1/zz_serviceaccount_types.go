@@ -30,14 +30,17 @@ type ServiceAccountObservation struct {
 	// The e-mail address of the service account. This value
 	// should be referenced from any google_iam_policy data sources
 	// that would grant the service account privileges.
+	// The e-mail address of the service account. This value should be referenced from any google_iam_policy data sources that would grant the service account privileges.
 	Email *string `json:"email,omitempty" tf:"email,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/serviceAccounts/{{email}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// The fully-qualified name of the service account.
+	// The fully-qualified name of the service account.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// The unique id of the service account.
 	// The unique id of the service account.
 	UniqueID *string `json:"uniqueId,omitempty" tf:"unique_id,omitempty"`
 }
@@ -46,21 +49,25 @@ type ServiceAccountParameters struct {
 
 	// A text description of the service account.
 	// Must be less than or equal to 256 UTF-8 bytes.
+	// A text description of the service account. Must be less than or equal to 256 UTF-8 bytes.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Whether a service account is disabled or not. Defaults to false. This field has no effect during creation.
 	// Must be set after creation to disable a service account.
+	// Whether the service account is disabled. Defaults to false
 	// +kubebuilder:validation:Optional
 	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
 
 	// The display name for the service account.
 	// Can be updated without creating a new resource.
+	// The display name for the service account. Can be updated without creating a new resource.
 	// +kubebuilder:validation:Optional
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// The ID of the project that the service account will be created in.
 	// Defaults to the provider project configuration.
+	// The ID of the project that the service account will be created in. Defaults to the provider project configuration.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }

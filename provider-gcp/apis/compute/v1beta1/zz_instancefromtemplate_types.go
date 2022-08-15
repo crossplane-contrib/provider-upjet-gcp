@@ -155,6 +155,7 @@ type InstanceFromTemplateNetworkInterfaceObservation struct {
 
 	// A unique name for the resource, required by GCE.
 	// Changing this forces a new resource to be created.
+	// The name of the interface
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 }
 
@@ -321,6 +322,7 @@ type InstanceFromTemplateParameters struct {
 
 	// A unique name for the resource, required by GCE.
 	// Changing this forces a new resource to be created.
+	// The name of the instance. One of name or self_link must be provided.
 	// +kubebuilder:validation:Required
 	Name *string `json:"name" tf:"name,omitempty"`
 
@@ -358,6 +360,7 @@ type InstanceFromTemplateParameters struct {
 
 	// Name or self link of an instance
 	// template to create the instance based on.
+	// Name or self link of an instance template to create the instance based on.
 	// +crossplane:generate:reference:type=InstanceTemplate
 	// +crossplane:generate:reference:extractor=github.com/upbound/official-providers/provider-gcp/config/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
@@ -375,6 +378,7 @@ type InstanceFromTemplateParameters struct {
 
 	// The zone that the machine should be created in. If not
 	// set, the provider zone is used.
+	// The zone of the instance. If self_link is provided, this value is ignored. If neither self_link nor zone are provided, the provider zone is used.
 	// +kubebuilder:validation:Optional
 	Zone *string `json:"zone,omitempty" tf:"zone,omitempty"`
 }

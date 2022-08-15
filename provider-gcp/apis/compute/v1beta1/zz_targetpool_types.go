@@ -31,6 +31,7 @@ type TargetPoolObservation struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// The URI of the created resource.
+	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
 }
 
@@ -38,43 +39,58 @@ type TargetPoolParameters struct {
 
 	// URL to the backup target pool. Must also set
 	// failover_ratio.
+	// URL to the backup target pool. Must also set failover_ratio.
 	// +kubebuilder:validation:Optional
 	BackupPool *string `json:"backupPool,omitempty" tf:"backup_pool,omitempty"`
 
+	// Textual description field.
 	// Textual description field.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Ratio  of failed nodes before using the
 	// backup pool .
+	// Ratio (0 to 1) of failed nodes before using the backup pool (which must also be set).
 	// +kubebuilder:validation:Optional
 	FailoverRatio *float64 `json:"failoverRatio,omitempty" tf:"failover_ratio,omitempty"`
 
 	// List of zero or one health check name or self_link. Only
 	// legacy google_compute_http_health_check is supported.
+	// List of zero or one health check name or self_link. Only legacy google_compute_http_health_check is supported.
+	// +crossplane:generate:reference:type=HTTPHealthCheck
 	// +kubebuilder:validation:Optional
 	HealthChecks []*string `json:"healthChecks,omitempty" tf:"health_checks,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	HealthChecksRefs []v1.Reference `json:"healthChecksRefs,omitempty" tf:"-"`
+
+	// +kubebuilder:validation:Optional
+	HealthChecksSelector *v1.Selector `json:"healthChecksSelector,omitempty" tf:"-"`
 
 	// List of instances in the pool. They can be given as
 	// URLs, or in the form of "zone/name". Note that the instances need not exist
 	// at the time of target pool creation, so there is no need to use the
 	// Terraform interpolators to create a dependency on the instances from the
 	// target pool.
+	// List of instances in the pool. They can be given as URLs, or in the form of "zone/name". Note that the instances need not exist at the time of target pool creation, so there is no need to use the Terraform interpolators to create a dependency on the instances from the target pool.
 	// +kubebuilder:validation:Optional
 	Instances []*string `json:"instances,omitempty" tf:"instances,omitempty"`
 
 	// The ID of the project in which the resource belongs. If it
 	// is not provided, the provider project is used.
+	// The ID of the project in which the resource belongs. If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Where the target pool resides. Defaults to project
 	// region.
+	// Where the target pool resides. Defaults to project region.
 	// +kubebuilder:validation:Required
 	Region *string `json:"region" tf:"region,omitempty"`
 
 	// How to distribute load. Options are "NONE" . "CLIENT_IP" , and
 	// "CLIENT_IP_PROTO" also includes the protocol .
+	// How to distribute load. Options are "NONE" (no affinity). "CLIENT_IP" (hash of the source/dest addresses / ports), and "CLIENT_IP_PROTO" also includes the protocol (default "NONE").
 	// +kubebuilder:validation:Optional
 	SessionAffinity *string `json:"sessionAffinity,omitempty" tf:"session_affinity,omitempty"`
 }

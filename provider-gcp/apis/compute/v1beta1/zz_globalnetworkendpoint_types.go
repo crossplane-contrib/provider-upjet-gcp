@@ -35,9 +35,12 @@ type GlobalNetworkEndpointParameters struct {
 
 	// Fully qualified domain name of network endpoint.
 	// This can only be specified when network_endpoint_type of the NEG is INTERNET_FQDN_PORT.
+	// Fully qualified domain name of network endpoint.
+	// This can only be specified when network_endpoint_type of the NEG is INTERNET_FQDN_PORT.
 	// +kubebuilder:validation:Optional
 	Fqdn *string `json:"fqdn,omitempty" tf:"fqdn,omitempty"`
 
+	// The global network endpoint group this endpoint is part of.
 	// The global network endpoint group this endpoint is part of.
 	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.GlobalNetworkEndpointGroup
 	// +kubebuilder:validation:Optional
@@ -50,9 +53,11 @@ type GlobalNetworkEndpointParameters struct {
 	GlobalNetworkEndpointGroupSelector *v1.Selector `json:"globalNetworkEndpointGroupSelector,omitempty" tf:"-"`
 
 	// IPv4 address external endpoint.
+	// IPv4 address external endpoint.
 	// +kubebuilder:validation:Optional
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
 
+	// Port number of the external endpoint.
 	// Port number of the external endpoint.
 	// +kubebuilder:validation:Required
 	Port *float64 `json:"port" tf:"port,omitempty"`

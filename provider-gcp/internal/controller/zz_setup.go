@@ -25,7 +25,15 @@ import (
 	serviceiambinding "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudrun/serviceiambinding"
 	serviceiammember "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudrun/serviceiammember"
 	serviceiampolicy "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudrun/serviceiampolicy"
+	job "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudscheduler/job"
+	queue "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudtasks/queue"
+	environment "github.com/upbound/official-providers/provider-gcp/internal/controller/composer/environment"
 	address "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/address"
+	attacheddisk "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/attacheddisk"
+	autoscaler "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/autoscaler"
+	backendbucket "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/backendbucket"
+	backendbucketsignedurlkey "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/backendbucketsignedurlkey"
+	backendservice "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/backendservice"
 	disk "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/disk"
 	diskiambinding "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/diskiambinding"
 	diskiammember "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/diskiammember"
@@ -116,7 +124,15 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		serviceiambinding.Setup,
 		serviceiammember.Setup,
 		serviceiampolicy.Setup,
+		job.Setup,
+		queue.Setup,
+		environment.Setup,
 		address.Setup,
+		attacheddisk.Setup,
+		autoscaler.Setup,
+		backendbucket.Setup,
+		backendbucketsignedurlkey.Setup,
+		backendservice.Setup,
 		disk.Setup,
 		diskiambinding.Setup,
 		diskiammember.Setup,

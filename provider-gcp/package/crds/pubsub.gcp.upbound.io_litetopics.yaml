@@ -66,21 +66,25 @@ spec:
                 properties:
                   partitionConfig:
                     description: The settings for this topic's partitions. Structure
-                      is documented below.
+                      is documented below. The settings for this topic's partitions.
                     items:
                       properties:
                         capacity:
                           description: The capacity configuration. Structure is documented
-                            below.
+                            below. The capacity configuration.
                           items:
                             properties:
                               publishMibPerSec:
                                 description: Subscribe throughput capacity per partition
-                                  in MiB/s. Must be >= 4 and <= 16.
+                                  in MiB/s. Must be >= 4 and <= 16. Subscribe throughput
+                                  capacity per partition in MiB/s. Must be >= 4 and
+                                  <= 16.
                                 type: number
                               subscribeMibPerSec:
                                 description: Publish throughput capacity per partition
-                                  in MiB/s. Must be >= 4 and <= 16.
+                                  in MiB/s. Must be >= 4 and <= 16. Publish throughput
+                                  capacity per partition in MiB/s. Must be >= 4 and
+                                  <= 16.
                                 type: number
                             required:
                             - publishMibPerSec
@@ -89,7 +93,8 @@ spec:
                           type: array
                         count:
                           description: The number of partitions in the topic. Must
-                            be at least 1.
+                            be at least 1. The number of partitions in the topic.
+                            Must be at least 1.
                           type: number
                       required:
                       - count
@@ -100,15 +105,18 @@ spec:
                       If it is not provided, the provider project is used.
                     type: string
                   region:
-                    description: The region of the pubsub lite topic.
+                    description: The region of the pubsub lite topic. The region of
+                      the pubsub lite topic.
                     type: string
                   reservationConfig:
                     description: The settings for this topic's Reservation usage.
-                      Structure is documented below.
+                      Structure is documented below. The settings for this topic's
+                      Reservation usage.
                     items:
                       properties:
                         throughputReservation:
                           description: The Reservation to use for this topic's throughput
+                            capacity. The Reservation to use for this topic's throughput
                             capacity.
                           type: string
                         throughputReservationRef:
@@ -191,11 +199,15 @@ spec:
                     type: array
                   retentionConfig:
                     description: The settings for a topic's message retention. Structure
-                      is documented below.
+                      is documented below. The settings for a topic's message retention.
                     items:
                       properties:
                         perPartitionBytes:
                           description: The provisioned storage, in bytes, per partition.
+                            If the number of bytes stored in any of the topic's partitions
+                            grows beyond this value, older messages will be dropped
+                            to make room for newer ones, regardless of the value of
+                            period. The provisioned storage, in bytes, per partition.
                             If the number of bytes stored in any of the topic's partitions
                             grows beyond this value, older messages will be dropped
                             to make room for newer ones, regardless of the value of
@@ -206,14 +218,19 @@ spec:
                             If unset, messages will be retained as long as the bytes
                             retained for each partition is below perPartitionBytes.
                             A duration in seconds with up to nine fractional digits,
-                            terminated by ''s''. Example: "3.5s".'
+                            terminated by ''s''. Example: "3.5s". How long a published
+                            message is retained. If unset, messages will be retained
+                            as long as the bytes retained for each partition is below
+                            perPartitionBytes. A duration in seconds with up to nine
+                            fractional digits, terminated by ''s''. Example: "3.5s".'
                           type: string
                       required:
                       - perPartitionBytes
                       type: object
                     type: array
                   zone:
-                    description: The zone of the pubsub lite topic.
+                    description: The zone of the pubsub lite topic. The zone of the
+                      pubsub lite topic.
                     type: string
                 required:
                 - partitionConfig

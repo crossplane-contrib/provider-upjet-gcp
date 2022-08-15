@@ -1,0 +1,10 @@
+apiVersion: cloudtasks.gcp.upbound.io/v1beta1
+kind: Queue
+metadata:
+metadata:
+  annotations:
+    upjet.upbound.io/manual-intervention: "Queue name cannot be re-used within a reasonable amount of time"
+  name: example
+spec:
+  forProvider:
+    location: us-central1

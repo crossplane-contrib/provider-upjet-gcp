@@ -15,6 +15,11 @@ import (
 )
 
 var externalNameConfigs = map[string]config.ExternalName{
+	// composer
+	//
+	// Imported by using the following format: projects/{{project}}/locations/{{region}}/environments/{{name}}
+	"google_composer_environment": formattedIdentifierUserDefined("projects/%s/locations/%s/environments", "project", "region"),
+
 	// cloudplatform
 	//
 	// Folders can be imported using the folder's id, e.g. folders/1234567
@@ -56,8 +61,28 @@ var externalNameConfigs = map[string]config.ExternalName{
 	// Imported by using the following format: projects/{{project}}/locations/{{location}}/services/{{service}} roles/viewer user:jane@example.com
 	"google_cloud_run_service_iam_member": config.IdentifierFromProvider,
 
+	// cloudscheduler
+	//
+	// Imported by using the following format: projects/{{project}}/locations/{{region}}/jobs/{{name}}
+	"google_cloud_scheduler_job": formattedIdentifierUserDefined("projects/%s/locations/%s/jobs", "project", "region"),
+
+	// cloudtasks
+	//
+	// Imported by using the following format: projects/{{project}}/locations/{{location}}/queues/{{name}}
+	"google_cloud_tasks_queue": formattedIdentifierUserDefined("projects/%s/locations/%s/queues", "project", "location"),
+
 	// compute
 	//
+	// Imported by using the following format: projects/{{project}}/zones/{{zone}}/instances/{{instance.name}}/{{disk.name}}
+	"google_compute_attached_disk": config.IdentifierFromProvider,
+	// Imported by using the following format: projects/{{project}}/zones/{{zone}}/autoscalers/{{name}}
+	"google_compute_autoscaler": formattedIdentifierUserDefined("projects/%s/zones/{{zone}}/autoscalers", "project", "zone"),
+	// Imported by using the following format: projects/{{project}}/global/backendBuckets/{{name}}
+	"google_compute_backend_bucket": formattedIdentifierUserDefined("projects/%s/global/backendBuckets", "project"),
+	// Imported by using the following format: This resource does not support import.
+	"google_compute_backend_bucket_signed_url_key": config.IdentifierFromProvider,
+	// Imported by using the following format: projects/{{project}}/global/backendServices/{{name}}
+	"google_compute_backend_service": formattedIdentifierUserDefined("projects/%s/global/backendServices", "project"),
 	// Imported by using the following format: projects/{{project}}/global/sslCertificates/{{name}}
 	"google_compute_managed_ssl_certificate": formattedIdentifierUserDefined("projects/%s/global/sslCertificates", "project"),
 	// Imported by using the following format: projects/{{project}}/regions/{{region}}/subnetworks/{{name}}

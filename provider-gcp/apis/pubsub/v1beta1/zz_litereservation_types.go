@@ -39,9 +39,13 @@ type LiteReservationParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The region of the pubsub lite reservation.
+	// The region of the pubsub lite reservation.
 	// +kubebuilder:validation:Required
 	Region *string `json:"region" tf:"region,omitempty"`
 
+	// The reserved throughput capacity. Every unit of throughput capacity is
+	// equivalent to 1 MiB/s of published messages or 2 MiB/s of subscribed
+	// messages.
 	// The reserved throughput capacity. Every unit of throughput capacity is
 	// equivalent to 1 MiB/s of published messages or 2 MiB/s of subscribed
 	// messages.

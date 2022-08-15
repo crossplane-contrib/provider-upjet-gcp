@@ -10,10 +10,13 @@ import (
 
 	"github.com/upbound/official-providers/provider-gcp/config/accessapproval"
 	"github.com/upbound/official-providers/provider-gcp/config/bigtable"
+	composer "github.com/upbound/official-providers/provider-gcp/config/cloudcomposer"
 	"github.com/upbound/official-providers/provider-gcp/config/cloudfunctions"
 	"github.com/upbound/official-providers/provider-gcp/config/cloudiot"
 	"github.com/upbound/official-providers/provider-gcp/config/cloudplatform"
 	"github.com/upbound/official-providers/provider-gcp/config/cloudrun"
+	"github.com/upbound/official-providers/provider-gcp/config/cloudscheduler"
+	"github.com/upbound/official-providers/provider-gcp/config/cloudtasks"
 	"github.com/upbound/official-providers/provider-gcp/config/compute"
 	"github.com/upbound/official-providers/provider-gcp/config/container"
 	"github.com/upbound/official-providers/provider-gcp/config/dataflow"
@@ -68,10 +71,13 @@ func GetProvider() *tjconfig.Provider {
 	for _, configure := range []func(provider *tjconfig.Provider){
 		accessapproval.Configure,
 		bigtable.Configure,
+		composer.Configure,
 		cloudfunctions.Configure,
 		cloudiot.Configure,
 		cloudplatform.Configure,
 		cloudrun.Configure,
+		cloudscheduler.Configure,
+		cloudtasks.Configure,
 		container.Configure,
 		compute.Configure,
 		dataflow.Configure,
