@@ -26,35 +26,43 @@ import (
 )
 
 type AppEngineRoutingOverrideObservation struct {
+
+	// The host that the task is sent to.
 	Host *string `json:"host,omitempty" tf:"host,omitempty"`
 }
 
 type AppEngineRoutingOverrideParameters struct {
 
 	// App instance.
-	//
 	// By default, the task is sent to an instance which is available when the task is attempted.
 	// +kubebuilder:validation:Optional
 	Instance *string `json:"instance,omitempty" tf:"instance,omitempty"`
 
 	// App service.
-	//
 	// By default, the task is sent to the service which is the default service when the task is attempted.
 	// +kubebuilder:validation:Optional
 	Service *string `json:"service,omitempty" tf:"service,omitempty"`
 
 	// App version.
-	//
 	// By default, the task is sent to the version which is the default version when the task is attempted.
 	// +kubebuilder:validation:Optional
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
 }
 
 type QueueObservation struct {
+
+	// Overrides for task-level appEngineRouting. These settings apply only
+	// to App Engine tasks in this queue
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
 	AppEngineRoutingOverride []AppEngineRoutingOverrideObservation `json:"appEngineRoutingOverride,omitempty" tf:"app_engine_routing_override,omitempty"`
 
+	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/queues/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// Rate limits for task dispatches.
+	// The queue's actual dispatch rate is the result of:
+	// +kubebuilder:validation:Optional
 	RateLimits []RateLimitsObservation `json:"rateLimits,omitempty" tf:"rate_limits,omitempty"`
 }
 
@@ -62,6 +70,7 @@ type QueueParameters struct {
 
 	// Overrides for task-level appEngineRouting. These settings apply only
 	// to App Engine tasks in this queue
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	AppEngineRoutingOverride []AppEngineRoutingOverrideParameters `json:"appEngineRoutingOverride,omitempty" tf:"app_engine_routing_override,omitempty"`
 
@@ -69,6 +78,8 @@ type QueueParameters struct {
 	// +kubebuilder:validation:Required
 	Location *string `json:"location" tf:"location,omitempty"`
 
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
 	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/cloudplatform/v1beta1.Project
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
@@ -80,27 +91,28 @@ type QueueParameters struct {
 	ProjectSelector *v1.Selector `json:"projectSelector,omitempty" tf:"-"`
 
 	// Rate limits for task dispatches.
-	//
 	// The queue's actual dispatch rate is the result of:
-	//
-	// * Number of tasks in the queue
-	// * User-specified throttling: rateLimits, retryConfig, and the queue's state.
-	// * System throttling due to 429 (Too Many Requests) or 503 (Service
-	// Unavailable) responses from the worker, high error rates, or to
-	// smooth sudden large traffic spikes.
 	// +kubebuilder:validation:Optional
 	RateLimits []RateLimitsParameters `json:"rateLimits,omitempty" tf:"rate_limits,omitempty"`
 
 	// Settings that determine the retry behavior.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	RetryConfig []RetryConfigParameters `json:"retryConfig,omitempty" tf:"retry_config,omitempty"`
 
 	// Configuration options for writing logs to Stackdriver Logging.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	StackdriverLoggingConfig []StackdriverLoggingConfigParameters `json:"stackdriverLoggingConfig,omitempty" tf:"stackdriver_logging_config,omitempty"`
 }
 
 type RateLimitsObservation struct {
+
+	// The max burst size.
+	// Max burst size limits how fast tasks in queue are processed when many tasks are
+	// in the queue and the rate is high. This field allows the queue to have a high
+	// rate so processing starts shortly after a task is enqueued, but still limits
+	// resource usage when many tasks are enqueued in a short period of time.
 	MaxBurstSize *float64 `json:"maxBurstSize,omitempty" tf:"max_burst_size,omitempty"`
 }
 
@@ -114,7 +126,6 @@ type RateLimitsParameters struct {
 	MaxConcurrentDispatches *float64 `json:"maxConcurrentDispatches,omitempty" tf:"max_concurrent_dispatches,omitempty"`
 
 	// The maximum rate at which tasks are dispatched from this queue.
-	//
 	// If unspecified when the queue is created, Cloud Tasks will pick the default.
 	// +kubebuilder:validation:Optional
 	MaxDispatchesPerSecond *float64 `json:"maxDispatchesPerSecond,omitempty" tf:"max_dispatches_per_second,omitempty"`
@@ -126,14 +137,9 @@ type RetryConfigObservation struct {
 type RetryConfigParameters struct {
 
 	// Number of attempts per task.
-	//
-	// Cloud Tasks will attempt the task maxAttempts times (that is, if
-	// the first attempt fails, then there will be maxAttempts - 1
-	// retries). Must be >= -1.
-	//
+	// Cloud Tasks will attempt the task maxAttempts times . Must be >= -1.
 	// If unspecified when the queue is created, Cloud Tasks will pick
 	// the default.
-	//
 	// -1 indicates unlimited attempts.
 	// +kubebuilder:validation:Optional
 	MaxAttempts *float64 `json:"maxAttempts,omitempty" tf:"max_attempts,omitempty"`
@@ -145,7 +151,6 @@ type RetryConfigParameters struct {
 	MaxBackoff *string `json:"maxBackoff,omitempty" tf:"max_backoff,omitempty"`
 
 	// The time between retries will double maxDoublings times.
-	//
 	// A task's retry interval starts at minBackoff, then doubles maxDoublings times,
 	// then increases linearly, and finally retries retries at intervals of maxBackoff
 	// up to maxAttempts times.
@@ -157,7 +162,6 @@ type RetryConfigParameters struct {
 	// attempted. Once maxRetryDuration time has passed and the task has
 	// been attempted maxAttempts times, no further attempts will be
 	// made and the task will be deleted.
-	//
 	// If zero, then the task age is unlimited.
 	// +kubebuilder:validation:Optional
 	MaxRetryDuration *string `json:"maxRetryDuration,omitempty" tf:"max_retry_duration,omitempty"`
@@ -195,7 +199,7 @@ type QueueStatus struct {
 
 // +kubebuilder:object:root=true
 
-// Queue is the Schema for the Queues API
+// Queue is the Schema for the Queues API. A named resource to which messages are sent by publishers.
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

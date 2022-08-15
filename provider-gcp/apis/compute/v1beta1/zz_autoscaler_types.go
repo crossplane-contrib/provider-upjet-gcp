@@ -26,10 +26,14 @@ import (
 )
 
 type AutoscalerObservation struct {
+
+	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
 
+	// an identifier for the resource with format projects/{{project}}/zones/{{zone}}/autoscalers/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
 }
 
@@ -38,9 +42,9 @@ type AutoscalerParameters struct {
 	// The configuration parameters for the autoscaling algorithm. You can
 	// define one or more of the policies for an autoscaler: cpuUtilization,
 	// customMetricUtilizations, and loadBalancingUtilization.
-	//
 	// If none of these are specified, the default will be to autoscale based
 	// on cpuUtilization to 0.6 or 60%.
+	// Structure is documented below.
 	// +kubebuilder:validation:Required
 	AutoscalingPolicy []AutoscalingPolicyParameters `json:"autoscalingPolicy" tf:"autoscaling_policy,omitempty"`
 
@@ -48,6 +52,8 @@ type AutoscalerParameters struct {
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
@@ -76,6 +82,7 @@ type AutoscalingPolicyParameters struct {
 	// Defines the CPU utilization policy that allows the autoscaler to
 	// scale based on the average CPU utilization of a managed instance
 	// group.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	CPUUtilization []CPUUtilizationParameters `json:"cpuUtilization,omitempty" tf:"cpu_utilization,omitempty"`
 
@@ -84,7 +91,6 @@ type AutoscalingPolicyParameters struct {
 	// the autoscaler from collecting information when the instance is
 	// initializing, during which the collected usage would not be
 	// reliable. The default time autoscaler waits is 60 seconds.
-	//
 	// Virtual machine initialization times might vary because of
 	// numerous factors. We recommend that you test how long an
 	// instance may take to initialize. To do this, create an instance
@@ -93,6 +99,7 @@ type AutoscalingPolicyParameters struct {
 	CooldownPeriod *float64 `json:"cooldownPeriod,omitempty" tf:"cooldown_period,omitempty"`
 
 	// Configuration parameters of autoscaling based on a load balancer.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	LoadBalancingUtilization []LoadBalancingUtilizationParameters `json:"loadBalancingUtilization,omitempty" tf:"load_balancing_utilization,omitempty"`
 
@@ -104,6 +111,7 @@ type AutoscalingPolicyParameters struct {
 	MaxReplicas *float64 `json:"maxReplicas" tf:"max_replicas,omitempty"`
 
 	// Configuration parameters of autoscaling based on a custom metric.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Metric []MetricParameters `json:"metric,omitempty" tf:"metric,omitempty"`
 
@@ -114,16 +122,20 @@ type AutoscalingPolicyParameters struct {
 	// +kubebuilder:validation:Required
 	MinReplicas *float64 `json:"minReplicas" tf:"min_replicas,omitempty"`
 
-	// Defines operating mode for this policy. Default value: "ON" Possible values: ["OFF", "ONLY_UP", "ON"]
+	// Defines operating mode for this policy.
+	// Default value is ON.
+	// Possible values are OFF, ONLY_UP, and ON.
 	// +kubebuilder:validation:Optional
 	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
 
 	// Defines scale in controls to reduce the risk of response latency
 	// and outages due to abrupt scale-in events
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	ScaleInControl []ScaleInControlParameters `json:"scaleInControl,omitempty" tf:"scale_in_control,omitempty"`
 
 	// Scaling schedules defined for an autoscaler. Multiple schedules can be set on an autoscaler and they can overlap.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	ScalingSchedules []ScalingSchedulesParameters `json:"scalingSchedules,omitempty" tf:"scaling_schedules,omitempty"`
 }
@@ -134,10 +146,6 @@ type CPUUtilizationObservation struct {
 type CPUUtilizationParameters struct {
 
 	// Indicates whether predictive autoscaling based on CPU metric is enabled. Valid values are:
-	//
-	// - NONE (default). No predictive method is used. The autoscaler scales the group to meet current demand based on real-time metrics.
-	//
-	// - OPTIMIZE_AVAILABILITY. Predictive autoscaling improves availability by monitoring daily and weekly load patterns and scaling out ahead of anticipated demand.
 	// +kubebuilder:validation:Optional
 	PredictiveMethod *string `json:"predictiveMethod,omitempty" tf:"predictive_method,omitempty"`
 
@@ -211,7 +219,8 @@ type MetricParameters struct {
 	Target *float64 `json:"target,omitempty" tf:"target,omitempty"`
 
 	// Defines how target utilization value is expressed for a
-	// Stackdriver Monitoring metric. Possible values: ["GAUGE", "DELTA_PER_SECOND", "DELTA_PER_MINUTE"]
+	// Stackdriver Monitoring metric.
+	// Possible values are GAUGE, DELTA_PER_SECOND, and DELTA_PER_MINUTE.
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
@@ -222,6 +231,7 @@ type ScaleInControlObservation struct {
 type ScaleInControlParameters struct {
 
 	// A nested object resource
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	MaxScaledInReplicas []MaxScaledInReplicasParameters `json:"maxScaledInReplicas,omitempty" tf:"max_scaled_in_replicas,omitempty"`
 
@@ -244,7 +254,7 @@ type ScalingSchedulesParameters struct {
 	// +kubebuilder:validation:Optional
 	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
 
-	// The duration of time intervals (in seconds) for which this scaling schedule will be running. The minimum allowed value is 300.
+	// The duration of time intervals  for which this scaling schedule will be running. The minimum allowed value is 300.
 	// +kubebuilder:validation:Required
 	DurationSec *float64 `json:"durationSec" tf:"duration_sec,omitempty"`
 
@@ -255,7 +265,7 @@ type ScalingSchedulesParameters struct {
 	// +kubebuilder:validation:Required
 	Name *string `json:"name" tf:"name,omitempty"`
 
-	// The start timestamps of time intervals when this scaling schedule should provide a scaling signal. This field uses the extended cron format (with an optional year field).
+	// The start timestamps of time intervals when this scaling schedule should provide a scaling signal. This field uses the extended cron format .
 	// +kubebuilder:validation:Required
 	Schedule *string `json:"schedule" tf:"schedule,omitempty"`
 
@@ -278,7 +288,7 @@ type AutoscalerStatus struct {
 
 // +kubebuilder:object:root=true
 
-// Autoscaler is the Schema for the Autoscalers API
+// Autoscaler is the Schema for the Autoscalers API. Represents an Autoscaler resource.
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

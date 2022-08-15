@@ -34,30 +34,42 @@ type AllowedIPRangeParameters struct {
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// IP address or range, defined using CIDR notation, of requests that this rule applies to. Examples: 192.168.1.1 or 192.168.0.0/16 or 2001:db8::/32 or 2001:0db8:0000:0042:0000:8a2e:0370:7334. IP range prefixes should be properly truncated. For example, 1.2.3.4/24 should be truncated to 1.2.3.0/24. Similarly, for IPv6, 2001:db8::1/32 should be truncated to 2001:db8::/32.
+	// IP address or range, defined using CIDR notation, of requests that this rule applies to.
+	// Examples: 192.168.1.1 or 192.168.0.0/16 or 2001:db8::/32 or 2001:0db8:0000:0042:0000:8a2e:0370:7334.
+	// IP range prefixes should be properly truncated. For example,
+	// 1.2.3.4/24 should be truncated to 1.2.3.0/24. Similarly, for IPv6, 2001:db8::1/32 should be truncated to 2001:db8::/32.
 	// +kubebuilder:validation:Required
 	Value *string `json:"value" tf:"value,omitempty"`
 }
 
 type ConfigObservation struct {
+
+	// The URI of the Apache Airflow Web UI hosted within this environment.
 	AirflowURI *string `json:"airflowUri,omitempty" tf:"airflow_uri,omitempty"`
 
+	// The Cloud Storage prefix of the DAGs for this environment. Although Cloud Storage objects reside in a flat namespace, a hierarchical file tree can be simulated using '/'-delimited object name prefixes. DAG objects for this environment reside in a simulated directory with this prefix.
 	DagGcsPrefix *string `json:"dagGcsPrefix,omitempty" tf:"dag_gcs_prefix,omitempty"`
 
+	// The Kubernetes Engine cluster used to run this environment.
 	GkeCluster *string `json:"gkeCluster,omitempty" tf:"gke_cluster,omitempty"`
 }
 
 type ConfigParameters struct {
 
-	// The configuration of Cloud SQL instance that is used by the Apache Airflow software. This field is supported for Cloud Composer environments in versions composer-1.*.*-airflow-*.*.*.
+	// The configuration settings for Cloud SQL instance used internally
+	// by Apache Airflow software.
 	// +kubebuilder:validation:Optional
 	DatabaseConfig []DatabaseConfigParameters `json:"databaseConfig,omitempty" tf:"database_config,omitempty"`
 
-	// The encryption options for the Composer environment and its dependencies. This field is supported for Cloud Composer environments in versions composer-1.*.*-airflow-*.*.*.
+	// The encryption options for the Cloud Composer environment and its
+	// dependencies.
 	// +kubebuilder:validation:Optional
 	EncryptionConfig []EncryptionConfigParameters `json:"encryptionConfig,omitempty" tf:"encryption_config,omitempty"`
 
-	// The size of the Cloud Composer environment. This field is supported for Cloud Composer environments in versions composer-2.*.*-airflow-*.*.* and newer.
+	// The environment size controls the performance parameters of the managed
+	// Cloud Composer infrastructure that includes the Airflow database. Values for
+	// environment size are ENVIRONMENT_SIZE_SMALL, ENVIRONMENT_SIZE_MEDIUM,
+	// and ENVIRONMENT_SIZE_LARGE.
 	// +kubebuilder:validation:Optional
 	EnvironmentSize *string `json:"environmentSize,omitempty" tf:"environment_size,omitempty"`
 
@@ -69,7 +81,7 @@ type ConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	NodeConfig []NodeConfigParameters `json:"nodeConfig,omitempty" tf:"node_config,omitempty"`
 
-	// The number of nodes in the Kubernetes Engine cluster that will be used to run this environment. This field is supported for Cloud Composer environments in versions composer-1.*.*-airflow-*.*.*.
+	// The number of nodes in the Kubernetes Engine cluster of the environment.
 	// +kubebuilder:validation:Optional
 	NodeCount *float64 `json:"nodeCount,omitempty" tf:"node_count,omitempty"`
 
@@ -81,15 +93,17 @@ type ConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	SoftwareConfig []SoftwareConfigParameters `json:"softwareConfig,omitempty" tf:"software_config,omitempty"`
 
-	// The configuration settings for the Airflow web server App Engine instance. This field is supported for Cloud Composer environments in versions composer-1.*.*-airflow-*.*.*.
+	// The configuration settings for the Airflow web server App Engine instance.
 	// +kubebuilder:validation:Optional
 	WebServerConfig []WebServerConfigParameters `json:"webServerConfig,omitempty" tf:"web_server_config,omitempty"`
 
-	// The network-level access control policy for the Airflow web server. If unspecified, no network-level access restrictions will be applied. This field is supported for Cloud Composer environments in versions composer-1.*.*-airflow-*.*.*.
+	// The network-level access control policy for the Airflow web server.
+	// If unspecified, no network-level access restrictions are applied.
 	// +kubebuilder:validation:Optional
 	WebServerNetworkAccessControl []WebServerNetworkAccessControlParameters `json:"webServerNetworkAccessControl,omitempty" tf:"web_server_network_access_control,omitempty"`
 
-	// The workloads configuration settings for the GKE cluster associated with the Cloud Composer environment. Supported for Cloud Composer environments in versions composer-2.*.*-airflow-*.*.* and newer.
+	// The Kubernetes workloads configuration for GKE cluster associated with the
+	// Cloud Composer environment.
 	// +kubebuilder:validation:Optional
 	WorkloadsConfig []WorkloadsConfigParameters `json:"workloadsConfig,omitempty" tf:"workloads_config,omitempty"`
 }
@@ -109,14 +123,20 @@ type EncryptionConfigObservation struct {
 
 type EncryptionConfigParameters struct {
 
-	// Optional. Customer-managed Encryption Key available through Google's Key Management Service. Cannot be updated.
+	// Customer-managed Encryption Key available through Google's Key Management Service. It must
+	// be the fully qualified resource name,
+	// i.e. projects/project-id/locations/location/keyRings/keyring/cryptoKeys/key. Cannot be updated.
 	// +kubebuilder:validation:Required
 	KMSKeyName *string `json:"kmsKeyName" tf:"kms_key_name,omitempty"`
 }
 
 type EnvironmentObservation struct {
+
+	// Configuration parameters for this environment.
+	// +kubebuilder:validation:Optional
 	Config []ConfigObservation `json:"config,omitempty" tf:"config,omitempty"`
 
+	// an identifier for the resource with format projects/{{project}}/locations/{{region}}/environments/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 }
 
@@ -163,6 +183,8 @@ type IPAllocationPolicyParameters struct {
 	// +kubebuilder:validation:Optional
 	ServicesSecondaryRangeName *string `json:"servicesSecondaryRangeName,omitempty" tf:"services_secondary_range_name"`
 
+	// Whether or not to enable Alias IPs in the GKE cluster. If true, a VPC-native cluster is created.
+	// Defaults to true if the ip_allocation_policy block is present in config.
 	// +kubebuilder:validation:Optional
 	UseIPAliases *bool `json:"useIpAliases,omitempty" tf:"use_ip_aliases"`
 }
@@ -190,7 +212,8 @@ type NodeConfigObservation struct {
 
 type NodeConfigParameters struct {
 
-	// The disk size in GB used for node VMs. Minimum size is 20GB. If unspecified, defaults to 100GB. Cannot be updated. This field is supported for Cloud Composer environments in versions composer-1.*.*-airflow-*.*.*.
+	// The disk size in GB used for node VMs. Minimum size is 20GB.
+	// If unspecified, defaults to 100GB. Cannot be updated.
 	// +kubebuilder:validation:Optional
 	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
 
@@ -214,7 +237,9 @@ type NodeConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
 
-	// The set of Google API scopes to be made available on all node VMs. Cannot be updated. If empty, defaults to ["https://www.googleapis.com/auth/cloud-platform"]. This field is supported for Cloud Composer environments in versions composer-1.*.*-airflow-*.*.*.
+	// The set of Google API scopes to be made available on all node
+	// VMs. Cannot be updated. If empty, defaults to
+	// ["https://www.googleapis.com/auth/cloud-platform"].
 	// +kubebuilder:validation:Optional
 	OAuthScopes []*string `json:"oauthScopes,omitempty" tf:"oauth_scopes,omitempty"`
 
@@ -242,11 +267,17 @@ type NodeConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	SubnetworkSelector *v1.Selector `json:"subnetworkSelector,omitempty" tf:"-"`
 
-	// The list of instance tags applied to all node VMs. Tags are used to identify valid sources or targets for network firewalls. Each tag within the list must comply with RFC1035. Cannot be updated. This field is supported for Cloud Composer environments in versions composer-1.*.*-airflow-*.*.*.
+	// The list of instance tags applied to all node VMs. Tags are
+	// used to identify valid sources or targets for network
+	// firewalls. Each tag within the list must comply with RFC1035.
+	// Cannot be updated.
 	// +kubebuilder:validation:Optional
 	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
-	// The Compute Engine zone in which to deploy the VMs running the Apache Airflow software, specified as the zone name or relative resource name (e.g. "projects/{project}/zones/{zone}"). Must belong to the enclosing environment's project and region. This field is supported for Cloud Composer environments in versions composer-1.*.*-airflow-*.*.*.
+	// The Compute Engine zone in which to deploy the VMs running the
+	// Apache Airflow software, specified as the zone name or
+	// relative resource name . Must
+	// belong to the enclosing environment's project and region.
 	// +kubebuilder:validation:Optional
 	Zone *string `json:"zone,omitempty" tf:"zone,omitempty"`
 }
@@ -276,7 +307,7 @@ type PrivateEnvironmentConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	MasterIPv4CidrBlock *string `json:"masterIpv4CidrBlock,omitempty" tf:"master_ipv4_cidr_block,omitempty"`
 
-	// The CIDR block from which IP range for web server will be reserved. Needs to be disjoint from master_ipv4_cidr_block and cloud_sql_ipv4_cidr_block. This field is supported for Cloud Composer environments in versions composer-1.*.*-airflow-*.*.*.
+	// The CIDR block from which IP range for web server will be reserved. Needs to be disjoint from master_ipv4_cidr_block and cloud_sql_ipv4_cidr_block.
 	// +kubebuilder:validation:Optional
 	WebServerIPv4CidrBlock *string `json:"webServerIpv4CidrBlock,omitempty" tf:"web_server_ipv4_cidr_block,omitempty"`
 }
@@ -324,11 +355,12 @@ type SoftwareConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	PypiPackages map[string]*string `json:"pypiPackages,omitempty" tf:"pypi_packages,omitempty"`
 
-	// The major version of Python used to run the Apache Airflow scheduler, worker, and webserver processes. Can be set to '2' or '3'. If not specified, the default is '2'. Cannot be updated. This field is supported for Cloud Composer environments in versions composer-1.*.*-airflow-*.*.*. Environments in newer versions always use Python major version 3.
+	// The major version of Python used to run the Apache Airflow scheduler, worker, and webserver processes.
+	// Can be set to '2' or '3'. If not specified, the default is '3'.
 	// +kubebuilder:validation:Optional
 	PythonVersion *string `json:"pythonVersion,omitempty" tf:"python_version,omitempty"`
 
-	// The number of schedulers for Airflow. This field is supported for Cloud Composer environments in versions composer-1.*.*-airflow-2.*.*.
+	// The number of schedulers for Airflow.
 	// +kubebuilder:validation:Optional
 	SchedulerCount *float64 `json:"schedulerCount,omitempty" tf:"scheduler_count,omitempty"`
 }
@@ -348,7 +380,7 @@ type WebServerNetworkAccessControlObservation struct {
 
 type WebServerNetworkAccessControlParameters struct {
 
-	// A collection of allowed IP ranges with descriptions.
+	// A collection of allowed IP ranges with descriptions. Structure is documented below.
 	// +kubebuilder:validation:Optional
 	AllowedIPRange []AllowedIPRangeParameters `json:"allowedIpRange,omitempty" tf:"allowed_ip_range,omitempty"`
 }
@@ -380,7 +412,9 @@ type WorkerParameters struct {
 	// +kubebuilder:validation:Optional
 	CPU *float64 `json:"cpu,omitempty" tf:"cpu,omitempty"`
 
-	// Maximum number of workers for autoscaling.
+	// The maximum number of Airflow workers that the environment can run. The number of workers in the
+	// environment does not go above this number, even if a higher number of workers is required to
+	// handle the load.
 	// +kubebuilder:validation:Optional
 	MaxCount *float64 `json:"maxCount,omitempty" tf:"max_count,omitempty"`
 
@@ -388,7 +422,8 @@ type WorkerParameters struct {
 	// +kubebuilder:validation:Optional
 	MemoryGb *float64 `json:"memoryGb,omitempty" tf:"memory_gb,omitempty"`
 
-	// Minimum number of workers for autoscaling.
+	// The minimum number of Airflow workers that the environment can run. The number of workers in the
+	// environment does not go above this number, even if a lower number of workers can handle the load.
 	// +kubebuilder:validation:Optional
 	MinCount *float64 `json:"minCount,omitempty" tf:"min_count,omitempty"`
 
@@ -429,7 +464,7 @@ type EnvironmentStatus struct {
 
 // +kubebuilder:object:root=true
 
-// Environment is the Schema for the Environments API
+// Environment is the Schema for the Environments API. An environment for running orchestration tasks.
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

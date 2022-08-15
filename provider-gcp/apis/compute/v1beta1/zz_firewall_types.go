@@ -76,7 +76,8 @@ type FirewallLogConfigObservation struct {
 
 type FirewallLogConfigParameters struct {
 
-	// This field denotes whether to include or exclude metadata for firewall logs. Possible values: ["EXCLUDE_ALL_METADATA", "INCLUDE_ALL_METADATA"]
+	// This field denotes whether to include or exclude metadata for firewall logs.
+	// Possible values are EXCLUDE_ALL_METADATA and INCLUDE_ALL_METADATA.
 	// +kubebuilder:validation:Required
 	Metadata *string `json:"metadata" tf:"metadata,omitempty"`
 }
@@ -226,17 +227,6 @@ type FirewallParameters struct {
 	// instances on the specified network.
 	// +kubebuilder:validation:Optional
 	TargetTags []*string `json:"targetTags,omitempty" tf:"target_tags,omitempty"`
-}
-
-type LogConfigObservation struct {
-}
-
-type LogConfigParameters struct {
-
-	// This field denotes whether to include or exclude metadata for firewall logs.
-	// Possible values are EXCLUDE_ALL_METADATA and INCLUDE_ALL_METADATA.
-	// +kubebuilder:validation:Required
-	Metadata *string `json:"metadata" tf:"metadata,omitempty"`
 }
 
 // FirewallSpec defines the desired state of Firewall

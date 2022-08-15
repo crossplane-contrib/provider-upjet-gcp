@@ -35,7 +35,9 @@ spec:
     name: v1beta1
     schema:
       openAPIV3Schema:
-        description: Job is the Schema for the Jobs API
+        description: Job is the Schema for the Jobs API. A scheduled job that can
+          publish a PubSub message or an HTTP request every X interval of time, using
+          a crontab format string.
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -66,11 +68,12 @@ spec:
                   appEngineHttpTarget:
                     description: App Engine HTTP target. If the job providers a App
                       Engine HTTP target the cron will send a request to the service
-                      instance
+                      instance Structure is documented below.
                     items:
                       properties:
                         appEngineRouting:
-                          description: App Engine Routing setting for the job.
+                          description: App Engine Routing setting for the job. Structure
+                            is documented below.
                           items:
                             properties:
                               instance:
@@ -107,12 +110,12 @@ spec:
                           description: Which HTTP method to use for the request.
                           type: string
                         relativeUri:
-                          description: The relative URI. The relative URL must begin
+                          description: 'The relative URI. The relative URL must begin
                             with "/" and must be a valid HTTP relative URL. It can
-                            contain a path, query string arguments, and \# fragments.
+                            contain a path, query string arguments, and # fragments.
                             If the relative URL is empty, then the root path "/" will
                             be used. No spaces are allowed, and the maximum length
-                            allowed is 2083 characters
+                            allowed is 2083 characters'
                           type: string
                       required:
                       - relativeUri
@@ -124,12 +127,7 @@ spec:
                       and the attempt is marked as a DEADLINE_EXCEEDED failure. The
                       failed attempt can be viewed in execution logs. Cloud Scheduler
                       will retry the job according to the RetryConfig. The allowed
-                      duration for this deadline is: * For HTTP targets, between 15
-                      seconds and 30 minutes. * For App Engine HTTP targets, between
-                      15 seconds and 24 hours. * **Note**: For PubSub targets, this
-                      field is ignored - setting it will introduce an unresolvable
-                      diff. A duration in seconds with up to nine fractional digits,
-                      terminated by ''s''. Example: "3.5s"'
+                      duration for this deadline is:'
                     type: string
                   description:
                     description: A human-readable description for the job. This string
@@ -137,7 +135,8 @@ spec:
                     type: string
                   httpTarget:
                     description: HTTP target. If the job providers a http_target the
-                      cron will send a request to the targeted url
+                      cron will send a request to the targeted url Structure is documented
+                      below.
                     items:
                       properties:
                         body:
@@ -159,7 +158,8 @@ spec:
                         oauthToken:
                           description: Contains information needed for generating
                             an OAuth token. This type of authorization should be used
-                            when sending requests to a GCP endpoint.
+                            when sending requests to a GCP endpoint. Structure is
+                            documented below.
                           items:
                             properties:
                               scope:
@@ -180,7 +180,7 @@ spec:
                           description: Contains information needed for generating
                             an OpenID Connect token. This type of authorization should
                             be used when sending requests to third party endpoints
-                            or Cloud Run.
+                            or Cloud Run. Structure is documented below.
                           items:
                             properties:
                               audience:
@@ -206,10 +206,13 @@ spec:
                       type: object
                     type: array
                   project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
                     type: string
                   pubsubTarget:
                     description: Pub/Sub target If the job providers a Pub/Sub target
-                      the cron will publish a message to the provided topic
+                      the cron will publish a message to the provided topic Structure
+                      is documented below.
                     items:
                       properties:
                         attributes:
@@ -219,16 +222,16 @@ spec:
                             must contain either non-empty data, or at least one attribute.
                           type: object
                         data:
-                          description: "The message payload for PubsubMessage. Pubsub
+                          description: The message payload for PubsubMessage. Pubsub
                             message must contain either non-empty data, or at least
-                            one attribute. \n A base64-encoded string."
+                            one attribute. A base64-encoded string.
                           type: string
                         topicName:
-                          description: The full resource name for the Cloud Pub/Sub
+                          description: 'The full resource name for the Cloud Pub/Sub
                             topic to which messages will be published when a job is
-                            delivered. ~>**NOTE:** The topic name must be in the same
-                            format as required by PubSub's PublishRequest.name, e.g.
-                            'projects/my-project/topics/my-topic'.
+                            delivered. ~>NOTE: The topic name must be in the same
+                            format as required by PubSub''s PublishRequest.name, e.g.
+                            projects/my-project/topics/my-topic.'
                           type: string
                         topicNameRef:
                           description: A Reference to a named object.
@@ -316,7 +319,7 @@ spec:
                     description: By default, if a job does not complete successfully,
                       meaning that an acknowledgement is not received from the handler,
                       then it will be retried with exponential backoff according to
-                      the settings
+                      the settings Structure is documented below.
                     items:
                       properties:
                         maxBackoffDuration:
@@ -539,6 +542,7 @@ spec:
               atProvider:
                 properties:
                   id:
+                    description: an identifier for the resource with format projects/{{project}}/locations/{{region}}/jobs/{{name}}
                     type: string
                 type: object
               conditions:

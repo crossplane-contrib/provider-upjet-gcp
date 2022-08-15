@@ -31,6 +31,7 @@ type AppEngineHTTPTargetObservation struct {
 type AppEngineHTTPTargetParameters struct {
 
 	// App Engine Routing setting for the job.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	AppEngineRouting []AppEngineRoutingParameters `json:"appEngineRouting,omitempty" tf:"app_engine_routing,omitempty"`
 
@@ -54,7 +55,7 @@ type AppEngineHTTPTargetParameters struct {
 
 	// The relative URI.
 	// The relative URL must begin with "/" and must be a valid HTTP relative URL.
-	// It can contain a path, query string arguments, and \# fragments.
+	// It can contain a path, query string arguments, and # fragments.
 	// If the relative URL is empty, then the root path "/" will be used.
 	// No spaces are allowed, and the maximum length allowed is 2083 characters
 	// +kubebuilder:validation:Required
@@ -106,11 +107,13 @@ type HTTPTargetParameters struct {
 
 	// Contains information needed for generating an OAuth token.
 	// This type of authorization should be used when sending requests to a GCP endpoint.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	OAuthToken []OAuthTokenParameters `json:"oauthToken,omitempty" tf:"oauth_token,omitempty"`
 
 	// Contains information needed for generating an OpenID Connect token.
 	// This type of authorization should be used when sending requests to third party endpoints or Cloud Run.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	OidcToken []OidcTokenParameters `json:"oidcToken,omitempty" tf:"oidc_token,omitempty"`
 
@@ -120,6 +123,8 @@ type HTTPTargetParameters struct {
 }
 
 type JobObservation struct {
+
+	// an identifier for the resource with format projects/{{project}}/locations/{{region}}/jobs/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 }
 
@@ -128,6 +133,7 @@ type JobParameters struct {
 	// App Engine HTTP target.
 	// If the job providers a App Engine HTTP target the cron will
 	// send a request to the service instance
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	AppEngineHTTPTarget []AppEngineHTTPTargetParameters `json:"appEngineHttpTarget,omitempty" tf:"app_engine_http_target,omitempty"`
 
@@ -135,10 +141,6 @@ type JobParameters struct {
 	// cancelled and the attempt is marked as a DEADLINE_EXCEEDED failure. The failed attempt can be viewed in
 	// execution logs. Cloud Scheduler will retry the job according to the RetryConfig.
 	// The allowed duration for this deadline is:
-	// * For HTTP targets, between 15 seconds and 30 minutes.
-	// * For App Engine HTTP targets, between 15 seconds and 24 hours.
-	// * **Note**: For PubSub targets, this field is ignored - setting it will introduce an unresolvable diff.
-	// A duration in seconds with up to nine fractional digits, terminated by 's'. Example: "3.5s"
 	// +kubebuilder:validation:Optional
 	AttemptDeadline *string `json:"attemptDeadline,omitempty" tf:"attempt_deadline,omitempty"`
 
@@ -150,15 +152,19 @@ type JobParameters struct {
 	// HTTP target.
 	// If the job providers a http_target the cron will
 	// send a request to the targeted url
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	HTTPTarget []HTTPTargetParameters `json:"httpTarget,omitempty" tf:"http_target,omitempty"`
 
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Pub/Sub target
 	// If the job providers a Pub/Sub target the cron will publish
 	// a message to the provided topic
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	PubsubTarget []PubsubTargetParameters `json:"pubsubTarget,omitempty" tf:"pubsub_target,omitempty"`
 
@@ -169,6 +175,7 @@ type JobParameters struct {
 	// By default, if a job does not complete successfully,
 	// meaning that an acknowledgement is not received from the handler,
 	// then it will be retried with exponential backoff according to the settings
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	RetryConfig []RetryConfigParameters `json:"retryConfig,omitempty" tf:"retry_config,omitempty"`
 
@@ -226,15 +233,14 @@ type PubsubTargetParameters struct {
 
 	// The message payload for PubsubMessage.
 	// Pubsub message must contain either non-empty data, or at least one attribute.
-	//
 	// A base64-encoded string.
 	// +kubebuilder:validation:Optional
 	Data *string `json:"data,omitempty" tf:"data,omitempty"`
 
 	// The full resource name for the Cloud Pub/Sub topic to which
-	// messages will be published when a job is delivered. ~>**NOTE:**
+	// messages will be published when a job is delivered. ~>NOTE:
 	// The topic name must be in the same format as required by PubSub's
-	// PublishRequest.name, e.g. 'projects/my-project/topics/my-topic'.
+	// PublishRequest.name, e.g. projects/my-project/topics/my-topic.
 	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/pubsub/v1beta1.Topic
 	// +kubebuilder:validation:Optional
 	TopicName *string `json:"topicName,omitempty" tf:"topic_name,omitempty"`
@@ -295,7 +301,7 @@ type JobStatus struct {
 
 // +kubebuilder:object:root=true
 
-// Job is the Schema for the Jobs API
+// Job is the Schema for the Jobs API. A scheduled job that can publish a PubSub message or an HTTP request every X interval of time, using a crontab format string.
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

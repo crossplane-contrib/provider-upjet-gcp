@@ -36,7 +36,7 @@ spec:
     schema:
       openAPIV3Schema:
         description: BackendBucketSignedURLKey is the Schema for the BackendBucketSignedURLKeys
-          API
+          API. A key for signing Cloud CDN signed URLs for BackendBuckets.
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -142,8 +142,10 @@ spec:
                         type: object
                     type: object
                   keyValueSecretRef:
-                    description: 128-bit key value used for signing the URL. The key
-                      value must be a valid RFC 4648 Section 5 base64url encoded string.
+                    description: '128-bit key value used for signing the URL. The
+                      key value must be a valid RFC 4648 Section 5 base64url encoded
+                      string. Note: This property is sensitive and will not be displayed
+                      in the plan.'
                     properties:
                       key:
                         description: The key to select.
@@ -163,6 +165,8 @@ spec:
                     description: Name of the signed URL key.
                     type: string
                   project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
                     type: string
                 required:
                 - keyValueSecretRef
@@ -346,6 +350,7 @@ spec:
               atProvider:
                 properties:
                   id:
+                    description: an identifier for the resource with format projects/{{project}}/global/backendBuckets/{{backend_bucket}}
                     type: string
                 type: object
               conditions:

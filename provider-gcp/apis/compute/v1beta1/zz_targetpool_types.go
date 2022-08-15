@@ -52,8 +52,15 @@ type TargetPoolParameters struct {
 
 	// List of zero or one health check name or self_link. Only
 	// legacy google_compute_http_health_check is supported.
+	// +crossplane:generate:reference:type=HTTPHealthCheck
 	// +kubebuilder:validation:Optional
 	HealthChecks []*string `json:"healthChecks,omitempty" tf:"health_checks,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	HealthChecksRefs []v1.Reference `json:"healthChecksRefs,omitempty" tf:"-"`
+
+	// +kubebuilder:validation:Optional
+	HealthChecksSelector *v1.Selector `json:"healthChecksSelector,omitempty" tf:"-"`
 
 	// List of instances in the pool. They can be given as
 	// URLs, or in the form of "zone/name". Note that the instances need not exist

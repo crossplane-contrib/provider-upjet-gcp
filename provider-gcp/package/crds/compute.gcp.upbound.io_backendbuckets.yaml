@@ -35,7 +35,9 @@ spec:
     name: v1beta1
     schema:
       openAPIV3Schema:
-        description: BackendBucket is the Schema for the BackendBuckets API
+        description: BackendBucket is the Schema for the BackendBuckets API. Backend
+          buckets allow you to use Google Cloud Storage buckets with HTTP(S) load
+          balancing.
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -141,13 +143,14 @@ spec:
                     type: object
                   cdnPolicy:
                     description: Cloud CDN configuration for this Backend Bucket.
+                      Structure is documented below.
                     items:
                       properties:
                         cacheMode:
                           description: 'Specifies the cache setting for all responses
                             from this backend. The possible values are: USE_ORIGIN_HEADERS,
-                            FORCE_CACHE_ALL and CACHE_ALL_STATIC Possible values:
-                            ["USE_ORIGIN_HEADERS", "FORCE_CACHE_ALL", "CACHE_ALL_STATIC"]'
+                            FORCE_CACHE_ALL and CACHE_ALL_STATIC Possible values are
+                            USE_ORIGIN_HEADERS, FORCE_CACHE_ALL, and CACHE_ALL_STATIC.'
                           type: string
                         clientTtl:
                           description: Specifies the maximum allowed TTL for cached
@@ -156,7 +159,7 @@ spec:
                         defaultTtl:
                           description: Specifies the default TTL for cached content
                             served by this origin for responses that do not have an
-                            existing valid TTL (max-age or s-max-age).
+                            existing valid TTL .
                           type: number
                         maxTtl:
                           description: Specifies the maximum allowed TTL for cached
@@ -171,7 +174,8 @@ spec:
                           description: Sets a cache TTL for the specified HTTP status
                             code. negativeCaching must be enabled to configure negativeCachingPolicy.
                             Omitting the policy and leaving negativeCaching enabled
-                            will use Cloud CDN's default cache TTLs.
+                            will use Cloud CDN's default cache TTLs. Structure is
+                            documented below.
                           items:
                             properties:
                               code:
@@ -181,18 +185,18 @@ spec:
                                   and you cannot specify a status code more than once.
                                 type: number
                               ttl:
-                                description: The TTL (in seconds) for which to cache
-                                  responses with the corresponding status code. The
-                                  maximum allowed value is 1800s (30 minutes), noting
-                                  that infrequently accessed objects may be evicted
-                                  from the cache before the defined TTL.
+                                description: The TTL  for which to cache responses
+                                  with the corresponding status code. The maximum
+                                  allowed value is 1800s , noting that infrequently
+                                  accessed objects may be evicted from the cache before
+                                  the defined TTL.
                                 type: number
                             type: object
                           type: array
                         serveWhileStale:
-                          description: Serve existing content from the cache (if available)
-                            when revalidating content with the origin, or when an
-                            error is encountered when refreshing the cache.
+                          description: Serve existing content from the cache  when
+                            revalidating content with the origin, or when an error
+                            is encountered when refreshing the cache.
                           type: number
                         signedUrlCacheMaxAgeSec:
                           description: 'Maximum number of seconds the response to
@@ -224,6 +228,8 @@ spec:
                     description: If true, enable Cloud CDN for this BackendBucket.
                     type: boolean
                   project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
                     type: string
                 type: object
               providerConfigRef:
@@ -403,10 +409,13 @@ spec:
               atProvider:
                 properties:
                   creationTimestamp:
+                    description: Creation timestamp in RFC3339 text format.
                     type: string
                   id:
+                    description: an identifier for the resource with format projects/{{project}}/global/backendBuckets/{{name}}
                     type: string
                   selfLink:
+                    description: The URI of the created resource.
                     type: string
                 type: object
               conditions:

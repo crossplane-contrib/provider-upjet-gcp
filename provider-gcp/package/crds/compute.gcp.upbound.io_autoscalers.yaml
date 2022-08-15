@@ -35,7 +35,8 @@ spec:
     name: v1beta1
     schema:
       openAPIV3Schema:
-        description: Autoscaler is the Schema for the Autoscalers API
+        description: Autoscaler is the Schema for the Autoscalers API. Represents
+          an Autoscaler resource.
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -64,40 +65,34 @@ spec:
               forProvider:
                 properties:
                   autoscalingPolicy:
-                    description: "The configuration parameters for the autoscaling
+                    description: 'The configuration parameters for the autoscaling
                       algorithm. You can define one or more of the policies for an
                       autoscaler: cpuUtilization, customMetricUtilizations, and loadBalancingUtilization.
-                      \n If none of these are specified, the default will be to autoscale
-                      based on cpuUtilization to 0.6 or 60%."
+                      If none of these are specified, the default will be to autoscale
+                      based on cpuUtilization to 0.6 or 60%. Structure is documented
+                      below.'
                     items:
                       properties:
                         cooldownPeriod:
-                          description: "The number of seconds that the autoscaler
-                            should wait before it starts collecting information from
-                            a new instance. This prevents the autoscaler from collecting
+                          description: The number of seconds that the autoscaler should
+                            wait before it starts collecting information from a new
+                            instance. This prevents the autoscaler from collecting
                             information when the instance is initializing, during
                             which the collected usage would not be reliable. The default
-                            time autoscaler waits is 60 seconds. \n Virtual machine
-                            initialization times might vary because of numerous factors.
-                            We recommend that you test how long an instance may take
-                            to initialize. To do this, create an instance and time
-                            the startup process."
+                            time autoscaler waits is 60 seconds. Virtual machine initialization
+                            times might vary because of numerous factors. We recommend
+                            that you test how long an instance may take to initialize.
+                            To do this, create an instance and time the startup process.
                           type: number
                         cpuUtilization:
                           description: Defines the CPU utilization policy that allows
                             the autoscaler to scale based on the average CPU utilization
-                            of a managed instance group.
+                            of a managed instance group. Structure is documented below.
                           items:
                             properties:
                               predictiveMethod:
-                                description: "Indicates whether predictive autoscaling
-                                  based on CPU metric is enabled. Valid values are:
-                                  \n - NONE (default). No predictive method is used.
-                                  The autoscaler scales the group to meet current
-                                  demand based on real-time metrics. \n - OPTIMIZE_AVAILABILITY.
-                                  Predictive autoscaling improves availability by
-                                  monitoring daily and weekly load patterns and scaling
-                                  out ahead of anticipated demand."
+                                description: 'Indicates whether predictive autoscaling
+                                  based on CPU metric is enabled. Valid values are:'
                                 type: string
                               target:
                                 description: "The target CPU utilization that the
@@ -119,7 +114,7 @@ spec:
                           type: array
                         loadBalancingUtilization:
                           description: Configuration parameters of autoscaling based
-                            on a load balancer.
+                            on a load balancer. Structure is documented below.
                           items:
                             properties:
                               target:
@@ -140,7 +135,7 @@ spec:
                           type: number
                         metric:
                           description: Configuration parameters of autoscaling based
-                            on a custom metric.
+                            on a custom metric. Structure is documented below.
                           items:
                             properties:
                               name:
@@ -160,9 +155,10 @@ spec:
                                   for each of the instances."
                                 type: number
                               type:
-                                description: 'Defines how target utilization value
+                                description: Defines how target utilization value
                                   is expressed for a Stackdriver Monitoring metric.
-                                  Possible values: ["GAUGE", "DELTA_PER_SECOND", "DELTA_PER_MINUTE"]'
+                                  Possible values are GAUGE, DELTA_PER_SECOND, and
+                                  DELTA_PER_MINUTE.
                                 type: string
                             required:
                             - name
@@ -175,17 +171,18 @@ spec:
                             on maximum number of instances allowed.
                           type: number
                         mode:
-                          description: 'Defines operating mode for this policy. Default
-                            value: "ON" Possible values: ["OFF", "ONLY_UP", "ON"]'
+                          description: Defines operating mode for this policy. Default
+                            value is ON. Possible values are OFF, ONLY_UP, and ON.
                           type: string
                         scaleInControl:
                           description: Defines scale in controls to reduce the risk
                             of response latency and outages due to abrupt scale-in
-                            events
+                            events Structure is documented below.
                           items:
                             properties:
                               maxScaledInReplicas:
-                                description: A nested object resource
+                                description: A nested object resource Structure is
+                                  documented below.
                                 items:
                                   properties:
                                     fixed:
@@ -209,7 +206,7 @@ spec:
                         scalingSchedules:
                           description: Scaling schedules defined for an autoscaler.
                             Multiple schedules can be set on an autoscaler and they
-                            can overlap.
+                            can overlap. Structure is documented below.
                           items:
                             properties:
                               description:
@@ -221,9 +218,9 @@ spec:
                                   If set to true, then a scaling schedule has no effect.
                                 type: boolean
                               durationSec:
-                                description: The duration of time intervals (in seconds)
-                                  for which this scaling schedule will be running.
-                                  The minimum allowed value is 300.
+                                description: The duration of time intervals  for which
+                                  this scaling schedule will be running. The minimum
+                                  allowed value is 300.
                                 type: number
                               minRequiredReplicas:
                                 description: Minimum number of VM instances that autoscaler
@@ -236,7 +233,7 @@ spec:
                                 description: The start timestamps of time intervals
                                   when this scaling schedule should provide a scaling
                                   signal. This field uses the extended cron format
-                                  (with an optional year field).
+                                  .
                                 type: string
                               timeZone:
                                 description: 'The time zone to be used when interpreting
@@ -259,6 +256,8 @@ spec:
                     description: An optional description of this resource.
                     type: string
                   project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
                     type: string
                   target:
                     description: URL of the managed instance group that this autoscaler
@@ -521,10 +520,13 @@ spec:
               atProvider:
                 properties:
                   creationTimestamp:
+                    description: Creation timestamp in RFC3339 text format.
                     type: string
                   id:
+                    description: an identifier for the resource with format projects/{{project}}/zones/{{zone}}/autoscalers/{{name}}
                     type: string
                   selfLink:
+                    description: The URI of the created resource.
                     type: string
                 type: object
               conditions:

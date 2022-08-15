@@ -26,12 +26,18 @@ import (
 )
 
 type AttachedDiskObservation struct {
+
+	// an identifier for the resource with format projects/{{project}}/zones/{{zone}}/disks/{{disk.name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 }
 
 type AttachedDiskParameters struct {
 
-	// Specifies a unique device name of your choice that is reflected into the /dev/disk/by-id/google-* tree of a Linux operating system running within the instance. This name can be used to reference the device for mounting, resizing, and so on, from within the instance. If not specified, the server chooses a default device name to apply to this disk, in the form persistent-disks-x, where x is a number assigned by Google Compute Engine.
+	// Specifies a unique device name of your choice that is
+	// reflected into the /dev/disk/by-id/google-* tree of a Linux operating
+	// system running within the instance. This name can be used to
+	// reference the device for mounting, resizing, and so on, from within
+	// the instance.
 	// +kubebuilder:validation:Optional
 	DeviceName *string `json:"deviceName,omitempty" tf:"device_name,omitempty"`
 
@@ -47,7 +53,10 @@ type AttachedDiskParameters struct {
 	// +kubebuilder:validation:Optional
 	DiskSelector *v1.Selector `json:"diskSelector,omitempty" tf:"-"`
 
-	// name or self_link of the compute instance that the disk will be attached to. If the self_link is provided then zone and project are extracted from the self link. If only the name is used then zone and project must be defined as properties on the resource or provider.
+	// name or self_link of the compute instance that the disk will be attached to.
+	// If the self_link is provided then zone and project are extracted from the
+	// self link. If only the name is used then zone and project must be defined
+	// as properties on the resource or provider.
 	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.Instance
 	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
@@ -59,15 +68,19 @@ type AttachedDiskParameters struct {
 	// +kubebuilder:validation:Optional
 	InstanceSelector *v1.Selector `json:"instanceSelector,omitempty" tf:"-"`
 
-	// The mode in which to attach this disk, either READ_WRITE or READ_ONLY. If not specified, the default is to attach the disk in READ_WRITE mode.
+	// The mode in which to attach this disk, either READ_WRITE or
+	// READ_ONLY. If not specified, the default is to attach the disk in
+	// READ_WRITE mode.
 	// +kubebuilder:validation:Optional
 	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
 
-	// The project that the referenced compute instance is a part of. If instance is referenced by its self_link the project defined in the link will take precedence.
+	// The project that the referenced compute instance is a part of. If instance is referenced by its
+	// self_link the project defined in the link will take precedence.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
-	// The zone that the referenced compute instance is located within. If instance is referenced by its self_link the zone defined in the link will take precedence.
+	// The zone that the referenced compute instance is located within. If instance is referenced by its
+	// self_link the zone defined in the link will take precedence.
 	// +kubebuilder:validation:Optional
 	Zone *string `json:"zone,omitempty" tf:"zone,omitempty"`
 }
@@ -86,7 +99,7 @@ type AttachedDiskStatus struct {
 
 // +kubebuilder:object:root=true
 
-// AttachedDisk is the Schema for the AttachedDisks API
+// AttachedDisk is the Schema for the AttachedDisks API. Resource that allows attaching existing persistent disks to compute instances.
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

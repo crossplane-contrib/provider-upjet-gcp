@@ -35,7 +35,8 @@ spec:
     name: v1beta1
     schema:
       openAPIV3Schema:
-        description: Environment is the Schema for the Environments API
+        description: Environment is the Schema for the Environments API. An environment
+          for running orchestration tasks.
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -68,10 +69,8 @@ spec:
                     items:
                       properties:
                         databaseConfig:
-                          description: The configuration of Cloud SQL instance that
-                            is used by the Apache Airflow software. This field is
-                            supported for Cloud Composer environments in versions
-                            composer-1.*.*-airflow-*.*.*.
+                          description: The configuration settings for Cloud SQL instance
+                            used internally by Apache Airflow software.
                           items:
                             properties:
                               machineType:
@@ -85,14 +84,14 @@ spec:
                             type: object
                           type: array
                         encryptionConfig:
-                          description: The encryption options for the Composer environment
-                            and its dependencies. This field is supported for Cloud
-                            Composer environments in versions composer-1.*.*-airflow-*.*.*.
+                          description: The encryption options for the Cloud Composer
+                            environment and its dependencies.
                           items:
                             properties:
                               kmsKeyName:
-                                description: Optional. Customer-managed Encryption
-                                  Key available through Google's Key Management Service.
+                                description: Customer-managed Encryption Key available
+                                  through Google's Key Management Service. It must
+                                  be the fully qualified resource name, i.e. projects/project-id/locations/location/keyRings/keyring/cryptoKeys/key.
                                   Cannot be updated.
                                 type: string
                             required:
@@ -100,9 +99,11 @@ spec:
                             type: object
                           type: array
                         environmentSize:
-                          description: The size of the Cloud Composer environment.
-                            This field is supported for Cloud Composer environments
-                            in versions composer-2.*.*-airflow-*.*.* and newer.
+                          description: The environment size controls the performance
+                            parameters of the managed Cloud Composer infrastructure
+                            that includes the Airflow database. Values for environment
+                            size are ENVIRONMENT_SIZE_SMALL, ENVIRONMENT_SIZE_MEDIUM,
+                            and ENVIRONMENT_SIZE_LARGE.
                           type: string
                         maintenanceWindow:
                           description: The configuration for Cloud Composer maintenance
@@ -140,8 +141,7 @@ spec:
                               diskSizeGb:
                                 description: The disk size in GB used for node VMs.
                                   Minimum size is 20GB. If unspecified, defaults to
-                                  100GB. Cannot be updated. This field is supported
-                                  for Cloud Composer environments in versions composer-1.*.*-airflow-*.*.*.
+                                  100GB. Cannot be updated.
                                 type: number
                               ipAllocationPolicy:
                                 description: Configuration for controlling how IPs
@@ -157,6 +157,10 @@ spec:
                                     servicesSecondaryRangeName:
                                       type: string
                                     useIpAliases:
+                                      description: Whether or not to enable Alias
+                                        IPs in the GKE cluster. If true, a VPC-native
+                                        cluster is created. Defaults to true if the
+                                        ip_allocation_policy block is present in config.
                                       type: boolean
                                   type: object
                                 type: array
@@ -261,8 +265,6 @@ spec:
                                 description: The set of Google API scopes to be made
                                   available on all node VMs. Cannot be updated. If
                                   empty, defaults to ["https://www.googleapis.com/auth/cloud-platform"].
-                                  This field is supported for Cloud Composer environments
-                                  in versions composer-1.*.*-airflow-*.*.*.
                                 items:
                                   type: string
                                 type: array
@@ -444,27 +446,21 @@ spec:
                                   all node VMs. Tags are used to identify valid sources
                                   or targets for network firewalls. Each tag within
                                   the list must comply with RFC1035. Cannot be updated.
-                                  This field is supported for Cloud Composer environments
-                                  in versions composer-1.*.*-airflow-*.*.*.
                                 items:
                                   type: string
                                 type: array
                               zone:
                                 description: The Compute Engine zone in which to deploy
                                   the VMs running the Apache Airflow software, specified
-                                  as the zone name or relative resource name (e.g.
-                                  "projects/{project}/zones/{zone}"). Must belong
-                                  to the enclosing environment's project and region.
-                                  This field is supported for Cloud Composer environments
-                                  in versions composer-1.*.*-airflow-*.*.*.
+                                  as the zone name or relative resource name . Must
+                                  belong to the enclosing environment's project and
+                                  region.
                                 type: string
                             type: object
                           type: array
                         nodeCount:
                           description: The number of nodes in the Kubernetes Engine
-                            cluster that will be used to run this environment. This
-                            field is supported for Cloud Composer environments in
-                            versions composer-1.*.*-airflow-*.*.*.
+                            cluster of the environment.
                           type: number
                         privateEnvironmentConfig:
                           description: The configuration used for the Private IP Cloud
@@ -514,8 +510,6 @@ spec:
                                 description: The CIDR block from which IP range for
                                   web server will be reserved. Needs to be disjoint
                                   from master_ipv4_cidr_block and cloud_sql_ipv4_cidr_block.
-                                  This field is supported for Cloud Composer environments
-                                  in versions composer-1.*.*-airflow-*.*.*.
                                 type: string
                             type: object
                           type: array
@@ -588,23 +582,16 @@ spec:
                                 description: The major version of Python used to run
                                   the Apache Airflow scheduler, worker, and webserver
                                   processes. Can be set to '2' or '3'. If not specified,
-                                  the default is '2'. Cannot be updated. This field
-                                  is supported for Cloud Composer environments in
-                                  versions composer-1.*.*-airflow-*.*.*. Environments
-                                  in newer versions always use Python major version
-                                  3.
+                                  the default is '3'.
                                 type: string
                               schedulerCount:
                                 description: The number of schedulers for Airflow.
-                                  This field is supported for Cloud Composer environments
-                                  in versions composer-1.*.*-airflow-2.*.*.
                                 type: number
                             type: object
                           type: array
                         webServerConfig:
                           description: The configuration settings for the Airflow
-                            web server App Engine instance. This field is supported
-                            for Cloud Composer environments in versions composer-1.*.*-airflow-*.*.*.
+                            web server App Engine instance.
                           items:
                             properties:
                               machineType:
@@ -623,13 +610,12 @@ spec:
                         webServerNetworkAccessControl:
                           description: The network-level access control policy for
                             the Airflow web server. If unspecified, no network-level
-                            access restrictions will be applied. This field is supported
-                            for Cloud Composer environments in versions composer-1.*.*-airflow-*.*.*.
+                            access restrictions are applied.
                           items:
                             properties:
                               allowedIpRange:
                                 description: A collection of allowed IP ranges with
-                                  descriptions.
+                                  descriptions. Structure is documented below.
                                 items:
                                   properties:
                                     description:
@@ -652,10 +638,8 @@ spec:
                             type: object
                           type: array
                         workloadsConfig:
-                          description: The workloads configuration settings for the
+                          description: The Kubernetes workloads configuration for
                             GKE cluster associated with the Cloud Composer environment.
-                            Supported for Cloud Composer environments in versions
-                            composer-2.*.*-airflow-*.*.* and newer.
                           items:
                             properties:
                               scheduler:
@@ -709,14 +693,22 @@ spec:
                                         Airflow worker replica.
                                       type: number
                                     maxCount:
-                                      description: Maximum number of workers for autoscaling.
+                                      description: The maximum number of Airflow workers
+                                        that the environment can run. The number of
+                                        workers in the environment does not go above
+                                        this number, even if a higher number of workers
+                                        is required to handle the load.
                                       type: number
                                     memoryGb:
                                       description: Memory (GB) request and limit for
                                         a single Airflow worker replica.
                                       type: number
                                     minCount:
-                                      description: Minimum number of workers for autoscaling.
+                                      description: The minimum number of Airflow workers
+                                        that the environment can run. The number of
+                                        workers in the environment does not go above
+                                        this number, even if a lower number of workers
+                                        can handle the load.
                                       type: number
                                     storageGb:
                                       description: Storage (GB) request and limit
@@ -1001,17 +993,29 @@ spec:
               atProvider:
                 properties:
                   config:
+                    description: Configuration parameters for this environment.
                     items:
                       properties:
                         airflowUri:
+                          description: The URI of the Apache Airflow Web UI hosted
+                            within this environment.
                           type: string
                         dagGcsPrefix:
+                          description: The Cloud Storage prefix of the DAGs for this
+                            environment. Although Cloud Storage objects reside in
+                            a flat namespace, a hierarchical file tree can be simulated
+                            using '/'-delimited object name prefixes. DAG objects
+                            for this environment reside in a simulated directory with
+                            this prefix.
                           type: string
                         gkeCluster:
+                          description: The Kubernetes Engine cluster used to run this
+                            environment.
                           type: string
                       type: object
                     type: array
                   id:
+                    description: an identifier for the resource with format projects/{{project}}/locations/{{region}}/environments/{{name}}
                     type: string
                 type: object
               conditions:

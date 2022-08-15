@@ -35,7 +35,9 @@ spec:
     name: v1beta1
     schema:
       openAPIV3Schema:
-        description: BackendService is the Schema for the BackendServices API
+        description: BackendService is the Schema for the BackendServices API. A Backend
+          Service defines a group of virtual machines that will serve traffic for
+          load balancing.
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -64,52 +66,51 @@ spec:
               forProvider:
                 properties:
                   affinityCookieTtlSec:
-                    description: "Lifetime of cookies in seconds if session_affinity
+                    description: Lifetime of cookies in seconds if session_affinity
                       is GENERATED_COOKIE. If set to 0, the cookie is non-persistent
-                      and lasts only until the end of the browser session (or equivalent).
-                      The maximum allowed value for TTL is one day. \n When the load
-                      balancing scheme is INTERNAL, this field is not used."
+                      and lasts only until the end of the browser session . The maximum
+                      allowed value for TTL is one day. When the load balancing scheme
+                      is INTERNAL, this field is not used.
                     type: number
                   backend:
                     description: The set of backends that serve this BackendService.
+                      Structure is documented below.
                     items:
                       properties:
                         balancingMode:
-                          description: "Specifies the balancing mode for this backend.
-                            \n For global HTTP(S) or TCP/SSL load balancing, the default
+                          description: Specifies the balancing mode for this backend.
+                            For global HTTP or TCP/SSL load balancing, the default
                             is UTILIZATION. Valid values are UTILIZATION, RATE (for
-                            HTTP(S)) and CONNECTION (for TCP/SSL). Default value:
-                            \"UTILIZATION\" Possible values: [\"UTILIZATION\", \"RATE\",
-                            \"CONNECTION\"]"
+                            HTTP) and CONNECTION . Default value is UTILIZATION. Possible
+                            values are UTILIZATION, RATE, and CONNECTION.
                           type: string
                         capacityScaler:
-                          description: "A multiplier applied to the group's maximum
-                            servicing capacity (based on UTILIZATION, RATE or CONNECTION).
-                            \n Default value is 1, which means the group will serve
-                            up to 100% of its configured capacity (depending on balancingMode).
-                            A setting of 0 means the group is completely drained,
+                          description: A multiplier applied to the group's maximum
+                            servicing capacity . Default value is 1, which means the
+                            group will serve up to 100% of its configured capacity
+                            . A setting of 0 means the group is completely drained,
                             offering 0% of its available Capacity. Valid range is
-                            [0.0,1.0]."
+                            [0.0,1.0].
                           type: number
                         description:
                           description: An optional description of this resource. Provide
                             this property when you create the resource.
                           type: string
                         group:
-                          description: "The fully-qualified URL of an Instance Group
+                          description: The fully-qualified URL of an Instance Group
                             or Network Endpoint Group resource. In case of instance
                             group this defines the list of instances that serve traffic.
                             Member virtual machine instances from each instance group
                             must live in the same zone as the instance group itself.
                             No two backends in a backend service are allowed to use
-                            same Instance Group resource. \n For Network Endpoint
-                            Groups this defines list of endpoints. All endpoints of
-                            Network Endpoint Group must be hosted on instances located
-                            in the same zone as the Network Endpoint Group. \n Backend
-                            services cannot mix Instance Group and Network Endpoint
-                            Group backends. \n Note that you must specify an Instance
-                            Group or Network Endpoint Group resource using the fully-qualified
-                            URL, rather than a partial URL."
+                            same Instance Group resource. For Network Endpoint Groups
+                            this defines list of endpoints. All endpoints of Network
+                            Endpoint Group must be hosted on instances located in
+                            the same zone as the Network Endpoint Group. Backend services
+                            cannot mix Instance Group and Network Endpoint Group backends.
+                            Note that you must specify an Instance Group or Network
+                            Endpoint Group resource using the fully-qualified URL,
+                            rather than a partial URL.
                           type: string
                         groupRef:
                           description: A Reference to a named object.
@@ -195,37 +196,37 @@ spec:
                             as appropriate for group type, must be set."
                           type: number
                         maxConnectionsPerEndpoint:
-                          description: "The max number of simultaneous connections
+                          description: The max number of simultaneous connections
                             that a single backend network endpoint can handle. This
                             is used to calculate the capacity of the group. Can be
                             used in either CONNECTION or UTILIZATION balancing modes.
-                            \n For CONNECTION mode, either maxConnections or maxConnectionsPerEndpoint
-                            must be set."
+                            For CONNECTION mode, either maxConnections or maxConnectionsPerEndpoint
+                            must be set.
                           type: number
                         maxConnectionsPerInstance:
-                          description: "The max number of simultaneous connections
+                          description: The max number of simultaneous connections
                             that a single backend instance can handle. This is used
                             to calculate the capacity of the group. Can be used in
-                            either CONNECTION or UTILIZATION balancing modes. \n For
+                            either CONNECTION or UTILIZATION balancing modes. For
                             CONNECTION mode, either maxConnections or maxConnectionsPerInstance
-                            must be set."
+                            must be set.
                           type: number
                         maxRate:
-                          description: "The max requests per second (RPS) of the group.
-                            \n Can be used with either RATE or UTILIZATION balancing
+                          description: The max requests per second  of the group.
+                            Can be used with either RATE or UTILIZATION balancing
                             modes, but required if RATE mode. For RATE mode, either
                             maxRate or one of maxRatePerInstance or maxRatePerEndpoint,
-                            as appropriate for group type, must be set."
+                            as appropriate for group type, must be set.
                           type: number
                         maxRatePerEndpoint:
-                          description: The max requests per second (RPS) that a single
+                          description: The max requests per second  that a single
                             backend network endpoint can handle. This is used to calculate
                             the capacity of the group. Can be used in either balancing
                             mode. For RATE mode, either maxRate or maxRatePerEndpoint
                             must be set.
                           type: number
                         maxRatePerInstance:
-                          description: The max requests per second (RPS) that a single
+                          description: The max requests per second  that a single
                             backend instance can handle. This is used to calculate
                             the capacity of the group. Can be used in either balancing
                             mode. For RATE mode, either maxRate or maxRatePerInstance
@@ -240,10 +241,12 @@ spec:
                     type: array
                   cdnPolicy:
                     description: Cloud CDN configuration for this BackendService.
+                      Structure is documented below.
                     items:
                       properties:
                         cacheKeyPolicy:
-                          description: The CacheKeyPolicy for this CdnPolicy.
+                          description: The CacheKeyPolicy for this CdnPolicy. Structure
+                            is documented below.
                           items:
                             properties:
                               includeHost:
@@ -255,28 +258,28 @@ spec:
                                   be cached separately.
                                 type: boolean
                               includeQueryString:
-                                description: "If true, include query string parameters
+                                description: If true, include query string parameters
                                   in the cache key according to query_string_whitelist
                                   and query_string_blacklist. If neither is set, the
-                                  entire query string will be included. \n If false,
+                                  entire query string will be included. If false,
                                   the query string will be excluded from the cache
-                                  key entirely."
+                                  key entirely.
                                 type: boolean
                               queryStringBlacklist:
-                                description: "Names of query string parameters to
-                                  exclude in cache keys. \n All other parameters will
-                                  be included. Either specify query_string_whitelist
-                                  or query_string_blacklist, not both. '&' and '='
-                                  will be percent encoded and not treated as delimiters."
+                                description: Names of query string parameters to exclude
+                                  in cache keys. All other parameters will be included.
+                                  Either specify query_string_whitelist or query_string_blacklist,
+                                  not both. '&' and '=' will be percent encoded and
+                                  not treated as delimiters.
                                 items:
                                   type: string
                                 type: array
                               queryStringWhitelist:
-                                description: "Names of query string parameters to
-                                  include in cache keys. \n All other parameters will
-                                  be excluded. Either specify query_string_whitelist
-                                  or query_string_blacklist, not both. '&' and '='
-                                  will be percent encoded and not treated as delimiters."
+                                description: Names of query string parameters to include
+                                  in cache keys. All other parameters will be excluded.
+                                  Either specify query_string_whitelist or query_string_blacklist,
+                                  not both. '&' and '=' will be percent encoded and
+                                  not treated as delimiters.
                                 items:
                                   type: string
                                 type: array
@@ -285,8 +288,8 @@ spec:
                         cacheMode:
                           description: 'Specifies the cache setting for all responses
                             from this backend. The possible values are: USE_ORIGIN_HEADERS,
-                            FORCE_CACHE_ALL and CACHE_ALL_STATIC Possible values:
-                            ["USE_ORIGIN_HEADERS", "FORCE_CACHE_ALL", "CACHE_ALL_STATIC"]'
+                            FORCE_CACHE_ALL and CACHE_ALL_STATIC Possible values are
+                            USE_ORIGIN_HEADERS, FORCE_CACHE_ALL, and CACHE_ALL_STATIC.'
                           type: string
                         clientTtl:
                           description: Specifies the maximum allowed TTL for cached
@@ -295,7 +298,7 @@ spec:
                         defaultTtl:
                           description: Specifies the default TTL for cached content
                             served by this origin for responses that do not have an
-                            existing valid TTL (max-age or s-max-age).
+                            existing valid TTL .
                           type: number
                         maxTtl:
                           description: Specifies the maximum allowed TTL for cached
@@ -310,7 +313,8 @@ spec:
                           description: Sets a cache TTL for the specified HTTP status
                             code. negativeCaching must be enabled to configure negativeCachingPolicy.
                             Omitting the policy and leaving negativeCaching enabled
-                            will use Cloud CDN's default cache TTLs.
+                            will use Cloud CDN's default cache TTLs. Structure is
+                            documented below.
                           items:
                             properties:
                               code:
@@ -329,27 +333,27 @@ spec:
                             type: object
                           type: array
                         serveWhileStale:
-                          description: Serve existing content from the cache (if available)
-                            when revalidating content with the origin, or when an
-                            error is encountered when refreshing the cache.
+                          description: Serve existing content from the cache  when
+                            revalidating content with the origin, or when an error
+                            is encountered when refreshing the cache.
                           type: number
                         signedUrlCacheMaxAgeSec:
-                          description: "Maximum number of seconds the response to
+                          description: 'Maximum number of seconds the response to
                             a signed URL request will be considered fresh, defaults
-                            to 1hr (3600s). After this time period, the response will
-                            be revalidated before being served. \n When serving responses
+                            to 1hr . After this time period, the response will be
+                            revalidated before being served. When serving responses
                             to signed URL requests, Cloud CDN will internally behave
-                            as though all responses from this backend had a \"Cache-Control:
-                            public, max-age=[TTL]\" header, regardless of any existing
+                            as though all responses from this backend had a "Cache-Control:
+                            public, max-age=[TTL]" header, regardless of any existing
                             Cache-Control header. The actual headers served in responses
-                            will not be altered."
+                            will not be altered.'
                           type: number
                       type: object
                     type: array
                   circuitBreakers:
                     description: Settings controlling the volume of connections to
                       a backend service. This field is applicable only when the load_balancing_scheme
-                      is set to INTERNAL_SELF_MANAGED.
+                      is set to INTERNAL_SELF_MANAGED. Structure is documented below.
                     items:
                       properties:
                         maxConnections:
@@ -378,8 +382,7 @@ spec:
                       type: object
                     type: array
                   connectionDrainingTimeoutSec:
-                    description: Time for which instance will be drained (not accept
-                      new connections, but still work to finish started).
+                    description: Time for which instance will be drained .
                     type: number
                   consistentHash:
                     description: Consistent Hash-based load balancing can be used
@@ -390,7 +393,8 @@ spec:
                       the destination service. This field specifies parameters that
                       control consistent hashing. This field only applies if the load_balancing_scheme
                       is set to INTERNAL_SELF_MANAGED. This field is only applicable
-                      when locality_lb_policy is set to MAGLEV or RING_HASH.
+                      when locality_lb_policy is set to MAGLEV or RING_HASH. Structure
+                      is documented below.
                     items:
                       properties:
                         httpCookie:
@@ -398,7 +402,8 @@ spec:
                             a HTTP cookie that will be used as the hash key for the
                             consistent hash load balancer. If the cookie is not present,
                             it will be generated. This field is applicable if the
-                            sessionAffinity is set to HTTP_COOKIE.
+                            sessionAffinity is set to HTTP_COOKIE. Structure is documented
+                            below.
                           items:
                             properties:
                               name:
@@ -462,24 +467,26 @@ spec:
                     description: If true, enable Cloud CDN for this BackendService.
                     type: boolean
                   healthChecks:
-                    description: "The set of URLs to the HttpHealthCheck or HttpsHealthCheck
+                    description: The set of URLs to the HttpHealthCheck or HttpsHealthCheck
                       resource for health checking this BackendService. Currently
-                      at most one health check can be specified. \n A health check
-                      must be specified unless the backend service uses an internet
-                      or serverless NEG as a backend. \n For internal load balancing,
-                      a URL to a HealthCheck resource must be specified instead."
+                      at most one health check can be specified. A health check must
+                      be specified unless the backend service uses an internet or
+                      serverless NEG as a backend. For internal load balancing, a
+                      URL to a HealthCheck resource must be specified instead.
                     items:
                       type: string
                     type: array
                   iap:
                     description: Settings for enabling Cloud Identity Aware Proxy
+                      Structure is documented below.
                     items:
                       properties:
                         oauth2ClientId:
                           description: OAuth2 Client ID for IAP
                           type: string
                         oauth2ClientSecretSecretRef:
-                          description: OAuth2 Client Secret for IAP
+                          description: 'OAuth2 Client Secret for IAP Note: This property
+                            is sensitive and will not be displayed in the plan.'
                           properties:
                             key:
                               description: The key to select.
@@ -501,48 +508,22 @@ spec:
                       type: object
                     type: array
                   loadBalancingScheme:
-                    description: 'Indicates whether the backend service will be used
+                    description: Indicates whether the backend service will be used
                       with internal or external load balancing. A backend service
                       created for one type of load balancing cannot be used with the
-                      other. For more information, refer to [Choosing a load balancer](https://cloud.google.com/load-balancing/docs/backend-service).
-                      Default value: "EXTERNAL" Possible values: ["EXTERNAL", "INTERNAL_SELF_MANAGED",
-                      "EXTERNAL_MANAGED"]'
+                      other. For more information, refer to Choosing a load balancer.
+                      Default value is EXTERNAL. Possible values are EXTERNAL, INTERNAL_SELF_MANAGED,
+                      and EXTERNAL_MANAGED.
                     type: string
                   localityLbPolicy:
-                    description: "The load balancing algorithm used within the scope
-                      of the locality. The possible values are: \n * 'ROUND_ROBIN':
-                      This is a simple policy in which each healthy backend is selected
-                      in round robin order. \n * 'LEAST_REQUEST': An O(1) algorithm
-                      which selects two random healthy hosts and picks the host which
-                      has fewer active requests. \n * 'RING_HASH': The ring/modulo
-                      hash load balancer implements consistent hashing to backends.
-                      The algorithm has the property that the addition/removal of
-                      a host from a set of N hosts only affects 1/N of the requests.
-                      \n * 'RANDOM': The load balancer selects a random healthy host.
-                      \n * 'ORIGINAL_DESTINATION': Backend host is selected based
-                      on the client connection metadata, i.e., connections are opened
-                      to the same address as the destination address of the incoming
-                      connection before the connection was redirected to the load
-                      balancer. \n * 'MAGLEV': used as a drop in replacement for the
-                      ring hash load balancer. Maglev is not as stable as ring hash
-                      but has faster table lookup build times and host selection times.
-                      For more information about Maglev, refer to https://ai.google/research/pubs/pub44824
-                      \n This field is applicable to either: \n * A regional backend
-                      service with the service_protocol set to HTTP, HTTPS, or HTTP2,
-                      and loadBalancingScheme set to INTERNAL_MANAGED. * A global
-                      backend service with the load_balancing_scheme set to INTERNAL_SELF_MANAGED.
-                      \n If session_affinity is not NONE, and this field is not set
-                      to MAGLEV or RING_HASH, session affinity settings will not take
-                      effect. \n Only ROUND_ROBIN and RING_HASH are supported when
-                      the backend service is referenced by a URL map that is bound
-                      to target gRPC proxy that has validate_for_proxyless field set
-                      to true. Possible values: [\"ROUND_ROBIN\", \"LEAST_REQUEST\",
-                      \"RING_HASH\", \"RANDOM\", \"ORIGINAL_DESTINATION\", \"MAGLEV\"]"
+                    description: 'The load balancing algorithm used within the scope
+                      of the locality. The possible values are:'
                     type: string
                   logConfig:
                     description: This field denotes the logging options for the load
                       balancer traffic served by this backend service. If logging
-                      is enabled, logs will be exported to Stackdriver.
+                      is enabled, logs will be exported to Stackdriver. Structure
+                      is documented below.
                     items:
                       properties:
                         enable:
@@ -563,13 +544,14 @@ spec:
                     description: Settings controlling eviction of unhealthy hosts
                       from the load balancing pool. This field is applicable only
                       when the load_balancing_scheme is set to INTERNAL_SELF_MANAGED.
+                      Structure is documented below.
                     items:
                       properties:
                         baseEjectionTime:
                           description: The base time that a host is ejected for. The
                             real time is equal to the base time multiplied by the
                             number of times the host has been ejected. Defaults to
-                            30000ms or 30s.
+                            30000ms or 30s. Structure is documented below.
                           items:
                             properties:
                               nanos:
@@ -594,10 +576,9 @@ spec:
                             to 5.
                           type: number
                         consecutiveGatewayFailure:
-                          description: The number of consecutive gateway failures
-                            (502, 503, 504 status or connection errors that are mapped
-                            to one of those status codes) before a consecutive gateway
-                            failure ejection occurs. Defaults to 5.
+                          description: The number of consecutive gateway failures  before
+                            a consecutive gateway failure ejection occurs. Defaults
+                            to 5.
                           type: number
                         enforcingConsecutiveErrors:
                           description: The percentage chance that a host will be actually
@@ -620,7 +601,8 @@ spec:
                         interval:
                           description: Time interval between ejection sweep analysis.
                             This can result in both new ejections as well as hosts
-                            being returned to service. Defaults to 10 seconds.
+                            being returned to service. Defaults to 10 seconds. Structure
+                            is documented below.
                           items:
                             properties:
                               nanos:
@@ -652,21 +634,21 @@ spec:
                           type: number
                         successRateRequestVolume:
                           description: The minimum number of total requests that must
-                            be collected in one interval (as defined by the interval
-                            duration above) to include this host in success rate based
-                            outlier detection. If the volume is lower than this setting,
-                            outlier detection via success rate statistics is not performed
-                            for that host. Defaults to 100.
+                            be collected in one interval  to include this host in
+                            success rate based outlier detection. If the volume is
+                            lower than this setting, outlier detection via success
+                            rate statistics is not performed for that host. Defaults
+                            to 100.
                           type: number
                         successRateStdevFactor:
                           description: 'This factor is used to determine the ejection
                             threshold for success rate outlier ejection. The ejection
                             threshold is the difference between the mean success rate,
                             and the product of this factor and the standard deviation
-                            of the mean success rate: mean - (stdev * success_rate_stdev_factor).
-                            This factor is divided by a thousand to get a double.
-                            That is, if the desired factor is 1.9, the runtime value
-                            should be 1900. Defaults to 1900.'
+                            of the mean success rate: mean - . This factor is divided
+                            by a thousand to get a double. That is, if the desired
+                            factor is 1.9, the runtime value should be 1900. Defaults
+                            to 1900.'
                           type: number
                       type: object
                     type: array
@@ -676,13 +658,15 @@ spec:
                       when the load balancing scheme is EXTERNAL.
                     type: string
                   project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
                     type: string
                   protocol:
                     description: 'The protocol this BackendService uses to communicate
-                      with backends. The default is HTTP. **NOTE**: HTTP2 is only
-                      valid for beta HTTP/2 load balancer types and may result in
-                      errors if used with the GA API. Possible values: ["HTTP", "HTTPS",
-                      "HTTP2", "TCP", "SSL", "GRPC"]'
+                      with backends. The default is HTTP. NOTE: HTTP2 is only valid
+                      for beta HTTP/2 load balancer types and may result in errors
+                      if used with the GA API. Possible values are HTTP, HTTPS, HTTP2,
+                      TCP, SSL, and GRPC.'
                     type: string
                   securityPolicy:
                     description: The security policy associated with this backend
@@ -694,6 +678,7 @@ spec:
                       service with the service_protocol set to HTTP, HTTPS, or HTTP2,
                       and load_balancing_scheme set to INTERNAL_MANAGED; or a global
                       backend service with the load_balancing_scheme set to INTERNAL_SELF_MANAGED.
+                      Structure is documented below.
                     items:
                       properties:
                         clientTlsPolicy:
@@ -716,10 +701,10 @@ spec:
                       type: object
                     type: array
                   sessionAffinity:
-                    description: 'Type of session affinity to use. The default is
-                      NONE. Session affinity is not applicable if the protocol is
-                      UDP. Possible values: ["NONE", "CLIENT_IP", "CLIENT_IP_PORT_PROTO",
-                      "CLIENT_IP_PROTO", "GENERATED_COOKIE", "HEADER_FIELD", "HTTP_COOKIE"]'
+                    description: Type of session affinity to use. The default is NONE.
+                      Session affinity is not applicable if the protocol is UDP. Possible
+                      values are NONE, CLIENT_IP, CLIENT_IP_PORT_PROTO, CLIENT_IP_PROTO,
+                      GENERATED_COOKIE, HEADER_FIELD, and HTTP_COOKIE.
                     type: string
                   timeoutSec:
                     description: How many seconds to wait for the backend before considering
@@ -904,12 +889,17 @@ spec:
               atProvider:
                 properties:
                   creationTimestamp:
+                    description: Creation timestamp in RFC3339 text format.
                     type: string
                   fingerprint:
+                    description: Fingerprint of this resource. A hash of the contents
+                      stored in this object. This field is used in optimistic locking.
                     type: string
                   id:
+                    description: an identifier for the resource with format projects/{{project}}/global/backendServices/{{name}}
                     type: string
                   selfLink:
+                    description: The URI of the created resource.
                     type: string
                 type: object
               conditions:

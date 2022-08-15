@@ -35,7 +35,8 @@ spec:
     name: v1beta1
     schema:
       openAPIV3Schema:
-        description: AttachedDisk is the Schema for the AttachedDisks API
+        description: AttachedDisk is the Schema for the AttachedDisks API. Resource
+          that allows attaching existing persistent disks to compute instances.
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -68,10 +69,7 @@ spec:
                       is reflected into the /dev/disk/by-id/google-* tree of a Linux
                       operating system running within the instance. This name can
                       be used to reference the device for mounting, resizing, and
-                      so on, from within the instance. If not specified, the server
-                      chooses a default device name to apply to this disk, in the
-                      form persistent-disks-x, where x is a number assigned by Google
-                      Compute Engine.
+                      so on, from within the instance.
                     type: string
                   disk:
                     description: name or self_link of the disk that will be attached.
@@ -422,6 +420,7 @@ spec:
               atProvider:
                 properties:
                   id:
+                    description: an identifier for the resource with format projects/{{project}}/zones/{{zone}}/disks/{{disk.name}}
                     type: string
                 type: object
               conditions:

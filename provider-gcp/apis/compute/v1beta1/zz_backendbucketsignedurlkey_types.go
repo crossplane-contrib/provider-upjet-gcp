@@ -26,6 +26,8 @@ import (
 )
 
 type BackendBucketSignedURLKeyObservation struct {
+
+	// an identifier for the resource with format projects/{{project}}/global/backendBuckets/{{backend_bucket}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 }
 
@@ -44,6 +46,7 @@ type BackendBucketSignedURLKeyParameters struct {
 
 	// 128-bit key value used for signing the URL. The key value must be a
 	// valid RFC 4648 Section 5 base64url encoded string.
+	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Required
 	KeyValueSecretRef v1.SecretKeySelector `json:"keyValueSecretRef" tf:"-"`
 
@@ -51,6 +54,8 @@ type BackendBucketSignedURLKeyParameters struct {
 	// +kubebuilder:validation:Required
 	Name *string `json:"name" tf:"name,omitempty"`
 
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
@@ -69,7 +74,7 @@ type BackendBucketSignedURLKeyStatus struct {
 
 // +kubebuilder:object:root=true
 
-// BackendBucketSignedURLKey is the Schema for the BackendBucketSignedURLKeys API
+// BackendBucketSignedURLKey is the Schema for the BackendBucketSignedURLKeys API. A key for signing Cloud CDN signed URLs for BackendBuckets.
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

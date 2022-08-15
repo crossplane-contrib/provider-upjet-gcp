@@ -26,10 +26,14 @@ import (
 )
 
 type BackendBucketObservation struct {
+
+	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
 
+	// an identifier for the resource with format projects/{{project}}/global/backendBuckets/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
 }
 
@@ -47,6 +51,7 @@ type BackendBucketParameters struct {
 	BucketNameSelector *v1.Selector `json:"bucketNameSelector,omitempty" tf:"-"`
 
 	// Cloud CDN configuration for this Backend Bucket.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	CdnPolicy []CdnPolicyParameters `json:"cdnPolicy,omitempty" tf:"cdn_policy,omitempty"`
 
@@ -67,6 +72,8 @@ type BackendBucketParameters struct {
 	// +kubebuilder:validation:Optional
 	EnableCdn *bool `json:"enableCdn,omitempty" tf:"enable_cdn,omitempty"`
 
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
@@ -77,7 +84,8 @@ type CdnPolicyObservation struct {
 type CdnPolicyParameters struct {
 
 	// Specifies the cache setting for all responses from this backend.
-	// The possible values are: USE_ORIGIN_HEADERS, FORCE_CACHE_ALL and CACHE_ALL_STATIC Possible values: ["USE_ORIGIN_HEADERS", "FORCE_CACHE_ALL", "CACHE_ALL_STATIC"]
+	// The possible values are: USE_ORIGIN_HEADERS, FORCE_CACHE_ALL and CACHE_ALL_STATIC
+	// Possible values are USE_ORIGIN_HEADERS, FORCE_CACHE_ALL, and CACHE_ALL_STATIC.
 	// +kubebuilder:validation:Optional
 	CacheMode *string `json:"cacheMode,omitempty" tf:"cache_mode,omitempty"`
 
@@ -86,7 +94,7 @@ type CdnPolicyParameters struct {
 	ClientTTL *float64 `json:"clientTtl,omitempty" tf:"client_ttl,omitempty"`
 
 	// Specifies the default TTL for cached content served by this origin for responses
-	// that do not have an existing valid TTL (max-age or s-max-age).
+	// that do not have an existing valid TTL .
 	// +kubebuilder:validation:Optional
 	DefaultTTL *float64 `json:"defaultTtl,omitempty" tf:"default_ttl,omitempty"`
 
@@ -100,10 +108,11 @@ type CdnPolicyParameters struct {
 
 	// Sets a cache TTL for the specified HTTP status code. negativeCaching must be enabled to configure negativeCachingPolicy.
 	// Omitting the policy and leaving negativeCaching enabled will use Cloud CDN's default cache TTLs.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	NegativeCachingPolicy []NegativeCachingPolicyParameters `json:"negativeCachingPolicy,omitempty" tf:"negative_caching_policy,omitempty"`
 
-	// Serve existing content from the cache (if available) when revalidating content with the origin, or when an error is encountered when refreshing the cache.
+	// Serve existing content from the cache  when revalidating content with the origin, or when an error is encountered when refreshing the cache.
 	// +kubebuilder:validation:Optional
 	ServeWhileStale *float64 `json:"serveWhileStale,omitempty" tf:"serve_while_stale,omitempty"`
 
@@ -129,8 +138,8 @@ type NegativeCachingPolicyParameters struct {
 	// +kubebuilder:validation:Optional
 	Code *float64 `json:"code,omitempty" tf:"code,omitempty"`
 
-	// The TTL (in seconds) for which to cache responses with the corresponding status code. The maximum allowed value is 1800s
-	// (30 minutes), noting that infrequently accessed objects may be evicted from the cache before the defined TTL.
+	// The TTL  for which to cache responses with the corresponding status code. The maximum allowed value is 1800s
+	// , noting that infrequently accessed objects may be evicted from the cache before the defined TTL.
 	// +kubebuilder:validation:Optional
 	TTL *float64 `json:"ttl,omitempty" tf:"ttl,omitempty"`
 }
@@ -149,7 +158,7 @@ type BackendBucketStatus struct {
 
 // +kubebuilder:object:root=true
 
-// BackendBucket is the Schema for the BackendBuckets API
+// BackendBucket is the Schema for the BackendBuckets API. Backend buckets allow you to use Google Cloud Storage buckets with HTTP(S) load balancing.
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
