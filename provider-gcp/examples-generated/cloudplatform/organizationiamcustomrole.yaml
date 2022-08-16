@@ -1,7 +1,9 @@
 apiVersion: cloudplatform.gcp.upbound.io/v1beta1
 kind: OrganizationIAMCustomRole
 metadata:
-  name: example
+  labels:
+    testing.upbound.io/example-name: my-custom-role
+  name: my-custom-role
 spec:
   forProvider:
     description: A description
@@ -12,3 +14,6 @@ spec:
     - iam.roles.delete
     roleId: myCustomRole
     title: My Custom Role
+
+---
+

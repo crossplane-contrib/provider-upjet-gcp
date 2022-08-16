@@ -36,7 +36,7 @@ spec:
     schema:
       openAPIV3Schema:
         description: OrganizationIAMPolicy is the Schema for the OrganizationIAMPolicys
-          API
+          API. Collection of resources to manage IAM policy for a organization.
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -65,10 +65,19 @@ spec:
               forProvider:
                 properties:
                   orgId:
-                    description: The numeric ID of the organization in which you want
-                      to manage the audit logging config.
+                    description: The organization ID. If not specified for google_organization_iam_binding,
+                      google_organization_iam_member, or google_organization_iam_audit_config,
+                      uses the ID of the organization configured with the provider.
+                      Required for google_organization_iam_policy - you must explicitly
+                      set the organization, and it will not be inferred from the provider.
+                      The numeric ID of the organization in which you want to manage
+                      the audit logging config.
                     type: string
                   policyData:
+                    description: The google_iam_policy data source that represents
+                      the IAM policy that will be applied to the organization. The
+                      policy will be merged with any existing policy applied to the
+                      organization.
                     type: string
                 required:
                 - orgId
@@ -252,6 +261,7 @@ spec:
               atProvider:
                 properties:
                   etag:
+                    description: The etag of the organization's IAM policy.
                     type: string
                   id:
                     type: string

@@ -1,9 +1,11 @@
 apiVersion: cloudplatform.gcp.upbound.io/v1beta1
 kind: OrganizationIAMAuditConfig
 metadata:
-  name: example
+  labels:
+    testing.upbound.io/example-name: example
   annotations:
-    upjet.upbound.io/manual-intervention: "Requires orginazational IAM permissions"
+    upjet.upbound.io/manual-intervention: "Requires organization IAM permissions"
+  name: example
 spec:
   forProvider:
     orgId: "123456789"

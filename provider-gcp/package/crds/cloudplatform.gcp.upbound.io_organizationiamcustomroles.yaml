@@ -36,7 +36,7 @@ spec:
     schema:
       openAPIV3Schema:
         description: OrganizationIAMCustomRole is the Schema for the OrganizationIAMCustomRoles
-          API
+          API. Allows management of a customized Cloud IAM organization role.
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -66,27 +66,34 @@ spec:
               forProvider:
                 properties:
                   description:
-                    description: A human-readable description for the role.
+                    description: A human-readable description for the role. A human-readable
+                      description for the role.
                     type: string
                   orgId:
                     description: The numeric ID of the organization in which you want
-                      to create a custom role.
+                      to create a custom role. The numeric ID of the organization
+                      in which you want to create a custom role.
                     type: string
                   permissions:
                     description: The names of the permissions this role grants when
                       bound in an IAM policy. At least one permission must be specified.
+                      The names of the permissions this role grants when bound in
+                      an IAM policy. At least one permission must be specified.
                     items:
                       type: string
                     type: array
                   roleId:
-                    description: The role id to use for this role.
+                    description: The role id to use for this role. The role id to
+                      use for this role.
                     type: string
                   stage:
                     description: The current launch stage of the role. Defaults to
-                      GA.
+                      GA. List of possible stages is here. The current launch stage
+                      of the role. Defaults to GA.
                     type: string
                   title:
-                    description: A human-readable title for the role.
+                    description: A human-readable title for the role. A human-readable
+                      title for the role.
                     type: string
                 required:
                 - orgId
@@ -272,10 +279,19 @@ spec:
               atProvider:
                 properties:
                   deleted:
+                    description: The current deleted state of the role. The current
+                      deleted state of the role.
                     type: boolean
                   id:
+                    description: an identifier for the resource with the format organizations/{{org_id}}/roles/{{role_id}}
                     type: string
                   name:
+                    description: The name of the role in the format organizations/{{org_id}}/roles/{{role_id}}.
+                      Like id, this field can be used as a reference in other resources
+                      such as IAM role bindings. The name of the role in the format
+                      organizations/{{org_id}}/roles/{{role_id}}. Like id, this field
+                      can be used as a reference in other resources such as IAM role
+                      bindings.
                     type: string
                 type: object
               conditions:

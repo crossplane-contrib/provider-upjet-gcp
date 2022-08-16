@@ -26,35 +26,49 @@ import (
 )
 
 type OrganizationIAMCustomRoleObservation struct {
+
+	// The current deleted state of the role.
+	// The current deleted state of the role.
 	Deleted *bool `json:"deleted,omitempty" tf:"deleted,omitempty"`
 
+	// an identifier for the resource with the format organizations/{{org_id}}/roles/{{role_id}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// The name of the role in the format organizations/{{org_id}}/roles/{{role_id}}. Like id, this field can be used as a reference in other resources such as IAM role bindings.
+	// The name of the role in the format organizations/{{org_id}}/roles/{{role_id}}. Like id, this field can be used as a reference in other resources such as IAM role bindings.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 }
 
 type OrganizationIAMCustomRoleParameters struct {
 
 	// A human-readable description for the role.
+	// A human-readable description for the role.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// The numeric ID of the organization in which you want to create a custom role.
 	// The numeric ID of the organization in which you want to create a custom role.
 	// +kubebuilder:validation:Required
 	OrgID *string `json:"orgId" tf:"org_id,omitempty"`
 
 	// The names of the permissions this role grants when bound in an IAM policy. At least one permission must be specified.
+	// The names of the permissions this role grants when bound in an IAM policy. At least one permission must be specified.
 	// +kubebuilder:validation:Required
 	Permissions []*string `json:"permissions" tf:"permissions,omitempty"`
 
 	// The role id to use for this role.
+	// The role id to use for this role.
 	// +kubebuilder:validation:Required
 	RoleID *string `json:"roleId" tf:"role_id,omitempty"`
 
+	// The current launch stage of the role.
+	// Defaults to GA.
+	// List of possible stages is here.
 	// The current launch stage of the role. Defaults to GA.
 	// +kubebuilder:validation:Optional
 	Stage *string `json:"stage,omitempty" tf:"stage,omitempty"`
 
+	// A human-readable title for the role.
 	// A human-readable title for the role.
 	// +kubebuilder:validation:Required
 	Title *string `json:"title" tf:"title,omitempty"`
@@ -74,7 +88,7 @@ type OrganizationIAMCustomRoleStatus struct {
 
 // +kubebuilder:object:root=true
 
-// OrganizationIAMCustomRole is the Schema for the OrganizationIAMCustomRoles API
+// OrganizationIAMCustomRole is the Schema for the OrganizationIAMCustomRoles API. Allows management of a customized Cloud IAM organization role.
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

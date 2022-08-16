@@ -26,6 +26,8 @@ import (
 )
 
 type OrganizationIAMPolicyObservation struct {
+
+	// The etag of the organization's IAM policy.
 	Etag *string `json:"etag,omitempty" tf:"etag,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -33,10 +35,16 @@ type OrganizationIAMPolicyObservation struct {
 
 type OrganizationIAMPolicyParameters struct {
 
+	// The organization ID. If not specified for google_organization_iam_binding, google_organization_iam_member, or google_organization_iam_audit_config, uses the ID of the organization configured with the provider.
+	// Required for google_organization_iam_policy - you must explicitly set the organization, and it
+	// will not be inferred from the provider.
 	// The numeric ID of the organization in which you want to manage the audit logging config.
 	// +kubebuilder:validation:Required
 	OrgID *string `json:"orgId" tf:"org_id,omitempty"`
 
+	// The google_iam_policy data source that represents
+	// the IAM policy that will be applied to the organization. The policy will be
+	// merged with any existing policy applied to the organization.
 	// +kubebuilder:validation:Required
 	PolicyData *string `json:"policyData" tf:"policy_data,omitempty"`
 }
@@ -55,7 +63,7 @@ type OrganizationIAMPolicyStatus struct {
 
 // +kubebuilder:object:root=true
 
-// OrganizationIAMPolicy is the Schema for the OrganizationIAMPolicys API
+// OrganizationIAMPolicy is the Schema for the OrganizationIAMPolicys API. Collection of resources to manage IAM policy for a organization.
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
