@@ -836,6 +836,48 @@ func (mg *NetworkEndpointGroup) ResolveReferences(ctx context.Context, c client.
 	return nil
 }
 
+// ResolveReferences of this NetworkPeering.
+func (mg *NetworkPeering) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Network),
+		Extract:      resource.ExtractParamPath("self_link", true),
+		Reference:    mg.Spec.ForProvider.NetworkRef,
+		Selector:     mg.Spec.ForProvider.NetworkSelector,
+		To: reference.To{
+			List:    &NetworkList{},
+			Managed: &Network{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.Network")
+	}
+	mg.Spec.ForProvider.Network = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.NetworkRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.PeerNetwork),
+		Extract:      resource.ExtractParamPath("self_link", true),
+		Reference:    mg.Spec.ForProvider.PeerNetworkRef,
+		Selector:     mg.Spec.ForProvider.PeerNetworkSelector,
+		To: reference.To{
+			List:    &NetworkList{},
+			Managed: &Network{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.PeerNetwork")
+	}
+	mg.Spec.ForProvider.PeerNetwork = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.PeerNetworkRef = rsp.ResolvedReference
+
+	return nil
+}
+
 // ResolveReferences of this Router.
 func (mg *Router) ResolveReferences(ctx context.Context, c client.Reader) error {
 	r := reference.NewAPIResolver(c, mg)

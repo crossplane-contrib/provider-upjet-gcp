@@ -157,6 +157,8 @@ var externalNameConfigs = map[string]config.ExternalName{
 	"google_compute_network_endpoint_group": formattedIdentifierUserDefined("projects/%s/zones/%s/networkEndpointGroups", "project", "zone"),
 	// Imported by using the following format: {{project}}/{{zone}}/{{network_endpoint_group}}/{{instance}}/{{ip_address}}/{{port}}
 	"google_compute_network_endpoint": config.IdentifierFromProvider,
+	// Imported by using the following format: project-name/network-name/peering-name
+	"google_compute_network_peering": formattedIdentifierWithResourcePrefix("network"),
 
 	// container
 	//

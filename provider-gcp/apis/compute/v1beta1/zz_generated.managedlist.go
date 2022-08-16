@@ -352,6 +352,15 @@ func (l *NetworkList) GetItems() []resource.Managed {
 	return items
 }
 
+// GetItems of this NetworkPeeringList.
+func (l *NetworkPeeringList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
 // GetItems of this ResourcePolicyList.
 func (l *ResourcePolicyList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
