@@ -6,8 +6,8 @@ metadata:
   name: default
 spec:
   forProvider:
-    healthChecks:
-    - ${google_compute_http_health_check.default.name}
+    healthChecksRefs:
+    - name: default
     instances:
     - us-central1-a/myinstance1
     - us-central1-b/myinstance2

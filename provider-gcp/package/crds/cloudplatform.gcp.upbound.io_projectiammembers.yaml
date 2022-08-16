@@ -35,7 +35,8 @@ spec:
     name: v1beta1
     schema:
       openAPIV3Schema:
-        description: ProjectIAMMember is the Schema for the ProjectIAMMembers API
+        description: ProjectIAMMember is the Schema for the ProjectIAMMembers API.
+          <no value>
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation

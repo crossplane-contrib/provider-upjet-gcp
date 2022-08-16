@@ -26,12 +26,19 @@ import (
 )
 
 type AddressObservation struct {
+
+	// Creation timestamp in RFC3339 text format.
+	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
 
+	// an identifier for the resource with format projects/{{project}}/regions/{{region}}/addresses/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
 
+	// The URLs of the resources that are using this address.
+	// The URLs of the resources that are using this address.
 	Users []*string `json:"users,omitempty" tf:"users,omitempty"`
 }
 
@@ -41,17 +48,28 @@ type AddressParameters struct {
 	// IPv4 is supported. An address may only be specified for INTERNAL
 	// address types. The IP address must be inside the specified subnetwork,
 	// if any. Set by the API if undefined.
+	// The static external IP address represented by this resource. Only
+	// IPv4 is supported. An address may only be specified for INTERNAL
+	// address types. The IP address must be inside the specified subnetwork,
+	// if any. Set by the API if undefined.
 	// +kubebuilder:validation:Optional
 	Address *string `json:"address,omitempty" tf:"address,omitempty"`
 
+	// The type of address to reserve.
+	// Default value is EXTERNAL.
+	// Possible values are INTERNAL and EXTERNAL.
 	// The type of address to reserve. Default value: "EXTERNAL" Possible values: ["INTERNAL", "EXTERNAL"]
 	// +kubebuilder:validation:Optional
 	AddressType *string `json:"addressType,omitempty" tf:"address_type,omitempty"`
 
 	// An optional description of this resource.
+	// An optional description of this resource.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// The URL of the network in which to reserve the address. This field
+	// can only be used with INTERNAL type with the VPC_PEERING and
+	// IPSEC_INTERCONNECT purposes.
 	// The URL of the network in which to reserve the address. This field
 	// can only be used with INTERNAL type with the VPC_PEERING and
 	// IPSEC_INTERCONNECT purposes.
@@ -66,17 +84,24 @@ type AddressParameters struct {
 	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
 
 	// The networking tier used for configuring this address. If this field is not
+	// specified, it is assumed to be PREMIUM.
+	// Possible values are PREMIUM and STANDARD.
+	// The networking tier used for configuring this address. If this field is not
 	// specified, it is assumed to be PREMIUM. Possible values: ["PREMIUM", "STANDARD"]
 	// +kubebuilder:validation:Optional
 	NetworkTier *string `json:"networkTier,omitempty" tf:"network_tier,omitempty"`
 
 	// The prefix length if the resource represents an IP range.
+	// The prefix length if the resource represents an IP range.
 	// +kubebuilder:validation:Optional
 	PrefixLength *float64 `json:"prefixLength,omitempty" tf:"prefix_length,omitempty"`
 
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	// The purpose of this resource, which can be one of the following values:
 	// The purpose of this resource, which can be one of the following values:
 	//
 	// * GCE_ENDPOINT for addresses that are used by VM instances, alias IP
@@ -101,9 +126,15 @@ type AddressParameters struct {
 
 	// The Region in which the created address should reside.
 	// If it is not provided, the provider region is used.
+	// The Region in which the created address should reside.
+	// If it is not provided, the provider region is used.
 	// +kubebuilder:validation:Required
 	Region *string `json:"region" tf:"region,omitempty"`
 
+	// The URL of the subnetwork in which to reserve the address. If an IP
+	// address is specified, it must be within the subnetwork's IP range.
+	// This field can only be used with INTERNAL type with
+	// GCE_ENDPOINT/DNS_RESOLVER purposes.
 	// The URL of the subnetwork in which to reserve the address. If an IP
 	// address is specified, it must be within the subnetwork's IP range.
 	// This field can only be used with INTERNAL type with
@@ -133,7 +164,7 @@ type AddressStatus struct {
 
 // +kubebuilder:object:root=true
 
-// Address is the Schema for the Addresss API
+// Address is the Schema for the Addresss API. Represents an Address resource.
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

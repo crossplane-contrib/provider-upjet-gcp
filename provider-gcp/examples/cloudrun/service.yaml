@@ -1,6 +1,8 @@
 apiVersion: cloudrun.gcp.upbound.io/v1beta1
 kind: Service
 metadata:
+  labels:
+    testing.upbound.io/example-name: example
   name: example
 spec:
   forProvider:

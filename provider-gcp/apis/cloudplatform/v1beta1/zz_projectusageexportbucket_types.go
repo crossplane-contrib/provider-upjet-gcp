@@ -31,6 +31,7 @@ type ProjectUsageExportBucketObservation struct {
 
 type ProjectUsageExportBucketParameters struct {
 
+	// :  The bucket to store reports in.
 	// The bucket to store reports in.
 	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/storage/v1beta1.Bucket
 	// +kubebuilder:validation:Optional
@@ -42,10 +43,12 @@ type ProjectUsageExportBucketParameters struct {
 	// +kubebuilder:validation:Optional
 	BucketNameSelector *v1.Selector `json:"bucketNameSelector,omitempty" tf:"-"`
 
+	// :  A prefix for the reports, for instance, the project name.
 	// A prefix for the reports, for instance, the project name.
 	// +kubebuilder:validation:Optional
 	Prefix *string `json:"prefix,omitempty" tf:"prefix,omitempty"`
 
+	// :  The project to set the export bucket on. If it is not provided, the provider project is used.
 	// The project to set the export bucket on. If it is not provided, the provider project is used.
 	// +crossplane:generate:reference:type=Project
 	// +kubebuilder:validation:Optional
@@ -72,7 +75,7 @@ type ProjectUsageExportBucketStatus struct {
 
 // +kubebuilder:object:root=true
 
-// ProjectUsageExportBucket is the Schema for the ProjectUsageExportBuckets API
+// ProjectUsageExportBucket is the Schema for the ProjectUsageExportBuckets API. Manages a project's usage export bucket.
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

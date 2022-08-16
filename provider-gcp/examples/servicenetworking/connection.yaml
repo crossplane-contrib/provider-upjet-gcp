@@ -1,0 +1,42 @@
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Network
+metadata:
+  labels:
+    testing.upbound.io/example-name: example
+  name: example-servicenetworking
+spec:
+  forProvider: {}
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: GlobalAddress
+metadata:
+  labels:
+    testing.upbound.io/example-name: example
+  name: example-servicenetworking
+spec:
+  forProvider:
+    addressType: INTERNAL
+    purpose: VPC_PEERING
+    prefixLength: 16
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+
+---
+
+apiVersion: servicenetworking.gcp.upbound.io/v1beta1
+kind: Connection
+metadata:
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    reservedPeeringRangesRefs:
+    - name: example-servicenetworking
+    service: servicenetworking.googleapis.com

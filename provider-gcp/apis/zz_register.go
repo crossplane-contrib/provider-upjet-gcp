@@ -24,6 +24,9 @@ import (
 
 	v1beta1 "github.com/upbound/official-providers/provider-gcp/apis/cloudplatform/v1beta1"
 	v1beta1cloudrun "github.com/upbound/official-providers/provider-gcp/apis/cloudrun/v1beta1"
+	v1beta1cloudscheduler "github.com/upbound/official-providers/provider-gcp/apis/cloudscheduler/v1beta1"
+	v1beta1cloudtasks "github.com/upbound/official-providers/provider-gcp/apis/cloudtasks/v1beta1"
+	v1beta1composer "github.com/upbound/official-providers/provider-gcp/apis/composer/v1beta1"
 	v1beta1compute "github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1"
 	v1beta1container "github.com/upbound/official-providers/provider-gcp/apis/container/v1beta1"
 	v1beta1dns "github.com/upbound/official-providers/provider-gcp/apis/dns/v1beta1"
@@ -31,6 +34,7 @@ import (
 	v1beta1pubsub "github.com/upbound/official-providers/provider-gcp/apis/pubsub/v1beta1"
 	v1beta1redis "github.com/upbound/official-providers/provider-gcp/apis/redis/v1beta1"
 	v1beta1secretmanager "github.com/upbound/official-providers/provider-gcp/apis/secretmanager/v1beta1"
+	v1beta1servicenetworking "github.com/upbound/official-providers/provider-gcp/apis/servicenetworking/v1beta1"
 	v1beta1sql "github.com/upbound/official-providers/provider-gcp/apis/sql/v1beta1"
 	v1beta1storage "github.com/upbound/official-providers/provider-gcp/apis/storage/v1beta1"
 	v1alpha1 "github.com/upbound/official-providers/provider-gcp/apis/v1alpha1"
@@ -42,6 +46,9 @@ func init() {
 	AddToSchemes = append(AddToSchemes,
 		v1beta1.SchemeBuilder.AddToScheme,
 		v1beta1cloudrun.SchemeBuilder.AddToScheme,
+		v1beta1cloudscheduler.SchemeBuilder.AddToScheme,
+		v1beta1cloudtasks.SchemeBuilder.AddToScheme,
+		v1beta1composer.SchemeBuilder.AddToScheme,
 		v1beta1compute.SchemeBuilder.AddToScheme,
 		v1beta1container.SchemeBuilder.AddToScheme,
 		v1beta1dns.SchemeBuilder.AddToScheme,
@@ -49,6 +56,7 @@ func init() {
 		v1beta1pubsub.SchemeBuilder.AddToScheme,
 		v1beta1redis.SchemeBuilder.AddToScheme,
 		v1beta1secretmanager.SchemeBuilder.AddToScheme,
+		v1beta1servicenetworking.SchemeBuilder.AddToScheme,
 		v1beta1sql.SchemeBuilder.AddToScheme,
 		v1beta1storage.SchemeBuilder.AddToScheme,
 		v1alpha1.SchemeBuilder.AddToScheme,

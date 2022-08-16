@@ -35,7 +35,8 @@ spec:
     name: v1beta1
     schema:
       openAPIV3Schema:
-        description: ProjectService is the Schema for the ProjectServices API
+        description: ProjectService is the Schema for the ProjectServices API. Allows
+          management of a single API service for a Google Cloud Platform project.
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -64,10 +65,21 @@ spec:
               forProvider:
                 properties:
                   disableDependentServices:
+                    description: If true, services that are enabled and which depend
+                      on this service should also be disabled when this service is
+                      destroyed. If false or unset, an error will be generated if
+                      any enabled services depend on this service when destroying
+                      it.
                     type: boolean
                   disableOnDestroy:
+                    description: If true, disable the service when the Terraform resource
+                      is destroyed. Defaults to true. May be useful in the event that
+                      a project is long-lived but the infrastructure running in that
+                      project changes frequently.
                     type: boolean
                   project:
+                    description: The project ID. If not provided, the provider project
+                      is used.
                     type: string
                   projectRef:
                     description: A Reference to a named object.
@@ -143,6 +155,7 @@ spec:
                         type: object
                     type: object
                   service:
+                    description: The service to enable.
                     type: string
                 required:
                 - service
@@ -324,6 +337,7 @@ spec:
               atProvider:
                 properties:
                   id:
+                    description: an identifier for the resource with format {{project}}/{{service}}
                     type: string
                 type: object
               conditions:

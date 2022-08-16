@@ -13,6 +13,23 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 	// Note(turkenh): We ignore gocyclo in this function since it configures
 	//  all resources separately and no complex logic here.
 
+	p.AddResourceConfigurator("google_compute_autoscaler", func(r *config.Resource) {
+		config.MarkAsRequired(r.TerraformResource, "zone")
+		r.UseAsync = true
+	})
+
+	p.AddResourceConfigurator("google_compute_backend_bucket", func(r *config.Resource) {
+		r.UseAsync = true
+	})
+
+	p.AddResourceConfigurator("google_compute_backend_bucket_signed_url_key", func(r *config.Resource) {
+		r.UseAsync = true
+	})
+
+	p.AddResourceConfigurator("google_compute_backend_service", func(r *config.Resource) {
+		r.UseAsync = true
+	})
+
 	p.AddResourceConfigurator("google_compute_managed_ssl_certificate", func(r *config.Resource) {
 		r.Kind = "ManagedSSLCertificate"
 		r.UseAsync = true
@@ -184,6 +201,11 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 	})
 
 	p.AddResourceConfigurator("google_compute_target_pool", func(r *config.Resource) {
+		// Note(donovanmuller): Only legacy google_compute_http_health_check is supported
+		// see https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_target_pool#health_checks
+		r.References["health_checks"] = config.Reference{
+			Type: "HTTPHealthCheck",
+		}
 		config.MarkAsRequired(r.TerraformResource, "region")
 	})
 

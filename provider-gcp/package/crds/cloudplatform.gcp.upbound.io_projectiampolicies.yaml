@@ -35,7 +35,8 @@ spec:
     name: v1beta1
     schema:
       openAPIV3Schema:
-        description: ProjectIAMPolicy is the Schema for the ProjectIAMPolicys API
+        description: ProjectIAMPolicy is the Schema for the ProjectIAMPolicys API.
+          Collection of resources to manage IAM policy for a project.
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -64,8 +65,13 @@ spec:
               forProvider:
                 properties:
                   policyData:
+                    description: The google_iam_policy data source that represents
+                      the IAM policy that will be applied to the project. The policy
+                      will be merged with any existing policy applied to the project.
                     type: string
                   project:
+                    description: The project id of the target project. This is not
+                      inferred from the provider.
                     type: string
                   projectRef:
                     description: A Reference to a named object.
@@ -320,6 +326,7 @@ spec:
               atProvider:
                 properties:
                   etag:
+                    description: The etag of the project's IAM policy.
                     type: string
                   id:
                     type: string

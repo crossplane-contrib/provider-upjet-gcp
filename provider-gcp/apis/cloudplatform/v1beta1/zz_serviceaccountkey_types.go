@@ -26,37 +26,62 @@ import (
 )
 
 type ServiceAccountKeyObservation struct {
+
+	// an identifier for the resource with format projects/{{project}}/serviceAccounts/{{account}}/keys/{{key}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// The name used for this key pair
+	// The name used for this key pair
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// The public key, base64 encoded
+	// The public key, base64 encoded
 	PublicKey *string `json:"publicKey,omitempty" tf:"public_key,omitempty"`
 
+	// The key can be used after this timestamp. A timestamp in RFC3339 UTC "Zulu" format, accurate to nanoseconds. Example: "2014-10-02T15:01:23.045123456Z".
+	// The key can be used after this timestamp. A timestamp in RFC3339 UTC "Zulu" format, accurate to nanoseconds. Example: "2014-10-02T15:01:23.045123456Z".
 	ValidAfter *string `json:"validAfter,omitempty" tf:"valid_after,omitempty"`
 
+	// The key can be used before this timestamp.
+	// A timestamp in RFC3339 UTC "Zulu" format, accurate to nanoseconds. Example: "2014-10-02T15:01:23.045123456Z".
+	// The key can be used before this timestamp. A timestamp in RFC3339 UTC "Zulu" format, accurate to nanoseconds. Example: "2014-10-02T15:01:23.045123456Z".
 	ValidBefore *string `json:"validBefore,omitempty" tf:"valid_before,omitempty"`
 }
 
 type ServiceAccountKeyParameters struct {
 
+	// Arbitrary map of values that, when changed, will trigger a new key to be generated.
 	// Arbitrary map of values that, when changed, will trigger recreation of resource.
 	// +kubebuilder:validation:Optional
 	Keepers map[string]string `json:"keepers,omitempty" tf:"keepers,omitempty"`
 
+	// The algorithm used to generate the key. KEY_ALG_RSA_2048 is the default algorithm.
+	// Valid values are listed at
+	// ServiceAccountPrivateKeyType
+	//
 	// The algorithm used to generate the key, used only on create. KEY_ALG_RSA_2048 is the default algorithm. Valid values are: "KEY_ALG_RSA_1024", "KEY_ALG_RSA_2048".
 	// +kubebuilder:validation:Optional
 	KeyAlgorithm *string `json:"keyAlgorithm,omitempty" tf:"key_algorithm,omitempty"`
 
+	// The output format of the private key. TYPE_GOOGLE_CREDENTIALS_FILE is the default output format.
 	// +kubebuilder:validation:Optional
 	PrivateKeyType *string `json:"privateKeyType,omitempty" tf:"private_key_type,omitempty"`
 
+	// Public key data to create a service account key for given service account. The expected format for this field is a base64 encoded X509_PEM and it conflicts with public_key_type and private_key_type.
 	// A field that allows clients to upload their own public key. If set, use this public key data to create a service account key for given service account. Please note, the expected format for this field is a base64 encoded X509_PEM.
 	// +kubebuilder:validation:Optional
 	PublicKeyData *string `json:"publicKeyData,omitempty" tf:"public_key_data,omitempty"`
 
+	// The output format of the public key requested. TYPE_X509_PEM_FILE is the default output format.
 	// +kubebuilder:validation:Optional
 	PublicKeyType *string `json:"publicKeyType,omitempty" tf:"public_key_type,omitempty"`
 
+	// The Service account id of the Key. This can be a string in the format
+	// {ACCOUNT} or projects/{PROJECT_ID}/serviceAccounts/{ACCOUNT}. If the {ACCOUNT}-only syntax is used, either
+	// the full email address of the service account or its name can be specified as a value, in which case the project will
+	// automatically be inferred from the account. Otherwise, if the projects/{PROJECT_ID}/serviceAccounts/{ACCOUNT}
+	// syntax is used, the {ACCOUNT} specified can be the full email address of the service account or the service account's
+	// unique id. Substituting - as a wildcard for the {PROJECT_ID} will infer the project from the account.
 	// The ID of the parent service account of the key. This can be a string in the format {ACCOUNT} or projects/{PROJECT_ID}/serviceAccounts/{ACCOUNT}, where {ACCOUNT} is the email address or unique id of the service account. If the {ACCOUNT} syntax is used, the project will be inferred from the provider's configuration.
 	// +crossplane:generate:reference:type=ServiceAccount
 	// +crossplane:generate:reference:extractor=github.com/upbound/official-providers/provider-gcp/config/common.ExtractResourceID()
@@ -84,7 +109,7 @@ type ServiceAccountKeyStatus struct {
 
 // +kubebuilder:object:root=true
 
-// ServiceAccountKey is the Schema for the ServiceAccountKeys API
+// ServiceAccountKey is the Schema for the ServiceAccountKeys API. Allows management of a Google Cloud Platform service account Key
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

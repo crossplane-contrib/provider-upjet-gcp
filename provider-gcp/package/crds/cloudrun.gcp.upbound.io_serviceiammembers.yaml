@@ -35,7 +35,8 @@ spec:
     name: v1beta1
     schema:
       openAPIV3Schema:
-        description: ServiceIAMMember is the Schema for the ServiceIAMMembers API
+        description: ServiceIAMMember is the Schema for the ServiceIAMMembers API.
+          <no value>
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation

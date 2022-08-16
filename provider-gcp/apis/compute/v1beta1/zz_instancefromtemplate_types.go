@@ -86,6 +86,8 @@ type InstanceFromTemplateAttachedDiskParameters struct {
 }
 
 type InstanceFromTemplateBootDiskObservation struct {
+
+	// The RFC 4648 base64 encoded SHA-256 hash of the customer-supplied encryption key that protects this resource.
 	DiskEncryptionKeySha256 *string `json:"diskEncryptionKeySha256,omitempty" tf:"disk_encryption_key_sha256,omitempty"`
 }
 
@@ -143,10 +145,17 @@ type InstanceFromTemplateGuestAcceleratorParameters struct {
 }
 
 type InstanceFromTemplateNetworkInterfaceObservation struct {
+
+	// An array of IPv6 access configurations for this interface. Currently, only one IPv6 access config, DIRECT_IPV6, is supported. If there is no ipv6AccessConfig specified, then this instance will have no external IPv6 Internet access.
+	// +kubebuilder:validation:Optional
 	IPv6AccessConfig []NetworkInterfaceIPv6AccessConfigObservation `json:"ipv6AccessConfig,omitempty" tf:"ipv6_access_config,omitempty"`
 
+	// One of EXTERNAL, INTERNAL to indicate whether the IP can be accessed from the Internet. This field is always inherited from its subnetwork.
 	IPv6AccessType *string `json:"ipv6AccessType,omitempty" tf:"ipv6_access_type,omitempty"`
 
+	// A unique name for the resource, required by GCE.
+	// Changing this forces a new resource to be created.
+	// The name of the interface
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 }
 
@@ -208,24 +217,36 @@ type InstanceFromTemplateNetworkInterfaceParameters struct {
 }
 
 type InstanceFromTemplateObservation struct {
+
+	// The boot disk for the instance.
+	// +kubebuilder:validation:Optional
 	BootDisk []InstanceFromTemplateBootDiskObservation `json:"bootDisk,omitempty" tf:"boot_disk,omitempty"`
 
+	// The CPU platform used by this instance.
 	CPUPlatform *string `json:"cpuPlatform,omitempty" tf:"cpu_platform,omitempty"`
 
+	// Current status of the instance.
 	CurrentStatus *string `json:"currentStatus,omitempty" tf:"current_status,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// The server-assigned unique identifier of this instance.
 	InstanceID *string `json:"instanceId,omitempty" tf:"instance_id,omitempty"`
 
+	// The unique fingerprint of the labels.
 	LabelFingerprint *string `json:"labelFingerprint,omitempty" tf:"label_fingerprint,omitempty"`
 
+	// The unique fingerprint of the metadata.
 	MetadataFingerprint *string `json:"metadataFingerprint,omitempty" tf:"metadata_fingerprint,omitempty"`
 
+	// The networks attached to the instance.
+	// +kubebuilder:validation:Optional
 	NetworkInterface []InstanceFromTemplateNetworkInterfaceObservation `json:"networkInterface,omitempty" tf:"network_interface,omitempty"`
 
+	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
 
+	// The unique fingerprint of the tags.
 	TagsFingerprint *string `json:"tagsFingerprint,omitempty" tf:"tags_fingerprint,omitempty"`
 }
 
@@ -299,6 +320,8 @@ type InstanceFromTemplateParameters struct {
 	// +kubebuilder:validation:Optional
 	MinCPUPlatform *string `json:"minCpuPlatform,omitempty" tf:"min_cpu_platform,omitempty"`
 
+	// A unique name for the resource, required by GCE.
+	// Changing this forces a new resource to be created.
 	// The name of the instance. One of name or self_link must be provided.
 	// +kubebuilder:validation:Required
 	Name *string `json:"name" tf:"name,omitempty"`
@@ -335,6 +358,8 @@ type InstanceFromTemplateParameters struct {
 	// +kubebuilder:validation:Optional
 	ShieldedInstanceConfig []InstanceFromTemplateShieldedInstanceConfigParameters `json:"shieldedInstanceConfig,omitempty" tf:"shielded_instance_config,omitempty"`
 
+	// Name or self link of an instance
+	// template to create the instance based on.
 	// Name or self link of an instance template to create the instance based on.
 	// +crossplane:generate:reference:type=InstanceTemplate
 	// +crossplane:generate:reference:extractor=github.com/upbound/official-providers/provider-gcp/config/common.ExtractResourceID()
@@ -351,6 +376,8 @@ type InstanceFromTemplateParameters struct {
 	// +kubebuilder:validation:Optional
 	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
+	// The zone that the machine should be created in. If not
+	// set, the provider zone is used.
 	// The zone of the instance. If self_link is provided, this value is ignored. If neither self_link nor zone are provided, the provider zone is used.
 	// +kubebuilder:validation:Optional
 	Zone *string `json:"zone,omitempty" tf:"zone,omitempty"`
@@ -466,8 +493,11 @@ type NetworkInterfaceAliasIPRangeParameters struct {
 }
 
 type NetworkInterfaceIPv6AccessConfigObservation struct {
+
+	// The first IPv6 address of the external IPv6 range associated with this instance, prefix length is stored in externalIpv6PrefixLength in ipv6AccessConfig. The field is output only, an IPv6 address from a subnetwork associated with the instance will be allocated dynamically.
 	ExternalIPv6 *string `json:"externalIpv6,omitempty" tf:"external_ipv6,omitempty"`
 
+	// The prefix length of the external IPv6 range.
 	ExternalIPv6PrefixLength *string `json:"externalIpv6PrefixLength,omitempty" tf:"external_ipv6_prefix_length,omitempty"`
 }
 
@@ -525,7 +555,7 @@ type InstanceFromTemplateStatus struct {
 
 // +kubebuilder:object:root=true
 
-// InstanceFromTemplate is the Schema for the InstanceFromTemplates API
+// InstanceFromTemplate is the Schema for the InstanceFromTemplates API. Manages a VM instance resource within GCE.
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

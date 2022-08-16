@@ -26,6 +26,8 @@ import (
 )
 
 type GlobalNetworkEndpointObservation struct {
+
+	// an identifier for the resource with format {{project}}/{{global_network_endpoint_group}}/{{ip_address}}/{{fqdn}}/{{port}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 }
 
@@ -33,9 +35,12 @@ type GlobalNetworkEndpointParameters struct {
 
 	// Fully qualified domain name of network endpoint.
 	// This can only be specified when network_endpoint_type of the NEG is INTERNET_FQDN_PORT.
+	// Fully qualified domain name of network endpoint.
+	// This can only be specified when network_endpoint_type of the NEG is INTERNET_FQDN_PORT.
 	// +kubebuilder:validation:Optional
 	Fqdn *string `json:"fqdn,omitempty" tf:"fqdn,omitempty"`
 
+	// The global network endpoint group this endpoint is part of.
 	// The global network endpoint group this endpoint is part of.
 	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.GlobalNetworkEndpointGroup
 	// +kubebuilder:validation:Optional
@@ -48,13 +53,17 @@ type GlobalNetworkEndpointParameters struct {
 	GlobalNetworkEndpointGroupSelector *v1.Selector `json:"globalNetworkEndpointGroupSelector,omitempty" tf:"-"`
 
 	// IPv4 address external endpoint.
+	// IPv4 address external endpoint.
 	// +kubebuilder:validation:Optional
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
 
 	// Port number of the external endpoint.
+	// Port number of the external endpoint.
 	// +kubebuilder:validation:Required
 	Port *float64 `json:"port" tf:"port,omitempty"`
 
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
@@ -73,7 +82,7 @@ type GlobalNetworkEndpointStatus struct {
 
 // +kubebuilder:object:root=true
 
-// GlobalNetworkEndpoint is the Schema for the GlobalNetworkEndpoints API
+// GlobalNetworkEndpoint is the Schema for the GlobalNetworkEndpoints API. A Global Network endpoint represents a IP address and port combination that exists outside of GCP.
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

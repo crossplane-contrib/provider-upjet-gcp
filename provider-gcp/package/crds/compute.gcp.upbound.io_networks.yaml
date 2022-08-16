@@ -35,7 +35,8 @@ spec:
     name: v1beta1
     schema:
       openAPIV3Schema:
-        description: Network is the Schema for the Networks API
+        description: Network is the Schema for the Networks API. Manages a VPC network
+          or legacy network resource on GCP.
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -64,31 +65,50 @@ spec:
               forProvider:
                 properties:
                   autoCreateSubnetworks:
-                    description: "When set to 'true', the network is created in \"auto
+                    description: "When set to true, the network is created in \"auto
                       subnet mode\" and it will create a subnet for each region automatically
-                      across the '10.128.0.0/9' address range. \n When set to 'false',
-                      the network is created in \"custom subnet mode\" so the user
-                      can explicitly connect subnetwork resources."
+                      across the 10.128.0.0/9 address range. When set to false, the
+                      network is created in \"custom subnet mode\" so the user can
+                      explicitly connect subnetwork resources. When set to 'true',
+                      the network is created in \"auto subnet mode\" and it will create
+                      a subnet for each region automatically across the '10.128.0.0/9'
+                      address range. \n When set to 'false', the network is created
+                      in \"custom subnet mode\" so the user can explicitly connect
+                      subnetwork resources."
                     type: boolean
                   deleteDefaultRoutesOnCreate:
+                    description: If set to true, default routes  will be deleted immediately
+                      after network creation. Defaults to false.
                     type: boolean
                   description:
                     description: An optional description of this resource. The resource
-                      must be recreated to modify this field.
+                      must be recreated to modify this field. An optional description
+                      of this resource. The resource must be recreated to modify this
+                      field.
                     type: string
                   mtu:
                     description: Maximum Transmission Unit in bytes. The minimum value
                       for this field is 1460 and the maximum value is 1500 bytes.
+                      Maximum Transmission Unit in bytes. The minimum value for this
+                      field is 1460 and the maximum value is 1500 bytes.
                     type: number
                   project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
                     type: string
                   routingMode:
                     description: 'The network-wide routing mode to use. If set to
-                      ''REGIONAL'', this network''s cloud routers will only advertise
+                      REGIONAL, this network''s cloud routers will only advertise
                       routes with subnetworks of this network in the same region as
-                      the router. If set to ''GLOBAL'', this network''s cloud routers
+                      the router. If set to GLOBAL, this network''s cloud routers
                       will advertise routes with all subnetworks of this network,
-                      across regions. Possible values: ["REGIONAL", "GLOBAL"]'
+                      across regions. Possible values are REGIONAL and GLOBAL. The
+                      network-wide routing mode to use. If set to ''REGIONAL'', this
+                      network''s cloud routers will only advertise routes with subnetworks
+                      of this network in the same region as the router. If set to
+                      ''GLOBAL'', this network''s cloud routers will advertise routes
+                      with all subnetworks of this network, across regions. Possible
+                      values: ["REGIONAL", "GLOBAL"]'
                     type: string
                 type: object
               providerConfigRef:
@@ -268,10 +288,16 @@ spec:
               atProvider:
                 properties:
                   gatewayIpv4:
+                    description: The gateway address for default routing out of the
+                      network. This value is selected by GCP. The gateway address
+                      for default routing out of the network. This value is selected
+                      by GCP.
                     type: string
                   id:
+                    description: an identifier for the resource with format projects/{{project}}/global/networks/{{name}}
                     type: string
                   selfLink:
+                    description: The URI of the created resource.
                     type: string
                 type: object
               conditions:

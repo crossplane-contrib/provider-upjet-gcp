@@ -26,15 +26,22 @@ import (
 )
 
 type HTTPSHealthCheckObservation_2 struct {
+
+	// Creation timestamp in RFC3339 text format.
+	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
 
+	// an identifier for the resource with format projects/{{project}}/global/httpsHealthChecks/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
 }
 
 type HTTPSHealthCheckParameters_2 struct {
 
+	// How often  to send a health check. The default value is 5
+	// seconds.
 	// How often (in seconds) to send a health check. The default value is 5
 	// seconds.
 	// +kubebuilder:validation:Optional
@@ -42,14 +49,21 @@ type HTTPSHealthCheckParameters_2 struct {
 
 	// An optional description of this resource. Provide this property when
 	// you create the resource.
+	// An optional description of this resource. Provide this property when
+	// you create the resource.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// A so-far unhealthy instance will be marked healthy after this many
 	// consecutive successes. The default value is 2.
+	// A so-far unhealthy instance will be marked healthy after this many
+	// consecutive successes. The default value is 2.
 	// +kubebuilder:validation:Optional
 	HealthyThreshold *float64 `json:"healthyThreshold,omitempty" tf:"healthy_threshold,omitempty"`
 
+	// The value of the host header in the HTTPS health check request. If
+	// left empty , the public IP on behalf of which this
+	// health check is performed will be used.
 	// The value of the host header in the HTTPS health check request. If
 	// left empty (default value), the public IP on behalf of which this
 	// health check is performed will be used.
@@ -58,23 +72,34 @@ type HTTPSHealthCheckParameters_2 struct {
 
 	// The TCP port number for the HTTPS health check request.
 	// The default value is 443.
+	// The TCP port number for the HTTPS health check request.
+	// The default value is 443.
 	// +kubebuilder:validation:Optional
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
 
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The request path of the HTTPS health check request.
 	// The default value is /.
+	// The request path of the HTTPS health check request.
+	// The default value is /.
 	// +kubebuilder:validation:Optional
 	RequestPath *string `json:"requestPath,omitempty" tf:"request_path,omitempty"`
 
+	// How long  to wait before claiming failure.
+	// The default value is 5 seconds.  It is invalid for timeoutSec to have
+	// greater value than checkIntervalSec.
 	// How long (in seconds) to wait before claiming failure.
 	// The default value is 5 seconds.  It is invalid for timeoutSec to have
 	// greater value than checkIntervalSec.
 	// +kubebuilder:validation:Optional
 	TimeoutSec *float64 `json:"timeoutSec,omitempty" tf:"timeout_sec,omitempty"`
 
+	// A so-far healthy instance will be marked unhealthy after this many
+	// consecutive failures. The default value is 2.
 	// A so-far healthy instance will be marked unhealthy after this many
 	// consecutive failures. The default value is 2.
 	// +kubebuilder:validation:Optional
@@ -95,7 +120,7 @@ type HTTPSHealthCheckStatus struct {
 
 // +kubebuilder:object:root=true
 
-// HTTPSHealthCheck is the Schema for the HTTPSHealthChecks API
+// HTTPSHealthCheck is the Schema for the HTTPSHealthChecks API. An HttpsHealthCheck resource.
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

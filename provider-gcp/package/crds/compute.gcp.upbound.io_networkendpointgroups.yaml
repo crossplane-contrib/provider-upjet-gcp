@@ -36,7 +36,8 @@ spec:
     schema:
       openAPIV3Schema:
         description: NetworkEndpointGroup is the Schema for the NetworkEndpointGroups
-          API
+          API. Network endpoint groups (NEGs) are zonal resources that represent collections
+          of IP address and port combinations for GCP resources within a single subnet.
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -66,23 +67,36 @@ spec:
                 properties:
                   defaultPort:
                     description: The default port used if the port number is not specified
-                      in the network endpoint.
+                      in the network endpoint. The default port used if the port number
+                      is not specified in the network endpoint.
                     type: number
                   description:
                     description: An optional description of this resource. Provide
-                      this property when you create the resource.
+                      this property when you create the resource. An optional description
+                      of this resource. Provide this property when you create the
+                      resource.
                     type: string
                   network:
                     description: The network to which all network endpoints in the
-                      NEG belong. Uses "default" project network if unspecified.
+                      NEG belong. Uses "default" project network if unspecified. The
+                      network to which all network endpoints in the NEG belong. Uses
+                      "default" project network if unspecified.
                     type: string
                   networkEndpointType:
                     description: 'Type of network endpoints in this network endpoint
                       group. NON_GCP_PRIVATE_IP_PORT is used for hybrid connectivity
-                      network endpoint groups (see https://cloud.google.com/load-balancing/docs/hybrid).
-                      Note that NON_GCP_PRIVATE_IP_PORT can only be used with Backend
-                      Services that 1) have the following load balancing schemes:
-                      EXTERNAL, EXTERNAL_MANAGED, INTERNAL_MANAGED, and INTERNAL_SELF_MANAGED
+                      network endpoint groups . Note that NON_GCP_PRIVATE_IP_PORT
+                      can only be used with Backend Services that 1) have the following
+                      load balancing schemes: EXTERNAL, EXTERNAL_MANAGED, INTERNAL_MANAGED,
+                      and INTERNAL_SELF_MANAGED and 2) support the RATE or CONNECTION
+                      balancing modes. Default value is GCE_VM_IP_PORT. Possible values
+                      are GCE_VM_IP_PORT and NON_GCP_PRIVATE_IP_PORT. Type of network
+                      endpoints in this network endpoint group. NON_GCP_PRIVATE_IP_PORT
+                      is used for hybrid connectivity network endpoint groups (see
+                      https://cloud.google.com/load-balancing/docs/hybrid). Note that
+                      NON_GCP_PRIVATE_IP_PORT can only be used with Backend Services
+                      that 1) have the following load balancing schemes: EXTERNAL,
+                      EXTERNAL_MANAGED, INTERNAL_MANAGED, and INTERNAL_SELF_MANAGED
                       and 2) support the RATE or CONNECTION balancing modes. Default
                       value: "GCE_VM_IP_PORT" Possible values: ["GCE_VM_IP_PORT",
                       "NON_GCP_PRIVATE_IP_PORT"]'
@@ -161,10 +175,13 @@ spec:
                         type: object
                     type: object
                   project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
                     type: string
                   subnetwork:
                     description: Optional subnetwork to which all network endpoints
-                      in the NEG belong.
+                      in the NEG belong. Optional subnetwork to which all network
+                      endpoints in the NEG belong.
                     type: string
                   subnetworkRef:
                     description: A Reference to a named object.
@@ -241,6 +258,7 @@ spec:
                     type: object
                   zone:
                     description: Zone where the network endpoint group is located.
+                      Zone where the network endpoint group is located.
                     type: string
                 required:
                 - zone
@@ -423,10 +441,14 @@ spec:
               atProvider:
                 properties:
                   id:
+                    description: an identifier for the resource with format projects/{{project}}/zones/{{zone}}/networkEndpointGroups/{{name}}
                     type: string
                   selfLink:
+                    description: The URI of the created resource.
                     type: string
                   size:
+                    description: Number of network endpoints in the network endpoint
+                      group. Number of network endpoints in the network endpoint group.
                     type: number
                 type: object
               conditions:

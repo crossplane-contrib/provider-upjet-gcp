@@ -26,10 +26,15 @@ import (
 )
 
 type GlobalAddressObservation struct {
+
+	// Creation timestamp in RFC3339 text format.
+	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
 
+	// an identifier for the resource with format projects/{{project}}/global/addresses/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
 }
 
@@ -38,9 +43,13 @@ type GlobalAddressParameters struct {
 	// The IP address or beginning of the address range represented by this
 	// resource. This can be supplied as an input to reserve a specific
 	// address or omitted to allow GCP to choose a valid one for you.
+	// The IP address or beginning of the address range represented by this
+	// resource. This can be supplied as an input to reserve a specific
+	// address or omitted to allow GCP to choose a valid one for you.
 	// +kubebuilder:validation:Optional
 	Address *string `json:"address,omitempty" tf:"address,omitempty"`
 
+	// The type of the address to reserve.
 	// The type of the address to reserve.
 	//
 	// * EXTERNAL indicates public/external single IP address.
@@ -49,13 +58,20 @@ type GlobalAddressParameters struct {
 	AddressType *string `json:"addressType,omitempty" tf:"address_type,omitempty"`
 
 	// An optional description of this resource.
+	// An optional description of this resource.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// The IP Version that will be used by this address. The default value is IPV4.
+	// Possible values are IPV4 and IPV6.
 	// The IP Version that will be used by this address. The default value is 'IPV4'. Possible values: ["IPV4", "IPV6"]
 	// +kubebuilder:validation:Optional
 	IPVersion *string `json:"ipVersion,omitempty" tf:"ip_version,omitempty"`
 
+	// The URL of the network in which to reserve the IP range. The IP range
+	// must be in RFC1918 space. The network cannot be deleted if there are
+	// any reserved IP ranges referring to it.
+	// This should only be set when using an Internal address.
 	// The URL of the network in which to reserve the IP range. The IP range
 	// must be in RFC1918 space. The network cannot be deleted if there are
 	// any reserved IP ranges referring to it.
@@ -74,15 +90,22 @@ type GlobalAddressParameters struct {
 
 	// The prefix length of the IP range. If not present, it means the
 	// address field is a single IP address.
+	// This field is not applicable to addresses with addressType=EXTERNAL,
+	// or addressType=INTERNAL when purpose=PRIVATE_SERVICE_CONNECT
+	// The prefix length of the IP range. If not present, it means the
+	// address field is a single IP address.
 	//
 	// This field is not applicable to addresses with addressType=EXTERNAL,
 	// or addressType=INTERNAL when purpose=PRIVATE_SERVICE_CONNECT
 	// +kubebuilder:validation:Optional
 	PrefixLength *float64 `json:"prefixLength,omitempty" tf:"prefix_length,omitempty"`
 
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	// The purpose of the resource. Possible values include:
 	// The purpose of the resource. Possible values include:
 	//
 	// * VPC_PEERING - for peer networks
@@ -106,7 +129,7 @@ type GlobalAddressStatus struct {
 
 // +kubebuilder:object:root=true
 
-// GlobalAddress is the Schema for the GlobalAddresss API
+// GlobalAddress is the Schema for the GlobalAddresss API. Represents a Global Address resource.
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

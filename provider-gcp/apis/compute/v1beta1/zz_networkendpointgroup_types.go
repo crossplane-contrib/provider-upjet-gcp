@@ -26,10 +26,15 @@ import (
 )
 
 type NetworkEndpointGroupObservation struct {
+
+	// an identifier for the resource with format projects/{{project}}/zones/{{zone}}/networkEndpointGroups/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
 
+	// Number of network endpoints in the network endpoint group.
+	// Number of network endpoints in the network endpoint group.
 	Size *float64 `json:"size,omitempty" tf:"size,omitempty"`
 }
 
@@ -37,9 +42,13 @@ type NetworkEndpointGroupParameters struct {
 
 	// The default port used if the port number is not specified in the
 	// network endpoint.
+	// The default port used if the port number is not specified in the
+	// network endpoint.
 	// +kubebuilder:validation:Optional
 	DefaultPort *float64 `json:"defaultPort,omitempty" tf:"default_port,omitempty"`
 
+	// An optional description of this resource. Provide this property when
+	// you create the resource.
 	// An optional description of this resource. Provide this property when
 	// you create the resource.
 	// +kubebuilder:validation:Optional
@@ -47,11 +56,22 @@ type NetworkEndpointGroupParameters struct {
 
 	// The network to which all network endpoints in the NEG belong.
 	// Uses "default" project network if unspecified.
+	// The network to which all network endpoints in the NEG belong.
+	// Uses "default" project network if unspecified.
 	// +crossplane:generate:reference:type=Network
 	// +crossplane:generate:reference:extractor=github.com/upbound/official-providers/provider-gcp/config/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
+	// Type of network endpoints in this network endpoint group.
+	// NON_GCP_PRIVATE_IP_PORT is used for hybrid connectivity network
+	// endpoint groups .
+	// Note that NON_GCP_PRIVATE_IP_PORT can only be used with Backend Services
+	// that 1) have the following load balancing schemes: EXTERNAL, EXTERNAL_MANAGED,
+	// INTERNAL_MANAGED, and INTERNAL_SELF_MANAGED and 2) support the RATE or
+	// CONNECTION balancing modes.
+	// Default value is GCE_VM_IP_PORT.
+	// Possible values are GCE_VM_IP_PORT and NON_GCP_PRIVATE_IP_PORT.
 	// Type of network endpoints in this network endpoint group.
 	// NON_GCP_PRIVATE_IP_PORT is used for hybrid connectivity network
 	// endpoint groups (see https://cloud.google.com/load-balancing/docs/hybrid).
@@ -68,9 +88,12 @@ type NetworkEndpointGroupParameters struct {
 	// +kubebuilder:validation:Optional
 	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
 
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	// Optional subnetwork to which all network endpoints in the NEG belong.
 	// Optional subnetwork to which all network endpoints in the NEG belong.
 	// +crossplane:generate:reference:type=Subnetwork
 	// +crossplane:generate:reference:extractor=github.com/upbound/official-providers/provider-gcp/config/common.ExtractResourceID()
@@ -83,6 +106,7 @@ type NetworkEndpointGroupParameters struct {
 	// +kubebuilder:validation:Optional
 	SubnetworkSelector *v1.Selector `json:"subnetworkSelector,omitempty" tf:"-"`
 
+	// Zone where the network endpoint group is located.
 	// Zone where the network endpoint group is located.
 	// +kubebuilder:validation:Required
 	Zone *string `json:"zone" tf:"zone,omitempty"`
@@ -102,7 +126,7 @@ type NetworkEndpointGroupStatus struct {
 
 // +kubebuilder:object:root=true
 
-// NetworkEndpointGroup is the Schema for the NetworkEndpointGroups API
+// NetworkEndpointGroup is the Schema for the NetworkEndpointGroups API. Network endpoint groups (NEGs) are zonal resources that represent collections of IP address and port combinations for GCP resources within a single subnet.
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

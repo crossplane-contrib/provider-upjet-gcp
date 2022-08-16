@@ -35,7 +35,8 @@ spec:
     name: v1beta1
     schema:
       openAPIV3Schema:
-        description: RecordSet is the Schema for the RecordSets API
+        description: RecordSet is the Schema for the RecordSets API. Manages a set
+          of DNS records within Google Cloud DNS.
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -65,7 +66,7 @@ spec:
                 properties:
                   managedZone:
                     description: The name of the zone in which this record set will
-                      reside.
+                      reside. The name of the zone in which this record set will reside.
                     type: string
                   managedZoneRef:
                     description: A Reference to a named object.
@@ -141,25 +142,32 @@ spec:
                         type: object
                     type: object
                   name:
-                    description: The DNS name this record set will apply to.
+                    description: The DNS name this record set will apply to. The DNS
+                      name this record set will apply to.
                     type: string
                   project:
                     description: The ID of the project in which the resource belongs.
-                      If it is not provided, the provider project is used.
+                      If it is not provided, the provider project is used. The ID
+                      of the project in which the resource belongs. If it is not provided,
+                      the provider project is used.
                     type: string
                   routingPolicy:
                     description: The configuration for steering traffic based on query.
-                      You can specify either Weighted Round Robin(WRR) type or Geolocation(GEO)
-                      type.
+                      Now you can specify either Weighted Round Robin type or Geolocation
+                      type. Structure is documented below. The configuration for steering
+                      traffic based on query. You can specify either Weighted Round
+                      Robin(WRR) type or Geolocation(GEO) type.
                     items:
                       properties:
                         geo:
-                          description: The configuration for Geo location based routing
-                            policy.
+                          description: The configuration for Geolocation based routing
+                            policy. Structure is document below. The configuration
+                            for Geo location based routing policy.
                           items:
                             properties:
                               location:
                                 description: The location name defined in Google Cloud.
+                                  The location name defined in Google Cloud.
                                 type: string
                               rrdatas:
                                 items:
@@ -172,7 +180,8 @@ spec:
                           type: array
                         wrr:
                           description: The configuration for Weighted Round Robin
-                            based routing policy.
+                            based routing policy. Structure is document below. The
+                            configuration for Weighted Round Robin based routing policy.
                           items:
                             properties:
                               rrdatas:
@@ -180,7 +189,9 @@ spec:
                                   type: string
                                 type: array
                               weight:
-                                description: The ratio of traffic routed to the target.
+                                description: Required) The ratio of traffic routed
+                                  to the target. The ratio of traffic routed to the
+                                  target.
                                 type: number
                             required:
                             - rrdatas
@@ -201,10 +212,11 @@ spec:
                       type: string
                     type: array
                   ttl:
-                    description: The time-to-live of this record set (seconds).
+                    description: The time-to-live of this record set . The time-to-live
+                      of this record set (seconds).
                     type: number
                   type:
-                    description: The DNS record set type.
+                    description: The DNS record set type. The DNS record set type.
                     type: string
                 required:
                 - name
@@ -387,6 +399,7 @@ spec:
               atProvider:
                 properties:
                   id:
+                    description: an identifier for the resource with format projects/{{project}}/managedZones/{{zone}}/rrsets/{{name}}/{{type}}
                     type: string
                 type: object
               conditions:

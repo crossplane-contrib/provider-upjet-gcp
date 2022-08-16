@@ -35,7 +35,8 @@ spec:
     name: v1beta1
     schema:
       openAPIV3Schema:
-        description: HealthCheck is the Schema for the HealthChecks API
+        description: HealthCheck is the Schema for the HealthChecks API. Health Checks
+          determine whether instances are responsive and able to do work.
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -64,19 +65,25 @@ spec:
               forProvider:
                 properties:
                   checkIntervalSec:
-                    description: How often (in seconds) to send a health check. The
-                      default value is 5 seconds.
+                    description: How often  to send a health check. The default value
+                      is 5 seconds. How often (in seconds) to send a health check.
+                      The default value is 5 seconds.
                     type: number
                   description:
                     description: An optional description of this resource. Provide
-                      this property when you create the resource.
+                      this property when you create the resource. An optional description
+                      of this resource. Provide this property when you create the
+                      resource.
                     type: string
                   grpcHealthCheck:
-                    description: A nested object resource
+                    description: A nested object resource Structure is documented
+                      below. A nested object resource
                     items:
                       properties:
                         grpcServiceName:
                           description: 'The gRPC service name for the health check.
+                            The value of grpcServiceName has the following meanings
+                            by convention: The gRPC service name for the health check.
                             The value of grpcServiceName has the following meanings
                             by convention: - Empty serviceName means the overall status
                             of all services at the backend. - Non-empty serviceName
@@ -112,10 +119,12 @@ spec:
                   healthyThreshold:
                     description: A so-far unhealthy instance will be marked healthy
                       after this many consecutive successes. The default value is
-                      2.
+                      2. A so-far unhealthy instance will be marked healthy after
+                      this many consecutive successes. The default value is 2.
                     type: number
                   http2HealthCheck:
-                    description: A nested object resource
+                    description: A nested object resource Structure is documented
+                      below. A nested object resource
                     items:
                       properties:
                         host:
@@ -163,7 +172,8 @@ spec:
                       type: object
                     type: array
                   httpHealthCheck:
-                    description: A nested object resource
+                    description: A nested object resource Structure is documented
+                      below. A nested object resource
                     items:
                       properties:
                         host:
@@ -211,7 +221,8 @@ spec:
                       type: object
                     type: array
                   httpsHealthCheck:
-                    description: A nested object resource
+                    description: A nested object resource Structure is documented
+                      below. A nested object resource
                     items:
                       properties:
                         host:
@@ -259,20 +270,26 @@ spec:
                       type: object
                     type: array
                   logConfig:
-                    description: Configure logging on this health check.
+                    description: Configure logging on this health check. Structure
+                      is documented below. Configure logging on this health check.
                     items:
                       properties:
                         enable:
                           description: Indicates whether or not to export logs. This
                             is false by default, which means no health check logging
-                            will be done.
+                            will be done. Indicates whether or not to export logs.
+                            This is false by default, which means no health check
+                            logging will be done.
                           type: boolean
                       type: object
                     type: array
                   project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
                     type: string
                   sslHealthCheck:
-                    description: A nested object resource
+                    description: A nested object resource Structure is documented
+                      below. A nested object resource
                     items:
                       properties:
                         port:
@@ -317,7 +334,8 @@ spec:
                       type: object
                     type: array
                   tcpHealthCheck:
-                    description: A nested object resource
+                    description: A nested object resource Structure is documented
+                      below. A nested object resource
                     items:
                       properties:
                         port:
@@ -362,13 +380,17 @@ spec:
                       type: object
                     type: array
                   timeoutSec:
-                    description: How long (in seconds) to wait before claiming failure.
-                      The default value is 5 seconds.  It is invalid for timeoutSec
-                      to have greater value than checkIntervalSec.
+                    description: How long  to wait before claiming failure. The default
+                      value is 5 seconds.  It is invalid for timeoutSec to have greater
+                      value than checkIntervalSec. How long (in seconds) to wait before
+                      claiming failure. The default value is 5 seconds.  It is invalid
+                      for timeoutSec to have greater value than checkIntervalSec.
                     type: number
                   unhealthyThreshold:
                     description: A so-far healthy instance will be marked unhealthy
                       after this many consecutive failures. The default value is 2.
+                      A so-far healthy instance will be marked unhealthy after this
+                      many consecutive failures. The default value is 2.
                     type: number
                 type: object
               providerConfigRef:
@@ -548,12 +570,19 @@ spec:
               atProvider:
                 properties:
                   creationTimestamp:
+                    description: Creation timestamp in RFC3339 text format. Creation
+                      timestamp in RFC3339 text format.
                     type: string
                   id:
+                    description: an identifier for the resource with format projects/{{project}}/global/healthChecks/{{name}}
                     type: string
                   selfLink:
+                    description: The URI of the created resource.
                     type: string
                   type:
+                    description: The type of the health check. One of HTTP, HTTPS,
+                      TCP, or SSL. The type of the health check. One of HTTP, HTTPS,
+                      TCP, or SSL.
                     type: string
                 type: object
               conditions:

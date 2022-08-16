@@ -35,7 +35,9 @@ spec:
     name: v1beta1
     schema:
       openAPIV3Schema:
-        description: LiteSubscription is the Schema for the LiteSubscriptions API
+        description: LiteSubscription is the Schema for the LiteSubscriptions API.
+          A named resource representing the stream of messages from a single, specific
+          topic, to be delivered to the subscribing application.
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -65,25 +67,34 @@ spec:
                 properties:
                   deliveryConfig:
                     description: The settings for this subscription's message delivery.
+                      Structure is documented below. The settings for this subscription's
+                      message delivery.
                     items:
                       properties:
                         deliveryRequirement:
                           description: 'When this subscription should send messages
                             to subscribers relative to messages persistence in storage.
-                            Possible values: ["DELIVER_IMMEDIATELY", "DELIVER_AFTER_STORED",
-                            "DELIVERY_REQUIREMENT_UNSPECIFIED"]'
+                            Possible values are DELIVER_IMMEDIATELY, DELIVER_AFTER_STORED,
+                            and DELIVERY_REQUIREMENT_UNSPECIFIED. When this subscription
+                            should send messages to subscribers relative to messages
+                            persistence in storage. Possible values: ["DELIVER_IMMEDIATELY",
+                            "DELIVER_AFTER_STORED", "DELIVERY_REQUIREMENT_UNSPECIFIED"]'
                           type: string
                       required:
                       - deliveryRequirement
                       type: object
                     type: array
                   project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
                     type: string
                   region:
-                    description: The region of the pubsub lite topic.
+                    description: The region of the pubsub lite topic. The region of
+                      the pubsub lite topic.
                     type: string
                   topic:
-                    description: A reference to a Topic resource.
+                    description: A reference to a Topic resource. A reference to a
+                      Topic resource.
                     type: string
                   topicRef:
                     description: A Reference to a named object.
@@ -159,7 +170,8 @@ spec:
                         type: object
                     type: object
                   zone:
-                    description: The zone of the pubsub lite topic.
+                    description: The zone of the pubsub lite topic. The zone of the
+                      pubsub lite topic.
                     type: string
                 required:
                 - zone
@@ -341,6 +353,7 @@ spec:
               atProvider:
                 properties:
                   id:
+                    description: an identifier for the resource with format projects/{{project}}/locations/{{zone}}/subscriptions/{{name}}
                     type: string
                 type: object
               conditions:

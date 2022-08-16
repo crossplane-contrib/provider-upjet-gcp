@@ -26,23 +26,36 @@ import (
 )
 
 type FolderObservation struct {
+
+	// Timestamp when the Folder was created. Assigned by the server.
+	// A timestamp in RFC3339 UTC "Zulu" format, accurate to nanoseconds. Example: "2014-10-02T15:01:23.045123456Z".
+	// Timestamp when the Folder was created. Assigned by the server. A timestamp in RFC3339 UTC "Zulu" format, accurate to nanoseconds. Example: "2014-10-02T15:01:23.045123456Z".
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
+	// The folder id from the name "folders/{folder_id}"
 	FolderID *string `json:"folderId,omitempty" tf:"folder_id,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// The lifecycle state of the folder such as ACTIVE or DELETE_REQUESTED.
+	// The lifecycle state of the folder such as ACTIVE or DELETE_REQUESTED.
 	LifecycleState *string `json:"lifecycleState,omitempty" tf:"lifecycle_state,omitempty"`
 
+	// The resource name of the Folder. Its format is folders/{folder_id}.
+	// The resource name of the Folder. Its format is folders/{folder_id}.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 }
 
 type FolderParameters struct {
 
+	// The folder’s display name.
+	// A folder’s display name must be unique amongst its siblings, e.g. no two folders with the same parent can share the same display name. The display name must start and end with a letter or digit, may contain letters, digits, spaces, hyphens and underscores and can be no longer than 30 characters.
 	// The folder's display name. A folder's display name must be unique amongst its siblings, e.g. no two folders with the same parent can share the same display name. The display name must start and end with a letter or digit, may contain letters, digits, spaces, hyphens and underscores and can be no longer than 30 characters.
 	// +kubebuilder:validation:Required
 	DisplayName *string `json:"displayName" tf:"display_name,omitempty"`
 
+	// The resource name of the parent Folder or Organization.
+	// Must be of the form folders/{folder_id} or organizations/{org_id}.
 	// The resource name of the parent Folder or Organization. Must be of the form folders/{folder_id} or organizations/{org_id}.
 	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/cloudplatform/v1beta1.Folder
 	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractParamPath("name",true)
@@ -70,7 +83,7 @@ type FolderStatus struct {
 
 // +kubebuilder:object:root=true
 
-// Folder is the Schema for the Folders API
+// Folder is the Schema for the Folders API. Allows management of a Google Cloud Platform folder.
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

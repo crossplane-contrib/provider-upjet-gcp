@@ -26,13 +26,17 @@ import (
 )
 
 type ServiceNetworkingPeeredDNSDomainObservation struct {
+
+	// an identifier for the resource with format services/{{service}}/projects/{{project}}/global/networks/{{network}}/peeredDnsDomains/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// an identifier for the resource with format services/{{service}}/projects/{{project}}/global/networks/{{network}}
 	Parent *string `json:"parent,omitempty" tf:"parent,omitempty"`
 }
 
 type ServiceNetworkingPeeredDNSDomainParameters struct {
 
+	// The DNS domain suffix of the peered DNS domain. Make sure to suffix with a . .
 	// The DNS domain name suffix of the peered DNS domain.
 	// +kubebuilder:validation:Required
 	DNSSuffix *string `json:"dnsSuffix" tf:"dns_suffix,omitempty"`
@@ -71,7 +75,7 @@ type ServiceNetworkingPeeredDNSDomainStatus struct {
 
 // +kubebuilder:object:root=true
 
-// ServiceNetworkingPeeredDNSDomain is the Schema for the ServiceNetworkingPeeredDNSDomains API
+// ServiceNetworkingPeeredDNSDomain is the Schema for the ServiceNetworkingPeeredDNSDomains API. Allows management of a single peered DNS domain on a project.
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

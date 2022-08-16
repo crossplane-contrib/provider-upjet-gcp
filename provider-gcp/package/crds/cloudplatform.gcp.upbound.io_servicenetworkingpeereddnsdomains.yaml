@@ -36,7 +36,7 @@ spec:
     schema:
       openAPIV3Schema:
         description: ServiceNetworkingPeeredDNSDomain is the Schema for the ServiceNetworkingPeeredDNSDomains
-          API
+          API. Allows management of a single peered DNS domain on a project.
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -66,7 +66,9 @@ spec:
               forProvider:
                 properties:
                   dnsSuffix:
-                    description: The DNS domain name suffix of the peered DNS domain.
+                    description: The DNS domain suffix of the peered DNS domain. Make
+                      sure to suffix with a . . The DNS domain name suffix of the
+                      peered DNS domain.
                     type: string
                   network:
                     description: Network in the consumer project to peer with.
@@ -334,8 +336,10 @@ spec:
               atProvider:
                 properties:
                   id:
+                    description: an identifier for the resource with format services/{{service}}/projects/{{project}}/global/networks/{{network}}/peeredDnsDomains/{{name}}
                     type: string
                   parent:
+                    description: an identifier for the resource with format services/{{service}}/projects/{{project}}/global/networks/{{network}}
                     type: string
                 type: object
               conditions:

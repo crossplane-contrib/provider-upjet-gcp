@@ -26,17 +26,29 @@ import (
 )
 
 type ProjectServiceObservation struct {
+
+	// an identifier for the resource with format {{project}}/{{service}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 }
 
 type ProjectServiceParameters struct {
 
+	// If true, services that are enabled
+	// and which depend on this service should also be disabled when this service is
+	// destroyed. If false or unset, an error will be generated if any enabled
+	// services depend on this service when destroying it.
 	// +kubebuilder:validation:Optional
 	DisableDependentServices *bool `json:"disableDependentServices,omitempty" tf:"disable_dependent_services,omitempty"`
 
+	// If true, disable the service when the
+	// Terraform resource is destroyed. Defaults to true. May be useful in the event
+	// that a project is long-lived but the infrastructure running in that project
+	// changes frequently.
 	// +kubebuilder:validation:Optional
 	DisableOnDestroy *bool `json:"disableOnDestroy,omitempty" tf:"disable_on_destroy,omitempty"`
 
+	// The project ID. If not provided, the provider project
+	// is used.
 	// +crossplane:generate:reference:type=Project
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
@@ -47,6 +59,7 @@ type ProjectServiceParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectSelector *v1.Selector `json:"projectSelector,omitempty" tf:"-"`
 
+	// The service to enable.
 	// +kubebuilder:validation:Required
 	Service *string `json:"service" tf:"service,omitempty"`
 }
@@ -65,7 +78,7 @@ type ProjectServiceStatus struct {
 
 // +kubebuilder:object:root=true
 
-// ProjectService is the Schema for the ProjectServices API
+// ProjectService is the Schema for the ProjectServices API. Allows management of a single API service for a Google Cloud Platform project.
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

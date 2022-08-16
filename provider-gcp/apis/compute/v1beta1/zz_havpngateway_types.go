@@ -28,17 +28,24 @@ import (
 type HaVPNGatewayObservation struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
 
+	// A list of interfaces on this VPN gateway.
+	// Structure is documented below.
+	// A list of interfaces on this VPN gateway.
+	// +kubebuilder:validation:Optional
 	VPNInterfaces []VPNInterfacesObservation `json:"vpnInterfaces,omitempty" tf:"vpn_interfaces,omitempty"`
 }
 
 type HaVPNGatewayParameters struct {
 
 	// An optional description of this resource.
+	// An optional description of this resource.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// The network this VPN gateway is accepting traffic for.
 	// The network this VPN gateway is accepting traffic for.
 	// +crossplane:generate:reference:type=Network
 	// +crossplane:generate:reference:extractor=github.com/upbound/official-providers/provider-gcp/config/common.ExtractResourceID()
@@ -51,19 +58,27 @@ type HaVPNGatewayParameters struct {
 	// +kubebuilder:validation:Optional
 	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
 
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The region this gateway should sit in.
+	// The region this gateway should sit in.
 	// +kubebuilder:validation:Required
 	Region *string `json:"region" tf:"region,omitempty"`
 
+	// A list of interfaces on this VPN gateway.
+	// Structure is documented below.
 	// A list of interfaces on this VPN gateway.
 	// +kubebuilder:validation:Optional
 	VPNInterfaces []VPNInterfacesParameters `json:"vpnInterfaces,omitempty" tf:"vpn_interfaces,omitempty"`
 }
 
 type VPNInterfacesObservation struct {
+
+	// The external IP address for this VPN gateway interface.
+	// The external IP address for this VPN gateway interface.
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
 }
 
@@ -73,6 +88,12 @@ type VPNInterfacesParameters struct {
 	// +kubebuilder:validation:Optional
 	ID *float64 `json:"id,omitempty" tf:"id,omitempty"`
 
+	// URL of the interconnect attachment resource. When the value
+	// of this field is present, the VPN Gateway will be used for
+	// IPsec-encrypted Cloud Interconnect; all Egress or Ingress
+	// traffic for this VPN Gateway interface will go through the
+	// specified interconnect attachment resource.
+	// Not currently available publicly.
 	// URL of the interconnect attachment resource. When the value
 	// of this field is present, the VPN Gateway will be used for
 	// IPsec-encrypted Cloud Interconnect; all Egress or Ingress
@@ -106,7 +127,7 @@ type HaVPNGatewayStatus struct {
 
 // +kubebuilder:object:root=true
 
-// HaVPNGateway is the Schema for the HaVPNGateways API
+// HaVPNGateway is the Schema for the HaVPNGateways API. Represents a VPN gateway running in GCP.
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

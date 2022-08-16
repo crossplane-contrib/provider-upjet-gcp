@@ -26,27 +26,43 @@ import (
 )
 
 type InstanceGroupObservation struct {
+
+	// an identifier for the resource with format projects/{{project}/zones/{{zone}}/instanceGroups/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// The URI of the created resource.
+	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
 
+	// The number of instances in the group.
+	// The number of instances in the group.
 	Size *float64 `json:"size,omitempty" tf:"size,omitempty"`
 }
 
 type InstanceGroupParameters struct {
 
+	// An optional textual description of the instance
+	// group.
 	// An optional textual description of the instance group.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// List of instances in the group. They should be given
+	// as either self_link or id. When adding instances they must all be in the same
+	// network and zone as the instance group.
 	// List of instances in the group. They should be given as self_link URLs. When adding instances they must all be in the same network and zone as the instance group.
 	// +kubebuilder:validation:Optional
 	Instances []*string `json:"instances,omitempty" tf:"instances,omitempty"`
 
+	// The named port configuration. See the section below
+	// for details on configuration. Structure is documented below.
 	// The named port configuration.
 	// +kubebuilder:validation:Optional
 	NamedPort []NamedPortParameters `json:"namedPort,omitempty" tf:"named_port,omitempty"`
 
+	// The URL of the network the instance group is in. If
+	// this is different from the network where the instances are in, the creation
+	// fails. Defaults to the network where the instances are in .
 	// The URL of the network the instance group is in. If this is different from the network where the instances are in, the creation fails. Defaults to the network where the instances are in (if neither network nor instances is specified, this field will be blank).
 	// +crossplane:generate:reference:type=Network
 	// +crossplane:generate:reference:extractor=github.com/upbound/official-providers/provider-gcp/config/common.ExtractResourceID()
@@ -59,10 +75,13 @@ type InstanceGroupParameters struct {
 	// +kubebuilder:validation:Optional
 	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
 
+	// The ID of the project in which the resource belongs. If it
+	// is not provided, the provider project is used.
 	// The ID of the project in which the resource belongs. If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	// The zone that this instance group should be created in.
 	// The zone that this instance group should be created in.
 	// +kubebuilder:validation:Required
 	Zone *string `json:"zone" tf:"zone,omitempty"`
@@ -77,6 +96,7 @@ type NamedPortParameters struct {
 	// +kubebuilder:validation:Required
 	Name *string `json:"name" tf:"name,omitempty"`
 
+	// The port number to map the name to.
 	// The port number to map the name to.
 	// +kubebuilder:validation:Required
 	Port *float64 `json:"port" tf:"port,omitempty"`
@@ -96,7 +116,7 @@ type InstanceGroupStatus struct {
 
 // +kubebuilder:object:root=true
 
-// InstanceGroup is the Schema for the InstanceGroups API
+// InstanceGroup is the Schema for the InstanceGroups API. Manages an Instance Group within GCE.
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

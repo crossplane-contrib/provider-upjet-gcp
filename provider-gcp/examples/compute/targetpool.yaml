@@ -5,6 +5,7 @@ metadata:
 spec:
   forProvider:
     region: us-central1
+    # Only legacy HTTPHealthCheck is supported
     healthChecks:
     - example
     instances:

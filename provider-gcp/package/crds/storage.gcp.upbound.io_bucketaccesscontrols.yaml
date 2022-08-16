@@ -36,7 +36,7 @@ spec:
     schema:
       openAPIV3Schema:
         description: BucketAccessControl is the Schema for the BucketAccessControls
-          API
+          API. Bucket ACLs can be managed authoritatively using the [
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -65,7 +65,7 @@ spec:
               forProvider:
                 properties:
                   bucket:
-                    description: The name of the bucket.
+                    description: The name of the bucket. The name of the bucket.
                     type: string
                   bucketRef:
                     description: A Reference to a named object.
@@ -147,11 +147,19 @@ spec:
                       Examples: The user liz@example.com would be user-liz@example.com.
                       The group example@googlegroups.com would be group-example@googlegroups.com.
                       To refer to all members of the Google Apps for Business domain
-                      example.com, the entity would be domain-example.com.'
+                      example.com, the entity would be domain-example.com. The entity
+                      holding the permission, in one of the following forms: user-userId
+                      user-email group-groupId group-email domain-domain project-team-projectId
+                      allUsers allAuthenticatedUsers Examples: The user liz@example.com
+                      would be user-liz@example.com. The group example@googlegroups.com
+                      would be group-example@googlegroups.com. To refer to all members
+                      of the Google Apps for Business domain example.com, the entity
+                      would be domain-example.com.'
                     type: string
                   role:
-                    description: 'The access permission for the entity. Possible values:
-                      ["OWNER", "READER", "WRITER"]'
+                    description: 'The access permission for the entity. Possible values
+                      are OWNER, READER, and WRITER. The access permission for the
+                      entity. Possible values: ["OWNER", "READER", "WRITER"]'
                     type: string
                 required:
                 - entity
@@ -333,10 +341,15 @@ spec:
               atProvider:
                 properties:
                   domain:
+                    description: The domain associated with the entity. The domain
+                      associated with the entity.
                     type: string
                   email:
+                    description: The email address associated with the entity. The
+                      email address associated with the entity.
                     type: string
                   id:
+                    description: an identifier for the resource with format {{bucket}}/{{entity}}
                     type: string
                 type: object
               conditions:

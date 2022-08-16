@@ -26,15 +26,22 @@ import (
 )
 
 type BucketAccessControlObservation struct {
+
+	// The domain associated with the entity.
+	// The domain associated with the entity.
 	Domain *string `json:"domain,omitempty" tf:"domain,omitempty"`
 
+	// The email address associated with the entity.
+	// The email address associated with the entity.
 	Email *string `json:"email,omitempty" tf:"email,omitempty"`
 
+	// an identifier for the resource with format {{bucket}}/{{entity}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 }
 
 type BucketAccessControlParameters struct {
 
+	// The name of the bucket.
 	// The name of the bucket.
 	// +crossplane:generate:reference:type=Bucket
 	// +kubebuilder:validation:Optional
@@ -61,9 +68,26 @@ type BucketAccessControlParameters struct {
 	// group-example@googlegroups.com.
 	// To refer to all members of the Google Apps for Business domain
 	// example.com, the entity would be domain-example.com.
+	// The entity holding the permission, in one of the following forms:
+	// user-userId
+	// user-email
+	// group-groupId
+	// group-email
+	// domain-domain
+	// project-team-projectId
+	// allUsers
+	// allAuthenticatedUsers
+	// Examples:
+	// The user liz@example.com would be user-liz@example.com.
+	// The group example@googlegroups.com would be
+	// group-example@googlegroups.com.
+	// To refer to all members of the Google Apps for Business domain
+	// example.com, the entity would be domain-example.com.
 	// +kubebuilder:validation:Required
 	Entity *string `json:"entity" tf:"entity,omitempty"`
 
+	// The access permission for the entity.
+	// Possible values are OWNER, READER, and WRITER.
 	// The access permission for the entity. Possible values: ["OWNER", "READER", "WRITER"]
 	// +kubebuilder:validation:Optional
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
@@ -83,7 +107,7 @@ type BucketAccessControlStatus struct {
 
 // +kubebuilder:object:root=true
 
-// BucketAccessControl is the Schema for the BucketAccessControls API
+// BucketAccessControl is the Schema for the BucketAccessControls API. Bucket ACLs can be managed authoritatively using the [
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

@@ -36,7 +36,7 @@ spec:
     schema:
       openAPIV3Schema:
         description: ExternalVPNGateway is the Schema for the ExternalVPNGateways
-          API
+          API. Represents a VPN gateway managed outside of GCP.
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -65,10 +65,13 @@ spec:
               forProvider:
                 properties:
                   description:
-                    description: An optional description of this resource.
+                    description: An optional description of this resource. An optional
+                      description of this resource.
                     type: string
                   interface:
                     description: A list of interfaces on this external VPN gateway.
+                      Structure is documented below. A list of interfaces on this
+                      external VPN gateway.
                     items:
                       properties:
                         id:
@@ -82,16 +85,24 @@ spec:
                             VPN gateway. Only IPv4 is supported. This IP address can
                             be either from your on-premise gateway or another Cloud
                             provider's VPN gateway, it cannot be an IP address from
-                            Google Compute Engine.
+                            Google Compute Engine. IP address of the interface in
+                            the external VPN gateway. Only IPv4 is supported. This
+                            IP address can be either from your on-premise gateway
+                            or another Cloud provider's VPN gateway, it cannot be
+                            an IP address from Google Compute Engine.
                           type: string
                       type: object
                     type: array
                   project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
                     type: string
                   redundancyType:
                     description: 'Indicates the redundancy type of this external VPN
-                      gateway Possible values: ["FOUR_IPS_REDUNDANCY", "SINGLE_IP_INTERNALLY_REDUNDANT",
-                      "TWO_IPS_REDUNDANCY"]'
+                      gateway Possible values are FOUR_IPS_REDUNDANCY, SINGLE_IP_INTERNALLY_REDUNDANT,
+                      and TWO_IPS_REDUNDANCY. Indicates the redundancy type of this
+                      external VPN gateway Possible values: ["FOUR_IPS_REDUNDANCY",
+                      "SINGLE_IP_INTERNALLY_REDUNDANT", "TWO_IPS_REDUNDANCY"]'
                     type: string
                 type: object
               providerConfigRef:
@@ -273,6 +284,7 @@ spec:
                   id:
                     type: string
                   selfLink:
+                    description: The URI of the created resource.
                     type: string
                 type: object
               conditions:

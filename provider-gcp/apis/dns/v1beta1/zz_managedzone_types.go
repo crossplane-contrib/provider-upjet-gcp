@@ -33,6 +33,11 @@ type DNSSECConfigParameters struct {
 	// Specifies parameters that will be used for generating initial DnsKeys
 	// for this ManagedZone. If you provide a spec for keySigning or zoneSigning,
 	// you must also provide one for the other.
+	// default_key_specs can only be updated when the state is off.
+	// Structure is documented below.
+	// Specifies parameters that will be used for generating initial DnsKeys
+	// for this ManagedZone. If you provide a spec for keySigning or zoneSigning,
+	// you must also provide one for the other.
 	// default_key_specs can only be updated when the state is 'off'.
 	// +kubebuilder:validation:Optional
 	DefaultKeySpecs []DefaultKeySpecsParameters `json:"defaultKeySpecs,omitempty" tf:"default_key_specs,omitempty"`
@@ -42,10 +47,15 @@ type DNSSECConfigParameters struct {
 	Kind *string `json:"kind,omitempty" tf:"kind,omitempty"`
 
 	// Specifies the mechanism used to provide authenticated denial-of-existence responses.
+	// non_existence can only be updated when the state is off.
+	// Possible values are nsec and nsec3.
+	// Specifies the mechanism used to provide authenticated denial-of-existence responses.
 	// non_existence can only be updated when the state is 'off'. Possible values: ["nsec", "nsec3"]
 	// +kubebuilder:validation:Optional
 	NonExistence *string `json:"nonExistence,omitempty" tf:"non_existence,omitempty"`
 
+	// Specifies whether DNSSEC is enabled, and what mode it is in
+	// Possible values are off, on, and transfer.
 	// Specifies whether DNSSEC is enabled, and what mode it is in Possible values: ["off", "on", "transfer"]
 	// +kubebuilder:validation:Optional
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
@@ -56,14 +66,24 @@ type DefaultKeySpecsObservation struct {
 
 type DefaultKeySpecsParameters struct {
 
+	// String mnemonic specifying the DNSSEC algorithm of this key
+	// Possible values are ecdsap256sha256, ecdsap384sha384, rsasha1, rsasha256, and rsasha512.
 	// String mnemonic specifying the DNSSEC algorithm of this key Possible values: ["ecdsap256sha256", "ecdsap384sha384", "rsasha1", "rsasha256", "rsasha512"]
 	// +kubebuilder:validation:Optional
 	Algorithm *string `json:"algorithm,omitempty" tf:"algorithm,omitempty"`
 
 	// Length of the keys in bits
+	// Length of the keys in bits
 	// +kubebuilder:validation:Optional
 	KeyLength *float64 `json:"keyLength,omitempty" tf:"key_length,omitempty"`
 
+	// Specifies whether this is a key signing key  or a zone
+	// signing key . Key signing keys have the Secure Entry
+	// Point flag set and, when active, will only be used to sign
+	// resource record sets of type DNSKEY. Zone signing keys do
+	// not have the Secure Entry Point flag set and will be used
+	// to sign all other types of resource record sets.
+	// Possible values are keySigning and zoneSigning.
 	// Specifies whether this is a key signing key (KSK) or a zone
 	// signing key (ZSK). Key signing keys have the Secure Entry
 	// Point flag set and, when active, will only be used to sign
@@ -86,33 +106,52 @@ type ForwardingConfigParameters struct {
 	// List of target name servers to forward to. Cloud DNS will
 	// select the best available name server if more than
 	// one target is given.
+	// Structure is documented below.
+	// List of target name servers to forward to. Cloud DNS will
+	// select the best available name server if more than
+	// one target is given.
 	// +kubebuilder:validation:Required
 	TargetNameServers []TargetNameServersParameters `json:"targetNameServers" tf:"target_name_servers,omitempty"`
 }
 
 type ManagedZoneObservation struct {
+
+	// an identifier for the resource with format projects/{{project}}/managedZones/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// Delegate your managed_zone to these virtual name servers;
+	// defined by the server
+	// Delegate your managed_zone to these virtual name servers;
+	// defined by the server
 	NameServers []*string `json:"nameServers,omitempty" tf:"name_servers,omitempty"`
 }
 
 type ManagedZoneParameters struct {
 
 	// The DNS name of this managed zone, for instance "example.com.".
+	// The DNS name of this managed zone, for instance "example.com.".
 	// +kubebuilder:validation:Required
 	DNSName *string `json:"dnsName" tf:"dns_name,omitempty"`
 
+	// DNSSEC configuration
+	// Structure is documented below.
 	// DNSSEC configuration
 	// +kubebuilder:validation:Optional
 	DNSSECConfig []DNSSECConfigParameters `json:"dnssecConfig,omitempty" tf:"dnssec_config,omitempty"`
 
 	// A textual description field. Defaults to 'Managed by Terraform'.
+	// A textual description field. Defaults to 'Managed by Terraform'.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// Set this true to delete all records in the zone.
 	// +kubebuilder:validation:Optional
 	ForceDestroy *bool `json:"forceDestroy,omitempty" tf:"force_destroy,omitempty"`
 
+	// The presence for this field indicates that outbound forwarding is enabled
+	// for this zone. The value of this field contains the set of destinations
+	// to forward to.
+	// Structure is documented below.
 	// The presence for this field indicates that outbound forwarding is enabled
 	// for this zone. The value of this field contains the set of destinations
 	// to forward to.
@@ -120,9 +159,13 @@ type ManagedZoneParameters struct {
 	ForwardingConfig []ForwardingConfigParameters `json:"forwardingConfig,omitempty" tf:"forwarding_config,omitempty"`
 
 	// A set of key/value label pairs to assign to this ManagedZone.
+	// A set of key/value label pairs to assign to this ManagedZone.
 	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
+	// The presence of this field indicates that DNS Peering is enabled for this
+	// zone. The value of this field contains the network to peer with.
+	// Structure is documented below.
 	// The presence of this field indicates that DNS Peering is enabled for this
 	// zone. The value of this field contains the network to peer with.
 	// +kubebuilder:validation:Optional
@@ -130,12 +173,21 @@ type ManagedZoneParameters struct {
 
 	// For privately visible zones, the set of Virtual Private Cloud
 	// resources that the zone is visible from.
+	// Structure is documented below.
+	// For privately visible zones, the set of Virtual Private Cloud
+	// resources that the zone is visible from.
 	// +kubebuilder:validation:Optional
 	PrivateVisibilityConfig []PrivateVisibilityConfigParameters `json:"privateVisibilityConfig,omitempty" tf:"private_visibility_config,omitempty"`
 
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	// The zone's visibility: public zones are exposed to the Internet,
+	// while private zones are visible only to Virtual Private Cloud resources.
+	// Default value is public.
+	// Possible values are private and public.
 	// The zone's visibility: public zones are exposed to the Internet,
 	// while private zones are visible only to Virtual Private Cloud resources. Default value: "public" Possible values: ["private", "public"]
 	// +kubebuilder:validation:Optional
@@ -168,6 +220,8 @@ type PeeringConfigObservation struct {
 type PeeringConfigParameters struct {
 
 	// The network with which to peer.
+	// Structure is documented below.
+	// The network with which to peer.
 	// +kubebuilder:validation:Required
 	TargetNetwork []TargetNetworkParameters `json:"targetNetwork" tf:"target_network,omitempty"`
 }
@@ -177,6 +231,12 @@ type PrivateVisibilityConfigObservation struct {
 
 type PrivateVisibilityConfigParameters struct {
 
+	// The list of VPC networks that can see this zone. Until the provider updates to use the Terraform 0.12 SDK in a future release, you
+	// may experience issues with this resource while updating. If you've defined a networks block and
+	// add another networks block while keeping the old block, Terraform will see an incorrect diff
+	// and apply an incorrect update to the resource. If you encounter this issue, remove all networks
+	// blocks in an update and then apply another update adding all of them back simultaneously.
+	// Structure is documented below.
 	// The list of VPC networks that can see this zone. Until the provider updates to use the Terraform 0.12 SDK in a future release, you
 	// may experience issues with this resource while updating. If you've defined a 'networks' block and
 	// add another 'networks' block while keeping the old block, Terraform will see an incorrect diff
@@ -191,12 +251,17 @@ type TargetNameServersObservation struct {
 
 type TargetNameServersParameters struct {
 
+	// Forwarding path for this TargetNameServer. If unset or default Cloud DNS will make forwarding
+	// decision based on address ranges, i.e. RFC1918 addresses go to the VPC, Non-RFC1918 addresses go
+	// to the Internet. When set to private, Cloud DNS will always send queries through VPC for this target
+	// Possible values are default and private.
 	// Forwarding path for this TargetNameServer. If unset or 'default' Cloud DNS will make forwarding
 	// decision based on address ranges, i.e. RFC1918 addresses go to the VPC, Non-RFC1918 addresses go
 	// to the Internet. When set to 'private', Cloud DNS will always send queries through VPC for this target Possible values: ["default", "private"]
 	// +kubebuilder:validation:Optional
 	ForwardingPath *string `json:"forwardingPath,omitempty" tf:"forwarding_path,omitempty"`
 
+	// IPv4 address of a target name server.
 	// IPv4 address of a target name server.
 	// +kubebuilder:validation:Required
 	IPv4Address *string `json:"ipv4Address" tf:"ipv4_address,omitempty"`
@@ -236,7 +301,7 @@ type ManagedZoneStatus struct {
 
 // +kubebuilder:object:root=true
 
-// ManagedZone is the Schema for the ManagedZones API
+// ManagedZone is the Schema for the ManagedZones API. A zone is a subtree of the DNS namespace under one administrative responsibility.
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

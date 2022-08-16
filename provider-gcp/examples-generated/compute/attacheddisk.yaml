@@ -1,0 +1,37 @@
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: AttachedDisk
+metadata:
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    diskSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    instanceSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Instance
+metadata:
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    bootDisk:
+    - initializeParams:
+      - image: debian-cloud/debian-9
+    machineType: e2-medium
+    networkInterface:
+    - networkSelector:
+        matchLabels:
+          testing.upbound.io/example-name: example
+    zone: us-west1-a
+
+---
+

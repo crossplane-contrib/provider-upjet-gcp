@@ -26,27 +26,38 @@ import (
 )
 
 type SourceRepresentationInstanceObservation struct {
+
+	// an identifier for the resource with format projects/{{project}}/instances/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 }
 
 type SourceRepresentationInstanceParameters struct {
 
+	// The MySQL version running on your source database server.
+	// Possible values are MYSQL_5_5, MYSQL_5_6, MYSQL_5_7, and MYSQL_8_0.
 	// The MySQL version running on your source database server. Possible values: ["MYSQL_5_5", "MYSQL_5_6", "MYSQL_5_7", "MYSQL_8_0"]
 	// +kubebuilder:validation:Required
 	DatabaseVersion *string `json:"databaseVersion" tf:"database_version,omitempty"`
 
+	// The externally accessible IPv4 address for the source database server.
 	// The externally accessible IPv4 address for the source database server.
 	// +kubebuilder:validation:Required
 	Host *string `json:"host" tf:"host,omitempty"`
 
 	// The externally accessible port for the source database server.
 	// Defaults to 3306.
+	// The externally accessible port for the source database server.
+	// Defaults to 3306.
 	// +kubebuilder:validation:Optional
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
 
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	// The Region in which the created instance should reside.
+	// If it is not provided, the provider region is used.
 	// The Region in which the created instance should reside.
 	// If it is not provided, the provider region is used.
 	// +kubebuilder:validation:Optional
@@ -67,7 +78,7 @@ type SourceRepresentationInstanceStatus struct {
 
 // +kubebuilder:object:root=true
 
-// SourceRepresentationInstance is the Schema for the SourceRepresentationInstances API
+// SourceRepresentationInstance is the Schema for the SourceRepresentationInstances API. A source representation instance is a Cloud SQL instance that represents the source database server to the Cloud SQL replica.
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

@@ -35,7 +35,9 @@ spec:
     name: v1beta1
     schema:
       openAPIV3Schema:
-        description: Disk is the Schema for the Disks API
+        description: Disk is the Schema for the Disks API. Persistent disks are durable
+          storage devices that function similarly to the physical disks in a desktop
+          or a server.
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -65,18 +67,27 @@ spec:
                 properties:
                   description:
                     description: An optional description of this resource. Provide
-                      this property when you create the resource.
+                      this property when you create the resource. An optional description
+                      of this resource. Provide this property when you create the
+                      resource.
                     type: string
                   diskEncryptionKey:
                     description: "Encrypts the disk using a customer-supplied encryption
-                      key. \n After you encrypt a disk with a customer-supplied key,
-                      you must provide the same key if you use the disk later (e.g.
-                      to create a disk snapshot or an image, or to attach the disk
-                      to a virtual machine). \n Customer-supplied encryption keys
-                      do not protect access to metadata of the disk. \n If you do
-                      not provide an encryption key when creating the disk, then the
-                      disk will be encrypted using an automatically generated key
-                      and you do not need to provide a key to use the disk later."
+                      key. After you encrypt a disk with a customer-supplied key,
+                      you must provide the same key if you use the disk later . Customer-supplied
+                      encryption keys do not protect access to metadata of the disk.
+                      If you do not provide an encryption key when creating the disk,
+                      then the disk will be encrypted using an automatically generated
+                      key and you do not need to provide a key to use the disk later.
+                      Structure is documented below. Encrypts the disk using a customer-supplied
+                      encryption key. \n After you encrypt a disk with a customer-supplied
+                      key, you must provide the same key if you use the disk later
+                      (e.g. to create a disk snapshot or an image, or to attach the
+                      disk to a virtual machine). \n Customer-supplied encryption
+                      keys do not protect access to metadata of the disk. \n If you
+                      do not provide an encryption key when creating the disk, then
+                      the disk will be encrypted using an automatically generated
+                      key and you do not need to provide a key to use the disk later."
                     items:
                       properties:
                         kmsKeySelfLink:
@@ -115,7 +126,16 @@ spec:
                     type: array
                   image:
                     description: 'The image from which to initialize this disk. This
-                      can be one of: the image''s ''self_link'', ''projects/{project}/global/images/{image}'',
+                      can be one of: the image''s self_link, projects/{project}/global/images/{image},
+                      projects/{project}/global/images/family/{family}, global/images/{image},
+                      global/images/family/{family}, family/{family}, {project}/{family},
+                      {project}/{image}, {family}, or {image}. If referred by family,
+                      the images names must include the family name. If they don''t,
+                      use the google_compute_image data source. For instance, the
+                      image centos-6-v20180104 includes its family name centos-6.
+                      These images can be referred by family name here. The image
+                      from which to initialize this disk. This can be one of: the
+                      image''s ''self_link'', ''projects/{project}/global/images/{image}'',
                       ''projects/{project}/global/images/family/{family}'', ''global/images/{image}'',
                       ''global/images/family/{family}'', ''family/{family}'', ''{project}/{family}'',
                       ''{project}/{image}'', ''{family}'', or ''{image}''. If referred
@@ -129,7 +149,7 @@ spec:
                     additionalProperties:
                       type: string
                     description: Labels to apply to this disk.  A list of key->value
-                      pairs.
+                      pairs. Labels to apply to this disk.  A list of key->value pairs.
                     type: object
                   physicalBlockSizeBytes:
                     description: Physical block size of the persistent disk, in bytes.
@@ -137,16 +157,32 @@ spec:
                       supported sizes are 4096 and 16384, other sizes may be added
                       in the future. If an unsupported value is requested, the error
                       message will list the supported values for the caller's project.
+                      Physical block size of the persistent disk, in bytes. If not
+                      present in a request, a default value is used. Currently supported
+                      sizes are 4096 and 16384, other sizes may be added in the future.
+                      If an unsupported value is requested, the error message will
+                      list the supported values for the caller's project.
                     type: number
                   project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
                     type: string
                   provisionedIops:
                     description: Indicates how many IOPS must be provisioned for the
-                      disk.
+                      disk. Indicates how many IOPS must be provisioned for the disk.
                     type: number
                   size:
                     description: "Size of the persistent disk, specified in GB. You
                       can specify this field when creating a persistent disk using
+                      the image or snapshot parameter, or specify it alone to create
+                      an empty persistent disk. If you specify this field along with
+                      image or snapshot, the value must not be less than the size
+                      of the image or the size of the snapshot. ~>NOTE If you change
+                      the size, Terraform updates the disk size if upsizing is detected
+                      but recreates the disk if downsizing is requested. You can add
+                      lifecycle.prevent_destroy in the config to prevent destroying
+                      and recreating. Size of the persistent disk, specified in GB.
+                      You can specify this field when creating a persistent disk using
                       the 'image' or 'snapshot' parameter, or specify it alone to
                       create an empty persistent disk. \n If you specify this field
                       along with 'image' or 'snapshot', the value must not be less
@@ -161,14 +197,19 @@ spec:
                       can provide this as a partial or full URL to the resource. If
                       the snapshot is in another project than this disk, you must
                       supply a full URL. For example, the following are valid values:
-                      \n * 'https://www.googleapis.com/compute/v1/projects/project/global/snapshots/snapshot'
+                      The source snapshot used to create this disk. You can provide
+                      this as a partial or full URL to the resource. If the snapshot
+                      is in another project than this disk, you must supply a full
+                      URL. For example, the following are valid values: \n * 'https://www.googleapis.com/compute/v1/projects/project/global/snapshots/snapshot'
                       * 'projects/project/global/snapshots/snapshot' * 'global/snapshots/snapshot'
                       * 'snapshot'"
                     type: string
                   sourceImageEncryptionKey:
                     description: The customer-supplied encryption key of the source
                       image. Required if the source image is protected by a customer-supplied
-                      encryption key.
+                      encryption key. Structure is documented below. The customer-supplied
+                      encryption key of the source image. Required if the source image
+                      is protected by a customer-supplied encryption key.
                     items:
                       properties:
                         kmsKeySelfLink:
@@ -194,7 +235,10 @@ spec:
                   sourceSnapshotEncryptionKey:
                     description: The customer-supplied encryption key of the source
                       snapshot. Required if the source snapshot is protected by a
-                      customer-supplied encryption key.
+                      customer-supplied encryption key. Structure is documented below.
+                      The customer-supplied encryption key of the source snapshot.
+                      Required if the source snapshot is protected by a customer-supplied
+                      encryption key.
                     items:
                       properties:
                         kmsKeySelfLink:
@@ -220,10 +264,12 @@ spec:
                   type:
                     description: URL of the disk type resource describing which disk
                       type to use to create the disk. Provide this when creating the
-                      disk.
+                      disk. URL of the disk type resource describing which disk type
+                      to use to create the disk. Provide this when creating the disk.
                     type: string
                   zone:
-                    description: A reference to the zone where the disk resides.
+                    description: A reference to the zone where the disk resides. A
+                      reference to the zone where the disk resides.
                     type: string
                 required:
                 - zone
@@ -405,43 +451,117 @@ spec:
               atProvider:
                 properties:
                   creationTimestamp:
+                    description: Creation timestamp in RFC3339 text format. Creation
+                      timestamp in RFC3339 text format.
                     type: string
                   diskEncryptionKey:
+                    description: "Encrypts the disk using a customer-supplied encryption
+                      key. After you encrypt a disk with a customer-supplied key,
+                      you must provide the same key if you use the disk later . Customer-supplied
+                      encryption keys do not protect access to metadata of the disk.
+                      If you do not provide an encryption key when creating the disk,
+                      then the disk will be encrypted using an automatically generated
+                      key and you do not need to provide a key to use the disk later.
+                      Structure is documented below. Encrypts the disk using a customer-supplied
+                      encryption key. \n After you encrypt a disk with a customer-supplied
+                      key, you must provide the same key if you use the disk later
+                      (e.g. to create a disk snapshot or an image, or to attach the
+                      disk to a virtual machine). \n Customer-supplied encryption
+                      keys do not protect access to metadata of the disk. \n If you
+                      do not provide an encryption key when creating the disk, then
+                      the disk will be encrypted using an automatically generated
+                      key and you do not need to provide a key to use the disk later."
                     items:
                       properties:
                         sha256:
+                          description: The RFC 4648 base64 encoded SHA-256 hash of
+                            the customer-supplied encryption key that protects this
+                            resource.
                           type: string
                       type: object
                     type: array
                   id:
+                    description: an identifier for the resource with format projects/{{project}}/zones/{{zone}}/disks/{{name}}
                     type: string
                   labelFingerprint:
+                    description: The fingerprint used for optimistic locking of this
+                      resource.  Used internally during updates. The fingerprint used
+                      for optimistic locking of this resource.  Used internally during
+                      updates.
                     type: string
                   lastAttachTimestamp:
+                    description: Last attach timestamp in RFC3339 text format. Last
+                      attach timestamp in RFC3339 text format.
                     type: string
                   lastDetachTimestamp:
+                    description: Last detach timestamp in RFC3339 text format. Last
+                      detach timestamp in RFC3339 text format.
                     type: string
                   selfLink:
+                    description: The URI of the created resource.
                     type: string
                   sourceImageEncryptionKey:
+                    description: The customer-supplied encryption key of the source
+                      image. Required if the source image is protected by a customer-supplied
+                      encryption key. Structure is documented below. The customer-supplied
+                      encryption key of the source image. Required if the source image
+                      is protected by a customer-supplied encryption key.
                     items:
                       properties:
                         sha256:
+                          description: The RFC 4648 base64 encoded SHA-256 hash of
+                            the customer-supplied encryption key that protects this
+                            resource.
                           type: string
                       type: object
                     type: array
                   sourceImageId:
+                    description: The ID value of the image used to create this disk.
+                      This value identifies the exact image that was used to create
+                      this persistent disk. For example, if you created the persistent
+                      disk from an image that was later deleted and recreated under
+                      the same name, the source image ID would identify the exact
+                      version of the image that was used. The ID value of the image
+                      used to create this disk. This value identifies the exact image
+                      that was used to create this persistent disk. For example, if
+                      you created the persistent disk from an image that was later
+                      deleted and recreated under the same name, the source image
+                      ID would identify the exact version of the image that was used.
                     type: string
                   sourceSnapshotEncryptionKey:
+                    description: The customer-supplied encryption key of the source
+                      snapshot. Required if the source snapshot is protected by a
+                      customer-supplied encryption key. Structure is documented below.
+                      The customer-supplied encryption key of the source snapshot.
+                      Required if the source snapshot is protected by a customer-supplied
+                      encryption key.
                     items:
                       properties:
                         sha256:
+                          description: The RFC 4648 base64 encoded SHA-256 hash of
+                            the customer-supplied encryption key that protects this
+                            resource.
                           type: string
                       type: object
                     type: array
                   sourceSnapshotId:
+                    description: The unique ID of the snapshot used to create this
+                      disk. This value identifies the exact snapshot that was used
+                      to create this persistent disk. For example, if you created
+                      the persistent disk from a snapshot that was later deleted and
+                      recreated under the same name, the source snapshot ID would
+                      identify the exact version of the snapshot that was used. The
+                      unique ID of the snapshot used to create this disk. This value
+                      identifies the exact snapshot that was used to create this persistent
+                      disk. For example, if you created the persistent disk from a
+                      snapshot that was later deleted and recreated under the same
+                      name, the source snapshot ID would identify the exact version
+                      of the snapshot that was used.
                     type: string
                   users:
+                    description: 'Links to the users of the disk  in form: project/zones/zone/instances/instance
+                      Links to the users of the disk (attached instances) in form:
+                      project/zones/zone/instances/instance'
                     items:
                       type: string
                     type: array

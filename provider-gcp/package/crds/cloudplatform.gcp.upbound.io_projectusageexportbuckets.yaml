@@ -36,7 +36,7 @@ spec:
     schema:
       openAPIV3Schema:
         description: ProjectUsageExportBucket is the Schema for the ProjectUsageExportBuckets
-          API
+          API. Manages a project's usage export bucket.
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -66,7 +66,8 @@ spec:
               forProvider:
                 properties:
                   bucketName:
-                    description: The bucket to store reports in.
+                    description: ':  The bucket to store reports in. The bucket to
+                      store reports in.'
                     type: string
                   bucketNameRef:
                     description: A Reference to a named object.
@@ -142,12 +143,14 @@ spec:
                         type: object
                     type: object
                   prefix:
-                    description: A prefix for the reports, for instance, the project
-                      name.
+                    description: ':  A prefix for the reports, for instance, the project
+                      name. A prefix for the reports, for instance, the project name.'
                     type: string
                   project:
-                    description: The project to set the export bucket on. If it is
-                      not provided, the provider project is used.
+                    description: ':  The project to set the export bucket on. If it
+                      is not provided, the provider project is used. The project to
+                      set the export bucket on. If it is not provided, the provider
+                      project is used.'
                     type: string
                   projectRef:
                     description: A Reference to a named object.

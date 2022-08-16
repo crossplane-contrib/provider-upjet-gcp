@@ -31,39 +31,53 @@ type CapacityObservation struct {
 type CapacityParameters struct {
 
 	// Subscribe throughput capacity per partition in MiB/s. Must be >= 4 and <= 16.
+	// Subscribe throughput capacity per partition in MiB/s. Must be >= 4 and <= 16.
 	// +kubebuilder:validation:Required
 	PublishMibPerSec *float64 `json:"publishMibPerSec" tf:"publish_mib_per_sec,omitempty"`
 
+	// Publish throughput capacity per partition in MiB/s. Must be >= 4 and <= 16.
 	// Publish throughput capacity per partition in MiB/s. Must be >= 4 and <= 16.
 	// +kubebuilder:validation:Required
 	SubscribeMibPerSec *float64 `json:"subscribeMibPerSec" tf:"subscribe_mib_per_sec,omitempty"`
 }
 
 type LiteTopicObservation struct {
+
+	// an identifier for the resource with format projects/{{project}}/locations/{{zone}}/topics/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 }
 
 type LiteTopicParameters struct {
 
 	// The settings for this topic's partitions.
+	// Structure is documented below.
+	// The settings for this topic's partitions.
 	// +kubebuilder:validation:Required
 	PartitionConfig []PartitionConfigParameters `json:"partitionConfig" tf:"partition_config,omitempty"`
 
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	// The region of the pubsub lite topic.
 	// The region of the pubsub lite topic.
 	// +kubebuilder:validation:Optional
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
 	// The settings for this topic's Reservation usage.
+	// Structure is documented below.
+	// The settings for this topic's Reservation usage.
 	// +kubebuilder:validation:Optional
 	ReservationConfig []ReservationConfigParameters `json:"reservationConfig,omitempty" tf:"reservation_config,omitempty"`
 
 	// The settings for a topic's message retention.
+	// Structure is documented below.
+	// The settings for a topic's message retention.
 	// +kubebuilder:validation:Required
 	RetentionConfig []RetentionConfigParameters `json:"retentionConfig" tf:"retention_config,omitempty"`
 
+	// The zone of the pubsub lite topic.
 	// The zone of the pubsub lite topic.
 	// +kubebuilder:validation:Required
 	Zone *string `json:"zone" tf:"zone,omitempty"`
@@ -75,9 +89,12 @@ type PartitionConfigObservation struct {
 type PartitionConfigParameters struct {
 
 	// The capacity configuration.
+	// Structure is documented below.
+	// The capacity configuration.
 	// +kubebuilder:validation:Optional
 	Capacity []CapacityParameters `json:"capacity,omitempty" tf:"capacity,omitempty"`
 
+	// The number of partitions in the topic. Must be at least 1.
 	// The number of partitions in the topic. Must be at least 1.
 	// +kubebuilder:validation:Required
 	Count *float64 `json:"count" tf:"count,omitempty"`
@@ -88,6 +105,7 @@ type ReservationConfigObservation struct {
 
 type ReservationConfigParameters struct {
 
+	// The Reservation to use for this topic's throughput capacity.
 	// The Reservation to use for this topic's throughput capacity.
 	// +crossplane:generate:reference:type=LiteReservation
 	// +kubebuilder:validation:Optional
@@ -108,9 +126,16 @@ type RetentionConfigParameters struct {
 	// The provisioned storage, in bytes, per partition. If the number of bytes stored
 	// in any of the topic's partitions grows beyond this value, older messages will be
 	// dropped to make room for newer ones, regardless of the value of period.
+	// The provisioned storage, in bytes, per partition. If the number of bytes stored
+	// in any of the topic's partitions grows beyond this value, older messages will be
+	// dropped to make room for newer ones, regardless of the value of period.
 	// +kubebuilder:validation:Required
 	PerPartitionBytes *string `json:"perPartitionBytes" tf:"per_partition_bytes,omitempty"`
 
+	// How long a published message is retained. If unset, messages will be retained as
+	// long as the bytes retained for each partition is below perPartitionBytes. A
+	// duration in seconds with up to nine fractional digits, terminated by 's'.
+	// Example: "3.5s".
 	// How long a published message is retained. If unset, messages will be retained as
 	// long as the bytes retained for each partition is below perPartitionBytes. A
 	// duration in seconds with up to nine fractional digits, terminated by 's'.
@@ -133,7 +158,7 @@ type LiteTopicStatus struct {
 
 // +kubebuilder:object:root=true
 
-// LiteTopic is the Schema for the LiteTopics API
+// LiteTopic is the Schema for the LiteTopics API. A named resource to which messages are sent by publishers.
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

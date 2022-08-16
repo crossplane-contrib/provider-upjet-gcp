@@ -35,7 +35,8 @@ spec:
     name: v1beta1
     schema:
       openAPIV3Schema:
-        description: LiteReservation is the Schema for the LiteReservations API
+        description: LiteReservation is the Schema for the LiteReservations API. A
+          named resource representing a shared pool of capacity.
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -64,14 +65,19 @@ spec:
               forProvider:
                 properties:
                   project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
                     type: string
                   region:
-                    description: The region of the pubsub lite reservation.
+                    description: The region of the pubsub lite reservation. The region
+                      of the pubsub lite reservation.
                     type: string
                   throughputCapacity:
                     description: The reserved throughput capacity. Every unit of throughput
                       capacity is equivalent to 1 MiB/s of published messages or 2
-                      MiB/s of subscribed messages.
+                      MiB/s of subscribed messages. The reserved throughput capacity.
+                      Every unit of throughput capacity is equivalent to 1 MiB/s of
+                      published messages or 2 MiB/s of subscribed messages.
                     type: number
                 required:
                 - region
@@ -254,6 +260,7 @@ spec:
               atProvider:
                 properties:
                   id:
+                    description: an identifier for the resource with format projects/{{project}}/locations/{{region}}/reservations/{{name}}
                     type: string
                 type: object
               conditions:

@@ -28,6 +28,51 @@ func (l *AddressList) GetItems() []resource.Managed {
 	return items
 }
 
+// GetItems of this AttachedDiskList.
+func (l *AttachedDiskList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this AutoscalerList.
+func (l *AutoscalerList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this BackendBucketList.
+func (l *BackendBucketList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this BackendBucketSignedURLKeyList.
+func (l *BackendBucketSignedURLKeyList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this BackendServiceList.
+func (l *BackendServiceList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
 // GetItems of this DiskIAMBindingList.
 func (l *DiskIAMBindingList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))

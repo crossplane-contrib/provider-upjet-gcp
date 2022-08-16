@@ -85,7 +85,7 @@ type SubscriptionIAMMemberStatus struct {
 
 // +kubebuilder:object:root=true
 
-// SubscriptionIAMMember is the Schema for the SubscriptionIAMMembers API
+// SubscriptionIAMMember is the Schema for the SubscriptionIAMMembers API. <no value>
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

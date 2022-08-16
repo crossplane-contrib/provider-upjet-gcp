@@ -26,6 +26,8 @@ import (
 )
 
 type SchemaObservation struct {
+
+	// an identifier for the resource with format projects/{{project}}/schemas/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 }
 
@@ -34,12 +36,20 @@ type SchemaParameters struct {
 	// The definition of the schema.
 	// This should contain a string representing the full definition of the schema
 	// that is a valid schema definition of the type specified in type.
+	// The definition of the schema.
+	// This should contain a string representing the full definition of the schema
+	// that is a valid schema definition of the type specified in type.
 	// +kubebuilder:validation:Optional
 	Definition *string `json:"definition,omitempty" tf:"definition,omitempty"`
 
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	// The type of the schema definition
+	// Default value is TYPE_UNSPECIFIED.
+	// Possible values are TYPE_UNSPECIFIED, PROTOCOL_BUFFER, and AVRO.
 	// The type of the schema definition Default value: "TYPE_UNSPECIFIED" Possible values: ["TYPE_UNSPECIFIED", "PROTOCOL_BUFFER", "AVRO"]
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
@@ -59,7 +69,7 @@ type SchemaStatus struct {
 
 // +kubebuilder:object:root=true
 
-// Schema is the Schema for the Schemas API
+// Schema is the Schema for the Schemas API. A schema is a format that messages must follow, creating a contract between publisher and subscriber that Pub/Sub will enforce.
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

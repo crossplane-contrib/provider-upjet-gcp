@@ -32,40 +32,62 @@ type ManagedParameters struct {
 
 	// Domains for which a managed SSL certificate will be valid.  Currently,
 	// there can be up to 100 domains in this list.
+	// Domains for which a managed SSL certificate will be valid.  Currently,
+	// there can be up to 100 domains in this list.
 	// +kubebuilder:validation:Required
 	Domains []*string `json:"domains" tf:"domains,omitempty"`
 }
 
 type ManagedSSLCertificateObservation struct {
+
+	// Creation timestamp in RFC3339 text format.
+	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
 
+	// Expire time of the certificate.
+	// Expire time of the certificate.
 	ExpireTime *string `json:"expireTime,omitempty" tf:"expire_time,omitempty"`
 
+	// an identifier for the resource with format projects/{{project}}/global/sslCertificates/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
 
+	// Domains associated with the certificate via Subject Alternative Name.
+	// Domains associated with the certificate via Subject Alternative Name.
 	SubjectAlternativeNames []*string `json:"subjectAlternativeNames,omitempty" tf:"subject_alternative_names,omitempty"`
 }
 
 type ManagedSSLCertificateParameters struct {
 
 	// The unique identifier for the resource.
+	// The unique identifier for the resource.
 	// +kubebuilder:validation:Optional
 	CertificateID *float64 `json:"certificateId,omitempty" tf:"certificate_id,omitempty"`
 
+	// An optional description of this resource.
 	// An optional description of this resource.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Properties relevant to a managed certificate.  These will be used if the
+	// certificate is managed .
+	// Structure is documented below.
+	// Properties relevant to a managed certificate.  These will be used if the
 	// certificate is managed (as indicated by a value of 'MANAGED' in 'type').
 	// +kubebuilder:validation:Optional
 	Managed []ManagedParameters `json:"managed,omitempty" tf:"managed,omitempty"`
 
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	// Enum field whose value is always MANAGED - used to signal to the API
+	// which type this is.
+	// Default value is MANAGED.
+	// Possible values are MANAGED.
 	// Enum field whose value is always 'MANAGED' - used to signal to the API
 	// which type this is. Default value: "MANAGED" Possible values: ["MANAGED"]
 	// +kubebuilder:validation:Optional
@@ -86,7 +108,7 @@ type ManagedSSLCertificateStatus struct {
 
 // +kubebuilder:object:root=true
 
-// ManagedSSLCertificate is the Schema for the ManagedSSLCertificates API
+// ManagedSSLCertificate is the Schema for the ManagedSSLCertificates API. An SslCertificate resource, used for HTTPS load balancing.
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
