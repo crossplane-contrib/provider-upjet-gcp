@@ -35,7 +35,8 @@ spec:
     name: v1beta1
     schema:
       openAPIV3Schema:
-        description: NetworkPeering is the Schema for the NetworkPeerings API
+        description: NetworkPeering is the Schema for the NetworkPeerings API. Manages
+          a network peering within GCE.
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -65,26 +66,180 @@ spec:
                 properties:
                   exportCustomRoutes:
                     description: Whether to export the custom routes to the peer network.
-                      Defaults to false.
+                      Defaults to false. Whether to export the custom routes to the
+                      peer network. Defaults to false.
                     type: boolean
                   exportSubnetRoutesWithPublicIp:
+                    description: Whether subnet routes with public IP range are exported.
+                      The default value is true, all subnet routes are exported. The
+                      IPv4 special-use ranges  are always exported to peers and are
+                      not controlled by this field.
                     type: boolean
                   importCustomRoutes:
-                    description: Whether to export the custom routes from the peer
-                      network. Defaults to false.
+                    description: Whether to import the custom routes from the peer
+                      network. Defaults to false. Whether to export the custom routes
+                      from the peer network. Defaults to false.
                     type: boolean
                   importSubnetRoutesWithPublicIp:
+                    description: Whether subnet routes with public IP range are imported.
+                      The default value is false. The IPv4 special-use ranges  are
+                      always imported from peers and are not controlled by this field.
                     type: boolean
                   network:
-                    description: The primary network of the peering.
+                    description: The primary network of the peering. The primary network
+                      of the peering.
                     type: string
+                  networkRef:
+                    description: A Reference to a named object.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: Resolution specifies whether resolution of
+                              this reference is required. The default is 'Required',
+                              which means the reconcile will fail if the reference
+                              cannot be resolved. 'Optional' means this reference
+                              will be a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: Resolve specifies when this reference should
+                              be resolved. The default is 'IfNotPresent', which will
+                              attempt to resolve the reference only when the corresponding
+                              field is not present. Use 'Always' to resolve the reference
+                              on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  networkSelector:
+                    description: A Selector selects an object.
+                    properties:
+                      matchControllerRef:
+                        description: MatchControllerRef ensures an object with the
+                          same controller reference as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: Resolution specifies whether resolution of
+                              this reference is required. The default is 'Required',
+                              which means the reconcile will fail if the reference
+                              cannot be resolved. 'Optional' means this reference
+                              will be a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: Resolve specifies when this reference should
+                              be resolved. The default is 'IfNotPresent', which will
+                              attempt to resolve the reference only when the corresponding
+                              field is not present. Use 'Always' to resolve the reference
+                              on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
                   peerNetwork:
                     description: The peer network in the peering. The peer network
-                      may belong to a different project.
+                      may belong to a different project. The peer network in the peering.
+                      The peer network may belong to a different project.
                     type: string
-                required:
-                - network
-                - peerNetwork
+                  peerNetworkRef:
+                    description: A Reference to a named object.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: Resolution specifies whether resolution of
+                              this reference is required. The default is 'Required',
+                              which means the reconcile will fail if the reference
+                              cannot be resolved. 'Optional' means this reference
+                              will be a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: Resolve specifies when this reference should
+                              be resolved. The default is 'IfNotPresent', which will
+                              attempt to resolve the reference only when the corresponding
+                              field is not present. Use 'Always' to resolve the reference
+                              on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  peerNetworkSelector:
+                    description: A Selector selects an object.
+                    properties:
+                      matchControllerRef:
+                        description: MatchControllerRef ensures an object with the
+                          same controller reference as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: Resolution specifies whether resolution of
+                              this reference is required. The default is 'Required',
+                              which means the reconcile will fail if the reference
+                              cannot be resolved. 'Optional' means this reference
+                              will be a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: Resolve specifies when this reference should
+                              be resolved. The default is 'IfNotPresent', which will
+                              attempt to resolve the reference only when the corresponding
+                              field is not present. Use 'Always' to resolve the reference
+                              on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
                 type: object
               providerConfigRef:
                 default:
@@ -263,10 +418,18 @@ spec:
               atProvider:
                 properties:
                   id:
+                    description: an identifier for the resource with format {{network}}/{{name}}
                     type: string
                   state:
+                    description: State for the peering, either ACTIVE or INACTIVE.
+                      The peering is ACTIVE when there's a matching configuration
+                      in the peer network. State for the peering, either ACTIVE or
+                      INACTIVE. The peering is ACTIVE when there's a matching configuration
+                      in the peer network.
                     type: string
                   stateDetails:
+                    description: Details about the current state of the peering. Details
+                      about the current state of the peering.
                     type: string
                 type: object
               conditions:

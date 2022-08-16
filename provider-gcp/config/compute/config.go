@@ -196,18 +196,6 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 		config.MarkAsRequired(r.TerraformResource, "zone")
 	})
 
-	p.AddResourceConfigurator("google_compute_network_peering", func(r *config.Resource) {
-		// Note(donovanmuller): network and peer_network values must match regex:
-		// "projects/(" + ProjectRegex + ")/global/networks/((?:[a-z](?:[-a-z0-9]*[a-z0-9])?))$"
-		// see https://github.com/hashicorp/terraform-provider-google/blob/e92447f367433e8c269e10751ea00acfda132256/google/resource_compute_network_peering.go#L16
-		// r.References["network"] = config.Reference{
-		// 	Type: "Network",
-		// }
-		// r.References["peer_network"] = config.Reference{
-		// 	Type: "Network",
-		// }
-	})
-
 	p.AddResourceConfigurator("google_compute_resource_policy", func(r *config.Resource) {
 		config.MarkAsRequired(r.TerraformResource, "region")
 	})

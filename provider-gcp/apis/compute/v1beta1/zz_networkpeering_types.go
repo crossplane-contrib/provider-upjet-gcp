@@ -26,36 +26,66 @@ import (
 )
 
 type NetworkPeeringObservation struct {
+
+	// an identifier for the resource with format {{network}}/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// State for the peering, either ACTIVE or INACTIVE. The peering is
+	// ACTIVE when there's a matching configuration in the peer network.
+	// State for the peering, either ACTIVE or INACTIVE. The peering is ACTIVE when there's a matching configuration in the peer network.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 
+	// Details about the current state of the peering.
+	// Details about the current state of the peering.
 	StateDetails *string `json:"stateDetails,omitempty" tf:"state_details,omitempty"`
 }
 
 type NetworkPeeringParameters struct {
 
 	// Whether to export the custom routes to the peer network. Defaults to false.
+	// Whether to export the custom routes to the peer network. Defaults to false.
 	// +kubebuilder:validation:Optional
 	ExportCustomRoutes *bool `json:"exportCustomRoutes,omitempty" tf:"export_custom_routes,omitempty"`
 
+	// Whether subnet routes with public IP range are exported. The default value is true, all subnet routes are exported. The IPv4 special-use ranges  are always exported to peers and are not controlled by this field.
 	// +kubebuilder:validation:Optional
 	ExportSubnetRoutesWithPublicIP *bool `json:"exportSubnetRoutesWithPublicIp,omitempty" tf:"export_subnet_routes_with_public_ip,omitempty"`
 
+	// Whether to import the custom routes from the peer network. Defaults to false.
 	// Whether to export the custom routes from the peer network. Defaults to false.
 	// +kubebuilder:validation:Optional
 	ImportCustomRoutes *bool `json:"importCustomRoutes,omitempty" tf:"import_custom_routes,omitempty"`
 
+	// Whether subnet routes with public IP range are imported. The default value is false. The IPv4 special-use ranges  are always imported from peers and are not controlled by this field.
 	// +kubebuilder:validation:Optional
 	ImportSubnetRoutesWithPublicIP *bool `json:"importSubnetRoutesWithPublicIp,omitempty" tf:"import_subnet_routes_with_public_ip,omitempty"`
 
 	// The primary network of the peering.
-	// +kubebuilder:validation:Required
-	Network *string `json:"network" tf:"network,omitempty"`
+	// The primary network of the peering.
+	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.Network
+	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractParamPath("self_link",true)
+	// +kubebuilder:validation:Optional
+	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
+
+	// +kubebuilder:validation:Optional
+	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
+
+	// The peer network in the peering. The peer network
+	// may belong to a different project.
 	// The peer network in the peering. The peer network may belong to a different project.
-	// +kubebuilder:validation:Required
-	PeerNetwork *string `json:"peerNetwork" tf:"peer_network,omitempty"`
+	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.Network
+	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractParamPath("self_link",true)
+	// +kubebuilder:validation:Optional
+	PeerNetwork *string `json:"peerNetwork,omitempty" tf:"peer_network,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	PeerNetworkRef *v1.Reference `json:"peerNetworkRef,omitempty" tf:"-"`
+
+	// +kubebuilder:validation:Optional
+	PeerNetworkSelector *v1.Selector `json:"peerNetworkSelector,omitempty" tf:"-"`
 }
 
 // NetworkPeeringSpec defines the desired state of NetworkPeering
@@ -72,7 +102,7 @@ type NetworkPeeringStatus struct {
 
 // +kubebuilder:object:root=true
 
-// NetworkPeering is the Schema for the NetworkPeerings API
+// NetworkPeering is the Schema for the NetworkPeerings API. Manages a network peering within GCE.
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

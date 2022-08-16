@@ -12041,10 +12041,30 @@ func (in *NetworkPeeringParameters) DeepCopyInto(out *NetworkPeeringParameters) 
 		*out = new(string)
 		**out = **in
 	}
+	if in.NetworkRef != nil {
+		in, out := &in.NetworkRef, &out.NetworkRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.NetworkSelector != nil {
+		in, out := &in.NetworkSelector, &out.NetworkSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.PeerNetwork != nil {
 		in, out := &in.PeerNetwork, &out.PeerNetwork
 		*out = new(string)
 		**out = **in
+	}
+	if in.PeerNetworkRef != nil {
+		in, out := &in.PeerNetworkRef, &out.PeerNetworkRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.PeerNetworkSelector != nil {
+		in, out := &in.PeerNetworkSelector, &out.PeerNetworkSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 }
 
