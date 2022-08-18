@@ -1,0 +1,31 @@
+apiVersion: kms.gcp.upbound.io/v1beta1
+kind: CryptoKey
+metadata:
+  labels:
+    testing.upbound.io/example-name: example-key
+  annotations:
+    upjet.upbound.io/manual-intervention: "To prevent resource name collisions, key ring and key resources CANNOT be deleted. New names must be used for every test"
+  name: example-key
+spec:
+  forProvider:
+    keyRingSelector:
+      matchLabels:
+        testing.upbound.io/example-name: keyring
+    rotationPeriod: 100000s
+
+---
+
+apiVersion: kms.gcp.upbound.io/v1beta1
+kind: KeyRing
+metadata:
+  labels:
+    testing.upbound.io/example-name: keyring
+  annotations:
+    upjet.upbound.io/manual-intervention: "To prevent resource name collisions, key ring and key resources CANNOT be deleted. New names must be used for every test"
+  name: keyring
+spec:
+  forProvider:
+    location: global
+
+---
+

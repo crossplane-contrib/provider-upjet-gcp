@@ -1,0 +1,14 @@
+apiVersion: kms.gcp.upbound.io/v1beta1
+kind: KeyRing
+metadata:
+  labels:
+    testing.upbound.io/example-name: example-keyring
+  annotations:
+    upjet.upbound.io/manual-intervention: "To prevent resource name collisions, key ring and key resources CANNOT be deleted. New names must be used for every test"
+  name: example-keyring
+spec:
+  forProvider:
+    location: global
+
+---
+

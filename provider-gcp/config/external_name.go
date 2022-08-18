@@ -176,6 +176,15 @@ var externalNameConfigs = map[string]config.ExternalName{
 	// Imported by using the following format: projects/{{project}}/managedZones/{{zone}}/rrsets/{{name}}/{{type}}
 	"google_dns_record_set": config.IdentifierFromProvider,
 
+	// kms
+	//
+	// projects/{{project}}/locations/{{location}}/keyRings/{{name}}
+	"google_kms_key_ring": formattedIdentifierUserDefined("projects/%s/locations/%s/keyRings", "project", "location"),
+	// {{key_ring}}/cryptoKeys/{{name}}
+	"google_kms_crypto_key": formattedIdentifierUserDefined("%s/cryptoKeys", "key_ring"),
+	// {{name}}
+	"google_kms_key_ring_import_job": config.IdentifierFromProvider,
+
 	// monitoring
 	//
 	// Imported by using the following format: {{name}}

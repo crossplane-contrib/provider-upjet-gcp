@@ -1,0 +1,32 @@
+apiVersion: kms.gcp.upbound.io/v1beta1
+kind: KeyRingImportJob
+metadata:
+  labels:
+    testing.upbound.io/example-name: example-keyringimportjob1
+  annotations:
+    upjet.upbound.io/manual-intervention: "To prevent resource name collisions, key ring and key resources CANNOT be deleted. New names must be used for every test"
+  name: example-keyringimportjob1
+spec:
+  forProvider:
+    importMethod: RSA_OAEP_3072_SHA1_AES_256
+    protectionLevel: "SOFTWARE"
+    keyRingSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example-keyring5
+
+---
+
+apiVersion: kms.gcp.upbound.io/v1beta1
+kind: KeyRing
+metadata:
+  labels:
+    testing.upbound.io/example-name: example-keyring5
+  annotations:
+    upjet.upbound.io/manual-intervention: "To prevent resource name collisions, key ring and key resources CANNOT be deleted. New names must be used for every test"
+  name: example-keyring5
+spec:
+  forProvider:
+    location: global
+
+---
+

@@ -50,6 +50,12 @@ var skipList = []string{
 	// "google_access_context_manager_service_perimeter". Skipping for now.
 	"google_access_context_manager_access_levels$",
 	"google_access_context_manager_service_perimeters$",
+	// Note(piotr): Following resources are potentially dangerous to implement
+	// details in: https://github.com/upbound/official-providers/issues/587
+	"google_kms_crypto_key_iam_policy",
+	"google_kms_crypto_key_iam_binding",
+	"google_kms_key_ring_iam_policy",
+	"google_kms_key_ring_iam_binding",
 }
 
 // GetProvider returns provider configuration
