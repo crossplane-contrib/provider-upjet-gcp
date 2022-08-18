@@ -22,6 +22,7 @@ import (
 	"github.com/upbound/official-providers/provider-gcp/config/dataflow"
 	"github.com/upbound/official-providers/provider-gcp/config/dataproc"
 	"github.com/upbound/official-providers/provider-gcp/config/dns"
+	"github.com/upbound/official-providers/provider-gcp/config/kms"
 	"github.com/upbound/official-providers/provider-gcp/config/project"
 	"github.com/upbound/official-providers/provider-gcp/config/pubsub"
 	"github.com/upbound/official-providers/provider-gcp/config/redis"
@@ -97,6 +98,7 @@ func GetProvider() *tjconfig.Provider {
 		storage.Configure,
 		sql.Configure,
 		redis.Configure,
+		kms.Configure,
 	} {
 		configure(pc)
 	}

@@ -5,18 +5,18 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.8.0
   creationTimestamp: null
-  name: topics.pubsub.gcp.upbound.io
+  name: cryptokeys.kms.gcp.upbound.io
 spec:
-  group: pubsub.gcp.upbound.io
+  group: kms.gcp.upbound.io
   names:
     categories:
     - crossplane
     - managed
     - gcp
-    kind: Topic
-    listKind: TopicList
-    plural: topics
-    singular: topic
+    kind: CryptoKey
+    listKind: CryptoKeyList
+    plural: cryptokeys
+    singular: cryptokey
   scope: Cluster
   versions:
   - additionalPrinterColumns:
@@ -35,8 +35,7 @@ spec:
     name: v1beta1
     schema:
       openAPIV3Schema:
-        description: Topic is the Schema for the Topics API. A named resource to which
-          messages are sent by publishers.
+        description: CryptoKey is the Schema for the CryptoKeys API. A
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -51,7 +50,7 @@ spec:
           metadata:
             type: object
           spec:
-            description: TopicSpec defines the desired state of Topic
+            description: CryptoKeySpec defines the desired state of CryptoKey
             properties:
               deletionPolicy:
                 default: Delete
@@ -64,18 +63,24 @@ spec:
                 type: string
               forProvider:
                 properties:
-                  kmsKeyName:
-                    description: The resource name of the Cloud KMS CryptoKey to be
-                      used to protect access to messages published on this topic.
-                      Your project's PubSub service account must have roles/cloudkms.cryptoKeyEncrypterDecrypter
-                      to use this feature. The expected format is projects/*/locations/*/keyRings/*/cryptoKeys/*
-                      The resource name of the Cloud KMS CryptoKey to be used to protect
-                      access to messages published on this topic. Your project's PubSub
-                      service account ('service-{{PROJECT_NUMBER}}@gcp-sa-pubsub.iam.gserviceaccount.com')
-                      must have 'roles/cloudkms.cryptoKeyEncrypterDecrypter' to use
-                      this feature. The expected format is 'projects/*/locations/*/keyRings/*/cryptoKeys/*'
+                  destroyScheduledDuration:
+                    description: The period of time that versions of this key spend
+                      in the DESTROY_SCHEDULED state before transitioning to DESTROYED.
+                      If not specified at creation time, the default duration is 24
+                      hours. The period of time that versions of this key spend in
+                      the DESTROY_SCHEDULED state before transitioning to DESTROYED.
+                      If not specified at creation time, the default duration is 24
+                      hours.
                     type: string
-                  kmsKeyNameRef:
+                  importOnly:
+                    description: Whether this key may contain imported versions only.
+                      Whether this key may contain imported versions only.
+                    type: boolean
+                  keyRing:
+                    description: 'The KeyRing that this key belongs to. Format: ''projects/{{project}}/locations/{{location}}/keyRings/{{keyRing}}''.
+                      The KeyRing that this key belongs to. Format: ''''projects/{{project}}/locations/{{location}}/keyRings/{{keyRing}}''''.'
+                    type: string
+                  keyRingRef:
                     description: A Reference to a named object.
                     properties:
                       name:
@@ -109,7 +114,7 @@ spec:
                     required:
                     - name
                     type: object
-                  kmsKeyNameSelector:
+                  keyRingSelector:
                     description: A Selector selects an object.
                     properties:
                       matchControllerRef:
@@ -151,85 +156,62 @@ spec:
                   labels:
                     additionalProperties:
                       type: string
-                    description: A set of key/value label pairs to assign to this
-                      Topic. A set of key/value label pairs to assign to this Topic.
+                    description: Labels with user-defined metadata to apply to this
+                      resource. Labels with user-defined metadata to apply to this
+                      resource.
                     type: object
-                  messageRetentionDuration:
-                    description: Indicates the minimum duration to retain a message
-                      after it is published to the topic. If this field is set, messages
-                      published to the topic in the last messageRetentionDuration
-                      are always available to subscribers. For instance, it allows
-                      any attached subscription to seek to a timestamp that is up
-                      to messageRetentionDuration in the past. If this field is not
-                      set, message retention is controlled by settings on individual
-                      subscriptions. Cannot be more than 7 days or less than 10 minutes.
-                      Indicates the minimum duration to retain a message after it
-                      is published to the topic. If this field is set, messages published
-                      to the topic in the last messageRetentionDuration are always
-                      available to subscribers. For instance, it allows any attached
-                      subscription to seek to a timestamp that is up to messageRetentionDuration
-                      in the past. If this field is not set, message retention is
-                      controlled by settings on individual subscriptions. Cannot be
-                      more than 7 days or less than 10 minutes.
+                  purpose:
+                    description: 'The immutable purpose of this CryptoKey. See the
+                      purpose reference for possible inputs. Default value is ENCRYPT_DECRYPT.
+                      Possible values are ENCRYPT_DECRYPT, ASYMMETRIC_SIGN, and ASYMMETRIC_DECRYPT.
+                      The immutable purpose of this CryptoKey. See the [purpose reference](https://cloud.google.com/kms/docs/reference/rest/v1/projects.locations.keyRings.cryptoKeys#CryptoKeyPurpose)
+                      for possible inputs. Default value: "ENCRYPT_DECRYPT" Possible
+                      values: ["ENCRYPT_DECRYPT", "ASYMMETRIC_SIGN", "ASYMMETRIC_DECRYPT"]'
                     type: string
-                  messageStoragePolicy:
-                    description: Policy constraining the set of Google Cloud Platform
-                      regions where messages published to the topic may be stored.
-                      If not present, then no constraints are in effect. Structure
-                      is documented below. Policy constraining the set of Google Cloud
-                      Platform regions where messages published to the topic may be
-                      stored. If not present, then no constraints are in effect.
+                  rotationPeriod:
+                    description: Every time this period passes, generate a new CryptoKeyVersion
+                      and set it as the primary. The first rotation will take place
+                      after the specified period. The rotation period has the format
+                      of a decimal number with up to 9 fractional digits, followed
+                      by the letter s . It must be greater than a day . Every time
+                      this period passes, generate a new CryptoKeyVersion and set
+                      it as the primary. The first rotation will take place after
+                      the specified period. The rotation period has the format of
+                      a decimal number with up to 9 fractional digits, followed by
+                      the letter 's' (seconds). It must be greater than a day (ie,
+                      86400).
+                    type: string
+                  skipInitialVersionCreation:
+                    description: If set to true, the request will create a CryptoKey
+                      without any CryptoKeyVersions. You must use the google_kms_key_ring_import_job
+                      resource to import the CryptoKeyVersion. If set to true, the
+                      request will create a CryptoKey without any CryptoKeyVersions.
+                      You must use the 'google_kms_key_ring_import_job' resource to
+                      import the CryptoKeyVersion.
+                    type: boolean
+                  versionTemplate:
+                    description: A template describing settings for new crypto key
+                      versions. Structure is documented below. A template describing
+                      settings for new crypto key versions.
                     items:
                       properties:
-                        allowedPersistenceRegions:
-                          description: A list of IDs of GCP regions where messages
-                            that are published to the topic may be persisted in storage.
-                            Messages published by publishers running in non-allowed
-                            GCP regions  will be routed for storage in one of the
-                            allowed regions. An empty list means that no regions are
-                            allowed, and is not a valid configuration. A list of IDs
-                            of GCP regions where messages that are published to the
-                            topic may be persisted in storage. Messages published
-                            by publishers running in non-allowed GCP regions (or running
-                            outside of GCP altogether) will be routed for storage
-                            in one of the allowed regions. An empty list means that
-                            no regions are allowed, and is not a valid configuration.
-                          items:
-                            type: string
-                          type: array
-                      required:
-                      - allowedPersistenceRegions
-                      type: object
-                    type: array
-                  project:
-                    description: The ID of the project in which the resource belongs.
-                      If it is not provided, the provider project is used.
-                    type: string
-                  schemaSettings:
-                    description: Settings for validating messages published against
-                      a schema. Structure is documented below. Settings for validating
-                      messages published against a schema.
-                    items:
-                      properties:
-                        encoding:
-                          description: 'The encoding of messages validated against
-                            schema. Default value is ENCODING_UNSPECIFIED. Possible
-                            values are ENCODING_UNSPECIFIED, JSON, and BINARY. The
-                            encoding of messages validated against schema. Default
-                            value: "ENCODING_UNSPECIFIED" Possible values: ["ENCODING_UNSPECIFIED",
-                            "JSON", "BINARY"]'
+                        algorithm:
+                          description: The algorithm to use when creating a version
+                            based on this template. See the algorithm reference for
+                            possible inputs. The algorithm to use when creating a
+                            version based on this template. See the [algorithm reference](https://cloud.google.com/kms/docs/reference/rest/v1/CryptoKeyVersionAlgorithm)
+                            for possible inputs.
                           type: string
-                        schema:
-                          description: The name of the schema that messages published
-                            should be validated against. Format is projects/{project}/schemas/{schema}.
-                            The value of this field will be deleted-schema if the
-                            schema has been deleted. The name of the schema that messages
-                            published should be validated against. Format is projects/{project}/schemas/{schema}.
-                            The value of this field will be _deleted-schema_ if the
-                            schema has been deleted.
+                        protectionLevel:
+                          description: The protection level to use when creating a
+                            version based on this template. Possible values include
+                            "SOFTWARE", "HSM", "EXTERNAL". Defaults to "SOFTWARE".
+                            The protection level to use when creating a version based
+                            on this template. Possible values include "SOFTWARE",
+                            "HSM", "EXTERNAL". Defaults to "SOFTWARE".
                           type: string
                       required:
-                      - schema
+                      - algorithm
                       type: object
                     type: array
                 type: object
@@ -405,12 +387,12 @@ spec:
             - forProvider
             type: object
           status:
-            description: TopicStatus defines the observed state of Topic.
+            description: CryptoKeyStatus defines the observed state of CryptoKey.
             properties:
               atProvider:
                 properties:
                   id:
-                    description: an identifier for the resource with format projects/{{project}}/topics/{{name}}
+                    description: an identifier for the resource with format {{key_ring}}/cryptoKeys/{{name}}
                     type: string
                 type: object
               conditions:

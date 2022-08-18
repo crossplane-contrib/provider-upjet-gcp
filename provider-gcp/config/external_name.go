@@ -183,7 +183,7 @@ var externalNameConfigs = map[string]config.ExternalName{
 	// {{key_ring}}/cryptoKeys/{{name}}
 	"google_kms_crypto_key": formattedIdentifierUserDefined("%s/cryptoKeys", "key_ring"),
 	// {{name}}
-	"google_kms_key_ring_import_job": config.IdentifierFromProvider,
+	"google_kms_key_ring_import_job": config.TemplatedStringAsIdentifier("import_job_id", "{{ .parameters.key_ring }}/importJobs/{{ .externalName }}"),
 
 	// monitoring
 	//

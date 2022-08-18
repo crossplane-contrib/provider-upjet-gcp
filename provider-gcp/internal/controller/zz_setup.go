@@ -76,6 +76,11 @@ import (
 	managedzone "github.com/upbound/official-providers/provider-gcp/internal/controller/dns/managedzone"
 	policy "github.com/upbound/official-providers/provider-gcp/internal/controller/dns/policy"
 	recordset "github.com/upbound/official-providers/provider-gcp/internal/controller/dns/recordset"
+	cryptokey "github.com/upbound/official-providers/provider-gcp/internal/controller/kms/cryptokey"
+	cryptokeyiammember "github.com/upbound/official-providers/provider-gcp/internal/controller/kms/cryptokeyiammember"
+	keyring "github.com/upbound/official-providers/provider-gcp/internal/controller/kms/keyring"
+	keyringiammember "github.com/upbound/official-providers/provider-gcp/internal/controller/kms/keyringiammember"
+	keyringimportjob "github.com/upbound/official-providers/provider-gcp/internal/controller/kms/keyringimportjob"
 	alertpolicy "github.com/upbound/official-providers/provider-gcp/internal/controller/monitoring/alertpolicy"
 	notificationchannel "github.com/upbound/official-providers/provider-gcp/internal/controller/monitoring/notificationchannel"
 	uptimecheckconfig "github.com/upbound/official-providers/provider-gcp/internal/controller/monitoring/uptimecheckconfig"
@@ -176,6 +181,11 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		managedzone.Setup,
 		policy.Setup,
 		recordset.Setup,
+		cryptokey.Setup,
+		cryptokeyiammember.Setup,
+		keyring.Setup,
+		keyringiammember.Setup,
+		keyringimportjob.Setup,
 		alertpolicy.Setup,
 		notificationchannel.Setup,
 		uptimecheckconfig.Setup,
