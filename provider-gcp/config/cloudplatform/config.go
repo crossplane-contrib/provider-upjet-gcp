@@ -91,10 +91,6 @@ func Configure(p *config.Provider) {
 		config.MarkAsRequired(r.TerraformResource, "service_account_id")
 	})
 	p.AddResourceConfigurator("google_service_networking_peered_dns_domain", func(r *config.Resource) {
-		// Note(donovanmuller): Why does this fail with "import cycle not allowed"?
-		r.References["network"] = config.Reference{
-			Type: "github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.Network",
-		}
 		config.MarkAsRequired(r.TerraformResource, "network")
 		config.MarkAsRequired(r.TerraformResource, "service")
 		r.UseAsync = true

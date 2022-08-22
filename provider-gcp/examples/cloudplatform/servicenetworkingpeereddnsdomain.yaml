@@ -2,11 +2,20 @@ apiVersion: cloudplatform.gcp.upbound.io/v1beta1
 kind: ServiceNetworkingPeeredDNSDomain
 metadata:
   name: example
-  annotations:
-    upjet.upbound.io/manual-intervention: "Project level resource and is environment specific"
 spec:
   forProvider:
     dnsSuffix: example.com.
-    networkRef:
-      name: example-peering-1
+    network: service-peered-network
     service: servicenetworking.googleapis.com
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Network
+metadata:
+  labels:
+    testing.upbound.io/example-name: service-peered-network
+  name: service-peered-network
+spec:
+  forProvider:
+    autoCreateSubnetworks: false
