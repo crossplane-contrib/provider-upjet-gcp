@@ -2642,6 +2642,16 @@ func (in *TopicParameters) DeepCopyInto(out *TopicParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.KMSKeyNameRef != nil {
+		in, out := &in.KMSKeyNameRef, &out.KMSKeyNameRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.KMSKeyNameSelector != nil {
+		in, out := &in.KMSKeyNameSelector, &out.KMSKeyNameSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.Labels != nil {
 		in, out := &in.Labels, &out.Labels
 		*out = make(map[string]*string, len(*in))

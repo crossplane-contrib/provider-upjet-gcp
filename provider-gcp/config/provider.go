@@ -22,6 +22,7 @@ import (
 	"github.com/upbound/official-providers/provider-gcp/config/dataflow"
 	"github.com/upbound/official-providers/provider-gcp/config/dataproc"
 	"github.com/upbound/official-providers/provider-gcp/config/dns"
+	"github.com/upbound/official-providers/provider-gcp/config/kms"
 	"github.com/upbound/official-providers/provider-gcp/config/project"
 	"github.com/upbound/official-providers/provider-gcp/config/pubsub"
 	"github.com/upbound/official-providers/provider-gcp/config/redis"
@@ -50,6 +51,12 @@ var skipList = []string{
 	// "google_access_context_manager_service_perimeter". Skipping for now.
 	"google_access_context_manager_access_levels$",
 	"google_access_context_manager_service_perimeters$",
+	// Note(piotr): Following resources are potentially dangerous to implement
+	// details in: https://github.com/upbound/official-providers/issues/587
+	"google_kms_crypto_key_iam_policy",
+	"google_kms_crypto_key_iam_binding",
+	"google_kms_key_ring_iam_policy",
+	"google_kms_key_ring_iam_binding",
 }
 
 // GetProvider returns provider configuration
@@ -91,6 +98,7 @@ func GetProvider() *tjconfig.Provider {
 		storage.Configure,
 		sql.Configure,
 		redis.Configure,
+		kms.Configure,
 	} {
 		configure(pc)
 	}

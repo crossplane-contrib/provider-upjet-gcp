@@ -5,18 +5,18 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.8.0
   creationTimestamp: null
-  name: topics.pubsub.gcp.upbound.io
+  name: keyringiammembers.kms.gcp.upbound.io
 spec:
-  group: pubsub.gcp.upbound.io
+  group: kms.gcp.upbound.io
   names:
     categories:
     - crossplane
     - managed
     - gcp
-    kind: Topic
-    listKind: TopicList
-    plural: topics
-    singular: topic
+    kind: KeyRingIAMMember
+    listKind: KeyRingIAMMemberList
+    plural: keyringiammembers
+    singular: keyringiammember
   scope: Cluster
   versions:
   - additionalPrinterColumns:
@@ -35,8 +35,8 @@ spec:
     name: v1beta1
     schema:
       openAPIV3Schema:
-        description: Topic is the Schema for the Topics API. A named resource to which
-          messages are sent by publishers.
+        description: KeyRingIAMMember is the Schema for the KeyRingIAMMembers API.
+          <no value>
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -51,7 +51,7 @@ spec:
           metadata:
             type: object
           spec:
-            description: TopicSpec defines the desired state of Topic
+            description: KeyRingIAMMemberSpec defines the desired state of KeyRingIAMMember
             properties:
               deletionPolicy:
                 default: Delete
@@ -64,18 +64,23 @@ spec:
                 type: string
               forProvider:
                 properties:
-                  kmsKeyName:
-                    description: The resource name of the Cloud KMS CryptoKey to be
-                      used to protect access to messages published on this topic.
-                      Your project's PubSub service account must have roles/cloudkms.cryptoKeyEncrypterDecrypter
-                      to use this feature. The expected format is projects/*/locations/*/keyRings/*/cryptoKeys/*
-                      The resource name of the Cloud KMS CryptoKey to be used to protect
-                      access to messages published on this topic. Your project's PubSub
-                      service account ('service-{{PROJECT_NUMBER}}@gcp-sa-pubsub.iam.gserviceaccount.com')
-                      must have 'roles/cloudkms.cryptoKeyEncrypterDecrypter' to use
-                      this feature. The expected format is 'projects/*/locations/*/keyRings/*/cryptoKeys/*'
+                  condition:
+                    items:
+                      properties:
+                        description:
+                          type: string
+                        expression:
+                          type: string
+                        title:
+                          type: string
+                      required:
+                      - expression
+                      - title
+                      type: object
+                    type: array
+                  keyRingId:
                     type: string
-                  kmsKeyNameRef:
+                  keyRingIdRef:
                     description: A Reference to a named object.
                     properties:
                       name:
@@ -109,7 +114,7 @@ spec:
                     required:
                     - name
                     type: object
-                  kmsKeyNameSelector:
+                  keyRingIdSelector:
                     description: A Selector selects an object.
                     properties:
                       matchControllerRef:
@@ -148,90 +153,13 @@ spec:
                             type: string
                         type: object
                     type: object
-                  labels:
-                    additionalProperties:
-                      type: string
-                    description: A set of key/value label pairs to assign to this
-                      Topic. A set of key/value label pairs to assign to this Topic.
-                    type: object
-                  messageRetentionDuration:
-                    description: Indicates the minimum duration to retain a message
-                      after it is published to the topic. If this field is set, messages
-                      published to the topic in the last messageRetentionDuration
-                      are always available to subscribers. For instance, it allows
-                      any attached subscription to seek to a timestamp that is up
-                      to messageRetentionDuration in the past. If this field is not
-                      set, message retention is controlled by settings on individual
-                      subscriptions. Cannot be more than 7 days or less than 10 minutes.
-                      Indicates the minimum duration to retain a message after it
-                      is published to the topic. If this field is set, messages published
-                      to the topic in the last messageRetentionDuration are always
-                      available to subscribers. For instance, it allows any attached
-                      subscription to seek to a timestamp that is up to messageRetentionDuration
-                      in the past. If this field is not set, message retention is
-                      controlled by settings on individual subscriptions. Cannot be
-                      more than 7 days or less than 10 minutes.
+                  member:
                     type: string
-                  messageStoragePolicy:
-                    description: Policy constraining the set of Google Cloud Platform
-                      regions where messages published to the topic may be stored.
-                      If not present, then no constraints are in effect. Structure
-                      is documented below. Policy constraining the set of Google Cloud
-                      Platform regions where messages published to the topic may be
-                      stored. If not present, then no constraints are in effect.
-                    items:
-                      properties:
-                        allowedPersistenceRegions:
-                          description: A list of IDs of GCP regions where messages
-                            that are published to the topic may be persisted in storage.
-                            Messages published by publishers running in non-allowed
-                            GCP regions  will be routed for storage in one of the
-                            allowed regions. An empty list means that no regions are
-                            allowed, and is not a valid configuration. A list of IDs
-                            of GCP regions where messages that are published to the
-                            topic may be persisted in storage. Messages published
-                            by publishers running in non-allowed GCP regions (or running
-                            outside of GCP altogether) will be routed for storage
-                            in one of the allowed regions. An empty list means that
-                            no regions are allowed, and is not a valid configuration.
-                          items:
-                            type: string
-                          type: array
-                      required:
-                      - allowedPersistenceRegions
-                      type: object
-                    type: array
-                  project:
-                    description: The ID of the project in which the resource belongs.
-                      If it is not provided, the provider project is used.
+                  role:
                     type: string
-                  schemaSettings:
-                    description: Settings for validating messages published against
-                      a schema. Structure is documented below. Settings for validating
-                      messages published against a schema.
-                    items:
-                      properties:
-                        encoding:
-                          description: 'The encoding of messages validated against
-                            schema. Default value is ENCODING_UNSPECIFIED. Possible
-                            values are ENCODING_UNSPECIFIED, JSON, and BINARY. The
-                            encoding of messages validated against schema. Default
-                            value: "ENCODING_UNSPECIFIED" Possible values: ["ENCODING_UNSPECIFIED",
-                            "JSON", "BINARY"]'
-                          type: string
-                        schema:
-                          description: The name of the schema that messages published
-                            should be validated against. Format is projects/{project}/schemas/{schema}.
-                            The value of this field will be deleted-schema if the
-                            schema has been deleted. The name of the schema that messages
-                            published should be validated against. Format is projects/{project}/schemas/{schema}.
-                            The value of this field will be _deleted-schema_ if the
-                            schema has been deleted.
-                          type: string
-                      required:
-                      - schema
-                      type: object
-                    type: array
+                required:
+                - member
+                - role
                 type: object
               providerConfigRef:
                 default:
@@ -405,12 +333,13 @@ spec:
             - forProvider
             type: object
           status:
-            description: TopicStatus defines the observed state of Topic.
+            description: KeyRingIAMMemberStatus defines the observed state of KeyRingIAMMember.
             properties:
               atProvider:
                 properties:
+                  etag:
+                    type: string
                   id:
-                    description: an identifier for the resource with format projects/{{project}}/topics/{{name}}
                     type: string
                 type: object
               conditions:
