@@ -186,6 +186,8 @@ var externalNameConfigs = map[string]config.ExternalName{
 	"google_kms_key_ring_import_job": config.TemplatedStringAsIdentifier("import_job_id", "{{ .parameters.key_ring }}/importJobs/{{ .externalName }}"),
 	// terraform import google_kms_key_ring_iam_member.key_ring_iam "your-project-id/location-name/key-ring-name roles/viewer user:foo@example.com"
 	"google_kms_key_ring_iam_member": config.IdentifierFromProvider,
+	// terraform import google_kms_crypto_key_iam_member.crypto_key "your-project-id/location-name/key-ring-name/key-name roles/viewer user:foo@example.com"
+	"google_kms_crypto_key_iam_member": config.IdentifierFromProvider,
 
 	// monitoring
 	//

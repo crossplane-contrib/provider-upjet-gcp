@@ -1,0 +1,52 @@
+apiVersion: kms.gcp.upbound.io/v1beta1
+kind: CryptoKeyIAMMember
+metadata:
+  labels:
+    testing.upbound.io/example-name: example-cryptokeyiammember1
+  annotations:
+    upjet.upbound.io/manual-intervention: "IAM member resource must exist first and be part of the Google workspace address configured for the project"
+  name: example-keyringiammember1
+spec:
+  forProvider:
+    # member: serviceAccount:example-xxxxx@project_name.iam.gserviceaccount.com
+    member: serviceAccount:example-23023@crossplane-playground.iam.gserviceaccount.com
+    # User can also be used
+    # member: user:example.name@example.com
+    role: "roles/editor"
+    cryptoKeyIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example-crypto-key
+
+---
+
+apiVersion: kms.gcp.upbound.io/v1beta1
+kind: CryptoKey
+metadata:
+  labels:
+    testing.upbound.io/example-name: example-crypto-key
+  annotations:
+    upjet.upbound.io/manual-intervention: "To prevent resource name collisions, key ring and key resources CANNOT be deleted. New names must be used for every test"
+  name: example-crypto-key
+spec:
+  forProvider:
+    keyRingSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example-keyring5
+    rotationPeriod: 100000s
+
+---
+
+apiVersion: kms.gcp.upbound.io/v1beta1
+kind: KeyRing
+metadata:
+  labels:
+    testing.upbound.io/example-name: example-keyring5
+  annotations:
+    upjet.upbound.io/manual-intervention: "To prevent resource name collisions, key ring and key resources CANNOT be deleted. New names must be used for every test"
+  name: example-keyring5
+spec:
+  forProvider:
+    location: global
+
+---
+
