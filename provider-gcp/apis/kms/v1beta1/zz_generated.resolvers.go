@@ -139,7 +139,7 @@ func (mg *SecretCiphertext) ResolveReferences(ctx context.Context, c client.Read
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.CryptoKey),
-		Extract:      common.ExtractResourceID(),
+		Extract:      resource.ExtractResourceID(),
 		Reference:    mg.Spec.ForProvider.CryptoKeyRef,
 		Selector:     mg.Spec.ForProvider.CryptoKeySelector,
 		To: reference.To{
