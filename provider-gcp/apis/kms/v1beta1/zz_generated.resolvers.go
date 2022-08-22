@@ -129,3 +129,29 @@ func (mg *KeyRingImportJob) ResolveReferences(ctx context.Context, c client.Read
 
 	return nil
 }
+
+// ResolveReferences of this SecretCiphertext.
+func (mg *SecretCiphertext) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.CryptoKey),
+		Extract:      common.ExtractResourceID(),
+		Reference:    mg.Spec.ForProvider.CryptoKeyRef,
+		Selector:     mg.Spec.ForProvider.CryptoKeySelector,
+		To: reference.To{
+			List:    &CryptoKeyList{},
+			Managed: &CryptoKey{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.CryptoKey")
+	}
+	mg.Spec.ForProvider.CryptoKey = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.CryptoKeyRef = rsp.ResolvedReference
+
+	return nil
+}

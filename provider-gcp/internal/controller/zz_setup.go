@@ -81,6 +81,7 @@ import (
 	keyring "github.com/upbound/official-providers/provider-gcp/internal/controller/kms/keyring"
 	keyringiammember "github.com/upbound/official-providers/provider-gcp/internal/controller/kms/keyringiammember"
 	keyringimportjob "github.com/upbound/official-providers/provider-gcp/internal/controller/kms/keyringimportjob"
+	secretciphertext "github.com/upbound/official-providers/provider-gcp/internal/controller/kms/secretciphertext"
 	alertpolicy "github.com/upbound/official-providers/provider-gcp/internal/controller/monitoring/alertpolicy"
 	notificationchannel "github.com/upbound/official-providers/provider-gcp/internal/controller/monitoring/notificationchannel"
 	uptimecheckconfig "github.com/upbound/official-providers/provider-gcp/internal/controller/monitoring/uptimecheckconfig"
@@ -186,6 +187,7 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		keyring.Setup,
 		keyringiammember.Setup,
 		keyringimportjob.Setup,
+		secretciphertext.Setup,
 		alertpolicy.Setup,
 		notificationchannel.Setup,
 		uptimecheckconfig.Setup,
