@@ -33,4 +33,13 @@ func Configure(p *config.Provider) {
 			Extractor: common.ExtractResourceIDFuncPath,
 		}
 	})
+
+	p.AddResourceConfigurator("google_kms_secret_ciphertext", func(r *config.Resource) {
+		// The reference should be manually inferred, but this is not yet activated for GCP
+		r.References["crypto_key"] = config.Reference{
+			Type:      "CryptoKey",
+			Extractor: common.ExtractResourceIDFuncPath,
+		}
+	})
+
 }

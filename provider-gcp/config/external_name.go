@@ -188,6 +188,8 @@ var externalNameConfigs = map[string]config.ExternalName{
 	"google_kms_key_ring_iam_member": config.IdentifierFromProvider,
 	// terraform import google_kms_crypto_key_iam_member.crypto_key "your-project-id/location-name/key-ring-name/key-name roles/viewer user:foo@example.com"
 	"google_kms_crypto_key_iam_member": config.IdentifierFromProvider,
+	// This resource does not support import.
+	"google_kms_secret_ciphertext": config.IdentifierFromProvider,
 
 	// monitoring
 	//
