@@ -291,6 +291,7 @@ type InstanceTemplateNetworkInterfaceParameters struct {
 	// Use network attribute for Legacy or Auto subnetted networks and
 	// subnetwork for custom subnetted networks.
 	// The name or self_link of the network to attach this interface to. Use network attribute for Legacy or Auto subnetted networks and subnetwork for custom subnetted networks.
+	// +crossplane:generate:reference:type=Network
 	// +kubebuilder:validation:Optional
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
@@ -299,6 +300,12 @@ type InstanceTemplateNetworkInterfaceParameters struct {
 	// The private IP address to assign to the instance. If empty, the address will be automatically assigned.
 	// +kubebuilder:validation:Optional
 	NetworkIP *string `json:"networkIp,omitempty" tf:"network_ip,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
+
+	// +kubebuilder:validation:Optional
+	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
 
 	// The type of vNIC to be used on this interface. Possible values: GVNIC, VIRTIO_NET.
 	// The type of vNIC to be used on this interface. Possible values:GVNIC, VIRTIO_NET
@@ -319,6 +326,7 @@ type InstanceTemplateNetworkInterfaceParameters struct {
 	// to. The subnetwork must exist in the same region this instance will be
 	// created in. Either network or subnetwork must be provided.
 	// The name of the subnetwork to attach this interface to. The subnetwork must exist in the same region this instance will be created in. Either network or subnetwork must be provided.
+	// +crossplane:generate:reference:type=Subnetwork
 	// +kubebuilder:validation:Optional
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 
@@ -327,6 +335,12 @@ type InstanceTemplateNetworkInterfaceParameters struct {
 	// The ID of the project in which the subnetwork belongs. If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	SubnetworkProject *string `json:"subnetworkProject,omitempty" tf:"subnetwork_project,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	SubnetworkRef *v1.Reference `json:"subnetworkRef,omitempty" tf:"-"`
+
+	// +kubebuilder:validation:Optional
+	SubnetworkSelector *v1.Selector `json:"subnetworkSelector,omitempty" tf:"-"`
 }
 
 type InstanceTemplateObservation struct {

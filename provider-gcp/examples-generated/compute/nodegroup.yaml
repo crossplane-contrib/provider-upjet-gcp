@@ -1,0 +1,30 @@
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: NodeGroup
+metadata:
+  labels:
+    testing.upbound.io/example-name: nodes
+  name: nodes
+spec:
+  forProvider:
+    description: example google_compute_node_group for Terraform Google Provider
+    nodeTemplateSelector:
+      matchLabels:
+        testing.upbound.io/example-name: soletenant-tmpl
+    size: 1
+    zone: us-central1-f
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: NodeTemplate
+metadata:
+  labels:
+    testing.upbound.io/example-name: soletenant-tmpl
+  name: soletenant-tmpl
+spec:
+  forProvider:
+    nodeType: n1-node-96-624
+    region: us-central1
+
+---
+

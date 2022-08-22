@@ -1,0 +1,33 @@
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: RegionDisk
+metadata:
+  labels:
+    testing.upbound.io/example-name: regiondisk
+  name: regiondisk
+spec:
+  forProvider:
+    physicalBlockSizeBytes: 4096
+    region: us-central1
+    replicaZones:
+    - us-central1-a
+    - us-central1-f
+    snapshot: ${google_compute_snapshot.snapdisk.id}
+    type: pd-ssd
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Disk
+metadata:
+  labels:
+    testing.upbound.io/example-name: disk
+  name: disk
+spec:
+  forProvider:
+    image: debian-cloud/debian-9
+    size: 50
+    type: pd-ssd
+    zone: us-central1-a
+
+---
+

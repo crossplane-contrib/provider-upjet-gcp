@@ -135,7 +135,7 @@ type InstanceGroupManagerParameters struct {
 	// not affect existing instances.
 	// The full URL of all target pools to which new instances in the group are added. Updating the target pools attribute does not affect existing instances.
 	// +crossplane:generate:reference:type=TargetPool
-	// +crossplane:generate:reference:extractor=github.com/upbound/official-providers/provider-gcp/config/common.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/upbound/official-providers/provider-gcp/config/common.SelfLinkExtractor()
 	// +kubebuilder:validation:Optional
 	TargetPools []*string `json:"targetPools,omitempty" tf:"target_pools,omitempty"`
 

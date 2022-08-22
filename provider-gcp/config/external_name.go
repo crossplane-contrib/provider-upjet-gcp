@@ -20,6 +20,13 @@ var externalNameConfigs = map[string]config.ExternalName{
 	// Imported by using the following format: projects/{{project}}/locations/{{region}}/environments/{{name}}
 	"google_composer_environment": formattedIdentifierUserDefined("projects/%s/locations/%s/environments", "project", "region"),
 
+	// cloudfunctions
+	//
+	// Imported by using the following format: {{project}}/{{region}}/function-test
+	"google_cloudfunctions_function": formattedIdentifierUserDefined("%s/%s/", "project", "region"),
+	// Imported by using the following format: projects/{{project}}/locations/{{region}}/functions/{{cloud_function}} roles/viewer user:jane@example.com
+	"google_cloudfunctions_function_iam_member": config.IdentifierFromProvider,
+
 	// cloudplatform
 	//
 	// Folders can be imported using the folder's id, e.g. folders/1234567
@@ -176,6 +183,70 @@ var externalNameConfigs = map[string]config.ExternalName{
 	"google_compute_network_endpoint": config.IdentifierFromProvider,
 	// Imported by using the following format: project-name/network-name/peering-name
 	"google_compute_network_peering": formattedIdentifierWithResourcePrefix("network"),
+	// Imported by using the following format: projects/{{project}}/global/networks/{{network}}/networkPeerings/{{peering}}
+	"google_compute_network_peering_routes_config": config.IdentifierFromProvider,
+	// Imported by using the following format: projects/{{project}}/zones/{{zone}}/nodeGroups/{{name}}
+	"google_compute_node_group": formattedIdentifierUserDefined("projects/%s/zones/%s/nodeGroups", "project", "zone"),
+	// Imported by using the following format: projects/{{project}}/regions/{{region}}/nodeTemplates/{{name}}
+	"google_compute_node_template": formattedIdentifierUserDefined("projects/%s/regions/%s/nodeTemplates", "project", "region"),
+	// Imported by using the following format: projects/{{project}}/regions/{{region}}/packetMirrorings/{{name}}
+	"google_compute_packet_mirroring": formattedIdentifierUserDefined("projects/%s/regions/%s/packetMirrorings", "project", "region"),
+	// Imported by using the following format: projects/{{project}}/regions/{{region}}/forwardingRules/{{name}}
+	"google_compute_forwarding_rule": formattedIdentifierUserDefined("projects/%s/regions/%s/forwardingRules", "project", "region"),
+	// Imported by using the following format: projects/{{project}}/regions/{{region}}/backendServices/{{name}}
+	"google_compute_region_backend_service": formattedIdentifierUserDefined("projects/%s/regions/%s/backendServices", "project", "region"),
+	// Imported by using the following format: {{name}}
+	"google_compute_region_instance_group_manager": config.IdentifierFromProvider,
+	// Imported by using the following format: projects/{{project}}/regions/{{region}}/targetHttpProxies/{{name}}
+	"google_compute_region_target_http_proxy": formattedIdentifierUserDefined("projects/%s/regions/%s/targetHttpProxies", "project", "region"),
+	// Imported by using the following format: projects/{{project}}/regions/{{region}}/urlMaps/{{name}}
+	"google_compute_region_url_map": formattedIdentifierUserDefined("projects/%s/regions/%s/urlMaps", "project", "region"),
+	// Imported by using the following format: projects/{{project}}/zones/{{zone}}/instanceGroupManagers/{{instance_group_manager}}/{{name}}
+	"google_compute_per_instance_config": config.IdentifierFromProvider,
+	// Projects can be imported using the Project ID: your-project-id
+	"google_compute_project_default_network_tier": config.IdentifierFromProvider,
+	// Projects can be imported using the Project ID: your-project-id
+	"google_compute_project_metadata": config.IdentifierFromProvider,
+	// Project metadata items can be imported using the key: key
+	"google_compute_project_metadata_item": config.IdentifierFromProvider,
+	// Imported by using the following format: projects/{{project}}/regions/{{region}}/autoscalers/{{name}}
+	"google_compute_region_autoscaler": formattedIdentifierUserDefined("projects/%s/regions/%s/autoscalers", "project", "region"),
+	// Imported by using the following format: projects/{{project}}/regions/{{region}}/disks/{{name}}
+	"google_compute_region_disk": formattedIdentifierUserDefined("projects/%s/regions/%s/disks", "project", "region"),
+	// Imported by using the following format: projects/{{project}}/regions/{{region}}/disks/{{region_disk}} roles/viewer user:jane@example.com
+	"google_compute_region_disk_iam_member": config.IdentifierFromProvider,
+	// Imported by using the following format: projects/{{project}}/regions/{{region}}/disks/{{disk}}/{{name}}
+	"google_compute_region_disk_resource_policy_attachment": config.IdentifierFromProvider,
+	// Imported by using the following format: projects/{{project}}/regions/{{region}}/healthChecks/{{name}}
+	"google_compute_region_health_check": formattedIdentifierUserDefined("projects/%s/regions/%s/healthChecks", "project", "region"),
+	// Imported by using the following format: projects/{{project}}/regions/{{region}}/networkEndpointGroups/{{name}}
+	"google_compute_region_network_endpoint_group": formattedIdentifierUserDefined("projects/%s/regions/%s/networkEndpointGroups", "project", "region"),
+	// Imported by using the following format: projects/{{project}}/regions/{{region}}/instanceGroupManagers/{{region_instance_group_manager}}/{{name}}
+	"google_compute_region_per_instance_config": config.IdentifierFromProvider,
+	// Imported by using the following format: projects/{{project}}/regions/{{region}}/sslCertificates/{{name}}
+	"google_compute_region_ssl_certificate": formattedIdentifierUserDefined("projects/%s/regions/%s/sslCertificates", "project", "region"),
+	// Imported by using the following format: projects/{{project}}/regions/{{region}}/targetHttpsProxies/{{name}}
+	"google_compute_region_target_https_proxy": formattedIdentifierUserDefined("projects/%s/regions/%s/targetHttpsProxies", "project", "region"),
+	// Imported by using the following format: projects/{{project}}/zones/{{zone}}/reservations/{{name}}
+	"google_compute_reservation": formattedIdentifierUserDefined("projects/%s/zones/%s/reservations", "project", "zone"),
+	// Imported by using the following format: projects/{{project}}/global/routes/{{name}}
+	"google_compute_route": formattedIdentifierUserDefined("projects/%s/global/routes", "project"),
+	// Imported by using the following format: us-central1/router-1/interface-1
+	"google_compute_router_interface": config.IdentifierFromProvider,
+	// Imported by using the following format: locations/global/firewallPolicies/{{name}}
+	"google_compute_firewall_policy": config.IdentifierFromProvider,
+	// Imported by using the following format: locations/global/firewallPolicies/{{firewall_policy}}/associations/{{name}}
+	"google_compute_firewall_policy_association": config.IdentifierFromProvider,
+	// Imported by using the following format: locations/global/firewallPolicies/{{firewall_policy}}/rules/{{priority}}
+	"google_compute_firewall_policy_rule": config.IdentifierFromProvider,
+	// Imported by using the following format: projects/{{project}}/global/forwardingRules/{{name}}
+	"google_compute_global_forwarding_rule": formattedIdentifierUserDefined("projects/%s/global/forwardingRules", "project"),
+	// Imported by using the following format: projects/{{project}}/zones/{{zone}}/instanceGroups/{{group}}/{{port}}/{{name}}
+	"google_compute_instance_group_named_port": config.IdentifierFromProvider,
+	// Imported by using the following format: projects/{{project}}/global/targetSslProxies/{{name}}
+	"google_compute_target_ssl_proxy": formattedIdentifierUserDefined("projects/%s/global/targetSslProxies", "project"),
+	// Imported by using the following format: projects/{{project}}/global/sslCertificates/{{name}}
+	"google_compute_ssl_certificate": formattedIdentifierUserDefined("projects/%s/global/sslCertificates", "project"),
 
 	// container
 	//
@@ -283,6 +354,8 @@ var externalNameConfigs = map[string]config.ExternalName{
 	"google_storage_bucket": formattedIdentifierUserDefined("%s", "project"),
 	// No import, configures bucket public access
 	"google_storage_bucket_access_control": config.IdentifierFromProvider,
+	// This resource does not support import.
+	"google_storage_bucket_object": config.IdentifierFromProvider,
 }
 
 // Imported by using the following format: my-gcp-project/us-east1-a/my-cluster/main-pool

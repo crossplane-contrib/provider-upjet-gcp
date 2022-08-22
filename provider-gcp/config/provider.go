@@ -57,6 +57,10 @@ var skipList = []string{
 	"google_kms_crypto_key_iam_binding",
 	"google_kms_key_ring_iam_policy",
 	"google_kms_key_ring_iam_binding",
+	"google_cloudfunctions_function_iam_policy",
+	"google_cloudfunctions_function_iam_binding",
+	"google_compute_region_disk_iam_policy",
+	"google_compute_region_disk_iam_binding",
 }
 
 // GetProvider returns provider configuration

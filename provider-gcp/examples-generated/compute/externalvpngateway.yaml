@@ -59,6 +59,38 @@ spec:
 ---
 
 apiVersion: compute.gcp.upbound.io/v1beta1
+kind: RouterInterface
+metadata:
+  labels:
+    testing.upbound.io/example-name: router1_interface1
+  name: router1-interface1
+spec:
+  forProvider:
+    ipRange: 169.254.0.1/30
+    name: router1-interface1
+    region: us-central1
+    router: ha-vpn-router1
+    vpnTunnel: ha-vpn-tunnel1
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: RouterInterface
+metadata:
+  labels:
+    testing.upbound.io/example-name: router1_interface2
+  name: router1-interface2
+spec:
+  forProvider:
+    ipRange: 169.254.1.1/30
+    name: router1-interface2
+    region: us-central1
+    router: ha-vpn-router1
+    vpnTunnel: ha-vpn-tunnel2
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
 kind: Subnetwork
 metadata:
   labels:

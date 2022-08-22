@@ -22,7 +22,8 @@ package apis
 import (
 	"k8s.io/apimachinery/pkg/runtime"
 
-	v1beta1 "github.com/upbound/official-providers/provider-gcp/apis/cloudplatform/v1beta1"
+	v1beta1 "github.com/upbound/official-providers/provider-gcp/apis/cloudfunctions/v1beta1"
+	v1beta1cloudplatform "github.com/upbound/official-providers/provider-gcp/apis/cloudplatform/v1beta1"
 	v1beta1cloudrun "github.com/upbound/official-providers/provider-gcp/apis/cloudrun/v1beta1"
 	v1beta1cloudscheduler "github.com/upbound/official-providers/provider-gcp/apis/cloudscheduler/v1beta1"
 	v1beta1cloudtasks "github.com/upbound/official-providers/provider-gcp/apis/cloudtasks/v1beta1"
@@ -46,6 +47,7 @@ func init() {
 	// Register the types with the Scheme so the components can map objects to GroupVersionKinds and back
 	AddToSchemes = append(AddToSchemes,
 		v1beta1.SchemeBuilder.AddToScheme,
+		v1beta1cloudplatform.SchemeBuilder.AddToScheme,
 		v1beta1cloudrun.SchemeBuilder.AddToScheme,
 		v1beta1cloudscheduler.SchemeBuilder.AddToScheme,
 		v1beta1cloudtasks.SchemeBuilder.AddToScheme,
