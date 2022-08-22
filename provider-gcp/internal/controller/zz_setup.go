@@ -70,6 +70,7 @@ import (
 	network "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/network"
 	networkendpoint "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/networkendpoint"
 	networkendpointgroup "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/networkendpointgroup"
+	networkpeering "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/networkpeering"
 	resourcepolicy "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/resourcepolicy"
 	router "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/router"
 	routernat "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/routernat"
@@ -174,6 +175,7 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		network.Setup,
 		networkendpoint.Setup,
 		networkendpointgroup.Setup,
+		networkpeering.Setup,
 		resourcepolicy.Setup,
 		router.Setup,
 		routernat.Setup,
