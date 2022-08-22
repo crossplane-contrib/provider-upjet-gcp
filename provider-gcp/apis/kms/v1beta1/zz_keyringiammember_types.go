@@ -25,10 +25,10 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
-type ProjectIAMBindingConditionObservation struct {
+type KeyRingIAMMemberConditionObservation struct {
 }
 
-type ProjectIAMBindingConditionParameters struct {
+type KeyRingIAMMemberConditionParameters struct {
 
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -40,79 +40,80 @@ type ProjectIAMBindingConditionParameters struct {
 	Title *string `json:"title" tf:"title,omitempty"`
 }
 
-type ProjectIAMBindingObservation struct {
+type KeyRingIAMMemberObservation struct {
 	Etag *string `json:"etag,omitempty" tf:"etag,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 }
 
-type ProjectIAMBindingParameters struct {
+type KeyRingIAMMemberParameters struct {
 
 	// +kubebuilder:validation:Optional
-	Condition []ProjectIAMBindingConditionParameters `json:"condition,omitempty" tf:"condition,omitempty"`
+	Condition []KeyRingIAMMemberConditionParameters `json:"condition,omitempty" tf:"condition,omitempty"`
+
+	// +crossplane:generate:reference:type=KeyRing
+	// +crossplane:generate:reference:extractor=github.com/upbound/official-providers/provider-gcp/config/common.ExtractResourceID()
+	// +kubebuilder:validation:Optional
+	KeyRingID *string `json:"keyRingId,omitempty" tf:"key_ring_id,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	KeyRingIDRef *v1.Reference `json:"keyRingIdRef,omitempty" tf:"-"`
+
+	// +kubebuilder:validation:Optional
+	KeyRingIDSelector *v1.Selector `json:"keyRingIdSelector,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Required
-	Members []*string `json:"members" tf:"members,omitempty"`
-
-	// +crossplane:generate:reference:type=Project
-	// +kubebuilder:validation:Optional
-	Project *string `json:"project,omitempty" tf:"project,omitempty"`
-
-	// +kubebuilder:validation:Optional
-	ProjectRef *v1.Reference `json:"projectRef,omitempty" tf:"-"`
-
-	// +kubebuilder:validation:Optional
-	ProjectSelector *v1.Selector `json:"projectSelector,omitempty" tf:"-"`
+	Member *string `json:"member" tf:"member,omitempty"`
 
 	// +kubebuilder:validation:Required
 	Role *string `json:"role" tf:"role,omitempty"`
 }
 
-// ProjectIAMBindingSpec defines the desired state of ProjectIAMBinding
-type ProjectIAMBindingSpec struct {
+// KeyRingIAMMemberSpec defines the desired state of KeyRingIAMMember
+type KeyRingIAMMemberSpec struct {
 	v1.ResourceSpec `json:",inline"`
-	ForProvider     ProjectIAMBindingParameters `json:"forProvider"`
+	ForProvider     KeyRingIAMMemberParameters `json:"forProvider"`
 }
 
-// ProjectIAMBindingStatus defines the observed state of ProjectIAMBinding.
-type ProjectIAMBindingStatus struct {
+// KeyRingIAMMemberStatus defines the observed state of KeyRingIAMMember.
+type KeyRingIAMMemberStatus struct {
 	v1.ResourceStatus `json:",inline"`
-	AtProvider        ProjectIAMBindingObservation `json:"atProvider,omitempty"`
+	AtProvider        KeyRingIAMMemberObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 
-// ProjectIAMBinding is the Schema for the ProjectIAMBindings API. <no value>
+// KeyRingIAMMember is the Schema for the KeyRingIAMMembers API. <no value>
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
 // +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,gcp}
-type ProjectIAMBinding struct {
+type KeyRingIAMMember struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              ProjectIAMBindingSpec   `json:"spec"`
-	Status            ProjectIAMBindingStatus `json:"status,omitempty"`
+	Spec              KeyRingIAMMemberSpec   `json:"spec"`
+	Status            KeyRingIAMMemberStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 
-// ProjectIAMBindingList contains a list of ProjectIAMBindings
-type ProjectIAMBindingList struct {
+// KeyRingIAMMemberList contains a list of KeyRingIAMMembers
+type KeyRingIAMMemberList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []ProjectIAMBinding `json:"items"`
+	Items           []KeyRingIAMMember `json:"items"`
 }
 
 // Repository type metadata.
 var (
-	ProjectIAMBinding_Kind             = "ProjectIAMBinding"
-	ProjectIAMBinding_GroupKind        = schema.GroupKind{Group: CRDGroup, Kind: ProjectIAMBinding_Kind}.String()
-	ProjectIAMBinding_KindAPIVersion   = ProjectIAMBinding_Kind + "." + CRDGroupVersion.String()
-	ProjectIAMBinding_GroupVersionKind = CRDGroupVersion.WithKind(ProjectIAMBinding_Kind)
+	KeyRingIAMMember_Kind             = "KeyRingIAMMember"
+	KeyRingIAMMember_GroupKind        = schema.GroupKind{Group: CRDGroup, Kind: KeyRingIAMMember_Kind}.String()
+	KeyRingIAMMember_KindAPIVersion   = KeyRingIAMMember_Kind + "." + CRDGroupVersion.String()
+	KeyRingIAMMember_GroupVersionKind = CRDGroupVersion.WithKind(KeyRingIAMMember_Kind)
 )
 
 func init() {
-	SchemeBuilder.Register(&ProjectIAMBinding{}, &ProjectIAMBindingList{})
+	SchemeBuilder.Register(&KeyRingIAMMember{}, &KeyRingIAMMemberList{})
 }

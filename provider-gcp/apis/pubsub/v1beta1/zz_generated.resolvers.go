@@ -21,6 +21,7 @@ import (
 	"context"
 	reference "github.com/crossplane/crossplane-runtime/pkg/reference"
 	errors "github.com/pkg/errors"
+	v1beta1 "github.com/upbound/official-providers/provider-gcp/apis/kms/v1beta1"
 	resource "github.com/upbound/upjet/pkg/resource"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
@@ -198,6 +199,32 @@ func (mg *SubscriptionIAMPolicy) ResolveReferences(ctx context.Context, c client
 	}
 	mg.Spec.ForProvider.Subscription = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.SubscriptionRef = rsp.ResolvedReference
+
+	return nil
+}
+
+// ResolveReferences of this Topic.
+func (mg *Topic) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.KMSKeyName),
+		Extract:      resource.ExtractResourceID(),
+		Reference:    mg.Spec.ForProvider.KMSKeyNameRef,
+		Selector:     mg.Spec.ForProvider.KMSKeyNameSelector,
+		To: reference.To{
+			List:    &v1beta1.CryptoKeyList{},
+			Managed: &v1beta1.CryptoKey{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.KMSKeyName")
+	}
+	mg.Spec.ForProvider.KMSKeyName = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.KMSKeyNameRef = rsp.ResolvedReference
 
 	return nil
 }

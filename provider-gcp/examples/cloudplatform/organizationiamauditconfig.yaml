@@ -1,0 +1,16 @@
+apiVersion: cloudplatform.gcp.upbound.io/v1beta1
+kind: OrganizationIAMAuditConfig
+metadata:
+  labels:
+    testing.upbound.io/example-name: example
+  annotations:
+    upjet.upbound.io/manual-intervention: "Requires organization IAM permissions"
+  name: example
+spec:
+  forProvider:
+    orgId: "123456789"
+    service: allServices
+    auditLogConfig:
+      - logType: DATA_READ
+        exemptedMembers:
+          - "user:joebloggs@hashicorp.com"

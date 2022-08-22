@@ -10,6 +10,10 @@ import (
 	"github.com/upbound/upjet/pkg/controller"
 
 	folder "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/folder"
+	organizationiamauditconfig "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/organizationiamauditconfig"
+	organizationiambinding "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/organizationiambinding"
+	organizationiamcustomrole "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/organizationiamcustomrole"
+	organizationiammember "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/organizationiammember"
 	project "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/project"
 	projectdefaultserviceaccounts "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/projectdefaultserviceaccounts"
 	projectiamauditconfig "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/projectiamauditconfig"
@@ -80,6 +84,12 @@ import (
 	managedzone "github.com/upbound/official-providers/provider-gcp/internal/controller/dns/managedzone"
 	policy "github.com/upbound/official-providers/provider-gcp/internal/controller/dns/policy"
 	recordset "github.com/upbound/official-providers/provider-gcp/internal/controller/dns/recordset"
+	cryptokey "github.com/upbound/official-providers/provider-gcp/internal/controller/kms/cryptokey"
+	cryptokeyiammember "github.com/upbound/official-providers/provider-gcp/internal/controller/kms/cryptokeyiammember"
+	keyring "github.com/upbound/official-providers/provider-gcp/internal/controller/kms/keyring"
+	keyringiammember "github.com/upbound/official-providers/provider-gcp/internal/controller/kms/keyringiammember"
+	keyringimportjob "github.com/upbound/official-providers/provider-gcp/internal/controller/kms/keyringimportjob"
+	secretciphertext "github.com/upbound/official-providers/provider-gcp/internal/controller/kms/secretciphertext"
 	alertpolicy "github.com/upbound/official-providers/provider-gcp/internal/controller/monitoring/alertpolicy"
 	notificationchannel "github.com/upbound/official-providers/provider-gcp/internal/controller/monitoring/notificationchannel"
 	uptimecheckconfig "github.com/upbound/official-providers/provider-gcp/internal/controller/monitoring/uptimecheckconfig"
@@ -114,6 +124,10 @@ import (
 func Setup(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
 		folder.Setup,
+		organizationiamauditconfig.Setup,
+		organizationiambinding.Setup,
+		organizationiamcustomrole.Setup,
+		organizationiammember.Setup,
 		project.Setup,
 		projectdefaultserviceaccounts.Setup,
 		projectiamauditconfig.Setup,
@@ -184,6 +198,12 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		managedzone.Setup,
 		policy.Setup,
 		recordset.Setup,
+		cryptokey.Setup,
+		cryptokeyiammember.Setup,
+		keyring.Setup,
+		keyringiammember.Setup,
+		keyringimportjob.Setup,
+		secretciphertext.Setup,
 		alertpolicy.Setup,
 		notificationchannel.Setup,
 		uptimecheckconfig.Setup,

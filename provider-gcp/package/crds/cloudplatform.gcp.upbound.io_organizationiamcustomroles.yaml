@@ -5,18 +5,18 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.8.0
   creationTimestamp: null
-  name: topics.pubsub.gcp.upbound.io
+  name: organizationiamcustomroles.cloudplatform.gcp.upbound.io
 spec:
-  group: pubsub.gcp.upbound.io
+  group: cloudplatform.gcp.upbound.io
   names:
     categories:
     - crossplane
     - managed
     - gcp
-    kind: Topic
-    listKind: TopicList
-    plural: topics
-    singular: topic
+    kind: OrganizationIAMCustomRole
+    listKind: OrganizationIAMCustomRoleList
+    plural: organizationiamcustomroles
+    singular: organizationiamcustomrole
   scope: Cluster
   versions:
   - additionalPrinterColumns:
@@ -35,8 +35,8 @@ spec:
     name: v1beta1
     schema:
       openAPIV3Schema:
-        description: Topic is the Schema for the Topics API. A named resource to which
-          messages are sent by publishers.
+        description: OrganizationIAMCustomRole is the Schema for the OrganizationIAMCustomRoles
+          API. Allows management of a customized Cloud IAM organization role.
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -51,7 +51,8 @@ spec:
           metadata:
             type: object
           spec:
-            description: TopicSpec defines the desired state of Topic
+            description: OrganizationIAMCustomRoleSpec defines the desired state of
+              OrganizationIAMCustomRole
             properties:
               deletionPolicy:
                 default: Delete
@@ -64,174 +65,41 @@ spec:
                 type: string
               forProvider:
                 properties:
-                  kmsKeyName:
-                    description: The resource name of the Cloud KMS CryptoKey to be
-                      used to protect access to messages published on this topic.
-                      Your project's PubSub service account must have roles/cloudkms.cryptoKeyEncrypterDecrypter
-                      to use this feature. The expected format is projects/*/locations/*/keyRings/*/cryptoKeys/*
-                      The resource name of the Cloud KMS CryptoKey to be used to protect
-                      access to messages published on this topic. Your project's PubSub
-                      service account ('service-{{PROJECT_NUMBER}}@gcp-sa-pubsub.iam.gserviceaccount.com')
-                      must have 'roles/cloudkms.cryptoKeyEncrypterDecrypter' to use
-                      this feature. The expected format is 'projects/*/locations/*/keyRings/*/cryptoKeys/*'
+                  description:
+                    description: A human-readable description for the role. A human-readable
+                      description for the role.
                     type: string
-                  kmsKeyNameRef:
-                    description: A Reference to a named object.
-                    properties:
-                      name:
-                        description: Name of the referenced object.
-                        type: string
-                      policy:
-                        description: Policies for referencing.
-                        properties:
-                          resolution:
-                            default: Required
-                            description: Resolution specifies whether resolution of
-                              this reference is required. The default is 'Required',
-                              which means the reconcile will fail if the reference
-                              cannot be resolved. 'Optional' means this reference
-                              will be a no-op if it cannot be resolved.
-                            enum:
-                            - Required
-                            - Optional
-                            type: string
-                          resolve:
-                            description: Resolve specifies when this reference should
-                              be resolved. The default is 'IfNotPresent', which will
-                              attempt to resolve the reference only when the corresponding
-                              field is not present. Use 'Always' to resolve the reference
-                              on every reconcile.
-                            enum:
-                            - Always
-                            - IfNotPresent
-                            type: string
-                        type: object
-                    required:
-                    - name
-                    type: object
-                  kmsKeyNameSelector:
-                    description: A Selector selects an object.
-                    properties:
-                      matchControllerRef:
-                        description: MatchControllerRef ensures an object with the
-                          same controller reference as the selecting object is selected.
-                        type: boolean
-                      matchLabels:
-                        additionalProperties:
-                          type: string
-                        description: MatchLabels ensures an object with matching labels
-                          is selected.
-                        type: object
-                      policy:
-                        description: Policies for selection.
-                        properties:
-                          resolution:
-                            default: Required
-                            description: Resolution specifies whether resolution of
-                              this reference is required. The default is 'Required',
-                              which means the reconcile will fail if the reference
-                              cannot be resolved. 'Optional' means this reference
-                              will be a no-op if it cannot be resolved.
-                            enum:
-                            - Required
-                            - Optional
-                            type: string
-                          resolve:
-                            description: Resolve specifies when this reference should
-                              be resolved. The default is 'IfNotPresent', which will
-                              attempt to resolve the reference only when the corresponding
-                              field is not present. Use 'Always' to resolve the reference
-                              on every reconcile.
-                            enum:
-                            - Always
-                            - IfNotPresent
-                            type: string
-                        type: object
-                    type: object
-                  labels:
-                    additionalProperties:
+                  orgId:
+                    description: The numeric ID of the organization in which you want
+                      to create a custom role. The numeric ID of the organization
+                      in which you want to create a custom role.
+                    type: string
+                  permissions:
+                    description: The names of the permissions this role grants when
+                      bound in an IAM policy. At least one permission must be specified.
+                      The names of the permissions this role grants when bound in
+                      an IAM policy. At least one permission must be specified.
+                    items:
                       type: string
-                    description: A set of key/value label pairs to assign to this
-                      Topic. A set of key/value label pairs to assign to this Topic.
-                    type: object
-                  messageRetentionDuration:
-                    description: Indicates the minimum duration to retain a message
-                      after it is published to the topic. If this field is set, messages
-                      published to the topic in the last messageRetentionDuration
-                      are always available to subscribers. For instance, it allows
-                      any attached subscription to seek to a timestamp that is up
-                      to messageRetentionDuration in the past. If this field is not
-                      set, message retention is controlled by settings on individual
-                      subscriptions. Cannot be more than 7 days or less than 10 minutes.
-                      Indicates the minimum duration to retain a message after it
-                      is published to the topic. If this field is set, messages published
-                      to the topic in the last messageRetentionDuration are always
-                      available to subscribers. For instance, it allows any attached
-                      subscription to seek to a timestamp that is up to messageRetentionDuration
-                      in the past. If this field is not set, message retention is
-                      controlled by settings on individual subscriptions. Cannot be
-                      more than 7 days or less than 10 minutes.
-                    type: string
-                  messageStoragePolicy:
-                    description: Policy constraining the set of Google Cloud Platform
-                      regions where messages published to the topic may be stored.
-                      If not present, then no constraints are in effect. Structure
-                      is documented below. Policy constraining the set of Google Cloud
-                      Platform regions where messages published to the topic may be
-                      stored. If not present, then no constraints are in effect.
-                    items:
-                      properties:
-                        allowedPersistenceRegions:
-                          description: A list of IDs of GCP regions where messages
-                            that are published to the topic may be persisted in storage.
-                            Messages published by publishers running in non-allowed
-                            GCP regions  will be routed for storage in one of the
-                            allowed regions. An empty list means that no regions are
-                            allowed, and is not a valid configuration. A list of IDs
-                            of GCP regions where messages that are published to the
-                            topic may be persisted in storage. Messages published
-                            by publishers running in non-allowed GCP regions (or running
-                            outside of GCP altogether) will be routed for storage
-                            in one of the allowed regions. An empty list means that
-                            no regions are allowed, and is not a valid configuration.
-                          items:
-                            type: string
-                          type: array
-                      required:
-                      - allowedPersistenceRegions
-                      type: object
                     type: array
-                  project:
-                    description: The ID of the project in which the resource belongs.
-                      If it is not provided, the provider project is used.
+                  roleId:
+                    description: The role id to use for this role. The role id to
+                      use for this role.
                     type: string
-                  schemaSettings:
-                    description: Settings for validating messages published against
-                      a schema. Structure is documented below. Settings for validating
-                      messages published against a schema.
-                    items:
-                      properties:
-                        encoding:
-                          description: 'The encoding of messages validated against
-                            schema. Default value is ENCODING_UNSPECIFIED. Possible
-                            values are ENCODING_UNSPECIFIED, JSON, and BINARY. The
-                            encoding of messages validated against schema. Default
-                            value: "ENCODING_UNSPECIFIED" Possible values: ["ENCODING_UNSPECIFIED",
-                            "JSON", "BINARY"]'
-                          type: string
-                        schema:
-                          description: The name of the schema that messages published
-                            should be validated against. Format is projects/{project}/schemas/{schema}.
-                            The value of this field will be deleted-schema if the
-                            schema has been deleted. The name of the schema that messages
-                            published should be validated against. Format is projects/{project}/schemas/{schema}.
-                            The value of this field will be _deleted-schema_ if the
-                            schema has been deleted.
-                          type: string
-                      required:
-                      - schema
-                      type: object
-                    type: array
+                  stage:
+                    description: The current launch stage of the role. Defaults to
+                      GA. List of possible stages is here. The current launch stage
+                      of the role. Defaults to GA.
+                    type: string
+                  title:
+                    description: A human-readable title for the role. A human-readable
+                      title for the role.
+                    type: string
+                required:
+                - orgId
+                - permissions
+                - roleId
+                - title
                 type: object
               providerConfigRef:
                 default:
@@ -405,12 +273,25 @@ spec:
             - forProvider
             type: object
           status:
-            description: TopicStatus defines the observed state of Topic.
+            description: OrganizationIAMCustomRoleStatus defines the observed state
+              of OrganizationIAMCustomRole.
             properties:
               atProvider:
                 properties:
+                  deleted:
+                    description: The current deleted state of the role. The current
+                      deleted state of the role.
+                    type: boolean
                   id:
-                    description: an identifier for the resource with format projects/{{project}}/topics/{{name}}
+                    description: an identifier for the resource with the format organizations/{{org_id}}/roles/{{role_id}}
+                    type: string
+                  name:
+                    description: The name of the role in the format organizations/{{org_id}}/roles/{{role_id}}.
+                      Like id, this field can be used as a reference in other resources
+                      such as IAM role bindings. The name of the role in the format
+                      organizations/{{org_id}}/roles/{{role_id}}. Like id, this field
+                      can be used as a reference in other resources such as IAM role
+                      bindings.
                     type: string
                 type: object
               conditions:

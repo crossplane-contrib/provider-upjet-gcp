@@ -25,10 +25,10 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
-type ProjectIAMBindingConditionObservation struct {
+type ConditionObservation struct {
 }
 
-type ProjectIAMBindingConditionParameters struct {
+type ConditionParameters struct {
 
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -40,79 +40,80 @@ type ProjectIAMBindingConditionParameters struct {
 	Title *string `json:"title" tf:"title,omitempty"`
 }
 
-type ProjectIAMBindingObservation struct {
+type CryptoKeyIAMMemberObservation struct {
 	Etag *string `json:"etag,omitempty" tf:"etag,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 }
 
-type ProjectIAMBindingParameters struct {
+type CryptoKeyIAMMemberParameters struct {
 
 	// +kubebuilder:validation:Optional
-	Condition []ProjectIAMBindingConditionParameters `json:"condition,omitempty" tf:"condition,omitempty"`
+	Condition []ConditionParameters `json:"condition,omitempty" tf:"condition,omitempty"`
+
+	// +crossplane:generate:reference:type=CryptoKey
+	// +crossplane:generate:reference:extractor=github.com/upbound/official-providers/provider-gcp/config/common.ExtractResourceID()
+	// +kubebuilder:validation:Optional
+	CryptoKeyID *string `json:"cryptoKeyId,omitempty" tf:"crypto_key_id,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	CryptoKeyIDRef *v1.Reference `json:"cryptoKeyIdRef,omitempty" tf:"-"`
+
+	// +kubebuilder:validation:Optional
+	CryptoKeyIDSelector *v1.Selector `json:"cryptoKeyIdSelector,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Required
-	Members []*string `json:"members" tf:"members,omitempty"`
-
-	// +crossplane:generate:reference:type=Project
-	// +kubebuilder:validation:Optional
-	Project *string `json:"project,omitempty" tf:"project,omitempty"`
-
-	// +kubebuilder:validation:Optional
-	ProjectRef *v1.Reference `json:"projectRef,omitempty" tf:"-"`
-
-	// +kubebuilder:validation:Optional
-	ProjectSelector *v1.Selector `json:"projectSelector,omitempty" tf:"-"`
+	Member *string `json:"member" tf:"member,omitempty"`
 
 	// +kubebuilder:validation:Required
 	Role *string `json:"role" tf:"role,omitempty"`
 }
 
-// ProjectIAMBindingSpec defines the desired state of ProjectIAMBinding
-type ProjectIAMBindingSpec struct {
+// CryptoKeyIAMMemberSpec defines the desired state of CryptoKeyIAMMember
+type CryptoKeyIAMMemberSpec struct {
 	v1.ResourceSpec `json:",inline"`
-	ForProvider     ProjectIAMBindingParameters `json:"forProvider"`
+	ForProvider     CryptoKeyIAMMemberParameters `json:"forProvider"`
 }
 
-// ProjectIAMBindingStatus defines the observed state of ProjectIAMBinding.
-type ProjectIAMBindingStatus struct {
+// CryptoKeyIAMMemberStatus defines the observed state of CryptoKeyIAMMember.
+type CryptoKeyIAMMemberStatus struct {
 	v1.ResourceStatus `json:",inline"`
-	AtProvider        ProjectIAMBindingObservation `json:"atProvider,omitempty"`
+	AtProvider        CryptoKeyIAMMemberObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 
-// ProjectIAMBinding is the Schema for the ProjectIAMBindings API. <no value>
+// CryptoKeyIAMMember is the Schema for the CryptoKeyIAMMembers API. <no value>
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
 // +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,gcp}
-type ProjectIAMBinding struct {
+type CryptoKeyIAMMember struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              ProjectIAMBindingSpec   `json:"spec"`
-	Status            ProjectIAMBindingStatus `json:"status,omitempty"`
+	Spec              CryptoKeyIAMMemberSpec   `json:"spec"`
+	Status            CryptoKeyIAMMemberStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 
-// ProjectIAMBindingList contains a list of ProjectIAMBindings
-type ProjectIAMBindingList struct {
+// CryptoKeyIAMMemberList contains a list of CryptoKeyIAMMembers
+type CryptoKeyIAMMemberList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []ProjectIAMBinding `json:"items"`
+	Items           []CryptoKeyIAMMember `json:"items"`
 }
 
 // Repository type metadata.
 var (
-	ProjectIAMBinding_Kind             = "ProjectIAMBinding"
-	ProjectIAMBinding_GroupKind        = schema.GroupKind{Group: CRDGroup, Kind: ProjectIAMBinding_Kind}.String()
-	ProjectIAMBinding_KindAPIVersion   = ProjectIAMBinding_Kind + "." + CRDGroupVersion.String()
-	ProjectIAMBinding_GroupVersionKind = CRDGroupVersion.WithKind(ProjectIAMBinding_Kind)
+	CryptoKeyIAMMember_Kind             = "CryptoKeyIAMMember"
+	CryptoKeyIAMMember_GroupKind        = schema.GroupKind{Group: CRDGroup, Kind: CryptoKeyIAMMember_Kind}.String()
+	CryptoKeyIAMMember_KindAPIVersion   = CryptoKeyIAMMember_Kind + "." + CRDGroupVersion.String()
+	CryptoKeyIAMMember_GroupVersionKind = CRDGroupVersion.WithKind(CryptoKeyIAMMember_Kind)
 )
 
 func init() {
-	SchemeBuilder.Register(&ProjectIAMBinding{}, &ProjectIAMBindingList{})
+	SchemeBuilder.Register(&CryptoKeyIAMMember{}, &CryptoKeyIAMMemberList{})
 }

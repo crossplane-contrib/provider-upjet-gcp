@@ -5,18 +5,18 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.8.0
   creationTimestamp: null
-  name: topics.pubsub.gcp.upbound.io
+  name: keyringimportjobs.kms.gcp.upbound.io
 spec:
-  group: pubsub.gcp.upbound.io
+  group: kms.gcp.upbound.io
   names:
     categories:
     - crossplane
     - managed
     - gcp
-    kind: Topic
-    listKind: TopicList
-    plural: topics
-    singular: topic
+    kind: KeyRingImportJob
+    listKind: KeyRingImportJobList
+    plural: keyringimportjobs
+    singular: keyringimportjob
   scope: Cluster
   versions:
   - additionalPrinterColumns:
@@ -35,8 +35,8 @@ spec:
     name: v1beta1
     schema:
       openAPIV3Schema:
-        description: Topic is the Schema for the Topics API. A named resource to which
-          messages are sent by publishers.
+        description: KeyRingImportJob is the Schema for the KeyRingImportJobs API.
+          A
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -51,7 +51,7 @@ spec:
           metadata:
             type: object
           spec:
-            description: TopicSpec defines the desired state of Topic
+            description: KeyRingImportJobSpec defines the desired state of KeyRingImportJob
             properties:
               deletionPolicy:
                 default: Delete
@@ -64,18 +64,19 @@ spec:
                 type: string
               forProvider:
                 properties:
-                  kmsKeyName:
-                    description: The resource name of the Cloud KMS CryptoKey to be
-                      used to protect access to messages published on this topic.
-                      Your project's PubSub service account must have roles/cloudkms.cryptoKeyEncrypterDecrypter
-                      to use this feature. The expected format is projects/*/locations/*/keyRings/*/cryptoKeys/*
-                      The resource name of the Cloud KMS CryptoKey to be used to protect
-                      access to messages published on this topic. Your project's PubSub
-                      service account ('service-{{PROJECT_NUMBER}}@gcp-sa-pubsub.iam.gserviceaccount.com')
-                      must have 'roles/cloudkms.cryptoKeyEncrypterDecrypter' to use
-                      this feature. The expected format is 'projects/*/locations/*/keyRings/*/cryptoKeys/*'
+                  importMethod:
+                    description: 'The wrapping method to be used for incoming key
+                      material. Possible values are RSA_OAEP_3072_SHA1_AES_256 and
+                      RSA_OAEP_4096_SHA1_AES_256. The wrapping method to be used for
+                      incoming key material. Possible values: ["RSA_OAEP_3072_SHA1_AES_256",
+                      "RSA_OAEP_4096_SHA1_AES_256"]'
                     type: string
-                  kmsKeyNameRef:
+                  keyRing:
+                    description: 'The KeyRing that this import job belongs to. Format:
+                      ''projects/{{project}}/locations/{{location}}/keyRings/{{keyRing}}''.
+                      The KeyRing that this import job belongs to. Format: ''''projects/{{project}}/locations/{{location}}/keyRings/{{keyRing}}''''.'
+                    type: string
+                  keyRingRef:
                     description: A Reference to a named object.
                     properties:
                       name:
@@ -109,7 +110,7 @@ spec:
                     required:
                     - name
                     type: object
-                  kmsKeyNameSelector:
+                  keyRingSelector:
                     description: A Selector selects an object.
                     properties:
                       matchControllerRef:
@@ -148,90 +149,18 @@ spec:
                             type: string
                         type: object
                     type: object
-                  labels:
-                    additionalProperties:
-                      type: string
-                    description: A set of key/value label pairs to assign to this
-                      Topic. A set of key/value label pairs to assign to this Topic.
-                    type: object
-                  messageRetentionDuration:
-                    description: Indicates the minimum duration to retain a message
-                      after it is published to the topic. If this field is set, messages
-                      published to the topic in the last messageRetentionDuration
-                      are always available to subscribers. For instance, it allows
-                      any attached subscription to seek to a timestamp that is up
-                      to messageRetentionDuration in the past. If this field is not
-                      set, message retention is controlled by settings on individual
-                      subscriptions. Cannot be more than 7 days or less than 10 minutes.
-                      Indicates the minimum duration to retain a message after it
-                      is published to the topic. If this field is set, messages published
-                      to the topic in the last messageRetentionDuration are always
-                      available to subscribers. For instance, it allows any attached
-                      subscription to seek to a timestamp that is up to messageRetentionDuration
-                      in the past. If this field is not set, message retention is
-                      controlled by settings on individual subscriptions. Cannot be
-                      more than 7 days or less than 10 minutes.
+                  protectionLevel:
+                    description: 'The protection level of the ImportJob. This must
+                      match the protectionLevel of the versionTemplate on the CryptoKey
+                      you attempt to import into. Possible values are SOFTWARE, HSM,
+                      and EXTERNAL. The protection level of the ImportJob. This must
+                      match the protectionLevel of the versionTemplate on the CryptoKey
+                      you attempt to import into. Possible values: ["SOFTWARE", "HSM",
+                      "EXTERNAL"]'
                     type: string
-                  messageStoragePolicy:
-                    description: Policy constraining the set of Google Cloud Platform
-                      regions where messages published to the topic may be stored.
-                      If not present, then no constraints are in effect. Structure
-                      is documented below. Policy constraining the set of Google Cloud
-                      Platform regions where messages published to the topic may be
-                      stored. If not present, then no constraints are in effect.
-                    items:
-                      properties:
-                        allowedPersistenceRegions:
-                          description: A list of IDs of GCP regions where messages
-                            that are published to the topic may be persisted in storage.
-                            Messages published by publishers running in non-allowed
-                            GCP regions  will be routed for storage in one of the
-                            allowed regions. An empty list means that no regions are
-                            allowed, and is not a valid configuration. A list of IDs
-                            of GCP regions where messages that are published to the
-                            topic may be persisted in storage. Messages published
-                            by publishers running in non-allowed GCP regions (or running
-                            outside of GCP altogether) will be routed for storage
-                            in one of the allowed regions. An empty list means that
-                            no regions are allowed, and is not a valid configuration.
-                          items:
-                            type: string
-                          type: array
-                      required:
-                      - allowedPersistenceRegions
-                      type: object
-                    type: array
-                  project:
-                    description: The ID of the project in which the resource belongs.
-                      If it is not provided, the provider project is used.
-                    type: string
-                  schemaSettings:
-                    description: Settings for validating messages published against
-                      a schema. Structure is documented below. Settings for validating
-                      messages published against a schema.
-                    items:
-                      properties:
-                        encoding:
-                          description: 'The encoding of messages validated against
-                            schema. Default value is ENCODING_UNSPECIFIED. Possible
-                            values are ENCODING_UNSPECIFIED, JSON, and BINARY. The
-                            encoding of messages validated against schema. Default
-                            value: "ENCODING_UNSPECIFIED" Possible values: ["ENCODING_UNSPECIFIED",
-                            "JSON", "BINARY"]'
-                          type: string
-                        schema:
-                          description: The name of the schema that messages published
-                            should be validated against. Format is projects/{project}/schemas/{schema}.
-                            The value of this field will be deleted-schema if the
-                            schema has been deleted. The name of the schema that messages
-                            published should be validated against. Format is projects/{project}/schemas/{schema}.
-                            The value of this field will be _deleted-schema_ if the
-                            schema has been deleted.
-                          type: string
-                      required:
-                      - schema
-                      type: object
-                    type: array
+                required:
+                - importMethod
+                - protectionLevel
                 type: object
               providerConfigRef:
                 default:
@@ -405,12 +334,65 @@ spec:
             - forProvider
             type: object
           status:
-            description: TopicStatus defines the observed state of Topic.
+            description: KeyRingImportJobStatus defines the observed state of KeyRingImportJob.
             properties:
               atProvider:
                 properties:
+                  attestation:
+                    description: Statement that was generated and signed by the key
+                      creator  at key creation time. Use this statement to verify
+                      attributes of the key as stored on the HSM, independently of
+                      Google. Only present if the chosen ImportMethod is one with
+                      a protection level of HSM. Structure is documented below. Statement
+                      that was generated and signed by the key creator (for example,
+                      an HSM) at key creation time. Use this statement to verify attributes
+                      of the key as stored on the HSM, independently of Google. Only
+                      present if the chosen ImportMethod is one with a protection
+                      level of HSM.
+                    items:
+                      properties:
+                        content:
+                          description: The attestation data provided by the HSM when
+                            the key operation was performed. A base64-encoded string.
+                          type: string
+                        format:
+                          description: The format of the attestation data.
+                          type: string
+                      type: object
+                    type: array
+                  expireTime:
+                    description: The time at which this resource is scheduled for
+                      expiration and can no longer be used. This is in RFC3339 text
+                      format. The time at which this resource is scheduled for expiration
+                      and can no longer be used. This is in RFC3339 text format.
+                    type: string
                   id:
-                    description: an identifier for the resource with format projects/{{project}}/topics/{{name}}
+                    description: an identifier for the resource with format {{name}}
+                    type: string
+                  name:
+                    description: The resource name for this ImportJob in the format
+                      projects//locations//keyRings//importJobs/. The resource name
+                      for this ImportJob in the format projects/*/locations/*/keyRings/*/importJobs/*.
+                    type: string
+                  publicKey:
+                    description: The public key with which to wrap key material prior
+                      to import. Only returned if state is ACTIVE. Structure is documented
+                      below. The public key with which to wrap key material prior
+                      to import. Only returned if state is 'ACTIVE'.
+                    items:
+                      properties:
+                        pem:
+                          description: The public key, encoded in PEM format. For
+                            more information, see the RFC 7468 sections for General
+                            Considerations and Textual Encoding of Subject Public
+                            Key Info.
+                          type: string
+                      type: object
+                    type: array
+                  state:
+                    description: The current state of the ImportJob, indicating if
+                      it can be used. The current state of the ImportJob, indicating
+                      if it can be used.
                     type: string
                 type: object
               conditions:

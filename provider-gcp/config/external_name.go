@@ -24,6 +24,14 @@ var externalNameConfigs = map[string]config.ExternalName{
 	//
 	// Folders can be imported using the folder's id, e.g. folders/1234567
 	"google_folder": config.IdentifierFromProvider,
+	// Imported by using the following format: organizations/{{org_id}}/roles/{{role_id}}
+	"google_organization_iam_custom_role": config.IdentifierFromProvider,
+	// Imported by using the following format: your-org-id roles/viewer
+	"google_organization_iam_binding": config.IdentifierFromProvider,
+	// Imported by using the following format: your-orgid roles/viewer user:foo@example.com
+	"google_organization_iam_member": config.IdentifierFromProvider,
+	// Imported by using the following format: your-organization-id foo.googleapis.com
+	"google_organization_iam_audit_config": config.IdentifierFromProvider,
 	// Projects can be imported using the project_id: your-project-id
 	// Project-ID has a format as following: projects/{{project}}
 	// So, the GetIDFn function implementation for project-id and import method
@@ -184,6 +192,21 @@ var externalNameConfigs = map[string]config.ExternalName{
 	"google_dns_policy": formattedIdentifierUserDefined("projects/%s/policies/%s", "project"),
 	// Imported by using the following format: projects/{{project}}/managedZones/{{zone}}/rrsets/{{name}}/{{type}}
 	"google_dns_record_set": config.IdentifierFromProvider,
+
+	// kms
+	//
+	// projects/{{project}}/locations/{{location}}/keyRings/{{name}}
+	"google_kms_key_ring": formattedIdentifierUserDefined("projects/%s/locations/%s/keyRings", "project", "location"),
+	// {{key_ring}}/cryptoKeys/{{name}}
+	"google_kms_crypto_key": formattedIdentifierUserDefined("%s/cryptoKeys", "key_ring"),
+	// {{name}}
+	"google_kms_key_ring_import_job": config.TemplatedStringAsIdentifier("import_job_id", "{{ .parameters.key_ring }}/importJobs/{{ .externalName }}"),
+	// terraform import google_kms_key_ring_iam_member.key_ring_iam "your-project-id/location-name/key-ring-name roles/viewer user:foo@example.com"
+	"google_kms_key_ring_iam_member": config.IdentifierFromProvider,
+	// terraform import google_kms_crypto_key_iam_member.crypto_key "your-project-id/location-name/key-ring-name/key-name roles/viewer user:foo@example.com"
+	"google_kms_crypto_key_iam_member": config.IdentifierFromProvider,
+	// This resource does not support import.
+	"google_kms_secret_ciphertext": config.IdentifierFromProvider,
 
 	// monitoring
 	//
