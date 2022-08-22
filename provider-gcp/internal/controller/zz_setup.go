@@ -14,7 +14,6 @@ import (
 	organizationiambinding "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/organizationiambinding"
 	organizationiamcustomrole "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/organizationiamcustomrole"
 	organizationiammember "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/organizationiammember"
-	organizationiampolicy "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/organizationiampolicy"
 	project "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/project"
 	projectiamauditconfig "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/projectiamauditconfig"
 	projectiambinding "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/projectiambinding"
@@ -119,7 +118,6 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		organizationiambinding.Setup,
 		organizationiamcustomrole.Setup,
 		organizationiammember.Setup,
-		organizationiampolicy.Setup,
 		project.Setup,
 		projectiamauditconfig.Setup,
 		projectiambinding.Setup,

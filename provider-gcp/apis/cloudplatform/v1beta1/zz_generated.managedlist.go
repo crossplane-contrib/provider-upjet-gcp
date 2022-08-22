@@ -64,15 +64,6 @@ func (l *OrganizationIAMMemberList) GetItems() []resource.Managed {
 	return items
 }
 
-// GetItems of this OrganizationIAMPolicyList.
-func (l *OrganizationIAMPolicyList) GetItems() []resource.Managed {
-	items := make([]resource.Managed, len(l.Items))
-	for i := range l.Items {
-		items[i] = &l.Items[i]
-	}
-	return items
-}
-
 // GetItems of this ProjectIAMAuditConfigList.
 func (l *ProjectIAMAuditConfigList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))

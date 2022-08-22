@@ -26,8 +26,6 @@ var externalNameConfigs = map[string]config.ExternalName{
 	"google_folder": config.IdentifierFromProvider,
 	// Imported by using the following format: organizations/{{org_id}}/roles/{{role_id}}
 	"google_organization_iam_custom_role": config.IdentifierFromProvider,
-	// Imported by using the following format: your-org-id
-	"google_organization_iam_policy": config.IdentifierFromProvider,
 	// Imported by using the following format: your-org-id roles/viewer
 	"google_organization_iam_binding": config.IdentifierFromProvider,
 	// Imported by using the following format: your-orgid roles/viewer user:foo@example.com
