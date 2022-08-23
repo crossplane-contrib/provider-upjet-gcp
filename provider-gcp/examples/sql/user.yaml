@@ -4,7 +4,7 @@ data:
 kind: Secret
 metadata:
   name: example-sql-user
-  namespace: crossplane-system
+  namespace: upbound-system
 ---
 apiVersion: sql.gcp.upbound.io/v1beta1
 kind: User
@@ -14,7 +14,7 @@ spec:
   forProvider:
     passwordSecretRef:
       name: example-sql-user
-      namespace: crossplane-system
+      namespace: upbound-system
       key: password
     instanceRef:
       name: example-instance

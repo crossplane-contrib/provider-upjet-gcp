@@ -9,5 +9,5 @@ spec:
       name: example-instance
   writeConnectionSecretToRef:
     name: example-sql-ssl-secret
-    namespace: crossplane-system
+    namespace: upbound-system
 

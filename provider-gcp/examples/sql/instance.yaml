@@ -9,6 +9,7 @@ spec:
     settings:
       - tier: "db-f1-micro"
         diskSize: 20
+    deletionProtection: false   # allow crossplane to delete the instance automatically
   writeConnectionSecretToRef:
     name: example-sql-db-instance-secret
-    namespace: crossplane-system
+    namespace: upbound-system
