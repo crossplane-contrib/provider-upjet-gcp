@@ -9,4 +9,4 @@ spec:
     removeDefaultNodePool: false
   writeConnectionSecretToRef:
     name: example-gke-cluster-secret
-    namespace: crossplane-system
+    namespace: upbound-system
