@@ -1,0 +1,39 @@
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Address
+metadata:
+  labels:
+    testing.upbound.io/example-name: ip-address
+  name: ip-address
+spec:
+  forProvider:
+    address: 10.0.42.42
+    addressType: INTERNAL
+    region: us-central1
+    subnetworkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: ip-address-subnet
+---
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Network
+metadata:
+  labels:
+    testing.upbound.io/example-name: ip-address-net
+  name: ip-address-net
+spec:
+  forProvider: {}
+---
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Subnetwork
+metadata:
+  labels:
+    testing.upbound.io/example-name: ip-address-subnet
+  name: ip-address-subnet
+spec:
+  forProvider:
+    ipCidrRange: 10.0.0.0/16
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: ip-address-net
+    region: us-central1
+
+
