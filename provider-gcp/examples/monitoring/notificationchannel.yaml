@@ -1,10 +1,13 @@
 apiVersion: monitoring.gcp.upbound.io/v1beta1
 kind: NotificationChannel
 metadata:
-  name: example
+  labels:
+    testing.upbound.io/example-name: example_notification_channel
+  name: example-notification-channel
 spec:
   forProvider:
     displayName: Test Notification Channel
     labels:
       email_address: fake_email@blahblah.com
     type: email
+

@@ -1,7 +1,9 @@
 apiVersion: monitoring.gcp.upbound.io/v1beta1
 kind: AlertPolicy
 metadata:
-  name: example
+  labels:
+    testing.upbound.io/example-name: example_alert_policy
+  name: example-alert-policy
 spec:
   forProvider:
     combiner: OR
