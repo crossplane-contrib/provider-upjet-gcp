@@ -324,9 +324,11 @@ type SecretKeyRefParameters struct {
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// Reference to a Secret in secretmanager to populate name.
 	// +kubebuilder:validation:Optional
 	NameRef *v1.Reference `json:"nameRef,omitempty" tf:"-"`
 
+	// Selector for a Secret in secretmanager to populate name.
 	// +kubebuilder:validation:Optional
 	NameSelector *v1.Selector `json:"nameSelector,omitempty" tf:"-"`
 }
@@ -384,9 +386,11 @@ type SecretParameters struct {
 	// +kubebuilder:validation:Optional
 	SecretName *string `json:"secretName,omitempty" tf:"secret_name,omitempty"`
 
+	// Reference to a Secret in secretmanager to populate secretName.
 	// +kubebuilder:validation:Optional
 	SecretNameRef *v1.Reference `json:"secretNameRef,omitempty" tf:"-"`
 
+	// Selector for a Secret in secretmanager to populate secretName.
 	// +kubebuilder:validation:Optional
 	SecretNameSelector *v1.Selector `json:"secretNameSelector,omitempty" tf:"-"`
 }
@@ -472,9 +476,11 @@ type ServiceMetadataParameters struct {
 	// +kubebuilder:validation:Optional
 	Namespace *string `json:"namespace,omitempty" tf:"namespace,omitempty"`
 
+	// Reference to a Project in cloudplatform to populate namespace.
 	// +kubebuilder:validation:Optional
 	NamespaceRef *v1.Reference `json:"namespaceRef,omitempty" tf:"-"`
 
+	// Selector for a Project in cloudplatform to populate namespace.
 	// +kubebuilder:validation:Optional
 	NamespaceSelector *v1.Selector `json:"namespaceSelector,omitempty" tf:"-"`
 }

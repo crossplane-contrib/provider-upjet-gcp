@@ -69,7 +69,7 @@ spec:
                       policy to
                     type: string
                   imageRef:
-                    description: A Reference to a named object.
+                    description: Reference to a Image in compute to populate image.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -103,7 +103,7 @@ spec:
                     - name
                     type: object
                   imageSelector:
-                    description: A Selector selects an object.
+                    description: Selector for a Image in compute to populate image.
                     properties:
                       matchControllerRef:
                         description: MatchControllerRef ensures an object with the

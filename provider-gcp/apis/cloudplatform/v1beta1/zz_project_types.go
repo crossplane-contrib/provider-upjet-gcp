@@ -65,9 +65,11 @@ type ProjectParameters struct {
 	// +kubebuilder:validation:Optional
 	FolderID *string `json:"folderId,omitempty" tf:"folder_id,omitempty"`
 
+	// Reference to a Folder in cloudplatform to populate folderId.
 	// +kubebuilder:validation:Optional
 	FolderIDRef *v1.Reference `json:"folderIdRef,omitempty" tf:"-"`
 
+	// Selector for a Folder in cloudplatform to populate folderId.
 	// +kubebuilder:validation:Optional
 	FolderIDSelector *v1.Selector `json:"folderIdSelector,omitempty" tf:"-"`
 

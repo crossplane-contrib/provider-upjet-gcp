@@ -67,7 +67,7 @@ spec:
                   cloudFunction:
                     type: string
                   cloudFunctionRef:
-                    description: A Reference to a named object.
+                    description: Reference to a Function to populate cloudFunction.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -101,7 +101,7 @@ spec:
                     - name
                     type: object
                   cloudFunctionSelector:
-                    description: A Selector selects an object.
+                    description: Selector for a Function to populate cloudFunction.
                     properties:
                       matchControllerRef:
                         description: MatchControllerRef ensures an object with the

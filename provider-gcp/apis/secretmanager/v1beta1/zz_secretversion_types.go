@@ -64,9 +64,11 @@ type SecretVersionParameters struct {
 	// +kubebuilder:validation:Required
 	SecretDataSecretRef v1.SecretKeySelector `json:"secretDataSecretRef" tf:"-"`
 
+	// Reference to a Secret to populate secret.
 	// +kubebuilder:validation:Optional
 	SecretRef *v1.Reference `json:"secretRef,omitempty" tf:"-"`
 
+	// Selector for a Secret to populate secret.
 	// +kubebuilder:validation:Optional
 	SecretSelector *v1.Selector `json:"secretSelector,omitempty" tf:"-"`
 }

@@ -39,9 +39,11 @@ type RegionDiskResourcePolicyAttachmentParameters struct {
 	// +kubebuilder:validation:Optional
 	Disk *string `json:"disk,omitempty" tf:"disk,omitempty"`
 
+	// Reference to a RegionDisk in compute to populate disk.
 	// +kubebuilder:validation:Optional
 	DiskRef *v1.Reference `json:"diskRef,omitempty" tf:"-"`
 
+	// Selector for a RegionDisk in compute to populate disk.
 	// +kubebuilder:validation:Optional
 	DiskSelector *v1.Selector `json:"diskSelector,omitempty" tf:"-"`
 
@@ -53,9 +55,11 @@ type RegionDiskResourcePolicyAttachmentParameters struct {
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// Reference to a ResourcePolicy in compute to populate name.
 	// +kubebuilder:validation:Optional
 	NameRef *v1.Reference `json:"nameRef,omitempty" tf:"-"`
 
+	// Selector for a ResourcePolicy in compute to populate name.
 	// +kubebuilder:validation:Optional
 	NameSelector *v1.Selector `json:"nameSelector,omitempty" tf:"-"`
 

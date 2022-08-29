@@ -89,9 +89,11 @@ type TenantDefaultSupportedIdPConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	Tenant *string `json:"tenant,omitempty" tf:"tenant,omitempty"`
 
+	// Reference to a Tenant in identityplatform to populate tenant.
 	// +kubebuilder:validation:Optional
 	TenantRef *v1.Reference `json:"tenantRef,omitempty" tf:"-"`
 
+	// Selector for a Tenant in identityplatform to populate tenant.
 	// +kubebuilder:validation:Optional
 	TenantSelector *v1.Selector `json:"tenantSelector,omitempty" tf:"-"`
 }

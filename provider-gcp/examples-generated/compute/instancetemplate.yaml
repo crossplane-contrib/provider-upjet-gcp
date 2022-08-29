@@ -1,6 +1,8 @@
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: InstanceTemplate
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/instancetemplate
   labels:
     testing.upbound.io/example-name: default
   name: default
@@ -48,6 +50,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: Disk
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/instancetemplate
   labels:
     testing.upbound.io/example-name: foobar
   name: foobar
@@ -63,6 +67,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: ResourcePolicy
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/instancetemplate
   labels:
     testing.upbound.io/example-name: daily_backup
   name: daily-backup
@@ -80,6 +86,8 @@ spec:
 apiVersion: cloudplatform.gcp.upbound.io/v1beta1
 kind: ServiceAccount
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/instancetemplate
   labels:
     testing.upbound.io/example-name: default
   name: default

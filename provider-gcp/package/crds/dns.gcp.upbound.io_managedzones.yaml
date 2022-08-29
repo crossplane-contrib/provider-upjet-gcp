@@ -222,7 +222,8 @@ spec:
                                   or 'https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}'
                                 type: string
                               networkUrlRef:
-                                description: A Reference to a named object.
+                                description: Reference to a Network in compute to
+                                  populate networkUrl.
                                 properties:
                                   name:
                                     description: Name of the referenced object.
@@ -258,7 +259,8 @@ spec:
                                 - name
                                 type: object
                               networkUrlSelector:
-                                description: A Selector selects an object.
+                                description: Selector for a Network in compute to
+                                  populate networkUrl.
                                 properties:
                                   matchControllerRef:
                                     description: MatchControllerRef ensures an object
@@ -341,7 +343,8 @@ spec:
                                   or 'https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}'
                                 type: string
                               networkUrlRef:
-                                description: A Reference to a named object.
+                                description: Reference to a Network in compute to
+                                  populate networkUrl.
                                 properties:
                                   name:
                                     description: Name of the referenced object.
@@ -377,7 +380,8 @@ spec:
                                 - name
                                 type: object
                               networkUrlSelector:
-                                description: A Selector selects an object.
+                                description: Selector for a Network in compute to
+                                  populate networkUrl.
                                 properties:
                                   matchControllerRef:
                                     description: MatchControllerRef ensures an object

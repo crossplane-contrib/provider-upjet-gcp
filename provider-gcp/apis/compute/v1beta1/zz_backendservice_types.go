@@ -101,9 +101,11 @@ type BackendParameters struct {
 	// +kubebuilder:validation:Optional
 	Group *string `json:"group,omitempty" tf:"group,omitempty"`
 
+	// Reference to a InstanceGroupManager to populate group.
 	// +kubebuilder:validation:Optional
 	GroupRef *v1.Reference `json:"groupRef,omitempty" tf:"-"`
 
+	// Selector for a InstanceGroupManager to populate group.
 	// +kubebuilder:validation:Optional
 	GroupSelector *v1.Selector `json:"groupSelector,omitempty" tf:"-"`
 
@@ -392,9 +394,11 @@ type BackendServiceParameters struct {
 	// +kubebuilder:validation:Optional
 	HealthChecks []*string `json:"healthChecks,omitempty" tf:"health_checks,omitempty"`
 
+	// References to HealthCheck to populate healthChecks.
 	// +kubebuilder:validation:Optional
 	HealthChecksRefs []v1.Reference `json:"healthChecksRefs,omitempty" tf:"-"`
 
+	// Selector for a list of HealthCheck to populate healthChecks.
 	// +kubebuilder:validation:Optional
 	HealthChecksSelector *v1.Selector `json:"healthChecksSelector,omitempty" tf:"-"`
 

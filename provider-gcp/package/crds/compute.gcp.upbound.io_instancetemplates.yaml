@@ -232,7 +232,8 @@ spec:
                             instance except for when creating a local SSD.'
                           type: string
                         sourceRef:
-                          description: A Reference to a named object.
+                          description: Reference to a Disk in compute to populate
+                            source.
                           properties:
                             name:
                               description: Name of the referenced object.
@@ -267,7 +268,8 @@ spec:
                           - name
                           type: object
                         sourceSelector:
-                          description: A Selector selects an object.
+                          description: Selector for a Disk in compute to populate
+                            source.
                           properties:
                             matchControllerRef:
                               description: MatchControllerRef ensures an object with
@@ -498,7 +500,7 @@ spec:
                             the address will be automatically assigned.
                           type: string
                         networkRef:
-                          description: A Reference to a named object.
+                          description: Reference to a Network to populate network.
                           properties:
                             name:
                               description: Name of the referenced object.
@@ -533,7 +535,7 @@ spec:
                           - name
                           type: object
                         networkSelector:
-                          description: A Selector selects an object.
+                          description: Selector for a Network to populate network.
                           properties:
                             matchControllerRef:
                               description: MatchControllerRef ensures an object with
@@ -610,7 +612,7 @@ spec:
                             If it is not provided, the provider project is used.
                           type: string
                         subnetworkRef:
-                          description: A Reference to a named object.
+                          description: Reference to a Subnetwork to populate subnetwork.
                           properties:
                             name:
                               description: Name of the referenced object.
@@ -645,7 +647,7 @@ spec:
                           - name
                           type: object
                         subnetworkSelector:
-                          description: A Selector selects an object.
+                          description: Selector for a Subnetwork to populate subnetwork.
                           properties:
                             matchControllerRef:
                               description: MatchControllerRef ensures an object with
@@ -822,7 +824,8 @@ spec:
                             the default Google Compute Engine service account is used.
                           type: string
                         emailRef:
-                          description: A Reference to a named object.
+                          description: Reference to a ServiceAccount in cloudplatform
+                            to populate email.
                           properties:
                             name:
                               description: Name of the referenced object.
@@ -857,7 +860,8 @@ spec:
                           - name
                           type: object
                         emailSelector:
-                          description: A Selector selects an object.
+                          description: Selector for a ServiceAccount in cloudplatform
+                            to populate email.
                           properties:
                             matchControllerRef:
                               description: MatchControllerRef ensures an object with

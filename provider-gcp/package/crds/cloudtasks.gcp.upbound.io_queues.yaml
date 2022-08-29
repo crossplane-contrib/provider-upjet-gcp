@@ -101,7 +101,8 @@ spec:
                       If it is not provided, the provider project is used.
                     type: string
                   projectRef:
-                    description: A Reference to a named object.
+                    description: Reference to a Project in cloudplatform to populate
+                      project.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -135,7 +136,8 @@ spec:
                     - name
                     type: object
                   projectSelector:
-                    description: A Selector selects an object.
+                    description: Selector for a Project in cloudplatform to populate
+                      project.
                     properties:
                       matchControllerRef:
                         description: MatchControllerRef ensures an object with the

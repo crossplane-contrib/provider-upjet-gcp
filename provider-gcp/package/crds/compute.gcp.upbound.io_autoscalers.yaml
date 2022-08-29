@@ -320,7 +320,8 @@ spec:
                       will scale.
                     type: string
                   targetRef:
-                    description: A Reference to a named object.
+                    description: Reference to a InstanceGroupManager in compute to
+                      populate target.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -354,7 +355,8 @@ spec:
                     - name
                     type: object
                   targetSelector:
-                    description: A Selector selects an object.
+                    description: Selector for a InstanceGroupManager in compute to
+                      populate target.
                     properties:
                       matchControllerRef:
                         description: MatchControllerRef ensures an object with the

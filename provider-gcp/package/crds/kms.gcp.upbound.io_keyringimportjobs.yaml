@@ -77,7 +77,7 @@ spec:
                       The KeyRing that this import job belongs to. Format: ''''projects/{{project}}/locations/{{location}}/keyRings/{{keyRing}}''''.'
                     type: string
                   keyRingRef:
-                    description: A Reference to a named object.
+                    description: Reference to a KeyRing to populate keyRing.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -111,7 +111,7 @@ spec:
                     - name
                     type: object
                   keyRingSelector:
-                    description: A Selector selects an object.
+                    description: Selector for a KeyRing to populate keyRing.
                     properties:
                       matchControllerRef:
                         description: MatchControllerRef ensures an object with the

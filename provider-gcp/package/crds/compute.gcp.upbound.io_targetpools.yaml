@@ -85,6 +85,7 @@ spec:
                       type: string
                     type: array
                   healthChecksRefs:
+                    description: References to HTTPHealthCheck to populate healthChecks.
                     items:
                       description: A Reference to a named object.
                       properties:
@@ -121,7 +122,8 @@ spec:
                       type: object
                     type: array
                   healthChecksSelector:
-                    description: A Selector selects an object.
+                    description: Selector for a list of HTTPHealthCheck to populate
+                      healthChecks.
                     properties:
                       matchControllerRef:
                         description: MatchControllerRef ensures an object with the

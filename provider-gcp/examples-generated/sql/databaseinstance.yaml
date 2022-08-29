@@ -1,6 +1,8 @@
 apiVersion: sql.gcp.upbound.io/v1beta1
 kind: DatabaseInstance
 metadata:
+  annotations:
+    meta.upbound.io/example-id: sql/v1beta1/databaseinstance
   labels:
     testing.upbound.io/example-name: main
   name: main

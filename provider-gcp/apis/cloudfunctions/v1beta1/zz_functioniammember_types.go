@@ -52,9 +52,11 @@ type FunctionIAMMemberParameters struct {
 	// +kubebuilder:validation:Optional
 	CloudFunction *string `json:"cloudFunction,omitempty" tf:"cloud_function,omitempty"`
 
+	// Reference to a Function to populate cloudFunction.
 	// +kubebuilder:validation:Optional
 	CloudFunctionRef *v1.Reference `json:"cloudFunctionRef,omitempty" tf:"-"`
 
+	// Selector for a Function to populate cloudFunction.
 	// +kubebuilder:validation:Optional
 	CloudFunctionSelector *v1.Selector `json:"cloudFunctionSelector,omitempty" tf:"-"`
 

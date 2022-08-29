@@ -70,9 +70,11 @@ type DatabaseParameters struct {
 	// +kubebuilder:validation:Optional
 	Instance *string `json:"instance,omitempty" tf:"instance,omitempty"`
 
+	// Reference to a DatabaseInstance to populate instance.
 	// +kubebuilder:validation:Optional
 	InstanceRef *v1.Reference `json:"instanceRef,omitempty" tf:"-"`
 
+	// Selector for a DatabaseInstance to populate instance.
 	// +kubebuilder:validation:Optional
 	InstanceSelector *v1.Selector `json:"instanceSelector,omitempty" tf:"-"`
 

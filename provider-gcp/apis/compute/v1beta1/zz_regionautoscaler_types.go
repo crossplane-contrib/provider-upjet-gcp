@@ -299,9 +299,11 @@ type RegionAutoscalerParameters struct {
 	// +kubebuilder:validation:Optional
 	Target *string `json:"target,omitempty" tf:"target,omitempty"`
 
+	// Reference to a RegionInstanceGroupManager in compute to populate target.
 	// +kubebuilder:validation:Optional
 	TargetRef *v1.Reference `json:"targetRef,omitempty" tf:"-"`
 
+	// Selector for a RegionInstanceGroupManager in compute to populate target.
 	// +kubebuilder:validation:Optional
 	TargetSelector *v1.Selector `json:"targetSelector,omitempty" tf:"-"`
 }

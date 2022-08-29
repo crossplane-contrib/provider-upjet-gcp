@@ -52,9 +52,11 @@ type WebTypeAppEngineIAMMemberParameters struct {
 	// +kubebuilder:validation:Optional
 	AppID *string `json:"appId,omitempty" tf:"app_id,omitempty"`
 
+	// Reference to a Application in appengine to populate appId.
 	// +kubebuilder:validation:Optional
 	AppIDRef *v1.Reference `json:"appIdRef,omitempty" tf:"-"`
 
+	// Selector for a Application in appengine to populate appId.
 	// +kubebuilder:validation:Optional
 	AppIDSelector *v1.Selector `json:"appIdSelector,omitempty" tf:"-"`
 

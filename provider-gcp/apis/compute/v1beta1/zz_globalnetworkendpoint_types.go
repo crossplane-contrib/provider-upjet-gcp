@@ -46,9 +46,11 @@ type GlobalNetworkEndpointParameters struct {
 	// +kubebuilder:validation:Optional
 	GlobalNetworkEndpointGroup *string `json:"globalNetworkEndpointGroup,omitempty" tf:"global_network_endpoint_group,omitempty"`
 
+	// Reference to a GlobalNetworkEndpointGroup in compute to populate globalNetworkEndpointGroup.
 	// +kubebuilder:validation:Optional
 	GlobalNetworkEndpointGroupRef *v1.Reference `json:"globalNetworkEndpointGroupRef,omitempty" tf:"-"`
 
+	// Selector for a GlobalNetworkEndpointGroup in compute to populate globalNetworkEndpointGroup.
 	// +kubebuilder:validation:Optional
 	GlobalNetworkEndpointGroupSelector *v1.Selector `json:"globalNetworkEndpointGroupSelector,omitempty" tf:"-"`
 

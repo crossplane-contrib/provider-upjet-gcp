@@ -125,9 +125,11 @@ type RouterNATParameters struct {
 	// +kubebuilder:validation:Optional
 	Router *string `json:"router,omitempty" tf:"router,omitempty"`
 
+	// Reference to a Router to populate router.
 	// +kubebuilder:validation:Optional
 	RouterRef *v1.Reference `json:"routerRef,omitempty" tf:"-"`
 
+	// Selector for a Router to populate router.
 	// +kubebuilder:validation:Optional
 	RouterSelector *v1.Selector `json:"routerSelector,omitempty" tf:"-"`
 
@@ -193,9 +195,11 @@ type SubnetworkParameters struct {
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// Reference to a Subnetwork to populate name.
 	// +kubebuilder:validation:Optional
 	NameRef *v1.Reference `json:"nameRef,omitempty" tf:"-"`
 
+	// Selector for a Subnetwork to populate name.
 	// +kubebuilder:validation:Optional
 	NameSelector *v1.Selector `json:"nameSelector,omitempty" tf:"-"`
 

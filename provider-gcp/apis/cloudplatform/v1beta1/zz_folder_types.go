@@ -62,9 +62,11 @@ type FolderParameters struct {
 	// +kubebuilder:validation:Optional
 	Parent *string `json:"parent,omitempty" tf:"parent,omitempty"`
 
+	// Reference to a Folder in cloudplatform to populate parent.
 	// +kubebuilder:validation:Optional
 	ParentRef *v1.Reference `json:"parentRef,omitempty" tf:"-"`
 
+	// Selector for a Folder in cloudplatform to populate parent.
 	// +kubebuilder:validation:Optional
 	ParentSelector *v1.Selector `json:"parentSelector,omitempty" tf:"-"`
 }

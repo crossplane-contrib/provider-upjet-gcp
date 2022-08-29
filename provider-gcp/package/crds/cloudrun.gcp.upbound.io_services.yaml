@@ -109,7 +109,8 @@ spec:
                             either the project ID or project number.
                           type: string
                         namespaceRef:
-                          description: A Reference to a named object.
+                          description: Reference to a Project in cloudplatform to
+                            populate namespace.
                           properties:
                             name:
                               description: Name of the referenced object.
@@ -144,7 +145,8 @@ spec:
                           - name
                           type: object
                         namespaceSelector:
-                          description: A Selector selects an object.
+                          description: Selector for a Project in cloudplatform to
+                            populate namespace.
                           properties:
                             matchControllerRef:
                               description: MatchControllerRef ensures an object with
@@ -414,8 +416,9 @@ spec:
                                                           annotation.'
                                                         type: string
                                                       nameRef:
-                                                        description: A Reference to
-                                                          a named object.
+                                                        description: Reference to
+                                                          a Secret in secretmanager
+                                                          to populate name.
                                                         properties:
                                                           name:
                                                             description: Name of the
@@ -466,8 +469,9 @@ spec:
                                                         - name
                                                         type: object
                                                       nameSelector:
-                                                        description: A Selector selects
-                                                          an object.
+                                                        description: Selector for
+                                                          a Secret in secretmanager
+                                                          to populate name.
                                                         properties:
                                                           matchControllerRef:
                                                             description: MatchControllerRef
@@ -867,7 +871,8 @@ spec:
                                               run.googleapis.com/secrets annotation.'
                                             type: string
                                           secretNameRef:
-                                            description: A Reference to a named object.
+                                            description: Reference to a Secret in
+                                              secretmanager to populate secretName.
                                             properties:
                                               name:
                                                 description: Name of the referenced
@@ -908,7 +913,8 @@ spec:
                                             - name
                                             type: object
                                           secretNameSelector:
-                                            description: A Selector selects an object.
+                                            description: Selector for a Secret in
+                                              secretmanager to populate secretName.
                                             properties:
                                               matchControllerRef:
                                                 description: MatchControllerRef ensures

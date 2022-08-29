@@ -40,9 +40,11 @@ type InstanceIAMPolicyParameters struct {
 	// +kubebuilder:validation:Optional
 	InstanceName *string `json:"instanceName,omitempty" tf:"instance_name,omitempty"`
 
+	// Reference to a Instance in compute to populate instanceName.
 	// +kubebuilder:validation:Optional
 	InstanceNameRef *v1.Reference `json:"instanceNameRef,omitempty" tf:"-"`
 
+	// Selector for a Instance in compute to populate instanceName.
 	// +kubebuilder:validation:Optional
 	InstanceNameSelector *v1.Selector `json:"instanceNameSelector,omitempty" tf:"-"`
 

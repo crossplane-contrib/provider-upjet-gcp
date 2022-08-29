@@ -152,7 +152,7 @@ spec:
                       will be configured.
                     type: string
                   routerRef:
-                    description: A Reference to a named object.
+                    description: Reference to a Router to populate router.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -186,7 +186,7 @@ spec:
                     - name
                     type: object
                   routerSelector:
-                    description: A Selector selects an object.
+                    description: Selector for a Router to populate router.
                     properties:
                       matchControllerRef:
                         description: MatchControllerRef ensures an object with the
@@ -258,7 +258,7 @@ spec:
                           description: Self-link of subnetwork to NAT
                           type: string
                         nameRef:
-                          description: A Reference to a named object.
+                          description: Reference to a Subnetwork to populate name.
                           properties:
                             name:
                               description: Name of the referenced object.
@@ -293,7 +293,7 @@ spec:
                           - name
                           type: object
                         nameSelector:
-                          description: A Selector selects an object.
+                          description: Selector for a Subnetwork to populate name.
                           properties:
                             matchControllerRef:
                               description: MatchControllerRef ensures an object with

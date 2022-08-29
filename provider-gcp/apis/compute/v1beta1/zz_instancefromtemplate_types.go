@@ -182,9 +182,11 @@ type InstanceFromTemplateNetworkInterfaceParameters struct {
 	// +kubebuilder:validation:Optional
 	NetworkIP *string `json:"networkIp,omitempty" tf:"network_ip,omitempty"`
 
+	// Reference to a Network to populate network.
 	// +kubebuilder:validation:Optional
 	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
 
+	// Selector for a Network to populate network.
 	// +kubebuilder:validation:Optional
 	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
 
@@ -209,9 +211,11 @@ type InstanceFromTemplateNetworkInterfaceParameters struct {
 	// +kubebuilder:validation:Optional
 	SubnetworkProject *string `json:"subnetworkProject,omitempty" tf:"subnetwork_project,omitempty"`
 
+	// Reference to a Subnetwork to populate subnetwork.
 	// +kubebuilder:validation:Optional
 	SubnetworkRef *v1.Reference `json:"subnetworkRef,omitempty" tf:"-"`
 
+	// Selector for a Subnetwork to populate subnetwork.
 	// +kubebuilder:validation:Optional
 	SubnetworkSelector *v1.Selector `json:"subnetworkSelector,omitempty" tf:"-"`
 }
@@ -366,9 +370,11 @@ type InstanceFromTemplateParameters struct {
 	// +kubebuilder:validation:Optional
 	SourceInstanceTemplate *string `json:"sourceInstanceTemplate,omitempty" tf:"source_instance_template,omitempty"`
 
+	// Reference to a InstanceTemplate to populate sourceInstanceTemplate.
 	// +kubebuilder:validation:Optional
 	SourceInstanceTemplateRef *v1.Reference `json:"sourceInstanceTemplateRef,omitempty" tf:"-"`
 
+	// Selector for a InstanceTemplate to populate sourceInstanceTemplate.
 	// +kubebuilder:validation:Optional
 	SourceInstanceTemplateSelector *v1.Selector `json:"sourceInstanceTemplateSelector,omitempty" tf:"-"`
 

@@ -76,7 +76,7 @@ spec:
                       this feature. The expected format is 'projects/*/locations/*/keyRings/*/cryptoKeys/*'
                     type: string
                   kmsKeyNameRef:
-                    description: A Reference to a named object.
+                    description: Reference to a CryptoKey in kms to populate kmsKeyName.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -110,7 +110,7 @@ spec:
                     - name
                     type: object
                   kmsKeyNameSelector:
-                    description: A Selector selects an object.
+                    description: Selector for a CryptoKey in kms to populate kmsKeyName.
                     properties:
                       matchControllerRef:
                         description: MatchControllerRef ensures an object with the

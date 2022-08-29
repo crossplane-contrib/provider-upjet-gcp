@@ -165,9 +165,11 @@ type EnvironmentParameters struct {
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	// Reference to a Project in cloudplatform to populate project.
 	// +kubebuilder:validation:Optional
 	ProjectRef *v1.Reference `json:"projectRef,omitempty" tf:"-"`
 
+	// Selector for a Project in cloudplatform to populate project.
 	// +kubebuilder:validation:Optional
 	ProjectSelector *v1.Selector `json:"projectSelector,omitempty" tf:"-"`
 
@@ -242,9 +244,11 @@ type NodeConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
+	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
 	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
 
+	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
 	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
 
@@ -261,9 +265,11 @@ type NodeConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
 
+	// Reference to a ServiceAccount in cloudplatform to populate serviceAccount.
 	// +kubebuilder:validation:Optional
 	ServiceAccountRef *v1.Reference `json:"serviceAccountRef,omitempty" tf:"-"`
 
+	// Selector for a ServiceAccount in cloudplatform to populate serviceAccount.
 	// +kubebuilder:validation:Optional
 	ServiceAccountSelector *v1.Selector `json:"serviceAccountSelector,omitempty" tf:"-"`
 
@@ -273,9 +279,11 @@ type NodeConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 
+	// Reference to a Subnetwork in compute to populate subnetwork.
 	// +kubebuilder:validation:Optional
 	SubnetworkRef *v1.Reference `json:"subnetworkRef,omitempty" tf:"-"`
 
+	// Selector for a Subnetwork in compute to populate subnetwork.
 	// +kubebuilder:validation:Optional
 	SubnetworkSelector *v1.Selector `json:"subnetworkSelector,omitempty" tf:"-"`
 

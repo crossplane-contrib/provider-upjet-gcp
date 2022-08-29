@@ -46,9 +46,11 @@ type ServiceAccountIAMPolicyParameters struct {
 	// +kubebuilder:validation:Optional
 	ServiceAccountID *string `json:"serviceAccountId,omitempty" tf:"service_account_id,omitempty"`
 
+	// Reference to a ServiceAccount to populate serviceAccountId.
 	// +kubebuilder:validation:Optional
 	ServiceAccountIDRef *v1.Reference `json:"serviceAccountIdRef,omitempty" tf:"-"`
 
+	// Selector for a ServiceAccount to populate serviceAccountId.
 	// +kubebuilder:validation:Optional
 	ServiceAccountIDSelector *v1.Selector `json:"serviceAccountIdSelector,omitempty" tf:"-"`
 }

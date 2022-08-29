@@ -117,9 +117,11 @@ type NodeGroupParameters struct {
 	// +kubebuilder:validation:Optional
 	NodeTemplate *string `json:"nodeTemplate,omitempty" tf:"node_template,omitempty"`
 
+	// Reference to a NodeTemplate in compute to populate nodeTemplate.
 	// +kubebuilder:validation:Optional
 	NodeTemplateRef *v1.Reference `json:"nodeTemplateRef,omitempty" tf:"-"`
 
+	// Selector for a NodeTemplate in compute to populate nodeTemplate.
 	// +kubebuilder:validation:Optional
 	NodeTemplateSelector *v1.Selector `json:"nodeTemplateSelector,omitempty" tf:"-"`
 

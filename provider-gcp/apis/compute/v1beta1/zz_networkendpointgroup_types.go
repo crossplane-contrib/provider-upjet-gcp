@@ -82,9 +82,11 @@ type NetworkEndpointGroupParameters struct {
 	// +kubebuilder:validation:Optional
 	NetworkEndpointType *string `json:"networkEndpointType,omitempty" tf:"network_endpoint_type,omitempty"`
 
+	// Reference to a Network to populate network.
 	// +kubebuilder:validation:Optional
 	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
 
+	// Selector for a Network to populate network.
 	// +kubebuilder:validation:Optional
 	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
 
@@ -100,9 +102,11 @@ type NetworkEndpointGroupParameters struct {
 	// +kubebuilder:validation:Optional
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 
+	// Reference to a Subnetwork to populate subnetwork.
 	// +kubebuilder:validation:Optional
 	SubnetworkRef *v1.Reference `json:"subnetworkRef,omitempty" tf:"-"`
 
+	// Selector for a Subnetwork to populate subnetwork.
 	// +kubebuilder:validation:Optional
 	SubnetworkSelector *v1.Selector `json:"subnetworkSelector,omitempty" tf:"-"`
 

@@ -323,7 +323,7 @@ spec:
                       contains the function.
                     type: string
                   sourceArchiveBucketRef:
-                    description: A Reference to a named object.
+                    description: Reference to a Bucket in storage to populate sourceArchiveBucket.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -357,7 +357,7 @@ spec:
                     - name
                     type: object
                   sourceArchiveBucketSelector:
-                    description: A Selector selects an object.
+                    description: Selector for a Bucket in storage to populate sourceArchiveBucket.
                     properties:
                       matchControllerRef:
                         description: MatchControllerRef ensures an object with the
@@ -400,7 +400,8 @@ spec:
                       source archive object (file) in archive bucket.
                     type: string
                   sourceArchiveObjectRef:
-                    description: A Reference to a named object.
+                    description: Reference to a BucketObject in storage to populate
+                      sourceArchiveObject.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -434,7 +435,8 @@ spec:
                     - name
                     type: object
                   sourceArchiveObjectSelector:
-                    description: A Selector selects an object.
+                    description: Selector for a BucketObject in storage to populate
+                      sourceArchiveObject.
                     properties:
                       matchControllerRef:
                         description: MatchControllerRef ensures an object with the

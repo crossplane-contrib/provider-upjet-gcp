@@ -36,9 +36,11 @@ type CollectorIlbParameters struct {
 	// +kubebuilder:validation:Optional
 	URL *string `json:"url,omitempty" tf:"url,omitempty"`
 
+	// Reference to a ForwardingRule in compute to populate url.
 	// +kubebuilder:validation:Optional
 	URLRef *v1.Reference `json:"urlRef,omitempty" tf:"-"`
 
+	// Selector for a ForwardingRule in compute to populate url.
 	// +kubebuilder:validation:Optional
 	URLSelector *v1.Selector `json:"urlSelector,omitempty" tf:"-"`
 }
@@ -80,9 +82,11 @@ type InstancesParameters struct {
 	// +kubebuilder:validation:Optional
 	URL *string `json:"url,omitempty" tf:"url,omitempty"`
 
+	// Reference to a Instance in compute to populate url.
 	// +kubebuilder:validation:Optional
 	URLRef *v1.Reference `json:"urlRef,omitempty" tf:"-"`
 
+	// Selector for a Instance in compute to populate url.
 	// +kubebuilder:validation:Optional
 	URLSelector *v1.Selector `json:"urlSelector,omitempty" tf:"-"`
 }
@@ -121,9 +125,11 @@ type PacketMirroringNetworkParameters struct {
 	// +kubebuilder:validation:Optional
 	URL *string `json:"url,omitempty" tf:"url,omitempty"`
 
+	// Reference to a Network in compute to populate url.
 	// +kubebuilder:validation:Optional
 	URLRef *v1.Reference `json:"urlRef,omitempty" tf:"-"`
 
+	// Selector for a Network in compute to populate url.
 	// +kubebuilder:validation:Optional
 	URLSelector *v1.Selector `json:"urlSelector,omitempty" tf:"-"`
 }

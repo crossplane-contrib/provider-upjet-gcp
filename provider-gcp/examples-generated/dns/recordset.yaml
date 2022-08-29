@@ -1,6 +1,8 @@
 apiVersion: dns.gcp.upbound.io/v1beta1
 kind: RecordSet
 metadata:
+  annotations:
+    meta.upbound.io/example-id: dns/v1beta1/recordset
   labels:
     testing.upbound.io/example-name: frontend
   name: frontend
@@ -20,6 +22,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: Instance
 metadata:
+  annotations:
+    meta.upbound.io/example-id: dns/v1beta1/recordset
   labels:
     testing.upbound.io/example-name: frontend
   name: frontend
@@ -42,6 +46,8 @@ spec:
 apiVersion: dns.gcp.upbound.io/v1beta1
 kind: ManagedZone
 metadata:
+  annotations:
+    meta.upbound.io/example-id: dns/v1beta1/recordset
   labels:
     testing.upbound.io/example-name: prod
   name: prod

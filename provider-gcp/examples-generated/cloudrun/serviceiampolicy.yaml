@@ -1,6 +1,8 @@
 apiVersion: cloudrun.gcp.upbound.io/v1beta1
 kind: ServiceIAMPolicy
 metadata:
+  annotations:
+    meta.upbound.io/example-id: cloudrun/v1beta1/serviceiampolicy
   labels:
     testing.upbound.io/example-name: policy
   name: policy

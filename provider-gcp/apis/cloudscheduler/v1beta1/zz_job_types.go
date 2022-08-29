@@ -302,9 +302,11 @@ type PubsubTargetParameters struct {
 	// +kubebuilder:validation:Optional
 	TopicName *string `json:"topicName,omitempty" tf:"topic_name,omitempty"`
 
+	// Reference to a Topic in pubsub to populate topicName.
 	// +kubebuilder:validation:Optional
 	TopicNameRef *v1.Reference `json:"topicNameRef,omitempty" tf:"-"`
 
+	// Selector for a Topic in pubsub to populate topicName.
 	// +kubebuilder:validation:Optional
 	TopicNameSelector *v1.Selector `json:"topicNameSelector,omitempty" tf:"-"`
 }

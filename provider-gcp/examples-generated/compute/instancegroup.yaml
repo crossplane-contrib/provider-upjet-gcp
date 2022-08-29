@@ -1,6 +1,8 @@
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: InstanceGroup
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/instancegroup
   labels:
     testing.upbound.io/example-name: test
   name: test

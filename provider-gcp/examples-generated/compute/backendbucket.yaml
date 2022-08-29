@@ -1,6 +1,8 @@
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: BackendBucket
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/backendbucket
   labels:
     testing.upbound.io/example-name: image_backend
   name: image-backend
@@ -17,6 +19,8 @@ spec:
 apiVersion: storage.gcp.upbound.io/v1beta1
 kind: Bucket
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/backendbucket
   labels:
     testing.upbound.io/example-name: image_bucket
   name: image-bucket

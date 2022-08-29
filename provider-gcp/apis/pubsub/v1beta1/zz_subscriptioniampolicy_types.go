@@ -50,9 +50,11 @@ type SubscriptionIAMPolicyParameters struct {
 	// +kubebuilder:validation:Optional
 	Subscription *string `json:"subscription,omitempty" tf:"subscription,omitempty"`
 
+	// Reference to a Subscription to populate subscription.
 	// +kubebuilder:validation:Optional
 	SubscriptionRef *v1.Reference `json:"subscriptionRef,omitempty" tf:"-"`
 
+	// Selector for a Subscription to populate subscription.
 	// +kubebuilder:validation:Optional
 	SubscriptionSelector *v1.Selector `json:"subscriptionSelector,omitempty" tf:"-"`
 }

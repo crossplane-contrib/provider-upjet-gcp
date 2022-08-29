@@ -67,9 +67,11 @@ type PolicyNetworksObservation struct {
 
 type PolicyNetworksParameters struct {
 
+	// Reference to a Network in compute to populate networkUrl.
 	// +kubebuilder:validation:Optional
 	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
 
+	// Selector for a Network in compute to populate networkUrl.
 	// +kubebuilder:validation:Optional
 	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
 

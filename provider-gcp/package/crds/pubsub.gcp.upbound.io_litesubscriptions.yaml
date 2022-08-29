@@ -97,7 +97,7 @@ spec:
                       Topic resource.
                     type: string
                   topicRef:
-                    description: A Reference to a named object.
+                    description: Reference to a LiteTopic to populate topic.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -131,7 +131,7 @@ spec:
                     - name
                     type: object
                   topicSelector:
-                    description: A Selector selects an object.
+                    description: Selector for a LiteTopic to populate topic.
                     properties:
                       matchControllerRef:
                         description: MatchControllerRef ensures an object with the

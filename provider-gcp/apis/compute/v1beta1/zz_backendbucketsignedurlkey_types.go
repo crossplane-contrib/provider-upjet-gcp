@@ -39,9 +39,11 @@ type BackendBucketSignedURLKeyParameters struct {
 	// +kubebuilder:validation:Optional
 	BackendBucket *string `json:"backendBucket,omitempty" tf:"backend_bucket,omitempty"`
 
+	// Reference to a BackendBucket in compute to populate backendBucket.
 	// +kubebuilder:validation:Optional
 	BackendBucketRef *v1.Reference `json:"backendBucketRef,omitempty" tf:"-"`
 
+	// Selector for a BackendBucket in compute to populate backendBucket.
 	// +kubebuilder:validation:Optional
 	BackendBucketSelector *v1.Selector `json:"backendBucketSelector,omitempty" tf:"-"`
 

@@ -71,9 +71,11 @@ type RegionTargetHTTPSProxyParameters struct {
 	// +kubebuilder:validation:Optional
 	SSLCertificates []*string `json:"sslCertificates,omitempty" tf:"ssl_certificates,omitempty"`
 
+	// References to RegionSSLCertificate to populate sslCertificates.
 	// +kubebuilder:validation:Optional
 	SSLCertificatesRefs []v1.Reference `json:"sslCertificatesRefs,omitempty" tf:"-"`
 
+	// Selector for a list of RegionSSLCertificate to populate sslCertificates.
 	// +kubebuilder:validation:Optional
 	SSLCertificatesSelector *v1.Selector `json:"sslCertificatesSelector,omitempty" tf:"-"`
 
@@ -86,9 +88,11 @@ type RegionTargetHTTPSProxyParameters struct {
 	// +kubebuilder:validation:Optional
 	URLMap *string `json:"urlMap,omitempty" tf:"url_map,omitempty"`
 
+	// Reference to a RegionURLMap in compute to populate urlMap.
 	// +kubebuilder:validation:Optional
 	URLMapRef *v1.Reference `json:"urlMapRef,omitempty" tf:"-"`
 
+	// Selector for a RegionURLMap in compute to populate urlMap.
 	// +kubebuilder:validation:Optional
 	URLMapSelector *v1.Selector `json:"urlMapSelector,omitempty" tf:"-"`
 }

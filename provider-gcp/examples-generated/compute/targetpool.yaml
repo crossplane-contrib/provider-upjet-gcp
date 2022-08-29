@@ -1,6 +1,8 @@
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: TargetPool
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/targetpool
   labels:
     testing.upbound.io/example-name: default
   name: default
@@ -17,6 +19,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: HTTPHealthCheck
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/targetpool
   labels:
     testing.upbound.io/example-name: default
   name: default

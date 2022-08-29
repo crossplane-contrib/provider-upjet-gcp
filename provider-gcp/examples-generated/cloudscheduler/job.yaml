@@ -1,6 +1,8 @@
 apiVersion: cloudscheduler.gcp.upbound.io/v1beta1
 kind: Job
 metadata:
+  annotations:
+    meta.upbound.io/example-id: cloudscheduler/v1beta1/job
   labels:
     testing.upbound.io/example-name: job
   name: job
@@ -19,6 +21,8 @@ spec:
 apiVersion: pubsub.gcp.upbound.io/v1beta1
 kind: Topic
 metadata:
+  annotations:
+    meta.upbound.io/example-id: cloudscheduler/v1beta1/job
   labels:
     testing.upbound.io/example-name: topic
   name: topic

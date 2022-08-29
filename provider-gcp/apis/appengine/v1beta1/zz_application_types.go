@@ -97,9 +97,11 @@ type ApplicationParameters struct {
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	// Reference to a Project in cloudplatform to populate project.
 	// +kubebuilder:validation:Optional
 	ProjectRef *v1.Reference `json:"projectRef,omitempty" tf:"-"`
 
+	// Selector for a Project in cloudplatform to populate project.
 	// +kubebuilder:validation:Optional
 	ProjectSelector *v1.Selector `json:"projectSelector,omitempty" tf:"-"`
 

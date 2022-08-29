@@ -39,9 +39,11 @@ type PerInstanceConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	InstanceGroupManager *string `json:"instanceGroupManager,omitempty" tf:"instance_group_manager,omitempty"`
 
+	// Reference to a InstanceGroupManager in compute to populate instanceGroupManager.
 	// +kubebuilder:validation:Optional
 	InstanceGroupManagerRef *v1.Reference `json:"instanceGroupManagerRef,omitempty" tf:"-"`
 
+	// Selector for a InstanceGroupManager in compute to populate instanceGroupManager.
 	// +kubebuilder:validation:Optional
 	InstanceGroupManagerSelector *v1.Selector `json:"instanceGroupManagerSelector,omitempty" tf:"-"`
 
@@ -84,9 +86,11 @@ type PerInstanceConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	Zone *string `json:"zone,omitempty" tf:"zone,omitempty"`
 
+	// Reference to a InstanceGroupManager in compute to populate zone.
 	// +kubebuilder:validation:Optional
 	ZoneRef *v1.Reference `json:"zoneRef,omitempty" tf:"-"`
 
+	// Selector for a InstanceGroupManager in compute to populate zone.
 	// +kubebuilder:validation:Optional
 	ZoneSelector *v1.Selector `json:"zoneSelector,omitempty" tf:"-"`
 }
@@ -132,9 +136,11 @@ type PreservedStateDiskParameters struct {
 	// +kubebuilder:validation:Optional
 	Source *string `json:"source,omitempty" tf:"source,omitempty"`
 
+	// Reference to a Disk in compute to populate source.
 	// +kubebuilder:validation:Optional
 	SourceRef *v1.Reference `json:"sourceRef,omitempty" tf:"-"`
 
+	// Selector for a Disk in compute to populate source.
 	// +kubebuilder:validation:Optional
 	SourceSelector *v1.Selector `json:"sourceSelector,omitempty" tf:"-"`
 }

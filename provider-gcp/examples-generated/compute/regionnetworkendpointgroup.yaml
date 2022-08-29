@@ -1,6 +1,8 @@
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: RegionNetworkEndpointGroup
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/regionnetworkendpointgroup
   labels:
     testing.upbound.io/example-name: function_neg
   name: function-neg
@@ -18,6 +20,8 @@ spec:
 apiVersion: cloudfunctions.gcp.upbound.io/v1beta1
 kind: Function
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/regionnetworkendpointgroup
   labels:
     testing.upbound.io/example-name: function_neg
   name: function-neg
@@ -41,6 +45,8 @@ spec:
 apiVersion: storage.gcp.upbound.io/v1beta1
 kind: Bucket
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/regionnetworkendpointgroup
   labels:
     testing.upbound.io/example-name: bucket
   name: bucket
@@ -53,6 +59,8 @@ spec:
 apiVersion: storage.gcp.upbound.io/v1beta1
 kind: BucketObject
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/regionnetworkendpointgroup
   labels:
     testing.upbound.io/example-name: archive
   name: archive

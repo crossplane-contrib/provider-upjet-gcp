@@ -1,6 +1,8 @@
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: ImageIAMPolicy
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/imageiampolicy
   labels:
     testing.upbound.io/example-name: policy
   name: policy

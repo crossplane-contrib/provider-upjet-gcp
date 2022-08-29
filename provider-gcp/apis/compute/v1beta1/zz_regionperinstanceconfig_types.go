@@ -73,15 +73,19 @@ type RegionPerInstanceConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	RegionInstanceGroupManager *string `json:"regionInstanceGroupManager,omitempty" tf:"region_instance_group_manager,omitempty"`
 
+	// Reference to a RegionInstanceGroupManager in compute to populate regionInstanceGroupManager.
 	// +kubebuilder:validation:Optional
 	RegionInstanceGroupManagerRef *v1.Reference `json:"regionInstanceGroupManagerRef,omitempty" tf:"-"`
 
+	// Selector for a RegionInstanceGroupManager in compute to populate regionInstanceGroupManager.
 	// +kubebuilder:validation:Optional
 	RegionInstanceGroupManagerSelector *v1.Selector `json:"regionInstanceGroupManagerSelector,omitempty" tf:"-"`
 
+	// Reference to a RegionInstanceGroupManager in compute to populate region.
 	// +kubebuilder:validation:Optional
 	RegionRef *v1.Reference `json:"regionRef,omitempty" tf:"-"`
 
+	// Selector for a RegionInstanceGroupManager in compute to populate region.
 	// +kubebuilder:validation:Optional
 	RegionSelector *v1.Selector `json:"regionSelector,omitempty" tf:"-"`
 
@@ -133,9 +137,11 @@ type RegionPerInstanceConfigPreservedStateDiskParameters struct {
 	// +kubebuilder:validation:Optional
 	Source *string `json:"source,omitempty" tf:"source,omitempty"`
 
+	// Reference to a Disk in compute to populate source.
 	// +kubebuilder:validation:Optional
 	SourceRef *v1.Reference `json:"sourceRef,omitempty" tf:"-"`
 
+	// Selector for a Disk in compute to populate source.
 	// +kubebuilder:validation:Optional
 	SourceSelector *v1.Selector `json:"sourceSelector,omitempty" tf:"-"`
 }

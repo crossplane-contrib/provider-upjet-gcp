@@ -167,9 +167,11 @@ type NodePoolNodeConfigParameters_2 struct {
 	// +kubebuilder:validation:Optional
 	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
 
+	// Reference to a ServiceAccount in cloudplatform to populate serviceAccount.
 	// +kubebuilder:validation:Optional
 	ServiceAccountRef *v1.Reference `json:"serviceAccountRef,omitempty" tf:"-"`
 
+	// Selector for a ServiceAccount in cloudplatform to populate serviceAccount.
 	// +kubebuilder:validation:Optional
 	ServiceAccountSelector *v1.Selector `json:"serviceAccountSelector,omitempty" tf:"-"`
 
@@ -260,9 +262,11 @@ type NodePoolParameters_2 struct {
 	// +kubebuilder:validation:Optional
 	Cluster *string `json:"cluster,omitempty" tf:"cluster,omitempty"`
 
+	// Reference to a Cluster to populate cluster.
 	// +kubebuilder:validation:Optional
 	ClusterRef *v1.Reference `json:"clusterRef,omitempty" tf:"-"`
 
+	// Selector for a Cluster to populate cluster.
 	// +kubebuilder:validation:Optional
 	ClusterSelector *v1.Selector `json:"clusterSelector,omitempty" tf:"-"`
 

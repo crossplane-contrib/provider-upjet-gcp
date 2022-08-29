@@ -168,7 +168,8 @@ spec:
                       config resource exists
                     type: string
                   tenantRef:
-                    description: A Reference to a named object.
+                    description: Reference to a Tenant in identityplatform to populate
+                      tenant.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -202,7 +203,8 @@ spec:
                     - name
                     type: object
                   tenantSelector:
-                    description: A Selector selects an object.
+                    description: Selector for a Tenant in identityplatform to populate
+                      tenant.
                     properties:
                       matchControllerRef:
                         description: MatchControllerRef ensures an object with the

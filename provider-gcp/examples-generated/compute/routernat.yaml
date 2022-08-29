@@ -1,6 +1,8 @@
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: RouterNAT
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/routernat
   labels:
     testing.upbound.io/example-name: nat
   name: nat
@@ -21,6 +23,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: Network
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/routernat
   labels:
     testing.upbound.io/example-name: net
   name: net
@@ -32,6 +36,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: Router
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/routernat
   labels:
     testing.upbound.io/example-name: router
   name: router
@@ -49,6 +55,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: Subnetwork
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/routernat
   labels:
     testing.upbound.io/example-name: subnet
   name: subnet

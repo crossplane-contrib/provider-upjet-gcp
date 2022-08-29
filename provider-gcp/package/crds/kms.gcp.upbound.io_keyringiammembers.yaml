@@ -81,7 +81,7 @@ spec:
                   keyRingId:
                     type: string
                   keyRingIdRef:
-                    description: A Reference to a named object.
+                    description: Reference to a KeyRing to populate keyRingId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -115,7 +115,7 @@ spec:
                     - name
                     type: object
                   keyRingIdSelector:
-                    description: A Selector selects an object.
+                    description: Selector for a KeyRing to populate keyRingId.
                     properties:
                       matchControllerRef:
                         description: MatchControllerRef ensures an object with the

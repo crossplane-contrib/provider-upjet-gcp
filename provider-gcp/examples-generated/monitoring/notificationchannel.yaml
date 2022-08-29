@@ -1,6 +1,8 @@
 apiVersion: monitoring.gcp.upbound.io/v1beta1
 kind: NotificationChannel
 metadata:
+  annotations:
+    meta.upbound.io/example-id: monitoring/v1beta1/notificationchannel
   labels:
     testing.upbound.io/example-name: basic
   name: basic

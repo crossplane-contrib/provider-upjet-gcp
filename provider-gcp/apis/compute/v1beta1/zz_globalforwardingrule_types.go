@@ -87,9 +87,11 @@ type GlobalForwardingRuleParameters struct {
 	// +kubebuilder:validation:Optional
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
 
+	// Reference to a GlobalAddress in compute to populate ipAddress.
 	// +kubebuilder:validation:Optional
 	IPAddressRef *v1.Reference `json:"ipAddressRef,omitempty" tf:"-"`
 
+	// Selector for a GlobalAddress in compute to populate ipAddress.
 	// +kubebuilder:validation:Optional
 	IPAddressSelector *v1.Selector `json:"ipAddressSelector,omitempty" tf:"-"`
 
@@ -179,9 +181,11 @@ type GlobalForwardingRuleParameters struct {
 	// +kubebuilder:validation:Optional
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
+	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
 	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
 
+	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
 	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
 
@@ -214,9 +218,11 @@ type GlobalForwardingRuleParameters struct {
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	// Reference to a Network in compute to populate project.
 	// +kubebuilder:validation:Optional
 	ProjectRef *v1.Reference `json:"projectRef,omitempty" tf:"-"`
 
+	// Selector for a Network in compute to populate project.
 	// +kubebuilder:validation:Optional
 	ProjectSelector *v1.Selector `json:"projectSelector,omitempty" tf:"-"`
 
@@ -232,9 +238,11 @@ type GlobalForwardingRuleParameters struct {
 	// +kubebuilder:validation:Optional
 	Target *string `json:"target,omitempty" tf:"target,omitempty"`
 
+	// Reference to a TargetSSLProxy in compute to populate target.
 	// +kubebuilder:validation:Optional
 	TargetRef *v1.Reference `json:"targetRef,omitempty" tf:"-"`
 
+	// Selector for a TargetSSLProxy in compute to populate target.
 	// +kubebuilder:validation:Optional
 	TargetSelector *v1.Selector `json:"targetSelector,omitempty" tf:"-"`
 }

@@ -1,6 +1,8 @@
 apiVersion: monitoring.gcp.upbound.io/v1beta1
 kind: UptimeCheckConfig
 metadata:
+  annotations:
+    meta.upbound.io/example-id: monitoring/v1beta1/uptimecheckconfig
   labels:
     testing.upbound.io/example-name: http
   name: http

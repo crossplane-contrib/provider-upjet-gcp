@@ -1,6 +1,8 @@
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: NetworkEndpoint
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/networkendpoint
   labels:
     testing.upbound.io/example-name: default-endpoint
   name: default-endpoint
@@ -20,6 +22,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: Instance
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/networkendpoint
   labels:
     testing.upbound.io/example-name: endpoint-instance
   name: endpoint-instance
@@ -41,6 +45,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: Network
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/networkendpoint
   labels:
     testing.upbound.io/example-name: default
   name: default
@@ -53,6 +59,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: NetworkEndpointGroup
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/networkendpoint
   labels:
     testing.upbound.io/example-name: group
   name: group
@@ -72,6 +80,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: Subnetwork
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/networkendpoint
   labels:
     testing.upbound.io/example-name: default
   name: default

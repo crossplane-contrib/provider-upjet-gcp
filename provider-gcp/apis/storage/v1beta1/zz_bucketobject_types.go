@@ -59,9 +59,11 @@ type BucketObjectParameters struct {
 	// +kubebuilder:validation:Optional
 	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
 
+	// Reference to a Bucket to populate bucket.
 	// +kubebuilder:validation:Optional
 	BucketRef *v1.Reference `json:"bucketRef,omitempty" tf:"-"`
 
+	// Selector for a Bucket to populate bucket.
 	// +kubebuilder:validation:Optional
 	BucketSelector *v1.Selector `json:"bucketSelector,omitempty" tf:"-"`
 

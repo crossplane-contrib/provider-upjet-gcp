@@ -143,7 +143,8 @@ spec:
                     items:
                       properties:
                         networkRef:
-                          description: A Reference to a named object.
+                          description: Reference to a Network in compute to populate
+                            networkUrl.
                           properties:
                             name:
                               description: Name of the referenced object.
@@ -178,7 +179,8 @@ spec:
                           - name
                           type: object
                         networkSelector:
-                          description: A Selector selects an object.
+                          description: Selector for a Network in compute to populate
+                            networkUrl.
                           properties:
                             matchControllerRef:
                               description: MatchControllerRef ensures an object with

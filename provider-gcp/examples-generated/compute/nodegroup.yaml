@@ -1,6 +1,8 @@
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: NodeGroup
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/nodegroup
   labels:
     testing.upbound.io/example-name: nodes
   name: nodes
@@ -18,6 +20,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: NodeTemplate
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/nodegroup
   labels:
     testing.upbound.io/example-name: soletenant-tmpl
   name: soletenant-tmpl

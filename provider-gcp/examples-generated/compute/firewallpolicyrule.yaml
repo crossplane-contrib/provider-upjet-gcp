@@ -1,6 +1,8 @@
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: FirewallPolicyRule
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/firewallpolicyrule
   labels:
     testing.upbound.io/example-name: default
   name: default
@@ -29,6 +31,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: FirewallPolicy
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/firewallpolicyrule
   labels:
     testing.upbound.io/example-name: default
   name: default

@@ -1,6 +1,8 @@
 apiVersion: cloudfunctions.gcp.upbound.io/v1beta1
 kind: Function
 metadata:
+  annotations:
+    meta.upbound.io/example-id: cloudfunctions/v1beta1/function
   labels:
     testing.upbound.io/example-name: function
   name: function
@@ -23,6 +25,8 @@ spec:
 apiVersion: storage.gcp.upbound.io/v1beta1
 kind: Bucket
 metadata:
+  annotations:
+    meta.upbound.io/example-id: cloudfunctions/v1beta1/function
   labels:
     testing.upbound.io/example-name: bucket
   name: bucket
@@ -35,6 +39,8 @@ spec:
 apiVersion: storage.gcp.upbound.io/v1beta1
 kind: BucketObject
 metadata:
+  annotations:
+    meta.upbound.io/example-id: cloudfunctions/v1beta1/function
   labels:
     testing.upbound.io/example-name: archive
   name: archive

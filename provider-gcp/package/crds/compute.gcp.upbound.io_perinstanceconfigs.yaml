@@ -71,7 +71,8 @@ spec:
                       part of.
                     type: string
                   instanceGroupManagerRef:
-                    description: A Reference to a named object.
+                    description: Reference to a InstanceGroupManager in compute to
+                      populate instanceGroupManager.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -105,7 +106,8 @@ spec:
                     - name
                     type: object
                   instanceGroupManagerSelector:
-                    description: A Selector selects an object.
+                    description: Selector for a InstanceGroupManager in compute to
+                      populate instanceGroupManager.
                     properties:
                       matchControllerRef:
                         description: MatchControllerRef ensures an object with the
@@ -206,7 +208,8 @@ spec:
                                   under the specified device-name in the format 'projects/project-id/zones/zone/disks/disk-name'.
                                 type: string
                               sourceRef:
-                                description: A Reference to a named object.
+                                description: Reference to a Disk in compute to populate
+                                  source.
                                 properties:
                                   name:
                                     description: Name of the referenced object.
@@ -242,7 +245,8 @@ spec:
                                 - name
                                 type: object
                               sourceSelector:
-                                description: A Selector selects an object.
+                                description: Selector for a Disk in compute to populate
+                                  source.
                                 properties:
                                   matchControllerRef:
                                     description: MatchControllerRef ensures an object
@@ -314,7 +318,8 @@ spec:
                       is located
                     type: string
                   zoneRef:
-                    description: A Reference to a named object.
+                    description: Reference to a InstanceGroupManager in compute to
+                      populate zone.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -348,7 +353,8 @@ spec:
                     - name
                     type: object
                   zoneSelector:
-                    description: A Selector selects an object.
+                    description: Selector for a InstanceGroupManager in compute to
+                      populate zone.
                     properties:
                       matchControllerRef:
                         description: MatchControllerRef ensures an object with the

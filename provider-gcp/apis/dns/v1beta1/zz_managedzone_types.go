@@ -207,9 +207,11 @@ type NetworksParameters struct {
 	// +kubebuilder:validation:Optional
 	NetworkURL *string `json:"networkUrl,omitempty" tf:"network_url,omitempty"`
 
+	// Reference to a Network in compute to populate networkUrl.
 	// +kubebuilder:validation:Optional
 	NetworkURLRef *v1.Reference `json:"networkUrlRef,omitempty" tf:"-"`
 
+	// Selector for a Network in compute to populate networkUrl.
 	// +kubebuilder:validation:Optional
 	NetworkURLSelector *v1.Selector `json:"networkUrlSelector,omitempty" tf:"-"`
 }
@@ -280,9 +282,11 @@ type TargetNetworkParameters struct {
 	// +kubebuilder:validation:Optional
 	NetworkURL *string `json:"networkUrl,omitempty" tf:"network_url,omitempty"`
 
+	// Reference to a Network in compute to populate networkUrl.
 	// +kubebuilder:validation:Optional
 	NetworkURLRef *v1.Reference `json:"networkUrlRef,omitempty" tf:"-"`
 
+	// Selector for a Network in compute to populate networkUrl.
 	// +kubebuilder:validation:Optional
 	NetworkURLSelector *v1.Selector `json:"networkUrlSelector,omitempty" tf:"-"`
 }

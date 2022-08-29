@@ -1,6 +1,8 @@
 apiVersion: storage.gcp.upbound.io/v1beta1
 kind: BucketObject
 metadata:
+  annotations:
+    meta.upbound.io/example-id: storage/v1beta1/bucketobject
   labels:
     testing.upbound.io/example-name: picture
   name: picture

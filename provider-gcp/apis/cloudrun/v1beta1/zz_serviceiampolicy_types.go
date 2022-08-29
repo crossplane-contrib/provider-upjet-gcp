@@ -41,9 +41,11 @@ type ServiceIAMPolicyParameters struct {
 	// +kubebuilder:validation:Optional
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
+	// Reference to a Service in cloudrun to populate location.
 	// +kubebuilder:validation:Optional
 	LocationRef *v1.Reference `json:"locationRef,omitempty" tf:"-"`
 
+	// Selector for a Service in cloudrun to populate location.
 	// +kubebuilder:validation:Optional
 	LocationSelector *v1.Selector `json:"locationSelector,omitempty" tf:"-"`
 
@@ -58,9 +60,11 @@ type ServiceIAMPolicyParameters struct {
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	// Reference to a Project in cloudplatform to populate project.
 	// +kubebuilder:validation:Optional
 	ProjectRef *v1.Reference `json:"projectRef,omitempty" tf:"-"`
 
+	// Selector for a Project in cloudplatform to populate project.
 	// +kubebuilder:validation:Optional
 	ProjectSelector *v1.Selector `json:"projectSelector,omitempty" tf:"-"`
 
@@ -69,9 +73,11 @@ type ServiceIAMPolicyParameters struct {
 	// +kubebuilder:validation:Optional
 	Service *string `json:"service,omitempty" tf:"service,omitempty"`
 
+	// Reference to a Service to populate service.
 	// +kubebuilder:validation:Optional
 	ServiceRef *v1.Reference `json:"serviceRef,omitempty" tf:"-"`
 
+	// Selector for a Service to populate service.
 	// +kubebuilder:validation:Optional
 	ServiceSelector *v1.Selector `json:"serviceSelector,omitempty" tf:"-"`
 }
