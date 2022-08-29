@@ -1,0 +1,31 @@
+apiVersion: identityplatform.gcp.upbound.io/v1beta1
+kind: OAuthIdPConfig
+metadata:
+  labels:
+    testing.upbound.io/example-name: oauth-idp-config
+  name: oauth-idp-config
+spec:
+  forProvider:
+    name: oidc.oauth-idp-config
+    clientIdSecretRef:
+      key: clientId
+      name: oauth-idp-config
+      namespace: upbound-system
+    clientSecretSecretRef:
+      key: clientSecret
+      name: oauth-idp-config
+      namespace: upbound-system
+    displayName: Display Name
+    enabled: true
+    issuer: issuer
+
+---
+
+apiVersion: v1
+data:
+  clientId: dXBib3VuZA==
+  clientSecret: MTIzNDU=
+kind: Secret
+metadata:
+  name: oauth-idp-config
+  namespace: upbound-system

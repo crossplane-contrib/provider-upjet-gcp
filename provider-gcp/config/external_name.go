@@ -193,6 +193,23 @@ var externalNameConfigs = map[string]config.ExternalName{
 	// Imported by using the following format: projects/{{project}}/managedZones/{{zone}}/rrsets/{{name}}/{{type}}
 	"google_dns_record_set": config.IdentifierFromProvider,
 
+	// identityplatform
+	//
+	// Imported by using the following format: projects/{{project}}/defaultSupportedIdpConfigs/{{idp_id}}
+	"google_identity_platform_default_supported_idp_config": config.IdentifierFromProvider,
+	// Imported by using the following format: projects/{{project}}/inboundSamlConfigs/{{name}}
+	"google_identity_platform_inbound_saml_config": config.IdentifierFromProvider,
+	// Imported by using the following format: projects/{{project}}/oauthIdpConfigs/{{name}}
+	"google_identity_platform_oauth_idp_config": config.IdentifierFromProvider,
+	// Imported by using the following format: projects/{{project}}/tenants/{{name}}
+	"google_identity_platform_tenant": config.IdentifierFromProvider,
+	// Imported by using the following projects/{{project}}/tenants/{{tenant}}/defaultSupportedIdpConfigs/{{idp_id}}
+	"google_identity_platform_tenant_default_supported_idp_config": config.IdentifierFromProvider,
+	// Imported by using the following: projects/{{project}}/tenants/{{tenant}}/inboundSamlConfigs/{{name}}
+	"google_identity_platform_tenant_inbound_saml_config": config.IdentifierFromProvider,
+	// Imported by using the following: projects/{{project}}/tenants/{{tenant}}/oauthIdpConfigs/{{name}}
+	"google_identity_platform_tenant_oauth_idp_config": config.IdentifierFromProvider,
+
 	// kms
 	//
 	// projects/{{project}}/locations/{{location}}/keyRings/{{name}}
