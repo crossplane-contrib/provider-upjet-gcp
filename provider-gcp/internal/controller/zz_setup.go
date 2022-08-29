@@ -116,6 +116,7 @@ import (
 	targetsslproxy "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/targetsslproxy"
 	cluster "github.com/upbound/official-providers/provider-gcp/internal/controller/container/cluster"
 	nodepool "github.com/upbound/official-providers/provider-gcp/internal/controller/container/nodepool"
+	registry "github.com/upbound/official-providers/provider-gcp/internal/controller/container/registry"
 	managedzone "github.com/upbound/official-providers/provider-gcp/internal/controller/dns/managedzone"
 	policy "github.com/upbound/official-providers/provider-gcp/internal/controller/dns/policy"
 	recordset "github.com/upbound/official-providers/provider-gcp/internal/controller/dns/recordset"
@@ -281,6 +282,7 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		targetsslproxy.Setup,
 		cluster.Setup,
 		nodepool.Setup,
+		registry.Setup,
 		managedzone.Setup,
 		policy.Setup,
 		recordset.Setup,
