@@ -1,0 +1,12 @@
+apiVersion: iap.gcp.upbound.io/v1beta1
+kind: WebTypeComputeIAMMember
+metadata:
+  labels:
+    testing.upbound.io/example-name: web-type-compute-iam
+  annotations:
+    upjet.upbound.io/manual-intervention: "Members are dependent on the project and leak sensitive information"
+  name: web-type-compute-iam
+spec:
+  forProvider:
+    member: "user:jane@example.com"
+    role: "roles/iap.httpsResourceAccessor"
