@@ -70,7 +70,8 @@ spec:
                       The target that the firewall policy is attached to.
                     type: string
                   attachmentTargetRef:
-                    description: A Reference to a named object.
+                    description: Reference to a Folder in cloudplatform to populate
+                      attachmentTarget.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -104,7 +105,8 @@ spec:
                     - name
                     type: object
                   attachmentTargetSelector:
-                    description: A Selector selects an object.
+                    description: Selector for a Folder in cloudplatform to populate
+                      attachmentTarget.
                     properties:
                       matchControllerRef:
                         description: MatchControllerRef ensures an object with the
@@ -147,7 +149,8 @@ spec:
                       policy ID of the association.
                     type: string
                   firewallPolicyRef:
-                    description: A Reference to a named object.
+                    description: Reference to a FirewallPolicy in compute to populate
+                      firewallPolicy.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -181,7 +184,8 @@ spec:
                     - name
                     type: object
                   firewallPolicySelector:
-                    description: A Selector selects an object.
+                    description: Selector for a FirewallPolicy in compute to populate
+                      firewallPolicy.
                     properties:
                       matchControllerRef:
                         description: MatchControllerRef ensures an object with the

@@ -90,7 +90,7 @@ spec:
                       This does not include the project ID.
                     type: string
                   instanceRef:
-                    description: A Reference to a named object.
+                    description: Reference to a DatabaseInstance to populate instance.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -124,7 +124,7 @@ spec:
                     - name
                     type: object
                   instanceSelector:
-                    description: A Selector selects an object.
+                    description: Selector for a DatabaseInstance to populate instance.
                     properties:
                       matchControllerRef:
                         description: MatchControllerRef ensures an object with the

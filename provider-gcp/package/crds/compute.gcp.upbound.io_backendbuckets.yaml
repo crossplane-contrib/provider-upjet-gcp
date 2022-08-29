@@ -69,7 +69,7 @@ spec:
                     description: Cloud Storage bucket name. Cloud Storage bucket name.
                     type: string
                   bucketNameRef:
-                    description: A Reference to a named object.
+                    description: Reference to a Bucket in storage to populate bucketName.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -103,7 +103,7 @@ spec:
                     - name
                     type: object
                   bucketNameSelector:
-                    description: A Selector selects an object.
+                    description: Selector for a Bucket in storage to populate bucketName.
                     properties:
                       matchControllerRef:
                         description: MatchControllerRef ensures an object with the

@@ -1,6 +1,8 @@
 apiVersion: sql.gcp.upbound.io/v1beta1
 kind: SourceRepresentationInstance
 metadata:
+  annotations:
+    meta.upbound.io/example-id: sql/v1beta1/sourcerepresentationinstance
   labels:
     testing.upbound.io/example-name: instance
   name: instance

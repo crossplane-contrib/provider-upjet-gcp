@@ -88,7 +88,8 @@ spec:
                   webBackendService:
                     type: string
                   webBackendServiceRef:
-                    description: A Reference to a named object.
+                    description: Reference to a BackendService in compute to populate
+                      webBackendService.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -122,7 +123,8 @@ spec:
                     - name
                     type: object
                   webBackendServiceSelector:
-                    description: A Selector selects an object.
+                    description: Selector for a BackendService in compute to populate
+                      webBackendService.
                     properties:
                       matchControllerRef:
                         description: MatchControllerRef ensures an object with the

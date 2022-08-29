@@ -476,7 +476,8 @@ spec:
                                   but it cannot be removed after it is set.
                                 type: string
                               privateNetworkRef:
-                                description: A Reference to a named object.
+                                description: Reference to a Network in compute to
+                                  populate privateNetwork.
                                 properties:
                                   name:
                                     description: Name of the referenced object.
@@ -512,7 +513,8 @@ spec:
                                 - name
                                 type: object
                               privateNetworkSelector:
-                                description: A Selector selects an object.
+                                description: Selector for a Network in compute to
+                                  populate privateNetwork.
                                 properties:
                                   matchControllerRef:
                                     description: MatchControllerRef ensures an object

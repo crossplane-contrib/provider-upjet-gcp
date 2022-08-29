@@ -78,7 +78,8 @@ spec:
                       must be set.
                     type: string
                   defaultServiceRef:
-                    description: A Reference to a named object.
+                    description: Reference to a RegionBackendService in compute to
+                      populate defaultService.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -112,7 +113,8 @@ spec:
                     - name
                     type: object
                   defaultServiceSelector:
-                    description: A Selector selects an object.
+                    description: Selector for a RegionBackendService in compute to
+                      populate defaultService.
                     properties:
                       matchControllerRef:
                         description: MatchControllerRef ensures an object with the
@@ -257,7 +259,8 @@ spec:
                             this PathMatcher is matched by the URL's path portion.
                           type: string
                         defaultServiceRef:
-                          description: A Reference to a named object.
+                          description: Reference to a RegionBackendService in compute
+                            to populate defaultService.
                           properties:
                             name:
                               description: Name of the referenced object.
@@ -292,7 +295,8 @@ spec:
                           - name
                           type: object
                         defaultServiceSelector:
-                          description: A Selector selects an object.
+                          description: Selector for a RegionBackendService in compute
+                            to populate defaultService.
                           properties:
                             matchControllerRef:
                               description: MatchControllerRef ensures an object with
@@ -619,7 +623,8 @@ spec:
                                               resource being mirrored to.
                                             type: string
                                           backendServiceRef:
-                                            description: A Reference to a named object.
+                                            description: Reference to a RegionBackendService
+                                              in compute to populate backendService.
                                             properties:
                                               name:
                                                 description: Name of the referenced
@@ -660,7 +665,8 @@ spec:
                                             - name
                                             type: object
                                           backendServiceSelector:
-                                            description: A Selector selects an object.
+                                            description: Selector for a RegionBackendService
+                                              in compute to populate backendService.
                                             properties:
                                               matchControllerRef:
                                                 description: MatchControllerRef ensures
@@ -851,7 +857,8 @@ spec:
                                               as part of this backendServiceWeight.
                                             type: string
                                           backendServiceRef:
-                                            description: A Reference to a named object.
+                                            description: Reference to a RegionBackendService
+                                              in compute to populate backendService.
                                             properties:
                                               name:
                                                 description: Name of the referenced
@@ -892,7 +899,8 @@ spec:
                                             - name
                                             type: object
                                           backendServiceSelector:
-                                            description: A Selector selects an object.
+                                            description: Selector for a RegionBackendService
+                                              in compute to populate backendService.
                                             properties:
                                               matchControllerRef:
                                                 description: MatchControllerRef ensures
@@ -1056,7 +1064,8 @@ spec:
                                   or routeAction.weightedBackendService must be set.
                                 type: string
                               serviceRef:
-                                description: A Reference to a named object.
+                                description: Reference to a RegionBackendService in
+                                  compute to populate service.
                                 properties:
                                   name:
                                     description: Name of the referenced object.
@@ -1092,7 +1101,8 @@ spec:
                                 - name
                                 type: object
                               serviceSelector:
-                                description: A Selector selects an object.
+                                description: Selector for a RegionBackendService in
+                                  compute to populate service.
                                 properties:
                                   matchControllerRef:
                                     description: MatchControllerRef ensures an object
@@ -2077,7 +2087,8 @@ spec:
                                   or routeAction.weightedBackendService must be set.
                                 type: string
                               serviceRef:
-                                description: A Reference to a named object.
+                                description: Reference to a RegionBackendService in
+                                  compute to populate service.
                                 properties:
                                   name:
                                     description: Name of the referenced object.
@@ -2113,7 +2124,8 @@ spec:
                                 - name
                                 type: object
                               serviceSelector:
-                                description: A Selector selects an object.
+                                description: Selector for a RegionBackendService in
+                                  compute to populate service.
                                 properties:
                                   matchControllerRef:
                                     description: MatchControllerRef ensures an object
@@ -2263,7 +2275,8 @@ spec:
                             resource the given URL should be mapped to.
                           type: string
                         serviceRef:
-                          description: A Reference to a named object.
+                          description: Reference to a RegionBackendService in compute
+                            to populate service.
                           properties:
                             name:
                               description: Name of the referenced object.
@@ -2298,7 +2311,8 @@ spec:
                           - name
                           type: object
                         serviceSelector:
-                          description: A Selector selects an object.
+                          description: Selector for a RegionBackendService in compute
+                            to populate service.
                           properties:
                             matchControllerRef:
                               description: MatchControllerRef ensures an object with

@@ -54,9 +54,11 @@ type RecordSetParameters struct {
 	// +kubebuilder:validation:Optional
 	ManagedZone *string `json:"managedZone,omitempty" tf:"managed_zone,omitempty"`
 
+	// Reference to a ManagedZone in dns to populate managedZone.
 	// +kubebuilder:validation:Optional
 	ManagedZoneRef *v1.Reference `json:"managedZoneRef,omitempty" tf:"-"`
 
+	// Selector for a ManagedZone in dns to populate managedZone.
 	// +kubebuilder:validation:Optional
 	ManagedZoneSelector *v1.Selector `json:"managedZoneSelector,omitempty" tf:"-"`
 

@@ -52,9 +52,11 @@ type HaVPNGatewayParameters struct {
 	// +kubebuilder:validation:Optional
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
+	// Reference to a Network to populate network.
 	// +kubebuilder:validation:Optional
 	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
 
+	// Selector for a Network to populate network.
 	// +kubebuilder:validation:Optional
 	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
 
@@ -106,9 +108,11 @@ type VPNInterfacesParameters struct {
 	// +kubebuilder:validation:Optional
 	InterconnectAttachment *string `json:"interconnectAttachment,omitempty" tf:"interconnect_attachment,omitempty"`
 
+	// Reference to a InterconnectAttachment in compute to populate interconnectAttachment.
 	// +kubebuilder:validation:Optional
 	InterconnectAttachmentRef *v1.Reference `json:"interconnectAttachmentRef,omitempty" tf:"-"`
 
+	// Selector for a InterconnectAttachment in compute to populate interconnectAttachment.
 	// +kubebuilder:validation:Optional
 	InterconnectAttachmentSelector *v1.Selector `json:"interconnectAttachmentSelector,omitempty" tf:"-"`
 }

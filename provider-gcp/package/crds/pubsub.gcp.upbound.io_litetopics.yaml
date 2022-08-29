@@ -120,7 +120,8 @@ spec:
                             capacity.
                           type: string
                         throughputReservationRef:
-                          description: A Reference to a named object.
+                          description: Reference to a LiteReservation to populate
+                            throughputReservation.
                           properties:
                             name:
                               description: Name of the referenced object.
@@ -155,7 +156,8 @@ spec:
                           - name
                           type: object
                         throughputReservationSelector:
-                          description: A Selector selects an object.
+                          description: Selector for a LiteReservation to populate
+                            throughputReservation.
                           properties:
                             matchControllerRef:
                               description: MatchControllerRef ensures an object with

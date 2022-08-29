@@ -1,6 +1,8 @@
 apiVersion: identityplatform.gcp.upbound.io/v1beta1
 kind: InboundSAMLConfig
 metadata:
+  annotations:
+    meta.upbound.io/example-id: identityplatform/v1beta1/inboundsamlconfig
   labels:
     testing.upbound.io/example-name: saml_config
   name: saml-config

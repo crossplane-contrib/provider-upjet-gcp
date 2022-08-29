@@ -49,9 +49,11 @@ type NetworkPeeringRoutesConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
+	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
 	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
 
+	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
 	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
 
@@ -61,9 +63,11 @@ type NetworkPeeringRoutesConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	Peering *string `json:"peering,omitempty" tf:"peering,omitempty"`
 
+	// Reference to a NetworkPeering in compute to populate peering.
 	// +kubebuilder:validation:Optional
 	PeeringRef *v1.Reference `json:"peeringRef,omitempty" tf:"-"`
 
+	// Selector for a NetworkPeering in compute to populate peering.
 	// +kubebuilder:validation:Optional
 	PeeringSelector *v1.Selector `json:"peeringSelector,omitempty" tf:"-"`
 

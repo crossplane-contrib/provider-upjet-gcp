@@ -129,7 +129,8 @@ spec:
                                   under the specified device-name in the format 'projects/project-id/zones/zone/disks/disk-name'.
                                 type: string
                               sourceRef:
-                                description: A Reference to a named object.
+                                description: Reference to a Disk in compute to populate
+                                  source.
                                 properties:
                                   name:
                                     description: Name of the referenced object.
@@ -165,7 +166,8 @@ spec:
                                 - name
                                 type: object
                               sourceSelector:
-                                description: A Selector selects an object.
+                                description: Selector for a Disk in compute to populate
+                                  source.
                                 properties:
                                   matchControllerRef:
                                     description: MatchControllerRef ensures an object
@@ -235,7 +237,8 @@ spec:
                       config is part of.
                     type: string
                   regionInstanceGroupManagerRef:
-                    description: A Reference to a named object.
+                    description: Reference to a RegionInstanceGroupManager in compute
+                      to populate regionInstanceGroupManager.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -269,7 +272,8 @@ spec:
                     - name
                     type: object
                   regionInstanceGroupManagerSelector:
-                    description: A Selector selects an object.
+                    description: Selector for a RegionInstanceGroupManager in compute
+                      to populate regionInstanceGroupManager.
                     properties:
                       matchControllerRef:
                         description: MatchControllerRef ensures an object with the
@@ -308,7 +312,8 @@ spec:
                         type: object
                     type: object
                   regionRef:
-                    description: A Reference to a named object.
+                    description: Reference to a RegionInstanceGroupManager in compute
+                      to populate region.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -342,7 +347,8 @@ spec:
                     - name
                     type: object
                   regionSelector:
-                    description: A Selector selects an object.
+                    description: Selector for a RegionInstanceGroupManager in compute
+                      to populate region.
                     properties:
                       matchControllerRef:
                         description: MatchControllerRef ensures an object with the

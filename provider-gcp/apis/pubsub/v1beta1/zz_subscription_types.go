@@ -54,9 +54,11 @@ type DeadLetterPolicyParameters struct {
 	// +kubebuilder:validation:Optional
 	DeadLetterTopic *string `json:"deadLetterTopic,omitempty" tf:"dead_letter_topic,omitempty"`
 
+	// Reference to a Topic in pubsub to populate deadLetterTopic.
 	// +kubebuilder:validation:Optional
 	DeadLetterTopicRef *v1.Reference `json:"deadLetterTopicRef,omitempty" tf:"-"`
 
+	// Selector for a Topic in pubsub to populate deadLetterTopic.
 	// +kubebuilder:validation:Optional
 	DeadLetterTopicSelector *v1.Selector `json:"deadLetterTopicSelector,omitempty" tf:"-"`
 
@@ -398,9 +400,11 @@ type SubscriptionParameters struct {
 	// +kubebuilder:validation:Optional
 	Topic *string `json:"topic,omitempty" tf:"topic,omitempty"`
 
+	// Reference to a Topic to populate topic.
 	// +kubebuilder:validation:Optional
 	TopicRef *v1.Reference `json:"topicRef,omitempty" tf:"-"`
 
+	// Selector for a Topic to populate topic.
 	// +kubebuilder:validation:Optional
 	TopicSelector *v1.Selector `json:"topicSelector,omitempty" tf:"-"`
 }

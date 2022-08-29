@@ -37,9 +37,11 @@ type ProjectUsageExportBucketParameters struct {
 	// +kubebuilder:validation:Optional
 	BucketName *string `json:"bucketName,omitempty" tf:"bucket_name,omitempty"`
 
+	// Reference to a Bucket in storage to populate bucketName.
 	// +kubebuilder:validation:Optional
 	BucketNameRef *v1.Reference `json:"bucketNameRef,omitempty" tf:"-"`
 
+	// Selector for a Bucket in storage to populate bucketName.
 	// +kubebuilder:validation:Optional
 	BucketNameSelector *v1.Selector `json:"bucketNameSelector,omitempty" tf:"-"`
 
@@ -54,9 +56,11 @@ type ProjectUsageExportBucketParameters struct {
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	// Reference to a Project to populate project.
 	// +kubebuilder:validation:Optional
 	ProjectRef *v1.Reference `json:"projectRef,omitempty" tf:"-"`
 
+	// Selector for a Project to populate project.
 	// +kubebuilder:validation:Optional
 	ProjectSelector *v1.Selector `json:"projectSelector,omitempty" tf:"-"`
 }

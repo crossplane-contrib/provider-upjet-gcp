@@ -181,9 +181,11 @@ type FunctionParameters struct {
 	// +kubebuilder:validation:Optional
 	SourceArchiveBucket *string `json:"sourceArchiveBucket,omitempty" tf:"source_archive_bucket,omitempty"`
 
+	// Reference to a Bucket in storage to populate sourceArchiveBucket.
 	// +kubebuilder:validation:Optional
 	SourceArchiveBucketRef *v1.Reference `json:"sourceArchiveBucketRef,omitempty" tf:"-"`
 
+	// Selector for a Bucket in storage to populate sourceArchiveBucket.
 	// +kubebuilder:validation:Optional
 	SourceArchiveBucketSelector *v1.Selector `json:"sourceArchiveBucketSelector,omitempty" tf:"-"`
 
@@ -194,9 +196,11 @@ type FunctionParameters struct {
 	// +kubebuilder:validation:Optional
 	SourceArchiveObject *string `json:"sourceArchiveObject,omitempty" tf:"source_archive_object,omitempty"`
 
+	// Reference to a BucketObject in storage to populate sourceArchiveObject.
 	// +kubebuilder:validation:Optional
 	SourceArchiveObjectRef *v1.Reference `json:"sourceArchiveObjectRef,omitempty" tf:"-"`
 
+	// Selector for a BucketObject in storage to populate sourceArchiveObject.
 	// +kubebuilder:validation:Optional
 	SourceArchiveObjectSelector *v1.Selector `json:"sourceArchiveObjectSelector,omitempty" tf:"-"`
 

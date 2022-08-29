@@ -110,7 +110,8 @@ spec:
                             project number.
                           type: string
                         namespaceRef:
-                          description: A Reference to a named object.
+                          description: Reference to a Project in cloudplatform to
+                            populate namespace.
                           properties:
                             name:
                               description: Name of the referenced object.
@@ -145,7 +146,8 @@ spec:
                           - name
                           type: object
                         namespaceSelector:
-                          description: A Selector selects an object.
+                          description: Selector for a Project in cloudplatform to
+                            populate namespace.
                           properties:
                             matchControllerRef:
                               description: MatchControllerRef ensures an object with
@@ -224,7 +226,7 @@ spec:
                             to. The route must exist.
                           type: string
                         routeNameRef:
-                          description: A Reference to a named object.
+                          description: Reference to a Service to populate routeName.
                           properties:
                             name:
                               description: Name of the referenced object.
@@ -259,7 +261,7 @@ spec:
                           - name
                           type: object
                         routeNameSelector:
-                          description: A Selector selects an object.
+                          description: Selector for a Service to populate routeName.
                           properties:
                             matchControllerRef:
                               description: MatchControllerRef ensures an object with

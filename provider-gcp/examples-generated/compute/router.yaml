@@ -1,6 +1,8 @@
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: Router
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/router
   labels:
     testing.upbound.io/example-name: foobar
   name: foobar
@@ -23,6 +25,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: Network
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/router
   labels:
     testing.upbound.io/example-name: foobar
   name: foobar

@@ -1,6 +1,8 @@
 apiVersion: container.gcp.upbound.io/v1beta1
 kind: NodePool
 metadata:
+  annotations:
+    meta.upbound.io/example-id: container/v1beta1/nodepool
   labels:
     testing.upbound.io/example-name: primary_preemptible_nodes
   name: primary-preemptible-nodes
@@ -24,6 +26,8 @@ spec:
 apiVersion: container.gcp.upbound.io/v1beta1
 kind: Cluster
 metadata:
+  annotations:
+    meta.upbound.io/example-id: container/v1beta1/nodepool
   labels:
     testing.upbound.io/example-name: primary
   name: primary
@@ -38,6 +42,8 @@ spec:
 apiVersion: cloudplatform.gcp.upbound.io/v1beta1
 kind: ServiceAccount
 metadata:
+  annotations:
+    meta.upbound.io/example-id: container/v1beta1/nodepool
   labels:
     testing.upbound.io/example-name: default
   name: default

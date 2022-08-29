@@ -73,9 +73,11 @@ type FirewallPolicyRuleParameters struct {
 	// +kubebuilder:validation:Optional
 	FirewallPolicy *string `json:"firewallPolicy,omitempty" tf:"firewall_policy,omitempty"`
 
+	// Reference to a FirewallPolicy in compute to populate firewallPolicy.
 	// +kubebuilder:validation:Optional
 	FirewallPolicyRef *v1.Reference `json:"firewallPolicyRef,omitempty" tf:"-"`
 
+	// Selector for a FirewallPolicy in compute to populate firewallPolicy.
 	// +kubebuilder:validation:Optional
 	FirewallPolicySelector *v1.Selector `json:"firewallPolicySelector,omitempty" tf:"-"`
 

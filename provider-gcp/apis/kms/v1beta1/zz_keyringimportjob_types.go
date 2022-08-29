@@ -89,9 +89,11 @@ type KeyRingImportJobParameters struct {
 	// +kubebuilder:validation:Optional
 	KeyRing *string `json:"keyRing,omitempty" tf:"key_ring,omitempty"`
 
+	// Reference to a KeyRing to populate keyRing.
 	// +kubebuilder:validation:Optional
 	KeyRingRef *v1.Reference `json:"keyRingRef,omitempty" tf:"-"`
 
+	// Selector for a KeyRing to populate keyRing.
 	// +kubebuilder:validation:Optional
 	KeyRingSelector *v1.Selector `json:"keyRingSelector,omitempty" tf:"-"`
 

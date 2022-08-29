@@ -86,7 +86,8 @@ spec:
                       BackendService.
                     type: string
                   urlMapRef:
-                    description: A Reference to a named object.
+                    description: Reference to a RegionURLMap in compute to populate
+                      urlMap.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -120,7 +121,8 @@ spec:
                     - name
                     type: object
                   urlMapSelector:
-                    description: A Selector selects an object.
+                    description: Selector for a RegionURLMap in compute to populate
+                      urlMap.
                     properties:
                       matchControllerRef:
                         description: MatchControllerRef ensures an object with the

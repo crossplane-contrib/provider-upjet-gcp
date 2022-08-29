@@ -77,7 +77,8 @@ spec:
                           description: The URL of the forwarding rule.
                           type: string
                         urlRef:
-                          description: A Reference to a named object.
+                          description: Reference to a ForwardingRule in compute to
+                            populate url.
                           properties:
                             name:
                               description: Name of the referenced object.
@@ -112,7 +113,8 @@ spec:
                           - name
                           type: object
                         urlSelector:
-                          description: A Selector selects an object.
+                          description: Selector for a ForwardingRule in compute to
+                            populate url.
                           properties:
                             matchControllerRef:
                               description: MatchControllerRef ensures an object with
@@ -206,7 +208,8 @@ spec:
                                   should be active.
                                 type: string
                               urlRef:
-                                description: A Reference to a named object.
+                                description: Reference to a Instance in compute to
+                                  populate url.
                                 properties:
                                   name:
                                     description: Name of the referenced object.
@@ -242,7 +245,8 @@ spec:
                                 - name
                                 type: object
                               urlSelector:
-                                description: A Selector selects an object.
+                                description: Selector for a Instance in compute to
+                                  populate url.
                                 properties:
                                   matchControllerRef:
                                     description: MatchControllerRef ensures an object
@@ -323,7 +327,8 @@ spec:
                             this rule is active.
                           type: string
                         urlRef:
-                          description: A Reference to a named object.
+                          description: Reference to a Network in compute to populate
+                            url.
                           properties:
                             name:
                               description: Name of the referenced object.
@@ -358,7 +363,8 @@ spec:
                           - name
                           type: object
                         urlSelector:
-                          description: A Selector selects an object.
+                          description: Selector for a Network in compute to populate
+                            url.
                           properties:
                             matchControllerRef:
                               description: MatchControllerRef ensures an object with

@@ -1,6 +1,8 @@
 apiVersion: storage.gcp.upbound.io/v1beta1
 kind: Bucket
 metadata:
+  annotations:
+    meta.upbound.io/example-id: storage/v1beta1/bucket
   labels:
     testing.upbound.io/example-name: static-site
   name: static-site

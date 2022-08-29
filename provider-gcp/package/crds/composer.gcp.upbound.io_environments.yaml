@@ -199,7 +199,8 @@ spec:
                                   must also be provided.'
                                 type: string
                               networkRef:
-                                description: A Reference to a named object.
+                                description: Reference to a Network in compute to
+                                  populate network.
                                 properties:
                                   name:
                                     description: Name of the referenced object.
@@ -235,7 +236,8 @@ spec:
                                 - name
                                 type: object
                               networkSelector:
-                                description: A Selector selects an object.
+                                description: Selector for a Network in compute to
+                                  populate network.
                                 properties:
                                   matchControllerRef:
                                     description: MatchControllerRef ensures an object
@@ -298,7 +300,8 @@ spec:
                                   Environment.
                                 type: string
                               serviceAccountRef:
-                                description: A Reference to a named object.
+                                description: Reference to a ServiceAccount in cloudplatform
+                                  to populate serviceAccount.
                                 properties:
                                   name:
                                     description: Name of the referenced object.
@@ -334,7 +337,8 @@ spec:
                                 - name
                                 type: object
                               serviceAccountSelector:
-                                description: A Selector selects an object.
+                                description: Selector for a ServiceAccount in cloudplatform
+                                  to populate serviceAccount.
                                 properties:
                                   matchControllerRef:
                                     description: MatchControllerRef ensures an object
@@ -384,7 +388,8 @@ spec:
                                   to the enclosing environment's project and region.
                                 type: string
                               subnetworkRef:
-                                description: A Reference to a named object.
+                                description: Reference to a Subnetwork in compute
+                                  to populate subnetwork.
                                 properties:
                                   name:
                                     description: Name of the referenced object.
@@ -420,7 +425,8 @@ spec:
                                 - name
                                 type: object
                               subnetworkSelector:
-                                description: A Selector selects an object.
+                                description: Selector for a Subnetwork in compute
+                                  to populate subnetwork.
                                 properties:
                                   matchControllerRef:
                                     description: MatchControllerRef ensures an object
@@ -814,7 +820,8 @@ spec:
                       If it is not provided, the provider project is used.
                     type: string
                   projectRef:
-                    description: A Reference to a named object.
+                    description: Reference to a Project in cloudplatform to populate
+                      project.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -848,7 +855,8 @@ spec:
                     - name
                     type: object
                   projectSelector:
-                    description: A Selector selects an object.
+                    description: Selector for a Project in cloudplatform to populate
+                      project.
                     properties:
                       matchControllerRef:
                         description: MatchControllerRef ensures an object with the

@@ -60,9 +60,11 @@ type RouteParameters struct {
 	// +kubebuilder:validation:Optional
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
+	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
 	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
 
+	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
 	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
 
@@ -111,9 +113,11 @@ type RouteParameters struct {
 	// +kubebuilder:validation:Optional
 	NextHopIlb *string `json:"nextHopIlb,omitempty" tf:"next_hop_ilb,omitempty"`
 
+	// Reference to a ForwardingRule in compute to populate nextHopIlb.
 	// +kubebuilder:validation:Optional
 	NextHopIlbRef *v1.Reference `json:"nextHopIlbRef,omitempty" tf:"-"`
 
+	// Selector for a ForwardingRule in compute to populate nextHopIlb.
 	// +kubebuilder:validation:Optional
 	NextHopIlbSelector *v1.Selector `json:"nextHopIlbSelector,omitempty" tf:"-"`
 

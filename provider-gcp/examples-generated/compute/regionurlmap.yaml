@@ -1,6 +1,8 @@
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: RegionURLMap
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/regionurlmap
   labels:
     testing.upbound.io/example-name: regionurlmap
   name: regionurlmap
@@ -43,6 +45,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: RegionBackendService
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/regionurlmap
   labels:
     testing.upbound.io/example-name: home
   name: home
@@ -60,6 +64,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: RegionBackendService
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/regionurlmap
   labels:
     testing.upbound.io/example-name: login
   name: login
@@ -77,6 +83,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: RegionHealthCheck
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/regionurlmap
   labels:
     testing.upbound.io/example-name: default
   name: default

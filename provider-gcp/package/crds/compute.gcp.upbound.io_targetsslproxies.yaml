@@ -70,7 +70,8 @@ spec:
                       to the BackendService resource.
                     type: string
                   backendServiceRef:
-                    description: A Reference to a named object.
+                    description: Reference to a BackendService in compute to populate
+                      backendService.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -104,7 +105,8 @@ spec:
                     - name
                     type: object
                   backendServiceSelector:
-                    description: A Selector selects an object.
+                    description: Selector for a BackendService in compute to populate
+                      backendService.
                     properties:
                       matchControllerRef:
                         description: MatchControllerRef ensures an object with the
@@ -168,6 +170,7 @@ spec:
                       type: string
                     type: array
                   sslCertificatesRefs:
+                    description: References to SSLCertificate to populate sslCertificates.
                     items:
                       description: A Reference to a named object.
                       properties:
@@ -204,7 +207,8 @@ spec:
                       type: object
                     type: array
                   sslCertificatesSelector:
-                    description: A Selector selects an object.
+                    description: Selector for a list of SSLCertificate to populate
+                      sslCertificates.
                     properties:
                       matchControllerRef:
                         description: MatchControllerRef ensures an object with the

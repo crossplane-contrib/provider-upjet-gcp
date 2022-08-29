@@ -70,7 +70,7 @@ spec:
                       producers using VPC peering.
                     type: string
                   networkRef:
-                    description: A Reference to a named object.
+                    description: Reference to a Network in compute to populate network.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -104,7 +104,7 @@ spec:
                     - name
                     type: object
                   networkSelector:
-                    description: A Selector selects an object.
+                    description: Selector for a Network in compute to populate network.
                     properties:
                       matchControllerRef:
                         description: MatchControllerRef ensures an object with the
@@ -155,6 +155,8 @@ spec:
                       type: string
                     type: array
                   reservedPeeringRangesRefs:
+                    description: References to GlobalAddress in compute to populate
+                      reservedPeeringRanges.
                     items:
                       description: A Reference to a named object.
                       properties:
@@ -191,7 +193,8 @@ spec:
                       type: object
                     type: array
                   reservedPeeringRangesSelector:
-                    description: A Selector selects an object.
+                    description: Selector for a list of GlobalAddress in compute to
+                      populate reservedPeeringRanges.
                     properties:
                       matchControllerRef:
                         description: MatchControllerRef ensures an object with the

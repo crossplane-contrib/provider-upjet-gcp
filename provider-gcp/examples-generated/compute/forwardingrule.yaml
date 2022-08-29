@@ -1,6 +1,8 @@
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: ForwardingRule
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/forwardingrule
   labels:
     testing.upbound.io/example-name: google_compute_forwarding_rule
   name: google-compute-forwarding-rule
@@ -27,6 +29,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: Firewall
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/forwardingrule
   labels:
     testing.upbound.io/example-name: fw-iap
   name: fw-iap
@@ -49,6 +53,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: Firewall
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/forwardingrule
   labels:
     testing.upbound.io/example-name: fw-ilb-to-backends
   name: fw-ilb-to-backends
@@ -75,6 +81,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: Instance
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/forwardingrule
   labels:
     testing.upbound.io/example-name: vm-test
   name: vm-test
@@ -99,6 +107,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: InstanceTemplate
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/forwardingrule
   labels:
     testing.upbound.io/example-name: instance_template
   name: instance-template
@@ -148,6 +158,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: Network
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/forwardingrule
   labels:
     testing.upbound.io/example-name: ilb_network
   name: ilb-network
@@ -161,6 +173,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: RegionBackendService
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/forwardingrule
   labels:
     testing.upbound.io/example-name: default
   name: default
@@ -185,6 +199,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: RegionHealthCheck
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/forwardingrule
   labels:
     testing.upbound.io/example-name: default
   name: default
@@ -200,6 +216,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: RegionInstanceGroupManager
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/forwardingrule
   labels:
     testing.upbound.io/example-name: mig
   name: mig
@@ -221,6 +239,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: RegionTargetHTTPProxy
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/forwardingrule
   labels:
     testing.upbound.io/example-name: default
   name: default
@@ -237,6 +257,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: RegionURLMap
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/forwardingrule
   labels:
     testing.upbound.io/example-name: default
   name: default
@@ -253,6 +275,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: Subnetwork
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/forwardingrule
   labels:
     testing.upbound.io/example-name: ilb_subnet
   name: ilb-subnet
@@ -270,6 +294,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: Subnetwork
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/forwardingrule
   labels:
     testing.upbound.io/example-name: proxy_subnet
   name: proxy-subnet

@@ -98,7 +98,8 @@ spec:
                       the matched traffic.
                     type: string
                   backendServiceRef:
-                    description: A Reference to a named object.
+                    description: Reference to a RegionBackendService in compute to
+                      populate backendService.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -132,7 +133,8 @@ spec:
                     - name
                     type: object
                   backendServiceSelector:
-                    description: A Selector selects an object.
+                    description: Selector for a RegionBackendService in compute to
+                      populate backendService.
                     properties:
                       matchControllerRef:
                         description: MatchControllerRef ensures an object with the
@@ -203,7 +205,7 @@ spec:
                       use. For detailed information, refer to [IP address specifications](/load-balancing/docs/forwarding-rule-concepts#ip_address_specifications).'
                     type: string
                   ipAddressRef:
-                    description: A Reference to a named object.
+                    description: Reference to a Address in compute to populate ipAddress.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -237,7 +239,7 @@ spec:
                     - name
                     type: object
                   ipAddressSelector:
-                    description: A Selector selects an object.
+                    description: Selector for a Address in compute to populate ipAddress.
                     properties:
                       matchControllerRef:
                         description: MatchControllerRef ensures an object with the
@@ -348,7 +350,7 @@ spec:
                       the default network will be used.
                     type: string
                   networkRef:
-                    description: A Reference to a named object.
+                    description: Reference to a Network in compute to populate network.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -382,7 +384,7 @@ spec:
                     - name
                     type: object
                   networkSelector:
-                    description: A Selector selects an object.
+                    description: Selector for a Network in compute to populate network.
                     properties:
                       matchControllerRef:
                         description: MatchControllerRef ensures an object with the
@@ -545,7 +547,8 @@ spec:
                       specified.
                     type: string
                   subnetworkRef:
-                    description: A Reference to a named object.
+                    description: Reference to a Subnetwork in compute to populate
+                      subnetwork.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -579,7 +582,8 @@ spec:
                     - name
                     type: object
                   subnetworkSelector:
-                    description: A Selector selects an object.
+                    description: Selector for a Subnetwork in compute to populate
+                      subnetwork.
                     properties:
                       matchControllerRef:
                         description: MatchControllerRef ensures an object with the
@@ -630,7 +634,8 @@ spec:
                       only `targetHttpProxy` is valid, not `targetHttpsProxy`.
                     type: string
                   targetRef:
-                    description: A Reference to a named object.
+                    description: Reference to a RegionTargetHTTPProxy in compute to
+                      populate target.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -664,7 +669,8 @@ spec:
                     - name
                     type: object
                   targetSelector:
-                    description: A Selector selects an object.
+                    description: Selector for a RegionTargetHTTPProxy in compute to
+                      populate target.
                     properties:
                       matchControllerRef:
                         description: MatchControllerRef ensures an object with the

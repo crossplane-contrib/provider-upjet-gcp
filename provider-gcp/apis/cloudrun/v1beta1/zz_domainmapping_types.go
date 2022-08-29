@@ -159,9 +159,11 @@ type MetadataParameters struct {
 	// +kubebuilder:validation:Optional
 	Namespace *string `json:"namespace,omitempty" tf:"namespace,omitempty"`
 
+	// Reference to a Project in cloudplatform to populate namespace.
 	// +kubebuilder:validation:Optional
 	NamespaceRef *v1.Reference `json:"namespaceRef,omitempty" tf:"-"`
 
+	// Selector for a Project in cloudplatform to populate namespace.
 	// +kubebuilder:validation:Optional
 	NamespaceSelector *v1.Selector `json:"namespaceSelector,omitempty" tf:"-"`
 }
@@ -210,9 +212,11 @@ type SpecParameters struct {
 	// +kubebuilder:validation:Optional
 	RouteName *string `json:"routeName,omitempty" tf:"route_name,omitempty"`
 
+	// Reference to a Service to populate routeName.
 	// +kubebuilder:validation:Optional
 	RouteNameRef *v1.Reference `json:"routeNameRef,omitempty" tf:"-"`
 
+	// Selector for a Service to populate routeName.
 	// +kubebuilder:validation:Optional
 	RouteNameSelector *v1.Selector `json:"routeNameSelector,omitempty" tf:"-"`
 }

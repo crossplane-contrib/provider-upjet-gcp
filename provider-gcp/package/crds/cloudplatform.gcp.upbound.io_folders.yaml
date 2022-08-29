@@ -84,7 +84,8 @@ spec:
                       be of the form folders/{folder_id} or organizations/{org_id}.
                     type: string
                   parentRef:
-                    description: A Reference to a named object.
+                    description: Reference to a Folder in cloudplatform to populate
+                      parent.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -118,7 +119,8 @@ spec:
                     - name
                     type: object
                   parentSelector:
-                    description: A Selector selects an object.
+                    description: Selector for a Folder in cloudplatform to populate
+                      parent.
                     properties:
                       matchControllerRef:
                         description: MatchControllerRef ensures an object with the

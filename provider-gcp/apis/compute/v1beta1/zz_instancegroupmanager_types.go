@@ -37,9 +37,11 @@ type AutoHealingPoliciesParameters struct {
 	// +kubebuilder:validation:Optional
 	HealthCheck *string `json:"healthCheck,omitempty" tf:"health_check,omitempty"`
 
+	// Reference to a HealthCheck to populate healthCheck.
 	// +kubebuilder:validation:Optional
 	HealthCheckRef *v1.Reference `json:"healthCheckRef,omitempty" tf:"-"`
 
+	// Selector for a HealthCheck to populate healthCheck.
 	// +kubebuilder:validation:Optional
 	HealthCheckSelector *v1.Selector `json:"healthCheckSelector,omitempty" tf:"-"`
 
@@ -139,9 +141,11 @@ type InstanceGroupManagerParameters struct {
 	// +kubebuilder:validation:Optional
 	TargetPools []*string `json:"targetPools,omitempty" tf:"target_pools,omitempty"`
 
+	// References to TargetPool to populate targetPools.
 	// +kubebuilder:validation:Optional
 	TargetPoolsRefs []v1.Reference `json:"targetPoolsRefs,omitempty" tf:"-"`
 
+	// Selector for a list of TargetPool to populate targetPools.
 	// +kubebuilder:validation:Optional
 	TargetPoolsSelector *v1.Selector `json:"targetPoolsSelector,omitempty" tf:"-"`
 
@@ -310,9 +314,11 @@ type VersionParameters struct {
 	// +kubebuilder:validation:Optional
 	InstanceTemplate *string `json:"instanceTemplate,omitempty" tf:"instance_template,omitempty"`
 
+	// Reference to a InstanceTemplate to populate instanceTemplate.
 	// +kubebuilder:validation:Optional
 	InstanceTemplateRef *v1.Reference `json:"instanceTemplateRef,omitempty" tf:"-"`
 
+	// Selector for a InstanceTemplate to populate instanceTemplate.
 	// +kubebuilder:validation:Optional
 	InstanceTemplateSelector *v1.Selector `json:"instanceTemplateSelector,omitempty" tf:"-"`
 

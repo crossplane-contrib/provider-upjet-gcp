@@ -69,9 +69,11 @@ type CloudFunctionParameters struct {
 	// +kubebuilder:validation:Optional
 	Function *string `json:"function,omitempty" tf:"function,omitempty"`
 
+	// Reference to a Function in cloudfunctions to populate function.
 	// +kubebuilder:validation:Optional
 	FunctionRef *v1.Reference `json:"functionRef,omitempty" tf:"-"`
 
+	// Selector for a Function in cloudfunctions to populate function.
 	// +kubebuilder:validation:Optional
 	FunctionSelector *v1.Selector `json:"functionSelector,omitempty" tf:"-"`
 
@@ -98,9 +100,11 @@ type CloudRunParameters struct {
 	// +kubebuilder:validation:Optional
 	Service *string `json:"service,omitempty" tf:"service,omitempty"`
 
+	// Reference to a Service in cloudrun to populate service.
 	// +kubebuilder:validation:Optional
 	ServiceRef *v1.Reference `json:"serviceRef,omitempty" tf:"-"`
 
+	// Selector for a Service in cloudrun to populate service.
 	// +kubebuilder:validation:Optional
 	ServiceSelector *v1.Selector `json:"serviceSelector,omitempty" tf:"-"`
 

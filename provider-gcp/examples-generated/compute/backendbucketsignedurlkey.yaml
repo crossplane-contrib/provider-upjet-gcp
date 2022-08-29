@@ -1,6 +1,8 @@
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: BackendBucketSignedURLKey
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/backendbucketsignedurlkey
   labels:
     testing.upbound.io/example-name: backend_key
   name: backend-key
@@ -20,6 +22,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: BackendBucket
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/backendbucketsignedurlkey
   labels:
     testing.upbound.io/example-name: test_backend
   name: test-backend
@@ -36,6 +40,8 @@ spec:
 apiVersion: storage.gcp.upbound.io/v1beta1
 kind: Bucket
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/backendbucketsignedurlkey
   labels:
     testing.upbound.io/example-name: bucket
   name: bucket

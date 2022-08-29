@@ -76,9 +76,11 @@ type ForwardingRuleParameters struct {
 	// +kubebuilder:validation:Optional
 	BackendService *string `json:"backendService,omitempty" tf:"backend_service,omitempty"`
 
+	// Reference to a RegionBackendService in compute to populate backendService.
 	// +kubebuilder:validation:Optional
 	BackendServiceRef *v1.Reference `json:"backendServiceRef,omitempty" tf:"-"`
 
+	// Selector for a RegionBackendService in compute to populate backendService.
 	// +kubebuilder:validation:Optional
 	BackendServiceSelector *v1.Selector `json:"backendServiceSelector,omitempty" tf:"-"`
 
@@ -107,9 +109,11 @@ type ForwardingRuleParameters struct {
 	// +kubebuilder:validation:Optional
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
 
+	// Reference to a Address in compute to populate ipAddress.
 	// +kubebuilder:validation:Optional
 	IPAddressRef *v1.Reference `json:"ipAddressRef,omitempty" tf:"-"`
 
+	// Selector for a Address in compute to populate ipAddress.
 	// +kubebuilder:validation:Optional
 	IPAddressSelector *v1.Selector `json:"ipAddressSelector,omitempty" tf:"-"`
 
@@ -176,9 +180,11 @@ type ForwardingRuleParameters struct {
 	// +kubebuilder:validation:Optional
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
+	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
 	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
 
+	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
 	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
 
@@ -267,9 +273,11 @@ type ForwardingRuleParameters struct {
 	// +kubebuilder:validation:Optional
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 
+	// Reference to a Subnetwork in compute to populate subnetwork.
 	// +kubebuilder:validation:Optional
 	SubnetworkRef *v1.Reference `json:"subnetworkRef,omitempty" tf:"-"`
 
+	// Selector for a Subnetwork in compute to populate subnetwork.
 	// +kubebuilder:validation:Optional
 	SubnetworkSelector *v1.Selector `json:"subnetworkSelector,omitempty" tf:"-"`
 
@@ -283,9 +291,11 @@ type ForwardingRuleParameters struct {
 	// +kubebuilder:validation:Optional
 	Target *string `json:"target,omitempty" tf:"target,omitempty"`
 
+	// Reference to a RegionTargetHTTPProxy in compute to populate target.
 	// +kubebuilder:validation:Optional
 	TargetRef *v1.Reference `json:"targetRef,omitempty" tf:"-"`
 
+	// Selector for a RegionTargetHTTPProxy in compute to populate target.
 	// +kubebuilder:validation:Optional
 	TargetSelector *v1.Selector `json:"targetSelector,omitempty" tf:"-"`
 }

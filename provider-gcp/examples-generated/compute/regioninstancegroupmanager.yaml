@@ -1,6 +1,8 @@
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: RegionInstanceGroupManager
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/regioninstancegroupmanager
   labels:
     testing.upbound.io/example-name: appserver
   name: appserver
@@ -33,6 +35,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: HealthCheck
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/regioninstancegroupmanager
   labels:
     testing.upbound.io/example-name: autohealing
   name: autohealing

@@ -78,7 +78,7 @@ spec:
                             The health check resource that signals autohealing.
                           type: string
                         healthCheckRef:
-                          description: A Reference to a named object.
+                          description: Reference to a HealthCheck to populate healthCheck.
                           properties:
                             name:
                               description: Name of the referenced object.
@@ -113,7 +113,7 @@ spec:
                           - name
                           type: object
                         healthCheckSelector:
-                          description: A Selector selects an object.
+                          description: Selector for a HealthCheck to populate healthCheck.
                           properties:
                             matchControllerRef:
                               description: MatchControllerRef ensures an object with
@@ -278,6 +278,7 @@ spec:
                       type: string
                     type: array
                   targetPoolsRefs:
+                    description: References to TargetPool to populate targetPools.
                     items:
                       description: A Reference to a named object.
                       properties:
@@ -314,7 +315,7 @@ spec:
                       type: object
                     type: array
                   targetPoolsSelector:
-                    description: A Selector selects an object.
+                    description: Selector for a list of TargetPool to populate targetPools.
                     properties:
                       matchControllerRef:
                         description: MatchControllerRef ensures an object with the
@@ -510,7 +511,8 @@ spec:
                             instances of this version will be created.'
                           type: string
                         instanceTemplateRef:
-                          description: A Reference to a named object.
+                          description: Reference to a InstanceTemplate to populate
+                            instanceTemplate.
                           properties:
                             name:
                               description: Name of the referenced object.
@@ -545,7 +547,8 @@ spec:
                           - name
                           type: object
                         instanceTemplateSelector:
-                          description: A Selector selects an object.
+                          description: Selector for a InstanceTemplate to populate
+                            instanceTemplate.
                           properties:
                             matchControllerRef:
                               description: MatchControllerRef ensures an object with

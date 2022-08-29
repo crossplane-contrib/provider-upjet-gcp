@@ -95,7 +95,7 @@ spec:
                       for zonal clusters.
                     type: string
                   clusterRef:
-                    description: A Reference to a named object.
+                    description: Reference to a Cluster to populate cluster.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -129,7 +129,7 @@ spec:
                     - name
                     type: object
                   clusterSelector:
-                    description: A Selector selects an object.
+                    description: Selector for a Cluster to populate cluster.
                     properties:
                       matchControllerRef:
                         description: MatchControllerRef ensures an object with the
@@ -321,7 +321,8 @@ spec:
                             be used by the node VMs.
                           type: string
                         serviceAccountRef:
-                          description: A Reference to a named object.
+                          description: Reference to a ServiceAccount in cloudplatform
+                            to populate serviceAccount.
                           properties:
                             name:
                               description: Name of the referenced object.
@@ -356,7 +357,8 @@ spec:
                           - name
                           type: object
                         serviceAccountSelector:
-                          description: A Selector selects an object.
+                          description: Selector for a ServiceAccount in cloudplatform
+                            to populate serviceAccount.
                           properties:
                             matchControllerRef:
                               description: MatchControllerRef ensures an object with

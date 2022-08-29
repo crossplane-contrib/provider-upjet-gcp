@@ -113,7 +113,8 @@ spec:
                             must be 1-63 characters long. Example value: "func1".'
                           type: string
                         functionRef:
-                          description: A Reference to a named object.
+                          description: Reference to a Function in cloudfunctions to
+                            populate function.
                           properties:
                             name:
                               description: Name of the referenced object.
@@ -148,7 +149,8 @@ spec:
                           - name
                           type: object
                         functionSelector:
-                          description: A Selector selects an object.
+                          description: Selector for a Function in cloudfunctions to
+                            populate function.
                           properties:
                             matchControllerRef:
                               description: MatchControllerRef ensures an object with
@@ -214,7 +216,8 @@ spec:
                             comply with RFC1035. Example value: "run-service".'
                           type: string
                         serviceRef:
-                          description: A Reference to a named object.
+                          description: Reference to a Service in cloudrun to populate
+                            service.
                           properties:
                             name:
                               description: Name of the referenced object.
@@ -249,7 +252,8 @@ spec:
                           - name
                           type: object
                         serviceSelector:
-                          description: A Selector selects an object.
+                          description: Selector for a Service in cloudrun to populate
+                            service.
                           properties:
                             matchControllerRef:
                               description: MatchControllerRef ensures an object with

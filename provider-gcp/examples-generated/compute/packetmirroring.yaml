@@ -1,6 +1,8 @@
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: PacketMirroring
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/packetmirroring
   labels:
     testing.upbound.io/example-name: foobar
   name: foobar
@@ -34,6 +36,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: ForwardingRule
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/packetmirroring
   labels:
     testing.upbound.io/example-name: default
   name: default
@@ -59,6 +63,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: HealthCheck
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/packetmirroring
   labels:
     testing.upbound.io/example-name: default
   name: default
@@ -74,6 +80,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: Instance
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/packetmirroring
   labels:
     testing.upbound.io/example-name: mirror
   name: mirror
@@ -95,6 +103,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: Network
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/packetmirroring
   labels:
     testing.upbound.io/example-name: default
   name: default
@@ -106,6 +116,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: RegionBackendService
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/packetmirroring
   labels:
     testing.upbound.io/example-name: default
   name: default
@@ -119,6 +131,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: Subnetwork
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/packetmirroring
   labels:
     testing.upbound.io/example-name: default
   name: default

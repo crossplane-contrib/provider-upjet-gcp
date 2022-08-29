@@ -51,9 +51,11 @@ type TargetSSLProxyParameters struct {
 	// +kubebuilder:validation:Optional
 	BackendService *string `json:"backendService,omitempty" tf:"backend_service,omitempty"`
 
+	// Reference to a BackendService in compute to populate backendService.
 	// +kubebuilder:validation:Optional
 	BackendServiceRef *v1.Reference `json:"backendServiceRef,omitempty" tf:"-"`
 
+	// Selector for a BackendService in compute to populate backendService.
 	// +kubebuilder:validation:Optional
 	BackendServiceSelector *v1.Selector `json:"backendServiceSelector,omitempty" tf:"-"`
 
@@ -86,9 +88,11 @@ type TargetSSLProxyParameters struct {
 	// +kubebuilder:validation:Optional
 	SSLCertificates []*string `json:"sslCertificates,omitempty" tf:"ssl_certificates,omitempty"`
 
+	// References to SSLCertificate to populate sslCertificates.
 	// +kubebuilder:validation:Optional
 	SSLCertificatesRefs []v1.Reference `json:"sslCertificatesRefs,omitempty" tf:"-"`
 
+	// Selector for a list of SSLCertificate to populate sslCertificates.
 	// +kubebuilder:validation:Optional
 	SSLCertificatesSelector *v1.Selector `json:"sslCertificatesSelector,omitempty" tf:"-"`
 

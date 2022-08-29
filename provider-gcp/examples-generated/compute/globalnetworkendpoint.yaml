@@ -1,6 +1,8 @@
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: GlobalNetworkEndpoint
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/globalnetworkendpoint
   labels:
     testing.upbound.io/example-name: default-endpoint
   name: default-endpoint
@@ -17,6 +19,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: GlobalNetworkEndpointGroup
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/globalnetworkendpoint
   labels:
     testing.upbound.io/example-name: neg
   name: neg

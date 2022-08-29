@@ -1,6 +1,8 @@
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: InstanceFromTemplate
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/instancefromtemplate
   labels:
     testing.upbound.io/example-name: tpl
   name: tpl
@@ -20,6 +22,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: InstanceTemplate
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/instancefromtemplate
   labels:
     testing.upbound.io/example-name: tpl
   name: tpl

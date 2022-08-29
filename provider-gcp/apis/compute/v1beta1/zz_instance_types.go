@@ -516,9 +516,11 @@ type NetworkInterfaceParameters struct {
 	// +kubebuilder:validation:Optional
 	NetworkIP *string `json:"networkIp,omitempty" tf:"network_ip,omitempty"`
 
+	// Reference to a Network to populate network.
 	// +kubebuilder:validation:Optional
 	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
 
+	// Selector for a Network to populate network.
 	// +kubebuilder:validation:Optional
 	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
 
@@ -557,9 +559,11 @@ type NetworkInterfaceParameters struct {
 	// +kubebuilder:validation:Optional
 	SubnetworkProject *string `json:"subnetworkProject,omitempty" tf:"subnetwork_project,omitempty"`
 
+	// Reference to a Subnetwork to populate subnetwork.
 	// +kubebuilder:validation:Optional
 	SubnetworkRef *v1.Reference `json:"subnetworkRef,omitempty" tf:"-"`
 
+	// Selector for a Subnetwork to populate subnetwork.
 	// +kubebuilder:validation:Optional
 	SubnetworkSelector *v1.Selector `json:"subnetworkSelector,omitempty" tf:"-"`
 }
@@ -670,9 +674,11 @@ type ServiceAccountParameters struct {
 	// +kubebuilder:validation:Optional
 	Email *string `json:"email,omitempty" tf:"email,omitempty"`
 
+	// Reference to a ServiceAccount in cloudplatform to populate email.
 	// +kubebuilder:validation:Optional
 	EmailRef *v1.Reference `json:"emailRef,omitempty" tf:"-"`
 
+	// Selector for a ServiceAccount in cloudplatform to populate email.
 	// +kubebuilder:validation:Optional
 	EmailSelector *v1.Selector `json:"emailSelector,omitempty" tf:"-"`
 

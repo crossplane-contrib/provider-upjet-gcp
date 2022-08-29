@@ -64,9 +64,11 @@ type TopicIAMBindingParameters struct {
 	// +kubebuilder:validation:Optional
 	Topic *string `json:"topic,omitempty" tf:"topic,omitempty"`
 
+	// Reference to a Topic to populate topic.
 	// +kubebuilder:validation:Optional
 	TopicRef *v1.Reference `json:"topicRef,omitempty" tf:"-"`
 
+	// Selector for a Topic to populate topic.
 	// +kubebuilder:validation:Optional
 	TopicSelector *v1.Selector `json:"topicSelector,omitempty" tf:"-"`
 }

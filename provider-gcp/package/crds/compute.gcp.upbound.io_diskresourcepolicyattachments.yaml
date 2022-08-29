@@ -71,7 +71,7 @@ spec:
                       policies are attached to.
                     type: string
                   diskRef:
-                    description: A Reference to a named object.
+                    description: Reference to a Disk in compute to populate disk.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -105,7 +105,7 @@ spec:
                     - name
                     type: object
                   diskSelector:
-                    description: A Selector selects an object.
+                    description: Selector for a Disk in compute to populate disk.
                     properties:
                       matchControllerRef:
                         description: MatchControllerRef ensures an object with the
@@ -150,7 +150,8 @@ spec:
                       snapshot creation. Do not specify the self link.
                     type: string
                   nameRef:
-                    description: A Reference to a named object.
+                    description: Reference to a ResourcePolicy in compute to populate
+                      name.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -184,7 +185,8 @@ spec:
                     - name
                     type: object
                   nameSelector:
-                    description: A Selector selects an object.
+                    description: Selector for a ResourcePolicy in compute to populate
+                      name.
                     properties:
                       matchControllerRef:
                         description: MatchControllerRef ensures an object with the

@@ -56,9 +56,11 @@ type KeyRingIAMMemberParameters struct {
 	// +kubebuilder:validation:Optional
 	KeyRingID *string `json:"keyRingId,omitempty" tf:"key_ring_id,omitempty"`
 
+	// Reference to a KeyRing to populate keyRingId.
 	// +kubebuilder:validation:Optional
 	KeyRingIDRef *v1.Reference `json:"keyRingIdRef,omitempty" tf:"-"`
 
+	// Selector for a KeyRing to populate keyRingId.
 	// +kubebuilder:validation:Optional
 	KeyRingIDSelector *v1.Selector `json:"keyRingIdSelector,omitempty" tf:"-"`
 

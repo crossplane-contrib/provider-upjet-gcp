@@ -1,6 +1,8 @@
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: ExternalVPNGateway
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/externalvpngateway
   labels:
     testing.upbound.io/example-name: external_gateway
   name: external-gateway
@@ -17,6 +19,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: HaVPNGateway
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/externalvpngateway
   labels:
     testing.upbound.io/example-name: ha_gateway
   name: ha-gateway
@@ -32,6 +36,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: Network
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/externalvpngateway
   labels:
     testing.upbound.io/example-name: network
   name: network
@@ -45,6 +51,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: Router
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/externalvpngateway
   labels:
     testing.upbound.io/example-name: router1
   name: router1
@@ -61,6 +69,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: RouterInterface
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/externalvpngateway
   labels:
     testing.upbound.io/example-name: router1_interface1
   name: router1-interface1
@@ -77,6 +87,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: RouterInterface
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/externalvpngateway
   labels:
     testing.upbound.io/example-name: router1_interface2
   name: router1-interface2
@@ -93,6 +105,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: Subnetwork
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/externalvpngateway
   labels:
     testing.upbound.io/example-name: network_subnet1
   name: network-subnet1
@@ -109,6 +123,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: Subnetwork
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/externalvpngateway
   labels:
     testing.upbound.io/example-name: network_subnet2
   name: network-subnet2

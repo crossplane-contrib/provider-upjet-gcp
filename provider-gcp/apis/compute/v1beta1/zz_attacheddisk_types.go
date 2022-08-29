@@ -49,9 +49,11 @@ type AttachedDiskParameters struct {
 	// +kubebuilder:validation:Optional
 	Disk *string `json:"disk,omitempty" tf:"disk,omitempty"`
 
+	// Reference to a Disk in compute to populate disk.
 	// +kubebuilder:validation:Optional
 	DiskRef *v1.Reference `json:"diskRef,omitempty" tf:"-"`
 
+	// Selector for a Disk in compute to populate disk.
 	// +kubebuilder:validation:Optional
 	DiskSelector *v1.Selector `json:"diskSelector,omitempty" tf:"-"`
 
@@ -65,9 +67,11 @@ type AttachedDiskParameters struct {
 	// +kubebuilder:validation:Optional
 	Instance *string `json:"instance,omitempty" tf:"instance,omitempty"`
 
+	// Reference to a Instance in compute to populate instance.
 	// +kubebuilder:validation:Optional
 	InstanceRef *v1.Reference `json:"instanceRef,omitempty" tf:"-"`
 
+	// Selector for a Instance in compute to populate instance.
 	// +kubebuilder:validation:Optional
 	InstanceSelector *v1.Selector `json:"instanceSelector,omitempty" tf:"-"`
 

@@ -1,6 +1,8 @@
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: Route
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/route
   labels:
     testing.upbound.io/example-name: default
   name: default
@@ -18,6 +20,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: Network
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/route
   labels:
     testing.upbound.io/example-name: default
   name: default

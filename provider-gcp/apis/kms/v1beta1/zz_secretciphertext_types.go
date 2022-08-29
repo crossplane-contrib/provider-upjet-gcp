@@ -52,9 +52,11 @@ type SecretCiphertextParameters struct {
 	// +kubebuilder:validation:Optional
 	CryptoKey *string `json:"cryptoKey,omitempty" tf:"crypto_key,omitempty"`
 
+	// Reference to a CryptoKey in kms to populate cryptoKey.
 	// +kubebuilder:validation:Optional
 	CryptoKeyRef *v1.Reference `json:"cryptoKeyRef,omitempty" tf:"-"`
 
+	// Selector for a CryptoKey in kms to populate cryptoKey.
 	// +kubebuilder:validation:Optional
 	CryptoKeySelector *v1.Selector `json:"cryptoKeySelector,omitempty" tf:"-"`
 

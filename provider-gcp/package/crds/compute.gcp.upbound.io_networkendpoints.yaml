@@ -74,7 +74,7 @@ spec:
                       The instance must be in the same zone of network endpoint group.
                     type: string
                   instanceRef:
-                    description: A Reference to a named object.
+                    description: Reference to a Instance in compute to populate instance.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -108,7 +108,7 @@ spec:
                     - name
                     type: object
                   instanceSelector:
-                    description: A Selector selects an object.
+                    description: Selector for a Instance in compute to populate instance.
                     properties:
                       matchControllerRef:
                         description: MatchControllerRef ensures an object with the
@@ -157,7 +157,8 @@ spec:
                       of. The network endpoint group this endpoint is part of.
                     type: string
                   networkEndpointGroupRef:
-                    description: A Reference to a named object.
+                    description: Reference to a NetworkEndpointGroup in compute to
+                      populate networkEndpointGroup.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -191,7 +192,8 @@ spec:
                     - name
                     type: object
                   networkEndpointGroupSelector:
-                    description: A Selector selects an object.
+                    description: Selector for a NetworkEndpointGroup in compute to
+                      populate networkEndpointGroup.
                     properties:
                       matchControllerRef:
                         description: MatchControllerRef ensures an object with the

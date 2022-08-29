@@ -607,9 +607,11 @@ type PathMatcherParameters struct {
 	// +kubebuilder:validation:Optional
 	DefaultService *string `json:"defaultService,omitempty" tf:"default_service,omitempty"`
 
+	// Reference to a RegionBackendService in compute to populate defaultService.
 	// +kubebuilder:validation:Optional
 	DefaultServiceRef *v1.Reference `json:"defaultServiceRef,omitempty" tf:"-"`
 
+	// Selector for a RegionBackendService in compute to populate defaultService.
 	// +kubebuilder:validation:Optional
 	DefaultServiceSelector *v1.Selector `json:"defaultServiceSelector,omitempty" tf:"-"`
 
@@ -697,9 +699,11 @@ type PathRuleParameters struct {
 	// +kubebuilder:validation:Optional
 	Service *string `json:"service,omitempty" tf:"service,omitempty"`
 
+	// Reference to a RegionBackendService in compute to populate service.
 	// +kubebuilder:validation:Optional
 	ServiceRef *v1.Reference `json:"serviceRef,omitempty" tf:"-"`
 
+	// Selector for a RegionBackendService in compute to populate service.
 	// +kubebuilder:validation:Optional
 	ServiceSelector *v1.Selector `json:"serviceSelector,omitempty" tf:"-"`
 
@@ -810,9 +814,11 @@ type RegionURLMapParameters struct {
 	// +kubebuilder:validation:Optional
 	DefaultService *string `json:"defaultService,omitempty" tf:"default_service,omitempty"`
 
+	// Reference to a RegionBackendService in compute to populate defaultService.
 	// +kubebuilder:validation:Optional
 	DefaultServiceRef *v1.Reference `json:"defaultServiceRef,omitempty" tf:"-"`
 
+	// Selector for a RegionBackendService in compute to populate defaultService.
 	// +kubebuilder:validation:Optional
 	DefaultServiceSelector *v1.Selector `json:"defaultServiceSelector,omitempty" tf:"-"`
 
@@ -889,9 +895,11 @@ type RequestMirrorPolicyParameters struct {
 	// +kubebuilder:validation:Optional
 	BackendService *string `json:"backendService,omitempty" tf:"backend_service,omitempty"`
 
+	// Reference to a RegionBackendService in compute to populate backendService.
 	// +kubebuilder:validation:Optional
 	BackendServiceRef *v1.Reference `json:"backendServiceRef,omitempty" tf:"-"`
 
+	// Selector for a RegionBackendService in compute to populate backendService.
 	// +kubebuilder:validation:Optional
 	BackendServiceSelector *v1.Selector `json:"backendServiceSelector,omitempty" tf:"-"`
 }
@@ -1294,9 +1302,11 @@ type RouteRulesParameters struct {
 	// +kubebuilder:validation:Optional
 	Service *string `json:"service,omitempty" tf:"service,omitempty"`
 
+	// Reference to a RegionBackendService in compute to populate service.
 	// +kubebuilder:validation:Optional
 	ServiceRef *v1.Reference `json:"serviceRef,omitempty" tf:"-"`
 
+	// Selector for a RegionBackendService in compute to populate service.
 	// +kubebuilder:validation:Optional
 	ServiceSelector *v1.Selector `json:"serviceSelector,omitempty" tf:"-"`
 
@@ -1446,9 +1456,11 @@ type TestParameters struct {
 	// +kubebuilder:validation:Optional
 	Service *string `json:"service,omitempty" tf:"service,omitempty"`
 
+	// Reference to a RegionBackendService in compute to populate service.
 	// +kubebuilder:validation:Optional
 	ServiceRef *v1.Reference `json:"serviceRef,omitempty" tf:"-"`
 
+	// Selector for a RegionBackendService in compute to populate service.
 	// +kubebuilder:validation:Optional
 	ServiceSelector *v1.Selector `json:"serviceSelector,omitempty" tf:"-"`
 }
@@ -1626,9 +1638,11 @@ type WeightedBackendServicesParameters struct {
 	// +kubebuilder:validation:Optional
 	BackendService *string `json:"backendService,omitempty" tf:"backend_service,omitempty"`
 
+	// Reference to a RegionBackendService in compute to populate backendService.
 	// +kubebuilder:validation:Optional
 	BackendServiceRef *v1.Reference `json:"backendServiceRef,omitempty" tf:"-"`
 
+	// Selector for a RegionBackendService in compute to populate backendService.
 	// +kubebuilder:validation:Optional
 	BackendServiceSelector *v1.Selector `json:"backendServiceSelector,omitempty" tf:"-"`
 

@@ -51,9 +51,11 @@ type NetworkEndpointParameters struct {
 	// +kubebuilder:validation:Optional
 	Instance *string `json:"instance,omitempty" tf:"instance,omitempty"`
 
+	// Reference to a Instance in compute to populate instance.
 	// +kubebuilder:validation:Optional
 	InstanceRef *v1.Reference `json:"instanceRef,omitempty" tf:"-"`
 
+	// Selector for a Instance in compute to populate instance.
 	// +kubebuilder:validation:Optional
 	InstanceSelector *v1.Selector `json:"instanceSelector,omitempty" tf:"-"`
 
@@ -63,9 +65,11 @@ type NetworkEndpointParameters struct {
 	// +kubebuilder:validation:Optional
 	NetworkEndpointGroup *string `json:"networkEndpointGroup,omitempty" tf:"network_endpoint_group,omitempty"`
 
+	// Reference to a NetworkEndpointGroup in compute to populate networkEndpointGroup.
 	// +kubebuilder:validation:Optional
 	NetworkEndpointGroupRef *v1.Reference `json:"networkEndpointGroupRef,omitempty" tf:"-"`
 
+	// Selector for a NetworkEndpointGroup in compute to populate networkEndpointGroup.
 	// +kubebuilder:validation:Optional
 	NetworkEndpointGroupSelector *v1.Selector `json:"networkEndpointGroupSelector,omitempty" tf:"-"`
 

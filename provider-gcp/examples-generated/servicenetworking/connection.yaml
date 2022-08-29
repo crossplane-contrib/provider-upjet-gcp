@@ -1,6 +1,8 @@
 apiVersion: servicenetworking.gcp.upbound.io/v1beta1
 kind: Connection
 metadata:
+  annotations:
+    meta.upbound.io/example-id: servicenetworking/v1beta1/connection
   labels:
     testing.upbound.io/example-name: foobar
   name: foobar
@@ -18,6 +20,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: GlobalAddress
 metadata:
+  annotations:
+    meta.upbound.io/example-id: servicenetworking/v1beta1/connection
   labels:
     testing.upbound.io/example-name: private_ip_alloc
   name: private-ip-alloc
@@ -35,6 +39,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: Network
 metadata:
+  annotations:
+    meta.upbound.io/example-id: servicenetworking/v1beta1/connection
   labels:
     testing.upbound.io/example-name: peering_network
   name: peering-network

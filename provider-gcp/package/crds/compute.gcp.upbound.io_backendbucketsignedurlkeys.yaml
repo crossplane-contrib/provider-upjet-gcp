@@ -70,7 +70,8 @@ spec:
                       backend bucket this signed URL key belongs.
                     type: string
                   backendBucketRef:
-                    description: A Reference to a named object.
+                    description: Reference to a BackendBucket in compute to populate
+                      backendBucket.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -104,7 +105,8 @@ spec:
                     - name
                     type: object
                   backendBucketSelector:
-                    description: A Selector selects an object.
+                    description: Selector for a BackendBucket in compute to populate
+                      backendBucket.
                     properties:
                       matchControllerRef:
                         description: MatchControllerRef ensures an object with the

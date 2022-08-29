@@ -83,7 +83,7 @@ spec:
                   name:
                     type: string
                   nameRef:
-                    description: A Reference to a named object.
+                    description: Reference to a RegionDisk to populate name.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -117,7 +117,7 @@ spec:
                     - name
                     type: object
                   nameSelector:
-                    description: A Selector selects an object.
+                    description: Selector for a RegionDisk to populate name.
                     properties:
                       matchControllerRef:
                         description: MatchControllerRef ensures an object with the

@@ -61,9 +61,11 @@ type TargetPoolParameters struct {
 	// +kubebuilder:validation:Optional
 	HealthChecks []*string `json:"healthChecks,omitempty" tf:"health_checks,omitempty"`
 
+	// References to HTTPHealthCheck to populate healthChecks.
 	// +kubebuilder:validation:Optional
 	HealthChecksRefs []v1.Reference `json:"healthChecksRefs,omitempty" tf:"-"`
 
+	// Selector for a list of HTTPHealthCheck to populate healthChecks.
 	// +kubebuilder:validation:Optional
 	HealthChecksSelector *v1.Selector `json:"healthChecksSelector,omitempty" tf:"-"`
 

@@ -1,6 +1,8 @@
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: RegionAutoscaler
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/regionautoscaler
   labels:
     testing.upbound.io/example-name: foobar
   name: foobar
@@ -22,6 +24,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: InstanceTemplate
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/regionautoscaler
   labels:
     testing.upbound.io/example-name: foobar
   name: foobar
@@ -53,6 +57,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: RegionInstanceGroupManager
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/regionautoscaler
   labels:
     testing.upbound.io/example-name: foobar
   name: foobar
@@ -74,6 +80,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: TargetPool
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/regionautoscaler
   labels:
     testing.upbound.io/example-name: foobar
   name: foobar

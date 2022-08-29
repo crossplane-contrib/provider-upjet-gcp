@@ -307,9 +307,11 @@ type IPConfigurationParameters struct {
 	// +kubebuilder:validation:Optional
 	PrivateNetwork *string `json:"privateNetwork,omitempty" tf:"private_network,omitempty"`
 
+	// Reference to a Network in compute to populate privateNetwork.
 	// +kubebuilder:validation:Optional
 	PrivateNetworkRef *v1.Reference `json:"privateNetworkRef,omitempty" tf:"-"`
 
+	// Selector for a Network in compute to populate privateNetwork.
 	// +kubebuilder:validation:Optional
 	PrivateNetworkSelector *v1.Selector `json:"privateNetworkSelector,omitempty" tf:"-"`
 

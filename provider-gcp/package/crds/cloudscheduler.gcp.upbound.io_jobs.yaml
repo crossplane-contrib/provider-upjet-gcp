@@ -281,7 +281,8 @@ spec:
                             PublishRequest.name, e.g. ''projects/my-project/topics/my-topic''.'
                           type: string
                         topicNameRef:
-                          description: A Reference to a named object.
+                          description: Reference to a Topic in pubsub to populate
+                            topicName.
                           properties:
                             name:
                               description: Name of the referenced object.
@@ -316,7 +317,8 @@ spec:
                           - name
                           type: object
                         topicNameSelector:
-                          description: A Selector selects an object.
+                          description: Selector for a Topic in pubsub to populate
+                            topicName.
                           properties:
                             matchControllerRef:
                               description: MatchControllerRef ensures an object with

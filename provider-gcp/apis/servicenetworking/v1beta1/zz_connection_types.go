@@ -41,9 +41,11 @@ type ConnectionParameters struct {
 	// +kubebuilder:validation:Optional
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
+	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
 	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
 
+	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
 	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
 
@@ -55,9 +57,11 @@ type ConnectionParameters struct {
 	// +kubebuilder:validation:Optional
 	ReservedPeeringRanges []*string `json:"reservedPeeringRanges,omitempty" tf:"reserved_peering_ranges,omitempty"`
 
+	// References to GlobalAddress in compute to populate reservedPeeringRanges.
 	// +kubebuilder:validation:Optional
 	ReservedPeeringRangesRefs []v1.Reference `json:"reservedPeeringRangesRefs,omitempty" tf:"-"`
 
+	// Selector for a list of GlobalAddress in compute to populate reservedPeeringRanges.
 	// +kubebuilder:validation:Optional
 	ReservedPeeringRangesSelector *v1.Selector `json:"reservedPeeringRangesSelector,omitempty" tf:"-"`
 

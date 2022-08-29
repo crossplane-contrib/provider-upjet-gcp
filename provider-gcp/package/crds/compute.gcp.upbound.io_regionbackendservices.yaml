@@ -151,7 +151,8 @@ spec:
                             a partial URL."
                           type: string
                         groupRef:
-                          description: A Reference to a named object.
+                          description: Reference to a RegionInstanceGroupManager to
+                            populate group.
                           properties:
                             name:
                               description: Name of the referenced object.
@@ -186,7 +187,8 @@ spec:
                           - name
                           type: object
                         groupSelector:
-                          description: A Selector selects an object.
+                          description: Selector for a RegionInstanceGroupManager to
+                            populate group.
                           properties:
                             matchControllerRef:
                               description: MatchControllerRef ensures an object with
@@ -672,6 +674,7 @@ spec:
                       type: string
                     type: array
                   healthChecksRefs:
+                    description: References to RegionHealthCheck to populate healthChecks.
                     items:
                       description: A Reference to a named object.
                       properties:
@@ -708,7 +711,8 @@ spec:
                       type: object
                     type: array
                   healthChecksSelector:
-                    description: A Selector selects an object.
+                    description: Selector for a list of RegionHealthCheck to populate
+                      healthChecks.
                     properties:
                       matchControllerRef:
                         description: MatchControllerRef ensures an object with the

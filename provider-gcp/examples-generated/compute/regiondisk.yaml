@@ -1,6 +1,8 @@
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: RegionDisk
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/regiondisk
   labels:
     testing.upbound.io/example-name: regiondisk
   name: regiondisk
@@ -19,6 +21,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: Disk
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/regiondisk
   labels:
     testing.upbound.io/example-name: disk
   name: disk

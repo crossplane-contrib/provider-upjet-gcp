@@ -1,6 +1,8 @@
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: GlobalNetworkEndpointGroup
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/globalnetworkendpointgroup
   labels:
     testing.upbound.io/example-name: neg
   name: neg

@@ -1,6 +1,8 @@
 apiVersion: storage.gcp.upbound.io/v1beta1
 kind: BucketAccessControl
 metadata:
+  annotations:
+    meta.upbound.io/example-id: storage/v1beta1/bucketaccesscontrol
   labels:
     testing.upbound.io/example-name: public_rule
   name: public-rule
@@ -17,6 +19,8 @@ spec:
 apiVersion: storage.gcp.upbound.io/v1beta1
 kind: Bucket
 metadata:
+  annotations:
+    meta.upbound.io/example-id: storage/v1beta1/bucketaccesscontrol
   labels:
     testing.upbound.io/example-name: bucket
   name: bucket

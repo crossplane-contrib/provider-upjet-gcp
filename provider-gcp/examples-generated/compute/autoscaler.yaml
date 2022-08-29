@@ -1,6 +1,8 @@
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: Autoscaler
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/autoscaler
   labels:
     testing.upbound.io/example-name: default
   name: default
@@ -26,6 +28,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: InstanceGroupManager
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/autoscaler
   labels:
     testing.upbound.io/example-name: default
   name: default
@@ -47,6 +51,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: InstanceTemplate
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/autoscaler
   labels:
     testing.upbound.io/example-name: default
   name: default
@@ -78,6 +84,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: TargetPool
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/autoscaler
   labels:
     testing.upbound.io/example-name: default
   name: default

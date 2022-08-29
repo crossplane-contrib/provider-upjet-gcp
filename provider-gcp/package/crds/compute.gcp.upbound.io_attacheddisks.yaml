@@ -83,7 +83,7 @@ spec:
                       name or self_link of the disk that will be attached.
                     type: string
                   diskRef:
-                    description: A Reference to a named object.
+                    description: Reference to a Disk in compute to populate disk.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -117,7 +117,7 @@ spec:
                     - name
                     type: object
                   diskSelector:
-                    description: A Selector selects an object.
+                    description: Selector for a Disk in compute to populate disk.
                     properties:
                       matchControllerRef:
                         description: MatchControllerRef ensures an object with the
@@ -167,7 +167,7 @@ spec:
                       defined as properties on the resource or provider.
                     type: string
                   instanceRef:
-                    description: A Reference to a named object.
+                    description: Reference to a Instance in compute to populate instance.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -201,7 +201,7 @@ spec:
                     - name
                     type: object
                   instanceSelector:
-                    description: A Selector selects an object.
+                    description: Selector for a Instance in compute to populate instance.
                     properties:
                       matchControllerRef:
                         description: MatchControllerRef ensures an object with the

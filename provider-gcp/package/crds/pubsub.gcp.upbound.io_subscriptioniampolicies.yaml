@@ -77,7 +77,7 @@ spec:
                       policy to.
                     type: string
                   subscriptionRef:
-                    description: A Reference to a named object.
+                    description: Reference to a Subscription to populate subscription.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -111,7 +111,7 @@ spec:
                     - name
                     type: object
                   subscriptionSelector:
-                    description: A Selector selects an object.
+                    description: Selector for a Subscription to populate subscription.
                     properties:
                       matchControllerRef:
                         description: MatchControllerRef ensures an object with the

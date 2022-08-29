@@ -70,9 +70,11 @@ type RegionTargetHTTPProxyParameters struct {
 	// +kubebuilder:validation:Optional
 	URLMap *string `json:"urlMap,omitempty" tf:"url_map,omitempty"`
 
+	// Reference to a RegionURLMap in compute to populate urlMap.
 	// +kubebuilder:validation:Optional
 	URLMapRef *v1.Reference `json:"urlMapRef,omitempty" tf:"-"`
 
+	// Selector for a RegionURLMap in compute to populate urlMap.
 	// +kubebuilder:validation:Optional
 	URLMapSelector *v1.Selector `json:"urlMapSelector,omitempty" tf:"-"`
 }

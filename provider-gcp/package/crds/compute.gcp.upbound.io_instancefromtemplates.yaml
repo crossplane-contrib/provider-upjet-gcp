@@ -307,7 +307,7 @@ spec:
                           description: The private IP address assigned to the instance.
                           type: string
                         networkRef:
-                          description: A Reference to a named object.
+                          description: Reference to a Network to populate network.
                           properties:
                             name:
                               description: Name of the referenced object.
@@ -342,7 +342,7 @@ spec:
                           - name
                           type: object
                         networkSelector:
-                          description: A Selector selects an object.
+                          description: Selector for a Network to populate network.
                           properties:
                             matchControllerRef:
                               description: MatchControllerRef ensures an object with
@@ -404,7 +404,7 @@ spec:
                           description: The project in which the subnetwork belongs.
                           type: string
                         subnetworkRef:
-                          description: A Reference to a named object.
+                          description: Reference to a Subnetwork to populate subnetwork.
                           properties:
                             name:
                               description: Name of the referenced object.
@@ -439,7 +439,7 @@ spec:
                           - name
                           type: object
                         subnetworkSelector:
-                          description: A Selector selects an object.
+                          description: Selector for a Subnetwork to populate subnetwork.
                           properties:
                             matchControllerRef:
                               description: MatchControllerRef ensures an object with
@@ -615,7 +615,7 @@ spec:
                       to create the instance based on.
                     type: string
                   sourceInstanceTemplateRef:
-                    description: A Reference to a named object.
+                    description: Reference to a InstanceTemplate to populate sourceInstanceTemplate.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -649,7 +649,7 @@ spec:
                     - name
                     type: object
                   sourceInstanceTemplateSelector:
-                    description: A Selector selects an object.
+                    description: Selector for a InstanceTemplate to populate sourceInstanceTemplate.
                     properties:
                       matchControllerRef:
                         description: MatchControllerRef ensures an object with the

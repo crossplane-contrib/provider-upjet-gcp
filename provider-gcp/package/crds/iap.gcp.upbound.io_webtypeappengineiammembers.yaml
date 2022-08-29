@@ -68,7 +68,8 @@ spec:
                   appId:
                     type: string
                   appIdRef:
-                    description: A Reference to a named object.
+                    description: Reference to a Application in appengine to populate
+                      appId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -102,7 +103,8 @@ spec:
                     - name
                     type: object
                   appIdSelector:
-                    description: A Selector selects an object.
+                    description: Selector for a Application in appengine to populate
+                      appId.
                     properties:
                       matchControllerRef:
                         description: MatchControllerRef ensures an object with the

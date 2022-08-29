@@ -111,9 +111,11 @@ type ReservationConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	ThroughputReservation *string `json:"throughputReservation,omitempty" tf:"throughput_reservation,omitempty"`
 
+	// Reference to a LiteReservation to populate throughputReservation.
 	// +kubebuilder:validation:Optional
 	ThroughputReservationRef *v1.Reference `json:"throughputReservationRef,omitempty" tf:"-"`
 
+	// Selector for a LiteReservation to populate throughputReservation.
 	// +kubebuilder:validation:Optional
 	ThroughputReservationSelector *v1.Selector `json:"throughputReservationSelector,omitempty" tf:"-"`
 }

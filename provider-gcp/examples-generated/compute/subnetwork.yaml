@@ -1,6 +1,8 @@
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: Subnetwork
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/subnetwork
   labels:
     testing.upbound.io/example-name: network-with-private-secondary-ip-ranges
   name: network-with-private-secondary-ip-ranges
@@ -20,6 +22,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: Network
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/subnetwork
   labels:
     testing.upbound.io/example-name: custom-test
   name: custom-test

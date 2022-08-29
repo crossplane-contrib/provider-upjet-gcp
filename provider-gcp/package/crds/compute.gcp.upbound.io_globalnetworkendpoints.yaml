@@ -78,7 +78,8 @@ spec:
                       part of.
                     type: string
                   globalNetworkEndpointGroupRef:
-                    description: A Reference to a named object.
+                    description: Reference to a GlobalNetworkEndpointGroup in compute
+                      to populate globalNetworkEndpointGroup.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -112,7 +113,8 @@ spec:
                     - name
                     type: object
                   globalNetworkEndpointGroupSelector:
-                    description: A Selector selects an object.
+                    description: Selector for a GlobalNetworkEndpointGroup in compute
+                      to populate globalNetworkEndpointGroup.
                     properties:
                       matchControllerRef:
                         description: MatchControllerRef ensures an object with the
