@@ -266,6 +266,13 @@ var externalNameConfigs = map[string]config.ExternalName{
 	// Imported by using the following format: projects/{{project}}/occurrences/{{name}}
 	// "google_container_analysis_occurrence": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/occurrences/{{ .external_name }}"),
 
+	// containeraws
+	//
+	// Imported by using the following format: projects/my-gcp-project/locations/us-east1-a/clusters/my-cluster
+	"google_container_aws_cluster": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/clusters/{{ .external_name }}"),
+	// Imported by using the following format: my-gcp-project/us-east1-a/my-cluster/main-pool
+	"google_container_aws_node_pool": config.TemplatedStringAsIdentifier("name", "{{ .setup.configuration.project }}/{{ .parameters.location }}/{{ .parameters.cluster }}/{{ .external_name }}"),
+
 	// containerregistry
 	//
 	// This resource can not be imported. The resource will create a bucket if missing, and do nothing with any bucket it finds
