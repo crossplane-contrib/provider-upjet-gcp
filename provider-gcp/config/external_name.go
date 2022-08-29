@@ -260,6 +260,11 @@ var externalNameConfigs = map[string]config.ExternalName{
 	// Imported by using the following format: my-gcp-project/us-east1-a/my-cluster/main-pool
 	"google_container_node_pool": containerNodePool(),
 
+	// containerregistry
+	//
+	// This resource can not be imported. The resource will create a bucket if missing, and do nothing with any bucket it finds
+	"google_container_registry": config.IdentifierFromProvider,
+
 	// dns
 	//
 	// Imported by using the following format: projects/{{project}}/managedZones/{{name}}
