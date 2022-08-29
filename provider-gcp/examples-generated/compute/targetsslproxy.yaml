@@ -1,0 +1,64 @@
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: TargetSSLProxy
+metadata:
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    backendServiceSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    sslCertificatesRefs:
+    - name: default
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: BackendService
+metadata:
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    healthChecksRefs:
+    - name: default
+    protocol: SSL
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: HealthCheck
+metadata:
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    checkIntervalSec: 1
+    tcpHealthCheck:
+    - port: "443"
+    timeoutSec: 1
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: SSLCertificate
+metadata:
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    certificateSecretRef:
+      key: attribute.certificate.crt
+      name: example-secret
+      namespace: upbound-system
+    privateKeySecretRef:
+      key: attribute.private.key
+      name: example-secret
+      namespace: upbound-system
+
+---
+

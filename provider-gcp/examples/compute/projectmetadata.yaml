@@ -1,0 +1,15 @@
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: ProjectMetadata
+metadata:
+  labels:
+    testing.upbound.io/example-name: project-metadata
+  annotations:
+    upjet.upbound.io/manual-intervention: "This resource manages all project-level metadata including project-level ssh keys. Keys unset in config but set on the server will be removed"
+  name: project-metadata
+spec:
+  deletionPolicy: Orphan
+  forProvider:
+    metadata:
+      "13": "42"
+      fizz: buzz
+      foo: bar

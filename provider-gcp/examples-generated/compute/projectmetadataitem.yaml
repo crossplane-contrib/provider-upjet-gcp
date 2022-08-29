@@ -1,0 +1,13 @@
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: ProjectMetadataItem
+metadata:
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    key: my_metadata
+    value: my_value
+
+---
+

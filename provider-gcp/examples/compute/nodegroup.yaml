@@ -1,0 +1,32 @@
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: NodeGroup
+metadata:
+  labels:
+    testing.upbound.io/example-name: nodes
+  annotations:
+    upjet.upbound.io/manual-intervention: "Quota 'C2_CPUS' exceeded. Limit: 24.0 in region us-central1"
+  name: nodes
+spec:
+  forProvider:
+    description: Example node group
+    nodeTemplateSelector:
+      matchLabels:
+        testing.upbound.io/example-name: soletenant-tmpl
+    size: 1
+    zone: us-central1-a
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: NodeTemplate
+metadata:
+  labels:
+    testing.upbound.io/example-name: soletenant-tmpl
+  annotations:
+    upjet.upbound.io/manual-intervention: "Quota 'C2_CPUS' exceeded. Limit: 24.0 in region us-central1"
+  name: soletenant-tmpl
+spec:
+  forProvider:
+    # https://cloud.google.com/compute/docs/nodes/sole-tenant-nodes#node_types
+    nodeType: c2-node-60-240
+    region: us-central1

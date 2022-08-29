@@ -1,0 +1,28 @@
+apiVersion: appengine.gcp.upbound.io/v1beta1
+kind: Application
+metadata:
+  labels:
+    testing.upbound.io/example-name: app
+  name: app
+spec:
+  forProvider:
+    locationId: us-central
+    projectSelector:
+      matchLabels:
+        testing.upbound.io/example-name: my_project
+
+---
+
+apiVersion: cloudplatform.gcp.upbound.io/v1beta1
+kind: Project
+metadata:
+  labels:
+    testing.upbound.io/example-name: my_project
+  name: my-project
+spec:
+  forProvider:
+    orgId: "1234567"
+    projectId: your-project-id
+
+---
+

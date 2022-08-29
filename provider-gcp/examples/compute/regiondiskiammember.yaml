@@ -1,0 +1,35 @@
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: RegionDiskIAMMember
+metadata:
+  labels:
+    testing.upbound.io/example-name: region-disk-member
+  annotations:
+    upjet.upbound.io/manual-intervention: "Members are dependent on the project and leak sensitive information"
+  name: region-disk-member
+spec:
+  forProvider:
+    nameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: region-disk-member
+    member: "user:jane@example.com"
+    role: "roles/viewer"
+    region: us-central1
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: RegionDisk
+metadata:
+  labels:
+    testing.upbound.io/example-name: region-disk-member
+  annotations:
+    upjet.upbound.io/manual-intervention: "Members are dependent on the project and leak sensitive information"
+  name: region-disk-member
+spec:
+  forProvider:
+    physicalBlockSizeBytes: 4096
+    region: us-central1
+    replicaZones:
+    - us-central1-a
+    - us-central1-f
+    type: pd-ssd

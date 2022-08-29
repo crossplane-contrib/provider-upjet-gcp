@@ -22,6 +22,7 @@ import (
 	"github.com/upbound/official-providers/provider-gcp/config/dataflow"
 	"github.com/upbound/official-providers/provider-gcp/config/dataproc"
 	"github.com/upbound/official-providers/provider-gcp/config/dns"
+	"github.com/upbound/official-providers/provider-gcp/config/iap"
 	"github.com/upbound/official-providers/provider-gcp/config/identityplatform"
 	"github.com/upbound/official-providers/provider-gcp/config/kms"
 	"github.com/upbound/official-providers/provider-gcp/config/project"
@@ -58,6 +59,10 @@ var skipList = []string{
 	"google_kms_crypto_key_iam_binding",
 	"google_kms_key_ring_iam_policy",
 	"google_kms_key_ring_iam_binding",
+	"google_cloudfunctions_function_iam_policy",
+	"google_cloudfunctions_function_iam_binding",
+	"google_compute_region_disk_iam_policy",
+	"google_compute_region_disk_iam_binding",
 }
 
 // GetProvider returns provider configuration
@@ -91,6 +96,7 @@ func GetProvider() *tjconfig.Provider {
 		dataflow.Configure,
 		dataproc.Configure,
 		dns.Configure,
+		iap.Configure,
 		identityplatform.Configure,
 		project.Configure,
 		pubsub.Configure,
