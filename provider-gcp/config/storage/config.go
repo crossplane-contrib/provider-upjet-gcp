@@ -33,4 +33,11 @@ func Configure(p *config.Provider) {
 			Type: "Bucket",
 		}
 	})
+
+	p.AddResourceConfigurator("google_storage_bucket_object", func(r *config.Resource) {
+		r.TerraformResource.Schema["content"].Sensitive = false
+		r.References["bucket"] = config.Reference{
+			Type: "Bucket",
+		}
+	})
 }

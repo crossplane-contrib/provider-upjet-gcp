@@ -1,0 +1,15 @@
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: RouterInterface
+metadata:
+  labels:
+    testing.upbound.io/example-name: router-interface
+  annotations:
+    upjet.upbound.io/manual-intervention: "Terraform error: Provider produced inconsistent result after apply"
+  name: router-interface
+spec:
+  forProvider:
+    ipRange: 169.254.1.1/30
+    name: router-interface
+    region: us-central1
+    router: router-interface
+    vpnTunnel: router-interface

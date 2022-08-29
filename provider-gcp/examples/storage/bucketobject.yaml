@@ -1,0 +1,27 @@
+apiVersion: storage.gcp.upbound.io/v1beta1
+kind: BucketObject
+metadata:
+  labels:
+    testing.upbound.io/example-name: bucket-object
+  name: bucket-object
+spec:
+  forProvider:
+    bucketSelector: 
+      matchLabels:
+        testing.upbound.io/example-name: bucket-object
+    name: bucket-object
+    content: "Upbound!"
+    contentType: text/plain
+
+---
+
+apiVersion: storage.gcp.upbound.io/v1beta1
+kind: Bucket
+metadata:
+  labels:
+    testing.upbound.io/example-name: bucket-object
+  name: bucket-object-34234
+spec:
+  forProvider:
+    location: US
+    storageClass: MULTI_REGIONAL

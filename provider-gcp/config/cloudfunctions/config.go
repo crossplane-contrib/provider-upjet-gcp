@@ -18,5 +18,18 @@ func Configure(p *config.Provider) {
 			Schema["build_environment_variables"].Elem = schema.TypeString
 		r.TerraformResource.
 			Schema["environment_variables"].Elem = schema.TypeString
+		config.MarkAsRequired(r.TerraformResource, "region")
+	})
+
+	p.AddResourceConfigurator("google_cloudfunctions_function_iam_binding", func(r *config.Resource) {
+		r.References["cloud_function"] = config.Reference{
+			Type: "Function",
+		}
+	})
+
+	p.AddResourceConfigurator("google_cloudfunctions_function_iam_member", func(r *config.Resource) {
+		r.References["cloud_function"] = config.Reference{
+			Type: "Function",
+		}
 	})
 }

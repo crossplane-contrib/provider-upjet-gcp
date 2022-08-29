@@ -10,6 +10,8 @@ import (
 	"github.com/upbound/upjet/pkg/controller"
 
 	application "github.com/upbound/official-providers/provider-gcp/internal/controller/appengine/application"
+	function "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudfunctions/function"
+	functioniammember "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudfunctions/functioniammember"
 	folder "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/folder"
 	organizationiamauditconfig "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/organizationiamauditconfig"
 	organizationiambinding "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/organizationiambinding"
@@ -50,7 +52,12 @@ import (
 	diskresourcepolicyattachment "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/diskresourcepolicyattachment"
 	externalvpngateway "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/externalvpngateway"
 	firewall "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/firewall"
+	firewallpolicy "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/firewallpolicy"
+	firewallpolicyassociation "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/firewallpolicyassociation"
+	firewallpolicyrule "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/firewallpolicyrule"
+	forwardingrule "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/forwardingrule"
 	globaladdress "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/globaladdress"
+	globalforwardingrule "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/globalforwardingrule"
 	globalnetworkendpoint "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/globalnetworkendpoint"
 	globalnetworkendpointgroup "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/globalnetworkendpointgroup"
 	havpngateway "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/havpngateway"
@@ -65,6 +72,7 @@ import (
 	instancefromtemplate "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/instancefromtemplate"
 	instancegroup "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/instancegroup"
 	instancegroupmanager "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/instancegroupmanager"
+	instancegroupnamedport "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/instancegroupnamedport"
 	instanceiambinding "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/instanceiambinding"
 	instanceiammember "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/instanceiammember"
 	instanceiampolicy "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/instanceiampolicy"
@@ -75,11 +83,37 @@ import (
 	networkendpoint "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/networkendpoint"
 	networkendpointgroup "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/networkendpointgroup"
 	networkpeering "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/networkpeering"
+	networkpeeringroutesconfig "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/networkpeeringroutesconfig"
+	nodegroup "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/nodegroup"
+	nodetemplate "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/nodetemplate"
+	packetmirroring "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/packetmirroring"
+	perinstanceconfig "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/perinstanceconfig"
+	projectdefaultnetworktier "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/projectdefaultnetworktier"
+	projectmetadata "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/projectmetadata"
+	projectmetadataitem "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/projectmetadataitem"
+	regionautoscaler "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/regionautoscaler"
+	regionbackendservice "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/regionbackendservice"
+	regiondisk "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/regiondisk"
+	regiondiskiammember "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/regiondiskiammember"
+	regiondiskresourcepolicyattachment "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/regiondiskresourcepolicyattachment"
+	regionhealthcheck "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/regionhealthcheck"
+	regioninstancegroupmanager "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/regioninstancegroupmanager"
+	regionnetworkendpointgroup "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/regionnetworkendpointgroup"
+	regionperinstanceconfig "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/regionperinstanceconfig"
+	regionsslcertificate "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/regionsslcertificate"
+	regiontargethttpproxy "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/regiontargethttpproxy"
+	regiontargethttpsproxy "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/regiontargethttpsproxy"
+	regionurlmap "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/regionurlmap"
+	reservation "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/reservation"
 	resourcepolicy "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/resourcepolicy"
+	route "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/route"
 	router "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/router"
+	routerinterface "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/routerinterface"
 	routernat "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/routernat"
+	sslcertificate "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/sslcertificate"
 	subnetwork "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/subnetwork"
 	targetpool "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/targetpool"
+	targetsslproxy "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/targetsslproxy"
 	cluster "github.com/upbound/official-providers/provider-gcp/internal/controller/container/cluster"
 	nodepool "github.com/upbound/official-providers/provider-gcp/internal/controller/container/nodepool"
 	managedzone "github.com/upbound/official-providers/provider-gcp/internal/controller/dns/managedzone"
@@ -122,6 +156,7 @@ import (
 	user "github.com/upbound/official-providers/provider-gcp/internal/controller/sql/user"
 	bucket "github.com/upbound/official-providers/provider-gcp/internal/controller/storage/bucket"
 	bucketaccesscontrol "github.com/upbound/official-providers/provider-gcp/internal/controller/storage/bucketaccesscontrol"
+	bucketobject "github.com/upbound/official-providers/provider-gcp/internal/controller/storage/bucketobject"
 )
 
 // Setup creates all controllers with the supplied logger and adds them to
@@ -129,6 +164,8 @@ import (
 func Setup(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
 		application.Setup,
+		function.Setup,
+		functioniammember.Setup,
 		folder.Setup,
 		organizationiamauditconfig.Setup,
 		organizationiambinding.Setup,
@@ -169,7 +206,12 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		diskresourcepolicyattachment.Setup,
 		externalvpngateway.Setup,
 		firewall.Setup,
+		firewallpolicy.Setup,
+		firewallpolicyassociation.Setup,
+		firewallpolicyrule.Setup,
+		forwardingrule.Setup,
 		globaladdress.Setup,
+		globalforwardingrule.Setup,
 		globalnetworkendpoint.Setup,
 		globalnetworkendpointgroup.Setup,
 		havpngateway.Setup,
@@ -184,6 +226,7 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		instancefromtemplate.Setup,
 		instancegroup.Setup,
 		instancegroupmanager.Setup,
+		instancegroupnamedport.Setup,
 		instanceiambinding.Setup,
 		instanceiammember.Setup,
 		instanceiampolicy.Setup,
@@ -194,11 +237,37 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		networkendpoint.Setup,
 		networkendpointgroup.Setup,
 		networkpeering.Setup,
+		networkpeeringroutesconfig.Setup,
+		nodegroup.Setup,
+		nodetemplate.Setup,
+		packetmirroring.Setup,
+		perinstanceconfig.Setup,
+		projectdefaultnetworktier.Setup,
+		projectmetadata.Setup,
+		projectmetadataitem.Setup,
+		regionautoscaler.Setup,
+		regionbackendservice.Setup,
+		regiondisk.Setup,
+		regiondiskiammember.Setup,
+		regiondiskresourcepolicyattachment.Setup,
+		regionhealthcheck.Setup,
+		regioninstancegroupmanager.Setup,
+		regionnetworkendpointgroup.Setup,
+		regionperinstanceconfig.Setup,
+		regionsslcertificate.Setup,
+		regiontargethttpproxy.Setup,
+		regiontargethttpsproxy.Setup,
+		regionurlmap.Setup,
+		reservation.Setup,
 		resourcepolicy.Setup,
+		route.Setup,
 		router.Setup,
+		routerinterface.Setup,
 		routernat.Setup,
+		sslcertificate.Setup,
 		subnetwork.Setup,
 		targetpool.Setup,
+		targetsslproxy.Setup,
 		cluster.Setup,
 		nodepool.Setup,
 		managedzone.Setup,
@@ -241,6 +310,7 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		user.Setup,
 		bucket.Setup,
 		bucketaccesscontrol.Setup,
+		bucketobject.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {
 			return err

@@ -1,0 +1,48 @@
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: FirewallPolicyAssociation
+metadata:
+  labels:
+    testing.upbound.io/example-name: firewall-policy-assoc
+  annotations:
+    upjet.upbound.io/manual-intervention: "Required organizational level permissions"
+  name: firewall-policy-assoc
+spec:
+  forProvider:
+    attachmentTargetSelector:
+      matchLabels:
+        testing.upbound.io/example-name: firewall-policy-assoc
+    firewallPolicySelector:
+      matchLabels:
+        testing.upbound.io/example-name: firewall-policy-assoc
+    name: firewall-policy-assoc
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: FirewallPolicy
+metadata:
+  labels:
+    testing.upbound.io/example-name: firewall-policy-assoc
+  annotations:
+    upjet.upbound.io/manual-intervention: "Required organizational level permissions"
+  name: firewall-policy-assoc
+spec:
+  forProvider:
+    description: Example Resource
+    parent: organizations/12345
+    shortName: firewall-policy-assoc
+
+---
+
+apiVersion: cloudplatform.gcp.upbound.io/v1beta1
+kind: Folder
+metadata:
+  labels:
+    testing.upbound.io/example-name: firewall-policy-assoc
+  annotations:
+    upjet.upbound.io/manual-intervention: "Required organizational level permissions"
+  name: firewall-policy-assoc
+spec:
+  forProvider:
+    displayName: firewall-policy-assoc
+    parent: organizations/1234567
