@@ -20,7 +20,7 @@ spec:
   forProvider:
     clusterSelector:
       matchLabels:
-        testing.upbound.io/example-name: primary
+        testing.upbound.io/example-name: example_gke_cluster
     location: us-central1
     nodeConfig:
     - machineType: e2-medium
@@ -29,7 +29,7 @@ spec:
       preemptible: true
       serviceAccountSelector:
         matchLabels:
-          testing.upbound.io/example-name: example_gke_cluster
+          testing.upbound.io/example-name: example_gke_cluster_sa
     nodeCount: 1
 ---
 apiVersion: cloudplatform.gcp.upbound.io/v1beta1
@@ -40,5 +40,5 @@ metadata:
   name: example-gke-cluster-sa
 spec:
   forProvider:
-    displayName: Service Account for Upbound Example GKE Cluster
+    displayName: Service Account for Upbound example GKE Cluster
 

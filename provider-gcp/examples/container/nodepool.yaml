@@ -2,13 +2,13 @@ apiVersion: container.gcp.upbound.io/v1beta1
 kind: NodePool
 metadata:
   labels:
-    testing.upbound.io/example-name: primary_preemptible_nodes
-  name: primary-preemptible-nodes
+    testing.upbound.io/example-name: example_gke_nodepool
+  name: example-gke-nodepool
 spec:
   forProvider:
     clusterSelector:
       matchLabels:
-        testing.upbound.io/example-name: primary
+        testing.upbound.io/example-name: example_gke_cluster
     nodeConfig:
     - machineType: e2-medium
       oauthScopes:
@@ -16,34 +16,5 @@ spec:
       preemptible: true
       serviceAccountSelector:
         matchLabels:
-          testing.upbound.io/example-name: default
+          testing.upbound.io/example-name: example_gke_cluster_sa
     nodeCount: 1
-
----
-
-apiVersion: container.gcp.upbound.io/v1beta1
-kind: Cluster
-metadata:
-  labels:
-    testing.upbound.io/example-name: primary
-  name: primary
-spec:
-  forProvider:
-    initialNodeCount: 1
-    location: us-central1
-    removeDefaultNodePool: true
-
----
-
-apiVersion: cloudplatform.gcp.upbound.io/v1beta1
-kind: ServiceAccount
-metadata:
-  labels:
-    testing.upbound.io/example-name: default
-  name: default
-spec:
-  forProvider:
-    displayName: Service Account
-
----
-
