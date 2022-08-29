@@ -1,0 +1,32 @@
+apiVersion: identityplatform.gcp.upbound.io/v1beta1
+kind: InboundSAMLConfig
+metadata:
+  labels:
+    testing.upbound.io/example-name: inbound-saml-config
+  name: inbound-saml-config
+spec:
+  forProvider:
+    name: saml.inbound-saml-config
+    displayName: Display Name
+    idpConfig:
+    - idpCertificates:
+      - x509CertificateSecretRef:
+          key: rsa_cert.pem
+          name: inbound-saml-config
+          namespace: upbound-system
+      idpEntityId: tf-idp
+      signRequest: true
+      ssoUrl: https://example.com
+    spConfig:
+    - callbackUri: https://example.com
+      spEntityId: tf-sp
+
+---
+
+apiVersion: v1
+data:
+  rsa_cert.pem: dXBib3VuZA==
+kind: Secret
+metadata:
+  name: inbound-saml-config
+  namespace: upbound-system

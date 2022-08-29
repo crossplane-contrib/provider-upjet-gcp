@@ -123,6 +123,13 @@ import (
 	webiammember "github.com/upbound/official-providers/provider-gcp/internal/controller/iap/webiammember"
 	webtypeappengineiammember "github.com/upbound/official-providers/provider-gcp/internal/controller/iap/webtypeappengineiammember"
 	webtypecomputeiammember "github.com/upbound/official-providers/provider-gcp/internal/controller/iap/webtypecomputeiammember"
+	defaultsupportedidpconfig "github.com/upbound/official-providers/provider-gcp/internal/controller/identityplatform/defaultsupportedidpconfig"
+	inboundsamlconfig "github.com/upbound/official-providers/provider-gcp/internal/controller/identityplatform/inboundsamlconfig"
+	oauthidpconfig "github.com/upbound/official-providers/provider-gcp/internal/controller/identityplatform/oauthidpconfig"
+	tenant "github.com/upbound/official-providers/provider-gcp/internal/controller/identityplatform/tenant"
+	tenantdefaultsupportedidpconfig "github.com/upbound/official-providers/provider-gcp/internal/controller/identityplatform/tenantdefaultsupportedidpconfig"
+	tenantinboundsamlconfig "github.com/upbound/official-providers/provider-gcp/internal/controller/identityplatform/tenantinboundsamlconfig"
+	tenantoauthidpconfig "github.com/upbound/official-providers/provider-gcp/internal/controller/identityplatform/tenantoauthidpconfig"
 	cryptokey "github.com/upbound/official-providers/provider-gcp/internal/controller/kms/cryptokey"
 	cryptokeyiammember "github.com/upbound/official-providers/provider-gcp/internal/controller/kms/cryptokeyiammember"
 	keyring "github.com/upbound/official-providers/provider-gcp/internal/controller/kms/keyring"
@@ -277,6 +284,13 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		webiammember.Setup,
 		webtypeappengineiammember.Setup,
 		webtypecomputeiammember.Setup,
+		defaultsupportedidpconfig.Setup,
+		inboundsamlconfig.Setup,
+		oauthidpconfig.Setup,
+		tenant.Setup,
+		tenantdefaultsupportedidpconfig.Setup,
+		tenantinboundsamlconfig.Setup,
+		tenantoauthidpconfig.Setup,
 		cryptokey.Setup,
 		cryptokeyiammember.Setup,
 		keyring.Setup,

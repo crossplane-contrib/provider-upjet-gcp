@@ -33,6 +33,7 @@ import (
 	v1beta1container "github.com/upbound/official-providers/provider-gcp/apis/container/v1beta1"
 	v1beta1dns "github.com/upbound/official-providers/provider-gcp/apis/dns/v1beta1"
 	v1beta1iap "github.com/upbound/official-providers/provider-gcp/apis/iap/v1beta1"
+	v1beta1identityplatform "github.com/upbound/official-providers/provider-gcp/apis/identityplatform/v1beta1"
 	v1beta1kms "github.com/upbound/official-providers/provider-gcp/apis/kms/v1beta1"
 	v1beta1monitoring "github.com/upbound/official-providers/provider-gcp/apis/monitoring/v1beta1"
 	v1beta1pubsub "github.com/upbound/official-providers/provider-gcp/apis/pubsub/v1beta1"
@@ -59,6 +60,7 @@ func init() {
 		v1beta1container.SchemeBuilder.AddToScheme,
 		v1beta1dns.SchemeBuilder.AddToScheme,
 		v1beta1iap.SchemeBuilder.AddToScheme,
+		v1beta1identityplatform.SchemeBuilder.AddToScheme,
 		v1beta1kms.SchemeBuilder.AddToScheme,
 		v1beta1monitoring.SchemeBuilder.AddToScheme,
 		v1beta1pubsub.SchemeBuilder.AddToScheme,
