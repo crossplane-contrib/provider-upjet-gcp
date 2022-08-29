@@ -9,6 +9,7 @@ import (
 
 	"github.com/upbound/upjet/pkg/controller"
 
+	application "github.com/upbound/official-providers/provider-gcp/internal/controller/appengine/application"
 	folder "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/folder"
 	organizationiamauditconfig "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/organizationiamauditconfig"
 	organizationiambinding "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/organizationiambinding"
@@ -84,6 +85,10 @@ import (
 	managedzone "github.com/upbound/official-providers/provider-gcp/internal/controller/dns/managedzone"
 	policy "github.com/upbound/official-providers/provider-gcp/internal/controller/dns/policy"
 	recordset "github.com/upbound/official-providers/provider-gcp/internal/controller/dns/recordset"
+	webbackendserviceiammember "github.com/upbound/official-providers/provider-gcp/internal/controller/iap/webbackendserviceiammember"
+	webiammember "github.com/upbound/official-providers/provider-gcp/internal/controller/iap/webiammember"
+	webtypeappengineiammember "github.com/upbound/official-providers/provider-gcp/internal/controller/iap/webtypeappengineiammember"
+	webtypecomputeiammember "github.com/upbound/official-providers/provider-gcp/internal/controller/iap/webtypecomputeiammember"
 	cryptokey "github.com/upbound/official-providers/provider-gcp/internal/controller/kms/cryptokey"
 	cryptokeyiammember "github.com/upbound/official-providers/provider-gcp/internal/controller/kms/cryptokeyiammember"
 	keyring "github.com/upbound/official-providers/provider-gcp/internal/controller/kms/keyring"
@@ -123,6 +128,7 @@ import (
 // the supplied manager.
 func Setup(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		application.Setup,
 		folder.Setup,
 		organizationiamauditconfig.Setup,
 		organizationiambinding.Setup,
@@ -198,6 +204,10 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		managedzone.Setup,
 		policy.Setup,
 		recordset.Setup,
+		webbackendserviceiammember.Setup,
+		webiammember.Setup,
+		webtypeappengineiammember.Setup,
+		webtypecomputeiammember.Setup,
 		cryptokey.Setup,
 		cryptokeyiammember.Setup,
 		keyring.Setup,

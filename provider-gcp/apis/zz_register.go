@@ -22,7 +22,8 @@ package apis
 import (
 	"k8s.io/apimachinery/pkg/runtime"
 
-	v1beta1 "github.com/upbound/official-providers/provider-gcp/apis/cloudplatform/v1beta1"
+	v1beta1 "github.com/upbound/official-providers/provider-gcp/apis/appengine/v1beta1"
+	v1beta1cloudplatform "github.com/upbound/official-providers/provider-gcp/apis/cloudplatform/v1beta1"
 	v1beta1cloudrun "github.com/upbound/official-providers/provider-gcp/apis/cloudrun/v1beta1"
 	v1beta1cloudscheduler "github.com/upbound/official-providers/provider-gcp/apis/cloudscheduler/v1beta1"
 	v1beta1cloudtasks "github.com/upbound/official-providers/provider-gcp/apis/cloudtasks/v1beta1"
@@ -30,6 +31,7 @@ import (
 	v1beta1compute "github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1"
 	v1beta1container "github.com/upbound/official-providers/provider-gcp/apis/container/v1beta1"
 	v1beta1dns "github.com/upbound/official-providers/provider-gcp/apis/dns/v1beta1"
+	v1beta1iap "github.com/upbound/official-providers/provider-gcp/apis/iap/v1beta1"
 	v1beta1kms "github.com/upbound/official-providers/provider-gcp/apis/kms/v1beta1"
 	v1beta1monitoring "github.com/upbound/official-providers/provider-gcp/apis/monitoring/v1beta1"
 	v1beta1pubsub "github.com/upbound/official-providers/provider-gcp/apis/pubsub/v1beta1"
@@ -46,6 +48,7 @@ func init() {
 	// Register the types with the Scheme so the components can map objects to GroupVersionKinds and back
 	AddToSchemes = append(AddToSchemes,
 		v1beta1.SchemeBuilder.AddToScheme,
+		v1beta1cloudplatform.SchemeBuilder.AddToScheme,
 		v1beta1cloudrun.SchemeBuilder.AddToScheme,
 		v1beta1cloudscheduler.SchemeBuilder.AddToScheme,
 		v1beta1cloudtasks.SchemeBuilder.AddToScheme,
@@ -53,6 +56,7 @@ func init() {
 		v1beta1compute.SchemeBuilder.AddToScheme,
 		v1beta1container.SchemeBuilder.AddToScheme,
 		v1beta1dns.SchemeBuilder.AddToScheme,
+		v1beta1iap.SchemeBuilder.AddToScheme,
 		v1beta1kms.SchemeBuilder.AddToScheme,
 		v1beta1monitoring.SchemeBuilder.AddToScheme,
 		v1beta1pubsub.SchemeBuilder.AddToScheme,

@@ -1,0 +1,50 @@
+apiVersion: iap.gcp.upbound.io/v1beta1
+kind: WebBackendServiceIAMMember
+metadata:
+  labels:
+    testing.upbound.io/example-name: web-backend-service-iam
+  annotations:
+    upjet.upbound.io/manual-intervention: "Members are dependent on the project and leak sensitive information"
+  name: web-backend-service-iam
+spec:
+  forProvider:
+    member: "user:jane@example.com"
+    role: "roles/viewer"
+    webBackendServiceSelector:
+      matchLabels:
+        testing.upbound.io/example-name: web-backend-service-iam
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: HealthCheck
+metadata:
+  labels:
+    testing.upbound.io/example-name: web-backend-service-iam
+  annotations:
+    upjet.upbound.io/manual-intervention: "Members are dependent on the project and leak sensitive information"
+  name: web-backend-service-iam 
+spec:
+  forProvider:
+    checkIntervalSec: 1
+    httpHealthCheck:
+      - port: 80
+    timeoutSec: 1
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: BackendService
+metadata:
+  labels:
+    testing.upbound.io/example-name: web-backend-service-iam  
+  annotations:
+    upjet.upbound.io/manual-intervention: "Members are dependent on the project and leak sensitive information"
+  name: web-backend-service-iam
+spec:
+  forProvider:
+    # TODO wait for #599 to be merged
+    # healthChecksRefs:
+    # - name: web-backend-service-iam-iam
+    healthChecks:
+    - https://www.googleapis.com/compute/v1/projects/crossplane-playground/global/healthChecks/web-backend-service-iam

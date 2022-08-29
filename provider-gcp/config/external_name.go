@@ -15,6 +15,11 @@ import (
 )
 
 var externalNameConfigs = map[string]config.ExternalName{
+	// appengine
+	//
+	// Imported by using the following format: your-project-id
+	"google_app_engine_application": config.IdentifierFromProvider,
+
 	// composer
 	//
 	// Imported by using the following format: projects/{{project}}/locations/{{region}}/environments/{{name}}
@@ -192,6 +197,17 @@ var externalNameConfigs = map[string]config.ExternalName{
 	"google_dns_policy": formattedIdentifierUserDefined("projects/%s/policies/%s", "project"),
 	// Imported by using the following format: projects/{{project}}/managedZones/{{zone}}/rrsets/{{name}}/{{type}}
 	"google_dns_record_set": config.IdentifierFromProvider,
+
+	// iap
+	//
+	// Imported by using the following format: projects/{{project}}/iap_web/compute/services/{{web_backend_service}} roles/iap.httpsResourceAccessor user:jane@example.com
+	"google_iap_web_backend_service_iam_member": config.IdentifierFromProvider,
+	// Imported by using the following format: projects/{{project}}/iap_web roles/iap.httpsResourceAccessor user:jane@example.com
+	"google_iap_web_iam_member": config.IdentifierFromProvider,
+	// Imported by using the following format: projects/{{project}}/iap_web/appengine-{{appId}} roles/iap.httpsResourceAccessor user:jane@example.com
+	"google_iap_web_type_app_engine_iam_member": config.IdentifierFromProvider,
+	// Imported by using the following format: projects/{{project}}/iap_web/compute roles/iap.httpsResourceAccessor user:jane@example.com
+	"google_iap_web_type_compute_iam_member": config.IdentifierFromProvider,
 
 	// kms
 	//
