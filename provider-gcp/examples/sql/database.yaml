@@ -1,8 +1,12 @@
 apiVersion: sql.gcp.upbound.io/v1beta1
 kind: Database
 metadata:
-  name: example-database
+  labels:
+    testing.upbound.io/example-name: example_database
+  # ${Rand...} is not valid YAML and is used with automated testing
+  name: example-database-${Rand.RFC1123Subdomain} 
 spec:
   forProvider:
-    instanceRef:
-      name: example-instance
+    instanceSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example_instance

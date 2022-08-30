@@ -1,12 +1,15 @@
 apiVersion: sql.gcp.upbound.io/v1beta1
 kind: SSLCert
 metadata:
-  name: example
+  labels:
+    testing.upbound.io/example-name: example_cert
+  name: example-cert
 spec:
   forProvider:
     commonName: client-name
-    instanceRef:
-      name: example-instance
+    instanceSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example_instance
   writeConnectionSecretToRef:
     name: example-sql-ssl-secret
     namespace: upbound-system
