@@ -2,8 +2,8 @@ apiVersion: compute.gcp.upbound.io/v1beta1
 kind: RouterNAT
 metadata:
   labels:
-    testing.upbound.io/example-name: nat
-  name: nat
+    testing.upbound.io/example-name: example_routernat
+  name: example-routernat-${Rand.RFC1123Subdomain}
 spec:
   forProvider:
     logConfig:
@@ -13,31 +13,32 @@ spec:
     region: us-central1
     routerSelector:
       matchLabels:
-        testing.upbound.io/example-name: router
+        testing.upbound.io/example-name: example_routernat_router
     sourceSubnetworkIpRangesToNat: ALL_SUBNETWORKS_ALL_IP_RANGES
 ---
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: Network
 metadata:
   labels:
-    testing.upbound.io/example-name: net
-  name: net
+    testing.upbound.io/example-name: example_routernat_network
+  name: example-routernat-network-${Rand.RFC1123Subdomain}
 spec:
-  forProvider: {}
+  forProvider:
+     autoCreateSubnetworks: false
 ---
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: Router
 metadata:
   labels:
-    testing.upbound.io/example-name: router
-  name: router
+    testing.upbound.io/example-name: example_routernat_router
+  name: example-routernat-router-${Rand.RFC1123Subdomain}
 spec:
   forProvider:
     bgp:
     - asn: 64514
     networkSelector:
       matchLabels:
-        testing.upbound.io/example-name: net
+        testing.upbound.io/example-name: example_routernat_network
     region: us-central1
 ---
 apiVersion: compute.gcp.upbound.io/v1beta1
@@ -45,11 +46,11 @@ kind: Subnetwork
 metadata:
   labels:
     testing.upbound.io/example-name: subnet
-  name: subnet
+  name: example-routernat-subnetwork-${Rand.RFC1123Subdomain}
 spec:
   forProvider:
     ipCidrRange: 10.0.0.0/16
     networkSelector:
       matchLabels:
-        testing.upbound.io/example-name: net
+        testing.upbound.io/example-name: example_routernat_network
     region: us-central1

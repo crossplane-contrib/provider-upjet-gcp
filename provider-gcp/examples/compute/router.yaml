@@ -1,7 +1,9 @@
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: Router
 metadata:
-  name: example
+  labels:
+    testing.upbound.io/example-name: example_router
+  name: example-router-${Rand.RFC1123Subdomain}
 spec:
   forProvider:
     region: us-central1
@@ -13,5 +15,15 @@ spec:
       - range: 1.2.3.4
       - range: 6.7.0.0/16
       asn: 64514
-    networkRef:
-      name: example
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example_router_network
+---
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Network
+metadata:
+  labels:
+    testing.upbound.io/example-name: example_router_network
+  name: example-router-network-${Rand.RFC1123Subdomain}
+spec:
+  forProvider: {}
