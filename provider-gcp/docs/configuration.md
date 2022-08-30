@@ -26,7 +26,7 @@ Apply the configuration with `kubectl apply -f`
 ```shell
 $ kubectl get providers
 NAME           INSTALLED   HEALTHY   PACKAGE                                       AGE
-provider-gcp   True        True      xpkg.upbound.io/upbound/provider-gcp:v0.4.1   15s
+provider-gcp   True        True      xpkg.upbound.io/upbound/provider-gcp:latest   15s
 ```
 
 View the Crossplane [Provider CRD definition](https://doc.crds.dev/github.com/crossplane/crossplane/pkg.crossplane.io/Provider/v1) to view all available `Provider` options.
