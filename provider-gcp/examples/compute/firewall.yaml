@@ -2,8 +2,8 @@ apiVersion: compute.gcp.upbound.io/v1beta1
 kind: Firewall
 metadata:
   labels:
-    testing.upbound.io/example-name: default
-  name: default
+    testing.upbound.io/example-name: example_firewall
+  name: example-firewall-${Rand.RFC1123Subdomain}
 spec:
   forProvider:
     allow:
@@ -15,7 +15,7 @@ spec:
       protocol: tcp
     networkSelector:
       matchLabels:
-        testing.upbound.io/example-name: default
+        testing.upbound.io/example-name: example_firewall_network
     sourceTags:
     - web
 ---
@@ -23,9 +23,7 @@ apiVersion: compute.gcp.upbound.io/v1beta1
 kind: Network
 metadata:
   labels:
-    testing.upbound.io/example-name: default
-  name: default
+    testing.upbound.io/example-name: example_firewall_network
+  name: example-firewall-network-${Rand.RFC1123Subdomain}
 spec:
   forProvider: {}
-  providerConfigRef:
-    name: default
