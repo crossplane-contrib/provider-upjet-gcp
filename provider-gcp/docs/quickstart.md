@@ -117,10 +117,10 @@ uxp-ca                                       Opaque                           3 
 xgql-tls                                     Opaque                           3      21m
 ```
 
-## Install the official GCP provider in to the managed control plane
+## Install the official GCP provider
 <!-- Use the marketplace button -->
 
-Install the official provider into the managed control plane with a Kubernetes configuration file. 
+Install the official provider into the Kubernetes cluster with a Kubernetes configuration file. 
 
 ```yaml
 apiVersion: pkg.crossplane.io/v1
