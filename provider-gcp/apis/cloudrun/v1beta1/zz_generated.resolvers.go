@@ -155,112 +155,12 @@ func (mg *Service) ResolveReferences(ctx context.Context, c client.Reader) error
 	return nil
 }
 
-// ResolveReferences of this ServiceIAMBinding.
-func (mg *ServiceIAMBinding) ResolveReferences(ctx context.Context, c client.Reader) error {
-	r := reference.NewAPIResolver(c, mg)
-
-	var rsp reference.ResolutionResponse
-	var err error
-
-	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Project),
-		Extract:      reference.ExternalName(),
-		Reference:    mg.Spec.ForProvider.ProjectRef,
-		Selector:     mg.Spec.ForProvider.ProjectSelector,
-		To: reference.To{
-			List:    &v1beta1.ProjectList{},
-			Managed: &v1beta1.Project{},
-		},
-	})
-	if err != nil {
-		return errors.Wrap(err, "mg.Spec.ForProvider.Project")
-	}
-	mg.Spec.ForProvider.Project = reference.ToPtrValue(rsp.ResolvedValue)
-	mg.Spec.ForProvider.ProjectRef = rsp.ResolvedReference
-
-	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Service),
-		Extract:      reference.ExternalName(),
-		Reference:    mg.Spec.ForProvider.ServiceRef,
-		Selector:     mg.Spec.ForProvider.ServiceSelector,
-		To: reference.To{
-			List:    &ServiceList{},
-			Managed: &Service{},
-		},
-	})
-	if err != nil {
-		return errors.Wrap(err, "mg.Spec.ForProvider.Service")
-	}
-	mg.Spec.ForProvider.Service = reference.ToPtrValue(rsp.ResolvedValue)
-	mg.Spec.ForProvider.ServiceRef = rsp.ResolvedReference
-
-	return nil
-}
-
 // ResolveReferences of this ServiceIAMMember.
 func (mg *ServiceIAMMember) ResolveReferences(ctx context.Context, c client.Reader) error {
 	r := reference.NewAPIResolver(c, mg)
 
 	var rsp reference.ResolutionResponse
 	var err error
-
-	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Project),
-		Extract:      reference.ExternalName(),
-		Reference:    mg.Spec.ForProvider.ProjectRef,
-		Selector:     mg.Spec.ForProvider.ProjectSelector,
-		To: reference.To{
-			List:    &v1beta1.ProjectList{},
-			Managed: &v1beta1.Project{},
-		},
-	})
-	if err != nil {
-		return errors.Wrap(err, "mg.Spec.ForProvider.Project")
-	}
-	mg.Spec.ForProvider.Project = reference.ToPtrValue(rsp.ResolvedValue)
-	mg.Spec.ForProvider.ProjectRef = rsp.ResolvedReference
-
-	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Service),
-		Extract:      reference.ExternalName(),
-		Reference:    mg.Spec.ForProvider.ServiceRef,
-		Selector:     mg.Spec.ForProvider.ServiceSelector,
-		To: reference.To{
-			List:    &ServiceList{},
-			Managed: &Service{},
-		},
-	})
-	if err != nil {
-		return errors.Wrap(err, "mg.Spec.ForProvider.Service")
-	}
-	mg.Spec.ForProvider.Service = reference.ToPtrValue(rsp.ResolvedValue)
-	mg.Spec.ForProvider.ServiceRef = rsp.ResolvedReference
-
-	return nil
-}
-
-// ResolveReferences of this ServiceIAMPolicy.
-func (mg *ServiceIAMPolicy) ResolveReferences(ctx context.Context, c client.Reader) error {
-	r := reference.NewAPIResolver(c, mg)
-
-	var rsp reference.ResolutionResponse
-	var err error
-
-	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Location),
-		Extract:      resource.ExtractParamPath("location", false),
-		Reference:    mg.Spec.ForProvider.LocationRef,
-		Selector:     mg.Spec.ForProvider.LocationSelector,
-		To: reference.To{
-			List:    &ServiceList{},
-			Managed: &Service{},
-		},
-	})
-	if err != nil {
-		return errors.Wrap(err, "mg.Spec.ForProvider.Location")
-	}
-	mg.Spec.ForProvider.Location = reference.ToPtrValue(rsp.ResolvedValue)
-	mg.Spec.ForProvider.LocationRef = rsp.ResolvedReference
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Project),

@@ -1,9 +1,11 @@
 apiVersion: dns.gcp.upbound.io/v1beta1
 kind: Policy
 metadata:
-  name: example
   annotations:
-    upjet.upbound.io/manual-intervention: "One or more Networks must exist and match references set in spec.forProvider.networks[].networkRef.name"
+    meta.upbound.io/example-id: dns/v1beta1/policy
+  labels:
+    testing.upbound.io/example-name: policy
+  name: policy
 spec:
   forProvider:
     alternativeNameServerConfig:
@@ -14,5 +16,20 @@ spec:
     enableInboundForwarding: true
     enableLogging: true
     networks:
-    - networkRef:
-        name: example
+    - networkSelector:
+        matchLabels:
+          testing.upbound.io/example-name: policy
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Network
+metadata:
+  annotations:
+    meta.upbound.io/example-id: dns/v1beta1/policy
+  labels:
+    testing.upbound.io/example-name: policy
+  name: policy
+spec:
+  forProvider:
+    autoCreateSubnetworks: false

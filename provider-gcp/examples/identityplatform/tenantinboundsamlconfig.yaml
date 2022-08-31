@@ -1,6 +1,8 @@
 apiVersion: identityplatform.gcp.upbound.io/v1beta1
 kind: TenantInboundSAMLConfig
 metadata:
+  annotations:
+    meta.upbound.io/example-id: identityplatform/v1beta1/tenantinboundsamlconfig
   labels:
     testing.upbound.io/example-name: tenant-inbound-saml-config
   name: tenant-inbound-saml-config
@@ -31,6 +33,10 @@ data:
   rsa_cert.pem: dXBib3VuZA==
 kind: Secret
 metadata:
+  annotations:
+    meta.upbound.io/example-id: identityplatform/v1beta1/tenantinboundsamlconfig
+  labels:
+    testing.upbound.io/example-name: tenant-inbound-saml-config
   name: tenant-inbound-saml-config
   namespace: upbound-system
 
@@ -39,6 +45,8 @@ metadata:
 apiVersion: identityplatform.gcp.upbound.io/v1beta1
 kind: Tenant
 metadata:
+  annotations:
+    meta.upbound.io/example-id: identityplatform/v1beta1/tenantinboundsamlconfig
   labels:
     testing.upbound.io/example-name: tenant-inbound-saml-config
   name: tenant-inbound-saml-config

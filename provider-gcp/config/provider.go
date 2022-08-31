@@ -68,6 +68,8 @@ var skipList = []string{
 	"google_organization_iam_binding",
 	"google_service_account_iam_policy",
 	"google_service_account_iam_binding",
+	"google_cloud_run_service_iam_policy",
+	"google_cloud_run_service_iam_binding",
 }
 
 // GetProvider returns provider configuration

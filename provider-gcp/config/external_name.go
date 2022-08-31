@@ -73,10 +73,6 @@ var externalNameConfigs = map[string]config.ExternalName{
 	"google_cloud_run_domain_mapping": config.IdentifierFromProvider,
 	// Imported by using the following format: locations/{{location}}/namespaces/{{project}}/services/{{name}}
 	"google_cloud_run_service": formattedIdentifierUserDefined("locations/%s/namespaces/%s/services", "location", "project"),
-	// Imported by using the following format: projects/{{project}}/locations/{{location}}/services/{{service}}
-	"google_cloud_run_service_iam_policy": config.IdentifierFromProvider,
-	// Imported by using the following format: projects/{{project}}/locations/{{location}}/services/{{service}} roles/viewer
-	"google_cloud_run_service_iam_binding": config.IdentifierFromProvider,
 	// Imported by using the following format: projects/{{project}}/locations/{{location}}/services/{{service}} roles/viewer user:jane@example.com
 	"google_cloud_run_service_iam_member": config.IdentifierFromProvider,
 

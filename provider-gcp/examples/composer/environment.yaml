@@ -1,7 +1,11 @@
 apiVersion: composer.gcp.upbound.io/v1beta1
 kind: Environment
 metadata:
-  name: example
+  annotations:
+    meta.upbound.io/example-id: composer/v1beta1/environment
+  labels:
+    testing.upbound.io/example-name: composer-environment
+  name: composer-environment
 spec:
   forProvider:
     region: us-central1
