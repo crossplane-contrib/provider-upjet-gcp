@@ -1,51 +1,49 @@
 apiVersion: kms.gcp.upbound.io/v1beta1
 kind: CryptoKeyIAMMember
 metadata:
-  labels:
-    testing.upbound.io/example-name: example-cryptokeyiammember1
   annotations:
-    upjet.upbound.io/manual-intervention: "IAM member resource must exist first and be part of the Google workspace address configured for the project"
-  name: example-keyringiammember1
+    meta.upbound.io/example-id: kms/v1beta1/cryptokeyiammember
+  labels:
+    testing.upbound.io/example-name: crypto-key-iam-member
+  name: crypto-key-iam-member
 spec:
   forProvider:
-    # member: serviceAccount:example-xxxxx@project_name.iam.gserviceaccount.com
-    member: serviceAccount:example-23023@crossplane-playground.iam.gserviceaccount.com
-    # User can also be used
-    # member: user:example.name@example.com
+    member: "${data.google_iam_member.member}"
     role: "roles/editor"
     cryptoKeyIdSelector:
       matchLabels:
-        testing.upbound.io/example-name: example-crypto-key
+        testing.upbound.io/example-name: crypto-key-iam-member
 
 ---
 
+# By default, keys in Cloud KMS spend 24 hours in the Scheduled for destruction (soft deleted) state before the key material is logically deleted from the system
 apiVersion: kms.gcp.upbound.io/v1beta1
 kind: CryptoKey
 metadata:
-  labels:
-    testing.upbound.io/example-name: example-crypto-key
   annotations:
-    upjet.upbound.io/manual-intervention: "To prevent resource name collisions, key ring and key resources CANNOT be deleted. New names must be used for every test"
-  name: example-crypto-key
+    meta.upbound.io/example-id: kms/v1beta1/cryptokeyiammember
+  labels:
+    testing.upbound.io/example-name: crypto-key-iam-member
+  name: crypto-key-iam-member-${Rand.RFC1123Subdomain}
 spec:
   forProvider:
     keyRingSelector:
       matchLabels:
-        testing.upbound.io/example-name: example-keyring5
+        testing.upbound.io/example-name: crypto-key-iam-member
     rotationPeriod: 100000s
+    # The minimum duration is 24 hours for all keys, except for import-only keys which have a minimum duration of 0
+    destroyScheduledDuration: 86400s
 
 ---
 
 apiVersion: kms.gcp.upbound.io/v1beta1
 kind: KeyRing
 metadata:
-  labels:
-    testing.upbound.io/example-name: example-keyring5
   annotations:
-    upjet.upbound.io/manual-intervention: "To prevent resource name collisions, key ring and key resources CANNOT be deleted. New names must be used for every test"
-  name: example-keyring5
+    meta.upbound.io/example-id: kms/v1beta1/cryptokeyiammember
+  labels:
+    testing.upbound.io/example-name: crypto-key-iam-member
+  name: crypto-key-iam-member-${Rand.RFC1123Subdomain}
 spec:
   forProvider:
     location: global
-
-

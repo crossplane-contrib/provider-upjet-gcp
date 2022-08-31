@@ -402,7 +402,7 @@ func (mg *SecretCiphertext) GetTerraformResourceType() string {
 
 // GetConnectionDetailsMapping for this SecretCiphertext
 func (tr *SecretCiphertext) GetConnectionDetailsMapping() map[string]string {
-	return map[string]string{"additional_authenticated_data": "spec.forProvider.additionalAuthenticatedDataSecretRef", "plaintext": "spec.forProvider.plaintextSecretRef"}
+	return map[string]string{"additional_authenticated_data": "spec.forProvider.additionalAuthenticatedDataSecretRef"}
 }
 
 // GetObservation of this SecretCiphertext

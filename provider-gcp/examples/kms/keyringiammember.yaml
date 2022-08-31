@@ -1,32 +1,29 @@
 apiVersion: kms.gcp.upbound.io/v1beta1
 kind: KeyRingIAMMember
 metadata:
-  labels:
-    testing.upbound.io/example-name: example-keyringiammember1
   annotations:
-    upjet.upbound.io/manual-intervention: "IAM member resource must exist first and be part of the Google workspace address configured for the project"
-  name: example-keyringiammember1
+    meta.upbound.io/example-id: kms/v1beta1/keyringiammember
+  labels:
+    testing.upbound.io/example-name: keyring-iam-member
+  name: keyring-iam-member
 spec:
   forProvider:
-    member: serviceAccount:example-xxxxx@project_name.iam.gserviceaccount.com
-    # User can also be used
-    # member: user:example.name@example.com
+    member: "${data.google_iam_member.member}"
     role: "roles/editor"
     keyRingIdSelector:
       matchLabels:
-        testing.upbound.io/example-name: example-keyring5
+        testing.upbound.io/example-name: keyring-iam-member
 
 ---
 
 apiVersion: kms.gcp.upbound.io/v1beta1
 kind: KeyRing
 metadata:
-  labels:
-    testing.upbound.io/example-name: example-keyring5
   annotations:
-    upjet.upbound.io/manual-intervention: "To prevent resource name collisions, key ring and key resources CANNOT be deleted. New names must be used for every test. KeyRing can be reused between tests that require it as a dependency"
-  name: example-keyring5
+    meta.upbound.io/example-id: kms/v1beta1/keyringiammember
+  labels:
+    testing.upbound.io/example-name: keyring-iam-member
+  name: keyring-iam-member-${Rand.RFC1123Subdomain}
 spec:
   forProvider:
     location: global
-
