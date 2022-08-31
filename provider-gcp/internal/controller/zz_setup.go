@@ -138,13 +138,9 @@ import (
 	litetopic "github.com/upbound/official-providers/provider-gcp/internal/controller/pubsub/litetopic"
 	schema "github.com/upbound/official-providers/provider-gcp/internal/controller/pubsub/schema"
 	subscription "github.com/upbound/official-providers/provider-gcp/internal/controller/pubsub/subscription"
-	subscriptioniambinding "github.com/upbound/official-providers/provider-gcp/internal/controller/pubsub/subscriptioniambinding"
 	subscriptioniammember "github.com/upbound/official-providers/provider-gcp/internal/controller/pubsub/subscriptioniammember"
-	subscriptioniampolicy "github.com/upbound/official-providers/provider-gcp/internal/controller/pubsub/subscriptioniampolicy"
 	topic "github.com/upbound/official-providers/provider-gcp/internal/controller/pubsub/topic"
-	topiciambinding "github.com/upbound/official-providers/provider-gcp/internal/controller/pubsub/topiciambinding"
 	topiciammember "github.com/upbound/official-providers/provider-gcp/internal/controller/pubsub/topiciammember"
-	topiciampolicy "github.com/upbound/official-providers/provider-gcp/internal/controller/pubsub/topiciampolicy"
 	instanceredis "github.com/upbound/official-providers/provider-gcp/internal/controller/redis/instance"
 	secret "github.com/upbound/official-providers/provider-gcp/internal/controller/secretmanager/secret"
 	secretversion "github.com/upbound/official-providers/provider-gcp/internal/controller/secretmanager/secretversion"
@@ -292,13 +288,9 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		litetopic.Setup,
 		schema.Setup,
 		subscription.Setup,
-		subscriptioniambinding.Setup,
 		subscriptioniammember.Setup,
-		subscriptioniampolicy.Setup,
 		topic.Setup,
-		topiciambinding.Setup,
 		topiciammember.Setup,
-		topiciampolicy.Setup,
 		instanceredis.Setup,
 		secret.Setup,
 		secretversion.Setup,

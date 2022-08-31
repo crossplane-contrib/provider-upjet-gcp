@@ -55,26 +55,8 @@ func (l *SchemaList) GetItems() []resource.Managed {
 	return items
 }
 
-// GetItems of this SubscriptionIAMBindingList.
-func (l *SubscriptionIAMBindingList) GetItems() []resource.Managed {
-	items := make([]resource.Managed, len(l.Items))
-	for i := range l.Items {
-		items[i] = &l.Items[i]
-	}
-	return items
-}
-
 // GetItems of this SubscriptionIAMMemberList.
 func (l *SubscriptionIAMMemberList) GetItems() []resource.Managed {
-	items := make([]resource.Managed, len(l.Items))
-	for i := range l.Items {
-		items[i] = &l.Items[i]
-	}
-	return items
-}
-
-// GetItems of this SubscriptionIAMPolicyList.
-func (l *SubscriptionIAMPolicyList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
 	for i := range l.Items {
 		items[i] = &l.Items[i]
@@ -91,26 +73,8 @@ func (l *SubscriptionList) GetItems() []resource.Managed {
 	return items
 }
 
-// GetItems of this TopicIAMBindingList.
-func (l *TopicIAMBindingList) GetItems() []resource.Managed {
-	items := make([]resource.Managed, len(l.Items))
-	for i := range l.Items {
-		items[i] = &l.Items[i]
-	}
-	return items
-}
-
 // GetItems of this TopicIAMMemberList.
 func (l *TopicIAMMemberList) GetItems() []resource.Managed {
-	items := make([]resource.Managed, len(l.Items))
-	for i := range l.Items {
-		items[i] = &l.Items[i]
-	}
-	return items
-}
-
-// GetItems of this TopicIAMPolicyList.
-func (l *TopicIAMPolicyList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
 	for i := range l.Items {
 		items[i] = &l.Items[i]

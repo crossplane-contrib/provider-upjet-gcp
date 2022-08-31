@@ -311,18 +311,10 @@ var externalNameConfigs = map[string]config.ExternalName{
 	//
 	// Imported by using the following format: projects/{{project}}/topics/{{name}}
 	"google_pubsub_topic": formattedIdentifierUserDefined("projects/%s/topics", "project"),
-	// Imported by using the following format: projects/{{project}}/topics/{{topic}}
-	"google_pubsub_topic_iam_policy": config.IdentifierFromProvider,
-	// Imported by using the following format: projects/{{project}}/topics/{{topic}} roles/viewer
-	"google_pubsub_topic_iam_binding": config.IdentifierFromProvider,
 	// Imported by using the following format: projects/{{project}}/topics/{{topic}} roles/viewer user:jane@example.com
 	"google_pubsub_topic_iam_member": config.IdentifierFromProvider,
 	// Imported by using the following format: projects/{{project}}/subscriptions/{{name}}
 	"google_pubsub_subscription": formattedIdentifierUserDefined("projects/%s/subscriptions", "project"),
-	// Imported by using the following format: projects/{your-project-id}/subscriptions/{your-subscription-name}
-	"google_pubsub_subscription_iam_policy": config.IdentifierFromProvider,
-	// Imported by using the following format: projects/{your-project-id}/subscriptions/{your-subscription-name} roles/editor
-	"google_pubsub_subscription_iam_binding": config.IdentifierFromProvider,
 	// Imported by using the following format: projects/{your-project-id}/subscriptions/{your-subscription-name} roles/editor jane@example.com
 	"google_pubsub_subscription_iam_member": config.IdentifierFromProvider,
 	// Imported by using the following format: projects/{{project}}/locations/{{zone}}/topics/{{name}}
