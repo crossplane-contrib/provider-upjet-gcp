@@ -5,13 +5,12 @@ View the GCP Provider Documentation for details and configuration options.
 ## Quickstart
 This guide walks through the process to install Upbound Universal Crossplane and install the GCP official provider.
 
-To use this official provider, install Upbound Universal Crossplane into your Kubernetes cluster, install the `Provider`, apply a `ProviderConfiguration`, and create a *managed resource* in GCP via Kubernetes.
+To use this official provider, install Upbound Universal Crossplane into your Kubernetes cluster, install the `Provider`, apply a `ProviderConfig`, and create a *managed resource* in GCP via Kubernetes.
 
 ## Create an Upbound.io user account
 Create an account on [Upbound.io](https://accounts.upbound.io/register). 
 
-## Create an Upbound.io user account
-Create an account on [Upbound.io](https://accounts.upbound.io/register). 
+<!-- Find detailed instructions in the [account documentation](/getting-started/create-account). -->
 
 ## Install the Up command-line
 Download and install the Upbound `up` command-line.
@@ -128,7 +127,7 @@ kind: Provider
 metadata:
   name: provider-gcp
 spec:
-  package: xpkg.upbound.io/upbound/provider-gcp:v0.4.1
+  package: xpkg.upbound.io/upbound/provider-gcp:latest
   packagePullSecrets:
     - name: my-upbound-secret
 ```
@@ -142,7 +141,7 @@ After installing the provider, verify the install with `kubectl get providers`.
 ```shell
 $ kubectl get providers
 NAME           INSTALLED   HEALTHY   PACKAGE                                       AGE
-provider-gcp   True        True      xpkg.upbound.io/upbound/provider-gcp:v0.4.1   15s
+provider-gcp   True        True      xpkg.upbound.io/upbound/provider-gcp:latest   15s
 ```
 
 It may take up to 5 minutes to report `HEALTHY`.
@@ -186,7 +185,7 @@ Here is an example key file:
 Save this JSON file as `gcp-credentials.json`.
 
 ### Create a Kubernetes secret with GCP credentials
-Use `kubectl create secret -n upbound-system` to generate the Kubernetes secret object inside the managed control plane.
+Use `kubectl create secret -n upbound-system` to generate the Kubernetes secret object inside the Universal Crossplane cluster.
 
 `kubectl create secret generic gcp-secret -n upbound-system --from-file=creds=./gcp-credentials.json`
 
@@ -207,7 +206,7 @@ creds:  2334 bytes
 ## Create a ProviderConfig
 Create a `ProviderConfig` Kubernetes configuration file to attach the GCP credentials to the installed official provider.
 
-**Note:** the `ProviderConfg` must contain the correct GCP project ID. The project ID must match the `project_id` from the JSON key file.
+**Note:** the `ProviderConfig` must contain the correct GCP project ID. The project ID must match the `project_id` from the JSON key file.
 
 ```yaml
 apiVersion: gcp.upbound.io/v1beta1
@@ -226,7 +225,7 @@ spec:
 
 Apply this configuration with `kubectl apply -f`.
 
-**Note:** the `Providerconfig` value `spec.secretRef.name` must match the `name` of the secret in `kubectl get secrets -n upbound-system` and `spec.SecretRef.key` must match the value in the `Data` section of the secret.
+**Note:** the `ProviderConfig` value `spec.secretRef.name` must match the `name` of the secret in `kubectl get secrets -n upbound-system` and `spec.secretRef.key` must match the value in the `Data` section of the secret.
 
 Verify the `ProviderConfig` with `kubectl describe providerconfigs`. 
 
@@ -273,7 +272,7 @@ metadata:
   name: example
   labels:
   annotations:
-    crossplane.io/external-name: upbound-bucket-4a917c947
+    crossplane.io/external-name: <BUCKET NAME>
 spec:
   forProvider:
     location: US
