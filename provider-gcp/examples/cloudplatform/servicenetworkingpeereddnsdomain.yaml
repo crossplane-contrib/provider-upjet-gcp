@@ -1,11 +1,12 @@
 apiVersion: cloudplatform.gcp.upbound.io/v1beta1
 kind: ServiceNetworkingPeeredDNSDomain
 metadata:
-  labels:
-    testing.upbound.io/example-name: example
   annotations:
-    upjet.upbound.io/manual-intervention: "Requires a network in a consumer project"
-  name: example
+    meta.upbound.io/example-id: cloudplatform/v1beta1/servicenetworkingpeereddnsdomain
+    upjet.upbound.io/manual-intervention: "Requires a Network in a consumer project"
+  labels:
+    testing.upbound.io/example-name: service-networking-peered-dns-domain
+  name: service-networking-peered-dns-domain
 spec:
   forProvider:
     dnsSuffix: example.com.

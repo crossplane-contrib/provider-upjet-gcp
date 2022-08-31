@@ -14,21 +14,16 @@ import (
 	functioniammember "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudfunctions/functioniammember"
 	folder "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/folder"
 	organizationiamauditconfig "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/organizationiamauditconfig"
-	organizationiambinding "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/organizationiambinding"
 	organizationiamcustomrole "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/organizationiamcustomrole"
 	organizationiammember "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/organizationiammember"
 	project "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/project"
 	projectdefaultserviceaccounts "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/projectdefaultserviceaccounts"
 	projectiamauditconfig "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/projectiamauditconfig"
-	projectiambinding "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/projectiambinding"
 	projectiammember "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/projectiammember"
-	projectiampolicy "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/projectiampolicy"
 	projectservice "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/projectservice"
 	projectusageexportbucket "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/projectusageexportbucket"
 	serviceaccount "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/serviceaccount"
-	serviceaccountiambinding "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/serviceaccountiambinding"
 	serviceaccountiammember "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/serviceaccountiammember"
-	serviceaccountiampolicy "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/serviceaccountiampolicy"
 	serviceaccountkey "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/serviceaccountkey"
 	servicenetworkingpeereddnsdomain "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/servicenetworkingpeereddnsdomain"
 	domainmapping "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudrun/domainmapping"
@@ -175,21 +170,16 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		functioniammember.Setup,
 		folder.Setup,
 		organizationiamauditconfig.Setup,
-		organizationiambinding.Setup,
 		organizationiamcustomrole.Setup,
 		organizationiammember.Setup,
 		project.Setup,
 		projectdefaultserviceaccounts.Setup,
 		projectiamauditconfig.Setup,
-		projectiambinding.Setup,
 		projectiammember.Setup,
-		projectiampolicy.Setup,
 		projectservice.Setup,
 		projectusageexportbucket.Setup,
 		serviceaccount.Setup,
-		serviceaccountiambinding.Setup,
 		serviceaccountiammember.Setup,
-		serviceaccountiampolicy.Setup,
 		serviceaccountkey.Setup,
 		servicenetworkingpeereddnsdomain.Setup,
 		domainmapping.Setup,

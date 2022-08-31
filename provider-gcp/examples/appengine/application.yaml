@@ -1,12 +1,15 @@
 apiVersion: appengine.gcp.upbound.io/v1beta1
 kind: Application
 metadata:
+  annotations:
+    meta.upbound.io/example-id: appengine/v1beta1/application
+    upjet.upbound.io/manual-intervention: "Only one Application per project and applications cannot be deleted once they're created; you have to delete the entire project to delete the application"
   labels:
     testing.upbound.io/example-name: application
-  annotations:
-    upjet.upbound.io/manual-intervention: "Only one Application per project. App Engine applications cannot be deleted once they're created; you have to delete the entire project to delete the application"
   name: application
 spec:
   forProvider:
     locationId: us-west1
-    project: project-id
+    projectSelector:
+      matchLabels:
+        testing.upbound.io/example-name: application

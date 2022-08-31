@@ -1,10 +1,11 @@
 apiVersion: cloudfunctions.gcp.upbound.io/v1beta1
 kind: Function
 metadata:
+  annotations:
+    meta.upbound.io/example-id: cloudfunctions/v1beta1/function
+    upjet.upbound.io/manual-intervention: "BucketObject does not yet support source field"
   labels:
     testing.upbound.io/example-name: cloud-function
-  annotations:
-    upjet.upbound.io/manual-intervention: "BucketObject does not support source field"
   name: cloud-function
 spec:
   forProvider:
@@ -26,10 +27,11 @@ spec:
 apiVersion: cloudfunctions.gcp.upbound.io/v1beta1
 kind: FunctionIAMMember
 metadata:
+  annotations:
+    meta.upbound.io/example-id: cloudfunctions/v1beta1/function
+    upjet.upbound.io/manual-intervention: "BucketObject does not yet support source field"
   labels:
     testing.upbound.io/example-name: cloud-function
-  annotations:
-    upjet.upbound.io/manual-intervention: "BucketObject does not support source field"
   name: cloud-function
 spec:
   forProvider:
@@ -45,10 +47,11 @@ spec:
 apiVersion: storage.gcp.upbound.io/v1beta1
 kind: Bucket
 metadata:
+  annotations:
+    meta.upbound.io/example-id: cloudfunctions/v1beta1/function
+    upjet.upbound.io/manual-intervention: "BucketObject does not yet support source field"
   labels:
     testing.upbound.io/example-name: cloud-function-42345
-  annotations:
-    upjet.upbound.io/manual-intervention: "BucketObject does not support source field"
   name: cloud-function-42345
 spec:
   forProvider:
@@ -59,10 +62,11 @@ spec:
 apiVersion: storage.gcp.upbound.io/v1beta1
 kind: BucketObject
 metadata:
+  annotations:
+    meta.upbound.io/example-id: cloudfunctions/v1beta1/function
+    upjet.upbound.io/manual-intervention: "BucketObject does not yet support source field"
   labels:
     testing.upbound.io/example-name: cloud-function
-  annotations:
-    upjet.upbound.io/manual-intervention: "BucketObject does not support source field"
   name: cloud-function
 spec:
   forProvider:
@@ -70,8 +74,7 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: cloud-function-42345
     name: function.zip
-    # TODO needs function.zip added to bucket
-    content: TODO
+    source: ./path/to/zip/file/which/contains/code
     contentType: application/zip
     
 ---
@@ -79,10 +82,11 @@ spec:
 apiVersion: v1
 kind: Secret
 metadata:
+  annotations:
+    meta.upbound.io/example-id: cloudfunctions/v1beta1/function
+    upjet.upbound.io/manual-intervention: "BucketObject does not yet support source field"
   labels:
     testing.upbound.io/example-name: cloud-function
-  annotations:
-    upjet.upbound.io/manual-intervention: "BucketObject does not support source field"
   name: cloud-function
   namespace: upbound-system
 data:

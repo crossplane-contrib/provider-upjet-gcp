@@ -63,6 +63,11 @@ var skipList = []string{
 	"google_cloudfunctions_function_iam_binding",
 	"google_compute_region_disk_iam_policy",
 	"google_compute_region_disk_iam_binding",
+	"google_project_iam_policy",
+	"google_project_iam_binding",
+	"google_organization_iam_binding",
+	"google_service_account_iam_policy",
+	"google_service_account_iam_binding",
 }
 
 // GetProvider returns provider configuration

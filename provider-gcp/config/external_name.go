@@ -38,8 +38,6 @@ var externalNameConfigs = map[string]config.ExternalName{
 	"google_folder": config.IdentifierFromProvider,
 	// Imported by using the following format: organizations/{{org_id}}/roles/{{role_id}}
 	"google_organization_iam_custom_role": config.IdentifierFromProvider,
-	// Imported by using the following format: your-org-id roles/viewer
-	"google_organization_iam_binding": config.IdentifierFromProvider,
 	// Imported by using the following format: your-orgid roles/viewer user:foo@example.com
 	"google_organization_iam_member": config.IdentifierFromProvider,
 	// Imported by using the following format: your-organization-id foo.googleapis.com
@@ -52,10 +50,6 @@ var externalNameConfigs = map[string]config.ExternalName{
 	// Resource with format projects/{{project}}
 	// This resource does not support import
 	"google_project_default_service_accounts": formattedIdentifierWithResourcePrefix("projects"),
-	// Imported by using the following format: your-project-id
-	"google_project_iam_policy": config.IdentifierFromProvider,
-	// Imported by using the following format: your-project-id roles/viewer
-	"google_project_iam_binding": config.IdentifierFromProvider,
 	// Imported by using the following format: your-project-id roles/viewer user:foo@example.com
 	"google_project_iam_member": config.IdentifierFromProvider,
 	// Imported by using the following format: your-project-id foo.googleapis.com
@@ -66,10 +60,6 @@ var externalNameConfigs = map[string]config.ExternalName{
 	"google_project_usage_export_bucket": config.IdentifierFromProvider,
 	// Service accounts can be imported using their URI, e.g. projects/my-project/serviceAccounts/my-sa@my-project.iam.gserviceaccount.com
 	"google_service_account": googleServiceAccount(),
-	// Imported by using the following format: projects/{your-project-id}/serviceAccounts/{your-service-account-email}
-	"google_service_account_iam_policy": config.IdentifierFromProvider,
-	// Imported by using the following format: projects/{your-project-id}/serviceAccounts/{your-service-account-email} roles/iam.serviceAccountUser expires_after_2019_12_31
-	"google_service_account_iam_binding": config.IdentifierFromProvider,
 	// Imported by using the following format: projects/{your-project-id}/serviceAccounts/{your-service-account-email} roles/iam.serviceAccountUser user:foo@example.com expires_after_2019_12_31
 	"google_service_account_iam_member": config.IdentifierFromProvider,
 	// No import

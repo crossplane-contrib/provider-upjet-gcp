@@ -25,10 +25,10 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
-type OrganizationIAMMemberConditionObservation struct {
+type ConditionObservation struct {
 }
 
-type OrganizationIAMMemberConditionParameters struct {
+type ConditionParameters struct {
 
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -49,7 +49,7 @@ type OrganizationIAMMemberObservation struct {
 type OrganizationIAMMemberParameters struct {
 
 	// +kubebuilder:validation:Optional
-	Condition []OrganizationIAMMemberConditionParameters `json:"condition,omitempty" tf:"condition,omitempty"`
+	Condition []ConditionParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
 	// +kubebuilder:validation:Required
 	Member *string `json:"member" tf:"member,omitempty"`
