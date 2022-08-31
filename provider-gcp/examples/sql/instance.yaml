@@ -1,7 +1,10 @@
 apiVersion: sql.gcp.upbound.io/v1beta1
 kind: DatabaseInstance
 metadata:
-  name: example-instance
+  labels:
+    testing.upbound.io/example-name: example_instance
+  # ${Rand...} is not valid YAML and is used with automated testing
+  name: example-instance-${Rand.RFC1123Subdomain}
 spec:
   forProvider:
     region: "us-central1"
@@ -9,6 +12,7 @@ spec:
     settings:
       - tier: "db-f1-micro"
         diskSize: 20
+    deletionProtection: false   # allow crossplane to delete the instance automatically
   writeConnectionSecretToRef:
     name: example-sql-db-instance-secret
-    namespace: crossplane-system
+    namespace: upbound-system

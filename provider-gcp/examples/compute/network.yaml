@@ -1,8 +1,8 @@
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: Network
 metadata:
-  name: example
+  labels:
+    testing.upbound.io/example-name: example_network
+  name: example-network-${Rand.RFC1123Subdomain}
 spec:
   forProvider: {}
-  providerConfigRef:
-    name: default

@@ -91,6 +91,7 @@ func (tr *Cluster) LateInitialize(attrs []byte) (bool, error) {
 	opts := []resource.GenericLateInitializerOption{resource.WithZeroValueJSONOmitEmptyFilter(resource.CNameWildcard)}
 	opts = append(opts, resource.WithNameFilter("ClusterIPv4Cidr"))
 	opts = append(opts, resource.WithNameFilter("IPAllocationPolicy"))
+	opts = append(opts, resource.WithNameFilter("NodeVersion"))
 
 	li := resource.NewGenericLateInitializer(opts...)
 	return li.LateInitialize(&tr.Spec.ForProvider, params)

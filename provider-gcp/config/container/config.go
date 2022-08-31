@@ -18,8 +18,13 @@ func Configure(p *config.Provider) { //nolint:gocyclo
 	p.AddResourceConfigurator("google_container_cluster", func(r *config.Resource) {
 		r.Kind = "Cluster"
 		r.LateInitializer = config.LateInitializer{
-			IgnoredFields: []string{"cluster_ipv4_cidr", "ip_allocation_policy"},
+			IgnoredFields: []string{
+				"cluster_ipv4_cidr",
+				"ip_allocation_policy",
+				"node_version",
+			},
 		}
+		config.MoveToStatus(r.TerraformResource, "node_pool")
 		r.Sensitive.AdditionalConnectionDetailsFn = func(attr map[string]interface{}) (map[string][]byte, error) {
 			name, err := common.GetField(attr, "name")
 			if err != nil {

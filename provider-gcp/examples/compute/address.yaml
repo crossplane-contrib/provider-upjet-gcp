@@ -1,0 +1,40 @@
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Address
+metadata:
+  labels:
+    testing.upbound.io/example-name: example_ip_address_with_network
+  name: example-ip-address-with-network-${Rand.RFC1123Subdomain}
+spec:
+  forProvider:
+    address: 10.0.42.42
+    addressType: INTERNAL
+    region: us-central1
+    subnetworkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example_ip_address_subnet
+---
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Network
+metadata:
+  labels:
+    testing.upbound.io/example-name: example_ip_address_network
+  name: example-ip-address-network-${Rand.RFC1123Subdomain}
+spec:
+  forProvider:
+    autoCreateSubnets: false
+---
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Subnetwork
+metadata:
+  labels:
+    testing.upbound.io/example-name: example_ip_address_subnet
+  name: example-ip-address-subnet-${Rand.RFC1123Subdomain}
+spec:
+  forProvider:
+    ipCidrRange: 10.0.0.0/16
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example_ip_address_network
+    region: us-central1
+
+

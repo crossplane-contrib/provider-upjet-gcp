@@ -1,14 +1,20 @@
 apiVersion: container.gcp.upbound.io/v1beta1
 kind: NodePool
 metadata:
-  name: example-node-pool
+  labels:
+    testing.upbound.io/example-name: example_gke_nodepool
+  name: example-gke-nodepool
 spec:
   forProvider:
+    clusterSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example_gke_cluster
     nodeConfig:
-      - machineType: e2-medium
-        oauthScopes:
-          - https://www.googleapis.com/auth/cloud-platform
-        preemptible: true
+    - machineType: e2-medium
+      oauthScopes:
+      - https://www.googleapis.com/auth/cloud-platform
+      preemptible: true
+      serviceAccountSelector:
+        matchLabels:
+          testing.upbound.io/example-name: example_gke_cluster_sa
     nodeCount: 1
-    clusterRef:
-      name: example-gke-cluster
