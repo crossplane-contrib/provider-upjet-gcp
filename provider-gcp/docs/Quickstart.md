@@ -1,8 +1,5 @@
-The Upbound GCP Provider is the officially supported provider for Google Compute Platform (GCP).
+# Quickstart
 
-View the GCP Provider Documentation for details and configuration options. 
-
-## Quickstart
 This guide walks through the process to install Upbound Universal Crossplane and install the GCP official provider.
 
 To use this official provider, install Upbound Universal Crossplane into your Kubernetes cluster, install the `Provider`, apply a `ProviderConfig`, and create a *managed resource* in GCP via Kubernetes.
