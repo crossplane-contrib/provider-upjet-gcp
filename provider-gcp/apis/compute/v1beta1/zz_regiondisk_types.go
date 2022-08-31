@@ -26,23 +26,17 @@ import (
 )
 
 type RegionDiskDiskEncryptionKeyObservation struct {
-
-	// The RFC 4648 base64 encoded SHA-256 hash of the customer-supplied
-	// encryption key that protects this resource.
 	Sha256 *string `json:"sha256,omitempty" tf:"sha256,omitempty"`
 }
 
 type RegionDiskDiskEncryptionKeyParameters struct {
 
-	// Specifies a 256-bit customer-supplied encryption key, encoded in
-	// RFC 4648 base64 to either encrypt or decrypt this resource.
 	// +kubebuilder:validation:Optional
 	RawKeySecretRef *v1.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
 }
 
 type RegionDiskObservation struct {
 
-	// Creation timestamp in RFC3339 text format.
 	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
 
@@ -55,18 +49,6 @@ type RegionDiskObservation struct {
 	// the disk will be encrypted using an automatically generated key and
 	// you do not need to provide a key to use the disk later.
 	// Structure is documented below.
-	// Encrypts the disk using a customer-supplied encryption key.
-	//
-	// After you encrypt a disk with a customer-supplied key, you must
-	// provide the same key if you use the disk later (e.g. to create a disk
-	// snapshot or an image, or to attach the disk to a virtual machine).
-	//
-	// Customer-supplied encryption keys do not protect access to metadata of
-	// the disk.
-	//
-	// If you do not provide an encryption key when creating the disk, then
-	// the disk will be encrypted using an automatically generated key and
-	// you do not need to provide a key to use the disk later.
 	// +kubebuilder:validation:Optional
 	DiskEncryptionKey []RegionDiskDiskEncryptionKeyObservation `json:"diskEncryptionKey,omitempty" tf:"disk_encryption_key,omitempty"`
 
@@ -75,15 +57,11 @@ type RegionDiskObservation struct {
 
 	// The fingerprint used for optimistic locking of this resource.  Used
 	// internally during updates.
-	// The fingerprint used for optimistic locking of this resource.  Used
-	// internally during updates.
 	LabelFingerprint *string `json:"labelFingerprint,omitempty" tf:"label_fingerprint,omitempty"`
 
 	// Last attach timestamp in RFC3339 text format.
-	// Last attach timestamp in RFC3339 text format.
 	LastAttachTimestamp *string `json:"lastAttachTimestamp,omitempty" tf:"last_attach_timestamp,omitempty"`
 
-	// Last detach timestamp in RFC3339 text format.
 	// Last detach timestamp in RFC3339 text format.
 	LastDetachTimestamp *string `json:"lastDetachTimestamp,omitempty" tf:"last_detach_timestamp,omitempty"`
 
@@ -94,18 +72,9 @@ type RegionDiskObservation struct {
 	// if the source snapshot is protected by a customer-supplied encryption
 	// key.
 	// Structure is documented below.
-	// The customer-supplied encryption key of the source snapshot. Required
-	// if the source snapshot is protected by a customer-supplied encryption
-	// key.
 	// +kubebuilder:validation:Optional
 	SourceSnapshotEncryptionKey []RegionDiskSourceSnapshotEncryptionKeyObservation `json:"sourceSnapshotEncryptionKey,omitempty" tf:"source_snapshot_encryption_key,omitempty"`
 
-	// The unique ID of the snapshot used to create this disk. This value
-	// identifies the exact snapshot that was used to create this persistent
-	// disk. For example, if you created the persistent disk from a snapshot
-	// that was later deleted and recreated under the same name, the source
-	// snapshot ID would identify the exact version of the snapshot that was
-	// used.
 	// The unique ID of the snapshot used to create this disk. This value
 	// identifies the exact snapshot that was used to create this persistent
 	// disk. For example, if you created the persistent disk from a snapshot
@@ -116,15 +85,11 @@ type RegionDiskObservation struct {
 
 	// Links to the users of the disk  in form:
 	// project/zones/zone/instances/instance
-	// Links to the users of the disk (attached instances) in form:
-	// project/zones/zone/instances/instance
 	Users []*string `json:"users,omitempty" tf:"users,omitempty"`
 }
 
 type RegionDiskParameters struct {
 
-	// An optional description of this resource. Provide this property when
-	// you create the resource.
 	// An optional description of this resource. Provide this property when
 	// you create the resource.
 	// +kubebuilder:validation:Optional
@@ -139,31 +104,13 @@ type RegionDiskParameters struct {
 	// the disk will be encrypted using an automatically generated key and
 	// you do not need to provide a key to use the disk later.
 	// Structure is documented below.
-	// Encrypts the disk using a customer-supplied encryption key.
-	//
-	// After you encrypt a disk with a customer-supplied key, you must
-	// provide the same key if you use the disk later (e.g. to create a disk
-	// snapshot or an image, or to attach the disk to a virtual machine).
-	//
-	// Customer-supplied encryption keys do not protect access to metadata of
-	// the disk.
-	//
-	// If you do not provide an encryption key when creating the disk, then
-	// the disk will be encrypted using an automatically generated key and
-	// you do not need to provide a key to use the disk later.
 	// +kubebuilder:validation:Optional
 	DiskEncryptionKey []RegionDiskDiskEncryptionKeyParameters `json:"diskEncryptionKey,omitempty" tf:"disk_encryption_key,omitempty"`
 
 	// Labels to apply to this disk.  A list of key->value pairs.
-	// Labels to apply to this disk.  A list of key->value pairs.
 	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
-	// Physical block size of the persistent disk, in bytes. If not present
-	// in a request, a default value is used. Currently supported sizes
-	// are 4096 and 16384, other sizes may be added in the future.
-	// If an unsupported value is requested, the error message will list
-	// the supported values for the caller's project.
 	// Physical block size of the persistent disk, in bytes. If not present
 	// in a request, a default value is used. Currently supported sizes
 	// are 4096 and 16384, other sizes may be added in the future.
@@ -178,11 +125,9 @@ type RegionDiskParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// A reference to the region where the disk resides.
-	// A reference to the region where the disk resides.
 	// +kubebuilder:validation:Required
 	Region *string `json:"region" tf:"region,omitempty"`
 
-	// URLs of the zones where the disk should be replicated to.
 	// URLs of the zones where the disk should be replicated to.
 	// +kubebuilder:validation:Required
 	ReplicaZones []*string `json:"replicaZones" tf:"replica_zones,omitempty"`
@@ -194,28 +139,12 @@ type RegionDiskParameters struct {
 	// If you specify this field along with sourceImage or sourceSnapshot,
 	// the value of sizeGb must not be less than the size of the sourceImage
 	// or the size of the snapshot.
-	// Size of the persistent disk, specified in GB. You can specify this
-	// field when creating a persistent disk using the sourceImage or
-	// sourceSnapshot parameter, or specify it alone to create an empty
-	// persistent disk.
-	//
-	// If you specify this field along with sourceImage or sourceSnapshot,
-	// the value of sizeGb must not be less than the size of the sourceImage
-	// or the size of the snapshot.
 	// +kubebuilder:validation:Optional
 	Size *float64 `json:"size,omitempty" tf:"size,omitempty"`
 
 	// The source snapshot used to create this disk. You can provide this as
 	// a partial or full URL to the resource. For example, the following are
 	// valid values:
-	// The source snapshot used to create this disk. You can provide this as
-	// a partial or full URL to the resource. For example, the following are
-	// valid values:
-	//
-	// * 'https://www.googleapis.com/compute/v1/projects/project/global/snapshots/snapshot'
-	// * 'projects/project/global/snapshots/snapshot'
-	// * 'global/snapshots/snapshot'
-	// * 'snapshot'
 	// +kubebuilder:validation:Optional
 	Snapshot *string `json:"snapshot,omitempty" tf:"snapshot,omitempty"`
 
@@ -223,14 +152,9 @@ type RegionDiskParameters struct {
 	// if the source snapshot is protected by a customer-supplied encryption
 	// key.
 	// Structure is documented below.
-	// The customer-supplied encryption key of the source snapshot. Required
-	// if the source snapshot is protected by a customer-supplied encryption
-	// key.
 	// +kubebuilder:validation:Optional
 	SourceSnapshotEncryptionKey []RegionDiskSourceSnapshotEncryptionKeyParameters `json:"sourceSnapshotEncryptionKey,omitempty" tf:"source_snapshot_encryption_key,omitempty"`
 
-	// URL of the disk type resource describing which disk type to use to
-	// create the disk. Provide this when creating the disk.
 	// URL of the disk type resource describing which disk type to use to
 	// create the disk. Provide this when creating the disk.
 	// +kubebuilder:validation:Optional
@@ -238,16 +162,11 @@ type RegionDiskParameters struct {
 }
 
 type RegionDiskSourceSnapshotEncryptionKeyObservation struct {
-
-	// The RFC 4648 base64 encoded SHA-256 hash of the customer-supplied
-	// encryption key that protects this resource.
 	Sha256 *string `json:"sha256,omitempty" tf:"sha256,omitempty"`
 }
 
 type RegionDiskSourceSnapshotEncryptionKeyParameters struct {
 
-	// Specifies a 256-bit customer-supplied encryption key, encoded in
-	// RFC 4648 base64 to either encrypt or decrypt this resource.
 	// +kubebuilder:validation:Optional
 	RawKey *string `json:"rawKey,omitempty" tf:"raw_key,omitempty"`
 }

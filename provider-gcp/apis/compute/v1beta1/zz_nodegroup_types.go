@@ -31,7 +31,6 @@ type MaintenanceWindowObservation struct {
 type MaintenanceWindowParameters struct {
 
 	// instances.start time of the window. This must be in UTC format that resolves to one of 00:00, 04:00, 08:00, 12:00, 16:00, or 20:00. For example, both 13:00-5 and 08:00 are valid.
-	// instances.start time of the window. This must be in UTC format that resolves to one of 00:00, 04:00, 08:00, 12:00, 16:00, or 20:00. For example, both 13:00-5 and 08:00 are valid.
 	// +kubebuilder:validation:Required
 	StartTime *string `json:"startTime" tf:"start_time,omitempty"`
 }
@@ -43,32 +42,21 @@ type NodeGroupAutoscalingPolicyParameters struct {
 
 	// Maximum size of the node group. Set to a value less than or equal
 	// to 100 and greater than or equal to min-nodes.
-	// Maximum size of the node group. Set to a value less than or equal
-	// to 100 and greater than or equal to min-nodes.
 	// +kubebuilder:validation:Optional
 	MaxNodes *float64 `json:"maxNodes,omitempty" tf:"max_nodes,omitempty"`
 
-	// Minimum size of the node group. Must be less
-	// than or equal to max-nodes. The default value is 0.
 	// Minimum size of the node group. Must be less
 	// than or equal to max-nodes. The default value is 0.
 	// +kubebuilder:validation:Optional
 	MinNodes *float64 `json:"minNodes,omitempty" tf:"min_nodes,omitempty"`
 
 	// The autoscaling mode. Set to one of the following:
-	// The autoscaling mode. Set to one of the following:
-	// - OFF: Disables the autoscaler.
-	// - ON: Enables scaling in and scaling out.
-	// - ONLY_SCALE_OUT: Enables only scaling out.
-	// You must use this mode if your node groups are configured to
-	// restart their hosted VMs on minimal servers. Possible values: ["OFF", "ON", "ONLY_SCALE_OUT"]
 	// +kubebuilder:validation:Optional
 	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
 }
 
 type NodeGroupObservation struct {
 
-	// Creation timestamp in RFC3339 text format.
 	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
 
@@ -84,33 +72,26 @@ type NodeGroupParameters struct {
 	// If you use sole-tenant nodes for your workloads, you can use the node
 	// group autoscaler to automatically manage the sizes of your node groups.
 	// Structure is documented below.
-	// If you use sole-tenant nodes for your workloads, you can use the node
-	// group autoscaler to automatically manage the sizes of your node groups.
 	// +kubebuilder:validation:Optional
 	AutoscalingPolicy []NodeGroupAutoscalingPolicyParameters `json:"autoscalingPolicy,omitempty" tf:"autoscaling_policy,omitempty"`
 
-	// An optional textual description of the resource.
 	// An optional textual description of the resource.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// The initial number of nodes in the node group. One of initial_size or size must be specified.
-	// The initial number of nodes in the node group. One of 'initial_size' or 'size' must be specified.
 	// +kubebuilder:validation:Optional
 	InitialSize *float64 `json:"initialSize,omitempty" tf:"initial_size,omitempty"`
 
-	// Specifies how to handle instances when a node in the group undergoes maintenance. Set to one of: DEFAULT, RESTART_IN_PLACE, or MIGRATE_WITHIN_NODE_GROUP. The default value is DEFAULT.
 	// Specifies how to handle instances when a node in the group undergoes maintenance. Set to one of: DEFAULT, RESTART_IN_PLACE, or MIGRATE_WITHIN_NODE_GROUP. The default value is DEFAULT.
 	// +kubebuilder:validation:Optional
 	MaintenancePolicy *string `json:"maintenancePolicy,omitempty" tf:"maintenance_policy,omitempty"`
 
 	// contains properties for the timeframe of maintenance
 	// Structure is documented below.
-	// contains properties for the timeframe of maintenance
 	// +kubebuilder:validation:Optional
 	MaintenanceWindow []MaintenanceWindowParameters `json:"maintenanceWindow,omitempty" tf:"maintenance_window,omitempty"`
 
-	// The URL of the node template to which this node group belongs.
 	// The URL of the node template to which this node group belongs.
 	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.NodeTemplate
 	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
@@ -131,11 +112,9 @@ type NodeGroupParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The total number of nodes in the node group. One of initial_size or size must be specified.
-	// The total number of nodes in the node group. One of 'initial_size' or 'size' must be specified.
 	// +kubebuilder:validation:Optional
 	Size *float64 `json:"size,omitempty" tf:"size,omitempty"`
 
-	// Zone where this node group is located
 	// Zone where this node group is located
 	// +kubebuilder:validation:Required
 	Zone *string `json:"zone" tf:"zone,omitempty"`

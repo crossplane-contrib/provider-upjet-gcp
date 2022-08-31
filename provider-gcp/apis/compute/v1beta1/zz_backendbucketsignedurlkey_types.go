@@ -34,7 +34,6 @@ type BackendBucketSignedURLKeyObservation struct {
 type BackendBucketSignedURLKeyParameters struct {
 
 	// The backend bucket this signed URL key belongs.
-	// The backend bucket this signed URL key belongs.
 	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.BackendBucket
 	// +kubebuilder:validation:Optional
 	BackendBucket *string `json:"backendBucket,omitempty" tf:"backend_bucket,omitempty"`
@@ -50,12 +49,9 @@ type BackendBucketSignedURLKeyParameters struct {
 	// 128-bit key value used for signing the URL. The key value must be a
 	// valid RFC 4648 Section 5 base64url encoded string.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	// 128-bit key value used for signing the URL. The key value must be a
-	// valid RFC 4648 Section 5 base64url encoded string.
 	// +kubebuilder:validation:Required
 	KeyValueSecretRef v1.SecretKeySelector `json:"keyValueSecretRef" tf:"-"`
 
-	// Name of the signed URL key.
 	// Name of the signed URL key.
 	// +kubebuilder:validation:Required
 	Name *string `json:"name" tf:"name,omitempty"`

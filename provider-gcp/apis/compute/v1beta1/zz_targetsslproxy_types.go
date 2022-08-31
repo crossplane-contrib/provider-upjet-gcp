@@ -28,13 +28,11 @@ import (
 type TargetSSLProxyObservation struct {
 
 	// Creation timestamp in RFC3339 text format.
-	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/global/targetSslProxies/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// The unique identifier for the resource.
 	// The unique identifier for the resource.
 	ProxyID *float64 `json:"proxyId,omitempty" tf:"proxy_id,omitempty"`
 
@@ -44,7 +42,6 @@ type TargetSSLProxyObservation struct {
 
 type TargetSSLProxyParameters struct {
 
-	// A reference to the BackendService resource.
 	// A reference to the BackendService resource.
 	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.BackendService
 	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
@@ -60,7 +57,6 @@ type TargetSSLProxyParameters struct {
 	BackendServiceSelector *v1.Selector `json:"backendServiceSelector,omitempty" tf:"-"`
 
 	// An optional description of this resource.
-	// An optional description of this resource.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -73,14 +69,9 @@ type TargetSSLProxyParameters struct {
 	// the backend.
 	// Default value is NONE.
 	// Possible values are NONE and PROXY_V1.
-	// Specifies the type of proxy header to append before sending data to
-	// the backend. Default value: "NONE" Possible values: ["NONE", "PROXY_V1"]
 	// +kubebuilder:validation:Optional
 	ProxyHeader *string `json:"proxyHeader,omitempty" tf:"proxy_header,omitempty"`
 
-	// A list of SslCertificate resources that are used to authenticate
-	// connections between users and the load balancer. At least one
-	// SSL certificate must be specified.
 	// A list of SslCertificate resources that are used to authenticate
 	// connections between users and the load balancer. At least one
 	// SSL certificate must be specified.
@@ -96,9 +87,6 @@ type TargetSSLProxyParameters struct {
 	// +kubebuilder:validation:Optional
 	SSLCertificatesSelector *v1.Selector `json:"sslCertificatesSelector,omitempty" tf:"-"`
 
-	// A reference to the SslPolicy resource that will be associated with
-	// the TargetSslProxy resource. If not set, the TargetSslProxy
-	// resource will not have any SSL policy configured.
 	// A reference to the SslPolicy resource that will be associated with
 	// the TargetSslProxy resource. If not set, the TargetSslProxy
 	// resource will not have any SSL policy configured.

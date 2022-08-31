@@ -34,16 +34,13 @@ type NetworkPeeringRoutesConfigObservation struct {
 type NetworkPeeringRoutesConfigParameters struct {
 
 	// Whether to export the custom routes to the peer network.
-	// Whether to export the custom routes to the peer network.
 	// +kubebuilder:validation:Required
 	ExportCustomRoutes *bool `json:"exportCustomRoutes" tf:"export_custom_routes,omitempty"`
 
 	// Whether to import the custom routes to the peer network.
-	// Whether to import the custom routes to the peer network.
 	// +kubebuilder:validation:Required
 	ImportCustomRoutes *bool `json:"importCustomRoutes" tf:"import_custom_routes,omitempty"`
 
-	// The name of the primary network for the peering.
 	// The name of the primary network for the peering.
 	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.Network
 	// +kubebuilder:validation:Optional
@@ -57,7 +54,6 @@ type NetworkPeeringRoutesConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
 
-	// Name of the peering.
 	// Name of the peering.
 	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.NetworkPeering
 	// +kubebuilder:validation:Optional

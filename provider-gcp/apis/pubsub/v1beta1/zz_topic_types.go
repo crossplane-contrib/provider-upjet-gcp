@@ -35,12 +35,6 @@ type MessageStoragePolicyParameters struct {
 	// publishers running in non-allowed GCP regions  will be routed for storage in one of the
 	// allowed regions. An empty list means that no regions are allowed,
 	// and is not a valid configuration.
-	// A list of IDs of GCP regions where messages that are published to
-	// the topic may be persisted in storage. Messages published by
-	// publishers running in non-allowed GCP regions (or running outside
-	// of GCP altogether) will be routed for storage in one of the
-	// allowed regions. An empty list means that no regions are allowed,
-	// and is not a valid configuration.
 	// +kubebuilder:validation:Required
 	AllowedPersistenceRegions []*string `json:"allowedPersistenceRegions" tf:"allowed_persistence_regions,omitempty"`
 }
@@ -53,17 +47,12 @@ type SchemaSettingsParameters struct {
 	// The encoding of messages validated against schema.
 	// Default value is ENCODING_UNSPECIFIED.
 	// Possible values are ENCODING_UNSPECIFIED, JSON, and BINARY.
-	// The encoding of messages validated against schema. Default value: "ENCODING_UNSPECIFIED" Possible values: ["ENCODING_UNSPECIFIED", "JSON", "BINARY"]
 	// +kubebuilder:validation:Optional
 	Encoding *string `json:"encoding,omitempty" tf:"encoding,omitempty"`
 
 	// The name of the schema that messages published should be
 	// validated against. Format is projects/{project}/schemas/{schema}.
 	// The value of this field will be deleted-schema
-	// if the schema has been deleted.
-	// The name of the schema that messages published should be
-	// validated against. Format is projects/{project}/schemas/{schema}.
-	// The value of this field will be _deleted-schema_
 	// if the schema has been deleted.
 	// +kubebuilder:validation:Required
 	Schema *string `json:"schema" tf:"schema,omitempty"`
@@ -82,11 +71,6 @@ type TopicParameters struct {
 	// must have
 	// roles/cloudkms.cryptoKeyEncrypterDecrypter to use this feature.
 	// The expected format is projects/*/locations/*/keyRings/*/cryptoKeys/*
-	// The resource name of the Cloud KMS CryptoKey to be used to protect access
-	// to messages published on this topic. Your project's PubSub service account
-	// ('service-{{PROJECT_NUMBER}}@gcp-sa-pubsub.iam.gserviceaccount.com') must have
-	// 'roles/cloudkms.cryptoKeyEncrypterDecrypter' to use this feature.
-	// The expected format is 'projects/*/locations/*/keyRings/*/cryptoKeys/*'
 	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/kms/v1beta1.CryptoKey
 	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
@@ -101,17 +85,9 @@ type TopicParameters struct {
 	KMSKeyNameSelector *v1.Selector `json:"kmsKeyNameSelector,omitempty" tf:"-"`
 
 	// A set of key/value label pairs to assign to this Topic.
-	// A set of key/value label pairs to assign to this Topic.
 	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
-	// Indicates the minimum duration to retain a message after it is published
-	// to the topic. If this field is set, messages published to the topic in
-	// the last messageRetentionDuration are always available to subscribers.
-	// For instance, it allows any attached subscription to seek to a timestamp
-	// that is up to messageRetentionDuration in the past. If this field is not
-	// set, message retention is controlled by settings on individual subscriptions.
-	// Cannot be more than 7 days or less than 10 minutes.
 	// Indicates the minimum duration to retain a message after it is published
 	// to the topic. If this field is set, messages published to the topic in
 	// the last messageRetentionDuration are always available to subscribers.
@@ -126,9 +102,6 @@ type TopicParameters struct {
 	// messages published to the topic may be stored. If not present, then no
 	// constraints are in effect.
 	// Structure is documented below.
-	// Policy constraining the set of Google Cloud Platform regions where
-	// messages published to the topic may be stored. If not present, then no
-	// constraints are in effect.
 	// +kubebuilder:validation:Optional
 	MessageStoragePolicy []MessageStoragePolicyParameters `json:"messageStoragePolicy,omitempty" tf:"message_storage_policy,omitempty"`
 
@@ -139,7 +112,6 @@ type TopicParameters struct {
 
 	// Settings for validating messages published against a schema.
 	// Structure is documented below.
-	// Settings for validating messages published against a schema.
 	// +kubebuilder:validation:Optional
 	SchemaSettings []SchemaSettingsParameters `json:"schemaSettings,omitempty" tf:"schema_settings,omitempty"`
 }

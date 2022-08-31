@@ -68,15 +68,12 @@ spec:
                 properties:
                   exportCustomRoutes:
                     description: Whether to export the custom routes to the peer network.
-                      Whether to export the custom routes to the peer network.
                     type: boolean
                   importCustomRoutes:
                     description: Whether to import the custom routes to the peer network.
-                      Whether to import the custom routes to the peer network.
                     type: boolean
                   network:
                     description: The name of the primary network for the peering.
-                      The name of the primary network for the peering.
                     type: string
                   networkRef:
                     description: Reference to a Network in compute to populate network.
@@ -152,7 +149,7 @@ spec:
                         type: object
                     type: object
                   peering:
-                    description: Name of the peering. Name of the peering.
+                    description: Name of the peering.
                     type: string
                   peeringRef:
                     description: Reference to a NetworkPeering in compute to populate

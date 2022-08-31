@@ -65,17 +65,14 @@ spec:
               forProvider:
                 properties:
                   key:
-                    description: The metadata key to set. The metadata key to set.
+                    description: The metadata key to set.
                     type: string
                   project:
                     description: The ID of the project in which the resource belongs.
-                      If it is not provided, the provider project is used. The ID
-                      of the project in which the resource belongs. If it is not provided,
-                      the provider project is used.
+                      If it is not provided, the provider project is used.
                     type: string
                   value:
-                    description: The value to set for the given metadata key. The
-                      value to set for the given metadata key.
+                    description: The value to set for the given metadata key.
                     type: string
                 required:
                 - key

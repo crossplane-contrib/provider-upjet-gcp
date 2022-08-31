@@ -31,10 +31,8 @@ type FirewallPolicyRuleObservation struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// Type of the resource. Always compute#firewallPolicyRule for firewall policy rules
-	// Type of the resource. Always `compute#firewallPolicyRule` for firewall policy rules
 	Kind *string `json:"kind,omitempty" tf:"kind,omitempty"`
 
-	// Calculation of the complexity of a single firewall policy rule.
 	// Calculation of the complexity of a single firewall policy rule.
 	RuleTupleCount *float64 `json:"ruleTupleCount,omitempty" tf:"rule_tuple_count,omitempty"`
 }
@@ -42,31 +40,25 @@ type FirewallPolicyRuleObservation struct {
 type FirewallPolicyRuleParameters struct {
 
 	// The Action to perform when the client connection triggers the rule. Can currently be either "allow" or "deny()" where valid values for status are 403, 404, and 502.
-	// The Action to perform when the client connection triggers the rule. Can currently be either "allow" or "deny()" where valid values for status are 403, 404, and 502.
 	// +kubebuilder:validation:Required
 	Action *string `json:"action" tf:"action,omitempty"`
 
-	// An optional description for this resource.
 	// An optional description for this resource.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// The direction in which this rule applies. Possible values: INGRESS, EGRESS
-	// The direction in which this rule applies. Possible values: INGRESS, EGRESS
 	// +kubebuilder:validation:Required
 	Direction *string `json:"direction" tf:"direction,omitempty"`
 
-	// Denotes whether the firewall policy rule is disabled. When set to true, the firewall policy rule is not enforced and traffic behaves as if it did not exist. If this is unspecified, the firewall policy rule will be enabled.
 	// Denotes whether the firewall policy rule is disabled. When set to true, the firewall policy rule is not enforced and traffic behaves as if it did not exist. If this is unspecified, the firewall policy rule will be enabled.
 	// +kubebuilder:validation:Optional
 	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
 
 	// Denotes whether to enable logging for a particular rule. If logging is enabled, logs will be exported to the configured export destination in Stackdriver. Logs may be exported to BigQuery or Pub/Sub. Note: you cannot enable logging on "goto_next" rules.
-	// Denotes whether to enable logging for a particular rule. If logging is enabled, logs will be exported to the configured export destination in Stackdriver. Logs may be exported to BigQuery or Pub/Sub. Note: you cannot enable logging on "goto_next" rules.
 	// +kubebuilder:validation:Optional
 	EnableLogging *bool `json:"enableLogging,omitempty" tf:"enable_logging,omitempty"`
 
-	// The firewall policy of the resource.
 	// The firewall policy of the resource.
 	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.FirewallPolicy
 	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
@@ -82,21 +74,17 @@ type FirewallPolicyRuleParameters struct {
 	FirewallPolicySelector *v1.Selector `json:"firewallPolicySelector,omitempty" tf:"-"`
 
 	// A match condition that incoming traffic is evaluated against. If it evaluates to true, the corresponding 'action' is enforced. Structure is documented below.
-	// A match condition that incoming traffic is evaluated against. If it evaluates to true, the corresponding 'action' is enforced.
 	// +kubebuilder:validation:Required
 	Match []MatchParameters `json:"match" tf:"match,omitempty"`
 
-	// An integer indicating the priority of a rule in the list. The priority must be a positive value between 0 and 2147483647. Rules are evaluated from highest to lowest priority where 0 is the highest priority and 2147483647 is the lowest prority.
 	// An integer indicating the priority of a rule in the list. The priority must be a positive value between 0 and 2147483647. Rules are evaluated from highest to lowest priority where 0 is the highest priority and 2147483647 is the lowest prority.
 	// +kubebuilder:validation:Required
 	Priority *float64 `json:"priority" tf:"priority,omitempty"`
 
 	// A list of network resource URLs to which this rule applies. This field allows you to control which network's VMs get this rule. If this field is left blank, all VMs within the organization will receive the rule.
-	// A list of network resource URLs to which this rule applies. This field allows you to control which network's VMs get this rule. If this field is left blank, all VMs within the organization will receive the rule.
 	// +kubebuilder:validation:Optional
 	TargetResources []*string `json:"targetResources,omitempty" tf:"target_resources,omitempty"`
 
-	// A list of service accounts indicating the sets of instances that are applied with this rule.
 	// A list of service accounts indicating the sets of instances that are applied with this rule.
 	// +kubebuilder:validation:Optional
 	TargetServiceAccounts []*string `json:"targetServiceAccounts,omitempty" tf:"target_service_accounts,omitempty"`
@@ -108,11 +96,9 @@ type Layer4ConfigsObservation struct {
 type Layer4ConfigsParameters struct {
 
 	// The IP protocol to which this rule applies. The protocol type is required when creating a firewall rule. This value can either be one of the following well known protocol strings , or the IP protocol number.
-	// The IP protocol to which this rule applies. The protocol type is required when creating a firewall rule. This value can either be one of the following well known protocol strings (`tcp`, `udp`, `icmp`, `esp`, `ah`, `ipip`, `sctp`), or the IP protocol number.
 	// +kubebuilder:validation:Required
 	IPProtocol *string `json:"ipProtocol" tf:"ip_protocol,omitempty"`
 
-	// An optional list of ports to which this rule applies. This field is only applicable for UDP or TCP protocol. Each entry must be either an integer or a range. If not specified, this rule applies to connections through any port. Example inputs include: ``.
 	// An optional list of ports to which this rule applies. This field is only applicable for UDP or TCP protocol. Each entry must be either an integer or a range. If not specified, this rule applies to connections through any port. Example inputs include: ``.
 	// +kubebuilder:validation:Optional
 	Ports []*string `json:"ports,omitempty" tf:"ports,omitempty"`
@@ -124,16 +110,13 @@ type MatchObservation struct {
 type MatchParameters struct {
 
 	// CIDR IP address range. Maximum number of destination CIDR IP ranges allowed is 256.
-	// CIDR IP address range. Maximum number of destination CIDR IP ranges allowed is 256.
 	// +kubebuilder:validation:Optional
 	DestIPRanges []*string `json:"destIpRanges,omitempty" tf:"dest_ip_ranges,omitempty"`
 
 	// Pairs of IP protocols and ports that the rule should match. Structure is documented below.
-	// Pairs of IP protocols and ports that the rule should match.
 	// +kubebuilder:validation:Required
 	Layer4Configs []Layer4ConfigsParameters `json:"layer4Configs" tf:"layer4_configs,omitempty"`
 
-	// CIDR IP address range. Maximum number of source CIDR IP ranges allowed is 256.
 	// CIDR IP address range. Maximum number of source CIDR IP ranges allowed is 256.
 	// +kubebuilder:validation:Optional
 	SrcIPRanges []*string `json:"srcIpRanges,omitempty" tf:"src_ip_ranges,omitempty"`

@@ -68,9 +68,7 @@ spec:
                     description: 'The certificate in PEM format. The certificate chain
                       must be no greater than 5 certs long. The chain must include
                       at least one intermediate cert. Note: This property is sensitive
-                      and will not be displayed in the plan. The certificate in PEM
-                      format. The certificate chain must be no greater than 5 certs
-                      long. The chain must include at least one intermediate cert.'
+                      and will not be displayed in the plan.'
                     properties:
                       key:
                         description: The key to select.
@@ -87,13 +85,12 @@ spec:
                     - namespace
                     type: object
                   description:
-                    description: An optional description of this resource. An optional
-                      description of this resource.
+                    description: An optional description of this resource.
                     type: string
                   privateKeySecretRef:
                     description: 'The write-only private key in PEM format. Note:
                       This property is sensitive and will not be displayed in the
-                      plan. The write-only private key in PEM format.'
+                      plan.'
                     properties:
                       key:
                         description: The key to select.
@@ -294,12 +291,10 @@ spec:
               atProvider:
                 properties:
                   certificateId:
-                    description: The unique identifier for the resource. The unique
-                      identifier for the resource.
+                    description: The unique identifier for the resource.
                     type: number
                   creationTimestamp:
-                    description: Creation timestamp in RFC3339 text format. Creation
-                      timestamp in RFC3339 text format.
+                    description: Creation timestamp in RFC3339 text format.
                     type: string
                   id:
                     description: an identifier for the resource with format projects/{{project}}/global/sslCertificates/{{name}}

@@ -67,7 +67,7 @@ spec:
               forProvider:
                 properties:
                   clientIdSecretRef:
-                    description: OAuth client ID OAuth client ID
+                    description: OAuth client ID
                     properties:
                       key:
                         description: The key to select.
@@ -84,7 +84,7 @@ spec:
                     - namespace
                     type: object
                   clientSecretSecretRef:
-                    description: OAuth client secret OAuth client secret
+                    description: OAuth client secret
                     properties:
                       key:
                         description: The key to select.
@@ -101,15 +101,10 @@ spec:
                     - namespace
                     type: object
                   enabled:
-                    description: If this IDP allows the user to sign in If this IDP
-                      allows the user to sign in
+                    description: If this IDP allows the user to sign in
                     type: boolean
                   idpId:
-                    description: "ID of the IDP. Possible values include: ID of the
-                      IDP. Possible values include: \n * 'apple.com' \n * 'facebook.com'
-                      \n * 'gc.apple.com' \n * 'github.com' \n * 'google.com' \n *
-                      'linkedin.com' \n * 'microsoft.com' \n * 'playgames.google.com'
-                      \n * 'twitter.com' \n * 'yahoo.com'"
+                    description: 'ID of the IDP. Possible values include:'
                     type: string
                   project:
                     description: The ID of the project in which the resource belongs.
@@ -117,7 +112,6 @@ spec:
                     type: string
                   tenant:
                     description: The name of the tenant where this DefaultSupportedIdpConfig
-                      resource exists The name of the tenant where this DefaultSupportedIdpConfig
                       resource exists
                     type: string
                   tenantRef:
@@ -382,7 +376,6 @@ spec:
                     type: string
                   name:
                     description: The name of the default supported IDP config resource
-                      The name of the default supported IDP config resource
                     type: string
                 type: object
               conditions:

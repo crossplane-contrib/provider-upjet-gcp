@@ -34,7 +34,6 @@ type RegionDiskResourcePolicyAttachmentObservation struct {
 type RegionDiskResourcePolicyAttachmentParameters struct {
 
 	// The name of the regional disk in which the resource policies are attached to.
-	// The name of the regional disk in which the resource policies are attached to.
 	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.RegionDisk
 	// +kubebuilder:validation:Optional
 	Disk *string `json:"disk,omitempty" tf:"disk,omitempty"`
@@ -47,8 +46,6 @@ type RegionDiskResourcePolicyAttachmentParameters struct {
 	// +kubebuilder:validation:Optional
 	DiskSelector *v1.Selector `json:"diskSelector,omitempty" tf:"-"`
 
-	// The resource policy to be attached to the disk for scheduling snapshot
-	// creation. Do not specify the self link.
 	// The resource policy to be attached to the disk for scheduling snapshot
 	// creation. Do not specify the self link.
 	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.ResourcePolicy
@@ -68,7 +65,6 @@ type RegionDiskResourcePolicyAttachmentParameters struct {
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
-	// A reference to the region where the disk resides.
 	// A reference to the region where the disk resides.
 	// +kubebuilder:validation:Required
 	Region *string `json:"region" tf:"region,omitempty"`

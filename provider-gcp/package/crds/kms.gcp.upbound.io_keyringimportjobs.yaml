@@ -65,16 +65,12 @@ spec:
               forProvider:
                 properties:
                   importMethod:
-                    description: 'The wrapping method to be used for incoming key
-                      material. Possible values are RSA_OAEP_3072_SHA1_AES_256 and
-                      RSA_OAEP_4096_SHA1_AES_256. The wrapping method to be used for
-                      incoming key material. Possible values: ["RSA_OAEP_3072_SHA1_AES_256",
-                      "RSA_OAEP_4096_SHA1_AES_256"]'
+                    description: The wrapping method to be used for incoming key material.
+                      Possible values are RSA_OAEP_3072_SHA1_AES_256 and RSA_OAEP_4096_SHA1_AES_256.
                     type: string
                   keyRing:
                     description: 'The KeyRing that this import job belongs to. Format:
-                      ''projects/{{project}}/locations/{{location}}/keyRings/{{keyRing}}''.
-                      The KeyRing that this import job belongs to. Format: ''''projects/{{project}}/locations/{{location}}/keyRings/{{keyRing}}''''.'
+                      ''projects/{{project}}/locations/{{location}}/keyRings/{{keyRing}}''.'
                     type: string
                   keyRingRef:
                     description: Reference to a KeyRing to populate keyRing.
@@ -150,13 +146,10 @@ spec:
                         type: object
                     type: object
                   protectionLevel:
-                    description: 'The protection level of the ImportJob. This must
+                    description: The protection level of the ImportJob. This must
                       match the protectionLevel of the versionTemplate on the CryptoKey
                       you attempt to import into. Possible values are SOFTWARE, HSM,
-                      and EXTERNAL. The protection level of the ImportJob. This must
-                      match the protectionLevel of the versionTemplate on the CryptoKey
-                      you attempt to import into. Possible values: ["SOFTWARE", "HSM",
-                      "EXTERNAL"]'
+                      and EXTERNAL.
                     type: string
                 required:
                 - importMethod
@@ -343,12 +336,7 @@ spec:
                       creator  at key creation time. Use this statement to verify
                       attributes of the key as stored on the HSM, independently of
                       Google. Only present if the chosen ImportMethod is one with
-                      a protection level of HSM. Structure is documented below. Statement
-                      that was generated and signed by the key creator (for example,
-                      an HSM) at key creation time. Use this statement to verify attributes
-                      of the key as stored on the HSM, independently of Google. Only
-                      present if the chosen ImportMethod is one with a protection
-                      level of HSM.
+                      a protection level of HSM. Structure is documented below.
                     items:
                       properties:
                         content:
@@ -363,22 +351,19 @@ spec:
                   expireTime:
                     description: The time at which this resource is scheduled for
                       expiration and can no longer be used. This is in RFC3339 text
-                      format. The time at which this resource is scheduled for expiration
-                      and can no longer be used. This is in RFC3339 text format.
+                      format.
                     type: string
                   id:
                     description: an identifier for the resource with format {{name}}
                     type: string
                   name:
                     description: The resource name for this ImportJob in the format
-                      projects//locations//keyRings//importJobs/. The resource name
-                      for this ImportJob in the format projects/*/locations/*/keyRings/*/importJobs/*.
+                      projects//locations//keyRings//importJobs/.
                     type: string
                   publicKey:
                     description: The public key with which to wrap key material prior
                       to import. Only returned if state is ACTIVE. Structure is documented
-                      below. The public key with which to wrap key material prior
-                      to import. Only returned if state is 'ACTIVE'.
+                      below.
                     items:
                       properties:
                         pem:
@@ -391,8 +376,7 @@ spec:
                     type: array
                   state:
                     description: The current state of the ImportJob, indicating if
-                      it can be used. The current state of the ImportJob, indicating
-                      if it can be used.
+                      it can be used.
                     type: string
                 type: object
               conditions:

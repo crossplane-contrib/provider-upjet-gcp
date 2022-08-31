@@ -65,31 +65,21 @@ spec:
               forProvider:
                 properties:
                   description:
-                    description: An optional description of this resource. An optional
-                      description of this resource.
+                    description: An optional description of this resource.
                     type: string
                   interface:
                     description: A list of interfaces on this external VPN gateway.
-                      Structure is documented below. A list of interfaces on this
-                      external VPN gateway.
+                      Structure is documented below.
                     items:
                       properties:
                         id:
-                          description: The numeric ID for this interface. Allowed
-                            values are based on the redundancy type of this external
-                            VPN gateway * '0 - SINGLE_IP_INTERNALLY_REDUNDANT' * '0,
-                            1 - TWO_IPS_REDUNDANCY' * '0, 1, 2, 3 - FOUR_IPS_REDUNDANCY'
                           type: number
                         ipAddress:
                           description: IP address of the interface in the external
                             VPN gateway. Only IPv4 is supported. This IP address can
                             be either from your on-premise gateway or another Cloud
                             provider's VPN gateway, it cannot be an IP address from
-                            Google Compute Engine. IP address of the interface in
-                            the external VPN gateway. Only IPv4 is supported. This
-                            IP address can be either from your on-premise gateway
-                            or another Cloud provider's VPN gateway, it cannot be
-                            an IP address from Google Compute Engine.
+                            Google Compute Engine.
                           type: string
                       type: object
                     type: array
@@ -98,11 +88,9 @@ spec:
                       If it is not provided, the provider project is used.
                     type: string
                   redundancyType:
-                    description: 'Indicates the redundancy type of this external VPN
+                    description: Indicates the redundancy type of this external VPN
                       gateway Possible values are FOUR_IPS_REDUNDANCY, SINGLE_IP_INTERNALLY_REDUNDANT,
-                      and TWO_IPS_REDUNDANCY. Indicates the redundancy type of this
-                      external VPN gateway Possible values: ["FOUR_IPS_REDUNDANCY",
-                      "SINGLE_IP_INTERNALLY_REDUNDANT", "TWO_IPS_REDUNDANCY"]'
+                      and TWO_IPS_REDUNDANCY.
                     type: string
                 type: object
               providerConfigRef:

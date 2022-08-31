@@ -67,8 +67,7 @@ spec:
                 properties:
                   disk:
                     description: The name of the regional disk in which the resource
-                      policies are attached to. The name of the regional disk in which
-                      the resource policies are attached to.
+                      policies are attached to.
                     type: string
                   diskRef:
                     description: Reference to a RegionDisk in compute to populate
@@ -148,8 +147,6 @@ spec:
                   name:
                     description: The resource policy to be attached to the disk for
                       scheduling snapshot creation. Do not specify the self link.
-                      The resource policy to be attached to the disk for scheduling
-                      snapshot creation. Do not specify the self link.
                     type: string
                   nameRef:
                     description: Reference to a ResourcePolicy in compute to populate
@@ -232,7 +229,6 @@ spec:
                     type: string
                   region:
                     description: A reference to the region where the disk resides.
-                      A reference to the region where the disk resides.
                     type: string
                 required:
                 - region

@@ -66,8 +66,7 @@ spec:
               forProvider:
                 properties:
                   backendBucket:
-                    description: The backend bucket this signed URL key belongs. The
-                      backend bucket this signed URL key belongs.
+                    description: The backend bucket this signed URL key belongs.
                     type: string
                   backendBucketRef:
                     description: Reference to a BackendBucket in compute to populate
@@ -148,9 +147,7 @@ spec:
                     description: '128-bit key value used for signing the URL. The
                       key value must be a valid RFC 4648 Section 5 base64url encoded
                       string. Note: This property is sensitive and will not be displayed
-                      in the plan. 128-bit key value used for signing the URL. The
-                      key value must be a valid RFC 4648 Section 5 base64url encoded
-                      string.'
+                      in the plan.'
                     properties:
                       key:
                         description: The key to select.
@@ -167,8 +164,7 @@ spec:
                     - namespace
                     type: object
                   name:
-                    description: Name of the signed URL key. Name of the signed URL
-                      key.
+                    description: Name of the signed URL key.
                     type: string
                   project:
                     description: The ID of the project in which the resource belongs.

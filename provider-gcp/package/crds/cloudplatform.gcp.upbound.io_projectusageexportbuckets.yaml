@@ -66,8 +66,7 @@ spec:
               forProvider:
                 properties:
                   bucketName:
-                    description: ':  The bucket to store reports in. The bucket to
-                      store reports in.'
+                    description: ':  The bucket to store reports in.'
                     type: string
                   bucketNameRef:
                     description: Reference to a Bucket in storage to populate bucketName.
@@ -144,13 +143,11 @@ spec:
                     type: object
                   prefix:
                     description: ':  A prefix for the reports, for instance, the project
-                      name. A prefix for the reports, for instance, the project name.'
+                      name.'
                     type: string
                   project:
                     description: ':  The project to set the export bucket on. If it
-                      is not provided, the provider project is used. The project to
-                      set the export bucket on. If it is not provided, the provider
-                      project is used.'
+                      is not provided, the provider project is used.'
                     type: string
                   projectRef:
                     description: Reference to a Project to populate project.

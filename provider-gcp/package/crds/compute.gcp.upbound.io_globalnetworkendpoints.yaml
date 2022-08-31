@@ -68,13 +68,10 @@ spec:
                   fqdn:
                     description: Fully qualified domain name of network endpoint.
                       This can only be specified when network_endpoint_type of the
-                      NEG is INTERNET_FQDN_PORT. Fully qualified domain name of network
-                      endpoint. This can only be specified when network_endpoint_type
-                      of the NEG is INTERNET_FQDN_PORT.
+                      NEG is INTERNET_FQDN_PORT.
                     type: string
                   globalNetworkEndpointGroup:
                     description: The global network endpoint group this endpoint is
-                      part of. The global network endpoint group this endpoint is
                       part of.
                     type: string
                   globalNetworkEndpointGroupRef:
@@ -153,12 +150,10 @@ spec:
                         type: object
                     type: object
                   ipAddress:
-                    description: IPv4 address external endpoint. IPv4 address external
-                      endpoint.
+                    description: IPv4 address external endpoint.
                     type: string
                   port:
-                    description: Port number of the external endpoint. Port number
-                      of the external endpoint.
+                    description: Port number of the external endpoint.
                     type: number
                   project:
                     description: The ID of the project in which the resource belongs.

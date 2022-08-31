@@ -67,34 +67,27 @@ spec:
                   appEngineRoutingOverride:
                     description: Overrides for task-level appEngineRouting. These
                       settings apply only to App Engine tasks in this queue Structure
-                      is documented below. Overrides for task-level appEngineRouting.
-                      These settings apply only to App Engine tasks in this queue
+                      is documented below.
                     items:
                       properties:
                         instance:
-                          description: "App instance. By default, the task is sent
+                          description: App instance. By default, the task is sent
                             to an instance which is available when the task is attempted.
-                            App instance. \n By default, the task is sent to an instance
-                            which is available when the task is attempted."
                           type: string
                         service:
-                          description: "App service. By default, the task is sent
-                            to the service which is the default service when the task
-                            is attempted. App service. \n By default, the task is
-                            sent to the service which is the default service when
-                            the task is attempted."
+                          description: App service. By default, the task is sent to
+                            the service which is the default service when the task
+                            is attempted.
                           type: string
                         version:
-                          description: "App version. By default, the task is sent
-                            to the version which is the default version when the task
-                            is attempted. App version. \n By default, the task is
-                            sent to the version which is the default version when
-                            the task is attempted."
+                          description: App version. By default, the task is sent to
+                            the version which is the default version when the task
+                            is attempted.
                           type: string
                       type: object
                     type: array
                   location:
-                    description: The location of the queue The location of the queue
+                    description: The location of the queue
                     type: string
                   project:
                     description: The ID of the project in which the resource belongs.
@@ -176,14 +169,8 @@ spec:
                         type: object
                     type: object
                   rateLimits:
-                    description: "Rate limits for task dispatches. The queue's actual
-                      dispatch rate is the result of: Rate limits for task dispatches.
-                      \n The queue's actual dispatch rate is the result of: \n * Number
-                      of tasks in the queue * User-specified throttling: rateLimits,
-                      retryConfig, and the queue's state. * System throttling due
-                      to 429 (Too Many Requests) or 503 (Service Unavailable) responses
-                      from the worker, high error rates, or to smooth sudden large
-                      traffic spikes."
+                    description: 'Rate limits for task dispatches. The queue''s actual
+                      dispatch rate is the result of:'
                     items:
                       properties:
                         maxConcurrentDispatches:
@@ -191,76 +178,48 @@ spec:
                             Cloud Tasks allows to be dispatched for this queue. After
                             this threshold has been reached, Cloud Tasks stops dispatching
                             tasks until the number of concurrent requests decreases.
-                            The maximum number of concurrent tasks that Cloud Tasks
-                            allows to be dispatched for this queue. After this threshold
-                            has been reached, Cloud Tasks stops dispatching tasks
-                            until the number of concurrent requests decreases.
                           type: number
                         maxDispatchesPerSecond:
-                          description: "The maximum rate at which tasks are dispatched
+                          description: The maximum rate at which tasks are dispatched
                             from this queue. If unspecified when the queue is created,
-                            Cloud Tasks will pick the default. The maximum rate at
-                            which tasks are dispatched from this queue. \n If unspecified
-                            when the queue is created, Cloud Tasks will pick the default."
+                            Cloud Tasks will pick the default.
                           type: number
                       type: object
                     type: array
                   retryConfig:
                     description: Settings that determine the retry behavior. Structure
-                      is documented below. Settings that determine the retry behavior.
+                      is documented below.
                     items:
                       properties:
                         maxAttempts:
-                          description: "Number of attempts per task. Cloud Tasks will
+                          description: Number of attempts per task. Cloud Tasks will
                             attempt the task maxAttempts times . Must be >= -1. If
                             unspecified when the queue is created, Cloud Tasks will
-                            pick the default. -1 indicates unlimited attempts. Number
-                            of attempts per task. \n Cloud Tasks will attempt the
-                            task maxAttempts times (that is, if the first attempt
-                            fails, then there will be maxAttempts - 1 retries). Must
-                            be >= -1. \n If unspecified when the queue is created,
-                            Cloud Tasks will pick the default. \n -1 indicates unlimited
-                            attempts."
+                            pick the default. -1 indicates unlimited attempts.
                           type: number
                         maxBackoff:
                           description: A task will be scheduled for retry between
                             minBackoff and maxBackoff duration after it fails, if
                             the queue's RetryConfig specifies that the task should
-                            be retried. A task will be scheduled for retry between
-                            minBackoff and maxBackoff duration after it fails, if
-                            the queue's RetryConfig specifies that the task should
                             be retried.
                           type: string
                         maxDoublings:
-                          description: "The time between retries will double maxDoublings
+                          description: The time between retries will double maxDoublings
                             times. A task's retry interval starts at minBackoff, then
                             doubles maxDoublings times, then increases linearly, and
                             finally retries retries at intervals of maxBackoff up
-                            to maxAttempts times. The time between retries will double
-                            maxDoublings times. \n A task's retry interval starts
-                            at minBackoff, then doubles maxDoublings times, then increases
-                            linearly, and finally retries retries at intervals of
-                            maxBackoff up to maxAttempts times."
+                            to maxAttempts times.
                           type: number
                         maxRetryDuration:
-                          description: "If positive, maxRetryDuration specifies the
+                          description: If positive, maxRetryDuration specifies the
                             time limit for retrying a failed task, measured from when
                             the task was first attempted. Once maxRetryDuration time
                             has passed and the task has been attempted maxAttempts
                             times, no further attempts will be made and the task will
-                            be deleted. If zero, then the task age is unlimited. If
-                            positive, maxRetryDuration specifies the time limit for
-                            retrying a failed task, measured from when the task was
-                            first attempted. Once maxRetryDuration time has passed
-                            and the task has been attempted maxAttempts times, no
-                            further attempts will be made and the task will be deleted.
-                            \n If zero, then the task age is unlimited."
+                            be deleted. If zero, then the task age is unlimited.
                           type: string
                         minBackoff:
                           description: A task will be scheduled for retry between
-                            minBackoff and maxBackoff duration after it fails, if
-                            the queue's RetryConfig specifies that the task should
-                            be retried. A task will be scheduled for retry between
                             minBackoff and maxBackoff duration after it fails, if
                             the queue's RetryConfig specifies that the task should
                             be retried.
@@ -269,18 +228,14 @@ spec:
                     type: array
                   stackdriverLoggingConfig:
                     description: Configuration options for writing logs to Stackdriver
-                      Logging. Structure is documented below. Configuration options
-                      for writing logs to Stackdriver Logging.
+                      Logging. Structure is documented below.
                     items:
                       properties:
                         samplingRatio:
                           description: Specifies the fraction of operations to write
                             to Stackdriver Logging. This field may contain any value
                             between 0.0 and 1.0, inclusive. 0.0 is the default and
-                            means that no operations are logged. Specifies the fraction
-                            of operations to write to Stackdriver Logging. This field
-                            may contain any value between 0.0 and 1.0, inclusive.
-                            0.0 is the default and means that no operations are logged.
+                            means that no operations are logged.
                           type: number
                       required:
                       - samplingRatio
@@ -468,13 +423,11 @@ spec:
                   appEngineRoutingOverride:
                     description: Overrides for task-level appEngineRouting. These
                       settings apply only to App Engine tasks in this queue Structure
-                      is documented below. Overrides for task-level appEngineRouting.
-                      These settings apply only to App Engine tasks in this queue
+                      is documented below.
                     items:
                       properties:
                         host:
-                          description: The host that the task is sent to. The host
-                            that the task is sent to.
+                          description: The host that the task is sent to.
                           type: string
                       type: object
                     type: array
@@ -482,29 +435,17 @@ spec:
                     description: an identifier for the resource with format projects/{{project}}/locations/{{location}}/queues/{{name}}
                     type: string
                   rateLimits:
-                    description: "Rate limits for task dispatches. The queue's actual
-                      dispatch rate is the result of: Rate limits for task dispatches.
-                      \n The queue's actual dispatch rate is the result of: \n * Number
-                      of tasks in the queue * User-specified throttling: rateLimits,
-                      retryConfig, and the queue's state. * System throttling due
-                      to 429 (Too Many Requests) or 503 (Service Unavailable) responses
-                      from the worker, high error rates, or to smooth sudden large
-                      traffic spikes."
+                    description: 'Rate limits for task dispatches. The queue''s actual
+                      dispatch rate is the result of:'
                     items:
                       properties:
                         maxBurstSize:
-                          description: "The max burst size. Max burst size limits
-                            how fast tasks in queue are processed when many tasks
-                            are in the queue and the rate is high. This field allows
-                            the queue to have a high rate so processing starts shortly
+                          description: The max burst size. Max burst size limits how
+                            fast tasks in queue are processed when many tasks are
+                            in the queue and the rate is high. This field allows the
+                            queue to have a high rate so processing starts shortly
                             after a task is enqueued, but still limits resource usage
                             when many tasks are enqueued in a short period of time.
-                            The max burst size. \n Max burst size limits how fast
-                            tasks in queue are processed when many tasks are in the
-                            queue and the rate is high. This field allows the queue
-                            to have a high rate so processing starts shortly after
-                            a task is enqueued, but still limits resource usage when
-                            many tasks are enqueued in a short period of time."
                           type: number
                       type: object
                     type: array

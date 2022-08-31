@@ -32,17 +32,14 @@ type NetworkPeeringObservation struct {
 
 	// State for the peering, either ACTIVE or INACTIVE. The peering is
 	// ACTIVE when there's a matching configuration in the peer network.
-	// State for the peering, either ACTIVE or INACTIVE. The peering is ACTIVE when there's a matching configuration in the peer network.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 
-	// Details about the current state of the peering.
 	// Details about the current state of the peering.
 	StateDetails *string `json:"stateDetails,omitempty" tf:"state_details,omitempty"`
 }
 
 type NetworkPeeringParameters struct {
 
-	// Whether to export the custom routes to the peer network. Defaults to false.
 	// Whether to export the custom routes to the peer network. Defaults to false.
 	// +kubebuilder:validation:Optional
 	ExportCustomRoutes *bool `json:"exportCustomRoutes,omitempty" tf:"export_custom_routes,omitempty"`
@@ -52,7 +49,6 @@ type NetworkPeeringParameters struct {
 	ExportSubnetRoutesWithPublicIP *bool `json:"exportSubnetRoutesWithPublicIp,omitempty" tf:"export_subnet_routes_with_public_ip,omitempty"`
 
 	// Whether to import the custom routes from the peer network. Defaults to false.
-	// Whether to export the custom routes from the peer network. Defaults to false.
 	// +kubebuilder:validation:Optional
 	ImportCustomRoutes *bool `json:"importCustomRoutes,omitempty" tf:"import_custom_routes,omitempty"`
 
@@ -60,7 +56,6 @@ type NetworkPeeringParameters struct {
 	// +kubebuilder:validation:Optional
 	ImportSubnetRoutesWithPublicIP *bool `json:"importSubnetRoutesWithPublicIp,omitempty" tf:"import_subnet_routes_with_public_ip,omitempty"`
 
-	// The primary network of the peering.
 	// The primary network of the peering.
 	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.Network
 	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractParamPath("self_link",true)
@@ -77,7 +72,6 @@ type NetworkPeeringParameters struct {
 
 	// The peer network in the peering. The peer network
 	// may belong to a different project.
-	// The peer network in the peering. The peer network may belong to a different project.
 	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.Network
 	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractParamPath("self_link",true)
 	// +kubebuilder:validation:Optional

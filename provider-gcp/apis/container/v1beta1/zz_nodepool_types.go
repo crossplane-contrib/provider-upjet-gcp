@@ -31,13 +31,11 @@ type NodePoolAutoscalingObservation struct {
 type NodePoolAutoscalingParameters struct {
 
 	// Maximum number of nodes in the NodePool. Must be >= min_node_count.
-	// Maximum number of nodes in the NodePool. Must be >= min_node_count.
 	// +kubebuilder:validation:Required
 	MaxNodeCount *float64 `json:"maxNodeCount" tf:"max_node_count,omitempty"`
 
 	// Minimum number of nodes in the NodePool. Must be >=0 and
 	// <= max_node_count.
-	// Minimum number of nodes in the NodePool. Must be >=0 and <= max_node_count.
 	// +kubebuilder:validation:Required
 	MinNodeCount *float64 `json:"minNodeCount" tf:"min_node_count,omitempty"`
 }
@@ -48,11 +46,9 @@ type NodePoolManagementObservation struct {
 type NodePoolManagementParameters struct {
 
 	// Whether the nodes will be automatically repaired.
-	// Whether the nodes will be automatically repaired.
 	// +kubebuilder:validation:Optional
 	AutoRepair *bool `json:"autoRepair,omitempty" tf:"auto_repair,omitempty"`
 
-	// Whether the nodes will be automatically upgraded.
 	// Whether the nodes will be automatically upgraded.
 	// +kubebuilder:validation:Optional
 	AutoUpgrade *bool `json:"autoUpgrade,omitempty" tf:"auto_upgrade,omitempty"`
@@ -63,7 +59,6 @@ type NodePoolNodeConfigGcfsConfigObservation struct {
 
 type NodePoolNodeConfigGcfsConfigParameters struct {
 
-	// Whether or not GCFS is enabled
 	// +kubebuilder:validation:Required
 	Enabled *bool `json:"enabled" tf:"enabled,omitempty"`
 }
@@ -91,7 +86,6 @@ type NodePoolNodeConfigGvnicObservation struct {
 
 type NodePoolNodeConfigGvnicParameters struct {
 
-	// Whether or not gvnic is enabled
 	// +kubebuilder:validation:Required
 	Enabled *bool `json:"enabled" tf:"enabled,omitempty"`
 }
@@ -101,67 +95,51 @@ type NodePoolNodeConfigObservation_2 struct {
 
 type NodePoolNodeConfigParameters_2 struct {
 
-	// The Customer Managed Encryption Key used to encrypt the boot disk attached to each node in the node pool.
 	// +kubebuilder:validation:Optional
 	BootDiskKMSKey *string `json:"bootDiskKmsKey,omitempty" tf:"boot_disk_kms_key,omitempty"`
 
-	// Size of the disk attached to each node, specified in GB. The smallest allowed disk size is 10GB.
 	// +kubebuilder:validation:Optional
 	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
 
-	// Type of the disk attached to each node. Such as pd-standard, pd-balanced or pd-ssd
 	// +kubebuilder:validation:Optional
 	DiskType *string `json:"diskType,omitempty" tf:"disk_type,omitempty"`
 
-	// GCFS configuration for this node.
 	// +kubebuilder:validation:Optional
 	GcfsConfig []NodePoolNodeConfigGcfsConfigParameters `json:"gcfsConfig,omitempty" tf:"gcfs_config,omitempty"`
 
-	// List of the type and count of accelerator cards attached to the instance.
 	// +kubebuilder:validation:Optional
 	GuestAccelerator []NodePoolNodeConfigGuestAcceleratorParameters `json:"guestAccelerator,omitempty" tf:"guest_accelerator,omitempty"`
 
-	// Enable or disable gvnic in the node pool.
 	// +kubebuilder:validation:Optional
 	Gvnic []NodePoolNodeConfigGvnicParameters `json:"gvnic,omitempty" tf:"gvnic,omitempty"`
 
-	// The image type to use for this node. Note that for a given image type, the latest version of it will be used.
 	// +kubebuilder:validation:Optional
 	ImageType *string `json:"imageType,omitempty" tf:"image_type,omitempty"`
 
-	// The map of Kubernetes labels (key/value pairs) to be applied to each node. These will added in addition to any default label(s) that Kubernetes may apply to the node.
 	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
-	// The number of local SSD disks to be attached to the node.
 	// +kubebuilder:validation:Optional
 	LocalSsdCount *float64 `json:"localSsdCount,omitempty" tf:"local_ssd_count,omitempty"`
 
-	// The name of a Google Compute Engine machine type.
 	// +kubebuilder:validation:Optional
 	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
 
-	// The metadata key/value pairs assigned to instances in the cluster.
 	// +kubebuilder:validation:Optional
 	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
 
-	// Minimum CPU platform to be used by this instance. The instance may be scheduled on the specified or newer CPU platform.
 	// +kubebuilder:validation:Optional
 	MinCPUPlatform *string `json:"minCpuPlatform,omitempty" tf:"min_cpu_platform,omitempty"`
 
-	// Setting this field will assign instances of this pool to run on the specified node group. This is useful for running workloads on sole tenant nodes.
 	// +kubebuilder:validation:Optional
 	NodeGroup *string `json:"nodeGroup,omitempty" tf:"node_group,omitempty"`
 
-	// The set of Google API scopes to be made available on all of the node VMs.
 	// +kubebuilder:validation:Optional
 	OAuthScopes []*string `json:"oauthScopes,omitempty" tf:"oauth_scopes,omitempty"`
 
-	// Whether the nodes are created as preemptible VM instances.
 	// +kubebuilder:validation:Optional
 	Preemptible *bool `json:"preemptible,omitempty" tf:"preemptible,omitempty"`
 
-	// The Google Cloud Platform Service Account to be used by the node VMs.
 	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/cloudplatform/v1beta1.ServiceAccount
 	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractParamPath("email",true)
 	// +kubebuilder:validation:Optional
@@ -175,19 +153,15 @@ type NodePoolNodeConfigParameters_2 struct {
 	// +kubebuilder:validation:Optional
 	ServiceAccountSelector *v1.Selector `json:"serviceAccountSelector,omitempty" tf:"-"`
 
-	// Shielded Instance options.
 	// +kubebuilder:validation:Optional
 	ShieldedInstanceConfig []NodePoolNodeConfigShieldedInstanceConfigParameters `json:"shieldedInstanceConfig,omitempty" tf:"shielded_instance_config,omitempty"`
 
-	// The list of instance tags applied to all nodes.
 	// +kubebuilder:validation:Optional
 	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
-	// List of Kubernetes taints to be applied to each node.
 	// +kubebuilder:validation:Optional
 	Taint []NodePoolNodeConfigTaintParameters `json:"taint,omitempty" tf:"taint,omitempty"`
 
-	// The workload metadata configuration for this node.
 	// +kubebuilder:validation:Optional
 	WorkloadMetadataConfig []NodePoolNodeConfigWorkloadMetadataConfigParameters `json:"workloadMetadataConfig,omitempty" tf:"workload_metadata_config,omitempty"`
 }
@@ -197,11 +171,9 @@ type NodePoolNodeConfigShieldedInstanceConfigObservation struct {
 
 type NodePoolNodeConfigShieldedInstanceConfigParameters struct {
 
-	// Defines whether the instance has integrity monitoring enabled.
 	// +kubebuilder:validation:Optional
 	EnableIntegrityMonitoring *bool `json:"enableIntegrityMonitoring,omitempty" tf:"enable_integrity_monitoring,omitempty"`
 
-	// Defines whether the instance has Secure Boot enabled.
 	// +kubebuilder:validation:Optional
 	EnableSecureBoot *bool `json:"enableSecureBoot,omitempty" tf:"enable_secure_boot,omitempty"`
 }
@@ -226,7 +198,6 @@ type NodePoolNodeConfigWorkloadMetadataConfigObservation struct {
 
 type NodePoolNodeConfigWorkloadMetadataConfigParameters struct {
 
-	// Mode is the configuration for how to expose metadata to workloads running on the node.
 	// +kubebuilder:validation:Required
 	Mode *string `json:"mode" tf:"mode,omitempty"`
 }
@@ -237,10 +208,8 @@ type NodePoolObservation_2 struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// The resource URLs of the managed instance groups associated with this node pool.
-	// The resource URLs of the managed instance groups associated with this node pool.
 	InstanceGroupUrls []*string `json:"instanceGroupUrls,omitempty" tf:"instance_group_urls,omitempty"`
 
-	// List of instance group URLs which have been assigned to this node pool.
 	// List of instance group URLs which have been assigned to this node pool.
 	ManagedInstanceGroupUrls []*string `json:"managedInstanceGroupUrls,omitempty" tf:"managed_instance_group_urls,omitempty"`
 
@@ -251,12 +220,10 @@ type NodePoolParameters_2 struct {
 
 	// Configuration required by cluster autoscaler to adjust
 	// the size of the node pool to the current cluster usage. Structure is documented below.
-	// Configuration required by cluster autoscaler to adjust the size of the node pool to the current cluster usage.
 	// +kubebuilder:validation:Optional
 	Autoscaling []NodePoolAutoscalingParameters `json:"autoscaling,omitempty" tf:"autoscaling,omitempty"`
 
 	// The cluster to create the node pool for. Cluster must be present in location provided for clusters. May be specified in the format projects/{{project}}/locations/{{location}}/clusters/{{cluster}} or as just the name of the cluster.
-	// The cluster to create the node pool for. Cluster must be present in location provided for zonal clusters.
 	// +crossplane:generate:reference:type=Cluster
 	// +crossplane:generate:reference:extractor=github.com/upbound/official-providers/provider-gcp/config/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
@@ -277,18 +244,15 @@ type NodePoolParameters_2 struct {
 	// and recreation on the next Terraform run .  If you don't
 	// need this value, don't set it.  If you do need it, you can use a lifecycle block to
 	// ignore subsequent changes to this field.
-	// The initial number of nodes for the pool. In regional or multi-zonal clusters, this is the number of nodes per zone. Changing this will force recreation of the resource.
 	// +kubebuilder:validation:Optional
 	InitialNodeCount *float64 `json:"initialNodeCount,omitempty" tf:"initial_node_count,omitempty"`
 
 	// The location  of the cluster.
-	// The location (region or zone) of the cluster.
 	// +kubebuilder:validation:Optional
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
 	// Node management configuration, wherein auto-repair and
 	// auto-upgrade is configured. Structure is documented below.
-	// Node management configuration, wherein auto-repair and auto-upgrade is configured.
 	// +kubebuilder:validation:Optional
 	Management []NodePoolManagementParameters `json:"management,omitempty" tf:"management,omitempty"`
 
@@ -297,19 +261,16 @@ type NodePoolParameters_2 struct {
 	// pools belonging to clusters that do not have IP Aliasing enabled.
 	// See the official documentation
 	// for more information.
-	// The maximum number of pods per node in this node pool. Note that this does not work on node pools which are "route-based" - that is, node pools belonging to clusters that do not have IP Aliasing enabled.
 	// +kubebuilder:validation:Optional
 	MaxPodsPerNode *float64 `json:"maxPodsPerNode,omitempty" tf:"max_pods_per_node,omitempty"`
 
 	// Parameters used in creating the node pool. See
 	// google_container_cluster for schema.
-	// The configuration of the nodepool
 	// +kubebuilder:validation:Optional
 	NodeConfig []NodePoolNodeConfigParameters_2 `json:"nodeConfig,omitempty" tf:"node_config,omitempty"`
 
 	// The number of nodes per instance group. This field can be used to
 	// update the number of nodes per instance group but should not be used alongside autoscaling.
-	// The number of nodes per instance group. This field can be used to update the number of nodes per instance group but should not be used alongside autoscaling.
 	// +kubebuilder:validation:Optional
 	NodeCount *float64 `json:"nodeCount,omitempty" tf:"node_count,omitempty"`
 
@@ -317,20 +278,17 @@ type NodePoolParameters_2 struct {
 	// be in the region of their regional cluster or in the same region as their
 	// cluster's zone for zonal clusters. If unspecified, the cluster-level
 	// node_locations will be used.
-	// The list of zones in which the node pool's nodes should be located. Nodes must be in the region of their regional cluster or in the same region as their cluster's zone for zonal clusters. If unspecified, the cluster-level node_locations will be used.
 	// +kubebuilder:validation:Optional
 	NodeLocations []*string `json:"nodeLocations,omitempty" tf:"node_locations,omitempty"`
 
 	// The ID of the project in which to create the node pool. If blank,
 	// the provider-configured project will be used.
-	// The ID of the project in which to create the node pool. If blank, the provider-configured project will be used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Specify node upgrade settings to change how many nodes GKE attempts to
 	// upgrade at once. The number of nodes upgraded simultaneously is the sum of max_surge and max_unavailable.
 	// The maximum number of nodes upgraded simultaneously is limited to 20. Structure is documented below.
-	// Specify node upgrade settings to change how many nodes GKE attempts to upgrade at once. The number of nodes upgraded simultaneously is the sum of max_surge and max_unavailable. The maximum number of nodes upgraded simultaneously is limited to 20.
 	// +kubebuilder:validation:Optional
 	UpgradeSettings []NodePoolUpgradeSettingsParameters `json:"upgradeSettings,omitempty" tf:"upgrade_settings,omitempty"`
 
@@ -340,7 +298,6 @@ type NodePoolParameters_2 struct {
 	// recommended that you specify explicit versions as Terraform will see spurious diffs
 	// when fuzzy versions are used. See the google_container_engine_versions data source's
 	// version_prefix field to approximate fuzzy versions in a Terraform-compatible way.
-	// The Kubernetes version for the nodes in this pool. Note that if this field and auto_upgrade are both specified, they will fight each other for what the node version should be, so setting both is highly discouraged. While a fuzzy version can be specified, it's recommended that you specify explicit versions as Terraform will see spurious diffs when fuzzy versions are used. See the google_container_engine_versions data source's version_prefix field to approximate fuzzy versions in a Terraform-compatible way.
 	// +kubebuilder:validation:Optional
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
 }
@@ -353,14 +310,12 @@ type NodePoolUpgradeSettingsParameters struct {
 	// The number of additional nodes that can be added to the node pool during
 	// an upgrade. Increasing max_surge raises the number of nodes that can be upgraded simultaneously.
 	// Can be set to 0 or greater.
-	// The number of additional nodes that can be added to the node pool during an upgrade. Increasing max_surge raises the number of nodes that can be upgraded simultaneously. Can be set to 0 or greater.
 	// +kubebuilder:validation:Required
 	MaxSurge *float64 `json:"maxSurge" tf:"max_surge,omitempty"`
 
 	// The number of nodes that can be simultaneously unavailable during
 	// an upgrade. Increasing max_unavailable raises the number of nodes that can be upgraded in
 	// parallel. Can be set to 0 or greater.
-	// The number of nodes that can be simultaneously unavailable during an upgrade. Increasing max_unavailable raises the number of nodes that can be upgraded in parallel. Can be set to 0 or greater.
 	// +kubebuilder:validation:Required
 	MaxUnavailable *float64 `json:"maxUnavailable" tf:"max_unavailable,omitempty"`
 }

@@ -66,7 +66,7 @@ spec:
               forProvider:
                 properties:
                   bucketName:
-                    description: Cloud Storage bucket name. Cloud Storage bucket name.
+                    description: Cloud Storage bucket name.
                     type: string
                   bucketNameRef:
                     description: Reference to a Bucket in storage to populate bucketName.
@@ -143,54 +143,39 @@ spec:
                     type: object
                   cdnPolicy:
                     description: Cloud CDN configuration for this Backend Bucket.
-                      Structure is documented below. Cloud CDN configuration for this
-                      Backend Bucket.
+                      Structure is documented below.
                     items:
                       properties:
                         cacheMode:
                           description: 'Specifies the cache setting for all responses
                             from this backend. The possible values are: USE_ORIGIN_HEADERS,
                             FORCE_CACHE_ALL and CACHE_ALL_STATIC Possible values are
-                            USE_ORIGIN_HEADERS, FORCE_CACHE_ALL, and CACHE_ALL_STATIC.
-                            Specifies the cache setting for all responses from this
-                            backend. The possible values are: USE_ORIGIN_HEADERS,
-                            FORCE_CACHE_ALL and CACHE_ALL_STATIC Possible values:
-                            ["USE_ORIGIN_HEADERS", "FORCE_CACHE_ALL", "CACHE_ALL_STATIC"]'
+                            USE_ORIGIN_HEADERS, FORCE_CACHE_ALL, and CACHE_ALL_STATIC.'
                           type: string
                         clientTtl:
                           description: Specifies the maximum allowed TTL for cached
-                            content served by this origin. Specifies the maximum allowed
-                            TTL for cached content served by this origin.
+                            content served by this origin.
                           type: number
                         defaultTtl:
                           description: Specifies the default TTL for cached content
                             served by this origin for responses that do not have an
-                            existing valid TTL . Specifies the default TTL for cached
-                            content served by this origin for responses that do not
-                            have an existing valid TTL (max-age or s-max-age).
+                            existing valid TTL .
                           type: number
                         maxTtl:
                           description: Specifies the maximum allowed TTL for cached
-                            content served by this origin. Specifies the maximum allowed
-                            TTL for cached content served by this origin.
+                            content served by this origin.
                           type: number
                         negativeCaching:
                           description: Negative caching allows per-status code TTLs
                             to be set, in order to apply fine-grained caching for
-                            common errors or redirects. Negative caching allows per-status
-                            code TTLs to be set, in order to apply fine-grained caching
-                            for common errors or redirects.
+                            common errors or redirects.
                           type: boolean
                         negativeCachingPolicy:
                           description: Sets a cache TTL for the specified HTTP status
                             code. negativeCaching must be enabled to configure negativeCachingPolicy.
                             Omitting the policy and leaving negativeCaching enabled
                             will use Cloud CDN's default cache TTLs. Structure is
-                            documented below. Sets a cache TTL for the specified HTTP
-                            status code. negativeCaching must be enabled to configure
-                            negativeCachingPolicy. Omitting the policy and leaving
-                            negativeCaching enabled will use Cloud CDN's default cache
-                            TTLs.
+                            documented below.
                           items:
                             properties:
                               code:
@@ -198,31 +183,20 @@ spec:
                                   against. Only HTTP status codes 300, 301, 308, 404,
                                   405, 410, 421, 451 and 501 can be specified as values,
                                   and you cannot specify a status code more than once.
-                                  The HTTP status code to define a TTL against. Only
-                                  HTTP status codes 300, 301, 308, 404, 405, 410,
-                                  421, 451 and 501 can be specified as values, and
-                                  you cannot specify a status code more than once.
                                 type: number
                               ttl:
                                 description: The TTL  for which to cache responses
                                   with the corresponding status code. The maximum
                                   allowed value is 1800s , noting that infrequently
                                   accessed objects may be evicted from the cache before
-                                  the defined TTL. The TTL (in seconds) for which
-                                  to cache responses with the corresponding status
-                                  code. The maximum allowed value is 1800s (30 minutes),
-                                  noting that infrequently accessed objects may be
-                                  evicted from the cache before the defined TTL.
+                                  the defined TTL.
                                 type: number
                             type: object
                           type: array
                         serveWhileStale:
                           description: Serve existing content from the cache  when
                             revalidating content with the origin, or when an error
-                            is encountered when refreshing the cache. Serve existing
-                            content from the cache (if available) when revalidating
-                            content with the origin, or when an error is encountered
-                            when refreshing the cache.
+                            is encountered when refreshing the cache.
                           type: number
                         signedUrlCacheMaxAgeSec:
                           description: 'Maximum number of seconds the response to
@@ -232,38 +206,26 @@ spec:
                             Cloud CDN will internally behave as though all responses
                             from this backend had a "Cache-Control: public, max-age=[TTL]"
                             header, regardless of any existing Cache-Control header.
-                            The actual headers served in responses will not be altered.
-                            Maximum number of seconds the response to a signed URL
-                            request will be considered fresh. After this time period,
-                            the response will be revalidated before being served.
-                            When serving responses to signed URL requests, Cloud CDN
-                            will internally behave as though all responses from this
-                            backend had a "Cache-Control: public, max-age=[TTL]" header,
-                            regardless of any existing Cache-Control header. The actual
-                            headers served in responses will not be altered.'
+                            The actual headers served in responses will not be altered.'
                           type: number
                       type: object
                     type: array
                   customResponseHeaders:
                     description: Headers that the HTTP/S load balancer should add
-                      to proxied responses. Headers that the HTTP/S load balancer
-                      should add to proxied responses.
+                      to proxied responses.
                     items:
                       type: string
                     type: array
                   description:
                     description: An optional textual description of the resource;
-                      provided by the client when the resource is created. An optional
-                      textual description of the resource; provided by the client
-                      when the resource is created.
+                      provided by the client when the resource is created.
                     type: string
                   edgeSecurityPolicy:
                     description: The security policy associated with this backend
-                      bucket. The security policy associated with this backend bucket.
+                      bucket.
                     type: string
                   enableCdn:
                     description: If true, enable Cloud CDN for this BackendBucket.
-                      If true, enable Cloud CDN for this BackendBucket.
                     type: boolean
                   project:
                     description: The ID of the project in which the resource belongs.
@@ -447,8 +409,7 @@ spec:
               atProvider:
                 properties:
                   creationTimestamp:
-                    description: Creation timestamp in RFC3339 text format. Creation
-                      timestamp in RFC3339 text format.
+                    description: Creation timestamp in RFC3339 text format.
                     type: string
                   id:
                     description: an identifier for the resource with format projects/{{project}}/global/backendBuckets/{{name}}

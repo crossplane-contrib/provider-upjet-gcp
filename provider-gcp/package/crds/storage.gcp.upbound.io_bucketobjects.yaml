@@ -65,8 +65,7 @@ spec:
               forProvider:
                 properties:
                   bucket:
-                    description: The name of the containing bucket. The name of the
-                      containing bucket.
+                    description: The name of the containing bucket.
                     type: string
                   bucketRef:
                     description: Reference to a Bucket to populate bucket.
@@ -144,49 +143,38 @@ spec:
                   cacheControl:
                     description: Cache-Control directive to specify caching behavior
                       of object data. If omitted and object is accessible to all anonymous
-                      users, the default will be public, max-age=3600 Cache-Control
-                      directive to specify caching behavior of object data. If omitted
-                      and object is accessible to all anonymous users, the default
-                      will be public, max-age=3600
+                      users, the default will be public, max-age=3600
                     type: string
                   content:
                     description: 'Data as string to be uploaded. Must be defined if
                       source is not. Note: The content field is marked as sensitive.
-                      To view the raw contents of the object, please define an output.
-                      Data as string to be uploaded. Must be defined if source is
-                      not. Note: The content field is marked as sensitive. To view
-                      the raw contents of the object, please define an output.'
+                      To view the raw contents of the object, please define an output.'
                     type: string
                   contentDisposition:
-                    description: Content-Disposition of the object data. Content-Disposition
-                      of the object data.
+                    description: Content-Disposition of the object data.
                     type: string
                   contentEncoding:
-                    description: Content-Encoding of the object data. Content-Encoding
-                      of the object data.
+                    description: Content-Encoding of the object data.
                     type: string
                   contentLanguage:
-                    description: Content-Language of the object data. Content-Language
-                      of the object data.
+                    description: Content-Language of the object data.
                     type: string
                   contentType:
                     description: Content-Type of the object data. Defaults to "application/octet-stream"
-                      or "text/plain; charset=utf-8". Content-Type of the object data.
-                      Defaults to "application/octet-stream" or "text/plain; charset=utf-8".
+                      or "text/plain; charset=utf-8".
                     type: string
                   customerEncryption:
                     description: Enables object encryption with Customer-Supplied
                       Encryption Key . [Google documentation about CSEK.] Structure
-                      is documented below. Encryption key; encoded using base64.
+                      is documented below.
                     items:
                       properties:
                         encryptionAlgorithm:
-                          description: 'Encryption algorithm. Default: AES256 The
-                            encryption algorithm. Default: AES256'
+                          description: 'Encryption algorithm. Default: AES256'
                           type: string
                         encryptionKeySecretRef:
                           description: Base64 encoded Customer-Supplied Encryption
-                            Key. Base64 encoded customer supplied encryption key.
+                            Key.
                           properties:
                             key:
                               description: The key to select.
@@ -209,49 +197,31 @@ spec:
                   detectMd5Hash:
                     type: string
                   eventBasedHold:
-                    description: Whether an object is under event-based hold. Event-based
-                      hold is a way to retain objects until an event occurs, which
-                      is signified by the hold's release (i.e. this value is set to
-                      false). After being released (set to false), such objects will
-                      be subject to bucket-level retention (if any).
                     type: boolean
                   kmsKeyName:
                     description: The resource name of the Cloud KMS key that will
-                      be used to encrypt the object. Resource name of the Cloud KMS
-                      key that will be used to encrypt the object. Overrides the object
-                      metadata's kmsKeyName value, if any.
+                      be used to encrypt the object.
                     type: string
                   metadata:
                     additionalProperties:
                       type: string
-                    description: User-provided metadata, in key/value pairs. User-provided
-                      metadata, in key/value pairs.
+                    description: User-provided metadata, in key/value pairs.
                     type: object
                   name:
                     description: The name of the object. If you're interpolating the
-                      name of this object, see output_name instead. The name of the
-                      object. If you're interpolating the name of this object, see
-                      output_name instead.
+                      name of this object, see output_name instead.
                     type: string
                   source:
                     description: A path to the data you want to upload. Must be defined
-                      if content is not. A path to the data you want to upload. Must
-                      be defined if content is not.
+                      if content is not.
                     type: string
                   storageClass:
                     description: 'The StorageClass of the new bucket object. Supported
                       values include: MULTI_REGIONAL, REGIONAL, NEARLINE, COLDLINE,
                       ARCHIVE. If not provided, this defaults to the bucket''s default
-                      storage class or to a standard class. The StorageClass of the
-                      new bucket object. Supported values include: MULTI_REGIONAL,
-                      REGIONAL, NEARLINE, COLDLINE, ARCHIVE. If not provided, this
-                      defaults to the bucket''s default storage class or to a standard
-                      class.'
+                      storage class or to a standard class.'
                     type: string
                   temporaryHold:
-                    description: Whether an object is under temporary hold. While
-                      this flag is set to true, the object is protected against deletion
-                      and overwrites.
                     type: boolean
                 required:
                 - name
@@ -433,30 +403,23 @@ spec:
               atProvider:
                 properties:
                   crc32c:
-                    description: Base 64 CRC32 hash of the uploaded data. Base 64
-                      CRC32 hash of the uploaded data.
+                    description: Base 64 CRC32 hash of the uploaded data.
                     type: string
                   id:
                     type: string
                   md5hash:
-                    description: Base 64 MD5 hash of the uploaded data. Base 64 MD5
-                      hash of the uploaded data.
+                    description: Base 64 MD5 hash of the uploaded data.
                     type: string
                   mediaLink:
-                    description: A url reference to download this object. A url reference
-                      to download this object.
+                    description: A url reference to download this object.
                     type: string
                   outputName:
                     description: The name of the object. Use this field in interpolations
                       with google_storage_object_acl to recreate google_storage_object_acl
                       resources when your google_storage_bucket_object is recreated.
-                      The name of the object. Use this field in interpolations with
-                      google_storage_object_acl to recreate google_storage_object_acl
-                      resources when your google_storage_bucket_object is recreated.
                     type: string
                   selfLink:
-                    description: A url reference to this object. A url reference to
-                      this object.
+                    description: A url reference to this object.
                     type: string
                 type: object
               conditions:

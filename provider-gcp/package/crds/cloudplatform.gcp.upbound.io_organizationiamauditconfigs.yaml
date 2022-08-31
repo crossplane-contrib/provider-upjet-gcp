@@ -66,40 +66,21 @@ spec:
               forProvider:
                 properties:
                   auditLogConfig:
-                    description: The configuration for logging of each type of permission.
-                      This can be specified multiple times.
                     items:
                       properties:
                         exemptedMembers:
-                          description: 'Identities that do not cause logging for this
-                            type of permission. Each entry can have one of the following
-                            values:user:{emailid}: An email address that represents
-                            a specific Google account. For example, alice@gmail.com
-                            or joe@example.com. serviceAccount:{emailid}: An email
-                            address that represents a service account. For example,
-                            my-other-app@appspot.gserviceaccount.com. group:{emailid}:
-                            An email address that represents a Google group. For example,
-                            admins@example.com. domain:{domain}: A G Suite domain
-                            (primary, instead of alias) name that represents all the
-                            users of that domain. For example, google.com or example.com.'
                           items:
                             type: string
                           type: array
                         logType:
-                          description: Permission type for which logging is to be
-                            configured. Must be one of DATA_READ, DATA_WRITE, or ADMIN_READ.
                           type: string
                       required:
                       - logType
                       type: object
                     type: array
                   orgId:
-                    description: The numeric ID of the organization in which you want
-                      to manage the audit logging config.
                     type: string
                   service:
-                    description: Service which will be enabled for audit logging.
-                      The special value allServices covers all services.
                     type: string
                 required:
                 - auditLogConfig
@@ -284,7 +265,6 @@ spec:
               atProvider:
                 properties:
                   etag:
-                    description: The etag of iam policy
                     type: string
                   id:
                     type: string

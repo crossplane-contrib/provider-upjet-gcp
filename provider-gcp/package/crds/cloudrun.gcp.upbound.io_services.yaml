@@ -72,41 +72,19 @@ spec:
                     type: boolean
                   location:
                     description: The location of the cloud run instance. eg us-central1
-                      The location of the cloud run instance. eg us-central1
                     type: string
                   metadata:
-                    description: Metadata associated with this Service, including
-                      name, namespace, labels, and annotations.
                     items:
                       properties:
                         annotations:
                           additionalProperties:
                             type: string
-                          description: "Annotations is a key value map stored with
-                            a resource that may be set by external tools to store
-                            and retrieve arbitrary metadata. More info: http://kubernetes.io/docs/user-guide/annotations
-                            \n **Note**: The Cloud Run API may add additional annotations
-                            that were not provided in your config. If terraform plan
-                            shows a diff where a server-side annotation is added,
-                            you can add it to your config or apply the lifecycle.ignore_changes
-                            rule to the metadata.0.annotations field. \n Cloud Run
-                            (fully managed) uses the following annotation keys to
-                            configure features on a Service: \n - 'run.googleapis.com/ingress'
-                            sets the [ingress settings](https://cloud.google.com/sdk/gcloud/reference/run/deploy#--ingress)
-                            for the Service. For example, '\"run.googleapis.com/ingress\"
-                            = \"all\"'."
                           type: object
                         labels:
                           additionalProperties:
                             type: string
-                          description: 'Map of string keys and values that can be
-                            used to organize and categorize (scope and select) objects.
-                            May match selectors of replication controllers and routes.
-                            More info: http://kubernetes.io/docs/user-guide/labels'
                           type: object
                         namespace:
-                          description: In Cloud Run the namespace must be equal to
-                            either the project ID or project number.
                           type: string
                         namespaceRef:
                           description: Reference to a Project in cloudplatform to
@@ -193,90 +171,44 @@ spec:
                       If it is not provided, the provider project is used.
                     type: string
                   template:
-                    description: "template holds the latest specification for the
+                    description: 'template holds the latest specification for the
                       Revision to be stamped out. The template references the container
                       image, and may also include labels and annotations that should
                       be attached to the Revision. To correlate a Revision, and/or
-                      to force a Revision to be created when the spec doesn't otherwise
+                      to force a Revision to be created when the spec doesn''t otherwise
                       change, a nonce label may be provided in the template metadata.
                       For more details, see: https://github.com/knative/serving/blob/main/docs/client-conventions.md#associate-modifications-with-revisions
                       Cloud Run does not currently support referencing a build that
                       is responsible for materializing the container image from source.
-                      Structure is documented below. template holds the latest specification
-                      for the Revision to be stamped out. The template references
-                      the container image, and may also include labels and annotations
-                      that should be attached to the Revision. To correlate a Revision,
-                      and/or to force a Revision to be created when the spec doesn't
-                      otherwise change, a nonce label may be provided in the template
-                      metadata. For more details, see: https://github.com/knative/serving/blob/main/docs/client-conventions.md#associate-modifications-with-revisions
-                      \n Cloud Run does not currently support referencing a build
-                      that is responsible for materializing the container image from
-                      source."
+                      Structure is documented below.'
                     items:
                       properties:
                         metadata:
-                          description: Optional metadata for this Revision, including
-                            labels and annotations. Name will be generated by the
-                            Configuration. To set minimum instances for this revision,
-                            use the "autoscaling.knative.dev/minScale" annotation
-                            key. To set maximum instances for this revision, use the
-                            "autoscaling.knative.dev/maxScale" annotation key. To
-                            set Cloud SQL connections for the revision, use the "run.googleapis.com/cloudsql-instances"
-                            annotation key.
                           items:
                             properties:
                               annotations:
                                 additionalProperties:
                                   type: string
-                                description: "Annotations is a key value map stored
-                                  with a resource that may be set by external tools
-                                  to store and retrieve arbitrary metadata. More info:
-                                  http://kubernetes.io/docs/user-guide/annotations
-                                  \n **Note**: The Cloud Run API may add additional
-                                  annotations that were not provided in your config.
-                                  If terraform plan shows a diff where a server-side
-                                  annotation is added, you can add it to your config
-                                  or apply the lifecycle.ignore_changes rule to the
-                                  metadata.0.annotations field."
                                 type: object
                               labels:
                                 additionalProperties:
                                   type: string
-                                description: 'Map of string keys and values that can
-                                  be used to organize and categorize (scope and select)
-                                  objects. May match selectors of replication controllers
-                                  and routes. More info: http://kubernetes.io/docs/user-guide/labels'
                                 type: object
                               name:
-                                description: 'Name must be unique within a namespace,
-                                  within a Cloud Run region. Is required when creating
-                                  resources. Name is primarily intended for creation
-                                  idempotence and configuration definition. Cannot
-                                  be updated. More info: http://kubernetes.io/docs/user-guide/identifiers#names'
                                 type: string
                               namespace:
-                                description: In Cloud Run the namespace must be equal
-                                  to either the project ID or project number. It will
-                                  default to the resource's project.
                                 type: string
                             type: object
                           type: array
                         spec:
                           description: RevisionSpec holds the desired state of the
-                            Revision . Structure is documented below. RevisionSpec
-                            holds the desired state of the Revision (from the client).
+                            Revision . Structure is documented below.
                           items:
                             properties:
                               containerConcurrency:
                                 description: 'ContainerConcurrency specifies the maximum
                                   allowed in-flight requests per container of the
-                                  Revision. Values are: ContainerConcurrency specifies
-                                  the maximum allowed in-flight (concurrent) requests
-                                  per container of the Revision. Values are: - ''0''
-                                  thread-safe, the system should manage the max concurrency.
-                                  This is the default value. - ''1'' not-thread-safe.
-                                  Single concurrency - ''2-N'' thread-safe, max concurrency
-                                  of N'
+                                  Revision. Values are:'
                                 type: number
                               containers:
                                 description: 'Container defines the unit of execution
@@ -284,12 +216,7 @@ spec:
                                   we disallow a number of the fields of this Container,
                                   including: name, ports, and volumeMounts. The runtime
                                   contract is documented here: https://github.com/knative/serving/blob/main/docs/runtime-contract.md
-                                  Structure is documented below. Container defines
-                                  the unit of execution for this Revision. In the
-                                  context of a Revision, we disallow a number of the
-                                  fields of this Container, including: name, ports,
-                                  and volumeMounts. The runtime contract is documented
-                                  here: https://github.com/knative/serving/blob/main/docs/runtime-contract.md'
+                                  Structure is documented below.'
                                 items:
                                   properties:
                                     args:
@@ -302,17 +229,7 @@ spec:
                                         be escaped with a double $$, ie: $$. Escaped
                                         references will never be expanded, regardless
                                         of whether the variable exists or not. More
-                                        info: https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/#running-a-command-in-a-shell
-                                        Arguments to the entrypoint. The docker image''s
-                                        CMD is used if this is not provided. Variable
-                                        references $(VAR_NAME) are expanded using
-                                        the container''s environment. If a variable
-                                        cannot be resolved, the reference in the input
-                                        string will be unchanged. The $(VAR_NAME)
-                                        syntax can be escaped with a double $$, ie:
-                                        $$(VAR_NAME). Escaped references will never
-                                        be expanded, regardless of whether the variable
-                                        exists or not. More info: https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/#running-a-command-in-a-shell'
+                                        info: https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/#running-a-command-in-a-shell'
                                       items:
                                         type: string
                                       type: array
@@ -326,30 +243,17 @@ spec:
                                         unchanged. The $ syntax can be escaped with
                                         a double $$, ie: $$. Escaped references will
                                         never be expanded, regardless of whether the
-                                        variable exists or not. More info: https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/#running-a-command-in-a-shell
-                                        Entrypoint array. Not executed within a shell.
-                                        The docker image''s ENTRYPOINT is used if
-                                        this is not provided. Variable references
-                                        $(VAR_NAME) are expanded using the container''s
-                                        environment. If a variable cannot be resolved,
-                                        the reference in the input string will be
-                                        unchanged. The $(VAR_NAME) syntax can be escaped
-                                        with a double $$, ie: $$(VAR_NAME). Escaped
-                                        references will never be expanded, regardless
-                                        of whether the variable exists or not. More
-                                        info: https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/#running-a-command-in-a-shell'
+                                        variable exists or not. More info: https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/#running-a-command-in-a-shell'
                                       items:
                                         type: string
                                       type: array
                                     env:
                                       description: List of environment variables to
                                         set in the container. Structure is documented
-                                        below. List of environment variables to set
-                                        in the container.
+                                        below.
                                       items:
                                         properties:
                                           name:
-                                            description: Name of the environment variable.
                                             type: string
                                           value:
                                             description: 'Variable references $ are
@@ -362,58 +266,23 @@ spec:
                                               with a double $$, ie: $$. Escaped references
                                               will never be expanded, regardless of
                                               whether the variable exists or not.
-                                              Defaults to "". Variable references
-                                              $(VAR_NAME) are expanded using the previous
-                                              defined environment variables in the
-                                              container and any route environment
-                                              variables. If a variable cannot be resolved,
-                                              the reference in the input string will
-                                              be unchanged. The $(VAR_NAME) syntax
-                                              can be escaped with a double $$, ie:
-                                              $$(VAR_NAME). Escaped references will
-                                              never be expanded, regardless of whether
-                                              the variable exists or not. Defaults
-                                              to "".'
+                                              Defaults to "".'
                                             type: string
                                           valueFrom:
                                             description: Source for the environment
                                               variable's value. Only supports secret_key_ref.
-                                              Structure is documented below. Source
-                                              for the environment variable's value.
-                                              Only supports secret_key_ref.
+                                              Structure is documented below.
                                             items:
                                               properties:
                                                 secretKeyRef:
                                                   description: Selects a key  of a
                                                     secret in Secret Manager. Structure
-                                                    is documented below. Selects a
-                                                    key (version) of a secret in Secret
-                                                    Manager.
+                                                    is documented below.
                                                   items:
                                                     properties:
                                                       key:
-                                                        description: A Cloud Secret
-                                                          Manager secret version.
-                                                          Must be 'latest' for the
-                                                          latest version or an integer
-                                                          for a specific version.
                                                         type: string
                                                       name:
-                                                        description: 'The name of
-                                                          the secret in Cloud Secret
-                                                          Manager. By default, the
-                                                          secret is assumed to be
-                                                          in the same project. If
-                                                          the secret is in another
-                                                          project, you must define
-                                                          an alias. An alias definition
-                                                          has the form: :projects/<project-id|project-number>/secrets/.
-                                                          If multiple alias definitions
-                                                          are needed, they must be
-                                                          separated by commas. The
-                                                          alias definitions must be
-                                                          set on the run.googleapis.com/secrets
-                                                          annotation.'
                                                         type: string
                                                       nameRef:
                                                         description: Reference to
@@ -547,69 +416,46 @@ spec:
                                         sources, the value associated with the last
                                         source will take precedence. Values defined
                                         by an Env with a duplicate key will take precedence.
-                                        Structure is documented below. List of sources
-                                        to populate environment variables in the container.
-                                        All invalid keys will be reported as an event
-                                        when the container is starting. When a key
-                                        exists in multiple sources, the value associated
-                                        with the last source will take precedence.
-                                        Values defined by an Env with a duplicate
-                                        key will take precedence.
+                                        Structure is documented below.
                                       items:
                                         properties:
                                           configMapRef:
                                             description: The ConfigMap to select from.
-                                              Structure is documented below. The ConfigMap
-                                              to select from.
+                                              Structure is documented below.
                                             items:
                                               properties:
                                                 localObjectReference:
-                                                  description: The ConfigMap to select
-                                                    from.
                                                   items:
                                                     properties:
                                                       name:
-                                                        description: 'Name of the
-                                                          referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
                                                         type: string
                                                     required:
                                                     - name
                                                     type: object
                                                   type: array
                                                 optional:
-                                                  description: Specify whether the
-                                                    ConfigMap must be defined
                                                   type: boolean
                                               type: object
                                             type: array
                                           prefix:
                                             description: An optional identifier to
                                               prepend to each key in the ConfigMap.
-                                              An optional identifier to prepend to
-                                              each key in the ConfigMap.
                                             type: string
                                           secretRef:
                                             description: The Secret to select from.
-                                              Structure is documented below. The Secret
-                                              to select from.
+                                              Structure is documented below.
                                             items:
                                               properties:
                                                 localObjectReference:
-                                                  description: The Secret to select
-                                                    from.
                                                   items:
                                                     properties:
                                                       name:
-                                                        description: 'Name of the
-                                                          referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
                                                         type: string
                                                     required:
                                                     - name
                                                     type: object
                                                   type: array
                                                 optional:
-                                                  description: Specify whether the
-                                                    Secret must be defined
                                                   type: boolean
                                               type: object
                                             type: array
@@ -619,34 +465,24 @@ spec:
                                       description: 'Docker image name. This is most
                                         often a reference to a container located in
                                         the container registry, such as gcr.io/cloudrun/hello
-                                        More info: https://kubernetes.io/docs/concepts/containers/images
-                                        Docker image name. This is most often a reference
-                                        to a container located in the container registry,
-                                        such as gcr.io/cloudrun/hello More info: https://kubernetes.io/docs/concepts/containers/images'
+                                        More info: https://kubernetes.io/docs/concepts/containers/images'
                                       type: string
                                     ports:
                                       description: 'List of open ports in the container.
                                         More Info: https://cloud.google.com/run/docs/reference/rest/v1/RevisionSpec#ContainerPort
-                                        Structure is documented below. List of open
-                                        ports in the container. More Info: https://cloud.google.com/run/docs/reference/rest/v1/RevisionSpec#ContainerPort'
+                                        Structure is documented below.'
                                       items:
                                         properties:
                                           containerPort:
                                             description: Port number the container
                                               listens on. This must be a valid port
-                                              number, 0 < x < 65536. Port number the
-                                              container listens on. This must be a
-                                              valid port number, 0 < x < 65536.
+                                              number, 0 < x < 65536.
                                             type: number
                                           name:
-                                            description: If specified, used to specify
-                                              which protocol to use. Allowed values
-                                              are "http1" and "h2c".
                                             type: string
                                           protocol:
                                             description: Protocol for port. Must be
-                                              "TCP". Defaults to "TCP". Protocol for
-                                              port. Must be "TCP". Defaults to "TCP".
+                                              "TCP". Defaults to "TCP".
                                             type: string
                                         type: object
                                       type: array
@@ -654,9 +490,7 @@ spec:
                                       description: 'Compute Resources required by
                                         this container. Used to set values such as
                                         max memory More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#requests-and-limits
-                                        Structure is documented below. Compute Resources
-                                        required by this container. Used to set values
-                                        such as max memory More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#requests-and-limits'
+                                        Structure is documented below.'
                                       items:
                                         properties:
                                           limits:
@@ -665,11 +499,7 @@ spec:
                                             description: 'Limits describes the maximum
                                               amount of compute resources allowed.
                                               The values of the map is string form
-                                              of the ''quantity'' k8s type: https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/apimachinery/pkg/api/resource/quantity.go
-                                              Limits describes the maximum amount
-                                              of compute resources allowed. The values
-                                              of the map is string form of the ''quantity''
-                                              k8s type: https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/apimachinery/pkg/api/resource/quantity.go'
+                                              of the ''quantity'' k8s type: https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/apimachinery/pkg/api/resource/quantity.go'
                                             type: object
                                           requests:
                                             additionalProperties:
@@ -680,13 +510,6 @@ spec:
                                               it defaults to Limits if that is explicitly
                                               specified, otherwise to an implementation-defined
                                               value. The values of the map is string
-                                              form of the ''quantity'' k8s type: https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/apimachinery/pkg/api/resource/quantity.go
-                                              Requests describes the minimum amount
-                                              of compute resources required. If Requests
-                                              is omitted for a container, it defaults
-                                              to Limits if that is explicitly specified,
-                                              otherwise to an implementation-defined
-                                              value. The values of the map is string
                                               form of the ''quantity'' k8s type: https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/apimachinery/pkg/api/resource/quantity.go'
                                             type: object
                                         type: object
@@ -694,21 +517,15 @@ spec:
                                     volumeMounts:
                                       description: Volume to mount into the container's
                                         filesystem. Only supports SecretVolumeSources.
-                                        Structure is documented below. Volume to mount
-                                        into the container's filesystem. Only supports
-                                        SecretVolumeSources.
+                                        Structure is documented below.
                                       items:
                                         properties:
                                           mountPath:
                                             description: Path within the container
                                               at which the volume should be mounted.  Must
-                                              not contain ':'. Path within the container
-                                              at which the volume should be mounted.  Must
                                               not contain ':'.
                                             type: string
                                           name:
-                                            description: This must match the Name
-                                              of a Volume.
                                             type: string
                                         required:
                                         - mountPath
@@ -719,10 +536,7 @@ spec:
                                       description: Container's working directory.
                                         If not specified, the container runtime's
                                         default will be used, which might be configured
-                                        in the container image. Container's working
-                                        directory. If not specified, the container
-                                        runtime's default will be used, which might
-                                        be configured in the container image.
+                                        in the container image.
                                       type: string
                                   required:
                                   - image
@@ -734,38 +548,25 @@ spec:
                                   service account represents the identity of the running
                                   revision, and determines what permissions the revision
                                   has. If not provided, the revision will use the
-                                  project's default service account. Email address
-                                  of the IAM service account associated with the revision
-                                  of the service. The service account represents the
-                                  identity of the running revision, and determines
-                                  what permissions the revision has. If not provided,
-                                  the revision will use the project's default service
-                                  account.
+                                  project's default service account.
                                 type: string
                               timeoutSeconds:
                                 description: TimeoutSeconds holds the max duration
                                   the instance is allowed for responding to a request.
-                                  TimeoutSeconds holds the max duration the instance
-                                  is allowed for responding to a request.
                                 type: number
                               volumes:
                                 description: Volume represents a named volume in a
-                                  container. Structure is documented below. Volume
-                                  represents a named volume in a container.
+                                  container. Structure is documented below.
                                 items:
                                   properties:
                                     name:
-                                      description: Volume's name.
                                       type: string
                                     secret:
                                       description: The secret's value will be presented
                                         as the content of a file whose name is defined
                                         in the item path. If no items are defined,
                                         the name of the file is the secret_name. Structure
-                                        is documented below. The secret's value will
-                                        be presented as the content of a file whose
-                                        name is defined in the item path. If no items
-                                        are defined, the name of the file is the secret_name.
+                                        is documented below.
                                       items:
                                         properties:
                                           defaultMode:
@@ -776,15 +577,7 @@ spec:
                                               this setting. This might be in conflict
                                               with other options that affect the file
                                               mode, like fsGroup, and the result can
-                                              be other mode bits set. Mode bits to
-                                              use on created files by default. Must
-                                              be a value between 0000 and 0777. Defaults
-                                              to 0644. Directories within the path
-                                              are not affected by this setting. This
-                                              might be in conflict with other options
-                                              that affect the file mode, like fsGroup,
-                                              and the result can be other mode bits
-                                              set.
+                                              be other mode bits set.
                                             type: number
                                           items:
                                             description: If unspecified, the volume
@@ -795,34 +588,14 @@ spec:
                                               be the name of the file exposed in the
                                               volume. When items are defined, they
                                               must specify a key and a path. Structure
-                                              is documented below. If unspecified,
-                                              the volume will expose a file whose
-                                              name is the secret_name. If specified,
-                                              the key will be used as the version
-                                              to fetch from Cloud Secret Manager and
-                                              the path will be the name of the file
-                                              exposed in the volume. When items are
-                                              defined, they must specify a key and
-                                              a path.
+                                              is documented below.
                                             items:
                                               properties:
                                                 key:
-                                                  description: The Cloud Secret Manager
-                                                    secret version. Can be 'latest'
-                                                    for the latest value or an integer
-                                                    for a specific version.
                                                   type: string
                                                 mode:
                                                   description: Mode bits to use on
                                                     this file, must be a value between
-                                                    0000 and 0777. If not specified,
-                                                    the volume defaultMode will be
-                                                    used. This might be in conflict
-                                                    with other options that affect
-                                                    the file mode, like fsGroup, and
-                                                    the result can be other mode bits
-                                                    set. Mode bits to use on this
-                                                    file, must be a value between
                                                     0000 and 0777. If not specified,
                                                     the volume defaultMode will be
                                                     used. This might be in conflict
@@ -837,11 +610,7 @@ spec:
                                                     not be an absolute path. May not
                                                     contain the path element '..'.
                                                     May not start with the string
-                                                    '..'. The relative path of the
-                                                    file to map the key to. May not
-                                                    be an absolute path. May not contain
-                                                    the path element '..'. May not
-                                                    start with the string '..'.
+                                                    '..'.
                                                   type: string
                                               required:
                                               - key
@@ -855,16 +624,6 @@ spec:
                                               project. If the secret is in another
                                               project, you must define an alias. An
                                               alias definition has the form: :projects/<project-id|project-number>/secrets/.
-                                              If multiple alias definitions are needed,
-                                              they must be separated by commas. The
-                                              alias definitions must be set on the
-                                              run.googleapis.com/secrets annotation.
-                                              The name of the secret in Cloud Secret
-                                              Manager. By default, the secret is assumed
-                                              to be in the same project. If the secret
-                                              is in another project, you must define
-                                              an alias. An alias definition has the
-                                              form: <alias>:projects/<project-id|project-number>/secrets/<secret-name>.
                                               If multiple alias definitions are needed,
                                               they must be separated by commas. The
                                               alias definitions must be set on the
@@ -974,8 +733,7 @@ spec:
                   traffic:
                     description: Traffic specifies how to distribute traffic over
                       a collection of Knative Revisions and Configurations Structure
-                      is documented below. Traffic specifies how to distribute traffic
-                      over a collection of Knative Revisions and Configurations
+                      is documented below.
                     items:
                       properties:
                         latestRevision:
@@ -983,28 +741,19 @@ spec:
                             indicate that the latest ready Revision of the Configuration
                             should be used for this traffic target. When provided
                             LatestRevision must be true if RevisionName is empty;
-                            it must be false when RevisionName is non-empty. LatestRevision
-                            may be optionally provided to indicate that the latest
-                            ready Revision of the Configuration should be used for
-                            this traffic target. When provided LatestRevision must
-                            be true if RevisionName is empty; it must be false when
-                            RevisionName is non-empty.
+                            it must be false when RevisionName is non-empty.
                           type: boolean
                         percent:
                           description: Percent specifies percent of the traffic to
-                            this Revision or Configuration. Percent specifies percent
-                            of the traffic to this Revision or Configuration.
+                            this Revision or Configuration.
                           type: number
                         revisionName:
                           description: RevisionName of a specific revision to which
-                            to send this portion of traffic. RevisionName of a specific
-                            revision to which to send this portion of traffic.
+                            to send this portion of traffic.
                           type: string
                         tag:
                           description: Tag is optionally used to expose a dedicated
-                            url for referencing this target exclusively. Tag is optionally
-                            used to expose a dedicated url for referencing this target
-                            exclusively.
+                            url for referencing this target exclusively.
                           type: string
                       required:
                       - percent
@@ -1193,35 +942,19 @@ spec:
                     description: an identifier for the resource with format locations/{{location}}/namespaces/{{project}}/services/{{name}}
                     type: string
                   metadata:
-                    description: Metadata associated with this Service, including
-                      name, namespace, labels, and annotations.
                     items:
                       properties:
                         generation:
-                          description: A sequence number representing a specific generation
-                            of the desired state.
                           type: number
                         resourceVersion:
-                          description: "An opaque value that represents the internal
-                            version of this object that can be used by clients to
-                            determine when objects have changed. May be used for optimistic
-                            concurrency, change detection, and the watch operation
-                            on a resource or set of resources. They may only be valid
-                            for a particular resource or set of resources. \n More
-                            info: https://git.k8s.io/community/contributors/devel/api-conventions.md#concurrency-control-and-consistency"
                           type: string
                         selfLink:
-                          description: SelfLink is a URL representing this object.
                           type: string
                         uid:
-                          description: "UID is a unique id generated by the server
-                            on successful creation of a resource and is not allowed
-                            to change on PUT operations. \n More info: http://kubernetes.io/docs/user-guide/identifiers#uids"
                           type: string
                       type: object
                     type: array
                   status:
-                    description: The current status of the Service.
                     items:
                       properties:
                         conditions:
@@ -1269,76 +1002,41 @@ spec:
                       type: object
                     type: array
                   template:
-                    description: "template holds the latest specification for the
+                    description: 'template holds the latest specification for the
                       Revision to be stamped out. The template references the container
                       image, and may also include labels and annotations that should
                       be attached to the Revision. To correlate a Revision, and/or
-                      to force a Revision to be created when the spec doesn't otherwise
+                      to force a Revision to be created when the spec doesn''t otherwise
                       change, a nonce label may be provided in the template metadata.
                       For more details, see: https://github.com/knative/serving/blob/main/docs/client-conventions.md#associate-modifications-with-revisions
                       Cloud Run does not currently support referencing a build that
                       is responsible for materializing the container image from source.
-                      Structure is documented below. template holds the latest specification
-                      for the Revision to be stamped out. The template references
-                      the container image, and may also include labels and annotations
-                      that should be attached to the Revision. To correlate a Revision,
-                      and/or to force a Revision to be created when the spec doesn't
-                      otherwise change, a nonce label may be provided in the template
-                      metadata. For more details, see: https://github.com/knative/serving/blob/main/docs/client-conventions.md#associate-modifications-with-revisions
-                      \n Cloud Run does not currently support referencing a build
-                      that is responsible for materializing the container image from
-                      source."
+                      Structure is documented below.'
                     items:
                       properties:
                         metadata:
-                          description: Optional metadata for this Revision, including
-                            labels and annotations. Name will be generated by the
-                            Configuration. To set minimum instances for this revision,
-                            use the "autoscaling.knative.dev/minScale" annotation
-                            key. To set maximum instances for this revision, use the
-                            "autoscaling.knative.dev/maxScale" annotation key. To
-                            set Cloud SQL connections for the revision, use the "run.googleapis.com/cloudsql-instances"
-                            annotation key.
                           items:
                             properties:
                               generation:
-                                description: A sequence number representing a specific
-                                  generation of the desired state.
                                 type: number
                               resourceVersion:
-                                description: "An opaque value that represents the
-                                  internal version of this object that can be used
-                                  by clients to determine when objects have changed.
-                                  May be used for optimistic concurrency, change detection,
-                                  and the watch operation on a resource or set of
-                                  resources. They may only be valid for a particular
-                                  resource or set of resources. \n More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#concurrency-control-and-consistency"
                                 type: string
                               selfLink:
-                                description: SelfLink is a URL representing this object.
                                 type: string
                               uid:
-                                description: "UID is a unique id generated by the
-                                  server on successful creation of a resource and
-                                  is not allowed to change on PUT operations. \n More
-                                  info: http://kubernetes.io/docs/user-guide/identifiers#uids"
                                 type: string
                             type: object
                           type: array
                         spec:
                           description: RevisionSpec holds the desired state of the
-                            Revision . Structure is documented below. RevisionSpec
-                            holds the desired state of the Revision (from the client).
+                            Revision . Structure is documented below.
                           items:
                             properties:
                               servingState:
                                 description: ServingState holds a value describing
                                   the state the resources are in for this Revision.
                                   It is expected that the system will manipulate this
-                                  based on routability and load. ServingState holds
-                                  a value describing the state the resources are in
-                                  for this Revision. It is expected that the system
-                                  will manipulate this based on routability and load.
+                                  based on routability and load.
                                 type: string
                             type: object
                           type: array
@@ -1347,16 +1045,10 @@ spec:
                   traffic:
                     description: Traffic specifies how to distribute traffic over
                       a collection of Knative Revisions and Configurations Structure
-                      is documented below. Traffic specifies how to distribute traffic
-                      over a collection of Knative Revisions and Configurations
+                      is documented below.
                     items:
                       properties:
                         url:
-                          description: URL displays the URL for accessing tagged traffic
-                            targets. URL is displayed in status, and is disallowed
-                            on spec. URL must contain a scheme (e.g. http://) and
-                            a hostname, but may not contain anything else (e.g. basic
-                            auth, url path, etc.)
                           type: string
                       type: object
                     type: array

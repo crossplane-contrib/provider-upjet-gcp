@@ -67,180 +67,70 @@ spec:
                 properties:
                   alertStrategy:
                     description: Control over how this alert policy's notification
-                      channels are notified. Structure is documented below. Control
-                      over how this alert policy's notification channels are notified.
+                      channels are notified. Structure is documented below.
                     items:
                       properties:
                         autoClose:
                           description: If an alert policy that was active has no data
-                            for this long, any open incidents will close. If an alert
-                            policy that was active has no data for this long, any
-                            open incidents will close.
+                            for this long, any open incidents will close.
                           type: string
                         notificationRateLimit:
                           description: Required for alert policies with a LogMatch
                             condition. This limit is not implemented for alert policies
                             that are not log-based. Structure is documented below.
-                            Required for alert policies with a LogMatch condition.
-                            This limit is not implemented for alert policies that
-                            are not log-based.
                           items:
                             properties:
                               period:
                                 description: Not more than one notification per period.
-                                  Not more than one notification per period.
                                 type: string
                             type: object
                           type: array
                       type: object
                     type: array
                   combiner:
-                    description: 'How to combine the results of multiple conditions
+                    description: How to combine the results of multiple conditions
                       to determine if an incident should be opened. Possible values
-                      are AND, OR, and AND_WITH_MATCHING_RESOURCE. How to combine
-                      the results of multiple conditions to determine if an incident
-                      should be opened. Possible values: ["AND", "OR", "AND_WITH_MATCHING_RESOURCE"]'
+                      are AND, OR, and AND_WITH_MATCHING_RESOURCE.
                     type: string
                   conditions:
                     description: A list of conditions for the policy. The conditions
                       are combined by AND or OR according to the combiner field. If
                       the combined conditions evaluate to true, then an incident is
                       created. A policy can have from one to six conditions. Structure
-                      is documented below. A list of conditions for the policy. The
-                      conditions are combined by AND or OR according to the combiner
-                      field. If the combined conditions evaluate to true, then an
-                      incident is created. A policy can have from one to six conditions.
+                      is documented below.
                     items:
                       properties:
                         conditionAbsent:
                           description: A condition that checks that a time series
                             continues to receive new data points. Structure is documented
-                            below. A condition that checks that a time series continues
-                            to receive new data points.
+                            below.
                           items:
                             properties:
                               aggregations:
-                                description: Specifies the alignment of data points
-                                  in individual time series as well as how to combine
-                                  the retrieved time series together (such as when
-                                  aggregating multiple streams on each resource to
-                                  a single stream for each resource or when aggregating
-                                  streams across all members of a group of resources).
-                                  Multiple aggregations are applied in the order specified.
                                 items:
                                   properties:
                                     alignmentPeriod:
-                                      description: The alignment period for per-time
-                                        series alignment. If present, alignmentPeriod
-                                        must be at least 60 seconds. After per-time
-                                        series alignment, each time series will contain
-                                        data points only on the period boundaries.
-                                        If perSeriesAligner is not specified or equals
-                                        ALIGN_NONE, then this field is ignored. If
-                                        perSeriesAligner is specified and does not
-                                        equal ALIGN_NONE, then this field must be
-                                        defined; otherwise an error is returned.
                                       type: string
                                     crossSeriesReducer:
-                                      description: 'The approach to be used to combine
-                                        time series. Not all reducer functions may
-                                        be applied to all time series, depending on
-                                        the metric type and the value type of the
-                                        original time series. Reduction may change
-                                        the metric type of value type of the time
-                                        series.Time series data must be aligned in
-                                        order to perform cross- time series reduction.
-                                        If crossSeriesReducer is specified, then perSeriesAligner
-                                        must be specified and not equal ALIGN_NONE
-                                        and alignmentPeriod must be specified; otherwise,
-                                        an error is returned. Possible values: ["REDUCE_NONE",
-                                        "REDUCE_MEAN", "REDUCE_MIN", "REDUCE_MAX",
-                                        "REDUCE_SUM", "REDUCE_STDDEV", "REDUCE_COUNT",
-                                        "REDUCE_COUNT_TRUE", "REDUCE_COUNT_FALSE",
-                                        "REDUCE_FRACTION_TRUE", "REDUCE_PERCENTILE_99",
-                                        "REDUCE_PERCENTILE_95", "REDUCE_PERCENTILE_50",
-                                        "REDUCE_PERCENTILE_05"]'
                                       type: string
                                     groupByFields:
-                                      description: The set of fields to preserve when
-                                        crossSeriesReducer is specified. The groupByFields
-                                        determine how the time series are partitioned
-                                        into subsets prior to applying the aggregation
-                                        function. Each subset contains time series
-                                        that have the same value for each of the grouping
-                                        fields. Each individual time series is a member
-                                        of exactly one subset. The crossSeriesReducer
-                                        is applied to each subset of time series.
-                                        It is not possible to reduce across different
-                                        resource types, so this field implicitly contains
-                                        resource.type. Fields not specified in groupByFields
-                                        are aggregated away. If groupByFields is not
-                                        specified and all the time series have the
-                                        same resource type, then the time series are
-                                        aggregated into a single output time series.
-                                        If crossSeriesReducer is not defined, this
-                                        field is ignored.
                                       items:
                                         type: string
                                       type: array
                                     perSeriesAligner:
-                                      description: 'The approach to be used to align
-                                        individual time series. Not all alignment
-                                        functions may be applied to all time series,
-                                        depending on the metric type and value type
-                                        of the original time series. Alignment may
-                                        change the metric type or the value type of
-                                        the time series.Time series data must be aligned
-                                        in order to perform cross- time series reduction.
-                                        If crossSeriesReducer is specified, then perSeriesAligner
-                                        must be specified and not equal ALIGN_NONE
-                                        and alignmentPeriod must be specified; otherwise,
-                                        an error is returned. Possible values: ["ALIGN_NONE",
-                                        "ALIGN_DELTA", "ALIGN_RATE", "ALIGN_INTERPOLATE",
-                                        "ALIGN_NEXT_OLDER", "ALIGN_MIN", "ALIGN_MAX",
-                                        "ALIGN_MEAN", "ALIGN_COUNT", "ALIGN_SUM",
-                                        "ALIGN_STDDEV", "ALIGN_COUNT_TRUE", "ALIGN_COUNT_FALSE",
-                                        "ALIGN_FRACTION_TRUE", "ALIGN_PERCENTILE_99",
-                                        "ALIGN_PERCENTILE_95", "ALIGN_PERCENTILE_50",
-                                        "ALIGN_PERCENTILE_05", "ALIGN_PERCENT_CHANGE"]'
                                       type: string
                                   type: object
                                 type: array
                               duration:
-                                description: The amount of time that a time series
-                                  must fail to report new data to be considered failing.
-                                  Currently, only values that are a multiple of a
-                                  minute--e.g. 60s, 120s, or 300s --are supported.
                                 type: string
                               filter:
-                                description: A filter that identifies which time series
-                                  should be compared with the threshold.The filter
-                                  is similar to the one that is specified in the MetricService.ListTimeSeries
-                                  request (that call is useful to verify the time
-                                  series that will be retrieved / processed) and must
-                                  specify the metric type and optionally may contain
-                                  restrictions on resource type, resource labels,
-                                  and metric labels. This field may not exceed 2048
-                                  Unicode characters in length.
                                 type: string
                               trigger:
-                                description: The number/percent of time series for
-                                  which the comparison must hold in order for the
-                                  condition to trigger. If unspecified, then the condition
-                                  will trigger if the comparison is true for any of
-                                  the time series that have been identified by filter
-                                  and aggregations.
                                 items:
                                   properties:
                                     count:
-                                      description: The absolute number of time series
-                                        that must fail the predicate for the condition
-                                        to be triggered.
                                       type: number
                                     percent:
-                                      description: The percentage of time series that
-                                        must fail the predicate for the condition
-                                        to be triggered.
                                       type: number
                                   type: object
                                 type: array
@@ -251,26 +141,15 @@ spec:
                         conditionMatchedLog:
                           description: A condition that checks for log messages matching
                             given constraints. If set, no other conditions can be
-                            present. Structure is documented below. A condition that
-                            checks for log messages matching given constraints. If
-                            set, no other conditions can be present.
+                            present. Structure is documented below.
                           items:
                             properties:
                               filter:
-                                description: A logs-based filter.
                                 type: string
                               labelExtractors:
                                 additionalProperties:
                                   type: string
                                 description: A map from a label key to an extractor
-                                  expression, which is used to extract the value for
-                                  this label key. Each entry in this map is a specification
-                                  for how data should be extracted from log entries
-                                  that match filter. Each combination of extracted
-                                  values is treated as a separate rule for the purposes
-                                  of triggering notifications. Label keys and corresponding
-                                  values can be used in notifications generated by
-                                  this condition. A map from a label key to an extractor
                                   expression, which is used to extract the value for
                                   this label key. Each entry in this map is a specification
                                   for how data should be extracted from log entries
@@ -286,48 +165,21 @@ spec:
                           type: array
                         conditionMonitoringQueryLanguage:
                           description: A Monitoring Query Language query that outputs
-                            a boolean stream Structure is documented below. A Monitoring
-                            Query Language query that outputs a boolean stream
+                            a boolean stream Structure is documented below.
                           items:
                             properties:
                               duration:
-                                description: The amount of time that a time series
-                                  must violate the threshold to be considered failing.
-                                  Currently, only values that are a multiple of a
-                                  minute--e.g., 0, 60, 120, or 300 seconds--are supported.
-                                  If an invalid value is given, an error will be returned.
-                                  When choosing a duration, it is useful to keep in
-                                  mind the frequency of the underlying time series
-                                  data (which may also be affected by any alignments
-                                  specified in the aggregations field); a good duration
-                                  is long enough so that a single outlier does not
-                                  generate spurious alerts, but short enough that
-                                  unhealthy states are detected and alerted on quickly.
                                 type: string
                               query:
                                 description: Monitoring Query Language query that
-                                  outputs a boolean stream. Monitoring Query Language
-                                  query that outputs a boolean stream.
+                                  outputs a boolean stream.
                                 type: string
                               trigger:
-                                description: The number/percent of time series for
-                                  which the comparison must hold in order for the
-                                  condition to trigger. If unspecified, then the condition
-                                  will trigger if the comparison is true for any of
-                                  the time series that have been identified by filter
-                                  and aggregations, or by the ratio, if denominator_filter
-                                  and denominator_aggregations are specified.
                                 items:
                                   properties:
                                     count:
-                                      description: The absolute number of time series
-                                        that must fail the predicate for the condition
-                                        to be triggered.
                                       type: number
                                     percent:
-                                      description: The percentage of time series that
-                                        must fail the predicate for the condition
-                                        to be triggered.
                                       type: number
                                   type: object
                                 type: array
@@ -338,117 +190,33 @@ spec:
                           type: array
                         conditionThreshold:
                           description: A condition that compares a time series against
-                            a threshold. Structure is documented below. A condition
-                            that compares a time series against a threshold.
+                            a threshold. Structure is documented below.
                           items:
                             properties:
                               aggregations:
-                                description: Specifies the alignment of data points
-                                  in individual time series as well as how to combine
-                                  the retrieved time series together (such as when
-                                  aggregating multiple streams on each resource to
-                                  a single stream for each resource or when aggregating
-                                  streams across all members of a group of resources).
-                                  Multiple aggregations are applied in the order specified.This
-                                  field is similar to the one in the MetricService.ListTimeSeries
-                                  request. It is advisable to use the ListTimeSeries
-                                  method when debugging this field.
                                 items:
                                   properties:
                                     alignmentPeriod:
-                                      description: The alignment period for per-time
-                                        series alignment. If present, alignmentPeriod
-                                        must be at least 60 seconds. After per-time
-                                        series alignment, each time series will contain
-                                        data points only on the period boundaries.
-                                        If perSeriesAligner is not specified or equals
-                                        ALIGN_NONE, then this field is ignored. If
-                                        perSeriesAligner is specified and does not
-                                        equal ALIGN_NONE, then this field must be
-                                        defined; otherwise an error is returned.
                                       type: string
                                     crossSeriesReducer:
-                                      description: 'The approach to be used to combine
-                                        time series. Not all reducer functions may
-                                        be applied to all time series, depending on
-                                        the metric type and the value type of the
-                                        original time series. Reduction may change
-                                        the metric type of value type of the time
-                                        series.Time series data must be aligned in
-                                        order to perform cross- time series reduction.
-                                        If crossSeriesReducer is specified, then perSeriesAligner
-                                        must be specified and not equal ALIGN_NONE
-                                        and alignmentPeriod must be specified; otherwise,
-                                        an error is returned. Possible values: ["REDUCE_NONE",
-                                        "REDUCE_MEAN", "REDUCE_MIN", "REDUCE_MAX",
-                                        "REDUCE_SUM", "REDUCE_STDDEV", "REDUCE_COUNT",
-                                        "REDUCE_COUNT_TRUE", "REDUCE_COUNT_FALSE",
-                                        "REDUCE_FRACTION_TRUE", "REDUCE_PERCENTILE_99",
-                                        "REDUCE_PERCENTILE_95", "REDUCE_PERCENTILE_50",
-                                        "REDUCE_PERCENTILE_05"]'
                                       type: string
                                     groupByFields:
-                                      description: The set of fields to preserve when
-                                        crossSeriesReducer is specified. The groupByFields
-                                        determine how the time series are partitioned
-                                        into subsets prior to applying the aggregation
-                                        function. Each subset contains time series
-                                        that have the same value for each of the grouping
-                                        fields. Each individual time series is a member
-                                        of exactly one subset. The crossSeriesReducer
-                                        is applied to each subset of time series.
-                                        It is not possible to reduce across different
-                                        resource types, so this field implicitly contains
-                                        resource.type. Fields not specified in groupByFields
-                                        are aggregated away. If groupByFields is not
-                                        specified and all the time series have the
-                                        same resource type, then the time series are
-                                        aggregated into a single output time series.
-                                        If crossSeriesReducer is not defined, this
-                                        field is ignored.
                                       items:
                                         type: string
                                       type: array
                                     perSeriesAligner:
-                                      description: 'The approach to be used to align
-                                        individual time series. Not all alignment
-                                        functions may be applied to all time series,
-                                        depending on the metric type and value type
-                                        of the original time series. Alignment may
-                                        change the metric type or the value type of
-                                        the time series.Time series data must be aligned
-                                        in order to perform cross- time series reduction.
-                                        If crossSeriesReducer is specified, then perSeriesAligner
-                                        must be specified and not equal ALIGN_NONE
-                                        and alignmentPeriod must be specified; otherwise,
-                                        an error is returned. Possible values: ["ALIGN_NONE",
-                                        "ALIGN_DELTA", "ALIGN_RATE", "ALIGN_INTERPOLATE",
-                                        "ALIGN_NEXT_OLDER", "ALIGN_MIN", "ALIGN_MAX",
-                                        "ALIGN_MEAN", "ALIGN_COUNT", "ALIGN_SUM",
-                                        "ALIGN_STDDEV", "ALIGN_COUNT_TRUE", "ALIGN_COUNT_FALSE",
-                                        "ALIGN_FRACTION_TRUE", "ALIGN_PERCENTILE_99",
-                                        "ALIGN_PERCENTILE_95", "ALIGN_PERCENTILE_50",
-                                        "ALIGN_PERCENTILE_05", "ALIGN_PERCENT_CHANGE"]'
                                       type: string
                                   type: object
                                 type: array
                               comparison:
-                                description: 'The comparison to apply between the
-                                  time series and the threshold . The comparison is
-                                  applied on each time series, with the time series
-                                  on the left-hand side and the threshold on the right-hand
+                                description: The comparison to apply between the time
+                                  series and the threshold . The comparison is applied
+                                  on each time series, with the time series on the
+                                  left-hand side and the threshold on the right-hand
                                   side. Only COMPARISON_LT and COMPARISON_GT are supported
                                   currently. Possible values are COMPARISON_GT, COMPARISON_GE,
                                   COMPARISON_LT, COMPARISON_LE, COMPARISON_EQ, and
-                                  COMPARISON_NE. The comparison to apply between the
-                                  time series (indicated by filter and aggregation)
-                                  and the threshold (indicated by threshold_value).
-                                  The comparison is applied on each time series, with
-                                  the time series on the left-hand side and the threshold
-                                  on the right-hand side. Only COMPARISON_LT and COMPARISON_GT
-                                  are supported currently. Possible values: ["COMPARISON_GT",
-                                  "COMPARISON_GE", "COMPARISON_LT", "COMPARISON_LE",
-                                  "COMPARISON_EQ", "COMPARISON_NE"]'
+                                  COMPARISON_NE.
                                 type: string
                               denominatorAggregations:
                                 description: Specifies the alignment of data points
@@ -461,95 +229,18 @@ spec:
                                   is similar to the one in the MetricService.ListTimeSeries
                                   request. It is advisable to use the ListTimeSeries
                                   method when debugging this field. Structure is documented
-                                  below. Specifies the alignment of data points in
-                                  individual time series selected by denominatorFilter
-                                  as well as how to combine the retrieved time series
-                                  together (such as when aggregating multiple streams
-                                  on each resource to a single stream for each resource
-                                  or when aggregating streams across all members of
-                                  a group of resources).When computing ratios, the
-                                  aggregations and denominator_aggregations fields
-                                  must use the same alignment period and produce time
-                                  series that have the same periodicity and labels.This
-                                  field is similar to the one in the MetricService.ListTimeSeries
-                                  request. It is advisable to use the ListTimeSeries
-                                  method when debugging this field.
+                                  below.
                                 items:
                                   properties:
                                     alignmentPeriod:
-                                      description: The alignment period for per-time
-                                        series alignment. If present, alignmentPeriod
-                                        must be at least 60 seconds. After per-time
-                                        series alignment, each time series will contain
-                                        data points only on the period boundaries.
-                                        If perSeriesAligner is not specified or equals
-                                        ALIGN_NONE, then this field is ignored. If
-                                        perSeriesAligner is specified and does not
-                                        equal ALIGN_NONE, then this field must be
-                                        defined; otherwise an error is returned.
                                       type: string
                                     crossSeriesReducer:
-                                      description: 'The approach to be used to combine
-                                        time series. Not all reducer functions may
-                                        be applied to all time series, depending on
-                                        the metric type and the value type of the
-                                        original time series. Reduction may change
-                                        the metric type of value type of the time
-                                        series.Time series data must be aligned in
-                                        order to perform cross- time series reduction.
-                                        If crossSeriesReducer is specified, then perSeriesAligner
-                                        must be specified and not equal ALIGN_NONE
-                                        and alignmentPeriod must be specified; otherwise,
-                                        an error is returned. Possible values: ["REDUCE_NONE",
-                                        "REDUCE_MEAN", "REDUCE_MIN", "REDUCE_MAX",
-                                        "REDUCE_SUM", "REDUCE_STDDEV", "REDUCE_COUNT",
-                                        "REDUCE_COUNT_TRUE", "REDUCE_COUNT_FALSE",
-                                        "REDUCE_FRACTION_TRUE", "REDUCE_PERCENTILE_99",
-                                        "REDUCE_PERCENTILE_95", "REDUCE_PERCENTILE_50",
-                                        "REDUCE_PERCENTILE_05"]'
                                       type: string
                                     groupByFields:
-                                      description: The set of fields to preserve when
-                                        crossSeriesReducer is specified. The groupByFields
-                                        determine how the time series are partitioned
-                                        into subsets prior to applying the aggregation
-                                        function. Each subset contains time series
-                                        that have the same value for each of the grouping
-                                        fields. Each individual time series is a member
-                                        of exactly one subset. The crossSeriesReducer
-                                        is applied to each subset of time series.
-                                        It is not possible to reduce across different
-                                        resource types, so this field implicitly contains
-                                        resource.type. Fields not specified in groupByFields
-                                        are aggregated away. If groupByFields is not
-                                        specified and all the time series have the
-                                        same resource type, then the time series are
-                                        aggregated into a single output time series.
-                                        If crossSeriesReducer is not defined, this
-                                        field is ignored.
                                       items:
                                         type: string
                                       type: array
                                     perSeriesAligner:
-                                      description: 'The approach to be used to align
-                                        individual time series. Not all alignment
-                                        functions may be applied to all time series,
-                                        depending on the metric type and value type
-                                        of the original time series. Alignment may
-                                        change the metric type or the value type of
-                                        the time series.Time series data must be aligned
-                                        in order to perform cross- time series reduction.
-                                        If crossSeriesReducer is specified, then perSeriesAligner
-                                        must be specified and not equal ALIGN_NONE
-                                        and alignmentPeriod must be specified; otherwise,
-                                        an error is returned. Possible values: ["ALIGN_NONE",
-                                        "ALIGN_DELTA", "ALIGN_RATE", "ALIGN_INTERPOLATE",
-                                        "ALIGN_NEXT_OLDER", "ALIGN_MIN", "ALIGN_MAX",
-                                        "ALIGN_MEAN", "ALIGN_COUNT", "ALIGN_SUM",
-                                        "ALIGN_STDDEV", "ALIGN_COUNT_TRUE", "ALIGN_COUNT_FALSE",
-                                        "ALIGN_FRACTION_TRUE", "ALIGN_PERCENTILE_99",
-                                        "ALIGN_PERCENTILE_95", "ALIGN_PERCENTILE_50",
-                                        "ALIGN_PERCENTILE_05", "ALIGN_PERCENT_CHANGE"]'
                                       type: string
                                   type: object
                                 type: array
@@ -563,69 +254,22 @@ spec:
                                   request  and must specify the metric type and optionally
                                   may contain restrictions on resource type, resource
                                   labels, and metric labels. This field may not exceed
-                                  2048 Unicode characters in length. A filter that
-                                  identifies a time series that should be used as
-                                  the denominator of a ratio that will be compared
-                                  with the threshold. If a denominator_filter is specified,
-                                  the time series specified by the filter field will
-                                  be used as the numerator.The filter is similar to
-                                  the one that is specified in the MetricService.ListTimeSeries
-                                  request (that call is useful to verify the time
-                                  series that will be retrieved / processed) and must
-                                  specify the metric type and optionally may contain
-                                  restrictions on resource type, resource labels,
-                                  and metric labels. This field may not exceed 2048
-                                  Unicode characters in length.
+                                  2048 Unicode characters in length.
                                 type: string
                               duration:
-                                description: The amount of time that a time series
-                                  must violate the threshold to be considered failing.
-                                  Currently, only values that are a multiple of a
-                                  minute--e.g., 0, 60, 120, or 300 seconds--are supported.
-                                  If an invalid value is given, an error will be returned.
-                                  When choosing a duration, it is useful to keep in
-                                  mind the frequency of the underlying time series
-                                  data (which may also be affected by any alignments
-                                  specified in the aggregations field); a good duration
-                                  is long enough so that a single outlier does not
-                                  generate spurious alerts, but short enough that
-                                  unhealthy states are detected and alerted on quickly.
                                 type: string
                               filter:
-                                description: A filter that identifies which time series
-                                  should be compared with the threshold.The filter
-                                  is similar to the one that is specified in the MetricService.ListTimeSeries
-                                  request (that call is useful to verify the time
-                                  series that will be retrieved / processed) and must
-                                  specify the metric type and optionally may contain
-                                  restrictions on resource type, resource labels,
-                                  and metric labels. This field may not exceed 2048
-                                  Unicode characters in length.
                                 type: string
                               thresholdValue:
                                 description: A value against which to compare the
-                                  time series. A value against which to compare the
                                   time series.
                                 type: number
                               trigger:
-                                description: The number/percent of time series for
-                                  which the comparison must hold in order for the
-                                  condition to trigger. If unspecified, then the condition
-                                  will trigger if the comparison is true for any of
-                                  the time series that have been identified by filter
-                                  and aggregations, or by the ratio, if denominator_filter
-                                  and denominator_aggregations are specified.
                                 items:
                                   properties:
                                     count:
-                                      description: The absolute number of time series
-                                        that must fail the predicate for the condition
-                                        to be triggered.
                                       type: number
                                     percent:
-                                      description: The percentage of time series that
-                                        must fail the predicate for the condition
-                                        to be triggered.
                                       type: number
                                   type: object
                                 type: array
@@ -635,20 +279,12 @@ spec:
                             type: object
                           type: array
                         displayName:
-                          description: A short name or phrase used to identify the
-                            condition in dashboards, notifications, and incidents.
-                            To avoid confusion, don't use the same display name for
-                            multiple conditions in the same policy.
                           type: string
                       required:
                       - displayName
                       type: object
                     type: array
                   displayName:
-                    description: A short name or phrase used to identify the policy
-                      in dashboards, notifications, and incidents. To avoid confusion,
-                      don't use the same display name for multiple policies in the
-                      same project. The name is limited to 512 Unicode characters.
                     type: string
                   documentation:
                     description: Documentation that is included with notifications
@@ -657,12 +293,7 @@ spec:
                       mitigate, escalate, and correct the underlying problems detected
                       by the alerting policy. Notification channels that have limited
                       capacity might not show this documentation. Structure is documented
-                      below. Documentation that is included with notifications and
-                      incidents related to this policy. Best practice is for the documentation
-                      to include information to help responders understand, mitigate,
-                      escalate, and correct the underlying problems detected by the
-                      alerting policy. Notification channels that have limited capacity
-                      might not show this documentation.
+                      below.
                     items:
                       properties:
                         content:
@@ -670,23 +301,16 @@ spec:
                             according to mimeType. The content may not exceed 8,192
                             Unicode characters and may not exceed more than 10,240
                             bytes when encoded in UTF-8 format, whichever is smaller.
-                            The text of the documentation, interpreted according to
-                            mimeType. The content may not exceed 8,192 Unicode characters
-                            and may not exceed more than 10,240 bytes when encoded
-                            in UTF-8 format, whichever is smaller.
                           type: string
                         mimeType:
                           description: The format of the content field. Presently,
-                            only the value "text/markdown" is supported. The format
-                            of the content field. Presently, only the value "text/markdown"
-                            is supported.
+                            only the value "text/markdown" is supported.
                           type: string
                       type: object
                     type: array
                   enabled:
                     description: Whether or not the policy is enabled. The default
-                      is true. Whether or not the policy is enabled. The default is
-                      true.
+                      is true.
                     type: boolean
                   notificationChannels:
                     description: Identifies the notification channels to which notifications
@@ -695,12 +319,6 @@ spec:
                       of this array corresponds to the name field in each of the NotificationChannel
                       objects that are returned from the notificationChannels.list
                       method. The syntax of the entries in this field is projects/[PROJECT_ID]/notificationChannels/[CHANNEL_ID]
-                      Identifies the notification channels to which notifications
-                      should be sent when incidents are opened or closed or when new
-                      violations occur on an already opened incident. Each element
-                      of this array corresponds to the name field in each of the NotificationChannel
-                      objects that are returned from the notificationChannels.list
-                      method. The syntax of the entries in this field is 'projects/[PROJECT_ID]/notificationChannels/[CHANNEL_ID]'
                     items:
                       type: string
                     type: array
@@ -716,12 +334,7 @@ spec:
                       up to 64 entries. Each key and value is limited to 63 Unicode
                       characters or 128 bytes, whichever is smaller. Labels and values
                       can contain only lowercase letters, numerals, underscores, and
-                      dashes. Keys must begin with a letter. This field is intended
-                      to be used for organizing and identifying the AlertPolicy objects.The
-                      field can contain up to 64 entries. Each key and value is limited
-                      to 63 Unicode characters or 128 bytes, whichever is smaller.
-                      Labels and values can contain only lowercase letters, numerals,
-                      underscores, and dashes. Keys must begin with a letter.
+                      dashes. Keys must begin with a letter.
                     type: object
                 required:
                 - combiner
@@ -909,27 +522,17 @@ spec:
                       are combined by AND or OR according to the combiner field. If
                       the combined conditions evaluate to true, then an incident is
                       created. A policy can have from one to six conditions. Structure
-                      is documented below. A list of conditions for the policy. The
-                      conditions are combined by AND or OR according to the combiner
-                      field. If the combined conditions evaluate to true, then an
-                      incident is created. A policy can have from one to six conditions.
+                      is documented below.
                     items:
                       properties:
                         name:
-                          description: 'The unique resource name for this condition.
-                            Its syntax is: projects/[PROJECT_ID]/alertPolicies/[POLICY_ID]/conditions/[CONDITION_ID]
-                            [CONDITION_ID] is assigned by Stackdriver Monitoring when
-                            the condition is created as part of a new or updated alerting
-                            policy.'
                           type: string
                       type: object
                     type: array
                   creationRecord:
                     description: A read-only record of the creation of the alerting
                       policy. If provided in a call to create or update, this field
-                      will be ignored. Structure is documented below. A read-only
-                      record of the creation of the alerting policy. If provided in
-                      a call to create or update, this field will be ignored.
+                      will be ignored. Structure is documented below.
                     items:
                       properties:
                         mutateTime:
@@ -944,8 +547,6 @@ spec:
                     description: an identifier for the resource with format {{name}}
                     type: string
                   name:
-                    description: 'The unique resource name for this policy. Its syntax
-                      is: projects/[PROJECT_ID]/alertPolicies/[ALERT_POLICY_ID]'
                     type: string
                 type: object
               conditions:

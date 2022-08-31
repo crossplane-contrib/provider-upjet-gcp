@@ -66,8 +66,7 @@ spec:
               forProvider:
                 properties:
                   backendService:
-                    description: A reference to the BackendService resource. A reference
-                      to the BackendService resource.
+                    description: A reference to the BackendService resource.
                     type: string
                   backendServiceRef:
                     description: Reference to a BackendService in compute to populate
@@ -145,27 +144,21 @@ spec:
                         type: object
                     type: object
                   description:
-                    description: An optional description of this resource. An optional
-                      description of this resource.
+                    description: An optional description of this resource.
                     type: string
                   project:
                     description: The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
                   proxyHeader:
-                    description: 'Specifies the type of proxy header to append before
+                    description: Specifies the type of proxy header to append before
                       sending data to the backend. Default value is NONE. Possible
-                      values are NONE and PROXY_V1. Specifies the type of proxy header
-                      to append before sending data to the backend. Default value:
-                      "NONE" Possible values: ["NONE", "PROXY_V1"]'
+                      values are NONE and PROXY_V1.
                     type: string
                   sslCertificates:
                     description: A list of SslCertificate resources that are used
                       to authenticate connections between users and the load balancer.
-                      At least one SSL certificate must be specified. A list of SslCertificate
-                      resources that are used to authenticate connections between
-                      users and the load balancer. At least one SSL certificate must
-                      be specified.
+                      At least one SSL certificate must be specified.
                     items:
                       type: string
                     type: array
@@ -250,9 +243,6 @@ spec:
                     description: A reference to the SslPolicy resource that will be
                       associated with the TargetSslProxy resource. If not set, the
                       TargetSslProxy resource will not have any SSL policy configured.
-                      A reference to the SslPolicy resource that will be associated
-                      with the TargetSslProxy resource. If not set, the TargetSslProxy
-                      resource will not have any SSL policy configured.
                     type: string
                 type: object
               providerConfigRef:
@@ -432,15 +422,13 @@ spec:
               atProvider:
                 properties:
                   creationTimestamp:
-                    description: Creation timestamp in RFC3339 text format. Creation
-                      timestamp in RFC3339 text format.
+                    description: Creation timestamp in RFC3339 text format.
                     type: string
                   id:
                     description: an identifier for the resource with format projects/{{project}}/global/targetSslProxies/{{name}}
                     type: string
                   proxyId:
-                    description: The unique identifier for the resource. The unique
-                      identifier for the resource.
+                    description: The unique identifier for the resource.
                     type: number
                   selfLink:
                     description: The URI of the created resource.

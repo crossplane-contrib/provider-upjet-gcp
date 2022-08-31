@@ -44,13 +44,8 @@ type KeyRingImportJobObservation struct {
 	// Use this statement to verify attributes of the key as stored on the HSM, independently of Google.
 	// Only present if the chosen ImportMethod is one with a protection level of HSM.
 	// Structure is documented below.
-	// Statement that was generated and signed by the key creator (for example, an HSM) at key creation time.
-	// Use this statement to verify attributes of the key as stored on the HSM, independently of Google.
-	// Only present if the chosen ImportMethod is one with a protection level of HSM.
 	Attestation []AttestationObservation `json:"attestation,omitempty" tf:"attestation,omitempty"`
 
-	// The time at which this resource is scheduled for expiration and can no longer be used.
-	// This is in RFC3339 text format.
 	// The time at which this resource is scheduled for expiration and can no longer be used.
 	// This is in RFC3339 text format.
 	ExpireTime *string `json:"expireTime,omitempty" tf:"expire_time,omitempty"`
@@ -59,15 +54,12 @@ type KeyRingImportJobObservation struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// The resource name for this ImportJob in the format projects//locations//keyRings//importJobs/.
-	// The resource name for this ImportJob in the format projects/*/locations/*/keyRings/*/importJobs/*.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// The public key with which to wrap key material prior to import. Only returned if state is ACTIVE.
 	// Structure is documented below.
-	// The public key with which to wrap key material prior to import. Only returned if state is 'ACTIVE'.
 	PublicKey []PublicKeyObservation `json:"publicKey,omitempty" tf:"public_key,omitempty"`
 
-	// The current state of the ImportJob, indicating if it can be used.
 	// The current state of the ImportJob, indicating if it can be used.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 }
@@ -76,14 +68,11 @@ type KeyRingImportJobParameters struct {
 
 	// The wrapping method to be used for incoming key material.
 	// Possible values are RSA_OAEP_3072_SHA1_AES_256 and RSA_OAEP_4096_SHA1_AES_256.
-	// The wrapping method to be used for incoming key material. Possible values: ["RSA_OAEP_3072_SHA1_AES_256", "RSA_OAEP_4096_SHA1_AES_256"]
 	// +kubebuilder:validation:Required
 	ImportMethod *string `json:"importMethod" tf:"import_method,omitempty"`
 
 	// The KeyRing that this import job belongs to.
 	// Format: 'projects/{{project}}/locations/{{location}}/keyRings/{{keyRing}}'.
-	// The KeyRing that this import job belongs to.
-	// Format: ''projects/{{project}}/locations/{{location}}/keyRings/{{keyRing}}''.
 	// +crossplane:generate:reference:type=KeyRing
 	// +crossplane:generate:reference:extractor=github.com/upbound/official-providers/provider-gcp/config/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
@@ -100,8 +89,6 @@ type KeyRingImportJobParameters struct {
 	// The protection level of the ImportJob. This must match the protectionLevel of the
 	// versionTemplate on the CryptoKey you attempt to import into.
 	// Possible values are SOFTWARE, HSM, and EXTERNAL.
-	// The protection level of the ImportJob. This must match the protectionLevel of the
-	// versionTemplate on the CryptoKey you attempt to import into. Possible values: ["SOFTWARE", "HSM", "EXTERNAL"]
 	// +kubebuilder:validation:Required
 	ProtectionLevel *string `json:"protectionLevel" tf:"protection_level,omitempty"`
 }

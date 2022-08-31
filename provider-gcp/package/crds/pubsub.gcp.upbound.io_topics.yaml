@@ -69,11 +69,6 @@ spec:
                       used to protect access to messages published on this topic.
                       Your project's PubSub service account must have roles/cloudkms.cryptoKeyEncrypterDecrypter
                       to use this feature. The expected format is projects/*/locations/*/keyRings/*/cryptoKeys/*
-                      The resource name of the Cloud KMS CryptoKey to be used to protect
-                      access to messages published on this topic. Your project's PubSub
-                      service account ('service-{{PROJECT_NUMBER}}@gcp-sa-pubsub.iam.gserviceaccount.com')
-                      must have 'roles/cloudkms.cryptoKeyEncrypterDecrypter' to use
-                      this feature. The expected format is 'projects/*/locations/*/keyRings/*/cryptoKeys/*'
                     type: string
                   kmsKeyNameRef:
                     description: Reference to a CryptoKey in kms to populate kmsKeyName.
@@ -152,7 +147,7 @@ spec:
                     additionalProperties:
                       type: string
                     description: A set of key/value label pairs to assign to this
-                      Topic. A set of key/value label pairs to assign to this Topic.
+                      Topic.
                     type: object
                   messageRetentionDuration:
                     description: Indicates the minimum duration to retain a message
@@ -163,22 +158,12 @@ spec:
                       to messageRetentionDuration in the past. If this field is not
                       set, message retention is controlled by settings on individual
                       subscriptions. Cannot be more than 7 days or less than 10 minutes.
-                      Indicates the minimum duration to retain a message after it
-                      is published to the topic. If this field is set, messages published
-                      to the topic in the last messageRetentionDuration are always
-                      available to subscribers. For instance, it allows any attached
-                      subscription to seek to a timestamp that is up to messageRetentionDuration
-                      in the past. If this field is not set, message retention is
-                      controlled by settings on individual subscriptions. Cannot be
-                      more than 7 days or less than 10 minutes.
                     type: string
                   messageStoragePolicy:
                     description: Policy constraining the set of Google Cloud Platform
                       regions where messages published to the topic may be stored.
                       If not present, then no constraints are in effect. Structure
-                      is documented below. Policy constraining the set of Google Cloud
-                      Platform regions where messages published to the topic may be
-                      stored. If not present, then no constraints are in effect.
+                      is documented below.
                     items:
                       properties:
                         allowedPersistenceRegions:
@@ -187,13 +172,7 @@ spec:
                             Messages published by publishers running in non-allowed
                             GCP regions  will be routed for storage in one of the
                             allowed regions. An empty list means that no regions are
-                            allowed, and is not a valid configuration. A list of IDs
-                            of GCP regions where messages that are published to the
-                            topic may be persisted in storage. Messages published
-                            by publishers running in non-allowed GCP regions (or running
-                            outside of GCP altogether) will be routed for storage
-                            in one of the allowed regions. An empty list means that
-                            no regions are allowed, and is not a valid configuration.
+                            allowed, and is not a valid configuration.
                           items:
                             type: string
                           type: array
@@ -207,25 +186,18 @@ spec:
                     type: string
                   schemaSettings:
                     description: Settings for validating messages published against
-                      a schema. Structure is documented below. Settings for validating
-                      messages published against a schema.
+                      a schema. Structure is documented below.
                     items:
                       properties:
                         encoding:
-                          description: 'The encoding of messages validated against
+                          description: The encoding of messages validated against
                             schema. Default value is ENCODING_UNSPECIFIED. Possible
-                            values are ENCODING_UNSPECIFIED, JSON, and BINARY. The
-                            encoding of messages validated against schema. Default
-                            value: "ENCODING_UNSPECIFIED" Possible values: ["ENCODING_UNSPECIFIED",
-                            "JSON", "BINARY"]'
+                            values are ENCODING_UNSPECIFIED, JSON, and BINARY.
                           type: string
                         schema:
                           description: The name of the schema that messages published
                             should be validated against. Format is projects/{project}/schemas/{schema}.
                             The value of this field will be deleted-schema if the
-                            schema has been deleted. The name of the schema that messages
-                            published should be validated against. Format is projects/{project}/schemas/{schema}.
-                            The value of this field will be _deleted-schema_ if the
                             schema has been deleted.
                           type: string
                       required:

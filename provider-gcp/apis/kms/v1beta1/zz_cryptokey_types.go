@@ -35,20 +35,15 @@ type CryptoKeyParameters struct {
 
 	// The period of time that versions of this key spend in the DESTROY_SCHEDULED state before transitioning to DESTROYED.
 	// If not specified at creation time, the default duration is 24 hours.
-	// The period of time that versions of this key spend in the DESTROY_SCHEDULED state before transitioning to DESTROYED.
-	// If not specified at creation time, the default duration is 24 hours.
 	// +kubebuilder:validation:Optional
 	DestroyScheduledDuration *string `json:"destroyScheduledDuration,omitempty" tf:"destroy_scheduled_duration,omitempty"`
 
-	// Whether this key may contain imported versions only.
 	// Whether this key may contain imported versions only.
 	// +kubebuilder:validation:Optional
 	ImportOnly *bool `json:"importOnly,omitempty" tf:"import_only,omitempty"`
 
 	// The KeyRing that this key belongs to.
 	// Format: 'projects/{{project}}/locations/{{location}}/keyRings/{{keyRing}}'.
-	// The KeyRing that this key belongs to.
-	// Format: ''projects/{{project}}/locations/{{location}}/keyRings/{{keyRing}}''.
 	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/kms/v1beta1.KeyRing
 	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
@@ -63,7 +58,6 @@ type CryptoKeyParameters struct {
 	KeyRingSelector *v1.Selector `json:"keyRingSelector,omitempty" tf:"-"`
 
 	// Labels with user-defined metadata to apply to this resource.
-	// Labels with user-defined metadata to apply to this resource.
 	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
@@ -72,9 +66,6 @@ type CryptoKeyParameters struct {
 	// for possible inputs.
 	// Default value is ENCRYPT_DECRYPT.
 	// Possible values are ENCRYPT_DECRYPT, ASYMMETRIC_SIGN, and ASYMMETRIC_DECRYPT.
-	// The immutable purpose of this CryptoKey. See the
-	// [purpose reference](https://cloud.google.com/kms/docs/reference/rest/v1/projects.locations.keyRings.cryptoKeys#CryptoKeyPurpose)
-	// for possible inputs. Default value: "ENCRYPT_DECRYPT" Possible values: ["ENCRYPT_DECRYPT", "ASYMMETRIC_SIGN", "ASYMMETRIC_DECRYPT"]
 	// +kubebuilder:validation:Optional
 	Purpose *string `json:"purpose,omitempty" tf:"purpose,omitempty"`
 
@@ -82,23 +73,16 @@ type CryptoKeyParameters struct {
 	// The first rotation will take place after the specified period. The rotation period has
 	// the format of a decimal number with up to 9 fractional digits, followed by the
 	// letter s . It must be greater than a day .
-	// Every time this period passes, generate a new CryptoKeyVersion and set it as the primary.
-	// The first rotation will take place after the specified period. The rotation period has
-	// the format of a decimal number with up to 9 fractional digits, followed by the
-	// letter 's' (seconds). It must be greater than a day (ie, 86400).
 	// +kubebuilder:validation:Optional
 	RotationPeriod *string `json:"rotationPeriod,omitempty" tf:"rotation_period,omitempty"`
 
 	// If set to true, the request will create a CryptoKey without any CryptoKeyVersions.
 	// You must use the google_kms_key_ring_import_job resource to import the CryptoKeyVersion.
-	// If set to true, the request will create a CryptoKey without any CryptoKeyVersions.
-	// You must use the 'google_kms_key_ring_import_job' resource to import the CryptoKeyVersion.
 	// +kubebuilder:validation:Optional
 	SkipInitialVersionCreation *bool `json:"skipInitialVersionCreation,omitempty" tf:"skip_initial_version_creation,omitempty"`
 
 	// A template describing settings for new crypto key versions.
 	// Structure is documented below.
-	// A template describing settings for new crypto key versions.
 	// +kubebuilder:validation:Optional
 	VersionTemplate []VersionTemplateParameters `json:"versionTemplate,omitempty" tf:"version_template,omitempty"`
 }
@@ -110,12 +94,9 @@ type VersionTemplateParameters struct {
 
 	// The algorithm to use when creating a version based on this template.
 	// See the algorithm reference for possible inputs.
-	// The algorithm to use when creating a version based on this template.
-	// See the [algorithm reference](https://cloud.google.com/kms/docs/reference/rest/v1/CryptoKeyVersionAlgorithm) for possible inputs.
 	// +kubebuilder:validation:Required
 	Algorithm *string `json:"algorithm" tf:"algorithm,omitempty"`
 
-	// The protection level to use when creating a version based on this template. Possible values include "SOFTWARE", "HSM", "EXTERNAL". Defaults to "SOFTWARE".
 	// The protection level to use when creating a version based on this template. Possible values include "SOFTWARE", "HSM", "EXTERNAL". Defaults to "SOFTWARE".
 	// +kubebuilder:validation:Optional
 	ProtectionLevel *string `json:"protectionLevel,omitempty" tf:"protection_level,omitempty"`

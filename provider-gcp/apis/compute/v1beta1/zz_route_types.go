@@ -31,7 +31,6 @@ type RouteObservation struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// URL to a Network that should handle matching packets.
-	// URL to a Network that should handle matching packets.
 	NextHopNetwork *string `json:"nextHopNetwork,omitempty" tf:"next_hop_network,omitempty"`
 
 	// The URI of the created resource.
@@ -42,19 +41,14 @@ type RouteParameters struct {
 
 	// An optional description of this resource. Provide this property
 	// when you create the resource.
-	// An optional description of this resource. Provide this property
-	// when you create the resource.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// The destination range of outgoing packets that this route applies to.
 	// Only IPv4 is supported.
-	// The destination range of outgoing packets that this route applies to.
-	// Only IPv4 is supported.
 	// +kubebuilder:validation:Required
 	DestRange *string `json:"destRange" tf:"dest_range,omitempty"`
 
-	// The network that this route applies to.
 	// The network that this route applies to.
 	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.Network
 	// +kubebuilder:validation:Optional
@@ -71,17 +65,9 @@ type RouteParameters struct {
 	// URL to a gateway that should handle matching packets.
 	// Currently, you can only specify the internet gateway, using a full or
 	// partial valid URL:
-	// URL to a gateway that should handle matching packets.
-	// Currently, you can only specify the internet gateway, using a full or
-	// partial valid URL:
-	// * 'https://www.googleapis.com/compute/v1/projects/project/global/gateways/default-internet-gateway'
-	// * 'projects/project/global/gateways/default-internet-gateway'
-	// * 'global/gateways/default-internet-gateway'
-	// * The string 'default-internet-gateway'.
 	// +kubebuilder:validation:Optional
 	NextHopGateway *string `json:"nextHopGateway,omitempty" tf:"next_hop_gateway,omitempty"`
 
-	// Network IP address of an instance that should handle matching packets.
 	// Network IP address of an instance that should handle matching packets.
 	// +kubebuilder:validation:Optional
 	NextHopIP *string `json:"nextHopIp,omitempty" tf:"next_hop_ip,omitempty"`
@@ -92,22 +78,6 @@ type RouteParameters struct {
 	// With the GA provider you can only specify the forwarding
 	// rule as a partial or full URL. For example, the following
 	// are all valid values:
-	// The IP address or URL to a forwarding rule of type
-	// loadBalancingScheme=INTERNAL that should handle matching
-	// packets.
-	//
-	// With the GA provider you can only specify the forwarding
-	// rule as a partial or full URL. For example, the following
-	// are all valid values:
-	// * 10.128.0.56
-	// * https://www.googleapis.com/compute/v1/projects/project/regions/region/forwardingRules/forwardingRule
-	// * regions/region/forwardingRules/forwardingRule
-	//
-	// When the beta provider, you can also specify the IP address
-	// of a forwarding rule from the same VPC or any peered VPC.
-	//
-	// Note that this can only be used when the destinationRange is
-	// a public (non-RFC 1918) IP CIDR range.
 	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.ForwardingRule
 	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
@@ -123,20 +93,12 @@ type RouteParameters struct {
 
 	// URL to an instance that should handle matching packets.
 	// You can specify this as a full or partial URL. For example:
-	// URL to an instance that should handle matching packets.
-	// You can specify this as a full or partial URL. For example:
-	// * 'https://www.googleapis.com/compute/v1/projects/project/zones/zone/instances/instance'
-	// * 'projects/project/zones/zone/instances/instance'
-	// * 'zones/zone/instances/instance'
-	// * Just the instance name, with the zone in 'next_hop_instance_zone'.
 	// +kubebuilder:validation:Optional
 	NextHopInstance *string `json:"nextHopInstance,omitempty" tf:"next_hop_instance,omitempty"`
 
-	// The zone of the instance specified in next_hop_instance. Omit if next_hop_instance is specified as a URL.
 	// +kubebuilder:validation:Optional
 	NextHopInstanceZone *string `json:"nextHopInstanceZone,omitempty" tf:"next_hop_instance_zone,omitempty"`
 
-	// URL to a VpnTunnel that should handle matching packets.
 	// URL to a VpnTunnel that should handle matching packets.
 	// +kubebuilder:validation:Optional
 	NextHopVPNTunnel *string `json:"nextHopVpnTunnel,omitempty" tf:"next_hop_vpn_tunnel,omitempty"`
@@ -146,13 +108,6 @@ type RouteParameters struct {
 	// In the case of two routes with equal prefix length, the one with the
 	// lowest-numbered priority value wins.
 	// Default value is 1000. Valid range is 0 through 65535.
-	// The priority of this route. Priority is used to break ties in cases
-	// where there is more than one matching route of equal prefix length.
-	//
-	// In the case of two routes with equal prefix length, the one with the
-	// lowest-numbered priority value wins.
-	//
-	// Default value is 1000. Valid range is 0 through 65535.
 	// +kubebuilder:validation:Optional
 	Priority *float64 `json:"priority,omitempty" tf:"priority,omitempty"`
 
@@ -161,7 +116,6 @@ type RouteParameters struct {
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
-	// A list of instance tags to which this route applies.
 	// A list of instance tags to which this route applies.
 	// +kubebuilder:validation:Optional
 	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`

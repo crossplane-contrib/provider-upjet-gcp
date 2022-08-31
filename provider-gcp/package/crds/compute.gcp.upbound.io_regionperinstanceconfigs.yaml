@@ -76,57 +76,41 @@ spec:
                     type: string
                   name:
                     description: The name for this per-instance config and its corresponding
-                      instance. The name for this per-instance config and its corresponding
                       instance.
                     type: string
                   preservedState:
                     description: The preserved state for this instance. Structure
-                      is documented below. The preserved state for this instance.
+                      is documented below.
                     items:
                       properties:
                         disk:
                           description: Stateful disks for the instance. Structure
-                            is documented below. Stateful disks for the instance.
+                            is documented below.
                           items:
                             properties:
                               deleteRule:
-                                description: 'A value that prescribes what should
-                                  happen to the stateful disk when the VM instance
-                                  is deleted. The available options are NEVER and
-                                  ON_PERMANENT_INSTANCE_DELETION. NEVER - detach the
-                                  disk when the VM is deleted, but do not delete the
-                                  disk. ON_PERMANENT_INSTANCE_DELETION will delete
-                                  the stateful disk when the VM is permanently deleted
-                                  from the instance group. Default value is NEVER.
-                                  Possible values are NEVER and ON_PERMANENT_INSTANCE_DELETION.
-                                  A value that prescribes what should happen to the
-                                  stateful disk when the VM instance is deleted. The
-                                  available options are ''NEVER'' and ''ON_PERMANENT_INSTANCE_DELETION''.
-                                  ''NEVER'' - detach the disk when the VM is deleted,
-                                  but do not delete the disk. ''ON_PERMANENT_INSTANCE_DELETION''
+                                description: A value that prescribes what should happen
+                                  to the stateful disk when the VM instance is deleted.
+                                  The available options are NEVER and ON_PERMANENT_INSTANCE_DELETION.
+                                  NEVER - detach the disk when the VM is deleted,
+                                  but do not delete the disk. ON_PERMANENT_INSTANCE_DELETION
                                   will delete the stateful disk when the VM is permanently
-                                  deleted from the instance group. Default value:
-                                  "NEVER" Possible values: ["NEVER", "ON_PERMANENT_INSTANCE_DELETION"]'
+                                  deleted from the instance group. Default value is
+                                  NEVER. Possible values are NEVER and ON_PERMANENT_INSTANCE_DELETION.
                                 type: string
                               deviceName:
                                 description: A unique device name that is reflected
                                   into the /dev/ tree of a Linux operating system
-                                  running within the instance. A unique device name
-                                  that is reflected into the /dev/ tree of a Linux
-                                  operating system running within the instance.
+                                  running within the instance.
                                 type: string
                               mode:
-                                description: 'The mode of the disk. Default value
-                                  is READ_WRITE. Possible values are READ_ONLY and
-                                  READ_WRITE. The mode of the disk. Default value:
-                                  "READ_WRITE" Possible values: ["READ_ONLY", "READ_WRITE"]'
+                                description: The mode of the disk. Default value is
+                                  READ_WRITE. Possible values are READ_ONLY and READ_WRITE.
                                 type: string
                               source:
                                 description: The URI of an existing persistent disk
                                   to attach under the specified device-name in the
                                   format projects/project-id/zones/zone/disks/disk-name.
-                                  The URI of an existing persistent disk to attach
-                                  under the specified device-name in the format 'projects/project-id/zones/zone/disks/disk-name'.
                                 type: string
                               sourceRef:
                                 description: Reference to a Disk in compute to populate
@@ -216,9 +200,7 @@ spec:
                           additionalProperties:
                             type: string
                           description: Preserved metadata defined for this instance.
-                            This is a list of key->value pairs. Preserved metadata
-                            defined for this instance. This is a list of key->value
-                            pairs.
+                            This is a list of key->value pairs.
                           type: object
                       type: object
                     type: array
@@ -228,13 +210,11 @@ spec:
                     type: string
                   region:
                     description: Region where the containing instance group manager
-                      is located Region where the containing instance group manager
                       is located
                     type: string
                   regionInstanceGroupManager:
                     description: The region instance group manager this instance config
-                      is part of. The region instance group manager this instance
-                      config is part of.
+                      is part of.
                     type: string
                   regionInstanceGroupManagerRef:
                     description: Reference to a RegionInstanceGroupManager in compute

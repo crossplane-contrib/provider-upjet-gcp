@@ -31,13 +31,11 @@ type FirewallPolicyAssociationObservation struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// The short name of the firewall policy of the association.
-	// The short name of the firewall policy of the association.
 	ShortName *string `json:"shortName,omitempty" tf:"short_name,omitempty"`
 }
 
 type FirewallPolicyAssociationParameters struct {
 
-	// The target that the firewall policy is attached to.
 	// The target that the firewall policy is attached to.
 	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/cloudplatform/v1beta1.Folder
 	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractParamPath("name",true)
@@ -53,7 +51,6 @@ type FirewallPolicyAssociationParameters struct {
 	AttachmentTargetSelector *v1.Selector `json:"attachmentTargetSelector,omitempty" tf:"-"`
 
 	// The firewall policy ID of the association.
-	// The firewall policy ID of the association.
 	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.FirewallPolicy
 	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
@@ -67,7 +64,6 @@ type FirewallPolicyAssociationParameters struct {
 	// +kubebuilder:validation:Optional
 	FirewallPolicySelector *v1.Selector `json:"firewallPolicySelector,omitempty" tf:"-"`
 
-	// The name for an association.
 	// The name for an association.
 	// +kubebuilder:validation:Required
 	Name *string `json:"name" tf:"name,omitempty"`

@@ -4,6 +4,7 @@ import (
 	"regexp"
 	"strings"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/pkg/errors"
 	tjconfig "github.com/upbound/upjet/pkg/config"
 	"github.com/upbound/upjet/pkg/types/name"
@@ -127,4 +128,31 @@ func defaultVersion() tjconfig.ResourceOption {
 	return func(r *tjconfig.Resource) {
 		r.Version = VersionV1Beta1
 	}
+}
+
+func descriptionOverrides() tjconfig.ResourceOption {
+	return func(r *tjconfig.Resource) {
+		buildResource(r.TerraformResource)
+	}
+}
+
+func buildResource(r *schema.Resource) {
+	for _, s := range r.Schema {
+		buildSchema(s)
+	}
+}
+
+func buildSchema(sch *schema.Schema) {
+	switch sch.Type { //nolint:exhaustive
+	case schema.TypeMap, schema.TypeList, schema.TypeSet:
+		switch et := sch.Elem.(type) {
+		case *schema.Schema:
+			buildSchema(et)
+		case *schema.Resource:
+			buildResource(et)
+		default:
+			sch.Description = ""
+		}
+	}
+	sch.Description = ""
 }

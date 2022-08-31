@@ -30,12 +30,9 @@ type AdvertisedIPRangesObservation struct {
 
 type AdvertisedIPRangesParameters struct {
 
-	// User-specified description for the IP range.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// The IP range to advertise. The value must be a
-	// CIDR-formatted string.
 	// The IP range to advertise. The value must be a
 	// CIDR-formatted string.
 	// +kubebuilder:validation:Required
@@ -50,7 +47,6 @@ type BGPParameters struct {
 	// User-specified flag to indicate which mode to use for advertisement.
 	// Default value is DEFAULT.
 	// Possible values are DEFAULT and CUSTOM.
-	// User-specified flag to indicate which mode to use for advertisement. Default value: "DEFAULT" Possible values: ["DEFAULT", "CUSTOM"]
 	// +kubebuilder:validation:Optional
 	AdvertiseMode *string `json:"advertiseMode,omitempty" tf:"advertise_mode,omitempty"`
 
@@ -59,13 +55,6 @@ type BGPParameters struct {
 	// is advertised to all peers of the router. These groups will be
 	// advertised in addition to any specified prefixes. Leave this field
 	// blank to advertise no custom groups.
-	// This enum field has the one valid value: ALL_SUBNETS
-	// User-specified list of prefix groups to advertise in custom mode.
-	// This field can only be populated if advertiseMode is CUSTOM and
-	// is advertised to all peers of the router. These groups will be
-	// advertised in addition to any specified prefixes. Leave this field
-	// blank to advertise no custom groups.
-	//
 	// This enum field has the one valid value: ALL_SUBNETS
 	// +kubebuilder:validation:Optional
 	AdvertisedGroups []*string `json:"advertisedGroups,omitempty" tf:"advertised_groups,omitempty"`
@@ -76,19 +65,10 @@ type BGPParameters struct {
 	// ranges will be advertised in addition to any specified groups.
 	// Leave this field blank to advertise no custom IP ranges.
 	// Structure is documented below.
-	// User-specified list of individual IP ranges to advertise in
-	// custom mode. This field can only be populated if advertiseMode
-	// is CUSTOM and is advertised to all peers of the router. These IP
-	// ranges will be advertised in addition to any specified groups.
-	// Leave this field blank to advertise no custom IP ranges.
 	// +kubebuilder:validation:Optional
 	AdvertisedIPRanges []AdvertisedIPRangesParameters `json:"advertisedIpRanges,omitempty" tf:"advertised_ip_ranges,omitempty"`
 
 	// Local BGP Autonomous System Number . Must be an RFC6996
-	// private ASN, either 16-bit or 32-bit. The value will be fixed for
-	// this router resource. All VPN tunnels that link to this router
-	// will have the same local ASN.
-	// Local BGP Autonomous System Number (ASN). Must be an RFC6996
 	// private ASN, either 16-bit or 32-bit. The value will be fixed for
 	// this router resource. All VPN tunnels that link to this router
 	// will have the same local ASN.
@@ -100,18 +80,12 @@ type BGPParameters struct {
 	// maximum number of seconds allowed to elapse between successive keepalive messages that BGP receives from a peer.
 	// BGP will use the smaller of either the local hold time value or the peer's hold time value as the hold time for
 	// the BGP connection between the two peers. If set, this value must be between 20 and 60. The default is 20.
-	// The interval in seconds between BGP keepalive messages that are sent to the peer.
-	// Hold time is three times the interval at which keepalive messages are sent, and the hold time is the
-	// maximum number of seconds allowed to elapse between successive keepalive messages that BGP receives from a peer.
-	// BGP will use the smaller of either the local hold time value or the peer's hold time value as the hold time for
-	// the BGP connection between the two peers. If set, this value must be between 20 and 60. The default is 20.
 	// +kubebuilder:validation:Optional
 	KeepaliveInterval *float64 `json:"keepaliveInterval,omitempty" tf:"keepalive_interval,omitempty"`
 }
 
 type RouterObservation struct {
 
-	// Creation timestamp in RFC3339 text format.
 	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
 
@@ -126,25 +100,18 @@ type RouterParameters struct {
 
 	// BGP information specific to this router.
 	// Structure is documented below.
-	// BGP information specific to this router.
 	// +kubebuilder:validation:Optional
 	BGP []BGPParameters `json:"bgp,omitempty" tf:"bgp,omitempty"`
 
-	// An optional description of this resource.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Field to indicate if a router is dedicated to use with encrypted
 	// Interconnect Attachment .
 	// Not currently available publicly.
-	// Field to indicate if a router is dedicated to use with encrypted
-	// Interconnect Attachment (IPsec-encrypted Cloud Interconnect feature).
-	//
-	// Not currently available publicly.
 	// +kubebuilder:validation:Optional
 	EncryptedInterconnectRouter *bool `json:"encryptedInterconnectRouter,omitempty" tf:"encrypted_interconnect_router,omitempty"`
 
-	// A reference to the network to which this router belongs.
 	// A reference to the network to which this router belongs.
 	// +crossplane:generate:reference:type=Network
 	// +crossplane:generate:reference:extractor=github.com/upbound/official-providers/provider-gcp/config/common.SelfLinkExtractor()
@@ -164,7 +131,6 @@ type RouterParameters struct {
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
-	// Region where the router resides.
 	// Region where the router resides.
 	// +kubebuilder:validation:Required
 	Region *string `json:"region" tf:"region,omitempty"`
