@@ -20,16 +20,6 @@ func Configure(p *config.Provider) {
 			Type: "Project",
 		}
 	})
-	p.AddResourceConfigurator("google_project_iam_policy", func(r *config.Resource) {
-		r.References["project"] = config.Reference{
-			Type: "Project",
-		}
-	})
-	p.AddResourceConfigurator("google_project_iam_binding", func(r *config.Resource) {
-		r.References["project"] = config.Reference{
-			Type: "Project",
-		}
-	})
 	p.AddResourceConfigurator("google_project_iam_member", func(r *config.Resource) {
 		r.References["project"] = config.Reference{
 			Type: "Project",
