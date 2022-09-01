@@ -335,11 +335,10 @@ var externalNameConfigs = map[string]config.ExternalName{
 	//
 	// Imported by using the following format: projects/{{project_id}}/secrets/{{secret_id}}
 	"google_secret_manager_secret": config.IdentifierFromProvider,
-	// "google_secret_manager_secret": googleSecretManagerSecret(),
-
+	// Imported by using the following format: projects/{{project}}/secrets/{{secret_id}} roles/secretmanager.secretAccessor user:jane@example.com
+	"google_secret_manager_secret_iam_member": config.IdentifierFromProvider,
 	// Imported by using the following format: {{name}}/{{name}}
 	"google_secret_manager_secret_version": config.IdentifierFromProvider,
-	// "google_secret_manager_secret_version": config.TemplatedStringAsIdentifier("name", "{{ .externalName }}/{{ .externalName }}"),
 
 	// service networking
 	//

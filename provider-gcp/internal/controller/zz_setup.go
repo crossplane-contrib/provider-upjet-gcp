@@ -143,6 +143,7 @@ import (
 	topiciammember "github.com/upbound/official-providers/provider-gcp/internal/controller/pubsub/topiciammember"
 	instanceredis "github.com/upbound/official-providers/provider-gcp/internal/controller/redis/instance"
 	secret "github.com/upbound/official-providers/provider-gcp/internal/controller/secretmanager/secret"
+	secretiammember "github.com/upbound/official-providers/provider-gcp/internal/controller/secretmanager/secretiammember"
 	secretversion "github.com/upbound/official-providers/provider-gcp/internal/controller/secretmanager/secretversion"
 	connection "github.com/upbound/official-providers/provider-gcp/internal/controller/servicenetworking/connection"
 	database "github.com/upbound/official-providers/provider-gcp/internal/controller/sql/database"
@@ -293,6 +294,7 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		topiciammember.Setup,
 		instanceredis.Setup,
 		secret.Setup,
+		secretiammember.Setup,
 		secretversion.Setup,
 		connection.Setup,
 		database.Setup,

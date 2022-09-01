@@ -54,7 +54,8 @@ type SecretVersionParameters struct {
 
 	// Secret Manager secret resource
 	// Secret Manager secret resource
-	// +crossplane:generate:reference:type=Secret
+	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/secretmanager/v1beta1.Secret
+	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Secret *string `json:"secret,omitempty" tf:"secret,omitempty"`
 
@@ -64,11 +65,11 @@ type SecretVersionParameters struct {
 	// +kubebuilder:validation:Required
 	SecretDataSecretRef v1.SecretKeySelector `json:"secretDataSecretRef" tf:"-"`
 
-	// Reference to a Secret to populate secret.
+	// Reference to a Secret in secretmanager to populate secret.
 	// +kubebuilder:validation:Optional
 	SecretRef *v1.Reference `json:"secretRef,omitempty" tf:"-"`
 
-	// Selector for a Secret to populate secret.
+	// Selector for a Secret in secretmanager to populate secret.
 	// +kubebuilder:validation:Optional
 	SecretSelector *v1.Selector `json:"secretSelector,omitempty" tf:"-"`
 }

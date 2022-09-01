@@ -1,6 +1,8 @@
 apiVersion: storage.gcp.upbound.io/v1beta1
 kind: BucketObject
 metadata:
+  annotations:
+    meta.upbound.io/example-id: storage/v1beta1/bucketobject
   labels:
     testing.upbound.io/example-name: bucket-object
   name: bucket-object
@@ -18,9 +20,11 @@ spec:
 apiVersion: storage.gcp.upbound.io/v1beta1
 kind: Bucket
 metadata:
+  annotations:
+    meta.upbound.io/example-id: storage/v1beta1/bucketobject
   labels:
     testing.upbound.io/example-name: bucket-object
-  name: bucket-object-34234
+  name: bucket-object-${Rand.RFC1123Subdomain}
 spec:
   forProvider:
     location: US

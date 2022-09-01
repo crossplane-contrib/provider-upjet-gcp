@@ -21,8 +21,35 @@ import (
 	"context"
 	reference "github.com/crossplane/crossplane-runtime/pkg/reference"
 	errors "github.com/pkg/errors"
+	resource "github.com/upbound/upjet/pkg/resource"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
+
+// ResolveReferences of this SecretIAMMember.
+func (mg *SecretIAMMember) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.SecretID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.ForProvider.SecretIDRef,
+		Selector:     mg.Spec.ForProvider.SecretIDSelector,
+		To: reference.To{
+			List:    &SecretList{},
+			Managed: &Secret{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.SecretID")
+	}
+	mg.Spec.ForProvider.SecretID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.SecretIDRef = rsp.ResolvedReference
+
+	return nil
+}
 
 // ResolveReferences of this SecretVersion.
 func (mg *SecretVersion) ResolveReferences(ctx context.Context, c client.Reader) error {
@@ -33,7 +60,7 @@ func (mg *SecretVersion) ResolveReferences(ctx context.Context, c client.Reader)
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Secret),
-		Extract:      reference.ExternalName(),
+		Extract:      resource.ExtractResourceID(),
 		Reference:    mg.Spec.ForProvider.SecretRef,
 		Selector:     mg.Spec.ForProvider.SecretSelector,
 		To: reference.To{
