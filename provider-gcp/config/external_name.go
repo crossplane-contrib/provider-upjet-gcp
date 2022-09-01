@@ -304,7 +304,7 @@ var externalNameConfigs = map[string]config.ExternalName{
 	// {{key_ring}}/cryptoKeys/{{name}}
 	"google_kms_crypto_key": formattedIdentifierUserDefined("%s/cryptoKeys", "key_ring"),
 	// {{name}}
-	"google_kms_key_ring_import_job": config.TemplatedStringAsIdentifier("import_job_id", "{{ .parameters.key_ring }}/importJobs/{{ .externalName }}"),
+	"google_kms_key_ring_import_job": config.TemplatedStringAsIdentifier("import_job_id", "{{ .parameters.key_ring }}/importJobs/{{ .external_name }}"),
 	// terraform import google_kms_key_ring_iam_member.key_ring_iam "your-project-id/location-name/key-ring-name roles/viewer user:foo@example.com"
 	"google_kms_key_ring_iam_member": config.IdentifierFromProvider,
 	// terraform import google_kms_crypto_key_iam_member.crypto_key "your-project-id/location-name/key-ring-name/key-name roles/viewer user:foo@example.com"
@@ -361,7 +361,6 @@ var externalNameConfigs = map[string]config.ExternalName{
 
 	// Imported by using the following format: {{name}}/{{name}}
 	"google_secret_manager_secret_version": config.IdentifierFromProvider,
-	// "google_secret_manager_secret_version": config.TemplatedStringAsIdentifier("name", "{{ .externalName }}/{{ .externalName }}"),
 
 	// service networking
 	//
