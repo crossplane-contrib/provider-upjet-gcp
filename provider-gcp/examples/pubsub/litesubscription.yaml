@@ -24,7 +24,7 @@ metadata:
     meta.upbound.io/example-id: pubsub/v1beta1/litesubscription
   labels:
     testing.upbound.io/example-name: lite-subscription
-  name: lite-subscription
+  name: lite-subscription-${Rand.RFC1123Subdomain}
 spec:
   forProvider:
     zone: us-central1-a
