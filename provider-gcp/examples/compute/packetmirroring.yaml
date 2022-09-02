@@ -1,6 +1,8 @@
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: PacketMirroring
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/packetmirroring
   labels:
     testing.upbound.io/example-name: packet-mirroring
   name: packet-mirroring
@@ -35,6 +37,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: ForwardingRule
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/packetmirroring
   labels:
     testing.upbound.io/example-name: packet-mirroring
   name: packet-mirroring
@@ -61,6 +65,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: RegionHealthCheck
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/packetmirroring
   labels:
     testing.upbound.io/example-name: packet-mirroring
   name: packet-mirroring
@@ -77,6 +83,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: Instance
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/packetmirroring
   labels:
     testing.upbound.io/example-name: packet-mirroring
   name: packet-mirroring
@@ -102,6 +110,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: Network
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/packetmirroring
   labels:
     testing.upbound.io/example-name: packet-mirroring
   name: packet-mirroring
@@ -114,6 +124,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: RegionBackendService
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/packetmirroring
   labels:
     testing.upbound.io/example-name: packet-mirroring
   name: packet-mirroring
@@ -128,6 +140,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: Subnetwork
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/packetmirroring
   labels:
     testing.upbound.io/example-name: packet-mirroring
   name: packet-mirroring

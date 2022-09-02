@@ -1,12 +1,53 @@
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: NetworkEndpointGroup
 metadata:
-  name: example
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/networkendpointgroup
+  labels:
+    testing.upbound.io/example-name: network-endpoint-group
+  name: network-endpoint-group
 spec:
   forProvider:
     defaultPort: 90
-    networkRef:
-      name: example
-    subnetworkRef:
-      name: example
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: network-endpoint-group
+    subnetworkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: network-endpoint-group
     zone: us-central1-a
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Subnetwork
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/networkendpointgroup
+  labels:
+    testing.upbound.io/example-name: network-endpoint-group
+  name: network-endpoint-group
+spec:
+  forProvider:
+    ipCidrRange: 10.2.0.0/16
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: network-endpoint-group
+    region: us-central1
+    secondaryIpRange:
+    - ipCidrRange: 192.168.10.0/24
+      rangeName: test-secondary-range-update1
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Network
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/networkendpointgroup
+  labels:
+    testing.upbound.io/example-name: network-endpoint-group
+  name: network-endpoint-group
+spec:
+  forProvider:
+     autoCreateSubnetworks: false

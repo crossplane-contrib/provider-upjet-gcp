@@ -73,26 +73,8 @@ func (l *BackendServiceList) GetItems() []resource.Managed {
 	return items
 }
 
-// GetItems of this DiskIAMBindingList.
-func (l *DiskIAMBindingList) GetItems() []resource.Managed {
-	items := make([]resource.Managed, len(l.Items))
-	for i := range l.Items {
-		items[i] = &l.Items[i]
-	}
-	return items
-}
-
 // GetItems of this DiskIAMMemberList.
 func (l *DiskIAMMemberList) GetItems() []resource.Managed {
-	items := make([]resource.Managed, len(l.Items))
-	for i := range l.Items {
-		items[i] = &l.Items[i]
-	}
-	return items
-}
-
-// GetItems of this DiskIAMPolicyList.
-func (l *DiskIAMPolicyList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
 	for i := range l.Items {
 		items[i] = &l.Items[i]
@@ -316,26 +298,8 @@ func (l *InstanceGroupNamedPortList) GetItems() []resource.Managed {
 	return items
 }
 
-// GetItems of this InstanceIAMBindingList.
-func (l *InstanceIAMBindingList) GetItems() []resource.Managed {
-	items := make([]resource.Managed, len(l.Items))
-	for i := range l.Items {
-		items[i] = &l.Items[i]
-	}
-	return items
-}
-
 // GetItems of this InstanceIAMMemberList.
 func (l *InstanceIAMMemberList) GetItems() []resource.Managed {
-	items := make([]resource.Managed, len(l.Items))
-	for i := range l.Items {
-		items[i] = &l.Items[i]
-	}
-	return items
-}
-
-// GetItems of this InstanceIAMPolicyList.
-func (l *InstanceIAMPolicyList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
 	for i := range l.Items {
 		items[i] = &l.Items[i]

@@ -142,10 +142,6 @@ var externalNameConfigs = map[string]config.ExternalName{
 	"google_compute_resource_policy": formattedIdentifierUserDefined("projects/%s/regions/%s/resourcePolicies", "project", "region"),
 	// Imported by using the following format: projects/{{project}}/zones/{{zone}}/disks/{{disk}}/{{name}}
 	"google_compute_disk_resource_policy_attachment": config.IdentifierFromProvider,
-	// Imported by using the following format: projects/{{project}}/zones/{{zone}}/disks/{{disk}}
-	"google_compute_disk_iam_policy": config.IdentifierFromProvider,
-	// Imported by using the following format: projects/{{project}}/zones/{{zone}}/disks/{{disk}} roles/viewer
-	"google_compute_disk_iam_binding": config.IdentifierFromProvider,
 	// Imported by using the following format: projects/{{project}}/zones/{{zone}}/disks/{{disk}} roles/viewer user:jane@example.com
 	"google_compute_disk_iam_member": config.IdentifierFromProvider,
 	// Imported by using the following format: {{project}}/{{global_network_endpoint_group}}/{{ip_address}}/{{fqdn}}/{{port}}
@@ -160,10 +156,6 @@ var externalNameConfigs = map[string]config.ExternalName{
 	"google_compute_target_pool": formattedIdentifierUserDefined("projects/%s/regions/%s/targetPools", "project", "region"),
 	// Imported by using the following format: projects/{{project}}/zones/{{zone}}/instanceGroupManagers/{{name}}
 	"google_compute_instance_group_manager": formattedIdentifierUserDefined("projects/%s/zones/%s/targetPools", "project", "zone"),
-	// Imported by using the following format: projects/{{project}}/zones/{{zone}}/instances/{{instance}}
-	"google_compute_instance_iam_policy": config.IdentifierFromProvider,
-	// Imported by using the following format: projects/{{project}}/zones/{{zone}}/instances/{{instance}} roles/compute.osLogin
-	"google_compute_instance_iam_binding": config.IdentifierFromProvider,
 	// Imported by using the following format: projects/{{project}}/zones/{{zone}}/instances/{{instance}} roles/compute.osLogin user:jane@example.com
 	"google_compute_instance_iam_member": config.IdentifierFromProvider,
 	// Imported by using the following format: projects/{{project}}/regions/{{region}}/interconnectAttachments/{{name}}

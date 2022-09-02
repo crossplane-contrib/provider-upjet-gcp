@@ -1,6 +1,8 @@
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: Route
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/route
   labels:
     testing.upbound.io/example-name: route
   name: route
@@ -18,9 +20,29 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: Network
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/route
   labels:
     testing.upbound.io/example-name: route
   name: route
 spec:
   forProvider:
-    autoCreateSubnetworks: true
+    autoCreateSubnetworks: false
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Subnetwork
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/route
+  labels:
+    testing.upbound.io/example-name: route
+  name: route
+spec:
+  forProvider:
+    ipCidrRange: 10.132.1.0/24
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: route
+    region: us-central1

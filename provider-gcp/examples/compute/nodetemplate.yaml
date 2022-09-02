@@ -1,11 +1,13 @@
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: NodeTemplate
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/nodetemplate
   labels:
-    testing.upbound.io/example-name: template
-  name: template
+    testing.upbound.io/example-name: node-template
+  name: node-template
 spec:
   forProvider:
     # https://cloud.google.com/compute/docs/nodes/sole-tenant-nodes#node_types
     nodeType: c2-node-60-240
-    region: us-central1
+    region: europe-west1

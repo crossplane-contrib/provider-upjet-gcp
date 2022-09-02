@@ -1,6 +1,8 @@
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: SSLCertificate
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/sslcertificate
   labels:
     testing.upbound.io/example-name: ssl-certificate
   name: ssl-certificate
@@ -21,6 +23,8 @@ spec:
 apiVersion: v1
 kind: Secret
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/sslcertificate
   labels:
     testing.upbound.io/example-name: ssl-certificate-crt
   name: ssl-certificate-crt
@@ -33,6 +37,8 @@ data:
 apiVersion: v1
 kind: Secret
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/sslcertificate
   labels:
     testing.upbound.io/example-name: ssl-certificate-key
   name: ssl-certificate-key

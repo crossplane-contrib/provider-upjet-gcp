@@ -39,9 +39,7 @@ import (
 	backendbucketsignedurlkey "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/backendbucketsignedurlkey"
 	backendservice "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/backendservice"
 	disk "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/disk"
-	diskiambinding "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/diskiambinding"
 	diskiammember "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/diskiammember"
-	diskiampolicy "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/diskiampolicy"
 	diskresourcepolicyattachment "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/diskresourcepolicyattachment"
 	externalvpngateway "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/externalvpngateway"
 	firewall "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/firewall"
@@ -66,9 +64,7 @@ import (
 	instancegroup "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/instancegroup"
 	instancegroupmanager "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/instancegroupmanager"
 	instancegroupnamedport "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/instancegroupnamedport"
-	instanceiambinding "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/instanceiambinding"
 	instanceiammember "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/instanceiammember"
-	instanceiampolicy "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/instanceiampolicy"
 	instancetemplate "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/instancetemplate"
 	interconnectattachment "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/interconnectattachment"
 	managedsslcertificate "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/managedsslcertificate"
@@ -190,9 +186,7 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		backendbucketsignedurlkey.Setup,
 		backendservice.Setup,
 		disk.Setup,
-		diskiambinding.Setup,
 		diskiammember.Setup,
-		diskiampolicy.Setup,
 		diskresourcepolicyattachment.Setup,
 		externalvpngateway.Setup,
 		firewall.Setup,
@@ -217,9 +211,7 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		instancegroup.Setup,
 		instancegroupmanager.Setup,
 		instancegroupnamedport.Setup,
-		instanceiambinding.Setup,
 		instanceiammember.Setup,
-		instanceiampolicy.Setup,
 		instancetemplate.Setup,
 		interconnectattachment.Setup,
 		managedsslcertificate.Setup,

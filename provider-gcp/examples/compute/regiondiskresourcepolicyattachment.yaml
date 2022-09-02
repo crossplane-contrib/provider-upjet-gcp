@@ -1,6 +1,8 @@
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: RegionDiskResourcePolicyAttachment
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/regiondiskresourcepolicyattachment
   labels:
     testing.upbound.io/example-name: region-disk-policy-attachment
   name: region-disk-policy-attachment
@@ -19,6 +21,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: RegionDisk
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/regiondiskresourcepolicyattachment
   labels:
     testing.upbound.io/example-name: region-disk-policy-attachment
   name: region-disk-policy-attachment
@@ -36,6 +40,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: ResourcePolicy
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/regiondiskresourcepolicyattachment
   labels:
     testing.upbound.io/example-name: region-disk-policy-attachment
   name: region-disk-policy-attachment

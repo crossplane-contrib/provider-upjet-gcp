@@ -1,6 +1,8 @@
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: ProjectDefaultNetworkTier
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/projectdefaultnetworktier
   labels:
     testing.upbound.io/example-name: project-network-tier
   name: project-network-tier

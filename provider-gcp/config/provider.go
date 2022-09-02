@@ -74,6 +74,10 @@ var skipList = []string{
 	"google_pubsub_topic_iam_binding",
 	"google_pubsub_subscription_iam_policy",
 	"google_pubsub_subscription_iam_binding",
+	"google_compute_disk_iam_policy",
+	"google_compute_disk_iam_binding",
+	"google_compute_instance_iam_policy",
+	"google_compute_instance_iam_binding",
 }
 
 // GetProvider returns provider configuration

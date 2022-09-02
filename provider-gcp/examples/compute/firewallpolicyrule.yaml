@@ -1,9 +1,8 @@
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: FirewallPolicyRule
 metadata:
-  labels:
-    testing.upbound.io/example-name: firewall-policy-rule
   annotations:
+    meta.upbound.io/example-id: compute/v1beta1/firewallpolicyrule
     upjet.upbound.io/manual-intervention: "Required organizational level permissions"
   name: firewall-policy-rule
 spec:
@@ -31,10 +30,11 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: FirewallPolicy
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/firewallpolicyrule
+    upjet.upbound.io/manual-intervention: "Required organizational level permissions"
   labels:
     testing.upbound.io/example-name: firewall-policy-rule
-  annotations:
-    upjet.upbound.io/manual-intervention: "Required organizational level permissions"
   name: firewall-policy-rule
 spec:
   forProvider:

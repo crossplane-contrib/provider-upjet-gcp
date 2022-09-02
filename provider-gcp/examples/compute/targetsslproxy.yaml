@@ -1,6 +1,8 @@
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: TargetSSLProxy
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/targetsslproxy
   labels:
     testing.upbound.io/example-name: target-ssl-proxy
   name: target-ssl-proxy
@@ -18,6 +20,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: BackendService
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/targetsslproxy
   labels:
     testing.upbound.io/example-name: target-ssl-proxy
   name: target-ssl-proxy
@@ -32,6 +36,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: HealthCheck
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/targetsslproxy
   labels:
     testing.upbound.io/example-name: target-ssl-proxy
   name: target-ssl-proxy
@@ -47,6 +53,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: SSLCertificate
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/targetsslproxy
   labels:
     testing.upbound.io/example-name: target-ssl-proxy
   name: target-ssl-proxy
@@ -67,6 +75,8 @@ spec:
 apiVersion: v1
 kind: Secret
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/targetsslproxy
   labels:
     testing.upbound.io/example-name: target-ssl-proxy-crt
   name: target-ssl-proxy-crt
@@ -79,6 +89,8 @@ data:
 apiVersion: v1
 kind: Secret
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/targetsslproxy
   labels:
     testing.upbound.io/example-name: target-ssl-proxy-key
   name: target-ssl-proxy-key

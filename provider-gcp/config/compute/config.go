@@ -65,6 +65,16 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 		config.MarkAsRequired(r.TerraformResource, "zone")
 	})
 
+	p.AddResourceConfigurator("google_compute_disk_iam_member", func(r *config.Resource) {
+		r.References["name"] = config.Reference{
+			Type: "Disk",
+		}
+	})
+
+	p.AddResourceConfigurator("google_compute_disk_resource_policy_attachment", func(r *config.Resource) {
+		r.UseAsync = true
+	})
+
 	p.AddResourceConfigurator("google_compute_subnetwork", func(r *config.Resource) {
 		r.References["network"] = config.Reference{
 			Type: "Network",
@@ -143,6 +153,12 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 		config.MarkAsRequired(r.TerraformResource, "zone")
 	})
 
+	p.AddResourceConfigurator("google_compute_instance_iam_member", func(r *config.Resource) {
+		r.References["instance_name"] = config.Reference{
+			Type: "Instance",
+		}
+	})
+
 	p.AddResourceConfigurator("google_compute_instance_from_template", func(r *config.Resource) {
 		// Note(turkenh): We have to modify schema of
 		// "boot_disk.initialize_params.labels", since it is a map where
@@ -165,7 +181,7 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 	p.AddResourceConfigurator("google_compute_instance_group", func(r *config.Resource) {
 		r.References["network"] = config.Reference{
 			Type:      "Network",
-			Extractor: common.ExtractResourceIDFuncPath,
+			Extractor: common.PathSelfLinkExtractor,
 		}
 		config.MarkAsRequired(r.TerraformResource, "zone")
 	})
@@ -245,20 +261,6 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 		delete(r.References, "port")
 	})
 
-	p.AddResourceConfigurator("google_compute_image_iam_policy", func(r *config.Resource) {
-		delete(r.References, "project")
-	})
-
-	p.AddResourceConfigurator("google_compute_disk_iam_policy", func(r *config.Resource) {
-		delete(r.References, "project")
-		delete(r.References, "zone")
-	})
-
-	p.AddResourceConfigurator("google_compute_instance_iam_policy", func(r *config.Resource) {
-		delete(r.References, "project")
-		delete(r.References, "zone")
-	})
-
 	p.AddResourceConfigurator("google_compute_network_peering_routes_config", func(r *config.Resource) {
 		r.UseAsync = true
 	})
@@ -335,12 +337,6 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 	p.AddResourceConfigurator("google_compute_region_disk", func(r *config.Resource) {
 		r.UseAsync = true
 		config.MarkAsRequired(r.TerraformResource, "region")
-	})
-
-	p.AddResourceConfigurator("google_compute_region_disk_iam_binding", func(r *config.Resource) {
-		r.References["name"] = config.Reference{
-			Type: "RegionDisk",
-		}
 	})
 
 	p.AddResourceConfigurator("google_compute_region_disk_iam_member", func(r *config.Resource) {
@@ -423,6 +419,12 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 
 	p.AddResourceConfigurator("google_compute_ssl_certificate", func(r *config.Resource) {
 		r.UseAsync = true
+	})
+
+	p.AddResourceConfigurator("google_compute_image_iam_member", func(r *config.Resource) {
+		r.References["image"] = config.Reference{
+			Type: "Image",
+		}
 	})
 }
 

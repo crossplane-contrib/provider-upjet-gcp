@@ -51,8 +51,17 @@ type InstanceIAMMemberParameters struct {
 	// +kubebuilder:validation:Optional
 	Condition []InstanceIAMMemberConditionParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
-	// +kubebuilder:validation:Required
-	InstanceName *string `json:"instanceName" tf:"instance_name,omitempty"`
+	// +crossplane:generate:reference:type=Instance
+	// +kubebuilder:validation:Optional
+	InstanceName *string `json:"instanceName,omitempty" tf:"instance_name,omitempty"`
+
+	// Reference to a Instance to populate instanceName.
+	// +kubebuilder:validation:Optional
+	InstanceNameRef *v1.Reference `json:"instanceNameRef,omitempty" tf:"-"`
+
+	// Selector for a Instance to populate instanceName.
+	// +kubebuilder:validation:Optional
+	InstanceNameSelector *v1.Selector `json:"instanceNameSelector,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Required
 	Member *string `json:"member" tf:"member,omitempty"`

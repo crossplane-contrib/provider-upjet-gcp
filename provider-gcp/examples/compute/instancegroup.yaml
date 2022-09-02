@@ -1,12 +1,29 @@
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: InstanceGroup
 metadata:
-  name: example
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/instancegroup
+  labels:
+    testing.upbound.io/example-name: instance-group
+  name: instance-group
 spec:
   forProvider:
     description: Terraform test instance group
-    networkRef:
-      name: example
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: instance-group
     zone: us-central1-a
-  providerConfigRef:
-    name: default
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Network
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/instancegroup
+  labels:
+    testing.upbound.io/example-name: instance-group
+  name: instance-group
+spec:
+  forProvider:
+    autoCreateSubnetworks: false

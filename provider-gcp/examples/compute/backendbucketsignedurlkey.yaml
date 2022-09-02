@@ -1,28 +1,53 @@
-apiVersion: storage.gcp.upbound.io/v1beta1
-kind: Bucket
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: BackendBucketSignedURLKey
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/backendbucketsignedurlkey
   labels:
-    testing.upbound.io/example-name: example
-  name: example-backend-key
+    testing.upbound.io/example-name: backend-bucket-signed-url-key
+  name: backend-bucket-signed-url-key
 spec:
   forProvider:
-    location: US
-    storageClass: MULTI_REGIONAL
+    name: backend-bucket-signed-url-key
+    backendBucketSelector:
+      matchLabels:
+        testing.upbound.io/example-name: backend-bucket-signed-url-key
+    keyValueSecretRef:
+      key: attribute.b64_url
+      name: backend-bucket-signed-url-key-id
+      namespace: upbound-system
 
 ---
 
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: BackendBucket
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/backendbucket
   labels:
-    testing.upbound.io/example-name: example
-  name: example-backend-key
+    testing.upbound.io/example-name: backend-bucket-signed-url-key
+  name: backend-bucket-${Rand.RFC1123Subdomain}
 spec:
+  forProvider:
     bucketNameSelector:
       matchLabels:
-        testing.upbound.io/example-name: example
-    description: Contains beautiful images
-    enableCdn: true
+        testing.upbound.io/example-name: backend-bucket-signed-url-key
+
+---
+
+apiVersion: storage.gcp.upbound.io/v1beta1
+kind: Bucket
+metadata:
+  annotations:
+    meta.upbound.io/example-id: storage/v1beta1/backendbucket
+  labels:
+    testing.upbound.io/example-name: backend-bucket-signed-url-key
+  name: backend-bucket-signed-url-key-backend-key
+spec:
+  forProvider:
+    location: US
+    storageClass: MULTI_REGIONAL
 
 ---
 
@@ -31,23 +56,9 @@ data:
   attribute.b64_url: WFlYUTVGSVRwb182OW1BNFhDVDdFdw==
 kind: Secret
 metadata:
-  creationTimestamp: null
-  name: example-id
+  annotations:
+    meta.upbound.io/example-id: storage/v1beta1/backendbucket
+  labels:
+    testing.upbound.io/example-name: backend-bucket-signed-url-key
+  name: backend-bucket-signed-url-key-id
   namespace: upbound-system
-
----
-
-apiVersion: compute.gcp.upbound.io/v1beta1
-kind: BackendBucketSignedURLKey
-metadata:
-  name: example
-spec:
-  forProvider:
-    name: example
-    backendBucketSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
-    keyValueSecretRef:
-      key: attribute.b64_url
-      name: example-id
-      namespace: upbound-system

@@ -238,8 +238,8 @@ func (mg *BackendService) ResolveReferences(ctx context.Context, c client.Reader
 	return nil
 }
 
-// ResolveReferences of this DiskIAMPolicy.
-func (mg *DiskIAMPolicy) ResolveReferences(ctx context.Context, c client.Reader) error {
+// ResolveReferences of this DiskIAMMember.
+func (mg *DiskIAMMember) ResolveReferences(ctx context.Context, c client.Reader) error {
 	r := reference.NewAPIResolver(c, mg)
 
 	var rsp reference.ResolutionResponse
@@ -661,6 +661,32 @@ func (mg *HaVPNGateway) ResolveReferences(ctx context.Context, c client.Reader) 
 	return nil
 }
 
+// ResolveReferences of this ImageIAMMember.
+func (mg *ImageIAMMember) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Image),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.ForProvider.ImageRef,
+		Selector:     mg.Spec.ForProvider.ImageSelector,
+		To: reference.To{
+			List:    &ImageList{},
+			Managed: &Image{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.Image")
+	}
+	mg.Spec.ForProvider.Image = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.ImageRef = rsp.ResolvedReference
+
+	return nil
+}
+
 // ResolveReferences of this ImageIAMPolicy.
 func (mg *ImageIAMPolicy) ResolveReferences(ctx context.Context, c client.Reader) error {
 	r := reference.NewAPIResolver(c, mg)
@@ -683,6 +709,22 @@ func (mg *ImageIAMPolicy) ResolveReferences(ctx context.Context, c client.Reader
 	}
 	mg.Spec.ForProvider.Image = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.ImageRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Project),
+		Extract:      resource.ExtractParamPath("project", false),
+		Reference:    mg.Spec.ForProvider.ProjectRef,
+		Selector:     mg.Spec.ForProvider.ProjectSelector,
+		To: reference.To{
+			List:    &ImageList{},
+			Managed: &Image{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.Project")
+	}
+	mg.Spec.ForProvider.Project = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.ProjectRef = rsp.ResolvedReference
 
 	return nil
 }
@@ -823,7 +865,7 @@ func (mg *InstanceGroup) ResolveReferences(ctx context.Context, c client.Reader)
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Network),
-		Extract:      common.ExtractResourceID(),
+		Extract:      common.SelfLinkExtractor(),
 		Reference:    mg.Spec.ForProvider.NetworkRef,
 		Selector:     mg.Spec.ForProvider.NetworkSelector,
 		To: reference.To{
@@ -904,8 +946,8 @@ func (mg *InstanceGroupManager) ResolveReferences(ctx context.Context, c client.
 	return nil
 }
 
-// ResolveReferences of this InstanceIAMPolicy.
-func (mg *InstanceIAMPolicy) ResolveReferences(ctx context.Context, c client.Reader) error {
+// ResolveReferences of this InstanceIAMMember.
+func (mg *InstanceIAMMember) ResolveReferences(ctx context.Context, c client.Reader) error {
 	r := reference.NewAPIResolver(c, mg)
 
 	var rsp reference.ResolutionResponse

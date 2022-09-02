@@ -1,12 +1,48 @@
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: InstanceFromTemplate
 metadata:
-  name: example
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/instancefromtemplate
+  labels:
+    testing.upbound.io/example-name: instance-from-template
+  name: instance-from-template
 spec:
   forProvider:
-    sourceInstanceTemplateRef:
-      name: example
+    name: instance-from-template
+    sourceInstanceTemplateSelector:
+      matchLabels:
+        testing.upbound.io/example-name: instance-from-template
     zone: us-central1-a
-    name: example
-  providerConfigRef:
-    name: default
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: InstanceTemplate
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/instancefromtemplate
+  labels:
+    testing.upbound.io/example-name: instance-from-template
+  name: instance-from-template
+spec:
+  forProvider:
+    canIpForward: false
+    description: This template is used to create app server instances.
+    disk:
+      - autoDelete: false
+        boot: true
+        sourceImage: debian-cloud/debian-11
+    instanceDescription: description assigned to instances
+    labels:
+      environment: dev
+    machineType: e2-medium
+    metadata:
+      environment: dev
+    networkInterface:
+      - network: default
+    scheduling:
+      - automaticRestart: true
+        onHostMaintenance: MIGRATE
+    tags:
+      - foo
+      - bar
