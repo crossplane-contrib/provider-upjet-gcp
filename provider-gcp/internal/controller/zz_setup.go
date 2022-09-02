@@ -151,11 +151,20 @@ import (
 	topic "github.com/upbound/official-providers/provider-gcp/internal/controller/pubsub/topic"
 	topiciammember "github.com/upbound/official-providers/provider-gcp/internal/controller/pubsub/topiciammember"
 	instanceredis "github.com/upbound/official-providers/provider-gcp/internal/controller/redis/instance"
+	lien "github.com/upbound/official-providers/provider-gcp/internal/controller/resourcemanager/lien"
+	notificationconfig "github.com/upbound/official-providers/provider-gcp/internal/controller/scc/notificationconfig"
+	source "github.com/upbound/official-providers/provider-gcp/internal/controller/scc/source"
 	secret "github.com/upbound/official-providers/provider-gcp/internal/controller/secretmanager/secret"
 	secretiammember "github.com/upbound/official-providers/provider-gcp/internal/controller/secretmanager/secretiammember"
 	secretversion "github.com/upbound/official-providers/provider-gcp/internal/controller/secretmanager/secretversion"
 	connection "github.com/upbound/official-providers/provider-gcp/internal/controller/servicenetworking/connection"
-	database "github.com/upbound/official-providers/provider-gcp/internal/controller/sql/database"
+	repository "github.com/upbound/official-providers/provider-gcp/internal/controller/sourcerepo/repository"
+	repositoryiammember "github.com/upbound/official-providers/provider-gcp/internal/controller/sourcerepo/repositoryiammember"
+	database "github.com/upbound/official-providers/provider-gcp/internal/controller/spanner/database"
+	databaseiammember "github.com/upbound/official-providers/provider-gcp/internal/controller/spanner/databaseiammember"
+	instancespanner "github.com/upbound/official-providers/provider-gcp/internal/controller/spanner/instance"
+	instanceiammemberspanner "github.com/upbound/official-providers/provider-gcp/internal/controller/spanner/instanceiammember"
+	databasesql "github.com/upbound/official-providers/provider-gcp/internal/controller/sql/database"
 	databaseinstance "github.com/upbound/official-providers/provider-gcp/internal/controller/sql/databaseinstance"
 	sourcerepresentationinstance "github.com/upbound/official-providers/provider-gcp/internal/controller/sql/sourcerepresentationinstance"
 	sslcert "github.com/upbound/official-providers/provider-gcp/internal/controller/sql/sslcert"
@@ -315,11 +324,20 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		topic.Setup,
 		topiciammember.Setup,
 		instanceredis.Setup,
+		lien.Setup,
+		notificationconfig.Setup,
+		source.Setup,
 		secret.Setup,
 		secretiammember.Setup,
 		secretversion.Setup,
 		connection.Setup,
+		repository.Setup,
+		repositoryiammember.Setup,
 		database.Setup,
+		databaseiammember.Setup,
+		instancespanner.Setup,
+		instanceiammemberspanner.Setup,
+		databasesql.Setup,
 		databaseinstance.Setup,
 		sourcerepresentationinstance.Setup,
 		sslcert.Setup,

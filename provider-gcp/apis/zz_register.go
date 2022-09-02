@@ -41,9 +41,14 @@ import (
 	v1beta1oslogin "github.com/upbound/official-providers/provider-gcp/apis/oslogin/v1beta1"
 	v1beta1privateca "github.com/upbound/official-providers/provider-gcp/apis/privateca/v1beta1"
 	v1beta1pubsub "github.com/upbound/official-providers/provider-gcp/apis/pubsub/v1beta1"
+	v1beta1recaptcha "github.com/upbound/official-providers/provider-gcp/apis/recaptcha/v1beta1"
 	v1beta1redis "github.com/upbound/official-providers/provider-gcp/apis/redis/v1beta1"
+	v1beta1resourcemanager "github.com/upbound/official-providers/provider-gcp/apis/resourcemanager/v1beta1"
+	v1beta1scc "github.com/upbound/official-providers/provider-gcp/apis/scc/v1beta1"
 	v1beta1secretmanager "github.com/upbound/official-providers/provider-gcp/apis/secretmanager/v1beta1"
 	v1beta1servicenetworking "github.com/upbound/official-providers/provider-gcp/apis/servicenetworking/v1beta1"
+	v1beta1sourcerepo "github.com/upbound/official-providers/provider-gcp/apis/sourcerepo/v1beta1"
+	v1beta1spanner "github.com/upbound/official-providers/provider-gcp/apis/spanner/v1beta1"
 	v1beta1sql "github.com/upbound/official-providers/provider-gcp/apis/sql/v1beta1"
 	v1beta1storage "github.com/upbound/official-providers/provider-gcp/apis/storage/v1beta1"
 	v1alpha1 "github.com/upbound/official-providers/provider-gcp/apis/v1alpha1"
@@ -72,9 +77,14 @@ func init() {
 		v1beta1oslogin.SchemeBuilder.AddToScheme,
 		v1beta1privateca.SchemeBuilder.AddToScheme,
 		v1beta1pubsub.SchemeBuilder.AddToScheme,
+		v1beta1recaptcha.SchemeBuilder.AddToScheme,
 		v1beta1redis.SchemeBuilder.AddToScheme,
+		v1beta1resourcemanager.SchemeBuilder.AddToScheme,
+		v1beta1scc.SchemeBuilder.AddToScheme,
 		v1beta1secretmanager.SchemeBuilder.AddToScheme,
 		v1beta1servicenetworking.SchemeBuilder.AddToScheme,
+		v1beta1sourcerepo.SchemeBuilder.AddToScheme,
+		v1beta1spanner.SchemeBuilder.AddToScheme,
 		v1beta1sql.SchemeBuilder.AddToScheme,
 		v1beta1storage.SchemeBuilder.AddToScheme,
 		v1alpha1.SchemeBuilder.AddToScheme,

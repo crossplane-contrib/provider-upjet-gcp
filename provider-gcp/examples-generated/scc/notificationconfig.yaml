@@ -1,0 +1,33 @@
+apiVersion: scc.gcp.upbound.io/v1beta1
+kind: NotificationConfig
+metadata:
+  annotations:
+    meta.upbound.io/example-id: scc/v1beta1/notificationconfig
+  labels:
+    testing.upbound.io/example-name: custom_notification_config
+  name: custom-notification-config
+spec:
+  forProvider:
+    description: My custom Cloud Security Command Center Finding Notification Configuration
+    organization: "123456789"
+    pubsubTopicSelector:
+      matchLabels:
+        testing.upbound.io/example-name: scc_notification
+    streamingConfig:
+    - filter: category = "OPEN_FIREWALL" AND state = "ACTIVE"
+
+---
+
+apiVersion: pubsub.gcp.upbound.io/v1beta1
+kind: Topic
+metadata:
+  annotations:
+    meta.upbound.io/example-id: scc/v1beta1/notificationconfig
+  labels:
+    testing.upbound.io/example-name: scc_notification
+  name: scc-notification
+spec:
+  forProvider: {}
+
+---
+

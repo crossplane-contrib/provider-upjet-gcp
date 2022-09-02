@@ -1,0 +1,32 @@
+apiVersion: resourcemanager.gcp.upbound.io/v1beta1
+kind: Lien
+metadata:
+  annotations:
+    meta.upbound.io/example-id: resourcemanager/v1beta1/lien
+  labels:
+    testing.upbound.io/example-name: lien
+  name: lien
+spec:
+  forProvider:
+    origin: machine-readable-explanation
+    parent: projects/${google_project.project.number}
+    reason: This project is an important environment
+    restrictions:
+    - resourcemanager.projects.delete
+
+---
+
+apiVersion: cloudplatform.gcp.upbound.io/v1beta1
+kind: Project
+metadata:
+  annotations:
+    meta.upbound.io/example-id: resourcemanager/v1beta1/lien
+  labels:
+    testing.upbound.io/example-name: project
+  name: project
+spec:
+  forProvider:
+    projectId: staging-project
+
+---
+
