@@ -1,3 +1,5 @@
+# Configuration
+
 Install official provider on self-hosted control planes using Universal Crossplane (`UXP`).
 
 ## Install the provider
@@ -26,7 +28,7 @@ Apply the configuration with `kubectl apply -f`
 ```shell
 $ kubectl get providers
 NAME           INSTALLED   HEALTHY   PACKAGE                                       AGE
-provider-gcp   True        True      xpkg.upbound.io/upbound/provider-gcp:v0.4.1   15s
+provider-gcp   True        True      xpkg.upbound.io/upbound/provider-gcp:latest   15s
 ```
 
 View the Crossplane [Provider CRD definition](https://doc.crds.dev/github.com/crossplane/crossplane/pkg.crossplane.io/Provider/v1) to view all available `Provider` options.
@@ -75,5 +77,3 @@ spec:
 ```
 
 **Note:** the `spec.credentials.secretRef.name` must match the `name` in the `kubectl create secret generic <name>` command.
-
-View the [ProviderConfig CRD definition](resources/gcp.upbound.io/ProviderConfig/v1beta1) to view all available `ProviderConfig` options.

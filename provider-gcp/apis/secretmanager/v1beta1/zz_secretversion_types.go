@@ -28,10 +28,8 @@ import (
 type SecretVersionObservation struct {
 
 	// The time at which the Secret was created.
-	// The time at which the Secret was created.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
-	// The time at which the Secret was destroyed. Only present if state is DESTROYED.
 	// The time at which the Secret was destroyed. Only present if state is DESTROYED.
 	DestroyTime *string `json:"destroyTime,omitempty" tf:"destroy_time,omitempty"`
 
@@ -40,28 +38,28 @@ type SecretVersionObservation struct {
 
 	// The resource name of the SecretVersion. Format:
 	// projects/{{project}}/secrets/{{secret_id}}/versions/{{version}}
-	// The resource name of the SecretVersion. Format:
-	// 'projects/{{project}}/secrets/{{secret_id}}/versions/{{version}}'
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 }
 
 type SecretVersionParameters struct {
 
 	// The current state of the SecretVersion.
-	// The current state of the SecretVersion.
 	// +kubebuilder:validation:Optional
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 
 	// Secret Manager secret resource
+<<<<<<< HEAD
+	// +crossplane:generate:reference:type=Secret
+=======
 	// Secret Manager secret resource
 	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/secretmanager/v1beta1.Secret
 	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
+>>>>>>> 172c7200 (gcp: Configure redis, secretsmanager, servicenetworking and storage)
 	// +kubebuilder:validation:Optional
 	Secret *string `json:"secret,omitempty" tf:"secret,omitempty"`
 
 	// The secret data. Must be no larger than 64KiB.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	// The secret data. Must be no larger than 64KiB.
 	// +kubebuilder:validation:Required
 	SecretDataSecretRef v1.SecretKeySelector `json:"secretDataSecretRef" tf:"-"`
 

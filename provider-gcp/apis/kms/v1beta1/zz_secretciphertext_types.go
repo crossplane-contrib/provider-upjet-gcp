@@ -28,7 +28,6 @@ import (
 type SecretCiphertextObservation struct {
 
 	// Contains the result of encrypting the provided plaintext, encoded in base64.
-	// Contains the result of encrypting the provided plaintext, encoded in base64.
 	Ciphertext *string `json:"ciphertext,omitempty" tf:"ciphertext,omitempty"`
 
 	// an identifier for the resource with format {{crypto_key}}/{{ciphertext}}
@@ -39,14 +38,11 @@ type SecretCiphertextParameters struct {
 
 	// The additional authenticated data used for integrity checks during encryption and decryption.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	// The additional authenticated data used for integrity checks during encryption and decryption.
 	// +kubebuilder:validation:Optional
 	AdditionalAuthenticatedDataSecretRef *v1.SecretKeySelector `json:"additionalAuthenticatedDataSecretRef,omitempty" tf:"-"`
 
 	// The full name of the CryptoKey that will be used to encrypt the provided plaintext.
 	// Format: 'projects/{{project}}/locations/{{location}}/keyRings/{{keyRing}}/cryptoKeys/{{cryptoKey}}'
-	// The full name of the CryptoKey that will be used to encrypt the provided plaintext.
-	// Format: ''projects/{{project}}/locations/{{location}}/keyRings/{{keyRing}}/cryptoKeys/{{cryptoKey}}''
 	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/kms/v1beta1.CryptoKey
 	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
@@ -62,7 +58,6 @@ type SecretCiphertextParameters struct {
 
 	// The plaintext to be encrypted.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	// The plaintext to be encrypted.
 	// +kubebuilder:validation:Required
 	Plaintext *string `json:"plaintext" tf:"plaintext,omitempty"`
 }

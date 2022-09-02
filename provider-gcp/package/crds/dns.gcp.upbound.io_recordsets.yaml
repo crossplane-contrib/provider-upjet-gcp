@@ -66,7 +66,7 @@ spec:
                 properties:
                   managedZone:
                     description: The name of the zone in which this record set will
-                      reside. The name of the zone in which this record set will reside.
+                      reside.
                     type: string
                   managedZoneRef:
                     description: Reference to a ManagedZone in dns to populate managedZone.
@@ -142,32 +142,25 @@ spec:
                         type: object
                     type: object
                   name:
-                    description: The DNS name this record set will apply to. The DNS
-                      name this record set will apply to.
+                    description: The DNS name this record set will apply to.
                     type: string
                   project:
                     description: The ID of the project in which the resource belongs.
-                      If it is not provided, the provider project is used. The ID
-                      of the project in which the resource belongs. If it is not provided,
-                      the provider project is used.
+                      If it is not provided, the provider project is used.
                     type: string
                   routingPolicy:
                     description: The configuration for steering traffic based on query.
                       Now you can specify either Weighted Round Robin type or Geolocation
-                      type. Structure is documented below. The configuration for steering
-                      traffic based on query. You can specify either Weighted Round
-                      Robin(WRR) type or Geolocation(GEO) type.
+                      type. Structure is documented below.
                     items:
                       properties:
                         geo:
                           description: The configuration for Geolocation based routing
-                            policy. Structure is document below. The configuration
-                            for Geo location based routing policy.
+                            policy. Structure is document below.
                           items:
                             properties:
                               location:
                                 description: The location name defined in Google Cloud.
-                                  The location name defined in Google Cloud.
                                 type: string
                               rrdatas:
                                 items:
@@ -180,8 +173,7 @@ spec:
                           type: array
                         wrr:
                           description: The configuration for Weighted Round Robin
-                            based routing policy. Structure is document below. The
-                            configuration for Weighted Round Robin based routing policy.
+                            based routing policy. Structure is document below.
                           items:
                             properties:
                               rrdatas:
@@ -190,8 +182,7 @@ spec:
                                 type: array
                               weight:
                                 description: Required) The ratio of traffic routed
-                                  to the target. The ratio of traffic routed to the
-                                  target.
+                                  to the target.
                                 type: number
                             required:
                             - rrdatas
@@ -201,22 +192,14 @@ spec:
                       type: object
                     type: array
                   rrdatas:
-                    description: The string data for the records in this record set
-                      whose meaning depends on the DNS type. For TXT record, if the
-                      string data contains spaces, add surrounding \" if you don't
-                      want your string to get split on spaces. To specify a single
-                      record value longer than 255 characters such as a TXT record
-                      for DKIM, add \"\" inside the Terraform configuration string
-                      (e.g. "first255characters\"\"morecharacters").
                     items:
                       type: string
                     type: array
                   ttl:
-                    description: The time-to-live of this record set . The time-to-live
-                      of this record set (seconds).
+                    description: The time-to-live of this record set .
                     type: number
                   type:
-                    description: The DNS record set type. The DNS record set type.
+                    description: The DNS record set type.
                     type: string
                 required:
                 - name

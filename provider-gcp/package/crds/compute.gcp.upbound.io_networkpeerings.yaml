@@ -66,8 +66,7 @@ spec:
                 properties:
                   exportCustomRoutes:
                     description: Whether to export the custom routes to the peer network.
-                      Defaults to false. Whether to export the custom routes to the
-                      peer network. Defaults to false.
+                      Defaults to false.
                     type: boolean
                   exportSubnetRoutesWithPublicIp:
                     description: Whether subnet routes with public IP range are exported.
@@ -77,8 +76,7 @@ spec:
                     type: boolean
                   importCustomRoutes:
                     description: Whether to import the custom routes from the peer
-                      network. Defaults to false. Whether to export the custom routes
-                      from the peer network. Defaults to false.
+                      network. Defaults to false.
                     type: boolean
                   importSubnetRoutesWithPublicIp:
                     description: Whether subnet routes with public IP range are imported.
@@ -86,8 +84,7 @@ spec:
                       always imported from peers and are not controlled by this field.
                     type: boolean
                   network:
-                    description: The primary network of the peering. The primary network
-                      of the peering.
+                    description: The primary network of the peering.
                     type: string
                   networkRef:
                     description: Reference to a Network in compute to populate network.
@@ -164,8 +161,7 @@ spec:
                     type: object
                   peerNetwork:
                     description: The peer network in the peering. The peer network
-                      may belong to a different project. The peer network in the peering.
-                      The peer network may belong to a different project.
+                      may belong to a different project.
                     type: string
                   peerNetworkRef:
                     description: Reference to a Network in compute to populate peerNetwork.
@@ -423,13 +419,10 @@ spec:
                   state:
                     description: State for the peering, either ACTIVE or INACTIVE.
                       The peering is ACTIVE when there's a matching configuration
-                      in the peer network. State for the peering, either ACTIVE or
-                      INACTIVE. The peering is ACTIVE when there's a matching configuration
                       in the peer network.
                     type: string
                   stateDetails:
-                    description: Details about the current state of the peering. Details
-                      about the current state of the peering.
+                    description: Details about the current state of the peering.
                     type: string
                 type: object
               conditions:

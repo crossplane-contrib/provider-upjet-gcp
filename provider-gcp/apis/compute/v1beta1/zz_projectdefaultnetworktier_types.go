@@ -35,13 +35,11 @@ type ProjectDefaultNetworkTierParameters struct {
 
 	// The default network tier to be configured for the project.
 	// This field can take the following values: PREMIUM or STANDARD.
-	// The default network tier to be configured for the project. This field can take the following values: PREMIUM or STANDARD.
 	// +kubebuilder:validation:Required
 	NetworkTier *string `json:"networkTier" tf:"network_tier,omitempty"`
 
 	// The ID of the project in which the resource belongs. If it
 	// is not provided, the provider project is used.
-	// The ID of the project in which the resource belongs. If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }

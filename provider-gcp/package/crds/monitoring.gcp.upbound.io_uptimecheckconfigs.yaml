@@ -65,13 +65,10 @@ spec:
               forProvider:
                 properties:
                   checkerType:
-                    description: 'The checker type to use for the check. If the monitored
+                    description: The checker type to use for the check. If the monitored
                       resource type is servicedirectory_service, checkerType must
                       be set to VPC_CHECKERS. Possible values are STATIC_IP_CHECKERS
-                      and VPC_CHECKERS. The checker type to use for the check. If
-                      the monitored resource type is servicedirectory_service, checkerType
-                      must be set to VPC_CHECKERS. Possible values: ["STATIC_IP_CHECKERS",
-                      "VPC_CHECKERS"]'
+                      and VPC_CHECKERS.
                     type: string
                   contentMatchers:
                     description: The expected content on the page the check is run
@@ -79,28 +76,18 @@ spec:
                       and other entries will be ignored. The server will look for
                       an exact match of the string in the page response's content.
                       This field is optional and should only be specified if a content
-                      match is required. Structure is documented below. The expected
-                      content on the page the check is run against. Currently, only
-                      the first entry in the list is supported, and other entries
-                      will be ignored. The server will look for an exact match of
-                      the string in the page response's content. This field is optional
-                      and should only be specified if a content match is required.
+                      match is required. Structure is documented below.
                     items:
                       properties:
                         content:
-                          description: String or regex content to match String or
-                            regex content to match (max 1024 bytes)
+                          description: String or regex content to match
                           type: string
                         matcher:
-                          description: 'The type of content matcher that will be applied
+                          description: The type of content matcher that will be applied
                             to the server output, compared to the content string when
                             the check is run. Default value is CONTAINS_STRING. Possible
                             values are CONTAINS_STRING, NOT_CONTAINS_STRING, MATCHES_REGEX,
-                            and NOT_MATCHES_REGEX. The type of content matcher that
-                            will be applied to the server output, compared to the
-                            content string when the check is run. Default value: "CONTAINS_STRING"
-                            Possible values: ["CONTAINS_STRING", "NOT_CONTAINS_STRING",
-                            "MATCHES_REGEX", "NOT_MATCHES_REGEX"]'
+                            and NOT_MATCHES_REGEX.
                           type: string
                       required:
                       - content
@@ -110,28 +97,23 @@ spec:
                     description: A human-friendly name for the uptime check configuration.
                       The display name should be unique within a Stackdriver Workspace
                       in order to make it easier to identify; however, uniqueness
-                      is not enforced. A human-friendly name for the uptime check
-                      configuration. The display name should be unique within a Stackdriver
-                      Workspace in order to make it easier to identify; however, uniqueness
                       is not enforced.
                     type: string
                   httpCheck:
                     description: Contains information needed to make an HTTP or HTTPS
-                      check. Structure is documented below. Contains information needed
-                      to make an HTTP or HTTPS check.
+                      check. Structure is documented below.
                     items:
                       properties:
                         authInfo:
                           description: The authentication information. Optional when
                             creating an HTTP check; defaults to empty. Structure is
-                            documented below. The authentication information. Optional
-                            when creating an HTTP check; defaults to empty.
+                            documented below.
                           items:
                             properties:
                               passwordSecretRef:
                                 description: 'The password to authenticate. Note:
                                   This property is sensitive and will not be displayed
-                                  in the plan. The password to authenticate.'
+                                  in the plan.'
                                 properties:
                                   key:
                                     description: The key to select.
@@ -148,8 +130,7 @@ spec:
                                 - namespace
                                 type: object
                               username:
-                                description: The username to authenticate. The username
-                                  to authenticate.
+                                description: The username to authenticate.
                                 type: string
                             required:
                             - passwordSecretRef
@@ -166,21 +147,10 @@ spec:
                             Note - As with all bytes fields JSON representations are
                             base64 encoded. e.g. "foo=bar" in URL-encoded form is
                             "foo%3Dbar" and in base64 encoding is "Zm9vJTI1M0RiYXI=".
-                            The request body associated with the HTTP POST request.
-                            If contentType is URL_ENCODED, the body passed in must
-                            be URL-encoded. Users can provide a Content-Length header
-                            via the headers field or the API will do so. If the requestMethod
-                            is GET and body is not empty, the API will return an error.
-                            The maximum byte size is 1 megabyte. Note - As with all
-                            bytes fields JSON representations are base64 encoded.
-                            e.g. "foo=bar" in URL-encoded form is "foo%3Dbar" and
-                            in base64 encoding is "Zm9vJTI1M0RiYXI=".
                           type: string
                         contentType:
-                          description: 'The content type to use for the check. Possible
-                            values are TYPE_UNSPECIFIED and URL_ENCODED. The content
-                            type to use for the check. Possible values: ["TYPE_UNSPECIFIED",
-                            "URL_ENCODED"]'
+                          description: The content type to use for the check. Possible
+                            values are TYPE_UNSPECIFIED and URL_ENCODED.
                           type: string
                         headers:
                           additionalProperties:
@@ -193,15 +163,6 @@ spec:
                             . Entering two separate headers with the same key in a
                             Create call will cause the first to be overwritten by
                             the second. The maximum number of headers allowed is 100.
-                            The list of headers to send as part of the uptime check
-                            request. If two headers have the same key and different
-                            values, they should be entered as a single header, with
-                            the value being a comma-separated list of all the desired
-                            values as described at https://www.w3.org/Protocols/rfc2616/rfc2616.txt
-                            (page 31). Entering two separate headers with the same
-                            key in a Create call will cause the first to be overwritten
-                            by the second. The maximum number of headers allowed is
-                            100.
                           type: object
                         maskHeaders:
                           description: Boolean specifying whether to encrypt the header
@@ -210,50 +171,28 @@ spec:
                             when retrieving the configuration. The server will be
                             responsible for encrypting the headers. On Get/List calls,
                             if mask_headers is set to True then the headers will be
-                            obscured with ******. Boolean specifying whether to encrypt
-                            the header information. Encryption should be specified
-                            for any headers related to authentication that you do
-                            not wish to be seen when retrieving the configuration.
-                            The server will be responsible for encrypting the headers.
-                            On Get/List calls, if mask_headers is set to True then
-                            the headers will be obscured with ******.
+                            obscured with ******.
                           type: boolean
                         path:
                           description: The path to the page to run the check against.
                             Will be combined with the host  and port to construct
                             the full URL. If the provided path does not begin with
                             "/", a "/" will be prepended automatically. Optional .
-                            The path to the page to run the check against. Will be
-                            combined with the host (specified within the MonitoredResource)
-                            and port to construct the full URL. If the provided path
-                            does not begin with "/", a "/" will be prepended automatically.
-                            Optional (defaults to "/").
                           type: string
                         port:
-                          description: The port to the page to run the check against.
-                            Will be combined with host (specified within the MonitoredResource)
-                            and path to construct the full URL. Optional (defaults
-                            to 80 without SSL, or 443 with SSL).
                           type: number
                         requestMethod:
-                          description: 'The HTTP request method to use for the check.
+                          description: The HTTP request method to use for the check.
                             If set to METHOD_UNSPECIFIED then requestMethod defaults
                             to GET. Default value is GET. Possible values are METHOD_UNSPECIFIED,
-                            GET, and POST. The HTTP request method to use for the
-                            check. If set to METHOD_UNSPECIFIED then requestMethod
-                            defaults to GET. Default value: "GET" Possible values:
-                            ["METHOD_UNSPECIFIED", "GET", "POST"]'
+                            GET, and POST.
                           type: string
                         useSsl:
                           description: If true, use HTTPS instead of HTTP to run the
-                            check. If true, use HTTPS instead of HTTP to run the check.
+                            check.
                           type: boolean
                         validateSsl:
                           description: Boolean specifying whether to include SSL certificate
-                            validation as a part of the Uptime check. Only applies
-                            to checks where monitoredResource is set to uptime_url.
-                            If useSsl is false, setting validateSsl to true has no
-                            effect. Boolean specifying whether to include SSL certificate
                             validation as a part of the Uptime check. Only applies
                             to checks where monitoredResource is set to uptime_url.
                             If useSsl is false, setting validateSsl to true has no
@@ -265,9 +204,7 @@ spec:
                     description: 'The monitored resource  associated with the configuration.
                       The following monitored resource types are supported for uptime
                       checks:  uptime_url  gce_instance  gae_app  aws_ec2_instance  aws_elb_load_balancer
-                      Structure is documented below. The monitored resource (https://cloud.google.com/monitoring/api/resources)
-                      associated with the configuration. The following monitored resource
-                      types are supported for uptime checks:  uptime_url  gce_instance  gae_app  aws_ec2_instance  aws_elb_load_balancer'
+                      Structure is documented below.'
                     items:
                       properties:
                         labels:
@@ -276,23 +213,14 @@ spec:
                           description: Values for all of the labels listed in the
                             associated monitored resource descriptor. For example,
                             Compute Engine VM instances use the labels "project_id",
-                            "instance_id", and "zone". Values for all of the labels
-                            listed in the associated monitored resource descriptor.
-                            For example, Compute Engine VM instances use the labels
-                            "project_id", "instance_id", and "zone".
+                            "instance_id", and "zone".
                           type: object
                         type:
                           description: The monitored resource type. This field must
                             match the type field of a MonitoredResourceDescriptor  object.
                             For example, the type of a Compute Engine VM instance
                             is gce_instance. For a list of types, see Monitoring resource
-                            types  and Logging resource types . The monitored resource
-                            type. This field must match the type field of a MonitoredResourceDescriptor
-                            (https://cloud.google.com/monitoring/api/ref_v3/rest/v3/projects.monitoredResourceDescriptors#MonitoredResourceDescriptor)
-                            object. For example, the type of a Compute Engine VM instance
-                            is gce_instance. For a list of types, see Monitoring resource
-                            types (https://cloud.google.com/monitoring/api/resources)
-                            and Logging resource types (https://cloud.google.com/logging/docs/api/v2/resource-list).
+                            types  and Logging resource types .
                           type: string
                       required:
                       - labels
@@ -302,10 +230,7 @@ spec:
                   period:
                     description: How often, in seconds, the uptime check is performed.
                       Currently, the only supported values are 60s , 300s , 600s ,
-                      and 900s . Optional, defaults to 300s. How often, in seconds,
-                      the uptime check is performed. Currently, the only supported
-                      values are 60s (1 minute), 300s (5 minutes), 600s (10 minutes),
-                      and 900s (15 minutes). Optional, defaults to 300s.
+                      and 900s . Optional, defaults to 300s.
                     type: string
                   project:
                     description: The ID of the project in which the resource belongs.
@@ -313,20 +238,16 @@ spec:
                     type: string
                   resourceGroup:
                     description: The group resource associated with the configuration.
-                      Structure is documented below. The group resource associated
-                      with the configuration.
+                      Structure is documented below.
                     items:
                       properties:
                         groupId:
                           description: The group of resources being monitored. Should
-                            be the name of a group The group of resources being monitored.
-                            Should be the 'name' of a group
+                            be the name of a group
                           type: string
                         resourceType:
-                          description: 'The resource type of the group members. Possible
+                          description: The resource type of the group members. Possible
                             values are RESOURCE_TYPE_UNSPECIFIED, INSTANCE, and AWS_ELB_LOAD_BALANCER.
-                            The resource type of the group members. Possible values:
-                            ["RESOURCE_TYPE_UNSPECIFIED", "INSTANCE", "AWS_ELB_LOAD_BALANCER"]'
                           type: string
                       type: object
                     type: array
@@ -336,25 +257,16 @@ spec:
                       than one. If this field is specified, enough regions to include
                       a minimum of 3 locations must be provided, or an error message
                       is returned. Not specifying this field will result in uptime
-                      checks running from all regions. The list of regions from which
-                      the check will be run. Some regions contain one location, and
-                      others contain more than one. If this field is specified, enough
-                      regions to include a minimum of 3 locations must be provided,
-                      or an error message is returned. Not specifying this field will
-                      result in uptime checks running from all regions.
+                      checks running from all regions.
                     items:
                       type: string
                     type: array
                   tcpCheck:
                     description: Contains information needed to make a TCP check.
-                      Structure is documented below. Contains information needed to
-                      make a TCP check.
+                      Structure is documented below.
                     items:
                       properties:
                         port:
-                          description: The port to the page to run the check against.
-                            Will be combined with host (specified within the MonitoredResource)
-                            to construct the full URL.
                           type: number
                       required:
                       - port
@@ -363,8 +275,6 @@ spec:
                   timeout:
                     description: The maximum amount of time to wait for the request
                       to complete . Accepted formats https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.Duration
-                      The maximum amount of time to wait for the request to complete
-                      (must be between 1 and 60 seconds). Accepted formats https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.Duration
                     type: string
                 required:
                 - displayName
@@ -552,11 +462,9 @@ spec:
                   name:
                     description: A unique resource name for this UptimeCheckConfig.
                       The format is projects/[PROJECT_ID]/uptimeCheckConfigs/[UPTIME_CHECK_ID].
-                      A unique resource name for this UptimeCheckConfig. The format
-                      is projects/[PROJECT_ID]/uptimeCheckConfigs/[UPTIME_CHECK_ID].
                     type: string
                   uptimeCheckId:
-                    description: The id of the uptime check The id of the uptime check
+                    description: The id of the uptime check
                     type: string
                 type: object
               conditions:

@@ -54,7 +54,6 @@ type OrganizationIAMMemberParameters struct {
 	// +kubebuilder:validation:Required
 	Member *string `json:"member" tf:"member,omitempty"`
 
-	// The numeric ID of the organization in which you want to manage the audit logging config.
 	// +kubebuilder:validation:Required
 	OrgID *string `json:"orgId" tf:"org_id,omitempty"`
 

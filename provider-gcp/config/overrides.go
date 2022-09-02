@@ -4,6 +4,7 @@ import (
 	"regexp"
 	"strings"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/pkg/errors"
 	tjconfig "github.com/upbound/upjet/pkg/config"
 	"github.com/upbound/upjet/pkg/types/name"
@@ -126,5 +127,13 @@ func ReplaceGroupWords(group string, count int) GroupKindCalculator {
 func defaultVersion() tjconfig.ResourceOption {
 	return func(r *tjconfig.Resource) {
 		r.Version = VersionV1Beta1
+	}
+}
+
+func descriptionOverrides() tjconfig.ResourceOption {
+	return func(r *tjconfig.Resource) {
+		tjconfig.ManipulateEveryField(r.TerraformResource, func(sch *schema.Schema) {
+			sch.Description = ""
+		})
 	}
 }

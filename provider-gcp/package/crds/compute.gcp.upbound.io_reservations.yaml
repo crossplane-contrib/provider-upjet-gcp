@@ -65,8 +65,7 @@ spec:
               forProvider:
                 properties:
                   description:
-                    description: An optional description of this resource. An optional
-                      description of this resource.
+                    description: An optional description of this resource.
                     type: string
                   project:
                     description: The ID of the project in which the resource belongs.
@@ -74,15 +73,13 @@ spec:
                     type: string
                   shareSettings:
                     description: The share setting for reservations. Structure is
-                      documented below. The share setting for reservations.
+                      documented below.
                     items:
                       properties:
                         projectMap:
                           description: A map of project number and project config.
                             This is only valid when shareType's value is SPECIFIC_PROJECTS.
-                            Structure is documented below. A map of project number
-                            and project config. This is only valid when shareType's
-                            value is SPECIFIC_PROJECTS.
+                            Structure is documented below.
                           items:
                             properties:
                               id:
@@ -90,59 +87,46 @@ spec:
                               projectId:
                                 description: The project id/number, should be same
                                   as the key of this project config in the project
-                                  map. The project id/number, should be same as the
-                                  key of this project config in the project map.
+                                  map.
                                 type: string
                             required:
                             - id
                             type: object
                           type: array
                         shareType:
-                          description: 'Type of sharing for this shared-reservation
-                            Possible values are LOCAL and SPECIFIC_PROJECTS. Type
-                            of sharing for this shared-reservation Possible values:
-                            ["LOCAL", "SPECIFIC_PROJECTS"]'
+                          description: Type of sharing for this shared-reservation
+                            Possible values are LOCAL and SPECIFIC_PROJECTS.
                           type: string
                       type: object
                     type: array
                   specificReservation:
                     description: Reservation for instances with specific machine shapes.
-                      Structure is documented below. Reservation for instances with
-                      specific machine shapes.
+                      Structure is documented below.
                     items:
                       properties:
                         count:
                           description: The number of resources that are allocated.
-                            The number of resources that are allocated.
                           type: number
                         instanceProperties:
                           description: The instance properties for the reservation.
-                            Structure is documented below. The instance properties
-                            for the reservation.
+                            Structure is documented below.
                           items:
                             properties:
                               guestAccelerators:
                                 description: Guest accelerator type and count. Structure
-                                  is documented below. Guest accelerator type and
-                                  count.
+                                  is documented below.
                                 items:
                                   properties:
                                     acceleratorCount:
                                       description: The number of the guest accelerator
-                                        cards exposed to this instance. The number
-                                        of the guest accelerator cards exposed to
-                                        this instance.
+                                        cards exposed to this instance.
                                       type: number
                                     acceleratorType:
-                                      description: "The full or partial URL of the
+                                      description: 'The full or partial URL of the
                                         accelerator type to attach to this instance.
                                         For example: projects/my-project/zones/us-central1-c/acceleratorTypes/nvidia-tesla-p100
                                         If you are creating an instance template,
-                                        specify only the accelerator name. The full
-                                        or partial URL of the accelerator type to
-                                        attach to this instance. For example: 'projects/my-project/zones/us-central1-c/acceleratorTypes/nvidia-tesla-p100'
-                                        \n If you are creating an instance template,
-                                        specify only the accelerator name."
+                                        specify only the accelerator name.'
                                       type: string
                                   required:
                                   - acceleratorCount
@@ -152,22 +136,17 @@ spec:
                               localSsds:
                                 description: The amount of local ssd to reserve with
                                   each instance. This reserves disks of type local-ssd.
-                                  Structure is documented below. The amount of local
-                                  ssd to reserve with each instance. This reserves
-                                  disks of type 'local-ssd'.
+                                  Structure is documented below.
                                 items:
                                   properties:
                                     diskSizeGb:
                                       description: The size of the disk in base-2
-                                        GB. The size of the disk in base-2 GB.
+                                        GB.
                                       type: number
                                     interface:
-                                      description: 'The disk interface to use for
-                                        attaching this disk. Default value is SCSI.
-                                        Possible values are SCSI and NVME. The disk
-                                        interface to use for attaching this disk.
-                                        Default value: "SCSI" Possible values: ["SCSI",
-                                        "NVME"]'
+                                      description: The disk interface to use for attaching
+                                        this disk. Default value is SCSI. Possible
+                                        values are SCSI and NVME.
                                       type: string
                                   required:
                                   - diskSizeGb
@@ -175,16 +154,12 @@ spec:
                                 type: array
                               machineType:
                                 description: The name of the machine type to reserve.
-                                  The name of the machine type to reserve.
                                 type: string
                               minCpuPlatform:
                                 description: The minimum CPU platform for the reservation.
                                   For example, "Intel Skylake". See the CPU platform
                                   availability reference] for information on available
-                                  CPU platforms. The minimum CPU platform for the
-                                  reservation. For example, '"Intel Skylake"'. See
-                                  the CPU platform availability reference](https://cloud.google.com/compute/docs/instances/specify-min-cpu-platform#availablezones)
-                                  for information on available CPU platforms.
+                                  CPU platforms.
                                 type: string
                             required:
                             - machineType
@@ -199,13 +174,9 @@ spec:
                     description: When set to true, only VMs that target this reservation
                       by name can consume this reservation. Otherwise, it can be consumed
                       by VMs with affinity for any reservation. Defaults to false.
-                      When set to true, only VMs that target this reservation by name
-                      can consume this reservation. Otherwise, it can be consumed
-                      by VMs with affinity for any reservation. Defaults to false.
                     type: boolean
                   zone:
-                    description: The zone where the reservation is made. The zone
-                      where the reservation is made.
+                    description: The zone where the reservation is made.
                     type: string
                 required:
                 - specificReservation
@@ -390,12 +361,9 @@ spec:
                   commitment:
                     description: Full or partial URL to a parent commitment. This
                       field displays for reservations that are tied to a commitment.
-                      Full or partial URL to a parent commitment. This field displays
-                      for reservations that are tied to a commitment.
                     type: string
                   creationTimestamp:
-                    description: Creation timestamp in RFC3339 text format. Creation
-                      timestamp in RFC3339 text format.
+                    description: Creation timestamp in RFC3339 text format.
                     type: string
                   id:
                     type: string
@@ -404,19 +372,16 @@ spec:
                     type: string
                   specificReservation:
                     description: Reservation for instances with specific machine shapes.
-                      Structure is documented below. Reservation for instances with
-                      specific machine shapes.
+                      Structure is documented below.
                     items:
                       properties:
                         inUseCount:
-                          description: How many instances are in use. How many instances
-                            are in use.
+                          description: How many instances are in use.
                           type: number
                       type: object
                     type: array
                   status:
-                    description: The status of the reservation. The status of the
-                      reservation.
+                    description: The status of the reservation.
                     type: string
                 type: object
               conditions:

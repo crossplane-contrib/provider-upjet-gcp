@@ -28,13 +28,11 @@ import (
 type RegionTargetHTTPProxyObservation struct {
 
 	// Creation timestamp in RFC3339 text format.
-	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/regions/{{region}}/targetHttpProxies/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// The unique identifier for the resource.
 	// The unique identifier for the resource.
 	ProxyID *float64 `json:"proxyId,omitempty" tf:"proxy_id,omitempty"`
 
@@ -44,7 +42,6 @@ type RegionTargetHTTPProxyObservation struct {
 
 type RegionTargetHTTPProxyParameters struct {
 
-	// An optional description of this resource.
 	// An optional description of this resource.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -56,13 +53,9 @@ type RegionTargetHTTPProxyParameters struct {
 
 	// The Region in which the created target https proxy should reside.
 	// If it is not provided, the provider region is used.
-	// The Region in which the created target https proxy should reside.
-	// If it is not provided, the provider region is used.
 	// +kubebuilder:validation:Required
 	Region *string `json:"region" tf:"region,omitempty"`
 
-	// A reference to the RegionUrlMap resource that defines the mapping from URL
-	// to the BackendService.
 	// A reference to the RegionUrlMap resource that defines the mapping from URL
 	// to the BackendService.
 	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.RegionURLMap

@@ -35,8 +35,6 @@ type KeyRingParameters struct {
 
 	// The location for the KeyRing.
 	// A full list of valid locations can be found by running gcloud kms locations list.
-	// The location for the KeyRing.
-	// A full list of valid locations can be found by running 'gcloud kms locations list'.
 	// +kubebuilder:validation:Required
 	Location *string `json:"location" tf:"location,omitempty"`
 

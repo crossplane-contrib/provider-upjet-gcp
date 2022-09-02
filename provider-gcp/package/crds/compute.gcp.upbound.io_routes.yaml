@@ -65,19 +65,14 @@ spec:
                 properties:
                   description:
                     description: An optional description of this resource. Provide
-                      this property when you create the resource. An optional description
-                      of this resource. Provide this property when you create the
-                      resource.
+                      this property when you create the resource.
                     type: string
                   destRange:
                     description: The destination range of outgoing packets that this
-                      route applies to. Only IPv4 is supported. The destination range
-                      of outgoing packets that this route applies to. Only IPv4 is
-                      supported.
+                      route applies to. Only IPv4 is supported.
                     type: string
                   network:
-                    description: The network that this route applies to. The network
-                      that this route applies to.
+                    description: The network that this route applies to.
                     type: string
                   networkRef:
                     description: Reference to a Network in compute to populate network.
@@ -155,28 +150,14 @@ spec:
                   nextHopGateway:
                     description: 'URL to a gateway that should handle matching packets.
                       Currently, you can only specify the internet gateway, using
-                      a full or partial valid URL: URL to a gateway that should handle
-                      matching packets. Currently, you can only specify the internet
-                      gateway, using a full or partial valid URL: * ''https://www.googleapis.com/compute/v1/projects/project/global/gateways/default-internet-gateway''
-                      * ''projects/project/global/gateways/default-internet-gateway''
-                      * ''global/gateways/default-internet-gateway'' * The string
-                      ''default-internet-gateway''.'
+                      a full or partial valid URL:'
                     type: string
                   nextHopIlb:
-                    description: "The IP address or URL to a forwarding rule of type
+                    description: 'The IP address or URL to a forwarding rule of type
                       loadBalancingScheme=INTERNAL that should handle matching packets.
                       With the GA provider you can only specify the forwarding rule
                       as a partial or full URL. For example, the following are all
-                      valid values: The IP address or URL to a forwarding rule of
-                      type loadBalancingScheme=INTERNAL that should handle matching
-                      packets. \n With the GA provider you can only specify the forwarding
-                      rule as a partial or full URL. For example, the following are
-                      all valid values: * 10.128.0.56 * https://www.googleapis.com/compute/v1/projects/project/regions/region/forwardingRules/forwardingRule
-                      * regions/region/forwardingRules/forwardingRule \n When the
-                      beta provider, you can also specify the IP address of a forwarding
-                      rule from the same VPC or any peered VPC. \n Note that this
-                      can only be used when the destinationRange is a public (non-RFC
-                      1918) IP CIDR range."
+                      valid values:'
                     type: string
                   nextHopIlbRef:
                     description: Reference to a ForwardingRule in compute to populate
@@ -255,36 +236,23 @@ spec:
                     type: object
                   nextHopInstance:
                     description: 'URL to an instance that should handle matching packets.
-                      You can specify this as a full or partial URL. For example:
-                      URL to an instance that should handle matching packets. You
-                      can specify this as a full or partial URL. For example: * ''https://www.googleapis.com/compute/v1/projects/project/zones/zone/instances/instance''
-                      * ''projects/project/zones/zone/instances/instance'' * ''zones/zone/instances/instance''
-                      * Just the instance name, with the zone in ''next_hop_instance_zone''.'
+                      You can specify this as a full or partial URL. For example:'
                     type: string
                   nextHopInstanceZone:
-                    description: The zone of the instance specified in next_hop_instance.
-                      Omit if next_hop_instance is specified as a URL.
                     type: string
                   nextHopIp:
                     description: Network IP address of an instance that should handle
-                      matching packets. Network IP address of an instance that should
-                      handle matching packets.
+                      matching packets.
                     type: string
                   nextHopVpnTunnel:
                     description: URL to a VpnTunnel that should handle matching packets.
-                      URL to a VpnTunnel that should handle matching packets.
                     type: string
                   priority:
-                    description: "The priority of this route. Priority is used to
-                      break ties in cases where there is more than one matching route
-                      of equal prefix length. In the case of two routes with equal
-                      prefix length, the one with the lowest-numbered priority value
-                      wins. Default value is 1000. Valid range is 0 through 65535.
-                      The priority of this route. Priority is used to break ties in
-                      cases where there is more than one matching route of equal prefix
-                      length. \n In the case of two routes with equal prefix length,
-                      the one with the lowest-numbered priority value wins. \n Default
-                      value is 1000. Valid range is 0 through 65535."
+                    description: The priority of this route. Priority is used to break
+                      ties in cases where there is more than one matching route of
+                      equal prefix length. In the case of two routes with equal prefix
+                      length, the one with the lowest-numbered priority value wins.
+                      Default value is 1000. Valid range is 0 through 65535.
                     type: number
                   project:
                     description: The ID of the project in which the resource belongs.
@@ -292,7 +260,6 @@ spec:
                     type: string
                   tags:
                     description: A list of instance tags to which this route applies.
-                      A list of instance tags to which this route applies.
                     items:
                       type: string
                     type: array
@@ -480,7 +447,6 @@ spec:
                     type: string
                   nextHopNetwork:
                     description: URL to a Network that should handle matching packets.
-                      URL to a Network that should handle matching packets.
                     type: string
                   selfLink:
                     description: The URI of the created resource.

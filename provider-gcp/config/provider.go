@@ -88,6 +88,7 @@ func GetProvider() *tjconfig.Provider {
 			externalNameConfig(),
 			defaultVersion(),
 			externalNameConfigurations(),
+			descriptionOverrides(),
 		),
 		tjconfig.WithRootGroup("gcp.upbound.io"),
 		tjconfig.WithShortName("gcp"),

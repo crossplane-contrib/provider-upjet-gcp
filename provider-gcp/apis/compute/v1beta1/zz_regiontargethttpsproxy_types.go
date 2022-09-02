@@ -28,13 +28,11 @@ import (
 type RegionTargetHTTPSProxyObservation struct {
 
 	// Creation timestamp in RFC3339 text format.
-	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/regions/{{region}}/targetHttpsProxies/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// The unique identifier for the resource.
 	// The unique identifier for the resource.
 	ProxyID *float64 `json:"proxyId,omitempty" tf:"proxy_id,omitempty"`
 
@@ -44,7 +42,6 @@ type RegionTargetHTTPSProxyObservation struct {
 
 type RegionTargetHTTPSProxyParameters struct {
 
-	// An optional description of this resource.
 	// An optional description of this resource.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -56,14 +53,9 @@ type RegionTargetHTTPSProxyParameters struct {
 
 	// The Region in which the created target https proxy should reside.
 	// If it is not provided, the provider region is used.
-	// The Region in which the created target https proxy should reside.
-	// If it is not provided, the provider region is used.
 	// +kubebuilder:validation:Required
 	Region *string `json:"region" tf:"region,omitempty"`
 
-	// A list of RegionSslCertificate resources that are used to authenticate
-	// connections between users and the load balancer. Currently, exactly
-	// one SSL certificate must be specified.
 	// A list of RegionSslCertificate resources that are used to authenticate
 	// connections between users and the load balancer. Currently, exactly
 	// one SSL certificate must be specified.
@@ -79,8 +71,6 @@ type RegionTargetHTTPSProxyParameters struct {
 	// +kubebuilder:validation:Optional
 	SSLCertificatesSelector *v1.Selector `json:"sslCertificatesSelector,omitempty" tf:"-"`
 
-	// A reference to the RegionUrlMap resource that defines the mapping from URL
-	// to the RegionBackendService.
 	// A reference to the RegionUrlMap resource that defines the mapping from URL
 	// to the RegionBackendService.
 	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.RegionURLMap

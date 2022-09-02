@@ -41,11 +41,6 @@ type DatabaseParameters struct {
 	// and Postgres' Character Set Support
 	// for more details and supported values. Postgres databases only support
 	// a value of UTF8 at creation time.
-	// The charset value. See MySQL's
-	// [Supported Character Sets and Collations](https://dev.mysql.com/doc/refman/5.7/en/charset-charsets.html)
-	// and Postgres' [Character Set Support](https://www.postgresql.org/docs/9.6/static/multibyte.html)
-	// for more details and supported values. Postgres databases only support
-	// a value of 'UTF8' at creation time.
 	// +kubebuilder:validation:Optional
 	Charset *string `json:"charset,omitempty" tf:"charset,omitempty"`
 
@@ -54,16 +49,9 @@ type DatabaseParameters struct {
 	// and Postgres' Collation Support
 	// for more details and supported values. Postgres databases only support
 	// a value of en_US.UTF8 at creation time.
-	// The collation value. See MySQL's
-	// [Supported Character Sets and Collations](https://dev.mysql.com/doc/refman/5.7/en/charset-charsets.html)
-	// and Postgres' [Collation Support](https://www.postgresql.org/docs/9.6/static/collation.html)
-	// for more details and supported values. Postgres databases only support
-	// a value of 'en_US.UTF8' at creation time.
 	// +kubebuilder:validation:Optional
 	Collation *string `json:"collation,omitempty" tf:"collation,omitempty"`
 
-	// The name of the Cloud SQL instance. This does not include the project
-	// ID.
 	// The name of the Cloud SQL instance. This does not include the project
 	// ID.
 	// +crossplane:generate:reference:type=DatabaseInstance

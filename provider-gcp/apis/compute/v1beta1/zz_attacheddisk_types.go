@@ -38,11 +38,9 @@ type AttachedDiskParameters struct {
 	// system running within the instance. This name can be used to
 	// reference the device for mounting, resizing, and so on, from within
 	// the instance.
-	// Specifies a unique device name of your choice that is reflected into the /dev/disk/by-id/google-* tree of a Linux operating system running within the instance. This name can be used to reference the device for mounting, resizing, and so on, from within the instance. If not specified, the server chooses a default device name to apply to this disk, in the form persistent-disks-x, where x is a number assigned by Google Compute Engine.
 	// +kubebuilder:validation:Optional
 	DeviceName *string `json:"deviceName,omitempty" tf:"device_name,omitempty"`
 
-	// name or self_link of the disk that will be attached.
 	// name or self_link of the disk that will be attached.
 	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.Disk
 	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
@@ -61,7 +59,6 @@ type AttachedDiskParameters struct {
 	// If the self_link is provided then zone and project are extracted from the
 	// self link. If only the name is used then zone and project must be defined
 	// as properties on the resource or provider.
-	// name or self_link of the compute instance that the disk will be attached to. If the self_link is provided then zone and project are extracted from the self link. If only the name is used then zone and project must be defined as properties on the resource or provider.
 	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.Instance
 	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
@@ -78,19 +75,16 @@ type AttachedDiskParameters struct {
 	// The mode in which to attach this disk, either READ_WRITE or
 	// READ_ONLY. If not specified, the default is to attach the disk in
 	// READ_WRITE mode.
-	// The mode in which to attach this disk, either READ_WRITE or READ_ONLY. If not specified, the default is to attach the disk in READ_WRITE mode.
 	// +kubebuilder:validation:Optional
 	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
 
 	// The project that the referenced compute instance is a part of. If instance is referenced by its
 	// self_link the project defined in the link will take precedence.
-	// The project that the referenced compute instance is a part of. If instance is referenced by its self_link the project defined in the link will take precedence.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The zone that the referenced compute instance is located within. If instance is referenced by its
 	// self_link the zone defined in the link will take precedence.
-	// The zone that the referenced compute instance is located within. If instance is referenced by its self_link the zone defined in the link will take precedence.
 	// +kubebuilder:validation:Optional
 	Zone *string `json:"zone,omitempty" tf:"zone,omitempty"`
 }

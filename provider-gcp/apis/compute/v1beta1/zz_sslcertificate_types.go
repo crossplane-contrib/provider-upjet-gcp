@@ -28,10 +28,8 @@ import (
 type SSLCertificateObservation struct {
 
 	// The unique identifier for the resource.
-	// The unique identifier for the resource.
 	CertificateID *float64 `json:"certificateId,omitempty" tf:"certificate_id,omitempty"`
 
-	// Creation timestamp in RFC3339 text format.
 	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
 
@@ -48,20 +46,15 @@ type SSLCertificateParameters struct {
 	// The certificate chain must be no greater than 5 certs long.
 	// The chain must include at least one intermediate cert.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	// The certificate in PEM format.
-	// The certificate chain must be no greater than 5 certs long.
-	// The chain must include at least one intermediate cert.
 	// +kubebuilder:validation:Required
 	CertificateSecretRef v1.SecretKeySelector `json:"certificateSecretRef" tf:"-"`
 
-	// An optional description of this resource.
 	// An optional description of this resource.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// The write-only private key in PEM format.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	// The write-only private key in PEM format.
 	// +kubebuilder:validation:Required
 	PrivateKeySecretRef v1.SecretKeySelector `json:"privateKeySecretRef" tf:"-"`
 

@@ -66,8 +66,7 @@ spec:
                 properties:
                   authDomain:
                     description: The domain to authenticate users with when using
-                      App Engine's User API. The domain to authenticate users with
-                      when using App Engine's User API.
+                      App Engine's User API.
                     type: string
                   databaseType:
                     description: The type of the Cloud Firestore or Cloud Datastore
@@ -78,8 +77,7 @@ spec:
                     type: string
                   featureSettings:
                     description: 'A block of optional settings to configure specific
-                      App Engine features: A block of optional settings to configure
-                      specific App Engine features:'
+                      App Engine features:'
                     items:
                       properties:
                         splitHealthChecks:
@@ -91,24 +89,20 @@ spec:
                       type: object
                     type: array
                   iap:
-                    description: Settings for enabling Cloud Identity Aware Proxy
                     items:
                       properties:
                         enabled:
-                          description: "Whether the serving infrastructure will authenticate
-                            and authorize all incoming requests. \n Adapted for use
-                            with the app"
+                          description: Whether the serving infrastructure will authenticate
+                            and authorize all incoming requests.
                           type: boolean
                         oauth2ClientId:
                           description: OAuth2 client ID to use for the authentication
-                            flow. OAuth2 client ID to use for the authentication flow.
+                            flow.
                           type: string
                         oauth2ClientSecretSecretRef:
                           description: OAuth2 client secret to use for the authentication
                             flow. The SHA-256 hash of the value is returned in the
-                            oauth2ClientSecretSha256 field. OAuth2 client secret to
-                            use for the authentication flow. The SHA-256 hash of the
-                            value is returned in the oauth2ClientSecretSha256 field.
+                            oauth2ClientSecretSha256 field.
                           properties:
                             key:
                               description: The key to select.
@@ -130,14 +124,12 @@ spec:
                       type: object
                     type: array
                   locationId:
-                    description: The location to serve the app from. The location
-                      to serve the app from.
+                    description: The location to serve the app from.
                     type: string
                   project:
                     description: 'The project ID to create the application under.
                       ~>NOTE: GCP only accepts project ID, not project number. If
-                      you are using number, you may get a "Permission denied" error.
-                      The project ID to create the application under.'
+                      you are using number, you may get a "Permission denied" error.'
                     type: string
                   projectRef:
                     description: Reference to a Project in cloudplatform to populate
@@ -215,8 +207,7 @@ spec:
                         type: object
                     type: object
                   servingStatus:
-                    description: The serving status of the app. The serving status
-                      of the app.
+                    description: The serving status of the app.
                     type: string
                 required:
                 - locationId
@@ -398,37 +389,31 @@ spec:
               atProvider:
                 properties:
                   appId:
-                    description: Identifier of the app, usually {PROJECT_ID} Identifier
-                      of the app.
+                    description: Identifier of the app, usually {PROJECT_ID}
                     type: string
                   codeBucket:
                     description: The GCS bucket code is being stored in for this app.
-                      The GCS bucket code is being stored in for this app.
                     type: string
                   defaultBucket:
                     description: The GCS bucket content is being stored in for this
-                      app. The GCS bucket content is being stored in for this app.
+                      app.
                     type: string
                   defaultHostname:
-                    description: The default hostname for this app. The default hostname
-                      for this app.
+                    description: The default hostname for this app.
                     type: string
                   gcrDomain:
                     description: The GCR domain used for storing managed Docker images
-                      for this app. The GCR domain used for storing managed Docker
-                      images for this app.
+                      for this app.
                     type: string
                   id:
                     description: an identifier for the resource with format {{project}}
                     type: string
                   name:
                     description: Unique name of the app, usually apps/{PROJECT_ID}
-                      Unique name of the app.
                     type: string
                   urlDispatchRule:
                     description: A list of dispatch rule blocks. Each block has a
-                      domain, path, and service field. A list of dispatch rule blocks.
-                      Each block has a domain, path, and service field.
+                      domain, path, and service field.
                     items:
                       properties:
                         domain:

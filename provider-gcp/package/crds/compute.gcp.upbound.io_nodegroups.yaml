@@ -68,67 +68,44 @@ spec:
                     description: If you use sole-tenant nodes for your workloads,
                       you can use the node group autoscaler to automatically manage
                       the sizes of your node groups. Structure is documented below.
-                      If you use sole-tenant nodes for your workloads, you can use
-                      the node group autoscaler to automatically manage the sizes
-                      of your node groups.
                     items:
                       properties:
                         maxNodes:
                           description: Maximum size of the node group. Set to a value
                             less than or equal to 100 and greater than or equal to
-                            min-nodes. Maximum size of the node group. Set to a value
-                            less than or equal to 100 and greater than or equal to
                             min-nodes.
                           type: number
                         minNodes:
                           description: Minimum size of the node group. Must be less
-                            than or equal to max-nodes. The default value is 0. Minimum
-                            size of the node group. Must be less than or equal to
-                            max-nodes. The default value is 0.
+                            than or equal to max-nodes. The default value is 0.
                           type: number
                         mode:
-                          description: 'The autoscaling mode. Set to one of the following:
-                            The autoscaling mode. Set to one of the following: - OFF:
-                            Disables the autoscaler. - ON: Enables scaling in and
-                            scaling out. - ONLY_SCALE_OUT: Enables only scaling out.
-                            You must use this mode if your node groups are configured
-                            to restart their hosted VMs on minimal servers. Possible
-                            values: ["OFF", "ON", "ONLY_SCALE_OUT"]'
+                          description: 'The autoscaling mode. Set to one of the following:'
                           type: string
                       type: object
                     type: array
                   description:
                     description: An optional textual description of the resource.
-                      An optional textual description of the resource.
                     type: string
                   initialSize:
                     description: The initial number of nodes in the node group. One
-                      of initial_size or size must be specified. The initial number
-                      of nodes in the node group. One of 'initial_size' or 'size'
-                      must be specified.
+                      of initial_size or size must be specified.
                     type: number
                   maintenancePolicy:
                     description: 'Specifies how to handle instances when a node in
                       the group undergoes maintenance. Set to one of: DEFAULT, RESTART_IN_PLACE,
-                      or MIGRATE_WITHIN_NODE_GROUP. The default value is DEFAULT.
-                      Specifies how to handle instances when a node in the group undergoes
-                      maintenance. Set to one of: DEFAULT, RESTART_IN_PLACE, or MIGRATE_WITHIN_NODE_GROUP.
-                      The default value is DEFAULT.'
+                      or MIGRATE_WITHIN_NODE_GROUP. The default value is DEFAULT.'
                     type: string
                   maintenanceWindow:
                     description: contains properties for the timeframe of maintenance
-                      Structure is documented below. contains properties for the timeframe
-                      of maintenance
+                      Structure is documented below.
                     items:
                       properties:
                         startTime:
                           description: instances.start time of the window. This must
                             be in UTC format that resolves to one of 00:00, 04:00,
                             08:00, 12:00, 16:00, or 20:00. For example, both 13:00-5
-                            and 08:00 are valid. instances.start time of the window.
-                            This must be in UTC format that resolves to one of 00:00,
-                            04:00, 08:00, 12:00, 16:00, or 20:00. For example, both
-                            13:00-5 and 08:00 are valid.
+                            and 08:00 are valid.
                           type: string
                       required:
                       - startTime
@@ -136,7 +113,6 @@ spec:
                     type: array
                   nodeTemplate:
                     description: The URL of the node template to which this node group
-                      belongs. The URL of the node template to which this node group
                       belongs.
                     type: string
                   nodeTemplateRef:
@@ -220,13 +196,10 @@ spec:
                     type: string
                   size:
                     description: The total number of nodes in the node group. One
-                      of initial_size or size must be specified. The total number
-                      of nodes in the node group. One of 'initial_size' or 'size'
-                      must be specified.
+                      of initial_size or size must be specified.
                     type: number
                   zone:
-                    description: Zone where this node group is located Zone where
-                      this node group is located
+                    description: Zone where this node group is located
                     type: string
                 required:
                 - zone
@@ -408,8 +381,7 @@ spec:
               atProvider:
                 properties:
                   creationTimestamp:
-                    description: Creation timestamp in RFC3339 text format. Creation
-                      timestamp in RFC3339 text format.
+                    description: Creation timestamp in RFC3339 text format.
                     type: string
                   id:
                     description: an identifier for the resource with format projects/{{project}}/zones/{{zone}}/nodeGroups/{{name}}

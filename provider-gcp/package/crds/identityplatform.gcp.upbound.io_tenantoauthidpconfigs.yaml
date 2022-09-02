@@ -65,8 +65,7 @@ spec:
               forProvider:
                 properties:
                   clientIdSecretRef:
-                    description: The client id of an OAuth client. The client id of
-                      an OAuth client.
+                    description: The client id of an OAuth client.
                     properties:
                       key:
                         description: The key to select.
@@ -84,7 +83,6 @@ spec:
                     type: object
                   clientSecretSecretRef:
                     description: The client secret of the OAuth client, to enable
-                      OIDC code flow. The client secret of the OAuth client, to enable
                       OIDC code flow.
                     properties:
                       key:
@@ -102,20 +100,16 @@ spec:
                     - namespace
                     type: object
                   displayName:
-                    description: Human friendly display name. Human friendly display
-                      name.
+                    description: Human friendly display name.
                     type: string
                   enabled:
                     description: If this config allows users to sign in with the provider.
-                      If this config allows users to sign in with the provider.
                     type: boolean
                   issuer:
-                    description: For OIDC Idps, the issuer identifier. For OIDC Idps,
-                      the issuer identifier.
+                    description: For OIDC Idps, the issuer identifier.
                     type: string
                   name:
                     description: The name of the OauthIdpConfig. Must start with oidc..
-                      The name of the OauthIdpConfig. Must start with 'oidc.'.
                     type: string
                   project:
                     description: The ID of the project in which the resource belongs.
@@ -123,7 +117,6 @@ spec:
                     type: string
                   tenant:
                     description: The name of the tenant where this OIDC IDP configuration
-                      resource exists The name of the tenant where this OIDC IDP configuration
                       resource exists
                     type: string
                   tenantRef:

@@ -67,18 +67,14 @@ spec:
                 properties:
                   deliveryConfig:
                     description: The settings for this subscription's message delivery.
-                      Structure is documented below. The settings for this subscription's
-                      message delivery.
+                      Structure is documented below.
                     items:
                       properties:
                         deliveryRequirement:
-                          description: 'When this subscription should send messages
+                          description: When this subscription should send messages
                             to subscribers relative to messages persistence in storage.
                             Possible values are DELIVER_IMMEDIATELY, DELIVER_AFTER_STORED,
-                            and DELIVERY_REQUIREMENT_UNSPECIFIED. When this subscription
-                            should send messages to subscribers relative to messages
-                            persistence in storage. Possible values: ["DELIVER_IMMEDIATELY",
-                            "DELIVER_AFTER_STORED", "DELIVERY_REQUIREMENT_UNSPECIFIED"]'
+                            and DELIVERY_REQUIREMENT_UNSPECIFIED.
                           type: string
                       required:
                       - deliveryRequirement
@@ -89,12 +85,10 @@ spec:
                       If it is not provided, the provider project is used.
                     type: string
                   region:
-                    description: The region of the pubsub lite topic. The region of
-                      the pubsub lite topic.
+                    description: The region of the pubsub lite topic.
                     type: string
                   topic:
-                    description: A reference to a Topic resource. A reference to a
-                      Topic resource.
+                    description: A reference to a Topic resource.
                     type: string
                   topicRef:
                     description: Reference to a LiteTopic to populate topic.
@@ -170,8 +164,7 @@ spec:
                         type: object
                     type: object
                   zone:
-                    description: The zone of the pubsub lite topic. The zone of the
-                      pubsub lite topic.
+                    description: The zone of the pubsub lite topic.
                     type: string
                 required:
                 - zone
