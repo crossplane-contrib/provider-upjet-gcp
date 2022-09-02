@@ -1,6 +1,8 @@
 package secretmanager
 
 import (
+	"github.com/upbound/official-providers/provider-gcp/config/common"
+
 	"github.com/upbound/upjet/pkg/config"
 )
 
@@ -11,7 +13,17 @@ func Configure(p *config.Provider) {
 	})
 
 	p.AddResourceConfigurator("google_secret_manager_secret_iam_member", func(r *config.Resource) {
+		// The reference should be manually inferred, but this is not yet activated for GCP
 		r.References["secret_id"] = config.Reference{
+			Type:      "Secret",
+			Extractor: common.ExtractResourceIDFuncPath,
+		}
+	})
+
+	p.AddResourceConfigurator("google_secret_manager_secret_version", func(r *config.Resource) {
+		r.UseAsync = true
+
+		r.References["secret"] = config.Reference{
 			Type: "Secret",
 		}
 	})

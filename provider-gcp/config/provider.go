@@ -90,6 +90,8 @@ var skipList = []string{
 	"google_notebooks_instance_iam_binding",
 	"google_notebooks_runtime_iam_policy",
 	"google_notebooks_runtime_iam_binding",
+	"google_secret_manager_secret_iam_policy",
+	"google_secret_manager_secret_iam_binding",
 }
 
 // GetProvider returns provider configuration

@@ -355,7 +355,8 @@ var externalNameConfigs = map[string]config.ExternalName{
 
 	// recaptcha
 	//
-	// terraform import google_recaptcha_enterprise_key.default projects/{{project}}/keys/{{name}}
+	// google_recaptcha_enterprise_key.default projects/{{project}}/keys/{{name}}
+	// This cannot be tested without elevated org level persmissions: https://github.com//issues/284
 	"google_recaptcha_enterprise_key": config.IdentifierFromProvider,
 
 	// redis
@@ -363,12 +364,19 @@ var externalNameConfigs = map[string]config.ExternalName{
 	// Imported by using the following format: projects/{{project}}/locations/{{region}}/instances/{{name}}
 	"google_redis_instance": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.region }}/instances/{{ .external_name }}"),
 
+	// resource_manager
+	//
+	// google_resource_manager_lien.default {{parent}}/{{name}}
+	// This cannot be tested without elevated org level persmissions: https://github.com//issues/284
+	"google_resource_manager_lien": config.IdentifierFromProvider,
+
 	// secretmanager
 	//
 	// Imported by using the following format: projects/{{project_id}}/secrets/{{secret_id}}
-	"google_secret_manager_secret": config.TemplatedStringAsIdentifier("secret_id", "projects/{{ .setup.configuration.project }}/secrets/{{ .external_name }}"),
-	// Imported by using the following format: projects/{{project}}/secrets/{{secret_id}} roles/secretmanager.secretAccessor user:jane@example.com
+	"google_secret_manager_secret": config.IdentifierFromProvider,
+	// google_secret_manager_secret_iam_member.editor "projects/{{project}}/secrets/{{secret_id}} roles/secretmanager.secretAccessor user:jane@example.com"
 	"google_secret_manager_secret_iam_member": config.IdentifierFromProvider,
+
 	// Imported by using the following format: {{name}}/{{name}}
 	"google_secret_manager_secret_version": config.IdentifierFromProvider,
 
@@ -376,6 +384,14 @@ var externalNameConfigs = map[string]config.ExternalName{
 	//
 	// Imported by using the following format: /projects/{{project}}/global/networks/{{peering-network}}:{{service}}
 	"google_service_networking_connection": config.IdentifierFromProvider,
+
+	// scc
+	//
+	// google_scc_notification_config.default organizations/{{organization}}/notificationConfigs/{{name}}
+	// This cannot be tested without elevated org level persmissions: https://github.com//issues/284
+	"google_scc_notification_config": config.TemplatedStringAsIdentifier("config_id", "{{ .parameters.organization }}/notificationConfigs/{{ .external_name }}"),
+	// google_scc_source.default organizations/{{organization}}/sources/{{name}}
+	"google_scc_source": config.TemplatedStringAsIdentifier("display_name", "{{ .parameters.organization }}/sources/{{ .external_name }}"),
 
 	// sql
 	//
