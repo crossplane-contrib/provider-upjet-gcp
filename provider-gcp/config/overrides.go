@@ -132,27 +132,8 @@ func defaultVersion() tjconfig.ResourceOption {
 
 func descriptionOverrides() tjconfig.ResourceOption {
 	return func(r *tjconfig.Resource) {
-		buildResource(r.TerraformResource)
-	}
-}
-
-func buildResource(r *schema.Resource) {
-	for _, s := range r.Schema {
-		buildSchema(s)
-	}
-}
-
-func buildSchema(sch *schema.Schema) {
-	switch sch.Type { //nolint:exhaustive
-	case schema.TypeMap, schema.TypeList, schema.TypeSet:
-		switch et := sch.Elem.(type) {
-		case *schema.Schema:
-			buildSchema(et)
-		case *schema.Resource:
-			buildResource(et)
-		default:
+		tjconfig.ManipulateEveryField(r.TerraformResource, func(sch *schema.Schema) {
 			sch.Description = ""
-		}
+		})
 	}
-	sch.Description = ""
 }
