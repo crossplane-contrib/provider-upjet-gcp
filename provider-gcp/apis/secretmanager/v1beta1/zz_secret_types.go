@@ -126,10 +126,6 @@ type SecretParameters struct {
 	// +kubebuilder:validation:Optional
 	Rotation []RotationParameters `json:"rotation,omitempty" tf:"rotation,omitempty"`
 
-	// This must be unique within the project.
-	// +kubebuilder:validation:Required
-	SecretID *string `json:"secretId" tf:"secret_id,omitempty"`
-
 	// The TTL for the Secret.
 	// A duration in seconds with up to nine fractional digits, terminated by 's'. Example: "3.5s".
 	// +kubebuilder:validation:Optional

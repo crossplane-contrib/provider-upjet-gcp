@@ -5,13 +5,7 @@ Copyright 2022 Upbound Inc.
 package config
 
 import (
-	"context"
-	"fmt"
-	"strings"
-
 	"github.com/upbound/upjet/pkg/config"
-
-	"github.com/upbound/official-providers/provider-gcp/config/common"
 )
 
 var externalNameConfigs = map[string]config.ExternalName{
@@ -23,12 +17,12 @@ var externalNameConfigs = map[string]config.ExternalName{
 	// composer
 	//
 	// Imported by using the following format: projects/{{project}}/locations/{{region}}/environments/{{name}}
-	"google_composer_environment": formattedIdentifierUserDefined("projects/%s/locations/%s/environments", "project", "region"),
+	"google_composer_environment": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.region }}/environments/{{ .external_name }}"),
 
 	// cloudfunctions
 	//
 	// Imported by using the following format: {{project}}/{{region}}/function-test
-	"google_cloudfunctions_function": formattedIdentifierUserDefined("%s/%s/", "project", "region"),
+	"google_cloudfunctions_function": config.TemplatedStringAsIdentifier("name", "{{ .setup.configuration.project }}/{{ .parameters.region }}/{{ .external_name }}"),
 	// Imported by using the following format: projects/{{project}}/locations/{{region}}/functions/{{cloud_function}} roles/viewer user:jane@example.com
 	"google_cloudfunctions_function_iam_member": config.IdentifierFromProvider,
 
@@ -46,10 +40,10 @@ var externalNameConfigs = map[string]config.ExternalName{
 	// Project-ID has a format as following: projects/{{project}}
 	// So, the GetIDFn function implementation for project-id and import method
 	// for project resource seems that different.
-	"google_project": formattedIdentifierWithResourcePrefix("projects"),
+	"google_project": config.TemplatedStringAsIdentifier("project_id", "projects/{{ .external_name }}"),
 	// Resource with format projects/{{project}}
 	// This resource does not support import
-	"google_project_default_service_accounts": formattedIdentifierWithResourcePrefix("projects"),
+	"google_project_default_service_accounts": TemplatedStringAsIdentifierWithNoName("projects/{{ .external_name }}"),
 	// Imported by using the following format: your-project-id roles/viewer user:foo@example.com
 	"google_project_iam_member": config.IdentifierFromProvider,
 	// Imported by using the following format: your-project-id foo.googleapis.com
@@ -59,87 +53,87 @@ var externalNameConfigs = map[string]config.ExternalName{
 	// Imported by using the following format: {{project}}
 	"google_project_usage_export_bucket": config.IdentifierFromProvider,
 	// Service accounts can be imported using their URI, e.g. projects/my-project/serviceAccounts/my-sa@my-project.iam.gserviceaccount.com
-	"google_service_account": googleServiceAccount(),
+	"google_service_account": config.TemplatedStringAsIdentifier("account_id", "projects/{{ .setup.configuration.project }}/serviceAccounts/{{ .external_name }}@{{ .setup.configuration.project }}.iam.gserviceaccount.com"),
 	// Imported by using the following format: projects/{your-project-id}/serviceAccounts/{your-service-account-email} roles/iam.serviceAccountUser user:foo@example.com expires_after_2019_12_31
 	"google_service_account_iam_member": config.IdentifierFromProvider,
 	// No import
 	"google_service_account_key": config.IdentifierFromProvider,
 	// Imported by using the following format: services/{service}/projects/{project}/global/networks/{network}/peeredDnsDomains/{name}
-	"google_service_networking_peered_dns_domain": formattedIdentifierUserDefined("services/%s/projects/%s/global/networks/%s/peeredDnsDomains", "service", "project", "network"),
+	"google_service_networking_peered_dns_domain": config.TemplatedStringAsIdentifier("name", "services/{{ .parameters.service }}/projects/{{ .setup.configuration.project }}/global/networks/{{ .parameters.network }}/peeredDnsDomains/{{ .external_name }}"),
 
 	// cloudrun
 	//
 	// Imported by using the following format: locations/{{location}}/namespaces/{{project}}/domainmappings/{{name}}
 	"google_cloud_run_domain_mapping": config.IdentifierFromProvider,
 	// Imported by using the following format: locations/{{location}}/namespaces/{{project}}/services/{{name}}
-	"google_cloud_run_service": formattedIdentifierUserDefined("locations/%s/namespaces/%s/services", "location", "project"),
+	"google_cloud_run_service": config.TemplatedStringAsIdentifier("name", "locations/{{ .parameters.location }}/namespaces/{{ .setup.configuration.project }}/services/{{ .external_name }}"),
 	// Imported by using the following format: projects/{{project}}/locations/{{location}}/services/{{service}} roles/viewer user:jane@example.com
 	"google_cloud_run_service_iam_member": config.IdentifierFromProvider,
 
 	// cloudscheduler
 	//
 	// Imported by using the following format: projects/{{project}}/locations/{{region}}/jobs/{{name}}
-	"google_cloud_scheduler_job": formattedIdentifierUserDefined("projects/%s/locations/%s/jobs", "project", "region"),
+	"google_cloud_scheduler_job": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.region }}/jobs/{{ .external_name }}"),
 
 	// cloudtasks
 	//
 	// Imported by using the following format: projects/{{project}}/locations/{{location}}/queues/{{name}}
-	"google_cloud_tasks_queue": formattedIdentifierUserDefined("projects/%s/locations/%s/queues", "project", "location"),
+	"google_cloud_tasks_queue": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/queues/{{ .external_name }}"),
 
 	// compute
 	//
 	// Imported by using the following format: projects/{{project}}/zones/{{zone}}/instances/{{instance.name}}/{{disk.name}}
 	"google_compute_attached_disk": config.IdentifierFromProvider,
 	// Imported by using the following format: projects/{{project}}/zones/{{zone}}/autoscalers/{{name}}
-	"google_compute_autoscaler": formattedIdentifierUserDefined("projects/%s/zones/{{zone}}/autoscalers", "project", "zone"),
+	"google_compute_autoscaler": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/zones/{{ .parameters.zone }}/autoscalers/{{ .external_name }}"),
 	// Imported by using the following format: projects/{{project}}/global/backendBuckets/{{name}}
-	"google_compute_backend_bucket": formattedIdentifierUserDefined("projects/%s/global/backendBuckets", "project"),
+	"google_compute_backend_bucket": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/global/backendBuckets/{{ .external_name }}"),
 	// Imported by using the following format: This resource does not support import.
 	"google_compute_backend_bucket_signed_url_key": config.IdentifierFromProvider,
 	// Imported by using the following format: projects/{{project}}/global/backendServices/{{name}}
-	"google_compute_backend_service": formattedIdentifierUserDefined("projects/%s/global/backendServices", "project"),
+	"google_compute_backend_service": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/global/backendServices/{{ .external_name }}"),
 	// Imported by using the following format: projects/{{project}}/global/sslCertificates/{{name}}
-	"google_compute_managed_ssl_certificate": formattedIdentifierUserDefined("projects/%s/global/sslCertificates", "project"),
+	"google_compute_managed_ssl_certificate": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/global/sslCertificates/{{ .external_name }}"),
 	// Imported by using the following format: projects/{{project}}/regions/{{region}}/subnetworks/{{name}}
-	"google_compute_subnetwork": formattedIdentifierUserDefined("projects/%s/regions/%s/subnetworks", "project", "region"),
+	"google_compute_subnetwork": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/regions/{{ .parameters.region }}/subnetworks/{{ .external_name }}"),
 	// Imported by using the following format: projects/{{project}}/regions/{{region}}/addresses/{{name}}
-	"google_compute_address": formattedIdentifierUserDefined("projects/%s/regions/%s/addresses", "project", "region"),
+	"google_compute_address": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/regions/{{ .parameters.region }}/addresses/{{ .external_name }}"),
 	// Imported by using the following format: projects/{{project}}/global/firewalls/{{name}}
-	"google_compute_firewall": formattedIdentifierUserDefined("projects/%s/global/firewalls", "project"),
+	"google_compute_firewall": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/global/firewalls/{{ .external_name }}"),
 	// Imported by using the following format: projects/{{project}}/regions/{{region}}/routers/{{name}}
-	"google_compute_router": formattedIdentifierUserDefined("projects/%s/regions/%s/routers", "project", "region"),
+	"google_compute_router": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/regions/{{ .parameters.region }}/routers/{{ .external_name }}"),
 	// Imported by using the following format: projects/{{project}}/regions/{{region}}/routers/{{router}}/{{name}}
-	"google_compute_router_nat": formattedIdentifierUserDefined("projects/%s/regions/%s/routers/%s", "project", "region", "router"),
+	"google_compute_router_nat": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/regions/{{ .parameters.region }}/routers/{{ .external_name }}"),
 	// Imported by using the following format: projects/{{project}}/zones/{{zone}}/instances/{{name}}
-	"google_compute_instance": formattedIdentifierUserDefined("projects/%s/zones/%s/instances", "project", "zone"),
+	"google_compute_instance": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/zones/{{ .parameters.zone }}/instances/{{ .external_name }}"),
 	// Imported by using the following format: projects/{{project}}/global/networks/{{name}}
-	"google_compute_network": formattedIdentifierUserDefined("projects/%s/global/networks", "project"),
+	"google_compute_network": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/global/networks/{{ .external_name }}"),
 	// Imported by using the following format: projects/{{project}}/zones/{{zone}}/disks/{{name}}
-	"google_compute_disk": formattedIdentifierUserDefined("projects/%s/zones/%s/disks", "project", "zone"),
+	"google_compute_disk": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/zones/{{ .parameters.zone }}/disks/{{ .external_name }}"),
 	// Imported by using the following format: projects/{{project}}/global/externalVpnGateways/{{name}}
-	"google_compute_external_vpn_gateway": formattedIdentifierUserDefined("projects/%s/global/externalVpnGateways", "project"),
+	"google_compute_external_vpn_gateway": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/global/externalVpnGateways/{{ .external_name }}"),
 	// Imported by using the following format: projects/{{project}}/global/addresses/{{name}}
-	"google_compute_global_address": formattedIdentifierUserDefined("projects/%s/global/addresses", "project"),
+	"google_compute_global_address": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/global/addresses/{{ .external_name }}"),
 	// Imported by using the following format: projects/{{project}}/global/networkEndpointGroups/{{global_network_endpoint_group}}/{{ip_address}}/{{fqdn}}/{{port}}
-	"google_compute_global_network_endpoint_group": formattedIdentifierUserDefined("projects/%s/global/networkEndpointGroups", "project"),
+	"google_compute_global_network_endpoint_group": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/global/networkEndpointGroups/{{ .external_name }}"),
 	// Imported by using the following format: projects/{{project}}/regions/{{region}}/vpnGateways/{{name}}
-	"google_compute_ha_vpn_gateway": formattedIdentifierUserDefined("projects/%s/regions/%s/vpnGateways", "project", "region"),
+	"google_compute_ha_vpn_gateway": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/regions/{{ .parameters.region }}/vpnGateways/{{ .external_name }}"),
 	// Imported by using the following format: projects/{{project}}/global/healthChecks/{{name}}
-	"google_compute_health_check": formattedIdentifierUserDefined("projects/%s/global/healthChecks", "project"),
+	"google_compute_health_check": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/global/healthChecks/{{ .external_name }}"),
 	// Imported by using the following format: projects/{{project}}/global/httpHealthChecks/{{name}}
-	"google_compute_http_health_check": formattedIdentifierUserDefined("projects/%s/global/httpHealthChecks", "project"),
+	"google_compute_http_health_check": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/global/httpHealthChecks/{{ .external_name }}"),
 	// Imported by using the following format: projects/{{project}}/global/httpsHealthChecks/{{name}}
-	"google_compute_https_health_check": formattedIdentifierUserDefined("projects/%s/global/httpsHealthChecks", "project"),
+	"google_compute_https_health_check": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/global/httpsHealthChecks/{{ .external_name }}"),
 	// Imported by using the following format: projects/{{project}}/global/images/{{name}}
-	"google_compute_image": formattedIdentifierUserDefined("projects/%s/global/images", "project"),
+	"google_compute_image": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/global/images/{{ .external_name }}"),
 	// Imported by using the following format: projects/{{project}/zones/{{zone}}/instanceGroups/{{name}}
-	"google_compute_instance_group": formattedIdentifierUserDefined("projects/%s/zones/%s/instanceGroups", "project", "zone"),
+	"google_compute_instance_group": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/zones/{{ .parameters.zone }}/instanceGroups/{{ .external_name }}"),
 	// Imported by using the following format: projects/{{project}}/global/instanceTemplates/{{name}}
 	"google_compute_instance_template": config.IdentifierFromProvider,
 	// No import
 	"google_compute_instance_from_template": config.IdentifierFromProvider,
 	// Imported by using the following format: projects/{{project}}/regions/{{region}}/resourcePolicies/{{name}}
-	"google_compute_resource_policy": formattedIdentifierUserDefined("projects/%s/regions/%s/resourcePolicies", "project", "region"),
+	"google_compute_resource_policy": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/regions/{{ .parameters.region }}/resourcePolicies/{{ .external_name }}"),
 	// Imported by using the following format: projects/{{project}}/zones/{{zone}}/disks/{{disk}}/{{name}}
 	"google_compute_disk_resource_policy_attachment": config.IdentifierFromProvider,
 	// Imported by using the following format: projects/{{project}}/zones/{{zone}}/disks/{{disk}} roles/viewer user:jane@example.com
@@ -153,37 +147,37 @@ var externalNameConfigs = map[string]config.ExternalName{
 	// Imported by using the following format: projects/{{project}}/global/images/{{image}} roles/compute.imageUser user:jane@example.com
 	"google_compute_image_iam_member": config.IdentifierFromProvider,
 	// Imported by using the following format: projects/{{project}}/regions/{{region}}/targetPools/{{name}}
-	"google_compute_target_pool": formattedIdentifierUserDefined("projects/%s/regions/%s/targetPools", "project", "region"),
+	"google_compute_target_pool": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/regions/{{ .parameters.region }}/targetPools/{{ .external_name }}"),
 	// Imported by using the following format: projects/{{project}}/zones/{{zone}}/instanceGroupManagers/{{name}}
-	"google_compute_instance_group_manager": formattedIdentifierUserDefined("projects/%s/zones/%s/targetPools", "project", "zone"),
+	"google_compute_instance_group_manager": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/zones/{{ .parameters.zone }}/targetPools/{{ .external_name }}"),
 	// Imported by using the following format: projects/{{project}}/zones/{{zone}}/instances/{{instance}} roles/compute.osLogin user:jane@example.com
 	"google_compute_instance_iam_member": config.IdentifierFromProvider,
 	// Imported by using the following format: projects/{{project}}/regions/{{region}}/interconnectAttachments/{{name}}
-	"google_compute_interconnect_attachment": formattedIdentifierUserDefined("projects/%s/regions/%s/interconnectAttachments", "project", "region"),
+	"google_compute_interconnect_attachment": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/regions/{{ .parameters.region }}/interconnectAttachments/{{ .external_name }}"),
 	// Imported by using the following format: projects/{{project}}/zones/{{zone}}/networkEndpointGroups/{{name}}
-	"google_compute_network_endpoint_group": formattedIdentifierUserDefined("projects/%s/zones/%s/networkEndpointGroups", "project", "zone"),
+	"google_compute_network_endpoint_group": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/zones/{{ .parameters.zone }}/networkEndpointGroups/{{ .external_name }}"),
 	// Imported by using the following format: {{project}}/{{zone}}/{{network_endpoint_group}}/{{instance}}/{{ip_address}}/{{port}}
 	"google_compute_network_endpoint": config.IdentifierFromProvider,
 	// Imported by using the following format: project-name/network-name/peering-name
-	"google_compute_network_peering": formattedIdentifierWithResourcePrefix("network"),
+	"google_compute_network_peering": config.TemplatedStringAsIdentifier("name", "{{ .setup.configuration.project }}/{{ .parameters.network }}/{{ .external_name }}"),
 	// Imported by using the following format: projects/{{project}}/global/networks/{{network}}/networkPeerings/{{peering}}
 	"google_compute_network_peering_routes_config": config.IdentifierFromProvider,
 	// Imported by using the following format: projects/{{project}}/zones/{{zone}}/nodeGroups/{{name}}
-	"google_compute_node_group": formattedIdentifierUserDefined("projects/%s/zones/%s/nodeGroups", "project", "zone"),
+	"google_compute_node_group": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/zones/{{ .parameters.zone }}/nodeGroups/{{ .external_name }}"),
 	// Imported by using the following format: projects/{{project}}/regions/{{region}}/nodeTemplates/{{name}}
-	"google_compute_node_template": formattedIdentifierUserDefined("projects/%s/regions/%s/nodeTemplates", "project", "region"),
+	"google_compute_node_template": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/regions/{{ .parameters.region }}/nodeTemplates/{{ .external_name }}"),
 	// Imported by using the following format: projects/{{project}}/regions/{{region}}/packetMirrorings/{{name}}
-	"google_compute_packet_mirroring": formattedIdentifierUserDefined("projects/%s/regions/%s/packetMirrorings", "project", "region"),
+	"google_compute_packet_mirroring": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/regions/{{ .parameters.region }}/packetMirrorings/{{ .external_name }}"),
 	// Imported by using the following format: projects/{{project}}/regions/{{region}}/forwardingRules/{{name}}
-	"google_compute_forwarding_rule": formattedIdentifierUserDefined("projects/%s/regions/%s/forwardingRules", "project", "region"),
+	"google_compute_forwarding_rule": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/regions/{{ .parameters.region }}/forwardingRules/{{ .external_name }}"),
 	// Imported by using the following format: projects/{{project}}/regions/{{region}}/backendServices/{{name}}
-	"google_compute_region_backend_service": formattedIdentifierUserDefined("projects/%s/regions/%s/backendServices", "project", "region"),
+	"google_compute_region_backend_service": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/regions/{{ .parameters.region }}/backendServices/{{ .external_name }}"),
 	// Imported by using the following format: {{name}}
 	"google_compute_region_instance_group_manager": config.IdentifierFromProvider,
 	// Imported by using the following format: projects/{{project}}/regions/{{region}}/targetHttpProxies/{{name}}
-	"google_compute_region_target_http_proxy": formattedIdentifierUserDefined("projects/%s/regions/%s/targetHttpProxies", "project", "region"),
+	"google_compute_region_target_http_proxy": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/regions/{{ .parameters.region }}/targetHttpProxies/{{ .external_name }}"),
 	// Imported by using the following format: projects/{{project}}/regions/{{region}}/urlMaps/{{name}}
-	"google_compute_region_url_map": formattedIdentifierUserDefined("projects/%s/regions/%s/urlMaps", "project", "region"),
+	"google_compute_region_url_map": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/regions/{{ .parameters.region }}/urlMaps/{{ .external_name }}"),
 	// Imported by using the following format: projects/{{project}}/zones/{{zone}}/instanceGroupManagers/{{instance_group_manager}}/{{name}}
 	"google_compute_per_instance_config": config.IdentifierFromProvider,
 	// Projects can be imported using the Project ID: your-project-id
@@ -193,27 +187,27 @@ var externalNameConfigs = map[string]config.ExternalName{
 	// Project metadata items can be imported using the key: key
 	"google_compute_project_metadata_item": config.IdentifierFromProvider,
 	// Imported by using the following format: projects/{{project}}/regions/{{region}}/autoscalers/{{name}}
-	"google_compute_region_autoscaler": formattedIdentifierUserDefined("projects/%s/regions/%s/autoscalers", "project", "region"),
+	"google_compute_region_autoscaler": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/regions/{{ .parameters.region }}/autoscalers/{{ .external_name }}"),
 	// Imported by using the following format: projects/{{project}}/regions/{{region}}/disks/{{name}}
-	"google_compute_region_disk": formattedIdentifierUserDefined("projects/%s/regions/%s/disks", "project", "region"),
+	"google_compute_region_disk": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/regions/{{ .parameters.region }}/disks/{{ .external_name }}"),
 	// Imported by using the following format: projects/{{project}}/regions/{{region}}/disks/{{region_disk}} roles/viewer user:jane@example.com
 	"google_compute_region_disk_iam_member": config.IdentifierFromProvider,
 	// Imported by using the following format: projects/{{project}}/regions/{{region}}/disks/{{disk}}/{{name}}
 	"google_compute_region_disk_resource_policy_attachment": config.IdentifierFromProvider,
 	// Imported by using the following format: projects/{{project}}/regions/{{region}}/healthChecks/{{name}}
-	"google_compute_region_health_check": formattedIdentifierUserDefined("projects/%s/regions/%s/healthChecks", "project", "region"),
+	"google_compute_region_health_check": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/regions/{{ .parameters.region }}/healthChecks/{{ .external_name }}"),
 	// Imported by using the following format: projects/{{project}}/regions/{{region}}/networkEndpointGroups/{{name}}
-	"google_compute_region_network_endpoint_group": formattedIdentifierUserDefined("projects/%s/regions/%s/networkEndpointGroups", "project", "region"),
+	"google_compute_region_network_endpoint_group": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/regions/{{ .parameters.region }}/networkEndpointGroups/{{ .external_name }}"),
 	// Imported by using the following format: projects/{{project}}/regions/{{region}}/instanceGroupManagers/{{region_instance_group_manager}}/{{name}}
 	"google_compute_region_per_instance_config": config.IdentifierFromProvider,
 	// Imported by using the following format: projects/{{project}}/regions/{{region}}/sslCertificates/{{name}}
-	"google_compute_region_ssl_certificate": formattedIdentifierUserDefined("projects/%s/regions/%s/sslCertificates", "project", "region"),
+	"google_compute_region_ssl_certificate": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/regions/{{ .parameters.region }}/sslCertificates/{{ .external_name }}"),
 	// Imported by using the following format: projects/{{project}}/regions/{{region}}/targetHttpsProxies/{{name}}
-	"google_compute_region_target_https_proxy": formattedIdentifierUserDefined("projects/%s/regions/%s/targetHttpsProxies", "project", "region"),
+	"google_compute_region_target_https_proxy": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/regions/{{ .parameters.region }}/targetHttpsProxies/{{ .external_name }}"),
 	// Imported by using the following format: projects/{{project}}/zones/{{zone}}/reservations/{{name}}
-	"google_compute_reservation": formattedIdentifierUserDefined("projects/%s/zones/%s/reservations", "project", "zone"),
+	"google_compute_reservation": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/zones/{{ .parameters.zone }}/reservations/{{ .external_name }}"),
 	// Imported by using the following format: projects/{{project}}/global/routes/{{name}}
-	"google_compute_route": formattedIdentifierUserDefined("projects/%s/global/routes", "project"),
+	"google_compute_route": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/global/routes/{{ .external_name }}"),
 	// Imported by using the following format: us-central1/router-1/interface-1
 	"google_compute_router_interface": config.IdentifierFromProvider,
 	// Imported by using the following format: locations/global/firewallPolicies/{{name}}
@@ -223,27 +217,27 @@ var externalNameConfigs = map[string]config.ExternalName{
 	// Imported by using the following format: locations/global/firewallPolicies/{{firewall_policy}}/rules/{{priority}}
 	"google_compute_firewall_policy_rule": config.IdentifierFromProvider,
 	// Imported by using the following format: projects/{{project}}/global/forwardingRules/{{name}}
-	"google_compute_global_forwarding_rule": formattedIdentifierUserDefined("projects/%s/global/forwardingRules", "project"),
+	"google_compute_global_forwarding_rule": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/global/forwardingRules/{{ .external_name }}"),
 	// Imported by using the following format: projects/{{project}}/zones/{{zone}}/instanceGroups/{{group}}/{{port}}/{{name}}
 	"google_compute_instance_group_named_port": config.IdentifierFromProvider,
 	// Imported by using the following format: projects/{{project}}/global/targetSslProxies/{{name}}
-	"google_compute_target_ssl_proxy": formattedIdentifierUserDefined("projects/%s/global/targetSslProxies", "project"),
+	"google_compute_target_ssl_proxy": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/global/targetSslProxies/{{ .external_name }}"),
 	// Imported by using the following format: projects/{{project}}/global/sslCertificates/{{name}}
-	"google_compute_ssl_certificate": formattedIdentifierUserDefined("projects/%s/global/sslCertificates", "project"),
+	"google_compute_ssl_certificate": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/global/sslCertificates/{{ .external_name }}"),
 
 	// container
 	//
 	// Imported by using the following format: projects/my-gcp-project/locations/us-east1-a/clusters/my-cluster
-	"google_container_cluster": formattedIdentifierUserDefined("projects/%s/locations/%s/clusters", "project", "location"),
+	"google_container_cluster": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/clusters/{{ .external_name }}"),
 	// Imported by using the following format: my-gcp-project/us-east1-a/my-cluster/main-pool
-	"google_container_node_pool": containerNodePool(),
+	"google_container_node_pool": config.TemplatedStringAsIdentifier("name", "{{ .setup.configuration.project }}/{{ .parameters.location }}/{{ .parameters.cluster }}/{{ .external_name }}"),
 
 	// dns
 	//
 	// Imported by using the following format: projects/{{project}}/managedZones/{{name}}
-	"google_dns_managed_zone": formattedIdentifierUserDefined("projects/%s/managedZones/%s", "project"),
+	"google_dns_managed_zone": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/managedZones/{{ .external_name }}"),
 	// Imported by using the following format: projects/{{project}}/policies/{{name}}
-	"google_dns_policy": formattedIdentifierUserDefined("projects/%s/policies/%s", "project"),
+	"google_dns_policy": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/policies/{{ .external_name }}"),
 	// Imported by using the following format: projects/{{project}}/managedZones/{{zone}}/rrsets/{{name}}/{{type}}
 	"google_dns_record_set": config.IdentifierFromProvider,
 
@@ -278,9 +272,9 @@ var externalNameConfigs = map[string]config.ExternalName{
 	// kms
 	//
 	// projects/{{project}}/locations/{{location}}/keyRings/{{name}}
-	"google_kms_key_ring": formattedIdentifierUserDefined("projects/%s/locations/%s/keyRings", "project", "location"),
+	"google_kms_key_ring": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/keyRings/{{ .external_name }}"),
 	// {{key_ring}}/cryptoKeys/{{name}}
-	"google_kms_crypto_key": formattedIdentifierUserDefined("%s/cryptoKeys", "key_ring"),
+	"google_kms_crypto_key": config.TemplatedStringAsIdentifier("name", "{{ .parameters.key_ring }}/cryptoKeys/{{ .external_name }}"),
 	// {{name}}
 	"google_kms_key_ring_import_job": config.TemplatedStringAsIdentifier("import_job_id", "{{ .parameters.key_ring }}/importJobs/{{ .external_name }}"),
 	// terraform import google_kms_key_ring_iam_member.key_ring_iam "your-project-id/location-name/key-ring-name roles/viewer user:foo@example.com"
@@ -302,31 +296,31 @@ var externalNameConfigs = map[string]config.ExternalName{
 	// pubsub
 	//
 	// Imported by using the following format: projects/{{project}}/topics/{{name}}
-	"google_pubsub_topic": formattedIdentifierUserDefined("projects/%s/topics", "project"),
+	"google_pubsub_topic": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/topics/{{ .external_name }}"),
 	// Imported by using the following format: projects/{{project}}/topics/{{topic}} roles/viewer user:jane@example.com
 	"google_pubsub_topic_iam_member": config.IdentifierFromProvider,
 	// Imported by using the following format: projects/{{project}}/subscriptions/{{name}}
-	"google_pubsub_subscription": formattedIdentifierUserDefined("projects/%s/subscriptions", "project"),
+	"google_pubsub_subscription": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/subscriptions/{{ .external_name }}"),
 	// Imported by using the following format: projects/{your-project-id}/subscriptions/{your-subscription-name} roles/editor jane@example.com
 	"google_pubsub_subscription_iam_member": config.IdentifierFromProvider,
 	// Imported by using the following format: projects/{{project}}/locations/{{zone}}/topics/{{name}}
-	"google_pubsub_lite_topic": formattedIdentifierUserDefined("projects/%s/locations/%s/topics", "project", "zone"),
+	"google_pubsub_lite_topic": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.zone }}/topics/{{ .external_name }}"),
 	// Imported by using the following format: projects/{{project}}/locations/{{zone}}/subscriptions/{{name}}
-	"google_pubsub_lite_subscription": formattedIdentifierUserDefined("projects/%s/locations/%s/subscriptions", "project", "zone"),
+	"google_pubsub_lite_subscription": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.zone }}/subscriptions/{{ .external_name }}"),
 	// Imported by using the following format: projects/{{project}}/locations/{{region}}/reservations/{{name}}
-	"google_pubsub_lite_reservation": formattedIdentifierUserDefined("projects/%s/locations/%s/reservations", "project", "region"),
+	"google_pubsub_lite_reservation": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.region }}/reservations/{{ .external_name }}"),
 	// Imported by using the following format: projects/{{project}}/schemas/{{name}}
-	"google_pubsub_schema": formattedIdentifierUserDefined("projects/%s/schemas", "project"),
+	"google_pubsub_schema": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/schemas/{{ .external_name }}"),
 
 	// redis
 	//
 	// Imported by using the following format: projects/{{project}}/locations/{{region}}/instances/{{name}}
-	"google_redis_instance": formattedIdentifierUserDefined("projects/%s/locations/%s/instances", "project", "region"),
+	"google_redis_instance": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.region }}/instances/{{ .external_name }}"),
 
 	// secretmanager
 	//
 	// Imported by using the following format: projects/{{project_id}}/secrets/{{secret_id}}
-	"google_secret_manager_secret": config.IdentifierFromProvider,
+	"google_secret_manager_secret": config.TemplatedStringAsIdentifier("secret_id", "projects/{{ .setup.configuration.project }}/secrets/{{ .external_name }}"),
 	// Imported by using the following format: projects/{{project}}/secrets/{{secret_id}} roles/secretmanager.secretAccessor user:jane@example.com
 	"google_secret_manager_secret_iam_member": config.IdentifierFromProvider,
 	// Imported by using the following format: {{name}}/{{name}}
@@ -340,99 +334,35 @@ var externalNameConfigs = map[string]config.ExternalName{
 	// sql
 	//
 	// Imported by using the following format: projects/{{project}}/instances/{{name}}
-	"google_sql_database_instance": formattedIdentifierUserDefined("projects/%s/instances", "project"),
+	"google_sql_database_instance": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/instances/{{ .external_name }}"),
 	// Imported by using the following format: projects/{{project}}/instances/{{instance}}/databases/{{name}}
-	"google_sql_database": formattedIdentifierUserDefined("projects/%s/instances/%s/databases", "project", "instance"),
+	"google_sql_database": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/instances/{{ .parameters.instance }}/databases/{{ .external_name }}"),
 	// Imported by using the following format: projects/{{project}}/instances/{{name}}
-	"google_sql_source_representation_instance": formattedIdentifierUserDefined("projects/%s/instances", "project"),
+	"google_sql_source_representation_instance": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/instances/{{ .external_name }}"),
 	// Imported by using the following format: my-project/main-instance/me
-	"google_sql_user": formattedIdentifierUserDefined("%s/%s", "project", "instance"),
+	"google_sql_user": config.TemplatedStringAsIdentifier("name", "{{ .setup.configuration.project }}/{{ .parameters.instance }}/{{ .external_name }}"),
 	// No import
 	"google_sql_ssl_cert": config.IdentifierFromProvider,
 
 	// storage
 	//
 	// Imported by using the following format: tf-test-project/image-store-bucket
-	"google_storage_bucket": formattedIdentifierUserDefined("%s", "project"),
+	"google_storage_bucket": config.TemplatedStringAsIdentifier("name", "{{ .setup.configuration.project }}/{{ .external_name }}"),
 	// No import, configures bucket public access
 	"google_storage_bucket_access_control": config.IdentifierFromProvider,
 	// This resource does not support import.
 	"google_storage_bucket_object": config.IdentifierFromProvider,
 }
 
-// Imported by using the following format: my-gcp-project/us-east1-a/my-cluster/main-pool
-func containerNodePool() config.ExternalName {
-	e := config.NameAsIdentifier
-	e.GetExternalNameFn = common.GetNameFromFullyQualifiedID
-	e.GetIDFn = func(_ context.Context, externalName string, parameters map[string]interface{}, providerConfig map[string]interface{}) (string, error) {
-		project, err := common.GetField(providerConfig, common.KeyProject)
-		if err != nil {
-			return "", err
-		}
-		clusterID, err := common.GetField(parameters, "cluster")
-		if err != nil {
-			return "", err
-		}
-		if len(strings.Split(clusterID, "/")) != 6 {
-			return "", fmt.Errorf("the clusterID is not in expected format")
-		}
-		location := strings.Split(clusterID, "/")[3]
-		cluster := strings.Split(clusterID, "/")[5]
-		return fmt.Sprintf("%s/%s/%s/%s", project, location, cluster, externalName), nil
-	}
+// TemplatedStringAsIdentifierWithNoName uses TemplatedStringAsIdentifier but
+// without the name initializer. This allows it to be used in cases where the ID
+// is constructed with parameters and a provider-defined value, meaning no
+// user-defined input. Since the external name is not user-defined, the name
+// initializer has to be disabled.
+func TemplatedStringAsIdentifierWithNoName(tmpl string) config.ExternalName {
+	e := config.TemplatedStringAsIdentifier("", tmpl)
+	e.DisableNameInitializer = true
 	return e
-}
-
-func googleServiceAccount() config.ExternalName {
-	e := config.ParameterAsIdentifier("account_id")
-	e.GetExternalNameFn = func(tfstate map[string]interface{}) (string, error) {
-		return common.GetField(tfstate, "account_id")
-	}
-	e.GetIDFn = func(ctx context.Context, externalName string, parameters map[string]interface{}, providerConfig map[string]interface{}) (string, error) {
-		project, err := common.GetField(providerConfig, common.KeyProject)
-		if err != nil {
-			return "", err
-		}
-		return fmt.Sprintf("projects/%s/serviceAccounts/%s@%s.iam.gserviceaccount.com", project, externalName, project), nil
-	}
-	return e
-}
-
-func formattedIdentifierWithResourcePrefix(resourcePrefix string) config.ExternalName {
-	e := config.NameAsIdentifier
-	e.GetExternalNameFn = common.GetNameFromFullyQualifiedID
-	e.GetIDFn = func(_ context.Context, externalName string, _ map[string]interface{}, _ map[string]interface{}) (string, error) {
-		return fmt.Sprintf("%s/%s", resourcePrefix, externalName), nil
-	}
-	return e
-}
-
-func formattedIdentifierUserDefined(format string, paramNames ...string) config.ExternalName {
-	e := config.NameAsIdentifier
-	e.GetExternalNameFn = common.GetNameFromFullyQualifiedID
-	e.GetIDFn = setUserDefinedGetIDFn(format, paramNames...)
-	return e
-}
-
-func setUserDefinedGetIDFn(format string, paramNames ...string) config.GetIDFn {
-	return func(_ context.Context, externalName string, parameters map[string]interface{}, providerConfig map[string]interface{}) (string, error) {
-		var params []interface{}
-		for _, paramName := range paramNames {
-			var param string
-			var err error
-			switch paramName {
-			case common.KeyProject:
-				param, err = common.GetField(providerConfig, paramName)
-			default:
-				param, err = common.GetField(parameters, paramName)
-			}
-			if err != nil {
-				return "", err
-			}
-			params = append(params, param)
-		}
-		return strings.Join([]string{fmt.Sprintf(format, params...), externalName}, "/"), nil
-	}
 }
 
 func externalNameConfigurations() config.ResourceOption {

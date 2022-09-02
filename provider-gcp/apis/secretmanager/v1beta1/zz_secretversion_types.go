@@ -48,13 +48,8 @@ type SecretVersionParameters struct {
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 
 	// Secret Manager secret resource
-<<<<<<< HEAD
-	// +crossplane:generate:reference:type=Secret
-=======
-	// Secret Manager secret resource
 	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/secretmanager/v1beta1.Secret
 	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
->>>>>>> 172c7200 (gcp: Configure redis, secretsmanager, servicenetworking and storage)
 	// +kubebuilder:validation:Optional
 	Secret *string `json:"secret,omitempty" tf:"secret,omitempty"`
 

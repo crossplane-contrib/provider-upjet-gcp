@@ -531,11 +531,6 @@ func (in *SecretParameters) DeepCopyInto(out *SecretParameters) {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
-	if in.SecretID != nil {
-		in, out := &in.SecretID, &out.SecretID
-		*out = new(string)
-		**out = **in
-	}
 	if in.TTL != nil {
 		in, out := &in.TTL, &out.TTL
 		*out = new(string)

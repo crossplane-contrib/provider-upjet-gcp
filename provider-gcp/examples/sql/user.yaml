@@ -1,14 +1,8 @@
-apiVersion: v1
-data:
-  password: Y2hhbmdlbWU=
-kind: Secret
-metadata:
-  name: example-sql-user
-  namespace: upbound-system
----
 apiVersion: sql.gcp.upbound.io/v1beta1
 kind: User
 metadata:
+  annotations:
+    meta.upbound.io/example-id: sql/v1beta1/user
   labels:
     testing.upbound.io/example-name: example_user
   name: example-user
@@ -21,3 +15,17 @@ spec:
     instanceSelector:
       matchLabels:
         testing.upbound.io/example-name: example_instance
+
+---
+
+apiVersion: v1
+data:
+  password: Y2hhbmdlbWU=
+kind: Secret
+metadata:
+  annotations:
+    meta.upbound.io/example-id: sql/v1beta1/user
+  labels:
+    testing.upbound.io/example-name: example_user
+  name: example-sql-user
+  namespace: upbound-system

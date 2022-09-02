@@ -1,6 +1,8 @@
 apiVersion: container.gcp.upbound.io/v1beta1
 kind: NodePool
 metadata:
+  annotations:
+    meta.upbound.io/example-id: container/v1beta1/nodepool
   labels:
     testing.upbound.io/example-name: example_gke_nodepool
   name: example-gke-nodepool

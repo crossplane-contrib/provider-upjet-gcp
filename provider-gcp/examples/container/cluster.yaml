@@ -1,6 +1,8 @@
 apiVersion: container.gcp.upbound.io/v1beta1
 kind: Cluster
 metadata:
+  annotations:
+    meta.upbound.io/example-id: container/v1beta1/cluster
   labels:
     testing.upbound.io/example-name: example_gke_cluster
   name: example-gke-cluster
@@ -9,10 +11,14 @@ spec:
     initialNodeCount: 1
     location: us-central1
     removeDefaultNodePool: true
+
 ---
+
 apiVersion: container.gcp.upbound.io/v1beta1
 kind: NodePool
 metadata:
+  annotations:
+    meta.upbound.io/example-id: container/v1beta1/cluster
   labels:
     testing.upbound.io/example-name: example_gke_preemptible_nodes
   name: example-gke-preemptible-nodes
@@ -31,14 +37,17 @@ spec:
         matchLabels:
           testing.upbound.io/example-name: example_gke_cluster_sa
     nodeCount: 1
+
 ---
+
 apiVersion: cloudplatform.gcp.upbound.io/v1beta1
 kind: ServiceAccount
 metadata:
+  annotations:
+    meta.upbound.io/example-id: container/v1beta1/cluster
   labels:
     testing.upbound.io/example-name: example_gke_cluster_sa
   name: example-gke-cluster-sa
 spec:
   forProvider:
     displayName: Service Account for Upbound example GKE Cluster
-

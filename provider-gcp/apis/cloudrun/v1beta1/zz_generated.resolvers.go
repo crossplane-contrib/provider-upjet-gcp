@@ -23,7 +23,6 @@ import (
 	errors "github.com/pkg/errors"
 	v1beta1 "github.com/upbound/official-providers/provider-gcp/apis/cloudplatform/v1beta1"
 	v1beta11 "github.com/upbound/official-providers/provider-gcp/apis/secretmanager/v1beta1"
-	resource "github.com/upbound/upjet/pkg/resource"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
@@ -107,7 +106,7 @@ func (mg *Service) ResolveReferences(ctx context.Context, c client.Reader) error
 						for i8 := 0; i8 < len(mg.Spec.ForProvider.Template[i3].Spec[i4].Containers[i5].Env[i6].ValueFrom[i7].SecretKeyRef); i8++ {
 							rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 								CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Template[i3].Spec[i4].Containers[i5].Env[i6].ValueFrom[i7].SecretKeyRef[i8].Name),
-								Extract:      resource.ExtractParamPath("secret_id", false),
+								Extract:      reference.ExternalName(),
 								Reference:    mg.Spec.ForProvider.Template[i3].Spec[i4].Containers[i5].Env[i6].ValueFrom[i7].SecretKeyRef[i8].NameRef,
 								Selector:     mg.Spec.ForProvider.Template[i3].Spec[i4].Containers[i5].Env[i6].ValueFrom[i7].SecretKeyRef[i8].NameSelector,
 								To: reference.To{
@@ -133,7 +132,7 @@ func (mg *Service) ResolveReferences(ctx context.Context, c client.Reader) error
 				for i6 := 0; i6 < len(mg.Spec.ForProvider.Template[i3].Spec[i4].Volumes[i5].Secret); i6++ {
 					rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 						CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Template[i3].Spec[i4].Volumes[i5].Secret[i6].SecretName),
-						Extract:      resource.ExtractParamPath("secret_id", false),
+						Extract:      reference.ExternalName(),
 						Reference:    mg.Spec.ForProvider.Template[i3].Spec[i4].Volumes[i5].Secret[i6].SecretNameRef,
 						Selector:     mg.Spec.ForProvider.Template[i3].Spec[i4].Volumes[i5].Secret[i6].SecretNameSelector,
 						To: reference.To{

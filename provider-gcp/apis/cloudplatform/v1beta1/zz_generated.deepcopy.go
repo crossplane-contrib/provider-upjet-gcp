@@ -1467,13 +1467,13 @@ func (in *ProjectParameters) DeepCopyInto(out *ProjectParameters) {
 			(*out)[key] = outVal
 		}
 	}
-	if in.OrgID != nil {
-		in, out := &in.OrgID, &out.OrgID
+	if in.Name != nil {
+		in, out := &in.Name, &out.Name
 		*out = new(string)
 		**out = **in
 	}
-	if in.ProjectID != nil {
-		in, out := &in.ProjectID, &out.ProjectID
+	if in.OrgID != nil {
+		in, out := &in.OrgID, &out.OrgID
 		*out = new(string)
 		**out = **in
 	}
