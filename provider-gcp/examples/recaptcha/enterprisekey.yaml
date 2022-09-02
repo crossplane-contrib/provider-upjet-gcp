@@ -1,0 +1,20 @@
+apiVersion: recaptcha.gcp.upbound.io/v1beta1
+kind: EnterpriseKey
+metadata:
+  annotations:
+    upjet.upbound.io/manual-intervention: "This resource requires elevated org level permissions."
+    meta.upbound.io/example-id: recaptcha/v1beta1/enterprisekey
+  labels:
+    testing.upbound.io/example-name: primary
+  name: primary
+spec:
+  forProvider:
+    androidSettings:
+    - allowAllPackageNames: true
+      allowedPackageNames: []
+    displayName: display-name-one
+    labels:
+      label-one: value-one
+    project: my-project-name
+    testingOptions:
+    - testingScore: 0.8

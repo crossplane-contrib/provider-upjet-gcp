@@ -353,6 +353,11 @@ var externalNameConfigs = map[string]config.ExternalName{
 	// Imported by using the following format: projects/{{project}}/schemas/{{name}}
 	"google_pubsub_schema": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/schemas/{{ .external_name }}"),
 
+	// recaptcha
+	//
+	// terraform import google_recaptcha_enterprise_key.default projects/{{project}}/keys/{{name}}
+	"google_recaptcha_enterprise_key": config.IdentifierFromProvider,
+
 	// redis
 	//
 	// Imported by using the following format: projects/{{project}}/locations/{{region}}/instances/{{name}}
