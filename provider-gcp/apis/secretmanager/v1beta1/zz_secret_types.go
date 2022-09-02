@@ -31,7 +31,6 @@ type CustomerManagedEncryptionObservation struct {
 type CustomerManagedEncryptionParameters struct {
 
 	// Describes the Cloud KMS encryption key that will be used to protect destination secret.
-	// Describes the Cloud KMS encryption key that will be used to protect destination secret.
 	// +kubebuilder:validation:Required
 	KMSKeyName *string `json:"kmsKeyName" tf:"kms_key_name,omitempty"`
 }
@@ -43,11 +42,9 @@ type ReplicasParameters struct {
 
 	// Customer Managed Encryption for the secret.
 	// Structure is documented below.
-	// Customer Managed Encryption for the secret.
 	// +kubebuilder:validation:Optional
 	CustomerManagedEncryption []CustomerManagedEncryptionParameters `json:"customerManagedEncryption,omitempty" tf:"customer_managed_encryption,omitempty"`
 
-	// The canonical IDs of the location to replicate data. For example: "us-east1".
 	// The canonical IDs of the location to replicate data. For example: "us-east1".
 	// +kubebuilder:validation:Required
 	Location *string `json:"location" tf:"location,omitempty"`
@@ -59,13 +56,11 @@ type ReplicationObservation struct {
 type ReplicationParameters struct {
 
 	// The Secret will automatically be replicated without any restrictions.
-	// The Secret will automatically be replicated without any restrictions.
 	// +kubebuilder:validation:Optional
 	Automatic *bool `json:"automatic,omitempty" tf:"automatic,omitempty"`
 
 	// The Secret will automatically be replicated without any restrictions.
 	// Structure is documented below.
-	// The Secret will automatically be replicated without any restrictions.
 	// +kubebuilder:validation:Optional
 	UserManaged []UserManagedParameters `json:"userManaged,omitempty" tf:"user_managed,omitempty"`
 }
@@ -77,15 +72,11 @@ type RotationParameters struct {
 
 	// Timestamp in UTC at which the Secret is scheduled to rotate.
 	// A timestamp in RFC3339 UTC "Zulu" format, with nanosecond resolution and up to nine fractional digits. Examples: "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z".
-	// Timestamp in UTC at which the Secret is scheduled to rotate.
-	// A timestamp in RFC3339 UTC "Zulu" format, with nanosecond resolution and up to nine fractional digits. Examples: "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z".
 	// +kubebuilder:validation:Optional
 	NextRotationTime *string `json:"nextRotationTime,omitempty" tf:"next_rotation_time,omitempty"`
 
 	// The Duration between rotation notifications. Must be in seconds and at least 3600s  and at most 3153600000s .
 	// If rotationPeriod is set, next_rotation_time must be set. next_rotation_time will be advanced by this period when the service automatically sends rotation notifications.
-	// The Duration between rotation notifications. Must be in seconds and at least 3600s (1h) and at most 3153600000s (100 years).
-	// If rotationPeriod is set, 'next_rotation_time' must be set. 'next_rotation_time' will be advanced by this period when the service automatically sends rotation notifications.
 	// +kubebuilder:validation:Optional
 	RotationPeriod *string `json:"rotationPeriod,omitempty" tf:"rotation_period,omitempty"`
 }
@@ -93,21 +84,16 @@ type RotationParameters struct {
 type SecretObservation struct {
 
 	// The time at which the Secret was created.
-	// The time at which the Secret was created.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/secrets/{{secret_id}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// The resource name of the Secret. Format:
-	// 'projects/{{project}}/secrets/{{secret_id}}'
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 }
 
 type SecretParameters struct {
 
-	// Timestamp in UTC when the Secret is scheduled to expire. This is always provided on output, regardless of what was sent on input.
-	// A timestamp in RFC3339 UTC "Zulu" format, with nanosecond resolution and up to nine fractional digits. Examples: "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z".
 	// Timestamp in UTC when the Secret is scheduled to expire. This is always provided on output, regardless of what was sent on input.
 	// A timestamp in RFC3339 UTC "Zulu" format, with nanosecond resolution and up to nine fractional digits. Examples: "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z".
 	// +kubebuilder:validation:Optional
@@ -121,18 +107,6 @@ type SecretParameters struct {
 	// No more than 64 labels can be assigned to a given resource.
 	// An object containing a list of "key": value pairs. Example:
 	// { "name": "wrench", "mass": "1.3kg", "count": "3" }.
-	// The labels assigned to this Secret.
-	//
-	// Label keys must be between 1 and 63 characters long, have a UTF-8 encoding of maximum 128 bytes,
-	// and must conform to the following PCRE regular expression: [\p{Ll}\p{Lo}][\p{Ll}\p{Lo}\p{N}_-]{0,62}
-	//
-	// Label values must be between 0 and 63 characters long, have a UTF-8 encoding of maximum 128 bytes,
-	// and must conform to the following PCRE regular expression: [\p{Ll}\p{Lo}\p{N}_-]{0,63}
-	//
-	// No more than 64 labels can be assigned to a given resource.
-	//
-	// An object containing a list of "key": value pairs. Example:
-	// { "name": "wrench", "mass": "1.3kg", "count": "3" }.
 	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
@@ -144,24 +118,18 @@ type SecretParameters struct {
 	// The replication policy of the secret data attached to the Secret. It cannot be changed
 	// after the Secret has been created.
 	// Structure is documented below.
-	// The replication policy of the secret data attached to the Secret. It cannot be changed
-	// after the Secret has been created.
 	// +kubebuilder:validation:Required
 	Replication []ReplicationParameters `json:"replication" tf:"replication,omitempty"`
 
 	// The rotation time and period for a Secret. At next_rotation_time, Secret Manager will send a Pub/Sub notification to the topics configured on the Secret. topics must be set to configure rotation.
 	// Structure is documented below.
-	// The rotation time and period for a Secret. At 'next_rotation_time', Secret Manager will send a Pub/Sub notification to the topics configured on the Secret. 'topics' must be set to configure rotation.
 	// +kubebuilder:validation:Optional
 	Rotation []RotationParameters `json:"rotation,omitempty" tf:"rotation,omitempty"`
 
 	// This must be unique within the project.
-	// This must be unique within the project.
 	// +kubebuilder:validation:Required
 	SecretID *string `json:"secretId" tf:"secret_id,omitempty"`
 
-	// The TTL for the Secret.
-	// A duration in seconds with up to nine fractional digits, terminated by 's'. Example: "3.5s".
 	// The TTL for the Secret.
 	// A duration in seconds with up to nine fractional digits, terminated by 's'. Example: "3.5s".
 	// +kubebuilder:validation:Optional
@@ -169,7 +137,6 @@ type SecretParameters struct {
 
 	// A list of up to 10 Pub/Sub topics to which messages are published when control plane operations are called on the secret or its versions.
 	// Structure is documented below.
-	// A list of up to 10 Pub/Sub topics to which messages are published when control plane operations are called on the secret or its versions.
 	// +kubebuilder:validation:Optional
 	Topics []TopicsParameters `json:"topics,omitempty" tf:"topics,omitempty"`
 }
@@ -179,8 +146,6 @@ type TopicsObservation struct {
 
 type TopicsParameters struct {
 
-	// The resource name of the Pub/Sub topic that will be published to, in the following format: projects/*/topics/*.
-	// For publication to succeed, the Secret Manager Service Agent service account must have pubsub.publisher permissions on the topic.
 	// +kubebuilder:validation:Required
 	Name *string `json:"name" tf:"name,omitempty"`
 }
@@ -192,7 +157,6 @@ type UserManagedParameters struct {
 
 	// The list of Replicas for this Secret. Cannot be empty.
 	// Structure is documented below.
-	// The list of Replicas for this Secret. Cannot be empty.
 	// +kubebuilder:validation:Required
 	Replicas []ReplicasParameters `json:"replicas" tf:"replicas,omitempty"`
 }

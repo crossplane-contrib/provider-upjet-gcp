@@ -30,17 +30,11 @@ type FilterLabelsObservation struct {
 
 type FilterLabelsParameters struct {
 
-	// Name of metadata label.
-	//
-	// The name can have a maximum length of 1024 characters and must be at least 1 character long.
 	// +kubebuilder:validation:Required
 	Name *string `json:"name" tf:"name,omitempty"`
 
 	// The value that the label must match. The value has a maximum
 	// length of 1024 characters.
-	// The value of the label must match the specified value.
-	//
-	// value can have a maximum length of 1024 characters.
 	// +kubebuilder:validation:Required
 	Value *string `json:"value" tf:"value,omitempty"`
 }
@@ -52,11 +46,9 @@ type GlobalForwardingRuleObservation struct {
 
 	// The fingerprint used for optimistic locking of this resource.  Used
 	// internally during updates.
-	// Used internally during label updates.
 	LabelFingerprint *string `json:"labelFingerprint,omitempty" tf:"label_fingerprint,omitempty"`
 
 	// The URI of the created resource.
-	// [Output Only] Server-defined URL for the resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
 }
 
@@ -64,7 +56,6 @@ type GlobalForwardingRuleParameters struct {
 
 	// An optional description of this resource. Provide this property when
 	// you create the resource.
-	// An optional description of this resource. Provide this property when you create the resource.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -81,7 +72,6 @@ type GlobalForwardingRuleParameters struct {
 	// that has validateForProxyless field set to true.
 	// For Private Service Connect forwarding rules that forward traffic to
 	// Google APIs, IP address must be provided.
-	// IP address that this forwarding rule serves. When a client sends traffic to this IP address, the forwarding rule directs the traffic to the target that you specify in the forwarding rule. If you don't specify a reserved IP address, an ephemeral IP address is assigned. Methods for specifying an IP address: * IPv4 dotted decimal, as in `100.1.2.3` * Full URL, as in `https://www.googleapis.com/compute/v1/projects/project_id/regions/region/addresses/address-name` * Partial URL or by name, as in: * `projects/project_id/regions/region/addresses/address-name` * `regions/region/addresses/address-name` * `global/addresses/address-name` * `address-name` The loadBalancingScheme and the forwarding rule's target determine the type of IP address that you can use. For detailed information, refer to [IP address specifications](/load-balancing/docs/forwarding-rule-concepts#ip_address_specifications).
 	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.GlobalAddress
 	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
@@ -100,18 +90,15 @@ type GlobalForwardingRuleParameters struct {
 	// global address is configured as a purpose of PRIVATE_SERVICE_CONNECT
 	// and addressType of INTERNAL
 	// Possible values are TCP, UDP, ESP, AH, SCTP, and ICMP.
-	// The IP protocol to which this rule applies. For protocol forwarding, valid options are `TCP`, `UDP`, `ESP`, `AH`, `SCTP` or `ICMP`. For Internal TCP/UDP Load Balancing, the load balancing scheme is `INTERNAL`, and one of `TCP` or `UDP` are valid. For Traffic Director, the load balancing scheme is `INTERNAL_SELF_MANAGED`, and only `TCP`is valid. For Internal HTTP(S) Load Balancing, the load balancing scheme is `INTERNAL_MANAGED`, and only `TCP` is valid. For HTTP(S), SSL Proxy, and TCP Proxy Load Balancing, the load balancing scheme is `EXTERNAL` and only `TCP` is valid. For Network TCP/UDP Load Balancing, the load balancing scheme is `EXTERNAL`, and one of `TCP` or `UDP` is valid.
 	// +kubebuilder:validation:Optional
 	IPProtocol *string `json:"ipProtocol,omitempty" tf:"ip_protocol,omitempty"`
 
 	// The IP Version that will be used by this global forwarding rule.
 	// Possible values are IPV4 and IPV6.
-	// The IP Version that will be used by this forwarding rule. Valid options are `IPV4` or `IPV6`. This can only be specified for an external global forwarding rule. Possible values: UNSPECIFIED_VERSION, IPV4, IPV6
 	// +kubebuilder:validation:Optional
 	IPVersion *string `json:"ipVersion,omitempty" tf:"ip_version,omitempty"`
 
 	// Labels to apply to this forwarding rule.  A list of key->value pairs.
-	// Labels to apply to this rule.
 	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
@@ -125,23 +112,6 @@ type GlobalForwardingRuleParameters struct {
 	// configured as a purpose of PRIVATE_SERVICE_CONNECT and addressType of INTERNAL.
 	// Default value is EXTERNAL.
 	// Possible values are EXTERNAL, EXTERNAL_MANAGED, and INTERNAL_SELF_MANAGED.
-	// Specifies the forwarding rule type.
-	//
-	// *   `EXTERNAL` is used for:
-	// *   Classic Cloud VPN gateways
-	// *   Protocol forwarding to VMs from an external IP address
-	// *   The following load balancers: HTTP(S), SSL Proxy, TCP Proxy, and Network TCP/UDP
-	// *   `INTERNAL` is used for:
-	// *   Protocol forwarding to VMs from an internal IP address
-	// *   Internal TCP/UDP load balancers
-	// *   `INTERNAL_MANAGED` is used for:
-	// *   Internal HTTP(S) load balancers
-	// *   `INTERNAL_SELF_MANAGED` is used for:
-	// *   Traffic Director
-	// *   `EXTERNAL_MANAGED` is used for:
-	// *   Global external HTTP(S) load balancers
-	//
-	// For more information about forwarding rules, refer to [Forwarding rule concepts](/load-balancing/docs/forwarding-rule-concepts). Possible values: INVALID, INTERNAL, INTERNAL_MANAGED, INTERNAL_SELF_MANAGED, EXTERNAL, EXTERNAL_MANAGED
 	// +kubebuilder:validation:Optional
 	LoadBalancingScheme *string `json:"loadBalancingScheme,omitempty" tf:"load_balancing_scheme,omitempty"`
 
@@ -160,13 +130,6 @@ type GlobalForwardingRuleParameters struct {
 	// metadataFilters only applies to Loadbalancers that have their
 	// loadBalancingScheme set to INTERNAL_SELF_MANAGED.
 	// Structure is documented below.
-	// Opaque filter criteria used by Loadbalancer to restrict routing configuration to a limited set of [xDS](https://github.com/envoyproxy/data-plane-api/blob/master/XDS_PROTOCOL.md) compliant clients. In their xDS requests to Loadbalancer, xDS clients present [node metadata](https://github.com/envoyproxy/data-plane-api/search?q=%22message+Node%22+in%3A%2Fenvoy%2Fapi%2Fv2%2Fcore%2Fbase.proto&). If a match takes place, the relevant configuration is made available to those proxies. Otherwise, all the resources (e.g. `TargetHttpProxy`, `UrlMap`) referenced by the `ForwardingRule` will not be visible to those proxies.
-	//
-	// For each `metadataFilter` in this list, if its `filterMatchCriteria` is set to MATCH_ANY, at least one of the `filterLabel`s must match the corresponding label provided in the metadata. If its `filterMatchCriteria` is set to MATCH_ALL, then all of its `filterLabel`s must match with corresponding labels provided in the metadata.
-	//
-	// `metadataFilters` specified here will be applifed before those specified in the `UrlMap` that this `ForwardingRule` references.
-	//
-	// `metadataFilters` only applies to Loadbalancers that have their loadBalancingScheme set to `INTERNAL_SELF_MANAGED`.
 	// +kubebuilder:validation:Optional
 	MetadataFilters []MetadataFiltersParameters `json:"metadataFilters,omitempty" tf:"metadata_filters,omitempty"`
 
@@ -175,7 +138,6 @@ type GlobalForwardingRuleParameters struct {
 	// identifies the network that the load balanced IP should belong to
 	// for this global forwarding rule. If this field is not specified,
 	// the default network will be used.
-	// This field is not used for external load balancing. For `INTERNAL` and `INTERNAL_SELF_MANAGED` load balancing, this field identifies the network that the load balanced IP should belong to for this Forwarding Rule. If this field is not specified, the default network will be used.
 	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.Network
 	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
@@ -198,21 +160,11 @@ type GlobalForwardingRuleParameters struct {
 	// disjoint port ranges.
 	// Some types of forwarding target have constraints on the acceptable
 	// ports:
-	// When the load balancing scheme is `EXTERNAL`, `INTERNAL_SELF_MANAGED` and `INTERNAL_MANAGED`, you can specify a `port_range`. Use with a forwarding rule that points to a target proxy or a target pool. Do not use with a forwarding rule that points to a backend service. This field is used along with the `target` field for TargetHttpProxy, TargetHttpsProxy, TargetSslProxy, TargetTcpProxy, TargetVpnGateway, TargetPool, TargetInstance. Applicable only when `IPProtocol` is `TCP`, `UDP`, or `SCTP`, only packets addressed to ports in the specified range will be forwarded to `target`. Forwarding rules with the same `[IPAddress, IPProtocol]` pair must have disjoint port ranges. Some types of forwarding target have constraints on the acceptable ports:
-	//
-	// *   TargetHttpProxy: 80, 8080
-	// *   TargetHttpsProxy: 443
-	// *   TargetTcpProxy: 25, 43, 110, 143, 195, 443, 465, 587, 700, 993, 995, 1688, 1883, 5222
-	// *   TargetSslProxy: 25, 43, 110, 143, 195, 443, 465, 587, 700, 993, 995, 1688, 1883, 5222
-	// *   TargetVpnGateway: 500, 4500
-	//
-	// @pattern: d+(?:-d+)?
 	// +kubebuilder:validation:Optional
 	PortRange *string `json:"portRange,omitempty" tf:"port_range,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
-	// The project this resource belongs in.
 	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.Network
 	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractParamPath("project",false)
 	// +kubebuilder:validation:Optional
@@ -232,7 +184,6 @@ type GlobalForwardingRuleParameters struct {
 	// are valid.
 	// For global address with a purpose of PRIVATE_SERVICE_CONNECT and
 	// addressType of INTERNAL, only "all-apis" and "vpc-sc" are valid.
-	// The URL of the target resource to receive the matched traffic. For regional forwarding rules, this target must live in the same region as the forwarding rule. For global forwarding rules, this target must be a global load balancing resource. The forwarded traffic must be of a type appropriate to the target object. For `INTERNAL_SELF_MANAGED` load balancing, only `targetHttpProxy` is valid, not `targetHttpsProxy`.
 	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.TargetSSLProxy
 	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
@@ -256,9 +207,6 @@ type MetadataFiltersParameters struct {
 	// provided metadata based on filterMatchCriteria
 	// This list must not be empty and can have at the most 64 entries.
 	// Structure is documented below.
-	// The list of label value pairs that must match labels in the provided metadata based on `filterMatchCriteria`
-	//
-	// This list must not be empty and can have at the most 64 entries.
 	// +kubebuilder:validation:Required
 	FilterLabels []FilterLabelsParameters `json:"filterLabels" tf:"filter_labels,omitempty"`
 
@@ -269,12 +217,6 @@ type MetadataFiltersParameters struct {
 	// MATCH_ALL - All filterLabels must have matching labels in the
 	// provided metadata.
 	// Possible values are MATCH_ANY and MATCH_ALL.
-	// Specifies how individual `filterLabel` matches within the list of `filterLabel`s contribute towards the overall `metadataFilter` match.
-	//
-	// Supported values are:
-	//
-	// *   MATCH_ANY: At least one of the `filterLabels` must have a matching label in the provided metadata.
-	// *   MATCH_ALL: All `filterLabels` must have matching labels in the provided metadata. Possible values: NOT_SET, MATCH_ALL, MATCH_ANY
 	// +kubebuilder:validation:Required
 	FilterMatchCriteria *string `json:"filterMatchCriteria" tf:"filter_match_criteria,omitempty"`
 }

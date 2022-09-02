@@ -66,19 +66,16 @@ spec:
                 properties:
                   availableMemoryMb:
                     description: Memory , available to the function. Default value
-                      is 256. Possible values include 128, 256, 512, 1024, etc. Memory
-                      (in MB), available to the function. Default value is 256. Possible
-                      values include 128, 256, 512, 1024, etc.
+                      is 256. Possible values include 128, 256, 512, 1024, etc.
                     type: number
                   buildEnvironmentVariables:
                     additionalProperties:
                       type: string
                     description: A set of key/value environment variable pairs available
-                      during build time. A set of key/value environment variable pairs
-                      available during build time.
+                      during build time.
                     type: object
                   description:
-                    description: Description of the function. Description of the function.
+                    description: Description of the function.
                     type: string
                   dockerRepository:
                     description: User managed repository created in Artifact Registry
@@ -87,47 +84,37 @@ spec:
                       to which the function docker image will be pushed after it is
                       built by Cloud Build. If unspecified, Container Registry will
                       be used by default, unless specified otherwise by other means.
-                      User managed repository created in Artifact Registry optionally
-                      with a customer managed encryption key. If specified, deployments
-                      will use Artifact Registry for storing images built with Cloud
-                      Build.
                     type: string
                   entryPoint:
                     description: Name of the function that will be executed when the
-                      Google Cloud Function is triggered. Name of the function that
-                      will be executed when the Google Cloud Function is triggered.
+                      Google Cloud Function is triggered.
                     type: string
                   environmentVariables:
                     additionalProperties:
                       type: string
                     description: A set of key/value environment variable pairs to
-                      assign to the function. A set of key/value environment variable
-                      pairs to assign to the function.
+                      assign to the function.
                     type: object
                   eventTrigger:
                     description: A source that fires events in response to a condition
                       in another service. Structure is documented below. Cannot be
-                      used with trigger_http. A source that fires events in response
-                      to a condition in another service. Cannot be used with trigger_http.
+                      used with trigger_http.
                     items:
                       properties:
                         eventType:
                           description: 'The type of event to observe. For example:
                             "google.storage.object.finalize". See the documentation
                             on calling Cloud Functions for a full reference of accepted
-                            triggers. The type of event to observe. For example: "google.storage.object.finalize".
-                            See the documentation on calling Cloud Functions for a
-                            full reference of accepted triggers.'
+                            triggers.'
                           type: string
                         failurePolicy:
                           description: Specifies policy for failed executions. Structure
-                            is documented below. Specifies policy for failed executions
+                            is documented below.
                           items:
                             properties:
                               retry:
                                 description: Whether the function should be retried
-                                  on failure. Defaults to false. Whether the function
-                                  should be retried on failure. Defaults to false.
+                                  on failure. Defaults to false.
                                 type: boolean
                             required:
                             - retry
@@ -136,9 +123,7 @@ spec:
                         resource:
                           description: Required. The name or partial URI of the resource
                             from which to observe events. For example, "myBucket"
-                            or "projects/my-project/topics/my-topic" The name or partial
-                            URI of the resource from which to observe events. For
-                            example, "myBucket" or "projects/my-project/topics/my-topic"
+                            or "projects/my-project/topics/my-topic"
                           type: string
                       required:
                       - eventType
@@ -146,23 +131,17 @@ spec:
                       type: object
                     type: array
                   httpsTriggerSecurityLevel:
-                    description: The security level for the function. Defaults to
-                      SECURE_OPTIONAL. Valid only if trigger_http is used.
                     type: string
                   httpsTriggerUrl:
                     description: URL which triggers function execution. Returned only
-                      if trigger_http is used. URL which triggers function execution.
-                      Returned only if trigger_http is used.
+                      if trigger_http is used.
                     type: string
                   ingressSettings:
                     description: String value that controls what traffic can reach
                       the function. Allowed values are ALLOW_ALL, ALLOW_INTERNAL_AND_GCLB
                       and ALLOW_INTERNAL_ONLY. Check ingress documentation to see
                       the impact of each settings value. Changes to this field will
-                      recreate the cloud function. String value that controls what
-                      traffic can reach the function. Allowed values are ALLOW_ALL
-                      and ALLOW_INTERNAL_ONLY. Changes to this field will recreate
-                      the cloud function.
+                      recreate the cloud function.
                     type: string
                   kmsKeyName:
                     description: Resource name of a KMS crypto key  used to encrypt/decrypt
@@ -171,69 +150,47 @@ spec:
                       using the docker_repository field that was created with the
                       same KMS crypto key. Before deploying, please complete all pre-requisites
                       described in https://cloud.google.com/functions/docs/securing/cmek#granting_service_accounts_access_to_the_key
-                      Resource name of a KMS crypto key (managed by the user) used
-                      to encrypt/decrypt function resources.
                     type: string
                   labels:
                     additionalProperties:
                       type: string
                     description: A set of key/value label pairs to assign to the function.
                       Label keys must follow the requirements at https://cloud.google.com/resource-manager/docs/creating-managing-labels#requirements.
-                      A set of key/value label pairs to assign to the function. Label
-                      keys must follow the requirements at https://cloud.google.com/resource-manager/docs/creating-managing-labels#requirements.
                     type: object
                   maxInstances:
                     description: The limit on the maximum number of function instances
-                      that may coexist at a given time. The limit on the maximum number
-                      of function instances that may coexist at a given time.
+                      that may coexist at a given time.
                     type: number
                   minInstances:
                     description: The limit on the minimum number of function instances
-                      that may coexist at a given time. The limit on the minimum number
-                      of function instances that may coexist at a given time.
+                      that may coexist at a given time.
                     type: number
                   project:
                     description: Project of the function. If it is not provided, the
-                      provider project is used. Project of the function. If it is
-                      not provided, the provider project is used.
+                      provider project is used.
                     type: string
                   region:
                     description: Region of function. If it is not provided, the provider
-                      region is used. Region of function. If it is not provided, the
-                      provider region is used.
+                      region is used.
                     type: string
                   runtime:
                     description: The runtime in which the function is going to run.
                       Eg. "nodejs16", "python39", "dotnet3", "go116", "java11", "ruby30",
                       "php74", etc. Check the official doc for the up-to-date list.
-                      The runtime in which the function is going to run. Eg. "nodejs8",
-                      "nodejs10", "python37", "go111".
                     type: string
                   secretEnvironmentVariables:
                     description: Secret environment variables configuration. Structure
-                      is documented below. Secret environment variables configuration
+                      is documented below.
                     items:
                       properties:
                         key:
-                          description: Name of the environment variable. Name of the
-                            environment variable.
+                          description: Name of the environment variable.
                           type: string
                         projectId:
-                          description: Project identifier (due to a known limitation,
-                            only project number is supported by this field) of the
-                            project that contains the secret. If not set, it will
-                            be populated with the function's project, assuming that
-                            the secret exists in the same project as of the function.
                           type: string
                         secret:
-                          description: ID of the secret in secret manager (not the
-                            full resource name).
                           type: string
                         version:
-                          description: Version of the secret (version number or the
-                            string "latest"). It is recommended to use a numeric version
-                            for secret environment variables as any updates to the
-                            secret value is not reflected until new clones start.
                           type: string
                       required:
                       - key
@@ -243,7 +200,7 @@ spec:
                     type: array
                   secretVolumes:
                     description: Secret volumes configuration. Structure is documented
-                      below. Secret volumes configuration.
+                      below.
                     items:
                       properties:
                         mountPath:
@@ -254,34 +211,17 @@ spec:
                             be completely shadowed and unavailable to mount any other
                             secrets. Recommended mount paths: "/etc/secrets" Restricted
                             mount paths: "/cloudsql", "/dev/log", "/pod", "/proc",
-                            "/var/log". The path within the container to mount the
-                            secret volume. For example, setting the mount_path as
-                            "/etc/secrets" would mount the secret value files under
-                            the "/etc/secrets" directory. This directory will also
-                            be completely shadowed and unavailable to mount any other
-                            secrets. Recommended mount paths: "/etc/secrets" Restricted
-                            mount paths: "/cloudsql", "/dev/log", "/pod", "/proc",
                             "/var/log".'
                           type: string
                         projectId:
-                          description: Project identifier (due to a known limitation,
-                            only project number is supported by this field) of the
-                            project that contains the secret. If not set, it will
-                            be populated with the function's project, assuming that
-                            the secret exists in the same project as of the function.
                           type: string
                         secret:
-                          description: ID of the secret in secret manager (not the
-                            full resource name).
                           type: string
                         versions:
                           description: List of secret versions to mount for this secret.
                             If empty, the "latest" version of the secret will be made
                             available in a file named after the secret under the mount
-                            point. Structure is documented below. List of secret versions
-                            to mount for this secret. If empty, the "latest" version
-                            of the secret will be made available in a file named after
-                            the secret under the mount point.
+                            point. Structure is documented below.
                           items:
                             properties:
                               path:
@@ -290,17 +230,8 @@ spec:
                                   be fetched and made available. For example, setting
                                   the mount_path as "/etc/secrets" and path as "/secret_foo"
                                   would mount the secret value file at "/etc/secrets/secret_foo".
-                                  Relative path of the file under the mount path where
-                                  the secret value for this version will be fetched
-                                  and made available. For example, setting the mount_path
-                                  as "/etc/secrets" and path as "/secret_foo" would
-                                  mount the secret value file at "/etc/secrets/secret_foo".
                                 type: string
                               version:
-                                description: Version of the secret (version number
-                                  or the string "latest"). It is preferable to use
-                                  "latest" version with secret volumes as secret value
-                                  changes are reflected immediately.
                                 type: string
                             required:
                             - path
@@ -314,13 +245,11 @@ spec:
                     type: array
                   serviceAccountEmail:
                     description: If provided, the self-provided service account to
-                      run the function with. If provided, the self-provided service
-                      account to run the function with.
+                      run the function with.
                     type: string
                   sourceArchiveBucket:
                     description: The GCS bucket containing the zip archive which contains
-                      the function. The GCS bucket containing the zip archive which
-                      contains the function.
+                      the function.
                     type: string
                   sourceArchiveBucketRef:
                     description: Reference to a Bucket in storage to populate sourceArchiveBucket.
@@ -396,8 +325,7 @@ spec:
                         type: object
                     type: object
                   sourceArchiveObject:
-                    description: The source archive object  in archive bucket. The
-                      source archive object (file) in archive bucket.
+                    description: The source archive object  in archive bucket.
                     type: string
                   sourceArchiveObjectRef:
                     description: Reference to a BucketObject in storage to populate
@@ -479,17 +407,12 @@ spec:
                       where a function is hosted. Cannot be set alongside source_archive_bucket
                       or source_archive_object. Structure is documented below. It
                       must match the pattern projects/{project}/locations/{location}/repositories/{repository}.*
-                      Represents parameters related to source repository where a function
-                      is hosted. Cannot be set alongside source_archive_bucket or
-                      source_archive_object.
                     items:
                       properties:
                         url:
                           description: 'The URL pointing to the hosted repository
                             where the function is defined. There are supported Cloud
-                            Source Repository URLs in the following formats: The URL
-                            pointing to the hosted repository where the function is
-                            defined.'
+                            Source Repository URLs in the following formats:'
                           type: string
                       required:
                       - url
@@ -497,39 +420,24 @@ spec:
                     type: array
                   timeout:
                     description: Timeout  for the function. Default value is 60 seconds.
-                      Cannot be more than 540 seconds. Timeout (in seconds) for the
-                      function. Default value is 60 seconds. Cannot be more than 540
-                      seconds.
+                      Cannot be more than 540 seconds.
                     type: number
                   triggerHttp:
                     description: 'Boolean variable. Any HTTP request  to the endpoint
                       will trigger function execution. Supported HTTP request types
                       are: POST, PUT, GET, DELETE, and OPTIONS. Endpoint is returned
-                      as https_trigger_url. Cannot be used with event_trigger. Boolean
-                      variable. Any HTTP request (of a supported type) to the endpoint
-                      will trigger function execution. Supported HTTP request types
-                      are: POST, PUT, GET, DELETE, and OPTIONS. Endpoint is returned
-                      as https_trigger_url. Cannot be used with trigger_bucket and
-                      trigger_topic.'
+                      as https_trigger_url. Cannot be used with event_trigger.'
                     type: boolean
                   vpcConnector:
                     description: The VPC Network Connector that this cloud function
                       can connect to. It should be set up as fully-qualified URI.
                       The format of this field is projects/*/locations/*/connectors/*.
-                      The VPC Network Connector that this cloud function can connect
-                      to. It can be either the fully-qualified URI, or the short name
-                      of the network connector resource. The format of this field
-                      is projects/*/locations/*/connectors/*.
                     type: string
                   vpcConnectorEgressSettings:
                     description: The egress settings for the connector, controlling
                       what traffic is diverted through it. Allowed values are ALL_TRAFFIC
                       and PRIVATE_RANGES_ONLY. Defaults to PRIVATE_RANGES_ONLY. If
-                      unset, this field preserves the previously set value. The egress
-                      settings for the connector, controlling what traffic is diverted
-                      through it. Allowed values are ALL_TRAFFIC and PRIVATE_RANGES_ONLY.
-                      Defaults to PRIVATE_RANGES_ONLY. If unset, this field preserves
-                      the previously set value.
+                      unset, this field preserves the previously set value.
                     type: string
                 required:
                 - region
@@ -719,14 +627,9 @@ spec:
                       where a function is hosted. Cannot be set alongside source_archive_bucket
                       or source_archive_object. Structure is documented below. It
                       must match the pattern projects/{project}/locations/{location}/repositories/{repository}.*
-                      Represents parameters related to source repository where a function
-                      is hosted. Cannot be set alongside source_archive_bucket or
-                      source_archive_object.
                     items:
                       properties:
                         deployedUrl:
-                          description: The URL pointing to the hosted repository where
-                            the function was defined at the time of deployment.
                           type: string
                       type: object
                     type: array

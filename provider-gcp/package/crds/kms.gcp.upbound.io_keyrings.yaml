@@ -66,8 +66,6 @@ spec:
                   location:
                     description: The location for the KeyRing. A full list of valid
                       locations can be found by running gcloud kms locations list.
-                      The location for the KeyRing. A full list of valid locations
-                      can be found by running 'gcloud kms locations list'.
                     type: string
                   project:
                     description: The ID of the project in which the resource belongs.

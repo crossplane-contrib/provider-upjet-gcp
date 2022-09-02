@@ -67,8 +67,7 @@ spec:
                 properties:
                   disk:
                     description: The name of the disk in which the resource policies
-                      are attached to. The name of the disk in which the resource
-                      policies are attached to.
+                      are attached to.
                     type: string
                   diskRef:
                     description: Reference to a Disk in compute to populate disk.
@@ -146,8 +145,6 @@ spec:
                   name:
                     description: The resource policy to be attached to the disk for
                       scheduling snapshot creation. Do not specify the self link.
-                      The resource policy to be attached to the disk for scheduling
-                      snapshot creation. Do not specify the self link.
                     type: string
                   nameRef:
                     description: Reference to a ResourcePolicy in compute to populate
@@ -229,8 +226,7 @@ spec:
                       If it is not provided, the provider project is used.
                     type: string
                   zone:
-                    description: A reference to the zone where the disk resides. A
-                      reference to the zone where the disk resides.
+                    description: A reference to the zone where the disk resides.
                     type: string
                 type: object
               providerConfigRef:

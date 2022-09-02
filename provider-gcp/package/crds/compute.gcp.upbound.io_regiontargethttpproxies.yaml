@@ -66,8 +66,7 @@ spec:
               forProvider:
                 properties:
                   description:
-                    description: An optional description of this resource. An optional
-                      description of this resource.
+                    description: An optional description of this resource.
                     type: string
                   project:
                     description: The ID of the project in which the resource belongs.
@@ -76,14 +75,11 @@ spec:
                   region:
                     description: The Region in which the created target https proxy
                       should reside. If it is not provided, the provider region is
-                      used. The Region in which the created target https proxy should
-                      reside. If it is not provided, the provider region is used.
+                      used.
                     type: string
                   urlMap:
                     description: A reference to the RegionUrlMap resource that defines
-                      the mapping from URL to the BackendService. A reference to the
-                      RegionUrlMap resource that defines the mapping from URL to the
-                      BackendService.
+                      the mapping from URL to the BackendService.
                     type: string
                   urlMapRef:
                     description: Reference to a RegionURLMap in compute to populate
@@ -341,15 +337,13 @@ spec:
               atProvider:
                 properties:
                   creationTimestamp:
-                    description: Creation timestamp in RFC3339 text format. Creation
-                      timestamp in RFC3339 text format.
+                    description: Creation timestamp in RFC3339 text format.
                     type: string
                   id:
                     description: an identifier for the resource with format projects/{{project}}/regions/{{region}}/targetHttpProxies/{{name}}
                     type: string
                   proxyId:
-                    description: The unique identifier for the resource. The unique
-                      identifier for the resource.
+                    description: The unique identifier for the resource.
                     type: number
                   selfLink:
                     description: The URI of the created resource.

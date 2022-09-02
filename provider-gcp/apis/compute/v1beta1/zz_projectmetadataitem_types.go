@@ -34,17 +34,14 @@ type ProjectMetadataItemObservation struct {
 type ProjectMetadataItemParameters struct {
 
 	// The metadata key to set.
-	// The metadata key to set.
 	// +kubebuilder:validation:Required
 	Key *string `json:"key" tf:"key,omitempty"`
 
 	// The ID of the project in which the resource belongs. If it
 	// is not provided, the provider project is used.
-	// The ID of the project in which the resource belongs. If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
-	// The value to set for the given metadata key.
 	// The value to set for the given metadata key.
 	// +kubebuilder:validation:Required
 	Value *string `json:"value" tf:"value,omitempty"`

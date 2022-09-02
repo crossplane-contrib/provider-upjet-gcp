@@ -31,7 +31,6 @@ type ProjectObservation struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// The numeric identifier of the project.
-	// The numeric identifier of the project.
 	Number *string `json:"number,omitempty" tf:"number,omitempty"`
 }
 
@@ -41,7 +40,6 @@ type ProjectParameters struct {
 	// If set to false, the default network will be deleted.  Note that, for quota purposes, you
 	// will still need to have 1 network slot available to create the project successfully, even if
 	// you set auto_create_network to false, since the network will exist momentarily.
-	// Create the 'default' network automatically.  Default true. If set to false, the default network will be deleted.  Note that, for quota purposes, you will still need to have 1 network slot available to create the project successfully, even if you set auto_create_network to false, since the network will exist momentarily.
 	// +kubebuilder:validation:Optional
 	AutoCreateNetwork *bool `json:"autoCreateNetwork,omitempty" tf:"auto_create_network,omitempty"`
 
@@ -50,7 +48,6 @@ type ProjectParameters struct {
 	// must have at minimum Billing Account User privileges  on the billing account.
 	// See Google Cloud Billing API Access Control
 	// for more details.
-	// The alphanumeric ID of the billing account this project belongs to. The user or service account performing this operation with Terraform must have Billing Account Administrator privileges (roles/billing.admin) in the organization. See Google Cloud Billing API Access Control for more details.
 	// +kubebuilder:validation:Optional
 	BillingAccount *string `json:"billingAccount,omitempty" tf:"billing_account,omitempty"`
 
@@ -59,7 +56,6 @@ type ProjectParameters struct {
 	// specified. If the folder_id is specified, then the project is
 	// created under the specified folder. Changing this forces the
 	// project to be migrated to the newly specified folder.
-	// The numeric ID of the folder this project should be created under. Only one of org_id or folder_id may be specified. If the folder_id is specified, then the project is created under the specified folder. Changing this forces the project to be migrated to the newly specified folder.
 	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/cloudplatform/v1beta1.Folder
 	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractParamPath("name",true)
 	// +kubebuilder:validation:Optional
@@ -73,7 +69,6 @@ type ProjectParameters struct {
 	// +kubebuilder:validation:Optional
 	FolderIDSelector *v1.Selector `json:"folderIdSelector,omitempty" tf:"-"`
 
-	// A set of key/value label pairs to assign to the project.
 	// A set of key/value label pairs to assign to the project.
 	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
@@ -89,13 +84,11 @@ type ProjectParameters struct {
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
 
 	// The project ID. Changing this forces a new project to be created.
-	// The project ID. Changing this forces a new project to be created.
 	// +kubebuilder:validation:Required
 	ProjectID *string `json:"projectId" tf:"project_id,omitempty"`
 
 	// If true, the Terraform resource can be deleted
 	// without deleting the Project via the Google API.
-	// If true, the Terraform resource can be deleted without deleting the Project via the Google API.
 	// +kubebuilder:validation:Optional
 	SkipDelete *bool `json:"skipDelete,omitempty" tf:"skip_delete,omitempty"`
 }

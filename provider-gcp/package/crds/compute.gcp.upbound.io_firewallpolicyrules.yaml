@@ -67,43 +67,29 @@ spec:
                   action:
                     description: The Action to perform when the client connection
                       triggers the rule. Can currently be either "allow" or "deny()"
-                      where valid values for status are 403, 404, and 502. The Action
-                      to perform when the client connection triggers the rule. Can
-                      currently be either "allow" or "deny()" where valid values for
-                      status are 403, 404, and 502.
+                      where valid values for status are 403, 404, and 502.
                     type: string
                   description:
-                    description: An optional description for this resource. An optional
-                      description for this resource.
+                    description: An optional description for this resource.
                     type: string
                   direction:
                     description: 'The direction in which this rule applies. Possible
-                      values: INGRESS, EGRESS The direction in which this rule applies.
-                      Possible values: INGRESS, EGRESS'
+                      values: INGRESS, EGRESS'
                     type: string
                   disabled:
                     description: Denotes whether the firewall policy rule is disabled.
                       When set to true, the firewall policy rule is not enforced and
                       traffic behaves as if it did not exist. If this is unspecified,
-                      the firewall policy rule will be enabled. Denotes whether the
-                      firewall policy rule is disabled. When set to true, the firewall
-                      policy rule is not enforced and traffic behaves as if it did
-                      not exist. If this is unspecified, the firewall policy rule
-                      will be enabled.
+                      the firewall policy rule will be enabled.
                     type: boolean
                   enableLogging:
                     description: 'Denotes whether to enable logging for a particular
                       rule. If logging is enabled, logs will be exported to the configured
                       export destination in Stackdriver. Logs may be exported to BigQuery
-                      or Pub/Sub. Note: you cannot enable logging on "goto_next" rules.
-                      Denotes whether to enable logging for a particular rule. If
-                      logging is enabled, logs will be exported to the configured
-                      export destination in Stackdriver. Logs may be exported to BigQuery
                       or Pub/Sub. Note: you cannot enable logging on "goto_next" rules.'
                     type: boolean
                   firewallPolicy:
-                    description: The firewall policy of the resource. The firewall
-                      policy of the resource.
+                    description: The firewall policy of the resource.
                     type: string
                   firewallPolicyRef:
                     description: Reference to a FirewallPolicy in compute to populate
@@ -183,23 +169,18 @@ spec:
                   match:
                     description: A match condition that incoming traffic is evaluated
                       against. If it evaluates to true, the corresponding 'action'
-                      is enforced. Structure is documented below. A match condition
-                      that incoming traffic is evaluated against. If it evaluates
-                      to true, the corresponding 'action' is enforced.
+                      is enforced. Structure is documented below.
                     items:
                       properties:
                         destIpRanges:
                           description: CIDR IP address range. Maximum number of destination
-                            CIDR IP ranges allowed is 256. CIDR IP address range.
-                            Maximum number of destination CIDR IP ranges allowed is
-                            256.
+                            CIDR IP ranges allowed is 256.
                           items:
                             type: string
                           type: array
                         layer4Configs:
                           description: Pairs of IP protocols and ports that the rule
-                            should match. Structure is documented below. Pairs of
-                            IP protocols and ports that the rule should match.
+                            should match. Structure is documented below.
                           items:
                             properties:
                               ipProtocol:
@@ -207,11 +188,6 @@ spec:
                                   The protocol type is required when creating a firewall
                                   rule. This value can either be one of the following
                                   well known protocol strings , or the IP protocol
-                                  number. The IP protocol to which this rule applies.
-                                  The protocol type is required when creating a firewall
-                                  rule. This value can either be one of the following
-                                  well known protocol strings (`tcp`, `udp`, `icmp`,
-                                  `esp`, `ah`, `ipip`, `sctp`), or the IP protocol
                                   number.
                                 type: string
                               ports:
@@ -219,11 +195,6 @@ spec:
                                   rule applies. This field is only applicable for
                                   UDP or TCP protocol. Each entry must be either an
                                   integer or a range. If not specified, this rule
-                                  applies to connections through any port. Example
-                                  inputs include: ``. An optional list of ports to
-                                  which this rule applies. This field is only applicable
-                                  for UDP or TCP protocol. Each entry must be either
-                                  an integer or a range. If not specified, this rule
                                   applies to connections through any port. Example
                                   inputs include: ``.'
                                 items:
@@ -235,8 +206,7 @@ spec:
                           type: array
                         srcIpRanges:
                           description: CIDR IP address range. Maximum number of source
-                            CIDR IP ranges allowed is 256. CIDR IP address range.
-                            Maximum number of source CIDR IP ranges allowed is 256.
+                            CIDR IP ranges allowed is 256.
                           items:
                             type: string
                           type: array
@@ -249,27 +219,18 @@ spec:
                       list. The priority must be a positive value between 0 and 2147483647.
                       Rules are evaluated from highest to lowest priority where 0
                       is the highest priority and 2147483647 is the lowest prority.
-                      An integer indicating the priority of a rule in the list. The
-                      priority must be a positive value between 0 and 2147483647.
-                      Rules are evaluated from highest to lowest priority where 0
-                      is the highest priority and 2147483647 is the lowest prority.
                     type: number
                   targetResources:
                     description: A list of network resource URLs to which this rule
                       applies. This field allows you to control which network's VMs
                       get this rule. If this field is left blank, all VMs within the
-                      organization will receive the rule. A list of network resource
-                      URLs to which this rule applies. This field allows you to control
-                      which network's VMs get this rule. If this field is left blank,
-                      all VMs within the organization will receive the rule.
+                      organization will receive the rule.
                     items:
                       type: string
                     type: array
                   targetServiceAccounts:
                     description: A list of service accounts indicating the sets of
-                      instances that are applied with this rule. A list of service
-                      accounts indicating the sets of instances that are applied with
-                      this rule.
+                      instances that are applied with this rule.
                     items:
                       type: string
                     type: array
@@ -460,12 +421,10 @@ spec:
                     type: string
                   kind:
                     description: Type of the resource. Always compute#firewallPolicyRule
-                      for firewall policy rules Type of the resource. Always `compute#firewallPolicyRule`
                       for firewall policy rules
                     type: string
                   ruleTupleCount:
                     description: Calculation of the complexity of a single firewall
-                      policy rule. Calculation of the complexity of a single firewall
                       policy rule.
                     type: number
                 type: object

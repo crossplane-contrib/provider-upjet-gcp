@@ -67,7 +67,6 @@ spec:
                 properties:
                   attachmentTarget:
                     description: The target that the firewall policy is attached to.
-                      The target that the firewall policy is attached to.
                     type: string
                   attachmentTargetRef:
                     description: Reference to a Folder in cloudplatform to populate
@@ -145,8 +144,7 @@ spec:
                         type: object
                     type: object
                   firewallPolicy:
-                    description: The firewall policy ID of the association. The firewall
-                      policy ID of the association.
+                    description: The firewall policy ID of the association.
                     type: string
                   firewallPolicyRef:
                     description: Reference to a FirewallPolicy in compute to populate
@@ -224,7 +222,7 @@ spec:
                         type: object
                     type: object
                   name:
-                    description: The name for an association. The name for an association.
+                    description: The name for an association.
                     type: string
                 required:
                 - name
@@ -411,7 +409,6 @@ spec:
                     type: string
                   shortName:
                     description: The short name of the firewall policy of the association.
-                      The short name of the firewall policy of the association.
                     type: string
                 type: object
               conditions:

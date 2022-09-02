@@ -35,28 +35,20 @@ type DNSSECConfigParameters struct {
 	// you must also provide one for the other.
 	// default_key_specs can only be updated when the state is off.
 	// Structure is documented below.
-	// Specifies parameters that will be used for generating initial DnsKeys
-	// for this ManagedZone. If you provide a spec for keySigning or zoneSigning,
-	// you must also provide one for the other.
-	// default_key_specs can only be updated when the state is 'off'.
 	// +kubebuilder:validation:Optional
 	DefaultKeySpecs []DefaultKeySpecsParameters `json:"defaultKeySpecs,omitempty" tf:"default_key_specs,omitempty"`
 
-	// Identifies what kind of resource this is
 	// +kubebuilder:validation:Optional
 	Kind *string `json:"kind,omitempty" tf:"kind,omitempty"`
 
 	// Specifies the mechanism used to provide authenticated denial-of-existence responses.
 	// non_existence can only be updated when the state is off.
 	// Possible values are nsec and nsec3.
-	// Specifies the mechanism used to provide authenticated denial-of-existence responses.
-	// non_existence can only be updated when the state is 'off'. Possible values: ["nsec", "nsec3"]
 	// +kubebuilder:validation:Optional
 	NonExistence *string `json:"nonExistence,omitempty" tf:"non_existence,omitempty"`
 
 	// Specifies whether DNSSEC is enabled, and what mode it is in
 	// Possible values are off, on, and transfer.
-	// Specifies whether DNSSEC is enabled, and what mode it is in Possible values: ["off", "on", "transfer"]
 	// +kubebuilder:validation:Optional
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 }
@@ -68,11 +60,9 @@ type DefaultKeySpecsParameters struct {
 
 	// String mnemonic specifying the DNSSEC algorithm of this key
 	// Possible values are ecdsap256sha256, ecdsap384sha384, rsasha1, rsasha256, and rsasha512.
-	// String mnemonic specifying the DNSSEC algorithm of this key Possible values: ["ecdsap256sha256", "ecdsap384sha384", "rsasha1", "rsasha256", "rsasha512"]
 	// +kubebuilder:validation:Optional
 	Algorithm *string `json:"algorithm,omitempty" tf:"algorithm,omitempty"`
 
-	// Length of the keys in bits
 	// Length of the keys in bits
 	// +kubebuilder:validation:Optional
 	KeyLength *float64 `json:"keyLength,omitempty" tf:"key_length,omitempty"`
@@ -84,16 +74,9 @@ type DefaultKeySpecsParameters struct {
 	// not have the Secure Entry Point flag set and will be used
 	// to sign all other types of resource record sets.
 	// Possible values are keySigning and zoneSigning.
-	// Specifies whether this is a key signing key (KSK) or a zone
-	// signing key (ZSK). Key signing keys have the Secure Entry
-	// Point flag set and, when active, will only be used to sign
-	// resource record sets of type DNSKEY. Zone signing keys do
-	// not have the Secure Entry Point flag set and will be used
-	// to sign all other types of resource record sets. Possible values: ["keySigning", "zoneSigning"]
 	// +kubebuilder:validation:Optional
 	KeyType *string `json:"keyType,omitempty" tf:"key_type,omitempty"`
 
-	// Identifies what kind of resource this is
 	// +kubebuilder:validation:Optional
 	Kind *string `json:"kind,omitempty" tf:"kind,omitempty"`
 }
@@ -107,9 +90,6 @@ type ForwardingConfigParameters struct {
 	// select the best available name server if more than
 	// one target is given.
 	// Structure is documented below.
-	// List of target name servers to forward to. Cloud DNS will
-	// select the best available name server if more than
-	// one target is given.
 	// +kubebuilder:validation:Required
 	TargetNameServers []TargetNameServersParameters `json:"targetNameServers" tf:"target_name_servers,omitempty"`
 }
@@ -121,25 +101,20 @@ type ManagedZoneObservation struct {
 
 	// Delegate your managed_zone to these virtual name servers;
 	// defined by the server
-	// Delegate your managed_zone to these virtual name servers;
-	// defined by the server
 	NameServers []*string `json:"nameServers,omitempty" tf:"name_servers,omitempty"`
 }
 
 type ManagedZoneParameters struct {
 
 	// The DNS name of this managed zone, for instance "example.com.".
-	// The DNS name of this managed zone, for instance "example.com.".
 	// +kubebuilder:validation:Required
 	DNSName *string `json:"dnsName" tf:"dns_name,omitempty"`
 
 	// DNSSEC configuration
 	// Structure is documented below.
-	// DNSSEC configuration
 	// +kubebuilder:validation:Optional
 	DNSSECConfig []DNSSECConfigParameters `json:"dnssecConfig,omitempty" tf:"dnssec_config,omitempty"`
 
-	// A textual description field. Defaults to 'Managed by Terraform'.
 	// A textual description field. Defaults to 'Managed by Terraform'.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -152,13 +127,9 @@ type ManagedZoneParameters struct {
 	// for this zone. The value of this field contains the set of destinations
 	// to forward to.
 	// Structure is documented below.
-	// The presence for this field indicates that outbound forwarding is enabled
-	// for this zone. The value of this field contains the set of destinations
-	// to forward to.
 	// +kubebuilder:validation:Optional
 	ForwardingConfig []ForwardingConfigParameters `json:"forwardingConfig,omitempty" tf:"forwarding_config,omitempty"`
 
-	// A set of key/value label pairs to assign to this ManagedZone.
 	// A set of key/value label pairs to assign to this ManagedZone.
 	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
@@ -166,16 +137,12 @@ type ManagedZoneParameters struct {
 	// The presence of this field indicates that DNS Peering is enabled for this
 	// zone. The value of this field contains the network to peer with.
 	// Structure is documented below.
-	// The presence of this field indicates that DNS Peering is enabled for this
-	// zone. The value of this field contains the network to peer with.
 	// +kubebuilder:validation:Optional
 	PeeringConfig []PeeringConfigParameters `json:"peeringConfig,omitempty" tf:"peering_config,omitempty"`
 
 	// For privately visible zones, the set of Virtual Private Cloud
 	// resources that the zone is visible from.
 	// Structure is documented below.
-	// For privately visible zones, the set of Virtual Private Cloud
-	// resources that the zone is visible from.
 	// +kubebuilder:validation:Optional
 	PrivateVisibilityConfig []PrivateVisibilityConfigParameters `json:"privateVisibilityConfig,omitempty" tf:"private_visibility_config,omitempty"`
 
@@ -188,8 +155,6 @@ type ManagedZoneParameters struct {
 	// while private zones are visible only to Virtual Private Cloud resources.
 	// Default value is public.
 	// Possible values are private and public.
-	// The zone's visibility: public zones are exposed to the Internet,
-	// while private zones are visible only to Virtual Private Cloud resources. Default value: "public" Possible values: ["private", "public"]
 	// +kubebuilder:validation:Optional
 	Visibility *string `json:"visibility,omitempty" tf:"visibility,omitempty"`
 }
@@ -199,9 +164,6 @@ type NetworksObservation struct {
 
 type NetworksParameters struct {
 
-	// The id or fully qualified URL of the VPC network to bind to.
-	// This should be formatted like 'projects/{project}/global/networks/{network}' or
-	// 'https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}'
 	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.Network
 	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
@@ -223,7 +185,6 @@ type PeeringConfigParameters struct {
 
 	// The network with which to peer.
 	// Structure is documented below.
-	// The network with which to peer.
 	// +kubebuilder:validation:Required
 	TargetNetwork []TargetNetworkParameters `json:"targetNetwork" tf:"target_network,omitempty"`
 }
@@ -239,11 +200,6 @@ type PrivateVisibilityConfigParameters struct {
 	// and apply an incorrect update to the resource. If you encounter this issue, remove all networks
 	// blocks in an update and then apply another update adding all of them back simultaneously.
 	// Structure is documented below.
-	// The list of VPC networks that can see this zone. Until the provider updates to use the Terraform 0.12 SDK in a future release, you
-	// may experience issues with this resource while updating. If you've defined a 'networks' block and
-	// add another 'networks' block while keeping the old block, Terraform will see an incorrect diff
-	// and apply an incorrect update to the resource. If you encounter this issue, remove all 'networks'
-	// blocks in an update and then apply another update adding all of them back simultaneously.
 	// +kubebuilder:validation:Required
 	Networks []NetworksParameters `json:"networks" tf:"networks,omitempty"`
 }
@@ -257,13 +213,9 @@ type TargetNameServersParameters struct {
 	// decision based on address ranges, i.e. RFC1918 addresses go to the VPC, Non-RFC1918 addresses go
 	// to the Internet. When set to private, Cloud DNS will always send queries through VPC for this target
 	// Possible values are default and private.
-	// Forwarding path for this TargetNameServer. If unset or 'default' Cloud DNS will make forwarding
-	// decision based on address ranges, i.e. RFC1918 addresses go to the VPC, Non-RFC1918 addresses go
-	// to the Internet. When set to 'private', Cloud DNS will always send queries through VPC for this target Possible values: ["default", "private"]
 	// +kubebuilder:validation:Optional
 	ForwardingPath *string `json:"forwardingPath,omitempty" tf:"forwarding_path,omitempty"`
 
-	// IPv4 address of a target name server.
 	// IPv4 address of a target name server.
 	// +kubebuilder:validation:Required
 	IPv4Address *string `json:"ipv4Address" tf:"ipv4_address,omitempty"`
@@ -274,9 +226,6 @@ type TargetNetworkObservation struct {
 
 type TargetNetworkParameters struct {
 
-	// The id or fully qualified URL of the VPC network to forward queries to.
-	// This should be formatted like 'projects/{project}/global/networks/{network}' or
-	// 'https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}'
 	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.Network
 	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional

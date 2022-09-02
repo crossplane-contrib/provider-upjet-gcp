@@ -28,7 +28,6 @@ import (
 type NodeTemplateObservation struct {
 
 	// Creation timestamp in RFC3339 text format.
-	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/regions/{{region}}/nodeTemplates/{{name}}
@@ -39,10 +38,6 @@ type NodeTemplateObservation struct {
 	// these properties. Only one of nodeTypeFlexibility and nodeType can
 	// be specified.
 	// Structure is documented below.
-	// Flexible properties for the desired node type. Node groups that
-	// use this node template will create nodes of a type that matches
-	// these properties. Only one of nodeTypeFlexibility and nodeType can
-	// be specified.
 	// +kubebuilder:validation:Optional
 	NodeTypeFlexibility []NodeTypeFlexibilityObservation `json:"nodeTypeFlexibility,omitempty" tf:"node_type_flexibility,omitempty"`
 
@@ -55,24 +50,18 @@ type NodeTemplateParameters struct {
 	// CPU overcommit.
 	// Default value is NONE.
 	// Possible values are ENABLED and NONE.
-	// CPU overcommit. Default value: "NONE" Possible values: ["ENABLED", "NONE"]
 	// +kubebuilder:validation:Optional
 	CPUOvercommitType *string `json:"cpuOvercommitType,omitempty" tf:"cpu_overcommit_type,omitempty"`
 
-	// An optional textual description of the resource.
 	// An optional textual description of the resource.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Labels to use for node affinity, which will be used in
 	// instance scheduling.
-	// Labels to use for node affinity, which will be used in
-	// instance scheduling.
 	// +kubebuilder:validation:Optional
 	NodeAffinityLabels map[string]*string `json:"nodeAffinityLabels,omitempty" tf:"node_affinity_labels,omitempty"`
 
-	// Node type to use for nodes group that are created from this template.
-	// Only one of nodeTypeFlexibility and nodeType can be specified.
 	// Node type to use for nodes group that are created from this template.
 	// Only one of nodeTypeFlexibility and nodeType can be specified.
 	// +kubebuilder:validation:Optional
@@ -83,10 +72,6 @@ type NodeTemplateParameters struct {
 	// these properties. Only one of nodeTypeFlexibility and nodeType can
 	// be specified.
 	// Structure is documented below.
-	// Flexible properties for the desired node type. Node groups that
-	// use this node template will create nodes of a type that matches
-	// these properties. Only one of nodeTypeFlexibility and nodeType can
-	// be specified.
 	// +kubebuilder:validation:Optional
 	NodeTypeFlexibility []NodeTypeFlexibilityParameters `json:"nodeTypeFlexibility,omitempty" tf:"node_type_flexibility,omitempty"`
 
@@ -97,16 +82,12 @@ type NodeTemplateParameters struct {
 
 	// Region where nodes using the node template will be created.
 	// If it is not provided, the provider region is used.
-	// Region where nodes using the node template will be created.
-	// If it is not provided, the provider region is used.
 	// +kubebuilder:validation:Required
 	Region *string `json:"region" tf:"region,omitempty"`
 
 	// The server binding policy for nodes using this template. Determines
 	// where the nodes should restart following a maintenance event.
 	// Structure is documented below.
-	// The server binding policy for nodes using this template. Determines
-	// where the nodes should restart following a maintenance event.
 	// +kubebuilder:validation:Optional
 	ServerBinding []ServerBindingParameters `json:"serverBinding,omitempty" tf:"server_binding,omitempty"`
 }
@@ -114,18 +95,15 @@ type NodeTemplateParameters struct {
 type NodeTypeFlexibilityObservation struct {
 
 	// Use local SSD
-	// Use local SSD
 	LocalSsd *string `json:"localSsd,omitempty" tf:"local_ssd,omitempty"`
 }
 
 type NodeTypeFlexibilityParameters struct {
 
 	// Number of virtual CPUs to use.
-	// Number of virtual CPUs to use.
 	// +kubebuilder:validation:Optional
 	Cpus *string `json:"cpus,omitempty" tf:"cpus,omitempty"`
 
-	// Physical memory available to the node, defined in MB.
 	// Physical memory available to the node, defined in MB.
 	// +kubebuilder:validation:Optional
 	Memory *string `json:"memory,omitempty" tf:"memory,omitempty"`
@@ -148,18 +126,6 @@ type ServerBindingParameters struct {
 	// additional licenses when maintenance occurs. However, VMs on such
 	// nodes will experience outages while maintenance is applied.
 	// Possible values are RESTART_NODE_ON_ANY_SERVER and RESTART_NODE_ON_MINIMAL_SERVERS.
-	// Type of server binding policy. If 'RESTART_NODE_ON_ANY_SERVER',
-	// nodes using this template will restart on any physical server
-	// following a maintenance event.
-	//
-	// If 'RESTART_NODE_ON_MINIMAL_SERVER', nodes using this template
-	// will restart on the same physical server following a maintenance
-	// event, instead of being live migrated to or restarted on a new
-	// physical server. This option may be useful if you are using
-	// software licenses tied to the underlying server characteristics
-	// such as physical sockets or cores, to avoid the need for
-	// additional licenses when maintenance occurs. However, VMs on such
-	// nodes will experience outages while maintenance is applied. Possible values: ["RESTART_NODE_ON_ANY_SERVER", "RESTART_NODE_ON_MINIMAL_SERVERS"]
 	// +kubebuilder:validation:Required
 	Type *string `json:"type" tf:"type,omitempty"`
 }

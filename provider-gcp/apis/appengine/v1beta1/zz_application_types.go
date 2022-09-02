@@ -28,22 +28,17 @@ import (
 type ApplicationObservation struct {
 
 	// Identifier of the app, usually {PROJECT_ID}
-	// Identifier of the app.
 	AppID *string `json:"appId,omitempty" tf:"app_id,omitempty"`
 
-	// The GCS bucket code is being stored in for this app.
 	// The GCS bucket code is being stored in for this app.
 	CodeBucket *string `json:"codeBucket,omitempty" tf:"code_bucket,omitempty"`
 
 	// The GCS bucket content is being stored in for this app.
-	// The GCS bucket content is being stored in for this app.
 	DefaultBucket *string `json:"defaultBucket,omitempty" tf:"default_bucket,omitempty"`
 
 	// The default hostname for this app.
-	// The default hostname for this app.
 	DefaultHostname *string `json:"defaultHostname,omitempty" tf:"default_hostname,omitempty"`
 
-	// The GCR domain used for storing managed Docker images for this app.
 	// The GCR domain used for storing managed Docker images for this app.
 	GcrDomain *string `json:"gcrDomain,omitempty" tf:"gcr_domain,omitempty"`
 
@@ -51,17 +46,14 @@ type ApplicationObservation struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// Unique name of the app, usually apps/{PROJECT_ID}
-	// Unique name of the app.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// A list of dispatch rule blocks. Each block has a domain, path, and service field.
 	// A list of dispatch rule blocks. Each block has a domain, path, and service field.
 	URLDispatchRule []URLDispatchRuleObservation `json:"urlDispatchRule,omitempty" tf:"url_dispatch_rule,omitempty"`
 }
 
 type ApplicationParameters struct {
 
-	// The domain to authenticate users with when using App Engine's User API.
 	// The domain to authenticate users with when using App Engine's User API.
 	// +kubebuilder:validation:Optional
 	AuthDomain *string `json:"authDomain,omitempty" tf:"auth_domain,omitempty"`
@@ -74,24 +66,20 @@ type ApplicationParameters struct {
 	DatabaseType *string `json:"databaseType,omitempty" tf:"database_type,omitempty"`
 
 	// A block of optional settings to configure specific App Engine features:
-	// A block of optional settings to configure specific App Engine features:
 	// +kubebuilder:validation:Optional
 	FeatureSettings []FeatureSettingsParameters `json:"featureSettings,omitempty" tf:"feature_settings,omitempty"`
 
-	// Settings for enabling Cloud Identity Aware Proxy
 	// +kubebuilder:validation:Optional
 	Iap []IapParameters `json:"iap,omitempty" tf:"iap,omitempty"`
 
 	// The location
 	// to serve the app from.
-	// The location to serve the app from.
 	// +kubebuilder:validation:Required
 	LocationID *string `json:"locationId" tf:"location_id,omitempty"`
 
 	// The project ID to create the application under.
 	// ~>NOTE: GCP only accepts project ID, not project number. If you are using number,
 	// you may get a "Permission denied" error.
-	// The project ID to create the application under.
 	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/cloudplatform/v1beta1.Project
 	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractParamPath("project_id",false)
 	// +kubebuilder:validation:Optional
@@ -105,7 +93,6 @@ type ApplicationParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectSelector *v1.Selector `json:"projectSelector,omitempty" tf:"-"`
 
-	// The serving status of the app.
 	// The serving status of the app.
 	// +kubebuilder:validation:Optional
 	ServingStatus *string `json:"servingStatus,omitempty" tf:"serving_status,omitempty"`
@@ -128,19 +115,15 @@ type IapObservation struct {
 type IapParameters struct {
 
 	// Whether the serving infrastructure will authenticate and authorize all incoming requests.
-	//
-	// Adapted for use with the app
 	// +kubebuilder:validation:Optional
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 
-	// OAuth2 client ID to use for the authentication flow.
 	// OAuth2 client ID to use for the authentication flow.
 	// +kubebuilder:validation:Required
 	Oauth2ClientID *string `json:"oauth2ClientId" tf:"oauth2_client_id,omitempty"`
 
 	// OAuth2 client secret to use for the authentication flow.
 	// The SHA-256 hash of the value is returned in the oauth2ClientSecretSha256 field.
-	// OAuth2 client secret to use for the authentication flow. The SHA-256 hash of the value is returned in the oauth2ClientSecretSha256 field.
 	// +kubebuilder:validation:Required
 	Oauth2ClientSecretSecretRef v1.SecretKeySelector `json:"oauth2ClientSecretSecretRef" tf:"-"`
 }

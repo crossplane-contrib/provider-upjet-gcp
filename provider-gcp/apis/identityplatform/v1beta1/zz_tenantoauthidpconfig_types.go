@@ -34,32 +34,26 @@ type TenantOAuthIdPConfigObservation struct {
 type TenantOAuthIdPConfigParameters struct {
 
 	// The client id of an OAuth client.
-	// The client id of an OAuth client.
 	// +kubebuilder:validation:Required
 	ClientIDSecretRef v1.SecretKeySelector `json:"clientIdSecretRef" tf:"-"`
 
-	// The client secret of the OAuth client, to enable OIDC code flow.
 	// The client secret of the OAuth client, to enable OIDC code flow.
 	// +kubebuilder:validation:Optional
 	ClientSecretSecretRef *v1.SecretKeySelector `json:"clientSecretSecretRef,omitempty" tf:"-"`
 
 	// Human friendly display name.
-	// Human friendly display name.
 	// +kubebuilder:validation:Required
 	DisplayName *string `json:"displayName" tf:"display_name,omitempty"`
 
-	// If this config allows users to sign in with the provider.
 	// If this config allows users to sign in with the provider.
 	// +kubebuilder:validation:Optional
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 
 	// For OIDC Idps, the issuer identifier.
-	// For OIDC Idps, the issuer identifier.
 	// +kubebuilder:validation:Required
 	Issuer *string `json:"issuer" tf:"issuer,omitempty"`
 
 	// The name of the OauthIdpConfig. Must start with oidc..
-	// The name of the OauthIdpConfig. Must start with 'oidc.'.
 	// +kubebuilder:validation:Required
 	Name *string `json:"name" tf:"name,omitempty"`
 
@@ -68,7 +62,6 @@ type TenantOAuthIdPConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
-	// The name of the tenant where this OIDC IDP configuration resource exists
 	// The name of the tenant where this OIDC IDP configuration resource exists
 	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/identityplatform/v1beta1.Tenant
 	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractParamPath("name",true)

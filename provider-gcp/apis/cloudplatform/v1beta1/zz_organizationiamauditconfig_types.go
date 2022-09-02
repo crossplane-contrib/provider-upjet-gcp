@@ -30,18 +30,14 @@ type AuditLogConfigObservation struct {
 
 type AuditLogConfigParameters struct {
 
-	// Identities that do not cause logging for this type of permission. Each entry can have one of the following values:user:{emailid}: An email address that represents a specific Google account. For example, alice@gmail.com or joe@example.com. serviceAccount:{emailid}: An email address that represents a service account. For example, my-other-app@appspot.gserviceaccount.com. group:{emailid}: An email address that represents a Google group. For example, admins@example.com. domain:{domain}: A G Suite domain (primary, instead of alias) name that represents all the users of that domain. For example, google.com or example.com.
 	// +kubebuilder:validation:Optional
 	ExemptedMembers []*string `json:"exemptedMembers,omitempty" tf:"exempted_members,omitempty"`
 
-	// Permission type for which logging is to be configured. Must be one of DATA_READ, DATA_WRITE, or ADMIN_READ.
 	// +kubebuilder:validation:Required
 	LogType *string `json:"logType" tf:"log_type,omitempty"`
 }
 
 type OrganizationIAMAuditConfigObservation struct {
-
-	// The etag of iam policy
 	Etag *string `json:"etag,omitempty" tf:"etag,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -49,15 +45,12 @@ type OrganizationIAMAuditConfigObservation struct {
 
 type OrganizationIAMAuditConfigParameters struct {
 
-	// The configuration for logging of each type of permission. This can be specified multiple times.
 	// +kubebuilder:validation:Required
 	AuditLogConfig []AuditLogConfigParameters `json:"auditLogConfig" tf:"audit_log_config,omitempty"`
 
-	// The numeric ID of the organization in which you want to manage the audit logging config.
 	// +kubebuilder:validation:Required
 	OrgID *string `json:"orgId" tf:"org_id,omitempty"`
 
-	// Service which will be enabled for audit logging. The special value allServices covers all services.
 	// +kubebuilder:validation:Required
 	Service *string `json:"service" tf:"service,omitempty"`
 }

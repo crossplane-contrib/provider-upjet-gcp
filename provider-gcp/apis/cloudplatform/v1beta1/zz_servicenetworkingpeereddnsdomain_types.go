@@ -37,19 +37,15 @@ type ServiceNetworkingPeeredDNSDomainObservation struct {
 type ServiceNetworkingPeeredDNSDomainParameters struct {
 
 	// The DNS domain suffix of the peered DNS domain. Make sure to suffix with a . .
-	// The DNS domain name suffix of the peered DNS domain.
 	// +kubebuilder:validation:Required
 	DNSSuffix *string `json:"dnsSuffix" tf:"dns_suffix,omitempty"`
 
-	// Network in the consumer project to peer with.
 	// +kubebuilder:validation:Required
 	Network *string `json:"network" tf:"network,omitempty"`
 
-	// The ID of the project that the service account will be created in. Defaults to the provider project configuration.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
-	// The name of the service to create a peered DNS domain for, e.g. servicenetworking.googleapis.com
 	// +kubebuilder:validation:Required
 	Service *string `json:"service" tf:"service,omitempty"`
 }

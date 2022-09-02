@@ -35,13 +35,11 @@ type ExternalVPNGatewayObservation struct {
 type ExternalVPNGatewayParameters struct {
 
 	// An optional description of this resource.
-	// An optional description of this resource.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// A list of interfaces on this external VPN gateway.
 	// Structure is documented below.
-	// A list of interfaces on this external VPN gateway.
 	// +kubebuilder:validation:Optional
 	Interface []InterfaceParameters `json:"interface,omitempty" tf:"interface,omitempty"`
 
@@ -52,7 +50,6 @@ type ExternalVPNGatewayParameters struct {
 
 	// Indicates the redundancy type of this external VPN gateway
 	// Possible values are FOUR_IPS_REDUNDANCY, SINGLE_IP_INTERNALLY_REDUNDANT, and TWO_IPS_REDUNDANCY.
-	// Indicates the redundancy type of this external VPN gateway Possible values: ["FOUR_IPS_REDUNDANCY", "SINGLE_IP_INTERNALLY_REDUNDANT", "TWO_IPS_REDUNDANCY"]
 	// +kubebuilder:validation:Optional
 	RedundancyType *string `json:"redundancyType,omitempty" tf:"redundancy_type,omitempty"`
 }
@@ -62,18 +59,9 @@ type InterfaceObservation struct {
 
 type InterfaceParameters struct {
 
-	// The numeric ID for this interface. Allowed values are based on the redundancy type
-	// of this external VPN gateway
-	// * '0 - SINGLE_IP_INTERNALLY_REDUNDANT'
-	// * '0, 1 - TWO_IPS_REDUNDANCY'
-	// * '0, 1, 2, 3 - FOUR_IPS_REDUNDANCY'
 	// +kubebuilder:validation:Optional
 	ID *float64 `json:"id,omitempty" tf:"id,omitempty"`
 
-	// IP address of the interface in the external VPN gateway.
-	// Only IPv4 is supported. This IP address can be either from
-	// your on-premise gateway or another Cloud provider's VPN gateway,
-	// it cannot be an IP address from Google Compute Engine.
 	// IP address of the interface in the external VPN gateway.
 	// Only IPv4 is supported. This IP address can be either from
 	// your on-premise gateway or another Cloud provider's VPN gateway,

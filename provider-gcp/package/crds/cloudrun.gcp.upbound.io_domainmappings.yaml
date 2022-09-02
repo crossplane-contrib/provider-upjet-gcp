@@ -66,48 +66,34 @@ spec:
                 properties:
                   location:
                     description: The location of the cloud run instance. eg us-central1
-                      The location of the cloud run instance. eg us-central1
                     type: string
                   metadata:
                     description: Metadata associated with this DomainMapping. Structure
-                      is documented below. Metadata associated with this DomainMapping.
+                      is documented below.
                     items:
                       properties:
                         annotations:
                           additionalProperties:
                             type: string
-                          description: "Annotations is a key value map stored with
+                          description: 'Annotations is a key value map stored with
                             a resource that may be set by external tools to store
                             and retrieve arbitrary metadata. More info: http://kubernetes.io/docs/user-guide/annotations
                             Note: The Cloud Run API may add additional annotations
                             that were not provided in your config. If terraform plan
                             shows a diff where a server-side annotation is added,
                             you can add it to your config or apply the lifecycle.ignore_changes
-                            rule to the metadata.0.annotations field. Annotations
-                            is a key value map stored with a resource that may be
-                            set by external tools to store and retrieve arbitrary
-                            metadata. More info: http://kubernetes.io/docs/user-guide/annotations
-                            \n **Note**: The Cloud Run API may add additional annotations
-                            that were not provided in your config. If terraform plan
-                            shows a diff where a server-side annotation is added,
-                            you can add it to your config or apply the lifecycle.ignore_changes
-                            rule to the metadata.0.annotations field."
+                            rule to the metadata.0.annotations field.'
                           type: object
                         labels:
                           additionalProperties:
                             type: string
                           description: 'Map of string keys and values that can be
                             used to organize and categorize objects. May match selectors
-                            of replication controllers and routes. More info: http://kubernetes.io/docs/user-guide/labels
-                            Map of string keys and values that can be used to organize
-                            and categorize (scope and select) objects. May match selectors
                             of replication controllers and routes. More info: http://kubernetes.io/docs/user-guide/labels'
                           type: object
                         namespace:
                           description: In Cloud Run the namespace must be equal to
-                            either the project ID or project number. In Cloud Run
-                            the namespace must be equal to either the project ID or
-                            project number.
+                            either the project ID or project number.
                           type: string
                         namespaceRef:
                           description: Reference to a Project in cloudplatform to
@@ -190,8 +176,6 @@ spec:
                       type: object
                     type: array
                   name:
-                    description: Name should be a [verified](https://support.google.com/webmasters/answer/9008080)
-                      domain
                     type: string
                   project:
                     description: The ID of the project in which the resource belongs.
@@ -199,31 +183,23 @@ spec:
                     type: string
                   spec:
                     description: The spec for this DomainMapping. Structure is documented
-                      below. The spec for this DomainMapping.
+                      below.
                     items:
                       properties:
                         certificateMode:
-                          description: 'The mode of the certificate. Default value
+                          description: The mode of the certificate. Default value
                             is AUTOMATIC. Possible values are NONE and AUTOMATIC.
-                            The mode of the certificate. Default value: "AUTOMATIC"
-                            Possible values: ["NONE", "AUTOMATIC"]'
                           type: string
                         forceOverride:
                           description: If set, the mapping will override any mapping
                             set before this spec was set. It is recommended that the
                             user leaves this empty to receive an error warning about
                             a potential conflict and only set it once the respective
-                            UI has given such a warning. If set, the mapping will
-                            override any mapping set before this spec was set. It
-                            is recommended that the user leaves this empty to receive
-                            an error warning about a potential conflict and only set
-                            it once the respective UI has given such a warning.
+                            UI has given such a warning.
                           type: boolean
                         routeName:
                           description: The name of the Cloud Run Service that this
-                            DomainMapping applies to. The route must exist. The name
-                            of the Cloud Run Service that this DomainMapping applies
-                            to. The route must exist.
+                            DomainMapping applies to. The route must exist.
                           type: string
                         routeNameRef:
                           description: Reference to a Service to populate routeName.
@@ -490,45 +466,33 @@ spec:
                     type: string
                   metadata:
                     description: Metadata associated with this DomainMapping. Structure
-                      is documented below. Metadata associated with this DomainMapping.
+                      is documented below.
                     items:
                       properties:
                         generation:
                           description: A sequence number representing a specific generation
-                            of the desired state. A sequence number representing a
-                            specific generation of the desired state.
+                            of the desired state.
                           type: number
                         resourceVersion:
-                          description: "An opaque value that represents the internal
+                          description: 'An opaque value that represents the internal
                             version of this object that can be used by clients to
                             determine when objects have changed. May be used for optimistic
                             concurrency, change detection, and the watch operation
                             on a resource or set of resources. They may only be valid
                             for a particular resource or set of resources. More info:
-                            https://git.k8s.io/community/contributors/devel/api-conventions.md#concurrency-control-and-consistency
-                            An opaque value that represents the internal version of
-                            this object that can be used by clients to determine when
-                            objects have changed. May be used for optimistic concurrency,
-                            change detection, and the watch operation on a resource
-                            or set of resources. They may only be valid for a particular
-                            resource or set of resources. \n More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#concurrency-control-and-consistency"
+                            https://git.k8s.io/community/contributors/devel/api-conventions.md#concurrency-control-and-consistency'
                           type: string
                         selfLink:
                           description: SelfLink is a URL representing this object.
-                            SelfLink is a URL representing this object.
                           type: string
                         uid:
-                          description: "UID is a unique id generated by the server
+                          description: 'UID is a unique id generated by the server
                             on successful creation of a resource and is not allowed
-                            to change on PUT operations. More info: http://kubernetes.io/docs/user-guide/identifiers#uids
-                            UID is a unique id generated by the server on successful
-                            creation of a resource and is not allowed to change on
-                            PUT operations. \n More info: http://kubernetes.io/docs/user-guide/identifiers#uids"
+                            to change on PUT operations. More info: http://kubernetes.io/docs/user-guide/identifiers#uids'
                           type: string
                       type: object
                     type: array
                   status:
-                    description: The current status of the DomainMapping.
                     items:
                       properties:
                         conditions:

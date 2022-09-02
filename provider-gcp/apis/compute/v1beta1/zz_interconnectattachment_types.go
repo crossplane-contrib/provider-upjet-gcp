@@ -29,22 +29,15 @@ type InterconnectAttachmentObservation struct {
 
 	// IPv4 address + prefix length to be configured on Cloud Router
 	// Interface for this interconnect attachment.
-	// IPv4 address + prefix length to be configured on Cloud Router
-	// Interface for this interconnect attachment.
 	CloudRouterIPAddress *string `json:"cloudRouterIpAddress,omitempty" tf:"cloud_router_ip_address,omitempty"`
 
-	// Creation timestamp in RFC3339 text format.
 	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
 
 	// IPv4 address + prefix length to be configured on the customer
 	// router subinterface for this interconnect attachment.
-	// IPv4 address + prefix length to be configured on the customer
-	// router subinterface for this interconnect attachment.
 	CustomerRouterIPAddress *string `json:"customerRouterIpAddress,omitempty" tf:"customer_router_ip_address,omitempty"`
 
-	// Google reference ID, to be used when raising support tickets with
-	// Google or otherwise to debug backend connectivity issues.
 	// Google reference ID, to be used when raising support tickets with
 	// Google or otherwise to debug backend connectivity issues.
 	GoogleReferenceID *string `json:"googleReferenceId,omitempty" tf:"google_reference_id,omitempty"`
@@ -55,14 +48,8 @@ type InterconnectAttachmentObservation struct {
 	// [Output only for type PARTNER. Not present for DEDICATED]. The opaque
 	// identifier of an PARTNER attachment used to initiate provisioning with
 	// a selected partner. Of the form "XXXXX/region/domain"
-	// [Output only for type PARTNER. Not present for DEDICATED]. The opaque
-	// identifier of an PARTNER attachment used to initiate provisioning with
-	// a selected partner. Of the form "XXXXX/region/domain"
 	PairingKey *string `json:"pairingKey,omitempty" tf:"pairing_key,omitempty"`
 
-	// [Output only for type PARTNER. Not present for DEDICATED]. Optional
-	// BGP ASN for the router that should be supplied by a layer 3 Partner if
-	// they configured BGP on behalf of the customer.
 	// [Output only for type PARTNER. Not present for DEDICATED]. Optional
 	// BGP ASN for the router that should be supplied by a layer 3 Partner if
 	// they configured BGP on behalf of the customer.
@@ -71,22 +58,17 @@ type InterconnectAttachmentObservation struct {
 	// Information specific to an InterconnectAttachment. This property
 	// is populated if the interconnect that this is attached to is of type DEDICATED.
 	// Structure is documented below.
-	// Information specific to an InterconnectAttachment. This property
-	// is populated if the interconnect that this is attached to is of type DEDICATED.
 	PrivateInterconnectInfo []PrivateInterconnectInfoObservation `json:"privateInterconnectInfo,omitempty" tf:"private_interconnect_info,omitempty"`
 
 	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
 
 	// [Output Only] The current state of this attachment's functionality.
-	// [Output Only] The current state of this attachment's functionality.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 }
 
 type InterconnectAttachmentParameters struct {
 
-	// Whether the VLAN attachment is enabled or disabled.  When using
-	// PARTNER type this will Pre-Activate the interconnect attachment
 	// Whether the VLAN attachment is enabled or disabled.  When using
 	// PARTNER type this will Pre-Activate the interconnect attachment
 	// +kubebuilder:validation:Optional
@@ -98,11 +80,6 @@ type InterconnectAttachmentParameters struct {
 	// Output only for PARTNER type, mutable for PARTNER_PROVIDER and DEDICATED,
 	// Defaults to BPS_10G
 	// Possible values are BPS_50M, BPS_100M, BPS_200M, BPS_300M, BPS_400M, BPS_500M, BPS_1G, BPS_2G, BPS_5G, BPS_10G, BPS_20G, and BPS_50G.
-	// Provisioned bandwidth capacity for the interconnect attachment.
-	// For attachments of type DEDICATED, the user can set the bandwidth.
-	// For attachments of type PARTNER, the Google Partner that is operating the interconnect must set the bandwidth.
-	// Output only for PARTNER type, mutable for PARTNER_PROVIDER and DEDICATED,
-	// Defaults to BPS_10G Possible values: ["BPS_50M", "BPS_100M", "BPS_200M", "BPS_300M", "BPS_400M", "BPS_500M", "BPS_1G", "BPS_2G", "BPS_5G", "BPS_10G", "BPS_20G", "BPS_50G"]
 	// +kubebuilder:validation:Optional
 	Bandwidth *string `json:"bandwidth,omitempty" tf:"bandwidth,omitempty"`
 
@@ -113,27 +90,13 @@ type InterconnectAttachmentParameters struct {
 	// an unused /29 from the supplied candidate prefix. The request will
 	// fail if all possible /29s are in use on Google's edge. If not supplied,
 	// Google will randomly select an unused /29 from all of link-local space.
-	// Up to 16 candidate prefixes that can be used to restrict the allocation
-	// of cloudRouterIpAddress and customerRouterIpAddress for this attachment.
-	// All prefixes must be within link-local address space (169.254.0.0/16)
-	// and must be /29 or shorter (/28, /27, etc). Google will attempt to select
-	// an unused /29 from the supplied candidate prefix(es). The request will
-	// fail if all possible /29s are in use on Google's edge. If not supplied,
-	// Google will randomly select an unused /29 from all of link-local space.
 	// +kubebuilder:validation:Optional
 	CandidateSubnets []*string `json:"candidateSubnets,omitempty" tf:"candidate_subnets,omitempty"`
 
 	// An optional description of this resource.
-	// An optional description of this resource.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// Desired availability domain for the attachment. Only available for type
-	// PARTNER, at creation time. For improved reliability, customers should
-	// configure a pair of attachments with one per availability domain. The
-	// selected availability domain will be provided to the Partner via the
-	// pairing key so that the provisioned circuit will lie in the specified
-	// domain. If not specified, the value will default to AVAILABILITY_DOMAIN_ANY.
 	// Desired availability domain for the attachment. Only available for type
 	// PARTNER, at creation time. For improved reliability, customers should
 	// configure a pair of attachments with one per availability domain. The
@@ -156,26 +119,9 @@ type InterconnectAttachmentParameters struct {
 	// Not currently available publicly.
 	// Default value is NONE.
 	// Possible values are NONE and IPSEC.
-	// Indicates the user-supplied encryption option of this interconnect
-	// attachment:
-	//
-	// NONE is the default value, which means that the attachment carries
-	// unencrypted traffic. VMs can send traffic to, or receive traffic
-	// from, this type of attachment.
-	//
-	// IPSEC indicates that the attachment carries only traffic encrypted by
-	// an IPsec device such as an HA VPN gateway. VMs cannot directly send
-	// traffic to, or receive traffic from, such an attachment. To use
-	// IPsec-encrypted Cloud Interconnect create the attachment using this
-	// option.
-	//
-	// Not currently available publicly. Default value: "NONE" Possible values: ["NONE", "IPSEC"]
 	// +kubebuilder:validation:Optional
 	Encryption *string `json:"encryption,omitempty" tf:"encryption,omitempty"`
 
-	// URL of the underlying Interconnect object that this attachment's
-	// traffic will traverse through. Required if type is DEDICATED, must not
-	// be set if type is PARTNER.
 	// URL of the underlying Interconnect object that this attachment's
 	// traffic will traverse through. Required if type is DEDICATED, must not
 	// be set if type is PARTNER.
@@ -198,31 +144,10 @@ type InterconnectAttachmentParameters struct {
 	// encryption option as IPSEC, later on when creating HA VPN gateway on
 	// this interconnect attachment, the HA VPN gateway's IP address will be
 	// allocated from regional external IP address pool.
-	// URL of addresses that have been reserved for the interconnect
-	// attachment, Used only for interconnect attachment that has the
-	// encryption option as IPSEC.
-	//
-	// The addresses must be RFC 1918 IP address ranges. When creating HA
-	// VPN gateway over the interconnect attachment, if the attachment is
-	// configured to use an RFC 1918 IP address, then the VPN gateway's IP
-	// address will be allocated from the IP address range specified
-	// here.
-	//
-	// For example, if the HA VPN gateway's interface 0 is paired to this
-	// interconnect attachment, then an RFC 1918 IP address for the VPN
-	// gateway interface 0 will be allocated from the IP address specified
-	// for this interconnect attachment.
-	//
-	// If this field is not specified for interconnect attachment that has
-	// encryption option as IPSEC, later on when creating HA VPN gateway on
-	// this interconnect attachment, the HA VPN gateway's IP address will be
-	// allocated from regional external IP address pool.
 	// +kubebuilder:validation:Optional
 	IpsecInternalAddresses []*string `json:"ipsecInternalAddresses,omitempty" tf:"ipsec_internal_addresses,omitempty"`
 
 	// Maximum Transmission Unit , in bytes, of packets passing through
-	// this interconnect attachment. Currently, only 1440 and 1500 are allowed. If not specified, the value will default to 1440.
-	// Maximum Transmission Unit (MTU), in bytes, of packets passing through
 	// this interconnect attachment. Currently, only 1440 and 1500 are allowed. If not specified, the value will default to 1440.
 	// +kubebuilder:validation:Optional
 	Mtu *string `json:"mtu,omitempty" tf:"mtu,omitempty"`
@@ -233,14 +158,9 @@ type InterconnectAttachmentParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Region where the regional interconnect attachment resides.
-	// Region where the regional interconnect attachment resides.
 	// +kubebuilder:validation:Required
 	Region *string `json:"region" tf:"region,omitempty"`
 
-	// URL of the cloud router to be used for dynamic routing. This router must be in
-	// the same region as this InterconnectAttachment. The InterconnectAttachment will
-	// automatically connect the Interconnect to the network & region within which the
-	// Cloud Router is configured.
 	// URL of the cloud router to be used for dynamic routing. This router must be in
 	// the same region as this InterconnectAttachment. The InterconnectAttachment will
 	// automatically connect the Interconnect to the network & region within which the
@@ -261,13 +181,9 @@ type InterconnectAttachmentParameters struct {
 	// The type of InterconnectAttachment you wish to create. Defaults to
 	// DEDICATED.
 	// Possible values are DEDICATED, PARTNER, and PARTNER_PROVIDER.
-	// The type of InterconnectAttachment you wish to create. Defaults to
-	// DEDICATED. Possible values: ["DEDICATED", "PARTNER", "PARTNER_PROVIDER"]
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 
-	// The IEEE 802.1Q VLAN tag for this attachment, in the range 2-4094. When
-	// using PARTNER type this will be managed upstream.
 	// The IEEE 802.1Q VLAN tag for this attachment, in the range 2-4094. When
 	// using PARTNER type this will be managed upstream.
 	// +kubebuilder:validation:Optional

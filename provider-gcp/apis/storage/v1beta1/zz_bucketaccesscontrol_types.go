@@ -28,10 +28,8 @@ import (
 type BucketAccessControlObservation struct {
 
 	// The domain associated with the entity.
-	// The domain associated with the entity.
 	Domain *string `json:"domain,omitempty" tf:"domain,omitempty"`
 
-	// The email address associated with the entity.
 	// The email address associated with the entity.
 	Email *string `json:"email,omitempty" tf:"email,omitempty"`
 
@@ -41,7 +39,6 @@ type BucketAccessControlObservation struct {
 
 type BucketAccessControlParameters struct {
 
-	// The name of the bucket.
 	// The name of the bucket.
 	// +crossplane:generate:reference:type=Bucket
 	// +kubebuilder:validation:Optional
@@ -70,27 +67,11 @@ type BucketAccessControlParameters struct {
 	// group-example@googlegroups.com.
 	// To refer to all members of the Google Apps for Business domain
 	// example.com, the entity would be domain-example.com.
-	// The entity holding the permission, in one of the following forms:
-	// user-userId
-	// user-email
-	// group-groupId
-	// group-email
-	// domain-domain
-	// project-team-projectId
-	// allUsers
-	// allAuthenticatedUsers
-	// Examples:
-	// The user liz@example.com would be user-liz@example.com.
-	// The group example@googlegroups.com would be
-	// group-example@googlegroups.com.
-	// To refer to all members of the Google Apps for Business domain
-	// example.com, the entity would be domain-example.com.
 	// +kubebuilder:validation:Required
 	Entity *string `json:"entity" tf:"entity,omitempty"`
 
 	// The access permission for the entity.
 	// Possible values are OWNER, READER, and WRITER.
-	// The access permission for the entity. Possible values: ["OWNER", "READER", "WRITER"]
 	// +kubebuilder:validation:Optional
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 }

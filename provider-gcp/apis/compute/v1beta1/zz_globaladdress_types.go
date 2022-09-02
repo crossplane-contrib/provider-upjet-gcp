@@ -28,7 +28,6 @@ import (
 type GlobalAddressObservation struct {
 
 	// Creation timestamp in RFC3339 text format.
-	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/global/addresses/{{name}}
@@ -43,39 +42,25 @@ type GlobalAddressParameters struct {
 	// The IP address or beginning of the address range represented by this
 	// resource. This can be supplied as an input to reserve a specific
 	// address or omitted to allow GCP to choose a valid one for you.
-	// The IP address or beginning of the address range represented by this
-	// resource. This can be supplied as an input to reserve a specific
-	// address or omitted to allow GCP to choose a valid one for you.
 	// +kubebuilder:validation:Optional
 	Address *string `json:"address,omitempty" tf:"address,omitempty"`
 
 	// The type of the address to reserve.
-	// The type of the address to reserve.
-	//
-	// * EXTERNAL indicates public/external single IP address.
-	// * INTERNAL indicates internal IP ranges belonging to some network. Default value: "EXTERNAL" Possible values: ["EXTERNAL", "INTERNAL"]
 	// +kubebuilder:validation:Optional
 	AddressType *string `json:"addressType,omitempty" tf:"address_type,omitempty"`
 
-	// An optional description of this resource.
 	// An optional description of this resource.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// The IP Version that will be used by this address. The default value is IPV4.
 	// Possible values are IPV4 and IPV6.
-	// The IP Version that will be used by this address. The default value is 'IPV4'. Possible values: ["IPV4", "IPV6"]
 	// +kubebuilder:validation:Optional
 	IPVersion *string `json:"ipVersion,omitempty" tf:"ip_version,omitempty"`
 
 	// The URL of the network in which to reserve the IP range. The IP range
 	// must be in RFC1918 space. The network cannot be deleted if there are
 	// any reserved IP ranges referring to it.
-	// This should only be set when using an Internal address.
-	// The URL of the network in which to reserve the IP range. The IP range
-	// must be in RFC1918 space. The network cannot be deleted if there are
-	// any reserved IP ranges referring to it.
-	//
 	// This should only be set when using an Internal address.
 	// +crossplane:generate:reference:type=Network
 	// +crossplane:generate:reference:extractor=github.com/upbound/official-providers/provider-gcp/config/common.ExtractResourceID()
@@ -94,11 +79,6 @@ type GlobalAddressParameters struct {
 	// address field is a single IP address.
 	// This field is not applicable to addresses with addressType=EXTERNAL,
 	// or addressType=INTERNAL when purpose=PRIVATE_SERVICE_CONNECT
-	// The prefix length of the IP range. If not present, it means the
-	// address field is a single IP address.
-	//
-	// This field is not applicable to addresses with addressType=EXTERNAL,
-	// or addressType=INTERNAL when purpose=PRIVATE_SERVICE_CONNECT
 	// +kubebuilder:validation:Optional
 	PrefixLength *float64 `json:"prefixLength,omitempty" tf:"prefix_length,omitempty"`
 
@@ -108,11 +88,6 @@ type GlobalAddressParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The purpose of the resource. Possible values include:
-	// The purpose of the resource. Possible values include:
-	//
-	// * VPC_PEERING - for peer networks
-	//
-	// * PRIVATE_SERVICE_CONNECT - for ([Beta](https://terraform.io/docs/providers/google/guides/provider_versions.html) only) Private Service Connect networks
 	// +kubebuilder:validation:Optional
 	Purpose *string `json:"purpose,omitempty" tf:"purpose,omitempty"`
 }

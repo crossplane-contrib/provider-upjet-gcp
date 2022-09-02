@@ -35,7 +35,6 @@ type RouterInterfaceParameters struct {
 
 	// IP address and range of the interface. The IP range must be
 	// in the RFC3927 link-local IP space. Changing this forces a new interface to be created.
-	// IP address and range of the interface. The IP range must be in the RFC3927 link-local IP space. Changing this forces a new interface to be created.
 	// +kubebuilder:validation:Optional
 	IPRange *string `json:"ipRange,omitempty" tf:"ip_range,omitempty"`
 
@@ -43,39 +42,33 @@ type RouterInterfaceParameters struct {
 	// VLAN interconnect for this interface. Changing this forces a new interface to
 	// be created. Only one of vpn_tunnel and interconnect_attachment can be
 	// specified.
-	// The name or resource link to the VLAN interconnect for this interface. Changing this forces a new interface to be created. Only one of vpn_tunnel and interconnect_attachment can be specified.
 	// +kubebuilder:validation:Optional
 	InterconnectAttachment *string `json:"interconnectAttachment,omitempty" tf:"interconnect_attachment,omitempty"`
 
 	// A unique name for the interface, required by GCE. Changing
 	// this forces a new interface to be created.
-	// A unique name for the interface, required by GCE. Changing this forces a new interface to be created.
 	// +kubebuilder:validation:Required
 	Name *string `json:"name" tf:"name,omitempty"`
 
 	// The ID of the project in which this interface's router belongs. If it
 	// is not provided, the provider project is used. Changing this forces a new interface to be created.
-	// The ID of the project in which this interface's router belongs. If it is not provided, the provider project is used. Changing this forces a new interface to be created.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The region this interface's router sits in. If not specified,
 	// the project region will be used. Changing this forces a new interface to be
 	// created.
-	// The region this interface's router sits in. If not specified, the project region will be used. Changing this forces a new interface to be created.
 	// +kubebuilder:validation:Optional
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
 	// The name of the router this interface will be attached to.
 	// Changing this forces a new interface to be created.
-	// The name of the router this interface will be attached to. Changing this forces a new interface to be created.
 	// +kubebuilder:validation:Required
 	Router *string `json:"router" tf:"router,omitempty"`
 
 	// The name or resource link to the VPN tunnel this
 	// interface will be linked to. Changing this forces a new interface to be created. Only
 	// one of vpn_tunnel and interconnect_attachment can be specified.
-	// The name or resource link to the VPN tunnel this interface will be linked to. Changing this forces a new interface to be created. Only one of vpn_tunnel and interconnect_attachment can be specified.
 	// +kubebuilder:validation:Optional
 	VPNTunnel *string `json:"vpnTunnel,omitempty" tf:"vpn_tunnel,omitempty"`
 }

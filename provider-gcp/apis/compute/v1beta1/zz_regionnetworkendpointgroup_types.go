@@ -30,26 +30,12 @@ type AppEngineObservation struct {
 
 type AppEngineParameters struct {
 
-	// Optional serving service.
-	// The service name must be 1-63 characters long, and comply with RFC1035.
-	// Example value: "default", "my-service".
 	// +kubebuilder:validation:Optional
 	Service *string `json:"service,omitempty" tf:"service,omitempty"`
 
-	// A template to parse service and version fields from a request URL.
-	// URL mask allows for routing to multiple App Engine services without
-	// having to create multiple Network Endpoint Groups and backend services.
-	//
-	// For example, the request URLs "foo1-dot-appname.appspot.com/v1" and
-	// "foo1-dot-appname.appspot.com/v2" can be backed by the same Serverless NEG with
-	// URL mask "-dot-appname.appspot.com/". The URL mask will parse
-	// them to { service = "foo1", version = "v1" } and { service = "foo1", version = "v2" } respectively.
 	// +kubebuilder:validation:Optional
 	URLMask *string `json:"urlMask,omitempty" tf:"url_mask,omitempty"`
 
-	// Optional serving version.
-	// The version must be 1-63 characters long, and comply with RFC1035.
-	// Example value: "v1", "v2".
 	// +kubebuilder:validation:Optional
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
 }
@@ -59,9 +45,6 @@ type CloudFunctionObservation struct {
 
 type CloudFunctionParameters struct {
 
-	// A user-defined name of the Cloud Function.
-	// The function name is case-sensitive and must be 1-63 characters long.
-	// Example value: "func1".
 	// A user-defined name of the Cloud Function.
 	// The function name is case-sensitive and must be 1-63 characters long.
 	// Example value: "func1".
@@ -77,13 +60,6 @@ type CloudFunctionParameters struct {
 	// +kubebuilder:validation:Optional
 	FunctionSelector *v1.Selector `json:"functionSelector,omitempty" tf:"-"`
 
-	// A template to parse function field from a request URL. URL mask allows
-	// for routing to multiple Cloud Functions without having to create
-	// multiple Network Endpoint Groups and backend services.
-	//
-	// For example, request URLs "mydomain.com/function1" and "mydomain.com/function2"
-	// can be backed by the same Serverless NEG with URL mask "/". The URL mask
-	// will parse them to { function = "function1" } and { function = "function2" } respectively.
 	// +kubebuilder:validation:Optional
 	URLMask *string `json:"urlMask,omitempty" tf:"url_mask,omitempty"`
 }
@@ -93,9 +69,6 @@ type CloudRunObservation struct {
 
 type CloudRunParameters struct {
 
-	// Cloud Run service is the main resource of Cloud Run.
-	// The service must be 1-63 characters long, and comply with RFC1035.
-	// Example value: "run-service".
 	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/cloudrun/v1beta1.Service
 	// +kubebuilder:validation:Optional
 	Service *string `json:"service,omitempty" tf:"service,omitempty"`
@@ -112,21 +85,9 @@ type CloudRunParameters struct {
 	// additional fine-grained traffic routing information.
 	// The tag must be 1-63 characters long, and comply with RFC1035.
 	// Example value: "revision-0010".
-	// Cloud Run tag represents the "named-revision" to provide
-	// additional fine-grained traffic routing information.
-	// The tag must be 1-63 characters long, and comply with RFC1035.
-	// Example value: "revision-0010".
 	// +kubebuilder:validation:Optional
 	Tag *string `json:"tag,omitempty" tf:"tag,omitempty"`
 
-	// A template to parse service and tag fields from a request URL.
-	// URL mask allows for routing to multiple Run services without having
-	// to create multiple network endpoint groups and backend services.
-	//
-	// For example, request URLs "foo1.domain.com/bar1" and "foo1.domain.com/bar2"
-	// an be backed by the same Serverless Network Endpoint Group (NEG) with
-	// URL mask ".domain.com/". The URL mask will parse them to { service="bar1", tag="foo1" }
-	// and { service="bar2", tag="foo2" } respectively.
 	// +kubebuilder:validation:Optional
 	URLMask *string `json:"urlMask,omitempty" tf:"url_mask,omitempty"`
 }
@@ -145,29 +106,21 @@ type RegionNetworkEndpointGroupParameters struct {
 	// Only valid when networkEndpointType is "SERVERLESS".
 	// Only one of cloud_run, app_engine, cloud_function or serverless_deployment may be set.
 	// Structure is documented below.
-	// Only valid when networkEndpointType is "SERVERLESS".
-	// Only one of cloud_run, app_engine, cloud_function or serverless_deployment may be set.
 	// +kubebuilder:validation:Optional
 	AppEngine []AppEngineParameters `json:"appEngine,omitempty" tf:"app_engine,omitempty"`
 
 	// Only valid when networkEndpointType is "SERVERLESS".
 	// Only one of cloud_run, app_engine, cloud_function or serverless_deployment may be set.
 	// Structure is documented below.
-	// Only valid when networkEndpointType is "SERVERLESS".
-	// Only one of cloud_run, app_engine, cloud_function or serverless_deployment may be set.
 	// +kubebuilder:validation:Optional
 	CloudFunction []CloudFunctionParameters `json:"cloudFunction,omitempty" tf:"cloud_function,omitempty"`
 
 	// Only valid when networkEndpointType is "SERVERLESS".
 	// Only one of cloud_run, app_engine, cloud_function or serverless_deployment may be set.
 	// Structure is documented below.
-	// Only valid when networkEndpointType is "SERVERLESS".
-	// Only one of cloud_run, app_engine, cloud_function or serverless_deployment may be set.
 	// +kubebuilder:validation:Optional
 	CloudRun []CloudRunParameters `json:"cloudRun,omitempty" tf:"cloud_run,omitempty"`
 
-	// An optional description of this resource. Provide this property when
-	// you create the resource.
 	// An optional description of this resource. Provide this property when
 	// you create the resource.
 	// +kubebuilder:validation:Optional
@@ -176,7 +129,6 @@ type RegionNetworkEndpointGroupParameters struct {
 	// Type of network endpoints in this network endpoint group. Defaults to SERVERLESS
 	// Default value is SERVERLESS.
 	// Possible values are SERVERLESS and PRIVATE_SERVICE_CONNECT.
-	// Type of network endpoints in this network endpoint group. Defaults to SERVERLESS Default value: "SERVERLESS" Possible values: ["SERVERLESS", "PRIVATE_SERVICE_CONNECT"]
 	// +kubebuilder:validation:Optional
 	NetworkEndpointType *string `json:"networkEndpointType,omitempty" tf:"network_endpoint_type,omitempty"`
 
@@ -187,12 +139,9 @@ type RegionNetworkEndpointGroupParameters struct {
 
 	// The target service url used to set up private service connection to
 	// a Google API or a PSC Producer Service Attachment.
-	// The target service url used to set up private service connection to
-	// a Google API or a PSC Producer Service Attachment.
 	// +kubebuilder:validation:Optional
 	PscTargetService *string `json:"pscTargetService,omitempty" tf:"psc_target_service,omitempty"`
 
-	// A reference to the region where the Serverless NEGs Reside.
 	// A reference to the region where the Serverless NEGs Reside.
 	// +kubebuilder:validation:Required
 	Region *string `json:"region" tf:"region,omitempty"`

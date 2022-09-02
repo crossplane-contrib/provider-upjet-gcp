@@ -34,7 +34,6 @@ type PerInstanceConfigObservation struct {
 type PerInstanceConfigParameters struct {
 
 	// The instance group manager this instance config is part of.
-	// The instance group manager this instance config is part of.
 	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.InstanceGroupManager
 	// +kubebuilder:validation:Optional
 	InstanceGroupManager *string `json:"instanceGroupManager,omitempty" tf:"instance_group_manager,omitempty"`
@@ -58,13 +57,11 @@ type PerInstanceConfigParameters struct {
 	MostDisruptiveAllowedAction *string `json:"mostDisruptiveAllowedAction,omitempty" tf:"most_disruptive_allowed_action,omitempty"`
 
 	// The name for this per-instance config and its corresponding instance.
-	// The name for this per-instance config and its corresponding instance.
 	// +kubebuilder:validation:Required
 	Name *string `json:"name" tf:"name,omitempty"`
 
 	// The preserved state for this instance.
 	// Structure is documented below.
-	// The preserved state for this instance.
 	// +kubebuilder:validation:Optional
 	PreservedState []PreservedStateParameters `json:"preservedState,omitempty" tf:"preserved_state,omitempty"`
 
@@ -79,7 +76,6 @@ type PerInstanceConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	RemoveInstanceStateOnDestroy *bool `json:"removeInstanceStateOnDestroy,omitempty" tf:"remove_instance_state_on_destroy,omitempty"`
 
-	// Zone where the containing instance group manager is located
 	// Zone where the containing instance group manager is located
 	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.InstanceGroupManager
 	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractParamPath("zone",false)
@@ -107,15 +103,9 @@ type PreservedStateDiskParameters struct {
 	// deleted from the instance group.
 	// Default value is NEVER.
 	// Possible values are NEVER and ON_PERMANENT_INSTANCE_DELETION.
-	// A value that prescribes what should happen to the stateful disk when the VM instance is deleted.
-	// The available options are 'NEVER' and 'ON_PERMANENT_INSTANCE_DELETION'.
-	// 'NEVER' - detach the disk when the VM is deleted, but do not delete the disk.
-	// 'ON_PERMANENT_INSTANCE_DELETION' will delete the stateful disk when the VM is permanently
-	// deleted from the instance group. Default value: "NEVER" Possible values: ["NEVER", "ON_PERMANENT_INSTANCE_DELETION"]
 	// +kubebuilder:validation:Optional
 	DeleteRule *string `json:"deleteRule,omitempty" tf:"delete_rule,omitempty"`
 
-	// A unique device name that is reflected into the /dev/ tree of a Linux operating system running within the instance.
 	// A unique device name that is reflected into the /dev/ tree of a Linux operating system running within the instance.
 	// +kubebuilder:validation:Required
 	DeviceName *string `json:"deviceName" tf:"device_name,omitempty"`
@@ -123,14 +113,11 @@ type PreservedStateDiskParameters struct {
 	// The mode of the disk.
 	// Default value is READ_WRITE.
 	// Possible values are READ_ONLY and READ_WRITE.
-	// The mode of the disk. Default value: "READ_WRITE" Possible values: ["READ_ONLY", "READ_WRITE"]
 	// +kubebuilder:validation:Optional
 	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
 
 	// The URI of an existing persistent disk to attach under the specified device-name in the format
 	// projects/project-id/zones/zone/disks/disk-name.
-	// The URI of an existing persistent disk to attach under the specified device-name in the format
-	// 'projects/project-id/zones/zone/disks/disk-name'.
 	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.Disk
 	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
@@ -152,11 +139,9 @@ type PreservedStateParameters struct {
 
 	// Stateful disks for the instance.
 	// Structure is documented below.
-	// Stateful disks for the instance.
 	// +kubebuilder:validation:Optional
 	Disk []PreservedStateDiskParameters `json:"disk,omitempty" tf:"disk,omitempty"`
 
-	// Preserved metadata defined for this instance. This is a list of key->value pairs.
 	// Preserved metadata defined for this instance. This is a list of key->value pairs.
 	// +kubebuilder:validation:Optional
 	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`

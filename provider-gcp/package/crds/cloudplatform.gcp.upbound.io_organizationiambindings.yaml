@@ -83,8 +83,6 @@ spec:
                       type: string
                     type: array
                   orgId:
-                    description: The numeric ID of the organization in which you want
-                      to manage the audit logging config.
                     type: string
                   role:
                     type: string

@@ -67,19 +67,13 @@ spec:
                 properties:
                   dnsSuffix:
                     description: The DNS domain suffix of the peered DNS domain. Make
-                      sure to suffix with a . . The DNS domain name suffix of the
-                      peered DNS domain.
+                      sure to suffix with a . .
                     type: string
                   network:
-                    description: Network in the consumer project to peer with.
                     type: string
                   project:
-                    description: The ID of the project that the service account will
-                      be created in. Defaults to the provider project configuration.
                     type: string
                   service:
-                    description: The name of the service to create a peered DNS domain
-                      for, e.g. servicenetworking.googleapis.com
                     type: string
                 required:
                 - dnsSuffix

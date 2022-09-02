@@ -31,49 +31,24 @@ type TenantDefaultSupportedIdPConfigObservation struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// The name of the default supported IDP config resource
-	// The name of the default supported IDP config resource
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 }
 
 type TenantDefaultSupportedIdPConfigParameters struct {
 
 	// OAuth client ID
-	// OAuth client ID
 	// +kubebuilder:validation:Required
 	ClientIDSecretRef v1.SecretKeySelector `json:"clientIdSecretRef" tf:"-"`
 
-	// OAuth client secret
 	// OAuth client secret
 	// +kubebuilder:validation:Required
 	ClientSecretSecretRef v1.SecretKeySelector `json:"clientSecretSecretRef" tf:"-"`
 
 	// If this IDP allows the user to sign in
-	// If this IDP allows the user to sign in
 	// +kubebuilder:validation:Optional
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 
 	// ID of the IDP. Possible values include:
-	// ID of the IDP. Possible values include:
-	//
-	// * 'apple.com'
-	//
-	// * 'facebook.com'
-	//
-	// * 'gc.apple.com'
-	//
-	// * 'github.com'
-	//
-	// * 'google.com'
-	//
-	// * 'linkedin.com'
-	//
-	// * 'microsoft.com'
-	//
-	// * 'playgames.google.com'
-	//
-	// * 'twitter.com'
-	//
-	// * 'yahoo.com'
 	// +kubebuilder:validation:Required
 	IdPID *string `json:"idpId" tf:"idp_id,omitempty"`
 
@@ -82,7 +57,6 @@ type TenantDefaultSupportedIdPConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
-	// The name of the tenant where this DefaultSupportedIdpConfig resource exists
 	// The name of the tenant where this DefaultSupportedIdpConfig resource exists
 	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/identityplatform/v1beta1.Tenant
 	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractParamPath("name",true)

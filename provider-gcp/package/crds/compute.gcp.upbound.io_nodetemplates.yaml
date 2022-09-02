@@ -65,46 +65,35 @@ spec:
               forProvider:
                 properties:
                   cpuOvercommitType:
-                    description: 'CPU overcommit. Default value is NONE. Possible
-                      values are ENABLED and NONE. CPU overcommit. Default value:
-                      "NONE" Possible values: ["ENABLED", "NONE"]'
+                    description: CPU overcommit. Default value is NONE. Possible values
+                      are ENABLED and NONE.
                     type: string
                   description:
                     description: An optional textual description of the resource.
-                      An optional textual description of the resource.
                     type: string
                   nodeAffinityLabels:
                     additionalProperties:
                       type: string
                     description: Labels to use for node affinity, which will be used
-                      in instance scheduling. Labels to use for node affinity, which
-                      will be used in instance scheduling.
+                      in instance scheduling.
                     type: object
                   nodeType:
                     description: Node type to use for nodes group that are created
                       from this template. Only one of nodeTypeFlexibility and nodeType
-                      can be specified. Node type to use for nodes group that are
-                      created from this template. Only one of nodeTypeFlexibility
-                      and nodeType can be specified.
+                      can be specified.
                     type: string
                   nodeTypeFlexibility:
                     description: Flexible properties for the desired node type. Node
                       groups that use this node template will create nodes of a type
                       that matches these properties. Only one of nodeTypeFlexibility
                       and nodeType can be specified. Structure is documented below.
-                      Flexible properties for the desired node type. Node groups that
-                      use this node template will create nodes of a type that matches
-                      these properties. Only one of nodeTypeFlexibility and nodeType
-                      can be specified.
                     items:
                       properties:
                         cpus:
-                          description: Number of virtual CPUs to use. Number of virtual
-                            CPUs to use.
+                          description: Number of virtual CPUs to use.
                           type: string
                         memory:
                           description: Physical memory available to the node, defined
-                            in MB. Physical memory available to the node, defined
                             in MB.
                           type: string
                       type: object
@@ -116,19 +105,15 @@ spec:
                   region:
                     description: Region where nodes using the node template will be
                       created. If it is not provided, the provider region is used.
-                      Region where nodes using the node template will be created.
-                      If it is not provided, the provider region is used.
                     type: string
                   serverBinding:
                     description: The server binding policy for nodes using this template.
                       Determines where the nodes should restart following a maintenance
-                      event. Structure is documented below. The server binding policy
-                      for nodes using this template. Determines where the nodes should
-                      restart following a maintenance event.
+                      event. Structure is documented below.
                     items:
                       properties:
                         type:
-                          description: "Type of server binding policy. If RESTART_NODE_ON_ANY_SERVER,
+                          description: Type of server binding policy. If RESTART_NODE_ON_ANY_SERVER,
                             nodes using this template will restart on any physical
                             server following a maintenance event. If RESTART_NODE_ON_MINIMAL_SERVER,
                             nodes using this template will restart on the same physical
@@ -140,18 +125,6 @@ spec:
                             licenses when maintenance occurs. However, VMs on such
                             nodes will experience outages while maintenance is applied.
                             Possible values are RESTART_NODE_ON_ANY_SERVER and RESTART_NODE_ON_MINIMAL_SERVERS.
-                            Type of server binding policy. If 'RESTART_NODE_ON_ANY_SERVER',
-                            nodes using this template will restart on any physical
-                            server following a maintenance event. \n If 'RESTART_NODE_ON_MINIMAL_SERVER',
-                            nodes using this template will restart on the same physical
-                            server following a maintenance event, instead of being
-                            live migrated to or restarted on a new physical server.
-                            This option may be useful if you are using software licenses
-                            tied to the underlying server characteristics such as
-                            physical sockets or cores, to avoid the need for additional
-                            licenses when maintenance occurs. However, VMs on such
-                            nodes will experience outages while maintenance is applied.
-                            Possible values: [\"RESTART_NODE_ON_ANY_SERVER\", \"RESTART_NODE_ON_MINIMAL_SERVERS\"]"
                           type: string
                       required:
                       - type
@@ -337,8 +310,7 @@ spec:
               atProvider:
                 properties:
                   creationTimestamp:
-                    description: Creation timestamp in RFC3339 text format. Creation
-                      timestamp in RFC3339 text format.
+                    description: Creation timestamp in RFC3339 text format.
                     type: string
                   id:
                     description: an identifier for the resource with format projects/{{project}}/regions/{{region}}/nodeTemplates/{{name}}
@@ -348,14 +320,10 @@ spec:
                       groups that use this node template will create nodes of a type
                       that matches these properties. Only one of nodeTypeFlexibility
                       and nodeType can be specified. Structure is documented below.
-                      Flexible properties for the desired node type. Node groups that
-                      use this node template will create nodes of a type that matches
-                      these properties. Only one of nodeTypeFlexibility and nodeType
-                      can be specified.
                     items:
                       properties:
                         localSsd:
-                          description: Use local SSD Use local SSD
+                          description: Use local SSD
                           type: string
                       type: object
                     type: array

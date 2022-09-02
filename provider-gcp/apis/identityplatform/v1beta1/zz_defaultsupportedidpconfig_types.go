@@ -31,49 +31,24 @@ type DefaultSupportedIdPConfigObservation struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// The name of the DefaultSupportedIdpConfig resource
-	// The name of the DefaultSupportedIdpConfig resource
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 }
 
 type DefaultSupportedIdPConfigParameters struct {
 
 	// OAuth client ID
-	// OAuth client ID
 	// +kubebuilder:validation:Required
 	ClientIDSecretRef v1.SecretKeySelector `json:"clientIdSecretRef" tf:"-"`
 
-	// OAuth client secret
 	// OAuth client secret
 	// +kubebuilder:validation:Required
 	ClientSecretSecretRef v1.SecretKeySelector `json:"clientSecretSecretRef" tf:"-"`
 
 	// If this IDP allows the user to sign in
-	// If this IDP allows the user to sign in
 	// +kubebuilder:validation:Optional
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 
 	// ID of the IDP. Possible values include:
-	// ID of the IDP. Possible values include:
-	//
-	// * 'apple.com'
-	//
-	// * 'facebook.com'
-	//
-	// * 'gc.apple.com'
-	//
-	// * 'github.com'
-	//
-	// * 'google.com'
-	//
-	// * 'linkedin.com'
-	//
-	// * 'microsoft.com'
-	//
-	// * 'playgames.google.com'
-	//
-	// * 'twitter.com'
-	//
-	// * 'yahoo.com'
 	// +kubebuilder:validation:Required
 	IdPID *string `json:"idpId" tf:"idp_id,omitempty"`
 

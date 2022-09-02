@@ -35,17 +35,13 @@ type SourceRepresentationInstanceParameters struct {
 
 	// The MySQL version running on your source database server.
 	// Possible values are MYSQL_5_5, MYSQL_5_6, MYSQL_5_7, and MYSQL_8_0.
-	// The MySQL version running on your source database server. Possible values: ["MYSQL_5_5", "MYSQL_5_6", "MYSQL_5_7", "MYSQL_8_0"]
 	// +kubebuilder:validation:Required
 	DatabaseVersion *string `json:"databaseVersion" tf:"database_version,omitempty"`
 
 	// The externally accessible IPv4 address for the source database server.
-	// The externally accessible IPv4 address for the source database server.
 	// +kubebuilder:validation:Required
 	Host *string `json:"host" tf:"host,omitempty"`
 
-	// The externally accessible port for the source database server.
-	// Defaults to 3306.
 	// The externally accessible port for the source database server.
 	// Defaults to 3306.
 	// +kubebuilder:validation:Optional
@@ -56,8 +52,6 @@ type SourceRepresentationInstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
-	// The Region in which the created instance should reside.
-	// If it is not provided, the provider region is used.
 	// The Region in which the created instance should reside.
 	// If it is not provided, the provider region is used.
 	// +kubebuilder:validation:Optional

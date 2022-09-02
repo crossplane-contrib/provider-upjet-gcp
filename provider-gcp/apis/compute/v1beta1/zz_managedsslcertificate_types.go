@@ -32,8 +32,6 @@ type ManagedParameters struct {
 
 	// Domains for which a managed SSL certificate will be valid.  Currently,
 	// there can be up to 100 domains in this list.
-	// Domains for which a managed SSL certificate will be valid.  Currently,
-	// there can be up to 100 domains in this list.
 	// +kubebuilder:validation:Required
 	Domains []*string `json:"domains" tf:"domains,omitempty"`
 }
@@ -41,10 +39,8 @@ type ManagedParameters struct {
 type ManagedSSLCertificateObservation struct {
 
 	// Creation timestamp in RFC3339 text format.
-	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
 
-	// Expire time of the certificate.
 	// Expire time of the certificate.
 	ExpireTime *string `json:"expireTime,omitempty" tf:"expire_time,omitempty"`
 
@@ -55,18 +51,15 @@ type ManagedSSLCertificateObservation struct {
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
 
 	// Domains associated with the certificate via Subject Alternative Name.
-	// Domains associated with the certificate via Subject Alternative Name.
 	SubjectAlternativeNames []*string `json:"subjectAlternativeNames,omitempty" tf:"subject_alternative_names,omitempty"`
 }
 
 type ManagedSSLCertificateParameters struct {
 
 	// The unique identifier for the resource.
-	// The unique identifier for the resource.
 	// +kubebuilder:validation:Optional
 	CertificateID *float64 `json:"certificateId,omitempty" tf:"certificate_id,omitempty"`
 
-	// An optional description of this resource.
 	// An optional description of this resource.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -74,8 +67,6 @@ type ManagedSSLCertificateParameters struct {
 	// Properties relevant to a managed certificate.  These will be used if the
 	// certificate is managed .
 	// Structure is documented below.
-	// Properties relevant to a managed certificate.  These will be used if the
-	// certificate is managed (as indicated by a value of 'MANAGED' in 'type').
 	// +kubebuilder:validation:Optional
 	Managed []ManagedParameters `json:"managed,omitempty" tf:"managed,omitempty"`
 
@@ -88,8 +79,6 @@ type ManagedSSLCertificateParameters struct {
 	// which type this is.
 	// Default value is MANAGED.
 	// Possible values are MANAGED.
-	// Enum field whose value is always 'MANAGED' - used to signal to the API
-	// which type this is. Default value: "MANAGED" Possible values: ["MANAGED"]
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }

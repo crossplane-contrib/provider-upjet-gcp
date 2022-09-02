@@ -67,15 +67,11 @@ spec:
                   commonName:
                     description: The common name to be used in the certificate to
                       identify the client. Constrained to [a-zA-Z.-_ ]+. Changing
-                      this forces a new resource to be created. The common name to
-                      be used in the certificate to identify the client. Constrained
-                      to [a-zA-Z.-_ ]+. Changing this forces a new resource to be
-                      created.
+                      this forces a new resource to be created.
                     type: string
                   instance:
                     description: The name of the Cloud SQL instance. Changing this
-                      forces a new resource to be created. The name of the Cloud SQL
-                      instance. Changing this forces a new resource to be created.
+                      forces a new resource to be created.
                     type: string
                   instanceRef:
                     description: Reference to a DatabaseInstance to populate instance.
@@ -152,9 +148,7 @@ spec:
                     type: object
                   project:
                     description: The ID of the project in which the resource belongs.
-                      If it is not provided, the provider project is used. The ID
-                      of the project in which the resource belongs. If it is not provided,
-                      the provider project is used.
+                      If it is not provided, the provider project is used.
                     type: string
                 required:
                 - commonName
@@ -337,33 +331,27 @@ spec:
                 properties:
                   cert:
                     description: The actual certificate data for this client certificate.
-                      The actual certificate data for this client certificate.
                     type: string
                   certSerialNumber:
                     description: The serial number extracted from the certificate
-                      data. The serial number extracted from the certificate data.
+                      data.
                     type: string
                   createTime:
                     description: The time when the certificate was created in RFC
-                      3339 format, for example 2012-11-15T16:19:00.094Z. The time
-                      when the certificate was created in RFC 3339 format, for example
-                      2012-11-15T16:19:00.094Z.
+                      3339 format, for example 2012-11-15T16:19:00.094Z.
                     type: string
                   expirationTime:
                     description: The time when the certificate expires in RFC 3339
-                      format, for example 2012-11-15T16:19:00.094Z. The time when
-                      the certificate expires in RFC 3339 format, for example 2012-11-15T16:19:00.094Z.
+                      format, for example 2012-11-15T16:19:00.094Z.
                     type: string
                   id:
                     type: string
                   serverCaCert:
                     description: The CA cert of the server this client cert was generated
-                      from. The CA cert of the server this client cert was generated
                       from.
                     type: string
                   sha1Fingerprint:
-                    description: The SHA1 Fingerprint of the certificate. The SHA1
-                      Fingerprint of the certificate.
+                    description: The SHA1 Fingerprint of the certificate.
                     type: string
                 type: object
               conditions:

@@ -38,13 +38,9 @@ type GlobalNetworkEndpointGroupParameters struct {
 
 	// The default port used if the port number is not specified in the
 	// network endpoint.
-	// The default port used if the port number is not specified in the
-	// network endpoint.
 	// +kubebuilder:validation:Optional
 	DefaultPort *float64 `json:"defaultPort,omitempty" tf:"default_port,omitempty"`
 
-	// An optional description of this resource. Provide this property when
-	// you create the resource.
 	// An optional description of this resource. Provide this property when
 	// you create the resource.
 	// +kubebuilder:validation:Optional
@@ -52,7 +48,6 @@ type GlobalNetworkEndpointGroupParameters struct {
 
 	// Type of network endpoints in this network endpoint group.
 	// Possible values are INTERNET_IP_PORT and INTERNET_FQDN_PORT.
-	// Type of network endpoints in this network endpoint group. Possible values: ["INTERNET_IP_PORT", "INTERNET_FQDN_PORT"]
 	// +kubebuilder:validation:Required
 	NetworkEndpointType *string `json:"networkEndpointType" tf:"network_endpoint_type,omitempty"`
 

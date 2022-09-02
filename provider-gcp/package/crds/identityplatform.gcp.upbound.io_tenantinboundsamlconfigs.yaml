@@ -66,28 +66,25 @@ spec:
               forProvider:
                 properties:
                   displayName:
-                    description: Human friendly display name. Human friendly display
-                      name.
+                    description: Human friendly display name.
                     type: string
                   enabled:
                     description: If this config allows users to sign in with the provider.
-                      If this config allows users to sign in with the provider.
                     type: boolean
                   idpConfig:
                     description: SAML IdP configuration when the project acts as the
-                      relying party Structure is documented below. SAML IdP configuration
-                      when the project acts as the relying party
+                      relying party Structure is documented below.
                     items:
                       properties:
                         idpCertificates:
                           description: The IDP's certificate data to verify the signature
                             in the SAMLResponse issued by the IDP. Structure is documented
-                            below. The IDP's certificate data to verify the signature
-                            in the SAMLResponse issued by the IDP.
+                            below.
                           items:
                             properties:
                               x509CertificateSecretRef:
-                                description: The x509 certificate
+                                description: A SecretKeySelector is a reference to
+                                  a secret key in an arbitrary namespace.
                                 properties:
                                   key:
                                     description: The key to select.
@@ -106,17 +103,14 @@ spec:
                             type: object
                           type: array
                         idpEntityId:
-                          description: Unique identifier for all SAML entities Unique
-                            identifier for all SAML entities
+                          description: Unique identifier for all SAML entities
                           type: string
                         signRequest:
                           description: Indicates if outbounding SAMLRequest should
-                            be signed. Indicates if outbounding SAMLRequest should
                             be signed.
                           type: boolean
                         ssoUrl:
-                          description: URL to send Authentication request to. URL
-                            to send Authentication request to.
+                          description: URL to send Authentication request to.
                           type: string
                       required:
                       - idpCertificates
@@ -129,11 +123,7 @@ spec:
                       start with 'saml.' and can only have alphanumeric characters,
                       hyphens, underscores or periods. The part after 'saml.' must
                       also start with a lowercase letter, end with an alphanumeric
-                      character, and have at least 2 characters. The name of the InboundSamlConfig
-                      resource. Must start with 'saml.' and can only have alphanumeric
-                      characters, hyphens, underscores or periods. The part after
-                      'saml.' must also start with a lowercase letter, end with an
-                      alphanumeric character, and have at least 2 characters.
+                      character, and have at least 2 characters.
                     type: string
                   project:
                     description: The ID of the project in which the resource belongs.
@@ -143,19 +133,15 @@ spec:
                     description: SAML SP  configuration when the project acts as the
                       relying party to receive and accept an authentication assertion
                       issued by a SAML identity provider. Structure is documented
-                      below. SAML SP (Service Provider) configuration when the project
-                      acts as the relying party to receive and accept an authentication
-                      assertion issued by a SAML identity provider.
+                      below.
                     items:
                       properties:
                         callbackUri:
                           description: Callback URI where responses from IDP are handled.
-                            Must start with https://. Callback URI where responses
-                            from IDP are handled. Must start with 'https://'.
+                            Must start with https://.
                           type: string
                         spEntityId:
-                          description: Unique identifier for all SAML entities. Unique
-                            identifier for all SAML entities.
+                          description: Unique identifier for all SAML entities.
                           type: string
                       required:
                       - callbackUri
@@ -164,8 +150,7 @@ spec:
                     type: array
                   tenant:
                     description: The name of the tenant where this inbound SAML config
-                      resource exists The name of the tenant where this inbound SAML
-                      config resource exists
+                      resource exists
                     type: string
                   tenantRef:
                     description: Reference to a Tenant in identityplatform to populate
@@ -432,16 +417,13 @@ spec:
                     description: SAML SP  configuration when the project acts as the
                       relying party to receive and accept an authentication assertion
                       issued by a SAML identity provider. Structure is documented
-                      below. SAML SP (Service Provider) configuration when the project
-                      acts as the relying party to receive and accept an authentication
-                      assertion issued by a SAML identity provider.
+                      below.
                     items:
                       properties:
                         spCertificates:
                           description: The IDP's certificate data to verify the signature
                             in the SAMLResponse issued by the IDP. Structure is documented
-                            below. The IDP's certificate data to verify the signature
-                            in the SAMLResponse issued by the IDP.
+                            below.
                           items:
                             properties:
                               x509Certificate:

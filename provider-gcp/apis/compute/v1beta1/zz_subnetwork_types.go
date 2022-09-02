@@ -52,27 +52,15 @@ type SubnetworkLogConfigParameters struct {
 	// lasting connections. Default is an interval of 5 seconds per connection.
 	// Default value is INTERVAL_5_SEC.
 	// Possible values are INTERVAL_5_SEC, INTERVAL_30_SEC, INTERVAL_1_MIN, INTERVAL_5_MIN, INTERVAL_10_MIN, and INTERVAL_15_MIN.
-	// Can only be specified if VPC flow logging for this subnetwork is enabled.
-	// Toggles the aggregation interval for collecting flow logs. Increasing the
-	// interval time will reduce the amount of generated flow logs for long
-	// lasting connections. Default is an interval of 5 seconds per connection. Default value: "INTERVAL_5_SEC" Possible values: ["INTERVAL_5_SEC", "INTERVAL_30_SEC", "INTERVAL_1_MIN", "INTERVAL_5_MIN", "INTERVAL_10_MIN", "INTERVAL_15_MIN"]
 	// +kubebuilder:validation:Optional
 	AggregationInterval *string `json:"aggregationInterval,omitempty" tf:"aggregation_interval,omitempty"`
 
 	// Export filter used to define which VPC flow logs should be logged, as as CEL expression. See
 	// https://cloud.google.com/vpc/docs/flow-logs#filtering for details on how to format this field.
 	// The default value is 'true', which evaluates to include everything.
-	// Export filter used to define which VPC flow logs should be logged, as as CEL expression. See
-	// https://cloud.google.com/vpc/docs/flow-logs#filtering for details on how to format this field.
-	// The default value is 'true', which evaluates to include everything.
 	// +kubebuilder:validation:Optional
 	FilterExpr *string `json:"filterExpr,omitempty" tf:"filter_expr,omitempty"`
 
-	// Can only be specified if VPC flow logging for this subnetwork is enabled.
-	// The value of the field must be in [0, 1]. Set the sampling rate of VPC
-	// flow logs within the subnetwork where 1.0 means all collected logs are
-	// reported and 0.0 means no logs are reported. Default is 0.5 which means
-	// half of all collected logs are reported.
 	// Can only be specified if VPC flow logging for this subnetwork is enabled.
 	// The value of the field must be in [0, 1]. Set the sampling rate of VPC
 	// flow logs within the subnetwork where 1.0 means all collected logs are
@@ -86,14 +74,9 @@ type SubnetworkLogConfigParameters struct {
 	// flow logs.
 	// Default value is INCLUDE_ALL_METADATA.
 	// Possible values are EXCLUDE_ALL_METADATA, INCLUDE_ALL_METADATA, and CUSTOM_METADATA.
-	// Can only be specified if VPC flow logging for this subnetwork is enabled.
-	// Configures whether metadata fields should be added to the reported VPC
-	// flow logs. Default value: "INCLUDE_ALL_METADATA" Possible values: ["EXCLUDE_ALL_METADATA", "INCLUDE_ALL_METADATA", "CUSTOM_METADATA"]
 	// +kubebuilder:validation:Optional
 	Metadata *string `json:"metadata,omitempty" tf:"metadata,omitempty"`
 
-	// List of metadata fields that should be added to reported logs.
-	// Can only be specified if VPC flow logs for this subnetwork is enabled and "metadata" is set to CUSTOM_METADATA.
 	// List of metadata fields that should be added to reported logs.
 	// Can only be specified if VPC flow logs for this subnetwork is enabled and "metadata" is set to CUSTOM_METADATA.
 	// +kubebuilder:validation:Optional
@@ -103,18 +86,13 @@ type SubnetworkLogConfigParameters struct {
 type SubnetworkObservation_2 struct {
 
 	// Creation timestamp in RFC3339 text format.
-	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
 
 	// The range of external IPv6 addresses that are owned by this subnetwork.
-	// The range of external IPv6 addresses that are owned by this subnetwork.
 	ExternalIPv6Prefix *string `json:"externalIpv6Prefix,omitempty" tf:"external_ipv6_prefix,omitempty"`
 
-	// Fingerprint of this resource. This field is used internally during updates of this resource.
 	Fingerprint *string `json:"fingerprint,omitempty" tf:"fingerprint,omitempty"`
 
-	// The gateway address for default routes to reach destination addresses
-	// outside this subnetwork.
 	// The gateway address for default routes to reach destination addresses
 	// outside this subnetwork.
 	GatewayAddress *string `json:"gatewayAddress,omitempty" tf:"gateway_address,omitempty"`
@@ -122,7 +100,6 @@ type SubnetworkObservation_2 struct {
 	// an identifier for the resource with format projects/{{project}}/regions/{{region}}/subnetworks/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// The range of internal IPv6 addresses that are owned by this subnetwork.
 	// The range of internal IPv6 addresses that are owned by this subnetwork.
 	IPv6CidrRange *string `json:"ipv6CidrRange,omitempty" tf:"ipv6_cidr_range,omitempty"`
 
@@ -135,16 +112,9 @@ type SubnetworkParameters_2 struct {
 	// An optional description of this resource. Provide this property when
 	// you create the resource. This field can be set only at resource
 	// creation time.
-	// An optional description of this resource. Provide this property when
-	// you create the resource. This field can be set only at resource
-	// creation time.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// The range of internal addresses that are owned by this subnetwork.
-	// Provide this property when you create the subnetwork. For example,
-	// 10.0.0.0/8 or 192.168.0.0/16. Ranges must be unique and
-	// non-overlapping within a network. Only IPv4 is supported.
 	// +kubebuilder:validation:Required
 	IPCidrRange *string `json:"ipCidrRange" tf:"ip_cidr_range,omitempty"`
 
@@ -152,9 +122,6 @@ type SubnetworkParameters_2 struct {
 	// or the first time the subnet is updated into IPV4_IPV6 dual stack. If the ipv6_type is EXTERNAL then this subnet
 	// cannot enable direct path.
 	// Possible values are EXTERNAL.
-	// The access type of IPv6 address this subnet holds. It's immutable and can only be specified during creation
-	// or the first time the subnet is updated into IPV4_IPV6 dual stack. If the ipv6_type is EXTERNAL then this subnet
-	// cannot enable direct path. Possible values: ["EXTERNAL"]
 	// +kubebuilder:validation:Optional
 	IPv6AccessType *string `json:"ipv6AccessType,omitempty" tf:"ipv6_access_type,omitempty"`
 
@@ -162,14 +129,9 @@ type SubnetworkParameters_2 struct {
 	// logs will be exported to Stackdriver. This field cannot be set if the purpose of this
 	// subnetwork is INTERNAL_HTTPS_LOAD_BALANCER
 	// Structure is documented below.
-	// Denotes the logging options for the subnetwork flow logs. If logging is enabled
-	// logs will be exported to Stackdriver. This field cannot be set if the 'purpose' of this
-	// subnetwork is 'INTERNAL_HTTPS_LOAD_BALANCER'
 	// +kubebuilder:validation:Optional
 	LogConfig []SubnetworkLogConfigParameters `json:"logConfig,omitempty" tf:"log_config,omitempty"`
 
-	// The network this subnet belongs to.
-	// Only networks that are in the distributed mode can have subnetworks.
 	// The network this subnet belongs to.
 	// Only networks that are in the distributed mode can have subnetworks.
 	// +crossplane:generate:reference:type=Network
@@ -186,12 +148,9 @@ type SubnetworkParameters_2 struct {
 
 	// When enabled, VMs in this subnetwork without external IP addresses can
 	// access Google APIs and services by using Private Google Access.
-	// When enabled, VMs in this subnetwork without external IP addresses can
-	// access Google APIs and services by using Private Google Access.
 	// +kubebuilder:validation:Optional
 	PrivateIPGoogleAccess *bool `json:"privateIpGoogleAccess,omitempty" tf:"private_ip_google_access,omitempty"`
 
-	// The private IPv6 google access type for the VMs in this subnet.
 	// The private IPv6 google access type for the VMs in this subnet.
 	// +kubebuilder:validation:Optional
 	PrivateIPv6GoogleAccess *string `json:"privateIpv6GoogleAccess,omitempty" tf:"private_ipv6_google_access,omitempty"`
@@ -205,15 +164,9 @@ type SubnetworkParameters_2 struct {
 	// INTERNAL_HTTPS_LOAD_BALANCER is a user-created subnetwork that is
 	// reserved for Internal HTTP Load Balancing.
 	// If set to INTERNAL_HTTPS_LOAD_BALANCER you must also set the role field.
-	// The purpose of the resource. A subnetwork with purpose set to
-	// INTERNAL_HTTPS_LOAD_BALANCER is a user-created subnetwork that is
-	// reserved for Internal HTTP(S) Load Balancing.
-	//
-	// If set to INTERNAL_HTTPS_LOAD_BALANCER you must also set the 'role' field.
 	// +kubebuilder:validation:Optional
 	Purpose *string `json:"purpose,omitempty" tf:"purpose,omitempty"`
 
-	// The GCP region for this subnetwork.
 	// The GCP region for this subnetwork.
 	// +kubebuilder:validation:Required
 	Region *string `json:"region" tf:"region,omitempty"`
@@ -224,11 +177,6 @@ type SubnetworkParameters_2 struct {
 	// for Internal HTTP Load Balancing. A BACKUP subnetwork is one that
 	// is ready to be promoted to ACTIVE or is currently draining.
 	// Possible values are ACTIVE and BACKUP.
-	// The role of subnetwork. Currently, this field is only used when
-	// purpose = INTERNAL_HTTPS_LOAD_BALANCER. The value can be set to ACTIVE
-	// or BACKUP. An ACTIVE subnetwork is one that is currently being used
-	// for Internal HTTP(S) Load Balancing. A BACKUP subnetwork is one that
-	// is ready to be promoted to ACTIVE or is currently draining. Possible values: ["ACTIVE", "BACKUP"]
 	// +kubebuilder:validation:Optional
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 
@@ -242,24 +190,12 @@ type SubnetworkParameters_2 struct {
 	// example=[]
 	// For more details about this behavior, see this section.
 	// Structure is documented below.
-	// An array of configurations for secondary IP ranges for VM instances
-	// contained in this subnetwork. The primary IP of such VM must belong
-	// to the primary ipCidrRange of the subnetwork. The alias IPs may belong
-	// to either primary or secondary ranges.
-	//
-	// **Note**: This field uses [attr-as-block mode](https://www.terraform.io/docs/configuration/attr-as-blocks.html) to avoid
-	// breaking users during the 0.12 upgrade. To explicitly send a list
-	// of zero objects you must use the following syntax:
-	// 'example=[]'
-	// For more details about this behavior, see [this section](https://www.terraform.io/docs/configuration/attr-as-blocks.html#defining-a-fixed-object-collection-value).
 	// +kubebuilder:validation:Optional
 	SecondaryIPRange []SecondaryIPRangeParameters `json:"secondaryIpRange,omitempty" tf:"secondary_ip_range,omitempty"`
 
 	// The stack type for this subnet to identify whether the IPv6 feature is enabled or not.
 	// If not specified IPV4_ONLY will be used.
 	// Possible values are IPV4_ONLY and IPV4_IPV6.
-	// The stack type for this subnet to identify whether the IPv6 feature is enabled or not.
-	// If not specified IPV4_ONLY will be used. Possible values: ["IPV4_ONLY", "IPV4_IPV6"]
 	// +kubebuilder:validation:Optional
 	StackType *string `json:"stackType,omitempty" tf:"stack_type,omitempty"`
 }

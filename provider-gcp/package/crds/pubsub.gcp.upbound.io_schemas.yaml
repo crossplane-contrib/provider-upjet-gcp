@@ -69,19 +69,15 @@ spec:
                     description: The definition of the schema. This should contain
                       a string representing the full definition of the schema that
                       is a valid schema definition of the type specified in type.
-                      The definition of the schema. This should contain a string representing
-                      the full definition of the schema that is a valid schema definition
-                      of the type specified in type.
                     type: string
                   project:
                     description: The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
                   type:
-                    description: 'The type of the schema definition Default value
-                      is TYPE_UNSPECIFIED. Possible values are TYPE_UNSPECIFIED, PROTOCOL_BUFFER,
-                      and AVRO. The type of the schema definition Default value: "TYPE_UNSPECIFIED"
-                      Possible values: ["TYPE_UNSPECIFIED", "PROTOCOL_BUFFER", "AVRO"]'
+                    description: The type of the schema definition Default value is
+                      TYPE_UNSPECIFIED. Possible values are TYPE_UNSPECIFIED, PROTOCOL_BUFFER,
+                      and AVRO.
                     type: string
                 type: object
               providerConfigRef:
