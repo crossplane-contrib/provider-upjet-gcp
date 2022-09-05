@@ -687,48 +687,6 @@ func (mg *ImageIAMMember) ResolveReferences(ctx context.Context, c client.Reader
 	return nil
 }
 
-// ResolveReferences of this ImageIAMPolicy.
-func (mg *ImageIAMPolicy) ResolveReferences(ctx context.Context, c client.Reader) error {
-	r := reference.NewAPIResolver(c, mg)
-
-	var rsp reference.ResolutionResponse
-	var err error
-
-	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Image),
-		Extract:      reference.ExternalName(),
-		Reference:    mg.Spec.ForProvider.ImageRef,
-		Selector:     mg.Spec.ForProvider.ImageSelector,
-		To: reference.To{
-			List:    &ImageList{},
-			Managed: &Image{},
-		},
-	})
-	if err != nil {
-		return errors.Wrap(err, "mg.Spec.ForProvider.Image")
-	}
-	mg.Spec.ForProvider.Image = reference.ToPtrValue(rsp.ResolvedValue)
-	mg.Spec.ForProvider.ImageRef = rsp.ResolvedReference
-
-	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Project),
-		Extract:      resource.ExtractParamPath("project", false),
-		Reference:    mg.Spec.ForProvider.ProjectRef,
-		Selector:     mg.Spec.ForProvider.ProjectSelector,
-		To: reference.To{
-			List:    &ImageList{},
-			Managed: &Image{},
-		},
-	})
-	if err != nil {
-		return errors.Wrap(err, "mg.Spec.ForProvider.Project")
-	}
-	mg.Spec.ForProvider.Project = reference.ToPtrValue(rsp.ResolvedValue)
-	mg.Spec.ForProvider.ProjectRef = rsp.ResolvedReference
-
-	return nil
-}
-
 // ResolveReferences of this Instance.
 func (mg *Instance) ResolveReferences(ctx context.Context, c client.Reader) error {
 	r := reference.NewAPIResolver(c, mg)

@@ -78,6 +78,8 @@ var skipList = []string{
 	"google_compute_disk_iam_binding",
 	"google_compute_instance_iam_policy",
 	"google_compute_instance_iam_binding",
+	"google_compute_image_iam_policy",
+	"google_compute_image_iam_binding",
 }
 
 // GetProvider returns provider configuration

@@ -140,10 +140,6 @@ var externalNameConfigs = map[string]config.ExternalName{
 	"google_compute_disk_iam_member": config.IdentifierFromProvider,
 	// Imported by using the following format: {{project}}/{{global_network_endpoint_group}}/{{ip_address}}/{{fqdn}}/{{port}}
 	"google_compute_global_network_endpoint": config.IdentifierFromProvider,
-	// Imported by using the following format: projects/{{project}}/global/images/{{image}}
-	"google_compute_image_iam_policy": config.IdentifierFromProvider,
-	// Imported by using the following format: projects/{{project}}/global/images/{{image}} roles/compute.imageUser
-	"google_compute_image_iam_binding": config.IdentifierFromProvider,
 	// Imported by using the following format: projects/{{project}}/global/images/{{image}} roles/compute.imageUser user:jane@example.com
 	"google_compute_image_iam_member": config.IdentifierFromProvider,
 	// Imported by using the following format: projects/{{project}}/regions/{{region}}/targetPools/{{name}}

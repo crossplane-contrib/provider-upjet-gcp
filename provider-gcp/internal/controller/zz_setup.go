@@ -56,9 +56,7 @@ import (
 	httphealthcheck "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/httphealthcheck"
 	httpshealthcheck "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/httpshealthcheck"
 	image "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/image"
-	imageiambinding "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/imageiambinding"
 	imageiammember "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/imageiammember"
-	imageiampolicy "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/imageiampolicy"
 	instance "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/instance"
 	instancefromtemplate "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/instancefromtemplate"
 	instancegroup "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/instancegroup"
@@ -207,9 +205,7 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		httphealthcheck.Setup,
 		httpshealthcheck.Setup,
 		image.Setup,
-		imageiambinding.Setup,
 		imageiammember.Setup,
-		imageiampolicy.Setup,
 		instance.Setup,
 		instancefromtemplate.Setup,
 		instancegroup.Setup,

@@ -226,26 +226,8 @@ func (l *HealthCheckList) GetItems() []resource.Managed {
 	return items
 }
 
-// GetItems of this ImageIAMBindingList.
-func (l *ImageIAMBindingList) GetItems() []resource.Managed {
-	items := make([]resource.Managed, len(l.Items))
-	for i := range l.Items {
-		items[i] = &l.Items[i]
-	}
-	return items
-}
-
 // GetItems of this ImageIAMMemberList.
 func (l *ImageIAMMemberList) GetItems() []resource.Managed {
-	items := make([]resource.Managed, len(l.Items))
-	for i := range l.Items {
-		items[i] = &l.Items[i]
-	}
-	return items
-}
-
-// GetItems of this ImageIAMPolicyList.
-func (l *ImageIAMPolicyList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
 	for i := range l.Items {
 		items[i] = &l.Items[i]
