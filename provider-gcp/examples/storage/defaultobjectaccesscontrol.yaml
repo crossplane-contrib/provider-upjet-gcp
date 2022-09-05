@@ -4,13 +4,13 @@ metadata:
   annotations:
     meta.upbound.io/example-id: storage/v1beta1/defaultobjectaccesscontrol
   labels:
-    testing.upbound.io/example-name: public_rule
-  name: public-rule
+    testing.upbound.io/example-name: default-object-access-control
+  name: default-object-access-control
 spec:
   forProvider:
     bucketSelector:
       matchLabels:
-        testing.upbound.io/example-name: bucket
+        testing.upbound.io/example-name: default-object-access-control
     entity: allUsers
     role: READER
 
@@ -22,8 +22,8 @@ metadata:
   annotations:
     meta.upbound.io/example-id: storage/v1beta1/defaultobjectaccesscontrol
   labels:
-    testing.upbound.io/example-name: bucket
-  name: bucket-${Rand.RFC1123Subdomain}
+    testing.upbound.io/example-name: default-object-access-control
+  name: default-object-access-control-${Rand.RFC1123Subdomain}
 spec:
   forProvider:
     location: US

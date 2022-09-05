@@ -4,7 +4,7 @@ metadata:
   annotations:
     meta.upbound.io/example-id: storage/v1beta1/bucketiammember
   labels:
-    testing.upbound.io/example-name: bucket_iam_member
+    testing.upbound.io/example-name: bucket-iam-member
   name: bucket-iam-member
 spec:
   forProvider:
@@ -12,7 +12,7 @@ spec:
     role: "roles/storage.legacyObjectReader"
     bucketSelector:
       matchLabels:
-        testing.upbound.io/example-name: bucket-iam-test
+        testing.upbound.io/example-name: bucket-iam-member
 ---
 apiVersion: storage.gcp.upbound.io/v1beta1
 kind: Bucket
@@ -20,8 +20,8 @@ metadata:
   annotations:
     meta.upbound.io/example-id: storage/v1beta1/bucketiammember
   labels:
-    testing.upbound.io/example-name: bucket-iam-test
-  name: bucket-${Rand.RFC1123Subdomain}
+    testing.upbound.io/example-name: bucket-iam-member
+  name: bucket-iam-${Rand.RFC1123Subdomain}
 spec:
   forProvider:
     location: US

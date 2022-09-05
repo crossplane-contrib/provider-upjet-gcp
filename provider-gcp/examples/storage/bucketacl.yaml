@@ -3,15 +3,14 @@ kind: BucketACL
 metadata:
   annotations:
     meta.upbound.io/example-id: storage/v1beta1/bucketacl
-    upjet.upbound.io/manual-intervention: " Doesn't work in automated for an unknown reason."
   labels:
-    testing.upbound.io/example-name: image-store-acl
-  name: image-store-acl
+    testing.upbound.io/example-name: bucket-acl
+  name: bucket-acl
 spec:
   forProvider:
     bucketSelector:
       matchLabels:
-        testing.upbound.io/example-name: image-store
+        testing.upbound.io/example-name: bucket-acl
     roleEntity:
     - READER:allAuthenticatedUsers
 
@@ -23,9 +22,8 @@ metadata:
   annotations:
     meta.upbound.io/example-id: storage/v1beta1/bucketacl
   labels:
-    testing.upbound.io/example-name: image-store
-  name: image-store-${Rand.RFC1123Subdomain}
+    testing.upbound.io/example-name: bucket-acl
+  name: bucket-acl-${Rand.RFC1123Subdomain}
 spec:
   forProvider:
-    location: EU
-
+    location: US

@@ -21,7 +21,7 @@ spec:
       responseHeader:
       - '*'
     forceDestroy: true
-    location: EU
+    location: US
     uniformBucketLevelAccess: true
     website:
     - mainPageSuffix: index.html
