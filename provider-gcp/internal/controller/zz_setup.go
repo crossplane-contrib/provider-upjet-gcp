@@ -149,7 +149,11 @@ import (
 	user "github.com/upbound/official-providers/provider-gcp/internal/controller/sql/user"
 	bucket "github.com/upbound/official-providers/provider-gcp/internal/controller/storage/bucket"
 	bucketaccesscontrol "github.com/upbound/official-providers/provider-gcp/internal/controller/storage/bucketaccesscontrol"
+	bucketacl "github.com/upbound/official-providers/provider-gcp/internal/controller/storage/bucketacl"
+	bucketiammember "github.com/upbound/official-providers/provider-gcp/internal/controller/storage/bucketiammember"
 	bucketobject "github.com/upbound/official-providers/provider-gcp/internal/controller/storage/bucketobject"
+	defaultobjectaccesscontrol "github.com/upbound/official-providers/provider-gcp/internal/controller/storage/defaultobjectaccesscontrol"
+	defaultobjectacl "github.com/upbound/official-providers/provider-gcp/internal/controller/storage/defaultobjectacl"
 )
 
 // Setup creates all controllers with the supplied logger and adds them to
@@ -296,7 +300,11 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		user.Setup,
 		bucket.Setup,
 		bucketaccesscontrol.Setup,
+		bucketacl.Setup,
+		bucketiammember.Setup,
 		bucketobject.Setup,
+		defaultobjectaccesscontrol.Setup,
+		defaultobjectacl.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {
 			return err

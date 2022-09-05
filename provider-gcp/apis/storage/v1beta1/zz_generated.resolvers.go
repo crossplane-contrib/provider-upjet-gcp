@@ -24,6 +24,32 @@ import (
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
+// ResolveReferences of this BucketACL.
+func (mg *BucketACL) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Bucket),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.ForProvider.BucketRef,
+		Selector:     mg.Spec.ForProvider.BucketSelector,
+		To: reference.To{
+			List:    &BucketList{},
+			Managed: &Bucket{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.Bucket")
+	}
+	mg.Spec.ForProvider.Bucket = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.BucketRef = rsp.ResolvedReference
+
+	return nil
+}
+
 // ResolveReferences of this BucketAccessControl.
 func (mg *BucketAccessControl) ResolveReferences(ctx context.Context, c client.Reader) error {
 	r := reference.NewAPIResolver(c, mg)
@@ -50,8 +76,86 @@ func (mg *BucketAccessControl) ResolveReferences(ctx context.Context, c client.R
 	return nil
 }
 
+// ResolveReferences of this BucketIAMMember.
+func (mg *BucketIAMMember) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Bucket),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.ForProvider.BucketRef,
+		Selector:     mg.Spec.ForProvider.BucketSelector,
+		To: reference.To{
+			List:    &BucketList{},
+			Managed: &Bucket{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.Bucket")
+	}
+	mg.Spec.ForProvider.Bucket = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.BucketRef = rsp.ResolvedReference
+
+	return nil
+}
+
 // ResolveReferences of this BucketObject.
 func (mg *BucketObject) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Bucket),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.ForProvider.BucketRef,
+		Selector:     mg.Spec.ForProvider.BucketSelector,
+		To: reference.To{
+			List:    &BucketList{},
+			Managed: &Bucket{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.Bucket")
+	}
+	mg.Spec.ForProvider.Bucket = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.BucketRef = rsp.ResolvedReference
+
+	return nil
+}
+
+// ResolveReferences of this DefaultObjectACL.
+func (mg *DefaultObjectACL) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Bucket),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.ForProvider.BucketRef,
+		Selector:     mg.Spec.ForProvider.BucketSelector,
+		To: reference.To{
+			List:    &BucketList{},
+			Managed: &Bucket{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.Bucket")
+	}
+	mg.Spec.ForProvider.Bucket = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.BucketRef = rsp.ResolvedReference
+
+	return nil
+}
+
+// ResolveReferences of this DefaultObjectAccessControl.
+func (mg *DefaultObjectAccessControl) ResolveReferences(ctx context.Context, c client.Reader) error {
 	r := reference.NewAPIResolver(c, mg)
 
 	var rsp reference.ResolutionResponse
