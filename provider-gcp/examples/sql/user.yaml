@@ -2,6 +2,7 @@ apiVersion: sql.gcp.upbound.io/v1beta1
 kind: User
 metadata:
   annotations:
+    upjet.upbound.io/manual-intervention: "Depends on SQL instance to be successfully deleted"
     meta.upbound.io/example-id: sql/v1beta1/user
   labels:
     testing.upbound.io/example-name: example_user
@@ -24,6 +25,7 @@ data:
 kind: Secret
 metadata:
   annotations:
+    upjet.upbound.io/manual-intervention: "Depends on SQL instance to be successfully deleted"
     meta.upbound.io/example-id: sql/v1beta1/user
   labels:
     testing.upbound.io/example-name: example_user
