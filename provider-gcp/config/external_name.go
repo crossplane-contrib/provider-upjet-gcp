@@ -393,6 +393,13 @@ var externalNameConfigs = map[string]config.ExternalName{
 	// google_scc_source.default organizations/{{organization}}/sources/{{name}}
 	"google_scc_source": config.TemplatedStringAsIdentifier("display_name", "{{ .parameters.organization }}/sources/{{ .external_name }}"),
 
+	// sourcerepo
+	//
+	// google_sourcerepo_repository.default {{name}}
+	"google_sourcerepo_repository": config.TemplatedStringAsIdentifier("name", "{{ .terraformProviderConfig.project }}/repos/{{ .external_name }}"),
+	// google_sourcerepo_repository_iam_member.editor "projects/{{project}}/repos/{{repository}} roles/viewer user:jane@example.com"
+	"google_sourcerepo_repository_iam_member": config.IdentifierFromProvider,
+
 	// sql
 	//
 	// Imported by using the following format: projects/{{project}}/instances/{{name}}

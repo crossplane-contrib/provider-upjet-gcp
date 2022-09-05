@@ -34,6 +34,7 @@ import (
 	"github.com/upbound/official-providers/provider-gcp/config/redis"
 	"github.com/upbound/official-providers/provider-gcp/config/secretmanager"
 	"github.com/upbound/official-providers/provider-gcp/config/servicenetworking"
+	"github.com/upbound/official-providers/provider-gcp/config/sourcerepo"
 	"github.com/upbound/official-providers/provider-gcp/config/sql"
 	"github.com/upbound/official-providers/provider-gcp/config/storage"
 )
@@ -92,6 +93,8 @@ var skipList = []string{
 	"google_notebooks_runtime_iam_binding",
 	"google_secret_manager_secret_iam_policy",
 	"google_secret_manager_secret_iam_binding",
+	"google_sourcerepo_repository_iam_policy",
+	"google_sourcerepo_repository_iam_binding",
 }
 
 // GetProvider returns provider configuration
@@ -138,6 +141,7 @@ func GetProvider() *tjconfig.Provider {
 		redis.Configure,
 		secretmanager.Configure,
 		servicenetworking.Configure,
+		sourcerepo.Configure,
 		storage.Configure,
 		sql.Configure,
 		redis.Configure,
