@@ -1,0 +1,30 @@
+apiVersion: storage.gcp.upbound.io/v1beta1
+kind: DefaultObjectACL
+metadata:
+  annotations:
+    meta.upbound.io/example-id: storage/v1beta1/defaultobjectacl
+    upjet.upbound.io/manual-intervention: "Doesn't work in automated for an unknown reason."
+  labels:
+    testing.upbound.io/example-name: image-store-default-acl
+  name: image-store-default-acl
+spec:
+  forProvider:
+    bucketSelector:
+      matchLabels:
+        testing.upbound.io/example-name: image-store-default
+    roleEntity:
+    - READER:allAuthenticatedUsers
+
+---
+
+apiVersion: storage.gcp.upbound.io/v1beta1
+kind: Bucket
+metadata:
+  annotations:
+    meta.upbound.io/example-id: storage/v1beta1/defaultobjectacl
+  labels:
+    testing.upbound.io/example-name: image-store-default
+  name: image-store-${Rand.RFC1123Subdomain}
+spec:
+  forProvider:
+    location: EU

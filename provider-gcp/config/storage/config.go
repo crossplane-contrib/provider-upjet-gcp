@@ -34,8 +34,33 @@ func Configure(p *config.Provider) {
 		}
 	})
 
+	p.AddResourceConfigurator("google_storage_bucket_acl", func(r *config.Resource) {
+		// The reference should be manually inferred, but this is not yet activated for GCP
+		r.References["bucket"] = config.Reference{
+			Type: "Bucket",
+		}
+	})
+
+	p.AddResourceConfigurator("google_storage_bucket_iam_member", func(r *config.Resource) {
+		r.References["bucket"] = config.Reference{
+			Type: "Bucket",
+		}
+	})
+
 	p.AddResourceConfigurator("google_storage_bucket_object", func(r *config.Resource) {
 		r.TerraformResource.Schema["content"].Sensitive = false
+		r.References["bucket"] = config.Reference{
+			Type: "Bucket",
+		}
+	})
+
+	p.AddResourceConfigurator("google_storage_default_object_access_control", func(r *config.Resource) {
+		r.References["bucket"] = config.Reference{
+			Type: "Bucket",
+		}
+	})
+
+	p.AddResourceConfigurator("google_storage_default_object_acl", func(r *config.Resource) {
 		r.References["bucket"] = config.Reference{
 			Type: "Bucket",
 		}
