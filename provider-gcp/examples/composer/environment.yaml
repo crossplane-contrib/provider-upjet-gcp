@@ -8,7 +8,7 @@ metadata:
   name: composer-environment
 spec:
   forProvider:
-    region: us-central1
+    region: us-east1
     config:
       - nodeConfig:
         - ipAllocationPolicy:
