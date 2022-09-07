@@ -289,6 +289,46 @@ var externalNameConfigs = map[string]config.ExternalName{
 	// Imported by using the following format: {{name}}
 	"google_monitoring_uptime_check_config": config.IdentifierFromProvider,
 
+	// notebooks
+	//
+	// Imported by using the following format: projects/{{project}}/locations/{{location}}/environments/{{name}}
+	"google_notebooks_environment": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/environments/{{ .external_name }}"),
+	// Imported by using the following format: projects/{{project}}/locations/{{location}}/instances/{{name}}
+	"google_notebooks_instance": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/instances/{{ .external_name }}"),
+	// Imported by using the following format: projects/{{project}}/locations/{{location}}/instances/{{name}}
+	"google_notebooks_instance_iam_member": config.IdentifierFromProvider,
+	// Imported by using the following format: projects/{{project}}/locations/{{location}}/runtimes/{{name}}
+	"google_notebooks_runtime": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/runtimes/{{ .external_name }}"),
+	// Imported by using the following format: projects/{{project}}/locations/{{location}}/runtimes/{{name}}
+	"google_notebooks_runtime_iam_member": config.IdentifierFromProvider,
+
+	// osconfig
+	//
+	// Imported by using the following format: projects/{{project}}/locations/{{location}}/osPolicyAssignments/{{name}}
+	"google_os_config_os_policy_assignment": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/osPolicyAssignments/{{ .external_name }}"),
+	// Imported by using the following format: projects/{{project}}/patchDeployments/{{name}}
+	"google_os_config_patch_deployment": config.TemplatedStringAsIdentifier("patch_deployment_id", "projects/{{ .setup.configuration.project }}/patchDeployments/{{ .external_name }}"),
+
+	// oslogin
+	//
+	// Imported by using the following format: users/{{user}}/sshPublicKeys/{{fingerprint}}
+	"google_os_login_ssh_public_key": config.IdentifierFromProvider,
+
+	// privateca
+	//
+	// Imported by using the following format: projects/{{project}}/locations/{{location}}/caPools/{{name}}
+	"google_privateca_ca_pool": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/caPools/{{ .external_name }}"),
+	// Imported by using the following format: projects/{{project}}/locations/{{location}}/caPools/{{ca_pool}} roles/privateca.certificateManager user:jane@example.com
+	"google_privateca_ca_pool_iam_member": config.IdentifierFromProvider,
+	// Imported by using the following format: projects/{{project}}/locations/{{location}}/caPools/{{pool}}/certificates/{{name}}
+	"google_privateca_certificate": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/caPools/{{ .parameters.pool }}/certificates/{{ .external_name }}"),
+	// Imported by using the following format: projects/{{project}}/locations/{{location}}/caPools/{{pool}}/certificateAuthorities/{{certificate_authority_id}}
+	"google_privateca_certificate_authority": config.TemplatedStringAsIdentifier("certificate_authority_id", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/caPools/{{ .parameters.pool }}/certificateAuthorities/{{ .external_name }}"),
+	// Imported by using the following format: projects/{{project}}/locations/{{location}}/certificateTemplates/{{name}}
+	"google_privateca_certificate_template": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/certificateTemplates/{{ .external_name }}"),
+	// Imported by using the following format: projects/{{project}}/locations/{{location}}/certificateTemplates/{{certificate_template}} roles/privateca.templateUser user:jane@example.com
+	"google_privateca_certificate_template_iam_member": config.IdentifierFromProvider,
+
 	// pubsub
 	//
 	// Imported by using the following format: projects/{{project}}/topics/{{name}}

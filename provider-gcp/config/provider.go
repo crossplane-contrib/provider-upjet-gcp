@@ -25,6 +25,9 @@ import (
 	"github.com/upbound/official-providers/provider-gcp/config/iap"
 	"github.com/upbound/official-providers/provider-gcp/config/identityplatform"
 	"github.com/upbound/official-providers/provider-gcp/config/kms"
+	"github.com/upbound/official-providers/provider-gcp/config/notebooks"
+	"github.com/upbound/official-providers/provider-gcp/config/oslogin"
+	"github.com/upbound/official-providers/provider-gcp/config/privateca"
 	"github.com/upbound/official-providers/provider-gcp/config/project"
 	"github.com/upbound/official-providers/provider-gcp/config/pubsub"
 	"github.com/upbound/official-providers/provider-gcp/config/redis"
@@ -82,6 +85,10 @@ var skipList = []string{
 	"google_compute_instance_iam_binding",
 	"google_compute_image_iam_policy",
 	"google_compute_image_iam_binding",
+	"google_notebooks_instance_iam_policy",
+	"google_notebooks_instance_iam_binding",
+	"google_notebooks_runtime_iam_policy",
+	"google_notebooks_runtime_iam_binding",
 }
 
 // GetProvider returns provider configuration
@@ -118,6 +125,10 @@ func GetProvider() *tjconfig.Provider {
 		dns.Configure,
 		iap.Configure,
 		identityplatform.Configure,
+		kms.Configure,
+		notebooks.Configure,
+		privateca.Configure,
+		oslogin.Configure,
 		project.Configure,
 		pubsub.Configure,
 		redis.Configure,
@@ -126,7 +137,6 @@ func GetProvider() *tjconfig.Provider {
 		storage.Configure,
 		sql.Configure,
 		redis.Configure,
-		kms.Configure,
 	} {
 		configure(pc)
 	}

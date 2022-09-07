@@ -1,0 +1,1005 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.8.0
+  creationTimestamp: null
+  name: ospolicyassignments.osconfig.gcp.upbound.io
+spec:
+  group: osconfig.gcp.upbound.io
+  names:
+    categories:
+    - crossplane
+    - managed
+    - gcp
+    kind: OsPolicyAssignment
+    listKind: OsPolicyAssignmentList
+    plural: ospolicyassignments
+    singular: ospolicyassignment
+  scope: Cluster
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
+    - jsonPath: .metadata.annotations.crossplane\.io/external-name
+      name: EXTERNAL-NAME
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1beta1
+    schema:
+      openAPIV3Schema:
+        description: OsPolicyAssignment is the Schema for the OsPolicyAssignments
+          API. Represents an OSPolicyAssignment resource.
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: OsPolicyAssignmentSpec defines the desired state of OsPolicyAssignment
+            properties:
+              deletionPolicy:
+                default: Delete
+                description: DeletionPolicy specifies what will happen to the underlying
+                  external when this managed resource is deleted - either "Delete"
+                  or "Orphan" the external resource.
+                enum:
+                - Orphan
+                - Delete
+                type: string
+              forProvider:
+                properties:
+                  description:
+                    type: string
+                  instanceFilter:
+                    description: Required. Filter to select VMs.
+                    items:
+                      properties:
+                        all:
+                          description: Target all VMs in the project. If true, no
+                            other criteria is permitted.
+                          type: boolean
+                        exclusionLabels:
+                          description: List of label sets used for VM exclusion. If
+                            the list has more than one label set, the VM is excluded
+                            if any of the label sets are applicable for the VM.
+                          items:
+                            properties:
+                              labels:
+                                additionalProperties:
+                                  type: string
+                                type: object
+                            type: object
+                          type: array
+                        inclusionLabels:
+                          description: List of label sets used for VM inclusion. If
+                            the list has more than one LabelSet, the VM is included
+                            if any of the label sets are applicable for the VM.
+                          items:
+                            properties:
+                              labels:
+                                additionalProperties:
+                                  type: string
+                                type: object
+                            type: object
+                          type: array
+                        inventories:
+                          description: List of inventories to select VMs. A VM is
+                            selected if its inventory data matches at least one of
+                            the following inventories.
+                          items:
+                            properties:
+                              osShortName:
+                                type: string
+                              osVersion:
+                                type: string
+                            required:
+                            - osShortName
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  location:
+                    description: The location for the resource
+                    type: string
+                  osPolicies:
+                    description: Required. List of OS policies to be applied to the
+                      VMs.
+                    items:
+                      properties:
+                        allowNoResourceGroupMatch:
+                          description: This flag determines the OS policy compliance
+                            status when none of the resource groups within the policy
+                            are applicable for a VM. Set this value to true if the
+                            policy needs to be reported as compliant even if the policy
+                            has nothing to validate or enforce.
+                          type: boolean
+                        description:
+                          type: string
+                        id:
+                          type: string
+                        mode:
+                          description: 'Required. Policy mode Possible values: MODE_UNSPECIFIED,
+                            VALIDATION, ENFORCEMENT'
+                          type: string
+                        resourceGroups:
+                          description: Required. List of resource groups for the policy.
+                            For a particular VM, resource groups are evaluated in
+                            the order specified and the first resource group that
+                            is applicable is selected and the rest are ignored. If
+                            none of the resource groups are applicable for a VM, the
+                            VM is considered to be non-compliant w.r.t this policy.
+                            This behavior can be toggled by the flag allow_no_resource_group_match
+                          items:
+                            properties:
+                              inventoryFilters:
+                                description: 'List of inventory filters for the resource
+                                  group. The resources in this resource group are
+                                  applied to the target VM if it satisfies at least
+                                  one of the following inventory filters. For example,
+                                  to apply this resource group to VMs running either
+                                  RHEL or CentOS operating systems, specify 2 items
+                                  for the list with following values: inventory_filters[0].os_short_name=''rhel''
+                                  and inventory_filters[1].os_short_name=''centos''
+                                  If the list is empty, this resource group will be
+                                  applied to the target VM unconditionally.'
+                                items:
+                                  properties:
+                                    osShortName:
+                                      type: string
+                                    osVersion:
+                                      type: string
+                                  required:
+                                  - osShortName
+                                  type: object
+                                type: array
+                              resources:
+                                description: Required. List of resources configured
+                                  for this resource group. The resources are executed
+                                  in the exact order specified here.
+                                items:
+                                  properties:
+                                    exec:
+                                      description: Exec resource
+                                      items:
+                                        properties:
+                                          enforce:
+                                            description: What to run to bring this
+                                              resource into the desired state. An
+                                              exit code of 100 indicates "success",
+                                              any other exit code indicates a failure
+                                              running enforce.
+                                            items:
+                                              properties:
+                                                args:
+                                                  items:
+                                                    type: string
+                                                  type: array
+                                                file:
+                                                  items:
+                                                    properties:
+                                                      allowInsecure:
+                                                        type: boolean
+                                                      gcs:
+                                                        items:
+                                                          properties:
+                                                            bucket:
+                                                              type: string
+                                                            generation:
+                                                              type: number
+                                                            object:
+                                                              type: string
+                                                          required:
+                                                          - bucket
+                                                          - object
+                                                          type: object
+                                                        type: array
+                                                      localPath:
+                                                        type: string
+                                                      remote:
+                                                        items:
+                                                          properties:
+                                                            sha256Checksum:
+                                                              type: string
+                                                            uri:
+                                                              type: string
+                                                          required:
+                                                          - uri
+                                                          type: object
+                                                        type: array
+                                                    type: object
+                                                  type: array
+                                                interpreter:
+                                                  type: string
+                                                outputFilePath:
+                                                  type: string
+                                                script:
+                                                  type: string
+                                              required:
+                                              - interpreter
+                                              type: object
+                                            type: array
+                                          validate:
+                                            description: Required. What to run to
+                                              validate this resource is in the desired
+                                              state. An exit code of 100 indicates
+                                              "in desired state", and exit code of
+                                              101 indicates "not in desired state".
+                                              Any other exit code indicates a failure
+                                              running validate.
+                                            items:
+                                              properties:
+                                                args:
+                                                  items:
+                                                    type: string
+                                                  type: array
+                                                file:
+                                                  items:
+                                                    properties:
+                                                      allowInsecure:
+                                                        type: boolean
+                                                      gcs:
+                                                        items:
+                                                          properties:
+                                                            bucket:
+                                                              type: string
+                                                            generation:
+                                                              type: number
+                                                            object:
+                                                              type: string
+                                                          required:
+                                                          - bucket
+                                                          - object
+                                                          type: object
+                                                        type: array
+                                                      localPath:
+                                                        type: string
+                                                      remote:
+                                                        items:
+                                                          properties:
+                                                            sha256Checksum:
+                                                              type: string
+                                                            uri:
+                                                              type: string
+                                                          required:
+                                                          - uri
+                                                          type: object
+                                                        type: array
+                                                    type: object
+                                                  type: array
+                                                interpreter:
+                                                  type: string
+                                                outputFilePath:
+                                                  type: string
+                                                script:
+                                                  type: string
+                                              required:
+                                              - interpreter
+                                              type: object
+                                            type: array
+                                        required:
+                                        - validate
+                                        type: object
+                                      type: array
+                                    file:
+                                      items:
+                                        properties:
+                                          content:
+                                            description: A a file with this content.
+                                              The size of the content is limited to
+                                              1024 characters.
+                                            type: string
+                                          file:
+                                            items:
+                                              properties:
+                                                allowInsecure:
+                                                  type: boolean
+                                                gcs:
+                                                  items:
+                                                    properties:
+                                                      bucket:
+                                                        type: string
+                                                      generation:
+                                                        type: number
+                                                      object:
+                                                        type: string
+                                                    required:
+                                                    - bucket
+                                                    - object
+                                                    type: object
+                                                  type: array
+                                                localPath:
+                                                  type: string
+                                                remote:
+                                                  items:
+                                                    properties:
+                                                      sha256Checksum:
+                                                        type: string
+                                                      uri:
+                                                        type: string
+                                                    required:
+                                                    - uri
+                                                    type: object
+                                                  type: array
+                                              type: object
+                                            type: array
+                                          path:
+                                            description: Required. The absolute path
+                                              of the file within the VM.
+                                            type: string
+                                          state:
+                                            description: 'Required. Desired state
+                                              of the file. Possible values: OS_POLICY_COMPLIANCE_STATE_UNSPECIFIED,
+                                              COMPLIANT, NON_COMPLIANT, UNKNOWN, NO_OS_POLICIES_APPLICABLE'
+                                            type: string
+                                        required:
+                                        - path
+                                        - state
+                                        type: object
+                                      type: array
+                                    id:
+                                      type: string
+                                    pkg:
+                                      description: Package resource
+                                      items:
+                                        properties:
+                                          apt:
+                                            items:
+                                              properties:
+                                                name:
+                                                  type: string
+                                              required:
+                                              - name
+                                              type: object
+                                            type: array
+                                          deb:
+                                            description: A deb package file.
+                                            items:
+                                              properties:
+                                                pullDeps:
+                                                  type: boolean
+                                                source:
+                                                  items:
+                                                    properties:
+                                                      allowInsecure:
+                                                        type: boolean
+                                                      gcs:
+                                                        items:
+                                                          properties:
+                                                            bucket:
+                                                              type: string
+                                                            generation:
+                                                              type: number
+                                                            object:
+                                                              type: string
+                                                          required:
+                                                          - bucket
+                                                          - object
+                                                          type: object
+                                                        type: array
+                                                      localPath:
+                                                        type: string
+                                                      remote:
+                                                        items:
+                                                          properties:
+                                                            sha256Checksum:
+                                                              type: string
+                                                            uri:
+                                                              type: string
+                                                          required:
+                                                          - uri
+                                                          type: object
+                                                        type: array
+                                                    type: object
+                                                  type: array
+                                              required:
+                                              - source
+                                              type: object
+                                            type: array
+                                          desiredState:
+                                            description: 'Required. The desired state
+                                              the agent should maintain for this package.
+                                              Possible values: DESIRED_STATE_UNSPECIFIED,
+                                              INSTALLED, REMOVED'
+                                            type: string
+                                          googet:
+                                            description: A package managed by GooGet.
+                                            items:
+                                              properties:
+                                                name:
+                                                  type: string
+                                              required:
+                                              - name
+                                              type: object
+                                            type: array
+                                          msi:
+                                            description: An MSI package.
+                                            items:
+                                              properties:
+                                                properties:
+                                                  description: Additional properties
+                                                    to use during installation. This
+                                                    should be in the format of Property=Setting.
+                                                    Appended to the defaults of ACTION=INSTALL
+                                                    REBOOT=ReallySuppress.
+                                                  items:
+                                                    type: string
+                                                  type: array
+                                                source:
+                                                  items:
+                                                    properties:
+                                                      allowInsecure:
+                                                        type: boolean
+                                                      gcs:
+                                                        items:
+                                                          properties:
+                                                            bucket:
+                                                              type: string
+                                                            generation:
+                                                              type: number
+                                                            object:
+                                                              type: string
+                                                          required:
+                                                          - bucket
+                                                          - object
+                                                          type: object
+                                                        type: array
+                                                      localPath:
+                                                        type: string
+                                                      remote:
+                                                        items:
+                                                          properties:
+                                                            sha256Checksum:
+                                                              type: string
+                                                            uri:
+                                                              type: string
+                                                          required:
+                                                          - uri
+                                                          type: object
+                                                        type: array
+                                                    type: object
+                                                  type: array
+                                              required:
+                                              - source
+                                              type: object
+                                            type: array
+                                          rpm:
+                                            description: An rpm package file.
+                                            items:
+                                              properties:
+                                                pullDeps:
+                                                  type: boolean
+                                                source:
+                                                  items:
+                                                    properties:
+                                                      allowInsecure:
+                                                        type: boolean
+                                                      gcs:
+                                                        items:
+                                                          properties:
+                                                            bucket:
+                                                              type: string
+                                                            generation:
+                                                              type: number
+                                                            object:
+                                                              type: string
+                                                          required:
+                                                          - bucket
+                                                          - object
+                                                          type: object
+                                                        type: array
+                                                      localPath:
+                                                        type: string
+                                                      remote:
+                                                        items:
+                                                          properties:
+                                                            sha256Checksum:
+                                                              type: string
+                                                            uri:
+                                                              type: string
+                                                          required:
+                                                          - uri
+                                                          type: object
+                                                        type: array
+                                                    type: object
+                                                  type: array
+                                              required:
+                                              - source
+                                              type: object
+                                            type: array
+                                          yum:
+                                            items:
+                                              properties:
+                                                name:
+                                                  type: string
+                                              required:
+                                              - name
+                                              type: object
+                                            type: array
+                                          zypper:
+                                            items:
+                                              properties:
+                                                name:
+                                                  type: string
+                                              required:
+                                              - name
+                                              type: object
+                                            type: array
+                                        required:
+                                        - desiredState
+                                        type: object
+                                      type: array
+                                    repository:
+                                      description: Package repository resource
+                                      items:
+                                        properties:
+                                          apt:
+                                            items:
+                                              properties:
+                                                archiveType:
+                                                  description: 'Required. Type of
+                                                    archive files in this repository.
+                                                    Possible values: ARCHIVE_TYPE_UNSPECIFIED,
+                                                    DEB, DEB_SRC'
+                                                  type: string
+                                                components:
+                                                  description: Required. List of components
+                                                    for this repository. Must contain
+                                                    at least one item.
+                                                  items:
+                                                    type: string
+                                                  type: array
+                                                distribution:
+                                                  description: Required. Distribution
+                                                    of this repository.
+                                                  type: string
+                                                gpgKey:
+                                                  description: URI of the key file
+                                                    for this repository. The agent
+                                                    maintains a keyring at /etc/apt/trusted.gpg.d/osconfig_agent_managed.gpg.
+                                                  type: string
+                                                uri:
+                                                  type: string
+                                              required:
+                                              - archiveType
+                                              - components
+                                              - distribution
+                                              - uri
+                                              type: object
+                                            type: array
+                                          goo:
+                                            description: A Goo Repository.
+                                            items:
+                                              properties:
+                                                name:
+                                                  type: string
+                                                url:
+                                                  description: Required. The url of
+                                                    the repository.
+                                                  type: string
+                                              required:
+                                              - name
+                                              - url
+                                              type: object
+                                            type: array
+                                          yum:
+                                            items:
+                                              properties:
+                                                baseUrl:
+                                                  type: string
+                                                displayName:
+                                                  type: string
+                                                gpgKeys:
+                                                  items:
+                                                    type: string
+                                                  type: array
+                                                id:
+                                                  type: string
+                                              required:
+                                              - baseUrl
+                                              - id
+                                              type: object
+                                            type: array
+                                          zypper:
+                                            items:
+                                              properties:
+                                                baseUrl:
+                                                  type: string
+                                                displayName:
+                                                  type: string
+                                                gpgKeys:
+                                                  items:
+                                                    type: string
+                                                  type: array
+                                                id:
+                                                  type: string
+                                              required:
+                                              - baseUrl
+                                              - id
+                                              type: object
+                                            type: array
+                                        type: object
+                                      type: array
+                                  required:
+                                  - id
+                                  type: object
+                                type: array
+                            required:
+                            - resources
+                            type: object
+                          type: array
+                      required:
+                      - id
+                      - mode
+                      - resourceGroups
+                      type: object
+                    type: array
+                  project:
+                    description: The project for the resource
+                    type: string
+                  rollout:
+                    description: 'Required. Rollout to deploy the OS policy assignment.
+                      A rollout is triggered in the following situations: 1) OSPolicyAssignment
+                      is created. 2) OSPolicyAssignment is updated and the update
+                      contains changes to one of the following fields: - instance_filter
+                      - os_policies 3) OSPolicyAssignment is deleted.'
+                    items:
+                      properties:
+                        disruptionBudget:
+                          description: Required. The maximum number  of VMs per zone
+                            to disrupt at any given moment.
+                          items:
+                            properties:
+                              fixed:
+                                description: Specifies a fixed value.
+                                type: number
+                              percent:
+                                description: Specifies the relative value defined
+                                  as a percentage, which will be multiplied by a reference
+                                  value.
+                                type: number
+                            type: object
+                          type: array
+                        minWaitDuration:
+                          description: Required. This determines the minimum duration
+                            of time to wait after the configuration changes are applied
+                            through the current rollout. A VM continues to count towards
+                            the disruption_budget at least until this duration of
+                            time has passed after configuration changes are applied.
+                          type: string
+                      required:
+                      - disruptionBudget
+                      - minWaitDuration
+                      type: object
+                    type: array
+                required:
+                - instanceFilter
+                - location
+                - osPolicies
+                - rollout
+                type: object
+              providerConfigRef:
+                default:
+                  name: default
+                description: ProviderConfigReference specifies how the provider that
+                  will be used to create, observe, update, and delete this managed
+                  resource should be configured.
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                  policy:
+                    description: Policies for referencing.
+                    properties:
+                      resolution:
+                        default: Required
+                        description: Resolution specifies whether resolution of this
+                          reference is required. The default is 'Required', which
+                          means the reconcile will fail if the reference cannot be
+                          resolved. 'Optional' means this reference will be a no-op
+                          if it cannot be resolved.
+                        enum:
+                        - Required
+                        - Optional
+                        type: string
+                      resolve:
+                        description: Resolve specifies when this reference should
+                          be resolved. The default is 'IfNotPresent', which will attempt
+                          to resolve the reference only when the corresponding field
+                          is not present. Use 'Always' to resolve the reference on
+                          every reconcile.
+                        enum:
+                        - Always
+                        - IfNotPresent
+                        type: string
+                    type: object
+                required:
+                - name
+                type: object
+              providerRef:
+                description: 'ProviderReference specifies the provider that will be
+                  used to create, observe, update, and delete this managed resource.
+                  Deprecated: Please use ProviderConfigReference, i.e. `providerConfigRef`'
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                  policy:
+                    description: Policies for referencing.
+                    properties:
+                      resolution:
+                        default: Required
+                        description: Resolution specifies whether resolution of this
+                          reference is required. The default is 'Required', which
+                          means the reconcile will fail if the reference cannot be
+                          resolved. 'Optional' means this reference will be a no-op
+                          if it cannot be resolved.
+                        enum:
+                        - Required
+                        - Optional
+                        type: string
+                      resolve:
+                        description: Resolve specifies when this reference should
+                          be resolved. The default is 'IfNotPresent', which will attempt
+                          to resolve the reference only when the corresponding field
+                          is not present. Use 'Always' to resolve the reference on
+                          every reconcile.
+                        enum:
+                        - Always
+                        - IfNotPresent
+                        type: string
+                    type: object
+                required:
+                - name
+                type: object
+              publishConnectionDetailsTo:
+                description: PublishConnectionDetailsTo specifies the connection secret
+                  config which contains a name, metadata and a reference to secret
+                  store config to which any connection details for this managed resource
+                  should be written. Connection details frequently include the endpoint,
+                  username, and password required to connect to the managed resource.
+                properties:
+                  configRef:
+                    default:
+                      name: default
+                    description: SecretStoreConfigRef specifies which secret store
+                      config should be used for this ConnectionSecret.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: Resolution specifies whether resolution of
+                              this reference is required. The default is 'Required',
+                              which means the reconcile will fail if the reference
+                              cannot be resolved. 'Optional' means this reference
+                              will be a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: Resolve specifies when this reference should
+                              be resolved. The default is 'IfNotPresent', which will
+                              attempt to resolve the reference only when the corresponding
+                              field is not present. Use 'Always' to resolve the reference
+                              on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  metadata:
+                    description: Metadata is the metadata for connection secret.
+                    properties:
+                      annotations:
+                        additionalProperties:
+                          type: string
+                        description: Annotations are the annotations to be added to
+                          connection secret. - For Kubernetes secrets, this will be
+                          used as "metadata.annotations". - It is up to Secret Store
+                          implementation for others store types.
+                        type: object
+                      labels:
+                        additionalProperties:
+                          type: string
+                        description: Labels are the labels/tags to be added to connection
+                          secret. - For Kubernetes secrets, this will be used as "metadata.labels".
+                          - It is up to Secret Store implementation for others store
+                          types.
+                        type: object
+                      type:
+                        description: Type is the SecretType for the connection secret.
+                          - Only valid for Kubernetes Secret Stores.
+                        type: string
+                    type: object
+                  name:
+                    description: Name is the name of the connection secret.
+                    type: string
+                required:
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: WriteConnectionSecretToReference specifies the namespace
+                  and name of a Secret to which any connection details for this managed
+                  resource should be written. Connection details frequently include
+                  the endpoint, username, and password required to connect to the
+                  managed resource. This field is planned to be replaced in a future
+                  release in favor of PublishConnectionDetailsTo. Currently, both
+                  could be set independently and connection details would be published
+                  to both without affecting each other.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                  namespace:
+                    description: Namespace of the secret.
+                    type: string
+                required:
+                - name
+                - namespace
+                type: object
+            required:
+            - forProvider
+            type: object
+          status:
+            description: OsPolicyAssignmentStatus defines the observed state of OsPolicyAssignment.
+            properties:
+              atProvider:
+                properties:
+                  baseline:
+                    description: Output only. Indicates that this revision has been
+                      successfully rolled out in this zone and new VMs will be assigned
+                      OS policies from this revision. For a given OS policy assignment,
+                      there is only one revision with a value of true for this field.
+                    type: boolean
+                  deleted:
+                    description: Output only. Indicates that this revision deletes
+                      the OS policy assignment.
+                    type: boolean
+                  etag:
+                    description: The etag for this OS policy assignment. If this is
+                      provided on update, it must match the server's etag.
+                    type: string
+                  id:
+                    type: string
+                  osPolicies:
+                    description: Required. List of OS policies to be applied to the
+                      VMs.
+                    items:
+                      properties:
+                        resourceGroups:
+                          description: Required. List of resource groups for the policy.
+                            For a particular VM, resource groups are evaluated in
+                            the order specified and the first resource group that
+                            is applicable is selected and the rest are ignored. If
+                            none of the resource groups are applicable for a VM, the
+                            VM is considered to be non-compliant w.r.t this policy.
+                            This behavior can be toggled by the flag allow_no_resource_group_match
+                          items:
+                            properties:
+                              resources:
+                                description: Required. List of resources configured
+                                  for this resource group. The resources are executed
+                                  in the exact order specified here.
+                                items:
+                                  properties:
+                                    file:
+                                      items:
+                                        properties:
+                                          permissions:
+                                            description: 'Consists of three octal
+                                              digits which represent, in order, the
+                                              permissions of the owner, group, and
+                                              other users for the file . Each digit
+                                              represents a three bit number with the
+                                              4 bit corresponding to the read permissions,
+                                              the 2 bit corresponds to the write bit,
+                                              and the one bit corresponds to the execute
+                                              permission. Default behavior is 755.
+                                              Below are some examples of permissions
+                                              and their associated values: read, write,
+                                              and execute: 7 read and execute: 5 read
+                                              and write: 6 read only: 4'
+                                            type: string
+                                        type: object
+                                      type: array
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  reconciling:
+                    description: 'Output only. Indicates that reconciliation is in
+                      progress for the revision. This value is true when the rollout_state
+                      is one of: * IN_PROGRESS * CANCELLING'
+                    type: boolean
+                  revisionCreateTime:
+                    description: Output only. The timestamp that the revision was
+                      created.
+                    type: string
+                  revisionId:
+                    description: Output only. The assignment revision ID A new revision
+                      is committed whenever a rollout is triggered for a OS policy
+                      assignment
+                    type: string
+                  rolloutState:
+                    description: 'Output only. OS policy assignment rollout state
+                      Possible values: ROLLOUT_STATE_UNSPECIFIED, IN_PROGRESS, CANCELLING,
+                      CANCELLED, SUCCEEDED'
+                    type: string
+                  uid:
+                    description: Output only. Server generated unique id for the OS
+                      policy assignment resource.
+                    type: string
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: LastTransitionTime is the last time this condition
+                        transitioned from one status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: A Message containing details about this condition's
+                        last transition from one status to another, if any.
+                      type: string
+                    reason:
+                      description: A Reason for this condition's last transition from
+                        one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True,
+                        False, or Unknown?
+                      type: string
+                    type:
+                      description: Type of this condition. At most one of each condition
+                        type may apply to a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
