@@ -65,7 +65,7 @@ var externalNameConfigs = map[string]config.ExternalName{
 	// Imported by using the following format: {{project}}
 	"google_project_usage_export_bucket": config.IdentifierFromProvider,
 	// Service accounts can be imported using their URI, e.g. projects/my-project/serviceAccounts/my-sa@my-project.iam.gserviceaccount.com
-	"google_service_account": googleServiceAccount(),
+	"google_service_account": config.TemplatedStringAsIdentifier("account_id", "projects/{{ .setup.configuration.project }}/serviceAccounts/{{ .external_name }}@{{ .setup.configuration.project }}.iam.gserviceaccount.com"),
 	// Imported by using the following format: projects/{your-project-id}/serviceAccounts/{your-service-account-email}
 	"google_service_account_iam_policy": config.IdentifierFromProvider,
 	// Imported by using the following format: projects/{your-project-id}/serviceAccounts/{your-service-account-email} roles/iam.serviceAccountUser expires_after_2019_12_31
@@ -417,21 +417,6 @@ func containerNodePool() config.ExternalName {
 		location := strings.Split(clusterID, "/")[3]
 		cluster := strings.Split(clusterID, "/")[5]
 		return fmt.Sprintf("%s/%s/%s/%s", project, location, cluster, externalName), nil
-	}
-	return e
-}
-
-func googleServiceAccount() config.ExternalName {
-	e := config.ParameterAsIdentifier("account_id")
-	e.GetExternalNameFn = func(tfstate map[string]interface{}) (string, error) {
-		return common.GetField(tfstate, "account_id")
-	}
-	e.GetIDFn = func(ctx context.Context, externalName string, parameters map[string]interface{}, providerConfig map[string]interface{}) (string, error) {
-		project, err := common.GetField(providerConfig, common.KeyProject)
-		if err != nil {
-			return "", err
-		}
-		return fmt.Sprintf("projects/%s/serviceAccounts/%s@%s.iam.gserviceaccount.com", project, externalName, project), nil
 	}
 	return e
 }
