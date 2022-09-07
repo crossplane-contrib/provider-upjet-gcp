@@ -104,7 +104,6 @@ func Configure(p *config.Provider) { //nolint:gocyclo
 		r.References["subnetwork"] = config.Reference{
 			Type: "github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.Subnetwork",
 		}
-		r.UseAsync = true
 		config.MarkAsRequired(r.TerraformResource, "location")
 	})
 
@@ -114,6 +113,5 @@ func Configure(p *config.Provider) { //nolint:gocyclo
 			Type:      "Cluster",
 			Extractor: common.ExtractResourceIDFuncPath,
 		}
-		r.UseAsync = true
 	})
 }

@@ -63,6 +63,8 @@ var skipList = []string{
 	"google_cloudfunctions_function_iam_binding",
 	"google_compute_region_disk_iam_policy",
 	"google_compute_region_disk_iam_binding",
+	// Note(donovamuller): Following resources are potentially dangerous to implement
+	// details in: https://github.com/upbound/official-providers/issues/521
 	"google_project_iam_policy",
 	"google_project_iam_binding",
 	"google_organization_iam_binding",

@@ -13,6 +13,5 @@ func Configure(p *config.Provider) {
 			Type: "github.com/upbound/official-providers/provider-gcp/apis/pubsub/v1beta1.Topic",
 		}
 		config.MarkAsRequired(r.TerraformResource, "region")
-		r.UseAsync = true
 	})
 }

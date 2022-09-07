@@ -7,6 +7,5 @@ import "github.com/upbound/upjet/pkg/config"
 func Configure(p *config.Provider) {
 	p.AddResourceConfigurator("google_redis_instance", func(r *config.Resource) {
 		config.MarkAsRequired(r.TerraformResource, "region")
-		r.UseAsync = true
 	})
 }

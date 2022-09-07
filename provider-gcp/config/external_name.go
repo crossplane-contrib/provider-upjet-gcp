@@ -103,7 +103,7 @@ var externalNameConfigs = map[string]config.ExternalName{
 	// Imported by using the following format: projects/{{project}}/regions/{{region}}/routers/{{name}}
 	"google_compute_router": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/regions/{{ .parameters.region }}/routers/{{ .external_name }}"),
 	// Imported by using the following format: projects/{{project}}/regions/{{region}}/routers/{{router}}/{{name}}
-	"google_compute_router_nat": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/regions/{{ .parameters.region }}/routers/{{ .external_name }}"),
+	"google_compute_router_nat": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/regions/{{ .parameters.region }}/routers/{{ .parameters.router }}/{{ .external_name }}"),
 	// Imported by using the following format: projects/{{project}}/zones/{{zone}}/instances/{{name}}
 	"google_compute_instance": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/zones/{{ .parameters.zone }}/instances/{{ .external_name }}"),
 	// Imported by using the following format: projects/{{project}}/global/networks/{{name}}

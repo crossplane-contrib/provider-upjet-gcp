@@ -7,7 +7,6 @@ import "github.com/upbound/upjet/pkg/config"
 func Configure(p *config.Provider) {
 	p.AddResourceConfigurator("google_pubsub_lite_reservation", func(r *config.Resource) {
 		config.MarkAsRequired(r.TerraformResource, "region")
-		r.UseAsync = true
 	})
 
 	p.AddResourceConfigurator("google_pubsub_lite_subscription", func(r *config.Resource) {
@@ -16,7 +15,6 @@ func Configure(p *config.Provider) {
 		}
 		r.Sensitive.AdditionalConnectionDetailsFn = pubsubLiteConnectionDetails
 		config.MarkAsRequired(r.TerraformResource, "zone")
-		r.UseAsync = true
 	})
 
 	p.AddResourceConfigurator("google_pubsub_lite_topic", func(r *config.Resource) {
@@ -27,19 +25,12 @@ func Configure(p *config.Provider) {
 		config.MarkAsRequired(r.TerraformResource, "zone")
 		config.MarkAsRequired(r.TerraformResource, "partition_config")
 		config.MarkAsRequired(r.TerraformResource, "retention_config")
-		r.UseAsync = true
 	})
-
-	p.AddResourceConfigurator("google_pubsub_schema", func(r *config.Resource) {
-		r.UseAsync = true
-	})
-
 	p.AddResourceConfigurator("google_pubsub_subscription", func(r *config.Resource) {
 		r.References["topic"] = config.Reference{
 			Type: "Topic",
 		}
 		r.Sensitive.AdditionalConnectionDetailsFn = pubsubConnectionDetails
-		r.UseAsync = true
 	})
 
 	p.AddResourceConfigurator("google_pubsub_subscription_iam_member", func(r *config.Resource) {
@@ -50,7 +41,6 @@ func Configure(p *config.Provider) {
 
 	p.AddResourceConfigurator("google_pubsub_topic", func(r *config.Resource) {
 		r.Sensitive.AdditionalConnectionDetailsFn = pubsubConnectionDetails
-		r.UseAsync = true
 	})
 
 	p.AddResourceConfigurator("google_pubsub_topic_iam_member", func(r *config.Resource) {
