@@ -1,7 +1,10 @@
 package cloudplatform
 
 import (
+	"encoding/base64"
+
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/pkg/errors"
 	"github.com/upbound/upjet/pkg/config"
 
 	"github.com/upbound/official-providers/provider-gcp/config/common"
@@ -48,7 +51,22 @@ func Configure(p *config.Provider) {
 		// map where elements configured as nil, but needs to be String:
 		r.TerraformResource.
 			Schema["keepers"].Elem = schema.TypeString
-
+		// Note(donovanmuller): The private_key attribute is already base64 encoded.
+		// Therefore, writing it as a connection Secret results in the Secret value being double encoded,
+		// so decode it and add to the connection details as private_key
+		r.Sensitive.AdditionalConnectionDetailsFn = func(attr map[string]interface{}) (map[string][]byte, error) {
+			privateKeyEncoded, err := common.GetField(attr, "private_key")
+			if err != nil {
+				return nil, err
+			}
+			privateKey, err := base64.StdEncoding.DecodeString(privateKeyEncoded)
+			if err != nil {
+				return nil, errors.Wrapf(err, "cannot decode private_key")
+			}
+			return map[string][]byte{
+				"private_key": privateKey,
+			}, nil
+		}
 		r.References["service_account_id"] = config.Reference{
 			Type:      "ServiceAccount",
 			Extractor: common.ExtractResourceIDFuncPath,
