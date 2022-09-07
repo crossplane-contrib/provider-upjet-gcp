@@ -400,6 +400,17 @@ var externalNameConfigs = map[string]config.ExternalName{
 	// google_sourcerepo_repository_iam_member.editor "projects/{{project}}/repos/{{repository}} roles/viewer user:jane@example.com"
 	"google_sourcerepo_repository_iam_member": config.IdentifierFromProvider,
 
+	// spanner
+	//
+	// google_spanner_database.default {{instance}}/{{name}}
+	"google_spanner_database": config.TemplatedStringAsIdentifier("name", "{{ .parameters.instance }}/instance/{{ .external_name }}"),
+	// google_spanner_instance.default {{project}}/{{name}}
+	"google_spanner_instance": config.TemplatedStringAsIdentifier("name", "{{ .terraformProviderConfig.project }}/instance/{{ .external_name }}"),
+	// google_spanner_instance_iam_member.instance "project-name/instance-name roles/viewer user:foo@example.com"
+	"google_spanner_instance_iam_member": config.IdentifierFromProvider,
+	// google_spanner_database_iam_member.database "project-name/instance-name/database-name roles/viewer user:foo@example.com"
+	"google_spanner_database_iam_member": config.IdentifierFromProvider,
+
 	// sql
 	//
 	// Imported by using the following format: projects/{{project}}/instances/{{name}}
