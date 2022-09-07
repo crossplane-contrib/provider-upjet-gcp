@@ -1,9 +1,11 @@
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: Router
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/router
   labels:
     testing.upbound.io/example-name: example_router
-  name: example-router-${Rand.RFC1123Subdomain}
+  name: example-router
 spec:
   forProvider:
     region: us-central1
@@ -18,12 +20,17 @@ spec:
     networkSelector:
       matchLabels:
         testing.upbound.io/example-name: example_router_network
+
 ---
+
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: Network
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/router
   labels:
     testing.upbound.io/example-name: example_router_network
-  name: example-router-network-${Rand.RFC1123Subdomain}
+  name: example-router-network
 spec:
-  forProvider: {}
+  forProvider:
+    autoCreateSubnetworks: false

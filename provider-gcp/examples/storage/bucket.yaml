@@ -1,13 +1,11 @@
 apiVersion: storage.gcp.upbound.io/v1beta1
 kind: Bucket
 metadata:
-  name: bucket
-  labels:
-     testing.upbound.io/example-name: upbound-example-990150596479
   annotations:
-    # Note that the external-name will be the actual bucket name, so it has to be globally
-    #  unique/available.
-    crossplane.io/external-name: upbound-example-990150596479
+    meta.upbound.io/example-id: storage/v1beta1/bucket
+  labels:
+     testing.upbound.io/example-name: bucket
+  name: bucket-${Rand.RFC1123Subdomain}
 spec:
   forProvider:
     cors:
@@ -23,7 +21,7 @@ spec:
       responseHeader:
       - '*'
     forceDestroy: true
-    location: EU
+    location: US
     uniformBucketLevelAccess: true
     website:
     - mainPageSuffix: index.html

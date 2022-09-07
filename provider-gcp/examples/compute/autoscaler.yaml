@@ -1,9 +1,64 @@
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Autoscaler
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/autoscaler
+  labels:
+    testing.upbound.io/example-name: autoscaler
+  name: autoscaler
+spec:
+  forProvider:
+    autoscalingPolicy:
+    - cooldownPeriod: 60
+      maxReplicas: 2
+      minReplicas: 1
+    # InstanceGroupManager
+    targetSelector:
+      matchLabels:
+        testing.upbound.io/example-name: autoscaler
+    zone: us-central1-a
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: InstanceGroupManager
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/autoscaler
+  labels:
+    testing.upbound.io/example-name: autoscaler
+  name: autoscaler
+spec:
+  forProvider:
+    autoHealingPolicies:
+    - healthCheckRef:
+        name: autoscaler
+      initialDelaySec: 300
+    baseInstanceName: autoscaler
+    namedPort:
+    - name: custom
+      port: 8888
+    targetPoolsSelector:
+      matchLabels:
+        testing.upbound.io/example-name: autoscaler
+    targetSize: 2
+    version:
+    - instanceTemplateSelector:
+        matchLabels:
+          testing.upbound.io/example-name: autoscaler
+    zone: us-central1-a
+
+---
+
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: HTTPHealthCheck
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/autoscaler
   labels:
-    testing.upbound.io/example-name: example
-  name: example-autoscaler
+    testing.upbound.io/example-name: autoscaler
+  name: autoscaler
 spec:
   forProvider:
     checkIntervalSec: 1
@@ -13,11 +68,32 @@ spec:
 ---
 
 apiVersion: compute.gcp.upbound.io/v1beta1
+kind: TargetPool
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/autoscaler
+  labels:
+    testing.upbound.io/example-name: autoscaler
+  name: autoscaler
+spec:
+  forProvider:
+    region: us-central1
+    healthChecksSelector:
+      matchLabels:
+        testing.upbound.io/example-name: autoscaler
+    instances:
+    - us-central1-a/example-autoscaler
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
 kind: HealthCheck
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/autoscaler
   labels:
-    testing.upbound.io/example-name: example
-  name: example-autoscaler
+    testing.upbound.io/example-name: autoscaler
+  name: autoscaler
 spec:
   forProvider:
     checkIntervalSec: 1
@@ -28,27 +104,13 @@ spec:
 ---
 
 apiVersion: compute.gcp.upbound.io/v1beta1
-kind: TargetPool
-metadata:
-  labels:
-    testing.upbound.io/example-name: example
-  name: example-autoscaler
-spec:
-  forProvider:
-    region: us-central1
-    healthChecksRefs:
-      - name: example-autoscaler
-    instances:
-    - us-central1-a/example-autoscaler
-
----
-
-apiVersion: compute.gcp.upbound.io/v1beta1
 kind: InstanceTemplate
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/autoscaler
   labels:
-    testing.upbound.io/example-name: example
-  name: example-autoscaler
+    testing.upbound.io/example-name: autoscaler
+  name: autoscaler
 spec:
   forProvider:
     canIpForward: false
@@ -61,50 +123,3 @@ spec:
     machineType: e2-medium
     networkInterface:
       - network: default
-
----
-
-apiVersion: compute.gcp.upbound.io/v1beta1
-kind: InstanceGroupManager
-metadata:
-  labels:
-    testing.upbound.io/example-name: example
-  name: example-autoscaler
-spec:
-  forProvider:
-    autoHealingPolicies:
-    - healthCheckRef:
-        name: example-autoscaler
-      initialDelaySec: 300
-    baseInstanceName: app
-    namedPort:
-    - name: custom
-      port: 8888
-    targetPoolsRefs:
-    - name: example-autoscaler
-    targetSize: 2
-    version:
-    - instanceTemplateSelector:
-        matchLabels:
-          testing.upbound.io/example-name: example
-    zone: us-central1-a
-
----
-
-apiVersion: compute.gcp.upbound.io/v1beta1
-kind: Autoscaler
-metadata:
-  labels:
-    testing.upbound.io/example-name: example
-  name: example
-spec:
-  forProvider:
-    autoscalingPolicy:
-    - cooldownPeriod: 60
-      maxReplicas: 5
-      minReplicas: 1
-    # InstanceGroupManager
-    targetSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
-    zone: us-central1-a

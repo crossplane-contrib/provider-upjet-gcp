@@ -1,6 +1,8 @@
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: RegionTargetHTTPSProxy
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/regiontargethttpproxy
   labels:
     testing.upbound.io/example-name: region-target-https-proxy
   name: region-target-https-proxy
@@ -19,6 +21,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: RegionBackendService
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/regiontargethttpproxy
   labels:
     testing.upbound.io/example-name: region-target-https-proxy
   name: region-target-https-proxy
@@ -36,6 +40,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: RegionHealthCheck
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/regiontargethttpproxy
   labels:
     testing.upbound.io/example-name: region-target-https-proxy
   name: region-target-https-proxy
@@ -50,6 +56,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: RegionSSLCertificate
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/regiontargethttpproxy
   labels:
     testing.upbound.io/example-name: region-target-https-proxy
   name: region-target-https-proxy
@@ -71,6 +79,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: RegionURLMap
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/regiontargethttpproxy
   labels:
     testing.upbound.io/example-name: region-target-https-proxy
   name: region-target-https-proxy
@@ -102,6 +112,8 @@ spec:
 apiVersion: v1
 kind: Secret
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/regiontargethttpproxy
   labels:
     testing.upbound.io/example-name: region-target-https-proxy-crt
   name: region-target-https-proxy-crt
@@ -114,6 +126,8 @@ data:
 apiVersion: v1
 kind: Secret
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/regiontargethttpproxy
   labels:
     testing.upbound.io/example-name: region-target-https-proxy-key
   name: region-target-https-proxy-key

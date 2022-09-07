@@ -1,6 +1,9 @@
 apiVersion: sql.gcp.upbound.io/v1beta1
 kind: SSLCert
 metadata:
+  annotations:
+    upjet.upbound.io/manual-intervention: "Depends on SQL instance to be successfully deleted"
+    meta.upbound.io/example-id: sql/v1beta1/sslcert
   labels:
     testing.upbound.io/example-name: example_cert
   name: example-cert

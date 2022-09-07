@@ -166,6 +166,9 @@ spec:
                       type: string
                     description: A set of key/value label pairs to assign to the project.
                     type: object
+                  name:
+                    description: The display name of the project.
+                    type: string
                   orgId:
                     description: The numeric ID of the organization this project belongs
                       to. Changing this forces a new project to be created.  Only
@@ -175,16 +178,12 @@ spec:
                       organization. The numeric ID of the organization this project
                       belongs to.
                     type: string
-                  projectId:
-                    description: The project ID. Changing this forces a new project
-                      to be created.
-                    type: string
                   skipDelete:
                     description: If true, the Terraform resource can be deleted without
                       deleting the Project via the Google API.
                     type: boolean
                 required:
-                - projectId
+                - name
                 type: object
               providerConfigRef:
                 default:

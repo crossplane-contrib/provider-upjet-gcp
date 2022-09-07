@@ -33,15 +33,6 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 
 	p.AddResourceConfigurator("google_compute_autoscaler", func(r *config.Resource) {
 		config.MarkAsRequired(r.TerraformResource, "zone")
-		r.UseAsync = true
-	})
-
-	p.AddResourceConfigurator("google_compute_backend_bucket", func(r *config.Resource) {
-		r.UseAsync = true
-	})
-
-	p.AddResourceConfigurator("google_compute_backend_bucket_signed_url_key", func(r *config.Resource) {
-		r.UseAsync = true
 	})
 
 	p.AddResourceConfigurator("google_compute_backend_service", func(r *config.Resource) {
@@ -53,23 +44,26 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 			Type:      "InstanceGroupManager",
 			Extractor: PathInstanceGroupExtractor,
 		}
-		r.UseAsync = true
 	})
 
 	p.AddResourceConfigurator("google_compute_managed_ssl_certificate", func(r *config.Resource) {
 		r.Kind = "ManagedSSLCertificate"
-		r.UseAsync = true
 	})
 
 	p.AddResourceConfigurator("google_compute_disk", func(r *config.Resource) {
 		config.MarkAsRequired(r.TerraformResource, "zone")
 	})
 
+	p.AddResourceConfigurator("google_compute_disk_iam_member", func(r *config.Resource) {
+		r.References["name"] = config.Reference{
+			Type: "Disk",
+		}
+	})
+
 	p.AddResourceConfigurator("google_compute_subnetwork", func(r *config.Resource) {
 		r.References["network"] = config.Reference{
 			Type: "Network",
 		}
-		r.UseAsync = true
 		config.MarkAsRequired(r.TerraformResource, "region")
 	})
 
@@ -106,7 +100,6 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 			Type: "Subnetwork",
 		}
 		delete(r.References, "region")
-		r.UseAsync = true
 		config.MarkAsRequired(r.TerraformResource, "region")
 	})
 
@@ -139,8 +132,13 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 		r.References["network_interface.subnetwork"] = config.Reference{
 			Type: "Subnetwork",
 		}
-		r.UseAsync = true
 		config.MarkAsRequired(r.TerraformResource, "zone")
+	})
+
+	p.AddResourceConfigurator("google_compute_instance_iam_member", func(r *config.Resource) {
+		r.References["instance_name"] = config.Reference{
+			Type: "Instance",
+		}
 	})
 
 	p.AddResourceConfigurator("google_compute_instance_from_template", func(r *config.Resource) {
@@ -165,7 +163,7 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 	p.AddResourceConfigurator("google_compute_instance_group", func(r *config.Resource) {
 		r.References["network"] = config.Reference{
 			Type:      "Network",
-			Extractor: common.ExtractResourceIDFuncPath,
+			Extractor: common.PathSelfLinkExtractor,
 		}
 		config.MarkAsRequired(r.TerraformResource, "zone")
 	})
@@ -245,41 +243,19 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 		delete(r.References, "port")
 	})
 
-	p.AddResourceConfigurator("google_compute_image_iam_policy", func(r *config.Resource) {
-		delete(r.References, "project")
-	})
-
-	p.AddResourceConfigurator("google_compute_disk_iam_policy", func(r *config.Resource) {
-		delete(r.References, "project")
-		delete(r.References, "zone")
-	})
-
-	p.AddResourceConfigurator("google_compute_instance_iam_policy", func(r *config.Resource) {
-		delete(r.References, "project")
-		delete(r.References, "zone")
-	})
-
-	p.AddResourceConfigurator("google_compute_network_peering_routes_config", func(r *config.Resource) {
-		r.UseAsync = true
-	})
-
 	p.AddResourceConfigurator("google_compute_node_group", func(r *config.Resource) {
-		r.UseAsync = true
 		config.MarkAsRequired(r.TerraformResource, "zone")
 	})
 
 	p.AddResourceConfigurator("google_compute_node_template", func(r *config.Resource) {
-		r.UseAsync = true
 		config.MarkAsRequired(r.TerraformResource, "region")
 	})
 
 	p.AddResourceConfigurator("google_compute_packet_mirroring", func(r *config.Resource) {
-		r.UseAsync = true
 		config.MarkAsRequired(r.TerraformResource, "region")
 	})
 
 	p.AddResourceConfigurator("google_compute_forwarding_rule", func(r *config.Resource) {
-		r.UseAsync = true
 		config.MarkAsRequired(r.TerraformResource, "region")
 	})
 
@@ -292,7 +268,6 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 			Type:      "RegionInstanceGroupManager",
 			Extractor: PathInstanceGroupExtractor,
 		}
-		r.UseAsync = true
 		config.MarkAsRequired(r.TerraformResource, "region")
 	})
 
@@ -309,38 +284,22 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 			Type:      "TargetPool",
 			Extractor: common.PathSelfLinkExtractor,
 		}
-		r.UseAsync = true
 		config.MarkAsRequired(r.TerraformResource, "region")
 	})
 
 	p.AddResourceConfigurator("google_compute_region_target_http_proxy", func(r *config.Resource) {
-		r.UseAsync = true
 		config.MarkAsRequired(r.TerraformResource, "region")
 	})
 
 	p.AddResourceConfigurator("google_compute_region_url_map", func(r *config.Resource) {
-		r.UseAsync = true
 		config.MarkAsRequired(r.TerraformResource, "region")
 	})
-
-	p.AddResourceConfigurator("google_compute_per_instance_config", func(r *config.Resource) {
-		r.UseAsync = true
-	})
-
 	p.AddResourceConfigurator("google_compute_region_autoscaler", func(r *config.Resource) {
-		r.UseAsync = true
 		config.MarkAsRequired(r.TerraformResource, "region")
 	})
 
 	p.AddResourceConfigurator("google_compute_region_disk", func(r *config.Resource) {
-		r.UseAsync = true
 		config.MarkAsRequired(r.TerraformResource, "region")
-	})
-
-	p.AddResourceConfigurator("google_compute_region_disk_iam_binding", func(r *config.Resource) {
-		r.References["name"] = config.Reference{
-			Type: "RegionDisk",
-		}
 	})
 
 	p.AddResourceConfigurator("google_compute_region_disk_iam_member", func(r *config.Resource) {
@@ -350,22 +309,18 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 	})
 
 	p.AddResourceConfigurator("google_compute_region_disk_resource_policy_attachment", func(r *config.Resource) {
-		r.UseAsync = true
 		config.MarkAsRequired(r.TerraformResource, "region")
 	})
 
 	p.AddResourceConfigurator("google_compute_region_health_check", func(r *config.Resource) {
-		r.UseAsync = true
 		config.MarkAsRequired(r.TerraformResource, "region")
 	})
 
 	p.AddResourceConfigurator("google_compute_region_per_instance_config", func(r *config.Resource) {
-		r.UseAsync = true
 		config.MarkAsRequired(r.TerraformResource, "region")
 	})
 
 	p.AddResourceConfigurator("google_compute_region_ssl_certificate", func(r *config.Resource) {
-		r.UseAsync = true
 		config.MarkAsRequired(r.TerraformResource, "region")
 	})
 
@@ -373,36 +328,17 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 		r.References["ssl_certificates"] = config.Reference{
 			Type: "RegionSSLCertificate",
 		}
-		r.UseAsync = true
 		config.MarkAsRequired(r.TerraformResource, "region")
 	})
 
 	p.AddResourceConfigurator("google_compute_reservation", func(r *config.Resource) {
-		r.UseAsync = true
 		config.MarkAsRequired(r.TerraformResource, "zone")
-	})
-
-	p.AddResourceConfigurator("google_compute_route", func(r *config.Resource) {
-		r.UseAsync = true
-	})
-
-	p.AddResourceConfigurator("google_compute_firewall_policy", func(r *config.Resource) {
-		r.UseAsync = true
 	})
 
 	p.AddResourceConfigurator("google_compute_firewall_policy_association", func(r *config.Resource) {
 		r.References["ssl_certificates"] = config.Reference{
 			Type: "RegionSSLCertificate",
 		}
-		r.UseAsync = true
-	})
-
-	p.AddResourceConfigurator("google_compute_firewall_policy_rule", func(r *config.Resource) {
-		r.UseAsync = true
-	})
-
-	p.AddResourceConfigurator("google_compute_global_forwarding_rule", func(r *config.Resource) {
-		r.UseAsync = true
 	})
 
 	p.AddResourceConfigurator("google_compute_instance_group_named_port", func(r *config.Resource) {
@@ -411,18 +347,18 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 		// 	Type:      "github.com/upbound/official-providers/provider-gcp/apis/container/v1beta1.Cluster",
 		// 	Extractor: PathClusterInstanceGroupExtractor,
 		// }
-		r.UseAsync = true
 	})
 
 	p.AddResourceConfigurator("google_compute_target_ssl_proxy", func(r *config.Resource) {
 		r.References["ssl_certificates"] = config.Reference{
 			Type: "SSLCertificate",
 		}
-		r.UseAsync = true
 	})
 
-	p.AddResourceConfigurator("google_compute_ssl_certificate", func(r *config.Resource) {
-		r.UseAsync = true
+	p.AddResourceConfigurator("google_compute_image_iam_member", func(r *config.Resource) {
+		r.References["image"] = config.Reference{
+			Type: "Image",
+		}
 	})
 }
 

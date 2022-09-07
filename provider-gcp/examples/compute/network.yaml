@@ -1,8 +1,12 @@
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: Network
 metadata:
+  annotations:
+    upjet.upbound.io/timeout: "2400"
+    meta.upbound.io/example-id: compute/v1beta1/network
   labels:
     testing.upbound.io/example-name: example_network
-  name: example-network-${Rand.RFC1123Subdomain}
+  name: example-network
 spec:
-  forProvider: {}
+  forProvider:
+    autoCreateSubnetworks: false

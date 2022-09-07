@@ -1,6 +1,8 @@
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: RegionSSLCertificate
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/regionsslcertificate
   labels:
     testing.upbound.io/example-name: region-certificate
   name: region-certificate
@@ -22,6 +24,8 @@ spec:
 apiVersion: v1
 kind: Secret
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/regionsslcertificate
   labels:
     testing.upbound.io/example-name: region-certificate
   name: region-certificate
@@ -34,6 +38,8 @@ data:
 apiVersion: v1
 kind: Secret
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/regionsslcertificate
   labels:
     testing.upbound.io/example-name: region-certificate
   name: region-key

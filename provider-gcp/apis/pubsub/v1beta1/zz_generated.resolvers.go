@@ -125,60 +125,8 @@ func (mg *Subscription) ResolveReferences(ctx context.Context, c client.Reader) 
 	return nil
 }
 
-// ResolveReferences of this SubscriptionIAMBinding.
-func (mg *SubscriptionIAMBinding) ResolveReferences(ctx context.Context, c client.Reader) error {
-	r := reference.NewAPIResolver(c, mg)
-
-	var rsp reference.ResolutionResponse
-	var err error
-
-	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Subscription),
-		Extract:      reference.ExternalName(),
-		Reference:    mg.Spec.ForProvider.SubscriptionRef,
-		Selector:     mg.Spec.ForProvider.SubscriptionSelector,
-		To: reference.To{
-			List:    &SubscriptionList{},
-			Managed: &Subscription{},
-		},
-	})
-	if err != nil {
-		return errors.Wrap(err, "mg.Spec.ForProvider.Subscription")
-	}
-	mg.Spec.ForProvider.Subscription = reference.ToPtrValue(rsp.ResolvedValue)
-	mg.Spec.ForProvider.SubscriptionRef = rsp.ResolvedReference
-
-	return nil
-}
-
 // ResolveReferences of this SubscriptionIAMMember.
 func (mg *SubscriptionIAMMember) ResolveReferences(ctx context.Context, c client.Reader) error {
-	r := reference.NewAPIResolver(c, mg)
-
-	var rsp reference.ResolutionResponse
-	var err error
-
-	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Subscription),
-		Extract:      reference.ExternalName(),
-		Reference:    mg.Spec.ForProvider.SubscriptionRef,
-		Selector:     mg.Spec.ForProvider.SubscriptionSelector,
-		To: reference.To{
-			List:    &SubscriptionList{},
-			Managed: &Subscription{},
-		},
-	})
-	if err != nil {
-		return errors.Wrap(err, "mg.Spec.ForProvider.Subscription")
-	}
-	mg.Spec.ForProvider.Subscription = reference.ToPtrValue(rsp.ResolvedValue)
-	mg.Spec.ForProvider.SubscriptionRef = rsp.ResolvedReference
-
-	return nil
-}
-
-// ResolveReferences of this SubscriptionIAMPolicy.
-func (mg *SubscriptionIAMPolicy) ResolveReferences(ctx context.Context, c client.Reader) error {
 	r := reference.NewAPIResolver(c, mg)
 
 	var rsp reference.ResolutionResponse
@@ -229,60 +177,8 @@ func (mg *Topic) ResolveReferences(ctx context.Context, c client.Reader) error {
 	return nil
 }
 
-// ResolveReferences of this TopicIAMBinding.
-func (mg *TopicIAMBinding) ResolveReferences(ctx context.Context, c client.Reader) error {
-	r := reference.NewAPIResolver(c, mg)
-
-	var rsp reference.ResolutionResponse
-	var err error
-
-	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Topic),
-		Extract:      reference.ExternalName(),
-		Reference:    mg.Spec.ForProvider.TopicRef,
-		Selector:     mg.Spec.ForProvider.TopicSelector,
-		To: reference.To{
-			List:    &TopicList{},
-			Managed: &Topic{},
-		},
-	})
-	if err != nil {
-		return errors.Wrap(err, "mg.Spec.ForProvider.Topic")
-	}
-	mg.Spec.ForProvider.Topic = reference.ToPtrValue(rsp.ResolvedValue)
-	mg.Spec.ForProvider.TopicRef = rsp.ResolvedReference
-
-	return nil
-}
-
 // ResolveReferences of this TopicIAMMember.
 func (mg *TopicIAMMember) ResolveReferences(ctx context.Context, c client.Reader) error {
-	r := reference.NewAPIResolver(c, mg)
-
-	var rsp reference.ResolutionResponse
-	var err error
-
-	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Topic),
-		Extract:      reference.ExternalName(),
-		Reference:    mg.Spec.ForProvider.TopicRef,
-		Selector:     mg.Spec.ForProvider.TopicSelector,
-		To: reference.To{
-			List:    &TopicList{},
-			Managed: &Topic{},
-		},
-	})
-	if err != nil {
-		return errors.Wrap(err, "mg.Spec.ForProvider.Topic")
-	}
-	mg.Spec.ForProvider.Topic = reference.ToPtrValue(rsp.ResolvedValue)
-	mg.Spec.ForProvider.TopicRef = rsp.ResolvedReference
-
-	return nil
-}
-
-// ResolveReferences of this TopicIAMPolicy.
-func (mg *TopicIAMPolicy) ResolveReferences(ctx context.Context, c client.Reader) error {
 	r := reference.NewAPIResolver(c, mg)
 
 	var rsp reference.ResolutionResponse

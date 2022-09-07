@@ -238,8 +238,8 @@ func (mg *BackendService) ResolveReferences(ctx context.Context, c client.Reader
 	return nil
 }
 
-// ResolveReferences of this DiskIAMPolicy.
-func (mg *DiskIAMPolicy) ResolveReferences(ctx context.Context, c client.Reader) error {
+// ResolveReferences of this DiskIAMMember.
+func (mg *DiskIAMMember) ResolveReferences(ctx context.Context, c client.Reader) error {
 	r := reference.NewAPIResolver(c, mg)
 
 	var rsp reference.ResolutionResponse
@@ -661,8 +661,8 @@ func (mg *HaVPNGateway) ResolveReferences(ctx context.Context, c client.Reader) 
 	return nil
 }
 
-// ResolveReferences of this ImageIAMPolicy.
-func (mg *ImageIAMPolicy) ResolveReferences(ctx context.Context, c client.Reader) error {
+// ResolveReferences of this ImageIAMMember.
+func (mg *ImageIAMMember) ResolveReferences(ctx context.Context, c client.Reader) error {
 	r := reference.NewAPIResolver(c, mg)
 
 	var rsp reference.ResolutionResponse
@@ -823,7 +823,7 @@ func (mg *InstanceGroup) ResolveReferences(ctx context.Context, c client.Reader)
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Network),
-		Extract:      common.ExtractResourceID(),
+		Extract:      common.SelfLinkExtractor(),
 		Reference:    mg.Spec.ForProvider.NetworkRef,
 		Selector:     mg.Spec.ForProvider.NetworkSelector,
 		To: reference.To{
@@ -904,8 +904,8 @@ func (mg *InstanceGroupManager) ResolveReferences(ctx context.Context, c client.
 	return nil
 }
 
-// ResolveReferences of this InstanceIAMPolicy.
-func (mg *InstanceIAMPolicy) ResolveReferences(ctx context.Context, c client.Reader) error {
+// ResolveReferences of this InstanceIAMMember.
+func (mg *InstanceIAMMember) ResolveReferences(ctx context.Context, c client.Reader) error {
 	r := reference.NewAPIResolver(c, mg)
 
 	var rsp reference.ResolutionResponse

@@ -1,6 +1,8 @@
 apiVersion: identityplatform.gcp.upbound.io/v1beta1
 kind: OAuthIdPConfig
 metadata:
+  annotations:
+    meta.upbound.io/example-id: identityplatform/v1beta1/oauthidpconfig
   labels:
     testing.upbound.io/example-name: oauth-idp-config
   name: oauth-idp-config
@@ -27,5 +29,9 @@ data:
   clientSecret: MTIzNDU=
 kind: Secret
 metadata:
+  annotations:
+    meta.upbound.io/example-id: identityplatform/v1beta1/oauthidpconfig
+  labels:
+    testing.upbound.io/example-name: oauth-idp-config
   name: oauth-idp-config
   namespace: upbound-system

@@ -1,7 +1,11 @@
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: Disk
 metadata:
-  name: example
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/disk
+  labels:
+    testing.upbound.io/example-name: disk
+  name: disk
 spec:
   forProvider:
     image: debian-11-bullseye-v20220719
@@ -10,5 +14,3 @@ spec:
     physicalBlockSizeBytes: 4096
     type: pd-ssd
     zone: us-central1-a
-  providerConfigRef:
-    name: default

@@ -1,7 +1,11 @@
 apiVersion: cloudscheduler.gcp.upbound.io/v1beta1
 kind: Job
 metadata:
-  name: example
+  annotations:
+    meta.upbound.io/example-id: cloudscheduler/v1beta1/job
+  labels:
+    testing.upbound.io/example-name: job
+  name: job
 spec:
   forProvider:
     region: us-central1

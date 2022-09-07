@@ -28,26 +28,8 @@ func (l *DomainMappingList) GetItems() []resource.Managed {
 	return items
 }
 
-// GetItems of this ServiceIAMBindingList.
-func (l *ServiceIAMBindingList) GetItems() []resource.Managed {
-	items := make([]resource.Managed, len(l.Items))
-	for i := range l.Items {
-		items[i] = &l.Items[i]
-	}
-	return items
-}
-
 // GetItems of this ServiceIAMMemberList.
 func (l *ServiceIAMMemberList) GetItems() []resource.Managed {
-	items := make([]resource.Managed, len(l.Items))
-	for i := range l.Items {
-		items[i] = &l.Items[i]
-	}
-	return items
-}
-
-// GetItems of this ServiceIAMPolicyList.
-func (l *ServiceIAMPolicyList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
 	for i := range l.Items {
 		items[i] = &l.Items[i]

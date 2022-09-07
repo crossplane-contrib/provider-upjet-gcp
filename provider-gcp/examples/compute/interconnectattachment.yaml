@@ -1,12 +1,51 @@
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: InterconnectAttachment
 metadata:
-  name: example
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/interconnectattachment
+  labels:
+    testing.upbound.io/example-name: interconnect-attachment
+  name: interconnect-attachment
 spec:
   forProvider:
     region: us-central1
     edgeAvailabilityDomain: AVAILABILITY_DOMAIN_1
     mtu: "1500"
-    routerRef:
-      name: example
+    routerSelector:
+      matchLabels:
+        testing.upbound.io/example-name: interconnect-attachment
     type: PARTNER
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Router
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/interconnectattachment
+  labels:
+    testing.upbound.io/example-name: interconnect-attachment
+  name: interconnect-attachment
+spec:
+  forProvider:
+    region: us-central1
+    bgp:
+    - asn: 16550
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: interconnect-attachment
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Network
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/interconnectattachment
+  labels:
+    testing.upbound.io/example-name: interconnect-attachment
+  name: interconnect-attachment
+spec:
+  forProvider:
+    autoCreateSubnetworks: false
+

@@ -16,19 +16,8 @@ func Configure(p *config.Provider) {
 	p.AddResourceConfigurator("google_project", func(r *config.Resource) {
 		r.TerraformResource.Schema["org_id"].Description =
 			"The numeric ID of the organization this project belongs to."
-		r.UseAsync = true
 	})
 	p.AddResourceConfigurator("google_project_default_service_accounts", func(r *config.Resource) {
-		r.References["project"] = config.Reference{
-			Type: "Project",
-		}
-	})
-	p.AddResourceConfigurator("google_project_iam_policy", func(r *config.Resource) {
-		r.References["project"] = config.Reference{
-			Type: "Project",
-		}
-	})
-	p.AddResourceConfigurator("google_project_iam_binding", func(r *config.Resource) {
 		r.References["project"] = config.Reference{
 			Type: "Project",
 		}
@@ -47,7 +36,6 @@ func Configure(p *config.Provider) {
 		r.References["project"] = config.Reference{
 			Type: "Project",
 		}
-		r.UseAsync = true
 	})
 	p.AddResourceConfigurator("google_project_usage_export_bucket", func(r *config.Resource) {
 		r.References["project"] = config.Reference{
@@ -111,6 +99,5 @@ func Configure(p *config.Provider) {
 	p.AddResourceConfigurator("google_service_networking_peered_dns_domain", func(r *config.Resource) {
 		config.MarkAsRequired(r.TerraformResource, "network")
 		config.MarkAsRequired(r.TerraformResource, "service")
-		r.UseAsync = true
 	})
 }

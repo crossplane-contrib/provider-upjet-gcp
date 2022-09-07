@@ -1,6 +1,8 @@
 apiVersion: identityplatform.gcp.upbound.io/v1beta1
 kind: DefaultSupportedIdPConfig
 metadata:
+  annotations:
+    meta.upbound.io/example-id: identityplatform/v1beta1/defaultsupportedidpconfig
   labels:
     testing.upbound.io/example-name: default-supported-idp-config
   name: default-supported-idp-config
@@ -25,5 +27,9 @@ data:
   clientSecret: MTIzNDU=
 kind: Secret
 metadata:
+  annotations:
+    meta.upbound.io/example-id: identityplatform/v1beta1/defaultsupportedidpconfig
+  labels:
+    testing.upbound.io/example-name: default-supported-idp-config
   name: default-supported-idp-config
   namespace: upbound-system

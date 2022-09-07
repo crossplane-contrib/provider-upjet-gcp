@@ -1,10 +1,11 @@
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: RegionNetworkEndpointGroup
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/regionnetworkendpointgroup
+    upjet.upbound.io/manual-intervention: "BucketObject does not support source field"
   labels:
     testing.upbound.io/example-name: region-endpoint-network-group
-  annotations:
-    upjet.upbound.io/manual-intervention: "BucketObject does not support source field"
   name: region-endpoint-network-group
 spec:
   forProvider:
@@ -20,10 +21,11 @@ spec:
 apiVersion: cloudfunctions.gcp.upbound.io/v1beta1
 kind: Function
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/regionnetworkendpointgroup
+    upjet.upbound.io/manual-intervention: "BucketObject does not support source field"
   labels:
     testing.upbound.io/example-name: region-endpoint-network-group
-  annotations:
-    upjet.upbound.io/manual-intervention: "BucketObject does not support source field"
   name: region-endpoint-network-group
 spec:
   forProvider:
@@ -33,7 +35,7 @@ spec:
     runtime: nodejs16
     sourceArchiveBucketSelector:
       matchLabels:
-        testing.upbound.io/example-name: region-endpoint-network-group-42345
+        testing.upbound.io/example-name: region-endpoint-network-group
     sourceArchiveObjectSelector:
       matchLabels:
         testing.upbound.io/example-name: region-endpoint-network-group
@@ -45,10 +47,11 @@ spec:
 apiVersion: cloudfunctions.gcp.upbound.io/v1beta1
 kind: FunctionIAMMember
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/regionnetworkendpointgroup
+    upjet.upbound.io/manual-intervention: "BucketObject does not support source field"
   labels:
     testing.upbound.io/example-name: region-endpoint-network-group
-  annotations:
-    upjet.upbound.io/manual-intervention: "BucketObject does not support source field"
   name: region-endpoint-network-group
 spec:
   forProvider:
@@ -64,11 +67,12 @@ spec:
 apiVersion: storage.gcp.upbound.io/v1beta1
 kind: Bucket
 metadata:
-  labels:
-    testing.upbound.io/example-name: region-endpoint-network-group-42345
   annotations:
+    meta.upbound.io/example-id: compute/v1beta1/regionnetworkendpointgroup
     upjet.upbound.io/manual-intervention: "BucketObject does not support source field"
-  name: region-endpoint-network-group-42345
+  labels:
+    testing.upbound.io/example-name: region-endpoint-network-group
+  name: region-endpoint-network-group-${Rand.RFC1123Subdomain}
 spec:
   forProvider:
     location: US
@@ -78,19 +82,19 @@ spec:
 apiVersion: storage.gcp.upbound.io/v1beta1
 kind: BucketObject
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/regionnetworkendpointgroup
+    upjet.upbound.io/manual-intervention: "BucketObject does not support source field"
   labels:
     testing.upbound.io/example-name: region-endpoint-network-group
-  annotations:
-    upjet.upbound.io/manual-intervention: "BucketObject does not support source field"
   name: region-endpoint-network-group
 spec:
   forProvider:
     bucketSelector: 
       matchLabels:
-        testing.upbound.io/example-name: region-endpoint-network-group-42345
+        testing.upbound.io/example-name: region-endpoint-network-group
     name: function.zip
-    # TODO needs function.zip added to bucket
-    content: TODO
+    source: ./path/to/zip/file/which/contains/code
     contentType: application/zip
     
 ---
@@ -98,10 +102,11 @@ spec:
 apiVersion: v1
 kind: Secret
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/regionnetworkendpointgroup
+    upjet.upbound.io/manual-intervention: "BucketObject does not support source field"
   labels:
     testing.upbound.io/example-name: region-endpoint-network-group
-  annotations:
-    upjet.upbound.io/manual-intervention: "BucketObject does not support source field"
   name: region-endpoint-network-group
   namespace: upbound-system
 data:

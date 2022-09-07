@@ -70,22 +70,16 @@ func Configure(p *config.Provider) { //nolint:gocyclo
 			}
 			return conn, nil
 		}
-
-		r.UseAsync = true
 	})
 	p.AddResourceConfigurator("google_sql_database", func(r *config.Resource) {
 		r.References["instance"] = config.Reference{
 			Type: "DatabaseInstance",
 		}
-
-		r.UseAsync = true
 	})
 	p.AddResourceConfigurator("google_sql_source_representation_instance", func(r *config.Resource) {
 		r.References["instance"] = config.Reference{
 			Type: "DatabaseInstance",
 		}
-
-		r.UseAsync = true
 	})
 	p.AddResourceConfigurator("google_sql_user", func(r *config.Resource) {
 		r.ExternalName = config.NameAsIdentifier
@@ -113,8 +107,6 @@ func Configure(p *config.Provider) { //nolint:gocyclo
 		r.References["instance"] = config.Reference{
 			Type: "DatabaseInstance",
 		}
-
-		r.UseAsync = true
 	})
 	p.AddResourceConfigurator("google_sql_ssl_cert", func(r *config.Resource) {
 		r.ExternalName = config.IdentifierFromProvider
@@ -137,7 +129,5 @@ func Configure(p *config.Provider) { //nolint:gocyclo
 		r.References["instance"] = config.Reference{
 			Type: "DatabaseInstance",
 		}
-
-		r.UseAsync = true
 	})
 }

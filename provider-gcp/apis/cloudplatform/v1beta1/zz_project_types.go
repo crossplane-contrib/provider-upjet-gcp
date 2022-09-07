@@ -73,6 +73,10 @@ type ProjectParameters struct {
 	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
+	// The display name of the project.
+	// +kubebuilder:validation:Required
+	Name *string `json:"name" tf:"name,omitempty"`
+
 	// The numeric ID of the organization this project belongs to.
 	// Changing this forces a new project to be created.  Only one of
 	// org_id or folder_id may be specified. If the org_id is
@@ -82,10 +86,6 @@ type ProjectParameters struct {
 	// The numeric ID of the organization this project belongs to.
 	// +kubebuilder:validation:Optional
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
-
-	// The project ID. Changing this forces a new project to be created.
-	// +kubebuilder:validation:Required
-	ProjectID *string `json:"projectId" tf:"project_id,omitempty"`
 
 	// If true, the Terraform resource can be deleted
 	// without deleting the Project via the Google API.

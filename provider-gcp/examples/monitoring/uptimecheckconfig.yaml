@@ -1,6 +1,8 @@
 apiVersion: monitoring.gcp.upbound.io/v1beta1
 kind: UptimeCheckConfig
 metadata:
+  annotations:
+    meta.upbound.io/example-id: monitoring/v1beta1/uptimecheckconfig
   labels:
     testing.upbound.io/example-name: http_uptime_check
   name: example-http-uptime-check
@@ -22,4 +24,3 @@ spec:
         project_id: official-provider-testing
       type: uptime_url
     timeout: 60s
-

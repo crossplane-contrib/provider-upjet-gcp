@@ -1,9 +1,44 @@
 apiVersion: pubsub.gcp.upbound.io/v1beta1
 kind: SubscriptionIAMMember
 metadata:
-  name: example
+  annotations:
+    meta.upbound.io/example-id: pubsub/v1beta1/subscriptioniammember
+  labels:
+    testing.upbound.io/example-name: subscription-iam-member
+  name: subscription-iam-member
 spec:
   forProvider:
-    member: "user:jane@example.com"
+    member: "${data.google_iam_member.member}"
     role: "roles/viewer"
-    subscription: example
+    subscriptionSelector:
+      matchLabels:
+        testing.upbound.io/example-name: subscription-iam-member
+
+---
+
+apiVersion: pubsub.gcp.upbound.io/v1beta1
+kind: Subscription
+metadata:
+  annotations:
+    meta.upbound.io/example-id: pubsub/v1beta1/subscriptioniammember
+  labels:
+    testing.upbound.io/example-name: subscription-iam-member
+  name: subscription-iam-member
+spec:
+  forProvider:
+    topicSelector:
+      matchLabels:
+        testing.upbound.io/example-name: subscription-iam-member
+
+---
+
+apiVersion: pubsub.gcp.upbound.io/v1beta1
+kind: Topic
+metadata:
+  annotations:
+    meta.upbound.io/example-id: pubsub/v1beta1/subscriptioniammember
+  labels:
+    testing.upbound.io/example-name: subscription-iam-member
+  name: subscription-iam-member
+spec:
+  forProvider: {}

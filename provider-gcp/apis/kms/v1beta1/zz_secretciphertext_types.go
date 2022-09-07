@@ -59,7 +59,7 @@ type SecretCiphertextParameters struct {
 	// The plaintext to be encrypted.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Required
-	PlaintextSecretRef v1.SecretKeySelector `json:"plaintextSecretRef" tf:"-"`
+	Plaintext *string `json:"plaintext" tf:"plaintext,omitempty"`
 }
 
 // SecretCiphertextSpec defines the desired state of SecretCiphertext

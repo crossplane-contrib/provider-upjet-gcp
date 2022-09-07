@@ -1,15 +1,16 @@
 apiVersion: redis.gcp.upbound.io/v1beta1
 kind: Instance
 metadata:
-  name: example
+  annotations:
+    meta.upbound.io/example-id: redis/v1beta1/instance
+  labels:
+    testing.upbound.io/example-name: redis-instance
+  name: redis-instance
 spec:
   forProvider:
     tier: STANDARD_HA
     region: us-west2
     memorySizeGb: 1
     labels:
-      owner: instanceowner
+      environment: dev
     authEnabled: true
-  writeConnectionSecretToRef:
-    name: example-redis-connection-details
-    namespace: upbound-system

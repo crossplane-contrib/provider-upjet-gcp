@@ -1,6 +1,8 @@
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: RegionPerInstanceConfig
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/regionperinstanceconfig
   labels:
     testing.upbound.io/example-name: region-per-instance-config
   name: region-per-instance-config
@@ -15,7 +17,7 @@ spec:
           matchLabels:
             testing.upbound.io/example-name: region-per-instance-config
       metadata:
-        foo: bar
+        environment: dev
     regionInstanceGroupManagerSelector:
       matchLabels:
         testing.upbound.io/example-name: region-per-instance-config
@@ -26,6 +28,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: Disk
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/regionperinstanceconfig
   labels:
     testing.upbound.io/example-name: region-per-instance-config
   name: region-per-instance-config
@@ -41,6 +45,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: InstanceTemplate
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/regionperinstanceconfig
   labels:
     testing.upbound.io/example-name: region-per-instance-config
   name: region-per-instance-config
@@ -69,6 +75,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: RegionInstanceGroupManager
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/regionperinstanceconfig
   labels:
     testing.upbound.io/example-name: region-per-instance-config
   name: region-per-instance-config
@@ -88,4 +96,4 @@ spec:
     - instanceTemplateSelector:
         matchLabels:
           testing.upbound.io/example-name: region-per-instance-config
-      name: prod
+      name: region-per-instance-config

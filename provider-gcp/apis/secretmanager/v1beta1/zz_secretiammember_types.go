@@ -40,72 +40,84 @@ type ConditionParameters struct {
 	Title *string `json:"title" tf:"title,omitempty"`
 }
 
-type OrganizationIAMBindingObservation struct {
+type SecretIAMMemberObservation struct {
 	Etag *string `json:"etag,omitempty" tf:"etag,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 }
 
-type OrganizationIAMBindingParameters struct {
+type SecretIAMMemberParameters struct {
 
 	// +kubebuilder:validation:Optional
 	Condition []ConditionParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
 	// +kubebuilder:validation:Required
-	Members []*string `json:"members" tf:"members,omitempty"`
+	Member *string `json:"member" tf:"member,omitempty"`
 
-	// +kubebuilder:validation:Required
-	OrgID *string `json:"orgId" tf:"org_id,omitempty"`
+	// +kubebuilder:validation:Optional
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// +kubebuilder:validation:Required
 	Role *string `json:"role" tf:"role,omitempty"`
+
+	// +crossplane:generate:reference:type=Secret
+	// +kubebuilder:validation:Optional
+	SecretID *string `json:"secretId,omitempty" tf:"secret_id,omitempty"`
+
+	// Reference to a Secret to populate secretId.
+	// +kubebuilder:validation:Optional
+	SecretIDRef *v1.Reference `json:"secretIdRef,omitempty" tf:"-"`
+
+	// Selector for a Secret to populate secretId.
+	// +kubebuilder:validation:Optional
+	SecretIDSelector *v1.Selector `json:"secretIdSelector,omitempty" tf:"-"`
 }
 
-// OrganizationIAMBindingSpec defines the desired state of OrganizationIAMBinding
-type OrganizationIAMBindingSpec struct {
+// SecretIAMMemberSpec defines the desired state of SecretIAMMember
+type SecretIAMMemberSpec struct {
 	v1.ResourceSpec `json:",inline"`
-	ForProvider     OrganizationIAMBindingParameters `json:"forProvider"`
+	ForProvider     SecretIAMMemberParameters `json:"forProvider"`
 }
 
-// OrganizationIAMBindingStatus defines the observed state of OrganizationIAMBinding.
-type OrganizationIAMBindingStatus struct {
+// SecretIAMMemberStatus defines the observed state of SecretIAMMember.
+type SecretIAMMemberStatus struct {
 	v1.ResourceStatus `json:",inline"`
-	AtProvider        OrganizationIAMBindingObservation `json:"atProvider,omitempty"`
+	AtProvider        SecretIAMMemberObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 
-// OrganizationIAMBinding is the Schema for the OrganizationIAMBindings API. <no value>
+// SecretIAMMember is the Schema for the SecretIAMMembers API. <no value>
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
 // +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,gcp}
-type OrganizationIAMBinding struct {
+type SecretIAMMember struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              OrganizationIAMBindingSpec   `json:"spec"`
-	Status            OrganizationIAMBindingStatus `json:"status,omitempty"`
+	Spec              SecretIAMMemberSpec   `json:"spec"`
+	Status            SecretIAMMemberStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 
-// OrganizationIAMBindingList contains a list of OrganizationIAMBindings
-type OrganizationIAMBindingList struct {
+// SecretIAMMemberList contains a list of SecretIAMMembers
+type SecretIAMMemberList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []OrganizationIAMBinding `json:"items"`
+	Items           []SecretIAMMember `json:"items"`
 }
 
 // Repository type metadata.
 var (
-	OrganizationIAMBinding_Kind             = "OrganizationIAMBinding"
-	OrganizationIAMBinding_GroupKind        = schema.GroupKind{Group: CRDGroup, Kind: OrganizationIAMBinding_Kind}.String()
-	OrganizationIAMBinding_KindAPIVersion   = OrganizationIAMBinding_Kind + "." + CRDGroupVersion.String()
-	OrganizationIAMBinding_GroupVersionKind = CRDGroupVersion.WithKind(OrganizationIAMBinding_Kind)
+	SecretIAMMember_Kind             = "SecretIAMMember"
+	SecretIAMMember_GroupKind        = schema.GroupKind{Group: CRDGroup, Kind: SecretIAMMember_Kind}.String()
+	SecretIAMMember_KindAPIVersion   = SecretIAMMember_Kind + "." + CRDGroupVersion.String()
+	SecretIAMMember_GroupVersionKind = CRDGroupVersion.WithKind(SecretIAMMember_Kind)
 )
 
 func init() {
-	SchemeBuilder.Register(&OrganizationIAMBinding{}, &OrganizationIAMBindingList{})
+	SchemeBuilder.Register(&SecretIAMMember{}, &SecretIAMMemberList{})
 }

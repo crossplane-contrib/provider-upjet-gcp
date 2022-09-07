@@ -1,6 +1,8 @@
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: GlobalForwardingRule
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/globalforwardingrule
   labels:
     testing.upbound.io/example-name: global-forwarding-rule
   name: global-forwarding-rule
@@ -21,6 +23,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: BackendService
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/globalforwardingrule
   labels:
     testing.upbound.io/example-name: global-forwarding-rule
   name: global-forwarding-rule
@@ -45,6 +49,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: GlobalAddress
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/globalforwardingrule
   labels:
     testing.upbound.io/example-name: global-forwarding-rule
   name: global-forwarding-rule
@@ -56,6 +62,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: HealthCheck
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/globalforwardingrule
   labels:
     testing.upbound.io/example-name: global-forwarding-rule
   name: global-forwarding-rule
@@ -71,6 +79,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: InstanceGroupManager
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/globalforwardingrule
   labels:
     testing.upbound.io/example-name: global-forwarding-rule
   name: global-forwarding-rule
@@ -93,6 +103,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: InstanceTemplate
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/globalforwardingrule
   labels:
     testing.upbound.io/example-name: global-forwarding-rule
   name: global-forwarding-rule
@@ -143,6 +155,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: SSLCertificate
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/globalforwardingrule
   labels:
     testing.upbound.io/example-name: global-forwarding-rule
   name: global-forwarding-rule
@@ -163,6 +177,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: Network
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/globalforwardingrule
   labels:
     testing.upbound.io/example-name: global-forwarding-rule
   name: global-forwarding-rule
@@ -175,6 +191,8 @@ spec:
 apiVersion: v1
 kind: Secret
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/globalforwardingrule
   labels:
     testing.upbound.io/example-name: global-forwarding-rule-crt
   name: global-forwarding-rule-crt
@@ -187,6 +205,8 @@ data:
 apiVersion: v1
 kind: Secret
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/globalforwardingrule
   labels:
     testing.upbound.io/example-name: global-forwarding-rule-key
   name: global-forwarding-rule-key
@@ -199,6 +219,8 @@ data:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: Subnetwork
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/globalforwardingrule
   labels:
     testing.upbound.io/example-name: global-forwarding-rule
   name: global-forwarding-rule
@@ -215,6 +237,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: TargetSSLProxy
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/globalforwardingrule
   labels:
     testing.upbound.io/example-name: global-forwarding-rule
   name: global-forwarding-rule

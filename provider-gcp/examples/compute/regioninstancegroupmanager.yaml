@@ -1,6 +1,8 @@
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: RegionInstanceGroupManager
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/regioninstancegroupmanager
   labels:
     testing.upbound.io/example-name: region-instance-group-manager
   name: region-instance-group-manager
@@ -33,6 +35,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: InstanceTemplate
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/regioninstancegroupmanager
   labels:
     testing.upbound.io/example-name: region-instance-group-manager
   name: region-instance-group-manager
@@ -49,7 +53,7 @@ spec:
       environment: dev
     machineType: e2-medium
     metadata:
-      foo: bar
+      environment: dev
     networkInterface:
       - network: default
     scheduling:
@@ -64,6 +68,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: TargetPool
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/regioninstancegroupmanager
   labels:
     testing.upbound.io/example-name: region-instance-group-manager
   name: region-instance-group-manager
@@ -82,6 +88,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: HTTPHealthCheck
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/regioninstancegroupmanager
   labels:
     testing.upbound.io/example-name: region-instance-group-manager
   name: region-instance-group-manager
@@ -96,6 +104,8 @@ spec:
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: HealthCheck
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/regioninstancegroupmanager
   labels:
     testing.upbound.io/example-name: region-instance-group-manager
   name: region-instance-group-manager

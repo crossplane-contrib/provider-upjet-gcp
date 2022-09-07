@@ -1,7 +1,11 @@
 apiVersion: pubsub.gcp.upbound.io/v1beta1
 kind: Schema
 metadata:
-  name: example
+  annotations:
+    meta.upbound.io/example-id: pubsub/v1beta1/schema
+  labels:
+    testing.upbound.io/example-name: schema
+  name: schema
 spec:
   forProvider:
     definition: |

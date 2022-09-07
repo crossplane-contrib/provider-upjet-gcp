@@ -14,28 +14,21 @@ import (
 	functioniammember "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudfunctions/functioniammember"
 	folder "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/folder"
 	organizationiamauditconfig "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/organizationiamauditconfig"
-	organizationiambinding "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/organizationiambinding"
 	organizationiamcustomrole "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/organizationiamcustomrole"
 	organizationiammember "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/organizationiammember"
 	project "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/project"
 	projectdefaultserviceaccounts "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/projectdefaultserviceaccounts"
 	projectiamauditconfig "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/projectiamauditconfig"
-	projectiambinding "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/projectiambinding"
 	projectiammember "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/projectiammember"
-	projectiampolicy "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/projectiampolicy"
 	projectservice "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/projectservice"
 	projectusageexportbucket "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/projectusageexportbucket"
 	serviceaccount "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/serviceaccount"
-	serviceaccountiambinding "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/serviceaccountiambinding"
 	serviceaccountiammember "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/serviceaccountiammember"
-	serviceaccountiampolicy "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/serviceaccountiampolicy"
 	serviceaccountkey "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/serviceaccountkey"
 	servicenetworkingpeereddnsdomain "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudplatform/servicenetworkingpeereddnsdomain"
 	domainmapping "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudrun/domainmapping"
 	service "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudrun/service"
-	serviceiambinding "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudrun/serviceiambinding"
 	serviceiammember "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudrun/serviceiammember"
-	serviceiampolicy "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudrun/serviceiampolicy"
 	job "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudscheduler/job"
 	queue "github.com/upbound/official-providers/provider-gcp/internal/controller/cloudtasks/queue"
 	environment "github.com/upbound/official-providers/provider-gcp/internal/controller/composer/environment"
@@ -46,9 +39,7 @@ import (
 	backendbucketsignedurlkey "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/backendbucketsignedurlkey"
 	backendservice "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/backendservice"
 	disk "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/disk"
-	diskiambinding "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/diskiambinding"
 	diskiammember "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/diskiammember"
-	diskiampolicy "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/diskiampolicy"
 	diskresourcepolicyattachment "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/diskresourcepolicyattachment"
 	externalvpngateway "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/externalvpngateway"
 	firewall "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/firewall"
@@ -65,17 +56,13 @@ import (
 	httphealthcheck "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/httphealthcheck"
 	httpshealthcheck "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/httpshealthcheck"
 	image "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/image"
-	imageiambinding "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/imageiambinding"
 	imageiammember "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/imageiammember"
-	imageiampolicy "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/imageiampolicy"
 	instance "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/instance"
 	instancefromtemplate "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/instancefromtemplate"
 	instancegroup "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/instancegroup"
 	instancegroupmanager "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/instancegroupmanager"
 	instancegroupnamedport "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/instancegroupnamedport"
-	instanceiambinding "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/instanceiambinding"
 	instanceiammember "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/instanceiammember"
-	instanceiampolicy "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/instanceiampolicy"
 	instancetemplate "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/instancetemplate"
 	interconnectattachment "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/interconnectattachment"
 	managedsslcertificate "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/managedsslcertificate"
@@ -145,15 +132,12 @@ import (
 	litetopic "github.com/upbound/official-providers/provider-gcp/internal/controller/pubsub/litetopic"
 	schema "github.com/upbound/official-providers/provider-gcp/internal/controller/pubsub/schema"
 	subscription "github.com/upbound/official-providers/provider-gcp/internal/controller/pubsub/subscription"
-	subscriptioniambinding "github.com/upbound/official-providers/provider-gcp/internal/controller/pubsub/subscriptioniambinding"
 	subscriptioniammember "github.com/upbound/official-providers/provider-gcp/internal/controller/pubsub/subscriptioniammember"
-	subscriptioniampolicy "github.com/upbound/official-providers/provider-gcp/internal/controller/pubsub/subscriptioniampolicy"
 	topic "github.com/upbound/official-providers/provider-gcp/internal/controller/pubsub/topic"
-	topiciambinding "github.com/upbound/official-providers/provider-gcp/internal/controller/pubsub/topiciambinding"
 	topiciammember "github.com/upbound/official-providers/provider-gcp/internal/controller/pubsub/topiciammember"
-	topiciampolicy "github.com/upbound/official-providers/provider-gcp/internal/controller/pubsub/topiciampolicy"
 	instanceredis "github.com/upbound/official-providers/provider-gcp/internal/controller/redis/instance"
 	secret "github.com/upbound/official-providers/provider-gcp/internal/controller/secretmanager/secret"
+	secretiammember "github.com/upbound/official-providers/provider-gcp/internal/controller/secretmanager/secretiammember"
 	secretversion "github.com/upbound/official-providers/provider-gcp/internal/controller/secretmanager/secretversion"
 	connection "github.com/upbound/official-providers/provider-gcp/internal/controller/servicenetworking/connection"
 	database "github.com/upbound/official-providers/provider-gcp/internal/controller/sql/database"
@@ -179,28 +163,21 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		functioniammember.Setup,
 		folder.Setup,
 		organizationiamauditconfig.Setup,
-		organizationiambinding.Setup,
 		organizationiamcustomrole.Setup,
 		organizationiammember.Setup,
 		project.Setup,
 		projectdefaultserviceaccounts.Setup,
 		projectiamauditconfig.Setup,
-		projectiambinding.Setup,
 		projectiammember.Setup,
-		projectiampolicy.Setup,
 		projectservice.Setup,
 		projectusageexportbucket.Setup,
 		serviceaccount.Setup,
-		serviceaccountiambinding.Setup,
 		serviceaccountiammember.Setup,
-		serviceaccountiampolicy.Setup,
 		serviceaccountkey.Setup,
 		servicenetworkingpeereddnsdomain.Setup,
 		domainmapping.Setup,
 		service.Setup,
-		serviceiambinding.Setup,
 		serviceiammember.Setup,
-		serviceiampolicy.Setup,
 		job.Setup,
 		queue.Setup,
 		environment.Setup,
@@ -211,9 +188,7 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		backendbucketsignedurlkey.Setup,
 		backendservice.Setup,
 		disk.Setup,
-		diskiambinding.Setup,
 		diskiammember.Setup,
-		diskiampolicy.Setup,
 		diskresourcepolicyattachment.Setup,
 		externalvpngateway.Setup,
 		firewall.Setup,
@@ -230,17 +205,13 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		httphealthcheck.Setup,
 		httpshealthcheck.Setup,
 		image.Setup,
-		imageiambinding.Setup,
 		imageiammember.Setup,
-		imageiampolicy.Setup,
 		instance.Setup,
 		instancefromtemplate.Setup,
 		instancegroup.Setup,
 		instancegroupmanager.Setup,
 		instancegroupnamedport.Setup,
-		instanceiambinding.Setup,
 		instanceiammember.Setup,
-		instanceiampolicy.Setup,
 		instancetemplate.Setup,
 		interconnectattachment.Setup,
 		managedsslcertificate.Setup,
@@ -310,15 +281,12 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		litetopic.Setup,
 		schema.Setup,
 		subscription.Setup,
-		subscriptioniambinding.Setup,
 		subscriptioniammember.Setup,
-		subscriptioniampolicy.Setup,
 		topic.Setup,
-		topiciambinding.Setup,
 		topiciammember.Setup,
-		topiciampolicy.Setup,
 		instanceredis.Setup,
 		secret.Setup,
+		secretiammember.Setup,
 		secretversion.Setup,
 		connection.Setup,
 		database.Setup,

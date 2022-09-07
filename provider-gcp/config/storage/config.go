@@ -28,14 +28,12 @@ func Configure(p *config.Provider) {
 	})
 
 	p.AddResourceConfigurator("google_storage_bucket_access_control", func(r *config.Resource) {
-		// The reference should be manually inferred, but this is not yet activated for GCP
 		r.References["bucket"] = config.Reference{
 			Type: "Bucket",
 		}
 	})
 
 	p.AddResourceConfigurator("google_storage_bucket_acl", func(r *config.Resource) {
-		// The reference should be manually inferred, but this is not yet activated for GCP
 		r.References["bucket"] = config.Reference{
 			Type: "Bucket",
 		}

@@ -1,27 +1,31 @@
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: BackendService
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/backendservice
+  labels:
+    testing.upbound.io/example-name: backend-service
+  name: backend-service
+spec:
+  forProvider:
+    healthChecksSelector:
+      matchLabels:
+        testing.upbound.io/example-name: backend-service
+
+---
+
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: HealthCheck
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/backendservice
   labels:
-    testing.upbound.io/example-name: example  
-  name: example-backend-service
+    testing.upbound.io/example-name: backend-service
+  name: backend-service
 spec:
   forProvider:
     checkIntervalSec: 1
     httpHealthCheck:
       - port: 80
     timeoutSec: 1
-
----
-
-apiVersion: compute.gcp.upbound.io/v1beta1
-kind: BackendService
-metadata:
-  labels:
-    testing.upbound.io/example-name: example  
-  annotations:
-    upjet.upbound.io/manual-intervention: "HealthCheck URL is enviroment specific"
-  name: example
-spec:
-  forProvider:
-    healthChecksRefs:
-    - name: example-backend-service

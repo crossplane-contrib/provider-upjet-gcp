@@ -1,11 +1,28 @@
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: HaVPNGateway
 metadata:
-  name: example
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/havpngateway
+  labels:
+    testing.upbound.io/example-name: ha-vpn-gateway
+  name: ha-vpn-gateway
 spec:
   forProvider:
-    networkRef:
-      name: example
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: ha-vpn-gateway
     region: us-central1
-  providerConfigRef:
-    name: default
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Network
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/havpngateway
+  labels:
+    testing.upbound.io/example-name: ha-vpn-gateway
+  name: ha-vpn-gateway
+spec:
+  forProvider:
+    autoCreateSubnetworks: false

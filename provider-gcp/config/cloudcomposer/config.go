@@ -24,6 +24,5 @@ func Configure(p *config.Provider) {
 			Type: "github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.Subnetwork",
 		}
 		config.MarkAsRequired(r.TerraformResource, "region")
-		r.UseAsync = true
 	})
 }
