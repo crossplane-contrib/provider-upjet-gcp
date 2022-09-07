@@ -61,6 +61,7 @@ type SecretIAMMemberParameters struct {
 	Role *string `json:"role" tf:"role,omitempty"`
 
 	// +crossplane:generate:reference:type=Secret
+	// +crossplane:generate:reference:extractor=github.com/upbound/official-providers/provider-gcp/config/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	SecretID *string `json:"secretId,omitempty" tf:"secret_id,omitempty"`
 

@@ -41,10 +41,7 @@ import (
 	v1beta1oslogin "github.com/upbound/official-providers/provider-gcp/apis/oslogin/v1beta1"
 	v1beta1privateca "github.com/upbound/official-providers/provider-gcp/apis/privateca/v1beta1"
 	v1beta1pubsub "github.com/upbound/official-providers/provider-gcp/apis/pubsub/v1beta1"
-	v1beta1recaptcha "github.com/upbound/official-providers/provider-gcp/apis/recaptcha/v1beta1"
 	v1beta1redis "github.com/upbound/official-providers/provider-gcp/apis/redis/v1beta1"
-	v1beta1resourcemanager "github.com/upbound/official-providers/provider-gcp/apis/resourcemanager/v1beta1"
-	v1beta1scc "github.com/upbound/official-providers/provider-gcp/apis/scc/v1beta1"
 	v1beta1secretmanager "github.com/upbound/official-providers/provider-gcp/apis/secretmanager/v1beta1"
 	v1beta1servicenetworking "github.com/upbound/official-providers/provider-gcp/apis/servicenetworking/v1beta1"
 	v1beta1sourcerepo "github.com/upbound/official-providers/provider-gcp/apis/sourcerepo/v1beta1"
@@ -77,10 +74,7 @@ func init() {
 		v1beta1oslogin.SchemeBuilder.AddToScheme,
 		v1beta1privateca.SchemeBuilder.AddToScheme,
 		v1beta1pubsub.SchemeBuilder.AddToScheme,
-		v1beta1recaptcha.SchemeBuilder.AddToScheme,
 		v1beta1redis.SchemeBuilder.AddToScheme,
-		v1beta1resourcemanager.SchemeBuilder.AddToScheme,
-		v1beta1scc.SchemeBuilder.AddToScheme,
 		v1beta1secretmanager.SchemeBuilder.AddToScheme,
 		v1beta1servicenetworking.SchemeBuilder.AddToScheme,
 		v1beta1sourcerepo.SchemeBuilder.AddToScheme,

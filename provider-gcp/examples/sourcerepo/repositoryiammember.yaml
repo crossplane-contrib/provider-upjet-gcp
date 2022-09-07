@@ -24,7 +24,7 @@ apiVersion: sourcerepo.gcp.upbound.io/v1beta1
 kind: Repository
 metadata:
   annotations:
-    meta.upbound.io/example-id: sourcerepo/v1beta1/repository
+    meta.upbound.io/example-id: sourcerepo/v1beta1/repositoryiammember
     upjet.upbound.io/manual-intervention:
       "Requires enabling `Cloud Source Repositories API` and granting `Source
       Repository Administrator` role"

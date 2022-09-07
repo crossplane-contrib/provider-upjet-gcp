@@ -13,7 +13,6 @@ func Configure(p *config.Provider) {
 	})
 
 	p.AddResourceConfigurator("google_secret_manager_secret_iam_member", func(r *config.Resource) {
-		// The reference should be manually inferred, but this is not yet activated for GCP
 		r.References["secret_id"] = config.Reference{
 			Type:      "Secret",
 			Extractor: common.ExtractResourceIDFuncPath,
@@ -21,8 +20,6 @@ func Configure(p *config.Provider) {
 	})
 
 	p.AddResourceConfigurator("google_secret_manager_secret_version", func(r *config.Resource) {
-		r.UseAsync = true
-
 		r.References["secret"] = config.Reference{
 			Type: "Secret",
 		}

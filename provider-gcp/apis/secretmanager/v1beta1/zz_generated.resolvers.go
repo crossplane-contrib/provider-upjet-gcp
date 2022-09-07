@@ -21,7 +21,7 @@ import (
 	"context"
 	reference "github.com/crossplane/crossplane-runtime/pkg/reference"
 	errors "github.com/pkg/errors"
-	resource "github.com/upbound/upjet/pkg/resource"
+	common "github.com/upbound/official-providers/provider-gcp/config/common"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
@@ -34,7 +34,7 @@ func (mg *SecretIAMMember) ResolveReferences(ctx context.Context, c client.Reade
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.SecretID),
-		Extract:      reference.ExternalName(),
+		Extract:      common.ExtractResourceID(),
 		Reference:    mg.Spec.ForProvider.SecretIDRef,
 		Selector:     mg.Spec.ForProvider.SecretIDSelector,
 		To: reference.To{
@@ -60,7 +60,7 @@ func (mg *SecretVersion) ResolveReferences(ctx context.Context, c client.Reader)
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Secret),
-		Extract:      resource.ExtractResourceID(),
+		Extract:      reference.ExternalName(),
 		Reference:    mg.Spec.ForProvider.SecretRef,
 		Selector:     mg.Spec.ForProvider.SecretSelector,
 		To: reference.To{

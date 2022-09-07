@@ -23,7 +23,7 @@ apiVersion: spanner.gcp.upbound.io/v1beta1
 kind: Instance
 metadata:
   annotations:
-    meta.upbound.io/example-id: spanner/v1beta1/instance
+    meta.upbound.io/example-id: spanner/v1beta1/instanceiammember
   labels:
     testing.upbound.io/example-name: example2
   name: example2
