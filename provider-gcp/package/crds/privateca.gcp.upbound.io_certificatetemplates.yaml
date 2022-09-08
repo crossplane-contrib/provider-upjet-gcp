@@ -1,0 +1,578 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.8.0
+  creationTimestamp: null
+  name: certificatetemplates.privateca.gcp.upbound.io
+spec:
+  group: privateca.gcp.upbound.io
+  names:
+    categories:
+    - crossplane
+    - managed
+    - gcp
+    kind: CertificateTemplate
+    listKind: CertificateTemplateList
+    plural: certificatetemplates
+    singular: certificatetemplate
+  scope: Cluster
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
+    - jsonPath: .metadata.annotations.crossplane\.io/external-name
+      name: EXTERNAL-NAME
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1beta1
+    schema:
+      openAPIV3Schema:
+        description: CertificateTemplate is the Schema for the CertificateTemplates
+          API. Certificate Authority Service provides reusable and parameterized templates
+          that you can use for common certificate issuance scenarios. A certificate
+          template represents a relatively static and well-defined certificate issuance
+          schema within an organization.  A certificate template can essentially become
+          a full-fledged vertical certificate issuance framework.
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: CertificateTemplateSpec defines the desired state of CertificateTemplate
+            properties:
+              deletionPolicy:
+                default: Delete
+                description: DeletionPolicy specifies what will happen to the underlying
+                  external when this managed resource is deleted - either "Delete"
+                  or "Orphan" the external resource.
+                enum:
+                - Orphan
+                - Delete
+                type: string
+              forProvider:
+                properties:
+                  description:
+                    type: string
+                  identityConstraints:
+                    description: Optional. Describes constraints on identities that
+                      may be appear in Certificates issued using this template. If
+                      this is omitted, then this template will not add restrictions
+                      on a certificate's identity.
+                    items:
+                      properties:
+                        allowSubjectAltNamesPassthrough:
+                          description: Required. If this is true, the SubjectAltNames
+                            extension may be copied from a certificate request into
+                            the signed certificate. Otherwise, the requested SubjectAltNames
+                            will be discarded.
+                          type: boolean
+                        allowSubjectPassthrough:
+                          description: Required. If this is true, the Subject field
+                            may be copied from a certificate request into the signed
+                            certificate. Otherwise, the requested Subject will be
+                            discarded.
+                          type: boolean
+                        celExpression:
+                          description: Optional. A CEL expression that may be used
+                            to validate the resolved X.509 Subject and/or Subject
+                            Alternative Name before a certificate is signed. To see
+                            the full allowed syntax and some examples, see https://cloud.google.com/certificate-authority-service/docs/using-cel
+                          items:
+                            properties:
+                              description:
+                                type: string
+                              expression:
+                                description: Textual representation of an expression
+                                  in Common Expression Language syntax.
+                                type: string
+                              location:
+                                type: string
+                              title:
+                                description: Optional. Title for the expression, i.e.
+                                  a short string describing its purpose. This can
+                                  be used e.g. in UIs which allow to enter the expression.
+                                type: string
+                            type: object
+                          type: array
+                      required:
+                      - allowSubjectAltNamesPassthrough
+                      - allowSubjectPassthrough
+                      type: object
+                    type: array
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: Optional. Labels with user-defined metadata.
+                    type: object
+                  location:
+                    type: string
+                  passthroughExtensions:
+                    description: Optional. Describes the set of X.509 extensions that
+                      may appear in a Certificate issued using this CertificateTemplate.
+                      If a certificate request sets extensions that don't appear in
+                      the passthrough_extensions, those extensions will be dropped.
+                      If the issuing CaPool's IssuancePolicy defines baseline_values
+                      that don't appear here, the certificate issuance request will
+                      fail. If this is omitted, then this template will not add restrictions
+                      on a certificate's X.509 extensions. These constraints do not
+                      apply to X.509 extensions set in this CertificateTemplate's
+                      predefined_values.
+                    items:
+                      properties:
+                        additionalExtensions:
+                          items:
+                            properties:
+                              objectIdPath:
+                                items:
+                                  type: number
+                                type: array
+                            required:
+                            - objectIdPath
+                            type: object
+                          type: array
+                        knownExtensions:
+                          description: Optional. A set of named X.509 extensions.
+                            Will be combined with additional_extensions to determine
+                            the full set of X.509 extensions.
+                          items:
+                            type: string
+                          type: array
+                      type: object
+                    type: array
+                  predefinedValues:
+                    description: Optional. A set of X.509 values that will be applied
+                      to all issued certificates that use this template. If the certificate
+                      request includes conflicting values for the same properties,
+                      they will be overwritten by the values defined here. If the
+                      issuing CaPool's IssuancePolicy defines conflicting baseline_values
+                      for the same properties, the certificate issuance request will
+                      fail.
+                    items:
+                      properties:
+                        additionalExtensions:
+                          items:
+                            properties:
+                              critical:
+                                description: Optional. Indicates whether or not this
+                                  extension is critical .
+                                type: boolean
+                              objectId:
+                                description: Required. The OID for this X.509 extension.
+                                items:
+                                  properties:
+                                    objectIdPath:
+                                      items:
+                                        type: number
+                                      type: array
+                                  required:
+                                  - objectIdPath
+                                  type: object
+                                type: array
+                              value:
+                                description: Required. The value of this X.509 extension.
+                                type: string
+                            required:
+                            - objectId
+                            - value
+                            type: object
+                          type: array
+                        aiaOcspServers:
+                          description: Optional. Describes Online Certificate Status
+                            Protocol  endpoint addresses that appear in the "Authority
+                            Information Access" extension in the certificate.
+                          items:
+                            type: string
+                          type: array
+                        caOptions:
+                          description: Optional. Describes options in this X509Parameters
+                            that are relevant in a CA certificate.
+                          items:
+                            properties:
+                              isCa:
+                                description: Optional. Refers to the "CA" X.509 extension,
+                                  which is a boolean value. When this value is missing,
+                                  the extension will be omitted from the CA certificate.
+                                type: boolean
+                              maxIssuerPathLength:
+                                description: Optional. Refers to the path length restriction
+                                  X.509 extension. For a CA certificate, this value
+                                  describes the depth of subordinate CA certificates
+                                  that are allowed. If this value is less than 0,
+                                  the request will fail. If this value is missing,
+                                  the max path length will be omitted from the CA
+                                  certificate.
+                                type: number
+                            type: object
+                          type: array
+                        keyUsage:
+                          description: Optional. Indicates the intended use for keys
+                            that correspond to a certificate.
+                          items:
+                            properties:
+                              baseKeyUsage:
+                                description: Describes high-level ways in which a
+                                  key may be used.
+                                items:
+                                  properties:
+                                    certSign:
+                                      description: The key may be used to sign certificates.
+                                      type: boolean
+                                    contentCommitment:
+                                      description: The key may be used for cryptographic
+                                        commitments. Note that this may also be referred
+                                        to as "non-repudiation".
+                                      type: boolean
+                                    crlSign:
+                                      description: The key may be used sign certificate
+                                        revocation lists.
+                                      type: boolean
+                                    dataEncipherment:
+                                      description: The key may be used to encipher
+                                        data.
+                                      type: boolean
+                                    decipherOnly:
+                                      description: The key may be used to decipher
+                                        only.
+                                      type: boolean
+                                    digitalSignature:
+                                      description: The key may be used for digital
+                                        signatures.
+                                      type: boolean
+                                    encipherOnly:
+                                      description: The key may be used to encipher
+                                        only.
+                                      type: boolean
+                                    keyAgreement:
+                                      description: The key may be used in a key agreement
+                                        protocol.
+                                      type: boolean
+                                    keyEncipherment:
+                                      description: The key may be used to encipher
+                                        other keys.
+                                      type: boolean
+                                  type: object
+                                type: array
+                              extendedKeyUsage:
+                                description: Detailed scenarios in which a key may
+                                  be used.
+                                items:
+                                  properties:
+                                    clientAuth:
+                                      description: Corresponds to OID 1.3.6.1.5.5.7.3.2.
+                                        Officially described as "TLS WWW client authentication",
+                                        though regularly used for non-WWW TLS.
+                                      type: boolean
+                                    codeSigning:
+                                      description: Corresponds to OID 1.3.6.1.5.5.7.3.3.
+                                        Officially described as "Signing of downloadable
+                                        executable code client authentication".
+                                      type: boolean
+                                    emailProtection:
+                                      description: Corresponds to OID 1.3.6.1.5.5.7.3.4.
+                                        Officially described as "Email protection".
+                                      type: boolean
+                                    ocspSigning:
+                                      description: Corresponds to OID 1.3.6.1.5.5.7.3.9.
+                                        Officially described as "Signing OCSP responses".
+                                      type: boolean
+                                    serverAuth:
+                                      description: Corresponds to OID 1.3.6.1.5.5.7.3.1.
+                                        Officially described as "TLS WWW server authentication",
+                                        though regularly used for non-WWW TLS.
+                                      type: boolean
+                                    timeStamping:
+                                      description: Corresponds to OID 1.3.6.1.5.5.7.3.8.
+                                        Officially described as "Binding the hash
+                                        of an object to a time".
+                                      type: boolean
+                                  type: object
+                                type: array
+                              unknownExtendedKeyUsages:
+                                description: Used to describe extended key usages
+                                  that are not listed in the KeyUsage.ExtendedKeyUsageOptions
+                                  message.
+                                items:
+                                  properties:
+                                    objectIdPath:
+                                      items:
+                                        type: number
+                                      type: array
+                                  required:
+                                  - objectIdPath
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                        policyIds:
+                          description: Optional. Describes the X.509 certificate policy
+                            object identifiers, per https://tools.ietf.org/html/rfc5280#section-4.2.1.4.
+                          items:
+                            properties:
+                              objectIdPath:
+                                items:
+                                  type: number
+                                type: array
+                            required:
+                            - objectIdPath
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  project:
+                    description: The project for the resource
+                    type: string
+                required:
+                - location
+                type: object
+              providerConfigRef:
+                default:
+                  name: default
+                description: ProviderConfigReference specifies how the provider that
+                  will be used to create, observe, update, and delete this managed
+                  resource should be configured.
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                  policy:
+                    description: Policies for referencing.
+                    properties:
+                      resolution:
+                        default: Required
+                        description: Resolution specifies whether resolution of this
+                          reference is required. The default is 'Required', which
+                          means the reconcile will fail if the reference cannot be
+                          resolved. 'Optional' means this reference will be a no-op
+                          if it cannot be resolved.
+                        enum:
+                        - Required
+                        - Optional
+                        type: string
+                      resolve:
+                        description: Resolve specifies when this reference should
+                          be resolved. The default is 'IfNotPresent', which will attempt
+                          to resolve the reference only when the corresponding field
+                          is not present. Use 'Always' to resolve the reference on
+                          every reconcile.
+                        enum:
+                        - Always
+                        - IfNotPresent
+                        type: string
+                    type: object
+                required:
+                - name
+                type: object
+              providerRef:
+                description: 'ProviderReference specifies the provider that will be
+                  used to create, observe, update, and delete this managed resource.
+                  Deprecated: Please use ProviderConfigReference, i.e. `providerConfigRef`'
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                  policy:
+                    description: Policies for referencing.
+                    properties:
+                      resolution:
+                        default: Required
+                        description: Resolution specifies whether resolution of this
+                          reference is required. The default is 'Required', which
+                          means the reconcile will fail if the reference cannot be
+                          resolved. 'Optional' means this reference will be a no-op
+                          if it cannot be resolved.
+                        enum:
+                        - Required
+                        - Optional
+                        type: string
+                      resolve:
+                        description: Resolve specifies when this reference should
+                          be resolved. The default is 'IfNotPresent', which will attempt
+                          to resolve the reference only when the corresponding field
+                          is not present. Use 'Always' to resolve the reference on
+                          every reconcile.
+                        enum:
+                        - Always
+                        - IfNotPresent
+                        type: string
+                    type: object
+                required:
+                - name
+                type: object
+              publishConnectionDetailsTo:
+                description: PublishConnectionDetailsTo specifies the connection secret
+                  config which contains a name, metadata and a reference to secret
+                  store config to which any connection details for this managed resource
+                  should be written. Connection details frequently include the endpoint,
+                  username, and password required to connect to the managed resource.
+                properties:
+                  configRef:
+                    default:
+                      name: default
+                    description: SecretStoreConfigRef specifies which secret store
+                      config should be used for this ConnectionSecret.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: Resolution specifies whether resolution of
+                              this reference is required. The default is 'Required',
+                              which means the reconcile will fail if the reference
+                              cannot be resolved. 'Optional' means this reference
+                              will be a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: Resolve specifies when this reference should
+                              be resolved. The default is 'IfNotPresent', which will
+                              attempt to resolve the reference only when the corresponding
+                              field is not present. Use 'Always' to resolve the reference
+                              on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  metadata:
+                    description: Metadata is the metadata for connection secret.
+                    properties:
+                      annotations:
+                        additionalProperties:
+                          type: string
+                        description: Annotations are the annotations to be added to
+                          connection secret. - For Kubernetes secrets, this will be
+                          used as "metadata.annotations". - It is up to Secret Store
+                          implementation for others store types.
+                        type: object
+                      labels:
+                        additionalProperties:
+                          type: string
+                        description: Labels are the labels/tags to be added to connection
+                          secret. - For Kubernetes secrets, this will be used as "metadata.labels".
+                          - It is up to Secret Store implementation for others store
+                          types.
+                        type: object
+                      type:
+                        description: Type is the SecretType for the connection secret.
+                          - Only valid for Kubernetes Secret Stores.
+                        type: string
+                    type: object
+                  name:
+                    description: Name is the name of the connection secret.
+                    type: string
+                required:
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: WriteConnectionSecretToReference specifies the namespace
+                  and name of a Secret to which any connection details for this managed
+                  resource should be written. Connection details frequently include
+                  the endpoint, username, and password required to connect to the
+                  managed resource. This field is planned to be replaced in a future
+                  release in favor of PublishConnectionDetailsTo. Currently, both
+                  could be set independently and connection details would be published
+                  to both without affecting each other.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                  namespace:
+                    description: Namespace of the secret.
+                    type: string
+                required:
+                - name
+                - namespace
+                type: object
+            required:
+            - forProvider
+            type: object
+          status:
+            description: CertificateTemplateStatus defines the observed state of CertificateTemplate.
+            properties:
+              atProvider:
+                properties:
+                  createTime:
+                    description: Output only. The time at which this CertificateTemplate
+                      was created.
+                    type: string
+                  id:
+                    description: an identifier for the resource with format projects/{{project}}/locations/{{location}}/certificateTemplates/{{name}}
+                    type: string
+                  updateTime:
+                    description: Output only. The time at which this CertificateTemplate
+                      was updated.
+                    type: string
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: LastTransitionTime is the last time this condition
+                        transitioned from one status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: A Message containing details about this condition's
+                        last transition from one status to another, if any.
+                      type: string
+                    reason:
+                      description: A Reason for this condition's last transition from
+                        one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True,
+                        False, or Unknown?
+                      type: string
+                    type:
+                      description: Type of this condition. At most one of each condition
+                        type may apply to a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []

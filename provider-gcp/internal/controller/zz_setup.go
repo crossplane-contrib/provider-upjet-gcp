@@ -126,6 +126,20 @@ import (
 	alertpolicy "github.com/upbound/official-providers/provider-gcp/internal/controller/monitoring/alertpolicy"
 	notificationchannel "github.com/upbound/official-providers/provider-gcp/internal/controller/monitoring/notificationchannel"
 	uptimecheckconfig "github.com/upbound/official-providers/provider-gcp/internal/controller/monitoring/uptimecheckconfig"
+	environmentnotebooks "github.com/upbound/official-providers/provider-gcp/internal/controller/notebooks/environment"
+	instancenotebooks "github.com/upbound/official-providers/provider-gcp/internal/controller/notebooks/instance"
+	instanceiammembernotebooks "github.com/upbound/official-providers/provider-gcp/internal/controller/notebooks/instanceiammember"
+	runtime "github.com/upbound/official-providers/provider-gcp/internal/controller/notebooks/runtime"
+	runtimeiammember "github.com/upbound/official-providers/provider-gcp/internal/controller/notebooks/runtimeiammember"
+	ospolicyassignment "github.com/upbound/official-providers/provider-gcp/internal/controller/osconfig/ospolicyassignment"
+	patchdeployment "github.com/upbound/official-providers/provider-gcp/internal/controller/osconfig/patchdeployment"
+	sshpublickey "github.com/upbound/official-providers/provider-gcp/internal/controller/oslogin/sshpublickey"
+	capool "github.com/upbound/official-providers/provider-gcp/internal/controller/privateca/capool"
+	capooliammember "github.com/upbound/official-providers/provider-gcp/internal/controller/privateca/capooliammember"
+	certificate "github.com/upbound/official-providers/provider-gcp/internal/controller/privateca/certificate"
+	certificateauthority "github.com/upbound/official-providers/provider-gcp/internal/controller/privateca/certificateauthority"
+	certificatetemplate "github.com/upbound/official-providers/provider-gcp/internal/controller/privateca/certificatetemplate"
+	certificatetemplateiammember "github.com/upbound/official-providers/provider-gcp/internal/controller/privateca/certificatetemplateiammember"
 	providerconfig "github.com/upbound/official-providers/provider-gcp/internal/controller/providerconfig"
 	litereservation "github.com/upbound/official-providers/provider-gcp/internal/controller/pubsub/litereservation"
 	litesubscription "github.com/upbound/official-providers/provider-gcp/internal/controller/pubsub/litesubscription"
@@ -275,6 +289,20 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		alertpolicy.Setup,
 		notificationchannel.Setup,
 		uptimecheckconfig.Setup,
+		environmentnotebooks.Setup,
+		instancenotebooks.Setup,
+		instanceiammembernotebooks.Setup,
+		runtime.Setup,
+		runtimeiammember.Setup,
+		ospolicyassignment.Setup,
+		patchdeployment.Setup,
+		sshpublickey.Setup,
+		capool.Setup,
+		capooliammember.Setup,
+		certificate.Setup,
+		certificateauthority.Setup,
+		certificatetemplate.Setup,
+		certificatetemplateiammember.Setup,
 		providerconfig.Setup,
 		litereservation.Setup,
 		litesubscription.Setup,
