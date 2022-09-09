@@ -27,18 +27,6 @@ func Configure(p *config.Provider) {
 		r.OperationTimeouts.Read = 1 * time.Minute
 	})
 
-	p.AddResourceConfigurator("google_storage_bucket_access_control", func(r *config.Resource) {
-		r.References["bucket"] = config.Reference{
-			Type: "Bucket",
-		}
-	})
-
-	p.AddResourceConfigurator("google_storage_bucket_acl", func(r *config.Resource) {
-		r.References["bucket"] = config.Reference{
-			Type: "Bucket",
-		}
-	})
-
 	p.AddResourceConfigurator("google_storage_bucket_iam_member", func(r *config.Resource) {
 		r.References["bucket"] = config.Reference{
 			Type: "Bucket",
@@ -47,18 +35,6 @@ func Configure(p *config.Provider) {
 
 	p.AddResourceConfigurator("google_storage_bucket_object", func(r *config.Resource) {
 		r.TerraformResource.Schema["content"].Sensitive = false
-		r.References["bucket"] = config.Reference{
-			Type: "Bucket",
-		}
-	})
-
-	p.AddResourceConfigurator("google_storage_default_object_access_control", func(r *config.Resource) {
-		r.References["bucket"] = config.Reference{
-			Type: "Bucket",
-		}
-	})
-
-	p.AddResourceConfigurator("google_storage_default_object_acl", func(r *config.Resource) {
 		r.References["bucket"] = config.Reference{
 			Type: "Bucket",
 		}

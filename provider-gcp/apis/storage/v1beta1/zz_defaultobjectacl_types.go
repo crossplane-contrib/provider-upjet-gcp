@@ -32,15 +32,15 @@ type DefaultObjectACLObservation struct {
 type DefaultObjectACLParameters struct {
 
 	// The name of the bucket it applies to.
-	// +crossplane:generate:reference:type=Bucket
+	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/storage/v1beta1.Bucket
 	// +kubebuilder:validation:Optional
 	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
 
-	// Reference to a Bucket to populate bucket.
+	// Reference to a Bucket in storage to populate bucket.
 	// +kubebuilder:validation:Optional
 	BucketRef *v1.Reference `json:"bucketRef,omitempty" tf:"-"`
 
-	// Selector for a Bucket to populate bucket.
+	// Selector for a Bucket in storage to populate bucket.
 	// +kubebuilder:validation:Optional
 	BucketSelector *v1.Selector `json:"bucketSelector,omitempty" tf:"-"`
 
