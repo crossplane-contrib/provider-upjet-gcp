@@ -94,7 +94,7 @@ type PolicyParameters struct {
 	// +kubebuilder:validation:Optional
 	AlternativeNameServerConfig []AlternativeNameServerConfigParameters `json:"alternativeNameServerConfig,omitempty" tf:"alternative_name_server_config,omitempty"`
 
-	// A textual description field. Defaults to 'Managed by Terraform'.
+	// A textual description field.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 

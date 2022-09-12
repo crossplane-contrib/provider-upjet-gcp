@@ -79,17 +79,16 @@ spec:
                             a resource that may be set by external tools to store
                             and retrieve arbitrary metadata. More info: http://kubernetes.io/docs/user-guide/annotations
                             Note: The Cloud Run API may add additional annotations
-                            that were not provided in your config. If terraform plan
-                            shows a diff where a server-side annotation is added,
-                            you can add it to your config or apply the lifecycle.ignore_changes
-                            rule to the metadata.0.annotations field.'
+                            that were not provided in your config.ignore_changes rule
+                            to the metadata.0.annotations field.'
                           type: object
                         labels:
                           additionalProperties:
                             type: string
                           description: 'Map of string keys and values that can be
-                            used to organize and categorize objects. May match selectors
-                            of replication controllers and routes. More info: http://kubernetes.io/docs/user-guide/labels'
+                            used to organize and categorize (scope and select) objects.
+                            May match selectors of replication controllers and routes.
+                            More info: http://kubernetes.io/docs/user-guide/labels'
                           type: object
                         namespace:
                           description: In Cloud Run the namespace must be equal to
@@ -176,6 +175,7 @@ spec:
                       type: object
                     type: array
                   name:
+                    description: Name should be a verified domain
                     type: string
                   project:
                     description: The ID of the project in which the resource belongs.
@@ -512,12 +512,13 @@ spec:
                               status:
                                 type: string
                               type:
+                                description: 'Resource record type. Example: AAAA.
+                                  Possible values are A, AAAA, and CNAME.'
                                 type: string
                             type: object
                           type: array
                         mappedRouteName:
-                          description: The name of the route that the mapping currently
-                            points to.
+                          description: Name should be a verified domain
                           type: string
                         observedGeneration:
                           description: ObservedGeneration is the 'Generation' of the
@@ -531,13 +532,18 @@ spec:
                           items:
                             properties:
                               name:
+                                description: 'Relative name of the object affected
+                                  by this record. Only applicable for CNAME records.
+                                  Example: ''www''.'
                                 type: string
                               rrdata:
                                 description: Data for this record. Values vary by
-                                  record type, as defined in RFC 1035 and RFC 1034
-                                  .
+                                  record type, as defined in RFC 1035 (section 5)
+                                  and RFC 1034 (section 3.6.1).
                                 type: string
                               type:
+                                description: 'Resource record type. Example: AAAA.
+                                  Possible values are A, AAAA, and CNAME.'
                                 type: string
                             type: object
                           type: array

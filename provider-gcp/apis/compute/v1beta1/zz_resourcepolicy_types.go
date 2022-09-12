@@ -34,6 +34,9 @@ type DailyScheduleParameters struct {
 	// +kubebuilder:validation:Required
 	DaysInCycle *float64 `json:"daysInCycle" tf:"days_in_cycle,omitempty"`
 
+	// This must be in UTC format that resolves to one of
+	// 00:00, 04:00, 08:00, 12:00, 16:00, or 20:00. For example,
+	// both 13:00-5 and 08:00 are valid.
 	// +kubebuilder:validation:Required
 	StartTime *string `json:"startTime" tf:"start_time,omitempty"`
 }
@@ -48,6 +51,8 @@ type DayOfWeeksParameters struct {
 	// +kubebuilder:validation:Required
 	Day *string `json:"day" tf:"day,omitempty"`
 
+	// Time within the window to start the operations.
+	// It must be in format "HH:MM", where HH : [00-23] and MM : [00-00] GMT.
 	// +kubebuilder:validation:Required
 	StartTime *string `json:"startTime" tf:"start_time,omitempty"`
 }
@@ -84,6 +89,10 @@ type HourlyScheduleParameters struct {
 	// +kubebuilder:validation:Required
 	HoursInCycle *float64 `json:"hoursInCycle" tf:"hours_in_cycle,omitempty"`
 
+	// Time within the window to start the operations.
+	// It must be in an hourly format "HH:MM",
+	// where HH : [00-23] and MM : [00] GMT.
+	// eg: 21:00
 	// +kubebuilder:validation:Required
 	StartTime *string `json:"startTime" tf:"start_time,omitempty"`
 }
@@ -97,6 +106,7 @@ type InstanceSchedulePolicyParameters struct {
 	// +kubebuilder:validation:Optional
 	ExpirationTime *string `json:"expirationTime,omitempty" tf:"expiration_time,omitempty"`
 
+	// The start time of the schedule. The timestamp is an RFC3339 string.
 	// +kubebuilder:validation:Optional
 	StartTime *string `json:"startTime,omitempty" tf:"start_time,omitempty"`
 
@@ -208,6 +218,7 @@ type SnapshotPropertiesParameters struct {
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Cloud Storage bucket location to store the auto snapshot
+	// (regional or multi-regional)
 	// +kubebuilder:validation:Optional
 	StorageLocations []*string `json:"storageLocations,omitempty" tf:"storage_locations,omitempty"`
 }
@@ -222,6 +233,8 @@ type SnapshotSchedulePolicyParameters struct {
 	// +kubebuilder:validation:Optional
 	RetentionPolicy []RetentionPolicyParameters `json:"retentionPolicy,omitempty" tf:"retention_policy,omitempty"`
 
+	// Contains one of an hourlySchedule, dailySchedule, or weeklySchedule.
+	// Structure is documented below.
 	// +kubebuilder:validation:Required
 	Schedule []ScheduleParameters `json:"schedule" tf:"schedule,omitempty"`
 
@@ -236,6 +249,7 @@ type VMStartScheduleObservation struct {
 
 type VMStartScheduleParameters struct {
 
+	// Specifies the frequency for the operation, using the unix-cron format.
 	// +kubebuilder:validation:Required
 	Schedule *string `json:"schedule" tf:"schedule,omitempty"`
 }
@@ -245,6 +259,7 @@ type VMStopScheduleObservation struct {
 
 type VMStopScheduleParameters struct {
 
+	// Specifies the frequency for the operation, using the unix-cron format.
 	// +kubebuilder:validation:Required
 	Schedule *string `json:"schedule" tf:"schedule,omitempty"`
 }
@@ -254,7 +269,7 @@ type WeeklyScheduleObservation struct {
 
 type WeeklyScheduleParameters struct {
 
-	// May contain up to seven  snapshot times.
+	// May contain up to seven (one for each day of the week) snapshot times.
 	// Structure is documented below.
 	// +kubebuilder:validation:Required
 	DayOfWeeks []DayOfWeeksParameters `json:"dayOfWeeks" tf:"day_of_weeks,omitempty"`

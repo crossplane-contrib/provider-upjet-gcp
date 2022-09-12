@@ -26,13 +26,17 @@ import (
 )
 
 type InstanceObservation struct {
+
+	// Output only. The time when the policy was created.
+	// A timestamp in RFC3339 UTC "Zulu" format, with nanosecond
+	// resolution and up to nine fractional digits.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
-	// The current zone where the Redis endpoint is placed.
-	// For Basic Tier instances, this will always be the same as the
-	// [locationId] provided by the user at creation time. For Standard Tier
-	// instances, this can be either [locationId] or [alternativeLocationId]
-	// and can change after a failover event.
+	// The zone where the instance will be provisioned. If not provided,
+	// the service will choose a zone for the instance. For STANDARD_HA tier,
+	// instances will be created across two zones for protection against
+	// zonal failures. If [alternativeLocationId] is also provided, it must
+	// be different from [locationId].
 	CurrentLocationID *string `json:"currentLocationId,omitempty" tf:"current_location_id,omitempty"`
 
 	// Hostname or IP address of the exposed Redis endpoint used by clients
@@ -193,6 +197,10 @@ type InstanceParameters struct {
 }
 
 type MaintenancePolicyObservation struct {
+
+	// Output only. The time when the policy was created.
+	// A timestamp in RFC3339 UTC "Zulu" format, with nanosecond
+	// resolution and up to nine fractional digits.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
 	// Output only. The time when the policy was last updated.
@@ -237,6 +245,9 @@ type MaintenanceScheduleObservation struct {
 	// resolution and up to nine fractional digits.
 	ScheduleDeadlineTime *string `json:"scheduleDeadlineTime,omitempty" tf:"schedule_deadline_time,omitempty"`
 
+	// Output only. The start time of any upcoming scheduled maintenance for this instance.
+	// A timestamp in RFC3339 UTC "Zulu" format, with nanosecond
+	// resolution and up to nine fractional digits.
 	StartTime *string `json:"startTime,omitempty" tf:"start_time,omitempty"`
 }
 
@@ -258,6 +269,9 @@ type ServerCACertsObservation struct {
 	// The certificate data in PEM format.
 	Cert *string `json:"cert,omitempty" tf:"cert,omitempty"`
 
+	// Output only. The time when the policy was created.
+	// A timestamp in RFC3339 UTC "Zulu" format, with nanosecond
+	// resolution and up to nine fractional digits.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
 	// The time when the certificate expires.
@@ -312,6 +326,8 @@ type WeeklyMaintenanceWindowParameters struct {
 	// +kubebuilder:validation:Required
 	Day *string `json:"day" tf:"day,omitempty"`
 
+	// Required. Start time of the window in UTC time.
+	// Structure is documented below.
 	// +kubebuilder:validation:Required
 	StartTime []StartTimeParameters `json:"startTime" tf:"start_time,omitempty"`
 }

@@ -30,6 +30,7 @@ type ActionObservation struct {
 
 type ActionParameters struct {
 
+	// The target Storage Class of objects affected by this Lifecycle Rule. Supported values include: STANDARD, MULTI_REGIONAL, REGIONAL, NEARLINE, COLDLINE, ARCHIVE.
 	// +kubebuilder:validation:Optional
 	StorageClass *string `json:"storageClass,omitempty" tf:"storage_class,omitempty"`
 
@@ -50,7 +51,7 @@ type BucketObservation struct {
 
 type BucketParameters struct {
 
-	// The bucket's Cross-Origin Resource Sharing  configuration. Multiple blocks of this type are permitted. Structure is documented below.
+	// The bucket's Cross-Origin Resource Sharing (CORS) configuration. Multiple blocks of this type are permitted. Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Cors []CorsParameters `json:"cors,omitempty" tf:"cors,omitempty"`
 
@@ -63,8 +64,7 @@ type BucketParameters struct {
 	Encryption []EncryptionParameters `json:"encryption,omitempty" tf:"encryption,omitempty"`
 
 	// When deleting a bucket, this
-	// boolean option will delete all contained objects. If you try to delete a
-	// bucket that contains objects, Terraform will fail that run.
+	// boolean option will delete all contained objects.
 	// +kubebuilder:validation:Optional
 	ForceDestroy *bool `json:"forceDestroy,omitempty" tf:"force_destroy,omitempty"`
 
@@ -97,6 +97,7 @@ type BucketParameters struct {
 	// +kubebuilder:validation:Optional
 	RetentionPolicy []RetentionPolicyParameters `json:"retentionPolicy,omitempty" tf:"retention_policy,omitempty"`
 
+	// The Storage Class of the new bucket. Supported values include: STANDARD, MULTI_REGIONAL, REGIONAL, NEARLINE, COLDLINE, ARCHIVE.
 	// +kubebuilder:validation:Optional
 	StorageClass *string `json:"storageClass,omitempty" tf:"storage_class,omitempty"`
 
@@ -142,7 +143,7 @@ type ConditionParameters struct {
 	// +kubebuilder:validation:Optional
 	MatchesStorageClass []*string `json:"matchesStorageClass,omitempty" tf:"matches_storage_class,omitempty"`
 
-	// Relevant only for versioned objects. The date in RFC 3339  when the object became nonconcurrent.
+	// Relevant only for versioned objects. The date in RFC 3339 (e.g. 2017-06-13) when the object became nonconcurrent.
 	// +kubebuilder:validation:Optional
 	NoncurrentTimeBefore *string `json:"noncurrentTimeBefore,omitempty" tf:"noncurrent_time_before,omitempty"`
 
@@ -164,7 +165,7 @@ type CorsParameters struct {
 	// +kubebuilder:validation:Optional
 	MaxAgeSeconds *float64 `json:"maxAgeSeconds,omitempty" tf:"max_age_seconds,omitempty"`
 
-	// The list of HTTP methods on which to include CORS response headers,  Note: "*" is permitted in the list of methods, and means "any method".
+	// The list of HTTP methods on which to include CORS response headers, (GET, OPTIONS, POST, etc) Note: "*" is permitted in the list of methods, and means "any method".
 	// +kubebuilder:validation:Optional
 	Method []*string `json:"method,omitempty" tf:"method,omitempty"`
 

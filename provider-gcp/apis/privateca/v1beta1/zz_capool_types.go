@@ -30,7 +30,8 @@ type AdditionalExtensionsObservation struct {
 
 type AdditionalExtensionsParameters struct {
 
-	// Indicates whether or not this extension is critical .
+	// Indicates whether or not this extension is critical (i.e., if the client does not know how to
+	// handle this extension, the client should consider this to be an error).
 	// +kubebuilder:validation:Required
 	Critical *bool `json:"critical" tf:"critical,omitempty"`
 
@@ -126,7 +127,7 @@ type BaselineValuesParameters struct {
 	// +kubebuilder:validation:Optional
 	AdditionalExtensions []AdditionalExtensionsParameters `json:"additionalExtensions,omitempty" tf:"additional_extensions,omitempty"`
 
-	// Describes Online Certificate Status Protocol  endpoint addresses that appear in the
+	// Describes Online Certificate Status Protocol (OCSP) endpoint addresses that appear in the
 	// "Authority Information Access" extension in the certificate.
 	// +kubebuilder:validation:Optional
 	AiaOcspServers []*string `json:"aiaOcspServers,omitempty" tf:"aia_ocsp_servers,omitempty"`
@@ -192,6 +193,8 @@ type CAPoolParameters struct {
 	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
+	// Location of the CaPool. A full list of valid locations can be found by
+	// running gcloud privateca locations list.
 	// +kubebuilder:validation:Required
 	Location *string `json:"location" tf:"location,omitempty"`
 
@@ -224,6 +227,7 @@ type CelExpressionParameters struct {
 	// +kubebuilder:validation:Required
 	Expression *string `json:"expression" tf:"expression,omitempty"`
 
+	// String indicating the location of the expression for error reporting, e.g. a file name and a position in the file.
 	// +kubebuilder:validation:Optional
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
@@ -347,7 +351,7 @@ type KeyUsageParameters struct {
 	// +kubebuilder:validation:Required
 	ExtendedKeyUsage []ExtendedKeyUsageParameters `json:"extendedKeyUsage" tf:"extended_key_usage,omitempty"`
 
-	// An ObjectId specifies an object identifier . These provide context and describe types in ASN.1 messages.
+	// An ObjectId specifies an object identifier (OID). These provide context and describe types in ASN.1 messages.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	UnknownExtendedKeyUsages []UnknownExtendedKeyUsagesParameters `json:"unknownExtendedKeyUsages,omitempty" tf:"unknown_extended_key_usages,omitempty"`
@@ -358,6 +362,7 @@ type ObjectIDObservation struct {
 
 type ObjectIDParameters struct {
 
+	// An ObjectId specifies an object identifier (OID). These provide context and describe types in ASN.1 messages.
 	// +kubebuilder:validation:Required
 	ObjectIDPath []*float64 `json:"objectIdPath" tf:"object_id_path,omitempty"`
 }
@@ -367,6 +372,7 @@ type PolicyIdsObservation struct {
 
 type PolicyIdsParameters struct {
 
+	// An ObjectId specifies an object identifier (OID). These provide context and describe types in ASN.1 messages.
 	// +kubebuilder:validation:Required
 	ObjectIDPath []*float64 `json:"objectIdPath" tf:"object_id_path,omitempty"`
 }
@@ -411,6 +417,7 @@ type UnknownExtendedKeyUsagesObservation struct {
 
 type UnknownExtendedKeyUsagesParameters struct {
 
+	// An ObjectId specifies an object identifier (OID). These provide context and describe types in ASN.1 messages.
 	// +kubebuilder:validation:Required
 	ObjectIDPath []*float64 `json:"objectIdPath" tf:"object_id_path,omitempty"`
 }

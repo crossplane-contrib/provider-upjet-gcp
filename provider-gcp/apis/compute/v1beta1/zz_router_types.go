@@ -30,6 +30,7 @@ type AdvertisedIPRangesObservation struct {
 
 type AdvertisedIPRangesParameters struct {
 
+	// User-specified description for the IP range.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -68,7 +69,7 @@ type BGPParameters struct {
 	// +kubebuilder:validation:Optional
 	AdvertisedIPRanges []AdvertisedIPRangesParameters `json:"advertisedIpRanges,omitempty" tf:"advertised_ip_ranges,omitempty"`
 
-	// Local BGP Autonomous System Number . Must be an RFC6996
+	// Local BGP Autonomous System Number (ASN). Must be an RFC6996
 	// private ASN, either 16-bit or 32-bit. The value will be fixed for
 	// this router resource. All VPN tunnels that link to this router
 	// will have the same local ASN.
@@ -103,11 +104,12 @@ type RouterParameters struct {
 	// +kubebuilder:validation:Optional
 	BGP []BGPParameters `json:"bgp,omitempty" tf:"bgp,omitempty"`
 
+	// An optional description of this resource.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Field to indicate if a router is dedicated to use with encrypted
-	// Interconnect Attachment .
+	// Interconnect Attachment (IPsec-encrypted Cloud Interconnect feature).
 	// Not currently available publicly.
 	// +kubebuilder:validation:Optional
 	EncryptedInterconnectRouter *bool `json:"encryptedInterconnectRouter,omitempty" tf:"encrypted_interconnect_router,omitempty"`

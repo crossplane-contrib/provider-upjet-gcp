@@ -65,13 +65,14 @@ spec:
               forProvider:
                 properties:
                   collectorIlb:
-                    description: The Forwarding Rule resource that will be used as
-                      collector for mirrored traffic. The specified forwarding rule
-                      must have is_mirroring_collector set to true. Structure is documented
-                      below.
+                    description: The Forwarding Rule resource (of type load_balancing_scheme=INTERNAL)
+                      that will be used as collector for mirrored traffic. The specified
+                      forwarding rule must have is_mirroring_collector set to true.
+                      Structure is documented below.
                     items:
                       properties:
                         url:
+                          description: The URL of the forwarding rule.
                           type: string
                         urlRef:
                           description: Reference to a ForwardingRule in compute to
@@ -163,8 +164,8 @@ spec:
                       properties:
                         cidrRanges:
                           description: IP CIDR ranges that apply as a filter on the
-                            source  or destination  IP in the IP header. Only IPv4
-                            is supported.
+                            source (ingress) or destination (egress) IP in the IP
+                            header. Only IPv4 is supported.
                           items:
                             type: string
                           type: array
@@ -191,6 +192,8 @@ spec:
                           items:
                             properties:
                               url:
+                                description: The URL of the instances where this rule
+                                  should be active.
                                 type: string
                               urlRef:
                                 description: Reference to a Instance in compute to
@@ -280,6 +283,8 @@ spec:
                           items:
                             properties:
                               url:
+                                description: The URL of the subnetwork where this
+                                  rule should be active.
                                 type: string
                             required:
                             - url
@@ -300,6 +305,8 @@ spec:
                     items:
                       properties:
                         url:
+                          description: The full self_link URL of the network where
+                            this rule is active.
                           type: string
                         urlRef:
                           description: Reference to a Network in compute to populate

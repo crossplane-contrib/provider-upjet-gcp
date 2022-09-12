@@ -274,14 +274,14 @@ spec:
                     description: This signifies what the ForwardingRule will be used
                       for and can be EXTERNAL, EXTERNAL_MANAGED, INTERNAL, or INTERNAL_MANAGED.
                       EXTERNAL is used for Classic Cloud VPN gateways, protocol forwarding
-                      to VMs from an external IP address, and HTTP, SSL Proxy, TCP
-                      Proxy, and Network TCP/UDP load balancers. INTERNAL is used
+                      to VMs from an external IP address, and HTTP(S), SSL Proxy,
+                      TCP Proxy, and Network TCP/UDP load balancers. INTERNAL is used
                       for protocol forwarding to VMs from an internal IP address,
                       and internal TCP/UDP load balancers. EXTERNAL_MANAGED is used
-                      for regional external HTTP load balancers. INTERNAL_MANAGED
-                      is used for internal HTTP load balancers. Default value is EXTERNAL.
-                      Possible values are EXTERNAL, EXTERNAL_MANAGED, INTERNAL, and
-                      INTERNAL_MANAGED.
+                      for regional external HTTP(S) load balancers. INTERNAL_MANAGED
+                      is used for internal HTTP(S) load balancers. Default value is
+                      EXTERNAL. Possible values are EXTERNAL, EXTERNAL_MANAGED, INTERNAL,
+                      and INTERNAL_MANAGED.
                     type: string
                   network:
                     description: For internal load balancing, this field identifies
@@ -420,11 +420,11 @@ spec:
                       Rule. If specified, will be the first label of the fully qualified
                       service name. The label must be 1-63 characters long, and comply
                       with RFC1035. Specifically, the label must be 1-63 characters
-                      long and match the regular expression [a-z]? which means the
-                      first character must be a lowercase letter, and all following
-                      characters must be a dash, lowercase letter, or digit, except
-                      the last character, which cannot be a dash. This field is only
-                      used for INTERNAL load balancing.
+                      long and match the regular expression [a-z]([-a-z0-9]*[a-z0-9])?
+                      which means the first character must be a lowercase letter,
+                      and all following characters must be a dash, lowercase letter,
+                      or digit, except the last character, which cannot be a dash.
+                      This field is only used for INTERNAL load balancing.
                     type: string
                   subnetwork:
                     description: The subnetwork that the load balanced IP should belong
@@ -775,15 +775,20 @@ spec:
                     description: an identifier for the resource with format projects/{{project}}/regions/{{region}}/forwardingRules/{{name}}
                     type: string
                   labelFingerprint:
-                    description: The fingerprint used for optimistic locking of this
-                      resource.  Used internally during updates.
+                    description: (Beta) The fingerprint used for optimistic locking
+                      of this resource.  Used internally during updates.
                     type: string
                   selfLink:
                     description: The URI of the created resource.
                     type: string
                   serviceName:
-                    description: The internal fully qualified service name for this
-                      Forwarding Rule. This field is only used for INTERNAL load balancing.
+                    description: Name of the resource; provided by the client when
+                      the resource is created. The name must be 1-63 characters long,
+                      and comply with RFC1035. Specifically, the name must be 1-63
+                      characters long and match the regular expression [a-z]([-a-z0-9]*[a-z0-9])?
+                      which means the first character must be a lowercase letter,
+                      and all following characters must be a dash, lowercase letter,
+                      or digit, except the last character, which cannot be a dash.
                     type: string
                 type: object
               conditions:

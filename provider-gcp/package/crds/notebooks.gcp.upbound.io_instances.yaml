@@ -88,7 +88,7 @@ spec:
                     type: array
                   bootDiskSizeGb:
                     description: The size of the boot disk in GB attached to this
-                      instance, up to a maximum of 64000 GB . The minimum recommended
+                      instance, up to a maximum of 64000 GB (64 TB). The minimum recommended
                       value is 100 GB. If not specified, this defaults to 100.
                     type: number
                   bootDiskType:
@@ -119,9 +119,9 @@ spec:
                     type: string
                   dataDiskSizeGb:
                     description: The size of the data disk in GB attached to this
-                      instance, up to a maximum of 64000 GB . You can choose the size
-                      of the data disk based on how big your notebooks and data are.
-                      If not specified, this defaults to 100.
+                      instance, up to a maximum of 64000 GB (64 TB). You can choose
+                      the size of the data disk based on how big your notebooks and
+                      data are. If not specified, this defaults to 100.
                     type: number
                   dataDiskType:
                     description: Possible disk types for notebook instances. Possible
@@ -189,9 +189,11 @@ spec:
                   postStartupScript:
                     description: Path to a Bash script that automatically runs after
                       a notebook instance fully boots up. The path must be a URL or
-                      Cloud Storage path .
+                      Cloud Storage path (gs://path-to-file/file-name).
                     type: string
                   project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
                     type: string
                   serviceAccount:
                     description: The service account on this instance, giving access
@@ -256,6 +258,8 @@ spec:
                           description: Use VM image name to find the image.
                           type: string
                         project:
+                          description: 'The name of the Google Cloud project that
+                            this VM image belongs to. Format: projects/{project_id}'
                           type: string
                       required:
                       - project

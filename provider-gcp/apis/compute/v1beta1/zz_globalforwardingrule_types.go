@@ -30,6 +30,8 @@ type FilterLabelsObservation struct {
 
 type FilterLabelsParameters struct {
 
+	// Name of the metadata label. The length must be between
+	// 1 and 1024 characters, inclusive.
 	// +kubebuilder:validation:Required
 	Name *string `json:"name" tf:"name,omitempty"`
 
@@ -44,6 +46,7 @@ type GlobalForwardingRuleObservation struct {
 	// an identifier for the resource with format projects/{{project}}/global/forwardingRules/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// (Beta)
 	// The fingerprint used for optimistic locking of this resource.  Used
 	// internally during updates.
 	LabelFingerprint *string `json:"labelFingerprint,omitempty" tf:"label_fingerprint,omitempty"`
@@ -104,11 +107,11 @@ type GlobalForwardingRuleParameters struct {
 
 	// This signifies what the GlobalForwardingRule will be used for.
 	// The value of INTERNAL_SELF_MANAGED means that this will be used for
-	// Internal Global HTTP LB. The value of EXTERNAL means that this
-	// will be used for External Global Load Balancing (HTTP LB,
+	// Internal Global HTTP(S) LB. The value of EXTERNAL means that this
+	// will be used for External Global Load Balancing (HTTP(S) LB,
 	// External TCP/UDP LB, SSL Proxy). The value of EXTERNAL_MANAGED means
-	// that this will be used for Global external HTTP load balancers.
-	// Note: This field must be set "" if the global address is
+	// that this will be used for Global external HTTP(S) load balancers.
+	// (Beta only) Note: This field must be set "" if the global address is
 	// configured as a purpose of PRIVATE_SERVICE_CONNECT and addressType of INTERNAL.
 	// Default value is EXTERNAL.
 	// Possible values are EXTERNAL, EXTERNAL_MANAGED, and INTERNAL_SELF_MANAGED.
@@ -182,7 +185,7 @@ type GlobalForwardingRuleParameters struct {
 	// The forwarded traffic must be of a type appropriate to the target object.
 	// For INTERNAL_SELF_MANAGED load balancing, only HTTP and HTTPS targets
 	// are valid.
-	// For global address with a purpose of PRIVATE_SERVICE_CONNECT and
+	// (Beta only) For global address with a purpose of PRIVATE_SERVICE_CONNECT and
 	// addressType of INTERNAL, only "all-apis" and "vpc-sc" are valid.
 	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.TargetSSLProxy
 	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()

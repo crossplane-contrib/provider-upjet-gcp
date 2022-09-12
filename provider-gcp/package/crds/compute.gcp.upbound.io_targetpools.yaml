@@ -71,8 +71,8 @@ spec:
                     description: Textual description field.
                     type: string
                   failoverRatio:
-                    description: Ratio  of failed nodes before using the backup pool
-                      .
+                    description: Ratio (0 to 1) of failed nodes before using the backup
+                      pool (which must also be set).
                     type: number
                   healthChecks:
                     description: List of zero or one health check name or self_link.
@@ -159,10 +159,7 @@ spec:
                     type: object
                   instances:
                     description: List of instances in the pool. They can be given
-                      as URLs, or in the form of "zone/name". Note that the instances
-                      need not exist at the time of target pool creation, so there
-                      is no need to use the Terraform interpolators to create a dependency
-                      on the instances from the target pool.
+                      as URLs, or in the form of "zone/name".
                     items:
                       type: string
                     type: array
@@ -175,8 +172,9 @@ spec:
                       region.
                     type: string
                   sessionAffinity:
-                    description: How to distribute load. Options are "NONE" . "CLIENT_IP"
-                      , and "CLIENT_IP_PROTO" also includes the protocol .
+                    description: How to distribute load. Options are "NONE" (no affinity).
+                      "CLIENT_IP" (hash of the source/dest addresses / ports), and
+                      "CLIENT_IP_PROTO" also includes the protocol (default "NONE").
                     type: string
                 required:
                 - region

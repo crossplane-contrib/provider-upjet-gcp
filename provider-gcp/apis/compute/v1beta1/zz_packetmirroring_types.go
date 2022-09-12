@@ -30,6 +30,7 @@ type CollectorIlbObservation struct {
 
 type CollectorIlbParameters struct {
 
+	// The URL of the forwarding rule.
 	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.ForwardingRule
 	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
@@ -49,8 +50,8 @@ type FilterObservation struct {
 
 type FilterParameters struct {
 
-	// IP CIDR ranges that apply as a filter on the source  or
-	// destination  IP in the IP header. Only IPv4 is supported.
+	// IP CIDR ranges that apply as a filter on the source (ingress) or
+	// destination (egress) IP in the IP header. Only IPv4 is supported.
 	// +kubebuilder:validation:Optional
 	CidrRanges []*string `json:"cidrRanges,omitempty" tf:"cidr_ranges,omitempty"`
 
@@ -71,6 +72,7 @@ type InstancesObservation struct {
 
 type InstancesParameters struct {
 
+	// The URL of the instances where this rule should be active.
 	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.Instance
 	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
@@ -110,6 +112,7 @@ type PacketMirroringNetworkObservation struct {
 
 type PacketMirroringNetworkParameters struct {
 
+	// The full self_link URL of the network where this rule is active.
 	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.Network
 	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
@@ -132,7 +135,7 @@ type PacketMirroringObservation struct {
 
 type PacketMirroringParameters struct {
 
-	// The Forwarding Rule resource
+	// The Forwarding Rule resource (of type load_balancing_scheme=INTERNAL)
 	// that will be used as collector for mirrored traffic. The
 	// specified forwarding rule must have is_mirroring_collector
 	// set to true.
@@ -183,6 +186,7 @@ type SubnetworksObservation struct {
 
 type SubnetworksParameters struct {
 
+	// The URL of the subnetwork where this rule should be active.
 	// +kubebuilder:validation:Required
 	URL *string `json:"url" tf:"url,omitempty"`
 }

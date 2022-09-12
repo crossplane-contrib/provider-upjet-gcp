@@ -33,7 +33,8 @@ type DeadLetterPolicyParameters struct {
 	// The name of the topic to which dead letter messages should be published.
 	// Format is projects/{project}/topics/{topic}.
 	// The Cloud Pub/Sub service account associated with the enclosing subscription's
-	// parent project  must have
+	// parent project (i.e.,
+	// service-{project_number}@gcp-sa-pubsub.iam.gserviceaccount.com) must have
 	// permission to Publish() to this topic.
 	// The operation will fail if the topic does not exist.
 	// Users should ensure that there is a subscription attached to this topic
@@ -53,7 +54,8 @@ type DeadLetterPolicyParameters struct {
 
 	// The maximum number of delivery attempts for any message. The value must be
 	// between 5 and 100.
-	// The number of delivery attempts is defined as 1 + .
+	// The number of delivery attempts is defined as 1 + (the sum of number of
+	// NACKs and number of times the acknowledgement deadline has been exceeded for the message).
 	// A NACK is any call to ModifyAckDeadline with a 0 deadline. Note that
 	// client libraries may automatically extend ack_deadlines.
 	// This field will be honored on a best effort basis.
@@ -83,7 +85,7 @@ type OidcTokenParameters struct {
 
 	// Audience to be used when generating OIDC token. The audience claim
 	// identifies the recipients that the JWT is intended for. The audience
-	// value is a single case-sensitive string. Having multiple values
+	// value is a single case-sensitive string. Having multiple values (array)
 	// for the audience field is not supported. More info about the OIDC JWT
 	// token audience here: https://tools.ietf.org/html/rfc7519#section-4.1.3
 	// Note: if not specified, the Push endpoint URL will be used.
@@ -91,7 +93,8 @@ type OidcTokenParameters struct {
 	Audience *string `json:"audience,omitempty" tf:"audience,omitempty"`
 
 	// Service account email to be used for generating the OIDC token.
-	// The caller  must have the
+	// The caller (for subscriptions.create, subscriptions.patch, and
+	// subscriptions.modifyPushConfig RPCs) must have the
 	// iam.serviceAccounts.actAs permission for the service account.
 	// +kubebuilder:validation:Required
 	ServiceAccountEmail *string `json:"serviceAccountEmail" tf:"service_account_email,omitempty"`
@@ -109,7 +112,7 @@ type PushConfigParameters struct {
 	// can use to change the format of the pushed message. This
 	// attribute indicates the version of the data expected by
 	// the endpoint. This controls the shape of the pushed message
-	// . The endpoint version is
+	// (i.e., its fields and metadata). The endpoint version is
 	// based on the version of the Pub/Sub API.
 	// If not present during the subscriptions.create call,
 	// it will default to the version of the API used to make
@@ -162,12 +165,12 @@ type SubscriptionParameters struct {
 	// before the subscriber should acknowledge the message. After message
 	// delivery but before the ack deadline expires and before the message is
 	// acknowledged, it is an outstanding message and will not be delivered
-	// again during that time .
+	// again during that time (on a best-effort basis).
 	// For pull subscriptions, this value is used as the initial value for
 	// the ack deadline. To override this value for a given message, call
 	// subscriptions.modifyAckDeadline with the corresponding ackId if using
 	// pull. The minimum custom deadline you can specify is 10 seconds. The
-	// maximum custom deadline you can specify is 600 seconds .
+	// maximum custom deadline you can specify is 600 seconds (10 minutes).
 	// If this parameter is 0, a default value of 10 seconds is used.
 	// For push delivery, this value is also used to set the request timeout
 	// for the call to the push endpoint.
@@ -180,7 +183,8 @@ type SubscriptionParameters struct {
 	// this subscription. If dead_letter_policy is not set, dead lettering
 	// is disabled.
 	// The Cloud Pub/Sub service account associated with this subscription's
-	// parent project  must have
+	// parent project (i.e.,
+	// service-{project_number}@gcp-sa-pubsub.iam.gserviceaccount.com) must have
 	// permission to Acknowledge() messages on this subscription.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
@@ -222,7 +226,7 @@ type SubscriptionParameters struct {
 	// retain_acked_messages is true, then this also configures the retention
 	// of acknowledged messages, and thus configures how far back in time a
 	// subscriptions.seek can be done. Defaults to 7 days. Cannot be more
-	// than 7 days  or less than 10 minutes .
+	// than 7 days ("604800s") or less than 10 minutes ("600s").
 	// A duration in seconds with up to nine fractional digits, terminated
 	// by 's'. Example: "600.5s".
 	// +kubebuilder:validation:Optional

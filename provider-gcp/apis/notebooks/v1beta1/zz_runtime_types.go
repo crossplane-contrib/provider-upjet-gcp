@@ -62,7 +62,8 @@ type ContainerImagesParameters struct {
 type DataDiskObservation struct {
 
 	// Optional. Specifies whether the disk will be auto-deleted
-	// when the instance is deleted .
+	// when the instance is deleted (but not when the disk is
+	// detached from the instance).
 	AutoDelete *bool `json:"autoDelete,omitempty" tf:"auto_delete,omitempty"`
 
 	// Optional. Indicates that this is a boot disk. The virtual
@@ -132,6 +133,8 @@ type DataDiskParameters struct {
 	// +kubebuilder:validation:Optional
 	Source *string `json:"source,omitempty" tf:"source,omitempty"`
 
+	// Specifies the type of the disk, either SCRATCH or PERSISTENT.
+	// If not specified, the default is PERSISTENT.
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
@@ -167,7 +170,7 @@ type InitializeParamsParameters struct {
 
 	// Specifies the size of the disk in base-2 GB. If not
 	// specified, the disk will be the same size as the image
-	// . If specified, the size must be equal to
+	// (usually 10GB). If specified, the size must be equal to
 	// or larger than 10GB. Default 100 GB.
 	// +kubebuilder:validation:Optional
 	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
@@ -178,6 +181,9 @@ type InitializeParamsParameters struct {
 	// +kubebuilder:validation:Optional
 	DiskType *string `json:"diskType,omitempty" tf:"disk_type,omitempty"`
 
+	// Labels to apply to this disk. These can be later modified
+	// by the disks.setLabels method. This field is only
+	// applicable for persistent disks.
 	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 }
@@ -282,7 +288,7 @@ type SoftwareConfigParameters struct {
 
 	// Path to a Bash script that automatically runs after a notebook instance
 	// fully boots up. The path must be a URL or
-	// Cloud Storage path .
+	// Cloud Storage path (gs://path-to-file/file-name).
 	// +kubebuilder:validation:Optional
 	PostStartupScript *string `json:"postStartupScript,omitempty" tf:"post_startup_script,omitempty"`
 }
@@ -296,6 +302,8 @@ type VirtualMachineConfigAcceleratorConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	CoreCount *float64 `json:"coreCount,omitempty" tf:"core_count,omitempty"`
 
+	// Accelerator model. For valid values, see
+	// https://cloud.google.com/vertex-ai/docs/workbench/reference/ rest/v1/projects.locations.runtimes#AcceleratorType
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
@@ -307,7 +315,9 @@ type VirtualMachineConfigObservation struct {
 	// +kubebuilder:validation:Required
 	DataDisk []DataDiskObservation `json:"dataDisk,omitempty" tf:"data_disk,omitempty"`
 
-	// The Compute Engine guest attributes. ).
+	// The Compute Engine guest attributes. (see [Project and instance
+	// guest attributes](https://cloud.google.com/compute/docs/
+	// storing-retrieving-metadata#guest_attributes)).
 	GuestAttributes map[string]*string `json:"guestAttributes,omitempty" tf:"guest_attributes,omitempty"`
 
 	// The zone where the virtual machine is located.
@@ -345,6 +355,12 @@ type VirtualMachineConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	InternalIPOnly *bool `json:"internalIpOnly,omitempty" tf:"internal_ip_only,omitempty"`
 
+	// The labels to associate with this runtime. Label keys must
+	// contain 1 to 63 characters, and must conform to [RFC 1035]
+	// (https://www.ietf.org/rfc/rfc1035.txt). Label values may be
+	// empty, but, if present, must contain 1 to 63 characters, and must
+	// conform to RFC 1035. No
+	// more than 32 labels can be associated with a cluster.
 	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
@@ -353,7 +369,9 @@ type VirtualMachineConfigParameters struct {
 	MachineType *string `json:"machineType" tf:"machine_type,omitempty"`
 
 	// The Compute Engine metadata entries to add to virtual machine.
-	// ).
+	// (see [Project and instance metadata](https://cloud.google.com
+	// /compute/docs/storing-retrieving-metadata#project_and_instance
+	// _metadata)).
 	// +kubebuilder:validation:Optional
 	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
 
@@ -381,7 +399,9 @@ type VirtualMachineConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	Subnet *string `json:"subnet,omitempty" tf:"subnet,omitempty"`
 
-	// The Compute Engine tags to add to runtime ).
+	// The Compute Engine tags to add to runtime (see [Tagging instances]
+	// (https://cloud.google.com/compute/docs/
+	// label-or-tag-resources#tags)).
 	// +kubebuilder:validation:Optional
 	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
 }

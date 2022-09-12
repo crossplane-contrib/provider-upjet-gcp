@@ -72,8 +72,7 @@ spec:
                       it.
                     type: boolean
                   disableOnDestroy:
-                    description: If true, disable the service when the Terraform resource
-                      is destroyed. Defaults to true. May be useful in the event that
+                    description: Defaults to true. May be useful in the event that
                       a project is long-lived but the infrastructure running in that
                       project changes frequently.
                     type: boolean

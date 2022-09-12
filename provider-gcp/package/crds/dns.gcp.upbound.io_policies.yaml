@@ -101,8 +101,7 @@ spec:
                       type: object
                     type: array
                   description:
-                    description: A textual description field. Defaults to 'Managed
-                      by Terraform'.
+                    description: A textual description field.
                     type: string
                   enableInboundForwarding:
                     description: Allows networks bound to this policy to receive DNS

@@ -94,6 +94,8 @@ spec:
                           items:
                             properties:
                               description:
+                                description: User-specified description for the IP
+                                  range.
                                 type: string
                               range:
                                 description: The IP range to advertise. The value
@@ -104,10 +106,11 @@ spec:
                             type: object
                           type: array
                         asn:
-                          description: Local BGP Autonomous System Number . Must be
-                            an RFC6996 private ASN, either 16-bit or 32-bit. The value
-                            will be fixed for this router resource. All VPN tunnels
-                            that link to this router will have the same local ASN.
+                          description: Local BGP Autonomous System Number (ASN). Must
+                            be an RFC6996 private ASN, either 16-bit or 32-bit. The
+                            value will be fixed for this router resource. All VPN
+                            tunnels that link to this router will have the same local
+                            ASN.
                           type: number
                         keepaliveInterval:
                           description: The interval in seconds between BGP keepalive
@@ -126,11 +129,12 @@ spec:
                       type: object
                     type: array
                   description:
+                    description: An optional description of this resource.
                     type: string
                   encryptedInterconnectRouter:
                     description: Field to indicate if a router is dedicated to use
-                      with encrypted Interconnect Attachment . Not currently available
-                      publicly.
+                      with encrypted Interconnect Attachment (IPsec-encrypted Cloud
+                      Interconnect feature). Not currently available publicly.
                     type: boolean
                   network:
                     description: A reference to the network to which this router belongs.

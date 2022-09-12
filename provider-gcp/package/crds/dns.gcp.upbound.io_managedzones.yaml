@@ -65,8 +65,7 @@ spec:
               forProvider:
                 properties:
                   description:
-                    description: A textual description field. Defaults to 'Managed
-                      by Terraform'.
+                    description: A textual description field.
                     type: string
                   dnsName:
                     description: The DNS name of this managed zone, for instance "example.com.".
@@ -94,19 +93,22 @@ spec:
                                 type: number
                               keyType:
                                 description: Specifies whether this is a key signing
-                                  key  or a zone signing key . Key signing keys have
-                                  the Secure Entry Point flag set and, when active,
-                                  will only be used to sign resource record sets of
-                                  type DNSKEY. Zone signing keys do not have the Secure
-                                  Entry Point flag set and will be used to sign all
-                                  other types of resource record sets. Possible values
-                                  are keySigning and zoneSigning.
+                                  key (KSK) or a zone signing key (ZSK). Key signing
+                                  keys have the Secure Entry Point flag set and, when
+                                  active, will only be used to sign resource record
+                                  sets of type DNSKEY. Zone signing keys do not have
+                                  the Secure Entry Point flag set and will be used
+                                  to sign all other types of resource record sets.
+                                  Possible values are keySigning and zoneSigning.
                                 type: string
                               kind:
+                                description: Identifies what kind of resource this
+                                  is
                                 type: string
                             type: object
                           type: array
                         kind:
+                          description: Identifies what kind of resource this is
                           type: string
                         nonExistence:
                           description: Specifies the mechanism used to provide authenticated
@@ -175,6 +177,10 @@ spec:
                           items:
                             properties:
                               networkUrl:
+                                description: The id or fully qualified URL of the
+                                  VPC network to forward queries to. This should be
+                                  formatted like projects/{project}/global/networks/{network}
+                                  or https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}
                                 type: string
                               networkUrlRef:
                                 description: Reference to a Network in compute to
@@ -270,18 +276,18 @@ spec:
                       properties:
                         networks:
                           description: The list of VPC networks that can see this
-                            zone. Until the provider updates to use the Terraform
-                            0.12 SDK in a future release, you may experience issues
-                            with this resource while updating. If you've defined a
-                            networks block and add another networks block while keeping
-                            the old block, Terraform will see an incorrect diff and
-                            apply an incorrect update to the resource. If you encounter
-                            this issue, remove all networks blocks in an update and
-                            then apply another update adding all of them back simultaneously.
+                            zone.12 SDK in a future release, you may experience issues
+                            with this resource while updating. If you encounter this
+                            issue, remove all networks blocks in an update and then
+                            apply another update adding all of them back simultaneously.
                             Structure is documented below.
                           items:
                             properties:
                               networkUrl:
+                                description: The id or fully qualified URL of the
+                                  VPC network to bind to. This should be formatted
+                                  like projects/{project}/global/networks/{network}
+                                  or https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}
                                 type: string
                               networkUrlRef:
                                 description: Reference to a Network in compute to

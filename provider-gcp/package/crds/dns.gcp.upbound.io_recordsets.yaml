@@ -150,8 +150,8 @@ spec:
                     type: string
                   routingPolicy:
                     description: The configuration for steering traffic based on query.
-                      Now you can specify either Weighted Round Robin type or Geolocation
-                      type. Structure is documented below.
+                      Now you can specify either Weighted Round Robin(WRR) type or
+                      Geolocation(GEO) type. Structure is documented below.
                     items:
                       properties:
                         geo:
@@ -163,6 +163,7 @@ spec:
                                 description: The location name defined in Google Cloud.
                                 type: string
                               rrdatas:
+                                description: Same as rrdatas above.
                                 items:
                                   type: string
                                 type: array
@@ -177,12 +178,12 @@ spec:
                           items:
                             properties:
                               rrdatas:
+                                description: Same as rrdatas above.
                                 items:
                                   type: string
                                 type: array
                               weight:
-                                description: Required) The ratio of traffic routed
-                                  to the target.
+                                description: The ratio of traffic routed to the target.
                                 type: number
                             required:
                             - rrdatas
@@ -192,11 +193,16 @@ spec:
                       type: object
                     type: array
                   rrdatas:
+                    description: The string data for the records in this record set
+                      whose meaning depends on the DNS type. For TXT record, if the
+                      string data contains spaces, add surrounding \" if you don't
+                      want your string to get split on spaces.g. "first255characters\"
+                      \"morecharacters").
                     items:
                       type: string
                     type: array
                   ttl:
-                    description: The time-to-live of this record set .
+                    description: The time-to-live of this record set (seconds).
                     type: number
                   type:
                     description: The DNS record set type.

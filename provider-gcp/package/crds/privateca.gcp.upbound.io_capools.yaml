@@ -150,7 +150,9 @@ spec:
                                   properties:
                                     critical:
                                       description: Indicates whether or not this extension
-                                        is critical .
+                                        is critical (i.e., if the client does not
+                                        know how to handle this extension, the client
+                                        should consider this to be an error).
                                       type: boolean
                                     objectId:
                                       description: Describes values that are relevant
@@ -159,6 +161,10 @@ spec:
                                       items:
                                         properties:
                                           objectIdPath:
+                                            description: An ObjectId specifies an
+                                              object identifier (OID). These provide
+                                              context and describe types in ASN.1
+                                              messages.
                                             items:
                                               type: number
                                             type: array
@@ -177,9 +183,9 @@ spec:
                                   type: object
                                 type: array
                               aiaOcspServers:
-                                description: Describes Online Certificate Status Protocol  endpoint
-                                  addresses that appear in the "Authority Information
-                                  Access" extension in the certificate.
+                                description: Describes Online Certificate Status Protocol
+                                  (OCSP) endpoint addresses that appear in the "Authority
+                                  Information Access" extension in the certificate.
                                 items:
                                   type: string
                                 type: array
@@ -307,12 +313,16 @@ spec:
                                       type: array
                                     unknownExtendedKeyUsages:
                                       description: An ObjectId specifies an object
-                                        identifier . These provide context and describe
-                                        types in ASN.1 messages. Structure is documented
-                                        below.
+                                        identifier (OID). These provide context and
+                                        describe types in ASN.1 messages. Structure
+                                        is documented below.
                                       items:
                                         properties:
                                           objectIdPath:
+                                            description: An ObjectId specifies an
+                                              object identifier (OID). These provide
+                                              context and describe types in ASN.1
+                                              messages.
                                             items:
                                               type: number
                                             type: array
@@ -332,6 +342,9 @@ spec:
                                 items:
                                   properties:
                                     objectIdPath:
+                                      description: An ObjectId specifies an object
+                                        identifier (OID). These provide context and
+                                        describe types in ASN.1 messages.
                                       items:
                                         type: number
                                       type: array
@@ -383,6 +396,9 @@ spec:
                                         in Common Expression Language syntax.
                                       type: string
                                     location:
+                                      description: String indicating the location
+                                        of the expression for error reporting, e.g.
+                                        a file name and a position in the file.
                                       type: string
                                     title:
                                       description: Title for the expression, i.e.
@@ -416,6 +432,8 @@ spec:
                       "1.3kg", "count": "3" }.'
                     type: object
                   location:
+                    description: Location of the CaPool. A full list of valid locations
+                      can be found by running gcloud privateca locations list.
                     type: string
                   project:
                     description: The ID of the project in which the resource belongs.

@@ -39,7 +39,7 @@ type HTTPHealthCheckObservation_2 struct {
 
 type HTTPHealthCheckParameters_2 struct {
 
-	// How often  to send a health check. The default value is 5
+	// How often (in seconds) to send a health check. The default value is 5
 	// seconds.
 	// +kubebuilder:validation:Optional
 	CheckIntervalSec *float64 `json:"checkIntervalSec,omitempty" tf:"check_interval_sec,omitempty"`
@@ -55,7 +55,7 @@ type HTTPHealthCheckParameters_2 struct {
 	HealthyThreshold *float64 `json:"healthyThreshold,omitempty" tf:"healthy_threshold,omitempty"`
 
 	// The value of the host header in the HTTP health check request. If
-	// left empty , the public IP on behalf of which this
+	// left empty (default value), the public IP on behalf of which this
 	// health check is performed will be used.
 	// +kubebuilder:validation:Optional
 	Host *string `json:"host,omitempty" tf:"host,omitempty"`
@@ -75,7 +75,7 @@ type HTTPHealthCheckParameters_2 struct {
 	// +kubebuilder:validation:Optional
 	RequestPath *string `json:"requestPath,omitempty" tf:"request_path,omitempty"`
 
-	// How long  to wait before claiming failure.
+	// How long (in seconds) to wait before claiming failure.
 	// The default value is 5 seconds.  It is invalid for timeoutSec to have
 	// greater value than checkIntervalSec.
 	// +kubebuilder:validation:Optional

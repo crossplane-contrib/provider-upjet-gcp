@@ -83,7 +83,7 @@ type InstanceParameters struct {
 	AcceleratorConfig []AcceleratorConfigParameters `json:"acceleratorConfig,omitempty" tf:"accelerator_config,omitempty"`
 
 	// The size of the boot disk in GB attached to this instance,
-	// up to a maximum of 64000 GB . The minimum recommended value is 100 GB.
+	// up to a maximum of 64000 GB (64 TB). The minimum recommended value is 100 GB.
 	// If not specified, this defaults to 100.
 	// +kubebuilder:validation:Optional
 	BootDiskSizeGb *float64 `json:"bootDiskSizeGb,omitempty" tf:"boot_disk_size_gb,omitempty"`
@@ -104,7 +104,7 @@ type InstanceParameters struct {
 	CustomGpuDriverPath *string `json:"customGpuDriverPath,omitempty" tf:"custom_gpu_driver_path,omitempty"`
 
 	// The size of the data disk in GB attached to this instance,
-	// up to a maximum of 64000 GB .
+	// up to a maximum of 64000 GB (64 TB).
 	// You can choose the size of the data disk based on how big your notebooks and data are.
 	// If not specified, this defaults to 100.
 	// +kubebuilder:validation:Optional
@@ -176,10 +176,12 @@ type InstanceParameters struct {
 
 	// Path to a Bash script that automatically runs after a
 	// notebook instance fully boots up. The path must be a URL
-	// or Cloud Storage path .
+	// or Cloud Storage path (gs://path-to-file/file-name).
 	// +kubebuilder:validation:Optional
 	PostStartupScript *string `json:"postStartupScript,omitempty" tf:"post_startup_script,omitempty"`
 
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
@@ -230,6 +232,8 @@ type InstanceVMImageParameters struct {
 	// +kubebuilder:validation:Optional
 	ImageName *string `json:"imageName,omitempty" tf:"image_name,omitempty"`
 
+	// The name of the Google Cloud project that this VM image belongs to.
+	// Format: projects/{project_id}
 	// +kubebuilder:validation:Required
 	Project *string `json:"project" tf:"project,omitempty"`
 }

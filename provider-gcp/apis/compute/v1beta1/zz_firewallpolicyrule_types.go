@@ -95,7 +95,7 @@ type Layer4ConfigsObservation struct {
 
 type Layer4ConfigsParameters struct {
 
-	// The IP protocol to which this rule applies. The protocol type is required when creating a firewall rule. This value can either be one of the following well known protocol strings , or the IP protocol number.
+	// The IP protocol to which this rule applies. The protocol type is required when creating a firewall rule. This value can either be one of the following well known protocol strings (tcp, udp, icmp, esp, ah, ipip, sctp), or the IP protocol number.
 	// +kubebuilder:validation:Required
 	IPProtocol *string `json:"ipProtocol" tf:"ip_protocol,omitempty"`
 

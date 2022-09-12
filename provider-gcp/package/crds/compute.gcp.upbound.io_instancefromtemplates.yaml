@@ -74,11 +74,14 @@ spec:
                       type: object
                     type: array
                   allowStoppingForUpdate:
+                    description: Default is 6 minutes.
                     type: boolean
                   attachedDisk:
                     items:
                       properties:
                         deviceName:
+                          description: A unique name for the resource, required by
+                            GCE. Changing this forces a new resource to be created.
                           type: string
                         diskEncryptionKeyRaw:
                           type: string
@@ -96,8 +99,11 @@ spec:
                     items:
                       properties:
                         autoDelete:
+                          description: Default is 6 minutes.
                           type: boolean
                         deviceName:
+                          description: A unique name for the resource, required by
+                            GCE. Changing this forces a new resource to be created.
                           type: string
                         diskEncryptionKeyRawSecretRef:
                           description: A SecretKeySelector is a reference to a secret
@@ -169,6 +175,8 @@ spec:
                       type: object
                     type: array
                   hostname:
+                    description: A unique name for the resource, required by GCE.
+                      Changing this forces a new resource to be created.
                     type: string
                   labels:
                     additionalProperties:
@@ -199,6 +207,9 @@ spec:
                               networkTier:
                                 type: string
                               publicPtrDomainName:
+                                description: A unique name for the resource, required
+                                  by GCE. Changing this forces a new resource to be
+                                  created.
                                 type: string
                             type: object
                           type: array
@@ -208,6 +219,9 @@ spec:
                               ipCidrRange:
                                 type: string
                               subnetworkRangeName:
+                                description: A unique name for the resource, required
+                                  by GCE. Changing this forces a new resource to be
+                                  created.
                                 type: string
                             type: object
                           type: array
@@ -217,6 +231,9 @@ spec:
                               networkTier:
                                 type: string
                               publicPtrDomainName:
+                                description: A unique name for the resource, required
+                                  by GCE. Changing this forces a new resource to be
+                                  created.
                                 type: string
                             required:
                             - networkTier

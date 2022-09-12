@@ -30,12 +30,25 @@ type AppEngineObservation struct {
 
 type AppEngineParameters struct {
 
+	// Optional serving service.
+	// The service name must be 1-63 characters long, and comply with RFC1035.
+	// Example value: "default", "my-service".
 	// +kubebuilder:validation:Optional
 	Service *string `json:"service,omitempty" tf:"service,omitempty"`
 
+	// A template to parse service and version fields from a request URL.
+	// URL mask allows for routing to multiple App Engine services without
+	// having to create multiple Network Endpoint Groups and backend services.
+	// For example, the request URLs "foo1-dot-appname.appspot.com/v1" and
+	// "foo1-dot-appname.appspot.com/v2" can be backed by the same Serverless NEG with
+	// URL mask "-dot-appname.appspot.com/". The URL mask will parse
+	// them to { service = "foo1", version = "v1" } and { service = "foo1", version = "v2" } respectively.
 	// +kubebuilder:validation:Optional
 	URLMask *string `json:"urlMask,omitempty" tf:"url_mask,omitempty"`
 
+	// Optional serving version.
+	// The version must be 1-63 characters long, and comply with RFC1035.
+	// Example value: "v1", "v2".
 	// +kubebuilder:validation:Optional
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
 }
@@ -60,6 +73,12 @@ type CloudFunctionParameters struct {
 	// +kubebuilder:validation:Optional
 	FunctionSelector *v1.Selector `json:"functionSelector,omitempty" tf:"-"`
 
+	// A template to parse function field from a request URL. URL mask allows
+	// for routing to multiple Cloud Functions without having to create
+	// multiple Network Endpoint Groups and backend services.
+	// For example, request URLs "mydomain.com/function1" and "mydomain.com/function2"
+	// can be backed by the same Serverless NEG with URL mask "/". The URL mask
+	// will parse them to { function = "function1" } and { function = "function2" } respectively.
 	// +kubebuilder:validation:Optional
 	URLMask *string `json:"urlMask,omitempty" tf:"url_mask,omitempty"`
 }
@@ -69,6 +88,9 @@ type CloudRunObservation struct {
 
 type CloudRunParameters struct {
 
+	// Cloud Run service is the main resource of Cloud Run.
+	// The service must be 1-63 characters long, and comply with RFC1035.
+	// Example value: "run-service".
 	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/cloudrun/v1beta1.Service
 	// +kubebuilder:validation:Optional
 	Service *string `json:"service,omitempty" tf:"service,omitempty"`
@@ -88,6 +110,13 @@ type CloudRunParameters struct {
 	// +kubebuilder:validation:Optional
 	Tag *string `json:"tag,omitempty" tf:"tag,omitempty"`
 
+	// A template to parse service and tag fields from a request URL.
+	// URL mask allows for routing to multiple Run services without having
+	// to create multiple network endpoint groups and backend services.
+	// For example, request URLs "foo1.domain.com/bar1" and "foo1.domain.com/bar2"
+	// an be backed by the same Serverless Network Endpoint Group (NEG) with
+	// URL mask ".domain.com/". The URL mask will parse them to { service="bar1", tag="foo1" }
+	// and { service="bar2", tag="foo2" } respectively.
 	// +kubebuilder:validation:Optional
 	URLMask *string `json:"urlMask,omitempty" tf:"url_mask,omitempty"`
 }

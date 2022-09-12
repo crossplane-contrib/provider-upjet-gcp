@@ -179,14 +179,14 @@ spec:
                   loadBalancingScheme:
                     description: 'This signifies what the GlobalForwardingRule will
                       be used for. The value of INTERNAL_SELF_MANAGED means that this
-                      will be used for Internal Global HTTP LB. The value of EXTERNAL
+                      will be used for Internal Global HTTP(S) LB. The value of EXTERNAL
                       means that this will be used for External Global Load Balancing
-                      (HTTP LB, External TCP/UDP LB, SSL Proxy). The value of EXTERNAL_MANAGED
-                      means that this will be used for Global external HTTP load balancers.
-                      Note: This field must be set "" if the global address is configured
-                      as a purpose of PRIVATE_SERVICE_CONNECT and addressType of INTERNAL.
-                      Default value is EXTERNAL. Possible values are EXTERNAL, EXTERNAL_MANAGED,
-                      and INTERNAL_SELF_MANAGED.'
+                      (HTTP(S) LB, External TCP/UDP LB, SSL Proxy). The value of EXTERNAL_MANAGED
+                      means that this will be used for Global external HTTP(S) load
+                      balancers. (Beta only) Note: This field must be set "" if the
+                      global address is configured as a purpose of PRIVATE_SERVICE_CONNECT
+                      and addressType of INTERNAL. Default value is EXTERNAL. Possible
+                      values are EXTERNAL, EXTERNAL_MANAGED, and INTERNAL_SELF_MANAGED.'
                     type: string
                   metadataFilters:
                     description: Opaque filter criteria used by Loadbalancer to restrict
@@ -213,6 +213,8 @@ spec:
                           items:
                             properties:
                               name:
+                                description: Name of the metadata label. The length
+                                  must be between 1 and 1024 characters, inclusive.
                                 type: string
                               value:
                                 description: The value that the label must match.
@@ -408,9 +410,9 @@ spec:
                     description: The URL of the target resource to receive the matched
                       traffic. The forwarded traffic must be of a type appropriate
                       to the target object. For INTERNAL_SELF_MANAGED load balancing,
-                      only HTTP and HTTPS targets are valid. For global address with
-                      a purpose of PRIVATE_SERVICE_CONNECT and addressType of INTERNAL,
-                      only "all-apis" and "vpc-sc" are valid.
+                      only HTTP and HTTPS targets are valid. (Beta only) For global
+                      address with a purpose of PRIVATE_SERVICE_CONNECT and addressType
+                      of INTERNAL, only "all-apis" and "vpc-sc" are valid.
                     type: string
                   targetRef:
                     description: Reference to a TargetSSLProxy in compute to populate
@@ -669,8 +671,8 @@ spec:
                     description: an identifier for the resource with format projects/{{project}}/global/forwardingRules/{{name}}
                     type: string
                   labelFingerprint:
-                    description: The fingerprint used for optimistic locking of this
-                      resource.  Used internally during updates.
+                    description: (Beta) The fingerprint used for optimistic locking
+                      of this resource.  Used internally during updates.
                     type: string
                   selfLink:
                     description: The URI of the created resource.

@@ -30,9 +30,19 @@ type AllowObservation struct {
 
 type AllowParameters struct {
 
+	// An optional list of ports to which this rule applies. This field
+	// is only applicable for UDP or TCP protocol. Each entry must be
+	// either an integer or a range. If not specified, this rule
+	// applies to connections through any port.
+	// Example inputs include: ["22"], ["80","443"], and
+	// ["12345-12349"].
 	// +kubebuilder:validation:Optional
 	Ports []*string `json:"ports,omitempty" tf:"ports,omitempty"`
 
+	// The IP protocol to which this rule applies. The protocol type is
+	// required when creating a firewall rule. This value can either be
+	// one of the following well known protocol strings (tcp, udp,
+	// icmp, esp, ah, sctp, ipip, all), or the IP protocol number.
 	// +kubebuilder:validation:Required
 	Protocol *string `json:"protocol" tf:"protocol,omitempty"`
 }
@@ -42,9 +52,19 @@ type DenyObservation struct {
 
 type DenyParameters struct {
 
+	// An optional list of ports to which this rule applies. This field
+	// is only applicable for UDP or TCP protocol. Each entry must be
+	// either an integer or a range. If not specified, this rule
+	// applies to connections through any port.
+	// Example inputs include: ["22"], ["80","443"], and
+	// ["12345-12349"].
 	// +kubebuilder:validation:Optional
 	Ports []*string `json:"ports,omitempty" tf:"ports,omitempty"`
 
+	// The IP protocol to which this rule applies. The protocol type is
+	// required when creating a firewall rule. This value can either be
+	// one of the following well known protocol strings (tcp, udp,
+	// icmp, esp, ah, sctp, ipip, all), or the IP protocol number.
 	// +kubebuilder:validation:Required
 	Protocol *string `json:"protocol" tf:"protocol,omitempty"`
 }
@@ -142,7 +162,8 @@ type FirewallParameters struct {
 	// Priority for this rule. This is an integer between 0 and 65535, both
 	// inclusive. When not specified, the value assumed is 1000. Relative
 	// priorities determine precedence of conflicting rules. Lower value of
-	// priority implies higher precedence . DENY rules take
+	// priority implies higher precedence (eg, a rule with priority 0 has
+	// higher precedence than a rule with priority 1). DENY rules take
 	// precedence over ALLOW rules having equal priority.
 	// +kubebuilder:validation:Optional
 	Priority *float64 `json:"priority,omitempty" tf:"priority,omitempty"`

@@ -165,8 +165,8 @@ spec:
                     type: string
                   customerEncryption:
                     description: Enables object encryption with Customer-Supplied
-                      Encryption Key . [Google documentation about CSEK.] Structure
-                      is documented below.
+                      Encryption Key (CSEK). [Google documentation about CSEK.](https://cloud.google.com/storage/docs/encryption/customer-supplied-keys)
+                      Structure is documented below.
                     items:
                       properties:
                         encryptionAlgorithm:
@@ -403,23 +403,22 @@ spec:
               atProvider:
                 properties:
                   crc32c:
-                    description: Base 64 CRC32 hash of the uploaded data.
+                    description: (Computed) Base 64 CRC32 hash of the uploaded data.
                     type: string
                   id:
                     type: string
                   md5hash:
-                    description: Base 64 MD5 hash of the uploaded data.
+                    description: (Computed) Base 64 MD5 hash of the uploaded data.
                     type: string
                   mediaLink:
-                    description: A url reference to download this object.
+                    description: (Computed) A url reference to download this object.
                     type: string
                   outputName:
-                    description: The name of the object. Use this field in interpolations
-                      with google_storage_object_acl to recreate google_storage_object_acl
-                      resources when your google_storage_bucket_object is recreated.
+                    description: The name of the object. If you're interpolating the
+                      name of this object, see output_name instead.
                     type: string
                   selfLink:
-                    description: A url reference to this object.
+                    description: (Computed) A url reference to this object.
                     type: string
                 type: object
               conditions:

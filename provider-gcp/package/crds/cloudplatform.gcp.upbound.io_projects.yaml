@@ -74,10 +74,8 @@ spec:
                     type: boolean
                   billingAccount:
                     description: The alphanumeric ID of the billing account this project
-                      belongs to. The user or service account performing this operation
-                      with Terraform must have at minimum Billing Account User privileges  on
-                      the billing account. See Google Cloud Billing API Access Control
-                      for more details.
+                      belongs to.user) on the billing account. See Google Cloud Billing
+                      API Access Control for more details.
                     type: string
                   folderId:
                     description: The numeric ID of the folder this project should
@@ -179,8 +177,6 @@ spec:
                       belongs to.
                     type: string
                   skipDelete:
-                    description: If true, the Terraform resource can be deleted without
-                      deleting the Project via the Google API.
                     type: boolean
                 required:
                 - name

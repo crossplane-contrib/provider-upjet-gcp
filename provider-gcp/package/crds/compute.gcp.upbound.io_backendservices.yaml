@@ -68,9 +68,9 @@ spec:
                   affinityCookieTtlSec:
                     description: Lifetime of cookies in seconds if session_affinity
                       is GENERATED_COOKIE. If set to 0, the cookie is non-persistent
-                      and lasts only until the end of the browser session . The maximum
-                      allowed value for TTL is one day. When the load balancing scheme
-                      is INTERNAL, this field is not used.
+                      and lasts only until the end of the browser session (or equivalent).
+                      The maximum allowed value for TTL is one day. When the load
+                      balancing scheme is INTERNAL, this field is not used.
                     type: number
                   backend:
                     description: The set of backends that serve this BackendService.
@@ -79,20 +79,24 @@ spec:
                       properties:
                         balancingMode:
                           description: Specifies the balancing mode for this backend.
-                            For global HTTP or TCP/SSL load balancing, the default
+                            For global HTTP(S) or TCP/SSL load balancing, the default
                             is UTILIZATION. Valid values are UTILIZATION, RATE (for
-                            HTTP) and CONNECTION . Default value is UTILIZATION. Possible
-                            values are UTILIZATION, RATE, and CONNECTION.
+                            HTTP(S)) and CONNECTION (for TCP/SSL). Default value is
+                            UTILIZATION. Possible values are UTILIZATION, RATE, and
+                            CONNECTION.
                           type: string
                         capacityScaler:
                           description: A multiplier applied to the group's maximum
-                            servicing capacity . Default value is 1, which means the
-                            group will serve up to 100% of its configured capacity
-                            . A setting of 0 means the group is completely drained,
+                            servicing capacity (based on UTILIZATION, RATE or CONNECTION).
+                            Default value is 1, which means the group will serve up
+                            to 100% of its configured capacity (depending on balancingMode).
+                            A setting of 0 means the group is completely drained,
                             offering 0% of its available Capacity. Valid range is
                             [0.0,1.0].
                           type: number
                         description:
+                          description: An optional description of this resource. Provide
+                            this property when you create the resource.
                           type: string
                         group:
                           description: The fully-qualified URL of an Instance Group
@@ -189,6 +193,11 @@ spec:
                               type: object
                           type: object
                         maxConnections:
+                          description: The max number of simultaneous connections
+                            for the group. Can be used with either CONNECTION or UTILIZATION
+                            balancing modes. For CONNECTION mode, either maxConnections
+                            or one of maxConnectionsPerInstance or maxConnectionsPerEndpoint,
+                            as appropriate for group type, must be set.
                           type: number
                         maxConnectionsPerEndpoint:
                           description: The max number of simultaneous connections
@@ -207,21 +216,21 @@ spec:
                             must be set.
                           type: number
                         maxRate:
-                          description: The max requests per second  of the group.
+                          description: The max requests per second (RPS) of the group.
                             Can be used with either RATE or UTILIZATION balancing
                             modes, but required if RATE mode. For RATE mode, either
                             maxRate or one of maxRatePerInstance or maxRatePerEndpoint,
                             as appropriate for group type, must be set.
                           type: number
                         maxRatePerEndpoint:
-                          description: The max requests per second  that a single
+                          description: The max requests per second (RPS) that a single
                             backend network endpoint can handle. This is used to calculate
                             the capacity of the group. Can be used in either balancing
                             mode. For RATE mode, either maxRate or maxRatePerEndpoint
                             must be set.
                           type: number
                         maxRatePerInstance:
-                          description: The max requests per second  that a single
+                          description: The max requests per second (RPS) that a single
                             backend instance can handle. This is used to calculate
                             the capacity of the group. Can be used in either balancing
                             mode. For RATE mode, either maxRate or maxRatePerInstance
@@ -293,7 +302,7 @@ spec:
                         defaultTtl:
                           description: Specifies the default TTL for cached content
                             served by this origin for responses that do not have an
-                            existing valid TTL .
+                            existing valid TTL (max-age or s-max-age).
                           type: number
                         maxTtl:
                           description: Specifies the maximum allowed TTL for cached
@@ -319,19 +328,24 @@ spec:
                                   and you cannot specify a status code more than once.
                                 type: number
                               ttl:
+                                description: The TTL (in seconds) for which to cache
+                                  responses with the corresponding status code. The
+                                  maximum allowed value is 1800s (30 minutes), noting
+                                  that infrequently accessed objects may be evicted
+                                  from the cache before the defined TTL.
                                 type: number
                             type: object
                           type: array
                         serveWhileStale:
-                          description: Serve existing content from the cache  when
-                            revalidating content with the origin, or when an error
-                            is encountered when refreshing the cache.
+                          description: Serve existing content from the cache (if available)
+                            when revalidating content with the origin, or when an
+                            error is encountered when refreshing the cache.
                           type: number
                         signedUrlCacheMaxAgeSec:
                           description: 'Maximum number of seconds the response to
                             a signed URL request will be considered fresh, defaults
-                            to 1hr . After this time period, the response will be
-                            revalidated before being served. When serving responses
+                            to 1hr (3600s). After this time period, the response will
+                            be revalidated before being served. When serving responses
                             to signed URL requests, Cloud CDN will internally behave
                             as though all responses from this backend had a "Cache-Control:
                             public, max-age=[TTL]" header, regardless of any existing
@@ -347,6 +361,8 @@ spec:
                     items:
                       properties:
                         maxConnections:
+                          description: The maximum number of connections to the backend
+                            cluster. Defaults to 1024.
                           type: number
                         maxPendingRequests:
                           description: The maximum number of pending requests to the
@@ -370,7 +386,8 @@ spec:
                       type: object
                     type: array
                   connectionDrainingTimeoutSec:
-                    description: Time for which instance will be drained .
+                    description: Time for which instance will be drained (not accept
+                      new connections, but still work to finish started).
                     type: number
                   consistentHash:
                     description: Consistent Hash-based load balancing can be used
@@ -395,16 +412,27 @@ spec:
                           items:
                             properties:
                               name:
+                                description: Name of the cookie.
                                 type: string
                               path:
                                 description: Path to set for the cookie.
                                 type: string
                               ttl:
+                                description: Lifetime of the cookie. Structure is
+                                  documented below.
                                 items:
                                   properties:
                                     nanos:
+                                      description: Span of time that's a fraction
+                                        of a second at nanosecond resolution. Durations
+                                        less than one second are represented with
+                                        a 0 seconds field and a positive nanos field.
+                                        Must be from 0 to 999,999,999 inclusive.
                                       type: number
                                     seconds:
+                                      description: Span of time at a resolution of
+                                        a second. Must be from 0 to 315,576,000,000
+                                        inclusive.
                                       type: number
                                   required:
                                   - seconds
@@ -439,6 +467,7 @@ spec:
                       type: string
                     type: array
                   description:
+                    description: An optional description of this resource.
                     type: string
                   enableCdn:
                     description: If true, enable Cloud CDN for this BackendService.
@@ -608,8 +637,15 @@ spec:
                           items:
                             properties:
                               nanos:
+                                description: Span of time that's a fraction of a second
+                                  at nanosecond resolution. Durations less than one
+                                  second are represented with a 0 seconds field and
+                                  a positive nanos field. Must be from 0 to 999,999,999
+                                  inclusive.
                                 type: number
                               seconds:
+                                description: Span of time at a resolution of a second.
+                                  Must be from 0 to 315,576,000,000 inclusive.
                                 type: number
                             required:
                             - seconds
@@ -622,9 +658,10 @@ spec:
                             to 5.
                           type: number
                         consecutiveGatewayFailure:
-                          description: The number of consecutive gateway failures  before
-                            a consecutive gateway failure ejection occurs. Defaults
-                            to 5.
+                          description: The number of consecutive gateway failures
+                            (502, 503, 504 status or connection errors that are mapped
+                            to one of those status codes) before a consecutive gateway
+                            failure ejection occurs. Defaults to 5.
                           type: number
                         enforcingConsecutiveErrors:
                           description: The percentage chance that a host will be actually
@@ -652,8 +689,15 @@ spec:
                           items:
                             properties:
                               nanos:
+                                description: Span of time that's a fraction of a second
+                                  at nanosecond resolution. Durations less than one
+                                  second are represented with a 0 seconds field and
+                                  a positive nanos field. Must be from 0 to 999,999,999
+                                  inclusive.
                                 type: number
                               seconds:
+                                description: Span of time at a resolution of a second.
+                                  Must be from 0 to 315,576,000,000 inclusive.
                                 type: number
                             required:
                             - seconds
@@ -673,21 +717,21 @@ spec:
                           type: number
                         successRateRequestVolume:
                           description: The minimum number of total requests that must
-                            be collected in one interval  to include this host in
-                            success rate based outlier detection. If the volume is
-                            lower than this setting, outlier detection via success
-                            rate statistics is not performed for that host. Defaults
-                            to 100.
+                            be collected in one interval (as defined by the interval
+                            duration above) to include this host in success rate based
+                            outlier detection. If the volume is lower than this setting,
+                            outlier detection via success rate statistics is not performed
+                            for that host. Defaults to 100.
                           type: number
                         successRateStdevFactor:
                           description: 'This factor is used to determine the ejection
                             threshold for success rate outlier ejection. The ejection
                             threshold is the difference between the mean success rate,
                             and the product of this factor and the standard deviation
-                            of the mean success rate: mean - . This factor is divided
-                            by a thousand to get a double. That is, if the desired
-                            factor is 1.9, the runtime value should be 1900. Defaults
-                            to 1900.'
+                            of the mean success rate: mean - (stdev * success_rate_stdev_factor).
+                            This factor is divided by a thousand to get a double.
+                            That is, if the desired factor is 1.9, the runtime value
+                            should be 1900. Defaults to 1900.'
                           type: number
                       type: object
                     type: array

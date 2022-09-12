@@ -56,6 +56,7 @@ type AutoscalerParameters struct {
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	// URL of the managed instance group that this autoscaler will scale.
 	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.InstanceGroupManager
 	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
@@ -149,6 +150,17 @@ type CPUUtilizationParameters struct {
 	// +kubebuilder:validation:Optional
 	PredictiveMethod *string `json:"predictiveMethod,omitempty" tf:"predictive_method,omitempty"`
 
+	// The target CPU utilization that the autoscaler should maintain.
+	// Must be a float value in the range (0, 1]. If not specified, the
+	// default is 0.6.
+	// If the CPU level is below the target utilization, the autoscaler
+	// scales down the number of instances until it reaches the minimum
+	// number of instances you specified or until the average CPU of
+	// your instances reaches the target utilization.
+	// If the average CPU is above the target utilization, the autoscaler
+	// scales up until it reaches the maximum number of instances you
+	// specified or until the average utilization reaches the target
+	// utilization.
 	// +kubebuilder:validation:Required
 	Target *float64 `json:"target" tf:"target,omitempty"`
 }
@@ -158,6 +170,9 @@ type LoadBalancingUtilizationObservation struct {
 
 type LoadBalancingUtilizationParameters struct {
 
+	// Fraction of backend capacity utilization (set in HTTP(s) load
+	// balancing configuration) that autoscaler should maintain. Must
+	// be a positive float value. If not defined, the default is 0.8.
 	// +kubebuilder:validation:Required
 	Target *float64 `json:"target" tf:"target,omitempty"`
 }
@@ -167,9 +182,13 @@ type MaxScaledInReplicasObservation struct {
 
 type MaxScaledInReplicasParameters struct {
 
+	// Specifies a fixed number of VM instances. This must be a positive
+	// integer.
 	// +kubebuilder:validation:Optional
 	Fixed *float64 `json:"fixed,omitempty" tf:"fixed,omitempty"`
 
+	// Specifies a percentage of instances between 0 to 100%, inclusive.
+	// For example, specify 80 for 80%.
 	// +kubebuilder:validation:Optional
 	Percent *float64 `json:"percent,omitempty" tf:"percent,omitempty"`
 }
@@ -179,9 +198,20 @@ type MetricObservation struct {
 
 type MetricParameters struct {
 
+	// The identifier (type) of the Stackdriver Monitoring metric.
+	// The metric cannot have negative values.
+	// The metric must have a value type of INT64 or DOUBLE.
 	// +kubebuilder:validation:Required
 	Name *string `json:"name" tf:"name,omitempty"`
 
+	// The target value of the metric that autoscaler should
+	// maintain. This must be a positive value. A utilization
+	// metric scales number of virtual machines handling requests
+	// to increase or decrease proportionally to the metric.
+	// For example, a good metric to use as a utilizationTarget is
+	// www.googleapis.com/compute/instance/network/received_bytes_count.
+	// The autoscaler will work to keep this value constant for each
+	// of the instances.
 	// +kubebuilder:validation:Optional
 	Target *float64 `json:"target,omitempty" tf:"target,omitempty"`
 
@@ -202,6 +232,8 @@ type ScaleInControlParameters struct {
 	// +kubebuilder:validation:Optional
 	MaxScaledInReplicas []MaxScaledInReplicasParameters `json:"maxScaledInReplicas,omitempty" tf:"max_scaled_in_replicas,omitempty"`
 
+	// How long back autoscaling should look when computing recommendations
+	// to include directives regarding slower scale down, as described above.
 	// +kubebuilder:validation:Optional
 	TimeWindowSec *float64 `json:"timeWindowSec,omitempty" tf:"time_window_sec,omitempty"`
 }
@@ -218,7 +250,7 @@ type ScalingSchedulesParameters struct {
 	// +kubebuilder:validation:Optional
 	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
 
-	// The duration of time intervals  for which this scaling schedule will be running. The minimum allowed value is 300.
+	// The duration of time intervals (in seconds) for which this scaling schedule will be running. The minimum allowed value is 300.
 	// +kubebuilder:validation:Required
 	DurationSec *float64 `json:"durationSec" tf:"duration_sec,omitempty"`
 
@@ -226,10 +258,11 @@ type ScalingSchedulesParameters struct {
 	// +kubebuilder:validation:Required
 	MinRequiredReplicas *float64 `json:"minRequiredReplicas" tf:"min_required_replicas,omitempty"`
 
+	// The identifier for this object. Format specified above.
 	// +kubebuilder:validation:Required
 	Name *string `json:"name" tf:"name,omitempty"`
 
-	// The start timestamps of time intervals when this scaling schedule should provide a scaling signal. This field uses the extended cron format .
+	// The start timestamps of time intervals when this scaling schedule should provide a scaling signal. This field uses the extended cron format (with an optional year field).
 	// +kubebuilder:validation:Required
 	Schedule *string `json:"schedule" tf:"schedule,omitempty"`
 

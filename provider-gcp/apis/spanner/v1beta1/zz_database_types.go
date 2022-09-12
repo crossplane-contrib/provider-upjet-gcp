@@ -39,8 +39,7 @@ type DatabaseParameters struct {
 	// The dialect of the Cloud Spanner Database.
 	// If it is not provided, "GOOGLE_STANDARD_SQL" will be used.
 	// Note: Databases that are created with POSTGRESQL dialect do not support
-	// extra DDL statements in the CreateDatabase call. You must therefore re-apply
-	// terraform with ddl on the same database after creation.
+	// extra DDL statements in the CreateDatabase call.
 	// Possible values are GOOGLE_STANDARD_SQL and POSTGRESQL.
 	// +kubebuilder:validation:Optional
 	DatabaseDialect *string `json:"databaseDialect,omitempty" tf:"database_dialect,omitempty"`
@@ -52,8 +51,6 @@ type DatabaseParameters struct {
 	// +kubebuilder:validation:Optional
 	Ddl []*string `json:"ddl,omitempty" tf:"ddl,omitempty"`
 
-	// Whether or not to allow Terraform to destroy the instance. Unless this field is set to false
-	// in Terraform state, a terraform destroy or terraform apply that would delete the instance will fail.
 	// +kubebuilder:validation:Optional
 	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
 

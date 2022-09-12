@@ -158,8 +158,8 @@ spec:
                               minCpuPlatform:
                                 description: The minimum CPU platform for the reservation.
                                   For example, "Intel Skylake". See the CPU platform
-                                  availability reference] for information on available
-                                  CPU platforms.
+                                  availability reference](https://cloud.google.com/compute/docs/instances/specify-min-cpu-platform#availablezones)
+                                  for information on available CPU platforms.
                                 type: string
                             required:
                             - machineType

@@ -32,7 +32,8 @@ type MessageStoragePolicyParameters struct {
 
 	// A list of IDs of GCP regions where messages that are published to
 	// the topic may be persisted in storage. Messages published by
-	// publishers running in non-allowed GCP regions  will be routed for storage in one of the
+	// publishers running in non-allowed GCP regions (or running outside
+	// of GCP altogether) will be routed for storage in one of the
 	// allowed regions. An empty list means that no regions are allowed,
 	// and is not a valid configuration.
 	// +kubebuilder:validation:Required
@@ -68,7 +69,7 @@ type TopicParameters struct {
 
 	// The resource name of the Cloud KMS CryptoKey to be used to protect access
 	// to messages published on this topic. Your project's PubSub service account
-	// must have
+	// (service-{{PROJECT_NUMBER}}@gcp-sa-pubsub.iam.gserviceaccount.com) must have
 	// roles/cloudkms.cryptoKeyEncrypterDecrypter to use this feature.
 	// The expected format is projects/*/locations/*/keyRings/*/cryptoKeys/*
 	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/kms/v1beta1.CryptoKey

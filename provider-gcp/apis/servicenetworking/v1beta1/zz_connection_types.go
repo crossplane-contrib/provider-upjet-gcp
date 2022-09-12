@@ -28,7 +28,7 @@ import (
 type ConnectionObservation struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// The name of the VPC Network Peering connection that was created by the service producer.
+	// (Computed) The name of the VPC Network Peering connection that was created by the service producer.
 	Peering *string `json:"peering,omitempty" tf:"peering,omitempty"`
 }
 
@@ -48,7 +48,7 @@ type ConnectionParameters struct {
 	// +kubebuilder:validation:Optional
 	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
 
-	// Named IP address range of PEERING type reserved for
+	// Named IP address range(s) of PEERING type reserved for
 	// this service provider. Note that invoking this method with a different range when connection
 	// is already established will not reallocate already provisioned service producer subnetworks.
 	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.GlobalAddress

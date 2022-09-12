@@ -30,7 +30,7 @@ type ActiveDirectoryConfigObservation struct {
 
 type ActiveDirectoryConfigParameters struct {
 
-	// The domain name for the active directory .
+	// The domain name for the active directory (e.g., mydomain.com).
 	// Can only be used with SQL Server.
 	// +kubebuilder:validation:Required
 	Domain *string `json:"domain" tf:"domain,omitempty"`
@@ -46,9 +46,12 @@ type AuthorizedNetworksParameters struct {
 	// +kubebuilder:validation:Optional
 	ExpirationTime *string `json:"expirationTime,omitempty" tf:"expiration_time,omitempty"`
 
+	// The name of the instance. This is done because after a name is used, it cannot be reused for
+	// up to one week.
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// Value of the flag.
 	// +kubebuilder:validation:Required
 	Value *string `json:"value" tf:"value,omitempty"`
 }
@@ -109,6 +112,7 @@ type CloneObservation struct {
 
 type CloneParameters struct {
 
+	// The name of the allocated ip range for the private ip CloudSQL instance. For example: "google-managed-services-default". If set, the cloned instance ip will be created in the allocated range. The range name must comply with RFC 1035. Specifically, the name must be 1-63 characters long and match the regular expression a-z?.
 	// +kubebuilder:validation:Optional
 	AllocatedIPRange *string `json:"allocatedIpRange,omitempty" tf:"allocated_ip_range,omitempty"`
 
@@ -126,38 +130,34 @@ type DatabaseFlagsObservation struct {
 
 type DatabaseFlagsParameters struct {
 
+	// The name of the instance. This is done because after a name is used, it cannot be reused for
+	// up to one week.
 	// +kubebuilder:validation:Required
 	Name *string `json:"name" tf:"name,omitempty"`
 
+	// Value of the flag.
 	// +kubebuilder:validation:Required
 	Value *string `json:"value" tf:"value,omitempty"`
 }
 
 type DatabaseInstanceObservation struct {
 
-	// The connection name of the instance to be used in
-	// connection strings. For example, when connecting with Cloud SQL Proxy.
+	// The name of the instance. This is done because after a name is used, it cannot be reused for
+	// up to one week.
 	ConnectionName *string `json:"connectionName,omitempty" tf:"connection_name,omitempty"`
 
-	// The first IPv4 address of any type assigned. This is to
-	// support accessing the first address in the list in a terraform output
-	// when the resource is configured with a count.
+	// The first IPv4 address of any type assigned.
 	FirstIPAddress *string `json:"firstIpAddress,omitempty" tf:"first_ip_address,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// The IPv4 address assigned.
 	IPAddress []IPAddressObservation `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
 
-	// The first private  IPv4 address assigned. This is
-	// a workaround for an issue fixed in Terraform 0.12
-	// but also provides a convenient way to access an IP of a specific type without
-	// performing filtering in a Terraform config.
+	// The first private (PRIVATE) IPv4 address assigned.
 	PrivateIPAddress *string `json:"privateIpAddress,omitempty" tf:"private_ip_address,omitempty"`
 
-	// The first public  IPv4 address assigned. This is
-	// a workaround for an issue fixed in Terraform 0.12
-	// but also provides a convenient way to access an IP of a specific type without
-	// performing filtering in a Terraform config.
+	// The first public (PRIMARY) IPv4 address assigned.
 	PublicIPAddress *string `json:"publicIpAddress,omitempty" tf:"public_ip_address,omitempty"`
 
 	// The URI of the created resource.
@@ -177,8 +177,7 @@ type DatabaseInstanceObservation struct {
 
 type DatabaseInstanceParameters struct {
 
-	// The context needed to create this instance as a clone of another instance. When this field is set during
-	// resource creation, Terraform will attempt to clone another instance as indicated in the context. The
+	// The context needed to create this instance as a clone of another instance. The
 	// configuration is detailed below.
 	// +kubebuilder:validation:Optional
 	Clone []CloneParameters `json:"clone,omitempty" tf:"clone,omitempty"`
@@ -195,8 +194,6 @@ type DatabaseInstanceParameters struct {
 	// +kubebuilder:validation:Required
 	DatabaseVersion *string `json:"databaseVersion" tf:"database_version,omitempty"`
 
-	// Whether or not to allow Terraform to destroy the instance. Unless this field is set to false
-	// in Terraform state, a terraform destroy or terraform apply command that deletes the instance will fail.
 	// +kubebuilder:validation:Optional
 	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
 
@@ -206,6 +203,8 @@ type DatabaseInstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	MasterInstanceName *string `json:"masterInstanceName,omitempty" tf:"master_instance_name,omitempty"`
 
+	// The ID of the project in which the resource belongs. If it
+	// is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
@@ -219,9 +218,7 @@ type DatabaseInstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	ReplicaConfiguration []ReplicaConfigurationParameters `json:"replicaConfiguration,omitempty" tf:"replica_configuration,omitempty"`
 
-	// The context needed to restore the database to a backup run. This field will
-	// cause Terraform to trigger the database to restore from the backup run indicated. The configuration is detailed below.
-	// NOTE: Restoring from a backup is an imperative action and not recommended via Terraform. Adding or modifying this
+	// The context needed to restore the database to a backup run. The configuration is detailed below. Adding or modifying this
 	// block during resource creation/update will trigger the restore action after the resource is created/updated.
 	// +kubebuilder:validation:Optional
 	RestoreBackupContext []RestoreBackupContextParameters `json:"restoreBackupContext,omitempty" tf:"restore_backup_context,omitempty"`
@@ -237,10 +234,15 @@ type DatabaseInstanceParameters struct {
 }
 
 type IPAddressObservation struct {
+
+	// The IPv4 address assigned.
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
 
+	// The time this IP address will be retired, in RFC
+	// 3339 format.
 	TimeToRetire *string `json:"timeToRetire,omitempty" tf:"time_to_retire,omitempty"`
 
+	// The type of this IP address.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
@@ -252,6 +254,7 @@ type IPConfigurationObservation struct {
 
 type IPConfigurationParameters struct {
 
+	// The name of the allocated ip range for the private ip CloudSQL instance. For example: "google-managed-services-default". If set, the instance ip will be created in the allocated range. The range name must comply with RFC 1035. Specifically, the name must be 1-63 characters long and match the regular expression a-z?.
 	// +kubebuilder:validation:Optional
 	AllocatedIPRange *string `json:"allocatedIpRange,omitempty" tf:"allocated_ip_range,omitempty"`
 
@@ -330,15 +333,16 @@ type MaintenanceWindowObservation struct {
 
 type MaintenanceWindowParameters struct {
 
-	// Day of week , starting on Monday
+	// Day of week (1-7), starting on Monday
 	// +kubebuilder:validation:Optional
 	Day *float64 `json:"day,omitempty" tf:"day,omitempty"`
 
-	// Hour of day , ignored if day not set
+	// Hour of day (0-23), ignored if day not set
 	// +kubebuilder:validation:Optional
 	Hour *float64 `json:"hour,omitempty" tf:"hour,omitempty"`
 
-	// Receive updates earlier  or later
+	// Receive updates earlier (canary) or later
+	// (stable)
 	// +kubebuilder:validation:Optional
 	UpdateTrack *string `json:"updateTrack,omitempty" tf:"update_track,omitempty"`
 }
@@ -392,7 +396,8 @@ type ReplicaConfigurationParameters struct {
 	// +kubebuilder:validation:Optional
 	SSLCipher *string `json:"sslCipher,omitempty" tf:"ssl_cipher,omitempty"`
 
-	// Username for replication connection.
+	// The name of the instance. This is done because after a name is used, it cannot be reused for
+	// up to one week.
 	// +kubebuilder:validation:Optional
 	Username *string `json:"username,omitempty" tf:"username,omitempty"`
 
@@ -416,21 +421,28 @@ type RestoreBackupContextParameters struct {
 	// +kubebuilder:validation:Optional
 	InstanceID *string `json:"instanceId,omitempty" tf:"instance_id,omitempty"`
 
+	// The full project ID of the source instance.`
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 
 type ServerCACertObservation struct {
+
+	// The CA Certificate used to connect to the SQL Instance via SSL.
 	Cert *string `json:"cert,omitempty" tf:"cert,omitempty"`
 
+	// The name of the instance. This is done because after a name is used, it cannot be reused for
+	// up to one week.
 	CommonName *string `json:"commonName,omitempty" tf:"common_name,omitempty"`
 
+	// Creation time of the CA Cert.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
 	// The RFC 3339
 	// formatted date time string indicating when this whitelist expires.
 	ExpirationTime *string `json:"expirationTime,omitempty" tf:"expiration_time,omitempty"`
 
+	// SHA Fingerprint of the CA Cert.
 	Sha1Fingerprint *string `json:"sha1Fingerprint,omitempty" tf:"sha1_fingerprint,omitempty"`
 }
 
@@ -438,6 +450,9 @@ type ServerCACertParameters struct {
 }
 
 type SettingsObservation struct {
+
+	// Used to make sure changes to the settings block are
+	// atomic.
 	Version *float64 `json:"version,omitempty" tf:"version,omitempty"`
 }
 
@@ -452,7 +467,7 @@ type SettingsParameters struct {
 	ActiveDirectoryConfig []ActiveDirectoryConfigParameters `json:"activeDirectoryConfig,omitempty" tf:"active_directory_config,omitempty"`
 
 	// The availability type of the Cloud SQL
-	// instance, high availability  or single zone .' For all instances, ensure that
+	// instance, high availability (REGIONAL) or single zone (ZONAL).' For all instances, ensure that
 	// settings.backup_configuration.enabled is set to true.
 	// For MySQL instances, ensure that settings.backup_configuration.binary_log_enabled is set to true.
 	// For Postgres instances, ensure that settings.backup_configuration.point_in_time_recovery_enabled

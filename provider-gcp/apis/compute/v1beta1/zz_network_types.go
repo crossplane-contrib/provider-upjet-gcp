@@ -48,7 +48,7 @@ type NetworkParameters struct {
 	// +kubebuilder:validation:Optional
 	AutoCreateSubnetworks *bool `json:"autoCreateSubnetworks,omitempty" tf:"auto_create_subnetworks,omitempty"`
 
-	// If set to true, default routes  will be deleted
+	// If set to true, default routes (0.0.0.0/0) will be deleted
 	// immediately after network creation. Defaults to false.
 	// +kubebuilder:validation:Optional
 	DeleteDefaultRoutesOnCreate *bool `json:"deleteDefaultRoutesOnCreate,omitempty" tf:"delete_default_routes_on_create,omitempty"`

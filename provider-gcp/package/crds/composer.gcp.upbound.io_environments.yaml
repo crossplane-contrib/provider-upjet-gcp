@@ -65,6 +65,8 @@ spec:
               forProvider:
                 properties:
                   config:
+                    description: Configuration parameters for this environment  Structure
+                      is documented below.
                     items:
                       properties:
                         databaseConfig:
@@ -73,6 +75,9 @@ spec:
                           items:
                             properties:
                               machineType:
+                                description: 'Cloud SQL machine type used by Airflow
+                                  database. It has to be one of: db-n1-standard-2,
+                                  db-n1-standard-4, db-n1-standard-8 or db-n1-standard-16.'
                                 type: string
                             required:
                             - machineType
@@ -104,10 +109,21 @@ spec:
                           items:
                             properties:
                               endTime:
+                                description: Maintenance window end time. It is used
+                                  only to calculate the duration of the maintenance
+                                  window. The value for end-time must be in the future,
+                                  relative to 'start_time'.
                                 type: string
                               recurrence:
+                                description: 'Maintenance window recurrence. Format
+                                  is a subset of RFC-5545 (https://tools.ietf.org/html/rfc5545)
+                                  ''RRULE''. The only allowed values for ''FREQ''
+                                  field are ''FREQ=DAILY'' and ''FREQ=WEEKLY;BYDAY=...''.
+                                  Example values: ''FREQ=WEEKLY;BYDAY=TU,WE'', ''FREQ=DAILY''.'
                                 type: string
                               startTime:
+                                description: Start time of the first recurrence of
+                                  the maintenance window.
                                 type: string
                             required:
                             - endTime
@@ -116,6 +132,8 @@ spec:
                             type: object
                           type: array
                         nodeConfig:
+                          description: Configuration parameters for this environment  Structure
+                            is documented below.
                           items:
                             properties:
                               diskSizeGb:
@@ -124,15 +142,44 @@ spec:
                                   100GB. Cannot be updated.
                                 type: number
                               ipAllocationPolicy:
+                                description: Configuration for controlling how IPs
+                                  are allocated in the GKE cluster. Structure is documented
+                                  below. Cannot be updated.
                                 items:
                                   properties:
                                     clusterIpv4CidrBlock:
+                                      description: The IP address range used to allocate
+                                        IP addresses to pods in the cluster. For Cloud
+                                        Composer 1 environments, this field is applicable
+                                        only when use_ip_aliases is true. Set to blank
+                                        to have GKE choose a range with the default
+                                        size. Set to /netmask (e.g. /14) to have GKE
+                                        choose a range with a specific netmask. Set
+                                        to a CIDR notation (e.g. 10.96.0.0/14) from
+                                        the RFC-1918 private networks (e.g. 10.0.0.0/8,
+                                        172.16.0.0/12, 192.168.0.0/16) to pick a specific
+                                        range to use. Specify either cluster_secondary_range_name
+                                        or cluster_ipv4_cidr_block but not both.
                                       type: string
                                     clusterSecondaryRangeName:
+                                      description: Name of the environment
                                       type: string
                                     servicesIpv4CidrBlock:
+                                      description: The IP address range used to allocate
+                                        IP addresses in this cluster. For Cloud Composer
+                                        1 environments, this field is applicable only
+                                        when use_ip_aliases is true. Set to blank
+                                        to have GKE choose a range with the default
+                                        size. Set to /netmask (e.g. /14) to have GKE
+                                        choose a range with a specific netmask. Set
+                                        to a CIDR notation (e.g. 10.96.0.0/14) from
+                                        the RFC-1918 private networks (e.g. 10.0.0.0/8,
+                                        172.16.0.0/12, 192.168.0.0/16) to pick a specific
+                                        range to use. Specify either services_secondary_range_name
+                                        or services_ipv4_cidr_block but not both.
                                       type: string
                                     servicesSecondaryRangeName:
+                                      description: Name of the environment
                                       type: string
                                     useIpAliases:
                                       description: Whether or not to enable Alias
@@ -143,8 +190,17 @@ spec:
                                   type: object
                                 type: array
                               machineType:
+                                description: 'The Compute Engine machine type used
+                                  for cluster instances, specified as a name or relative
+                                  resource name. For example: "projects/{project}/zones/{zone}/machineTypes/{machineType}".
+                                  Must belong to the enclosing environment''s project
+                                  and region/zone.'
                                 type: string
                               network:
+                                description: The Compute Engine network to be used
+                                  for machine communications, specified as a self-link,
+                                  relative resource name (for example "projects/{project}/global/networks/{network}"),
+                                  by name.
                                 type: string
                               networkRef:
                                 description: Reference to a Network in compute to
@@ -234,6 +290,13 @@ spec:
                                   type: string
                                 type: array
                               serviceAccount:
+                                description: The Google Cloud Platform Service Account
+                                  to be used by the node VMs. If a service account
+                                  is not specified, the "default" Compute Engine service
+                                  account is used. Cannot be updated. If given, note
+                                  that the service account must have roles/composer.worker
+                                  for any GCP resources created under the Cloud Composer
+                                  Environment.
                                 type: string
                               serviceAccountRef:
                                 description: Reference to a ServiceAccount in cloudplatform
@@ -316,6 +379,12 @@ spec:
                                     type: object
                                 type: object
                               subnetwork:
+                                description: The Compute Engine subnetwork to be used
+                                  for machine communications, specified as a self-link,
+                                  relative resource name (for example, "projects/{project}/regions/{region}/subnetworks/{subnetwork}"),
+                                  or by name. If subnetwork is provided, network must
+                                  also be provided and the subnetwork must belong
+                                  to the enclosing environment's project and region.
                                 type: string
                               subnetworkRef:
                                 description: Reference to a Subnetwork in compute
@@ -408,9 +477,9 @@ spec:
                               zone:
                                 description: The Compute Engine zone in which to deploy
                                   the VMs running the Apache Airflow software, specified
-                                  as the zone name or relative resource name . Must
-                                  belong to the enclosing environment's project and
-                                  region.
+                                  as the zone name or relative resource name (e.g.
+                                  "projects/{project}/zones/{zone}"). Must belong
+                                  to the enclosing environment's project and region.
                                 type: string
                             type: object
                           type: array
@@ -419,6 +488,8 @@ spec:
                             cluster of the environment.
                           type: number
                         privateEnvironmentConfig:
+                          description: Configuration parameters for this environment  Structure
+                            is documented below.
                           items:
                             properties:
                               cloudComposerConnectionSubnetwork:
@@ -426,10 +497,21 @@ spec:
                               cloudComposerNetworkIpv4CidrBlock:
                                 type: string
                               cloudSqlIpv4CidrBlock:
+                                description: The CIDR block from which IP range in
+                                  tenant project will be reserved for Cloud SQL. Needs
+                                  to be disjoint from web_server_ipv4_cidr_block
                                 type: string
                               enablePrivateEndpoint:
                                 type: boolean
                               masterIpv4CidrBlock:
+                                description: The IP range in CIDR notation to use
+                                  for the hosted master network. This range is used
+                                  for assigning internal IP addresses to the cluster
+                                  master or set of masters and to the internal load
+                                  balancer virtual IP. This range must not overlap
+                                  with any other ranges in use within the cluster's
+                                  network. If left blank, the default value of is
+                                  used. See documentation for default values per region.
                                 type: string
                               webServerIpv4CidrBlock:
                                 description: The CIDR block from which IP range for
@@ -439,21 +521,43 @@ spec:
                             type: object
                           type: array
                         softwareConfig:
+                          description: Configuration parameters for this environment  Structure
+                            is documented below.
                           items:
                             properties:
                               airflowConfigOverrides:
                                 additionalProperties:
                                   type: string
+                                description: Apache Airflow configuration properties
+                                  to override. Property keys contain the section and
+                                  property names, separated by a hyphen, for example
+                                  "core-dags_are_paused_at_creation".
                                 type: object
                               envVariables:
                                 additionalProperties:
                                   type: string
+                                description: 'Additional environment variables to
+                                  provide to the Apache Airflow scheduler, worker,
+                                  and webserver processes. Environment variable names
+                                  must match the regular expression [a-zA-Z_][a-zA-Z0-9_]*.
+                                  They cannot specify Apache Airflow software configuration
+                                  overrides (they cannot match the regular expression
+                                  AIRFLOW__[A-Z0-9_]+__[A-Z0-9_]+), and they cannot
+                                  match any of the following reserved names:'
                                 type: object
                               imageVersion:
                                 type: string
                               pypiPackages:
                                 additionalProperties:
                                   type: string
+                                description: Custom Python Package Index (PyPI) packages
+                                  to be installed in the environment. Keys refer to
+                                  the lowercase package name (e.g. "numpy"). Values
+                                  are the lowercase extras and version specifier (e.g.
+                                  "==1.12.0", "[devel,gcp_api]", "[devel]>=1.8.2,
+                                  <1.9.2"). To specify a package without pinning it
+                                  to a version specifier, use the empty string as
+                                  the value.
                                 type: object
                               pythonVersion:
                                 description: The major version of Python used to run
@@ -472,6 +576,12 @@ spec:
                           items:
                             properties:
                               machineType:
+                                description: 'Machine type on which Airflow web server
+                                  is running. It has to be one of: composer-n1-webserver-2,
+                                  composer-n1-webserver-4 or composer-n1-webserver-8.
+                                  Value custom is returned only in response, if Airflow
+                                  web server parameters were manually changed to a
+                                  non-standard values.'
                                 type: string
                             required:
                             - machineType
@@ -521,10 +631,16 @@ spec:
                                       description: The number of schedulers.
                                       type: number
                                     cpu:
+                                      description: The number of CPUs for a single
+                                        Airflow scheduler.
                                       type: number
                                     memoryGb:
+                                      description: The amount of memory (GB) for a
+                                        single Airflow scheduler.
                                       type: number
                                     storageGb:
+                                      description: The amount of storage (GB) for
+                                        a single Airflow scheduler.
                                       type: number
                                   type: object
                                 type: array
@@ -534,10 +650,16 @@ spec:
                                 items:
                                   properties:
                                     cpu:
+                                      description: The number of CPUs for the Airflow
+                                        web server.
                                       type: number
                                     memoryGb:
+                                      description: The amount of memory (GB) for the
+                                        Airflow web server.
                                       type: number
                                     storageGb:
+                                      description: The amount of storage (GB) for
+                                        the Airflow web server.
                                       type: number
                                   type: object
                                 type: array
@@ -547,6 +669,8 @@ spec:
                                 items:
                                   properties:
                                     cpu:
+                                      description: The number of CPUs for a single
+                                        Airflow worker.
                                       type: number
                                     maxCount:
                                       description: The maximum number of Airflow workers
@@ -556,6 +680,8 @@ spec:
                                         is required to handle the load.
                                       type: number
                                     memoryGb:
+                                      description: The amount of memory (GB) for a
+                                        single Airflow worker.
                                       type: number
                                     minCount:
                                       description: The minimum number of Airflow workers
@@ -565,6 +691,8 @@ spec:
                                         can handle the load.
                                       type: number
                                     storageGb:
+                                      description: The amount of storage (GB) for
+                                        the Airflow web server.
                                       type: number
                                   type: object
                                 type: array
@@ -575,8 +703,19 @@ spec:
                   labels:
                     additionalProperties:
                       type: string
+                    description: 'User-defined labels for this environment. The labels
+                      map can contain no more than 64 entries. Entries of the labels
+                      map are UTF8 strings that comply with the following restrictions:
+                      Label keys must be between 1 and 63 characters long and must
+                      conform to the following regular expression: [a-z]([-a-z0-9]*[a-z0-9])?.
+                      Label values must be between 0 and 63 characters long and must
+                      conform to the regular expression ([a-z]([-a-z0-9]*[a-z0-9])?)?.
+                      No more than 64 labels can be associated with a given environment.
+                      Both keys and values must be <= 128 bytes in size.'
                     type: object
                   project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
                     type: string
                   projectRef:
                     description: Reference to a Project in cloudplatform to populate
@@ -654,6 +793,7 @@ spec:
                         type: object
                     type: object
                   region:
+                    description: The location or Compute Engine region for the environment.
                     type: string
                 required:
                 - region
@@ -835,13 +975,25 @@ spec:
               atProvider:
                 properties:
                   config:
+                    description: Configuration parameters for this environment  Structure
+                      is documented below.
                     items:
                       properties:
                         airflowUri:
+                          description: The URI of the Apache Airflow Web UI hosted
+                            within this environment.
                           type: string
                         dagGcsPrefix:
+                          description: The Cloud Storage prefix of the DAGs for this
+                            environment. Although Cloud Storage objects reside in
+                            a flat namespace, a hierarchical file tree can be simulated
+                            using '/'-delimited object name prefixes. DAG objects
+                            for this environment reside in a simulated directory with
+                            this prefix.
                           type: string
                         gkeCluster:
+                          description: The Kubernetes Engine cluster used to run this
+                            environment.
                           type: string
                       type: object
                     type: array

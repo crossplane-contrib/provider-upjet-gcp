@@ -27,22 +27,21 @@ import (
 
 type BucketObjectObservation struct {
 
-	// Base 64 CRC32 hash of the uploaded data.
+	// (Computed) Base 64 CRC32 hash of the uploaded data.
 	Crc32C *string `json:"crc32c,omitempty" tf:"crc32c,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// Base 64 MD5 hash of the uploaded data.
+	// (Computed) Base 64 MD5 hash of the uploaded data.
 	Md5Hash *string `json:"md5hash,omitempty" tf:"md5hash,omitempty"`
 
-	// A url reference to download this object.
+	// (Computed) A url reference to download this object.
 	MediaLink *string `json:"mediaLink,omitempty" tf:"media_link,omitempty"`
 
-	// The name of the object. Use this field in interpolations with google_storage_object_acl to recreate
-	// google_storage_object_acl resources when your google_storage_bucket_object is recreated.
+	// The name of the object. If you're interpolating the name of this object, see output_name instead.
 	OutputName *string `json:"outputName,omitempty" tf:"output_name,omitempty"`
 
-	// A url reference to this object.
+	// (Computed) A url reference to this object.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
 }
 
@@ -86,7 +85,7 @@ type BucketObjectParameters struct {
 	// +kubebuilder:validation:Optional
 	ContentType *string `json:"contentType,omitempty" tf:"content_type,omitempty"`
 
-	// Enables object encryption with Customer-Supplied Encryption Key . [Google documentation about CSEK.]
+	// Enables object encryption with Customer-Supplied Encryption Key (CSEK). [Google documentation about CSEK.](https://cloud.google.com/storage/docs/encryption/customer-supplied-keys)
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	CustomerEncryption []CustomerEncryptionParameters `json:"customerEncryption,omitempty" tf:"customer_encryption,omitempty"`

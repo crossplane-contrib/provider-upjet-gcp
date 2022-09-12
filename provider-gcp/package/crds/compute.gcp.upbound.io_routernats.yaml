@@ -84,8 +84,8 @@ spec:
                       documentation.
                     type: boolean
                   icmpIdleTimeoutSec:
-                    description: Timeout  for ICMP connections. Defaults to 30s if
-                      not set.
+                    description: Timeout (in seconds) for ICMP connections. Defaults
+                      to 30s if not set.
                     type: number
                   logConfig:
                     description: Configuration for logging on NAT Structure is documented
@@ -211,11 +211,12 @@ spec:
                       Subnetwork are allowed to Nat. If ALL_SUBNETWORKS_ALL_PRIMARY_IP_RANGES,
                       all of the primary IP ranges in every Subnetwork are allowed
                       to Nat. LIST_OF_SUBNETWORKS: A list of Subnetworks are allowed
-                      to Nat . Note that if this field contains ALL_SUBNETWORKS_ALL_IP_RANGES
-                      or ALL_SUBNETWORKS_ALL_PRIMARY_IP_RANGES, then there should
-                      not be any other RouterNat section in any Router for this network
-                      in this region. Possible values are ALL_SUBNETWORKS_ALL_IP_RANGES,
-                      ALL_SUBNETWORKS_ALL_PRIMARY_IP_RANGES, and LIST_OF_SUBNETWORKS.'
+                      to Nat (specified in the field subnetwork below). Note that
+                      if this field contains ALL_SUBNETWORKS_ALL_IP_RANGES or ALL_SUBNETWORKS_ALL_PRIMARY_IP_RANGES,
+                      then there should not be any other RouterNat section in any
+                      Router for this network in this region. Possible values are
+                      ALL_SUBNETWORKS_ALL_IP_RANGES, ALL_SUBNETWORKS_ALL_PRIMARY_IP_RANGES,
+                      and LIST_OF_SUBNETWORKS.'
                     type: string
                   subnetwork:
                     description: One or more subnetwork NAT configurations. Only used
@@ -224,6 +225,7 @@ spec:
                     items:
                       properties:
                         name:
+                          description: Self-link of subnetwork to NAT
                           type: string
                         nameRef:
                           description: Reference to a Subnetwork to populate name.
@@ -321,16 +323,16 @@ spec:
                       type: object
                     type: array
                   tcpEstablishedIdleTimeoutSec:
-                    description: Timeout  for TCP established connections. Defaults
-                      to 1200s if not set.
+                    description: Timeout (in seconds) for TCP established connections.
+                      Defaults to 1200s if not set.
                     type: number
                   tcpTransitoryIdleTimeoutSec:
-                    description: Timeout  for TCP transitory connections. Defaults
-                      to 30s if not set.
+                    description: Timeout (in seconds) for TCP transitory connections.
+                      Defaults to 30s if not set.
                     type: number
                   udpIdleTimeoutSec:
-                    description: Timeout  for UDP connections. Defaults to 30s if
-                      not set.
+                    description: Timeout (in seconds) for UDP connections. Defaults
+                      to 30s if not set.
                     type: number
                 required:
                 - natIpAllocateOption

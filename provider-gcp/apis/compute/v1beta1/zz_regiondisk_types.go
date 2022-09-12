@@ -26,11 +26,17 @@ import (
 )
 
 type RegionDiskDiskEncryptionKeyObservation struct {
+
+	// The RFC 4648 base64 encoded SHA-256 hash of the customer-supplied
+	// encryption key that protects this resource.
 	Sha256 *string `json:"sha256,omitempty" tf:"sha256,omitempty"`
 }
 
 type RegionDiskDiskEncryptionKeyParameters struct {
 
+	// Specifies a 256-bit customer-supplied encryption key, encoded in
+	// RFC 4648 base64 to either encrypt or decrypt this resource.
+	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
 	RawKeySecretRef *v1.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
 }
@@ -42,7 +48,8 @@ type RegionDiskObservation struct {
 
 	// Encrypts the disk using a customer-supplied encryption key.
 	// After you encrypt a disk with a customer-supplied key, you must
-	// provide the same key if you use the disk later .
+	// provide the same key if you use the disk later (e.g. to create a disk
+	// snapshot or an image, or to attach the disk to a virtual machine).
 	// Customer-supplied encryption keys do not protect access to metadata of
 	// the disk.
 	// If you do not provide an encryption key when creating the disk, then
@@ -83,7 +90,7 @@ type RegionDiskObservation struct {
 	// used.
 	SourceSnapshotID *string `json:"sourceSnapshotId,omitempty" tf:"source_snapshot_id,omitempty"`
 
-	// Links to the users of the disk  in form:
+	// Links to the users of the disk (attached instances) in form:
 	// project/zones/zone/instances/instance
 	Users []*string `json:"users,omitempty" tf:"users,omitempty"`
 }
@@ -97,7 +104,8 @@ type RegionDiskParameters struct {
 
 	// Encrypts the disk using a customer-supplied encryption key.
 	// After you encrypt a disk with a customer-supplied key, you must
-	// provide the same key if you use the disk later .
+	// provide the same key if you use the disk later (e.g. to create a disk
+	// snapshot or an image, or to attach the disk to a virtual machine).
 	// Customer-supplied encryption keys do not protect access to metadata of
 	// the disk.
 	// If you do not provide an encryption key when creating the disk, then
@@ -162,11 +170,16 @@ type RegionDiskParameters struct {
 }
 
 type RegionDiskSourceSnapshotEncryptionKeyObservation struct {
+
+	// The RFC 4648 base64 encoded SHA-256 hash of the customer-supplied
+	// encryption key that protects this resource.
 	Sha256 *string `json:"sha256,omitempty" tf:"sha256,omitempty"`
 }
 
 type RegionDiskSourceSnapshotEncryptionKeyParameters struct {
 
+	// Specifies a 256-bit customer-supplied encryption key, encoded in
+	// RFC 4648 base64 to either encrypt or decrypt this resource.
 	// +kubebuilder:validation:Optional
 	RawKey *string `json:"rawKey,omitempty" tf:"raw_key,omitempty"`
 }

@@ -35,9 +35,16 @@ type AccessConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	NATIP *string `json:"natIp,omitempty" tf:"nat_ip,omitempty"`
 
+	// The networking tier used for configuring this instance.
+	// This field can take the following values: PREMIUM, FIXED_STANDARD or STANDARD. If this field is
+	// not specified, it is assumed to be PREMIUM.
 	// +kubebuilder:validation:Optional
 	NetworkTier *string `json:"networkTier,omitempty" tf:"network_tier,omitempty"`
 
+	// The DNS domain name for the public PTR record.
+	// To set this field on an instance, you must be verified as the owner of the domain.
+	// See the docs for how
+	// to become verified as a domain owner.
 	// +kubebuilder:validation:Optional
 	PublicPtrDomainName *string `json:"publicPtrDomainName,omitempty" tf:"public_ptr_domain_name,omitempty"`
 }
@@ -51,7 +58,7 @@ type AdvancedMachineFeaturesParameters struct {
 	// +kubebuilder:validation:Optional
 	EnableNestedVirtualization *bool `json:"enableNestedVirtualization,omitempty" tf:"enable_nested_virtualization,omitempty"`
 
-	// he number of threads per physical core. To disable simultaneous multithreading  set this to 1.
+	// he number of threads per physical core. To disable simultaneous multithreading (SMT) set this to 1.
 	// +kubebuilder:validation:Optional
 	ThreadsPerCore *float64 `json:"threadsPerCore,omitempty" tf:"threads_per_core,omitempty"`
 }
@@ -64,7 +71,7 @@ type AliasIPRangeParameters struct {
 	// The IP CIDR range represented by this alias IP range. This IP CIDR range
 	// must belong to the specified subnetwork and cannot contain IP addresses reserved by
 	// system or used by other network interfaces. This range may be a single IP address
-	// , a netmask  or a CIDR format string .
+	// (e.g. 10.2.3.4), a netmask (e.g. /24) or a CIDR format string (e.g. 10.1.2.0/24).
 	// +kubebuilder:validation:Required
 	IPCidrRange *string `json:"ipCidrRange" tf:"ip_cidr_range,omitempty"`
 
@@ -76,6 +83,10 @@ type AliasIPRangeParameters struct {
 }
 
 type BootDiskObservation struct {
+
+	// The RFC 4648 base64
+	// encoded SHA-256 hash of the [customer-supplied encryption key]
+	// (https://cloud.google.com/compute/docs/disks/customer-supplied-encryption) that protects this resource.
 	DiskEncryptionKeySha256 *string `json:"diskEncryptionKeySha256,omitempty" tf:"disk_encryption_key_sha256,omitempty"`
 }
 
@@ -86,9 +97,16 @@ type BootDiskParameters struct {
 	// +kubebuilder:validation:Optional
 	AutoDelete *bool `json:"autoDelete,omitempty" tf:"auto_delete,omitempty"`
 
+	// Name with which attached disk will be accessible.
+	// On the instance, this device will be /dev/disk/by-id/google-{{device_name}}.
 	// +kubebuilder:validation:Optional
 	DeviceName *string `json:"deviceName,omitempty" tf:"device_name,omitempty"`
 
+	// A 256-bit [customer-supplied encryption key]
+	// (https://cloud.google.com/compute/docs/disks/customer-supplied-encryption),
+	// encoded in RFC 4648 base64
+	// to encrypt this disk. Only one of kms_key_self_link and disk_encryption_key_raw
+	// may be set.
 	// +kubebuilder:validation:Optional
 	DiskEncryptionKeyRawSecretRef *v1.SecretKeySelector `json:"diskEncryptionKeyRawSecretRef,omitempty" tf:"-"`
 
@@ -98,12 +116,20 @@ type BootDiskParameters struct {
 	// +kubebuilder:validation:Optional
 	InitializeParams []InitializeParamsParameters `json:"initializeParams,omitempty" tf:"initialize_params,omitempty"`
 
+	// The self_link of the encryption key that is
+	// stored in Google Cloud KMS to encrypt this disk. Only one of kms_key_self_link
+	// and disk_encryption_key_raw may be set.
 	// +kubebuilder:validation:Optional
 	KMSKeySelfLink *string `json:"kmsKeySelfLink,omitempty" tf:"kms_key_self_link,omitempty"`
 
+	// The mode in which to attach this disk, either READ_WRITE
+	// or READ_ONLY. If not specified, the default is to attach the disk in READ_WRITE mode.
 	// +kubebuilder:validation:Optional
 	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
 
+	// The name or self_link of the existing disk (such as those managed by
+	// google_compute_disk) or disk image. To create an instance from a snapshot, first create a
+	// google_compute_disk from a snapshot and reference it here.
 	// +kubebuilder:validation:Optional
 	Source *string `json:"source,omitempty" tf:"source,omitempty"`
 }
@@ -127,21 +153,31 @@ type GuestAcceleratorParameters struct {
 	// +kubebuilder:validation:Optional
 	Count *float64 `json:"count,omitempty" tf:"count"`
 
+	// The accelerator type resource to expose to this instance. E.g. nvidia-tesla-k80.
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type,omitempty" tf:"type"`
 }
 
 type IPv6AccessConfigObservation struct {
+
+	// The first IPv6 address of the external IPv6 range
+	// associated with this instance, prefix length is stored in externalIpv6PrefixLength in ipv6AccessConfig.
+	// The field is output only, an IPv6 address from a subnetwork associated with the instance will be allocated dynamically.
 	ExternalIPv6 *string `json:"externalIpv6,omitempty" tf:"external_ipv6,omitempty"`
 
+	// The prefix length of the external IPv6 range.
 	ExternalIPv6PrefixLength *string `json:"externalIpv6PrefixLength,omitempty" tf:"external_ipv6_prefix_length,omitempty"`
 }
 
 type IPv6AccessConfigParameters struct {
 
+	// The service-level to be provided for IPv6 traffic when the
+	// subnet has an external subnet. Only PREMIUM or STANDARD tier is valid for IPv6.
 	// +kubebuilder:validation:Required
 	NetworkTier *string `json:"networkTier" tf:"network_tier,omitempty"`
 
+	// The domain name to be used when creating DNSv6
+	// records for the external IPv6 ranges..
 	// +kubebuilder:validation:Optional
 	PublicPtrDomainName *string `json:"publicPtrDomainName,omitempty" tf:"public_ptr_domain_name,omitempty"`
 }
@@ -172,28 +208,47 @@ type InitializeParamsParameters struct {
 	// +kubebuilder:validation:Optional
 	Size *float64 `json:"size,omitempty" tf:"size,omitempty"`
 
+	// The GCE disk type. Such as pd-standard, pd-balanced or pd-ssd.
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type InstanceAttachedDiskObservation struct {
+
+	// The RFC 4648 base64
+	// encoded SHA-256 hash of the [customer-supplied encryption key]
+	// (https://cloud.google.com/compute/docs/disks/customer-supplied-encryption) that protects this resource.
 	DiskEncryptionKeySha256 *string `json:"diskEncryptionKeySha256,omitempty" tf:"disk_encryption_key_sha256,omitempty"`
 }
 
 type InstanceAttachedDiskParameters struct {
 
+	// Name with which the attached disk will be accessible
+	// under /dev/disk/by-id/google-*
 	// +kubebuilder:validation:Optional
 	DeviceName *string `json:"deviceName,omitempty" tf:"device_name,omitempty"`
 
+	// A 256-bit [customer-supplied encryption key]
+	// (https://cloud.google.com/compute/docs/disks/customer-supplied-encryption),
+	// encoded in RFC 4648 base64
+	// to encrypt this disk. Only one of kms_key_self_link and disk_encryption_key_raw may be set.
 	// +kubebuilder:validation:Optional
 	DiskEncryptionKeyRawSecretRef *v1.SecretKeySelector `json:"diskEncryptionKeyRawSecretRef,omitempty" tf:"-"`
 
+	// The self_link of the encryption key that is
+	// stored in Google Cloud KMS to encrypt this disk. Only one of kms_key_self_link
+	// and disk_encryption_key_raw may be set.
 	// +kubebuilder:validation:Optional
 	KMSKeySelfLink *string `json:"kmsKeySelfLink,omitempty" tf:"kms_key_self_link,omitempty"`
 
+	// Either "READ_ONLY" or "READ_WRITE", defaults to "READ_WRITE"
+	// If you have a persistent disk with data that you want to share
+	// between multiple instances, detach it from any read-write instances and
+	// attach it to one or more instances in read-only mode.
 	// +kubebuilder:validation:Optional
 	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
 
+	// The name or self_link of the disk to attach to this instance.
 	// +kubebuilder:validation:Required
 	Source *string `json:"source" tf:"source,omitempty"`
 }
@@ -244,7 +299,6 @@ type InstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	AdvancedMachineFeatures []AdvancedMachineFeaturesParameters `json:"advancedMachineFeatures,omitempty" tf:"advanced_machine_features,omitempty"`
 
-	// If true, allows Terraform to stop the instance to update its properties.
 	// If you try to update a property that requires stopping the instance without setting this field, the update will fail.
 	// +kubebuilder:validation:Optional
 	AllowStoppingForUpdate *bool `json:"allowStoppingForUpdate,omitempty" tf:"allow_stopping_for_update,omitempty"`
@@ -269,7 +323,7 @@ type InstanceParameters struct {
 	ConfidentialInstanceConfig []ConfidentialInstanceConfigParameters `json:"confidentialInstanceConfig,omitempty" tf:"confidential_instance_config,omitempty"`
 
 	// Enable deletion protection on this instance. Defaults to false.
-	// Note: you must disable deletion protection before removing the resource , or the instance cannot be deleted and the Terraform run will not complete successfully.
+	// Note: you must disable deletion protection before removing the resource (e.g.
 	// +kubebuilder:validation:Optional
 	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
 
@@ -298,7 +352,7 @@ type InstanceParameters struct {
 	GuestAccelerator []GuestAcceleratorParameters `json:"guestAccelerator,omitempty" tf:"guest_accelerator,omitempty"`
 
 	// A custom hostname for the instance. Must be a fully qualified DNS name and RFC-1035-valid.
-	// Valid format is a series of labels 1-63 characters long matching the regular expression [a-z], concatenated with periods.
+	// Valid format is a series of labels 1-63 characters long matching the regular expression [a-z]([-a-z0-9]*[a-z0-9]), concatenated with periods.
 	// The entire hostname must not exceed 253 characters. Changing this forces a new resource to be created.
 	// +kubebuilder:validation:Optional
 	Hostname *string `json:"hostname,omitempty" tf:"hostname,omitempty"`
@@ -319,15 +373,13 @@ type InstanceParameters struct {
 
 	// An alternative to using the
 	// startup-script metadata key, except this one forces the instance to be recreated
-	// if it is changed. This replaces the startup-script
+	// (thus re-running the script) if it is changed. This replaces the startup-script
 	// metadata key on the created instance and thus the two mechanisms are not
 	// allowed to be used simultaneously.  Users are free to use either mechanism - the
 	// only distinction is that this separate attribute will cause a recreate on
 	// modification.  On import, metadata_startup_script will not be set - if you
 	// choose to specify it you will see a diff immediately after import causing a
-	// destroy/recreate operation. If importing an instance and specifying this value
-	// is desired, you will need to modify your state file manually using
-	// terraform state commands.
+	// destroy/recreate operation.
 	// +kubebuilder:validation:Optional
 	MetadataStartupScript *string `json:"metadataStartupScript,omitempty" tf:"metadata_startup_script,omitempty"`
 
@@ -352,7 +404,7 @@ type InstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	ReservationAffinity []ReservationAffinityParameters `json:"reservationAffinity,omitempty" tf:"reservation_affinity,omitempty"`
 
-	// A list of short names or self_links of resource policies to attach to the instance. Modifying this list will cause the instance to recreate. Currently a max of 1 resource policy is supported.
+	// - A list of short names or self_links of resource policies to attach to the instance. Modifying this list will cause the instance to recreate. Currently a max of 1 resource policy is supported.
 	// +kubebuilder:validation:Optional
 	ResourcePolicies []*string `json:"resourcePolicies,omitempty" tf:"resource_policies,omitempty"`
 
@@ -408,8 +460,8 @@ type NetworkInterfaceParameters struct {
 
 	// Access configurations, i.e. IPs via which this
 	// instance can be accessed via the Internet. Omit to ensure that the instance
-	// is not accessible from the Internet. If omitted, ssh provisioners will not
-	// work unless Terraform can send traffic to the instance's network .
+	// is not accessible from the Internet.g. via
+	// tunnel or because it is running on another cloud instance on that network).
 	// This block can be repeated multiple times. Structure documented below.
 	// +kubebuilder:validation:Optional
 	AccessConfig []AccessConfigParameters `json:"accessConfig,omitempty" tf:"access_config,omitempty"`
@@ -490,6 +542,7 @@ type NodeAffinitiesObservation struct {
 
 type NodeAffinitiesParameters struct {
 
+	// The key for the node affinity label.
 	// +kubebuilder:validation:Required
 	Key *string `json:"key" tf:"key,omitempty"`
 
@@ -498,6 +551,7 @@ type NodeAffinitiesParameters struct {
 	// +kubebuilder:validation:Required
 	Operator *string `json:"operator" tf:"operator,omitempty"`
 
+	// The values for the node affinity label.
 	// +kubebuilder:validation:Required
 	Values []*string `json:"values" tf:"values,omitempty"`
 }
@@ -512,6 +566,7 @@ type ReservationAffinityParameters struct {
 	// +kubebuilder:validation:Optional
 	SpecificReservation []SpecificReservationParameters `json:"specificReservation,omitempty" tf:"specific_reservation,omitempty"`
 
+	// The type of reservation from which this instance can consume resources.
 	// +kubebuilder:validation:Required
 	Type *string `json:"type" tf:"type,omitempty"`
 }
@@ -522,7 +577,7 @@ type SchedulingObservation struct {
 type SchedulingParameters struct {
 
 	// Specifies if the instance should be
-	// restarted if it was terminated by Compute Engine .
+	// restarted if it was terminated by Compute Engine (not a user).
 	// Defaults to true.
 	// +kubebuilder:validation:Optional
 	AutomaticRestart *bool `json:"automaticRestart,omitempty" tf:"automatic_restart,omitempty"`
@@ -603,17 +658,17 @@ type ShieldedInstanceConfigObservation struct {
 
 type ShieldedInstanceConfigParameters struct {
 
-	// Compare the most recent boot measurements to the integrity policy baseline and return a pair of pass/fail results depending on whether they match or not. Defaults to true.
+	// - Compare the most recent boot measurements to the integrity policy baseline and return a pair of pass/fail results depending on whether they match or not. Defaults to true.
 	// Note: allow_stopping_for_update must be set to true or your instance must have a desired_status of TERMINATED in order to update this field.
 	// +kubebuilder:validation:Optional
 	EnableIntegrityMonitoring *bool `json:"enableIntegrityMonitoring,omitempty" tf:"enable_integrity_monitoring,omitempty"`
 
-	// Verify the digital signature of all boot components, and halt the boot process if signature verification fails. Defaults to false.
+	// - Verify the digital signature of all boot components, and halt the boot process if signature verification fails. Defaults to false.
 	// Note: allow_stopping_for_update must be set to true or your instance must have a desired_status of TERMINATED in order to update this field.
 	// +kubebuilder:validation:Optional
 	EnableSecureBoot *bool `json:"enableSecureBoot,omitempty" tf:"enable_secure_boot,omitempty"`
 
-	// Use a virtualized trusted platform module, which is a specialized computer chip you can use to encrypt objects like keys and certificates. Defaults to true.
+	// - Use a virtualized trusted platform module, which is a specialized computer chip you can use to encrypt objects like keys and certificates. Defaults to true.
 	// Note: allow_stopping_for_update must be set to true or your instance must have a desired_status of TERMINATED in order to update this field.
 	// +kubebuilder:validation:Optional
 	EnableVtpm *bool `json:"enableVtpm,omitempty" tf:"enable_vtpm,omitempty"`
@@ -624,9 +679,11 @@ type SpecificReservationObservation struct {
 
 type SpecificReservationParameters struct {
 
+	// Corresponds to the label key of a reservation resource. To target a SPECIFIC_RESERVATION by name, specify compute.googleapis.com/reservation-name as the key and specify the name of your reservation as the only value.
 	// +kubebuilder:validation:Required
 	Key *string `json:"key" tf:"key,omitempty"`
 
+	// Corresponds to the label values of a reservation resource.
 	// +kubebuilder:validation:Required
 	Values []*string `json:"values" tf:"values,omitempty"`
 }

@@ -69,6 +69,8 @@ spec:
               forProvider:
                 properties:
                   description:
+                    description: Optional. A human-readable description of scenarios
+                      this template is intended for.
                     type: string
                   identityConstraints:
                     description: Optional. Describes constraints on identities that
@@ -97,12 +99,18 @@ spec:
                           items:
                             properties:
                               description:
+                                description: Optional. Description of the expression.
+                                  This is a longer text which describes the expression,
+                                  e.g. when hovered over it in a UI.
                                 type: string
                               expression:
                                 description: Textual representation of an expression
                                   in Common Expression Language syntax.
                                 type: string
                               location:
+                                description: Optional. String indicating the location
+                                  of the expression for error reporting, e.g. a file
+                                  name and a position in the file.
                                 type: string
                               title:
                                 description: Optional. Title for the expression, i.e.
@@ -122,6 +130,7 @@ spec:
                     description: Optional. Labels with user-defined metadata.
                     type: object
                   location:
+                    description: The location for the resource
                     type: string
                   passthroughExtensions:
                     description: Optional. Describes the set of X.509 extensions that
@@ -137,9 +146,14 @@ spec:
                     items:
                       properties:
                         additionalExtensions:
+                          description: Optional. A set of ObjectIds identifying custom
+                            X.509 extensions. Will be combined with known_extensions
+                            to determine the full set of X.509 extensions.
                           items:
                             properties:
                               objectIdPath:
+                                description: Required. The parts of an OID path. The
+                                  most significant parts of the path come first.
                                 items:
                                   type: number
                                 type: array
@@ -167,17 +181,23 @@ spec:
                     items:
                       properties:
                         additionalExtensions:
+                          description: Optional. Describes custom X.509 extensions.
                           items:
                             properties:
                               critical:
                                 description: Optional. Indicates whether or not this
-                                  extension is critical .
+                                  extension is critical (i.e., if the client does
+                                  not know how to handle this extension, the client
+                                  should consider this to be an error).
                                 type: boolean
                               objectId:
                                 description: Required. The OID for this X.509 extension.
                                 items:
                                   properties:
                                     objectIdPath:
+                                      description: Required. The parts of an OID path.
+                                        The most significant parts of the path come
+                                        first.
                                       items:
                                         type: number
                                       type: array
@@ -195,8 +215,8 @@ spec:
                           type: array
                         aiaOcspServers:
                           description: Optional. Describes Online Certificate Status
-                            Protocol  endpoint addresses that appear in the "Authority
-                            Information Access" extension in the certificate.
+                            Protocol (OCSP) endpoint addresses that appear in the
+                            "Authority Information Access" extension in the certificate.
                           items:
                             type: string
                           type: array
@@ -311,6 +331,9 @@ spec:
                                 items:
                                   properties:
                                     objectIdPath:
+                                      description: Required. The parts of an OID path.
+                                        The most significant parts of the path come
+                                        first.
                                       items:
                                         type: number
                                       type: array
@@ -326,6 +349,8 @@ spec:
                           items:
                             properties:
                               objectIdPath:
+                                description: Required. The parts of an OID path. The
+                                  most significant parts of the path come first.
                                 items:
                                   type: number
                                 type: array

@@ -36,7 +36,8 @@ type InstanceObservation struct {
 
 type InstanceParameters struct {
 
-	// The name of the instance's configuration  which defines the geographic placement and
+	// The name of the instance's configuration (similar but not
+	// quite the same as a region) which defines the geographic placement and
 	// replication of your databases in this instance. It determines where your data
 	// is stored. Values are typically of the form regional-europe-west1 , us-central etc.
 	// In order to obtain a valid list please consult the
@@ -59,13 +60,11 @@ type InstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
-	// The number of nodes allocated to this instance. Exactly one of either node_count or processing_units
-	// must be present in terraform.
+	// The number of nodes allocated to this instance.
 	// +kubebuilder:validation:Optional
 	NumNodes *float64 `json:"numNodes,omitempty" tf:"num_nodes,omitempty"`
 
-	// The number of processing units allocated to this instance. Exactly one of processing_units
-	// or node_count must be present in terraform.
+	// The number of processing units allocated to this instance.
 	// +kubebuilder:validation:Optional
 	ProcessingUnits *float64 `json:"processingUnits,omitempty" tf:"processing_units,omitempty"`
 

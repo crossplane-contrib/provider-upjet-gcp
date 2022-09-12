@@ -69,7 +69,7 @@ spec:
                     type: string
                   diskSizeGb:
                     description: Size of the image when restored onto a persistent
-                      disk .
+                      disk (in GB).
                     type: number
                   family:
                     description: The name of the image family to which this image
@@ -329,7 +329,7 @@ spec:
                 properties:
                   archiveSizeBytes:
                     description: Size of the image tar.gz archive stored in Google
-                      Cloud Storage .
+                      Cloud Storage (in bytes).
                     type: number
                   creationTimestamp:
                     description: Creation timestamp in RFC3339 text format.

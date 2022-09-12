@@ -80,6 +80,7 @@ spec:
                     items:
                       properties:
                         name:
+                          description: The name which the port will be mapped to.
                           type: string
                         port:
                           description: The port number to map the name to.
@@ -93,7 +94,8 @@ spec:
                     description: The URL of the network the instance group is in.
                       If this is different from the network where the instances are
                       in, the creation fails. Defaults to the network where the instances
-                      are in .
+                      are in (if neither network nor instances is specified, this
+                      field will be blank).
                     type: string
                   networkRef:
                     description: Reference to a Network to populate network.

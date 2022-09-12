@@ -65,7 +65,7 @@ type RouterNATParameters struct {
 	// +kubebuilder:validation:Optional
 	EnableEndpointIndependentMapping *bool `json:"enableEndpointIndependentMapping,omitempty" tf:"enable_endpoint_independent_mapping,omitempty"`
 
-	// Timeout  for ICMP connections. Defaults to 30s if not set.
+	// Timeout (in seconds) for ICMP connections. Defaults to 30s if not set.
 	// +kubebuilder:validation:Optional
 	IcmpIdleTimeoutSec *float64 `json:"icmpIdleTimeoutSec,omitempty" tf:"icmp_idle_timeout_sec,omitempty"`
 
@@ -118,7 +118,7 @@ type RouterNATParameters struct {
 	// If ALL_SUBNETWORKS_ALL_PRIMARY_IP_RANGES, all of the primary IP
 	// ranges in every Subnetwork are allowed to Nat.
 	// LIST_OF_SUBNETWORKS: A list of Subnetworks are allowed to Nat
-	// . Note that if this field
+	// (specified in the field subnetwork below). Note that if this field
 	// contains ALL_SUBNETWORKS_ALL_IP_RANGES or
 	// ALL_SUBNETWORKS_ALL_PRIMARY_IP_RANGES, then there should not be any
 	// other RouterNat section in any Router for this network in this region.
@@ -132,17 +132,17 @@ type RouterNATParameters struct {
 	// +kubebuilder:validation:Optional
 	Subnetwork []SubnetworkParameters `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 
-	// Timeout  for TCP established connections.
+	// Timeout (in seconds) for TCP established connections.
 	// Defaults to 1200s if not set.
 	// +kubebuilder:validation:Optional
 	TCPEstablishedIdleTimeoutSec *float64 `json:"tcpEstablishedIdleTimeoutSec,omitempty" tf:"tcp_established_idle_timeout_sec,omitempty"`
 
-	// Timeout  for TCP transitory connections.
+	// Timeout (in seconds) for TCP transitory connections.
 	// Defaults to 30s if not set.
 	// +kubebuilder:validation:Optional
 	TCPTransitoryIdleTimeoutSec *float64 `json:"tcpTransitoryIdleTimeoutSec,omitempty" tf:"tcp_transitory_idle_timeout_sec,omitempty"`
 
-	// Timeout  for UDP connections. Defaults to 30s if not set.
+	// Timeout (in seconds) for UDP connections. Defaults to 30s if not set.
 	// +kubebuilder:validation:Optional
 	UDPIdleTimeoutSec *float64 `json:"udpIdleTimeoutSec,omitempty" tf:"udp_idle_timeout_sec,omitempty"`
 }
@@ -152,6 +152,7 @@ type SubnetworkObservation struct {
 
 type SubnetworkParameters struct {
 
+	// Self-link of subnetwork to NAT
 	// +crossplane:generate:reference:type=Subnetwork
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`

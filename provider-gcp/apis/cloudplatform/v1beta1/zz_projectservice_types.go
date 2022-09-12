@@ -40,8 +40,7 @@ type ProjectServiceParameters struct {
 	// +kubebuilder:validation:Optional
 	DisableDependentServices *bool `json:"disableDependentServices,omitempty" tf:"disable_dependent_services,omitempty"`
 
-	// If true, disable the service when the
-	// Terraform resource is destroyed. Defaults to true. May be useful in the event
+	// Defaults to true. May be useful in the event
 	// that a project is long-lived but the infrastructure running in that project
 	// changes frequently.
 	// +kubebuilder:validation:Optional

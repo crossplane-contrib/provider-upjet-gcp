@@ -31,23 +31,25 @@ type BackendObservation struct {
 type BackendParameters struct {
 
 	// Specifies the balancing mode for this backend.
-	// For global HTTP or TCP/SSL load balancing, the default is
-	// UTILIZATION. Valid values are UTILIZATION, RATE (for HTTP)
-	// and CONNECTION .
+	// For global HTTP(S) or TCP/SSL load balancing, the default is
+	// UTILIZATION. Valid values are UTILIZATION, RATE (for HTTP(S))
+	// and CONNECTION (for TCP/SSL).
 	// Default value is UTILIZATION.
 	// Possible values are UTILIZATION, RATE, and CONNECTION.
 	// +kubebuilder:validation:Optional
 	BalancingMode *string `json:"balancingMode,omitempty" tf:"balancing_mode,omitempty"`
 
 	// A multiplier applied to the group's maximum servicing capacity
-	// .
+	// (based on UTILIZATION, RATE or CONNECTION).
 	// Default value is 1, which means the group will serve up to 100%
-	// of its configured capacity . A
+	// of its configured capacity (depending on balancingMode). A
 	// setting of 0 means the group is completely drained, offering
 	// 0% of its available Capacity. Valid range is [0.0,1.0].
 	// +kubebuilder:validation:Optional
 	CapacityScaler *float64 `json:"capacityScaler,omitempty" tf:"capacity_scaler,omitempty"`
 
+	// An optional description of this resource.
+	// Provide this property when you create the resource.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -78,6 +80,11 @@ type BackendParameters struct {
 	// +kubebuilder:validation:Optional
 	GroupSelector *v1.Selector `json:"groupSelector,omitempty" tf:"-"`
 
+	// The max number of simultaneous connections for the group. Can
+	// be used with either CONNECTION or UTILIZATION balancing modes.
+	// For CONNECTION mode, either maxConnections or one
+	// of maxConnectionsPerInstance or maxConnectionsPerEndpoint,
+	// as appropriate for group type, must be set.
 	// +kubebuilder:validation:Optional
 	MaxConnections *float64 `json:"maxConnections,omitempty" tf:"max_connections,omitempty"`
 
@@ -99,7 +106,7 @@ type BackendParameters struct {
 	// +kubebuilder:validation:Optional
 	MaxConnectionsPerInstance *float64 `json:"maxConnectionsPerInstance,omitempty" tf:"max_connections_per_instance,omitempty"`
 
-	// The max requests per second  of the group.
+	// The max requests per second (RPS) of the group.
 	// Can be used with either RATE or UTILIZATION balancing modes,
 	// but required if RATE mode. For RATE mode, either maxRate or one
 	// of maxRatePerInstance or maxRatePerEndpoint, as appropriate for
@@ -107,14 +114,14 @@ type BackendParameters struct {
 	// +kubebuilder:validation:Optional
 	MaxRate *float64 `json:"maxRate,omitempty" tf:"max_rate,omitempty"`
 
-	// The max requests per second  that a single backend network
+	// The max requests per second (RPS) that a single backend network
 	// endpoint can handle. This is used to calculate the capacity of
 	// the group. Can be used in either balancing mode. For RATE mode,
 	// either maxRate or maxRatePerEndpoint must be set.
 	// +kubebuilder:validation:Optional
 	MaxRatePerEndpoint *float64 `json:"maxRatePerEndpoint,omitempty" tf:"max_rate_per_endpoint,omitempty"`
 
-	// The max requests per second  that a single backend
+	// The max requests per second (RPS) that a single backend
 	// instance can handle. This is used to calculate the capacity of
 	// the group. Can be used in either balancing mode. For RATE mode,
 	// either maxRate or maxRatePerInstance must be set.
@@ -148,7 +155,7 @@ type BackendServiceCdnPolicyParameters struct {
 	ClientTTL *float64 `json:"clientTtl,omitempty" tf:"client_ttl,omitempty"`
 
 	// Specifies the default TTL for cached content served by this origin for responses
-	// that do not have an existing valid TTL .
+	// that do not have an existing valid TTL (max-age or s-max-age).
 	// +kubebuilder:validation:Optional
 	DefaultTTL *float64 `json:"defaultTtl,omitempty" tf:"default_ttl,omitempty"`
 
@@ -166,12 +173,12 @@ type BackendServiceCdnPolicyParameters struct {
 	// +kubebuilder:validation:Optional
 	NegativeCachingPolicy []CdnPolicyNegativeCachingPolicyParameters `json:"negativeCachingPolicy,omitempty" tf:"negative_caching_policy,omitempty"`
 
-	// Serve existing content from the cache  when revalidating content with the origin, or when an error is encountered when refreshing the cache.
+	// Serve existing content from the cache (if available) when revalidating content with the origin, or when an error is encountered when refreshing the cache.
 	// +kubebuilder:validation:Optional
 	ServeWhileStale *float64 `json:"serveWhileStale,omitempty" tf:"serve_while_stale,omitempty"`
 
 	// Maximum number of seconds the response to a signed URL request
-	// will be considered fresh, defaults to 1hr . After this
+	// will be considered fresh, defaults to 1hr (3600s). After this
 	// time period, the response will be revalidated before
 	// being served.
 	// When serving responses to signed URL requests, Cloud CDN will
@@ -203,7 +210,7 @@ type BackendServiceParameters struct {
 
 	// Lifetime of cookies in seconds if session_affinity is
 	// GENERATED_COOKIE. If set to 0, the cookie is non-persistent and lasts
-	// only until the end of the browser session . The
+	// only until the end of the browser session (or equivalent). The
 	// maximum allowed value for TTL is one day.
 	// When the load balancing scheme is INTERNAL, this field is not used.
 	// +kubebuilder:validation:Optional
@@ -225,7 +232,8 @@ type BackendServiceParameters struct {
 	// +kubebuilder:validation:Optional
 	CircuitBreakers []CircuitBreakersParameters `json:"circuitBreakers,omitempty" tf:"circuit_breakers,omitempty"`
 
-	// Time for which instance will be drained .
+	// Time for which instance will be drained (not accept new
+	// connections, but still work to finish started).
 	// +kubebuilder:validation:Optional
 	ConnectionDrainingTimeoutSec *float64 `json:"connectionDrainingTimeoutSec,omitempty" tf:"connection_draining_timeout_sec,omitempty"`
 
@@ -251,6 +259,7 @@ type BackendServiceParameters struct {
 	// +kubebuilder:validation:Optional
 	CustomResponseHeaders []*string `json:"customResponseHeaders,omitempty" tf:"custom_response_headers,omitempty"`
 
+	// An optional description of this resource.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -356,9 +365,14 @@ type BaseEjectionTimeObservation struct {
 
 type BaseEjectionTimeParameters struct {
 
+	// Span of time that's a fraction of a second at nanosecond resolution. Durations
+	// less than one second are represented with a 0 seconds field and a positive
+	// nanos field. Must be from 0 to 999,999,999 inclusive.
 	// +kubebuilder:validation:Optional
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
+	// inclusive.
 	// +kubebuilder:validation:Required
 	Seconds *float64 `json:"seconds" tf:"seconds,omitempty"`
 }
@@ -412,6 +426,8 @@ type CdnPolicyNegativeCachingPolicyParameters struct {
 	// +kubebuilder:validation:Optional
 	Code *float64 `json:"code,omitempty" tf:"code,omitempty"`
 
+	// The TTL (in seconds) for which to cache responses with the corresponding status code. The maximum allowed value is 1800s
+	// (30 minutes), noting that infrequently accessed objects may be evicted from the cache before the defined TTL.
 	// +kubebuilder:validation:Optional
 	TTL *float64 `json:"ttl,omitempty" tf:"ttl,omitempty"`
 }
@@ -421,6 +437,8 @@ type CircuitBreakersObservation struct {
 
 type CircuitBreakersParameters struct {
 
+	// The maximum number of connections to the backend cluster.
+	// Defaults to 1024.
 	// +kubebuilder:validation:Optional
 	MaxConnections *float64 `json:"maxConnections,omitempty" tf:"max_connections,omitempty"`
 
@@ -480,6 +498,7 @@ type HTTPCookieObservation struct {
 
 type HTTPCookieParameters struct {
 
+	// Name of the cookie.
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
@@ -487,6 +506,8 @@ type HTTPCookieParameters struct {
 	// +kubebuilder:validation:Optional
 	Path *string `json:"path,omitempty" tf:"path,omitempty"`
 
+	// Lifetime of the cookie.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	TTL []TTLParameters `json:"ttl,omitempty" tf:"ttl,omitempty"`
 }
@@ -511,9 +532,14 @@ type IntervalObservation struct {
 
 type IntervalParameters struct {
 
+	// Span of time that's a fraction of a second at nanosecond resolution. Durations
+	// less than one second are represented with a 0 seconds field and a positive
+	// nanos field. Must be from 0 to 999,999,999 inclusive.
 	// +kubebuilder:validation:Optional
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
+	// inclusive.
 	// +kubebuilder:validation:Required
 	Seconds *float64 `json:"seconds" tf:"seconds,omitempty"`
 }
@@ -553,7 +579,8 @@ type OutlierDetectionParameters struct {
 	// +kubebuilder:validation:Optional
 	ConsecutiveErrors *float64 `json:"consecutiveErrors,omitempty" tf:"consecutive_errors,omitempty"`
 
-	// The number of consecutive gateway failures  before a consecutive
+	// The number of consecutive gateway failures (502, 503, 504 status or connection
+	// errors that are mapped to one of those status codes) before a consecutive
 	// gateway failure ejection occurs. Defaults to 5.
 	// +kubebuilder:validation:Optional
 	ConsecutiveGatewayFailure *float64 `json:"consecutiveGatewayFailure,omitempty" tf:"consecutive_gateway_failure,omitempty"`
@@ -594,7 +621,8 @@ type OutlierDetectionParameters struct {
 	// +kubebuilder:validation:Optional
 	SuccessRateMinimumHosts *float64 `json:"successRateMinimumHosts,omitempty" tf:"success_rate_minimum_hosts,omitempty"`
 
-	// The minimum number of total requests that must be collected in one interval  to include this host in success rate
+	// The minimum number of total requests that must be collected in one interval (as
+	// defined by the interval duration above) to include this host in success rate
 	// based outlier detection. If the volume is lower than this setting, outlier
 	// detection via success rate statistics is not performed for that host. Defaults
 	// to 100.
@@ -604,7 +632,7 @@ type OutlierDetectionParameters struct {
 	// This factor is used to determine the ejection threshold for success rate outlier
 	// ejection. The ejection threshold is the difference between the mean success
 	// rate, and the product of this factor and the standard deviation of the mean
-	// success rate: mean - . This factor is divided
+	// success rate: mean - (stdev * success_rate_stdev_factor). This factor is divided
 	// by a thousand to get a double. That is, if the desired factor is 1.9, the
 	// runtime value should be 1900. Defaults to 1900.
 	// +kubebuilder:validation:Optional
@@ -634,9 +662,15 @@ type TTLObservation struct {
 
 type TTLParameters struct {
 
+	// Span of time that's a fraction of a second at nanosecond
+	// resolution. Durations less than one second are represented
+	// with a 0 seconds field and a positive nanos field. Must
+	// be from 0 to 999,999,999 inclusive.
 	// +kubebuilder:validation:Optional
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
+	// Span of time at a resolution of a second.
+	// Must be from 0 to 315,576,000,000 inclusive.
 	// +kubebuilder:validation:Required
 	Seconds *float64 `json:"seconds" tf:"seconds,omitempty"`
 }

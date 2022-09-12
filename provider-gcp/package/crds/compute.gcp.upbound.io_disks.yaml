@@ -72,21 +72,34 @@ spec:
                   diskEncryptionKey:
                     description: Encrypts the disk using a customer-supplied encryption
                       key. After you encrypt a disk with a customer-supplied key,
-                      you must provide the same key if you use the disk later . Customer-supplied
-                      encryption keys do not protect access to metadata of the disk.
-                      If you do not provide an encryption key when creating the disk,
-                      then the disk will be encrypted using an automatically generated
-                      key and you do not need to provide a key to use the disk later.
-                      Structure is documented below.
+                      you must provide the same key if you use the disk later (e.g.
+                      to create a disk snapshot or an image, or to attach the disk
+                      to a virtual machine). Customer-supplied encryption keys do
+                      not protect access to metadata of the disk. If you do not provide
+                      an encryption key when creating the disk, then the disk will
+                      be encrypted using an automatically generated key and you do
+                      not need to provide a key to use the disk later. Structure is
+                      documented below.
                     items:
                       properties:
                         kmsKeySelfLink:
+                          description: The self link of the encryption key used to
+                            encrypt the disk. Also called KmsKeyName in the cloud
+                            console. Your project's Compute Engine System service
+                            account (service-{{PROJECT_NUMBER}}@compute-system.iam.gserviceaccount.com)
+                            must have roles/cloudkms.cryptoKeyEncrypterDecrypter to
+                            use this feature. See https://cloud.google.com/compute/docs/disks/customer-managed-encryption#encrypt_a_new_persistent_disk_with_your_own_keys
                           type: string
                         kmsKeyServiceAccount:
+                          description: The service account used for the encryption
+                            request for the given KMS key. If absent, the Compute
+                            Engine Service Agent service account is used.
                           type: string
                         rawKeySecretRef:
-                          description: A SecretKeySelector is a reference to a secret
-                            key in an arbitrary namespace.
+                          description: 'Specifies a 256-bit customer-supplied encryption
+                            key, encoded in RFC 4648 base64 to either encrypt or decrypt
+                            this resource. Note: This property is sensitive and will
+                            not be displayed in the plan.'
                           properties:
                             key:
                               description: The key to select.
@@ -142,11 +155,8 @@ spec:
                       the image or snapshot parameter, or specify it alone to create
                       an empty persistent disk. If you specify this field along with
                       image or snapshot, the value must not be less than the size
-                      of the image or the size of the snapshot. ~>NOTE If you change
-                      the size, Terraform updates the disk size if upsizing is detected
-                      but recreates the disk if downsizing is requested. You can add
-                      lifecycle.prevent_destroy in the config to prevent destroying
-                      and recreating.
+                      of the image or the size of the snapshot. You can add lifecycle.prevent_destroy
+                      in the config to prevent destroying and recreating.
                     type: number
                   snapshot:
                     description: 'The source snapshot used to create this disk. You
@@ -161,10 +171,22 @@ spec:
                     items:
                       properties:
                         kmsKeySelfLink:
+                          description: The self link of the encryption key used to
+                            encrypt the disk. Also called KmsKeyName in the cloud
+                            console. Your project's Compute Engine System service
+                            account (service-{{PROJECT_NUMBER}}@compute-system.iam.gserviceaccount.com)
+                            must have roles/cloudkms.cryptoKeyEncrypterDecrypter to
+                            use this feature. See https://cloud.google.com/compute/docs/disks/customer-managed-encryption#encrypt_a_new_persistent_disk_with_your_own_keys
                           type: string
                         kmsKeyServiceAccount:
+                          description: The service account used for the encryption
+                            request for the given KMS key. If absent, the Compute
+                            Engine Service Agent service account is used.
                           type: string
                         rawKey:
+                          description: Specifies a 256-bit customer-supplied encryption
+                            key, encoded in RFC 4648 base64 to either encrypt or decrypt
+                            this resource.
                           type: string
                       type: object
                     type: array
@@ -175,10 +197,22 @@ spec:
                     items:
                       properties:
                         kmsKeySelfLink:
+                          description: The self link of the encryption key used to
+                            encrypt the disk. Also called KmsKeyName in the cloud
+                            console. Your project's Compute Engine System service
+                            account (service-{{PROJECT_NUMBER}}@compute-system.iam.gserviceaccount.com)
+                            must have roles/cloudkms.cryptoKeyEncrypterDecrypter to
+                            use this feature. See https://cloud.google.com/compute/docs/disks/customer-managed-encryption#encrypt_a_new_persistent_disk_with_your_own_keys
                           type: string
                         kmsKeyServiceAccount:
+                          description: The service account used for the encryption
+                            request for the given KMS key. If absent, the Compute
+                            Engine Service Agent service account is used.
                           type: string
                         rawKey:
+                          description: Specifies a 256-bit customer-supplied encryption
+                            key, encoded in RFC 4648 base64 to either encrypt or decrypt
+                            this resource.
                           type: string
                       type: object
                     type: array
@@ -375,15 +409,20 @@ spec:
                   diskEncryptionKey:
                     description: Encrypts the disk using a customer-supplied encryption
                       key. After you encrypt a disk with a customer-supplied key,
-                      you must provide the same key if you use the disk later . Customer-supplied
-                      encryption keys do not protect access to metadata of the disk.
-                      If you do not provide an encryption key when creating the disk,
-                      then the disk will be encrypted using an automatically generated
-                      key and you do not need to provide a key to use the disk later.
-                      Structure is documented below.
+                      you must provide the same key if you use the disk later (e.g.
+                      to create a disk snapshot or an image, or to attach the disk
+                      to a virtual machine). Customer-supplied encryption keys do
+                      not protect access to metadata of the disk. If you do not provide
+                      an encryption key when creating the disk, then the disk will
+                      be encrypted using an automatically generated key and you do
+                      not need to provide a key to use the disk later. Structure is
+                      documented below.
                     items:
                       properties:
                         sha256:
+                          description: The RFC 4648 base64 encoded SHA-256 hash of
+                            the customer-supplied encryption key that protects this
+                            resource.
                           type: string
                       type: object
                     type: array
@@ -410,6 +449,9 @@ spec:
                     items:
                       properties:
                         sha256:
+                          description: The RFC 4648 base64 encoded SHA-256 hash of
+                            the customer-supplied encryption key that protects this
+                            resource.
                           type: string
                       type: object
                     type: array
@@ -428,6 +470,9 @@ spec:
                     items:
                       properties:
                         sha256:
+                          description: The RFC 4648 base64 encoded SHA-256 hash of
+                            the customer-supplied encryption key that protects this
+                            resource.
                           type: string
                       type: object
                     type: array
@@ -440,7 +485,8 @@ spec:
                       identify the exact version of the snapshot that was used.
                     type: string
                   users:
-                    description: 'Links to the users of the disk  in form: project/zones/zone/instances/instance'
+                    description: 'Links to the users of the disk (attached instances)
+                      in form: project/zones/zone/instances/instance'
                     items:
                       type: string
                     type: array

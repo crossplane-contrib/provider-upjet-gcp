@@ -38,6 +38,7 @@ type DNSSECConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	DefaultKeySpecs []DefaultKeySpecsParameters `json:"defaultKeySpecs,omitempty" tf:"default_key_specs,omitempty"`
 
+	// Identifies what kind of resource this is
 	// +kubebuilder:validation:Optional
 	Kind *string `json:"kind,omitempty" tf:"kind,omitempty"`
 
@@ -67,8 +68,8 @@ type DefaultKeySpecsParameters struct {
 	// +kubebuilder:validation:Optional
 	KeyLength *float64 `json:"keyLength,omitempty" tf:"key_length,omitempty"`
 
-	// Specifies whether this is a key signing key  or a zone
-	// signing key . Key signing keys have the Secure Entry
+	// Specifies whether this is a key signing key (KSK) or a zone
+	// signing key (ZSK). Key signing keys have the Secure Entry
 	// Point flag set and, when active, will only be used to sign
 	// resource record sets of type DNSKEY. Zone signing keys do
 	// not have the Secure Entry Point flag set and will be used
@@ -77,6 +78,7 @@ type DefaultKeySpecsParameters struct {
 	// +kubebuilder:validation:Optional
 	KeyType *string `json:"keyType,omitempty" tf:"key_type,omitempty"`
 
+	// Identifies what kind of resource this is
 	// +kubebuilder:validation:Optional
 	Kind *string `json:"kind,omitempty" tf:"kind,omitempty"`
 }
@@ -115,7 +117,7 @@ type ManagedZoneParameters struct {
 	// +kubebuilder:validation:Optional
 	DNSSECConfig []DNSSECConfigParameters `json:"dnssecConfig,omitempty" tf:"dnssec_config,omitempty"`
 
-	// A textual description field. Defaults to 'Managed by Terraform'.
+	// A textual description field.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -164,6 +166,9 @@ type NetworksObservation struct {
 
 type NetworksParameters struct {
 
+	// The id or fully qualified URL of the VPC network to bind to.
+	// This should be formatted like projects/{project}/global/networks/{network} or
+	// https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}
 	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.Network
 	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
@@ -194,10 +199,8 @@ type PrivateVisibilityConfigObservation struct {
 
 type PrivateVisibilityConfigParameters struct {
 
-	// The list of VPC networks that can see this zone. Until the provider updates to use the Terraform 0.12 SDK in a future release, you
-	// may experience issues with this resource while updating. If you've defined a networks block and
-	// add another networks block while keeping the old block, Terraform will see an incorrect diff
-	// and apply an incorrect update to the resource. If you encounter this issue, remove all networks
+	// The list of VPC networks that can see this zone.12 SDK in a future release, you
+	// may experience issues with this resource while updating. If you encounter this issue, remove all networks
 	// blocks in an update and then apply another update adding all of them back simultaneously.
 	// Structure is documented below.
 	// +kubebuilder:validation:Required
@@ -226,6 +229,9 @@ type TargetNetworkObservation struct {
 
 type TargetNetworkParameters struct {
 
+	// The id or fully qualified URL of the VPC network to forward queries to.
+	// This should be formatted like projects/{project}/global/networks/{network} or
+	// https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}
 	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.Network
 	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional

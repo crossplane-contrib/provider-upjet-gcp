@@ -145,7 +145,8 @@ spec:
                     type: object
                   ipAddress:
                     description: IPv4 address of network endpoint. The IP address
-                      must belong to a VM in GCE .
+                      must belong to a VM in GCE (either the primary IP or as part
+                      of an aliased IP range).
                     type: string
                   networkEndpointGroup:
                     description: The network endpoint group this endpoint is part

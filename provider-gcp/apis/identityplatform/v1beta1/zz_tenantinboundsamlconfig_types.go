@@ -30,11 +30,14 @@ type IdPConfigIdPCertificatesObservation struct {
 
 type IdPConfigIdPCertificatesParameters struct {
 
+	// The x509 certificate
 	// +kubebuilder:validation:Optional
 	X509CertificateSecretRef *v1.SecretKeySelector `json:"x509CertificateSecretRef,omitempty" tf:"-"`
 }
 
 type SpConfigSpCertificatesObservation struct {
+
+	// The x509 certificate
 	X509Certificate *string `json:"x509Certificate,omitempty" tf:"x509_certificate,omitempty"`
 }
 
@@ -69,7 +72,7 @@ type TenantInboundSAMLConfigObservation struct {
 	// an identifier for the resource with format projects/{{project}}/tenants/{{tenant}}/inboundSamlConfigs/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// SAML SP  configuration when the project acts as the relying party to receive
+	// SAML SP (Service Provider) configuration when the project acts as the relying party to receive
 	// and accept an authentication assertion issued by a SAML identity provider.
 	// Structure is documented below.
 	// +kubebuilder:validation:Required
@@ -102,7 +105,7 @@ type TenantInboundSAMLConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
-	// SAML SP  configuration when the project acts as the relying party to receive
+	// SAML SP (Service Provider) configuration when the project acts as the relying party to receive
 	// and accept an authentication assertion issued by a SAML identity provider.
 	// Structure is documented below.
 	// +kubebuilder:validation:Required

@@ -45,8 +45,8 @@ type TargetPoolParameters struct {
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// Ratio  of failed nodes before using the
-	// backup pool .
+	// Ratio (0 to 1) of failed nodes before using the
+	// backup pool (which must also be set).
 	// +kubebuilder:validation:Optional
 	FailoverRatio *float64 `json:"failoverRatio,omitempty" tf:"failover_ratio,omitempty"`
 
@@ -65,10 +65,7 @@ type TargetPoolParameters struct {
 	HealthChecksSelector *v1.Selector `json:"healthChecksSelector,omitempty" tf:"-"`
 
 	// List of instances in the pool. They can be given as
-	// URLs, or in the form of "zone/name". Note that the instances need not exist
-	// at the time of target pool creation, so there is no need to use the
-	// Terraform interpolators to create a dependency on the instances from the
-	// target pool.
+	// URLs, or in the form of "zone/name".
 	// +kubebuilder:validation:Optional
 	Instances []*string `json:"instances,omitempty" tf:"instances,omitempty"`
 
@@ -82,8 +79,9 @@ type TargetPoolParameters struct {
 	// +kubebuilder:validation:Required
 	Region *string `json:"region" tf:"region,omitempty"`
 
-	// How to distribute load. Options are "NONE" . "CLIENT_IP" , and
-	// "CLIENT_IP_PROTO" also includes the protocol .
+	// How to distribute load. Options are "NONE" (no
+	// affinity). "CLIENT_IP" (hash of the source/dest addresses / ports), and
+	// "CLIENT_IP_PROTO" also includes the protocol (default "NONE").
 	// +kubebuilder:validation:Optional
 	SessionAffinity *string `json:"sessionAffinity,omitempty" tf:"session_affinity,omitempty"`
 }

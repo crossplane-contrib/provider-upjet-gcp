@@ -69,7 +69,7 @@ type FunctionObservation struct {
 
 type FunctionParameters struct {
 
-	// Memory , available to the function. Default value is 256. Possible values include 128, 256, 512, 1024, etc.
+	// Memory (in MB), available to the function. Default value is 256. Possible values include 128, 256, 512, 1024, etc.
 	// +kubebuilder:validation:Optional
 	AvailableMemoryMb *float64 `json:"availableMemoryMb,omitempty" tf:"available_memory_mb,omitempty"`
 
@@ -108,7 +108,7 @@ type FunctionParameters struct {
 	// +kubebuilder:validation:Optional
 	IngressSettings *string `json:"ingressSettings,omitempty" tf:"ingress_settings,omitempty"`
 
-	// Resource name of a KMS crypto key  used to encrypt/decrypt function resources. It must match the pattern projects/{project}/locations/{location}/keyRings/{key_ring}/cryptoKeys/{crypto_key}.
+	// Resource name of a KMS crypto key (managed by the user) used to encrypt/decrypt function resources. It must match the pattern projects/{project}/locations/{location}/keyRings/{key_ring}/cryptoKeys/{crypto_key}.
 	// If specified, you must also provide an artifact registry repository using the docker_repository field that was created with the same KMS crypto key. Before deploying, please complete all pre-requisites described in https://cloud.google.com/functions/docs/securing/cmek#granting_service_accounts_access_to_the_key
 	// +kubebuilder:validation:Optional
 	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
@@ -163,7 +163,7 @@ type FunctionParameters struct {
 	// +kubebuilder:validation:Optional
 	SourceArchiveBucketSelector *v1.Selector `json:"sourceArchiveBucketSelector,omitempty" tf:"-"`
 
-	// The source archive object  in archive bucket.
+	// The source archive object (file) in archive bucket.
 	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/storage/v1beta1.BucketObject
 	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractParamPath("name",false)
 	// +kubebuilder:validation:Optional
@@ -182,11 +182,11 @@ type FunctionParameters struct {
 	// +kubebuilder:validation:Optional
 	SourceRepository []SourceRepositoryParameters `json:"sourceRepository,omitempty" tf:"source_repository,omitempty"`
 
-	// Timeout  for the function. Default value is 60 seconds. Cannot be more than 540 seconds.
+	// Timeout (in seconds) for the function. Default value is 60 seconds. Cannot be more than 540 seconds.
 	// +kubebuilder:validation:Optional
 	Timeout *float64 `json:"timeout,omitempty" tf:"timeout,omitempty"`
 
-	// Boolean variable. Any HTTP request  to the endpoint will trigger function execution. Supported HTTP request types are: POST, PUT, GET, DELETE, and OPTIONS. Endpoint is returned as https_trigger_url. Cannot be used with event_trigger.
+	// Boolean variable. Any HTTP request (of a supported type) to the endpoint will trigger function execution. Supported HTTP request types are: POST, PUT, GET, DELETE, and OPTIONS. Endpoint is returned as https_trigger_url. Cannot be used with event_trigger.
 	// +kubebuilder:validation:Optional
 	TriggerHTTP *bool `json:"triggerHttp,omitempty" tf:"trigger_http,omitempty"`
 
@@ -208,12 +208,15 @@ type SecretEnvironmentVariablesParameters struct {
 	// +kubebuilder:validation:Required
 	Key *string `json:"key" tf:"key,omitempty"`
 
+	// Project identifier (due to a known limitation, only project number is supported by this field) of the project that contains the secret. If not set, it will be populated with the function's project, assuming that the secret exists in the same project as of the function.
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
+	// ID of the secret in secret manager (not the full resource name).
 	// +kubebuilder:validation:Required
 	Secret *string `json:"secret" tf:"secret,omitempty"`
 
+	// Version of the secret (version number or the string "latest"). It is recommended to use a numeric version for secret environment variables as any updates to the secret value is not reflected until new clones start.
 	// +kubebuilder:validation:Required
 	Version *string `json:"version" tf:"version,omitempty"`
 }
@@ -227,9 +230,11 @@ type SecretVolumesParameters struct {
 	// +kubebuilder:validation:Required
 	MountPath *string `json:"mountPath" tf:"mount_path,omitempty"`
 
+	// Project identifier (due to a known limitation, only project number is supported by this field) of the project that contains the secret. If not set, it will be populated with the function's project, assuming that the secret exists in the same project as of the function.
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
+	// ID of the secret in secret manager (not the full resource name).
 	// +kubebuilder:validation:Required
 	Secret *string `json:"secret" tf:"secret,omitempty"`
 
@@ -239,6 +244,8 @@ type SecretVolumesParameters struct {
 }
 
 type SourceRepositoryObservation struct {
+
+	// The URL pointing to the hosted repository where the function was defined at the time of deployment.
 	DeployedURL *string `json:"deployedUrl,omitempty" tf:"deployed_url,omitempty"`
 }
 
@@ -258,6 +265,7 @@ type VersionsParameters struct {
 	// +kubebuilder:validation:Required
 	Path *string `json:"path" tf:"path,omitempty"`
 
+	// Version of the secret (version number or the string "latest"). It is preferable to use "latest" version with secret volumes as secret value changes are reflected immediately.
 	// +kubebuilder:validation:Required
 	Version *string `json:"version" tf:"version,omitempty"`
 }

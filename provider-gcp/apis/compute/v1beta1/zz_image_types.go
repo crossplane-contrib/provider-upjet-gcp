@@ -38,7 +38,8 @@ type GuestOsFeaturesParameters struct {
 
 type ImageObservation struct {
 
-	// Size of the image tar.gz archive stored in Google Cloud Storage .
+	// Size of the image tar.gz archive stored in Google Cloud Storage (in
+	// bytes).
 	ArchiveSizeBytes *float64 `json:"archiveSizeBytes,omitempty" tf:"archive_size_bytes,omitempty"`
 
 	// Creation timestamp in RFC3339 text format.
@@ -62,7 +63,7 @@ type ImageParameters struct {
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// Size of the image when restored onto a persistent disk .
+	// Size of the image when restored onto a persistent disk (in GB).
 	// +kubebuilder:validation:Optional
 	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
 

@@ -55,6 +55,7 @@ type InstanceGroupManagerNamedPortObservation struct {
 
 type InstanceGroupManagerNamedPortParameters struct {
 
+	// The name of the port.
 	// +kubebuilder:validation:Required
 	Name *string `json:"name" tf:"name,omitempty"`
 
@@ -93,7 +94,7 @@ type InstanceGroupManagerParameters struct {
 	// The base instance name to use for
 	// instances in this group. The value must be a valid
 	// RFC1035 name. Supported characters
-	// are lowercase letters, numbers, and hyphens . Instances are named by
+	// are lowercase letters, numbers, and hyphens (-). Instances are named by
 	// appending a hyphen and a random four-character string to the base instance
 	// name.
 	// +kubebuilder:validation:Required
@@ -134,6 +135,9 @@ type InstanceGroupManagerParameters struct {
 	// +kubebuilder:validation:Optional
 	TargetPoolsSelector *v1.Selector `json:"targetPoolsSelector,omitempty" tf:"-"`
 
+	// The target number of running instances for this managed
+	// instance group. This value should always be explicitly set unless this resource is attached to
+	// an autoscaler, in which case it should never be set. Defaults to 0.
 	// +kubebuilder:validation:Optional
 	TargetSize *float64 `json:"targetSize,omitempty" tf:"target_size,omitempty"`
 
@@ -148,8 +152,7 @@ type InstanceGroupManagerParameters struct {
 	Version []VersionParameters `json:"version" tf:"version,omitempty"`
 
 	// Whether to wait for all instances to be created/updated before
-	// returning. Note that if this is set to true and the operation does not succeed, Terraform will
-	// continue trying until it times out.
+	// returning.
 	// +kubebuilder:validation:Optional
 	WaitForInstances *bool `json:"waitForInstances,omitempty" tf:"wait_for_instances,omitempty"`
 
@@ -168,7 +171,7 @@ type InstanceGroupManagerParameters struct {
 
 type PerInstanceConfigsObservation struct {
 
-	// A bit indicating if all of the group's per-instance configs  have status EFFECTIVE or there are no per-instance-configs.
+	// A bit indicating if all of the group's per-instance configs (listed in the output of a listPerInstanceConfigs API call) have status EFFECTIVE or there are no per-instance-configs.
 	AllEffective *bool `json:"allEffective,omitempty" tf:"all_effective,omitempty"`
 }
 
@@ -203,7 +206,7 @@ type StatefulParameters struct {
 
 type StatusObservation struct {
 
-	// A bit indicating whether the managed instance group is in a stable state. A stable state means that: none of the instances in the managed instance group is currently undergoing any type of change ; no future changes are scheduled for instances in the managed instance group; and the managed instance group itself is not being modified.
+	// A bit indicating whether the managed instance group is in a stable state. A stable state means that: none of the instances in the managed instance group is currently undergoing any type of change (for example, creation, restart, or deletion); no future changes are scheduled for instances in the managed instance group; and the managed instance group itself is not being modified.
 	IsStable *bool `json:"isStable,omitempty" tf:"is_stable,omitempty"`
 
 	// Stateful status of the given Instance Group Manager.
@@ -224,7 +227,7 @@ type TargetSizeParameters struct {
 	// +kubebuilder:validation:Optional
 	Fixed *float64 `json:"fixed,omitempty" tf:"fixed,omitempty"`
 
-	// , The number of instances  which are managed for this version. Conflicts with fixed.
+	// , The number of instances (calculated as percentage) which are managed for this version. Conflicts with fixed.
 	// Note that when using percent, rounding will be in favor of explicitly set target_size values; a managed instance group with 2 instances and 2 versions,
 	// one of which has a target_size.percent of 60 will create 2 instances of that version.
 	// +kubebuilder:validation:Optional
@@ -240,7 +243,7 @@ type UpdatePolicyParameters struct {
 	// +kubebuilder:validation:Optional
 	MaxSurgeFixed *float64 `json:"maxSurgeFixed,omitempty" tf:"max_surge_fixed,omitempty"`
 
-	// , The maximum number of instances that can be created above the specified targetSize during the update process. Conflicts with max_surge_fixed.
+	// , The maximum number of instances(calculated as percentage) that can be created above the specified targetSize during the update process. Conflicts with max_surge_fixed.
 	// +kubebuilder:validation:Optional
 	MaxSurgePercent *float64 `json:"maxSurgePercent,omitempty" tf:"max_surge_percent,omitempty"`
 
@@ -248,7 +251,7 @@ type UpdatePolicyParameters struct {
 	// +kubebuilder:validation:Optional
 	MaxUnavailableFixed *float64 `json:"maxUnavailableFixed,omitempty" tf:"max_unavailable_fixed,omitempty"`
 
-	// , The maximum number of instances that can be unavailable during the update process. Conflicts with max_unavailable_fixed.
+	// , The maximum number of instances(calculated as percentage) that can be unavailable during the update process. Conflicts with max_unavailable_fixed.
 	// +kubebuilder:validation:Optional
 	MaxUnavailablePercent *float64 `json:"maxUnavailablePercent,omitempty" tf:"max_unavailable_percent,omitempty"`
 
@@ -260,11 +263,11 @@ type UpdatePolicyParameters struct {
 	// +kubebuilder:validation:Optional
 	MostDisruptiveAllowedAction *string `json:"mostDisruptiveAllowedAction,omitempty" tf:"most_disruptive_allowed_action,omitempty"`
 
-	// , The instance replacement method for managed instance groups. Valid values are: "RECREATE", "SUBSTITUTE". If SUBSTITUTE , the group replaces VM instances with new instances that have randomly generated names. If RECREATE, instance names are preserved.  You must also set max_unavailable_fixed or max_unavailable_percent to be greater than 0.
+	// , The instance replacement method for managed instance groups. Valid values are: "RECREATE", "SUBSTITUTE". If SUBSTITUTE (default), the group replaces VM instances with new instances that have randomly generated names. If RECREATE, instance names are preserved.  You must also set max_unavailable_fixed or max_unavailable_percent to be greater than 0.
 	// +kubebuilder:validation:Optional
 	ReplacementMethod *string `json:"replacementMethod,omitempty" tf:"replacement_method,omitempty"`
 
-	// - The type of update process. You can specify either PROACTIVE so that the instance group manager proactively executes actions in order to bring instances to their target versions or OPPORTUNISTIC so that no action is proactively executed but the update will be performed as part of other actions .
+	// - The type of update process. You can specify either PROACTIVE so that the instance group manager proactively executes actions in order to bring instances to their target versions or OPPORTUNISTIC so that no action is proactively executed but the update will be performed as part of other actions (for example, resizes or recreateInstances calls).
 	// +kubebuilder:validation:Required
 	Type *string `json:"type" tf:"type,omitempty"`
 }
@@ -288,9 +291,11 @@ type VersionParameters struct {
 	// +kubebuilder:validation:Optional
 	InstanceTemplateSelector *v1.Selector `json:"instanceTemplateSelector,omitempty" tf:"-"`
 
+	// - Version name.
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// - The number of instances calculated as a fixed number or a percentage depending on the settings. Structure is documented below.
 	// +kubebuilder:validation:Optional
 	TargetSize []TargetSizeParameters `json:"targetSize,omitempty" tf:"target_size,omitempty"`
 }

@@ -67,7 +67,7 @@ spec:
                 properties:
                   dnsSuffix:
                     description: The DNS domain suffix of the peered DNS domain. Make
-                      sure to suffix with a . .
+                      sure to suffix with a . (dot).
                     type: string
                   network:
                     type: string

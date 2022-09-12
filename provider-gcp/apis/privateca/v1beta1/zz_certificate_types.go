@@ -26,6 +26,8 @@ import (
 )
 
 type AdditionalExtensionsObjectIDObservation struct {
+
+	// An ObjectId specifies an object identifier (OID). These provide context and describe types in ASN.1 messages.
 	ObjectIDPath []*float64 `json:"objectIdPath,omitempty" tf:"object_id_path,omitempty"`
 }
 
@@ -33,6 +35,8 @@ type AdditionalExtensionsObjectIDParameters struct {
 }
 
 type AuthorityKeyIDObservation struct {
+
+	// Optional. The value of this KeyId encoded in lowercase hexadecimal. This is most likely the 160 bit SHA-1 hash of the public key.
 	KeyID *string `json:"keyId,omitempty" tf:"key_id,omitempty"`
 }
 
@@ -61,6 +65,7 @@ type CertificateDescriptionObservation struct {
 	// Structure is documented below.
 	CertFingerprint []CertFingerprintObservation `json:"certFingerprint,omitempty" tf:"cert_fingerprint,omitempty"`
 
+	// (Deprecated)
 	// Describes some of the technical fields in a certificate.
 	// Structure is documented below.
 	ConfigValues []ConfigValuesObservation `json:"configValues,omitempty" tf:"config_values,omitempty"`
@@ -68,6 +73,8 @@ type CertificateDescriptionObservation struct {
 	// Describes a list of locations to obtain CRL information, i.e. the DistributionPoint.fullName described by https://tools.ietf.org/html/rfc5280#section-4.2.1.13
 	CrlDistributionPoints []*string `json:"crlDistributionPoints,omitempty" tf:"crl_distribution_points,omitempty"`
 
+	// A PublicKey describes a public key.
+	// Structure is documented below.
 	PublicKey []PublicKeyObservation `json:"publicKey,omitempty" tf:"public_key,omitempty"`
 
 	// Describes some of the values in a certificate that are related to the subject and lifetime.
@@ -99,7 +106,7 @@ type CertificateObservation struct {
 	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/caPools/{{pool}}/certificates/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// The resource name of the issuing CertificateAuthority in the format projects//locations//caPools//certificateAuthorities/.
+	// Certificate Authority name.
 	IssuerCertificateAuthority *string `json:"issuerCertificateAuthority,omitempty" tf:"issuer_certificate_authority,omitempty"`
 
 	// Output only. The pem-encoded, signed X.509 certificate.
@@ -108,6 +115,7 @@ type CertificateObservation struct {
 	// The chain that may be used to verify the X.509 certificate. Expected to be in issuer-to-root order according to RFC 5246.
 	PemCertificateChain []*string `json:"pemCertificateChain,omitempty" tf:"pem_certificate_chain,omitempty"`
 
+	// (Deprecated)
 	// Required. Expected to be in leaf-to-root order according to RFC 5246.
 	PemCertificates []*string `json:"pemCertificates,omitempty" tf:"pem_certificates,omitempty"`
 
@@ -163,6 +171,9 @@ type CertificateParameters struct {
 	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
+	// The desired lifetime of the CA certificate. Used to create the "notBeforeTime" and
+	// "notAfterTime" fields inside an X.509 certificate. A duration in seconds with up to nine
+	// fractional digits, terminated by 's'. Example: "3.5s".
 	// +kubebuilder:validation:Optional
 	Lifetime *string `json:"lifetime,omitempty" tf:"lifetime,omitempty"`
 
@@ -171,7 +182,7 @@ type CertificateParameters struct {
 	// +kubebuilder:validation:Required
 	Location *string `json:"location" tf:"location,omitempty"`
 
-	// Immutable. A pem-encoded X.509 certificate signing request .
+	// Immutable. A pem-encoded X.509 certificate signing request (CSR).
 	// +kubebuilder:validation:Optional
 	PemCsr *string `json:"pemCsr,omitempty" tf:"pem_csr,omitempty"`
 
@@ -199,6 +210,8 @@ type ConfigObservation struct {
 
 type ConfigParameters struct {
 
+	// A PublicKey describes a public key.
+	// Structure is documented below.
 	// +kubebuilder:validation:Required
 	PublicKey []ConfigPublicKeyParameters `json:"publicKey" tf:"public_key,omitempty"`
 
@@ -226,10 +239,17 @@ type ConfigPublicKeyParameters struct {
 }
 
 type ConfigValuesKeyUsageObservation struct {
+
+	// Describes high-level ways in which a key may be used.
+	// Structure is documented below.
 	BaseKeyUsage []KeyUsageBaseKeyUsageObservation `json:"baseKeyUsage,omitempty" tf:"base_key_usage,omitempty"`
 
+	// Describes high-level ways in which a key may be used.
+	// Structure is documented below.
 	ExtendedKeyUsage []KeyUsageExtendedKeyUsageObservation `json:"extendedKeyUsage,omitempty" tf:"extended_key_usage,omitempty"`
 
+	// An ObjectId specifies an object identifier (OID). These provide context and describe types in ASN.1 messages.
+	// Structure is documented below.
 	UnknownExtendedKeyUsages []KeyUsageUnknownExtendedKeyUsagesObservation `json:"unknownExtendedKeyUsages,omitempty" tf:"unknown_extended_key_usages,omitempty"`
 }
 
@@ -237,6 +257,9 @@ type ConfigValuesKeyUsageParameters struct {
 }
 
 type ConfigValuesObservation struct {
+
+	// Indicates the intended use for keys that correspond to a certificate.
+	// Structure is documented below.
 	KeyUsage []ConfigValuesKeyUsageObservation `json:"keyUsage,omitempty" tf:"key_usage,omitempty"`
 }
 
@@ -244,6 +267,8 @@ type ConfigValuesParameters struct {
 }
 
 type CustomSansObectIDObservation struct {
+
+	// An ObjectId specifies an object identifier (OID). These provide context and describe types in ASN.1 messages.
 	ObjectIDPath []*float64 `json:"objectIdPath,omitempty" tf:"object_id_path,omitempty"`
 }
 
@@ -251,10 +276,14 @@ type CustomSansObectIDParameters struct {
 }
 
 type CustomSansObservation struct {
+
+	// Indicates whether or not this extension is critical (i.e., if the client does not know how to
+	// handle this extension, the client should consider this to be an error).
 	Critical *bool `json:"critical,omitempty" tf:"critical,omitempty"`
 
 	ObectID []CustomSansObectIDObservation `json:"obectId,omitempty" tf:"obect_id,omitempty"`
 
+	// The value of this X.509 extension. A base64-encoded string.
 	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
 
@@ -272,16 +301,23 @@ type KeyUsageBaseKeyUsageParameters struct {
 }
 
 type KeyUsageExtendedKeyUsageObservation struct {
+
+	// Corresponds to OID 1.3.6.1.5.5.7.3.2. Officially described as "TLS WWW client authentication", though regularly used for non-WWW TLS.
 	ClientAuth *bool `json:"clientAuth,omitempty" tf:"client_auth,omitempty"`
 
+	// Corresponds to OID 1.3.6.1.5.5.7.3.3. Officially described as "Signing of downloadable executable code client authentication".
 	CodeSigning *bool `json:"codeSigning,omitempty" tf:"code_signing,omitempty"`
 
+	// Corresponds to OID 1.3.6.1.5.5.7.3.4. Officially described as "Email protection".
 	EmailProtection *bool `json:"emailProtection,omitempty" tf:"email_protection,omitempty"`
 
+	// Corresponds to OID 1.3.6.1.5.5.7.3.9. Officially described as "Signing OCSP responses".
 	OcspSigning *bool `json:"ocspSigning,omitempty" tf:"ocsp_signing,omitempty"`
 
+	// Corresponds to OID 1.3.6.1.5.5.7.3.1. Officially described as "TLS WWW server authentication", though regularly used for non-WWW TLS.
 	ServerAuth *bool `json:"serverAuth,omitempty" tf:"server_auth,omitempty"`
 
+	// Corresponds to OID 1.3.6.1.5.5.7.3.8. Officially described as "Binding the hash of an object to a time".
 	TimeStamping *bool `json:"timeStamping,omitempty" tf:"time_stamping,omitempty"`
 }
 
@@ -289,22 +325,32 @@ type KeyUsageExtendedKeyUsageParameters struct {
 }
 
 type KeyUsageOptionsObservation struct {
+
+	// The key may be used to sign certificates.
 	CertSign *bool `json:"certSign,omitempty" tf:"cert_sign,omitempty"`
 
+	// The key may be used for cryptographic commitments. Note that this may also be referred to as "non-repudiation".
 	ContentCommitment *bool `json:"contentCommitment,omitempty" tf:"content_commitment,omitempty"`
 
+	// The key may be used sign certificate revocation lists.
 	CrlSign *bool `json:"crlSign,omitempty" tf:"crl_sign,omitempty"`
 
+	// The key may be used to encipher data.
 	DataEncipherment *bool `json:"dataEncipherment,omitempty" tf:"data_encipherment,omitempty"`
 
+	// The key may be used to decipher only.
 	DecipherOnly *bool `json:"decipherOnly,omitempty" tf:"decipher_only,omitempty"`
 
+	// The key may be used for digital signatures.
 	DigitalSignature *bool `json:"digitalSignature,omitempty" tf:"digital_signature,omitempty"`
 
+	// The key may be used to encipher only.
 	EncipherOnly *bool `json:"encipherOnly,omitempty" tf:"encipher_only,omitempty"`
 
+	// The key may be used in a key agreement protocol.
 	KeyAgreement *bool `json:"keyAgreement,omitempty" tf:"key_agreement,omitempty"`
 
+	// The key may be used to encipher other keys.
 	KeyEncipherment *bool `json:"keyEncipherment,omitempty" tf:"key_encipherment,omitempty"`
 }
 
@@ -319,6 +365,8 @@ type KeyUsageUnknownExtendedKeyUsagesParameters struct {
 }
 
 type ObectIDObservation struct {
+
+	// An ObjectId specifies an object identifier (OID). These provide context and describe types in ASN.1 messages.
 	ObjectIDPath []*float64 `json:"objectIdPath,omitempty" tf:"object_id_path,omitempty"`
 }
 
@@ -352,12 +400,16 @@ type SubjectAltNameObservation struct {
 	// Structure is documented below.
 	CustomSans []CustomSansObservation `json:"customSans,omitempty" tf:"custom_sans,omitempty"`
 
+	// Contains only valid, fully-qualified host names.
 	DNSNames []*string `json:"dnsNames,omitempty" tf:"dns_names,omitempty"`
 
+	// Contains only valid RFC 2822 E-mail addresses.
 	EmailAddresses []*string `json:"emailAddresses,omitempty" tf:"email_addresses,omitempty"`
 
+	// Contains only valid 32-bit IPv4 addresses or RFC 4291 IPv6 addresses.
 	IPAddresses []*string `json:"ipAddresses,omitempty" tf:"ip_addresses,omitempty"`
 
+	// Contains only valid RFC 3986 URIs.
 	Uris []*string `json:"uris,omitempty" tf:"uris,omitempty"`
 }
 
@@ -369,9 +421,13 @@ type SubjectConfigObservation struct {
 
 type SubjectConfigParameters struct {
 
+	// Contains distinguished name fields such as the location and organization.
+	// Structure is documented below.
 	// +kubebuilder:validation:Required
 	Subject []SubjectConfigSubjectParameters `json:"subject" tf:"subject,omitempty"`
 
+	// The subject alternative name fields.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	SubjectAltName []SubjectConfigSubjectAltNameParameters `json:"subjectAltName,omitempty" tf:"subject_alt_name,omitempty"`
 }
@@ -381,15 +437,19 @@ type SubjectConfigSubjectAltNameObservation struct {
 
 type SubjectConfigSubjectAltNameParameters struct {
 
+	// Contains only valid, fully-qualified host names.
 	// +kubebuilder:validation:Optional
 	DNSNames []*string `json:"dnsNames,omitempty" tf:"dns_names,omitempty"`
 
+	// Contains only valid RFC 2822 E-mail addresses.
 	// +kubebuilder:validation:Optional
 	EmailAddresses []*string `json:"emailAddresses,omitempty" tf:"email_addresses,omitempty"`
 
+	// Contains only valid 32-bit IPv4 addresses or RFC 4291 IPv6 addresses.
 	// +kubebuilder:validation:Optional
 	IPAddresses []*string `json:"ipAddresses,omitempty" tf:"ip_addresses,omitempty"`
 
+	// Contains only valid RFC 3986 URIs.
 	// +kubebuilder:validation:Optional
 	Uris []*string `json:"uris,omitempty" tf:"uris,omitempty"`
 }
@@ -399,27 +459,35 @@ type SubjectConfigSubjectObservation struct {
 
 type SubjectConfigSubjectParameters struct {
 
+	// The common name of the distinguished name.
 	// +kubebuilder:validation:Required
 	CommonName *string `json:"commonName" tf:"common_name,omitempty"`
 
+	// The country code of the subject.
 	// +kubebuilder:validation:Optional
 	CountryCode *string `json:"countryCode,omitempty" tf:"country_code,omitempty"`
 
+	// The locality or city of the subject.
 	// +kubebuilder:validation:Optional
 	Locality *string `json:"locality,omitempty" tf:"locality,omitempty"`
 
+	// The organization of the subject.
 	// +kubebuilder:validation:Required
 	Organization *string `json:"organization" tf:"organization,omitempty"`
 
+	// The organizational unit of the subject.
 	// +kubebuilder:validation:Optional
 	OrganizationalUnit *string `json:"organizationalUnit,omitempty" tf:"organizational_unit,omitempty"`
 
+	// The postal code of the subject.
 	// +kubebuilder:validation:Optional
 	PostalCode *string `json:"postalCode,omitempty" tf:"postal_code,omitempty"`
 
+	// The province, territory, or regional state of the subject.
 	// +kubebuilder:validation:Optional
 	Province *string `json:"province,omitempty" tf:"province,omitempty"`
 
+	// The street address of the subject.
 	// +kubebuilder:validation:Optional
 	StreetAddress *string `json:"streetAddress,omitempty" tf:"street_address,omitempty"`
 }
@@ -429,6 +497,9 @@ type SubjectDescriptionObservation struct {
 	// The serial number encoded in lowercase hexadecimal.
 	HexSerialNumber *string `json:"hexSerialNumber,omitempty" tf:"hex_serial_number,omitempty"`
 
+	// The desired lifetime of the CA certificate. Used to create the "notBeforeTime" and
+	// "notAfterTime" fields inside an X.509 certificate. A duration in seconds with up to nine
+	// fractional digits, terminated by 's'. Example: "3.5s".
 	Lifetime *string `json:"lifetime,omitempty" tf:"lifetime,omitempty"`
 
 	// The time at which the certificate expires.
@@ -437,8 +508,11 @@ type SubjectDescriptionObservation struct {
 	// The time at which the certificate becomes valid.
 	NotBeforeTime *string `json:"notBeforeTime,omitempty" tf:"not_before_time,omitempty"`
 
+	// Contains distinguished name fields such as the location and organization.
+	// Structure is documented below.
 	Subject []SubjectObservation `json:"subject,omitempty" tf:"subject,omitempty"`
 
+	// The name for this Certificate.
 	SubjectAltName []SubjectAltNameObservation `json:"subjectAltName,omitempty" tf:"subject_alt_name,omitempty"`
 }
 
@@ -446,6 +520,8 @@ type SubjectDescriptionParameters struct {
 }
 
 type SubjectKeyIDObservation struct {
+
+	// Optional. The value of this KeyId encoded in lowercase hexadecimal. This is most likely the 160 bit SHA-1 hash of the public key.
 	KeyID *string `json:"keyId,omitempty" tf:"key_id,omitempty"`
 }
 
@@ -453,20 +529,29 @@ type SubjectKeyIDParameters struct {
 }
 
 type SubjectObservation struct {
+
+	// The common name of the distinguished name.
 	CommonName *string `json:"commonName,omitempty" tf:"common_name,omitempty"`
 
+	// The country code of the subject.
 	CountryCode *string `json:"countryCode,omitempty" tf:"country_code,omitempty"`
 
+	// The locality or city of the subject.
 	Locality *string `json:"locality,omitempty" tf:"locality,omitempty"`
 
+	// The organization of the subject.
 	Organization *string `json:"organization,omitempty" tf:"organization,omitempty"`
 
+	// The organizational unit of the subject.
 	OrganizationalUnit *string `json:"organizationalUnit,omitempty" tf:"organizational_unit,omitempty"`
 
+	// The postal code of the subject.
 	PostalCode *string `json:"postalCode,omitempty" tf:"postal_code,omitempty"`
 
+	// The province, territory, or regional state of the subject.
 	Province *string `json:"province,omitempty" tf:"province,omitempty"`
 
+	// The street address of the subject.
 	StreetAddress *string `json:"streetAddress,omitempty" tf:"street_address,omitempty"`
 }
 
@@ -478,6 +563,7 @@ type X509ConfigAdditionalExtensionsObjectIDObservation struct {
 
 type X509ConfigAdditionalExtensionsObjectIDParameters struct {
 
+	// An ObjectId specifies an object identifier (OID). These provide context and describe types in ASN.1 messages.
 	// +kubebuilder:validation:Required
 	ObjectIDPath []*float64 `json:"objectIdPath" tf:"object_id_path,omitempty"`
 }
@@ -487,12 +573,17 @@ type X509ConfigAdditionalExtensionsObservation struct {
 
 type X509ConfigAdditionalExtensionsParameters struct {
 
+	// Indicates whether or not this extension is critical (i.e., if the client does not know how to
+	// handle this extension, the client should consider this to be an error).
 	// +kubebuilder:validation:Required
 	Critical *bool `json:"critical" tf:"critical,omitempty"`
 
+	// Describes values that are relevant in a CA certificate.
+	// Structure is documented below.
 	// +kubebuilder:validation:Required
 	ObjectID []X509ConfigAdditionalExtensionsObjectIDParameters `json:"objectId" tf:"object_id,omitempty"`
 
+	// The value of this X.509 extension. A base64-encoded string.
 	// +kubebuilder:validation:Required
 	Value *string `json:"value" tf:"value,omitempty"`
 }
@@ -502,9 +593,12 @@ type X509ConfigCAOptionsObservation struct {
 
 type X509ConfigCAOptionsParameters struct {
 
+	// When true, the "CA" in Basic Constraints extension will be set to true.
 	// +kubebuilder:validation:Optional
 	IsCA *bool `json:"isCa,omitempty" tf:"is_ca,omitempty"`
 
+	// Refers to the "path length constraint" in Basic Constraints extension. For a CA certificate, this value describes the depth of
+	// subordinate CA certificates that are allowed. If this value is less than 0, the request will fail.
 	// +kubebuilder:validation:Optional
 	MaxIssuerPathLength *float64 `json:"maxIssuerPathLength,omitempty" tf:"max_issuer_path_length,omitempty"`
 
@@ -525,30 +619,39 @@ type X509ConfigKeyUsageBaseKeyUsageObservation struct {
 
 type X509ConfigKeyUsageBaseKeyUsageParameters struct {
 
+	// The key may be used to sign certificates.
 	// +kubebuilder:validation:Optional
 	CertSign *bool `json:"certSign,omitempty" tf:"cert_sign,omitempty"`
 
+	// The key may be used for cryptographic commitments. Note that this may also be referred to as "non-repudiation".
 	// +kubebuilder:validation:Optional
 	ContentCommitment *bool `json:"contentCommitment,omitempty" tf:"content_commitment,omitempty"`
 
+	// The key may be used sign certificate revocation lists.
 	// +kubebuilder:validation:Optional
 	CrlSign *bool `json:"crlSign,omitempty" tf:"crl_sign,omitempty"`
 
+	// The key may be used to encipher data.
 	// +kubebuilder:validation:Optional
 	DataEncipherment *bool `json:"dataEncipherment,omitempty" tf:"data_encipherment,omitempty"`
 
+	// The key may be used to decipher only.
 	// +kubebuilder:validation:Optional
 	DecipherOnly *bool `json:"decipherOnly,omitempty" tf:"decipher_only,omitempty"`
 
+	// The key may be used for digital signatures.
 	// +kubebuilder:validation:Optional
 	DigitalSignature *bool `json:"digitalSignature,omitempty" tf:"digital_signature,omitempty"`
 
+	// The key may be used to encipher only.
 	// +kubebuilder:validation:Optional
 	EncipherOnly *bool `json:"encipherOnly,omitempty" tf:"encipher_only,omitempty"`
 
+	// The key may be used in a key agreement protocol.
 	// +kubebuilder:validation:Optional
 	KeyAgreement *bool `json:"keyAgreement,omitempty" tf:"key_agreement,omitempty"`
 
+	// The key may be used to encipher other keys.
 	// +kubebuilder:validation:Optional
 	KeyEncipherment *bool `json:"keyEncipherment,omitempty" tf:"key_encipherment,omitempty"`
 }
@@ -558,21 +661,27 @@ type X509ConfigKeyUsageExtendedKeyUsageObservation struct {
 
 type X509ConfigKeyUsageExtendedKeyUsageParameters struct {
 
+	// Corresponds to OID 1.3.6.1.5.5.7.3.2. Officially described as "TLS WWW client authentication", though regularly used for non-WWW TLS.
 	// +kubebuilder:validation:Optional
 	ClientAuth *bool `json:"clientAuth,omitempty" tf:"client_auth,omitempty"`
 
+	// Corresponds to OID 1.3.6.1.5.5.7.3.3. Officially described as "Signing of downloadable executable code client authentication".
 	// +kubebuilder:validation:Optional
 	CodeSigning *bool `json:"codeSigning,omitempty" tf:"code_signing,omitempty"`
 
+	// Corresponds to OID 1.3.6.1.5.5.7.3.4. Officially described as "Email protection".
 	// +kubebuilder:validation:Optional
 	EmailProtection *bool `json:"emailProtection,omitempty" tf:"email_protection,omitempty"`
 
+	// Corresponds to OID 1.3.6.1.5.5.7.3.9. Officially described as "Signing OCSP responses".
 	// +kubebuilder:validation:Optional
 	OcspSigning *bool `json:"ocspSigning,omitempty" tf:"ocsp_signing,omitempty"`
 
+	// Corresponds to OID 1.3.6.1.5.5.7.3.1. Officially described as "TLS WWW server authentication", though regularly used for non-WWW TLS.
 	// +kubebuilder:validation:Optional
 	ServerAuth *bool `json:"serverAuth,omitempty" tf:"server_auth,omitempty"`
 
+	// Corresponds to OID 1.3.6.1.5.5.7.3.8. Officially described as "Binding the hash of an object to a time".
 	// +kubebuilder:validation:Optional
 	TimeStamping *bool `json:"timeStamping,omitempty" tf:"time_stamping,omitempty"`
 }
@@ -582,12 +691,18 @@ type X509ConfigKeyUsageObservation struct {
 
 type X509ConfigKeyUsageParameters struct {
 
+	// Describes high-level ways in which a key may be used.
+	// Structure is documented below.
 	// +kubebuilder:validation:Required
 	BaseKeyUsage []X509ConfigKeyUsageBaseKeyUsageParameters `json:"baseKeyUsage" tf:"base_key_usage,omitempty"`
 
+	// Describes high-level ways in which a key may be used.
+	// Structure is documented below.
 	// +kubebuilder:validation:Required
 	ExtendedKeyUsage []X509ConfigKeyUsageExtendedKeyUsageParameters `json:"extendedKeyUsage" tf:"extended_key_usage,omitempty"`
 
+	// An ObjectId specifies an object identifier (OID). These provide context and describe types in ASN.1 messages.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	UnknownExtendedKeyUsages []X509ConfigKeyUsageUnknownExtendedKeyUsagesParameters `json:"unknownExtendedKeyUsages,omitempty" tf:"unknown_extended_key_usages,omitempty"`
 }
@@ -597,6 +712,7 @@ type X509ConfigKeyUsageUnknownExtendedKeyUsagesObservation struct {
 
 type X509ConfigKeyUsageUnknownExtendedKeyUsagesParameters struct {
 
+	// An ObjectId specifies an object identifier (OID). These provide context and describe types in ASN.1 messages.
 	// +kubebuilder:validation:Required
 	ObjectIDPath []*float64 `json:"objectIdPath" tf:"object_id_path,omitempty"`
 }
@@ -606,18 +722,28 @@ type X509ConfigObservation struct {
 
 type X509ConfigParameters struct {
 
+	// Specifies an X.509 extension, which may be used in different parts of X.509 objects like certificates, CSRs, and CRLs.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	AdditionalExtensions []X509ConfigAdditionalExtensionsParameters `json:"additionalExtensions,omitempty" tf:"additional_extensions,omitempty"`
 
+	// Describes Online Certificate Status Protocol (OCSP) endpoint addresses that appear in the
+	// "Authority Information Access" extension in the certificate.
 	// +kubebuilder:validation:Optional
 	AiaOcspServers []*string `json:"aiaOcspServers,omitempty" tf:"aia_ocsp_servers,omitempty"`
 
+	// Describes values that are relevant in a CA certificate.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	CAOptions []X509ConfigCAOptionsParameters `json:"caOptions,omitempty" tf:"ca_options,omitempty"`
 
+	// Indicates the intended use for keys that correspond to a certificate.
+	// Structure is documented below.
 	// +kubebuilder:validation:Required
 	KeyUsage []X509ConfigKeyUsageParameters `json:"keyUsage" tf:"key_usage,omitempty"`
 
+	// Describes the X.509 certificate policy object identifiers, per https://tools.ietf.org/html/rfc5280#section-4.2.1.4.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	PolicyIds []X509ConfigPolicyIdsParameters `json:"policyIds,omitempty" tf:"policy_ids,omitempty"`
 }
@@ -627,15 +753,22 @@ type X509ConfigPolicyIdsObservation struct {
 
 type X509ConfigPolicyIdsParameters struct {
 
+	// An ObjectId specifies an object identifier (OID). These provide context and describe types in ASN.1 messages.
 	// +kubebuilder:validation:Required
 	ObjectIDPath []*float64 `json:"objectIdPath" tf:"object_id_path,omitempty"`
 }
 
 type X509DescriptionAdditionalExtensionsObservation struct {
+
+	// Indicates whether or not this extension is critical (i.e., if the client does not know how to
+	// handle this extension, the client should consider this to be an error).
 	Critical *bool `json:"critical,omitempty" tf:"critical,omitempty"`
 
+	// Describes values that are relevant in a CA certificate.
+	// Structure is documented below.
 	ObjectID []AdditionalExtensionsObjectIDObservation `json:"objectId,omitempty" tf:"object_id,omitempty"`
 
+	// The value of this X.509 extension. A base64-encoded string.
 	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
 
@@ -643,8 +776,12 @@ type X509DescriptionAdditionalExtensionsParameters struct {
 }
 
 type X509DescriptionCAOptionsObservation struct {
+
+	// When true, the "CA" in Basic Constraints extension will be set to true.
 	IsCA *bool `json:"isCa,omitempty" tf:"is_ca,omitempty"`
 
+	// Refers to the "path length constraint" in Basic Constraints extension. For a CA certificate, this value describes the depth of
+	// subordinate CA certificates that are allowed. If this value is less than 0, the request will fail.
 	MaxIssuerPathLength *float64 `json:"maxIssuerPathLength,omitempty" tf:"max_issuer_path_length,omitempty"`
 }
 
@@ -652,22 +789,32 @@ type X509DescriptionCAOptionsParameters struct {
 }
 
 type X509DescriptionKeyUsageBaseKeyUsageObservation struct {
+
+	// The key may be used to sign certificates.
 	CertSign *bool `json:"certSign,omitempty" tf:"cert_sign,omitempty"`
 
+	// The key may be used for cryptographic commitments. Note that this may also be referred to as "non-repudiation".
 	ContentCommitment *bool `json:"contentCommitment,omitempty" tf:"content_commitment,omitempty"`
 
+	// The key may be used sign certificate revocation lists.
 	CrlSign *bool `json:"crlSign,omitempty" tf:"crl_sign,omitempty"`
 
+	// The key may be used to encipher data.
 	DataEncipherment *bool `json:"dataEncipherment,omitempty" tf:"data_encipherment,omitempty"`
 
+	// The key may be used to decipher only.
 	DecipherOnly *bool `json:"decipherOnly,omitempty" tf:"decipher_only,omitempty"`
 
+	// The key may be used for digital signatures.
 	DigitalSignature *bool `json:"digitalSignature,omitempty" tf:"digital_signature,omitempty"`
 
+	// The key may be used to encipher only.
 	EncipherOnly *bool `json:"encipherOnly,omitempty" tf:"encipher_only,omitempty"`
 
+	// The key may be used in a key agreement protocol.
 	KeyAgreement *bool `json:"keyAgreement,omitempty" tf:"key_agreement,omitempty"`
 
+	// The key may be used to encipher other keys.
 	KeyEncipherment *bool `json:"keyEncipherment,omitempty" tf:"key_encipherment,omitempty"`
 }
 
@@ -675,16 +822,23 @@ type X509DescriptionKeyUsageBaseKeyUsageParameters struct {
 }
 
 type X509DescriptionKeyUsageExtendedKeyUsageObservation struct {
+
+	// Corresponds to OID 1.3.6.1.5.5.7.3.2. Officially described as "TLS WWW client authentication", though regularly used for non-WWW TLS.
 	ClientAuth *bool `json:"clientAuth,omitempty" tf:"client_auth,omitempty"`
 
+	// Corresponds to OID 1.3.6.1.5.5.7.3.3. Officially described as "Signing of downloadable executable code client authentication".
 	CodeSigning *bool `json:"codeSigning,omitempty" tf:"code_signing,omitempty"`
 
+	// Corresponds to OID 1.3.6.1.5.5.7.3.4. Officially described as "Email protection".
 	EmailProtection *bool `json:"emailProtection,omitempty" tf:"email_protection,omitempty"`
 
+	// Corresponds to OID 1.3.6.1.5.5.7.3.9. Officially described as "Signing OCSP responses".
 	OcspSigning *bool `json:"ocspSigning,omitempty" tf:"ocsp_signing,omitempty"`
 
+	// Corresponds to OID 1.3.6.1.5.5.7.3.1. Officially described as "TLS WWW server authentication", though regularly used for non-WWW TLS.
 	ServerAuth *bool `json:"serverAuth,omitempty" tf:"server_auth,omitempty"`
 
+	// Corresponds to OID 1.3.6.1.5.5.7.3.8. Officially described as "Binding the hash of an object to a time".
 	TimeStamping *bool `json:"timeStamping,omitempty" tf:"time_stamping,omitempty"`
 }
 
@@ -692,10 +846,17 @@ type X509DescriptionKeyUsageExtendedKeyUsageParameters struct {
 }
 
 type X509DescriptionKeyUsageObservation struct {
+
+	// Describes high-level ways in which a key may be used.
+	// Structure is documented below.
 	BaseKeyUsage []X509DescriptionKeyUsageBaseKeyUsageObservation `json:"baseKeyUsage,omitempty" tf:"base_key_usage,omitempty"`
 
+	// Describes high-level ways in which a key may be used.
+	// Structure is documented below.
 	ExtendedKeyUsage []X509DescriptionKeyUsageExtendedKeyUsageObservation `json:"extendedKeyUsage,omitempty" tf:"extended_key_usage,omitempty"`
 
+	// An ObjectId specifies an object identifier (OID). These provide context and describe types in ASN.1 messages.
+	// Structure is documented below.
 	UnknownExtendedKeyUsages []X509DescriptionKeyUsageUnknownExtendedKeyUsagesObservation `json:"unknownExtendedKeyUsages,omitempty" tf:"unknown_extended_key_usages,omitempty"`
 }
 
@@ -703,6 +864,8 @@ type X509DescriptionKeyUsageParameters struct {
 }
 
 type X509DescriptionKeyUsageUnknownExtendedKeyUsagesObservation struct {
+
+	// An ObjectId specifies an object identifier (OID). These provide context and describe types in ASN.1 messages.
 	ObjectIDPath []*float64 `json:"objectIdPath,omitempty" tf:"object_id_path,omitempty"`
 }
 
@@ -710,14 +873,25 @@ type X509DescriptionKeyUsageUnknownExtendedKeyUsagesParameters struct {
 }
 
 type X509DescriptionObservation struct {
+
+	// Specifies an X.509 extension, which may be used in different parts of X.509 objects like certificates, CSRs, and CRLs.
+	// Structure is documented below.
 	AdditionalExtensions []X509DescriptionAdditionalExtensionsObservation `json:"additionalExtensions,omitempty" tf:"additional_extensions,omitempty"`
 
+	// Describes Online Certificate Status Protocol (OCSP) endpoint addresses that appear in the
+	// "Authority Information Access" extension in the certificate.
 	AiaOcspServers []*string `json:"aiaOcspServers,omitempty" tf:"aia_ocsp_servers,omitempty"`
 
+	// Describes values that are relevant in a CA certificate.
+	// Structure is documented below.
 	CAOptions []X509DescriptionCAOptionsObservation `json:"caOptions,omitempty" tf:"ca_options,omitempty"`
 
+	// Indicates the intended use for keys that correspond to a certificate.
+	// Structure is documented below.
 	KeyUsage []X509DescriptionKeyUsageObservation `json:"keyUsage,omitempty" tf:"key_usage,omitempty"`
 
+	// Describes the X.509 certificate policy object identifiers, per https://tools.ietf.org/html/rfc5280#section-4.2.1.4.
+	// Structure is documented below.
 	PolicyIds []X509DescriptionPolicyIdsObservation `json:"policyIds,omitempty" tf:"policy_ids,omitempty"`
 }
 
@@ -725,6 +899,8 @@ type X509DescriptionParameters struct {
 }
 
 type X509DescriptionPolicyIdsObservation struct {
+
+	// An ObjectId specifies an object identifier (OID). These provide context and describe types in ASN.1 messages.
 	ObjectIDPath []*float64 `json:"objectIdPath,omitempty" tf:"object_id_path,omitempty"`
 }
 

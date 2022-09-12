@@ -230,6 +230,8 @@ spec:
                     items:
                       properties:
                         publicKey:
+                          description: A PublicKey describes a public key. Structure
+                            is documented below.
                           items:
                             properties:
                               format:
@@ -263,23 +265,37 @@ spec:
                           items:
                             properties:
                               subject:
+                                description: Contains distinguished name fields such
+                                  as the location and organization. Structure is documented
+                                  below.
                                 items:
                                   properties:
                                     commonName:
+                                      description: The common name of the distinguished
+                                        name.
                                       type: string
                                     countryCode:
+                                      description: The country code of the subject.
                                       type: string
                                     locality:
+                                      description: The locality or city of the subject.
                                       type: string
                                     organization:
+                                      description: The organization of the subject.
                                       type: string
                                     organizationalUnit:
+                                      description: The organizational unit of the
+                                        subject.
                                       type: string
                                     postalCode:
+                                      description: The postal code of the subject.
                                       type: string
                                     province:
+                                      description: The province, territory, or regional
+                                        state of the subject.
                                       type: string
                                     streetAddress:
+                                      description: The street address of the subject.
                                       type: string
                                   required:
                                   - commonName
@@ -287,21 +303,30 @@ spec:
                                   type: object
                                 type: array
                               subjectAltName:
+                                description: The subject alternative name fields.
+                                  Structure is documented below.
                                 items:
                                   properties:
                                     dnsNames:
+                                      description: Contains only valid, fully-qualified
+                                        host names.
                                       items:
                                         type: string
                                       type: array
                                     emailAddresses:
+                                      description: Contains only valid RFC 2822 E-mail
+                                        addresses.
                                       items:
                                         type: string
                                       type: array
                                     ipAddresses:
+                                      description: Contains only valid 32-bit IPv4
+                                        addresses or RFC 4291 IPv6 addresses.
                                       items:
                                         type: string
                                       type: array
                                     uris:
+                                      description: Contains only valid RFC 3986 URIs.
                                       items:
                                         type: string
                                       type: array
@@ -318,14 +343,29 @@ spec:
                           items:
                             properties:
                               additionalExtensions:
+                                description: Specifies an X.509 extension, which may
+                                  be used in different parts of X.509 objects like
+                                  certificates, CSRs, and CRLs. Structure is documented
+                                  below.
                                 items:
                                   properties:
                                     critical:
+                                      description: Indicates whether or not this extension
+                                        is critical (i.e., if the client does not
+                                        know how to handle this extension, the client
+                                        should consider this to be an error).
                                       type: boolean
                                     objectId:
+                                      description: Describes values that are relevant
+                                        in a CA certificate. Structure is documented
+                                        below.
                                       items:
                                         properties:
                                           objectIdPath:
+                                            description: An ObjectId specifies an
+                                              object identifier (OID). These provide
+                                              context and describe types in ASN.1
+                                              messages.
                                             items:
                                               type: number
                                             type: array
@@ -334,6 +374,8 @@ spec:
                                         type: object
                                       type: array
                                     value:
+                                      description: The value of this X.509 extension.
+                                        A base64-encoded string.
                                       type: string
                                   required:
                                   - critical
@@ -342,15 +384,27 @@ spec:
                                   type: object
                                 type: array
                               aiaOcspServers:
+                                description: Describes Online Certificate Status Protocol
+                                  (OCSP) endpoint addresses that appear in the "Authority
+                                  Information Access" extension in the certificate.
                                 items:
                                   type: string
                                 type: array
                               caOptions:
+                                description: Describes values that are relevant in
+                                  a CA certificate. Structure is documented below.
                                 items:
                                   properties:
                                     isCa:
+                                      description: When true, the "CA" in Basic Constraints
+                                        extension will be set to true.
                                       type: boolean
                                     maxIssuerPathLength:
+                                      description: Refers to the "path length constraint"
+                                        in Basic Constraints extension. For a CA certificate,
+                                        this value describes the depth of subordinate
+                                        CA certificates that are allowed. If this
+                                        value is less than 0, the request will fail.
                                       type: number
                                     nonCa:
                                       description: When true, the "CA" in Basic Constraints
@@ -368,52 +422,108 @@ spec:
                                   type: object
                                 type: array
                               keyUsage:
+                                description: Indicates the intended use for keys that
+                                  correspond to a certificate. Structure is documented
+                                  below.
                                 items:
                                   properties:
                                     baseKeyUsage:
+                                      description: Describes high-level ways in which
+                                        a key may be used. Structure is documented
+                                        below.
                                       items:
                                         properties:
                                           certSign:
+                                            description: The key may be used to sign
+                                              certificates.
                                             type: boolean
                                           contentCommitment:
+                                            description: The key may be used for cryptographic
+                                              commitments. Note that this may also
+                                              be referred to as "non-repudiation".
                                             type: boolean
                                           crlSign:
+                                            description: The key may be used sign
+                                              certificate revocation lists.
                                             type: boolean
                                           dataEncipherment:
+                                            description: The key may be used to encipher
+                                              data.
                                             type: boolean
                                           decipherOnly:
+                                            description: The key may be used to decipher
+                                              only.
                                             type: boolean
                                           digitalSignature:
+                                            description: The key may be used for digital
+                                              signatures.
                                             type: boolean
                                           encipherOnly:
+                                            description: The key may be used to encipher
+                                              only.
                                             type: boolean
                                           keyAgreement:
+                                            description: The key may be used in a
+                                              key agreement protocol.
                                             type: boolean
                                           keyEncipherment:
+                                            description: The key may be used to encipher
+                                              other keys.
                                             type: boolean
                                         type: object
                                       type: array
                                     extendedKeyUsage:
+                                      description: Describes high-level ways in which
+                                        a key may be used. Structure is documented
+                                        below.
                                       items:
                                         properties:
                                           clientAuth:
+                                            description: Corresponds to OID 1.3.6.1.5.5.7.3.2.
+                                              Officially described as "TLS WWW client
+                                              authentication", though regularly used
+                                              for non-WWW TLS.
                                             type: boolean
                                           codeSigning:
+                                            description: Corresponds to OID 1.3.6.1.5.5.7.3.3.
+                                              Officially described as "Signing of
+                                              downloadable executable code client
+                                              authentication".
                                             type: boolean
                                           emailProtection:
+                                            description: Corresponds to OID 1.3.6.1.5.5.7.3.4.
+                                              Officially described as "Email protection".
                                             type: boolean
                                           ocspSigning:
+                                            description: Corresponds to OID 1.3.6.1.5.5.7.3.9.
+                                              Officially described as "Signing OCSP
+                                              responses".
                                             type: boolean
                                           serverAuth:
+                                            description: Corresponds to OID 1.3.6.1.5.5.7.3.1.
+                                              Officially described as "TLS WWW server
+                                              authentication", though regularly used
+                                              for non-WWW TLS.
                                             type: boolean
                                           timeStamping:
+                                            description: Corresponds to OID 1.3.6.1.5.5.7.3.8.
+                                              Officially described as "Binding the
+                                              hash of an object to a time".
                                             type: boolean
                                         type: object
                                       type: array
                                     unknownExtendedKeyUsages:
+                                      description: An ObjectId specifies an object
+                                        identifier (OID). These provide context and
+                                        describe types in ASN.1 messages. Structure
+                                        is documented below.
                                       items:
                                         properties:
                                           objectIdPath:
+                                            description: An ObjectId specifies an
+                                              object identifier (OID). These provide
+                                              context and describe types in ASN.1
+                                              messages.
                                             items:
                                               type: number
                                             type: array
@@ -427,9 +537,15 @@ spec:
                                   type: object
                                 type: array
                               policyIds:
+                                description: Describes the X.509 certificate policy
+                                  object identifiers, per https://tools.ietf.org/html/rfc5280#section-4.2.1.4.
+                                  Structure is documented below.
                                 items:
                                   properties:
                                     objectIdPath:
+                                      description: An ObjectId specifies an object
+                                        identifier (OID). These provide context and
+                                        describe types in ASN.1 messages.
                                       items:
                                         type: number
                                       type: array
@@ -454,6 +570,10 @@ spec:
                       resource.
                     type: object
                   lifetime:
+                    description: 'The desired lifetime of the CA certificate. Used
+                      to create the "notBeforeTime" and "notAfterTime" fields inside
+                      an X.509 certificate. A duration in seconds with up to nine
+                      fractional digits, terminated by ''s''. Example: "3.5s".'
                     type: string
                   location:
                     description: Location of the Certificate. A full list of valid
@@ -462,7 +582,7 @@ spec:
                     type: string
                   pemCsr:
                     description: Immutable. A pem-encoded X.509 certificate signing
-                      request .
+                      request (CSR).
                     type: string
                   pool:
                     description: The name of the CaPool this Certificate belongs to.
@@ -743,6 +863,9 @@ spec:
                           items:
                             properties:
                               keyId:
+                                description: Optional. The value of this KeyId encoded
+                                  in lowercase hexadecimal. This is most likely the
+                                  160 bit SHA-1 hash of the public key.
                                 type: string
                             type: object
                           type: array
@@ -758,14 +881,20 @@ spec:
                             type: object
                           type: array
                         configValues:
-                          description: Describes some of the technical fields in a
-                            certificate. Structure is documented below.
+                          description: (Deprecated) Describes some of the technical
+                            fields in a certificate. Structure is documented below.
                           items:
                             properties:
                               keyUsage:
+                                description: Indicates the intended use for keys that
+                                  correspond to a certificate. Structure is documented
+                                  below.
                                 items:
                                   properties:
                                     baseKeyUsage:
+                                      description: Describes high-level ways in which
+                                        a key may be used. Structure is documented
+                                        below.
                                       items:
                                         properties:
                                           keyUsageOptions:
@@ -775,51 +904,102 @@ spec:
                                             items:
                                               properties:
                                                 certSign:
+                                                  description: The key may be used
+                                                    to sign certificates.
                                                   type: boolean
                                                 contentCommitment:
+                                                  description: The key may be used
+                                                    for cryptographic commitments.
+                                                    Note that this may also be referred
+                                                    to as "non-repudiation".
                                                   type: boolean
                                                 crlSign:
+                                                  description: The key may be used
+                                                    sign certificate revocation lists.
                                                   type: boolean
                                                 dataEncipherment:
+                                                  description: The key may be used
+                                                    to encipher data.
                                                   type: boolean
                                                 decipherOnly:
+                                                  description: The key may be used
+                                                    to decipher only.
                                                   type: boolean
                                                 digitalSignature:
+                                                  description: The key may be used
+                                                    for digital signatures.
                                                   type: boolean
                                                 encipherOnly:
+                                                  description: The key may be used
+                                                    to encipher only.
                                                   type: boolean
                                                 keyAgreement:
+                                                  description: The key may be used
+                                                    in a key agreement protocol.
                                                   type: boolean
                                                 keyEncipherment:
+                                                  description: The key may be used
+                                                    to encipher other keys.
                                                   type: boolean
                                               type: object
                                             type: array
                                         type: object
                                       type: array
                                     extendedKeyUsage:
+                                      description: Describes high-level ways in which
+                                        a key may be used. Structure is documented
+                                        below.
                                       items:
                                         properties:
                                           clientAuth:
+                                            description: Corresponds to OID 1.3.6.1.5.5.7.3.2.
+                                              Officially described as "TLS WWW client
+                                              authentication", though regularly used
+                                              for non-WWW TLS.
                                             type: boolean
                                           codeSigning:
+                                            description: Corresponds to OID 1.3.6.1.5.5.7.3.3.
+                                              Officially described as "Signing of
+                                              downloadable executable code client
+                                              authentication".
                                             type: boolean
                                           emailProtection:
+                                            description: Corresponds to OID 1.3.6.1.5.5.7.3.4.
+                                              Officially described as "Email protection".
                                             type: boolean
                                           ocspSigning:
+                                            description: Corresponds to OID 1.3.6.1.5.5.7.3.9.
+                                              Officially described as "Signing OCSP
+                                              responses".
                                             type: boolean
                                           serverAuth:
+                                            description: Corresponds to OID 1.3.6.1.5.5.7.3.1.
+                                              Officially described as "TLS WWW server
+                                              authentication", though regularly used
+                                              for non-WWW TLS.
                                             type: boolean
                                           timeStamping:
+                                            description: Corresponds to OID 1.3.6.1.5.5.7.3.8.
+                                              Officially described as "Binding the
+                                              hash of an object to a time".
                                             type: boolean
                                         type: object
                                       type: array
                                     unknownExtendedKeyUsages:
+                                      description: An ObjectId specifies an object
+                                        identifier (OID). These provide context and
+                                        describe types in ASN.1 messages. Structure
+                                        is documented below.
                                       items:
                                         properties:
                                           obectId:
                                             items:
                                               properties:
                                                 objectIdPath:
+                                                  description: An ObjectId specifies
+                                                    an object identifier (OID). These
+                                                    provide context and describe types
+                                                    in ASN.1 messages.
                                                   items:
                                                     type: number
                                                   type: array
@@ -839,6 +1019,8 @@ spec:
                             type: string
                           type: array
                         publicKey:
+                          description: A PublicKey describes a public key. Structure
+                            is documented below.
                           items:
                             properties:
                               format:
@@ -858,6 +1040,11 @@ spec:
                                   hexadecimal.
                                 type: string
                               lifetime:
+                                description: 'The desired lifetime of the CA certificate.
+                                  Used to create the "notBeforeTime" and "notAfterTime"
+                                  fields inside an X.509 certificate. A duration in
+                                  seconds with up to nine fractional digits, terminated
+                                  by ''s''. Example: "3.5s".'
                                 type: string
                               notAfterTime:
                                 description: The time at which the certificate expires.
@@ -867,27 +1054,42 @@ spec:
                                   valid.
                                 type: string
                               subject:
+                                description: Contains distinguished name fields such
+                                  as the location and organization. Structure is documented
+                                  below.
                                 items:
                                   properties:
                                     commonName:
+                                      description: The common name of the distinguished
+                                        name.
                                       type: string
                                     countryCode:
+                                      description: The country code of the subject.
                                       type: string
                                     locality:
+                                      description: The locality or city of the subject.
                                       type: string
                                     organization:
+                                      description: The organization of the subject.
                                       type: string
                                     organizationalUnit:
+                                      description: The organizational unit of the
+                                        subject.
                                       type: string
                                     postalCode:
+                                      description: The postal code of the subject.
                                       type: string
                                     province:
+                                      description: The province, territory, or regional
+                                        state of the subject.
                                       type: string
                                     streetAddress:
+                                      description: The street address of the subject.
                                       type: string
                                   type: object
                                 type: array
                               subjectAltName:
+                                description: The name for this Certificate.
                                 items:
                                   properties:
                                     customSans:
@@ -896,33 +1098,51 @@ spec:
                                       items:
                                         properties:
                                           critical:
+                                            description: Indicates whether or not
+                                              this extension is critical (i.e., if
+                                              the client does not know how to handle
+                                              this extension, the client should consider
+                                              this to be an error).
                                             type: boolean
                                           obectId:
                                             items:
                                               properties:
                                                 objectIdPath:
+                                                  description: An ObjectId specifies
+                                                    an object identifier (OID). These
+                                                    provide context and describe types
+                                                    in ASN.1 messages.
                                                   items:
                                                     type: number
                                                   type: array
                                               type: object
                                             type: array
                                           value:
+                                            description: The value of this X.509 extension.
+                                              A base64-encoded string.
                                             type: string
                                         type: object
                                       type: array
                                     dnsNames:
+                                      description: Contains only valid, fully-qualified
+                                        host names.
                                       items:
                                         type: string
                                       type: array
                                     emailAddresses:
+                                      description: Contains only valid RFC 2822 E-mail
+                                        addresses.
                                       items:
                                         type: string
                                       type: array
                                     ipAddresses:
+                                      description: Contains only valid 32-bit IPv4
+                                        addresses or RFC 4291 IPv6 addresses.
                                       items:
                                         type: string
                                       type: array
                                     uris:
+                                      description: Contains only valid RFC 3986 URIs.
                                       items:
                                         type: string
                                       type: array
@@ -937,6 +1157,9 @@ spec:
                           items:
                             properties:
                               keyId:
+                                description: Optional. The value of this KeyId encoded
+                                  in lowercase hexadecimal. This is most likely the
+                                  160 bit SHA-1 hash of the public key.
                                 type: string
                             type: object
                           type: array
@@ -946,83 +1169,168 @@ spec:
                           items:
                             properties:
                               additionalExtensions:
+                                description: Specifies an X.509 extension, which may
+                                  be used in different parts of X.509 objects like
+                                  certificates, CSRs, and CRLs. Structure is documented
+                                  below.
                                 items:
                                   properties:
                                     critical:
+                                      description: Indicates whether or not this extension
+                                        is critical (i.e., if the client does not
+                                        know how to handle this extension, the client
+                                        should consider this to be an error).
                                       type: boolean
                                     objectId:
+                                      description: Describes values that are relevant
+                                        in a CA certificate. Structure is documented
+                                        below.
                                       items:
                                         properties:
                                           objectIdPath:
+                                            description: An ObjectId specifies an
+                                              object identifier (OID). These provide
+                                              context and describe types in ASN.1
+                                              messages.
                                             items:
                                               type: number
                                             type: array
                                         type: object
                                       type: array
                                     value:
+                                      description: The value of this X.509 extension.
+                                        A base64-encoded string.
                                       type: string
                                   type: object
                                 type: array
                               aiaOcspServers:
+                                description: Describes Online Certificate Status Protocol
+                                  (OCSP) endpoint addresses that appear in the "Authority
+                                  Information Access" extension in the certificate.
                                 items:
                                   type: string
                                 type: array
                               caOptions:
+                                description: Describes values that are relevant in
+                                  a CA certificate. Structure is documented below.
                                 items:
                                   properties:
                                     isCa:
+                                      description: When true, the "CA" in Basic Constraints
+                                        extension will be set to true.
                                       type: boolean
                                     maxIssuerPathLength:
+                                      description: Refers to the "path length constraint"
+                                        in Basic Constraints extension. For a CA certificate,
+                                        this value describes the depth of subordinate
+                                        CA certificates that are allowed. If this
+                                        value is less than 0, the request will fail.
                                       type: number
                                   type: object
                                 type: array
                               keyUsage:
+                                description: Indicates the intended use for keys that
+                                  correspond to a certificate. Structure is documented
+                                  below.
                                 items:
                                   properties:
                                     baseKeyUsage:
+                                      description: Describes high-level ways in which
+                                        a key may be used. Structure is documented
+                                        below.
                                       items:
                                         properties:
                                           certSign:
+                                            description: The key may be used to sign
+                                              certificates.
                                             type: boolean
                                           contentCommitment:
+                                            description: The key may be used for cryptographic
+                                              commitments. Note that this may also
+                                              be referred to as "non-repudiation".
                                             type: boolean
                                           crlSign:
+                                            description: The key may be used sign
+                                              certificate revocation lists.
                                             type: boolean
                                           dataEncipherment:
+                                            description: The key may be used to encipher
+                                              data.
                                             type: boolean
                                           decipherOnly:
+                                            description: The key may be used to decipher
+                                              only.
                                             type: boolean
                                           digitalSignature:
+                                            description: The key may be used for digital
+                                              signatures.
                                             type: boolean
                                           encipherOnly:
+                                            description: The key may be used to encipher
+                                              only.
                                             type: boolean
                                           keyAgreement:
+                                            description: The key may be used in a
+                                              key agreement protocol.
                                             type: boolean
                                           keyEncipherment:
+                                            description: The key may be used to encipher
+                                              other keys.
                                             type: boolean
                                         type: object
                                       type: array
                                     extendedKeyUsage:
+                                      description: Describes high-level ways in which
+                                        a key may be used. Structure is documented
+                                        below.
                                       items:
                                         properties:
                                           clientAuth:
+                                            description: Corresponds to OID 1.3.6.1.5.5.7.3.2.
+                                              Officially described as "TLS WWW client
+                                              authentication", though regularly used
+                                              for non-WWW TLS.
                                             type: boolean
                                           codeSigning:
+                                            description: Corresponds to OID 1.3.6.1.5.5.7.3.3.
+                                              Officially described as "Signing of
+                                              downloadable executable code client
+                                              authentication".
                                             type: boolean
                                           emailProtection:
+                                            description: Corresponds to OID 1.3.6.1.5.5.7.3.4.
+                                              Officially described as "Email protection".
                                             type: boolean
                                           ocspSigning:
+                                            description: Corresponds to OID 1.3.6.1.5.5.7.3.9.
+                                              Officially described as "Signing OCSP
+                                              responses".
                                             type: boolean
                                           serverAuth:
+                                            description: Corresponds to OID 1.3.6.1.5.5.7.3.1.
+                                              Officially described as "TLS WWW server
+                                              authentication", though regularly used
+                                              for non-WWW TLS.
                                             type: boolean
                                           timeStamping:
+                                            description: Corresponds to OID 1.3.6.1.5.5.7.3.8.
+                                              Officially described as "Binding the
+                                              hash of an object to a time".
                                             type: boolean
                                         type: object
                                       type: array
                                     unknownExtendedKeyUsages:
+                                      description: An ObjectId specifies an object
+                                        identifier (OID). These provide context and
+                                        describe types in ASN.1 messages. Structure
+                                        is documented below.
                                       items:
                                         properties:
                                           objectIdPath:
+                                            description: An ObjectId specifies an
+                                              object identifier (OID). These provide
+                                              context and describe types in ASN.1
+                                              messages.
                                             items:
                                               type: number
                                             type: array
@@ -1031,9 +1339,15 @@ spec:
                                   type: object
                                 type: array
                               policyIds:
+                                description: Describes the X.509 certificate policy
+                                  object identifiers, per https://tools.ietf.org/html/rfc5280#section-4.2.1.4.
+                                  Structure is documented below.
                                 items:
                                   properties:
                                     objectIdPath:
+                                      description: An ObjectId specifies an object
+                                        identifier (OID). These provide context and
+                                        describe types in ASN.1 messages.
                                       items:
                                         type: number
                                       type: array
@@ -1051,8 +1365,7 @@ spec:
                     description: an identifier for the resource with format projects/{{project}}/locations/{{location}}/caPools/{{pool}}/certificates/{{name}}
                     type: string
                   issuerCertificateAuthority:
-                    description: The resource name of the issuing CertificateAuthority
-                      in the format projects//locations//caPools//certificateAuthorities/.
+                    description: Certificate Authority name.
                     type: string
                   pemCertificate:
                     description: Output only. The pem-encoded, signed X.509 certificate.
@@ -1064,8 +1377,8 @@ spec:
                       type: string
                     type: array
                   pemCertificates:
-                    description: Required. Expected to be in leaf-to-root order according
-                      to RFC 5246.
+                    description: (Deprecated) Required. Expected to be in leaf-to-root
+                      order according to RFC 5246.
                     items:
                       type: string
                     type: array

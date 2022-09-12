@@ -66,8 +66,8 @@ spec:
               forProvider:
                 properties:
                   checkIntervalSec:
-                    description: How often  to send a health check. The default value
-                      is 5 seconds.
+                    description: How often (in seconds) to send a health check. The
+                      default value is 5 seconds.
                     type: number
                   description:
                     description: An optional description of this resource. Provide
@@ -84,10 +84,18 @@ spec:
                             by convention:'
                           type: string
                         port:
+                          description: The port number for the health check request.
+                            Must be specified if portName and portSpecification are
+                            not set or if port_specification is USE_FIXED_PORT. Valid
+                            values are 1 through 65535.
                           type: number
                         portName:
+                          description: Port name as defined in InstanceGroup#NamedPort#name.
+                            If both port and port_name are defined, port takes precedence.
                           type: string
                         portSpecification:
+                          description: 'Specifies how port is selected for health
+                            checking, can be one of the following values:'
                           type: string
                       type: object
                     type: array
@@ -102,18 +110,37 @@ spec:
                     items:
                       properties:
                         host:
+                          description: The value of the host header in the HTTP2 health
+                            check request. If left empty (default value), the public
+                            IP on behalf of which this health check is performed will
+                            be used.
                           type: string
                         port:
+                          description: The TCP port number for the HTTP2 health check
+                            request. The default value is 443.
                           type: number
                         portName:
+                          description: Port name as defined in InstanceGroup#NamedPort#name.
+                            If both port and port_name are defined, port takes precedence.
                           type: string
                         portSpecification:
+                          description: 'Specifies how port is selected for health
+                            checking, can be one of the following values:'
                           type: string
                         proxyHeader:
+                          description: Specifies the type of proxy header to append
+                            before sending data to the backend. Default value is NONE.
+                            Possible values are NONE and PROXY_V1.
                           type: string
                         requestPath:
+                          description: The request path of the HTTP2 health check
+                            request. The default value is /.
                           type: string
                         response:
+                          description: The bytes to match against the beginning of
+                            the response data. If left empty (the default value),
+                            any response will indicate health. The response data can
+                            only be ASCII.
                           type: string
                       type: object
                     type: array
@@ -123,18 +150,37 @@ spec:
                     items:
                       properties:
                         host:
+                          description: The value of the host header in the HTTP health
+                            check request. If left empty (default value), the public
+                            IP on behalf of which this health check is performed will
+                            be used.
                           type: string
                         port:
+                          description: The TCP port number for the HTTP health check
+                            request. The default value is 80.
                           type: number
                         portName:
+                          description: Port name as defined in InstanceGroup#NamedPort#name.
+                            If both port and port_name are defined, port takes precedence.
                           type: string
                         portSpecification:
+                          description: 'Specifies how port is selected for health
+                            checking, can be one of the following values:'
                           type: string
                         proxyHeader:
+                          description: Specifies the type of proxy header to append
+                            before sending data to the backend. Default value is NONE.
+                            Possible values are NONE and PROXY_V1.
                           type: string
                         requestPath:
+                          description: The request path of the HTTP health check request.
+                            The default value is /.
                           type: string
                         response:
+                          description: The bytes to match against the beginning of
+                            the response data. If left empty (the default value),
+                            any response will indicate health. The response data can
+                            only be ASCII.
                           type: string
                       type: object
                     type: array
@@ -144,18 +190,37 @@ spec:
                     items:
                       properties:
                         host:
+                          description: The value of the host header in the HTTPS health
+                            check request. If left empty (default value), the public
+                            IP on behalf of which this health check is performed will
+                            be used.
                           type: string
                         port:
+                          description: The TCP port number for the HTTPS health check
+                            request. The default value is 443.
                           type: number
                         portName:
+                          description: Port name as defined in InstanceGroup#NamedPort#name.
+                            If both port and port_name are defined, port takes precedence.
                           type: string
                         portSpecification:
+                          description: 'Specifies how port is selected for health
+                            checking, can be one of the following values:'
                           type: string
                         proxyHeader:
+                          description: Specifies the type of proxy header to append
+                            before sending data to the backend. Default value is NONE.
+                            Possible values are NONE and PROXY_V1.
                           type: string
                         requestPath:
+                          description: The request path of the HTTPS health check
+                            request. The default value is /.
                           type: string
                         response:
+                          description: The bytes to match against the beginning of
+                            the response data. If left empty (the default value),
+                            any response will indicate health. The response data can
+                            only be ASCII.
                           type: string
                       type: object
                     type: array
@@ -185,16 +250,34 @@ spec:
                     items:
                       properties:
                         port:
+                          description: The TCP port number for the SSL health check
+                            request. The default value is 443.
                           type: number
                         portName:
+                          description: Port name as defined in InstanceGroup#NamedPort#name.
+                            If both port and port_name are defined, port takes precedence.
                           type: string
                         portSpecification:
+                          description: 'Specifies how port is selected for health
+                            checking, can be one of the following values:'
                           type: string
                         proxyHeader:
+                          description: Specifies the type of proxy header to append
+                            before sending data to the backend. Default value is NONE.
+                            Possible values are NONE and PROXY_V1.
                           type: string
                         request:
+                          description: The application data to send once the SSL connection
+                            has been established (default value is empty). If both
+                            request and response are empty, the connection establishment
+                            alone will indicate health. The request data can only
+                            be ASCII.
                           type: string
                         response:
+                          description: The bytes to match against the beginning of
+                            the response data. If left empty (the default value),
+                            any response will indicate health. The response data can
+                            only be ASCII.
                           type: string
                       type: object
                     type: array
@@ -204,23 +287,41 @@ spec:
                     items:
                       properties:
                         port:
+                          description: The TCP port number for the TCP health check
+                            request. The default value is 80.
                           type: number
                         portName:
+                          description: Port name as defined in InstanceGroup#NamedPort#name.
+                            If both port and port_name are defined, port takes precedence.
                           type: string
                         portSpecification:
+                          description: 'Specifies how port is selected for health
+                            checking, can be one of the following values:'
                           type: string
                         proxyHeader:
+                          description: Specifies the type of proxy header to append
+                            before sending data to the backend. Default value is NONE.
+                            Possible values are NONE and PROXY_V1.
                           type: string
                         request:
+                          description: The application data to send once the TCP connection
+                            has been established (default value is empty). If both
+                            request and response are empty, the connection establishment
+                            alone will indicate health. The request data can only
+                            be ASCII.
                           type: string
                         response:
+                          description: The bytes to match against the beginning of
+                            the response data. If left empty (the default value),
+                            any response will indicate health. The response data can
+                            only be ASCII.
                           type: string
                       type: object
                     type: array
                   timeoutSec:
-                    description: How long  to wait before claiming failure. The default
-                      value is 5 seconds.  It is invalid for timeoutSec to have greater
-                      value than checkIntervalSec.
+                    description: How long (in seconds) to wait before claiming failure.
+                      The default value is 5 seconds.  It is invalid for timeoutSec
+                      to have greater value than checkIntervalSec.
                     type: number
                   unhealthyThreshold:
                     description: A so-far healthy instance will be marked unhealthy

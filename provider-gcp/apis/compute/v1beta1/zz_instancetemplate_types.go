@@ -44,7 +44,7 @@ type InstanceTemplateAdvancedMachineFeaturesParameters struct {
 	// +kubebuilder:validation:Optional
 	EnableNestedVirtualization *bool `json:"enableNestedVirtualization,omitempty" tf:"enable_nested_virtualization,omitempty"`
 
-	// he number of threads per physical core. To disable simultaneous multithreading  set this to 1.
+	// he number of threads per physical core. To disable simultaneous multithreading (SMT) set this to 1.
 	// +kubebuilder:validation:Optional
 	ThreadsPerCore *float64 `json:"threadsPerCore,omitempty" tf:"threads_per_core,omitempty"`
 }
@@ -106,6 +106,8 @@ type InstanceTemplateDiskParameters struct {
 	// +kubebuilder:validation:Optional
 	Interface *string `json:"interface,omitempty" tf:"interface,omitempty"`
 
+	// A set of ket/value label pairs to assign to disk created from
+	// this template
 	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
@@ -115,12 +117,12 @@ type InstanceTemplateDiskParameters struct {
 	// +kubebuilder:validation:Optional
 	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
 
-	// A list  of resource policies to attach to this disk for automatic snapshot creations. Currently a max of 1 resource policy is supported.
+	// - A list (short name or id) of resource policies to attach to this disk for automatic snapshot creations. Currently a max of 1 resource policy is supported.
 	// +kubebuilder:validation:Optional
 	ResourcePolicies []*string `json:"resourcePolicies,omitempty" tf:"resource_policies,omitempty"`
 
-	// The name
-	// of the disk  to attach.
+	// The name (not self_link)
+	// of the disk (such as those managed by google_compute_disk) to attach.
 	// ~> Note: Either source or source_image is required in a disk block unless the disk type is local-ssd. Check the API docs for details.
 	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.Disk
 	// +kubebuilder:validation:Optional
@@ -144,6 +146,8 @@ type InstanceTemplateDiskParameters struct {
 	// +kubebuilder:validation:Optional
 	SourceSelector *v1.Selector `json:"sourceSelector,omitempty" tf:"-"`
 
+	// The type of GCE disk, can be either "SCRATCH" or
+	// "PERSISTENT".
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
@@ -157,11 +161,14 @@ type InstanceTemplateGuestAcceleratorParameters struct {
 	// +kubebuilder:validation:Required
 	Count *float64 `json:"count" tf:"count,omitempty"`
 
+	// The accelerator type resource to expose to this instance. E.g. nvidia-tesla-k80.
 	// +kubebuilder:validation:Required
 	Type *string `json:"type" tf:"type,omitempty"`
 }
 
 type InstanceTemplateNetworkInterfaceAccessConfigObservation struct {
+
+	// The name of the instance template.
 	PublicPtrDomainName *string `json:"publicPtrDomainName,omitempty" tf:"public_ptr_domain_name,omitempty"`
 }
 
@@ -172,6 +179,9 @@ type InstanceTemplateNetworkInterfaceAccessConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	NATIP *string `json:"natIp,omitempty" tf:"nat_ip,omitempty"`
 
+	// The networking tier used for configuring
+	// this instance template. This field can take the following values: PREMIUM,
+	// STANDARD or FIXED_STANDARD. If this field is not specified, it is assumed to be PREMIUM.
 	// +kubebuilder:validation:Optional
 	NetworkTier *string `json:"networkTier,omitempty" tf:"network_tier,omitempty"`
 }
@@ -184,7 +194,7 @@ type InstanceTemplateNetworkInterfaceAliasIPRangeParameters struct {
 	// The IP CIDR range represented by this alias IP range. This IP CIDR range
 	// must belong to the specified subnetwork and cannot contain IP addresses reserved by
 	// system or used by other network interfaces. At the time of writing only a
-	// netmask  may be supplied, with a CIDR format resulting in an API
+	// netmask (e.g. /24) may be supplied, with a CIDR format resulting in an API
 	// error.
 	// +kubebuilder:validation:Required
 	IPCidrRange *string `json:"ipCidrRange" tf:"ip_cidr_range,omitempty"`
@@ -201,11 +211,14 @@ type InstanceTemplateNetworkInterfaceIPv6AccessConfigObservation struct {
 
 	ExternalIPv6PrefixLength *string `json:"externalIpv6PrefixLength,omitempty" tf:"external_ipv6_prefix_length,omitempty"`
 
+	// The name of the instance template.
 	PublicPtrDomainName *string `json:"publicPtrDomainName,omitempty" tf:"public_ptr_domain_name,omitempty"`
 }
 
 type InstanceTemplateNetworkInterfaceIPv6AccessConfigParameters struct {
 
+	// The service-level to be provided for IPv6 traffic when the
+	// subnet has an external subnet. Only PREMIUM and STANDARD tier is valid for IPv6.
 	// +kubebuilder:validation:Required
 	NetworkTier *string `json:"networkTier" tf:"network_tier,omitempty"`
 }
@@ -213,8 +226,8 @@ type InstanceTemplateNetworkInterfaceIPv6AccessConfigParameters struct {
 type InstanceTemplateNetworkInterfaceObservation struct {
 
 	// Access configurations, i.e. IPs via which this
-	// instance can be accessed via the Internet. Omit to ensure that the instance
-	// is not accessible from the Internet . This block can be repeated multiple times. Structure documented below.
+	// instance can be accessed via the Internet.g. via tunnel or because it is running on another cloud instance
+	// on that network). This block can be repeated multiple times. Structure documented below.
 	// +kubebuilder:validation:Optional
 	AccessConfig []InstanceTemplateNetworkInterfaceAccessConfigObservation `json:"accessConfig,omitempty" tf:"access_config,omitempty"`
 
@@ -226,16 +239,15 @@ type InstanceTemplateNetworkInterfaceObservation struct {
 
 	IPv6AccessType *string `json:"ipv6AccessType,omitempty" tf:"ipv6_access_type,omitempty"`
 
-	// The name of the instance template. If you leave
-	// this blank, Terraform will auto-generate a unique name.
+	// The name of the instance template.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 }
 
 type InstanceTemplateNetworkInterfaceParameters struct {
 
 	// Access configurations, i.e. IPs via which this
-	// instance can be accessed via the Internet. Omit to ensure that the instance
-	// is not accessible from the Internet . This block can be repeated multiple times. Structure documented below.
+	// instance can be accessed via the Internet.g. via tunnel or because it is running on another cloud instance
+	// on that network). This block can be repeated multiple times. Structure documented below.
 	// +kubebuilder:validation:Optional
 	AccessConfig []InstanceTemplateNetworkInterfaceAccessConfigParameters `json:"accessConfig,omitempty" tf:"access_config,omitempty"`
 
@@ -359,6 +371,8 @@ type InstanceTemplateParameters struct {
 	// +kubebuilder:validation:Optional
 	InstanceDescription *string `json:"instanceDescription,omitempty" tf:"instance_description,omitempty"`
 
+	// A set of key/value label pairs to assign to instances
+	// created from this template.
 	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
@@ -383,8 +397,7 @@ type InstanceTemplateParameters struct {
 	// +kubebuilder:validation:Optional
 	MinCPUPlatform *string `json:"minCpuPlatform,omitempty" tf:"min_cpu_platform,omitempty"`
 
-	// The name of the instance template. If you leave
-	// this blank, Terraform will auto-generate a unique name.
+	// The name of the instance template.
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
@@ -447,6 +460,7 @@ type InstanceTemplateReservationAffinityParameters struct {
 	// +kubebuilder:validation:Optional
 	SpecificReservation []InstanceTemplateReservationAffinitySpecificReservationParameters `json:"specificReservation,omitempty" tf:"specific_reservation,omitempty"`
 
+	// The type of reservation from which this instance can consume resources.
 	// +kubebuilder:validation:Required
 	Type *string `json:"type" tf:"type,omitempty"`
 }
@@ -456,6 +470,7 @@ type InstanceTemplateReservationAffinitySpecificReservationObservation struct {
 
 type InstanceTemplateReservationAffinitySpecificReservationParameters struct {
 
+	// Corresponds to the label key of a reservation resource. To target a SPECIFIC_RESERVATION by name, specify compute.googleapis.com/reservation-name as the key and specify the name of your reservation as the only value.
 	// +kubebuilder:validation:Required
 	Key *string `json:"key" tf:"key,omitempty"`
 
@@ -469,6 +484,7 @@ type InstanceTemplateSchedulingNodeAffinitiesObservation struct {
 
 type InstanceTemplateSchedulingNodeAffinitiesParameters struct {
 
+	// The key for the node affinity label.
 	// +kubebuilder:validation:Required
 	Key *string `json:"key" tf:"key,omitempty"`
 
@@ -488,7 +504,8 @@ type InstanceTemplateSchedulingObservation struct {
 type InstanceTemplateSchedulingParameters struct {
 
 	// Specifies whether the instance should be
-	// automatically restarted if it is terminated by Compute Engine . This defaults to true.
+	// automatically restarted if it is terminated by Compute Engine (not
+	// terminated by a user). This defaults to true.
 	// +kubebuilder:validation:Optional
 	AutomaticRestart *bool `json:"automaticRestart,omitempty" tf:"automatic_restart,omitempty"`
 
@@ -554,15 +571,15 @@ type InstanceTemplateShieldedInstanceConfigObservation struct {
 
 type InstanceTemplateShieldedInstanceConfigParameters struct {
 
-	// Compare the most recent boot measurements to the integrity policy baseline and return a pair of pass/fail results depending on whether they match or not. Defaults to true.
+	// - Compare the most recent boot measurements to the integrity policy baseline and return a pair of pass/fail results depending on whether they match or not. Defaults to true.
 	// +kubebuilder:validation:Optional
 	EnableIntegrityMonitoring *bool `json:"enableIntegrityMonitoring,omitempty" tf:"enable_integrity_monitoring,omitempty"`
 
-	// Verify the digital signature of all boot components, and halt the boot process if signature verification fails. Defaults to false.
+	// - Verify the digital signature of all boot components, and halt the boot process if signature verification fails. Defaults to false.
 	// +kubebuilder:validation:Optional
 	EnableSecureBoot *bool `json:"enableSecureBoot,omitempty" tf:"enable_secure_boot,omitempty"`
 
-	// Use a virtualized trusted platform module, which is a specialized computer chip you can use to encrypt objects like keys and certificates. Defaults to true.
+	// - Use a virtualized trusted platform module, which is a specialized computer chip you can use to encrypt objects like keys and certificates. Defaults to true.
 	// +kubebuilder:validation:Optional
 	EnableVtpm *bool `json:"enableVtpm,omitempty" tf:"enable_vtpm,omitempty"`
 }

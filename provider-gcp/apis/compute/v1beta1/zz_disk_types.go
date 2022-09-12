@@ -26,17 +26,30 @@ import (
 )
 
 type DiskEncryptionKeyObservation struct {
+
+	// The RFC 4648 base64 encoded SHA-256 hash of the customer-supplied
+	// encryption key that protects this resource.
 	Sha256 *string `json:"sha256,omitempty" tf:"sha256,omitempty"`
 }
 
 type DiskEncryptionKeyParameters struct {
 
+	// The self link of the encryption key used to encrypt the disk. Also called KmsKeyName
+	// in the cloud console. Your project's Compute Engine System service account
+	// (service-{{PROJECT_NUMBER}}@compute-system.iam.gserviceaccount.com) must have
+	// roles/cloudkms.cryptoKeyEncrypterDecrypter to use this feature.
+	// See https://cloud.google.com/compute/docs/disks/customer-managed-encryption#encrypt_a_new_persistent_disk_with_your_own_keys
 	// +kubebuilder:validation:Optional
 	KMSKeySelfLink *string `json:"kmsKeySelfLink,omitempty" tf:"kms_key_self_link,omitempty"`
 
+	// The service account used for the encryption request for the given KMS key.
+	// If absent, the Compute Engine Service Agent service account is used.
 	// +kubebuilder:validation:Optional
 	KMSKeyServiceAccount *string `json:"kmsKeyServiceAccount,omitempty" tf:"kms_key_service_account,omitempty"`
 
+	// Specifies a 256-bit customer-supplied encryption key, encoded in
+	// RFC 4648 base64 to either encrypt or decrypt this resource.
+	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
 	RawKeySecretRef *v1.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
 }
@@ -48,7 +61,8 @@ type DiskObservation struct {
 
 	// Encrypts the disk using a customer-supplied encryption key.
 	// After you encrypt a disk with a customer-supplied key, you must
-	// provide the same key if you use the disk later .
+	// provide the same key if you use the disk later (e.g. to create a disk
+	// snapshot or an image, or to attach the disk to a virtual machine).
 	// Customer-supplied encryption keys do not protect access to metadata of
 	// the disk.
 	// If you do not provide an encryption key when creating the disk, then
@@ -102,7 +116,7 @@ type DiskObservation struct {
 	// used.
 	SourceSnapshotID *string `json:"sourceSnapshotId,omitempty" tf:"source_snapshot_id,omitempty"`
 
-	// Links to the users of the disk  in form:
+	// Links to the users of the disk (attached instances) in form:
 	// project/zones/zone/instances/instance
 	Users []*string `json:"users,omitempty" tf:"users,omitempty"`
 }
@@ -116,7 +130,8 @@ type DiskParameters struct {
 
 	// Encrypts the disk using a customer-supplied encryption key.
 	// After you encrypt a disk with a customer-supplied key, you must
-	// provide the same key if you use the disk later .
+	// provide the same key if you use the disk later (e.g. to create a disk
+	// snapshot or an image, or to attach the disk to a virtual machine).
 	// Customer-supplied encryption keys do not protect access to metadata of
 	// the disk.
 	// If you do not provide an encryption key when creating the disk, then
@@ -166,8 +181,6 @@ type DiskParameters struct {
 	// If you specify this field along with image or snapshot,
 	// the value must not be less than the size of the image
 	// or the size of the snapshot.
-	// ~>NOTE If you change the size, Terraform updates the disk size
-	// if upsizing is detected but recreates the disk if downsizing is requested.
 	// You can add lifecycle.prevent_destroy in the config to prevent destroying
 	// and recreating.
 	// +kubebuilder:validation:Optional
@@ -204,33 +217,57 @@ type DiskParameters struct {
 }
 
 type SourceImageEncryptionKeyObservation struct {
+
+	// The RFC 4648 base64 encoded SHA-256 hash of the customer-supplied
+	// encryption key that protects this resource.
 	Sha256 *string `json:"sha256,omitempty" tf:"sha256,omitempty"`
 }
 
 type SourceImageEncryptionKeyParameters struct {
 
+	// The self link of the encryption key used to encrypt the disk. Also called KmsKeyName
+	// in the cloud console. Your project's Compute Engine System service account
+	// (service-{{PROJECT_NUMBER}}@compute-system.iam.gserviceaccount.com) must have
+	// roles/cloudkms.cryptoKeyEncrypterDecrypter to use this feature.
+	// See https://cloud.google.com/compute/docs/disks/customer-managed-encryption#encrypt_a_new_persistent_disk_with_your_own_keys
 	// +kubebuilder:validation:Optional
 	KMSKeySelfLink *string `json:"kmsKeySelfLink,omitempty" tf:"kms_key_self_link,omitempty"`
 
+	// The service account used for the encryption request for the given KMS key.
+	// If absent, the Compute Engine Service Agent service account is used.
 	// +kubebuilder:validation:Optional
 	KMSKeyServiceAccount *string `json:"kmsKeyServiceAccount,omitempty" tf:"kms_key_service_account,omitempty"`
 
+	// Specifies a 256-bit customer-supplied encryption key, encoded in
+	// RFC 4648 base64 to either encrypt or decrypt this resource.
 	// +kubebuilder:validation:Optional
 	RawKey *string `json:"rawKey,omitempty" tf:"raw_key,omitempty"`
 }
 
 type SourceSnapshotEncryptionKeyObservation struct {
+
+	// The RFC 4648 base64 encoded SHA-256 hash of the customer-supplied
+	// encryption key that protects this resource.
 	Sha256 *string `json:"sha256,omitempty" tf:"sha256,omitempty"`
 }
 
 type SourceSnapshotEncryptionKeyParameters struct {
 
+	// The self link of the encryption key used to encrypt the disk. Also called KmsKeyName
+	// in the cloud console. Your project's Compute Engine System service account
+	// (service-{{PROJECT_NUMBER}}@compute-system.iam.gserviceaccount.com) must have
+	// roles/cloudkms.cryptoKeyEncrypterDecrypter to use this feature.
+	// See https://cloud.google.com/compute/docs/disks/customer-managed-encryption#encrypt_a_new_persistent_disk_with_your_own_keys
 	// +kubebuilder:validation:Optional
 	KMSKeySelfLink *string `json:"kmsKeySelfLink,omitempty" tf:"kms_key_self_link,omitempty"`
 
+	// The service account used for the encryption request for the given KMS key.
+	// If absent, the Compute Engine Service Agent service account is used.
 	// +kubebuilder:validation:Optional
 	KMSKeyServiceAccount *string `json:"kmsKeyServiceAccount,omitempty" tf:"kms_key_service_account,omitempty"`
 
+	// Specifies a 256-bit customer-supplied encryption key, encoded in
+	// RFC 4648 base64 to either encrypt or decrypt this resource.
 	// +kubebuilder:validation:Optional
 	RawKey *string `json:"rawKey,omitempty" tf:"raw_key,omitempty"`
 }

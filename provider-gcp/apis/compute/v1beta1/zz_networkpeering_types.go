@@ -44,7 +44,7 @@ type NetworkPeeringParameters struct {
 	// +kubebuilder:validation:Optional
 	ExportCustomRoutes *bool `json:"exportCustomRoutes,omitempty" tf:"export_custom_routes,omitempty"`
 
-	// Whether subnet routes with public IP range are exported. The default value is true, all subnet routes are exported. The IPv4 special-use ranges  are always exported to peers and are not controlled by this field.
+	// Whether subnet routes with public IP range are exported. The default value is true, all subnet routes are exported. The IPv4 special-use ranges (https://en.wikipedia.org/wiki/IPv4#Special_addresses) are always exported to peers and are not controlled by this field.
 	// +kubebuilder:validation:Optional
 	ExportSubnetRoutesWithPublicIP *bool `json:"exportSubnetRoutesWithPublicIp,omitempty" tf:"export_subnet_routes_with_public_ip,omitempty"`
 
@@ -52,7 +52,7 @@ type NetworkPeeringParameters struct {
 	// +kubebuilder:validation:Optional
 	ImportCustomRoutes *bool `json:"importCustomRoutes,omitempty" tf:"import_custom_routes,omitempty"`
 
-	// Whether subnet routes with public IP range are imported. The default value is false. The IPv4 special-use ranges  are always imported from peers and are not controlled by this field.
+	// Whether subnet routes with public IP range are imported. The default value is false. The IPv4 special-use ranges (https://en.wikipedia.org/wiki/IPv4#Special_addresses) are always imported from peers and are not controlled by this field.
 	// +kubebuilder:validation:Optional
 	ImportSubnetRoutesWithPublicIP *bool `json:"importSubnetRoutesWithPublicIp,omitempty" tf:"import_subnet_routes_with_public_ip,omitempty"`
 

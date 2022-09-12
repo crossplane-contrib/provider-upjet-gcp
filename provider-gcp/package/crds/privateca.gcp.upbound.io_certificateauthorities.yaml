@@ -162,7 +162,9 @@ spec:
                                   properties:
                                     critical:
                                       description: Indicates whether or not this extension
-                                        is critical .
+                                        is critical (i.e., if the client does not
+                                        know how to handle this extension, the client
+                                        should consider this to be an error).
                                       type: boolean
                                     objectId:
                                       description: Describes values that are relevant
@@ -171,6 +173,10 @@ spec:
                                       items:
                                         properties:
                                           objectIdPath:
+                                            description: An ObjectId specifies an
+                                              object identifier (OID). These provide
+                                              context and describe types in ASN.1
+                                              messages.
                                             items:
                                               type: number
                                             type: array
@@ -189,9 +195,9 @@ spec:
                                   type: object
                                 type: array
                               aiaOcspServers:
-                                description: Describes Online Certificate Status Protocol  endpoint
-                                  addresses that appear in the "Authority Information
-                                  Access" extension in the certificate.
+                                description: Describes Online Certificate Status Protocol
+                                  (OCSP) endpoint addresses that appear in the "Authority
+                                  Information Access" extension in the certificate.
                                 items:
                                   type: string
                                 type: array
@@ -321,12 +327,16 @@ spec:
                                       type: array
                                     unknownExtendedKeyUsages:
                                       description: An ObjectId specifies an object
-                                        identifier . These provide context and describe
-                                        types in ASN.1 messages. Structure is documented
-                                        below.
+                                        identifier (OID). These provide context and
+                                        describe types in ASN.1 messages. Structure
+                                        is documented below.
                                       items:
                                         properties:
                                           objectIdPath:
+                                            description: An ObjectId specifies an
+                                              object identifier (OID). These provide
+                                              context and describe types in ASN.1
+                                              messages.
                                             items:
                                               type: number
                                             type: array
@@ -346,6 +356,9 @@ spec:
                                 items:
                                   properties:
                                     objectIdPath:
+                                      description: An ObjectId specifies an object
+                                        identifier (OID). These provide context and
+                                        describe types in ASN.1 messages.
                                       items:
                                         type: number
                                       type: array
@@ -364,10 +377,6 @@ spec:
                       type: object
                     type: array
                   deletionProtection:
-                    description: Whether or not to allow Terraform to destroy the
-                      CertificateAuthority. Unless this field is set to false in Terraform
-                      state, a terraform destroy or terraform apply that would delete
-                      the instance will fail.
                     type: boolean
                   desiredState:
                     description: Desired state of the CertificateAuthority. Set this
@@ -376,9 +385,10 @@ spec:
                   gcsBucket:
                     description: The name of a Cloud Storage bucket where this CertificateAuthority
                       will publish content, such as the CA certificate and CRLs. This
-                      must be a bucket name, without any prefixes or suffixes . For
-                      example, to use a bucket named my-bucket, you would simply specify
-                      my-bucket. If not specified, a managed bucket will be created.
+                      must be a bucket name, without any prefixes (such as gs://)
+                      or suffixes (such as .googleapis.com). For example, to use a
+                      bucket named my-bucket, you would simply specify my-bucket.
+                      If not specified, a managed bucket will be created.
                     type: string
                   ignoreActiveCertificatesOnDeletion:
                     description: This field allows the CA to be deleted even if the
@@ -510,8 +520,9 @@ spec:
                   type:
                     description: 'The Type of this CertificateAuthority. ~> Note:
                       For SUBORDINATE Certificate Authorities, they need to be manually
-                      activated  before they can issue certificates. Default value
-                      is SELF_SIGNED. Possible values are SELF_SIGNED and SUBORDINATE.'
+                      activated (via Cloud Console of gcloud) before they can issue
+                      certificates. Default value is SELF_SIGNED. Possible values
+                      are SELF_SIGNED and SUBORDINATE.'
                     type: string
                 required:
                 - config
@@ -731,8 +742,9 @@ spec:
                   pemCaCertificates:
                     description: This CertificateAuthority's certificate chain, including
                       the current CertificateAuthority's certificate. Ordered such
-                      that the root issuer is the final element . For a self-signed
-                      CA, this will only list the current CertificateAuthority's certificate.
+                      that the root issuer is the final element (consistent with RFC
+                      5246). For a self-signed CA, this will only list the current
+                      CertificateAuthority's certificate.
                     items:
                       type: string
                     type: array

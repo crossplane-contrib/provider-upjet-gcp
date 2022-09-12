@@ -65,8 +65,8 @@ spec:
               forProvider:
                 properties:
                   availableMemoryMb:
-                    description: Memory , available to the function. Default value
-                      is 256. Possible values include 128, 256, 512, 1024, etc.
+                    description: Memory (in MB), available to the function. Default
+                      value is 256. Possible values include 128, 256, 512, 1024, etc.
                     type: number
                   buildEnvironmentVariables:
                     additionalProperties:
@@ -144,8 +144,9 @@ spec:
                       recreate the cloud function.
                     type: string
                   kmsKeyName:
-                    description: Resource name of a KMS crypto key  used to encrypt/decrypt
-                      function resources. It must match the pattern projects/{project}/locations/{location}/keyRings/{key_ring}/cryptoKeys/{crypto_key}.
+                    description: Resource name of a KMS crypto key (managed by the
+                      user) used to encrypt/decrypt function resources. It must match
+                      the pattern projects/{project}/locations/{location}/keyRings/{key_ring}/cryptoKeys/{crypto_key}.
                       If specified, you must also provide an artifact registry repository
                       using the docker_repository field that was created with the
                       same KMS crypto key. Before deploying, please complete all pre-requisites
@@ -187,10 +188,21 @@ spec:
                           description: Name of the environment variable.
                           type: string
                         projectId:
+                          description: Project identifier (due to a known limitation,
+                            only project number is supported by this field) of the
+                            project that contains the secret. If not set, it will
+                            be populated with the function's project, assuming that
+                            the secret exists in the same project as of the function.
                           type: string
                         secret:
+                          description: ID of the secret in secret manager (not the
+                            full resource name).
                           type: string
                         version:
+                          description: Version of the secret (version number or the
+                            string "latest"). It is recommended to use a numeric version
+                            for secret environment variables as any updates to the
+                            secret value is not reflected until new clones start.
                           type: string
                       required:
                       - key
@@ -214,8 +226,15 @@ spec:
                             "/var/log".'
                           type: string
                         projectId:
+                          description: Project identifier (due to a known limitation,
+                            only project number is supported by this field) of the
+                            project that contains the secret. If not set, it will
+                            be populated with the function's project, assuming that
+                            the secret exists in the same project as of the function.
                           type: string
                         secret:
+                          description: ID of the secret in secret manager (not the
+                            full resource name).
                           type: string
                         versions:
                           description: List of secret versions to mount for this secret.
@@ -232,6 +251,10 @@ spec:
                                   would mount the secret value file at "/etc/secrets/secret_foo".
                                 type: string
                               version:
+                                description: Version of the secret (version number
+                                  or the string "latest"). It is preferable to use
+                                  "latest" version with secret volumes as secret value
+                                  changes are reflected immediately.
                                 type: string
                             required:
                             - path
@@ -325,7 +348,7 @@ spec:
                         type: object
                     type: object
                   sourceArchiveObject:
-                    description: The source archive object  in archive bucket.
+                    description: The source archive object (file) in archive bucket.
                     type: string
                   sourceArchiveObjectRef:
                     description: Reference to a BucketObject in storage to populate
@@ -419,14 +442,15 @@ spec:
                       type: object
                     type: array
                   timeout:
-                    description: Timeout  for the function. Default value is 60 seconds.
-                      Cannot be more than 540 seconds.
+                    description: Timeout (in seconds) for the function. Default value
+                      is 60 seconds. Cannot be more than 540 seconds.
                     type: number
                   triggerHttp:
-                    description: 'Boolean variable. Any HTTP request  to the endpoint
-                      will trigger function execution. Supported HTTP request types
-                      are: POST, PUT, GET, DELETE, and OPTIONS. Endpoint is returned
-                      as https_trigger_url. Cannot be used with event_trigger.'
+                    description: 'Boolean variable. Any HTTP request (of a supported
+                      type) to the endpoint will trigger function execution. Supported
+                      HTTP request types are: POST, PUT, GET, DELETE, and OPTIONS.
+                      Endpoint is returned as https_trigger_url. Cannot be used with
+                      event_trigger.'
                     type: boolean
                   vpcConnector:
                     description: The VPC Network Connector that this cloud function
@@ -630,6 +654,8 @@ spec:
                     items:
                       properties:
                         deployedUrl:
+                          description: The URL pointing to the hosted repository where
+                            the function was defined at the time of deployment.
                           type: string
                       type: object
                     type: array

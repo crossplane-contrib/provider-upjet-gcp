@@ -71,8 +71,9 @@ spec:
                   exportSubnetRoutesWithPublicIp:
                     description: Whether subnet routes with public IP range are exported.
                       The default value is true, all subnet routes are exported. The
-                      IPv4 special-use ranges  are always exported to peers and are
-                      not controlled by this field.
+                      IPv4 special-use ranges (https://en.wikipedia.org/wiki/IPv4#Special_addresses)
+                      are always exported to peers and are not controlled by this
+                      field.
                     type: boolean
                   importCustomRoutes:
                     description: Whether to import the custom routes from the peer
@@ -80,8 +81,9 @@ spec:
                     type: boolean
                   importSubnetRoutesWithPublicIp:
                     description: Whether subnet routes with public IP range are imported.
-                      The default value is false. The IPv4 special-use ranges  are
-                      always imported from peers and are not controlled by this field.
+                      The default value is false. The IPv4 special-use ranges (https://en.wikipedia.org/wiki/IPv4#Special_addresses)
+                      are always imported from peers and are not controlled by this
+                      field.
                     type: boolean
                   network:
                     description: The primary network of the peering.

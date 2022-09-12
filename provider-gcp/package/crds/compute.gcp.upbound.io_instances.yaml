@@ -75,15 +75,14 @@ spec:
                           type: boolean
                         threadsPerCore:
                           description: he number of threads per physical core. To
-                            disable simultaneous multithreading  set this to 1.
+                            disable simultaneous multithreading (SMT) set this to
+                            1.
                           type: number
                       type: object
                     type: array
                   allowStoppingForUpdate:
-                    description: If true, allows Terraform to stop the instance to
-                      update its properties. If you try to update a property that
-                      requires stopping the instance without setting this field, the
-                      update will fail.
+                    description: If you try to update a property that requires stopping
+                      the instance without setting this field, the update will fail.
                     type: boolean
                   attachedDisk:
                     description: Additional disks to attach to the instance. Can be
@@ -92,10 +91,15 @@ spec:
                     items:
                       properties:
                         deviceName:
+                          description: Name with which the attached disk will be accessible
+                            under /dev/disk/by-id/google-*
                           type: string
                         diskEncryptionKeyRawSecretRef:
-                          description: A SecretKeySelector is a reference to a secret
-                            key in an arbitrary namespace.
+                          description: A 256-bit [customer-supplied encryption key]
+                            (https://cloud.google.com/compute/docs/disks/customer-supplied-encryption),
+                            encoded in RFC 4648 base64 to encrypt this disk. Only
+                            one of kms_key_self_link and disk_encryption_key_raw may
+                            be set.
                           properties:
                             key:
                               description: The key to select.
@@ -112,10 +116,21 @@ spec:
                           - namespace
                           type: object
                         kmsKeySelfLink:
+                          description: The self_link of the encryption key that is
+                            stored in Google Cloud KMS to encrypt this disk. Only
+                            one of kms_key_self_link and disk_encryption_key_raw may
+                            be set.
                           type: string
                         mode:
+                          description: Either "READ_ONLY" or "READ_WRITE", defaults
+                            to "READ_WRITE" If you have a persistent disk with data
+                            that you want to share between multiple instances, detach
+                            it from any read-write instances and attach it to one
+                            or more instances in read-only mode.
                           type: string
                         source:
+                          description: The name or self_link of the disk to attach
+                            to this instance.
                           type: string
                       required:
                       - source
@@ -131,10 +146,15 @@ spec:
                             the instance is deleted. Defaults to true.
                           type: boolean
                         deviceName:
+                          description: Name with which attached disk will be accessible.
+                            On the instance, this device will be /dev/disk/by-id/google-{{device_name}}.
                           type: string
                         diskEncryptionKeyRawSecretRef:
-                          description: A SecretKeySelector is a reference to a secret
-                            key in an arbitrary namespace.
+                          description: A 256-bit [customer-supplied encryption key]
+                            (https://cloud.google.com/compute/docs/disks/customer-supplied-encryption),
+                            encoded in RFC 4648 base64 to encrypt this disk. Only
+                            one of kms_key_self_link and disk_encryption_key_raw may
+                            be set.
                           properties:
                             key:
                               description: The key to select.
@@ -181,14 +201,28 @@ spec:
                                   image.
                                 type: number
                               type:
+                                description: The GCE disk type. Such as pd-standard,
+                                  pd-balanced or pd-ssd.
                                 type: string
                             type: object
                           type: array
                         kmsKeySelfLink:
+                          description: The self_link of the encryption key that is
+                            stored in Google Cloud KMS to encrypt this disk. Only
+                            one of kms_key_self_link and disk_encryption_key_raw may
+                            be set.
                           type: string
                         mode:
+                          description: The mode in which to attach this disk, either
+                            READ_WRITE or READ_ONLY. If not specified, the default
+                            is to attach the disk in READ_WRITE mode.
                           type: string
                         source:
+                          description: The name or self_link of the existing disk
+                            (such as those managed by google_compute_disk) or disk
+                            image. To create an instance from a snapshot, first create
+                            a google_compute_disk from a snapshot and reference it
+                            here.
                           type: string
                       type: object
                     type: array
@@ -214,8 +248,7 @@ spec:
                   deletionProtection:
                     description: 'Enable deletion protection on this instance. Defaults
                       to false. Note: you must disable deletion protection before
-                      removing the resource , or the instance cannot be deleted and
-                      the Terraform run will not complete successfully.'
+                      removing the resource (e.g.'
                     type: boolean
                   description:
                     description: A brief description of this resource.
@@ -245,6 +278,8 @@ spec:
                             to this instance.
                           type: number
                         type:
+                          description: The accelerator type resource to expose to
+                            this instance. E.g. nvidia-tesla-k80.
                           type: string
                       type: object
                     type: array
@@ -252,9 +287,9 @@ spec:
                     description: A custom hostname for the instance. Must be a fully
                       qualified DNS name and RFC-1035-valid. Valid format is a series
                       of labels 1-63 characters long matching the regular expression
-                      [a-z], concatenated with periods. The entire hostname must not
-                      exceed 253 characters. Changing this forces a new resource to
-                      be created.
+                      [a-z]([-a-z0-9]*[a-z0-9]), concatenated with periods. The entire
+                      hostname must not exceed 253 characters. Changing this forces
+                      a new resource to be created.
                     type: string
                   labels:
                     additionalProperties:
@@ -274,17 +309,15 @@ spec:
                     type: object
                   metadataStartupScript:
                     description: An alternative to using the startup-script metadata
-                      key, except this one forces the instance to be recreated if
-                      it is changed. This replaces the startup-script metadata key
-                      on the created instance and thus the two mechanisms are not
-                      allowed to be used simultaneously.  Users are free to use either
-                      mechanism - the only distinction is that this separate attribute
-                      will cause a recreate on modification.  On import, metadata_startup_script
-                      will not be set - if you choose to specify it you will see a
-                      diff immediately after import causing a destroy/recreate operation.
-                      If importing an instance and specifying this value is desired,
-                      you will need to modify your state file manually using terraform
-                      state commands.
+                      key, except this one forces the instance to be recreated (thus
+                      re-running the script) if it is changed. This replaces the startup-script
+                      metadata key on the created instance and thus the two mechanisms
+                      are not allowed to be used simultaneously.  Users are free to
+                      use either mechanism - the only distinction is that this separate
+                      attribute will cause a recreate on modification.  On import,
+                      metadata_startup_script will not be set - if you choose to specify
+                      it you will see a diff immediately after import causing a destroy/recreate
+                      operation.
                     type: string
                   minCpuPlatform:
                     description: 'Specifies a minimum CPU platform for the VM instance.
@@ -302,10 +335,10 @@ spec:
                         accessConfig:
                           description: Access configurations, i.e. IPs via which this
                             instance can be accessed via the Internet. Omit to ensure
-                            that the instance is not accessible from the Internet.
-                            If omitted, ssh provisioners will not work unless Terraform
-                            can send traffic to the instance's network . This block
-                            can be repeated multiple times. Structure documented below.
+                            that the instance is not accessible from the Internet.g.
+                            via tunnel or because it is running on another cloud instance
+                            on that network). This block can be repeated multiple
+                            times. Structure documented below.
                           items:
                             properties:
                               natIp:
@@ -314,8 +347,17 @@ spec:
                                   will be generated.
                                 type: string
                               networkTier:
+                                description: 'The networking tier used for configuring
+                                  this instance. This field can take the following
+                                  values: PREMIUM, FIXED_STANDARD or STANDARD. If
+                                  this field is not specified, it is assumed to be
+                                  PREMIUM.'
                                 type: string
                               publicPtrDomainName:
+                                description: The DNS domain name for the public PTR
+                                  record. To set this field on an instance, you must
+                                  be verified as the owner of the domain. See the
+                                  docs for how to become verified as a domain owner.
                                 type: string
                             type: object
                           type: array
@@ -330,8 +372,9 @@ spec:
                                   alias IP range. This IP CIDR range must belong to
                                   the specified subnetwork and cannot contain IP addresses
                                   reserved by system or used by other network interfaces.
-                                  This range may be a single IP address , a netmask  or
-                                  a CIDR format string .
+                                  This range may be a single IP address (e.g. 10.2.3.4),
+                                  a netmask (e.g. /24) or a CIDR format string (e.g.
+                                  10.1.2.0/24).
                                 type: string
                               subnetworkRangeName:
                                 description: The subnetwork secondary range name specifying
@@ -352,8 +395,13 @@ spec:
                           items:
                             properties:
                               networkTier:
+                                description: The service-level to be provided for
+                                  IPv6 traffic when the subnet has an external subnet.
+                                  Only PREMIUM or STANDARD tier is valid for IPv6.
                                 type: string
                               publicPtrDomainName:
+                                description: The domain name to be used when creating
+                                  DNSv6 records for the external IPv6 ranges..
                                 type: string
                             required:
                             - networkTier
@@ -571,8 +619,15 @@ spec:
                           items:
                             properties:
                               key:
+                                description: Corresponds to the label key of a reservation
+                                  resource. To target a SPECIFIC_RESERVATION by name,
+                                  specify compute.googleapis.com/reservation-name
+                                  as the key and specify the name of your reservation
+                                  as the only value.
                                 type: string
                               values:
+                                description: Corresponds to the label values of a
+                                  reservation resource.
                                 items:
                                   type: string
                                 type: array
@@ -582,16 +637,18 @@ spec:
                             type: object
                           type: array
                         type:
+                          description: The type of reservation from which this instance
+                            can consume resources.
                           type: string
                       required:
                       - type
                       type: object
                     type: array
                   resourcePolicies:
-                    description: A list of short names or self_links of resource policies
-                      to attach to the instance. Modifying this list will cause the
-                      instance to recreate. Currently a max of 1 resource policy is
-                      supported.
+                    description: '- A list of short names or self_links of resource
+                      policies to attach to the instance. Modifying this list will
+                      cause the instance to recreate. Currently a max of 1 resource
+                      policy is supported.'
                     items:
                       type: string
                     type: array
@@ -602,7 +659,8 @@ spec:
                       properties:
                         automaticRestart:
                           description: Specifies if the instance should be restarted
-                            if it was terminated by Compute Engine . Defaults to true.
+                            if it was terminated by Compute Engine (not a user). Defaults
+                            to true.
                           type: boolean
                         minNodeCpus:
                           description: The minimum number of virtual CPUs this instance
@@ -617,12 +675,14 @@ spec:
                           items:
                             properties:
                               key:
+                                description: The key for the node affinity label.
                                 type: string
                               operator:
                                 description: The operator. Can be IN for node-affinities
                                   or NOT_IN for anti-affinities.
                                 type: string
                               values:
+                                description: The values for the node affinity label.
                                 items:
                                   type: string
                                 type: array
@@ -782,7 +842,7 @@ spec:
                     items:
                       properties:
                         enableIntegrityMonitoring:
-                          description: 'Compare the most recent boot measurements
+                          description: '- Compare the most recent boot measurements
                             to the integrity policy baseline and return a pair of
                             pass/fail results depending on whether they match or not.
                             Defaults to true. Note: allow_stopping_for_update must
@@ -790,14 +850,14 @@ spec:
                             of TERMINATED in order to update this field.'
                           type: boolean
                         enableSecureBoot:
-                          description: 'Verify the digital signature of all boot components,
-                            and halt the boot process if signature verification fails.
-                            Defaults to false. Note: allow_stopping_for_update must
-                            be set to true or your instance must have a desired_status
+                          description: '- Verify the digital signature of all boot
+                            components, and halt the boot process if signature verification
+                            fails. Defaults to false. Note: allow_stopping_for_update
+                            must be set to true or your instance must have a desired_status
                             of TERMINATED in order to update this field.'
                           type: boolean
                         enableVtpm:
-                          description: 'Use a virtualized trusted platform module,
+                          description: '- Use a virtualized trusted platform module,
                             which is a specialized computer chip you can use to encrypt
                             objects like keys and certificates. Defaults to true.
                             Note: allow_stopping_for_update must be set to true or
@@ -1004,6 +1064,9 @@ spec:
                     items:
                       properties:
                         diskEncryptionKeySha256:
+                          description: The RFC 4648 base64 encoded SHA-256 hash of
+                            the [customer-supplied encryption key] (https://cloud.google.com/compute/docs/disks/customer-supplied-encryption)
+                            that protects this resource.
                           type: string
                       type: object
                     type: array
@@ -1013,6 +1076,9 @@ spec:
                     items:
                       properties:
                         diskEncryptionKeySha256:
+                          description: The RFC 4648 base64 encoded SHA-256 hash of
+                            the [customer-supplied encryption key] (https://cloud.google.com/compute/docs/disks/customer-supplied-encryption)
+                            that protects this resource.
                           type: string
                       type: object
                     type: array
@@ -1047,8 +1113,16 @@ spec:
                           items:
                             properties:
                               externalIpv6:
+                                description: The first IPv6 address of the external
+                                  IPv6 range associated with this instance, prefix
+                                  length is stored in externalIpv6PrefixLength in
+                                  ipv6AccessConfig. The field is output only, an IPv6
+                                  address from a subnetwork associated with the instance
+                                  will be allocated dynamically.
                                 type: string
                               externalIpv6PrefixLength:
+                                description: The prefix length of the external IPv6
+                                  range.
                                 type: string
                             type: object
                           type: array

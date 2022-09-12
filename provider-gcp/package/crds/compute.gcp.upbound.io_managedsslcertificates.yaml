@@ -72,8 +72,8 @@ spec:
                     type: string
                   managed:
                     description: Properties relevant to a managed certificate.  These
-                      will be used if the certificate is managed . Structure is documented
-                      below.
+                      will be used if the certificate is managed (as indicated by
+                      a value of MANAGED in type). Structure is documented below.
                     items:
                       properties:
                         domains:

@@ -35,6 +35,8 @@ type ConditionsObservation struct {
 
 	Status *string `json:"status,omitempty" tf:"status,omitempty"`
 
+	// Resource record type. Example: AAAA.
+	// Possible values are A, AAAA, and CNAME.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
@@ -65,6 +67,7 @@ type DomainMappingParameters struct {
 	// +kubebuilder:validation:Required
 	Metadata []MetadataParameters `json:"metadata" tf:"metadata,omitempty"`
 
+	// Name should be a verified domain
 	// +kubebuilder:validation:Required
 	Name *string `json:"name" tf:"name,omitempty"`
 
@@ -107,14 +110,12 @@ type MetadataParameters struct {
 	// Annotations is a key value map stored with a resource that
 	// may be set by external tools to store and retrieve arbitrary metadata. More
 	// info: http://kubernetes.io/docs/user-guide/annotations
-	// Note: The Cloud Run API may add additional annotations that were not provided in your config.
-	// If terraform plan shows a diff where a server-side annotation is added, you can add it to your config
-	// or apply the lifecycle.ignore_changes rule to the metadata.0.annotations field.
+	// Note: The Cloud Run API may add additional annotations that were not provided in your config.ignore_changes rule to the metadata.0.annotations field.
 	// +kubebuilder:validation:Optional
 	Annotations map[string]*string `json:"annotations,omitempty" tf:"annotations,omitempty"`
 
 	// Map of string keys and values that can be used to organize and categorize
-	// objects. May match selectors of replication controllers
+	// (scope and select) objects. May match selectors of replication controllers
 	// and routes.
 	// More info: http://kubernetes.io/docs/user-guide/labels
 	// +kubebuilder:validation:Optional
@@ -136,12 +137,17 @@ type MetadataParameters struct {
 }
 
 type ResourceRecordsObservation struct {
+
+	// Relative name of the object affected by this record. Only applicable for
+	// CNAME records. Example: 'www'.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// Data for this record. Values vary by record type, as defined in RFC 1035
-	// and RFC 1034 .
+	// (section 5) and RFC 1034 (section 3.6.1).
 	Rrdata *string `json:"rrdata,omitempty" tf:"rrdata,omitempty"`
 
+	// Resource record type. Example: AAAA.
+	// Possible values are A, AAAA, and CNAME.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
@@ -188,7 +194,7 @@ type StatusObservation struct {
 	// Structure is documented below.
 	Conditions []ConditionsObservation `json:"conditions,omitempty" tf:"conditions,omitempty"`
 
-	// The name of the route that the mapping currently points to.
+	// Name should be a verified domain
 	MappedRouteName *string `json:"mappedRouteName,omitempty" tf:"mapped_route_name,omitempty"`
 
 	// ObservedGeneration is the 'Generation' of the DomainMapping that

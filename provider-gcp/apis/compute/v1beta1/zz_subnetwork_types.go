@@ -30,6 +30,10 @@ type SecondaryIPRangeObservation struct {
 
 type SecondaryIPRangeParameters struct {
 
+	// The range of IP addresses belonging to this subnetwork secondary
+	// range. Provide this property when you create the subnetwork.
+	// Ranges must be unique and non-overlapping with all primary and
+	// secondary IP ranges within a network. Only IPv4 is supported.
 	// +kubebuilder:validation:Optional
 	IPCidrRange *string `json:"ipCidrRange,omitempty" tf:"ip_cidr_range"`
 
@@ -115,6 +119,10 @@ type SubnetworkParameters_2 struct {
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// The range of internal addresses that are owned by this subnetwork.
+	// Provide this property when you create the subnetwork. For example,
+	// 10.0.0.0/8 or 192.168.0.0/16. Ranges must be unique and
+	// non-overlapping within a network. Only IPv4 is supported.
 	// +kubebuilder:validation:Required
 	IPCidrRange *string `json:"ipCidrRange" tf:"ip_cidr_range,omitempty"`
 
@@ -162,7 +170,7 @@ type SubnetworkParameters_2 struct {
 
 	// The purpose of the resource. A subnetwork with purpose set to
 	// INTERNAL_HTTPS_LOAD_BALANCER is a user-created subnetwork that is
-	// reserved for Internal HTTP Load Balancing.
+	// reserved for Internal HTTP(S) Load Balancing.
 	// If set to INTERNAL_HTTPS_LOAD_BALANCER you must also set the role field.
 	// +kubebuilder:validation:Optional
 	Purpose *string `json:"purpose,omitempty" tf:"purpose,omitempty"`
@@ -174,7 +182,7 @@ type SubnetworkParameters_2 struct {
 	// The role of subnetwork. Currently, this field is only used when
 	// purpose = INTERNAL_HTTPS_LOAD_BALANCER. The value can be set to ACTIVE
 	// or BACKUP. An ACTIVE subnetwork is one that is currently being used
-	// for Internal HTTP Load Balancing. A BACKUP subnetwork is one that
+	// for Internal HTTP(S) Load Balancing. A BACKUP subnetwork is one that
 	// is ready to be promoted to ACTIVE or is currently draining.
 	// Possible values are ACTIVE and BACKUP.
 	// +kubebuilder:validation:Optional

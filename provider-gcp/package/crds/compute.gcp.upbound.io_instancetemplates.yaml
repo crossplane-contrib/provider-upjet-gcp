@@ -75,7 +75,8 @@ spec:
                           type: boolean
                         threadsPerCore:
                           description: he number of threads per physical core. To
-                            disable simultaneous multithreading  set this to 1.
+                            disable simultaneous multithreading (SMT) set this to
+                            1.
                           type: number
                       type: object
                     type: array
@@ -157,6 +158,8 @@ spec:
                         labels:
                           additionalProperties:
                             type: string
+                          description: A set of ket/value label pairs to assign to
+                            disk created from this template
                           type: object
                         mode:
                           description: The mode in which to attach this disk, either
@@ -164,17 +167,18 @@ spec:
                             a boot disk, this must read-write mode.
                           type: string
                         resourcePolicies:
-                          description: A list  of resource policies to attach to this
-                            disk for automatic snapshot creations. Currently a max
-                            of 1 resource policy is supported.
+                          description: '- A list (short name or id) of resource policies
+                            to attach to this disk for automatic snapshot creations.
+                            Currently a max of 1 resource policy is supported.'
                           items:
                             type: string
                           type: array
                         source:
-                          description: 'The name of the disk  to attach. ~> Note:
-                            Either source or source_image is required in a disk block
-                            unless the disk type is local-ssd. Check the API docs
-                            for details.'
+                          description: 'The name (not self_link) of the disk (such
+                            as those managed by google_compute_disk) to attach. ~>
+                            Note: Either source or source_image is required in a disk
+                            block unless the disk type is local-ssd. Check the API
+                            docs for details.'
                           type: string
                         sourceImage:
                           description: 'The image from which to initialize this disk.
@@ -264,6 +268,8 @@ spec:
                               type: object
                           type: object
                         type:
+                          description: The type of GCE disk, can be either "SCRATCH"
+                            or "PERSISTENT".
                           type: string
                       type: object
                     type: array
@@ -277,6 +283,8 @@ spec:
                             to this instance.
                           type: number
                         type:
+                          description: The accelerator type resource to expose to
+                            this instance. E.g. nvidia-tesla-k80.
                           type: string
                       required:
                       - count
@@ -290,6 +298,8 @@ spec:
                   labels:
                     additionalProperties:
                       type: string
+                    description: A set of key/value label pairs to assign to instances
+                      created from this template.
                     type: object
                   machineType:
                     description: The machine type to create.
@@ -312,8 +322,7 @@ spec:
                       or Intel Skylake. See the complete list here.
                     type: string
                   name:
-                    description: The name of the instance template. If you leave this
-                      blank, Terraform will auto-generate a unique name.
+                    description: The name of the instance template.
                     type: string
                   namePrefix:
                     description: Creates a unique name beginning with the specified
@@ -327,10 +336,10 @@ spec:
                       properties:
                         accessConfig:
                           description: Access configurations, i.e. IPs via which this
-                            instance can be accessed via the Internet. Omit to ensure
-                            that the instance is not accessible from the Internet
-                            . This block can be repeated multiple times. Structure
-                            documented below.
+                            instance can be accessed via the Internet.g. via tunnel
+                            or because it is running on another cloud instance on
+                            that network). This block can be repeated multiple times.
+                            Structure documented below.
                           items:
                             properties:
                               natIp:
@@ -339,6 +348,11 @@ spec:
                                   will be generated.
                                 type: string
                               networkTier:
+                                description: 'The networking tier used for configuring
+                                  this instance template. This field can take the
+                                  following values: PREMIUM, STANDARD or FIXED_STANDARD.
+                                  If this field is not specified, it is assumed to
+                                  be PREMIUM.'
                                 type: string
                             type: object
                           type: array
@@ -353,8 +367,9 @@ spec:
                                   alias IP range. This IP CIDR range must belong to
                                   the specified subnetwork and cannot contain IP addresses
                                   reserved by system or used by other network interfaces.
-                                  At the time of writing only a netmask  may be supplied,
-                                  with a CIDR format resulting in an API error.
+                                  At the time of writing only a netmask (e.g. /24)
+                                  may be supplied, with a CIDR format resulting in
+                                  an API error.
                                 type: string
                               subnetworkRangeName:
                                 description: The subnetwork secondary range name specifying
@@ -375,6 +390,9 @@ spec:
                           items:
                             properties:
                               networkTier:
+                                description: The service-level to be provided for
+                                  IPv6 traffic when the subnet has an external subnet.
+                                  Only PREMIUM and STANDARD tier is valid for IPv6.
                                 type: string
                             required:
                             - networkTier
@@ -594,6 +612,11 @@ spec:
                           items:
                             properties:
                               key:
+                                description: Corresponds to the label key of a reservation
+                                  resource. To target a SPECIFIC_RESERVATION by name,
+                                  specify compute.googleapis.com/reservation-name
+                                  as the key and specify the name of your reservation
+                                  as the only value.
                                 type: string
                               values:
                                 description: Corresponds to the label values of a
@@ -607,6 +630,8 @@ spec:
                             type: object
                           type: array
                         type:
+                          description: The type of reservation from which this instance
+                            can consume resources.
                           type: string
                       required:
                       - type
@@ -619,8 +644,8 @@ spec:
                       properties:
                         automaticRestart:
                           description: Specifies whether the instance should be automatically
-                            restarted if it is terminated by Compute Engine . This
-                            defaults to true.
+                            restarted if it is terminated by Compute Engine (not terminated
+                            by a user). This defaults to true.
                           type: boolean
                         minNodeCpus:
                           type: number
@@ -633,6 +658,7 @@ spec:
                           items:
                             properties:
                               key:
+                                description: The key for the node affinity label.
                                 type: string
                               operator:
                                 description: The operator. Can be IN for node-affinities
@@ -775,20 +801,20 @@ spec:
                     items:
                       properties:
                         enableIntegrityMonitoring:
-                          description: Compare the most recent boot measurements to
-                            the integrity policy baseline and return a pair of pass/fail
-                            results depending on whether they match or not. Defaults
-                            to true.
+                          description: '- Compare the most recent boot measurements
+                            to the integrity policy baseline and return a pair of
+                            pass/fail results depending on whether they match or not.
+                            Defaults to true.'
                           type: boolean
                         enableSecureBoot:
-                          description: Verify the digital signature of all boot components,
-                            and halt the boot process if signature verification fails.
-                            Defaults to false.
+                          description: '- Verify the digital signature of all boot
+                            components, and halt the boot process if signature verification
+                            fails. Defaults to false.'
                           type: boolean
                         enableVtpm:
-                          description: Use a virtualized trusted platform module,
+                          description: '- Use a virtualized trusted platform module,
                             which is a specialized computer chip you can use to encrypt
-                            objects like keys and certificates. Defaults to true.
+                            objects like keys and certificates. Defaults to true.'
                           type: boolean
                       type: object
                     type: array
@@ -991,13 +1017,14 @@ spec:
                       properties:
                         accessConfig:
                           description: Access configurations, i.e. IPs via which this
-                            instance can be accessed via the Internet. Omit to ensure
-                            that the instance is not accessible from the Internet
-                            . This block can be repeated multiple times. Structure
-                            documented below.
+                            instance can be accessed via the Internet.g. via tunnel
+                            or because it is running on another cloud instance on
+                            that network). This block can be repeated multiple times.
+                            Structure documented below.
                           items:
                             properties:
                               publicPtrDomainName:
+                                description: The name of the instance template.
                                 type: string
                             type: object
                           type: array
@@ -1014,14 +1041,14 @@ spec:
                               externalIpv6PrefixLength:
                                 type: string
                               publicPtrDomainName:
+                                description: The name of the instance template.
                                 type: string
                             type: object
                           type: array
                         ipv6AccessType:
                           type: string
                         name:
-                          description: The name of the instance template. If you leave
-                            this blank, Terraform will auto-generate a unique name.
+                          description: The name of the instance template.
                           type: string
                       type: object
                     type: array

@@ -69,6 +69,7 @@ type ConsistentHashHTTPCookieObservation struct {
 
 type ConsistentHashHTTPCookieParameters struct {
 
+	// Name of the cookie.
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
@@ -76,6 +77,8 @@ type ConsistentHashHTTPCookieParameters struct {
 	// +kubebuilder:validation:Optional
 	Path *string `json:"path,omitempty" tf:"path,omitempty"`
 
+	// Lifetime of the cookie.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	TTL []HTTPCookieTTLParameters `json:"ttl,omitempty" tf:"ttl,omitempty"`
 }
@@ -88,7 +91,7 @@ type FailoverPolicyParameters struct {
 	// On failover or failback, this field indicates whether connection drain
 	// will be honored. Setting this to true has the following effect: connections
 	// to the old active pool are not drained. Connections to the new active pool
-	// use the timeout of 10 min . Setting to false has the
+	// use the timeout of 10 min (currently fixed). Setting to false has the
 	// following effect: both old and new connections will have a drain timeout
 	// of 10 min.
 	// This can be set to true only if the protocol is TCP.
@@ -120,9 +123,15 @@ type HTTPCookieTTLObservation struct {
 
 type HTTPCookieTTLParameters struct {
 
+	// Span of time that's a fraction of a second at nanosecond
+	// resolution. Durations less than one second are represented
+	// with a 0 seconds field and a positive nanos field. Must
+	// be from 0 to 999,999,999 inclusive.
 	// +kubebuilder:validation:Optional
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
+	// Span of time at a resolution of a second.
+	// Must be from 0 to 315,576,000,000 inclusive.
 	// +kubebuilder:validation:Required
 	Seconds *float64 `json:"seconds" tf:"seconds,omitempty"`
 }
@@ -132,9 +141,14 @@ type OutlierDetectionBaseEjectionTimeObservation struct {
 
 type OutlierDetectionBaseEjectionTimeParameters struct {
 
+	// Span of time that's a fraction of a second at nanosecond resolution. Durations
+	// less than one second are represented with a 0 seconds field and a positive
+	// nanos field. Must be from 0 to 999,999,999 inclusive.
 	// +kubebuilder:validation:Optional
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
+	// inclusive.
 	// +kubebuilder:validation:Required
 	Seconds *float64 `json:"seconds" tf:"seconds,omitempty"`
 }
@@ -144,9 +158,14 @@ type OutlierDetectionIntervalObservation struct {
 
 type OutlierDetectionIntervalParameters struct {
 
+	// Span of time that's a fraction of a second at nanosecond resolution. Durations
+	// less than one second are represented with a 0 seconds field and a positive
+	// nanos field. Must be from 0 to 999,999,999 inclusive.
 	// +kubebuilder:validation:Optional
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
+	// inclusive.
 	// +kubebuilder:validation:Required
 	Seconds *float64 `json:"seconds" tf:"seconds,omitempty"`
 }
@@ -163,9 +182,9 @@ type RegionBackendServiceBackendParameters struct {
 	BalancingMode *string `json:"balancingMode,omitempty" tf:"balancing_mode,omitempty"`
 
 	// A multiplier applied to the group's maximum servicing capacity
-	// .
+	// (based on UTILIZATION, RATE or CONNECTION).
 	// ~>NOTE: This field cannot be set for
-	// INTERNAL region backend services ,
+	// INTERNAL region backend services (default loadBalancingScheme),
 	// but is required for non-INTERNAL backend service. The total
 	// capacity_scaler for all backends must be non-zero.
 	// A setting of 0 means the group is completely drained, offering
@@ -173,6 +192,8 @@ type RegionBackendServiceBackendParameters struct {
 	// +kubebuilder:validation:Optional
 	CapacityScaler *float64 `json:"capacityScaler,omitempty" tf:"capacity_scaler,omitempty"`
 
+	// An optional description of this resource.
+	// Provide this property when you create the resource.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -210,6 +231,12 @@ type RegionBackendServiceBackendParameters struct {
 	// +kubebuilder:validation:Optional
 	GroupSelector *v1.Selector `json:"groupSelector,omitempty" tf:"-"`
 
+	// The max number of simultaneous connections for the group. Can
+	// be used with either CONNECTION or UTILIZATION balancing modes.
+	// Cannot be set for INTERNAL backend services.
+	// For CONNECTION mode, either maxConnections or one
+	// of maxConnectionsPerInstance or maxConnectionsPerEndpoint,
+	// as appropriate for group type, must be set.
 	// +kubebuilder:validation:Optional
 	MaxConnections *float64 `json:"maxConnections,omitempty" tf:"max_connections,omitempty"`
 
@@ -233,7 +260,7 @@ type RegionBackendServiceBackendParameters struct {
 	// +kubebuilder:validation:Optional
 	MaxConnectionsPerInstance *float64 `json:"maxConnectionsPerInstance,omitempty" tf:"max_connections_per_instance,omitempty"`
 
-	// The max requests per second  of the group. Cannot be set
+	// The max requests per second (RPS) of the group. Cannot be set
 	// for INTERNAL backend services.
 	// Can be used with either RATE or UTILIZATION balancing modes,
 	// but required if RATE mode. Either maxRate or one
@@ -242,7 +269,7 @@ type RegionBackendServiceBackendParameters struct {
 	// +kubebuilder:validation:Optional
 	MaxRate *float64 `json:"maxRate,omitempty" tf:"max_rate,omitempty"`
 
-	// The max requests per second  that a single backend network
+	// The max requests per second (RPS) that a single backend network
 	// endpoint can handle. This is used to calculate the capacity of
 	// the group. Can be used in either balancing mode. For RATE mode,
 	// either maxRate or maxRatePerEndpoint must be set. Cannot be set
@@ -250,7 +277,7 @@ type RegionBackendServiceBackendParameters struct {
 	// +kubebuilder:validation:Optional
 	MaxRatePerEndpoint *float64 `json:"maxRatePerEndpoint,omitempty" tf:"max_rate_per_endpoint,omitempty"`
 
-	// The max requests per second  that a single backend
+	// The max requests per second (RPS) that a single backend
 	// instance can handle. This is used to calculate the capacity of
 	// the group. Can be used in either balancing mode. For RATE mode,
 	// either maxRate or maxRatePerInstance must be set. Cannot be set
@@ -297,7 +324,7 @@ type RegionBackendServiceCdnPolicyParameters struct {
 	ClientTTL *float64 `json:"clientTtl,omitempty" tf:"client_ttl,omitempty"`
 
 	// Specifies the default TTL for cached content served by this origin for responses
-	// that do not have an existing valid TTL .
+	// that do not have an existing valid TTL (max-age or s-max-age).
 	// +kubebuilder:validation:Optional
 	DefaultTTL *float64 `json:"defaultTtl,omitempty" tf:"default_ttl,omitempty"`
 
@@ -315,12 +342,12 @@ type RegionBackendServiceCdnPolicyParameters struct {
 	// +kubebuilder:validation:Optional
 	NegativeCachingPolicy []RegionBackendServiceCdnPolicyNegativeCachingPolicyParameters `json:"negativeCachingPolicy,omitempty" tf:"negative_caching_policy,omitempty"`
 
-	// Serve existing content from the cache  when revalidating content with the origin, or when an error is encountered when refreshing the cache.
+	// Serve existing content from the cache (if available) when revalidating content with the origin, or when an error is encountered when refreshing the cache.
 	// +kubebuilder:validation:Optional
 	ServeWhileStale *float64 `json:"serveWhileStale,omitempty" tf:"serve_while_stale,omitempty"`
 
 	// Maximum number of seconds the response to a signed URL request
-	// will be considered fresh, defaults to 1hr . After this
+	// will be considered fresh, defaults to 1hr (3600s). After this
 	// time period, the response will be revalidated before
 	// being served.
 	// When serving responses to signed URL requests, Cloud CDN will
@@ -337,6 +364,8 @@ type RegionBackendServiceCircuitBreakersObservation struct {
 
 type RegionBackendServiceCircuitBreakersParameters struct {
 
+	// The maximum number of connections to the backend cluster.
+	// Defaults to 1024.
 	// +kubebuilder:validation:Optional
 	MaxConnections *float64 `json:"maxConnections,omitempty" tf:"max_connections,omitempty"`
 
@@ -457,7 +486,8 @@ type RegionBackendServiceOutlierDetectionParameters struct {
 	// +kubebuilder:validation:Optional
 	ConsecutiveErrors *float64 `json:"consecutiveErrors,omitempty" tf:"consecutive_errors,omitempty"`
 
-	// The number of consecutive gateway failures  before a consecutive
+	// The number of consecutive gateway failures (502, 503, 504 status or connection
+	// errors that are mapped to one of those status codes) before a consecutive
 	// gateway failure ejection occurs. Defaults to 5.
 	// +kubebuilder:validation:Optional
 	ConsecutiveGatewayFailure *float64 `json:"consecutiveGatewayFailure,omitempty" tf:"consecutive_gateway_failure,omitempty"`
@@ -498,7 +528,8 @@ type RegionBackendServiceOutlierDetectionParameters struct {
 	// +kubebuilder:validation:Optional
 	SuccessRateMinimumHosts *float64 `json:"successRateMinimumHosts,omitempty" tf:"success_rate_minimum_hosts,omitempty"`
 
-	// The minimum number of total requests that must be collected in one interval  to include this host in success rate
+	// The minimum number of total requests that must be collected in one interval (as
+	// defined by the interval duration above) to include this host in success rate
 	// based outlier detection. If the volume is lower than this setting, outlier
 	// detection via success rate statistics is not performed for that host. Defaults
 	// to 100.
@@ -508,7 +539,7 @@ type RegionBackendServiceOutlierDetectionParameters struct {
 	// This factor is used to determine the ejection threshold for success rate outlier
 	// ejection. The ejection threshold is the difference between the mean success
 	// rate, and the product of this factor and the standard deviation of the mean
-	// success rate: mean - . This factor is divided
+	// success rate: mean - (stdev * success_rate_stdev_factor). This factor is divided
 	// by a thousand to get a double. That is, if the desired factor is 1.9, the
 	// runtime value should be 1900. Defaults to 1900.
 	// +kubebuilder:validation:Optional
@@ -519,7 +550,7 @@ type RegionBackendServiceParameters struct {
 
 	// Lifetime of cookies in seconds if session_affinity is
 	// GENERATED_COOKIE. If set to 0, the cookie is non-persistent and lasts
-	// only until the end of the browser session . The
+	// only until the end of the browser session (or equivalent). The
 	// maximum allowed value for TTL is one day.
 	// When the load balancing scheme is INTERNAL, this field is not used.
 	// +kubebuilder:validation:Optional
@@ -542,7 +573,8 @@ type RegionBackendServiceParameters struct {
 	// +kubebuilder:validation:Optional
 	CircuitBreakers []RegionBackendServiceCircuitBreakersParameters `json:"circuitBreakers,omitempty" tf:"circuit_breakers,omitempty"`
 
-	// Time for which instance will be drained .
+	// Time for which instance will be drained (not accept new
+	// connections, but still work to finish started).
 	// +kubebuilder:validation:Optional
 	ConnectionDrainingTimeoutSec *float64 `json:"connectionDrainingTimeoutSec,omitempty" tf:"connection_draining_timeout_sec,omitempty"`
 
@@ -556,6 +588,7 @@ type RegionBackendServiceParameters struct {
 	// +kubebuilder:validation:Optional
 	ConsistentHash []RegionBackendServiceConsistentHashParameters `json:"consistentHash,omitempty" tf:"consistent_hash,omitempty"`
 
+	// An optional description of this resource.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -621,7 +654,7 @@ type RegionBackendServiceParameters struct {
 	// and the backends are instance groups. The named port must be defined on each
 	// backend instance group. This parameter has no meaning if the backends are NEGs. API sets a
 	// default of "http" if not given.
-	// Must be omitted when the loadBalancingScheme is INTERNAL .
+	// Must be omitted when the loadBalancingScheme is INTERNAL (Internal TCP/UDP Load Balancing).
 	// +kubebuilder:validation:Optional
 	PortName *string `json:"portName,omitempty" tf:"port_name,omitempty"`
 

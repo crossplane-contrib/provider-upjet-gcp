@@ -30,12 +30,15 @@ type GcsObjectObservation struct {
 
 type GcsObjectParameters struct {
 
+	// Bucket of the Cloud Storage object.
 	// +kubebuilder:validation:Required
 	Bucket *string `json:"bucket" tf:"bucket,omitempty"`
 
+	// Generation number of the Cloud Storage object. This is used to ensure that the ExecStep specified by this PatchJob does not change.
 	// +kubebuilder:validation:Required
 	GenerationNumber *string `json:"generationNumber" tf:"generation_number,omitempty"`
 
+	// Name of the Cloud Storage object.
 	// +kubebuilder:validation:Required
 	Object *string `json:"object" tf:"object,omitempty"`
 }
@@ -55,12 +58,15 @@ type LinuxExecStepConfigGcsObjectObservation struct {
 
 type LinuxExecStepConfigGcsObjectParameters struct {
 
+	// Bucket of the Cloud Storage object.
 	// +kubebuilder:validation:Required
 	Bucket *string `json:"bucket" tf:"bucket,omitempty"`
 
+	// Generation number of the Cloud Storage object. This is used to ensure that the ExecStep specified by this PatchJob does not change.
 	// +kubebuilder:validation:Required
 	GenerationNumber *string `json:"generationNumber" tf:"generation_number,omitempty"`
 
+	// Name of the Cloud Storage object.
 	// +kubebuilder:validation:Required
 	Object *string `json:"object" tf:"object,omitempty"`
 }
@@ -70,15 +76,22 @@ type LinuxExecStepConfigObservation struct {
 
 type LinuxExecStepConfigParameters struct {
 
+	// Defaults to [0]. A list of possible return values that the execution can return to indicate a success.
 	// +kubebuilder:validation:Optional
 	AllowedSuccessCodes []*float64 `json:"allowedSuccessCodes,omitempty" tf:"allowed_success_codes,omitempty"`
 
+	// A Cloud Storage object containing the executable.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	GcsObject []GcsObjectParameters `json:"gcsObject,omitempty" tf:"gcs_object,omitempty"`
 
+	// The script interpreter to use to run the script. If no interpreter is specified the script will
+	// be executed directly, which will likely only succeed for scripts with shebang lines.
+	// Possible values are SHELL and POWERSHELL.
 	// +kubebuilder:validation:Optional
 	Interpreter *string `json:"interpreter,omitempty" tf:"interpreter,omitempty"`
 
+	// An absolute path to the executable on the VM.
 	// +kubebuilder:validation:Optional
 	LocalPath *string `json:"localPath,omitempty" tf:"local_path,omitempty"`
 }
@@ -116,9 +129,13 @@ type PatchConfigAptObservation struct {
 
 type PatchConfigAptParameters struct {
 
+	// List of packages to exclude from update. These packages will be excluded.
 	// +kubebuilder:validation:Optional
 	Excludes []*string `json:"excludes,omitempty" tf:"excludes,omitempty"`
 
+	// An exclusive list of packages to be updated. These are the only packages that will be updated.
+	// If these packages are not installed, they will be ignored. This field cannot be specified with
+	// any other patch configuration fields.
 	// +kubebuilder:validation:Optional
 	ExclusivePackages []*string `json:"exclusivePackages,omitempty" tf:"exclusive_packages,omitempty"`
 
@@ -153,7 +170,7 @@ type PatchConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	Goo []PatchConfigGooParameters `json:"goo,omitempty" tf:"goo,omitempty"`
 
-	// Allows the patch job to run on Managed instance groups .
+	// Allows the patch job to run on Managed instance groups (MIGs).
 	// +kubebuilder:validation:Optional
 	MigInstancesAllowed *bool `json:"migInstancesAllowed,omitempty" tf:"mig_instances_allowed,omitempty"`
 
@@ -193,9 +210,13 @@ type PatchConfigYumObservation struct {
 
 type PatchConfigYumParameters struct {
 
+	// List of packages to exclude from update. These packages will be excluded.
 	// +kubebuilder:validation:Optional
 	Excludes []*string `json:"excludes,omitempty" tf:"excludes,omitempty"`
 
+	// An exclusive list of packages to be updated. These are the only packages that will be updated.
+	// If these packages are not installed, they will be ignored. This field cannot be specified with
+	// any other patch configuration fields.
 	// +kubebuilder:validation:Optional
 	ExclusivePackages []*string `json:"exclusivePackages,omitempty" tf:"exclusive_packages,omitempty"`
 
@@ -217,9 +238,12 @@ type PatchConfigZypperParameters struct {
 	// +kubebuilder:validation:Optional
 	Categories []*string `json:"categories,omitempty" tf:"categories,omitempty"`
 
+	// List of packages to exclude from update.
 	// +kubebuilder:validation:Optional
 	Excludes []*string `json:"excludes,omitempty" tf:"excludes,omitempty"`
 
+	// An exclusive list of patches to be updated. These are the only patches that will be installed using 'zypper patch patch:' command.
+	// This field must not be used with any other patch configuration fields.
 	// +kubebuilder:validation:Optional
 	ExclusivePatches []*string `json:"exclusivePatches,omitempty" tf:"exclusive_patches,omitempty"`
 
@@ -272,8 +296,11 @@ type PatchDeploymentObservation struct {
 	// A timestamp in RFC3339 UTC "Zulu" format, accurate to nanoseconds. Example: "2014-10-02T15:01:23.045123456Z".
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
+	// IANA Time Zone Database time zone, e.g. "America/New_York".
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// The time the last patch job ran successfully.
+	// A timestamp in RFC3339 UTC "Zulu" format, accurate to nanoseconds. Example: "2014-10-02T15:01:23.045123456Z".
 	LastExecuteTime *string `json:"lastExecuteTime,omitempty" tf:"last_execute_time,omitempty"`
 
 	// Unique name for the patch deployment resource in a project.
@@ -337,7 +364,7 @@ type PatchDeploymentRolloutObservation struct {
 
 type PatchDeploymentRolloutParameters struct {
 
-	// The maximum number  of VMs per zone to disrupt at any given moment. The number of VMs calculated from multiplying the percentage by the total number of VMs in a zone is rounded up.
+	// The maximum number (or percentage) of VMs per zone to disrupt at any given moment. The number of VMs calculated from multiplying the percentage by the total number of VMs in a zone is rounded up.
 	// During patching, a VM is considered disrupted from the time the agent is notified to begin until patching has completed. This disruption time includes the time to complete reboot and any post-patch steps.
 	// A VM contributes to the disruption budget if its patching operation fails either when applying the patches, running pre or post patch steps, or if it fails to respond with a success notification before timing out. VMs that are not running or do not have an active agent do not count toward this disruption budget.
 	// For zone-by-zone rollouts, if the disruption budget in a zone is exceeded, the patch job stops, because continuing to the next zone requires completion of the patch process in the previous zone.
@@ -357,9 +384,13 @@ type PostStepObservation struct {
 
 type PostStepParameters struct {
 
+	// The ExecStepConfig for all Linux VMs targeted by the PatchJob.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	LinuxExecStepConfig []LinuxExecStepConfigParameters `json:"linuxExecStepConfig,omitempty" tf:"linux_exec_step_config,omitempty"`
 
+	// The ExecStepConfig for all Windows VMs targeted by the PatchJob.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	WindowsExecStepConfig []WindowsExecStepConfigParameters `json:"windowsExecStepConfig,omitempty" tf:"windows_exec_step_config,omitempty"`
 }
@@ -369,15 +400,22 @@ type PreStepLinuxExecStepConfigObservation struct {
 
 type PreStepLinuxExecStepConfigParameters struct {
 
+	// Defaults to [0]. A list of possible return values that the execution can return to indicate a success.
 	// +kubebuilder:validation:Optional
 	AllowedSuccessCodes []*float64 `json:"allowedSuccessCodes,omitempty" tf:"allowed_success_codes,omitempty"`
 
+	// A Cloud Storage object containing the executable.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	GcsObject []LinuxExecStepConfigGcsObjectParameters `json:"gcsObject,omitempty" tf:"gcs_object,omitempty"`
 
+	// The script interpreter to use to run the script. If no interpreter is specified the script will
+	// be executed directly, which will likely only succeed for scripts with shebang lines.
+	// Possible values are SHELL and POWERSHELL.
 	// +kubebuilder:validation:Optional
 	Interpreter *string `json:"interpreter,omitempty" tf:"interpreter,omitempty"`
 
+	// An absolute path to the executable on the VM.
 	// +kubebuilder:validation:Optional
 	LocalPath *string `json:"localPath,omitempty" tf:"local_path,omitempty"`
 }
@@ -387,9 +425,13 @@ type PreStepObservation struct {
 
 type PreStepParameters struct {
 
+	// The ExecStepConfig for all Linux VMs targeted by the PatchJob.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	LinuxExecStepConfig []PreStepLinuxExecStepConfigParameters `json:"linuxExecStepConfig,omitempty" tf:"linux_exec_step_config,omitempty"`
 
+	// The ExecStepConfig for all Windows VMs targeted by the PatchJob.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	WindowsExecStepConfig []PreStepWindowsExecStepConfigParameters `json:"windowsExecStepConfig,omitempty" tf:"windows_exec_step_config,omitempty"`
 }
@@ -399,12 +441,15 @@ type PreStepWindowsExecStepConfigGcsObjectObservation struct {
 
 type PreStepWindowsExecStepConfigGcsObjectParameters struct {
 
+	// Bucket of the Cloud Storage object.
 	// +kubebuilder:validation:Required
 	Bucket *string `json:"bucket" tf:"bucket,omitempty"`
 
+	// Generation number of the Cloud Storage object. This is used to ensure that the ExecStep specified by this PatchJob does not change.
 	// +kubebuilder:validation:Required
 	GenerationNumber *string `json:"generationNumber" tf:"generation_number,omitempty"`
 
+	// Name of the Cloud Storage object.
 	// +kubebuilder:validation:Required
 	Object *string `json:"object" tf:"object,omitempty"`
 }
@@ -414,20 +459,30 @@ type PreStepWindowsExecStepConfigObservation struct {
 
 type PreStepWindowsExecStepConfigParameters struct {
 
+	// Defaults to [0]. A list of possible return values that the execution can return to indicate a success.
 	// +kubebuilder:validation:Optional
 	AllowedSuccessCodes []*float64 `json:"allowedSuccessCodes,omitempty" tf:"allowed_success_codes,omitempty"`
 
+	// A Cloud Storage object containing the executable.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	GcsObject []PreStepWindowsExecStepConfigGcsObjectParameters `json:"gcsObject,omitempty" tf:"gcs_object,omitempty"`
 
+	// The script interpreter to use to run the script. If no interpreter is specified the script will
+	// be executed directly, which will likely only succeed for scripts with shebang lines.
+	// Possible values are SHELL and POWERSHELL.
 	// +kubebuilder:validation:Optional
 	Interpreter *string `json:"interpreter,omitempty" tf:"interpreter,omitempty"`
 
+	// An absolute path to the executable on the VM.
 	// +kubebuilder:validation:Optional
 	LocalPath *string `json:"localPath,omitempty" tf:"local_path,omitempty"`
 }
 
 type RecurringScheduleObservation struct {
+
+	// The time the last patch job ran successfully.
+	// A timestamp in RFC3339 UTC "Zulu" format, accurate to nanoseconds. Example: "2014-10-02T15:01:23.045123456Z".
 	LastExecuteTime *string `json:"lastExecuteTime,omitempty" tf:"last_execute_time,omitempty"`
 
 	// The time the next patch job is scheduled to run.
@@ -511,6 +566,7 @@ type TimeZoneObservation struct {
 
 type TimeZoneParameters struct {
 
+	// IANA Time Zone Database time zone, e.g. "America/New_York".
 	// +kubebuilder:validation:Required
 	ID *string `json:"id" tf:"id,omitempty"`
 
@@ -524,6 +580,8 @@ type WeekDayOfMonthObservation struct {
 
 type WeekDayOfMonthParameters struct {
 
+	// A day of the week.
+	// Possible values are MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, and SUNDAY.
 	// +kubebuilder:validation:Required
 	DayOfWeek *string `json:"dayOfWeek" tf:"day_of_week,omitempty"`
 
@@ -537,6 +595,8 @@ type WeeklyObservation struct {
 
 type WeeklyParameters struct {
 
+	// IANA Time Zone Database time zone, e.g. "America/New_York".
+	// Possible values are MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, and SUNDAY.
 	// +kubebuilder:validation:Required
 	DayOfWeek *string `json:"dayOfWeek" tf:"day_of_week,omitempty"`
 }
@@ -546,12 +606,15 @@ type WindowsExecStepConfigGcsObjectObservation struct {
 
 type WindowsExecStepConfigGcsObjectParameters struct {
 
+	// Bucket of the Cloud Storage object.
 	// +kubebuilder:validation:Required
 	Bucket *string `json:"bucket" tf:"bucket,omitempty"`
 
+	// Generation number of the Cloud Storage object. This is used to ensure that the ExecStep specified by this PatchJob does not change.
 	// +kubebuilder:validation:Required
 	GenerationNumber *string `json:"generationNumber" tf:"generation_number,omitempty"`
 
+	// Name of the Cloud Storage object.
 	// +kubebuilder:validation:Required
 	Object *string `json:"object" tf:"object,omitempty"`
 }
@@ -561,15 +624,22 @@ type WindowsExecStepConfigObservation struct {
 
 type WindowsExecStepConfigParameters struct {
 
+	// Defaults to [0]. A list of possible return values that the execution can return to indicate a success.
 	// +kubebuilder:validation:Optional
 	AllowedSuccessCodes []*float64 `json:"allowedSuccessCodes,omitempty" tf:"allowed_success_codes,omitempty"`
 
+	// A Cloud Storage object containing the executable.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	GcsObject []WindowsExecStepConfigGcsObjectParameters `json:"gcsObject,omitempty" tf:"gcs_object,omitempty"`
 
+	// The script interpreter to use to run the script. If no interpreter is specified the script will
+	// be executed directly, which will likely only succeed for scripts with shebang lines.
+	// Possible values are SHELL and POWERSHELL.
 	// +kubebuilder:validation:Optional
 	Interpreter *string `json:"interpreter,omitempty" tf:"interpreter,omitempty"`
 
+	// An absolute path to the executable on the VM.
 	// +kubebuilder:validation:Optional
 	LocalPath *string `json:"localPath,omitempty" tf:"local_path,omitempty"`
 }
@@ -584,9 +654,12 @@ type WindowsUpdateParameters struct {
 	// +kubebuilder:validation:Optional
 	Classifications []*string `json:"classifications,omitempty" tf:"classifications,omitempty"`
 
+	// List of KBs to exclude from update.
 	// +kubebuilder:validation:Optional
 	Excludes []*string `json:"excludes,omitempty" tf:"excludes,omitempty"`
 
+	// An exclusive list of kbs to be updated. These are the only patches that will be updated.
+	// This field must not be used with other patch configurations.
 	// +kubebuilder:validation:Optional
 	ExclusivePatches []*string `json:"exclusivePatches,omitempty" tf:"exclusive_patches,omitempty"`
 }

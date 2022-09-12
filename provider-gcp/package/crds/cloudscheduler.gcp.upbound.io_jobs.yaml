@@ -94,12 +94,20 @@ spec:
                             type: object
                           type: array
                         body:
+                          description: HTTP request body. A request body is allowed
+                            only if the HTTP method is POST or PUT. It will result
+                            in invalid argument error to set a body on a job with
+                            an incompatible HttpMethod. A base64-encoded string.
                           type: string
                         headers:
                           additionalProperties:
                             type: string
+                          description: HTTP request headers. This map contains the
+                            header field names and values. Headers can be set when
+                            the job is created.
                           type: object
                         httpMethod:
+                          description: Which HTTP method to use for the request.
                           type: string
                         relativeUri:
                           description: 'The relative URI. The relative URL must begin
@@ -132,12 +140,20 @@ spec:
                     items:
                       properties:
                         body:
+                          description: HTTP request body. A request body is allowed
+                            only if the HTTP method is POST, PUT, or PATCH. It is
+                            an error to set body on a job with an incompatible HttpMethod.
+                            A base64-encoded string.
                           type: string
                         headers:
                           additionalProperties:
                             type: string
+                          description: This map contains the header field names and
+                            values. Repeated headers are not supported, but a header
+                            value can contain commas.
                           type: object
                         httpMethod:
+                          description: Which HTTP method to use for the request.
                           type: string
                         oauthToken:
                           description: Contains information needed for generating
@@ -152,6 +168,9 @@ spec:
                                   will be used.
                                 type: string
                               serviceAccountEmail:
+                                description: Service account email to be used for
+                                  generating OAuth token. The service account must
+                                  be within the same project as the job.
                                 type: string
                             required:
                             - serviceAccountEmail
@@ -170,6 +189,9 @@ spec:
                                   will be used.
                                 type: string
                               serviceAccountEmail:
+                                description: Service account email to be used for
+                                  generating OAuth token. The service account must
+                                  be within the same project as the job.
                                 type: string
                             required:
                             - serviceAccountEmail
@@ -292,8 +314,7 @@ spec:
                       type: object
                     type: array
                   region:
-                    description: Region where the scheduler job resides. If it is
-                      not provided, Terraform will use the provider default.
+                    description: Region where the scheduler job resides.
                     type: string
                   retryConfig:
                     description: By default, if a job does not complete successfully,

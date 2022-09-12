@@ -57,6 +57,7 @@ type CertificateTemplateObservation struct {
 
 type CertificateTemplateParameters struct {
 
+	// Optional. A human-readable description of scenarios this template is intended for.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -68,6 +69,7 @@ type CertificateTemplateParameters struct {
 	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
+	// The location for the resource
 	// +kubebuilder:validation:Required
 	Location *string `json:"location" tf:"location,omitempty"`
 
@@ -89,6 +91,7 @@ type IdentityConstraintsCelExpressionObservation struct {
 
 type IdentityConstraintsCelExpressionParameters struct {
 
+	// Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -96,6 +99,7 @@ type IdentityConstraintsCelExpressionParameters struct {
 	// +kubebuilder:validation:Optional
 	Expression *string `json:"expression,omitempty" tf:"expression,omitempty"`
 
+	// Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file.
 	// +kubebuilder:validation:Optional
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
@@ -109,6 +113,7 @@ type PassthroughExtensionsAdditionalExtensionsObservation struct {
 
 type PassthroughExtensionsAdditionalExtensionsParameters struct {
 
+	// Required. The parts of an OID path. The most significant parts of the path come first.
 	// +kubebuilder:validation:Required
 	ObjectIDPath []*float64 `json:"objectIdPath" tf:"object_id_path,omitempty"`
 }
@@ -118,6 +123,7 @@ type PassthroughExtensionsObservation struct {
 
 type PassthroughExtensionsParameters struct {
 
+	// Optional. A set of ObjectIds identifying custom X.509 extensions. Will be combined with known_extensions to determine the full set of X.509 extensions.
 	// +kubebuilder:validation:Optional
 	AdditionalExtensions []PassthroughExtensionsAdditionalExtensionsParameters `json:"additionalExtensions,omitempty" tf:"additional_extensions,omitempty"`
 
@@ -131,6 +137,7 @@ type PredefinedValuesAdditionalExtensionsObjectIDObservation struct {
 
 type PredefinedValuesAdditionalExtensionsObjectIDParameters struct {
 
+	// Required. The parts of an OID path. The most significant parts of the path come first.
 	// +kubebuilder:validation:Required
 	ObjectIDPath []*float64 `json:"objectIdPath" tf:"object_id_path,omitempty"`
 }
@@ -140,7 +147,7 @@ type PredefinedValuesAdditionalExtensionsObservation struct {
 
 type PredefinedValuesAdditionalExtensionsParameters struct {
 
-	// Optional. Indicates whether or not this extension is critical .
+	// Optional. Indicates whether or not this extension is critical (i.e., if the client does not know how to handle this extension, the client should consider this to be an error).
 	// +kubebuilder:validation:Optional
 	Critical *bool `json:"critical,omitempty" tf:"critical,omitempty"`
 
@@ -262,6 +269,7 @@ type PredefinedValuesKeyUsageUnknownExtendedKeyUsagesObservation struct {
 
 type PredefinedValuesKeyUsageUnknownExtendedKeyUsagesParameters struct {
 
+	// Required. The parts of an OID path. The most significant parts of the path come first.
 	// +kubebuilder:validation:Required
 	ObjectIDPath []*float64 `json:"objectIdPath" tf:"object_id_path,omitempty"`
 }
@@ -271,10 +279,11 @@ type PredefinedValuesObservation struct {
 
 type PredefinedValuesParameters struct {
 
+	// Optional. Describes custom X.509 extensions.
 	// +kubebuilder:validation:Optional
 	AdditionalExtensions []PredefinedValuesAdditionalExtensionsParameters `json:"additionalExtensions,omitempty" tf:"additional_extensions,omitempty"`
 
-	// Optional. Describes Online Certificate Status Protocol  endpoint addresses that appear in the "Authority Information Access" extension in the certificate.
+	// Optional. Describes Online Certificate Status Protocol (OCSP) endpoint addresses that appear in the "Authority Information Access" extension in the certificate.
 	// +kubebuilder:validation:Optional
 	AiaOcspServers []*string `json:"aiaOcspServers,omitempty" tf:"aia_ocsp_servers,omitempty"`
 
@@ -296,6 +305,7 @@ type PredefinedValuesPolicyIdsObservation struct {
 
 type PredefinedValuesPolicyIdsParameters struct {
 
+	// Required. The parts of an OID path. The most significant parts of the path come first.
 	// +kubebuilder:validation:Required
 	ObjectIDPath []*float64 `json:"objectIdPath" tf:"object_id_path,omitempty"`
 }

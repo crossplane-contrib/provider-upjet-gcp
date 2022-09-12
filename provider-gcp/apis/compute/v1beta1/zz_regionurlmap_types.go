@@ -42,27 +42,40 @@ type CorsPolicyObservation struct {
 
 type CorsPolicyParameters struct {
 
+	// In response to a preflight request, setting this to true indicates that the
+	// actual request can include user credentials. This translates to the Access-
+	// Control-Allow-Credentials header. Defaults to false.
 	// +kubebuilder:validation:Optional
 	AllowCredentials *bool `json:"allowCredentials,omitempty" tf:"allow_credentials,omitempty"`
 
+	// Specifies the content for the Access-Control-Allow-Headers header.
 	// +kubebuilder:validation:Optional
 	AllowHeaders []*string `json:"allowHeaders,omitempty" tf:"allow_headers,omitempty"`
 
+	// Specifies the content for the Access-Control-Allow-Methods header.
 	// +kubebuilder:validation:Optional
 	AllowMethods []*string `json:"allowMethods,omitempty" tf:"allow_methods,omitempty"`
 
+	// Specifies the regular expression patterns that match allowed origins. For
+	// regular expression grammar please see en.cppreference.com/w/cpp/regex/ecmascript
+	// An origin is allowed if it matches either allow_origins or allow_origin_regex.
 	// +kubebuilder:validation:Optional
 	AllowOriginRegexes []*string `json:"allowOriginRegexes,omitempty" tf:"allow_origin_regexes,omitempty"`
 
+	// Specifies the list of origins that will be allowed to do CORS requests. An
+	// origin is allowed if it matches either allow_origins or allow_origin_regex.
 	// +kubebuilder:validation:Optional
 	AllowOrigins []*string `json:"allowOrigins,omitempty" tf:"allow_origins,omitempty"`
 
 	// +kubebuilder:validation:Required
 	Disabled *bool `json:"disabled" tf:"disabled,omitempty"`
 
+	// Specifies the content for the Access-Control-Expose-Headers header.
 	// +kubebuilder:validation:Optional
 	ExposeHeaders []*string `json:"exposeHeaders,omitempty" tf:"expose_headers,omitempty"`
 
+	// Specifies how long the results of a preflight request can be cached. This
+	// translates to the content for the Access-Control-Max-Age header.
 	// +kubebuilder:validation:Optional
 	MaxAge *float64 `json:"maxAge,omitempty" tf:"max_age,omitempty"`
 }
@@ -72,21 +85,42 @@ type DefaultURLRedirectObservation struct {
 
 type DefaultURLRedirectParameters struct {
 
+	// If set to true, the URL scheme in the redirected request is set to https. If set to
+	// false, the URL scheme of the redirected request will remain the same as that of the
+	// request. This must only be set for UrlMaps used in TargetHttpProxys. Setting this
+	// true for TargetHttpsProxy is not permitted. The default is set to false.
 	// +kubebuilder:validation:Optional
 	HTTPSRedirect *bool `json:"httpsRedirect,omitempty" tf:"https_redirect,omitempty"`
 
+	// The host that will be used in the redirect response instead of the one that was
+	// supplied in the request. The value must be between 1 and 255 characters.
 	// +kubebuilder:validation:Optional
 	HostRedirect *string `json:"hostRedirect,omitempty" tf:"host_redirect,omitempty"`
 
+	// The path that will be used in the redirect response instead of the one that was
+	// supplied in the request. pathRedirect cannot be supplied together with
+	// prefixRedirect. Supply one alone or neither. If neither is supplied, the path of the
+	// original request will be used for the redirect. The value must be between 1 and 1024
+	// characters.
 	// +kubebuilder:validation:Optional
 	PathRedirect *string `json:"pathRedirect,omitempty" tf:"path_redirect,omitempty"`
 
+	// The prefix that replaces the prefixMatch specified in the HttpRouteRuleMatch,
+	// retaining the remaining portion of the URL before redirecting the request.
+	// prefixRedirect cannot be supplied together with pathRedirect. Supply one alone or
+	// neither. If neither is supplied, the path of the original request will be used for
+	// the redirect. The value must be between 1 and 1024 characters.
 	// +kubebuilder:validation:Optional
 	PrefixRedirect *string `json:"prefixRedirect,omitempty" tf:"prefix_redirect,omitempty"`
 
+	// The HTTP Status code to use for this RedirectAction. Supported values are:
 	// +kubebuilder:validation:Optional
 	RedirectResponseCode *string `json:"redirectResponseCode,omitempty" tf:"redirect_response_code,omitempty"`
 
+	// If set to true, any accompanying query portion of the original URL is removed prior
+	// to redirecting the request. If set to false, the query portion of the original URL is
+	// retained.
+	// This field is required to ensure an empty block is not set. The normal default value is false.
 	// +kubebuilder:validation:Required
 	StripQuery *bool `json:"stripQuery" tf:"strip_query,omitempty"`
 }
@@ -96,9 +130,14 @@ type DelayFixedDelayObservation struct {
 
 type DelayFixedDelayParameters struct {
 
+	// Span of time that's a fraction of a second at nanosecond resolution. Durations
+	// less than one second are represented with a 0 seconds field and a positive
+	// nanos field. Must be from 0 to 999,999,999 inclusive.
 	// +kubebuilder:validation:Optional
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
+	// inclusive.
 	// +kubebuilder:validation:Required
 	Seconds *string `json:"seconds" tf:"seconds,omitempty"`
 }
@@ -144,9 +183,15 @@ type FaultInjectionPolicyObservation struct {
 
 type FaultInjectionPolicyParameters struct {
 
+	// The specification for how client requests are aborted as part of fault
+	// injection.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Abort []AbortParameters `json:"abort,omitempty" tf:"abort,omitempty"`
 
+	// The specification for how client requests are delayed as part of fault
+	// injection, before being sent to a backend service.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Delay []DelayParameters `json:"delay,omitempty" tf:"delay,omitempty"`
 }
@@ -156,9 +201,14 @@ type FixedDelayObservation struct {
 
 type FixedDelayParameters struct {
 
+	// Span of time that's a fraction of a second at nanosecond resolution. Durations
+	// less than one second are represented with a 0 seconds field and a positive
+	// nanos field. Must be from 0 to 999,999,999 inclusive.
 	// +kubebuilder:validation:Optional
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
+	// inclusive.
 	// +kubebuilder:validation:Required
 	Seconds *string `json:"seconds" tf:"seconds,omitempty"`
 }
@@ -168,15 +218,24 @@ type HeaderActionObservation struct {
 
 type HeaderActionParameters struct {
 
+	// Headers to add to a matching request prior to forwarding the request to the
+	// backendService.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	RequestHeadersToAdd []RequestHeadersToAddParameters `json:"requestHeadersToAdd,omitempty" tf:"request_headers_to_add,omitempty"`
 
+	// A list of header names for headers that need to be removed from the request
+	// prior to forwarding the request to the backendService.
 	// +kubebuilder:validation:Optional
 	RequestHeadersToRemove []*string `json:"requestHeadersToRemove,omitempty" tf:"request_headers_to_remove,omitempty"`
 
+	// Headers to add the response prior to sending the response back to the client.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	ResponseHeadersToAdd []ResponseHeadersToAddParameters `json:"responseHeadersToAdd,omitempty" tf:"response_headers_to_add,omitempty"`
 
+	// A list of header names for headers that need to be removed from the response
+	// prior to sending the response back to the client.
 	// +kubebuilder:validation:Optional
 	ResponseHeadersToRemove []*string `json:"responseHeadersToRemove,omitempty" tf:"response_headers_to_remove,omitempty"`
 }
@@ -186,12 +245,17 @@ type HeaderActionRequestHeadersToAddObservation struct {
 
 type HeaderActionRequestHeadersToAddParameters struct {
 
+	// The name of the header.
 	// +kubebuilder:validation:Required
 	HeaderName *string `json:"headerName" tf:"header_name,omitempty"`
 
+	// The value of the header to add.
 	// +kubebuilder:validation:Required
 	HeaderValue *string `json:"headerValue" tf:"header_value,omitempty"`
 
+	// If false, headerValue is appended to any values that already exist for the
+	// header. If true, headerValue is set for the header, discarding any values that
+	// were set for that header.
 	// +kubebuilder:validation:Required
 	Replace *bool `json:"replace" tf:"replace,omitempty"`
 }
@@ -201,12 +265,17 @@ type HeaderActionResponseHeadersToAddObservation struct {
 
 type HeaderActionResponseHeadersToAddParameters struct {
 
+	// The name of the header.
 	// +kubebuilder:validation:Required
 	HeaderName *string `json:"headerName" tf:"header_name,omitempty"`
 
+	// The value of the header to add.
 	// +kubebuilder:validation:Required
 	HeaderValue *string `json:"headerValue" tf:"header_value,omitempty"`
 
+	// If false, headerValue is appended to any values that already exist for the
+	// header. If true, headerValue is set for the header, discarding any values that
+	// were set for that header.
 	// +kubebuilder:validation:Required
 	Replace *bool `json:"replace" tf:"replace,omitempty"`
 }
@@ -216,9 +285,14 @@ type HeaderMatchesObservation struct {
 
 type HeaderMatchesParameters struct {
 
+	// The value should exactly match contents of exactMatch. Only one of exactMatch,
+	// prefixMatch, suffixMatch, regexMatch, presentMatch or rangeMatch must be set.
 	// +kubebuilder:validation:Optional
 	ExactMatch *string `json:"exactMatch,omitempty" tf:"exact_match,omitempty"`
 
+	// The name of the HTTP header to match. For matching against the HTTP request's
+	// authority, use a headerMatch with the header name ":authority". For matching a
+	// request's method, use the headerName ":method".
 	// +kubebuilder:validation:Required
 	HeaderName *string `json:"headerName" tf:"header_name,omitempty"`
 
@@ -228,9 +302,15 @@ type HeaderMatchesParameters struct {
 	// +kubebuilder:validation:Optional
 	InvertMatch *bool `json:"invertMatch,omitempty" tf:"invert_match,omitempty"`
 
+	// The value of the header must start with the contents of prefixMatch. Only one of
+	// exactMatch, prefixMatch, suffixMatch, regexMatch, presentMatch or rangeMatch
+	// must be set.
 	// +kubebuilder:validation:Optional
 	PrefixMatch *string `json:"prefixMatch,omitempty" tf:"prefix_match,omitempty"`
 
+	// A header with the contents of headerName must exist. The match takes place
+	// whether or not the request's header has a value or not. Only one of exactMatch,
+	// prefixMatch, suffixMatch, regexMatch, presentMatch or rangeMatch must be set.
 	// +kubebuilder:validation:Optional
 	PresentMatch *bool `json:"presentMatch,omitempty" tf:"present_match,omitempty"`
 
@@ -240,6 +320,13 @@ type HeaderMatchesParameters struct {
 	// +kubebuilder:validation:Optional
 	RangeMatch []RangeMatchParameters `json:"rangeMatch,omitempty" tf:"range_match,omitempty"`
 
+	// The value of the header must match the regular expression specified in
+	// regexMatch. For regular expression grammar, please see:
+	// en.cppreference.com/w/cpp/regex/ecmascript  For matching against a port
+	// specified in the HTTP request, use a headerMatch with headerName set to PORT and
+	// a regular expression that satisfies the RFC2616 Host header's port specifier.
+	// Only one of exactMatch, prefixMatch, suffixMatch, regexMatch, presentMatch or
+	// rangeMatch must be set.
 	// +kubebuilder:validation:Optional
 	RegexMatch *string `json:"regexMatch,omitempty" tf:"regex_match,omitempty"`
 
@@ -255,16 +342,20 @@ type HostRuleObservation struct {
 
 type HostRuleParameters struct {
 
+	// An optional description of this HostRule. Provide this property
+	// when you create the resource.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// The list of host patterns to match. They must be valid
-	// hostnames, except * will match any string of . In
+	// hostnames, except * will match any string of ([a-z0-9-.]*). In
 	// that case, * must be the first character and must be followed in
 	// the pattern by either - or ..
 	// +kubebuilder:validation:Required
 	Hosts []*string `json:"hosts" tf:"hosts,omitempty"`
 
+	// The name of the PathMatcher to use to match the path portion of
+	// the URL if the hostRule matches the URL's host portion.
 	// +kubebuilder:validation:Required
 	PathMatcher *string `json:"pathMatcher" tf:"path_matcher,omitempty"`
 }
@@ -326,6 +417,10 @@ type MatchRulesParameters struct {
 	// +kubebuilder:validation:Optional
 	MetadataFilters []MatchRulesMetadataFiltersParameters `json:"metadataFilters,omitempty" tf:"metadata_filters,omitempty"`
 
+	// For satisfying the matchRule condition, the request's path must begin with the
+	// specified prefixMatch. prefixMatch must begin with a /. The value must be
+	// between 1 and 1024 characters. Only one of prefixMatch, fullPathMatch or
+	// regexMatch must be specified.
 	// +kubebuilder:validation:Optional
 	PrefixMatch *string `json:"prefixMatch,omitempty" tf:"prefix_match,omitempty"`
 
@@ -335,6 +430,11 @@ type MatchRulesParameters struct {
 	// +kubebuilder:validation:Optional
 	QueryParameterMatches []QueryParameterMatchesParameters `json:"queryParameterMatches,omitempty" tf:"query_parameter_matches,omitempty"`
 
+	// For satisfying the matchRule condition, the path of the request must satisfy the
+	// regular expression specified in regexMatch after removing any query parameters
+	// and anchor supplied with the original URL. For regular expression grammar please
+	// see en.cppreference.com/w/cpp/regex/ecmascript  Only one of prefixMatch,
+	// fullPathMatch or regexMatch must be specified.
 	// +kubebuilder:validation:Optional
 	RegexMatch *string `json:"regexMatch,omitempty" tf:"regex_match,omitempty"`
 }
@@ -344,6 +444,8 @@ type MetadataFiltersFilterLabelsObservation struct {
 
 type MetadataFiltersFilterLabelsParameters struct {
 
+	// Name of metadata label. The name can have a maximum length of 1024 characters
+	// and must be at least 1 character long.
 	// +kubebuilder:validation:Required
 	Name *string `json:"name" tf:"name,omitempty"`
 
@@ -358,21 +460,42 @@ type PathMatcherDefaultURLRedirectObservation struct {
 
 type PathMatcherDefaultURLRedirectParameters struct {
 
+	// If set to true, the URL scheme in the redirected request is set to https. If set to
+	// false, the URL scheme of the redirected request will remain the same as that of the
+	// request. This must only be set for UrlMaps used in TargetHttpProxys. Setting this
+	// true for TargetHttpsProxy is not permitted. The default is set to false.
 	// +kubebuilder:validation:Optional
 	HTTPSRedirect *bool `json:"httpsRedirect,omitempty" tf:"https_redirect,omitempty"`
 
+	// The host that will be used in the redirect response instead of the one that was
+	// supplied in the request. The value must be between 1 and 255 characters.
 	// +kubebuilder:validation:Optional
 	HostRedirect *string `json:"hostRedirect,omitempty" tf:"host_redirect,omitempty"`
 
+	// The path that will be used in the redirect response instead of the one that was
+	// supplied in the request. pathRedirect cannot be supplied together with
+	// prefixRedirect. Supply one alone or neither. If neither is supplied, the path of the
+	// original request will be used for the redirect. The value must be between 1 and 1024
+	// characters.
 	// +kubebuilder:validation:Optional
 	PathRedirect *string `json:"pathRedirect,omitempty" tf:"path_redirect,omitempty"`
 
+	// The prefix that replaces the prefixMatch specified in the HttpRouteRuleMatch,
+	// retaining the remaining portion of the URL before redirecting the request.
+	// prefixRedirect cannot be supplied together with pathRedirect. Supply one alone or
+	// neither. If neither is supplied, the path of the original request will be used for
+	// the redirect. The value must be between 1 and 1024 characters.
 	// +kubebuilder:validation:Optional
 	PrefixRedirect *string `json:"prefixRedirect,omitempty" tf:"prefix_redirect,omitempty"`
 
+	// The HTTP Status code to use for this RedirectAction. Supported values are:
 	// +kubebuilder:validation:Optional
 	RedirectResponseCode *string `json:"redirectResponseCode,omitempty" tf:"redirect_response_code,omitempty"`
 
+	// If set to true, any accompanying query portion of the original URL is removed prior
+	// to redirecting the request. If set to false, the query portion of the original URL is
+	// retained.
+	// This field is required to ensure an empty block is not set. The normal default value is false.
 	// +kubebuilder:validation:Required
 	StripQuery *bool `json:"stripQuery" tf:"strip_query,omitempty"`
 }
@@ -382,6 +505,9 @@ type PathMatcherObservation struct {
 
 type PathMatcherParameters struct {
 
+	// A reference to a RegionBackendService resource. This will be used if
+	// none of the pathRules defined by this PathMatcher is matched by
+	// the URL's path portion.
 	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.RegionBackendService
 	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
@@ -395,12 +521,18 @@ type PathMatcherParameters struct {
 	// +kubebuilder:validation:Optional
 	DefaultServiceSelector *v1.Selector `json:"defaultServiceSelector,omitempty" tf:"-"`
 
+	// When none of the specified hostRules match, the request is redirected to a URL specified
+	// by defaultUrlRedirect. If defaultUrlRedirect is specified, defaultService or
+	// defaultRouteAction must not be set.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	DefaultURLRedirect []PathMatcherDefaultURLRedirectParameters `json:"defaultUrlRedirect,omitempty" tf:"default_url_redirect,omitempty"`
 
+	// An optional description of this resource.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// The name to which this PathMatcher is referred by the HostRule.
 	// +kubebuilder:validation:Required
 	Name *string `json:"name" tf:"name,omitempty"`
 
@@ -437,9 +569,23 @@ type PathRuleParameters struct {
 	// +kubebuilder:validation:Required
 	Paths []*string `json:"paths" tf:"paths,omitempty"`
 
+	// In response to a matching path, the load balancer performs advanced routing
+	// actions like URL rewrites, header transformations, etc. prior to forwarding the
+	// request to the selected backend. If routeAction specifies any
+	// weightedBackendServices, service must not be set. Conversely if service is set,
+	// routeAction cannot contain any  weightedBackendServices. Only one of routeAction
+	// or urlRedirect must be set.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	RouteAction []RouteActionParameters `json:"routeAction,omitempty" tf:"route_action,omitempty"`
 
+	// The region backend service resource to which traffic is
+	// directed if this rule is matched. If routeAction is additionally specified,
+	// advanced routing actions like URL Rewrites, etc. take effect prior to sending
+	// the request to the backend. However, if service is specified, routeAction cannot
+	// contain any weightedBackendService s. Conversely, if routeAction specifies any
+	// weightedBackendServices, service must not be specified. Only one of urlRedirect,
+	// service or routeAction.weightedBackendService must be set.
 	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.RegionBackendService
 	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
@@ -453,6 +599,10 @@ type PathRuleParameters struct {
 	// +kubebuilder:validation:Optional
 	ServiceSelector *v1.Selector `json:"serviceSelector,omitempty" tf:"-"`
 
+	// When a path pattern is matched, the request is redirected to a URL specified
+	// by urlRedirect. If urlRedirect is specified, service or routeAction must not
+	// be set.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	URLRedirect []URLRedirectParameters `json:"urlRedirect,omitempty" tf:"url_redirect,omitempty"`
 }
@@ -462,9 +612,14 @@ type PerTryTimeoutObservation struct {
 
 type PerTryTimeoutParameters struct {
 
+	// Span of time that's a fraction of a second at nanosecond resolution. Durations
+	// less than one second are represented with a 0 seconds field and a positive
+	// nanos field. Must be from 0 to 999,999,999 inclusive.
 	// +kubebuilder:validation:Optional
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
+	// inclusive.
 	// +kubebuilder:validation:Required
 	Seconds *string `json:"seconds" tf:"seconds,omitempty"`
 }
@@ -474,15 +629,27 @@ type QueryParameterMatchesObservation struct {
 
 type QueryParameterMatchesParameters struct {
 
+	// The queryParameterMatch matches if the value of the parameter exactly matches
+	// the contents of exactMatch. Only one of presentMatch, exactMatch and regexMatch
+	// must be set.
 	// +kubebuilder:validation:Optional
 	ExactMatch *string `json:"exactMatch,omitempty" tf:"exact_match,omitempty"`
 
+	// The name of the query parameter to match. The query parameter must exist in the
+	// request, in the absence of which the request match fails.
 	// +kubebuilder:validation:Required
 	Name *string `json:"name" tf:"name,omitempty"`
 
+	// Specifies that the queryParameterMatch matches if the request contains the query
+	// parameter, irrespective of whether the parameter has a value or not. Only one of
+	// presentMatch, exactMatch and regexMatch must be set.
 	// +kubebuilder:validation:Optional
 	PresentMatch *bool `json:"presentMatch,omitempty" tf:"present_match,omitempty"`
 
+	// The queryParameterMatch matches if the value of the parameter matches the
+	// regular expression specified by regexMatch. For the regular expression grammar,
+	// please see en.cppreference.com/w/cpp/regex/ecmascript  Only one of presentMatch,
+	// exactMatch and regexMatch must be set.
 	// +kubebuilder:validation:Optional
 	RegexMatch *string `json:"regexMatch,omitempty" tf:"regex_match,omitempty"`
 }
@@ -492,11 +659,11 @@ type RangeMatchObservation struct {
 
 type RangeMatchParameters struct {
 
-	// The end of the range .
+	// The end of the range (exclusive).
 	// +kubebuilder:validation:Required
 	RangeEnd *float64 `json:"rangeEnd" tf:"range_end,omitempty"`
 
-	// The start of the range .
+	// The start of the range (inclusive).
 	// +kubebuilder:validation:Required
 	RangeStart *float64 `json:"rangeStart" tf:"range_start,omitempty"`
 }
@@ -522,6 +689,13 @@ type RegionURLMapObservation struct {
 
 type RegionURLMapParameters struct {
 
+	// The full or partial URL of the defaultService resource to which traffic is directed if
+	// none of the hostRules match. If defaultRouteAction is additionally specified, advanced
+	// routing actions like URL Rewrites, etc. take effect prior to sending the request to the
+	// backend. However, if defaultService is specified, defaultRouteAction cannot contain any
+	// weightedBackendServices. Conversely, if routeAction specifies any
+	// weightedBackendServices, service must not be specified.  Only one of defaultService,
+	// defaultUrlRedirect or defaultRouteAction.weightedBackendService must be set.
 	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.RegionBackendService
 	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
@@ -535,9 +709,15 @@ type RegionURLMapParameters struct {
 	// +kubebuilder:validation:Optional
 	DefaultServiceSelector *v1.Selector `json:"defaultServiceSelector,omitempty" tf:"-"`
 
+	// When none of the specified hostRules match, the request is redirected to a URL specified
+	// by defaultUrlRedirect. If defaultUrlRedirect is specified, defaultService or
+	// defaultRouteAction must not be set.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	DefaultURLRedirect []DefaultURLRedirectParameters `json:"defaultUrlRedirect,omitempty" tf:"default_url_redirect,omitempty"`
 
+	// An optional description of this resource. Provide this property when
+	// you create the resource.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -546,6 +726,8 @@ type RegionURLMapParameters struct {
 	// +kubebuilder:validation:Optional
 	HostRule []HostRuleParameters `json:"hostRule,omitempty" tf:"host_rule,omitempty"`
 
+	// The list of named PathMatchers to use against the URL.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	PathMatcher []PathMatcherParameters `json:"pathMatcher,omitempty" tf:"path_matcher,omitempty"`
 
@@ -571,12 +753,17 @@ type RequestHeadersToAddObservation struct {
 
 type RequestHeadersToAddParameters struct {
 
+	// The name of the header.
 	// +kubebuilder:validation:Required
 	HeaderName *string `json:"headerName" tf:"header_name,omitempty"`
 
+	// The value of the header to add.
 	// +kubebuilder:validation:Required
 	HeaderValue *string `json:"headerValue" tf:"header_value,omitempty"`
 
+	// If false, headerValue is appended to any values that already exist for the
+	// header. If true, headerValue is set for the header, discarding any values that
+	// were set for that header.
 	// +kubebuilder:validation:Required
 	Replace *bool `json:"replace" tf:"replace,omitempty"`
 }
@@ -586,6 +773,7 @@ type RequestMirrorPolicyObservation struct {
 
 type RequestMirrorPolicyParameters struct {
 
+	// The RegionBackendService resource being mirrored to.
 	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.RegionBackendService
 	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
@@ -605,12 +793,17 @@ type ResponseHeadersToAddObservation struct {
 
 type ResponseHeadersToAddParameters struct {
 
+	// The name of the header.
 	// +kubebuilder:validation:Required
 	HeaderName *string `json:"headerName" tf:"header_name,omitempty"`
 
+	// The value of the header to add.
 	// +kubebuilder:validation:Required
 	HeaderValue *string `json:"headerValue" tf:"header_value,omitempty"`
 
+	// If false, headerValue is appended to any values that already exist for the
+	// header. If true, headerValue is set for the header, discarding any values that
+	// were set for that header.
 	// +kubebuilder:validation:Required
 	Replace *bool `json:"replace" tf:"replace,omitempty"`
 }
@@ -623,9 +816,12 @@ type RetryPolicyParameters struct {
 	// +kubebuilder:validation:Optional
 	NumRetries *float64 `json:"numRetries,omitempty" tf:"num_retries,omitempty"`
 
+	// Specifies a non-zero timeout per retry attempt.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	PerTryTimeout []PerTryTimeoutParameters `json:"perTryTimeout,omitempty" tf:"per_try_timeout,omitempty"`
 
+	// Specifies one or more conditions when this retry rule applies. Valid values are:
 	// +kubebuilder:validation:Optional
 	RetryConditions []*string `json:"retryConditions,omitempty" tf:"retry_conditions,omitempty"`
 }
@@ -635,9 +831,14 @@ type RetryPolicyPerTryTimeoutObservation struct {
 
 type RetryPolicyPerTryTimeoutParameters struct {
 
+	// Span of time that's a fraction of a second at nanosecond resolution. Durations
+	// less than one second are represented with a 0 seconds field and a positive
+	// nanos field. Must be from 0 to 999,999,999 inclusive.
 	// +kubebuilder:validation:Optional
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
+	// inclusive.
 	// +kubebuilder:validation:Required
 	Seconds *string `json:"seconds" tf:"seconds,omitempty"`
 }
@@ -647,27 +848,40 @@ type RouteActionCorsPolicyObservation struct {
 
 type RouteActionCorsPolicyParameters struct {
 
+	// In response to a preflight request, setting this to true indicates that the
+	// actual request can include user credentials. This translates to the Access-
+	// Control-Allow-Credentials header. Defaults to false.
 	// +kubebuilder:validation:Optional
 	AllowCredentials *bool `json:"allowCredentials,omitempty" tf:"allow_credentials,omitempty"`
 
+	// Specifies the content for the Access-Control-Allow-Headers header.
 	// +kubebuilder:validation:Optional
 	AllowHeaders []*string `json:"allowHeaders,omitempty" tf:"allow_headers,omitempty"`
 
+	// Specifies the content for the Access-Control-Allow-Methods header.
 	// +kubebuilder:validation:Optional
 	AllowMethods []*string `json:"allowMethods,omitempty" tf:"allow_methods,omitempty"`
 
+	// Specifies the regular expression patterns that match allowed origins. For
+	// regular expression grammar please see en.cppreference.com/w/cpp/regex/ecmascript
+	// An origin is allowed if it matches either allow_origins or allow_origin_regex.
 	// +kubebuilder:validation:Optional
 	AllowOriginRegexes []*string `json:"allowOriginRegexes,omitempty" tf:"allow_origin_regexes,omitempty"`
 
+	// Specifies the list of origins that will be allowed to do CORS requests. An
+	// origin is allowed if it matches either allow_origins or allow_origin_regex.
 	// +kubebuilder:validation:Optional
 	AllowOrigins []*string `json:"allowOrigins,omitempty" tf:"allow_origins,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
 
+	// Specifies the content for the Access-Control-Expose-Headers header.
 	// +kubebuilder:validation:Optional
 	ExposeHeaders []*string `json:"exposeHeaders,omitempty" tf:"expose_headers,omitempty"`
 
+	// Specifies how long the results of a preflight request can be cached. This
+	// translates to the content for the Access-Control-Max-Age header.
 	// +kubebuilder:validation:Optional
 	MaxAge *float64 `json:"maxAge,omitempty" tf:"max_age,omitempty"`
 }
@@ -677,9 +891,15 @@ type RouteActionFaultInjectionPolicyObservation struct {
 
 type RouteActionFaultInjectionPolicyParameters struct {
 
+	// The specification for how client requests are aborted as part of fault
+	// injection.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Abort []FaultInjectionPolicyAbortParameters `json:"abort,omitempty" tf:"abort,omitempty"`
 
+	// The specification for how client requests are delayed as part of fault
+	// injection, before being sent to a backend service.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Delay []FaultInjectionPolicyDelayParameters `json:"delay,omitempty" tf:"delay,omitempty"`
 }
@@ -689,24 +909,59 @@ type RouteActionObservation struct {
 
 type RouteActionParameters struct {
 
+	// The specification for allowing client side cross-origin requests. Please see W3C
+	// Recommendation for Cross Origin Resource Sharing
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	CorsPolicy []CorsPolicyParameters `json:"corsPolicy,omitempty" tf:"cors_policy,omitempty"`
 
+	// The specification for fault injection introduced into traffic to test the
+	// resiliency of clients to backend service failure. As part of fault injection,
+	// when clients send requests to a backend service, delays can be introduced by
+	// Loadbalancer on a percentage of requests before sending those request to the
+	// backend service. Similarly requests from clients can be aborted by the
+	// Loadbalancer for a percentage of requests. timeout and retry_policy will be
+	// ignored by clients that are configured with a fault_injection_policy.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	FaultInjectionPolicy []FaultInjectionPolicyParameters `json:"faultInjectionPolicy,omitempty" tf:"fault_injection_policy,omitempty"`
 
+	// Specifies the policy on how requests intended for the route's backends are
+	// shadowed to a separate mirrored backend service. Loadbalancer does not wait for
+	// responses from the shadow service. Prior to sending traffic to the shadow
+	// service, the host / authority header is suffixed with -shadow.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	RequestMirrorPolicy []RequestMirrorPolicyParameters `json:"requestMirrorPolicy,omitempty" tf:"request_mirror_policy,omitempty"`
 
+	// Specifies the retry policy associated with this route.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	RetryPolicy []RetryPolicyParameters `json:"retryPolicy,omitempty" tf:"retry_policy,omitempty"`
 
+	// Specifies the timeout for the selected route. Timeout is computed from the time
+	// the request is has been fully processed (i.e. end-of-stream) up until the
+	// response has been completely processed. Timeout includes all retries. If not
+	// specified, the default value is 15 seconds.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Timeout []TimeoutParameters `json:"timeout,omitempty" tf:"timeout,omitempty"`
 
+	// The spec to modify the URL of the request, prior to forwarding the request to
+	// the matched service
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	URLRewrite []URLRewriteParameters `json:"urlRewrite,omitempty" tf:"url_rewrite,omitempty"`
 
+	// A list of weighted backend services to send traffic to when a route match
+	// occurs. The weights determine the fraction of traffic that flows to their
+	// corresponding backend service. If all traffic needs to go to a single backend
+	// service, there must be one  weightedBackendService with weight set to a non 0
+	// number. Once a backendService is identified and before forwarding the request to
+	// the backend service, advanced routing actions like Url rewrites and header
+	// transformations are applied depending on additional settings specified in this
+	// HttpRouteAction.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	WeightedBackendServices []WeightedBackendServicesParameters `json:"weightedBackendServices,omitempty" tf:"weighted_backend_services,omitempty"`
 }
@@ -716,6 +971,7 @@ type RouteActionRequestMirrorPolicyObservation struct {
 
 type RouteActionRequestMirrorPolicyParameters struct {
 
+	// The RegionBackendService resource being mirrored to.
 	// +kubebuilder:validation:Required
 	BackendService *string `json:"backendService" tf:"backend_service,omitempty"`
 }
@@ -728,9 +984,12 @@ type RouteActionRetryPolicyParameters struct {
 	// +kubebuilder:validation:Required
 	NumRetries *float64 `json:"numRetries" tf:"num_retries,omitempty"`
 
+	// Specifies a non-zero timeout per retry attempt.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	PerTryTimeout []RetryPolicyPerTryTimeoutParameters `json:"perTryTimeout,omitempty" tf:"per_try_timeout,omitempty"`
 
+	// Specifies one or more conditions when this retry rule applies. Valid values are:
 	// +kubebuilder:validation:Optional
 	RetryConditions []*string `json:"retryConditions,omitempty" tf:"retry_conditions,omitempty"`
 }
@@ -740,9 +999,14 @@ type RouteActionTimeoutObservation struct {
 
 type RouteActionTimeoutParameters struct {
 
+	// Span of time that's a fraction of a second at nanosecond resolution. Durations
+	// less than one second are represented with a 0 seconds field and a positive
+	// nanos field. Must be from 0 to 999,999,999 inclusive.
 	// +kubebuilder:validation:Optional
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
+	// inclusive.
 	// +kubebuilder:validation:Required
 	Seconds *string `json:"seconds" tf:"seconds,omitempty"`
 }
@@ -752,9 +1016,15 @@ type RouteActionURLRewriteObservation struct {
 
 type RouteActionURLRewriteParameters struct {
 
+	// Prior to forwarding the request to the selected service, the request's host
+	// header is replaced with contents of hostRewrite. The value must be between 1 and
+	// 255 characters.
 	// +kubebuilder:validation:Optional
 	HostRewrite *string `json:"hostRewrite,omitempty" tf:"host_rewrite,omitempty"`
 
+	// Prior to forwarding the request to the selected backend service, the matching
+	// portion of the request's path is replaced by pathPrefixRewrite. The value must
+	// be between 1 and 1024 characters.
 	// +kubebuilder:validation:Optional
 	PathPrefixRewrite *string `json:"pathPrefixRewrite,omitempty" tf:"path_prefix_rewrite,omitempty"`
 }
@@ -764,12 +1034,25 @@ type RouteActionWeightedBackendServicesObservation struct {
 
 type RouteActionWeightedBackendServicesParameters struct {
 
+	// The default RegionBackendService resource. Before
+	// forwarding the request to backendService, the loadbalancer applies any relevant
+	// headerActions specified as part of this backendServiceWeight.
 	// +kubebuilder:validation:Required
 	BackendService *string `json:"backendService" tf:"backend_service,omitempty"`
 
+	// Specifies changes to request and response headers that need to take effect for
+	// the selected backendService. headerAction specified here take effect before
+	// headerAction in the enclosing HttpRouteRule, PathMatcher and UrlMap.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	HeaderAction []WeightedBackendServicesHeaderActionParameters `json:"headerAction,omitempty" tf:"header_action,omitempty"`
 
+	// Specifies the fraction of traffic sent to backendService, computed as weight /
+	// (sum of all weightedBackendService weights in routeAction) . The selection of a
+	// backend service is determined only for new traffic. Once a user's request has
+	// been directed to a backendService, subsequent requests will be sent to the same
+	// backendService as determined by the BackendService's session affinity policy.
+	// The value must be between 0 and 1000
 	// +kubebuilder:validation:Required
 	Weight *float64 `json:"weight" tf:"weight,omitempty"`
 }
@@ -779,15 +1062,24 @@ type RouteRulesHeaderActionObservation struct {
 
 type RouteRulesHeaderActionParameters struct {
 
+	// Headers to add to a matching request prior to forwarding the request to the
+	// backendService.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	RequestHeadersToAdd []HeaderActionRequestHeadersToAddParameters `json:"requestHeadersToAdd,omitempty" tf:"request_headers_to_add,omitempty"`
 
+	// A list of header names for headers that need to be removed from the request
+	// prior to forwarding the request to the backendService.
 	// +kubebuilder:validation:Optional
 	RequestHeadersToRemove []*string `json:"requestHeadersToRemove,omitempty" tf:"request_headers_to_remove,omitempty"`
 
+	// Headers to add the response prior to sending the response back to the client.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	ResponseHeadersToAdd []HeaderActionResponseHeadersToAddParameters `json:"responseHeadersToAdd,omitempty" tf:"response_headers_to_add,omitempty"`
 
+	// A list of header names for headers that need to be removed from the response
+	// prior to sending the response back to the client.
 	// +kubebuilder:validation:Optional
 	ResponseHeadersToRemove []*string `json:"responseHeadersToRemove,omitempty" tf:"response_headers_to_remove,omitempty"`
 }
@@ -797,6 +1089,11 @@ type RouteRulesObservation struct {
 
 type RouteRulesParameters struct {
 
+	// Specifies changes to request and response headers that need to take effect for
+	// the selected backendService. The headerAction specified here are applied before
+	// the matching pathMatchers[].headerAction and after pathMatchers[].routeRules[].r
+	// outeAction.weightedBackendService.backendServiceWeightAction[].headerAction
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	HeaderAction []RouteRulesHeaderActionParameters `json:"headerAction,omitempty" tf:"header_action,omitempty"`
 
@@ -808,7 +1105,7 @@ type RouteRulesParameters struct {
 	// For routeRules within a given pathMatcher, priority determines the order
 	// in which load balancer will interpret routeRules. RouteRules are evaluated
 	// in order of priority, from the lowest to highest number. The priority of
-	// a rule decreases as its number increases . The first rule
+	// a rule decreases as its number increases (1, 2, 3, N+1). The first rule
 	// that matches the request is applied.
 	// You cannot configure two or more routeRules with the same priority.
 	// Priority for each rule must be set to a number between 0 and
@@ -821,9 +1118,23 @@ type RouteRulesParameters struct {
 	// +kubebuilder:validation:Required
 	Priority *float64 `json:"priority" tf:"priority,omitempty"`
 
+	// In response to a matching matchRule, the load balancer performs advanced routing
+	// actions like URL rewrites, header transformations, etc. prior to forwarding the
+	// request to the selected backend. If  routeAction specifies any
+	// weightedBackendServices, service must not be set. Conversely if service is set,
+	// routeAction cannot contain any  weightedBackendServices. Only one of routeAction
+	// or urlRedirect must be set.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	RouteAction []RouteRulesRouteActionParameters `json:"routeAction,omitempty" tf:"route_action,omitempty"`
 
+	// The region backend service resource to which traffic is
+	// directed if this rule is matched. If routeAction is additionally specified,
+	// advanced routing actions like URL Rewrites, etc. take effect prior to sending
+	// the request to the backend. However, if service is specified, routeAction cannot
+	// contain any weightedBackendService s. Conversely, if routeAction specifies any
+	// weightedBackendServices, service must not be specified. Only one of urlRedirect,
+	// service or routeAction.weightedBackendService must be set.
 	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.RegionBackendService
 	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
@@ -837,6 +1148,10 @@ type RouteRulesParameters struct {
 	// +kubebuilder:validation:Optional
 	ServiceSelector *v1.Selector `json:"serviceSelector,omitempty" tf:"-"`
 
+	// When this rule is matched, the request is redirected to a URL specified by
+	// urlRedirect. If urlRedirect is specified, service or routeAction must not be
+	// set.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	URLRedirect []RouteRulesURLRedirectParameters `json:"urlRedirect,omitempty" tf:"url_redirect,omitempty"`
 }
@@ -846,24 +1161,59 @@ type RouteRulesRouteActionObservation struct {
 
 type RouteRulesRouteActionParameters struct {
 
+	// The specification for allowing client side cross-origin requests. Please see W3C
+	// Recommendation for Cross Origin Resource Sharing
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	CorsPolicy []RouteActionCorsPolicyParameters `json:"corsPolicy,omitempty" tf:"cors_policy,omitempty"`
 
+	// The specification for fault injection introduced into traffic to test the
+	// resiliency of clients to backend service failure. As part of fault injection,
+	// when clients send requests to a backend service, delays can be introduced by
+	// Loadbalancer on a percentage of requests before sending those request to the
+	// backend service. Similarly requests from clients can be aborted by the
+	// Loadbalancer for a percentage of requests. timeout and retry_policy will be
+	// ignored by clients that are configured with a fault_injection_policy.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	FaultInjectionPolicy []RouteActionFaultInjectionPolicyParameters `json:"faultInjectionPolicy,omitempty" tf:"fault_injection_policy,omitempty"`
 
+	// Specifies the policy on how requests intended for the route's backends are
+	// shadowed to a separate mirrored backend service. Loadbalancer does not wait for
+	// responses from the shadow service. Prior to sending traffic to the shadow
+	// service, the host / authority header is suffixed with -shadow.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	RequestMirrorPolicy []RouteActionRequestMirrorPolicyParameters `json:"requestMirrorPolicy,omitempty" tf:"request_mirror_policy,omitempty"`
 
+	// Specifies the retry policy associated with this route.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	RetryPolicy []RouteActionRetryPolicyParameters `json:"retryPolicy,omitempty" tf:"retry_policy,omitempty"`
 
+	// Specifies the timeout for the selected route. Timeout is computed from the time
+	// the request is has been fully processed (i.e. end-of-stream) up until the
+	// response has been completely processed. Timeout includes all retries. If not
+	// specified, the default value is 15 seconds.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Timeout []RouteActionTimeoutParameters `json:"timeout,omitempty" tf:"timeout,omitempty"`
 
+	// The spec to modify the URL of the request, prior to forwarding the request to
+	// the matched service
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	URLRewrite []RouteActionURLRewriteParameters `json:"urlRewrite,omitempty" tf:"url_rewrite,omitempty"`
 
+	// A list of weighted backend services to send traffic to when a route match
+	// occurs. The weights determine the fraction of traffic that flows to their
+	// corresponding backend service. If all traffic needs to go to a single backend
+	// service, there must be one  weightedBackendService with weight set to a non 0
+	// number. Once a backendService is identified and before forwarding the request to
+	// the backend service, advanced routing actions like Url rewrites and header
+	// transformations are applied depending on additional settings specified in this
+	// HttpRouteAction.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	WeightedBackendServices []RouteActionWeightedBackendServicesParameters `json:"weightedBackendServices,omitempty" tf:"weighted_backend_services,omitempty"`
 }
@@ -873,21 +1223,45 @@ type RouteRulesURLRedirectObservation struct {
 
 type RouteRulesURLRedirectParameters struct {
 
+	// If set to true, the URL scheme in the redirected request is set to https.
+	// If set to false, the URL scheme of the redirected request will remain the
+	// same as that of the request. This must only be set for UrlMaps used in
+	// TargetHttpProxys. Setting this true for TargetHttpsProxy is not
+	// permitted. The default is set to false.
 	// +kubebuilder:validation:Optional
 	HTTPSRedirect *bool `json:"httpsRedirect,omitempty" tf:"https_redirect,omitempty"`
 
+	// The host that will be used in the redirect response instead of the one
+	// that was supplied in the request. The value must be between 1 and 255
+	// characters.
 	// +kubebuilder:validation:Optional
 	HostRedirect *string `json:"hostRedirect,omitempty" tf:"host_redirect,omitempty"`
 
+	// The path that will be used in the redirect response instead of the one
+	// that was supplied in the request. pathRedirect cannot be supplied
+	// together with prefixRedirect. Supply one alone or neither. If neither is
+	// supplied, the path of the original request will be used for the redirect.
+	// The value must be between 1 and 1024 characters.
 	// +kubebuilder:validation:Optional
 	PathRedirect *string `json:"pathRedirect,omitempty" tf:"path_redirect,omitempty"`
 
+	// The prefix that replaces the prefixMatch specified in the
+	// HttpRouteRuleMatch, retaining the remaining portion of the URL before
+	// redirecting the request. prefixRedirect cannot be supplied together with
+	// pathRedirect. Supply one alone or neither. If neither is supplied, the
+	// path of the original request will be used for the redirect. The value
+	// must be between 1 and 1024 characters.
 	// +kubebuilder:validation:Optional
 	PrefixRedirect *string `json:"prefixRedirect,omitempty" tf:"prefix_redirect,omitempty"`
 
+	// The HTTP Status code to use for this RedirectAction. Supported values are:
 	// +kubebuilder:validation:Optional
 	RedirectResponseCode *string `json:"redirectResponseCode,omitempty" tf:"redirect_response_code,omitempty"`
 
+	// If set to true, any accompanying query portion of the original URL is removed prior
+	// to redirecting the request. If set to false, the query portion of the original URL is
+	// retained.
+	// This field is required to ensure an empty block is not set. The normal default value is false.
 	// +kubebuilder:validation:Optional
 	StripQuery *bool `json:"stripQuery,omitempty" tf:"strip_query,omitempty"`
 }
@@ -897,6 +1271,7 @@ type TestObservation struct {
 
 type TestParameters struct {
 
+	// Description of this test case.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -908,6 +1283,7 @@ type TestParameters struct {
 	// +kubebuilder:validation:Required
 	Path *string `json:"path" tf:"path,omitempty"`
 
+	// A reference to expected RegionBackendService resource the given URL should be mapped to.
 	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.RegionBackendService
 	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
@@ -927,9 +1303,14 @@ type TimeoutObservation struct {
 
 type TimeoutParameters struct {
 
+	// Span of time that's a fraction of a second at nanosecond resolution. Durations
+	// less than one second are represented with a 0 seconds field and a positive
+	// nanos field. Must be from 0 to 999,999,999 inclusive.
 	// +kubebuilder:validation:Optional
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
+	// inclusive.
 	// +kubebuilder:validation:Required
 	Seconds *string `json:"seconds" tf:"seconds,omitempty"`
 }
@@ -939,21 +1320,45 @@ type URLRedirectObservation struct {
 
 type URLRedirectParameters struct {
 
+	// If set to true, the URL scheme in the redirected request is set to https.
+	// If set to false, the URL scheme of the redirected request will remain the
+	// same as that of the request. This must only be set for UrlMaps used in
+	// TargetHttpProxys. Setting this true for TargetHttpsProxy is not
+	// permitted. The default is set to false.
 	// +kubebuilder:validation:Optional
 	HTTPSRedirect *bool `json:"httpsRedirect,omitempty" tf:"https_redirect,omitempty"`
 
+	// The host that will be used in the redirect response instead of the one
+	// that was supplied in the request. The value must be between 1 and 255
+	// characters.
 	// +kubebuilder:validation:Optional
 	HostRedirect *string `json:"hostRedirect,omitempty" tf:"host_redirect,omitempty"`
 
+	// The path that will be used in the redirect response instead of the one
+	// that was supplied in the request. pathRedirect cannot be supplied
+	// together with prefixRedirect. Supply one alone or neither. If neither is
+	// supplied, the path of the original request will be used for the redirect.
+	// The value must be between 1 and 1024 characters.
 	// +kubebuilder:validation:Optional
 	PathRedirect *string `json:"pathRedirect,omitempty" tf:"path_redirect,omitempty"`
 
+	// The prefix that replaces the prefixMatch specified in the
+	// HttpRouteRuleMatch, retaining the remaining portion of the URL before
+	// redirecting the request. prefixRedirect cannot be supplied together with
+	// pathRedirect. Supply one alone or neither. If neither is supplied, the
+	// path of the original request will be used for the redirect. The value
+	// must be between 1 and 1024 characters.
 	// +kubebuilder:validation:Optional
 	PrefixRedirect *string `json:"prefixRedirect,omitempty" tf:"prefix_redirect,omitempty"`
 
+	// The HTTP Status code to use for this RedirectAction. Supported values are:
 	// +kubebuilder:validation:Optional
 	RedirectResponseCode *string `json:"redirectResponseCode,omitempty" tf:"redirect_response_code,omitempty"`
 
+	// If set to true, any accompanying query portion of the original URL is removed prior
+	// to redirecting the request. If set to false, the query portion of the original URL is
+	// retained.
+	// This field is required to ensure an empty block is not set. The normal default value is false.
 	// +kubebuilder:validation:Required
 	StripQuery *bool `json:"stripQuery" tf:"strip_query,omitempty"`
 }
@@ -963,9 +1368,15 @@ type URLRewriteObservation struct {
 
 type URLRewriteParameters struct {
 
+	// Prior to forwarding the request to the selected service, the request's host
+	// header is replaced with contents of hostRewrite. The value must be between 1 and
+	// 255 characters.
 	// +kubebuilder:validation:Optional
 	HostRewrite *string `json:"hostRewrite,omitempty" tf:"host_rewrite,omitempty"`
 
+	// Prior to forwarding the request to the selected backend service, the matching
+	// portion of the request's path is replaced by pathPrefixRewrite. The value must
+	// be between 1 and 1024 characters.
 	// +kubebuilder:validation:Optional
 	PathPrefixRewrite *string `json:"pathPrefixRewrite,omitempty" tf:"path_prefix_rewrite,omitempty"`
 }
@@ -975,15 +1386,24 @@ type WeightedBackendServicesHeaderActionObservation struct {
 
 type WeightedBackendServicesHeaderActionParameters struct {
 
+	// Headers to add to a matching request prior to forwarding the request to the
+	// backendService.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	RequestHeadersToAdd []WeightedBackendServicesHeaderActionRequestHeadersToAddParameters `json:"requestHeadersToAdd,omitempty" tf:"request_headers_to_add,omitempty"`
 
+	// A list of header names for headers that need to be removed from the request
+	// prior to forwarding the request to the backendService.
 	// +kubebuilder:validation:Optional
 	RequestHeadersToRemove []*string `json:"requestHeadersToRemove,omitempty" tf:"request_headers_to_remove,omitempty"`
 
+	// Headers to add the response prior to sending the response back to the client.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	ResponseHeadersToAdd []WeightedBackendServicesHeaderActionResponseHeadersToAddParameters `json:"responseHeadersToAdd,omitempty" tf:"response_headers_to_add,omitempty"`
 
+	// A list of header names for headers that need to be removed from the response
+	// prior to sending the response back to the client.
 	// +kubebuilder:validation:Optional
 	ResponseHeadersToRemove []*string `json:"responseHeadersToRemove,omitempty" tf:"response_headers_to_remove,omitempty"`
 }
@@ -993,12 +1413,17 @@ type WeightedBackendServicesHeaderActionRequestHeadersToAddObservation struct {
 
 type WeightedBackendServicesHeaderActionRequestHeadersToAddParameters struct {
 
+	// The name of the header.
 	// +kubebuilder:validation:Required
 	HeaderName *string `json:"headerName" tf:"header_name,omitempty"`
 
+	// The value of the header to add.
 	// +kubebuilder:validation:Required
 	HeaderValue *string `json:"headerValue" tf:"header_value,omitempty"`
 
+	// If false, headerValue is appended to any values that already exist for the
+	// header. If true, headerValue is set for the header, discarding any values that
+	// were set for that header.
 	// +kubebuilder:validation:Required
 	Replace *bool `json:"replace" tf:"replace,omitempty"`
 }
@@ -1008,12 +1433,17 @@ type WeightedBackendServicesHeaderActionResponseHeadersToAddObservation struct {
 
 type WeightedBackendServicesHeaderActionResponseHeadersToAddParameters struct {
 
+	// The name of the header.
 	// +kubebuilder:validation:Required
 	HeaderName *string `json:"headerName" tf:"header_name,omitempty"`
 
+	// The value of the header to add.
 	// +kubebuilder:validation:Required
 	HeaderValue *string `json:"headerValue" tf:"header_value,omitempty"`
 
+	// If false, headerValue is appended to any values that already exist for the
+	// header. If true, headerValue is set for the header, discarding any values that
+	// were set for that header.
 	// +kubebuilder:validation:Required
 	Replace *bool `json:"replace" tf:"replace,omitempty"`
 }
@@ -1023,6 +1453,9 @@ type WeightedBackendServicesObservation struct {
 
 type WeightedBackendServicesParameters struct {
 
+	// The default RegionBackendService resource. Before
+	// forwarding the request to backendService, the loadbalancer applies any relevant
+	// headerActions specified as part of this backendServiceWeight.
 	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.RegionBackendService
 	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
@@ -1036,9 +1469,19 @@ type WeightedBackendServicesParameters struct {
 	// +kubebuilder:validation:Optional
 	BackendServiceSelector *v1.Selector `json:"backendServiceSelector,omitempty" tf:"-"`
 
+	// Specifies changes to request and response headers that need to take effect for
+	// the selected backendService. headerAction specified here take effect before
+	// headerAction in the enclosing HttpRouteRule, PathMatcher and UrlMap.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	HeaderAction []HeaderActionParameters `json:"headerAction,omitempty" tf:"header_action,omitempty"`
 
+	// Specifies the fraction of traffic sent to backendService, computed as weight /
+	// (sum of all weightedBackendService weights in routeAction) . The selection of a
+	// backend service is determined only for new traffic. Once a user's request has
+	// been directed to a backendService, subsequent requests will be sent to the same
+	// backendService as determined by the BackendService's session affinity policy.
+	// The value must be between 0 and 1000
 	// +kubebuilder:validation:Required
 	Weight *float64 `json:"weight" tf:"weight,omitempty"`
 }

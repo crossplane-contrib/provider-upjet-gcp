@@ -239,15 +239,13 @@ type NodePoolParameters_2 struct {
 
 	// The initial number of nodes for the pool. In
 	// regional or multi-zonal clusters, this is the number of nodes per zone. Changing
-	// this will force recreation of the resource. WARNING: Resizing your node pool manually
-	// may change this value in your existing cluster, which will trigger destruction
-	// and recreation on the next Terraform run .  If you don't
+	// this will force recreation of the resource.  If you don't
 	// need this value, don't set it.  If you do need it, you can use a lifecycle block to
 	// ignore subsequent changes to this field.
 	// +kubebuilder:validation:Optional
 	InitialNodeCount *float64 `json:"initialNodeCount,omitempty" tf:"initial_node_count,omitempty"`
 
-	// The location  of the cluster.
+	// The location (region or zone) of the cluster.
 	// +kubebuilder:validation:Optional
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
@@ -294,10 +292,7 @@ type NodePoolParameters_2 struct {
 
 	// The Kubernetes version for the nodes in this pool. Note that if this field
 	// and auto_upgrade are both specified, they will fight each other for what the node version should
-	// be, so setting both is highly discouraged. While a fuzzy version can be specified, it's
-	// recommended that you specify explicit versions as Terraform will see spurious diffs
-	// when fuzzy versions are used. See the google_container_engine_versions data source's
-	// version_prefix field to approximate fuzzy versions in a Terraform-compatible way.
+	// be, so setting both is highly discouraged.
 	// +kubebuilder:validation:Optional
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
 }

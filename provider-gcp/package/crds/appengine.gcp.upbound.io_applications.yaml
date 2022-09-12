@@ -93,7 +93,7 @@ spec:
                       properties:
                         enabled:
                           description: Whether the serving infrastructure will authenticate
-                            and authorize all incoming requests.
+                            and authorize all incoming requests. (default is false)
                           type: boolean
                         oauth2ClientId:
                           description: OAuth2 client ID to use for the authentication

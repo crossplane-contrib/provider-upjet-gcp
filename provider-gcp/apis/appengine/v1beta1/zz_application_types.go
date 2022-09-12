@@ -114,6 +114,7 @@ type IapObservation struct {
 type IapParameters struct {
 
 	// Whether the serving infrastructure will authenticate and authorize all incoming requests.
+	// (default is false)
 	// +kubebuilder:validation:Optional
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 

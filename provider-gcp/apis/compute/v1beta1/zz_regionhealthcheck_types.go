@@ -35,12 +35,19 @@ type RegionHealthCheckGRPCHealthCheckParameters struct {
 	// +kubebuilder:validation:Optional
 	GRPCServiceName *string `json:"grpcServiceName,omitempty" tf:"grpc_service_name,omitempty"`
 
+	// The port number for the health check request.
+	// Must be specified if portName and portSpecification are not set
+	// or if port_specification is USE_FIXED_PORT. Valid values are 1 through 65535.
 	// +kubebuilder:validation:Optional
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
 
+	// Port name as defined in InstanceGroup#NamedPort#name. If both port and
+	// port_name are defined, port takes precedence.
 	// +kubebuilder:validation:Optional
 	PortName *string `json:"portName,omitempty" tf:"port_name,omitempty"`
 
+	// Specifies how port is selected for health checking, can be one of the
+	// following values:
 	// +kubebuilder:validation:Optional
 	PortSpecification *string `json:"portSpecification,omitempty" tf:"port_specification,omitempty"`
 }
@@ -50,24 +57,42 @@ type RegionHealthCheckHTTPHealthCheckObservation struct {
 
 type RegionHealthCheckHTTPHealthCheckParameters struct {
 
+	// The value of the host header in the HTTP health check request.
+	// If left empty (default value), the public IP on behalf of which this health
+	// check is performed will be used.
 	// +kubebuilder:validation:Optional
 	Host *string `json:"host,omitempty" tf:"host,omitempty"`
 
+	// The TCP port number for the HTTP health check request.
+	// The default value is 80.
 	// +kubebuilder:validation:Optional
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
 
+	// Port name as defined in InstanceGroup#NamedPort#name. If both port and
+	// port_name are defined, port takes precedence.
 	// +kubebuilder:validation:Optional
 	PortName *string `json:"portName,omitempty" tf:"port_name,omitempty"`
 
+	// Specifies how port is selected for health checking, can be one of the
+	// following values:
 	// +kubebuilder:validation:Optional
 	PortSpecification *string `json:"portSpecification,omitempty" tf:"port_specification,omitempty"`
 
+	// Specifies the type of proxy header to append before sending data to the
+	// backend.
+	// Default value is NONE.
+	// Possible values are NONE and PROXY_V1.
 	// +kubebuilder:validation:Optional
 	ProxyHeader *string `json:"proxyHeader,omitempty" tf:"proxy_header,omitempty"`
 
+	// The request path of the HTTP health check request.
+	// The default value is /.
 	// +kubebuilder:validation:Optional
 	RequestPath *string `json:"requestPath,omitempty" tf:"request_path,omitempty"`
 
+	// The bytes to match against the beginning of the response data. If left empty
+	// (the default value), any response will indicate health. The response data
+	// can only be ASCII.
 	// +kubebuilder:validation:Optional
 	Response *string `json:"response,omitempty" tf:"response,omitempty"`
 }
@@ -77,24 +102,42 @@ type RegionHealthCheckHTTPSHealthCheckObservation struct {
 
 type RegionHealthCheckHTTPSHealthCheckParameters struct {
 
+	// The value of the host header in the HTTPS health check request.
+	// If left empty (default value), the public IP on behalf of which this health
+	// check is performed will be used.
 	// +kubebuilder:validation:Optional
 	Host *string `json:"host,omitempty" tf:"host,omitempty"`
 
+	// The TCP port number for the HTTPS health check request.
+	// The default value is 443.
 	// +kubebuilder:validation:Optional
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
 
+	// Port name as defined in InstanceGroup#NamedPort#name. If both port and
+	// port_name are defined, port takes precedence.
 	// +kubebuilder:validation:Optional
 	PortName *string `json:"portName,omitempty" tf:"port_name,omitempty"`
 
+	// Specifies how port is selected for health checking, can be one of the
+	// following values:
 	// +kubebuilder:validation:Optional
 	PortSpecification *string `json:"portSpecification,omitempty" tf:"port_specification,omitempty"`
 
+	// Specifies the type of proxy header to append before sending data to the
+	// backend.
+	// Default value is NONE.
+	// Possible values are NONE and PROXY_V1.
 	// +kubebuilder:validation:Optional
 	ProxyHeader *string `json:"proxyHeader,omitempty" tf:"proxy_header,omitempty"`
 
+	// The request path of the HTTPS health check request.
+	// The default value is /.
 	// +kubebuilder:validation:Optional
 	RequestPath *string `json:"requestPath,omitempty" tf:"request_path,omitempty"`
 
+	// The bytes to match against the beginning of the response data. If left empty
+	// (the default value), any response will indicate health. The response data
+	// can only be ASCII.
 	// +kubebuilder:validation:Optional
 	Response *string `json:"response,omitempty" tf:"response,omitempty"`
 }
@@ -104,24 +147,42 @@ type RegionHealthCheckHttp2HealthCheckObservation struct {
 
 type RegionHealthCheckHttp2HealthCheckParameters struct {
 
+	// The value of the host header in the HTTP2 health check request.
+	// If left empty (default value), the public IP on behalf of which this health
+	// check is performed will be used.
 	// +kubebuilder:validation:Optional
 	Host *string `json:"host,omitempty" tf:"host,omitempty"`
 
+	// The TCP port number for the HTTP2 health check request.
+	// The default value is 443.
 	// +kubebuilder:validation:Optional
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
 
+	// Port name as defined in InstanceGroup#NamedPort#name. If both port and
+	// port_name are defined, port takes precedence.
 	// +kubebuilder:validation:Optional
 	PortName *string `json:"portName,omitempty" tf:"port_name,omitempty"`
 
+	// Specifies how port is selected for health checking, can be one of the
+	// following values:
 	// +kubebuilder:validation:Optional
 	PortSpecification *string `json:"portSpecification,omitempty" tf:"port_specification,omitempty"`
 
+	// Specifies the type of proxy header to append before sending data to the
+	// backend.
+	// Default value is NONE.
+	// Possible values are NONE and PROXY_V1.
 	// +kubebuilder:validation:Optional
 	ProxyHeader *string `json:"proxyHeader,omitempty" tf:"proxy_header,omitempty"`
 
+	// The request path of the HTTP2 health check request.
+	// The default value is /.
 	// +kubebuilder:validation:Optional
 	RequestPath *string `json:"requestPath,omitempty" tf:"request_path,omitempty"`
 
+	// The bytes to match against the beginning of the response data. If left empty
+	// (the default value), any response will indicate health. The response data
+	// can only be ASCII.
 	// +kubebuilder:validation:Optional
 	Response *string `json:"response,omitempty" tf:"response,omitempty"`
 }
@@ -154,7 +215,7 @@ type RegionHealthCheckObservation struct {
 
 type RegionHealthCheckParameters struct {
 
-	// How often  to send a health check. The default value is 5
+	// How often (in seconds) to send a health check. The default value is 5
 	// seconds.
 	// +kubebuilder:validation:Optional
 	CheckIntervalSec *float64 `json:"checkIntervalSec,omitempty" tf:"check_interval_sec,omitempty"`
@@ -214,7 +275,7 @@ type RegionHealthCheckParameters struct {
 	// +kubebuilder:validation:Optional
 	TCPHealthCheck []RegionHealthCheckTCPHealthCheckParameters `json:"tcpHealthCheck,omitempty" tf:"tcp_health_check,omitempty"`
 
-	// How long  to wait before claiming failure.
+	// How long (in seconds) to wait before claiming failure.
 	// The default value is 5 seconds.  It is invalid for timeoutSec to have
 	// greater value than checkIntervalSec.
 	// +kubebuilder:validation:Optional
@@ -231,21 +292,38 @@ type RegionHealthCheckSSLHealthCheckObservation struct {
 
 type RegionHealthCheckSSLHealthCheckParameters struct {
 
+	// The TCP port number for the SSL health check request.
+	// The default value is 443.
 	// +kubebuilder:validation:Optional
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
 
+	// Port name as defined in InstanceGroup#NamedPort#name. If both port and
+	// port_name are defined, port takes precedence.
 	// +kubebuilder:validation:Optional
 	PortName *string `json:"portName,omitempty" tf:"port_name,omitempty"`
 
+	// Specifies how port is selected for health checking, can be one of the
+	// following values:
 	// +kubebuilder:validation:Optional
 	PortSpecification *string `json:"portSpecification,omitempty" tf:"port_specification,omitempty"`
 
+	// Specifies the type of proxy header to append before sending data to the
+	// backend.
+	// Default value is NONE.
+	// Possible values are NONE and PROXY_V1.
 	// +kubebuilder:validation:Optional
 	ProxyHeader *string `json:"proxyHeader,omitempty" tf:"proxy_header,omitempty"`
 
+	// The application data to send once the SSL connection has been
+	// established (default value is empty). If both request and response are
+	// empty, the connection establishment alone will indicate health. The request
+	// data can only be ASCII.
 	// +kubebuilder:validation:Optional
 	Request *string `json:"request,omitempty" tf:"request,omitempty"`
 
+	// The bytes to match against the beginning of the response data. If left empty
+	// (the default value), any response will indicate health. The response data
+	// can only be ASCII.
 	// +kubebuilder:validation:Optional
 	Response *string `json:"response,omitempty" tf:"response,omitempty"`
 }
@@ -255,21 +333,38 @@ type RegionHealthCheckTCPHealthCheckObservation struct {
 
 type RegionHealthCheckTCPHealthCheckParameters struct {
 
+	// The TCP port number for the TCP health check request.
+	// The default value is 80.
 	// +kubebuilder:validation:Optional
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
 
+	// Port name as defined in InstanceGroup#NamedPort#name. If both port and
+	// port_name are defined, port takes precedence.
 	// +kubebuilder:validation:Optional
 	PortName *string `json:"portName,omitempty" tf:"port_name,omitempty"`
 
+	// Specifies how port is selected for health checking, can be one of the
+	// following values:
 	// +kubebuilder:validation:Optional
 	PortSpecification *string `json:"portSpecification,omitempty" tf:"port_specification,omitempty"`
 
+	// Specifies the type of proxy header to append before sending data to the
+	// backend.
+	// Default value is NONE.
+	// Possible values are NONE and PROXY_V1.
 	// +kubebuilder:validation:Optional
 	ProxyHeader *string `json:"proxyHeader,omitempty" tf:"proxy_header,omitempty"`
 
+	// The application data to send once the TCP connection has been
+	// established (default value is empty). If both request and response are
+	// empty, the connection establishment alone will indicate health. The request
+	// data can only be ASCII.
 	// +kubebuilder:validation:Optional
 	Request *string `json:"request,omitempty" tf:"request,omitempty"`
 
+	// The bytes to match against the beginning of the response data. If left empty
+	// (the default value), any response will indicate health. The response data
+	// can only be ASCII.
 	// +kubebuilder:validation:Optional
 	Response *string `json:"response,omitempty" tf:"response,omitempty"`
 }

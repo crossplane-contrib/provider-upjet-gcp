@@ -60,6 +60,8 @@ type InstanceFromTemplateAttachedDiskObservation struct {
 
 type InstanceFromTemplateAttachedDiskParameters struct {
 
+	// A unique name for the resource, required by GCE.
+	// Changing this forces a new resource to be created.
 	// +kubebuilder:validation:Optional
 	DeviceName *string `json:"deviceName,omitempty" tf:"device_name"`
 
@@ -85,9 +87,12 @@ type InstanceFromTemplateBootDiskObservation struct {
 
 type InstanceFromTemplateBootDiskParameters struct {
 
+	// Default is 6 minutes.
 	// +kubebuilder:validation:Optional
 	AutoDelete *bool `json:"autoDelete,omitempty" tf:"auto_delete,omitempty"`
 
+	// A unique name for the resource, required by GCE.
+	// Changing this forces a new resource to be created.
 	// +kubebuilder:validation:Optional
 	DeviceName *string `json:"deviceName,omitempty" tf:"device_name,omitempty"`
 
@@ -221,6 +226,7 @@ type InstanceFromTemplateParameters struct {
 	// +kubebuilder:validation:Optional
 	AdvancedMachineFeatures []InstanceFromTemplateAdvancedMachineFeaturesParameters `json:"advancedMachineFeatures,omitempty" tf:"advanced_machine_features,omitempty"`
 
+	// Default is 6 minutes.
 	// +kubebuilder:validation:Optional
 	AllowStoppingForUpdate *bool `json:"allowStoppingForUpdate,omitempty" tf:"allow_stopping_for_update,omitempty"`
 
@@ -251,6 +257,8 @@ type InstanceFromTemplateParameters struct {
 	// +kubebuilder:validation:Optional
 	GuestAccelerator []InstanceFromTemplateGuestAcceleratorParameters `json:"guestAccelerator,omitempty" tf:"guest_accelerator,omitempty"`
 
+	// A unique name for the resource, required by GCE.
+	// Changing this forces a new resource to be created.
 	// +kubebuilder:validation:Optional
 	Hostname *string `json:"hostname,omitempty" tf:"hostname,omitempty"`
 
@@ -405,6 +413,8 @@ type NetworkInterfaceAccessConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	NetworkTier *string `json:"networkTier,omitempty" tf:"network_tier"`
 
+	// A unique name for the resource, required by GCE.
+	// Changing this forces a new resource to be created.
 	// +kubebuilder:validation:Optional
 	PublicPtrDomainName *string `json:"publicPtrDomainName,omitempty" tf:"public_ptr_domain_name"`
 }
@@ -417,6 +427,8 @@ type NetworkInterfaceAliasIPRangeParameters struct {
 	// +kubebuilder:validation:Optional
 	IPCidrRange *string `json:"ipCidrRange,omitempty" tf:"ip_cidr_range"`
 
+	// A unique name for the resource, required by GCE.
+	// Changing this forces a new resource to be created.
 	// +kubebuilder:validation:Optional
 	SubnetworkRangeName *string `json:"subnetworkRangeName,omitempty" tf:"subnetwork_range_name"`
 }
@@ -432,6 +444,8 @@ type NetworkInterfaceIPv6AccessConfigParameters struct {
 	// +kubebuilder:validation:Required
 	NetworkTier *string `json:"networkTier" tf:"network_tier,omitempty"`
 
+	// A unique name for the resource, required by GCE.
+	// Changing this forces a new resource to be created.
 	// +kubebuilder:validation:Optional
 	PublicPtrDomainName *string `json:"publicPtrDomainName,omitempty" tf:"public_ptr_domain_name,omitempty"`
 }

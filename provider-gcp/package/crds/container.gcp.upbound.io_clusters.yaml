@@ -74,6 +74,8 @@ spec:
                           items:
                             properties:
                               disabled:
+                                description: The status of the CloudRun addon. It
+                                  is disabled by default. Set disabled=false to enable.
                                 type: boolean
                               loadBalancerType:
                                 description: The load balancer type of CloudRun ingress
@@ -92,6 +94,7 @@ spec:
                           items:
                             properties:
                               enabled:
+                                description: Enables vertical pod autoscaling
                                 type: boolean
                             required:
                             - enabled
@@ -106,19 +109,27 @@ spec:
                           items:
                             properties:
                               disabled:
+                                description: The status of the Istio addon, which
+                                  makes it easy to set up Istio for services in a
+                                  cluster. It is disabled by default. Set disabled
+                                  = false to enable.
                                 type: boolean
                             required:
                             - disabled
                             type: object
                           type: array
                         httpLoadBalancing:
-                          description: The status of the HTTP  load balancing controller
-                            addon, which makes it easy to set up HTTP load balancers
-                            for services in a cluster. It is enabled by default; set
-                            disabled = true to disable.
+                          description: The status of the HTTP (L7) load balancing
+                            controller addon, which makes it easy to set up HTTP load
+                            balancers for services in a cluster. It is enabled by
+                            default; set disabled = true to disable.
                           items:
                             properties:
                               disabled:
+                                description: The status of the Istio addon, which
+                                  makes it easy to set up Istio for services in a
+                                  cluster. It is disabled by default. Set disabled
+                                  = false to enable.
                                 type: boolean
                             required:
                             - disabled
@@ -135,6 +146,10 @@ spec:
                           items:
                             properties:
                               disabled:
+                                description: The status of the Istio addon, which
+                                  makes it easy to set up Istio for services in a
+                                  cluster. It is disabled by default. Set disabled
+                                  = false to enable.
                                 type: boolean
                             required:
                             - disabled
@@ -171,16 +186,33 @@ spec:
                           items:
                             properties:
                               imageType:
+                                description: 'The default image type used by NAP once
+                                  a new node pool is being created. Please note that
+                                  according to the official documentation the value
+                                  must be one of the [COS_CONTAINERD, COS, UBUNTU_CONTAINERD,
+                                  UBUNTU]. NOTE : COS AND UBUNTU are deprecated as
+                                  of GKE 1.24'
                                 type: string
                               oauthScopes:
+                                description: Scopes that are used by NAP when creating
+                                  node pools. Use the "https://www.googleapis.com/auth/cloud-platform"
+                                  scope to grant access to all APIs. It is recommended
+                                  that you set service_account to a non-default service
+                                  account and grant IAM roles to that service account
+                                  for only the resources that it needs.
                                 items:
                                   type: string
                                 type: array
                               serviceAccount:
+                                description: The Google Cloud Platform Service Account
+                                  to be used by the node VMs.
                                 type: string
                             type: object
                           type: array
                         enabled:
+                          description: Whether node auto-provisioning is enabled.
+                            Resource limits for cpu and memory must be defined to
+                            enable node auto-provisioning.
                           type: boolean
                         resourceLimits:
                           description: Global constraints for machine resources in
@@ -213,9 +245,9 @@ spec:
                     type: array
                   clusterIpv4Cidr:
                     description: The IP address range of the Kubernetes pods in this
-                      cluster in CIDR notation . Leave blank to have one automatically
-                      chosen or specify a /14 block in 10.0.0.0/8. This field will
-                      only work for routes-based clusters, where ip_allocation_policy
+                      cluster in CIDR notation (e.g. 10.96.0.0/14). Leave blank to
+                      have one automatically chosen or specify a /14 block in 10.0.0.0/8.
+                      This field will only work for routes-based clusters, where ip_allocation_policy
                       is not defined.
                     type: string
                   confidentialNodes:
@@ -224,6 +256,7 @@ spec:
                     items:
                       properties:
                         enabled:
+                          description: Enable Confidential Nodes for this cluster.
                           type: boolean
                       required:
                       - enabled
@@ -261,6 +294,11 @@ spec:
                     items:
                       properties:
                         disabled:
+                          description: Whether the cluster disables default in-node
+                            sNAT rules. In-node sNAT rules will be disabled when defaultSnatStatus
+                            is disabled.When disabled is set to false, default IP
+                            masquerade rules will be applied to the nodes to prevent
+                            sNAT on cluster internal traffic
                           type: boolean
                       required:
                       - disabled
@@ -276,14 +314,15 @@ spec:
                       properties:
                         clusterDns:
                           description: Which in-cluster DNS provider should be used.
-                            PROVIDER_UNSPECIFIED  or PLATFORM_DEFAULT or CLOUD_DNS.
+                            PROVIDER_UNSPECIFIED (default) or PLATFORM_DEFAULT or
+                            CLOUD_DNS.
                           type: string
                         clusterDnsDomain:
                           description: The suffix used for all cluster service records.
                           type: string
                         clusterDnsScope:
                           description: The scope of access to cluster DNS records.
-                            DNS_SCOPE_UNSPECIFIED  or CLUSTER_SCOPE or VPC_SCOPE.
+                            DNS_SCOPE_UNSPECIFIED (default) or CLUSTER_SCOPE or VPC_SCOPE.
                           type: string
                       type: object
                     type: array
@@ -342,9 +381,10 @@ spec:
                         clusterIpv4CidrBlock:
                           description: The IP address range for the cluster pod IPs.
                             Set to blank to have a range chosen with the default size.
-                            Set to /netmask to have a range chosen with a specific
-                            netmask. Set to a CIDR notation from the RFC-1918 private
-                            networks  to pick a specific range to use.
+                            Set to /netmask (e.g. /14) to have a range chosen with
+                            a specific netmask. Set to a CIDR notation (e.g. 10.96.0.0/14)
+                            from the RFC-1918 private networks (e.g. 10.0.0.0/8, 172.16.0.0/12,
+                            192.168.0.0/16) to pick a specific range to use.
                           type: string
                         clusterSecondaryRangeName:
                           description: The name of the existing secondary range in
@@ -355,10 +395,11 @@ spec:
                         servicesIpv4CidrBlock:
                           description: The IP address range of the services IPs in
                             this cluster. Set to blank to have a range chosen with
-                            the default size. Set to /netmask to have a range chosen
-                            with a specific netmask. Set to a CIDR notation from the
-                            RFC-1918 private networks  to pick a specific range to
-                            use.
+                            the default size. Set to /netmask (e.g. /14) to have a
+                            range chosen with a specific netmask. Set to a CIDR notation
+                            (e.g. 10.96.0.0/14) from the RFC-1918 private networks
+                            (e.g. 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16) to pick
+                            a specific range to use.
                           type: string
                         servicesSecondaryRangeName:
                           description: The name of the existing secondary range in
@@ -369,10 +410,11 @@ spec:
                       type: object
                     type: array
                   location:
-                    description: The location  in which the cluster master will be
-                      created, as well as the default node location. If you specify
-                      a zone , the cluster will be a zonal cluster with a single cluster
-                      master. If you specify a region , the cluster will be a regional
+                    description: The location (region or zone) in which the cluster
+                      master will be created, as well as the default node location.
+                      If you specify a zone (such as us-central1-a), the cluster will
+                      be a zonal cluster with a single cluster master. If you specify
+                      a region (such as us-west1), the cluster will be a regional
                       cluster with multiple masters spread across zones in the region,
                       and with default node locations in those zones as well
                     type: string
@@ -382,6 +424,8 @@ spec:
                     items:
                       properties:
                         enableComponents:
+                          description: 'The GKE components exposing logs. Supported
+                            values include: SYSTEM_COMPONENTS and WORKLOADS.'
                           items:
                             type: string
                           type: array
@@ -391,8 +435,9 @@ spec:
                     type: array
                   loggingService:
                     description: The logging service that the cluster should write
-                      logs to. Available options include logging.googleapis.com, logging.googleapis.com/kubernetes,
-                      and none. Defaults to logging.googleapis.com/kubernetes
+                      logs to. Available options include logging.googleapis.com(Legacy
+                      Stackdriver), logging.googleapis.com/kubernetes(Stackdriver
+                      Kubernetes Engine Logging), and none. Defaults to logging.googleapis.com/kubernetes
                     type: string
                   maintenancePolicy:
                     description: The maintenance policy to use for the cluster. Structure
@@ -414,6 +459,8 @@ spec:
                               endTime:
                                 type: string
                               exclusionName:
+                                description: The name of the cluster, unique within
+                                  the project and location.
                                 type: string
                               exclusionOptions:
                                 description: MaintenanceExclusionOptions provides
@@ -481,7 +528,8 @@ spec:
                   masterAuthorizedNetworksConfig:
                     description: The desired configuration options for master authorized
                       networks. Omit the nested cidr_blocks attribute to disallow
-                      external access . Structure is documented below.
+                      external access (except the cluster node IPs, which GKE automatically
+                      whitelists). Structure is documented below.
                     items:
                       properties:
                         cidrBlocks:
@@ -508,12 +556,10 @@ spec:
                       the master to new versions, so this does not guarantee the current
                       master version--use the read-only master_version field to obtain
                       that. If unset, the cluster's version will be set by GKE to
-                      the version of the most recent official release .  Most users
-                      will find the google_container_engine_versions data source useful
-                      - it indicates which versions are available, and can be use
-                      to approximate fuzzy versions in a Terraform-compatible way.
-                      If you intend to specify versions manually, the docs describe
-                      the various acceptable formats for this field.
+                      the version of the most recent official release (which is not
+                      necessarily the latest version). If you intend to specify versions
+                      manually, the docs describe the various acceptable formats for
+                      this field.
                     type: string
                   monitoringConfig:
                     description: Monitoring configuration for the cluster. Structure
@@ -521,6 +567,9 @@ spec:
                     items:
                       properties:
                         enableComponents:
+                          description: The GKE components exposing logs. SYSTEM_COMPONENTS
+                            and in beta provider, both SYSTEM_COMPONENTS and WORKLOADS
+                            are supported.
                           items:
                             type: string
                           type: array
@@ -533,8 +582,9 @@ spec:
                       metrics to. Automatically send metrics from pods in the cluster
                       to the Google Cloud Monitoring API. VM metrics will be collected
                       by Google Compute Engine regardless of this setting Available
-                      options include monitoring.googleapis.com, monitoring.googleapis.com/kubernetes,
-                      and none. Defaults to monitoring.googleapis.com/kubernetes
+                      options include monitoring.googleapis.com(Legacy Stackdriver),
+                      monitoring.googleapis.com/kubernetes(Stackdriver Kubernetes
+                      Engine Monitoring), and none. Defaults to monitoring.googleapis.com/kubernetes
                     type: string
                   network:
                     description: The name or self_link of the Google Compute Engine
@@ -547,6 +597,7 @@ spec:
                     items:
                       properties:
                         enabled:
+                          description: Whether network policy is enabled on the cluster.
                           type: boolean
                         provider:
                           description: The selected network policy provider. Defaults
@@ -639,10 +690,7 @@ spec:
                     type: string
                   nodeConfig:
                     description: Parameters used in creating the default node pool.
-                      Generally, this field should not be used at the same time as
-                      a google_container_node_pool or a node_pool block; this configuration
-                      manages the default node pool, which isn't recommended to be
-                      used with Terraform. Structure is documented below.
+                      Structure is documented below.
                     items:
                       properties:
                         bootDiskKmsKey:
@@ -658,17 +706,18 @@ spec:
                             to 100GB.
                           type: number
                         diskType:
-                          description: Type of the disk attached to each node . If
-                            unspecified, the default disk type is 'pd-standard'
+                          description: Type of the disk attached to each node (e.g.
+                            'pd-standard', 'pd-balanced' or 'pd-ssd'). If unspecified,
+                            the default disk type is 'pd-standard'
                           type: string
                         gcfsConfig:
                           description: Parameters for the Google Container Filesystem
-                            . If unspecified, GCFS will not be enabled on the node
-                            pool. When enabling this feature you must specify image_type
-                            = "COS_CONTAINERD" and node_version from GKE versions
-                            1.19 or later to use it. For GKE versions 1.19, 1.20,
-                            and 1.21, the recommended minimum node_version would be
-                            1.19.15-gke.1300, 1.20.11-gke.1300, and 1.21.5-gke.1300
+                            (GCFS). If unspecified, GCFS will not be enabled on the
+                            node pool. When enabling this feature you must specify
+                            image_type = "COS_CONTAINERD" and node_version from GKE
+                            versions 1.19 or later to use it. For GKE versions 1.19,
+                            1.20, and 1.21, the recommended minimum node_version would
+                            be 1.19.15-gke.1300, 1.20.11-gke.1300, and 1.21.5-gke.1300
                             respectively. A machine_type that has more than 16 GiB
                             of memory is also recommended. GCFS must be enabled in
                             order to use image streaming. Structure is documented
@@ -676,6 +725,8 @@ spec:
                           items:
                             properties:
                               enabled:
+                                description: Whether or not the Google Container Filesystem
+                                  (GCFS) is enabled
                                 type: boolean
                             required:
                             - enabled
@@ -683,9 +734,8 @@ spec:
                           type: array
                         guestAccelerator:
                           description: List of the type and count of accelerator cards
-                            attached to the instance. Structure documented below.
-                            To support removal of guest_accelerators in Terraform
-                            0.12 this field is an Attribute as Block
+                            attached to the instance. Structure documented below.12
+                            this field is an Attribute as Block
                           items:
                             properties:
                               count:
@@ -698,35 +748,45 @@ spec:
                                   guide.
                                 type: string
                               type:
+                                description: The accelerator type resource to expose
+                                  to this instance. E.g. nvidia-tesla-k80.
                                 type: string
                             type: object
                           type: array
                         gvnic:
-                          description: Google Virtual NIC  is a virtual network interface.
-                            Installing the gVNIC driver allows for more efficient
-                            traffic transmission across the Google network infrastructure.
-                            gVNIC is an alternative to the virtIO-based ethernet driver.
-                            GKE nodes must use a Container-Optimized OS node image.
-                            GKE node version 1.15.11-gke.15 or later Structure is
-                            documented below.
+                          description: Google Virtual NIC (gVNIC) is a virtual network
+                            interface. Installing the gVNIC driver allows for more
+                            efficient traffic transmission across the Google network
+                            infrastructure. gVNIC is an alternative to the virtIO-based
+                            ethernet driver. GKE nodes must use a Container-Optimized
+                            OS node image. GKE node version 1.15.11-gke.15 or later
+                            Structure is documented below.
                           items:
                             properties:
                               enabled:
+                                description: Whether or not the Google Virtual NIC
+                                  (gVNIC) is enabled
                                 type: boolean
                             required:
                             - enabled
                             type: object
                           type: array
                         imageType:
+                          description: The image type to use for this node. Note that
+                            changing the image type will delete and recreate all nodes
+                            in the node pool.
                           type: string
                         labels:
                           additionalProperties:
                             type: string
-                          description: The Kubernetes labels  to be applied to each
-                            node. The kubernetes.io/ and k8s.io/ prefixes are reserved
-                            by Kubernetes Core components and cannot be specified.
+                          description: The Kubernetes labels (key/value pairs) to
+                            be applied to each node. The kubernetes.io/ and k8s.io/
+                            prefixes are reserved by Kubernetes Core components and
+                            cannot be specified.
                           type: object
                         localSsdCount:
+                          description: The amount of local SSD disks that will be
+                            attached to each cluster node. Defaults to 0.
                           type: number
                         machineType:
                           description: The name of a Google Compute Engine machine
@@ -737,13 +797,15 @@ spec:
                           additionalProperties:
                             type: string
                           description: The metadata key/value pairs assigned to instances
-                            in the cluster. From GKE 1.12 onwards, disable-legacy-endpoints
-                            is set to true by the API; if metadata is set but that
-                            default value is not included, Terraform will attempt
-                            to unset the value. To avoid this, set the value in your
-                            config.
+                            in the cluster. From GKE 1. To avoid this, set the value
+                            in your config.
                           type: object
                         minCpuPlatform:
+                          description: Minimum CPU platform to be used by this instance.
+                            The instance may be scheduled on the specified or newer
+                            CPU platform. Applicable values are the friendly names
+                            of CPU platforms, such as Intel Haswell. See the official
+                            documentation for more information.
                           type: string
                         nodeGroup:
                           description: Setting this field will assign instances of
@@ -751,6 +813,13 @@ spec:
                             useful for running workloads on sole tenant nodes.
                           type: string
                         oauthScopes:
+                          description: The set of Google API scopes to be made available
+                            on all of the node VMs under the "default" service account.
+                            Use the "https://www.googleapis.com/auth/cloud-platform"
+                            scope to grant access to all APIs. It is recommended that
+                            you set service_account to a non-default service account
+                            and grant IAM roles to that service account for only the
+                            resources that it needs.
                           items:
                             type: string
                           type: array
@@ -760,6 +829,9 @@ spec:
                             documentation for more information. Defaults to false.
                           type: boolean
                         serviceAccount:
+                          description: The service account to be used by the Node
+                            VMs. If not specified, the "default" service account is
+                            used.
                           type: string
                         serviceAccountRef:
                           description: Reference to a ServiceAccount in cloudplatform
@@ -865,12 +937,11 @@ spec:
                           description: A list of Kubernetes taints to apply to nodes.
                             GKE's API can only set this field on cluster creation.
                             However, GKE will add taints to your nodes if you enable
-                            certain features such as GPUs. If this field is set, any
-                            diffs on this field will cause Terraform to recreate the
-                            underlying resource. Taint values can be updated safely
-                            in Kubernetes , and it's recommended that you do not use
-                            this field to manage taints. If you do, lifecycle.ignore_changes
-                            is recommended. Structure is documented below.
+                            certain features such as GPUs. Taint values can be updated
+                            safely in Kubernetes (eg. through kubectl), and it's recommended
+                            that you do not use this field to manage taints. If you
+                            do, lifecycle.ignore_changes is recommended. Structure
+                            is documented below.
                           items:
                             properties:
                               effect:
@@ -914,12 +985,8 @@ spec:
                       be unset or set to the same value as min_master_version on create.
                       Defaults to the default version set by GKE which is not necessarily
                       the latest version. This only affects nodes in the default node
-                      pool. While a fuzzy version can be specified, it's recommended
-                      that you specify explicit versions as Terraform will see spurious
-                      diffs when fuzzy versions are used. See the google_container_engine_versions
-                      data source's version_prefix field to approximate fuzzy versions
-                      in a Terraform-compatible way. To update nodes in other node
-                      pools, use the version attribute on the node pool.
+                      pool. To update nodes in other node pools, use the version attribute
+                      on the node pool.
                     type: string
                   privateClusterConfig:
                     description: Configuration for private clusters, clusters with
@@ -941,12 +1008,12 @@ spec:
                           type: boolean
                         masterGlobalAccessConfig:
                           description: Controls cluster master global access settings.
-                            If unset, Terraform will no longer manage this field and
-                            will not modify the previously-set value. Structure is
-                            documented below.
+                            Structure is documented below.
                           items:
                             properties:
                               enabled:
+                                description: Whether the cluster master is accessible
+                                  globally or not.
                                 type: boolean
                             required:
                             - enabled
@@ -955,8 +1022,8 @@ spec:
                         masterIpv4CidrBlock:
                           description: The IP range in CIDR notation to use for the
                             hosted master network. This range will be used for assigning
-                            private IP addresses to the cluster master and the ILB
-                            VIP. This range must not overlap with any other ranges
+                            private IP addresses to the cluster master(s) and the
+                            ILB VIP. This range must not overlap with any other ranges
                             in use within the cluster's network, and it must be a
                             /28 subnet. See Private Cluster Limitations for more details.
                             This field only applies to private clusters, when enable_private_nodes
@@ -969,7 +1036,7 @@ spec:
                   privateIpv6GoogleAccess:
                     description: The desired state of IPv6 connectivity to Google
                       Services. By default, no private IPv6 access to or from Google
-                      Services .
+                      Services (all access will be via IPv4).
                     type: string
                   project:
                     description: The ID of the project in which the resource belongs.
@@ -981,10 +1048,8 @@ spec:
                       clusters. When updating this field, GKE imposes specific version
                       requirements. See Selecting a new release channel for more details;
                       the google_container_engine_versions datasource can provide
-                      the default version for a channel. Note that removing the release_channel
-                      field from your config will cause Terraform to stop managing
-                      your cluster's release channel, but will not unenroll it. Instead,
-                      use the "UNSPECIFIED" channel. Structure is documented below.
+                      the default version for a channel. Instead, use the "UNSPECIFIED"
+                      channel. Structure is documented below.
                     items:
                       properties:
                         channel:
@@ -1004,7 +1069,8 @@ spec:
                   resourceLabels:
                     additionalProperties:
                       type: string
-                    description: The GCE resource labels  to be applied to the cluster.
+                    description: The GCE resource labels (a map of key/value pairs)
+                      to be applied to the cluster.
                     type: object
                   resourceUsageExportConfig:
                     description: Configuration for the ResourceUsageExportConfig feature.
@@ -1017,6 +1083,7 @@ spec:
                           items:
                             properties:
                               datasetId:
+                                description: 'The ID of a BigQuery Dataset. For Example:'
                                 type: string
                             required:
                             - datasetId
@@ -1125,6 +1192,7 @@ spec:
                     items:
                       properties:
                         enabled:
+                          description: Enables vertical pod autoscaling
                           type: boolean
                       required:
                       - enabled
@@ -1339,6 +1407,9 @@ spec:
                           items:
                             properties:
                               duration:
+                                description: Duration of the time window, automatically
+                                  chosen to be smallest possible in the given scenario.
+                                  Duration will be in RFC3339 format "PTnHnMnS".
                                 type: string
                             type: object
                           type: array
@@ -1354,8 +1425,12 @@ spec:
                     items:
                       properties:
                         clientCertificate:
+                          description: Base64 encoded public certificate used by clients
+                            to authenticate to the cluster endpoint.
                           type: string
                         clusterCaCertificate:
+                          description: Base64 encoded public certificate that is the
+                            root certificate of the cluster.
                           type: string
                       type: object
                     type: array
@@ -1367,11 +1442,11 @@ spec:
                   nodePool:
                     description: 'List of node pools associated with this cluster.
                       See google_container_node_pool for schema. Warning: node pools
-                      defined inside a cluster can''t be changed  after cluster creation
-                      without deleting and recreating the entire cluster. Unless you
-                      absolutely need the ability to say "these are the only node
-                      pools associated with this cluster", use the google_container_node_pool
-                      resource instead of this property.'
+                      defined inside a cluster can''t be changed (or added/removed)
+                      after cluster creation without deleting and recreating the entire
+                      cluster. Unless you absolutely need the ability to say "these
+                      are the only node pools associated with this cluster", use the
+                      google_container_node_pool resource instead of this property.'
                     items:
                       properties:
                         autoscaling:
@@ -1419,11 +1494,7 @@ spec:
                           type: string
                         nodeConfig:
                           description: Parameters used in creating the default node
-                            pool. Generally, this field should not be used at the
-                            same time as a google_container_node_pool or a node_pool
-                            block; this configuration manages the default node pool,
-                            which isn't recommended to be used with Terraform. Structure
-                            is documented below.
+                            pool. Structure is documented below.
                           items:
                             properties:
                               bootDiskKmsKey:
@@ -1440,32 +1511,33 @@ spec:
                                 type: number
                               diskType:
                                 description: Type of the disk attached to each node
-                                  . If unspecified, the default disk type is 'pd-standard'
+                                  (e.g. 'pd-standard', 'pd-balanced' or 'pd-ssd').
+                                  If unspecified, the default disk type is 'pd-standard'
                                 type: string
                               gcfsConfig:
                                 description: Parameters for the Google Container Filesystem
-                                  . If unspecified, GCFS will not be enabled on the
-                                  node pool. When enabling this feature you must specify
-                                  image_type = "COS_CONTAINERD" and node_version from
-                                  GKE versions 1.19 or later to use it. For GKE versions
-                                  1.19, 1.20, and 1.21, the recommended minimum node_version
-                                  would be 1.19.15-gke.1300, 1.20.11-gke.1300, and
-                                  1.21.5-gke.1300 respectively. A machine_type that
-                                  has more than 16 GiB of memory is also recommended.
+                                  (GCFS). If unspecified, GCFS will not be enabled
+                                  on the node pool. When enabling this feature you
+                                  must specify image_type = "COS_CONTAINERD" and node_version
+                                  from GKE versions 1.19 or later to use it. For GKE
+                                  versions 1.19, 1.20, and 1.21, the recommended minimum
+                                  node_version would be 1.19.15-gke.1300, 1.20.11-gke.1300,
+                                  and 1.21.5-gke.1300 respectively. A machine_type
+                                  that has more than 16 GiB of memory is also recommended.
                                   GCFS must be enabled in order to use image streaming.
                                   Structure is documented below.
                                 items:
                                   properties:
                                     enabled:
+                                      description: Whether or not the Google Container
+                                        Filesystem (GCFS) is enabled
                                       type: boolean
                                   type: object
                                 type: array
                               guestAccelerator:
                                 description: List of the type and count of accelerator
                                   cards attached to the instance. Structure documented
-                                  below. To support removal of guest_accelerators
-                                  in Terraform 0.12 this field is an Attribute as
-                                  Block
+                                  below.12 this field is an Attribute as Block
                                 items:
                                   properties:
                                     count:
@@ -1478,14 +1550,16 @@ spec:
                                         NVIDIA mig user guide.
                                       type: string
                                     type:
+                                      description: The accelerator type resource to
+                                        expose to this instance. E.g. nvidia-tesla-k80.
                                       type: string
                                   type: object
                                 type: array
                               gvnic:
-                                description: Google Virtual NIC  is a virtual network
-                                  interface. Installing the gVNIC driver allows for
-                                  more efficient traffic transmission across the Google
-                                  network infrastructure. gVNIC is an alternative
+                                description: Google Virtual NIC (gVNIC) is a virtual
+                                  network interface. Installing the gVNIC driver allows
+                                  for more efficient traffic transmission across the
+                                  Google network infrastructure. gVNIC is an alternative
                                   to the virtIO-based ethernet driver. GKE nodes must
                                   use a Container-Optimized OS node image. GKE node
                                   version 1.15.11-gke.15 or later Structure is documented
@@ -1493,20 +1567,27 @@ spec:
                                 items:
                                   properties:
                                     enabled:
+                                      description: Whether or not the Google Virtual
+                                        NIC (gVNIC) is enabled
                                       type: boolean
                                   type: object
                                 type: array
                               imageType:
+                                description: The image type to use for this node.
+                                  Note that changing the image type will delete and
+                                  recreate all nodes in the node pool.
                                 type: string
                               labels:
                                 additionalProperties:
                                   type: string
-                                description: The Kubernetes labels  to be applied
-                                  to each node. The kubernetes.io/ and k8s.io/ prefixes
-                                  are reserved by Kubernetes Core components and cannot
-                                  be specified.
+                                description: The Kubernetes labels (key/value pairs)
+                                  to be applied to each node. The kubernetes.io/ and
+                                  k8s.io/ prefixes are reserved by Kubernetes Core
+                                  components and cannot be specified.
                                 type: object
                               localSsdCount:
+                                description: The amount of local SSD disks that will
+                                  be attached to each cluster node. Defaults to 0.
                                 type: number
                               machineType:
                                 description: The name of a Google Compute Engine machine
@@ -1517,13 +1598,15 @@ spec:
                                 additionalProperties:
                                   type: string
                                 description: The metadata key/value pairs assigned
-                                  to instances in the cluster. From GKE 1.12 onwards,
-                                  disable-legacy-endpoints is set to true by the API;
-                                  if metadata is set but that default value is not
-                                  included, Terraform will attempt to unset the value.
-                                  To avoid this, set the value in your config.
+                                  to instances in the cluster. From GKE 1. To avoid
+                                  this, set the value in your config.
                                 type: object
                               minCpuPlatform:
+                                description: Minimum CPU platform to be used by this
+                                  instance. The instance may be scheduled on the specified
+                                  or newer CPU platform. Applicable values are the
+                                  friendly names of CPU platforms, such as Intel Haswell.
+                                  See the official documentation for more information.
                                 type: string
                               nodeGroup:
                                 description: Setting this field will assign instances
@@ -1532,6 +1615,13 @@ spec:
                                   nodes.
                                 type: string
                               oauthScopes:
+                                description: The set of Google API scopes to be made
+                                  available on all of the node VMs under the "default"
+                                  service account. Use the "https://www.googleapis.com/auth/cloud-platform"
+                                  scope to grant access to all APIs. It is recommended
+                                  that you set service_account to a non-default service
+                                  account and grant IAM roles to that service account
+                                  for only the resources that it needs.
                                 items:
                                   type: string
                                 type: array
@@ -1542,6 +1632,9 @@ spec:
                                   Defaults to false.
                                 type: boolean
                               serviceAccount:
+                                description: The service account to be used by the
+                                  Node VMs. If not specified, the "default" service
+                                  account is used.
                                 type: string
                               shieldedInstanceConfig:
                                 description: Shielded Instance options. Structure
@@ -1569,13 +1662,12 @@ spec:
                                 description: A list of Kubernetes taints to apply
                                   to nodes. GKE's API can only set this field on cluster
                                   creation. However, GKE will add taints to your nodes
-                                  if you enable certain features such as GPUs. If
-                                  this field is set, any diffs on this field will
-                                  cause Terraform to recreate the underlying resource.
-                                  Taint values can be updated safely in Kubernetes
-                                  , and it's recommended that you do not use this
-                                  field to manage taints. If you do, lifecycle.ignore_changes
-                                  is recommended. Structure is documented below.
+                                  if you enable certain features such as GPUs. Taint
+                                  values can be updated safely in Kubernetes (eg.
+                                  through kubectl), and it's recommended that you
+                                  do not use this field to manage taints. If you do,
+                                  lifecycle.ignore_changes is recommended. Structure
+                                  is documented below.
                                 items:
                                   properties:
                                     effect:
@@ -1654,12 +1746,12 @@ spec:
                     type: string
                   servicesIpv4Cidr:
                     description: The IP address range of the Kubernetes services in
-                      this cluster, in CIDR notation . Service addresses are typically
-                      put in the last /16 from the container CIDR.
+                      this cluster, in CIDR notation (e.g. 1.2.3.4/29). Service addresses
+                      are typically put in the last /16 from the container CIDR.
                     type: string
                   tpuIpv4CidrBlock:
                     description: The IP address range of the Cloud TPUs in this cluster,
-                      in CIDR notation .
+                      in CIDR notation (e.g. 1.2.3.4/29).
                     type: string
                 type: object
               conditions:

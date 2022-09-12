@@ -65,9 +65,9 @@ spec:
               forProvider:
                 properties:
                   cors:
-                    description: The bucket's Cross-Origin Resource Sharing  configuration.
-                      Multiple blocks of this type are permitted. Structure is documented
-                      below.
+                    description: The bucket's Cross-Origin Resource Sharing (CORS)
+                      configuration. Multiple blocks of this type are permitted. Structure
+                      is documented below.
                     items:
                       properties:
                         maxAgeSeconds:
@@ -76,8 +76,9 @@ spec:
                           type: number
                         method:
                           description: 'The list of HTTP methods on which to include
-                            CORS response headers,  Note: "*" is permitted in the
-                            list of methods, and means "any method".'
+                            CORS response headers, (GET, OPTIONS, POST, etc) Note:
+                            "*" is permitted in the list of methods, and means "any
+                            method".'
                           items:
                             type: string
                           type: array
@@ -119,8 +120,7 @@ spec:
                     type: array
                   forceDestroy:
                     description: When deleting a bucket, this boolean option will
-                      delete all contained objects. If you try to delete a bucket
-                      that contains objects, Terraform will fail that run.
+                      delete all contained objects.
                     type: boolean
                   labels:
                     additionalProperties:
@@ -139,6 +139,10 @@ spec:
                           items:
                             properties:
                               storageClass:
+                                description: 'The target Storage Class of objects
+                                  affected by this Lifecycle Rule. Supported values
+                                  include: STANDARD, MULTI_REGIONAL, REGIONAL, NEARLINE,
+                                  COLDLINE, ARCHIVE.'
                                 type: string
                               type:
                                 description: 'The type of the action of this Lifecycle
@@ -190,7 +194,8 @@ spec:
                                 type: array
                               noncurrentTimeBefore:
                                 description: Relevant only for versioned objects.
-                                  The date in RFC 3339  when the object became nonconcurrent.
+                                  The date in RFC 3339 (e.g. 2017-06-13) when the
+                                  object became nonconcurrent.
                                 type: string
                               numNewerVersions:
                                 description: Relevant only for versioned objects.
@@ -259,6 +264,9 @@ spec:
                       type: object
                     type: array
                   storageClass:
+                    description: 'The Storage Class of the new bucket. Supported values
+                      include: STANDARD, MULTI_REGIONAL, REGIONAL, NEARLINE, COLDLINE,
+                      ARCHIVE.'
                     type: string
                   uniformBucketLevelAccess:
                     description: Enables Uniform bucket-level access access to a bucket.

@@ -65,7 +65,7 @@ type InstancePropertiesParameters struct {
 
 	// The minimum CPU platform for the reservation. For example,
 	// "Intel Skylake". See
-	// the CPU platform availability reference]
+	// the CPU platform availability reference](https://cloud.google.com/compute/docs/instances/specify-min-cpu-platform#availablezones)
 	// for information on available CPU platforms.
 	// +kubebuilder:validation:Optional
 	MinCPUPlatform *string `json:"minCpuPlatform,omitempty" tf:"min_cpu_platform,omitempty"`

@@ -71,6 +71,10 @@ spec:
                       set only at resource creation time.
                     type: string
                   ipCidrRange:
+                    description: The range of internal addresses that are owned by
+                      this subnetwork. Provide this property when you create the subnetwork.
+                      For example, 10.0.0.0/8 or 192.168.0.0/16. Ranges must be unique
+                      and non-overlapping within a network. Only IPv4 is supported.
                     type: string
                   ipv6AccessType:
                     description: The access type of IPv6 address this subnet holds.
@@ -220,8 +224,8 @@ spec:
                   purpose:
                     description: The purpose of the resource. A subnetwork with purpose
                       set to INTERNAL_HTTPS_LOAD_BALANCER is a user-created subnetwork
-                      that is reserved for Internal HTTP Load Balancing. If set to
-                      INTERNAL_HTTPS_LOAD_BALANCER you must also set the role field.
+                      that is reserved for Internal HTTP(S) Load Balancing. If set
+                      to INTERNAL_HTTPS_LOAD_BALANCER you must also set the role field.
                     type: string
                   region:
                     description: The GCP region for this subnetwork.
@@ -230,7 +234,7 @@ spec:
                     description: The role of subnetwork. Currently, this field is
                       only used when purpose = INTERNAL_HTTPS_LOAD_BALANCER. The value
                       can be set to ACTIVE or BACKUP. An ACTIVE subnetwork is one
-                      that is currently being used for Internal HTTP Load Balancing.
+                      that is currently being used for Internal HTTP(S) Load Balancing.
                       A BACKUP subnetwork is one that is ready to be promoted to ACTIVE
                       or is currently draining. Possible values are ACTIVE and BACKUP.
                     type: string
@@ -247,6 +251,11 @@ spec:
                     items:
                       properties:
                         ipCidrRange:
+                          description: The range of IP addresses belonging to this
+                            subnetwork secondary range. Provide this property when
+                            you create the subnetwork. Ranges must be unique and non-overlapping
+                            with all primary and secondary IP ranges within a network.
+                            Only IPv4 is supported.
                           type: string
                         rangeName:
                           description: The name associated with this subnetwork secondary

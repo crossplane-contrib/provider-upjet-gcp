@@ -57,7 +57,8 @@ type InstanceGroupParameters struct {
 
 	// The URL of the network the instance group is in. If
 	// this is different from the network where the instances are in, the creation
-	// fails. Defaults to the network where the instances are in .
+	// fails. Defaults to the network where the instances are in (if neither
+	// network nor instances is specified, this field will be blank).
 	// +crossplane:generate:reference:type=Network
 	// +crossplane:generate:reference:extractor=github.com/upbound/official-providers/provider-gcp/config/common.SelfLinkExtractor()
 	// +kubebuilder:validation:Optional
@@ -86,6 +87,7 @@ type NamedPortObservation struct {
 
 type NamedPortParameters struct {
 
+	// The name which the port will be mapped to.
 	// +kubebuilder:validation:Required
 	Name *string `json:"name" tf:"name,omitempty"`
 

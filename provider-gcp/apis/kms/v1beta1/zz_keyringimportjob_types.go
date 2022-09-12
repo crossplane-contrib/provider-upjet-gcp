@@ -40,7 +40,7 @@ type AttestationParameters struct {
 
 type KeyRingImportJobObservation struct {
 
-	// Statement that was generated and signed by the key creator  at key creation time.
+	// Statement that was generated and signed by the key creator (for example, an HSM) at key creation time.
 	// Use this statement to verify attributes of the key as stored on the HSM, independently of Google.
 	// Only present if the chosen ImportMethod is one with a protection level of HSM.
 	// Structure is documented below.

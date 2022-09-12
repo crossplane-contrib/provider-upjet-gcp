@@ -75,7 +75,7 @@ type CertificateAuthorityObservation struct {
 
 	// This CertificateAuthority's certificate chain, including the current
 	// CertificateAuthority's certificate. Ordered such that the root issuer is the final
-	// element . For a self-signed CA, this will only list the current
+	// element (consistent with RFC 5246). For a self-signed CA, this will only list the current
 	// CertificateAuthority's certificate.
 	PemCACertificates []*string `json:"pemCaCertificates,omitempty" tf:"pem_ca_certificates,omitempty"`
 
@@ -95,8 +95,6 @@ type CertificateAuthorityParameters struct {
 	// +kubebuilder:validation:Required
 	Config []CertificateAuthorityConfigParameters `json:"config" tf:"config,omitempty"`
 
-	// Whether or not to allow Terraform to destroy the CertificateAuthority. Unless this field is set to false
-	// in Terraform state, a terraform destroy or terraform apply that would delete the instance will fail.
 	// +kubebuilder:validation:Optional
 	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
 
@@ -106,7 +104,7 @@ type CertificateAuthorityParameters struct {
 
 	// The name of a Cloud Storage bucket where this CertificateAuthority will publish content,
 	// such as the CA certificate and CRLs. This must be a bucket name, without any prefixes
-	// or suffixes . For example, to use a bucket named
+	// (such as gs://) or suffixes (such as .googleapis.com). For example, to use a bucket named
 	// my-bucket, you would simply specify my-bucket. If not specified, a managed bucket will be
 	// created.
 	// +kubebuilder:validation:Optional
@@ -161,7 +159,7 @@ type CertificateAuthorityParameters struct {
 
 	// The Type of this CertificateAuthority.
 	// ~> Note: For SUBORDINATE Certificate Authorities, they need to
-	// be manually activated  before they can
+	// be manually activated (via Cloud Console of gcloud) before they can
 	// issue certificates.
 	// Default value is SELF_SIGNED.
 	// Possible values are SELF_SIGNED and SUBORDINATE.
@@ -250,6 +248,7 @@ type ConfigX509ConfigAdditionalExtensionsObjectIDObservation struct {
 
 type ConfigX509ConfigAdditionalExtensionsObjectIDParameters struct {
 
+	// An ObjectId specifies an object identifier (OID). These provide context and describe types in ASN.1 messages.
 	// +kubebuilder:validation:Required
 	ObjectIDPath []*float64 `json:"objectIdPath" tf:"object_id_path,omitempty"`
 }
@@ -259,7 +258,8 @@ type ConfigX509ConfigAdditionalExtensionsObservation struct {
 
 type ConfigX509ConfigAdditionalExtensionsParameters struct {
 
-	// Indicates whether or not this extension is critical .
+	// Indicates whether or not this extension is critical (i.e., if the client does not know how to
+	// handle this extension, the client should consider this to be an error).
 	// +kubebuilder:validation:Required
 	Critical *bool `json:"critical" tf:"critical,omitempty"`
 
@@ -386,7 +386,7 @@ type ConfigX509ConfigKeyUsageParameters struct {
 	// +kubebuilder:validation:Required
 	ExtendedKeyUsage []ConfigX509ConfigKeyUsageExtendedKeyUsageParameters `json:"extendedKeyUsage" tf:"extended_key_usage,omitempty"`
 
-	// An ObjectId specifies an object identifier . These provide context and describe types in ASN.1 messages.
+	// An ObjectId specifies an object identifier (OID). These provide context and describe types in ASN.1 messages.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	UnknownExtendedKeyUsages []ConfigX509ConfigKeyUsageUnknownExtendedKeyUsagesParameters `json:"unknownExtendedKeyUsages,omitempty" tf:"unknown_extended_key_usages,omitempty"`
@@ -397,6 +397,7 @@ type ConfigX509ConfigKeyUsageUnknownExtendedKeyUsagesObservation struct {
 
 type ConfigX509ConfigKeyUsageUnknownExtendedKeyUsagesParameters struct {
 
+	// An ObjectId specifies an object identifier (OID). These provide context and describe types in ASN.1 messages.
 	// +kubebuilder:validation:Required
 	ObjectIDPath []*float64 `json:"objectIdPath" tf:"object_id_path,omitempty"`
 }
@@ -411,7 +412,7 @@ type ConfigX509ConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	AdditionalExtensions []ConfigX509ConfigAdditionalExtensionsParameters `json:"additionalExtensions,omitempty" tf:"additional_extensions,omitempty"`
 
-	// Describes Online Certificate Status Protocol  endpoint addresses that appear in the
+	// Describes Online Certificate Status Protocol (OCSP) endpoint addresses that appear in the
 	// "Authority Information Access" extension in the certificate.
 	// +kubebuilder:validation:Optional
 	AiaOcspServers []*string `json:"aiaOcspServers,omitempty" tf:"aia_ocsp_servers,omitempty"`
@@ -437,6 +438,7 @@ type ConfigX509ConfigPolicyIdsObservation struct {
 
 type ConfigX509ConfigPolicyIdsParameters struct {
 
+	// An ObjectId specifies an object identifier (OID). These provide context and describe types in ASN.1 messages.
 	// +kubebuilder:validation:Required
 	ObjectIDPath []*float64 `json:"objectIdPath" tf:"object_id_path,omitempty"`
 }

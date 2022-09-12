@@ -36,7 +36,7 @@ type ServiceNetworkingPeeredDNSDomainObservation struct {
 
 type ServiceNetworkingPeeredDNSDomainParameters struct {
 
-	// The DNS domain suffix of the peered DNS domain. Make sure to suffix with a . .
+	// The DNS domain suffix of the peered DNS domain. Make sure to suffix with a . (dot).
 	// +kubebuilder:validation:Required
 	DNSSuffix *string `json:"dnsSuffix" tf:"dns_suffix,omitempty"`
 

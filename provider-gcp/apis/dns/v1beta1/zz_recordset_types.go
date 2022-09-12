@@ -34,6 +34,7 @@ type GeoParameters struct {
 	// +kubebuilder:validation:Required
 	Location *string `json:"location" tf:"location,omitempty"`
 
+	// Same as rrdatas above.
 	// +kubebuilder:validation:Required
 	Rrdatas []*string `json:"rrdatas" tf:"rrdatas,omitempty"`
 }
@@ -70,15 +71,17 @@ type RecordSetParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The configuration for steering traffic based on query.
-	// Now you can specify either Weighted Round Robin type or Geolocation type.
+	// Now you can specify either Weighted Round Robin(WRR) type or Geolocation(GEO) type.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	RoutingPolicy []RoutingPolicyParameters `json:"routingPolicy,omitempty" tf:"routing_policy,omitempty"`
 
+	// The string data for the records in this record set
+	// whose meaning depends on the DNS type. For TXT record, if the string data contains spaces, add surrounding \" if you don't want your string to get split on spaces.g. "first255characters\" \"morecharacters").
 	// +kubebuilder:validation:Optional
 	Rrdatas []*string `json:"rrdatas,omitempty" tf:"rrdatas,omitempty"`
 
-	// The time-to-live of this record set .
+	// The time-to-live of this record set (seconds).
 	// +kubebuilder:validation:Optional
 	TTL *float64 `json:"ttl,omitempty" tf:"ttl,omitempty"`
 
@@ -108,10 +111,11 @@ type WrrObservation struct {
 
 type WrrParameters struct {
 
+	// Same as rrdatas above.
 	// +kubebuilder:validation:Required
 	Rrdatas []*string `json:"rrdatas" tf:"rrdatas,omitempty"`
 
-	// Required) The ratio of traffic routed to the target.
+	// The ratio of traffic routed to the target.
 	// +kubebuilder:validation:Required
 	Weight *float64 `json:"weight" tf:"weight,omitempty"`
 }

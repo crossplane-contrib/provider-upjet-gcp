@@ -33,6 +33,7 @@ type ForwardingRuleObservation struct {
 	// an identifier for the resource with format projects/{{project}}/regions/{{region}}/forwardingRules/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// (Beta)
 	// The fingerprint used for optimistic locking of this resource.  Used
 	// internally during updates.
 	LabelFingerprint *string `json:"labelFingerprint,omitempty" tf:"label_fingerprint,omitempty"`
@@ -40,8 +41,13 @@ type ForwardingRuleObservation struct {
 	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
 
-	// The internal fully qualified service name for this Forwarding Rule.
-	// This field is only used for INTERNAL load balancing.
+	// Name of the resource; provided by the client when the resource is
+	// created. The name must be 1-63 characters long, and comply with
+	// RFC1035. Specifically, the name must be 1-63 characters long and match
+	// the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which means the
+	// first character must be a lowercase letter, and all following
+	// characters must be a dash, lowercase letter, or digit, except the last
+	// character, which cannot be a dash.
 	ServiceName *string `json:"serviceName,omitempty" tf:"service_name,omitempty"`
 }
 
@@ -131,11 +137,11 @@ type ForwardingRuleParameters struct {
 	// This signifies what the ForwardingRule will be used for and can be
 	// EXTERNAL, EXTERNAL_MANAGED, INTERNAL, or INTERNAL_MANAGED. EXTERNAL is used for Classic
 	// Cloud VPN gateways, protocol forwarding to VMs from an external IP address,
-	// and HTTP, SSL Proxy, TCP Proxy, and Network TCP/UDP load balancers.
+	// and HTTP(S), SSL Proxy, TCP Proxy, and Network TCP/UDP load balancers.
 	// INTERNAL is used for protocol forwarding to VMs from an internal IP address,
 	// and internal TCP/UDP load balancers.
-	// EXTERNAL_MANAGED is used for regional external HTTP load balancers.
-	// INTERNAL_MANAGED is used for internal HTTP load balancers.
+	// EXTERNAL_MANAGED is used for regional external HTTP(S) load balancers.
+	// INTERNAL_MANAGED is used for internal HTTP(S) load balancers.
 	// Default value is EXTERNAL.
 	// Possible values are EXTERNAL, EXTERNAL_MANAGED, INTERNAL, and INTERNAL_MANAGED.
 	// +kubebuilder:validation:Optional
@@ -209,7 +215,7 @@ type ForwardingRuleParameters struct {
 	// name.
 	// The label must be 1-63 characters long, and comply with RFC1035.
 	// Specifically, the label must be 1-63 characters long and match the
-	// regular expression [a-z]? which means the first
+	// regular expression [a-z]([-a-z0-9]*[a-z0-9])? which means the first
 	// character must be a lowercase letter, and all following characters
 	// must be a dash, lowercase letter, or digit, except the last
 	// character, which cannot be a dash.

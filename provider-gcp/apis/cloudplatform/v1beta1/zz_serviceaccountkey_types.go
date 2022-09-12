@@ -53,6 +53,7 @@ type ServiceAccountKeyParameters struct {
 	// The algorithm used to generate the key. KEY_ALG_RSA_2048 is the default algorithm.
 	// Valid values are listed at
 	// ServiceAccountPrivateKeyType
+	// (only used on create)
 	// +kubebuilder:validation:Optional
 	KeyAlgorithm *string `json:"keyAlgorithm,omitempty" tf:"key_algorithm,omitempty"`
 

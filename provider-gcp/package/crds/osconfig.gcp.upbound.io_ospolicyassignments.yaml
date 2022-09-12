@@ -65,6 +65,8 @@ spec:
               forProvider:
                 properties:
                   description:
+                    description: Policy description. Length of the description is
+                      limited to 1024 characters.
                     type: string
                   instanceFilter:
                     description: Required. Filter to select VMs.
@@ -83,6 +85,9 @@ spec:
                               labels:
                                 additionalProperties:
                                   type: string
+                                description: Labels are identified by key/value pairs
+                                  in this map. A VM should contain all the key/value
+                                  pairs specified in this map to be selected.
                                 type: object
                             type: object
                           type: array
@@ -95,6 +100,9 @@ spec:
                               labels:
                                 additionalProperties:
                                   type: string
+                                description: Labels are identified by key/value pairs
+                                  in this map. A VM should contain all the key/value
+                                  pairs specified in this map to be selected.
                                 type: object
                             type: object
                           type: array
@@ -105,8 +113,14 @@ spec:
                           items:
                             properties:
                               osShortName:
+                                description: Required. The OS short name
                                 type: string
                               osVersion:
+                                description: The OS version Prefix matches are supported
+                                  if asterisk(*) is provided as the last character.
+                                  For example, to match all versions with a major
+                                  version of 7, specify the following value for this
+                                  field 7.* An empty string matches all OS versions.
                                 type: string
                             required:
                             - osShortName
@@ -130,8 +144,15 @@ spec:
                             has nothing to validate or enforce.
                           type: boolean
                         description:
+                          description: Policy description. Length of the description
+                            is limited to 1024 characters.
                           type: string
                         id:
+                          description: 'Required. The id of the OS policy with the
+                            following restrictions: * Must contain only lowercase
+                            letters, numbers, and hyphens. * Must start with a letter.
+                            * Must be between 1-63 characters. * Must end with a number
+                            or a letter. * Must be unique within the assignment.'
                           type: string
                         mode:
                           description: 'Required. Policy mode Possible values: MODE_UNSPECIFIED,
@@ -161,8 +182,15 @@ spec:
                                 items:
                                   properties:
                                     osShortName:
+                                      description: Required. The OS short name
                                       type: string
                                     osVersion:
+                                      description: The OS version Prefix matches are
+                                        supported if asterisk(*) is provided as the
+                                        last character. For example, to match all
+                                        versions with a major version of 7, specify
+                                        the following value for this field 7.* An
+                                        empty string matches all OS versions.
                                       type: string
                                   required:
                                   - osShortName
@@ -187,22 +215,44 @@ spec:
                                             items:
                                               properties:
                                                 args:
+                                                  description: Optional arguments
+                                                    to pass to the source during execution.
                                                   items:
                                                     type: string
                                                   type: array
                                                 file:
+                                                  description: A remote or local file.
                                                   items:
                                                     properties:
                                                       allowInsecure:
+                                                        description: 'Defaults to
+                                                          false. When false, files
+                                                          are subject to validations
+                                                          based on the file type:
+                                                          Remote: A checksum must
+                                                          be specified. Cloud Storage:
+                                                          An object generation number
+                                                          must be specified.'
                                                         type: boolean
                                                       gcs:
+                                                        description: A Cloud Storage
+                                                          object.
                                                         items:
                                                           properties:
                                                             bucket:
+                                                              description: Required.
+                                                                Bucket of the Cloud
+                                                                Storage object.
                                                               type: string
                                                             generation:
+                                                              description: Generation
+                                                                number of the Cloud
+                                                                Storage object.
                                                               type: number
                                                             object:
+                                                              description: Required.
+                                                                Name of the Cloud
+                                                                Storage object.
                                                               type: string
                                                           required:
                                                           - bucket
@@ -210,13 +260,27 @@ spec:
                                                           type: object
                                                         type: array
                                                       localPath:
+                                                        description: A local path
+                                                          within the VM to use.
                                                         type: string
                                                       remote:
+                                                        description: A generic remote
+                                                          file.
                                                         items:
                                                           properties:
                                                             sha256Checksum:
+                                                              description: SHA256
+                                                                checksum of the remote
+                                                                file.
                                                               type: string
                                                             uri:
+                                                              description: Required.
+                                                                URI from which to
+                                                                fetch the object.
+                                                                It should contain
+                                                                both the protocol
+                                                                and path following
+                                                                the format {protocol}://{location}.
                                                               type: string
                                                           required:
                                                           - uri
@@ -225,10 +289,26 @@ spec:
                                                     type: object
                                                   type: array
                                                 interpreter:
+                                                  description: 'Required. The script
+                                                    interpreter to use. Possible values:
+                                                    INTERPRETER_UNSPECIFIED, NONE,
+                                                    SHELL, POWERSHELL'
                                                   type: string
                                                 outputFilePath:
+                                                  description: Only recorded for enforce
+                                                    Exec. Path to an output file (that
+                                                    is created by this Exec) whose
+                                                    content will be recorded in OSPolicyResourceCompliance
+                                                    after a successful run. Absence
+                                                    or failure to read this file will
+                                                    result in this ExecResource being
+                                                    non-compliant. Output file size
+                                                    is limited to 100K bytes.
                                                   type: string
                                                 script:
+                                                  description: An inline script. The
+                                                    size of the script is limited
+                                                    to 1024 characters.
                                                   type: string
                                               required:
                                               - interpreter
@@ -245,22 +325,44 @@ spec:
                                             items:
                                               properties:
                                                 args:
+                                                  description: Optional arguments
+                                                    to pass to the source during execution.
                                                   items:
                                                     type: string
                                                   type: array
                                                 file:
+                                                  description: A remote or local file.
                                                   items:
                                                     properties:
                                                       allowInsecure:
+                                                        description: 'Defaults to
+                                                          false. When false, files
+                                                          are subject to validations
+                                                          based on the file type:
+                                                          Remote: A checksum must
+                                                          be specified. Cloud Storage:
+                                                          An object generation number
+                                                          must be specified.'
                                                         type: boolean
                                                       gcs:
+                                                        description: A Cloud Storage
+                                                          object.
                                                         items:
                                                           properties:
                                                             bucket:
+                                                              description: Required.
+                                                                Bucket of the Cloud
+                                                                Storage object.
                                                               type: string
                                                             generation:
+                                                              description: Generation
+                                                                number of the Cloud
+                                                                Storage object.
                                                               type: number
                                                             object:
+                                                              description: Required.
+                                                                Name of the Cloud
+                                                                Storage object.
                                                               type: string
                                                           required:
                                                           - bucket
@@ -268,13 +370,27 @@ spec:
                                                           type: object
                                                         type: array
                                                       localPath:
+                                                        description: A local path
+                                                          within the VM to use.
                                                         type: string
                                                       remote:
+                                                        description: A generic remote
+                                                          file.
                                                         items:
                                                           properties:
                                                             sha256Checksum:
+                                                              description: SHA256
+                                                                checksum of the remote
+                                                                file.
                                                               type: string
                                                             uri:
+                                                              description: Required.
+                                                                URI from which to
+                                                                fetch the object.
+                                                                It should contain
+                                                                both the protocol
+                                                                and path following
+                                                                the format {protocol}://{location}.
                                                               type: string
                                                           required:
                                                           - uri
@@ -283,10 +399,26 @@ spec:
                                                     type: object
                                                   type: array
                                                 interpreter:
+                                                  description: 'Required. The script
+                                                    interpreter to use. Possible values:
+                                                    INTERPRETER_UNSPECIFIED, NONE,
+                                                    SHELL, POWERSHELL'
                                                   type: string
                                                 outputFilePath:
+                                                  description: Only recorded for enforce
+                                                    Exec. Path to an output file (that
+                                                    is created by this Exec) whose
+                                                    content will be recorded in OSPolicyResourceCompliance
+                                                    after a successful run. Absence
+                                                    or failure to read this file will
+                                                    result in this ExecResource being
+                                                    non-compliant. Output file size
+                                                    is limited to 100K bytes.
                                                   type: string
                                                 script:
+                                                  description: An inline script. The
+                                                    size of the script is limited
+                                                    to 1024 characters.
                                                   type: string
                                               required:
                                               - interpreter
@@ -297,6 +429,7 @@ spec:
                                         type: object
                                       type: array
                                     file:
+                                      description: File resource
                                       items:
                                         properties:
                                           content:
@@ -305,18 +438,33 @@ spec:
                                               1024 characters.
                                             type: string
                                           file:
+                                            description: A remote or local source.
                                             items:
                                               properties:
                                                 allowInsecure:
+                                                  description: 'Defaults to false.
+                                                    When false, files are subject
+                                                    to validations based on the file
+                                                    type: Remote: A checksum must
+                                                    be specified. Cloud Storage: An
+                                                    object generation number must
+                                                    be specified.'
                                                   type: boolean
                                                 gcs:
+                                                  description: A Cloud Storage object.
                                                   items:
                                                     properties:
                                                       bucket:
+                                                        description: Required. Bucket
+                                                          of the Cloud Storage object.
                                                         type: string
                                                       generation:
+                                                        description: Generation number
+                                                          of the Cloud Storage object.
                                                         type: number
                                                       object:
+                                                        description: Required. Name
+                                                          of the Cloud Storage object.
                                                         type: string
                                                     required:
                                                     - bucket
@@ -324,13 +472,23 @@ spec:
                                                     type: object
                                                   type: array
                                                 localPath:
+                                                  description: A local path within
+                                                    the VM to use.
                                                   type: string
                                                 remote:
+                                                  description: A generic remote file.
                                                   items:
                                                     properties:
                                                       sha256Checksum:
+                                                        description: SHA256 checksum
+                                                          of the remote file.
                                                         type: string
                                                       uri:
+                                                        description: Required. URI
+                                                          from which to fetch the
+                                                          object. It should contain
+                                                          both the protocol and path
+                                                          following the format {protocol}://{location}.
                                                         type: string
                                                     required:
                                                     - uri
@@ -353,15 +511,24 @@ spec:
                                         type: object
                                       type: array
                                     id:
+                                      description: 'Required. The id of the resource
+                                        with the following restrictions: * Must contain
+                                        only lowercase letters, numbers, and hyphens.
+                                        * Must start with a letter. * Must be between
+                                        1-63 characters. * Must end with a number
+                                        or a letter. * Must be unique within the OS
+                                        policy.'
                                       type: string
                                     pkg:
                                       description: Package resource
                                       items:
                                         properties:
                                           apt:
+                                            description: A package managed by Apt.
                                             items:
                                               properties:
                                                 name:
+                                                  description: Required. Package name.
                                                   type: string
                                               required:
                                               - name
@@ -372,20 +539,45 @@ spec:
                                             items:
                                               properties:
                                                 pullDeps:
+                                                  description: 'Whether dependencies
+                                                    should also be installed. - install
+                                                    when false: dpkg -i package -
+                                                    install when true: apt-get update
+                                                    && apt-get -y install package.deb'
                                                   type: boolean
                                                 source:
+                                                  description: Required. A deb package.
                                                   items:
                                                     properties:
                                                       allowInsecure:
+                                                        description: 'Defaults to
+                                                          false. When false, files
+                                                          are subject to validations
+                                                          based on the file type:
+                                                          Remote: A checksum must
+                                                          be specified. Cloud Storage:
+                                                          An object generation number
+                                                          must be specified.'
                                                         type: boolean
                                                       gcs:
+                                                        description: A Cloud Storage
+                                                          object.
                                                         items:
                                                           properties:
                                                             bucket:
+                                                              description: Required.
+                                                                Bucket of the Cloud
+                                                                Storage object.
                                                               type: string
                                                             generation:
+                                                              description: Generation
+                                                                number of the Cloud
+                                                                Storage object.
                                                               type: number
                                                             object:
+                                                              description: Required.
+                                                                Name of the Cloud
+                                                                Storage object.
                                                               type: string
                                                           required:
                                                           - bucket
@@ -393,13 +585,27 @@ spec:
                                                           type: object
                                                         type: array
                                                       localPath:
+                                                        description: A local path
+                                                          within the VM to use.
                                                         type: string
                                                       remote:
+                                                        description: A generic remote
+                                                          file.
                                                         items:
                                                           properties:
                                                             sha256Checksum:
+                                                              description: SHA256
+                                                                checksum of the remote
+                                                                file.
                                                               type: string
                                                             uri:
+                                                              description: Required.
+                                                                URI from which to
+                                                                fetch the object.
+                                                                It should contain
+                                                                both the protocol
+                                                                and path following
+                                                                the format {protocol}://{location}.
                                                               type: string
                                                           required:
                                                           - uri
@@ -422,6 +628,7 @@ spec:
                                             items:
                                               properties:
                                                 name:
+                                                  description: Required. Package name.
                                                   type: string
                                               required:
                                               - name
@@ -441,18 +648,38 @@ spec:
                                                     type: string
                                                   type: array
                                                 source:
+                                                  description: Required. The MSI package.
                                                   items:
                                                     properties:
                                                       allowInsecure:
+                                                        description: 'Defaults to
+                                                          false. When false, files
+                                                          are subject to validations
+                                                          based on the file type:
+                                                          Remote: A checksum must
+                                                          be specified. Cloud Storage:
+                                                          An object generation number
+                                                          must be specified.'
                                                         type: boolean
                                                       gcs:
+                                                        description: A Cloud Storage
+                                                          object.
                                                         items:
                                                           properties:
                                                             bucket:
+                                                              description: Required.
+                                                                Bucket of the Cloud
+                                                                Storage object.
                                                               type: string
                                                             generation:
+                                                              description: Generation
+                                                                number of the Cloud
+                                                                Storage object.
                                                               type: number
                                                             object:
+                                                              description: Required.
+                                                                Name of the Cloud
+                                                                Storage object.
                                                               type: string
                                                           required:
                                                           - bucket
@@ -460,13 +687,27 @@ spec:
                                                           type: object
                                                         type: array
                                                       localPath:
+                                                        description: A local path
+                                                          within the VM to use.
                                                         type: string
                                                       remote:
+                                                        description: A generic remote
+                                                          file.
                                                         items:
                                                           properties:
                                                             sha256Checksum:
+                                                              description: SHA256
+                                                                checksum of the remote
+                                                                file.
                                                               type: string
                                                             uri:
+                                                              description: Required.
+                                                                URI from which to
+                                                                fetch the object.
+                                                                It should contain
+                                                                both the protocol
+                                                                and path following
+                                                                the format {protocol}://{location}.
                                                               type: string
                                                           required:
                                                           - uri
@@ -483,20 +724,46 @@ spec:
                                             items:
                                               properties:
                                                 pullDeps:
+                                                  description: 'Whether dependencies
+                                                    should also be installed. - install
+                                                    when false: rpm --upgrade --replacepkgs
+                                                    package.rpm - install when true:
+                                                    yum -y install package.rpm or
+                                                    zypper -y install package.rpm'
                                                   type: boolean
                                                 source:
+                                                  description: Required. An rpm package.
                                                   items:
                                                     properties:
                                                       allowInsecure:
+                                                        description: 'Defaults to
+                                                          false. When false, files
+                                                          are subject to validations
+                                                          based on the file type:
+                                                          Remote: A checksum must
+                                                          be specified. Cloud Storage:
+                                                          An object generation number
+                                                          must be specified.'
                                                         type: boolean
                                                       gcs:
+                                                        description: A Cloud Storage
+                                                          object.
                                                         items:
                                                           properties:
                                                             bucket:
+                                                              description: Required.
+                                                                Bucket of the Cloud
+                                                                Storage object.
                                                               type: string
                                                             generation:
+                                                              description: Generation
+                                                                number of the Cloud
+                                                                Storage object.
                                                               type: number
                                                             object:
+                                                              description: Required.
+                                                                Name of the Cloud
+                                                                Storage object.
                                                               type: string
                                                           required:
                                                           - bucket
@@ -504,13 +771,27 @@ spec:
                                                           type: object
                                                         type: array
                                                       localPath:
+                                                        description: A local path
+                                                          within the VM to use.
                                                         type: string
                                                       remote:
+                                                        description: A generic remote
+                                                          file.
                                                         items:
                                                           properties:
                                                             sha256Checksum:
+                                                              description: SHA256
+                                                                checksum of the remote
+                                                                file.
                                                               type: string
                                                             uri:
+                                                              description: Required.
+                                                                URI from which to
+                                                                fetch the object.
+                                                                It should contain
+                                                                both the protocol
+                                                                and path following
+                                                                the format {protocol}://{location}.
                                                               type: string
                                                           required:
                                                           - uri
@@ -523,18 +804,22 @@ spec:
                                               type: object
                                             type: array
                                           yum:
+                                            description: A package managed by YUM.
                                             items:
                                               properties:
                                                 name:
+                                                  description: Required. Package name.
                                                   type: string
                                               required:
                                               - name
                                               type: object
                                             type: array
                                           zypper:
+                                            description: A package managed by Zypper.
                                             items:
                                               properties:
                                                 name:
+                                                  description: Required. Package name.
                                                   type: string
                                               required:
                                               - name
@@ -549,6 +834,7 @@ spec:
                                       items:
                                         properties:
                                           apt:
+                                            description: An Apt Repository.
                                             items:
                                               properties:
                                                 archiveType:
@@ -574,6 +860,8 @@ spec:
                                                     maintains a keyring at /etc/apt/trusted.gpg.d/osconfig_agent_managed.gpg.
                                                   type: string
                                                 uri:
+                                                  description: Required. URI for this
+                                                    repository.
                                                   type: string
                                               required:
                                               - archiveType
@@ -587,6 +875,8 @@ spec:
                                             items:
                                               properties:
                                                 name:
+                                                  description: Required. The name
+                                                    of the repository.
                                                   type: string
                                                 url:
                                                   description: Required. The url of
@@ -598,17 +888,31 @@ spec:
                                               type: object
                                             type: array
                                           yum:
+                                            description: A Yum Repository.
                                             items:
                                               properties:
                                                 baseUrl:
+                                                  description: Required. The location
+                                                    of the repository directory.
                                                   type: string
                                                 displayName:
+                                                  description: The display name of
+                                                    the repository.
                                                   type: string
                                                 gpgKeys:
+                                                  description: URIs of GPG keys.
                                                   items:
                                                     type: string
                                                   type: array
                                                 id:
+                                                  description: Required. A one word,
+                                                    unique name for this repository.
+                                                    This is the repo id in the yum
+                                                    config file and also the display_name
+                                                    if display_name is omitted. This
+                                                    id is also used as the unique
+                                                    identifier when checking for resource
+                                                    conflicts.
                                                   type: string
                                               required:
                                               - baseUrl
@@ -616,17 +920,31 @@ spec:
                                               type: object
                                             type: array
                                           zypper:
+                                            description: A Zypper Repository.
                                             items:
                                               properties:
                                                 baseUrl:
+                                                  description: Required. The location
+                                                    of the repository directory.
                                                   type: string
                                                 displayName:
+                                                  description: The display name of
+                                                    the repository.
                                                   type: string
                                                 gpgKeys:
+                                                  description: URIs of GPG keys.
                                                   items:
                                                     type: string
                                                   type: array
                                                 id:
+                                                  description: Required. A one word,
+                                                    unique name for this repository.
+                                                    This is the repo id in the yum
+                                                    config file and also the display_name
+                                                    if display_name is omitted. This
+                                                    id is also used as the unique
+                                                    identifier when checking for resource
+                                                    conflicts.
                                                   type: string
                                               required:
                                               - baseUrl
@@ -661,8 +979,8 @@ spec:
                     items:
                       properties:
                         disruptionBudget:
-                          description: Required. The maximum number  of VMs per zone
-                            to disrupt at any given moment.
+                          description: Required. The maximum number (or percentage)
+                            of VMs per zone to disrupt at any given moment.
                           items:
                             properties:
                               fixed:
@@ -884,6 +1202,10 @@ spec:
                       provided on update, it must match the server's etag.
                     type: string
                   id:
+                    description: Required. A one word, unique name for this repository.
+                      This is the repo id in the yum config file and also the display_name
+                      if display_name is omitted. This id is also used as the unique
+                      identifier when checking for resource conflicts.
                     type: string
                   osPolicies:
                     description: Required. List of OS policies to be applied to the
@@ -907,19 +1229,21 @@ spec:
                                 items:
                                   properties:
                                     file:
+                                      description: File resource
                                       items:
                                         properties:
                                           permissions:
                                             description: 'Consists of three octal
                                               digits which represent, in order, the
                                               permissions of the owner, group, and
-                                              other users for the file . Each digit
-                                              represents a three bit number with the
-                                              4 bit corresponding to the read permissions,
-                                              the 2 bit corresponds to the write bit,
-                                              and the one bit corresponds to the execute
-                                              permission. Default behavior is 755.
-                                              Below are some examples of permissions
+                                              other users for the file (similarly
+                                              to the numeric mode used in the linux
+                                              chmod utility). Each digit represents
+                                              a three bit number with the 4 bit corresponding
+                                              to the read permissions, the 2 bit corresponds
+                                              to the write bit, and the one bit corresponds
+                                              to the execute permission. Default behavior
+                                              is 755. Below are some examples of permissions
                                               and their associated values: read, write,
                                               and execute: 7 read and execute: 5 read
                                               and write: 6 read only: 4'

@@ -72,8 +72,8 @@ spec:
                       connect subnetwork resources.
                     type: boolean
                   deleteDefaultRoutesOnCreate:
-                    description: If set to true, default routes  will be deleted immediately
-                      after network creation. Defaults to false.
+                    description: If set to true, default routes (0.0.0.0/0) will be
+                      deleted immediately after network creation. Defaults to false.
                     type: boolean
                   description:
                     description: An optional description of this resource. The resource

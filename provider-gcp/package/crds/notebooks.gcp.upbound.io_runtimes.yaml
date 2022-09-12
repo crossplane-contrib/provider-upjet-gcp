@@ -120,7 +120,7 @@ spec:
                         postStartupScript:
                           description: Path to a Bash script that automatically runs
                             after a notebook instance fully boots up. The path must
-                            be a URL or Cloud Storage path .
+                            be a URL or Cloud Storage path (gs://path-to-file/file-name).
                           type: string
                       type: object
                     type: array
@@ -143,6 +143,9 @@ spec:
                                       description: Count of cores of this accelerator.
                                       type: number
                                     type:
+                                      description: Accelerator model. For valid values,
+                                        see https://cloud.google.com/vertex-ai/docs/workbench/reference/
+                                        rest/v1/projects.locations.runtimes#AcceleratorType
                                       type: string
                                   type: object
                                 type: array
@@ -196,9 +199,9 @@ spec:
                                             description: Specifies the size of the
                                               disk in base-2 GB. If not specified,
                                               the disk will be the same size as the
-                                              image . If specified, the size must
-                                              be equal to or larger than 10GB. Default
-                                              100 GB.
+                                              image (usually 10GB). If specified,
+                                              the size must be equal to or larger
+                                              than 10GB. Default 100 GB.
                                             type: number
                                           diskType:
                                             description: The type of the boot disk
@@ -210,6 +213,10 @@ spec:
                                           labels:
                                             additionalProperties:
                                               type: string
+                                            description: Labels to apply to this disk.
+                                              These can be later modified by the disks.setLabels
+                                              method. This field is only applicable
+                                              for persistent disks.
                                             type: object
                                         type: object
                                       type: array
@@ -235,6 +242,9 @@ spec:
                                         URL to an existing Persistent Disk resource.
                                       type: string
                                     type:
+                                      description: Specifies the type of the disk,
+                                        either SCRATCH or PERSISTENT. If not specified,
+                                        the default is PERSISTENT.
                                       type: string
                                   type: object
                                 type: array
@@ -265,6 +275,13 @@ spec:
                               labels:
                                 additionalProperties:
                                   type: string
+                                description: The labels to associate with this runtime.
+                                  Label keys must contain 1 to 63 characters, and
+                                  must conform to [RFC 1035] (https://www.ietf.org/rfc/rfc1035.txt).
+                                  Label values may be empty, but, if present, must
+                                  contain 1 to 63 characters, and must conform to
+                                  RFC 1035. No more than 32 labels can be associated
+                                  with a cluster.
                                 type: object
                               machineType:
                                 description: The Compute Engine machine type used
@@ -274,7 +291,9 @@ spec:
                                 additionalProperties:
                                   type: string
                                 description: The Compute Engine metadata entries to
-                                  add to virtual machine. ).
+                                  add to virtual machine. (see [Project and instance
+                                  metadata](https://cloud.google.com /compute/docs/storing-retrieving-metadata#project_and_instance
+                                  _metadata)).
                                 type: object
                               network:
                                 description: 'The Compute Engine network to be used
@@ -327,7 +346,8 @@ spec:
                                 type: string
                               tags:
                                 description: The Compute Engine tags to add to runtime
-                                  ).
+                                  (see [Tagging instances] (https://cloud.google.com/compute/docs/
+                                  label-or-tag-resources#tags)).
                                 items:
                                   type: string
                                 type: array
@@ -578,7 +598,8 @@ spec:
                                     autoDelete:
                                       description: Optional. Specifies whether the
                                         disk will be auto-deleted when the instance
-                                        is deleted .
+                                        is deleted (but not when the disk is detached
+                                        from the instance).
                                       type: boolean
                                     boot:
                                       description: Optional. Indicates that this is
@@ -633,7 +654,8 @@ spec:
                                 additionalProperties:
                                   type: string
                                 description: The Compute Engine guest attributes.
-                                  ).
+                                  (see [Project and instance guest attributes](https://cloud.google.com/compute/docs/
+                                  storing-retrieving-metadata#guest_attributes)).
                                 type: object
                               zone:
                                 description: The zone where the virtual machine is

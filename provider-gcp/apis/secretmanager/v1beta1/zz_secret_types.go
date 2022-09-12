@@ -75,7 +75,7 @@ type RotationParameters struct {
 	// +kubebuilder:validation:Optional
 	NextRotationTime *string `json:"nextRotationTime,omitempty" tf:"next_rotation_time,omitempty"`
 
-	// The Duration between rotation notifications. Must be in seconds and at least 3600s  and at most 3153600000s .
+	// The Duration between rotation notifications. Must be in seconds and at least 3600s (1h) and at most 3153600000s (100 years).
 	// If rotationPeriod is set, next_rotation_time must be set. next_rotation_time will be advanced by this period when the service automatically sends rotation notifications.
 	// +kubebuilder:validation:Optional
 	RotationPeriod *string `json:"rotationPeriod,omitempty" tf:"rotation_period,omitempty"`
@@ -89,6 +89,8 @@ type SecretObservation struct {
 	// an identifier for the resource with format projects/{{project}}/secrets/{{secret_id}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// The resource name of the Pub/Sub topic that will be published to, in the following format: projects//topics/.
+	// For publication to succeed, the Secret Manager Service Agent service account must have pubsub.publisher permissions on the topic.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 }
 
@@ -142,6 +144,8 @@ type TopicsObservation struct {
 
 type TopicsParameters struct {
 
+	// The resource name of the Pub/Sub topic that will be published to, in the following format: projects//topics/.
+	// For publication to succeed, the Secret Manager Service Agent service account must have pubsub.publisher permissions on the topic.
 	// +kubebuilder:validation:Required
 	Name *string `json:"name" tf:"name,omitempty"`
 }

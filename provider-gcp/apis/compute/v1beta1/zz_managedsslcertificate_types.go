@@ -65,7 +65,7 @@ type ManagedSSLCertificateParameters struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Properties relevant to a managed certificate.  These will be used if the
-	// certificate is managed .
+	// certificate is managed (as indicated by a value of MANAGED in type).
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Managed []ManagedParameters `json:"managed,omitempty" tf:"managed,omitempty"`

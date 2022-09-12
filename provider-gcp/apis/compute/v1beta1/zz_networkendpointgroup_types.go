@@ -58,7 +58,7 @@ type NetworkEndpointGroupParameters struct {
 
 	// Type of network endpoints in this network endpoint group.
 	// NON_GCP_PRIVATE_IP_PORT is used for hybrid connectivity network
-	// endpoint groups .
+	// endpoint groups (see https://cloud.google.com/load-balancing/docs/hybrid).
 	// Note that NON_GCP_PRIVATE_IP_PORT can only be used with Backend Services
 	// that 1) have the following load balancing schemes: EXTERNAL, EXTERNAL_MANAGED,
 	// INTERNAL_MANAGED, and INTERNAL_SELF_MANAGED and 2) support the RATE or

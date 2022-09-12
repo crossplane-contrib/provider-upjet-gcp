@@ -83,8 +83,7 @@ spec:
                           items:
                             properties:
                               x509CertificateSecretRef:
-                                description: A SecretKeySelector is a reference to
-                                  a secret key in an arbitrary namespace.
+                                description: The x509 certificate
                                 properties:
                                   key:
                                     description: The key to select.
@@ -130,9 +129,9 @@ spec:
                       If it is not provided, the provider project is used.
                     type: string
                   spConfig:
-                    description: SAML SP  configuration when the project acts as the
-                      relying party to receive and accept an authentication assertion
-                      issued by a SAML identity provider. Structure is documented
+                    description: SAML SP (Service Provider) configuration when the
+                      project acts as the relying party to receive and accept an authentication
+                      assertion issued by a SAML identity provider. Structure is documented
                       below.
                     items:
                       properties:
@@ -414,9 +413,9 @@ spec:
                     description: an identifier for the resource with format projects/{{project}}/tenants/{{tenant}}/inboundSamlConfigs/{{name}}
                     type: string
                   spConfig:
-                    description: SAML SP  configuration when the project acts as the
-                      relying party to receive and accept an authentication assertion
-                      issued by a SAML identity provider. Structure is documented
+                    description: SAML SP (Service Provider) configuration when the
+                      project acts as the relying party to receive and accept an authentication
+                      assertion issued by a SAML identity provider. Structure is documented
                       below.
                     items:
                       properties:
@@ -427,6 +426,7 @@ spec:
                           items:
                             properties:
                               x509Certificate:
+                                description: The x509 certificate
                                 type: string
                             type: object
                           type: array

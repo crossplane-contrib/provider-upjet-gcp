@@ -44,8 +44,7 @@ type ProjectParameters struct {
 	AutoCreateNetwork *bool `json:"autoCreateNetwork,omitempty" tf:"auto_create_network,omitempty"`
 
 	// The alphanumeric ID of the billing account this project
-	// belongs to. The user or service account performing this operation with Terraform
-	// must have at minimum Billing Account User privileges  on the billing account.
+	// belongs to.user) on the billing account.
 	// See Google Cloud Billing API Access Control
 	// for more details.
 	// +kubebuilder:validation:Optional
@@ -87,8 +86,6 @@ type ProjectParameters struct {
 	// +kubebuilder:validation:Optional
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
 
-	// If true, the Terraform resource can be deleted
-	// without deleting the Project via the Google API.
 	// +kubebuilder:validation:Optional
 	SkipDelete *bool `json:"skipDelete,omitempty" tf:"skip_delete,omitempty"`
 }

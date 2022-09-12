@@ -35,12 +35,20 @@ type AppEngineHTTPTargetParameters struct {
 	// +kubebuilder:validation:Optional
 	AppEngineRouting []AppEngineRoutingParameters `json:"appEngineRouting,omitempty" tf:"app_engine_routing,omitempty"`
 
+	// HTTP request body.
+	// A request body is allowed only if the HTTP method is POST or PUT.
+	// It will result in invalid argument error to set a body on a job with an incompatible HttpMethod.
+	// A base64-encoded string.
 	// +kubebuilder:validation:Optional
 	Body *string `json:"body,omitempty" tf:"body,omitempty"`
 
+	// Which HTTP method to use for the request.
 	// +kubebuilder:validation:Optional
 	HTTPMethod *string `json:"httpMethod,omitempty" tf:"http_method,omitempty"`
 
+	// HTTP request headers.
+	// This map contains the header field names and values.
+	// Headers can be set when the job is created.
 	// +kubebuilder:validation:Optional
 	Headers map[string]*string `json:"headers,omitempty" tf:"headers,omitempty"`
 
@@ -79,12 +87,19 @@ type HTTPTargetObservation struct {
 
 type HTTPTargetParameters struct {
 
+	// HTTP request body.
+	// A request body is allowed only if the HTTP method is POST, PUT, or PATCH.
+	// It is an error to set body on a job with an incompatible HttpMethod.
+	// A base64-encoded string.
 	// +kubebuilder:validation:Optional
 	Body *string `json:"body,omitempty" tf:"body,omitempty"`
 
+	// Which HTTP method to use for the request.
 	// +kubebuilder:validation:Optional
 	HTTPMethod *string `json:"httpMethod,omitempty" tf:"http_method,omitempty"`
 
+	// This map contains the header field names and values.
+	// Repeated headers are not supported, but a header value can contain commas.
 	// +kubebuilder:validation:Optional
 	Headers map[string]*string `json:"headers,omitempty" tf:"headers,omitempty"`
 
@@ -151,7 +166,7 @@ type JobParameters struct {
 	// +kubebuilder:validation:Optional
 	PubsubTarget []PubsubTargetParameters `json:"pubsubTarget,omitempty" tf:"pubsub_target,omitempty"`
 
-	// Region where the scheduler job resides. If it is not provided, Terraform will use the provider default.
+	// Region where the scheduler job resides.
 	// +kubebuilder:validation:Required
 	Region *string `json:"region" tf:"region,omitempty"`
 
@@ -182,6 +197,8 @@ type OAuthTokenParameters struct {
 	// +kubebuilder:validation:Optional
 	Scope *string `json:"scope,omitempty" tf:"scope,omitempty"`
 
+	// Service account email to be used for generating OAuth token.
+	// The service account must be within the same project as the job.
 	// +kubebuilder:validation:Required
 	ServiceAccountEmail *string `json:"serviceAccountEmail" tf:"service_account_email,omitempty"`
 }
@@ -196,6 +213,8 @@ type OidcTokenParameters struct {
 	// +kubebuilder:validation:Optional
 	Audience *string `json:"audience,omitempty" tf:"audience,omitempty"`
 
+	// Service account email to be used for generating OAuth token.
+	// The service account must be within the same project as the job.
 	// +kubebuilder:validation:Required
 	ServiceAccountEmail *string `json:"serviceAccountEmail" tf:"service_account_email,omitempty"`
 }

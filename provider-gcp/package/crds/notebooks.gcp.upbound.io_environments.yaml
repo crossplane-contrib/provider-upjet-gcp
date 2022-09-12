@@ -96,6 +96,8 @@ spec:
                       Cloud Storage path. Example: "gs://path-to-file/file-name"'
                     type: string
                   project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
                     type: string
                   vmImage:
                     description: Use a Compute Engine VM image to start the notebook
@@ -110,6 +112,8 @@ spec:
                           description: Use VM image name to find the image.
                           type: string
                         project:
+                          description: 'The name of the Google Cloud project that
+                            this VM image belongs to. Format: projects/{project_id}'
                           type: string
                       required:
                       - project

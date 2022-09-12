@@ -34,7 +34,8 @@ type NetworkEndpointObservation struct {
 type NetworkEndpointParameters struct {
 
 	// IPv4 address of network endpoint. The IP address must belong
-	// to a VM in GCE .
+	// to a VM in GCE (either the primary IP or as part of an aliased IP
+	// range).
 	// +kubebuilder:validation:Required
 	IPAddress *string `json:"ipAddress" tf:"ip_address,omitempty"`
 

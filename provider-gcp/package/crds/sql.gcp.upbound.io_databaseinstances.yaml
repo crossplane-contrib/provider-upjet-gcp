@@ -66,12 +66,16 @@ spec:
                 properties:
                   clone:
                     description: The context needed to create this instance as a clone
-                      of another instance. When this field is set during resource
-                      creation, Terraform will attempt to clone another instance as
-                      indicated in the context. The configuration is detailed below.
+                      of another instance. The configuration is detailed below.
                     items:
                       properties:
                         allocatedIpRange:
+                          description: 'The name of the allocated ip range for the
+                            private ip CloudSQL instance. For example: "google-managed-services-default".
+                            If set, the cloned instance ip will be created in the
+                            allocated range. The range name must comply with RFC 1035.
+                            Specifically, the name must be 1-63 characters long and
+                            match the regular expression a-z?.'
                           type: string
                         pointInTime:
                           description: The timestamp of the point in time that should
@@ -94,10 +98,6 @@ spec:
                       reference of supported versions.
                     type: string
                   deletionProtection:
-                    description: Whether or not to allow Terraform to destroy the
-                      instance. Unless this field is set to false in Terraform state,
-                      a terraform destroy or terraform apply command that deletes
-                      the instance will fail.
                     type: boolean
                   masterInstanceName:
                     description: The name of the existing instance that will act as
@@ -105,6 +105,8 @@ spec:
                       master to have binary_log_enabled set, as well as existing backups.
                     type: string
                   project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
                     type: string
                   region:
                     description: The region the instance will sit in. If a region
@@ -163,7 +165,9 @@ spec:
                         sslCipher:
                           type: string
                         username:
-                          description: Username for replication connection.
+                          description: The name of the instance. This is done because
+                            after a name is used, it cannot be reused for up to one
+                            week.
                           type: string
                         verifyServerCertificate:
                           description: True if the master's common name value is checked
@@ -172,13 +176,10 @@ spec:
                       type: object
                     type: array
                   restoreBackupContext:
-                    description: 'The context needed to restore the database to a
-                      backup run. This field will cause Terraform to trigger the database
-                      to restore from the backup run indicated. The configuration
-                      is detailed below. NOTE: Restoring from a backup is an imperative
-                      action and not recommended via Terraform. Adding or modifying
+                    description: The context needed to restore the database to a backup
+                      run. The configuration is detailed below. Adding or modifying
                       this block during resource creation/update will trigger the
-                      restore action after the resource is created/updated.'
+                      restore action after the resource is created/updated.
                     items:
                       properties:
                         backupRunId:
@@ -190,6 +191,7 @@ spec:
                             used.
                           type: string
                         project:
+                          description: The full project ID of the source instance.`
                           type: string
                       required:
                       - backupRunId
@@ -227,7 +229,8 @@ spec:
                             properties:
                               domain:
                                 description: The domain name for the active directory
-                                  . Can only be used with SQL Server.
+                                  (e.g., mydomain.com). Can only be used with SQL
+                                  Server.
                                 type: string
                             required:
                             - domain
@@ -235,9 +238,9 @@ spec:
                           type: array
                         availabilityType:
                           description: The availability type of the Cloud SQL instance,
-                            high availability  or single zone .' For all instances,
-                            ensure that settings.backup_configuration.enabled is set
-                            to true. For MySQL instances, ensure that settings.backup_configuration.binary_log_enabled
+                            high availability (REGIONAL) or single zone (ZONAL).'
+                            For all instances, ensure that settings.backup_configuration.enabled
+                            is set to true. For MySQL instances, ensure that settings.backup_configuration.binary_log_enabled
                             is set to true. For Postgres instances, ensure that settings.backup_configuration.point_in_time_recovery_enabled
                             is set to true.
                           type: string
@@ -295,8 +298,12 @@ spec:
                           items:
                             properties:
                               name:
+                                description: The name of the instance. This is done
+                                  because after a name is used, it cannot be reused
+                                  for up to one week.
                                 type: string
                               value:
+                                description: Value of the flag.
                                 type: string
                             required:
                             - name
@@ -341,6 +348,12 @@ spec:
                           items:
                             properties:
                               allocatedIpRange:
+                                description: 'The name of the allocated ip range for
+                                  the private ip CloudSQL instance. For example: "google-managed-services-default".
+                                  If set, the instance ip will be created in the allocated
+                                  range. The range name must comply with RFC 1035.
+                                  Specifically, the name must be 1-63 characters long
+                                  and match the regular expression a-z?.'
                                 type: string
                               authorizedNetworks:
                                 items:
@@ -350,8 +363,12 @@ spec:
                                         string indicating when this whitelist expires.
                                       type: string
                                     name:
+                                      description: The name of the instance. This
+                                        is done because after a name is used, it cannot
+                                        be reused for up to one week.
                                       type: string
                                     value:
+                                      description: Value of the flag.
                                       type: string
                                   required:
                                   - value
@@ -472,13 +489,15 @@ spec:
                           items:
                             properties:
                               day:
-                                description: Day of week , starting on Monday
+                                description: Day of week (1-7), starting on Monday
                                 type: number
                               hour:
-                                description: Hour of day , ignored if day not set
+                                description: Hour of day (0-23), ignored if day not
+                                  set
                                 type: number
                               updateTrack:
-                                description: Receive updates earlier  or later
+                                description: Receive updates earlier (canary) or later
+                                  (stable)
                                 type: string
                             type: object
                           type: array
@@ -683,39 +702,35 @@ spec:
               atProvider:
                 properties:
                   connectionName:
-                    description: The connection name of the instance to be used in
-                      connection strings. For example, when connecting with Cloud
-                      SQL Proxy.
+                    description: The name of the instance. This is done because after
+                      a name is used, it cannot be reused for up to one week.
                     type: string
                   firstIpAddress:
-                    description: The first IPv4 address of any type assigned. This
-                      is to support accessing the first address in the list in a terraform
-                      output when the resource is configured with a count.
+                    description: The first IPv4 address of any type assigned.
                     type: string
                   id:
                     type: string
                   ipAddress:
+                    description: The IPv4 address assigned.
                     items:
                       properties:
                         ipAddress:
+                          description: The IPv4 address assigned.
                           type: string
                         timeToRetire:
+                          description: The time this IP address will be retired, in
+                            RFC 3339 format.
                           type: string
                         type:
+                          description: The type of this IP address.
                           type: string
                       type: object
                     type: array
                   privateIpAddress:
-                    description: The first private  IPv4 address assigned. This is
-                      a workaround for an issue fixed in Terraform 0.12 but also provides
-                      a convenient way to access an IP of a specific type without
-                      performing filtering in a Terraform config.
+                    description: The first private (PRIVATE) IPv4 address assigned.
                     type: string
                   publicIpAddress:
-                    description: The first public  IPv4 address assigned. This is
-                      a workaround for an issue fixed in Terraform 0.12 but also provides
-                      a convenient way to access an IP of a specific type without
-                      performing filtering in a Terraform config.
+                    description: The first public (PRIMARY) IPv4 address assigned.
                     type: string
                   selfLink:
                     description: The URI of the created resource.
@@ -724,16 +739,23 @@ spec:
                     items:
                       properties:
                         cert:
+                          description: The CA Certificate used to connect to the SQL
+                            Instance via SSL.
                           type: string
                         commonName:
+                          description: The name of the instance. This is done because
+                            after a name is used, it cannot be reused for up to one
+                            week.
                           type: string
                         createTime:
+                          description: Creation time of the CA Cert.
                           type: string
                         expirationTime:
                           description: The RFC 3339 formatted date time string indicating
                             when this whitelist expires.
                           type: string
                         sha1Fingerprint:
+                          description: SHA Fingerprint of the CA Cert.
                           type: string
                       type: object
                     type: array
@@ -747,6 +769,8 @@ spec:
                     items:
                       properties:
                         version:
+                          description: Used to make sure changes to the settings block
+                            are atomic.
                           type: number
                       type: object
                     type: array
