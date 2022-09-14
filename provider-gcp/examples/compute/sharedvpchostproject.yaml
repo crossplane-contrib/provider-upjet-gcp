@@ -1,0 +1,13 @@
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: SharedVPCHostProject
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/sharedvpchostproject
+    upjet.upbound.io/manual-intervention: "Required organizational level permissions"
+  labels:
+    testing.upbound.io/example-name: shared-vpc-host-project
+  name: shared-vpc-host-project
+spec:
+  forProvider:
+    project: host-project-id
+

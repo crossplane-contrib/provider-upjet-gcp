@@ -11,8 +11,12 @@ spec:
     ipRange: 169.254.1.1/30
     name: interface-1
     region: us-central1
-    router: router-1
-    vpnTunnel: tunnel-1
+    routerSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    vpnTunnelSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
 
 ---
 

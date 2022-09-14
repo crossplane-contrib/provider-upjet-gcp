@@ -1,0 +1,2772 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.8.0
+  creationTimestamp: null
+  name: urlmaps.compute.gcp.upbound.io
+spec:
+  group: compute.gcp.upbound.io
+  names:
+    categories:
+    - crossplane
+    - managed
+    - gcp
+    kind: URLMap
+    listKind: URLMapList
+    plural: urlmaps
+    singular: urlmap
+  scope: Cluster
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
+    - jsonPath: .metadata.annotations.crossplane\.io/external-name
+      name: EXTERNAL-NAME
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1beta1
+    schema:
+      openAPIV3Schema:
+        description: URLMap is the Schema for the URLMaps API. UrlMaps are used to
+          route requests to a backend service based on rules that you define for the
+          host and path of an incoming URL.
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: URLMapSpec defines the desired state of URLMap
+            properties:
+              deletionPolicy:
+                default: Delete
+                description: DeletionPolicy specifies what will happen to the underlying
+                  external when this managed resource is deleted - either "Delete"
+                  or "Orphan" the external resource.
+                enum:
+                - Orphan
+                - Delete
+                type: string
+              forProvider:
+                properties:
+                  defaultRouteAction:
+                    description: defaultRouteAction takes effect when none of the
+                      hostRules match. The load balancer performs advanced routing
+                      actions like URL rewrites, header transformations, etc. prior
+                      to forwarding the request to the selected backend. If defaultRouteAction
+                      specifies any weightedBackendServices, defaultService must not
+                      be set. Conversely if defaultService is set, defaultRouteAction
+                      cannot contain any weightedBackendServices. Only one of defaultRouteAction
+                      or defaultUrlRedirect must be set. Structure is documented below.
+                    items:
+                      properties:
+                        corsPolicy:
+                          description: The specification for allowing client side
+                            cross-origin requests. Please see W3C Recommendation for
+                            Cross Origin Resource Sharing Structure is documented
+                            below.
+                          items:
+                            properties:
+                              allowCredentials:
+                                type: boolean
+                              allowHeaders:
+                                description: Specifies the content for the Access-Control-Allow-Headers
+                                  header.
+                                items:
+                                  type: string
+                                type: array
+                              allowMethods:
+                                description: Specifies the content for the Access-Control-Allow-Methods
+                                  header.
+                                items:
+                                  type: string
+                                type: array
+                              allowOriginRegexes:
+                                items:
+                                  type: string
+                                type: array
+                              allowOrigins:
+                                items:
+                                  type: string
+                                type: array
+                              disabled:
+                                type: boolean
+                              exposeHeaders:
+                                description: Specifies the content for the Access-Control-Expose-Headers
+                                  header.
+                                items:
+                                  type: string
+                                type: array
+                              maxAge:
+                                type: number
+                            type: object
+                          type: array
+                        faultInjectionPolicy:
+                          description: The specification for fault injection introduced
+                            into traffic to test the resiliency of clients to backend
+                            service failure. As part of fault injection, when clients
+                            send requests to a backend service, delays can be introduced
+                            by Loadbalancer on a percentage of requests before sending
+                            those request to the backend service. Similarly requests
+                            from clients can be aborted by the Loadbalancer for a
+                            percentage of requests. timeout and retryPolicy will be
+                            ignored by clients that are configured with a faultInjectionPolicy.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              abort:
+                                items:
+                                  properties:
+                                    httpStatus:
+                                      type: number
+                                    percentage:
+                                      type: number
+                                  type: object
+                                type: array
+                              delay:
+                                items:
+                                  properties:
+                                    fixedDelay:
+                                      items:
+                                        properties:
+                                          nanos:
+                                            type: number
+                                          seconds:
+                                            type: string
+                                        type: object
+                                      type: array
+                                    percentage:
+                                      type: number
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                        requestMirrorPolicy:
+                          description: Specifies the policy on how requests intended
+                            for the route's backends are shadowed to a separate mirrored
+                            backend service. Loadbalancer does not wait for responses
+                            from the shadow service. Prior to sending traffic to the
+                            shadow service, the host / authority header is suffixed
+                            with -shadow. Structure is documented below.
+                          items:
+                            properties:
+                              backendService:
+                                type: string
+                            required:
+                            - backendService
+                            type: object
+                          type: array
+                        retryPolicy:
+                          description: Specifies the retry policy associated with
+                            this route. Structure is documented below.
+                          items:
+                            properties:
+                              numRetries:
+                                type: number
+                              perTryTimeout:
+                                items:
+                                  properties:
+                                    nanos:
+                                      type: number
+                                    seconds:
+                                      type: string
+                                  type: object
+                                type: array
+                              retryConditions:
+                                items:
+                                  type: string
+                                type: array
+                            type: object
+                          type: array
+                        timeout:
+                          description: Specifies the timeout for the selected route.
+                            Timeout is computed from the time the request has been
+                            fully processed (i.e. end-of-stream) up until the response
+                            has been completely processed. Timeout includes all retries.
+                            If not specified, will use the largest timeout among all
+                            backend services associated with the route. Structure
+                            is documented below.
+                          items:
+                            properties:
+                              nanos:
+                                type: number
+                              seconds:
+                                type: string
+                            type: object
+                          type: array
+                        urlRewrite:
+                          description: The spec to modify the URL of the request,
+                            prior to forwarding the request to the matched service.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              hostRewrite:
+                                type: string
+                              pathPrefixRewrite:
+                                type: string
+                            type: object
+                          type: array
+                        weightedBackendServices:
+                          description: A list of weighted backend services to send
+                            traffic to when a route match occurs. The weights determine
+                            the fraction of traffic that flows to their corresponding
+                            backend service. If all traffic needs to go to a single
+                            backend service, there must be one weightedBackendService
+                            with weight set to a non 0 number. Once a backendService
+                            is identified and before forwarding the request to the
+                            backend service, advanced routing actions like Url rewrites
+                            and header transformations are applied depending on additional
+                            settings specified in this HttpRouteAction. Structure
+                            is documented below.
+                          items:
+                            properties:
+                              backendService:
+                                type: string
+                              headerAction:
+                                description: Specifies changes to request and response
+                                  headers that need to take effect for the selected
+                                  backendService. The headerAction specified here
+                                  take effect after headerAction specified under pathMatcher.
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    requestHeadersToAdd:
+                                      items:
+                                        properties:
+                                          headerName:
+                                            description: Name of the resource. Provided
+                                              by the client when the resource is created.
+                                              The name must be 1-63 characters long,
+                                              and comply with RFC1035. Specifically,
+                                              the name must be 1-63 characters long
+                                              and match the regular expression [a-z]([-a-z0-9]*[a-z0-9])?
+                                              which means the first character must
+                                              be a lowercase letter, and all following
+                                              characters must be a dash, lowercase
+                                              letter, or digit, except the last character,
+                                              which cannot be a dash.
+                                            type: string
+                                          headerValue:
+                                            type: string
+                                          replace:
+                                            type: boolean
+                                        type: object
+                                      type: array
+                                    requestHeadersToRemove:
+                                      items:
+                                        type: string
+                                      type: array
+                                    responseHeadersToAdd:
+                                      description: Headers to add the response prior
+                                        to sending the response back to the client.
+                                        Structure is documented below.
+                                      items:
+                                        properties:
+                                          headerName:
+                                            description: Name of the resource. Provided
+                                              by the client when the resource is created.
+                                              The name must be 1-63 characters long,
+                                              and comply with RFC1035. Specifically,
+                                              the name must be 1-63 characters long
+                                              and match the regular expression [a-z]([-a-z0-9]*[a-z0-9])?
+                                              which means the first character must
+                                              be a lowercase letter, and all following
+                                              characters must be a dash, lowercase
+                                              letter, or digit, except the last character,
+                                              which cannot be a dash.
+                                            type: string
+                                          headerValue:
+                                            type: string
+                                          replace:
+                                            type: boolean
+                                        type: object
+                                      type: array
+                                    responseHeadersToRemove:
+                                      items:
+                                        type: string
+                                      type: array
+                                  type: object
+                                type: array
+                              weight:
+                                type: number
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  defaultService:
+                    description: The backend service or backend bucket to use when
+                      none of the given rules match.
+                    type: string
+                  defaultServiceRef:
+                    description: Reference to a BackendBucket in compute to populate
+                      defaultService.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: Resolution specifies whether resolution of
+                              this reference is required. The default is 'Required',
+                              which means the reconcile will fail if the reference
+                              cannot be resolved. 'Optional' means this reference
+                              will be a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: Resolve specifies when this reference should
+                              be resolved. The default is 'IfNotPresent', which will
+                              attempt to resolve the reference only when the corresponding
+                              field is not present. Use 'Always' to resolve the reference
+                              on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  defaultServiceSelector:
+                    description: Selector for a BackendBucket in compute to populate
+                      defaultService.
+                    properties:
+                      matchControllerRef:
+                        description: MatchControllerRef ensures an object with the
+                          same controller reference as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: Resolution specifies whether resolution of
+                              this reference is required. The default is 'Required',
+                              which means the reconcile will fail if the reference
+                              cannot be resolved. 'Optional' means this reference
+                              will be a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: Resolve specifies when this reference should
+                              be resolved. The default is 'IfNotPresent', which will
+                              attempt to resolve the reference only when the corresponding
+                              field is not present. Use 'Always' to resolve the reference
+                              on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  defaultUrlRedirect:
+                    description: When none of the specified hostRules match, the request
+                      is redirected to a URL specified by defaultUrlRedirect. If defaultUrlRedirect
+                      is specified, defaultService or defaultRouteAction must not
+                      be set. Structure is documented below.
+                    items:
+                      properties:
+                        hostRedirect:
+                          description: The host that will be used in the redirect
+                            response instead of the one that was supplied in the request.
+                            The value must be between 1 and 255 characters.
+                          type: string
+                        httpsRedirect:
+                          description: If set to true, the URL scheme in the redirected
+                            request is set to https. If set to false, the URL scheme
+                            of the redirected request will remain the same as that
+                            of the request. This must only be set for UrlMaps used
+                            in TargetHttpProxys. Setting this true for TargetHttpsProxy
+                            is not permitted. The default is set to false.
+                          type: boolean
+                        pathRedirect:
+                          description: The path that will be used in the redirect
+                            response instead of the one that was supplied in the request.
+                            pathRedirect cannot be supplied together with prefixRedirect.
+                            Supply one alone or neither. If neither is supplied, the
+                            path of the original request will be used for the redirect.
+                            The value must be between 1 and 1024 characters.
+                          type: string
+                        prefixRedirect:
+                          description: The prefix that replaces the prefixMatch specified
+                            in the HttpRouteRuleMatch, retaining the remaining portion
+                            of the URL before redirecting the request. prefixRedirect
+                            cannot be supplied together with pathRedirect. Supply
+                            one alone or neither. If neither is supplied, the path
+                            of the original request will be used for the redirect.
+                            The value must be between 1 and 1024 characters.
+                          type: string
+                        redirectResponseCode:
+                          description: 'The HTTP Status code to use for this RedirectAction.
+                            Supported values are:'
+                          type: string
+                        stripQuery:
+                          type: boolean
+                      required:
+                      - stripQuery
+                      type: object
+                    type: array
+                  description:
+                    description: An optional description of this resource. Provide
+                      this property when you create the resource.
+                    type: string
+                  headerAction:
+                    description: Specifies changes to request and response headers
+                      that need to take effect for the selected backendService. The
+                      headerAction specified here take effect after headerAction specified
+                      under pathMatcher. Structure is documented below.
+                    items:
+                      properties:
+                        requestHeadersToAdd:
+                          items:
+                            properties:
+                              headerName:
+                                description: Name of the resource. Provided by the
+                                  client when the resource is created. The name must
+                                  be 1-63 characters long, and comply with RFC1035.
+                                  Specifically, the name must be 1-63 characters long
+                                  and match the regular expression [a-z]([-a-z0-9]*[a-z0-9])?
+                                  which means the first character must be a lowercase
+                                  letter, and all following characters must be a dash,
+                                  lowercase letter, or digit, except the last character,
+                                  which cannot be a dash.
+                                type: string
+                              headerValue:
+                                type: string
+                              replace:
+                                type: boolean
+                            required:
+                            - headerName
+                            - headerValue
+                            - replace
+                            type: object
+                          type: array
+                        requestHeadersToRemove:
+                          items:
+                            type: string
+                          type: array
+                        responseHeadersToAdd:
+                          description: Headers to add the response prior to sending
+                            the response back to the client. Structure is documented
+                            below.
+                          items:
+                            properties:
+                              headerName:
+                                description: Name of the resource. Provided by the
+                                  client when the resource is created. The name must
+                                  be 1-63 characters long, and comply with RFC1035.
+                                  Specifically, the name must be 1-63 characters long
+                                  and match the regular expression [a-z]([-a-z0-9]*[a-z0-9])?
+                                  which means the first character must be a lowercase
+                                  letter, and all following characters must be a dash,
+                                  lowercase letter, or digit, except the last character,
+                                  which cannot be a dash.
+                                type: string
+                              headerValue:
+                                type: string
+                              replace:
+                                type: boolean
+                            required:
+                            - headerName
+                            - headerValue
+                            - replace
+                            type: object
+                          type: array
+                        responseHeadersToRemove:
+                          items:
+                            type: string
+                          type: array
+                      type: object
+                    type: array
+                  hostRule:
+                    description: The list of HostRules to use against the URL. Structure
+                      is documented below.
+                    items:
+                      properties:
+                        description:
+                          description: An optional description of this resource. Provide
+                            this property when you create the resource.
+                          type: string
+                        hosts:
+                          description: The list of host patterns to match. They must
+                            be valid hostnames, except * will match any string of
+                            ([a-z0-9-.]*). In that case, * must be the first character
+                            and must be followed in the pattern by either - or ..
+                          items:
+                            type: string
+                          type: array
+                        pathMatcher:
+                          description: The name of the PathMatcher to use to match
+                            the path portion of the URL if the hostRule matches the
+                            URL's host portion.
+                          type: string
+                      required:
+                      - hosts
+                      - pathMatcher
+                      type: object
+                    type: array
+                  pathMatcher:
+                    description: The list of named PathMatchers to use against the
+                      URL. Structure is documented below.
+                    items:
+                      properties:
+                        defaultRouteAction:
+                          description: defaultRouteAction takes effect when none of
+                            the pathRules or routeRules match. The load balancer performs
+                            advanced routing actions like URL rewrites, header transformations,
+                            etc. prior to forwarding the request to the selected backend.
+                            If defaultRouteAction specifies any weightedBackendServices,
+                            defaultService must not be set. Conversely if defaultService
+                            is set, defaultRouteAction cannot contain any weightedBackendServices.
+                            Only one of defaultRouteAction or defaultUrlRedirect must
+                            be set. Structure is documented below.
+                          items:
+                            properties:
+                              corsPolicy:
+                                description: The specification for allowing client
+                                  side cross-origin requests. Please see W3C Recommendation
+                                  for Cross Origin Resource Sharing Structure is documented
+                                  below.
+                                items:
+                                  properties:
+                                    allowCredentials:
+                                      type: boolean
+                                    allowHeaders:
+                                      description: Specifies the content for the Access-Control-Allow-Headers
+                                        header.
+                                      items:
+                                        type: string
+                                      type: array
+                                    allowMethods:
+                                      description: Specifies the content for the Access-Control-Allow-Methods
+                                        header.
+                                      items:
+                                        type: string
+                                      type: array
+                                    allowOriginRegexes:
+                                      items:
+                                        type: string
+                                      type: array
+                                    allowOrigins:
+                                      items:
+                                        type: string
+                                      type: array
+                                    disabled:
+                                      type: boolean
+                                    exposeHeaders:
+                                      description: Specifies the content for the Access-Control-Expose-Headers
+                                        header.
+                                      items:
+                                        type: string
+                                      type: array
+                                    maxAge:
+                                      type: number
+                                  type: object
+                                type: array
+                              faultInjectionPolicy:
+                                description: The specification for fault injection
+                                  introduced into traffic to test the resiliency of
+                                  clients to backend service failure. As part of fault
+                                  injection, when clients send requests to a backend
+                                  service, delays can be introduced by Loadbalancer
+                                  on a percentage of requests before sending those
+                                  request to the backend service. Similarly requests
+                                  from clients can be aborted by the Loadbalancer
+                                  for a percentage of requests. timeout and retryPolicy
+                                  will be ignored by clients that are configured with
+                                  a faultInjectionPolicy. Structure is documented
+                                  below.
+                                items:
+                                  properties:
+                                    abort:
+                                      items:
+                                        properties:
+                                          httpStatus:
+                                            type: number
+                                          percentage:
+                                            type: number
+                                        type: object
+                                      type: array
+                                    delay:
+                                      items:
+                                        properties:
+                                          fixedDelay:
+                                            items:
+                                              properties:
+                                                nanos:
+                                                  type: number
+                                                seconds:
+                                                  type: string
+                                              type: object
+                                            type: array
+                                          percentage:
+                                            type: number
+                                        type: object
+                                      type: array
+                                  type: object
+                                type: array
+                              requestMirrorPolicy:
+                                description: Specifies the policy on how requests
+                                  intended for the route's backends are shadowed to
+                                  a separate mirrored backend service. Loadbalancer
+                                  does not wait for responses from the shadow service.
+                                  Prior to sending traffic to the shadow service,
+                                  the host / authority header is suffixed with -shadow.
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    backendService:
+                                      type: string
+                                  required:
+                                  - backendService
+                                  type: object
+                                type: array
+                              retryPolicy:
+                                description: Specifies the retry policy associated
+                                  with this route. Structure is documented below.
+                                items:
+                                  properties:
+                                    numRetries:
+                                      type: number
+                                    perTryTimeout:
+                                      items:
+                                        properties:
+                                          nanos:
+                                            type: number
+                                          seconds:
+                                            type: string
+                                        type: object
+                                      type: array
+                                    retryConditions:
+                                      items:
+                                        type: string
+                                      type: array
+                                  type: object
+                                type: array
+                              timeout:
+                                description: Specifies the timeout for the selected
+                                  route. Timeout is computed from the time the request
+                                  has been fully processed (i.e. end-of-stream) up
+                                  until the response has been completely processed.
+                                  Timeout includes all retries. If not specified,
+                                  will use the largest timeout among all backend services
+                                  associated with the route. Structure is documented
+                                  below.
+                                items:
+                                  properties:
+                                    nanos:
+                                      type: number
+                                    seconds:
+                                      type: string
+                                  type: object
+                                type: array
+                              urlRewrite:
+                                description: The spec to modify the URL of the request,
+                                  prior to forwarding the request to the matched service.
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    hostRewrite:
+                                      type: string
+                                    pathPrefixRewrite:
+                                      type: string
+                                  type: object
+                                type: array
+                              weightedBackendServices:
+                                description: A list of weighted backend services to
+                                  send traffic to when a route match occurs. The weights
+                                  determine the fraction of traffic that flows to
+                                  their corresponding backend service. If all traffic
+                                  needs to go to a single backend service, there must
+                                  be one weightedBackendService with weight set to
+                                  a non 0 number. Once a backendService is identified
+                                  and before forwarding the request to the backend
+                                  service, advanced routing actions like Url rewrites
+                                  and header transformations are applied depending
+                                  on additional settings specified in this HttpRouteAction.
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    backendService:
+                                      type: string
+                                    headerAction:
+                                      description: Specifies changes to request and
+                                        response headers that need to take effect
+                                        for the selected backendService. The headerAction
+                                        specified here take effect after headerAction
+                                        specified under pathMatcher. Structure is
+                                        documented below.
+                                      items:
+                                        properties:
+                                          requestHeadersToAdd:
+                                            items:
+                                              properties:
+                                                headerName:
+                                                  description: Name of the resource.
+                                                    Provided by the client when the
+                                                    resource is created. The name
+                                                    must be 1-63 characters long,
+                                                    and comply with RFC1035. Specifically,
+                                                    the name must be 1-63 characters
+                                                    long and match the regular expression
+                                                    [a-z]([-a-z0-9]*[a-z0-9])? which
+                                                    means the first character must
+                                                    be a lowercase letter, and all
+                                                    following characters must be a
+                                                    dash, lowercase letter, or digit,
+                                                    except the last character, which
+                                                    cannot be a dash.
+                                                  type: string
+                                                headerValue:
+                                                  type: string
+                                                replace:
+                                                  type: boolean
+                                              type: object
+                                            type: array
+                                          requestHeadersToRemove:
+                                            items:
+                                              type: string
+                                            type: array
+                                          responseHeadersToAdd:
+                                            description: Headers to add the response
+                                              prior to sending the response back to
+                                              the client. Structure is documented
+                                              below.
+                                            items:
+                                              properties:
+                                                headerName:
+                                                  description: Name of the resource.
+                                                    Provided by the client when the
+                                                    resource is created. The name
+                                                    must be 1-63 characters long,
+                                                    and comply with RFC1035. Specifically,
+                                                    the name must be 1-63 characters
+                                                    long and match the regular expression
+                                                    [a-z]([-a-z0-9]*[a-z0-9])? which
+                                                    means the first character must
+                                                    be a lowercase letter, and all
+                                                    following characters must be a
+                                                    dash, lowercase letter, or digit,
+                                                    except the last character, which
+                                                    cannot be a dash.
+                                                  type: string
+                                                headerValue:
+                                                  type: string
+                                                replace:
+                                                  type: boolean
+                                              type: object
+                                            type: array
+                                          responseHeadersToRemove:
+                                            items:
+                                              type: string
+                                            type: array
+                                        type: object
+                                      type: array
+                                    weight:
+                                      type: number
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                        defaultService:
+                          description: The backend service or backend bucket to use
+                            when none of the given paths match.
+                          type: string
+                        defaultServiceRef:
+                          description: Reference to a BackendBucket in compute to
+                            populate defaultService.
+                          properties:
+                            name:
+                              description: Name of the referenced object.
+                              type: string
+                            policy:
+                              description: Policies for referencing.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: Resolution specifies whether resolution
+                                    of this reference is required. The default is
+                                    'Required', which means the reconcile will fail
+                                    if the reference cannot be resolved. 'Optional'
+                                    means this reference will be a no-op if it cannot
+                                    be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: Resolve specifies when this reference
+                                    should be resolved. The default is 'IfNotPresent',
+                                    which will attempt to resolve the reference only
+                                    when the corresponding field is not present. Use
+                                    'Always' to resolve the reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          required:
+                          - name
+                          type: object
+                        defaultServiceSelector:
+                          description: Selector for a BackendBucket in compute to
+                            populate defaultService.
+                          properties:
+                            matchControllerRef:
+                              description: MatchControllerRef ensures an object with
+                                the same controller reference as the selecting object
+                                is selected.
+                              type: boolean
+                            matchLabels:
+                              additionalProperties:
+                                type: string
+                              description: MatchLabels ensures an object with matching
+                                labels is selected.
+                              type: object
+                            policy:
+                              description: Policies for selection.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: Resolution specifies whether resolution
+                                    of this reference is required. The default is
+                                    'Required', which means the reconcile will fail
+                                    if the reference cannot be resolved. 'Optional'
+                                    means this reference will be a no-op if it cannot
+                                    be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: Resolve specifies when this reference
+                                    should be resolved. The default is 'IfNotPresent',
+                                    which will attempt to resolve the reference only
+                                    when the corresponding field is not present. Use
+                                    'Always' to resolve the reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          type: object
+                        defaultUrlRedirect:
+                          description: When none of the specified hostRules match,
+                            the request is redirected to a URL specified by defaultUrlRedirect.
+                            If defaultUrlRedirect is specified, defaultService or
+                            defaultRouteAction must not be set. Structure is documented
+                            below.
+                          items:
+                            properties:
+                              hostRedirect:
+                                description: The host that will be used in the redirect
+                                  response instead of the one that was supplied in
+                                  the request. The value must be between 1 and 255
+                                  characters.
+                                type: string
+                              httpsRedirect:
+                                description: If set to true, the URL scheme in the
+                                  redirected request is set to https. If set to false,
+                                  the URL scheme of the redirected request will remain
+                                  the same as that of the request. This must only
+                                  be set for UrlMaps used in TargetHttpProxys. Setting
+                                  this true for TargetHttpsProxy is not permitted.
+                                  The default is set to false.
+                                type: boolean
+                              pathRedirect:
+                                description: The path that will be used in the redirect
+                                  response instead of the one that was supplied in
+                                  the request. pathRedirect cannot be supplied together
+                                  with prefixRedirect. Supply one alone or neither.
+                                  If neither is supplied, the path of the original
+                                  request will be used for the redirect. The value
+                                  must be between 1 and 1024 characters.
+                                type: string
+                              prefixRedirect:
+                                description: The prefix that replaces the prefixMatch
+                                  specified in the HttpRouteRuleMatch, retaining the
+                                  remaining portion of the URL before redirecting
+                                  the request. prefixRedirect cannot be supplied together
+                                  with pathRedirect. Supply one alone or neither.
+                                  If neither is supplied, the path of the original
+                                  request will be used for the redirect. The value
+                                  must be between 1 and 1024 characters.
+                                type: string
+                              redirectResponseCode:
+                                description: 'The HTTP Status code to use for this
+                                  RedirectAction. Supported values are:'
+                                type: string
+                              stripQuery:
+                                type: boolean
+                            required:
+                            - stripQuery
+                            type: object
+                          type: array
+                        description:
+                          description: An optional description of this resource. Provide
+                            this property when you create the resource.
+                          type: string
+                        headerAction:
+                          description: Specifies changes to request and response headers
+                            that need to take effect for the selected backendService.
+                            HeaderAction specified here are applied after the matching
+                            HttpRouteRule HeaderAction and before the HeaderAction
+                            in the UrlMap Structure is documented below.
+                          items:
+                            properties:
+                              requestHeadersToAdd:
+                                items:
+                                  properties:
+                                    headerName:
+                                      description: Name of the resource. Provided
+                                        by the client when the resource is created.
+                                        The name must be 1-63 characters long, and
+                                        comply with RFC1035. Specifically, the name
+                                        must be 1-63 characters long and match the
+                                        regular expression [a-z]([-a-z0-9]*[a-z0-9])?
+                                        which means the first character must be a
+                                        lowercase letter, and all following characters
+                                        must be a dash, lowercase letter, or digit,
+                                        except the last character, which cannot be
+                                        a dash.
+                                      type: string
+                                    headerValue:
+                                      type: string
+                                    replace:
+                                      type: boolean
+                                  required:
+                                  - headerName
+                                  - headerValue
+                                  - replace
+                                  type: object
+                                type: array
+                              requestHeadersToRemove:
+                                items:
+                                  type: string
+                                type: array
+                              responseHeadersToAdd:
+                                description: Headers to add the response prior to
+                                  sending the response back to the client. Structure
+                                  is documented below.
+                                items:
+                                  properties:
+                                    headerName:
+                                      description: Name of the resource. Provided
+                                        by the client when the resource is created.
+                                        The name must be 1-63 characters long, and
+                                        comply with RFC1035. Specifically, the name
+                                        must be 1-63 characters long and match the
+                                        regular expression [a-z]([-a-z0-9]*[a-z0-9])?
+                                        which means the first character must be a
+                                        lowercase letter, and all following characters
+                                        must be a dash, lowercase letter, or digit,
+                                        except the last character, which cannot be
+                                        a dash.
+                                      type: string
+                                    headerValue:
+                                      type: string
+                                    replace:
+                                      type: boolean
+                                  required:
+                                  - headerName
+                                  - headerValue
+                                  - replace
+                                  type: object
+                                type: array
+                              responseHeadersToRemove:
+                                items:
+                                  type: string
+                                type: array
+                            type: object
+                          type: array
+                        name:
+                          description: The name to which this PathMatcher is referred
+                            by the HostRule.
+                          type: string
+                        pathRule:
+                          description: 'The list of path rules. Use this list instead
+                            of routeRules when routing based on simple path matching
+                            is all that''s required. The order by which path rules
+                            are specified does not matter. Matches are always done
+                            on the longest-path-first basis. For example: a pathRule
+                            with a path /a/b/c/* will match before /a/b/* irrespective
+                            of the order in which those paths appear in this list.
+                            Within a given pathMatcher, only one of pathRules or routeRules
+                            must be set. Structure is documented below.'
+                          items:
+                            properties:
+                              paths:
+                                description: 'The list of path patterns to match.
+                                  Each must start with / and the only place a * is
+                                  allowed is at the end following a /. The string
+                                  fed to the path matcher does not include any text
+                                  after the first ? or #, and those chars are not
+                                  allowed here.'
+                                items:
+                                  type: string
+                                type: array
+                              routeAction:
+                                description: In response to a matching path, the load
+                                  balancer performs advanced routing actions like
+                                  URL rewrites, header transformations, etc. prior
+                                  to forwarding the request to the selected backend.
+                                  If routeAction specifies any weightedBackendServices,
+                                  service must not be set. Conversely if service is
+                                  set, routeAction cannot contain any  weightedBackendServices.
+                                  Only one of routeAction or urlRedirect must be set.
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    corsPolicy:
+                                      description: The specification for allowing
+                                        client side cross-origin requests. Please
+                                        see W3C Recommendation for Cross Origin Resource
+                                        Sharing Structure is documented below.
+                                      items:
+                                        properties:
+                                          allowCredentials:
+                                            type: boolean
+                                          allowHeaders:
+                                            description: Specifies the content for
+                                              the Access-Control-Allow-Headers header.
+                                            items:
+                                              type: string
+                                            type: array
+                                          allowMethods:
+                                            description: Specifies the content for
+                                              the Access-Control-Allow-Methods header.
+                                            items:
+                                              type: string
+                                            type: array
+                                          allowOriginRegexes:
+                                            items:
+                                              type: string
+                                            type: array
+                                          allowOrigins:
+                                            items:
+                                              type: string
+                                            type: array
+                                          disabled:
+                                            type: boolean
+                                          exposeHeaders:
+                                            description: Specifies the content for
+                                              the Access-Control-Expose-Headers header.
+                                            items:
+                                              type: string
+                                            type: array
+                                          maxAge:
+                                            type: number
+                                        required:
+                                        - disabled
+                                        type: object
+                                      type: array
+                                    faultInjectionPolicy:
+                                      description: The specification for fault injection
+                                        introduced into traffic to test the resiliency
+                                        of clients to backend service failure. As
+                                        part of fault injection, when clients send
+                                        requests to a backend service, delays can
+                                        be introduced by Loadbalancer on a percentage
+                                        of requests before sending those request to
+                                        the backend service. Similarly requests from
+                                        clients can be aborted by the Loadbalancer
+                                        for a percentage of requests. timeout and
+                                        retry_policy will be ignored by clients that
+                                        are configured with a fault_injection_policy.
+                                        Structure is documented below.
+                                      items:
+                                        properties:
+                                          abort:
+                                            items:
+                                              properties:
+                                                httpStatus:
+                                                  type: number
+                                                percentage:
+                                                  type: number
+                                              required:
+                                              - httpStatus
+                                              - percentage
+                                              type: object
+                                            type: array
+                                          delay:
+                                            items:
+                                              properties:
+                                                fixedDelay:
+                                                  items:
+                                                    properties:
+                                                      nanos:
+                                                        type: number
+                                                      seconds:
+                                                        type: string
+                                                    required:
+                                                    - seconds
+                                                    type: object
+                                                  type: array
+                                                percentage:
+                                                  type: number
+                                              required:
+                                              - fixedDelay
+                                              - percentage
+                                              type: object
+                                            type: array
+                                        type: object
+                                      type: array
+                                    requestMirrorPolicy:
+                                      description: Specifies the policy on how requests
+                                        intended for the route's backends are shadowed
+                                        to a separate mirrored backend service. Loadbalancer
+                                        does not wait for responses from the shadow
+                                        service. Prior to sending traffic to the shadow
+                                        service, the host / authority header is suffixed
+                                        with -shadow. Structure is documented below.
+                                      items:
+                                        properties:
+                                          backendService:
+                                            type: string
+                                          backendServiceRef:
+                                            description: Reference to a BackendService
+                                              in compute to populate backendService.
+                                            properties:
+                                              name:
+                                                description: Name of the referenced
+                                                  object.
+                                                type: string
+                                              policy:
+                                                description: Policies for referencing.
+                                                properties:
+                                                  resolution:
+                                                    default: Required
+                                                    description: Resolution specifies
+                                                      whether resolution of this reference
+                                                      is required. The default is
+                                                      'Required', which means the
+                                                      reconcile will fail if the reference
+                                                      cannot be resolved. 'Optional'
+                                                      means this reference will be
+                                                      a no-op if it cannot be resolved.
+                                                    enum:
+                                                    - Required
+                                                    - Optional
+                                                    type: string
+                                                  resolve:
+                                                    description: Resolve specifies
+                                                      when this reference should be
+                                                      resolved. The default is 'IfNotPresent',
+                                                      which will attempt to resolve
+                                                      the reference only when the
+                                                      corresponding field is not present.
+                                                      Use 'Always' to resolve the
+                                                      reference on every reconcile.
+                                                    enum:
+                                                    - Always
+                                                    - IfNotPresent
+                                                    type: string
+                                                type: object
+                                            required:
+                                            - name
+                                            type: object
+                                          backendServiceSelector:
+                                            description: Selector for a BackendService
+                                              in compute to populate backendService.
+                                            properties:
+                                              matchControllerRef:
+                                                description: MatchControllerRef ensures
+                                                  an object with the same controller
+                                                  reference as the selecting object
+                                                  is selected.
+                                                type: boolean
+                                              matchLabels:
+                                                additionalProperties:
+                                                  type: string
+                                                description: MatchLabels ensures an
+                                                  object with matching labels is selected.
+                                                type: object
+                                              policy:
+                                                description: Policies for selection.
+                                                properties:
+                                                  resolution:
+                                                    default: Required
+                                                    description: Resolution specifies
+                                                      whether resolution of this reference
+                                                      is required. The default is
+                                                      'Required', which means the
+                                                      reconcile will fail if the reference
+                                                      cannot be resolved. 'Optional'
+                                                      means this reference will be
+                                                      a no-op if it cannot be resolved.
+                                                    enum:
+                                                    - Required
+                                                    - Optional
+                                                    type: string
+                                                  resolve:
+                                                    description: Resolve specifies
+                                                      when this reference should be
+                                                      resolved. The default is 'IfNotPresent',
+                                                      which will attempt to resolve
+                                                      the reference only when the
+                                                      corresponding field is not present.
+                                                      Use 'Always' to resolve the
+                                                      reference on every reconcile.
+                                                    enum:
+                                                    - Always
+                                                    - IfNotPresent
+                                                    type: string
+                                                type: object
+                                            type: object
+                                        type: object
+                                      type: array
+                                    retryPolicy:
+                                      description: Specifies the retry policy associated
+                                        with this route. Structure is documented below.
+                                      items:
+                                        properties:
+                                          numRetries:
+                                            type: number
+                                          perTryTimeout:
+                                            items:
+                                              properties:
+                                                nanos:
+                                                  type: number
+                                                seconds:
+                                                  type: string
+                                              required:
+                                              - seconds
+                                              type: object
+                                            type: array
+                                          retryConditions:
+                                            items:
+                                              type: string
+                                            type: array
+                                        type: object
+                                      type: array
+                                    timeout:
+                                      description: Specifies the timeout for the selected
+                                        route. Timeout is computed from the time the
+                                        request is has been fully processed (i.e.
+                                        end-of-stream) up until the response has been
+                                        completely processed. Timeout includes all
+                                        retries. If not specified, the default value
+                                        is 15 seconds. Structure is documented below.
+                                      items:
+                                        properties:
+                                          nanos:
+                                            type: number
+                                          seconds:
+                                            type: string
+                                        required:
+                                        - seconds
+                                        type: object
+                                      type: array
+                                    urlRewrite:
+                                      description: The spec to modify the URL of the
+                                        request, prior to forwarding the request to
+                                        the matched service Structure is documented
+                                        below.
+                                      items:
+                                        properties:
+                                          hostRewrite:
+                                            type: string
+                                          pathPrefixRewrite:
+                                            type: string
+                                        type: object
+                                      type: array
+                                    weightedBackendServices:
+                                      description: A list of weighted backend services
+                                        to send traffic to when a route match occurs.
+                                        The weights determine the fraction of traffic
+                                        that flows to their corresponding backend
+                                        service. If all traffic needs to go to a single
+                                        backend service, there must be one  weightedBackendService
+                                        with weight set to a non 0 number. Once a
+                                        backendService is identified and before forwarding
+                                        the request to the backend service, advanced
+                                        routing actions like Url rewrites and header
+                                        transformations are applied depending on additional
+                                        settings specified in this HttpRouteAction.
+                                        Structure is documented below.
+                                      items:
+                                        properties:
+                                          backendService:
+                                            type: string
+                                          backendServiceRef:
+                                            description: Reference to a BackendService
+                                              in compute to populate backendService.
+                                            properties:
+                                              name:
+                                                description: Name of the referenced
+                                                  object.
+                                                type: string
+                                              policy:
+                                                description: Policies for referencing.
+                                                properties:
+                                                  resolution:
+                                                    default: Required
+                                                    description: Resolution specifies
+                                                      whether resolution of this reference
+                                                      is required. The default is
+                                                      'Required', which means the
+                                                      reconcile will fail if the reference
+                                                      cannot be resolved. 'Optional'
+                                                      means this reference will be
+                                                      a no-op if it cannot be resolved.
+                                                    enum:
+                                                    - Required
+                                                    - Optional
+                                                    type: string
+                                                  resolve:
+                                                    description: Resolve specifies
+                                                      when this reference should be
+                                                      resolved. The default is 'IfNotPresent',
+                                                      which will attempt to resolve
+                                                      the reference only when the
+                                                      corresponding field is not present.
+                                                      Use 'Always' to resolve the
+                                                      reference on every reconcile.
+                                                    enum:
+                                                    - Always
+                                                    - IfNotPresent
+                                                    type: string
+                                                type: object
+                                            required:
+                                            - name
+                                            type: object
+                                          backendServiceSelector:
+                                            description: Selector for a BackendService
+                                              in compute to populate backendService.
+                                            properties:
+                                              matchControllerRef:
+                                                description: MatchControllerRef ensures
+                                                  an object with the same controller
+                                                  reference as the selecting object
+                                                  is selected.
+                                                type: boolean
+                                              matchLabels:
+                                                additionalProperties:
+                                                  type: string
+                                                description: MatchLabels ensures an
+                                                  object with matching labels is selected.
+                                                type: object
+                                              policy:
+                                                description: Policies for selection.
+                                                properties:
+                                                  resolution:
+                                                    default: Required
+                                                    description: Resolution specifies
+                                                      whether resolution of this reference
+                                                      is required. The default is
+                                                      'Required', which means the
+                                                      reconcile will fail if the reference
+                                                      cannot be resolved. 'Optional'
+                                                      means this reference will be
+                                                      a no-op if it cannot be resolved.
+                                                    enum:
+                                                    - Required
+                                                    - Optional
+                                                    type: string
+                                                  resolve:
+                                                    description: Resolve specifies
+                                                      when this reference should be
+                                                      resolved. The default is 'IfNotPresent',
+                                                      which will attempt to resolve
+                                                      the reference only when the
+                                                      corresponding field is not present.
+                                                      Use 'Always' to resolve the
+                                                      reference on every reconcile.
+                                                    enum:
+                                                    - Always
+                                                    - IfNotPresent
+                                                    type: string
+                                                type: object
+                                            type: object
+                                          headerAction:
+                                            description: Specifies changes to request
+                                              and response headers that need to take
+                                              effect for the selected backendService.
+                                              The headerAction specified here take
+                                              effect after headerAction specified
+                                              under pathMatcher. Structure is documented
+                                              below.
+                                            items:
+                                              properties:
+                                                requestHeadersToAdd:
+                                                  items:
+                                                    properties:
+                                                      headerName:
+                                                        description: Name of the resource.
+                                                          Provided by the client when
+                                                          the resource is created.
+                                                          The name must be 1-63 characters
+                                                          long, and comply with RFC1035.
+                                                          Specifically, the name must
+                                                          be 1-63 characters long
+                                                          and match the regular expression
+                                                          [a-z]([-a-z0-9]*[a-z0-9])?
+                                                          which means the first character
+                                                          must be a lowercase letter,
+                                                          and all following characters
+                                                          must be a dash, lowercase
+                                                          letter, or digit, except
+                                                          the last character, which
+                                                          cannot be a dash.
+                                                        type: string
+                                                      headerValue:
+                                                        type: string
+                                                      replace:
+                                                        type: boolean
+                                                    required:
+                                                    - headerName
+                                                    - headerValue
+                                                    - replace
+                                                    type: object
+                                                  type: array
+                                                requestHeadersToRemove:
+                                                  items:
+                                                    type: string
+                                                  type: array
+                                                responseHeadersToAdd:
+                                                  description: Headers to add the
+                                                    response prior to sending the
+                                                    response back to the client. Structure
+                                                    is documented below.
+                                                  items:
+                                                    properties:
+                                                      headerName:
+                                                        description: Name of the resource.
+                                                          Provided by the client when
+                                                          the resource is created.
+                                                          The name must be 1-63 characters
+                                                          long, and comply with RFC1035.
+                                                          Specifically, the name must
+                                                          be 1-63 characters long
+                                                          and match the regular expression
+                                                          [a-z]([-a-z0-9]*[a-z0-9])?
+                                                          which means the first character
+                                                          must be a lowercase letter,
+                                                          and all following characters
+                                                          must be a dash, lowercase
+                                                          letter, or digit, except
+                                                          the last character, which
+                                                          cannot be a dash.
+                                                        type: string
+                                                      headerValue:
+                                                        type: string
+                                                      replace:
+                                                        type: boolean
+                                                    required:
+                                                    - headerName
+                                                    - headerValue
+                                                    - replace
+                                                    type: object
+                                                  type: array
+                                                responseHeadersToRemove:
+                                                  items:
+                                                    type: string
+                                                  type: array
+                                              type: object
+                                            type: array
+                                          weight:
+                                            type: number
+                                        required:
+                                        - weight
+                                        type: object
+                                      type: array
+                                  type: object
+                                type: array
+                              service:
+                                description: The backend service or backend bucket
+                                  to use if any of the given paths match.
+                                type: string
+                              serviceRef:
+                                description: Reference to a BackendBucket in compute
+                                  to populate service.
+                                properties:
+                                  name:
+                                    description: Name of the referenced object.
+                                    type: string
+                                  policy:
+                                    description: Policies for referencing.
+                                    properties:
+                                      resolution:
+                                        default: Required
+                                        description: Resolution specifies whether
+                                          resolution of this reference is required.
+                                          The default is 'Required', which means the
+                                          reconcile will fail if the reference cannot
+                                          be resolved. 'Optional' means this reference
+                                          will be a no-op if it cannot be resolved.
+                                        enum:
+                                        - Required
+                                        - Optional
+                                        type: string
+                                      resolve:
+                                        description: Resolve specifies when this reference
+                                          should be resolved. The default is 'IfNotPresent',
+                                          which will attempt to resolve the reference
+                                          only when the corresponding field is not
+                                          present. Use 'Always' to resolve the reference
+                                          on every reconcile.
+                                        enum:
+                                        - Always
+                                        - IfNotPresent
+                                        type: string
+                                    type: object
+                                required:
+                                - name
+                                type: object
+                              serviceSelector:
+                                description: Selector for a BackendBucket in compute
+                                  to populate service.
+                                properties:
+                                  matchControllerRef:
+                                    description: MatchControllerRef ensures an object
+                                      with the same controller reference as the selecting
+                                      object is selected.
+                                    type: boolean
+                                  matchLabels:
+                                    additionalProperties:
+                                      type: string
+                                    description: MatchLabels ensures an object with
+                                      matching labels is selected.
+                                    type: object
+                                  policy:
+                                    description: Policies for selection.
+                                    properties:
+                                      resolution:
+                                        default: Required
+                                        description: Resolution specifies whether
+                                          resolution of this reference is required.
+                                          The default is 'Required', which means the
+                                          reconcile will fail if the reference cannot
+                                          be resolved. 'Optional' means this reference
+                                          will be a no-op if it cannot be resolved.
+                                        enum:
+                                        - Required
+                                        - Optional
+                                        type: string
+                                      resolve:
+                                        description: Resolve specifies when this reference
+                                          should be resolved. The default is 'IfNotPresent',
+                                          which will attempt to resolve the reference
+                                          only when the corresponding field is not
+                                          present. Use 'Always' to resolve the reference
+                                          on every reconcile.
+                                        enum:
+                                        - Always
+                                        - IfNotPresent
+                                        type: string
+                                    type: object
+                                type: object
+                              urlRedirect:
+                                description: When a path pattern is matched, the request
+                                  is redirected to a URL specified by urlRedirect.
+                                  If urlRedirect is specified, service or routeAction
+                                  must not be set. Structure is documented below.
+                                items:
+                                  properties:
+                                    hostRedirect:
+                                      description: The host that will be used in the
+                                        redirect response instead of the one that
+                                        was supplied in the request. The value must
+                                        be between 1 and 255 characters.
+                                      type: string
+                                    httpsRedirect:
+                                      description: If set to true, the URL scheme
+                                        in the redirected request is set to https.
+                                        If set to false, the URL scheme of the redirected
+                                        request will remain the same as that of the
+                                        request. This must only be set for UrlMaps
+                                        used in TargetHttpProxys. Setting this true
+                                        for TargetHttpsProxy is not permitted. The
+                                        default is set to false.
+                                      type: boolean
+                                    pathRedirect:
+                                      description: The path that will be used in the
+                                        redirect response instead of the one that
+                                        was supplied in the request. pathRedirect
+                                        cannot be supplied together with prefixRedirect.
+                                        Supply one alone or neither. If neither is
+                                        supplied, the path of the original request
+                                        will be used for the redirect. The value must
+                                        be between 1 and 1024 characters.
+                                      type: string
+                                    prefixRedirect:
+                                      description: The prefix that replaces the prefixMatch
+                                        specified in the HttpRouteRuleMatch, retaining
+                                        the remaining portion of the URL before redirecting
+                                        the request. prefixRedirect cannot be supplied
+                                        together with pathRedirect. Supply one alone
+                                        or neither. If neither is supplied, the path
+                                        of the original request will be used for the
+                                        redirect. The value must be between 1 and
+                                        1024 characters.
+                                      type: string
+                                    redirectResponseCode:
+                                      description: 'The HTTP Status code to use for
+                                        this RedirectAction. Supported values are:'
+                                      type: string
+                                    stripQuery:
+                                      type: boolean
+                                  required:
+                                  - stripQuery
+                                  type: object
+                                type: array
+                            required:
+                            - paths
+                            type: object
+                          type: array
+                        routeRules:
+                          description: 'The list of ordered HTTP route rules. Use
+                            this list instead of pathRules when advanced route matching
+                            and routing actions are desired. The order of specifying
+                            routeRules matters: the first rule that matches will cause
+                            its specified routing action to take effect. Within a
+                            given pathMatcher, only one of pathRules or routeRules
+                            must be set. routeRules are not supported in UrlMaps intended
+                            for External load balancers. Structure is documented below.'
+                          items:
+                            properties:
+                              headerAction:
+                                description: Specifies changes to request and response
+                                  headers that need to take effect for the selected
+                                  backendService. The headerAction specified here
+                                  are applied before the matching pathMatchers[].headerAction
+                                  and after pathMatchers[].routeRules[].r outeAction.weightedBackendService.backendServiceWeightAction[].headerAction
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    requestHeadersToAdd:
+                                      items:
+                                        properties:
+                                          headerName:
+                                            description: Name of the resource. Provided
+                                              by the client when the resource is created.
+                                              The name must be 1-63 characters long,
+                                              and comply with RFC1035. Specifically,
+                                              the name must be 1-63 characters long
+                                              and match the regular expression [a-z]([-a-z0-9]*[a-z0-9])?
+                                              which means the first character must
+                                              be a lowercase letter, and all following
+                                              characters must be a dash, lowercase
+                                              letter, or digit, except the last character,
+                                              which cannot be a dash.
+                                            type: string
+                                          headerValue:
+                                            type: string
+                                          replace:
+                                            type: boolean
+                                        required:
+                                        - headerName
+                                        - headerValue
+                                        - replace
+                                        type: object
+                                      type: array
+                                    requestHeadersToRemove:
+                                      items:
+                                        type: string
+                                      type: array
+                                    responseHeadersToAdd:
+                                      description: Headers to add the response prior
+                                        to sending the response back to the client.
+                                        Structure is documented below.
+                                      items:
+                                        properties:
+                                          headerName:
+                                            description: Name of the resource. Provided
+                                              by the client when the resource is created.
+                                              The name must be 1-63 characters long,
+                                              and comply with RFC1035. Specifically,
+                                              the name must be 1-63 characters long
+                                              and match the regular expression [a-z]([-a-z0-9]*[a-z0-9])?
+                                              which means the first character must
+                                              be a lowercase letter, and all following
+                                              characters must be a dash, lowercase
+                                              letter, or digit, except the last character,
+                                              which cannot be a dash.
+                                            type: string
+                                          headerValue:
+                                            type: string
+                                          replace:
+                                            type: boolean
+                                        required:
+                                        - headerName
+                                        - headerValue
+                                        - replace
+                                        type: object
+                                      type: array
+                                    responseHeadersToRemove:
+                                      items:
+                                        type: string
+                                      type: array
+                                  type: object
+                                type: array
+                              matchRules:
+                                description: The rules for determining a match. Structure
+                                  is documented below.
+                                items:
+                                  properties:
+                                    fullPathMatch:
+                                      description: For satisfying the matchRule condition,
+                                        the path of the request must exactly match
+                                        the value specified in fullPathMatch after
+                                        removing any query parameters and anchor that
+                                        may be part of the original URL. FullPathMatch
+                                        must be between 1 and 1024 characters. Only
+                                        one of prefixMatch, fullPathMatch or regexMatch
+                                        must be specified.
+                                      type: string
+                                    headerMatches:
+                                      description: Specifies a list of header match
+                                        criteria, all of which must match corresponding
+                                        headers in the request. Structure is documented
+                                        below.
+                                      items:
+                                        properties:
+                                          exactMatch:
+                                            description: The value should exactly
+                                              match contents of exactMatch. Only one
+                                              of exactMatch, prefixMatch, suffixMatch,
+                                              regexMatch, presentMatch or rangeMatch
+                                              must be set.
+                                            type: string
+                                          headerName:
+                                            description: The name of the HTTP header
+                                              to match. For matching against the HTTP
+                                              request's authority, use a headerMatch
+                                              with the header name ":authority". For
+                                              matching a request's method, use the
+                                              headerName ":method".
+                                            type: string
+                                          invertMatch:
+                                            description: If set to false, the headerMatch
+                                              is considered a match if the match criteria
+                                              above are met. If set to true, the headerMatch
+                                              is considered a match if the match criteria
+                                              above are NOT met. Defaults to false.
+                                            type: boolean
+                                          prefixMatch:
+                                            description: The value of the header must
+                                              start with the contents of prefixMatch.
+                                              Only one of exactMatch, prefixMatch,
+                                              suffixMatch, regexMatch, presentMatch
+                                              or rangeMatch must be set.
+                                            type: string
+                                          presentMatch:
+                                            description: A header with the contents
+                                              of headerName must exist. The match
+                                              takes place whether or not the request's
+                                              header has a value or not. Only one
+                                              of exactMatch, prefixMatch, suffixMatch,
+                                              regexMatch, presentMatch or rangeMatch
+                                              must be set.
+                                            type: boolean
+                                          rangeMatch:
+                                            description: The header value must be
+                                              an integer and its value must be in
+                                              the range specified in rangeMatch. If
+                                              the header does not contain an integer,
+                                              number or is empty, the match fails.
+                                              For example for a range [-5, 0]   -
+                                              -3 will match.  - 0 will not match.  -
+                                              0.25 will not match.  - -3someString
+                                              will not match.   Only one of exactMatch,
+                                              prefixMatch, suffixMatch, regexMatch,
+                                              presentMatch or rangeMatch must be set.
+                                              Structure is documented below.
+                                            items:
+                                              properties:
+                                                rangeEnd:
+                                                  description: The end of the range
+                                                    (exclusive).
+                                                  type: number
+                                                rangeStart:
+                                                  description: The start of the range
+                                                    (inclusive).
+                                                  type: number
+                                              required:
+                                              - rangeEnd
+                                              - rangeStart
+                                              type: object
+                                            type: array
+                                          regexMatch:
+                                            description: 'The value of the header
+                                              must match the regular expression specified
+                                              in regexMatch. For regular expression
+                                              grammar, please see: en.cppreference.com/w/cpp/regex/ecmascript  For
+                                              matching against a port specified in
+                                              the HTTP request, use a headerMatch
+                                              with headerName set to PORT and a regular
+                                              expression that satisfies the RFC2616
+                                              Host header''s port specifier. Only
+                                              one of exactMatch, prefixMatch, suffixMatch,
+                                              regexMatch, presentMatch or rangeMatch
+                                              must be set.'
+                                            type: string
+                                          suffixMatch:
+                                            description: The value of the header must
+                                              end with the contents of suffixMatch.
+                                              Only one of exactMatch, prefixMatch,
+                                              suffixMatch, regexMatch, presentMatch
+                                              or rangeMatch must be set.
+                                            type: string
+                                        required:
+                                        - headerName
+                                        type: object
+                                      type: array
+                                    ignoreCase:
+                                      description: Specifies that prefixMatch and
+                                        fullPathMatch matches are case sensitive.
+                                        Defaults to false.
+                                      type: boolean
+                                    metadataFilters:
+                                      description: Opaque filter criteria used by
+                                        Loadbalancer to restrict routing configuration
+                                        to a limited set xDS compliant clients. In
+                                        their xDS requests to Loadbalancer, xDS clients
+                                        present node metadata. If a match takes place,
+                                        the relevant routing configuration is made
+                                        available to those proxies. For each metadataFilter
+                                        in this list, if its filterMatchCriteria is
+                                        set to MATCH_ANY, at least one of the filterLabels
+                                        must match the corresponding label provided
+                                        in the metadata. If its filterMatchCriteria
+                                        is set to MATCH_ALL, then all of its filterLabels
+                                        must match with corresponding labels in the
+                                        provided metadata. metadataFilters specified
+                                        here can be overrides those specified in ForwardingRule
+                                        that refers to this UrlMap. metadataFilters
+                                        only applies to Loadbalancers that have their
+                                        loadBalancingScheme set to INTERNAL_SELF_MANAGED.
+                                        Structure is documented below.
+                                      items:
+                                        properties:
+                                          filterLabels:
+                                            description: The list of label value pairs
+                                              that must match labels in the provided
+                                              metadata based on filterMatchCriteria  This
+                                              list must not be empty and can have
+                                              at the most 64 entries. Structure is
+                                              documented below.
+                                            items:
+                                              properties:
+                                                name:
+                                                  description: Name of metadata label.
+                                                    The name can have a maximum length
+                                                    of 1024 characters and must be
+                                                    at least 1 character long.
+                                                  type: string
+                                                value:
+                                                  description: The value of the label
+                                                    must match the specified value.
+                                                    value can have a maximum length
+                                                    of 1024 characters.
+                                                  type: string
+                                              required:
+                                              - name
+                                              - value
+                                              type: object
+                                            type: array
+                                          filterMatchCriteria:
+                                            description: 'Specifies how individual
+                                              filterLabel matches within the list
+                                              of filterLabels contribute towards the
+                                              overall metadataFilter match. Supported
+                                              values are:'
+                                            type: string
+                                        required:
+                                        - filterLabels
+                                        - filterMatchCriteria
+                                        type: object
+                                      type: array
+                                    prefixMatch:
+                                      description: For satisfying the matchRule condition,
+                                        the request's path must begin with the specified
+                                        prefixMatch. prefixMatch must begin with a
+                                        /. The value must be between 1 and 1024 characters.
+                                        Only one of prefixMatch, fullPathMatch or
+                                        regexMatch must be specified.
+                                      type: string
+                                    queryParameterMatches:
+                                      description: Specifies a list of query parameter
+                                        match criteria, all of which must match corresponding
+                                        query parameters in the request. Structure
+                                        is documented below.
+                                      items:
+                                        properties:
+                                          exactMatch:
+                                            description: The queryParameterMatch matches
+                                              if the value of the parameter exactly
+                                              matches the contents of exactMatch.
+                                              Only one of presentMatch, exactMatch
+                                              and regexMatch must be set.
+                                            type: string
+                                          name:
+                                            description: The name of the query parameter
+                                              to match. The query parameter must exist
+                                              in the request, in the absence of which
+                                              the request match fails.
+                                            type: string
+                                          presentMatch:
+                                            description: Specifies that the queryParameterMatch
+                                              matches if the request contains the
+                                              query parameter, irrespective of whether
+                                              the parameter has a value or not. Only
+                                              one of presentMatch, exactMatch and
+                                              regexMatch must be set.
+                                            type: boolean
+                                          regexMatch:
+                                            description: The queryParameterMatch matches
+                                              if the value of the parameter matches
+                                              the regular expression specified by
+                                              regexMatch. For the regular expression
+                                              grammar, please see en.cppreference.com/w/cpp/regex/ecmascript  Only
+                                              one of presentMatch, exactMatch and
+                                              regexMatch must be set.
+                                            type: string
+                                        required:
+                                        - name
+                                        type: object
+                                      type: array
+                                    regexMatch:
+                                      description: For satisfying the matchRule condition,
+                                        the path of the request must satisfy the regular
+                                        expression specified in regexMatch after removing
+                                        any query parameters and anchor supplied with
+                                        the original URL. For regular expression grammar
+                                        please see en.cppreference.com/w/cpp/regex/ecmascript  Only
+                                        one of prefixMatch, fullPathMatch or regexMatch
+                                        must be specified.
+                                      type: string
+                                  type: object
+                                type: array
+                              priority:
+                                description: For routeRules within a given pathMatcher,
+                                  priority determines the order in which load balancer
+                                  will interpret routeRules. RouteRules are evaluated
+                                  in order of priority, from the lowest to highest
+                                  number. The priority of a rule decreases as its
+                                  number increases (1, 2, 3, N+1). The first rule
+                                  that matches the request is applied. You cannot
+                                  configure two or more routeRules with the same priority.
+                                  Priority for each rule must be set to a number between
+                                  0 and 2147483647 inclusive. Priority numbers can
+                                  have gaps, which enable you to add or remove rules
+                                  in the future without affecting the rest of the
+                                  rules. For example, 1, 2, 3, 4, 5, 9, 12, 16 is
+                                  a valid series of priority numbers to which you
+                                  could add rules numbered from 6 to 8, 10 to 11,
+                                  and 13 to 15 in the future without any impact on
+                                  existing rules.
+                                type: number
+                              routeAction:
+                                description: In response to a matching matchRule,
+                                  the load balancer performs advanced routing actions
+                                  like URL rewrites, header transformations, etc.
+                                  prior to forwarding the request to the selected
+                                  backend. If  routeAction specifies any weightedBackendServices,
+                                  service must not be set. Conversely if service is
+                                  set, routeAction cannot contain any  weightedBackendServices.
+                                  Only one of routeAction or urlRedirect must be set.
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    corsPolicy:
+                                      description: The specification for allowing
+                                        client side cross-origin requests. Please
+                                        see W3C Recommendation for Cross Origin Resource
+                                        Sharing Structure is documented below.
+                                      items:
+                                        properties:
+                                          allowCredentials:
+                                            type: boolean
+                                          allowHeaders:
+                                            description: Specifies the content for
+                                              the Access-Control-Allow-Headers header.
+                                            items:
+                                              type: string
+                                            type: array
+                                          allowMethods:
+                                            description: Specifies the content for
+                                              the Access-Control-Allow-Methods header.
+                                            items:
+                                              type: string
+                                            type: array
+                                          allowOriginRegexes:
+                                            items:
+                                              type: string
+                                            type: array
+                                          allowOrigins:
+                                            items:
+                                              type: string
+                                            type: array
+                                          disabled:
+                                            type: boolean
+                                          exposeHeaders:
+                                            description: Specifies the content for
+                                              the Access-Control-Expose-Headers header.
+                                            items:
+                                              type: string
+                                            type: array
+                                          maxAge:
+                                            type: number
+                                        type: object
+                                      type: array
+                                    faultInjectionPolicy:
+                                      description: The specification for fault injection
+                                        introduced into traffic to test the resiliency
+                                        of clients to backend service failure. As
+                                        part of fault injection, when clients send
+                                        requests to a backend service, delays can
+                                        be introduced by Loadbalancer on a percentage
+                                        of requests before sending those request to
+                                        the backend service. Similarly requests from
+                                        clients can be aborted by the Loadbalancer
+                                        for a percentage of requests. timeout and
+                                        retry_policy will be ignored by clients that
+                                        are configured with a fault_injection_policy.
+                                        Structure is documented below.
+                                      items:
+                                        properties:
+                                          abort:
+                                            items:
+                                              properties:
+                                                httpStatus:
+                                                  type: number
+                                                percentage:
+                                                  type: number
+                                              type: object
+                                            type: array
+                                          delay:
+                                            items:
+                                              properties:
+                                                fixedDelay:
+                                                  items:
+                                                    properties:
+                                                      nanos:
+                                                        type: number
+                                                      seconds:
+                                                        type: string
+                                                    required:
+                                                    - seconds
+                                                    type: object
+                                                  type: array
+                                                percentage:
+                                                  type: number
+                                              type: object
+                                            type: array
+                                        type: object
+                                      type: array
+                                    requestMirrorPolicy:
+                                      description: Specifies the policy on how requests
+                                        intended for the route's backends are shadowed
+                                        to a separate mirrored backend service. Loadbalancer
+                                        does not wait for responses from the shadow
+                                        service. Prior to sending traffic to the shadow
+                                        service, the host / authority header is suffixed
+                                        with -shadow. Structure is documented below.
+                                      items:
+                                        properties:
+                                          backendService:
+                                            type: string
+                                        required:
+                                        - backendService
+                                        type: object
+                                      type: array
+                                    retryPolicy:
+                                      description: Specifies the retry policy associated
+                                        with this route. Structure is documented below.
+                                      items:
+                                        properties:
+                                          numRetries:
+                                            type: number
+                                          perTryTimeout:
+                                            items:
+                                              properties:
+                                                nanos:
+                                                  type: number
+                                                seconds:
+                                                  type: string
+                                              required:
+                                              - seconds
+                                              type: object
+                                            type: array
+                                          retryConditions:
+                                            items:
+                                              type: string
+                                            type: array
+                                        required:
+                                        - numRetries
+                                        type: object
+                                      type: array
+                                    timeout:
+                                      description: Specifies the timeout for the selected
+                                        route. Timeout is computed from the time the
+                                        request is has been fully processed (i.e.
+                                        end-of-stream) up until the response has been
+                                        completely processed. Timeout includes all
+                                        retries. If not specified, the default value
+                                        is 15 seconds. Structure is documented below.
+                                      items:
+                                        properties:
+                                          nanos:
+                                            type: number
+                                          seconds:
+                                            type: string
+                                        required:
+                                        - seconds
+                                        type: object
+                                      type: array
+                                    urlRewrite:
+                                      description: The spec to modify the URL of the
+                                        request, prior to forwarding the request to
+                                        the matched service Structure is documented
+                                        below.
+                                      items:
+                                        properties:
+                                          hostRewrite:
+                                            type: string
+                                          pathPrefixRewrite:
+                                            type: string
+                                        type: object
+                                      type: array
+                                    weightedBackendServices:
+                                      description: A list of weighted backend services
+                                        to send traffic to when a route match occurs.
+                                        The weights determine the fraction of traffic
+                                        that flows to their corresponding backend
+                                        service. If all traffic needs to go to a single
+                                        backend service, there must be one  weightedBackendService
+                                        with weight set to a non 0 number. Once a
+                                        backendService is identified and before forwarding
+                                        the request to the backend service, advanced
+                                        routing actions like Url rewrites and header
+                                        transformations are applied depending on additional
+                                        settings specified in this HttpRouteAction.
+                                        Structure is documented below.
+                                      items:
+                                        properties:
+                                          backendService:
+                                            type: string
+                                          headerAction:
+                                            description: Specifies changes to request
+                                              and response headers that need to take
+                                              effect for the selected backendService.
+                                              The headerAction specified here take
+                                              effect after headerAction specified
+                                              under pathMatcher. Structure is documented
+                                              below.
+                                            items:
+                                              properties:
+                                                requestHeadersToAdd:
+                                                  items:
+                                                    properties:
+                                                      headerName:
+                                                        description: Name of the resource.
+                                                          Provided by the client when
+                                                          the resource is created.
+                                                          The name must be 1-63 characters
+                                                          long, and comply with RFC1035.
+                                                          Specifically, the name must
+                                                          be 1-63 characters long
+                                                          and match the regular expression
+                                                          [a-z]([-a-z0-9]*[a-z0-9])?
+                                                          which means the first character
+                                                          must be a lowercase letter,
+                                                          and all following characters
+                                                          must be a dash, lowercase
+                                                          letter, or digit, except
+                                                          the last character, which
+                                                          cannot be a dash.
+                                                        type: string
+                                                      headerValue:
+                                                        type: string
+                                                      replace:
+                                                        type: boolean
+                                                    required:
+                                                    - headerName
+                                                    - headerValue
+                                                    - replace
+                                                    type: object
+                                                  type: array
+                                                requestHeadersToRemove:
+                                                  items:
+                                                    type: string
+                                                  type: array
+                                                responseHeadersToAdd:
+                                                  description: Headers to add the
+                                                    response prior to sending the
+                                                    response back to the client. Structure
+                                                    is documented below.
+                                                  items:
+                                                    properties:
+                                                      headerName:
+                                                        description: Name of the resource.
+                                                          Provided by the client when
+                                                          the resource is created.
+                                                          The name must be 1-63 characters
+                                                          long, and comply with RFC1035.
+                                                          Specifically, the name must
+                                                          be 1-63 characters long
+                                                          and match the regular expression
+                                                          [a-z]([-a-z0-9]*[a-z0-9])?
+                                                          which means the first character
+                                                          must be a lowercase letter,
+                                                          and all following characters
+                                                          must be a dash, lowercase
+                                                          letter, or digit, except
+                                                          the last character, which
+                                                          cannot be a dash.
+                                                        type: string
+                                                      headerValue:
+                                                        type: string
+                                                      replace:
+                                                        type: boolean
+                                                    required:
+                                                    - headerName
+                                                    - headerValue
+                                                    - replace
+                                                    type: object
+                                                  type: array
+                                                responseHeadersToRemove:
+                                                  items:
+                                                    type: string
+                                                  type: array
+                                              type: object
+                                            type: array
+                                          weight:
+                                            type: number
+                                        required:
+                                        - backendService
+                                        - weight
+                                        type: object
+                                      type: array
+                                  type: object
+                                type: array
+                              service:
+                                description: The backend service resource to which
+                                  traffic is directed if this rule is matched. If
+                                  routeAction is additionally specified, advanced
+                                  routing actions like URL Rewrites, etc. take effect
+                                  prior to sending the request to the backend. However,
+                                  if service is specified, routeAction cannot contain
+                                  any weightedBackendService s. Conversely, if routeAction
+                                  specifies any weightedBackendServices, service must
+                                  not be specified. Only one of urlRedirect, service
+                                  or routeAction.weightedBackendService must be set.
+                                type: string
+                              serviceRef:
+                                description: Reference to a BackendService in compute
+                                  to populate service.
+                                properties:
+                                  name:
+                                    description: Name of the referenced object.
+                                    type: string
+                                  policy:
+                                    description: Policies for referencing.
+                                    properties:
+                                      resolution:
+                                        default: Required
+                                        description: Resolution specifies whether
+                                          resolution of this reference is required.
+                                          The default is 'Required', which means the
+                                          reconcile will fail if the reference cannot
+                                          be resolved. 'Optional' means this reference
+                                          will be a no-op if it cannot be resolved.
+                                        enum:
+                                        - Required
+                                        - Optional
+                                        type: string
+                                      resolve:
+                                        description: Resolve specifies when this reference
+                                          should be resolved. The default is 'IfNotPresent',
+                                          which will attempt to resolve the reference
+                                          only when the corresponding field is not
+                                          present. Use 'Always' to resolve the reference
+                                          on every reconcile.
+                                        enum:
+                                        - Always
+                                        - IfNotPresent
+                                        type: string
+                                    type: object
+                                required:
+                                - name
+                                type: object
+                              serviceSelector:
+                                description: Selector for a BackendService in compute
+                                  to populate service.
+                                properties:
+                                  matchControllerRef:
+                                    description: MatchControllerRef ensures an object
+                                      with the same controller reference as the selecting
+                                      object is selected.
+                                    type: boolean
+                                  matchLabels:
+                                    additionalProperties:
+                                      type: string
+                                    description: MatchLabels ensures an object with
+                                      matching labels is selected.
+                                    type: object
+                                  policy:
+                                    description: Policies for selection.
+                                    properties:
+                                      resolution:
+                                        default: Required
+                                        description: Resolution specifies whether
+                                          resolution of this reference is required.
+                                          The default is 'Required', which means the
+                                          reconcile will fail if the reference cannot
+                                          be resolved. 'Optional' means this reference
+                                          will be a no-op if it cannot be resolved.
+                                        enum:
+                                        - Required
+                                        - Optional
+                                        type: string
+                                      resolve:
+                                        description: Resolve specifies when this reference
+                                          should be resolved. The default is 'IfNotPresent',
+                                          which will attempt to resolve the reference
+                                          only when the corresponding field is not
+                                          present. Use 'Always' to resolve the reference
+                                          on every reconcile.
+                                        enum:
+                                        - Always
+                                        - IfNotPresent
+                                        type: string
+                                    type: object
+                                type: object
+                              urlRedirect:
+                                description: When this rule is matched, the request
+                                  is redirected to a URL specified by urlRedirect.
+                                  If urlRedirect is specified, service or routeAction
+                                  must not be set. Structure is documented below.
+                                items:
+                                  properties:
+                                    hostRedirect:
+                                      description: The host that will be used in the
+                                        redirect response instead of the one that
+                                        was supplied in the request. The value must
+                                        be between 1 and 255 characters.
+                                      type: string
+                                    httpsRedirect:
+                                      description: If set to true, the URL scheme
+                                        in the redirected request is set to https.
+                                        If set to false, the URL scheme of the redirected
+                                        request will remain the same as that of the
+                                        request. This must only be set for UrlMaps
+                                        used in TargetHttpProxys. Setting this true
+                                        for TargetHttpsProxy is not permitted. The
+                                        default is set to false.
+                                      type: boolean
+                                    pathRedirect:
+                                      description: The path that will be used in the
+                                        redirect response instead of the one that
+                                        was supplied in the request. pathRedirect
+                                        cannot be supplied together with prefixRedirect.
+                                        Supply one alone or neither. If neither is
+                                        supplied, the path of the original request
+                                        will be used for the redirect. The value must
+                                        be between 1 and 1024 characters.
+                                      type: string
+                                    prefixRedirect:
+                                      description: The prefix that replaces the prefixMatch
+                                        specified in the HttpRouteRuleMatch, retaining
+                                        the remaining portion of the URL before redirecting
+                                        the request. prefixRedirect cannot be supplied
+                                        together with pathRedirect. Supply one alone
+                                        or neither. If neither is supplied, the path
+                                        of the original request will be used for the
+                                        redirect. The value must be between 1 and
+                                        1024 characters.
+                                      type: string
+                                    redirectResponseCode:
+                                      description: 'The HTTP Status code to use for
+                                        this RedirectAction. Supported values are:'
+                                      type: string
+                                    stripQuery:
+                                      type: boolean
+                                  type: object
+                                type: array
+                            required:
+                            - priority
+                            type: object
+                          type: array
+                      required:
+                      - name
+                      type: object
+                    type: array
+                  project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  test:
+                    description: The list of expected URL mapping tests. Request to
+                      update this UrlMap will succeed only if all of the test cases
+                      pass. You can specify a maximum of 100 tests per UrlMap. Structure
+                      is documented below.
+                    items:
+                      properties:
+                        description:
+                          description: Description of this test case.
+                          type: string
+                        host:
+                          description: Host portion of the URL.
+                          type: string
+                        path:
+                          description: Path portion of the URL.
+                          type: string
+                        service:
+                          description: The backend service or backend bucket link
+                            that should be matched by this test.
+                          type: string
+                        serviceRef:
+                          description: Reference to a BackendBucket in compute to
+                            populate service.
+                          properties:
+                            name:
+                              description: Name of the referenced object.
+                              type: string
+                            policy:
+                              description: Policies for referencing.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: Resolution specifies whether resolution
+                                    of this reference is required. The default is
+                                    'Required', which means the reconcile will fail
+                                    if the reference cannot be resolved. 'Optional'
+                                    means this reference will be a no-op if it cannot
+                                    be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: Resolve specifies when this reference
+                                    should be resolved. The default is 'IfNotPresent',
+                                    which will attempt to resolve the reference only
+                                    when the corresponding field is not present. Use
+                                    'Always' to resolve the reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          required:
+                          - name
+                          type: object
+                        serviceSelector:
+                          description: Selector for a BackendBucket in compute to
+                            populate service.
+                          properties:
+                            matchControllerRef:
+                              description: MatchControllerRef ensures an object with
+                                the same controller reference as the selecting object
+                                is selected.
+                              type: boolean
+                            matchLabels:
+                              additionalProperties:
+                                type: string
+                              description: MatchLabels ensures an object with matching
+                                labels is selected.
+                              type: object
+                            policy:
+                              description: Policies for selection.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: Resolution specifies whether resolution
+                                    of this reference is required. The default is
+                                    'Required', which means the reconcile will fail
+                                    if the reference cannot be resolved. 'Optional'
+                                    means this reference will be a no-op if it cannot
+                                    be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: Resolve specifies when this reference
+                                    should be resolved. The default is 'IfNotPresent',
+                                    which will attempt to resolve the reference only
+                                    when the corresponding field is not present. Use
+                                    'Always' to resolve the reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          type: object
+                      required:
+                      - host
+                      - path
+                      type: object
+                    type: array
+                type: object
+              providerConfigRef:
+                default:
+                  name: default
+                description: ProviderConfigReference specifies how the provider that
+                  will be used to create, observe, update, and delete this managed
+                  resource should be configured.
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                  policy:
+                    description: Policies for referencing.
+                    properties:
+                      resolution:
+                        default: Required
+                        description: Resolution specifies whether resolution of this
+                          reference is required. The default is 'Required', which
+                          means the reconcile will fail if the reference cannot be
+                          resolved. 'Optional' means this reference will be a no-op
+                          if it cannot be resolved.
+                        enum:
+                        - Required
+                        - Optional
+                        type: string
+                      resolve:
+                        description: Resolve specifies when this reference should
+                          be resolved. The default is 'IfNotPresent', which will attempt
+                          to resolve the reference only when the corresponding field
+                          is not present. Use 'Always' to resolve the reference on
+                          every reconcile.
+                        enum:
+                        - Always
+                        - IfNotPresent
+                        type: string
+                    type: object
+                required:
+                - name
+                type: object
+              providerRef:
+                description: 'ProviderReference specifies the provider that will be
+                  used to create, observe, update, and delete this managed resource.
+                  Deprecated: Please use ProviderConfigReference, i.e. `providerConfigRef`'
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                  policy:
+                    description: Policies for referencing.
+                    properties:
+                      resolution:
+                        default: Required
+                        description: Resolution specifies whether resolution of this
+                          reference is required. The default is 'Required', which
+                          means the reconcile will fail if the reference cannot be
+                          resolved. 'Optional' means this reference will be a no-op
+                          if it cannot be resolved.
+                        enum:
+                        - Required
+                        - Optional
+                        type: string
+                      resolve:
+                        description: Resolve specifies when this reference should
+                          be resolved. The default is 'IfNotPresent', which will attempt
+                          to resolve the reference only when the corresponding field
+                          is not present. Use 'Always' to resolve the reference on
+                          every reconcile.
+                        enum:
+                        - Always
+                        - IfNotPresent
+                        type: string
+                    type: object
+                required:
+                - name
+                type: object
+              publishConnectionDetailsTo:
+                description: PublishConnectionDetailsTo specifies the connection secret
+                  config which contains a name, metadata and a reference to secret
+                  store config to which any connection details for this managed resource
+                  should be written. Connection details frequently include the endpoint,
+                  username, and password required to connect to the managed resource.
+                properties:
+                  configRef:
+                    default:
+                      name: default
+                    description: SecretStoreConfigRef specifies which secret store
+                      config should be used for this ConnectionSecret.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: Resolution specifies whether resolution of
+                              this reference is required. The default is 'Required',
+                              which means the reconcile will fail if the reference
+                              cannot be resolved. 'Optional' means this reference
+                              will be a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: Resolve specifies when this reference should
+                              be resolved. The default is 'IfNotPresent', which will
+                              attempt to resolve the reference only when the corresponding
+                              field is not present. Use 'Always' to resolve the reference
+                              on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  metadata:
+                    description: Metadata is the metadata for connection secret.
+                    properties:
+                      annotations:
+                        additionalProperties:
+                          type: string
+                        description: Annotations are the annotations to be added to
+                          connection secret. - For Kubernetes secrets, this will be
+                          used as "metadata.annotations". - It is up to Secret Store
+                          implementation for others store types.
+                        type: object
+                      labels:
+                        additionalProperties:
+                          type: string
+                        description: Labels are the labels/tags to be added to connection
+                          secret. - For Kubernetes secrets, this will be used as "metadata.labels".
+                          - It is up to Secret Store implementation for others store
+                          types.
+                        type: object
+                      type:
+                        description: Type is the SecretType for the connection secret.
+                          - Only valid for Kubernetes Secret Stores.
+                        type: string
+                    type: object
+                  name:
+                    description: Name is the name of the connection secret.
+                    type: string
+                required:
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: WriteConnectionSecretToReference specifies the namespace
+                  and name of a Secret to which any connection details for this managed
+                  resource should be written. Connection details frequently include
+                  the endpoint, username, and password required to connect to the
+                  managed resource. This field is planned to be replaced in a future
+                  release in favor of PublishConnectionDetailsTo. Currently, both
+                  could be set independently and connection details would be published
+                  to both without affecting each other.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                  namespace:
+                    description: Namespace of the secret.
+                    type: string
+                required:
+                - name
+                - namespace
+                type: object
+            required:
+            - forProvider
+            type: object
+          status:
+            description: URLMapStatus defines the observed state of URLMap.
+            properties:
+              atProvider:
+                properties:
+                  creationTimestamp:
+                    description: Creation timestamp in RFC3339 text format.
+                    type: string
+                  fingerprint:
+                    description: Fingerprint of this resource. A hash of the contents
+                      stored in this object. This field is used in optimistic locking.
+                    type: string
+                  id:
+                    description: an identifier for the resource with format projects/{{project}}/global/urlMaps/{{name}}
+                    type: string
+                  mapId:
+                    description: The unique identifier for the resource.
+                    type: number
+                  selfLink:
+                    description: The URI of the created resource.
+                    type: string
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: LastTransitionTime is the last time this condition
+                        transitioned from one status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: A Message containing details about this condition's
+                        last transition from one status to another, if any.
+                      type: string
+                    reason:
+                      description: A Reason for this condition's last transition from
+                        one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True,
+                        False, or Unknown?
+                      type: string
+                    type:
+                      description: Type of this condition. At most one of each condition
+                        type may apply to a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []

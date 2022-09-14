@@ -67,8 +67,18 @@ type BackendBucketParameters struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// The security policy associated with this backend bucket.
+	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.SecurityPolicy
+	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	EdgeSecurityPolicy *string `json:"edgeSecurityPolicy,omitempty" tf:"edge_security_policy,omitempty"`
+
+	// Reference to a SecurityPolicy in compute to populate edgeSecurityPolicy.
+	// +kubebuilder:validation:Optional
+	EdgeSecurityPolicyRef *v1.Reference `json:"edgeSecurityPolicyRef,omitempty" tf:"-"`
+
+	// Selector for a SecurityPolicy in compute to populate edgeSecurityPolicy.
+	// +kubebuilder:validation:Optional
+	EdgeSecurityPolicySelector *v1.Selector `json:"edgeSecurityPolicySelector,omitempty" tf:"-"`
 
 	// If true, enable Cloud CDN for this BackendBucket.
 	// +kubebuilder:validation:Optional

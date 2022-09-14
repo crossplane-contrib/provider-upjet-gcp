@@ -19,7 +19,6 @@ import (
 	"github.com/upbound/official-providers/provider-gcp/config/cloudtasks"
 	"github.com/upbound/official-providers/provider-gcp/config/compute"
 	"github.com/upbound/official-providers/provider-gcp/config/container"
-	"github.com/upbound/official-providers/provider-gcp/config/containerregistry"
 	"github.com/upbound/official-providers/provider-gcp/config/dataflow"
 	"github.com/upbound/official-providers/provider-gcp/config/dataproc"
 	"github.com/upbound/official-providers/provider-gcp/config/dns"
@@ -100,6 +99,8 @@ var skipList = []string{
 	"google_spanner_instance_iam_binding",
 	"google_spanner_database_iam_policy",
 	"google_spanner_database_iam_binding",
+	"google_compute_subnetwork_iam_policy",
+	"google_compute_subnetwork_iam_binding",
 }
 
 // GetProvider returns provider configuration
@@ -129,9 +130,8 @@ func GetProvider() *tjconfig.Provider {
 		cloudrun.Configure,
 		cloudscheduler.Configure,
 		cloudtasks.Configure,
-		container.Configure,
-		containerregistry.Configure,
 		compute.Configure,
+		container.Configure,
 		dataflow.Configure,
 		dataproc.Configure,
 		dns.Configure,

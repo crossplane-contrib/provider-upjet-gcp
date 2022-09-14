@@ -97,13 +97,27 @@ import (
 	router "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/router"
 	routerinterface "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/routerinterface"
 	routernat "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/routernat"
+	securitypolicy "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/securitypolicy"
+	serviceattachment "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/serviceattachment"
 	sslcertificate "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/sslcertificate"
 	subnetwork "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/subnetwork"
+	subnetworkiammember "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/subnetworkiammember"
+	targetgrpcproxy "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/targetgrpcproxy"
+	targethttpproxy "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/targethttpproxy"
+	targethttpsproxy "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/targethttpsproxy"
+	targetinstance "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/targetinstance"
 	targetpool "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/targetpool"
 	targetsslproxy "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/targetsslproxy"
+	targettcpproxy "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/targettcpproxy"
+	urlmap "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/urlmap"
+	vpngateway "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/vpngateway"
+	vpntunnel "github.com/upbound/official-providers/provider-gcp/internal/controller/compute/vpntunnel"
 	cluster "github.com/upbound/official-providers/provider-gcp/internal/controller/container/cluster"
 	nodepool "github.com/upbound/official-providers/provider-gcp/internal/controller/container/nodepool"
 	registry "github.com/upbound/official-providers/provider-gcp/internal/controller/container/registry"
+	note "github.com/upbound/official-providers/provider-gcp/internal/controller/containeranalysis/note"
+	entry "github.com/upbound/official-providers/provider-gcp/internal/controller/datacatalog/entry"
+	entrygroup "github.com/upbound/official-providers/provider-gcp/internal/controller/datacatalog/entrygroup"
 	managedzone "github.com/upbound/official-providers/provider-gcp/internal/controller/dns/managedzone"
 	policy "github.com/upbound/official-providers/provider-gcp/internal/controller/dns/policy"
 	recordset "github.com/upbound/official-providers/provider-gcp/internal/controller/dns/recordset"
@@ -267,13 +281,27 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		router.Setup,
 		routerinterface.Setup,
 		routernat.Setup,
+		securitypolicy.Setup,
+		serviceattachment.Setup,
 		sslcertificate.Setup,
 		subnetwork.Setup,
+		subnetworkiammember.Setup,
+		targetgrpcproxy.Setup,
+		targethttpproxy.Setup,
+		targethttpsproxy.Setup,
+		targetinstance.Setup,
 		targetpool.Setup,
 		targetsslproxy.Setup,
+		targettcpproxy.Setup,
+		urlmap.Setup,
+		vpngateway.Setup,
+		vpntunnel.Setup,
 		cluster.Setup,
 		nodepool.Setup,
 		registry.Setup,
+		note.Setup,
+		entry.Setup,
+		entrygroup.Setup,
 		managedzone.Setup,
 		policy.Setup,
 		recordset.Setup,

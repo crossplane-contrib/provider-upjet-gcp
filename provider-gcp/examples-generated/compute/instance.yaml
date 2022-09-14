@@ -10,7 +10,9 @@ spec:
   forProvider:
     bootDisk:
     - initializeParams:
-      - image: debian-cloud/debian-9
+      - imageSelector:
+          matchLabels:
+            testing.upbound.io/example-name: example
     machineType: e2-medium
     metadata:
       foo: bar

@@ -63,14 +63,32 @@ type RouterInterfaceParameters struct {
 
 	// The name of the router this interface will be attached to.
 	// Changing this forces a new interface to be created.
-	// +kubebuilder:validation:Required
-	Router *string `json:"router" tf:"router,omitempty"`
+	// +crossplane:generate:reference:type=Router
+	// +kubebuilder:validation:Optional
+	Router *string `json:"router,omitempty" tf:"router,omitempty"`
+
+	// Reference to a Router to populate router.
+	// +kubebuilder:validation:Optional
+	RouterRef *v1.Reference `json:"routerRef,omitempty" tf:"-"`
+
+	// Selector for a Router to populate router.
+	// +kubebuilder:validation:Optional
+	RouterSelector *v1.Selector `json:"routerSelector,omitempty" tf:"-"`
 
 	// The name or resource link to the VPN tunnel this
 	// interface will be linked to. Changing this forces a new interface to be created. Only
 	// one of vpn_tunnel and interconnect_attachment can be specified.
+	// +crossplane:generate:reference:type=VPNTunnel
 	// +kubebuilder:validation:Optional
 	VPNTunnel *string `json:"vpnTunnel,omitempty" tf:"vpn_tunnel,omitempty"`
+
+	// Reference to a VPNTunnel to populate vpnTunnel.
+	// +kubebuilder:validation:Optional
+	VPNTunnelRef *v1.Reference `json:"vpnTunnelRef,omitempty" tf:"-"`
+
+	// Selector for a VPNTunnel to populate vpnTunnel.
+	// +kubebuilder:validation:Optional
+	VPNTunnelSelector *v1.Selector `json:"vpnTunnelSelector,omitempty" tf:"-"`
 }
 
 // RouterInterfaceSpec defines the desired state of RouterInterface
