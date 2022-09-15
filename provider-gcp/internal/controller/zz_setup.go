@@ -118,9 +118,17 @@ import (
 	note "github.com/upbound/official-providers/provider-gcp/internal/controller/containeranalysis/note"
 	entry "github.com/upbound/official-providers/provider-gcp/internal/controller/datacatalog/entry"
 	entrygroup "github.com/upbound/official-providers/provider-gcp/internal/controller/datacatalog/entrygroup"
+	agent "github.com/upbound/official-providers/provider-gcp/internal/controller/dialogflowcx/agent"
+	entitytype "github.com/upbound/official-providers/provider-gcp/internal/controller/dialogflowcx/entitytype"
+	environmentdialogflowcx "github.com/upbound/official-providers/provider-gcp/internal/controller/dialogflowcx/environment"
+	flow "github.com/upbound/official-providers/provider-gcp/internal/controller/dialogflowcx/flow"
+	intent "github.com/upbound/official-providers/provider-gcp/internal/controller/dialogflowcx/intent"
+	page "github.com/upbound/official-providers/provider-gcp/internal/controller/dialogflowcx/page"
+	version "github.com/upbound/official-providers/provider-gcp/internal/controller/dialogflowcx/version"
 	managedzone "github.com/upbound/official-providers/provider-gcp/internal/controller/dns/managedzone"
 	policy "github.com/upbound/official-providers/provider-gcp/internal/controller/dns/policy"
 	recordset "github.com/upbound/official-providers/provider-gcp/internal/controller/dns/recordset"
+	serviceendpoints "github.com/upbound/official-providers/provider-gcp/internal/controller/endpoints/service"
 	webbackendserviceiammember "github.com/upbound/official-providers/provider-gcp/internal/controller/iap/webbackendserviceiammember"
 	webiammember "github.com/upbound/official-providers/provider-gcp/internal/controller/iap/webiammember"
 	webtypeappengineiammember "github.com/upbound/official-providers/provider-gcp/internal/controller/iap/webtypeappengineiammember"
@@ -302,9 +310,17 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		note.Setup,
 		entry.Setup,
 		entrygroup.Setup,
+		agent.Setup,
+		entitytype.Setup,
+		environmentdialogflowcx.Setup,
+		flow.Setup,
+		intent.Setup,
+		page.Setup,
+		version.Setup,
 		managedzone.Setup,
 		policy.Setup,
 		recordset.Setup,
+		serviceendpoints.Setup,
 		webbackendserviceiammember.Setup,
 		webiammember.Setup,
 		webtypeappengineiammember.Setup,
