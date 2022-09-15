@@ -220,6 +220,35 @@ var externalNameConfigs = map[string]config.ExternalName{
 	"google_compute_target_ssl_proxy": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/global/targetSslProxies/{{ .external_name }}"),
 	// Imported by using the following format: projects/{{project}}/global/sslCertificates/{{name}}
 	"google_compute_ssl_certificate": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/global/sslCertificates/{{ .external_name }}"),
+	// Imported by using the following format: projects/{{project}}/global/securityPolicies/{{name}}
+	"google_compute_security_policy": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/global/securityPolicies/{{ .external_name }}"),
+	// Imported by using the following format: projects/{{project}}/regions/{{region}}/serviceAttachments/{{name}}
+	"google_compute_service_attachment": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/regions/{{ .parameters.region }}/serviceAttachments/{{ .external_name }}"),
+	// Note(donovanmuller): Requires organizational level permission 'compute.organizations.enableXpnHost'"
+	// Imported by using the following format: host-project-id
+	// "google_compute_shared_vpc_host_project": config.IdentifierFromProvider,
+	// Note(donovanmuller): The google provider only supports this permission at project or organizational level currently
+	// It also requires access to multiple GCP Projects
+	// Imported by using the following format: host-project-id/service-project-id-1
+	// "google_compute_shared_vpc_service_project": TemplatedStringAsIdentifierWithNoName("{{ .setup.configuration.project }}/{{ .external_name }}"),
+	// Imported by using the following format: projects/{{project}}/regions/{{region}}/subnetworks/{{subnetwork}} roles/compute.networkUser user:jane@example.com
+	"google_compute_subnetwork_iam_member": config.IdentifierFromProvider,
+	// Imported by using the following format: projects/{{project}}/global/targetGrpcProxies/{{name}}
+	"google_compute_target_grpc_proxy": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/global/targetGrpcProxies/{{ .external_name }}"),
+	// Imported by using the following format: projects/{{project}}/global/targetHttpProxies/{{name}}
+	"google_compute_target_http_proxy": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/global/targetHttpProxies/{{ .external_name }}"),
+	// Imported by using the following format: projects/{{project}}/global/targetHttpsProxies/{{name}}
+	"google_compute_target_https_proxy": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/global/targetHttpsProxies/{{ .external_name }}"),
+	// Imported by using the following format: projects/{{project}}/zones/{{zone}}/targetInstances/{{name}}
+	"google_compute_target_instance": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/zones/{{ .parameters.zone }}/targetInstances/{{ .external_name }}"),
+	// Imported by using the following format: projects/{{project}}/global/targetTcpProxies/{{name}}
+	"google_compute_target_tcp_proxy": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/global/targetTcpProxies/{{ .external_name }}"),
+	// Imported by using the following format: projects/{{project}}/global/urlMaps/{{name}}
+	"google_compute_url_map": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/global/urlMaps/{{ .external_name }}"),
+	// Imported by using the following format: projects/{{project}}/regions/{{region}}/targetVpnGateways/{{name}}
+	"google_compute_vpn_gateway": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/regions/{{ .parameters.region }}/targetVpnGateways/{{ .external_name }}"),
+	// Imported by using the following format: projects/{{project}}/regions/{{region}}/vpnTunnels/{{name}}
+	"google_compute_vpn_tunnel": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/regions/{{ .parameters.region }}/vpnTunnels/{{ .external_name }}"),
 
 	// container
 	//
@@ -228,10 +257,26 @@ var externalNameConfigs = map[string]config.ExternalName{
 	// Imported by using the following format: my-gcp-project/us-east1-a/my-cluster/main-pool
 	"google_container_node_pool": config.TemplatedStringAsIdentifier("name", "{{ .setup.configuration.project }}/{{ .parameters.location }}/{{ .parameters.cluster }}/{{ .external_name }}"),
 
+	// containeranalysis
+	//
+	// Imported by using the following format: projects/{{project}}/notes/{{name}}
+	"google_container_analysis_note": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/notes/{{ .external_name }}"),
+	// Note(donovanmuller): Requires a reference to a KMS CryptoKey version (a Terraform Datasource)
+	// as well as complicated values for serialized_payload's
+	// Imported by using the following format: projects/{{project}}/occurrences/{{name}}
+	// "google_container_analysis_occurrence": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/occurrences/{{ .external_name }}"),
+
 	// containerregistry
 	//
 	// This resource can not be imported. The resource will create a bucket if missing, and do nothing with any bucket it finds
 	"google_container_registry": config.IdentifierFromProvider,
+
+	// datacatalog
+	//
+	// Imported by using the following format: {{name}}
+	"google_data_catalog_entry": config.IdentifierFromProvider,
+	// Imported by using the following format: {{name}}
+	"google_data_catalog_entry_group": config.IdentifierFromProvider,
 
 	// dns
 	//

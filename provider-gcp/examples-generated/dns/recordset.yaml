@@ -31,7 +31,9 @@ spec:
   forProvider:
     bootDisk:
     - initializeParams:
-      - image: debian-cloud/debian-9
+      - imageSelector:
+          matchLabels:
+            testing.upbound.io/example-name: example
     machineType: g1-small
     networkInterface:
     - accessConfig:

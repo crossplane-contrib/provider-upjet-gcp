@@ -100,8 +100,17 @@ type RouteParameters struct {
 	NextHopInstanceZone *string `json:"nextHopInstanceZone,omitempty" tf:"next_hop_instance_zone,omitempty"`
 
 	// URL to a VpnTunnel that should handle matching packets.
+	// +crossplane:generate:reference:type=VPNTunnel
 	// +kubebuilder:validation:Optional
 	NextHopVPNTunnel *string `json:"nextHopVpnTunnel,omitempty" tf:"next_hop_vpn_tunnel,omitempty"`
+
+	// Reference to a VPNTunnel to populate nextHopVpnTunnel.
+	// +kubebuilder:validation:Optional
+	NextHopVPNTunnelRef *v1.Reference `json:"nextHopVpnTunnelRef,omitempty" tf:"-"`
+
+	// Selector for a VPNTunnel to populate nextHopVpnTunnel.
+	// +kubebuilder:validation:Optional
+	NextHopVPNTunnelSelector *v1.Selector `json:"nextHopVpnTunnelSelector,omitempty" tf:"-"`
 
 	// The priority of this route. Priority is used to break ties in cases
 	// where there is more than one matching route of equal prefix length.

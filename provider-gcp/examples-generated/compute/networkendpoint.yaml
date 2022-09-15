@@ -31,7 +31,9 @@ spec:
   forProvider:
     bootDisk:
     - initializeParams:
-      - image: ${data.google_compute_image.my_image.self_link}
+      - imageSelector:
+          matchLabels:
+            testing.upbound.io/example-name: google_compute_image
     machineType: e2-medium
     networkInterface:
     - accessConfig:

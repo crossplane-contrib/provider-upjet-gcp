@@ -1,0 +1,31 @@
+apiVersion: datacatalog.gcp.upbound.io/v1beta1
+kind: Entry
+metadata:
+  annotations:
+    meta.upbound.io/example-id: datacatalog/v1beta1/entry
+  labels:
+    testing.upbound.io/example-name: entry
+  name: entry
+spec:
+  forProvider:
+    entryGroupSelector:
+      matchLabels:
+        testing.upbound.io/example-name: entry
+    entryId: entry
+    userSpecifiedSystem: SomethingExternal
+    userSpecifiedType: my_custom_type
+
+---
+
+apiVersion: datacatalog.gcp.upbound.io/v1beta1
+kind: EntryGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: datacatalog/v1beta1/entry
+  labels:
+    testing.upbound.io/example-name: entry
+  name: entry
+spec:
+  forProvider:
+    entryGroupId: entry
+    region: us-central1

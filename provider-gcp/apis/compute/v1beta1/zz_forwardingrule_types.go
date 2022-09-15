@@ -70,16 +70,16 @@ type ForwardingRuleParameters struct {
 
 	// A BackendService to receive the matched traffic. This is used only
 	// for INTERNAL load balancing.
-	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.RegionBackendService
-	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:type=RegionBackendService
+	// +crossplane:generate:reference:extractor=github.com/upbound/official-providers/provider-gcp/config/common.SelfLinkExtractor()
 	// +kubebuilder:validation:Optional
 	BackendService *string `json:"backendService,omitempty" tf:"backend_service,omitempty"`
 
-	// Reference to a RegionBackendService in compute to populate backendService.
+	// Reference to a RegionBackendService to populate backendService.
 	// +kubebuilder:validation:Optional
 	BackendServiceRef *v1.Reference `json:"backendServiceRef,omitempty" tf:"-"`
 
-	// Selector for a RegionBackendService in compute to populate backendService.
+	// Selector for a RegionBackendService to populate backendService.
 	// +kubebuilder:validation:Optional
 	BackendServiceSelector *v1.Selector `json:"backendServiceSelector,omitempty" tf:"-"`
 

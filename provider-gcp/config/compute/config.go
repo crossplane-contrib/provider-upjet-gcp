@@ -132,6 +132,9 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 		r.References["network_interface.subnetwork"] = config.Reference{
 			Type: "Subnetwork",
 		}
+		r.References["boot_disk.initialize_params.image"] = config.Reference{
+			Type: "Image",
+		}
 		config.MarkAsRequired(r.TerraformResource, "zone")
 	})
 
@@ -256,6 +259,12 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 	})
 
 	p.AddResourceConfigurator("google_compute_forwarding_rule", func(r *config.Resource) {
+		// Note(donovanmuller): See https://github.com/upbound/upjet/issues/95
+		// BackendService is also a valid reference Type
+		r.References["backend_service"] = config.Reference{
+			Type:      "RegionBackendService",
+			Extractor: common.PathSelfLinkExtractor,
+		}
 		config.MarkAsRequired(r.TerraformResource, "region")
 	})
 
@@ -359,6 +368,62 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 		r.References["image"] = config.Reference{
 			Type: "Image",
 		}
+	})
+
+	p.AddResourceConfigurator("google_compute_vpn_tunnel", func(r *config.Resource) {
+		r.References["peer_external_gateway"] = config.Reference{
+			Type: "ExternalVPNGateway",
+		}
+		r.References["router"] = config.Reference{
+			Type: "Router",
+		}
+		r.References["vpn_gateway"] = config.Reference{
+			Type: "HaVPNGateway",
+		}
+		config.MarkAsRequired(r.TerraformResource, "region")
+	})
+
+	p.AddResourceConfigurator("google_compute_target_https_proxy", func(r *config.Resource) {
+		r.References["ssl_certificates"] = config.Reference{
+			Type: "SSLCertificate",
+		}
+	})
+
+	p.AddResourceConfigurator("google_compute_service_attachment", func(r *config.Resource) {
+		r.References["nat_subnets"] = config.Reference{
+			Type: "Subnetwork",
+		}
+		config.MarkAsRequired(r.TerraformResource, "region")
+	})
+
+	p.AddResourceConfigurator("google_compute_route", func(r *config.Resource) {
+		r.References["next_hop_vpn_tunnel"] = config.Reference{
+			Type: "VPNTunnel",
+		}
+	})
+
+	p.AddResourceConfigurator("google_compute_router_interface", func(r *config.Resource) {
+		r.References["router"] = config.Reference{
+			Type: "Router",
+		}
+		r.References["vpn_tunnel"] = config.Reference{
+			Type: "VPNTunnel",
+		}
+	})
+
+	p.AddResourceConfigurator("google_compute_vpn_gateway", func(r *config.Resource) {
+		config.MarkAsRequired(r.TerraformResource, "region")
+	})
+
+	p.AddResourceConfigurator("google_compute_target_instance", func(r *config.Resource) {
+		config.MarkAsRequired(r.TerraformResource, "zone")
+	})
+
+	p.AddResourceConfigurator("google_compute_subnetwork_iam_member", func(r *config.Resource) {
+		r.References["subnetwork"] = config.Reference{
+			Type: "Subnetwork",
+		}
+		config.MarkAsRequired(r.TerraformResource, "region")
 	})
 }
 
