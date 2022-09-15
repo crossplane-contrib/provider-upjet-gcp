@@ -278,6 +278,18 @@ var externalNameConfigs = map[string]config.ExternalName{
 	// Imported by using the following format: {{name}}
 	"google_data_catalog_entry_group": config.IdentifierFromProvider,
 
+	// dialogflow
+	//
+	// More detauils in https://upboundio.slack.com/archives/C01PK1SMYNN/p1663240546481649
+	// All resources must be configured with config.IdentifierFromProvider due to all depending on agent
+	"google_dialogflow_cx_agent":       config.IdentifierFromProvider,
+	"google_dialogflow_cx_entity_type": config.IdentifierFromProvider,
+	"google_dialogflow_cx_environment": config.IdentifierFromProvider,
+	"google_dialogflow_cx_flow":        config.IdentifierFromProvider,
+	"google_dialogflow_cx_intent":      config.IdentifierFromProvider,
+	"google_dialogflow_cx_page":        config.IdentifierFromProvider,
+	"google_dialogflow_cx_version":     config.IdentifierFromProvider,
+
 	// dns
 	//
 	// Imported by using the following format: projects/{{project}}/managedZones/{{name}}
