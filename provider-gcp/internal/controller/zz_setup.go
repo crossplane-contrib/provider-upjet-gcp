@@ -107,6 +107,7 @@ import (
 	managedzone "github.com/upbound/official-providers/provider-gcp/internal/controller/dns/managedzone"
 	policy "github.com/upbound/official-providers/provider-gcp/internal/controller/dns/policy"
 	recordset "github.com/upbound/official-providers/provider-gcp/internal/controller/dns/recordset"
+	membership "github.com/upbound/official-providers/provider-gcp/internal/controller/gkehub/membership"
 	webbackendserviceiammember "github.com/upbound/official-providers/provider-gcp/internal/controller/iap/webbackendserviceiammember"
 	webiammember "github.com/upbound/official-providers/provider-gcp/internal/controller/iap/webiammember"
 	webtypeappengineiammember "github.com/upbound/official-providers/provider-gcp/internal/controller/iap/webtypeappengineiammember"
@@ -277,6 +278,7 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		managedzone.Setup,
 		policy.Setup,
 		recordset.Setup,
+		membership.Setup,
 		webbackendserviceiammember.Setup,
 		webiammember.Setup,
 		webtypeappengineiammember.Setup,

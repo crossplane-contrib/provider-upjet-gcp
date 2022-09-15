@@ -441,6 +441,11 @@ var externalNameConfigs = map[string]config.ExternalName{
 	"google_storage_default_object_access_control": config.IdentifierFromProvider,
 	// No import documented.
 	"google_storage_default_object_acl": config.IdentifierFromProvider,
+
+	// gkehub
+
+	// Imported by using the following format: projects/{{project}}/locations/global/memberships/{{membership_id}}
+	"google_gke_hub_membership": config.TemplatedStringAsIdentifier("membership_id", "projects/{{ .setup.configuration.project }}/locations/global/memberships/{{ .external_name }}"),
 }
 
 // TemplatedStringAsIdentifierWithNoName uses TemplatedStringAsIdentifier but
