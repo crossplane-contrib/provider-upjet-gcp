@@ -125,8 +125,8 @@ type ServiceAttachmentParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// URL of the region where the resource resides.
-	// +kubebuilder:validation:Optional
-	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+	// +kubebuilder:validation:Required
+	Region *string `json:"region" tf:"region,omitempty"`
 
 	// The URL of a forwarding rule that represents the service identified by
 	// this service attachment.

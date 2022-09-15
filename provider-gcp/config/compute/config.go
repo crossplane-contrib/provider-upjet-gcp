@@ -393,6 +393,7 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 		r.References["nat_subnets"] = config.Reference{
 			Type: "Subnetwork",
 		}
+		config.MarkAsRequired(r.TerraformResource, "region")
 	})
 
 	p.AddResourceConfigurator("google_compute_route", func(r *config.Resource) {

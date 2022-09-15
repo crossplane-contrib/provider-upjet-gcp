@@ -235,7 +235,7 @@ var externalNameConfigs = map[string]config.ExternalName{
 	"google_compute_subnetwork_iam_member": config.IdentifierFromProvider,
 	// Imported by using the following format: projects/{{project}}/global/targetGrpcProxies/{{name}}
 	"google_compute_target_grpc_proxy": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/global/targetGrpcProxies/{{ .external_name }}"),
-	// Imported by using the following format: projects/{{project}}/global/targetHttpsProxies/{{name}}
+	// Imported by using the following format: projects/{{project}}/global/targetHttpProxies/{{name}}
 	"google_compute_target_http_proxy": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/global/targetHttpProxies/{{ .external_name }}"),
 	// Imported by using the following format: projects/{{project}}/global/targetHttpsProxies/{{name}}
 	"google_compute_target_https_proxy": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/global/targetHttpsProxies/{{ .external_name }}"),
