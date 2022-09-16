@@ -1,0 +1,29 @@
+apiVersion: authorization.azure.upbound.io/v1beta1
+kind: RoleAssignment
+metadata:
+  name: containerazure-gcp-upbound-contributor
+spec:
+  forProvider:
+    roleDefinitionName: "Contributor"
+    principalId: ${SERVICE_PRINCIPAL_ID}
+    scope: /subscriptions/${SUBSCRIPTION_ID}/resourceGroups/containerazure-gcp-upbound
+---
+apiVersion: authorization.azure.upbound.io/v1beta1
+kind: RoleAssignment
+metadata:
+  name: containerazure-gcp-upbound-user-admin
+spec:
+  forProvider:
+    roleDefinitionName: "User Access Administrator"
+    principalId: ${SERVICE_PRINCIPAL_ID}
+    scope: /subscriptions/${SUBSCRIPTION_ID}/resourceGroups/containerazure-gcp-upbound
+---
+apiVersion: authorization.azure.upbound.io/v1beta1
+kind: RoleAssignment
+metadata:
+  name: containerazure-gcp-upbound-vault-admin
+spec:
+  forProvider:
+    roleDefinitionName: "Key Vault Administrator"
+    principalId: ${SERVICE_PRINCIPAL_ID}
+    scope: /subscriptions/${SUBSCRIPTION_ID}/resourceGroups/containerazure-gcp-upbound
