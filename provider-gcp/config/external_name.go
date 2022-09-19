@@ -299,6 +299,11 @@ var externalNameConfigs = map[string]config.ExternalName{
 	// Imported by using the following format: projects/{{project}}/managedZones/{{zone}}/rrsets/{{name}}/{{type}}
 	"google_dns_record_set": config.IdentifierFromProvider,
 
+	// dns
+	//
+	// This resource does not support import.
+	"google_endpoints_service": config.IdentifierFromProvider,
+
 	// iap
 	//
 	// Imported by using the following format: projects/{{project}}/iap_web/compute/services/{{web_backend_service}} roles/iap.httpsResourceAccessor user:jane@example.com
