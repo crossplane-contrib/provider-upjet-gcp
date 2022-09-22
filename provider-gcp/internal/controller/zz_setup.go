@@ -129,6 +129,7 @@ import (
 	policy "github.com/upbound/official-providers/provider-gcp/internal/controller/dns/policy"
 	recordset "github.com/upbound/official-providers/provider-gcp/internal/controller/dns/recordset"
 	serviceendpoints "github.com/upbound/official-providers/provider-gcp/internal/controller/endpoints/service"
+	membership "github.com/upbound/official-providers/provider-gcp/internal/controller/gkehub/membership"
 	webbackendserviceiammember "github.com/upbound/official-providers/provider-gcp/internal/controller/iap/webbackendserviceiammember"
 	webiammember "github.com/upbound/official-providers/provider-gcp/internal/controller/iap/webiammember"
 	webtypeappengineiammember "github.com/upbound/official-providers/provider-gcp/internal/controller/iap/webtypeappengineiammember"
@@ -321,6 +322,7 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		policy.Setup,
 		recordset.Setup,
 		serviceendpoints.Setup,
+		membership.Setup,
 		webbackendserviceiammember.Setup,
 		webiammember.Setup,
 		webtypeappengineiammember.Setup,
