@@ -4,19 +4,19 @@ metadata:
   annotations:
     meta.upbound.io/example-id: dialogflowcx/v1beta1/environment
   labels:
-    testing.upbound.io/example-name: development
-  name: development
+    testing.upbound.io/example-name: environment
+  name: environment
 spec:
   forProvider:
     description: Development Environment
     displayName: Development
     parentSelector:
       matchLabels:
-        testing.upbound.io/example-name: agent
+        testing.upbound.io/example-name: environment
     versionConfigs:
     - versionSelector:
         matchLabels:
-          testing.upbound.io/example-name: version_1
+          testing.upbound.io/example-name: environment
 
 ---
 
@@ -26,14 +26,14 @@ metadata:
   annotations:
     meta.upbound.io/example-id: dialogflowcx/v1beta1/environment
   labels:
-    testing.upbound.io/example-name: agent
-  name: agent
+    testing.upbound.io/example-name: environment
+  name: environment
 spec:
   forProvider:
     avatarUri: https://cloud.google.com/_static/images/cloud/icons/favicons/onecloud/super_cloud.png
     defaultLanguageCode: en
     description: Example description.
-    displayName: dialogflowcx-agent
+    displayName: environment
     enableSpellCorrection: true
     enableStackdriverLogging: true
     location: global
@@ -53,12 +53,12 @@ metadata:
   annotations:
     meta.upbound.io/example-id: dialogflowcx/v1beta1/environment
   labels:
-    testing.upbound.io/example-name: version_1
-  name: version-1
+    testing.upbound.io/example-name: environment
+  name: environment
 spec:
   forProvider:
     description: version 1.0.0
     displayName: 1.0.0
     parentSelector:
       matchLabels:
-        testing.upbound.io/example-name: agent
+        testing.upbound.io/example-name: environment

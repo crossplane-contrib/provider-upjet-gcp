@@ -4,8 +4,8 @@ metadata:
   annotations:
     meta.upbound.io/example-id: dialogflowcx/v1beta1/entitytype
   labels:
-    testing.upbound.io/example-name: basic_entity_type
-  name: basic-entity-type
+    testing.upbound.io/example-name: entity-type
+  name: entity-type
 spec:
   forProvider:
     displayName: MyEntity
@@ -22,7 +22,7 @@ spec:
     kind: KIND_MAP
     parentSelector:
       matchLabels:
-        testing.upbound.io/example-name: agent
+        testing.upbound.io/example-name: entity-type
 
 ---
 
@@ -32,14 +32,14 @@ metadata:
   annotations:
     meta.upbound.io/example-id: dialogflowcx/v1beta1/entitytype
   labels:
-    testing.upbound.io/example-name: agent
-  name: agent
+    testing.upbound.io/example-name: entity-type
+  name: entity-type
 spec:
   forProvider:
     avatarUri: https://cloud.google.com/_static/images/cloud/icons/favicons/onecloud/super_cloud.png
     defaultLanguageCode: en
     description: Example description.
-    displayName: dialogflowcx-agent
+    displayName: entity-type
     enableSpellCorrection: true
     enableStackdriverLogging: true
     location: global

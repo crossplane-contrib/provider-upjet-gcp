@@ -4,8 +4,8 @@ metadata:
   annotations:
     meta.upbound.io/example-id: dialogflowcx/v1beta1/flow
   labels:
-    testing.upbound.io/example-name: basic_flow
-  name: basic-flow
+    testing.upbound.io/example-name: flow
+  name: flow
 spec:
   forProvider:
     description: Test Flow
@@ -37,7 +37,7 @@ spec:
       modelType: MODEL_TYPE_STANDARD
     parentSelector:
       matchLabels:
-        testing.upbound.io/example-name: agent
+        testing.upbound.io/example-name: flow
 
 ---
 
@@ -47,14 +47,14 @@ metadata:
   annotations:
     meta.upbound.io/example-id: dialogflowcx/v1beta1/flow
   labels:
-    testing.upbound.io/example-name: agent
-  name: agent
+    testing.upbound.io/example-name: flow
+  name: flow
 spec:
   forProvider:
     avatarUri: https://cloud.google.com/_static/images/cloud/icons/favicons/onecloud/super_cloud.png
     defaultLanguageCode: en
     description: Example description.
-    displayName: dialogflowcx-agent
+    displayName: flow
     enableSpellCorrection: true
     enableStackdriverLogging: true
     location: global

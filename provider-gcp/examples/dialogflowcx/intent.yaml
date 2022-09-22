@@ -4,8 +4,8 @@ metadata:
   annotations:
     meta.upbound.io/example-id: dialogflowcx/v1beta1/intent
   labels:
-    testing.upbound.io/example-name: basic_intent
-  name: basic-intent
+    testing.upbound.io/example-name: intent
+  name: intent
 spec:
   forProvider:
     description: Intent example
@@ -18,7 +18,7 @@ spec:
       id: param1
     parentSelector:
       matchLabels:
-        testing.upbound.io/example-name: agent
+        testing.upbound.io/example-name: intent
     priority: 1
     trainingPhrases:
     - parts:
@@ -35,14 +35,14 @@ metadata:
   annotations:
     meta.upbound.io/example-id: dialogflowcx/v1beta1/intent
   labels:
-    testing.upbound.io/example-name: agent
-  name: agent
+    testing.upbound.io/example-name: intent
+  name: intent
 spec:
   forProvider:
     avatarUri: https://cloud.google.com/_static/images/cloud/icons/favicons/onecloud/super_cloud.png
     defaultLanguageCode: en
     description: Example description.
-    displayName: dialogflowcx-agent
+    displayName: intent
     enableSpellCorrection: true
     enableStackdriverLogging: true
     location: global

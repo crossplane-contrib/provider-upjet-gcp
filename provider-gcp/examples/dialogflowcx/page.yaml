@@ -4,8 +4,8 @@ metadata:
   annotations:
     meta.upbound.io/example-id: dialogflowcx/v1beta1/page
   labels:
-    testing.upbound.io/example-name: basic_page
-  name: basic-page
+    testing.upbound.io/example-name: page
+  name: page
 spec:
   forProvider:
     displayName: MyPage
@@ -28,7 +28,7 @@ spec:
         required: true
     parentSelector:
       matchLabels:
-        testing.upbound.io/example-name: agent
+        testing.upbound.io/example-name: page
 
 ---
 
@@ -38,14 +38,14 @@ metadata:
   annotations:
     meta.upbound.io/example-id: dialogflowcx/v1beta1/page
   labels:
-    testing.upbound.io/example-name: agent
-  name: agent
+    testing.upbound.io/example-name: page
+  name: page
 spec:
   forProvider:
     avatarUri: https://cloud.google.com/_static/images/cloud/icons/favicons/onecloud/super_cloud.png
     defaultLanguageCode: en
     description: Example description.
-    displayName: dialogflowcx-agent
+    displayName: page
     enableSpellCorrection: true
     enableStackdriverLogging: true
     location: global
