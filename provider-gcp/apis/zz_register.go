@@ -34,6 +34,7 @@ import (
 	v1beta1containeranalysis "github.com/upbound/official-providers/provider-gcp/apis/containeranalysis/v1beta1"
 	v1beta1datacatalog "github.com/upbound/official-providers/provider-gcp/apis/datacatalog/v1beta1"
 	v1beta1dns "github.com/upbound/official-providers/provider-gcp/apis/dns/v1beta1"
+	v1beta1gkehub "github.com/upbound/official-providers/provider-gcp/apis/gkehub/v1beta1"
 	v1beta1iap "github.com/upbound/official-providers/provider-gcp/apis/iap/v1beta1"
 	v1beta1identityplatform "github.com/upbound/official-providers/provider-gcp/apis/identityplatform/v1beta1"
 	v1beta1kms "github.com/upbound/official-providers/provider-gcp/apis/kms/v1beta1"
@@ -69,6 +70,7 @@ func init() {
 		v1beta1containeranalysis.SchemeBuilder.AddToScheme,
 		v1beta1datacatalog.SchemeBuilder.AddToScheme,
 		v1beta1dns.SchemeBuilder.AddToScheme,
+		v1beta1gkehub.SchemeBuilder.AddToScheme,
 		v1beta1iap.SchemeBuilder.AddToScheme,
 		v1beta1identityplatform.SchemeBuilder.AddToScheme,
 		v1beta1kms.SchemeBuilder.AddToScheme,
