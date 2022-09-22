@@ -32,6 +32,8 @@ import (
 	v1beta1compute "github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1"
 	v1beta1container "github.com/upbound/official-providers/provider-gcp/apis/container/v1beta1"
 	v1beta1containeranalysis "github.com/upbound/official-providers/provider-gcp/apis/containeranalysis/v1beta1"
+	v1beta1containeraws "github.com/upbound/official-providers/provider-gcp/apis/containeraws/v1beta1"
+	v1beta1containerazure "github.com/upbound/official-providers/provider-gcp/apis/containerazure/v1beta1"
 	v1beta1datacatalog "github.com/upbound/official-providers/provider-gcp/apis/datacatalog/v1beta1"
 	v1beta1dns "github.com/upbound/official-providers/provider-gcp/apis/dns/v1beta1"
 	v1beta1gkehub "github.com/upbound/official-providers/provider-gcp/apis/gkehub/v1beta1"
@@ -68,6 +70,8 @@ func init() {
 		v1beta1compute.SchemeBuilder.AddToScheme,
 		v1beta1container.SchemeBuilder.AddToScheme,
 		v1beta1containeranalysis.SchemeBuilder.AddToScheme,
+		v1beta1containeraws.SchemeBuilder.AddToScheme,
+		v1beta1containerazure.SchemeBuilder.AddToScheme,
 		v1beta1datacatalog.SchemeBuilder.AddToScheme,
 		v1beta1dns.SchemeBuilder.AddToScheme,
 		v1beta1gkehub.SchemeBuilder.AddToScheme,

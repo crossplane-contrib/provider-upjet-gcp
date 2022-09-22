@@ -116,6 +116,11 @@ import (
 	nodepool "github.com/upbound/official-providers/provider-gcp/internal/controller/container/nodepool"
 	registry "github.com/upbound/official-providers/provider-gcp/internal/controller/container/registry"
 	note "github.com/upbound/official-providers/provider-gcp/internal/controller/containeranalysis/note"
+	clustercontaineraws "github.com/upbound/official-providers/provider-gcp/internal/controller/containeraws/cluster"
+	nodepoolcontaineraws "github.com/upbound/official-providers/provider-gcp/internal/controller/containeraws/nodepool"
+	client "github.com/upbound/official-providers/provider-gcp/internal/controller/containerazure/client"
+	clustercontainerazure "github.com/upbound/official-providers/provider-gcp/internal/controller/containerazure/cluster"
+	nodepoolcontainerazure "github.com/upbound/official-providers/provider-gcp/internal/controller/containerazure/nodepool"
 	entry "github.com/upbound/official-providers/provider-gcp/internal/controller/datacatalog/entry"
 	entrygroup "github.com/upbound/official-providers/provider-gcp/internal/controller/datacatalog/entrygroup"
 	managedzone "github.com/upbound/official-providers/provider-gcp/internal/controller/dns/managedzone"
@@ -301,6 +306,11 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		nodepool.Setup,
 		registry.Setup,
 		note.Setup,
+		clustercontaineraws.Setup,
+		nodepoolcontaineraws.Setup,
+		client.Setup,
+		clustercontainerazure.Setup,
+		nodepoolcontainerazure.Setup,
 		entry.Setup,
 		entrygroup.Setup,
 		managedzone.Setup,
