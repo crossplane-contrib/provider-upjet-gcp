@@ -75,9 +75,12 @@ spec:
                           items:
                             properties:
                               machineType:
-                                description: 'Cloud SQL machine type used by Airflow
-                                  database. It has to be one of: db-n1-standard-2,
-                                  db-n1-standard-4, db-n1-standard-8 or db-n1-standard-16.'
+                                description: 'Machine type on which Airflow web server
+                                  is running. It has to be one of: composer-n1-webserver-2,
+                                  composer-n1-webserver-4 or composer-n1-webserver-8.
+                                  Value custom is returned only in response, if Airflow
+                                  web server parameters were manually changed to a
+                                  non-standard values.'
                                 type: string
                             required:
                             - machineType
@@ -106,6 +109,8 @@ spec:
                             and ENVIRONMENT_SIZE_LARGE.
                           type: string
                         maintenanceWindow:
+                          description: The configuration settings for Cloud Composer
+                            maintenance windows.
                           items:
                             properties:
                               endTime:
@@ -132,8 +137,8 @@ spec:
                             type: object
                           type: array
                         nodeConfig:
-                          description: Configuration parameters for this environment  Structure
-                            is documented below.
+                          description: The configuration used for the Kubernetes Engine
+                            cluster.  Structure is documented below.
                           items:
                             properties:
                               diskSizeGb:
@@ -162,7 +167,13 @@ spec:
                                         or cluster_ipv4_cidr_block but not both.
                                       type: string
                                     clusterSecondaryRangeName:
-                                      description: Name of the environment
+                                      description: The name of the cluster's secondary
+                                        range used to allocate IP addresses to pods.
+                                        Specify either cluster_secondary_range_name
+                                        or cluster_ipv4_cidr_block but not both. For
+                                        Cloud Composer 1 environments, this field
+                                        is applicable only when use_ip_aliases is
+                                        true.
                                       type: string
                                     servicesIpv4CidrBlock:
                                       description: The IP address range used to allocate
@@ -179,7 +190,13 @@ spec:
                                         or services_ipv4_cidr_block but not both.
                                       type: string
                                     servicesSecondaryRangeName:
-                                      description: Name of the environment
+                                      description: The name of the services' secondary
+                                        range used to allocate IP addresses to the
+                                        cluster. Specify either services_secondary_range_name
+                                        or services_ipv4_cidr_block but not both.
+                                        For Cloud Composer 1 environments, this field
+                                        is applicable only when use_ip_aliases is
+                                        true.
                                       type: string
                                     useIpAliases:
                                       description: Whether or not to enable Alias
@@ -190,11 +207,12 @@ spec:
                                   type: object
                                 type: array
                               machineType:
-                                description: 'The Compute Engine machine type used
-                                  for cluster instances, specified as a name or relative
-                                  resource name. For example: "projects/{project}/zones/{zone}/machineTypes/{machineType}".
-                                  Must belong to the enclosing environment''s project
-                                  and region/zone.'
+                                description: 'Machine type on which Airflow web server
+                                  is running. It has to be one of: composer-n1-webserver-2,
+                                  composer-n1-webserver-4 or composer-n1-webserver-8.
+                                  Value custom is returned only in response, if Airflow
+                                  web server parameters were manually changed to a
+                                  non-standard values.'
                                 type: string
                               network:
                                 description: The Compute Engine network to be used
@@ -488,8 +506,8 @@ spec:
                             cluster of the environment.
                           type: number
                         privateEnvironmentConfig:
-                          description: Configuration parameters for this environment  Structure
-                            is documented below.
+                          description: The configuration used for the Private IP Cloud
+                            Composer environment. Structure is documented below.
                           items:
                             properties:
                               cloudComposerConnectionSubnetwork:
@@ -502,6 +520,11 @@ spec:
                                   to be disjoint from web_server_ipv4_cidr_block
                                 type: string
                               enablePrivateEndpoint:
+                                description: If true, access to the public endpoint
+                                  of the GKE cluster is denied. If this field is set
+                                  to true, the ip_allocation_policy.use_ip_aliases
+                                  field must also be set to true for Cloud Composer
+                                  1 environments.
                                 type: boolean
                               masterIpv4CidrBlock:
                                 description: The IP range in CIDR notation to use
@@ -521,8 +544,8 @@ spec:
                             type: object
                           type: array
                         softwareConfig:
-                          description: Configuration parameters for this environment  Structure
-                            is documented below.
+                          description: The configuration settings for software inside
+                            the environment.  Structure is documented below.
                           items:
                             properties:
                               airflowConfigOverrides:
@@ -632,15 +655,15 @@ spec:
                                       type: number
                                     cpu:
                                       description: The number of CPUs for a single
-                                        Airflow scheduler.
+                                        Airflow worker.
                                       type: number
                                     memoryGb:
                                       description: The amount of memory (GB) for a
-                                        single Airflow scheduler.
+                                        single Airflow worker.
                                       type: number
                                     storageGb:
                                       description: The amount of storage (GB) for
-                                        a single Airflow scheduler.
+                                        the Airflow web server.
                                       type: number
                                   type: object
                                 type: array
@@ -650,12 +673,12 @@ spec:
                                 items:
                                   properties:
                                     cpu:
-                                      description: The number of CPUs for the Airflow
-                                        web server.
+                                      description: The number of CPUs for a single
+                                        Airflow worker.
                                       type: number
                                     memoryGb:
-                                      description: The amount of memory (GB) for the
-                                        Airflow web server.
+                                      description: The amount of memory (GB) for a
+                                        single Airflow worker.
                                       type: number
                                     storageGb:
                                       description: The amount of storage (GB) for

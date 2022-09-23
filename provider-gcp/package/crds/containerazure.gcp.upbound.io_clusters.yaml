@@ -150,9 +150,9 @@ spec:
                           items:
                             properties:
                               resourceGroupId:
-                                description: The ARM ID the of the resource group
-                                  containing proxy keyvault. Resource group ids are
-                                  formatted as /subscriptions/<subscription-id>/resourceGroups/<resource-group-name>
+                                description: 'The ARM ID of the resource group where
+                                  the cluster resources are deployed. For example:
+                                  /subscriptions/*/resourceGroups/*'
                                 type: string
                               secretId:
                                 description: The URL the of the proxy setting secret

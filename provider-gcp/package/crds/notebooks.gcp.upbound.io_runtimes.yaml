@@ -143,9 +143,9 @@ spec:
                                       description: Count of cores of this accelerator.
                                       type: number
                                     type:
-                                      description: Accelerator model. For valid values,
-                                        see https://cloud.google.com/vertex-ai/docs/workbench/reference/
-                                        rest/v1/projects.locations.runtimes#AcceleratorType
+                                      description: Specifies the type of the disk,
+                                        either SCRATCH or PERSISTENT. If not specified,
+                                        the default is PERSISTENT.
                                       type: string
                                   type: object
                                 type: array
@@ -213,10 +213,14 @@ spec:
                                           labels:
                                             additionalProperties:
                                               type: string
-                                            description: Labels to apply to this disk.
-                                              These can be later modified by the disks.setLabels
-                                              method. This field is only applicable
-                                              for persistent disks.
+                                            description: The labels to associate with
+                                              this runtime. Label keys must contain
+                                              1 to 63 characters, and must conform
+                                              to [RFC 1035] (https://www.ietf.org/rfc/rfc1035.txt).
+                                              Label values may be empty, but, if present,
+                                              must contain 1 to 63 characters, and
+                                              must conform to RFC 1035. No more than
+                                              32 labels can be associated with a cluster.
                                             type: object
                                         type: object
                                       type: array

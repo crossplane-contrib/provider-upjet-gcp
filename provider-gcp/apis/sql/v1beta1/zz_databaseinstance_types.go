@@ -46,8 +46,7 @@ type AuthorizedNetworksParameters struct {
 	// +kubebuilder:validation:Optional
 	ExpirationTime *string `json:"expirationTime,omitempty" tf:"expiration_time,omitempty"`
 
-	// The name of the instance. This is done because after a name is used, it cannot be reused for
-	// up to one week.
+	// Name of the flag.
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
@@ -130,8 +129,7 @@ type DatabaseFlagsObservation struct {
 
 type DatabaseFlagsParameters struct {
 
-	// The name of the instance. This is done because after a name is used, it cannot be reused for
-	// up to one week.
+	// Name of the flag.
 	// +kubebuilder:validation:Required
 	Name *string `json:"name" tf:"name,omitempty"`
 
@@ -142,8 +140,8 @@ type DatabaseFlagsParameters struct {
 
 type DatabaseInstanceObservation struct {
 
-	// The name of the instance. This is done because after a name is used, it cannot be reused for
-	// up to one week.
+	// The connection name of the instance to be used in
+	// connection strings. For example, when connecting with Cloud SQL Proxy.
 	ConnectionName *string `json:"connectionName,omitempty" tf:"connection_name,omitempty"`
 
 	// The first IPv4 address of any type assigned.
@@ -396,8 +394,7 @@ type ReplicaConfigurationParameters struct {
 	// +kubebuilder:validation:Optional
 	SSLCipher *string `json:"sslCipher,omitempty" tf:"ssl_cipher,omitempty"`
 
-	// The name of the instance. This is done because after a name is used, it cannot be reused for
-	// up to one week.
+	// Username for replication connection.
 	// +kubebuilder:validation:Optional
 	Username *string `json:"username,omitempty" tf:"username,omitempty"`
 
@@ -431,8 +428,7 @@ type ServerCACertObservation struct {
 	// The CA Certificate used to connect to the SQL Instance via SSL.
 	Cert *string `json:"cert,omitempty" tf:"cert,omitempty"`
 
-	// The name of the instance. This is done because after a name is used, it cannot be reused for
-	// up to one week.
+	// The CN valid for the CA Cert.
 	CommonName *string `json:"commonName,omitempty" tf:"common_name,omitempty"`
 
 	// Creation time of the CA Cert.

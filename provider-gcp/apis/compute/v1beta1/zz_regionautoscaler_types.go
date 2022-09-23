@@ -34,17 +34,7 @@ type AutoscalingPolicyCPUUtilizationParameters struct {
 	// +kubebuilder:validation:Optional
 	PredictiveMethod *string `json:"predictiveMethod,omitempty" tf:"predictive_method,omitempty"`
 
-	// The target CPU utilization that the autoscaler should maintain.
-	// Must be a float value in the range (0, 1]. If not specified, the
-	// default is 0.6.
-	// If the CPU level is below the target utilization, the autoscaler
-	// scales down the number of instances until it reaches the minimum
-	// number of instances you specified or until the average CPU of
-	// your instances reaches the target utilization.
-	// If the average CPU is above the target utilization, the autoscaler
-	// scales up until it reaches the maximum number of instances you
-	// specified or until the average utilization reaches the target
-	// utilization.
+	// URL of the managed instance group that this autoscaler will scale.
 	// +kubebuilder:validation:Required
 	Target *float64 `json:"target" tf:"target,omitempty"`
 }
@@ -54,9 +44,7 @@ type AutoscalingPolicyLoadBalancingUtilizationObservation struct {
 
 type AutoscalingPolicyLoadBalancingUtilizationParameters struct {
 
-	// Fraction of backend capacity utilization (set in HTTP(s) load
-	// balancing configuration) that autoscaler should maintain. Must
-	// be a positive float value. If not defined, the default is 0.8.
+	// URL of the managed instance group that this autoscaler will scale.
 	// +kubebuilder:validation:Required
 	Target *float64 `json:"target" tf:"target,omitempty"`
 }
@@ -66,20 +54,11 @@ type AutoscalingPolicyMetricObservation struct {
 
 type AutoscalingPolicyMetricParameters struct {
 
-	// The identifier (type) of the Stackdriver Monitoring metric.
-	// The metric cannot have negative values.
-	// The metric must have a value type of INT64 or DOUBLE.
+	// The identifier for this object. Format specified above.
 	// +kubebuilder:validation:Required
 	Name *string `json:"name" tf:"name,omitempty"`
 
-	// The target value of the metric that autoscaler should
-	// maintain. This must be a positive value. A utilization
-	// metric scales number of virtual machines handling requests
-	// to increase or decrease proportionally to the metric.
-	// For example, a good metric to use as a utilizationTarget is
-	// www.googleapis.com/compute/instance/network/received_bytes_count.
-	// The autoscaler will work to keep this value constant for each
-	// of the instances.
+	// URL of the managed instance group that this autoscaler will scale.
 	// +kubebuilder:validation:Optional
 	Target *float64 `json:"target,omitempty" tf:"target,omitempty"`
 
@@ -111,6 +90,7 @@ type AutoscalingPolicyScalingSchedulesObservation struct {
 
 type AutoscalingPolicyScalingSchedulesParameters struct {
 
+	// A description of a scaling schedule.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -228,6 +208,7 @@ type RegionAutoscalerParameters struct {
 	// +kubebuilder:validation:Required
 	AutoscalingPolicy []RegionAutoscalerAutoscalingPolicyParameters `json:"autoscalingPolicy" tf:"autoscaling_policy,omitempty"`
 
+	// A description of a scaling schedule.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 

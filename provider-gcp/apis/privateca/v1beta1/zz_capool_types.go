@@ -227,7 +227,8 @@ type CelExpressionParameters struct {
 	// +kubebuilder:validation:Required
 	Expression *string `json:"expression" tf:"expression,omitempty"`
 
-	// String indicating the location of the expression for error reporting, e.g. a file name and a position in the file.
+	// Location of the CaPool. A full list of valid locations can be found by
+	// running gcloud privateca locations list.
 	// +kubebuilder:validation:Optional
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 

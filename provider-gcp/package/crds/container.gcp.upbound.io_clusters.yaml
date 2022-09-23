@@ -74,8 +74,10 @@ spec:
                           items:
                             properties:
                               disabled:
-                                description: The status of the CloudRun addon. It
-                                  is disabled by default. Set disabled=false to enable.
+                                description: The status of the Istio addon, which
+                                  makes it easy to set up Istio for services in a
+                                  cluster. It is disabled by default. Set disabled
+                                  = false to enable.
                                 type: boolean
                               loadBalancerType:
                                 description: The load balancer type of CloudRun ingress
@@ -186,16 +188,14 @@ spec:
                           items:
                             properties:
                               imageType:
-                                description: 'The default image type used by NAP once
-                                  a new node pool is being created. Please note that
-                                  according to the official documentation the value
-                                  must be one of the [COS_CONTAINERD, COS, UBUNTU_CONTAINERD,
-                                  UBUNTU]. NOTE : COS AND UBUNTU are deprecated as
-                                  of GKE 1.24'
+                                description: The image type to use for this node.
+                                  Note that changing the image type will delete and
+                                  recreate all nodes in the node pool.
                                 type: string
                               oauthScopes:
-                                description: Scopes that are used by NAP when creating
-                                  node pools. Use the "https://www.googleapis.com/auth/cloud-platform"
+                                description: The set of Google API scopes to be made
+                                  available on all of the node VMs under the "default"
+                                  service account. Use the "https://www.googleapis.com/auth/cloud-platform"
                                   scope to grant access to all APIs. It is recommended
                                   that you set service_account to a non-default service
                                   account and grant IAM roles to that service account
@@ -204,8 +204,9 @@ spec:
                                   type: string
                                 type: array
                               serviceAccount:
-                                description: The Google Cloud Platform Service Account
-                                  to be used by the node VMs.
+                                description: The service account to be used by the
+                                  Node VMs. If not specified, the "default" service
+                                  account is used.
                                 type: string
                             type: object
                           type: array
@@ -445,6 +446,7 @@ spec:
                     items:
                       properties:
                         dailyMaintenanceWindow:
+                          description: structure documented below.
                           items:
                             properties:
                               startTime:
@@ -454,6 +456,7 @@ spec:
                             type: object
                           type: array
                         maintenanceExclusion:
+                          description: structure documented below
                           items:
                             properties:
                               endTime:
@@ -485,6 +488,7 @@ spec:
                             type: object
                           type: array
                         recurringWindow:
+                          description: structure documented below
                           items:
                             properties:
                               endTime:
@@ -725,8 +729,7 @@ spec:
                           items:
                             properties:
                               enabled:
-                                description: Whether or not the Google Container Filesystem
-                                  (GCFS) is enabled
+                                description: Enables vertical pod autoscaling
                                 type: boolean
                             required:
                             - enabled
@@ -764,8 +767,7 @@ spec:
                           items:
                             properties:
                               enabled:
-                                description: Whether or not the Google Virtual NIC
-                                  (gVNIC) is enabled
+                                description: Enables vertical pod autoscaling
                                 type: boolean
                             required:
                             - enabled
@@ -1404,6 +1406,7 @@ spec:
                     items:
                       properties:
                         dailyMaintenanceWindow:
+                          description: structure documented below.
                           items:
                             properties:
                               duration:
@@ -1529,8 +1532,7 @@ spec:
                                 items:
                                   properties:
                                     enabled:
-                                      description: Whether or not the Google Container
-                                        Filesystem (GCFS) is enabled
+                                      description: Enables vertical pod autoscaling
                                       type: boolean
                                   type: object
                                 type: array
@@ -1567,8 +1569,7 @@ spec:
                                 items:
                                   properties:
                                     enabled:
-                                      description: Whether or not the Google Virtual
-                                        NIC (gVNIC) is enabled
+                                      description: Enables vertical pod autoscaling
                                       type: boolean
                                   type: object
                                 type: array

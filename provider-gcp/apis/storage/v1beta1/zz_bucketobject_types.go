@@ -38,7 +38,8 @@ type BucketObjectObservation struct {
 	// (Computed) A url reference to download this object.
 	MediaLink *string `json:"mediaLink,omitempty" tf:"media_link,omitempty"`
 
-	// The name of the object. If you're interpolating the name of this object, see output_name instead.
+	// (Computed) The name of the object. Use this field in interpolations with google_storage_object_acl to recreate
+	// google_storage_object_acl resources when your google_storage_bucket_object is recreated.
 	OutputName *string `json:"outputName,omitempty" tf:"output_name,omitempty"`
 
 	// (Computed) A url reference to this object.
@@ -90,6 +91,7 @@ type BucketObjectParameters struct {
 	// +kubebuilder:validation:Optional
 	CustomerEncryption []CustomerEncryptionParameters `json:"customerEncryption,omitempty" tf:"customer_encryption,omitempty"`
 
+	// (Computed) Base 64 MD5 hash of the uploaded data.
 	// +kubebuilder:validation:Optional
 	DetectMd5Hash *string `json:"detectMd5Hash,omitempty" tf:"detect_md5hash,omitempty"`
 

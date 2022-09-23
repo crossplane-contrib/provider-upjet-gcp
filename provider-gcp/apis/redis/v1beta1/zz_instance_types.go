@@ -27,22 +27,22 @@ import (
 
 type InstanceObservation struct {
 
-	// Output only. The time when the policy was created.
-	// A timestamp in RFC3339 UTC "Zulu" format, with nanosecond
-	// resolution and up to nine fractional digits.
+	// The time the instance was created in RFC3339 UTC "Zulu" format,
+	// accurate to nanoseconds.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
-	// The zone where the instance will be provisioned. If not provided,
-	// the service will choose a zone for the instance. For STANDARD_HA tier,
-	// instances will be created across two zones for protection against
-	// zonal failures. If [alternativeLocationId] is also provided, it must
-	// be different from [locationId].
+	// The current zone where the Redis endpoint is placed.
+	// For Basic Tier instances, this will always be the same as the
+	// [locationId] provided by the user at creation time. For Standard Tier
+	// instances, this can be either [locationId] or [alternativeLocationId]
+	// and can change after a failover event.
 	CurrentLocationID *string `json:"currentLocationId,omitempty" tf:"current_location_id,omitempty"`
 
 	// Hostname or IP address of the exposed Redis endpoint used by clients
 	// to connect to the service.
 	Host *string `json:"host,omitempty" tf:"host,omitempty"`
 
+	// an identifier for the resource with format projects/{{project}}/locations/{{region}}/instances/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// Maintenance policy for an instance.
@@ -255,6 +255,8 @@ type MaintenanceScheduleParameters struct {
 }
 
 type NodesObservation struct {
+
+	// Node identifying string. e.g. 'node-0', 'node-1'
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// Location of the node.
@@ -269,9 +271,7 @@ type ServerCACertsObservation struct {
 	// The certificate data in PEM format.
 	Cert *string `json:"cert,omitempty" tf:"cert,omitempty"`
 
-	// Output only. The time when the policy was created.
-	// A timestamp in RFC3339 UTC "Zulu" format, with nanosecond
-	// resolution and up to nine fractional digits.
+	// The time when the certificate was created.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
 	// The time when the certificate expires.

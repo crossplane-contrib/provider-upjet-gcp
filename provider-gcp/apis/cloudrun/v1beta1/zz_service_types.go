@@ -30,12 +30,12 @@ type ConfigMapRefObservation struct {
 
 type ConfigMapRefParameters struct {
 
-	// The ConfigMap to select from.
+	// The Secret to select from.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	LocalObjectReference []LocalObjectReferenceParameters `json:"localObjectReference,omitempty" tf:"local_object_reference,omitempty"`
 
-	// Specify whether the ConfigMap must be defined
+	// Specify whether the Secret must be defined
 	// +kubebuilder:validation:Optional
 	Optional *bool `json:"optional,omitempty" tf:"optional,omitempty"`
 }
@@ -141,7 +141,7 @@ type EnvObservation struct {
 
 type EnvParameters struct {
 
-	// Name of the environment variable.
+	// Volume's name.
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
@@ -167,8 +167,8 @@ type ItemsObservation struct {
 
 type ItemsParameters struct {
 
-	// The Cloud Secret Manager secret version.
-	// Can be 'latest' for the latest value or an integer for a specific version.
+	// A Cloud Secret Manager secret version. Must be 'latest' for the latest
+	// version or an integer for a specific version.
 	// +kubebuilder:validation:Required
 	Key *string `json:"key" tf:"key,omitempty"`
 
@@ -192,9 +192,7 @@ type LocalObjectReferenceObservation struct {
 
 type LocalObjectReferenceParameters struct {
 
-	// Name of the referent.
-	// More info:
-	// https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+	// Volume's name.
 	// +kubebuilder:validation:Required
 	Name *string `json:"name" tf:"name,omitempty"`
 }
@@ -208,7 +206,7 @@ type PortsParameters struct {
 	// +kubebuilder:validation:Optional
 	ContainerPort *float64 `json:"containerPort,omitempty" tf:"container_port,omitempty"`
 
-	// If specified, used to specify which protocol to use. Allowed values are "http1" and "h2c".
+	// Volume's name.
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
@@ -247,11 +245,7 @@ type SecretKeyRefParameters struct {
 	// +kubebuilder:validation:Required
 	Key *string `json:"key" tf:"key,omitempty"`
 
-	// The name of the secret in Cloud Secret Manager. By default, the secret is assumed to be in the same project.
-	// If the secret is in another project, you must define an alias.
-	// An alias definition has the form: :projects/<project-id|project-number>/secrets/.
-	// If multiple alias definitions are needed, they must be separated by commas.
-	// The alias definitions must be set on the run.googleapis.com/secrets annotation.
+	// Volume's name.
 	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/secretmanager/v1beta1.Secret
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
@@ -313,9 +307,7 @@ type SecretRefLocalObjectReferenceObservation struct {
 
 type SecretRefLocalObjectReferenceParameters struct {
 
-	// Name of the referent.
-	// More info:
-	// https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+	// Volume's name.
 	// +kubebuilder:validation:Required
 	Name *string `json:"name" tf:"name,omitempty"`
 }
@@ -360,6 +352,10 @@ type ServiceMetadataObservation struct {
 
 type ServiceMetadataParameters struct {
 
+	// Annotations is a key value map stored with a resource that
+	// may be set by external tools to store and retrieve arbitrary metadata. More
+	// info: http://kubernetes.io/docs/user-guide/annotations
+	// Note: The Cloud Run API may add additional annotations that were not provided in your config.ignore_changes rule to the metadata.0.annotations field.
 	// +kubebuilder:validation:Optional
 	Annotations map[string]*string `json:"annotations,omitempty" tf:"annotations,omitempty"`
 
@@ -370,6 +366,8 @@ type ServiceMetadataParameters struct {
 	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
+	// In Cloud Run the namespace must be equal to either the
+	// project ID or project number. It will default to the resource's project.
 	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/cloudplatform/v1beta1.Project
 	// +kubebuilder:validation:Optional
 	Namespace *string `json:"namespace,omitempty" tf:"namespace,omitempty"`
@@ -399,6 +397,8 @@ type ServiceObservation struct {
 	// +kubebuilder:validation:Optional
 	Metadata []ServiceMetadataObservation `json:"metadata,omitempty" tf:"metadata,omitempty"`
 
+	// The current status of the Service.
+	// Structure is documented below.
 	Status []ServiceStatusObservation `json:"status,omitempty" tf:"status,omitempty"`
 
 	// template holds the latest specification for the Revision to
@@ -423,10 +423,11 @@ type ServiceObservation struct {
 
 type ServiceParameters struct {
 
-	// Name must be unique within a namespace, within a Cloud Run region.
-	// Is required when creating resources. Name is primarily intended
-	// for creation idempotence and configuration definition. Cannot be updated.
-	// More info: http://kubernetes.io/docs/user-guide/identifiers#names
+	// If set to true, the revision name (template.metadata.name) will be omitted and
+	// autogenerated by Cloud Run. This cannot be set to true while template.metadata.name
+	// is also set.
+	// (For legacy support, if template.metadata.name is unset in state while
+	// this field is set to false, the revision name will still autogenerate.)
 	// +kubebuilder:validation:Optional
 	AutogenerateRevisionName *bool `json:"autogenerateRevisionName,omitempty" tf:"autogenerate_revision_name,omitempty"`
 
@@ -476,16 +477,14 @@ type ServiceStatusObservation struct {
 	// Structure is documented below.
 	Conditions []StatusConditionsObservation `json:"conditions,omitempty" tf:"conditions,omitempty"`
 
-	// Name must be unique within a namespace, within a Cloud Run region.
-	// Is required when creating resources. Name is primarily intended
-	// for creation idempotence and configuration definition. Cannot be updated.
-	// More info: http://kubernetes.io/docs/user-guide/identifiers#names
+	// From ConfigurationStatus. LatestCreatedRevisionName is the last revision that was created
+	// from this Service's Configuration. It might not be ready yet, for that use
+	// LatestReadyRevisionName.
 	LatestCreatedRevisionName *string `json:"latestCreatedRevisionName,omitempty" tf:"latest_created_revision_name,omitempty"`
 
-	// Name must be unique within a namespace, within a Cloud Run region.
-	// Is required when creating resources. Name is primarily intended
-	// for creation idempotence and configuration definition. Cannot be updated.
-	// More info: http://kubernetes.io/docs/user-guide/identifiers#names
+	// From ConfigurationStatus. LatestReadyRevisionName holds the name of the latest Revision
+	// stamped out from this Service's Configuration that has had its "Ready" condition become
+	// "True".
 	LatestReadyRevisionName *string `json:"latestReadyRevisionName,omitempty" tf:"latest_ready_revision_name,omitempty"`
 
 	// ObservedGeneration is the 'Generation' of the Route that was last processed by the
@@ -494,9 +493,9 @@ type ServiceStatusObservation struct {
 	// metadata.generation and the Ready condition's status is True or False.
 	ObservedGeneration *float64 `json:"observedGeneration,omitempty" tf:"observed_generation,omitempty"`
 
-	// URL displays the URL for accessing tagged traffic targets. URL is displayed in status,
-	// and is disallowed on spec. URL must contain a scheme (e.g. http://) and a hostname,
-	// but may not contain anything else (e.g. basic auth, url path, etc.)
+	// From RouteStatus. URL holds the url that will distribute traffic over the provided traffic
+	// targets. It generally has the form
+	// https://{route-hash}-{project-hash}-{cluster-level-suffix}.a.run.app
 	URL *string `json:"url,omitempty" tf:"url,omitempty"`
 }
 
@@ -511,6 +510,8 @@ type StatusConditionsObservation struct {
 	// One-word CamelCase reason for the condition's current status.
 	Reason *string `json:"reason,omitempty" tf:"reason,omitempty"`
 
+	// The current status of the Service.
+	// Structure is documented below.
 	Status *string `json:"status,omitempty" tf:"status,omitempty"`
 
 	// Type of domain mapping condition.
@@ -545,6 +546,10 @@ type TemplateMetadataObservation struct {
 
 type TemplateMetadataParameters struct {
 
+	// Annotations is a key value map stored with a resource that
+	// may be set by external tools to store and retrieve arbitrary metadata. More
+	// info: http://kubernetes.io/docs/user-guide/annotations
+	// Note: The Cloud Run API may add additional annotations that were not provided in your config.ignore_changes rule to the metadata.0.annotations field.
 	// +kubebuilder:validation:Optional
 	Annotations map[string]*string `json:"annotations,omitempty" tf:"annotations,omitempty"`
 
@@ -555,13 +560,12 @@ type TemplateMetadataParameters struct {
 	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
-	// Name must be unique within a namespace, within a Cloud Run region.
-	// Is required when creating resources. Name is primarily intended
-	// for creation idempotence and configuration definition. Cannot be updated.
-	// More info: http://kubernetes.io/docs/user-guide/identifiers#names
+	// Volume's name.
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// In Cloud Run the namespace must be equal to either the
+	// project ID or project number. It will default to the resource's project.
 	// +kubebuilder:validation:Optional
 	Namespace *string `json:"namespace,omitempty" tf:"namespace,omitempty"`
 }
@@ -698,7 +702,7 @@ type VolumeMountsParameters struct {
 	// +kubebuilder:validation:Required
 	MountPath *string `json:"mountPath" tf:"mount_path,omitempty"`
 
-	// This must match the Name of a Volume.
+	// Volume's name.
 	// +kubebuilder:validation:Required
 	Name *string `json:"name" tf:"name,omitempty"`
 }

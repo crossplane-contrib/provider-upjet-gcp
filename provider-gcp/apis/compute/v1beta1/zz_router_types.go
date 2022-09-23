@@ -30,7 +30,7 @@ type AdvertisedIPRangesObservation struct {
 
 type AdvertisedIPRangesParameters struct {
 
-	// User-specified description for the IP range.
+	// An optional description of this resource.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 

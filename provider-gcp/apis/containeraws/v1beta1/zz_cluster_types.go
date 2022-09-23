@@ -137,7 +137,7 @@ type ConfigEncryptionObservation struct {
 
 type ConfigEncryptionParameters struct {
 
-	// The ARN of the AWS KMS key used to encrypt cluster configuration.
+	// Optional. The Amazon Resource Name (ARN) of the Customer Managed Key (CMK) used to encrypt AWS EBS volumes. If not specified, the default Amazon managed key associated to the AWS region where this cluster runs will be used.
 	// +kubebuilder:validation:Required
 	KMSKeyArn *string `json:"kmsKeyArn" tf:"kms_key_arn,omitempty"`
 }
@@ -205,7 +205,7 @@ type DatabaseEncryptionObservation struct {
 
 type DatabaseEncryptionParameters struct {
 
-	// The ARN of the AWS KMS key used to encrypt cluster secrets.
+	// Optional. The Amazon Resource Name (ARN) of the Customer Managed Key (CMK) used to encrypt AWS EBS volumes. If not specified, the default Amazon managed key associated to the AWS region where this cluster runs will be used.
 	// +kubebuilder:validation:Required
 	KMSKeyArn *string `json:"kmsKeyArn" tf:"kms_key_arn,omitempty"`
 }

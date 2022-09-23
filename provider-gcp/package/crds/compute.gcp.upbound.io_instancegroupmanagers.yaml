@@ -745,6 +745,9 @@ spec:
                             type: object
                           type: array
                         versionTarget:
+                          description: A status of consistency of Instances' versions
+                            with their target version specified by version field on
+                            Instance Group Manager.
                           items:
                             properties:
                               isReached:

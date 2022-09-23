@@ -30,7 +30,7 @@ type IdPCertificatesObservation struct {
 
 type IdPCertificatesParameters struct {
 
-	// The IdP's x509 certificate.
+	// The x509 certificate
 	// +kubebuilder:validation:Optional
 	X509CertificateSecretRef *v1.SecretKeySelector `json:"x509CertificateSecretRef,omitempty" tf:"-"`
 }

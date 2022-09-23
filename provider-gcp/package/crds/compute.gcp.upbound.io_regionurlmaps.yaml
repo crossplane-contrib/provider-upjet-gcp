@@ -373,9 +373,8 @@ spec:
                                 description: If set to true, any accompanying query
                                   portion of the original URL is removed prior to
                                   redirecting the request. If set to false, the query
-                                  portion of the original URL is retained. This field
-                                  is required to ensure an empty block is not set.
-                                  The normal default value is false.
+                                  portion of the original URL is retained. The default
+                                  value is false.
                                 type: boolean
                             required:
                             - stripQuery
@@ -411,11 +410,11 @@ spec:
                                   type: string
                                 type: array
                               routeAction:
-                                description: In response to a matching path, the load
-                                  balancer performs advanced routing actions like
-                                  URL rewrites, header transformations, etc. prior
-                                  to forwarding the request to the selected backend.
-                                  If routeAction specifies any weightedBackendServices,
+                                description: In response to a matching matchRule,
+                                  the load balancer performs advanced routing actions
+                                  like URL rewrites, header transformations, etc.
+                                  prior to forwarding the request to the selected
+                                  backend. If  routeAction specifies any weightedBackendServices,
                                   service must not be set. Conversely if service is
                                   set, routeAction cannot contain any  weightedBackendServices.
                                   Only one of routeAction or urlRedirect must be set.
@@ -468,6 +467,10 @@ spec:
                                               type: string
                                             type: array
                                           disabled:
+                                            description: If true, specifies the CORS
+                                              policy is disabled. which indicates
+                                              that the CORS policy is in effect. Defaults
+                                              to false.
                                             type: boolean
                                           exposeHeaders:
                                             description: Specifies the content for
@@ -509,8 +512,18 @@ spec:
                                             items:
                                               properties:
                                                 httpStatus:
+                                                  description: The HTTP status code
+                                                    used to abort the request. The
+                                                    value must be between 200 and
+                                                    599 inclusive.
                                                   type: number
                                                 percentage:
+                                                  description: The percentage of traffic
+                                                    (connections/operations/requests)
+                                                    on which delay will be introduced
+                                                    as part of fault injection. The
+                                                    value must be between 0.0 and
+                                                    100.0 inclusive.
                                                   type: number
                                               required:
                                               - httpStatus
@@ -526,6 +539,9 @@ spec:
                                             items:
                                               properties:
                                                 fixedDelay:
+                                                  description: Specifies the value
+                                                    of the fixed delay interval. Structure
+                                                    is documented below.
                                                   items:
                                                     properties:
                                                       nanos:
@@ -550,6 +566,12 @@ spec:
                                                     type: object
                                                   type: array
                                                 percentage:
+                                                  description: The percentage of traffic
+                                                    (connections/operations/requests)
+                                                    on which delay will be introduced
+                                                    as part of fault injection. The
+                                                    value must be between 0.0 and
+                                                    100.0 inclusive.
                                                   type: number
                                               required:
                                               - fixedDelay
@@ -569,8 +591,11 @@ spec:
                                       items:
                                         properties:
                                           backendService:
-                                            description: The RegionBackendService
-                                              resource being mirrored to.
+                                            description: The default RegionBackendService
+                                              resource. Before forwarding the request
+                                              to backendService, the loadbalancer
+                                              applies any relevant headerActions specified
+                                              as part of this backendServiceWeight.
                                             type: string
                                           backendServiceRef:
                                             description: Reference to a RegionBackendService
@@ -670,6 +695,8 @@ spec:
                                       items:
                                         properties:
                                           numRetries:
+                                            description: Specifies the allowed number
+                                              retries. This number must be > 0.
                                             type: number
                                           perTryTimeout:
                                             description: Specifies a non-zero timeout
@@ -976,16 +1003,8 @@ spec:
                                   type: object
                                 type: array
                               service:
-                                description: The region backend service resource to
-                                  which traffic is directed if this rule is matched.
-                                  If routeAction is additionally specified, advanced
-                                  routing actions like URL Rewrites, etc. take effect
-                                  prior to sending the request to the backend. However,
-                                  if service is specified, routeAction cannot contain
-                                  any weightedBackendService s. Conversely, if routeAction
-                                  specifies any weightedBackendServices, service must
-                                  not be specified. Only one of urlRedirect, service
-                                  or routeAction.weightedBackendService must be set.
+                                description: A reference to expected RegionBackendService
+                                  resource the given URL should be mapped to.
                                 type: string
                               serviceRef:
                                 description: Reference to a RegionBackendService in
@@ -1068,7 +1087,7 @@ spec:
                                     type: object
                                 type: object
                               urlRedirect:
-                                description: When a path pattern is matched, the request
+                                description: When this rule is matched, the request
                                   is redirected to a URL specified by urlRedirect.
                                   If urlRedirect is specified, service or routeAction
                                   must not be set. Structure is documented below.
@@ -1120,9 +1139,7 @@ spec:
                                         query portion of the original URL is removed
                                         prior to redirecting the request. If set to
                                         false, the query portion of the original URL
-                                        is retained. This field is required to ensure
-                                        an empty block is not set. The normal default
-                                        value is false.
+                                        is retained. The default value is false.
                                       type: boolean
                                   required:
                                   - stripQuery
@@ -1146,10 +1163,10 @@ spec:
                               headerAction:
                                 description: Specifies changes to request and response
                                   headers that need to take effect for the selected
-                                  backendService. The headerAction specified here
-                                  are applied before the matching pathMatchers[].headerAction
-                                  and after pathMatchers[].routeRules[].r outeAction.weightedBackendService.backendServiceWeightAction[].headerAction
-                                  Structure is documented below.
+                                  backendService. headerAction specified here take
+                                  effect before headerAction in the enclosing HttpRouteRule,
+                                  PathMatcher and UrlMap. Structure is documented
+                                  below.
                                 items:
                                   properties:
                                     requestHeadersToAdd:
@@ -1244,19 +1261,14 @@ spec:
                                       items:
                                         properties:
                                           exactMatch:
-                                            description: The value should exactly
-                                              match contents of exactMatch. Only one
-                                              of exactMatch, prefixMatch, suffixMatch,
-                                              regexMatch, presentMatch or rangeMatch
-                                              must be set.
+                                            description: The queryParameterMatch matches
+                                              if the value of the parameter exactly
+                                              matches the contents of exactMatch.
+                                              Only one of presentMatch, exactMatch
+                                              and regexMatch must be set.
                                             type: string
                                           headerName:
-                                            description: The name of the HTTP header
-                                              to match. For matching against the HTTP
-                                              request's authority, use a headerMatch
-                                              with the header name ":authority". For
-                                              matching a request's method, use the
-                                              headerName ":method".
+                                            description: The name of the header.
                                             type: string
                                           invertMatch:
                                             description: If set to false, the headerMatch
@@ -1266,20 +1278,21 @@ spec:
                                               above are NOT met. Defaults to false.
                                             type: boolean
                                           prefixMatch:
-                                            description: The value of the header must
-                                              start with the contents of prefixMatch.
-                                              Only one of exactMatch, prefixMatch,
-                                              suffixMatch, regexMatch, presentMatch
-                                              or rangeMatch must be set.
+                                            description: For satisfying the matchRule
+                                              condition, the request's path must begin
+                                              with the specified prefixMatch. prefixMatch
+                                              must begin with a /. The value must
+                                              be between 1 and 1024 characters. Only
+                                              one of prefixMatch, fullPathMatch or
+                                              regexMatch must be specified.
                                             type: string
                                           presentMatch:
-                                            description: A header with the contents
-                                              of headerName must exist. The match
-                                              takes place whether or not the request's
-                                              header has a value or not. Only one
-                                              of exactMatch, prefixMatch, suffixMatch,
-                                              regexMatch, presentMatch or rangeMatch
-                                              must be set.
+                                            description: Specifies that the queryParameterMatch
+                                              matches if the request contains the
+                                              query parameter, irrespective of whether
+                                              the parameter has a value or not. Only
+                                              one of presentMatch, exactMatch and
+                                              regexMatch must be set.
                                             type: boolean
                                           rangeMatch:
                                             description: The header value must be
@@ -1304,18 +1317,13 @@ spec:
                                               type: object
                                             type: array
                                           regexMatch:
-                                            description: 'The value of the header
-                                              must match the regular expression specified
-                                              in regexMatch. For regular expression
-                                              grammar, please see: en.cppreference.com/w/cpp/regex/ecmascript  For
-                                              matching against a port specified in
-                                              the HTTP request, use a headerMatch
-                                              with headerName set to PORT and a regular
-                                              expression that satisfies the RFC2616
-                                              Host header''s port specifier. Only
-                                              one of exactMatch, prefixMatch, suffixMatch,
-                                              regexMatch, presentMatch or rangeMatch
-                                              must be set.'
+                                            description: The queryParameterMatch matches
+                                              if the value of the parameter matches
+                                              the regular expression specified by
+                                              regexMatch. For the regular expression
+                                              grammar, please see en.cppreference.com/w/cpp/regex/ecmascript  Only
+                                              one of presentMatch, exactMatch and
+                                              regexMatch must be set.
                                             type: string
                                           suffixMatch:
                                             description: The value of the header must
@@ -1365,10 +1373,11 @@ spec:
                                             items:
                                               properties:
                                                 name:
-                                                  description: Name of metadata label.
-                                                    The name can have a maximum length
-                                                    of 1024 characters and must be
-                                                    at least 1 character long.
+                                                  description: The name of the query
+                                                    parameter to match. The query
+                                                    parameter must exist in the request,
+                                                    in the absence of which the request
+                                                    match fails.
                                                   type: string
                                                 value:
                                                   description: The value of the label
@@ -1443,14 +1452,13 @@ spec:
                                         type: object
                                       type: array
                                     regexMatch:
-                                      description: For satisfying the matchRule condition,
-                                        the path of the request must satisfy the regular
-                                        expression specified in regexMatch after removing
-                                        any query parameters and anchor supplied with
-                                        the original URL. For regular expression grammar
-                                        please see en.cppreference.com/w/cpp/regex/ecmascript  Only
-                                        one of prefixMatch, fullPathMatch or regexMatch
-                                        must be specified.
+                                      description: The queryParameterMatch matches
+                                        if the value of the parameter matches the
+                                        regular expression specified by regexMatch.
+                                        For the regular expression grammar, please
+                                        see en.cppreference.com/w/cpp/regex/ecmascript  Only
+                                        one of presentMatch, exactMatch and regexMatch
+                                        must be set.
                                       type: string
                                   type: object
                                 type: array
@@ -1531,6 +1539,10 @@ spec:
                                               type: string
                                             type: array
                                           disabled:
+                                            description: If true, specifies the CORS
+                                              policy is disabled. which indicates
+                                              that the CORS policy is in effect. Defaults
+                                              to false.
                                             type: boolean
                                           exposeHeaders:
                                             description: Specifies the content for
@@ -1570,8 +1582,18 @@ spec:
                                             items:
                                               properties:
                                                 httpStatus:
+                                                  description: The HTTP status code
+                                                    used to abort the request. The
+                                                    value must be between 200 and
+                                                    599 inclusive.
                                                   type: number
                                                 percentage:
+                                                  description: The percentage of traffic
+                                                    (connections/operations/requests)
+                                                    on which delay will be introduced
+                                                    as part of fault injection. The
+                                                    value must be between 0.0 and
+                                                    100.0 inclusive.
                                                   type: number
                                               type: object
                                             type: array
@@ -1584,6 +1606,9 @@ spec:
                                             items:
                                               properties:
                                                 fixedDelay:
+                                                  description: Specifies the value
+                                                    of the fixed delay interval. Structure
+                                                    is documented below.
                                                   items:
                                                     properties:
                                                       nanos:
@@ -1608,6 +1633,12 @@ spec:
                                                     type: object
                                                   type: array
                                                 percentage:
+                                                  description: The percentage of traffic
+                                                    (connections/operations/requests)
+                                                    on which delay will be introduced
+                                                    as part of fault injection. The
+                                                    value must be between 0.0 and
+                                                    100.0 inclusive.
                                                   type: number
                                               type: object
                                             type: array
@@ -1624,8 +1655,11 @@ spec:
                                       items:
                                         properties:
                                           backendService:
-                                            description: The RegionBackendService
-                                              resource being mirrored to.
+                                            description: The default RegionBackendService
+                                              resource. Before forwarding the request
+                                              to backendService, the loadbalancer
+                                              applies any relevant headerActions specified
+                                              as part of this backendServiceWeight.
                                             type: string
                                         required:
                                         - backendService
@@ -1637,6 +1671,8 @@ spec:
                                       items:
                                         properties:
                                           numRetries:
+                                            description: Specifies the allowed number
+                                              retries. This number must be > 0.
                                             type: number
                                           perTryTimeout:
                                             description: Specifies a non-zero timeout
@@ -1856,16 +1892,8 @@ spec:
                                   type: object
                                 type: array
                               service:
-                                description: The region backend service resource to
-                                  which traffic is directed if this rule is matched.
-                                  If routeAction is additionally specified, advanced
-                                  routing actions like URL Rewrites, etc. take effect
-                                  prior to sending the request to the backend. However,
-                                  if service is specified, routeAction cannot contain
-                                  any weightedBackendService s. Conversely, if routeAction
-                                  specifies any weightedBackendServices, service must
-                                  not be specified. Only one of urlRedirect, service
-                                  or routeAction.weightedBackendService must be set.
+                                description: A reference to expected RegionBackendService
+                                  resource the given URL should be mapped to.
                                 type: string
                               serviceRef:
                                 description: Reference to a RegionBackendService in
@@ -2000,9 +2028,7 @@ spec:
                                         query portion of the original URL is removed
                                         prior to redirecting the request. If set to
                                         false, the query portion of the original URL
-                                        is retained. This field is required to ensure
-                                        an empty block is not set. The normal default
-                                        value is false.
+                                        is retained. The default value is false.
                                       type: boolean
                                   type: object
                                 type: array

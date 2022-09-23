@@ -195,6 +195,7 @@ spec:
                       type: object
                     type: array
                   detectMd5Hash:
+                    description: (Computed) Base 64 MD5 hash of the uploaded data.
                     type: string
                   eventBasedHold:
                     type: boolean
@@ -414,8 +415,10 @@ spec:
                     description: (Computed) A url reference to download this object.
                     type: string
                   outputName:
-                    description: The name of the object. If you're interpolating the
-                      name of this object, see output_name instead.
+                    description: (Computed) The name of the object. Use this field
+                      in interpolations with google_storage_object_acl to recreate
+                      google_storage_object_acl resources when your google_storage_bucket_object
+                      is recreated.
                     type: string
                   selfLink:
                     description: (Computed) A url reference to this object.

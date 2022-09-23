@@ -26,6 +26,8 @@ import (
 )
 
 type ExternalVPNGatewayObservation struct {
+
+	// an identifier for the resource with format projects/{{project}}/global/externalVpnGateways/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// The URI of the created resource.
@@ -59,6 +61,8 @@ type InterfaceObservation struct {
 
 type InterfaceParameters struct {
 
+	// The numeric ID for this interface. Allowed values are based on the redundancy type
+	// of this external VPN gateway
 	// +kubebuilder:validation:Optional
 	ID *float64 `json:"id,omitempty" tf:"id,omitempty"`
 
