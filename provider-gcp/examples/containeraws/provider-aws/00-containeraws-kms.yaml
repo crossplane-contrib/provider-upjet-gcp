@@ -7,48 +7,50 @@ spec:
   forProvider:
     policy: |
       {
-          "Sid": "Enable IAM User Permissions",
-          "Effect": "Allow",
-          "Principal": {
-              "AWS": "arn:aws:iam::012345678910:root"
-          },
-          "Action": "kms:*",
-          "Resource": "*"
-      },
-      {
-        "Effect": "Allow",
-        "Principal": {
-            "AWS": [
-                "arn:aws:iam::012345678910:role/aws-service-role/autoscaling.amazonaws.com/AWSServiceRoleForAutoScaling"
-            ]
-        },
-        "Action": [
-            "kms:Encrypt",
-            "kms:Decrypt",
-            "kms:ReEncrypt*",
-            "kms:GenerateDataKey*",
-            "kms:DescribeKey"
-        ],
-        "Resource": "*"
-      },
-      {
-        "Effect": "Allow",
-        "Principal": {
-            "AWS": [
-                "arn:aws:iam::012345678910:role/aws-service-role/autoscaling.amazonaws.com/AWSServiceRoleForAutoScaling"
-            ]
-        },        "Action": [
-            "kms:CreateGrant"
-        ],
-        "Resource": "*",
-        "Condition": {
-            "Bool": {
-                "kms:GrantIsForAWSResource": true
-            }
-          }
+          "Version": "2012-10-17",
+          "Id": "key-default-1",
+          "Statement": [
+              {
+                  "Sid": "Enable IAM User Permissions",
+                  "Effect": "Allow",
+                  "Principal": {
+                      "AWS": "arn:aws:iam::012345678910:root"
+                  },
+                  "Action": "kms:*",
+                  "Resource": "*"
+              },
+              {
+                  "Sid": "Allow service-linked role use of the customer managed key",
+                  "Effect": "Allow",
+                  "Principal": {
+                      "AWS": "arn:aws:iam::012345678910:role/aws-service-role/autoscaling.amazonaws.com/AWSServiceRoleForAutoScaling"
+                  },
+                  "Action": [
+                      "kms:Encrypt",
+                      "kms:Decrypt",
+                      "kms:ReEncrypt*",
+                      "kms:GenerateDataKey*",
+                      "kms:DescribeKey"
+                  ],
+                  "Resource": "*"
+              },
+              {
+                  "Sid": "Allow attachment of persistent resources",
+                  "Effect": "Allow",
+                  "Principal": {
+                      "AWS": "arn:aws:iam::012345678910:role/aws-service-role/autoscaling.amazonaws.com/AWSServiceRoleForAutoScaling"
+                  },
+                  "Action": "kms:CreateGrant",
+                  "Resource": "*",
+                  "Condition": {
+                      "Bool": {
+                          "kms:GrantIsForAWSResource": "true"
+                      }
+                  }
+              }
+          ]
       }
-
-    region: us-west-2
+    region: my-aws-region
     description: Key For Testing containeraws.gcp.upbound.io resources
 ---
 apiVersion: kms.aws.upbound.io/v1beta1
@@ -59,47 +61,6 @@ metadata:
     crossplane.io/external-name: alias/containeraws-gcp-upbound
 spec:
   forProvider:
-    region: us-west-2
+    region: my-aws-region
     targetKeyIdRef:
       name: containeraws-gcp-upbound
----
-apiVersion: iam.aws.upbound.io/v1beta1
-kind: Policy
-metadata:
-  name: containeraws-gcp-upbound-autoscaling-policy
-spec:
-  forProvider:
-    policy: |
-      {
-        "Effect": "Allow",
-        "Action": [
-            "kms:Encrypt",
-            "kms:Decrypt",
-            "kms:ReEncrypt*",
-            "kms:GenerateDataKey*",
-            "kms:DescribeKey"
-        ],
-        "Resource": "*"
-      },
-      {
-        "Effect": "Allow",
-        "Action": [
-            "kms:CreateGrant"
-        ],
-        "Resource": "*",
-        "Condition": {
-            "Bool": {
-                "kms:GrantIsForAWSResource": true
-            }
-          }
-      }
----
-apiVersion: iam.aws.upbound.io/v1beta1
-kind: RolePolicyAttachment
-metadata:
-  name: containeraws-gcp-upbound-autoscaling-policy
-spec:
-  forProvider:
-    policyArn: "arn:aws:iam::012345678910:role/aws-service-role/autoscaling.amazonaws.com/AWSServiceRoleForAutoScaling"
-    roleRef:
-      name: containeraws-gcp-upbound-autoscaling-role

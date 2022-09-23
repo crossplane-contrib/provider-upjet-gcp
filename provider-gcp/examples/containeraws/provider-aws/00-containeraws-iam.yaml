@@ -269,7 +269,7 @@ spec:
           {
             "Effect": "Allow",
             "Action": ["kms:Decrypt"],
-            "Resource": "arn:aws:kms:us-west-2:012345678910:alias/containeraws-gcp-upbound"
+            "Resource": "arn:aws:kms:my-aws-region:012345678910:alias/containeraws-gcp-upbound"
           }
         ]
       }
