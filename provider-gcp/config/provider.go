@@ -22,6 +22,9 @@ import (
 	"github.com/upbound/official-providers/provider-gcp/config/dataflow"
 	"github.com/upbound/official-providers/provider-gcp/config/dataproc"
 	"github.com/upbound/official-providers/provider-gcp/config/dns"
+	"github.com/upbound/official-providers/provider-gcp/config/endpoints"
+	"github.com/upbound/official-providers/provider-gcp/config/firebaserules"
+	"github.com/upbound/official-providers/provider-gcp/config/gameservices"
 	"github.com/upbound/official-providers/provider-gcp/config/iap"
 	"github.com/upbound/official-providers/provider-gcp/config/identityplatform"
 	"github.com/upbound/official-providers/provider-gcp/config/kms"
@@ -101,6 +104,10 @@ var skipList = []string{
 	"google_spanner_database_iam_binding",
 	"google_compute_subnetwork_iam_policy",
 	"google_compute_subnetwork_iam_binding",
+	"google_endpoints_service_iam_policy",
+	"google_endpoints_service_iam_binding",
+	"google_endpoints_service_consumers_iam_policy",
+	"google_endpoints_service_consumers_iam_binding",
 }
 
 // GetProvider returns provider configuration
@@ -135,6 +142,9 @@ func GetProvider() *tjconfig.Provider {
 		dataflow.Configure,
 		dataproc.Configure,
 		dns.Configure,
+		endpoints.Configure,
+		firebaserules.Configure,
+		gameservices.Configure,
 		iap.Configure,
 		identityplatform.Configure,
 		kms.Configure,
