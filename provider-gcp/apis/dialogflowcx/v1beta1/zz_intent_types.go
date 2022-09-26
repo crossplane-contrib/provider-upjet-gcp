@@ -27,7 +27,7 @@ import (
 
 type IntentObservation struct {
 
-	// The unique identifier of the training phrase.
+	// an identifier for the resource with format {{parent}}/intents/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// The unique identifier of the intent.
@@ -109,7 +109,7 @@ type ParametersParameters struct {
 	// +kubebuilder:validation:Required
 	EntityType *string `json:"entityType" tf:"entity_type,omitempty"`
 
-	// The unique identifier of the training phrase.
+	// The unique identifier of the parameter. This field is used by training phrases to annotate their parts.
 	// +kubebuilder:validation:Required
 	ID *string `json:"id" tf:"id,omitempty"`
 

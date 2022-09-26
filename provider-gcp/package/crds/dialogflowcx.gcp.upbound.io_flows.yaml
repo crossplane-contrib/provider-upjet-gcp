@@ -109,8 +109,7 @@ spec:
                                 items:
                                   properties:
                                     text:
-                                      description: The text response message. Structure
-                                        is documented below.
+                                      description: A collection of text responses.
                                       items:
                                         properties:
                                           text:
@@ -312,8 +311,7 @@ spec:
                                 items:
                                   properties:
                                     text:
-                                      description: The text response message. Structure
-                                        is documented below.
+                                      description: A collection of text responses.
                                       items:
                                         properties:
                                           text:
@@ -558,8 +556,7 @@ spec:
                                 items:
                                   properties:
                                     text:
-                                      description: The text response message. Structure
-                                        is documented below.
+                                      description: A collection of text responses.
                                       items:
                                         properties:
                                           allowPlaybackInterruption:
@@ -580,7 +577,7 @@ spec:
                     description: an identifier for the resource with format {{parent}}/flows/{{name}}
                     type: string
                   name:
-                    description: The unique identifier of this transition route.
+                    description: 'The unique identifier of the flow. Format: projects//locations//agents//flows/.'
                     type: string
                   transitionRoutes:
                     description: 'A flow''s transition routes serve two purposes:
@@ -609,8 +606,7 @@ spec:
                                 items:
                                   properties:
                                     text:
-                                      description: The text response message. Structure
-                                        is documented below.
+                                      description: A collection of text responses.
                                       items:
                                         properties:
                                           allowPlaybackInterruption:

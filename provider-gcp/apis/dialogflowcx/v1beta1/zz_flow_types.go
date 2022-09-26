@@ -71,7 +71,8 @@ type FlowObservation struct {
 	// an identifier for the resource with format {{parent}}/flows/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// The unique identifier of this transition route.
+	// The unique identifier of the flow.
+	// Format: projects//locations//agents//flows/.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// A flow's transition routes serve two purposes:
@@ -144,16 +145,14 @@ type FlowParameters struct {
 
 type MessagesObservation struct {
 
-	// The text response message.
-	// Structure is documented below.
+	// A collection of text responses.
 	// +kubebuilder:validation:Optional
 	Text []TextObservation `json:"text,omitempty" tf:"text,omitempty"`
 }
 
 type MessagesParameters struct {
 
-	// The text response message.
-	// Structure is documented below.
+	// A collection of text responses.
 	// +kubebuilder:validation:Optional
 	Text []TextParameters `json:"text,omitempty" tf:"text,omitempty"`
 }
@@ -272,16 +271,14 @@ type TransitionRoutesTriggerFulfillmentParameters struct {
 
 type TriggerFulfillmentMessagesObservation struct {
 
-	// The text response message.
-	// Structure is documented below.
+	// A collection of text responses.
 	// +kubebuilder:validation:Optional
 	Text []MessagesTextObservation `json:"text,omitempty" tf:"text,omitempty"`
 }
 
 type TriggerFulfillmentMessagesParameters struct {
 
-	// The text response message.
-	// Structure is documented below.
+	// A collection of text responses.
 	// +kubebuilder:validation:Optional
 	Text []MessagesTextParameters `json:"text,omitempty" tf:"text,omitempty"`
 }

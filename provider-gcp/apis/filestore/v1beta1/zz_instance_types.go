@@ -76,7 +76,7 @@ type InstanceParameters struct {
 	// +kubebuilder:validation:Required
 	FileShares []FileSharesParameters `json:"fileShares" tf:"file_shares,omitempty"`
 
-	// The resource name of the instance.
+	// KMS key name used for data encryption.
 	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/kms/v1beta1.CryptoKey
 	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional

@@ -30,7 +30,7 @@ type CloudRunServiceObservation struct {
 
 type CloudRunServiceParameters struct {
 
-	// Optional. The relative path on the Cloud Run service the events should be sent to. The value must conform to the definition of URI path segment (section 3.3 of RFC2396). Examples: "/route", "route", "route/subroute".
+	// Optional. The relative path on the GKE service the events should be sent to. The value must conform to the definition of a URI path segment (section 3.3 of RFC2396). Examples: "/route", "route", "route/subroute".
 	// +kubebuilder:validation:Optional
 	Path *string `json:"path,omitempty" tf:"path,omitempty"`
 
@@ -38,7 +38,7 @@ type CloudRunServiceParameters struct {
 	// +kubebuilder:validation:Optional
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
-	// Required. The name of the Cloud Run service being addressed. See https://cloud.google.com/run/docs/reference/rest/v1/namespaces.services. Only services located in the same project of the trigger object can be addressed.
+	// Required. Name of the GKE service.
 	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/cloudrun/v1beta1.Service
 	// +kubebuilder:validation:Optional
 	Service *string `json:"service,omitempty" tf:"service,omitempty"`
@@ -83,7 +83,7 @@ type GkeParameters struct {
 	// +kubebuilder:validation:Required
 	Cluster *string `json:"cluster" tf:"cluster,omitempty"`
 
-	// Required. The name of the Google Compute Engine in which the cluster resides, which can either be compute zone (for example, us-central1-a) for the zonal clusters or region (for example, us-central1) for regional clusters.
+	// The location for the resource
 	// +kubebuilder:validation:Required
 	Location *string `json:"location" tf:"location,omitempty"`
 

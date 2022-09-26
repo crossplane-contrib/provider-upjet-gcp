@@ -27,16 +27,14 @@ import (
 
 type EntryFulfillmentMessagesObservation struct {
 
-	// The text response message.
-	// Structure is documented below.
+	// A collection of text responses.
 	// +kubebuilder:validation:Optional
 	Text []EntryFulfillmentMessagesTextObservation `json:"text,omitempty" tf:"text,omitempty"`
 }
 
 type EntryFulfillmentMessagesParameters struct {
 
-	// The text response message.
-	// Structure is documented below.
+	// A collection of text responses.
 	// +kubebuilder:validation:Optional
 	Text []EntryFulfillmentMessagesTextParameters `json:"text,omitempty" tf:"text,omitempty"`
 }
@@ -84,16 +82,14 @@ type EntryFulfillmentParameters struct {
 
 type EventHandlersTriggerFulfillmentMessagesObservation struct {
 
-	// The text response message.
-	// Structure is documented below.
+	// A collection of text responses.
 	// +kubebuilder:validation:Optional
 	Text []TriggerFulfillmentMessagesTextObservation `json:"text,omitempty" tf:"text,omitempty"`
 }
 
 type EventHandlersTriggerFulfillmentMessagesParameters struct {
 
-	// The text response message.
-	// Structure is documented below.
+	// A collection of text responses.
 	// +kubebuilder:validation:Optional
 	Text []TriggerFulfillmentMessagesTextParameters `json:"text,omitempty" tf:"text,omitempty"`
 }
@@ -199,16 +195,14 @@ type FormParametersParameters struct {
 
 type InitialPromptFulfillmentMessagesObservation struct {
 
-	// The text response message.
-	// Structure is documented below.
+	// A collection of text responses.
 	// +kubebuilder:validation:Optional
 	Text []InitialPromptFulfillmentMessagesTextObservation `json:"text,omitempty" tf:"text,omitempty"`
 }
 
 type InitialPromptFulfillmentMessagesParameters struct {
 
-	// The text response message.
-	// Structure is documented below.
+	// A collection of text responses.
 	// +kubebuilder:validation:Optional
 	Text []InitialPromptFulfillmentMessagesTextParameters `json:"text,omitempty" tf:"text,omitempty"`
 }
@@ -307,7 +301,8 @@ type PageObservation struct {
 	// an identifier for the resource with format {{parent}}/pages/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// The unique identifier of this transition route.
+	// The unique identifier of the page.
+	// Format: projects//locations//agents//flows//pages/.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// A list of transitions for the transition rules of this page. They route the conversation to another page in the same flow, or another flow.
@@ -473,16 +468,14 @@ type PageTransitionRoutesTriggerFulfillmentParameters struct {
 
 type TransitionRoutesTriggerFulfillmentMessagesObservation struct {
 
-	// The text response message.
-	// Structure is documented below.
+	// A collection of text responses.
 	// +kubebuilder:validation:Optional
 	Text []TransitionRoutesTriggerFulfillmentMessagesTextObservation `json:"text,omitempty" tf:"text,omitempty"`
 }
 
 type TransitionRoutesTriggerFulfillmentMessagesParameters struct {
 
-	// The text response message.
-	// Structure is documented below.
+	// A collection of text responses.
 	// +kubebuilder:validation:Optional
 	Text []TransitionRoutesTriggerFulfillmentMessagesTextParameters `json:"text,omitempty" tf:"text,omitempty"`
 }

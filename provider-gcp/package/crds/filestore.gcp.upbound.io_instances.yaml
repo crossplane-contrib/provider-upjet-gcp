@@ -134,7 +134,7 @@ spec:
                       type: object
                     type: array
                   kmsKeyName:
-                    description: The resource name of the instance.
+                    description: KMS key name used for data encryption.
                     type: string
                   kmsKeyNameRef:
                     description: Reference to a CryptoKey in kms to populate kmsKeyName.

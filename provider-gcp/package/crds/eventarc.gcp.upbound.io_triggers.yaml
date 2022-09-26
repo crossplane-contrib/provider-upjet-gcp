@@ -81,9 +81,9 @@ spec:
                           items:
                             properties:
                               path:
-                                description: 'Optional. The relative path on the Cloud
-                                  Run service the events should be sent to. The value
-                                  must conform to the definition of URI path segment
+                                description: 'Optional. The relative path on the GKE
+                                  service the events should be sent to. The value
+                                  must conform to the definition of a URI path segment
                                   (section 3.3 of RFC2396). Examples: "/route", "route",
                                   "route/subroute".'
                                 type: string
@@ -92,10 +92,7 @@ spec:
                                   is deployed in.
                                 type: string
                               service:
-                                description: Required. The name of the Cloud Run service
-                                  being addressed. See https://cloud.google.com/run/docs/reference/rest/v1/namespaces.services.
-                                  Only services located in the same project of the
-                                  trigger object can be addressed.
+                                description: Required. Name of the GKE service.
                                 type: string
                               serviceRef:
                                 description: Reference to a Service in cloudrun to
@@ -191,11 +188,7 @@ spec:
                                   in the same project as the trigger being created.
                                 type: string
                               location:
-                                description: Required. The name of the Google Compute
-                                  Engine in which the cluster resides, which can either
-                                  be compute zone (for example, us-central1-a) for
-                                  the zonal clusters or region (for example, us-central1)
-                                  for regional clusters.
+                                description: The location for the resource
                                 type: string
                               namespace:
                                 description: Required. The namespace the GKE service

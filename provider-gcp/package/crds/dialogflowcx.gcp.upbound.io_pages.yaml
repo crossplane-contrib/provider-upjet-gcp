@@ -79,8 +79,7 @@ spec:
                           items:
                             properties:
                               text:
-                                description: The text response message. Structure
-                                  is documented below.
+                                description: A collection of text responses.
                                 items:
                                   properties:
                                     text:
@@ -144,8 +143,7 @@ spec:
                                 items:
                                   properties:
                                     text:
-                                      description: The text response message. Structure
-                                        is documented below.
+                                      description: A collection of text responses.
                                       items:
                                         properties:
                                           text:
@@ -221,8 +219,8 @@ spec:
                                             items:
                                               properties:
                                                 text:
-                                                  description: The text response message.
-                                                    Structure is documented below.
+                                                  description: A collection of text
+                                                    responses.
                                                   items:
                                                     properties:
                                                       text:
@@ -517,8 +515,7 @@ spec:
                                 items:
                                   properties:
                                     text:
-                                      description: The text response message. Structure
-                                        is documented below.
+                                      description: A collection of text responses.
                                       items:
                                         properties:
                                           text:
@@ -744,8 +741,7 @@ spec:
                           items:
                             properties:
                               text:
-                                description: The text response message. Structure
-                                  is documented below.
+                                description: A collection of text responses.
                                 items:
                                   properties:
                                     allowPlaybackInterruption:
@@ -783,8 +779,7 @@ spec:
                                 items:
                                   properties:
                                     text:
-                                      description: The text response message. Structure
-                                        is documented below.
+                                      description: A collection of text responses.
                                       items:
                                         properties:
                                           allowPlaybackInterruption:
@@ -830,8 +825,8 @@ spec:
                                             items:
                                               properties:
                                                 text:
-                                                  description: The text response message.
-                                                    Structure is documented below.
+                                                  description: A collection of text
+                                                    responses.
                                                   items:
                                                     properties:
                                                       allowPlaybackInterruption:
@@ -858,7 +853,7 @@ spec:
                     description: an identifier for the resource with format {{parent}}/pages/{{name}}
                     type: string
                   name:
-                    description: The unique identifier of this transition route.
+                    description: 'The unique identifier of the page. Format: projects//locations//agents//flows//pages/.'
                     type: string
                   transitionRoutes:
                     description: 'A list of transitions for the transition rules of
@@ -891,8 +886,7 @@ spec:
                                 items:
                                   properties:
                                     text:
-                                      description: The text response message. Structure
-                                        is documented below.
+                                      description: A collection of text responses.
                                       items:
                                         properties:
                                           allowPlaybackInterruption:

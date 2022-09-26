@@ -116,7 +116,8 @@ spec:
                             entity types.'
                           type: string
                         id:
-                          description: The unique identifier of the training phrase.
+                          description: The unique identifier of the parameter. This
+                            field is used by training phrases to annotate their parts.
                           type: string
                         isList:
                           description: Indicates whether the parameter represents
@@ -444,7 +445,7 @@ spec:
               atProvider:
                 properties:
                   id:
-                    description: The unique identifier of the training phrase.
+                    description: an identifier for the resource with format {{parent}}/intents/{{name}}
                     type: string
                   name:
                     description: 'The unique identifier of the intent. Format: projects//locations//agents//intents/.'
