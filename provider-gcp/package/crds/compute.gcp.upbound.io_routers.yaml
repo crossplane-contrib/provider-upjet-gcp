@@ -94,8 +94,7 @@ spec:
                           items:
                             properties:
                               description:
-                                description: User-specified description for the IP
-                                  range.
+                                description: An optional description of this resource.
                                 type: string
                               range:
                                 description: The IP range to advertise. The value

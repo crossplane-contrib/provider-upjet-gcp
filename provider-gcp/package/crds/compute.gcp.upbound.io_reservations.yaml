@@ -83,6 +83,8 @@ spec:
                           items:
                             properties:
                               id:
+                                description: The identifier for this object. Format
+                                  specified above.
                                 type: string
                               projectId:
                                 description: The project id/number, should be same
@@ -366,6 +368,7 @@ spec:
                     description: Creation timestamp in RFC3339 text format.
                     type: string
                   id:
+                    description: an identifier for the resource with format projects/{{project}}/zones/{{zone}}/reservations/{{name}}
                     type: string
                   selfLink:
                     description: The URI of the created resource.

@@ -72,7 +72,7 @@ type InstancesObservation struct {
 
 type InstancesParameters struct {
 
-	// The URL of the instances where this rule should be active.
+	// The URL of the subnetwork where this rule should be active.
 	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.Instance
 	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional

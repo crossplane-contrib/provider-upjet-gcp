@@ -30,7 +30,7 @@ type ActionObservation struct {
 
 type ActionParameters struct {
 
-	// The target Storage Class of objects affected by this Lifecycle Rule. Supported values include: STANDARD, MULTI_REGIONAL, REGIONAL, NEARLINE, COLDLINE, ARCHIVE.
+	// The Storage Class of the new bucket. Supported values include: STANDARD, MULTI_REGIONAL, REGIONAL, NEARLINE, COLDLINE, ARCHIVE.
 	// +kubebuilder:validation:Optional
 	StorageClass *string `json:"storageClass,omitempty" tf:"storage_class,omitempty"`
 

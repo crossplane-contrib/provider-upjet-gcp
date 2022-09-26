@@ -44,9 +44,7 @@ type BigqueryDateShardedSpecParameters struct {
 
 type BigqueryTableSpecObservation struct {
 
-	// The type of the entry. Only used for Entries with types in the EntryType enum.
-	// Currently, only FILESET enum value is allowed. All other entries created through Data Catalog must use userSpecifiedType.
-	// Possible values are FILESET.
+	// The table source type.
 	TableSourceType *string `json:"tableSourceType,omitempty" tf:"table_source_type,omitempty"`
 
 	// Spec of a BigQuery table. This field should only be populated if tableSourceType is BIGQUERY_TABLE.

@@ -30,9 +30,7 @@ type ConfigObservation struct {
 
 type ConfigParameters struct {
 
-	// Set of IP addresses or ranges (IPV4 or IPV6) in CIDR notation
-	// to match against inbound traffic. There is a limit of 10 IP ranges per rule. A value of '*' matches all IPs
-	// (can be used to override the default behavior).
+	// field in config.
 	// +kubebuilder:validation:Required
 	SrcIPRanges []*string `json:"srcIpRanges" tf:"src_ip_ranges,omitempty"`
 }

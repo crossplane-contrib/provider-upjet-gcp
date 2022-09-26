@@ -91,7 +91,7 @@ type IdentityConstraintsCelExpressionObservation struct {
 
 type IdentityConstraintsCelExpressionParameters struct {
 
-	// Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI.
+	// Optional. A human-readable description of scenarios this template is intended for.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -99,7 +99,7 @@ type IdentityConstraintsCelExpressionParameters struct {
 	// +kubebuilder:validation:Optional
 	Expression *string `json:"expression,omitempty" tf:"expression,omitempty"`
 
-	// Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file.
+	// The location for the resource
 	// +kubebuilder:validation:Optional
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 

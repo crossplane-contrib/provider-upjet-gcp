@@ -96,6 +96,7 @@ type RouteParameters struct {
 	// +kubebuilder:validation:Optional
 	NextHopInstance *string `json:"nextHopInstance,omitempty" tf:"next_hop_instance,omitempty"`
 
+	// .
 	// +kubebuilder:validation:Optional
 	NextHopInstanceZone *string `json:"nextHopInstanceZone,omitempty" tf:"next_hop_instance_zone,omitempty"`
 

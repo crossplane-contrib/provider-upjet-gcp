@@ -493,6 +493,8 @@ spec:
                       type: object
                     type: array
                   status:
+                    description: The current status of the DomainMapping. Structure
+                      is documented below.
                     items:
                       properties:
                         conditions:
@@ -510,6 +512,8 @@ spec:
                                   current status.
                                 type: string
                               status:
+                                description: The current status of the DomainMapping.
+                                  Structure is documented below.
                                 type: string
                               type:
                                 description: 'Resource record type. Example: AAAA.
@@ -518,7 +522,8 @@ spec:
                             type: object
                           type: array
                         mappedRouteName:
-                          description: Name should be a verified domain
+                          description: The name of the route that the mapping currently
+                            points to.
                           type: string
                         observedGeneration:
                           description: ObservedGeneration is the 'Generation' of the

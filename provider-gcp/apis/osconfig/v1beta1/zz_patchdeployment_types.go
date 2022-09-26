@@ -129,7 +129,7 @@ type PatchConfigAptObservation struct {
 
 type PatchConfigAptParameters struct {
 
-	// List of packages to exclude from update. These packages will be excluded.
+	// List of packages to exclude from update.
 	// +kubebuilder:validation:Optional
 	Excludes []*string `json:"excludes,omitempty" tf:"excludes,omitempty"`
 
@@ -210,7 +210,7 @@ type PatchConfigYumObservation struct {
 
 type PatchConfigYumParameters struct {
 
-	// List of packages to exclude from update. These packages will be excluded.
+	// List of packages to exclude from update.
 	// +kubebuilder:validation:Optional
 	Excludes []*string `json:"excludes,omitempty" tf:"excludes,omitempty"`
 
@@ -296,10 +296,10 @@ type PatchDeploymentObservation struct {
 	// A timestamp in RFC3339 UTC "Zulu" format, accurate to nanoseconds. Example: "2014-10-02T15:01:23.045123456Z".
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
-	// IANA Time Zone Database time zone, e.g. "America/New_York".
+	// an identifier for the resource with format {{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// The time the last patch job ran successfully.
+	// The last time a patch job was started by this deployment. Timestamp is in RFC3339 text format.
 	// A timestamp in RFC3339 UTC "Zulu" format, accurate to nanoseconds. Example: "2014-10-02T15:01:23.045123456Z".
 	LastExecuteTime *string `json:"lastExecuteTime,omitempty" tf:"last_execute_time,omitempty"`
 
@@ -580,7 +580,7 @@ type WeekDayOfMonthObservation struct {
 
 type WeekDayOfMonthParameters struct {
 
-	// A day of the week.
+	// IANA Time Zone Database time zone, e.g. "America/New_York".
 	// Possible values are MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, and SUNDAY.
 	// +kubebuilder:validation:Required
 	DayOfWeek *string `json:"dayOfWeek" tf:"day_of_week,omitempty"`
@@ -654,12 +654,12 @@ type WindowsUpdateParameters struct {
 	// +kubebuilder:validation:Optional
 	Classifications []*string `json:"classifications,omitempty" tf:"classifications,omitempty"`
 
-	// List of KBs to exclude from update.
+	// List of packages to exclude from update.
 	// +kubebuilder:validation:Optional
 	Excludes []*string `json:"excludes,omitempty" tf:"excludes,omitempty"`
 
-	// An exclusive list of kbs to be updated. These are the only patches that will be updated.
-	// This field must not be used with other patch configurations.
+	// An exclusive list of patches to be updated. These are the only patches that will be installed using 'zypper patch patch:' command.
+	// This field must not be used with any other patch configuration fields.
 	// +kubebuilder:validation:Optional
 	ExclusivePatches []*string `json:"exclusivePatches,omitempty" tf:"exclusive_patches,omitempty"`
 }

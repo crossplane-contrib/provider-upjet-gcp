@@ -228,7 +228,7 @@ type ProxyConfigObservation struct {
 
 type ProxyConfigParameters struct {
 
-	// The ARM ID the of the resource group containing proxy keyvault. Resource group ids are formatted as /subscriptions/<subscription-id>/resourceGroups/<resource-group-name>
+	// The ARM ID of the resource group where the cluster resources are deployed. For example: /subscriptions/*/resourceGroups/*
 	// +kubebuilder:validation:Required
 	ResourceGroupID *string `json:"resourceGroupId" tf:"resource_group_id,omitempty"`
 

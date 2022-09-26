@@ -79,15 +79,19 @@ type AutoProvisioningDefaultsObservation struct {
 
 type AutoProvisioningDefaultsParameters struct {
 
-	// The default image type used by NAP once a new node pool is being created. Please note that according to the official documentation the value must be one of the [COS_CONTAINERD, COS, UBUNTU_CONTAINERD, UBUNTU]. NOTE : COS AND UBUNTU are deprecated as of GKE 1.24
+	// The image type to use for this node. Note that changing the image type
+	// will delete and recreate all nodes in the node pool.
 	// +kubebuilder:validation:Optional
 	ImageType *string `json:"imageType,omitempty" tf:"image_type,omitempty"`
 
-	// Scopes that are used by NAP when creating node pools. Use the "https://www.googleapis.com/auth/cloud-platform" scope to grant access to all APIs. It is recommended that you set service_account to a non-default service account and grant IAM roles to that service account for only the resources that it needs.
+	// The set of Google API scopes to be made available
+	// on all of the node VMs under the "default" service account.
+	// Use the "https://www.googleapis.com/auth/cloud-platform" scope to grant access to all APIs. It is recommended that you set service_account to a non-default service account and grant IAM roles to that service account for only the resources that it needs.
 	// +kubebuilder:validation:Optional
 	OAuthScopes []*string `json:"oauthScopes,omitempty" tf:"oauth_scopes,omitempty"`
 
-	// The Google Cloud Platform Service Account to be used by the node VMs.
+	// The service account to be used by the Node VMs.
+	// If not specified, the "default" service account is used.
 	// +kubebuilder:validation:Optional
 	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
 }
@@ -140,7 +144,8 @@ type CloudrunConfigObservation struct {
 
 type CloudrunConfigParameters struct {
 
-	// The status of the CloudRun addon. It is disabled by default. Set disabled=false to enable.
+	// The status of the Istio addon, which makes it easy to set up Istio for services in a
+	// cluster. It is disabled by default. Set disabled = false to enable.
 	// +kubebuilder:validation:Required
 	Disabled *bool `json:"disabled" tf:"disabled,omitempty"`
 
@@ -617,7 +622,7 @@ type GcfsConfigObservation struct {
 
 type GcfsConfigParameters struct {
 
-	// Whether or not the Google Container Filesystem (GCFS) is enabled
+	// Enables vertical pod autoscaling
 	// +kubebuilder:validation:Required
 	Enabled *bool `json:"enabled" tf:"enabled,omitempty"`
 }
@@ -645,7 +650,7 @@ type GvnicObservation struct {
 
 type GvnicParameters struct {
 
-	// Whether or not the Google Virtual NIC (gVNIC) is enabled
+	// Enables vertical pod autoscaling
 	// +kubebuilder:validation:Required
 	Enabled *bool `json:"enabled" tf:"enabled,omitempty"`
 }
@@ -741,18 +746,22 @@ type MaintenanceExclusionParameters struct {
 
 type MaintenancePolicyObservation struct {
 
+	// structure documented below.
 	// +kubebuilder:validation:Optional
 	DailyMaintenanceWindow []DailyMaintenanceWindowObservation `json:"dailyMaintenanceWindow,omitempty" tf:"daily_maintenance_window,omitempty"`
 }
 
 type MaintenancePolicyParameters struct {
 
+	// structure documented below.
 	// +kubebuilder:validation:Optional
 	DailyMaintenanceWindow []DailyMaintenanceWindowParameters `json:"dailyMaintenanceWindow,omitempty" tf:"daily_maintenance_window,omitempty"`
 
+	// structure documented below
 	// +kubebuilder:validation:Optional
 	MaintenanceExclusion []MaintenanceExclusionParameters `json:"maintenanceExclusion,omitempty" tf:"maintenance_exclusion,omitempty"`
 
+	// structure documented below
 	// +kubebuilder:validation:Optional
 	RecurringWindow []RecurringWindowParameters `json:"recurringWindow,omitempty" tf:"recurring_window,omitempty"`
 }
@@ -843,7 +852,7 @@ type NetworkPolicyParameters struct {
 
 type NodeConfigGcfsConfigObservation struct {
 
-	// Whether or not the Google Container Filesystem (GCFS) is enabled
+	// Enables vertical pod autoscaling
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 }
 
@@ -867,7 +876,7 @@ type NodeConfigGuestAcceleratorParameters struct {
 
 type NodeConfigGvnicObservation struct {
 
-	// Whether or not the Google Virtual NIC (gVNIC) is enabled
+	// Enables vertical pod autoscaling
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 }
 

@@ -82,7 +82,7 @@ spec:
                           items:
                             properties:
                               x509CertificateSecretRef:
-                                description: The IdP's x509 certificate.
+                                description: The x509 certificate
                                 properties:
                                   key:
                                     description: The key to select.

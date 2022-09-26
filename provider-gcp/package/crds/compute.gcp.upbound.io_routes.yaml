@@ -239,6 +239,7 @@ spec:
                       You can specify this as a full or partial URL. For example:'
                     type: string
                   nextHopInstanceZone:
+                    description: .
                     type: string
                   nextHopIp:
                     description: Network IP address of an instance that should handle

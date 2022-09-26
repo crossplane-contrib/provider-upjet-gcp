@@ -181,9 +181,12 @@ type InitializeParamsParameters struct {
 	// +kubebuilder:validation:Optional
 	DiskType *string `json:"diskType,omitempty" tf:"disk_type,omitempty"`
 
-	// Labels to apply to this disk. These can be later modified
-	// by the disks.setLabels method. This field is only
-	// applicable for persistent disks.
+	// The labels to associate with this runtime. Label keys must
+	// contain 1 to 63 characters, and must conform to [RFC 1035]
+	// (https://www.ietf.org/rfc/rfc1035.txt). Label values may be
+	// empty, but, if present, must contain 1 to 63 characters, and must
+	// conform to RFC 1035. No
+	// more than 32 labels can be associated with a cluster.
 	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 }
@@ -302,8 +305,8 @@ type VirtualMachineConfigAcceleratorConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	CoreCount *float64 `json:"coreCount,omitempty" tf:"core_count,omitempty"`
 
-	// Accelerator model. For valid values, see
-	// https://cloud.google.com/vertex-ai/docs/workbench/reference/ rest/v1/projects.locations.runtimes#AcceleratorType
+	// Specifies the type of the disk, either SCRATCH or PERSISTENT.
+	// If not specified, the default is PERSISTENT.
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }

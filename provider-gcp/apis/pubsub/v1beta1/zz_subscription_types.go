@@ -190,6 +190,8 @@ type SubscriptionParameters struct {
 	// +kubebuilder:validation:Optional
 	DeadLetterPolicy []DeadLetterPolicyParameters `json:"deadLetterPolicy,omitempty" tf:"dead_letter_policy,omitempty"`
 
+	// If true, Pub/Sub provides the following guarantees for the delivery
+	// of a message with a given value of messageId on this Subscriptions':
 	// +kubebuilder:validation:Optional
 	EnableExactlyOnceDelivery *bool `json:"enableExactlyOnceDelivery,omitempty" tf:"enable_exactly_once_delivery,omitempty"`
 

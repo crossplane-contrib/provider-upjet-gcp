@@ -187,10 +187,9 @@ spec:
                                       description: The number of days between snapshots.
                                       type: number
                                     startTime:
-                                      description: This must be in UTC format that
-                                        resolves to one of 00:00, 04:00, 08:00, 12:00,
-                                        16:00, or 20:00. For example, both 13:00-5
-                                        and 08:00 are valid.
+                                      description: 'Time within the window to start
+                                        the operations. It must be in format "HH:MM",
+                                        where HH : [00-23] and MM : [00-00] GMT.'
                                       type: string
                                   required:
                                   - daysInCycle
@@ -208,9 +207,8 @@ spec:
                                       type: number
                                     startTime:
                                       description: 'Time within the window to start
-                                        the operations. It must be in an hourly format
-                                        "HH:MM", where HH : [00-23] and MM : [00]
-                                        GMT. eg: 21:00'
+                                        the operations. It must be in format "HH:MM",
+                                        where HH : [00-23] and MM : [00-00] GMT.'
                                       type: string
                                   required:
                                   - hoursInCycle

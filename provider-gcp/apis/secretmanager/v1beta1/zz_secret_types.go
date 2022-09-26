@@ -89,8 +89,8 @@ type SecretObservation struct {
 	// an identifier for the resource with format projects/{{project}}/secrets/{{secret_id}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// The resource name of the Pub/Sub topic that will be published to, in the following format: projects//topics/.
-	// For publication to succeed, the Secret Manager Service Agent service account must have pubsub.publisher permissions on the topic.
+	// The resource name of the Secret. Format:
+	// projects/{{project}}/secrets/{{secret_id}}
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 }
 

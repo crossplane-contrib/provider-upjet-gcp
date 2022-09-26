@@ -73,6 +73,9 @@ spec:
                     items:
                       properties:
                         id:
+                          description: The numeric ID for this interface. Allowed
+                            values are based on the redundancy type of this external
+                            VPN gateway
                           type: number
                         ipAddress:
                           description: IP address of the interface in the external
@@ -270,6 +273,7 @@ spec:
               atProvider:
                 properties:
                   id:
+                    description: an identifier for the resource with format projects/{{project}}/global/externalVpnGateways/{{name}}
                     type: string
                   selfLink:
                     description: The URI of the created resource.

@@ -69,6 +69,7 @@ type ApplicationParameters struct {
 	// +kubebuilder:validation:Optional
 	FeatureSettings []FeatureSettingsParameters `json:"featureSettings,omitempty" tf:"feature_settings,omitempty"`
 
+	// Settings for enabling Cloud Identity Aware Proxy
 	// +kubebuilder:validation:Optional
 	Iap []IapParameters `json:"iap,omitempty" tf:"iap,omitempty"`
 

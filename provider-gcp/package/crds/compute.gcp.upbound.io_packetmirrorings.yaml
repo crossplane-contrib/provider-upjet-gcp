@@ -192,8 +192,8 @@ spec:
                           items:
                             properties:
                               url:
-                                description: The URL of the instances where this rule
-                                  should be active.
+                                description: The URL of the subnetwork where this
+                                  rule should be active.
                                 type: string
                               urlRef:
                                 description: Reference to a Instance in compute to
