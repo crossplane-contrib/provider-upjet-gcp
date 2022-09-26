@@ -92,6 +92,7 @@ type ProjectMapObservation struct {
 
 type ProjectMapParameters struct {
 
+	// The identifier for this object. Format specified above.
 	// +kubebuilder:validation:Required
 	ID *string `json:"id" tf:"id,omitempty"`
 
@@ -109,6 +110,7 @@ type ReservationObservation struct {
 	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
 
+	// an identifier for the resource with format projects/{{project}}/zones/{{zone}}/reservations/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// The URI of the created resource.

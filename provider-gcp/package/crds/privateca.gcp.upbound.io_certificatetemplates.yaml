@@ -99,18 +99,15 @@ spec:
                           items:
                             properties:
                               description:
-                                description: Optional. Description of the expression.
-                                  This is a longer text which describes the expression,
-                                  e.g. when hovered over it in a UI.
+                                description: Optional. A human-readable description
+                                  of scenarios this template is intended for.
                                 type: string
                               expression:
                                 description: Textual representation of an expression
                                   in Common Expression Language syntax.
                                 type: string
                               location:
-                                description: Optional. String indicating the location
-                                  of the expression for error reporting, e.g. a file
-                                  name and a position in the file.
+                                description: The location for the resource
                                 type: string
                               title:
                                 description: Optional. Title for the expression, i.e.

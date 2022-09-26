@@ -194,6 +194,9 @@ spec:
                       type: object
                     type: array
                   enableExactlyOnceDelivery:
+                    description: 'If true, Pub/Sub provides the following guarantees
+                      for the delivery of a message with a given value of messageId
+                      on this Subscriptions'':'
                     type: boolean
                   enableMessageOrdering:
                     description: If true, messages published with the same orderingKey

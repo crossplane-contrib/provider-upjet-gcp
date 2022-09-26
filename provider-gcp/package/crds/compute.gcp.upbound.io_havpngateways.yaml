@@ -157,6 +157,7 @@ spec:
                     items:
                       properties:
                         id:
+                          description: The numeric ID of this VPN gateway interface.
                           type: number
                         interconnectAttachment:
                           description: URL of the interconnect attachment resource.
@@ -426,6 +427,7 @@ spec:
               atProvider:
                 properties:
                   id:
+                    description: an identifier for the resource with format projects/{{project}}/regions/{{region}}/vpnGateways/{{name}}
                     type: string
                   selfLink:
                     description: The URI of the created resource.

@@ -40,11 +40,11 @@ type DebObservation struct {
 
 type DebParameters struct {
 
-	// Whether dependencies should also be installed. - install when false: dpkg -i package - install when true: apt-get update && apt-get -y install package.deb
+	// Whether dependencies should also be installed. - install when false: rpm --upgrade --replacepkgs package.rpm - install when true: yum -y install package.rpm or zypper -y install package.rpm
 	// +kubebuilder:validation:Optional
 	PullDeps *bool `json:"pullDeps,omitempty" tf:"pull_deps,omitempty"`
 
-	// Required. A deb package.
+	// Required. An rpm package.
 	// +kubebuilder:validation:Required
 	Source []SourceParameters `json:"source" tf:"source,omitempty"`
 }
@@ -244,7 +244,7 @@ type GooObservation struct {
 
 type GooParameters struct {
 
-	// Required. The name of the repository.
+	// Required. Package name.
 	// +kubebuilder:validation:Required
 	Name *string `json:"name" tf:"name,omitempty"`
 
@@ -332,7 +332,7 @@ type MsiParameters struct {
 	// +kubebuilder:validation:Optional
 	Properties []*string `json:"properties,omitempty" tf:"properties,omitempty"`
 
-	// Required. The MSI package.
+	// Required. An rpm package.
 	// +kubebuilder:validation:Required
 	Source []MsiSourceParameters `json:"source" tf:"source,omitempty"`
 }
@@ -432,7 +432,7 @@ type OsPolicyAssignmentObservation struct {
 	// The etag for this OS policy assignment. If this is provided on update, it must match the server's etag.
 	Etag *string `json:"etag,omitempty" tf:"etag,omitempty"`
 
-	// Required. A one word, unique name for this repository. This is the repo id in the yum config file and also the display_name if display_name is omitted. This id is also used as the unique identifier when checking for resource conflicts.
+	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/osPolicyAssignments/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// Required. List of OS policies to be applied to the VMs.
@@ -487,7 +487,7 @@ type PkgObservation struct {
 
 type PkgParameters struct {
 
-	// A package managed by Apt.
+	// An Apt Repository.
 	// +kubebuilder:validation:Optional
 	Apt []AptParameters `json:"apt,omitempty" tf:"apt,omitempty"`
 
@@ -511,11 +511,11 @@ type PkgParameters struct {
 	// +kubebuilder:validation:Optional
 	Rpm []RpmParameters `json:"rpm,omitempty" tf:"rpm,omitempty"`
 
-	// A package managed by YUM.
+	// A Yum Repository.
 	// +kubebuilder:validation:Optional
 	Yum []YumParameters `json:"yum,omitempty" tf:"yum,omitempty"`
 
-	// A package managed by Zypper.
+	// A Zypper Repository.
 	// +kubebuilder:validation:Optional
 	Zypper []ZypperParameters `json:"zypper,omitempty" tf:"zypper,omitempty"`
 }
@@ -555,7 +555,7 @@ type RepositoryAptParameters struct {
 	// +kubebuilder:validation:Optional
 	GpgKey *string `json:"gpgKey,omitempty" tf:"gpg_key,omitempty"`
 
-	// Required. URI for this repository.
+	// Required. URI from which to fetch the object. It should contain both the protocol and path following the format {protocol}://{location}.
 	// +kubebuilder:validation:Required
 	URI *string `json:"uri" tf:"uri,omitempty"`
 }
@@ -599,7 +599,7 @@ type RepositoryYumParameters struct {
 	// +kubebuilder:validation:Optional
 	GpgKeys []*string `json:"gpgKeys,omitempty" tf:"gpg_keys,omitempty"`
 
-	// Required. A one word, unique name for this repository. This is the repo id in the yum config file and also the display_name if display_name is omitted. This id is also used as the unique identifier when checking for resource conflicts.
+	// Required. A one word, unique name for this repository. This is the repo id in the zypper config file and also the display_name if display_name is omitted. This id is also used as the unique identifier when checking for GuestPolicy conflicts.
 	// +kubebuilder:validation:Required
 	ID *string `json:"id" tf:"id,omitempty"`
 }
@@ -621,7 +621,7 @@ type RepositoryZypperParameters struct {
 	// +kubebuilder:validation:Optional
 	GpgKeys []*string `json:"gpgKeys,omitempty" tf:"gpg_keys,omitempty"`
 
-	// Required. A one word, unique name for this repository. This is the repo id in the yum config file and also the display_name if display_name is omitted. This id is also used as the unique identifier when checking for resource conflicts.
+	// Required. A one word, unique name for this repository. This is the repo id in the zypper config file and also the display_name if display_name is omitted. This id is also used as the unique identifier when checking for GuestPolicy conflicts.
 	// +kubebuilder:validation:Required
 	ID *string `json:"id" tf:"id,omitempty"`
 }
@@ -656,7 +656,7 @@ type ResourcesFileParameters struct {
 	// +kubebuilder:validation:Optional
 	Content *string `json:"content,omitempty" tf:"content,omitempty"`
 
-	// A remote or local source.
+	// A remote or local file.
 	// +kubebuilder:validation:Optional
 	File []FileFileParameters `json:"file,omitempty" tf:"file,omitempty"`
 
@@ -671,7 +671,7 @@ type ResourcesFileParameters struct {
 
 type ResourcesObservation struct {
 
-	// File resource
+	// A remote or local file.
 	// +kubebuilder:validation:Optional
 	File []ResourcesFileObservation `json:"file,omitempty" tf:"file,omitempty"`
 }
@@ -682,11 +682,11 @@ type ResourcesParameters struct {
 	// +kubebuilder:validation:Optional
 	Exec []ExecParameters `json:"exec,omitempty" tf:"exec,omitempty"`
 
-	// File resource
+	// A remote or local file.
 	// +kubebuilder:validation:Optional
 	File []ResourcesFileParameters `json:"file,omitempty" tf:"file,omitempty"`
 
-	// Required. The id of the resource with the following restrictions: * Must contain only lowercase letters, numbers, and hyphens. * Must start with a letter. * Must be between 1-63 characters. * Must end with a number or a letter. * Must be unique within the OS policy.
+	// Required. A one word, unique name for this repository. This is the repo id in the zypper config file and also the display_name if display_name is omitted. This id is also used as the unique identifier when checking for GuestPolicy conflicts.
 	// +kubebuilder:validation:Required
 	ID *string `json:"id" tf:"id,omitempty"`
 

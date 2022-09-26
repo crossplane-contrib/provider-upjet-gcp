@@ -400,22 +400,22 @@ spec:
               atProvider:
                 properties:
                   createTime:
-                    description: Output only. The time when the policy was created.
-                      A timestamp in RFC3339 UTC "Zulu" format, with nanosecond resolution
-                      and up to nine fractional digits.
+                    description: The time the instance was created in RFC3339 UTC
+                      "Zulu" format, accurate to nanoseconds.
                     type: string
                   currentLocationId:
-                    description: The zone where the instance will be provisioned.
-                      If not provided, the service will choose a zone for the instance.
-                      For STANDARD_HA tier, instances will be created across two zones
-                      for protection against zonal failures. If [alternativeLocationId]
-                      is also provided, it must be different from [locationId].
+                    description: The current zone where the Redis endpoint is placed.
+                      For Basic Tier instances, this will always be the same as the
+                      [locationId] provided by the user at creation time. For Standard
+                      Tier instances, this can be either [locationId] or [alternativeLocationId]
+                      and can change after a failover event.
                     type: string
                   host:
                     description: Hostname or IP address of the exposed Redis endpoint
                       used by clients to connect to the service.
                     type: string
                   id:
+                    description: an identifier for the resource with format projects/{{project}}/locations/{{region}}/instances/{{name}}
                     type: string
                   maintenancePolicy:
                     description: Maintenance policy for an instance. Structure is
@@ -480,6 +480,7 @@ spec:
                     items:
                       properties:
                         id:
+                          description: Node identifying string. e.g. 'node-0', 'node-1'
                           type: string
                         zone:
                           description: Location of the node.
@@ -516,9 +517,7 @@ spec:
                           description: The certificate data in PEM format.
                           type: string
                         createTime:
-                          description: Output only. The time when the policy was created.
-                            A timestamp in RFC3339 UTC "Zulu" format, with nanosecond
-                            resolution and up to nine fractional digits.
+                          description: The time when the certificate was created.
                           type: string
                         expireTime:
                           description: The time when the certificate expires.

@@ -40,12 +40,15 @@ type ServiceNetworkingPeeredDNSDomainParameters struct {
 	// +kubebuilder:validation:Required
 	DNSSuffix *string `json:"dnsSuffix" tf:"dns_suffix,omitempty"`
 
+	// The network in the consumer project.
 	// +kubebuilder:validation:Required
 	Network *string `json:"network" tf:"network,omitempty"`
 
+	// The producer project number. If not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	// Private service connection between service and consumer network, defaults to servicenetworking.googleapis.com
 	// +kubebuilder:validation:Required
 	Service *string `json:"service" tf:"service,omitempty"`
 }

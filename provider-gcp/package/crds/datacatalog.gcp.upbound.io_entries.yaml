@@ -415,11 +415,7 @@ spec:
                     items:
                       properties:
                         tableSourceType:
-                          description: The type of the entry. Only used for Entries
-                            with types in the EntryType enum. Currently, only FILESET
-                            enum value is allowed. All other entries created through
-                            Data Catalog must use userSpecifiedType. Possible values
-                            are FILESET.
+                          description: The table source type.
                           type: string
                         tableSpec:
                           description: Spec of a BigQuery table. This field should

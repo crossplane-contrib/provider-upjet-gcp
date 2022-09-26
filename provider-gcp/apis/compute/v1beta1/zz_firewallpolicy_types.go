@@ -33,8 +33,10 @@ type FirewallPolicyObservation struct {
 	// Fingerprint of the resource. This field is used internally during updates of this resource.
 	Fingerprint *string `json:"fingerprint,omitempty" tf:"fingerprint,omitempty"`
 
+	// an identifier for the resource with format locations/global/firewallPolicies/{{name}}
 	FirewallPolicyID *string `json:"firewallPolicyId,omitempty" tf:"firewall_policy_id,omitempty"`
 
+	// an identifier for the resource with format locations/global/firewallPolicies/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// Name of the resource. It is a numeric ID allocated by GCP which uniquely identifies the Firewall Policy.

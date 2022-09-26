@@ -89,6 +89,7 @@ spec:
                       type: object
                     type: array
                   iap:
+                    description: Settings for enabling Cloud Identity Aware Proxy
                     items:
                       properties:
                         enabled:

@@ -69,7 +69,13 @@ type ConsistentHashHTTPCookieObservation struct {
 
 type ConsistentHashHTTPCookieParameters struct {
 
-	// Name of the cookie.
+	// Name of the resource. Provided by the client when the resource is
+	// created. The name must be 1-63 characters long, and comply with
+	// RFC1035. Specifically, the name must be 1-63 characters long and match
+	// the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which means the
+	// first character must be a lowercase letter, and all following
+	// characters must be a dash, lowercase letter, or digit, except the last
+	// character, which cannot be a dash.
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
@@ -77,8 +83,8 @@ type ConsistentHashHTTPCookieParameters struct {
 	// +kubebuilder:validation:Optional
 	Path *string `json:"path,omitempty" tf:"path,omitempty"`
 
-	// Lifetime of the cookie.
-	// Structure is documented below.
+	// The TTL (in seconds) for which to cache responses with the corresponding status code. The maximum allowed value is 1800s
+	// (30 minutes), noting that infrequently accessed objects may be evicted from the cache before the defined TTL.
 	// +kubebuilder:validation:Optional
 	TTL []HTTPCookieTTLParameters `json:"ttl,omitempty" tf:"ttl,omitempty"`
 }
@@ -141,14 +147,15 @@ type OutlierDetectionBaseEjectionTimeObservation struct {
 
 type OutlierDetectionBaseEjectionTimeParameters struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond
+	// resolution. Durations less than one second are represented
+	// with a 0 seconds field and a positive nanos field. Must
+	// be from 0 to 999,999,999 inclusive.
 	// +kubebuilder:validation:Optional
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second.
+	// Must be from 0 to 315,576,000,000 inclusive.
 	// +kubebuilder:validation:Required
 	Seconds *float64 `json:"seconds" tf:"seconds,omitempty"`
 }
@@ -158,14 +165,15 @@ type OutlierDetectionIntervalObservation struct {
 
 type OutlierDetectionIntervalParameters struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond
+	// resolution. Durations less than one second are represented
+	// with a 0 seconds field and a positive nanos field. Must
+	// be from 0 to 999,999,999 inclusive.
 	// +kubebuilder:validation:Optional
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second.
+	// Must be from 0 to 315,576,000,000 inclusive.
 	// +kubebuilder:validation:Required
 	Seconds *float64 `json:"seconds" tf:"seconds,omitempty"`
 }
@@ -624,9 +632,12 @@ type RegionBackendServiceParameters struct {
 	// +kubebuilder:validation:Optional
 	Iap []RegionBackendServiceIapParameters `json:"iap,omitempty" tf:"iap,omitempty"`
 
+	// is set to INTERNAL_MANAGED
 	// +kubebuilder:validation:Optional
 	LoadBalancingScheme *string `json:"loadBalancingScheme,omitempty" tf:"load_balancing_scheme,omitempty"`
 
+	// is set to MAGLEV or RING_HASH
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	LocalityLBPolicy *string `json:"localityLbPolicy,omitempty" tf:"locality_lb_policy,omitempty"`
 
@@ -663,6 +674,7 @@ type RegionBackendServiceParameters struct {
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	// is set to HTTP, HTTPS, or HTTP2
 	// +kubebuilder:validation:Optional
 	Protocol *string `json:"protocol,omitempty" tf:"protocol,omitempty"`
 

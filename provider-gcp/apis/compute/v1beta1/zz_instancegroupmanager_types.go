@@ -212,6 +212,7 @@ type StatusObservation struct {
 	// Stateful status of the given Instance Group Manager.
 	Stateful []StatefulObservation `json:"stateful,omitempty" tf:"stateful,omitempty"`
 
+	// A status of consistency of Instances' versions with their target version specified by version field on Instance Group Manager.
 	VersionTarget []VersionTargetObservation `json:"versionTarget,omitempty" tf:"version_target,omitempty"`
 }
 

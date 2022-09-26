@@ -78,10 +78,11 @@ type ConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	EnvironmentSize *string `json:"environmentSize,omitempty" tf:"environment_size,omitempty"`
 
+	// The configuration settings for Cloud Composer maintenance windows.
 	// +kubebuilder:validation:Optional
 	MaintenanceWindow []MaintenanceWindowParameters `json:"maintenanceWindow,omitempty" tf:"maintenance_window,omitempty"`
 
-	// Configuration parameters for this environment  Structure is documented below.
+	// The configuration used for the Kubernetes Engine cluster.  Structure is documented below.
 	// +kubebuilder:validation:Optional
 	NodeConfig []NodeConfigParameters `json:"nodeConfig,omitempty" tf:"node_config,omitempty"`
 
@@ -89,11 +90,11 @@ type ConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	NodeCount *float64 `json:"nodeCount,omitempty" tf:"node_count,omitempty"`
 
-	// Configuration parameters for this environment  Structure is documented below.
+	// The configuration used for the Private IP Cloud Composer environment. Structure is documented below.
 	// +kubebuilder:validation:Optional
 	PrivateEnvironmentConfig []PrivateEnvironmentConfigParameters `json:"privateEnvironmentConfig,omitempty" tf:"private_environment_config,omitempty"`
 
-	// Configuration parameters for this environment  Structure is documented below.
+	// The configuration settings for software inside the environment.  Structure is documented below.
 	// +kubebuilder:validation:Optional
 	SoftwareConfig []SoftwareConfigParameters `json:"softwareConfig,omitempty" tf:"software_config,omitempty"`
 
@@ -117,8 +118,10 @@ type DatabaseConfigObservation struct {
 
 type DatabaseConfigParameters struct {
 
-	// Cloud SQL machine type used by Airflow database. It has to be one of: db-n1-standard-2,
-	// db-n1-standard-4, db-n1-standard-8 or db-n1-standard-16.
+	// Machine type on which Airflow web server is running. It has to be one of: composer-n1-webserver-2,
+	// composer-n1-webserver-4 or composer-n1-webserver-8.
+	// Value custom is returned only in response, if Airflow web server parameters were
+	// manually changed to a non-standard values.
 	// +kubebuilder:validation:Required
 	MachineType *string `json:"machineType" tf:"machine_type,omitempty"`
 }
@@ -197,7 +200,9 @@ type IPAllocationPolicyParameters struct {
 	// +kubebuilder:validation:Optional
 	ClusterIPv4CidrBlock *string `json:"clusterIpv4CidrBlock,omitempty" tf:"cluster_ipv4_cidr_block"`
 
-	// Name of the environment
+	// The name of the cluster's secondary range used to allocate IP addresses to pods.
+	// Specify either cluster_secondary_range_name or cluster_ipv4_cidr_block but not both.
+	// For Cloud Composer 1 environments, this field is applicable only when use_ip_aliases is true.
 	// +kubebuilder:validation:Optional
 	ClusterSecondaryRangeName *string `json:"clusterSecondaryRangeName,omitempty" tf:"cluster_secondary_range_name"`
 
@@ -211,7 +216,9 @@ type IPAllocationPolicyParameters struct {
 	// +kubebuilder:validation:Optional
 	ServicesIPv4CidrBlock *string `json:"servicesIpv4CidrBlock,omitempty" tf:"services_ipv4_cidr_block"`
 
-	// Name of the environment
+	// The name of the services' secondary range used to allocate IP addresses to the cluster.
+	// Specify either services_secondary_range_name or services_ipv4_cidr_block but not both.
+	// For Cloud Composer 1 environments, this field is applicable only when use_ip_aliases is true.
 	// +kubebuilder:validation:Optional
 	ServicesSecondaryRangeName *string `json:"servicesSecondaryRangeName,omitempty" tf:"services_secondary_range_name"`
 
@@ -258,10 +265,10 @@ type NodeConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	IPAllocationPolicy []IPAllocationPolicyParameters `json:"ipAllocationPolicy,omitempty" tf:"ip_allocation_policy,omitempty"`
 
-	// The Compute Engine machine type used for cluster instances,
-	// specified as a name or relative resource name. For example:
-	// "projects/{project}/zones/{zone}/machineTypes/{machineType}". Must belong
-	// to the enclosing environment's project and region/zone.
+	// Machine type on which Airflow web server is running. It has to be one of: composer-n1-webserver-2,
+	// composer-n1-webserver-4 or composer-n1-webserver-8.
+	// Value custom is returned only in response, if Airflow web server parameters were
+	// manually changed to a non-standard values.
 	// +kubebuilder:validation:Optional
 	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
 
@@ -352,6 +359,9 @@ type PrivateEnvironmentConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	CloudSQLIPv4CidrBlock *string `json:"cloudSqlIpv4CidrBlock,omitempty" tf:"cloud_sql_ipv4_cidr_block,omitempty"`
 
+	// If true, access to the public endpoint of the GKE cluster is denied.
+	// If this field is set to true, the ip_allocation_policy.use_ip_aliases field must
+	// also be set to true for Cloud Composer 1 environments.
 	// +kubebuilder:validation:Optional
 	EnablePrivateEndpoint *bool `json:"enablePrivateEndpoint,omitempty" tf:"enable_private_endpoint,omitempty"`
 
@@ -373,7 +383,7 @@ type SchedulerObservation struct {
 
 type SchedulerParameters struct {
 
-	// The number of CPUs for a single Airflow scheduler.
+	// The number of CPUs for a single Airflow worker.
 	// +kubebuilder:validation:Optional
 	CPU *float64 `json:"cpu,omitempty" tf:"cpu,omitempty"`
 
@@ -381,11 +391,11 @@ type SchedulerParameters struct {
 	// +kubebuilder:validation:Optional
 	Count *float64 `json:"count,omitempty" tf:"count,omitempty"`
 
-	// The amount of memory (GB) for a single Airflow scheduler.
+	// The amount of memory (GB) for a single Airflow worker.
 	// +kubebuilder:validation:Optional
 	MemoryGb *float64 `json:"memoryGb,omitempty" tf:"memory_gb,omitempty"`
 
-	// The amount of storage (GB) for a single Airflow scheduler.
+	// The amount of storage (GB) for the Airflow web server.
 	// +kubebuilder:validation:Optional
 	StorageGb *float64 `json:"storageGb,omitempty" tf:"storage_gb,omitempty"`
 }
@@ -455,11 +465,11 @@ type WebServerObservation struct {
 
 type WebServerParameters struct {
 
-	// The number of CPUs for the Airflow web server.
+	// The number of CPUs for a single Airflow worker.
 	// +kubebuilder:validation:Optional
 	CPU *float64 `json:"cpu,omitempty" tf:"cpu,omitempty"`
 
-	// The amount of memory (GB) for the Airflow web server.
+	// The amount of memory (GB) for a single Airflow worker.
 	// +kubebuilder:validation:Optional
 	MemoryGb *float64 `json:"memoryGb,omitempty" tf:"memory_gb,omitempty"`
 

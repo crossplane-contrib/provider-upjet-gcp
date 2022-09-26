@@ -269,8 +269,10 @@ spec:
                       during updates of this resource.
                     type: string
                   firewallPolicyId:
+                    description: an identifier for the resource with format locations/global/firewallPolicies/{{name}}
                     type: string
                   id:
+                    description: an identifier for the resource with format locations/global/firewallPolicies/{{name}}
                     type: string
                   name:
                     description: Name of the resource. It is a numeric ID allocated

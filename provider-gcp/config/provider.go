@@ -19,6 +19,8 @@ import (
 	"github.com/upbound/official-providers/provider-gcp/config/cloudtasks"
 	"github.com/upbound/official-providers/provider-gcp/config/compute"
 	"github.com/upbound/official-providers/provider-gcp/config/container"
+	"github.com/upbound/official-providers/provider-gcp/config/containeraws"
+	"github.com/upbound/official-providers/provider-gcp/config/containerazure"
 	"github.com/upbound/official-providers/provider-gcp/config/dataflow"
 	"github.com/upbound/official-providers/provider-gcp/config/dataproc"
 	"github.com/upbound/official-providers/provider-gcp/config/dns"
@@ -137,6 +139,8 @@ func GetProvider() *tjconfig.Provider {
 		cloudrun.Configure,
 		cloudscheduler.Configure,
 		cloudtasks.Configure,
+		containeraws.Configure,
+		containerazure.Configure,
 		compute.Configure,
 		container.Configure,
 		dataflow.Configure,

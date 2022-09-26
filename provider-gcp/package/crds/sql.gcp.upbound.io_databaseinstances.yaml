@@ -165,9 +165,7 @@ spec:
                         sslCipher:
                           type: string
                         username:
-                          description: The name of the instance. This is done because
-                            after a name is used, it cannot be reused for up to one
-                            week.
+                          description: Username for replication connection.
                           type: string
                         verifyServerCertificate:
                           description: True if the master's common name value is checked
@@ -298,9 +296,7 @@ spec:
                           items:
                             properties:
                               name:
-                                description: The name of the instance. This is done
-                                  because after a name is used, it cannot be reused
-                                  for up to one week.
+                                description: Name of the flag.
                                 type: string
                               value:
                                 description: Value of the flag.
@@ -363,9 +359,7 @@ spec:
                                         string indicating when this whitelist expires.
                                       type: string
                                     name:
-                                      description: The name of the instance. This
-                                        is done because after a name is used, it cannot
-                                        be reused for up to one week.
+                                      description: Name of the flag.
                                       type: string
                                     value:
                                       description: Value of the flag.
@@ -702,8 +696,9 @@ spec:
               atProvider:
                 properties:
                   connectionName:
-                    description: The name of the instance. This is done because after
-                      a name is used, it cannot be reused for up to one week.
+                    description: The connection name of the instance to be used in
+                      connection strings. For example, when connecting with Cloud
+                      SQL Proxy.
                     type: string
                   firstIpAddress:
                     description: The first IPv4 address of any type assigned.
@@ -743,9 +738,7 @@ spec:
                             Instance via SSL.
                           type: string
                         commonName:
-                          description: The name of the instance. This is done because
-                            after a name is used, it cannot be reused for up to one
-                            week.
+                          description: The CN valid for the CA Cert.
                           type: string
                         createTime:
                           description: Creation time of the CA Cert.

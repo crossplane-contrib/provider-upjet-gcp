@@ -179,9 +179,8 @@ type InstanceTemplateNetworkInterfaceAccessConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	NATIP *string `json:"natIp,omitempty" tf:"nat_ip,omitempty"`
 
-	// The networking tier used for configuring
-	// this instance template. This field can take the following values: PREMIUM,
-	// STANDARD or FIXED_STANDARD. If this field is not specified, it is assumed to be PREMIUM.
+	// The service-level to be provided for IPv6 traffic when the
+	// subnet has an external subnet. Only PREMIUM and STANDARD tier is valid for IPv6.
 	// +kubebuilder:validation:Optional
 	NetworkTier *string `json:"networkTier,omitempty" tf:"network_tier,omitempty"`
 }
@@ -484,7 +483,7 @@ type InstanceTemplateSchedulingNodeAffinitiesObservation struct {
 
 type InstanceTemplateSchedulingNodeAffinitiesParameters struct {
 
-	// The key for the node affinity label.
+	// Corresponds to the label key of a reservation resource. To target a SPECIFIC_RESERVATION by name, specify compute.googleapis.com/reservation-name as the key and specify the name of your reservation as the only value.
 	// +kubebuilder:validation:Required
 	Key *string `json:"key" tf:"key,omitempty"`
 

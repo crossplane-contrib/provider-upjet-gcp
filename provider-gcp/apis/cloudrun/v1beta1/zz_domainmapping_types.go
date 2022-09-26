@@ -33,6 +33,8 @@ type ConditionsObservation struct {
 	// One-word CamelCase reason for the condition's current status.
 	Reason *string `json:"reason,omitempty" tf:"reason,omitempty"`
 
+	// The current status of the DomainMapping.
+	// Structure is documented below.
 	Status *string `json:"status,omitempty" tf:"status,omitempty"`
 
 	// Resource record type. Example: AAAA.
@@ -53,6 +55,8 @@ type DomainMappingObservation struct {
 	// +kubebuilder:validation:Required
 	Metadata []MetadataObservation `json:"metadata,omitempty" tf:"metadata,omitempty"`
 
+	// The current status of the DomainMapping.
+	// Structure is documented below.
 	Status []StatusObservation `json:"status,omitempty" tf:"status,omitempty"`
 }
 
@@ -194,7 +198,7 @@ type StatusObservation struct {
 	// Structure is documented below.
 	Conditions []ConditionsObservation `json:"conditions,omitempty" tf:"conditions,omitempty"`
 
-	// Name should be a verified domain
+	// The name of the route that the mapping currently points to.
 	MappedRouteName *string `json:"mappedRouteName,omitempty" tf:"mapped_route_name,omitempty"`
 
 	// ObservedGeneration is the 'Generation' of the DomainMapping that

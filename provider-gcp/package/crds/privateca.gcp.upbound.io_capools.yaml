@@ -396,9 +396,9 @@ spec:
                                         in Common Expression Language syntax.
                                       type: string
                                     location:
-                                      description: String indicating the location
-                                        of the expression for error reporting, e.g.
-                                        a file name and a position in the file.
+                                      description: Location of the CaPool. A full
+                                        list of valid locations can be found by running
+                                        gcloud privateca locations list.
                                       type: string
                                     title:
                                       description: Title for the expression, i.e.

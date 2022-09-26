@@ -279,8 +279,8 @@ spec:
                                   image.
                                 type: number
                               type:
-                                description: The GCE disk type. Such as pd-standard,
-                                  pd-balanced or pd-ssd.
+                                description: The type of reservation from which this
+                                  instance can consume resources.
                                 type: string
                             type: object
                           type: array
@@ -420,22 +420,19 @@ spec:
                           items:
                             properties:
                               natIp:
-                                description: The IP address that will be 1:1 mapped
-                                  to the instance's network ip. If not given, one
-                                  will be generated.
+                                description: If the instance has an access config,
+                                  either the given external ip (in the nat_ip field)
+                                  or the ephemeral (generated) ip (if you didn't provide
+                                  one).
                                 type: string
                               networkTier:
-                                description: 'The networking tier used for configuring
-                                  this instance. This field can take the following
-                                  values: PREMIUM, FIXED_STANDARD or STANDARD. If
-                                  this field is not specified, it is assumed to be
-                                  PREMIUM.'
+                                description: The service-level to be provided for
+                                  IPv6 traffic when the subnet has an external subnet.
+                                  Only PREMIUM or STANDARD tier is valid for IPv6.
                                 type: string
                               publicPtrDomainName:
-                                description: The DNS domain name for the public PTR
-                                  record. To set this field on an instance, you must
-                                  be verified as the owner of the domain. See the
-                                  docs for how to become verified as a domain owner.
+                                description: The domain name to be used when creating
+                                  DNSv6 records for the external IPv6 ranges..
                                 type: string
                             type: object
                           type: array
@@ -753,14 +750,19 @@ spec:
                           items:
                             properties:
                               key:
-                                description: The key for the node affinity label.
+                                description: Corresponds to the label key of a reservation
+                                  resource. To target a SPECIFIC_RESERVATION by name,
+                                  specify compute.googleapis.com/reservation-name
+                                  as the key and specify the name of your reservation
+                                  as the only value.
                                 type: string
                               operator:
                                 description: The operator. Can be IN for node-affinities
                                   or NOT_IN for anti-affinities.
                                 type: string
                               values:
-                                description: The values for the node affinity label.
+                                description: Corresponds to the label values of a
+                                  reservation resource.
                                 items:
                                   type: string
                                 type: array

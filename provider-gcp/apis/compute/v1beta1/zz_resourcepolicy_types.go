@@ -34,9 +34,8 @@ type DailyScheduleParameters struct {
 	// +kubebuilder:validation:Required
 	DaysInCycle *float64 `json:"daysInCycle" tf:"days_in_cycle,omitempty"`
 
-	// This must be in UTC format that resolves to one of
-	// 00:00, 04:00, 08:00, 12:00, 16:00, or 20:00. For example,
-	// both 13:00-5 and 08:00 are valid.
+	// Time within the window to start the operations.
+	// It must be in format "HH:MM", where HH : [00-23] and MM : [00-00] GMT.
 	// +kubebuilder:validation:Required
 	StartTime *string `json:"startTime" tf:"start_time,omitempty"`
 }
@@ -90,9 +89,7 @@ type HourlyScheduleParameters struct {
 	HoursInCycle *float64 `json:"hoursInCycle" tf:"hours_in_cycle,omitempty"`
 
 	// Time within the window to start the operations.
-	// It must be in an hourly format "HH:MM",
-	// where HH : [00-23] and MM : [00] GMT.
-	// eg: 21:00
+	// It must be in format "HH:MM", where HH : [00-23] and MM : [00-00] GMT.
 	// +kubebuilder:validation:Required
 	StartTime *string `json:"startTime" tf:"start_time,omitempty"`
 }

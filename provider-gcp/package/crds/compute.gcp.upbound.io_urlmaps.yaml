@@ -84,6 +84,11 @@ spec:
                           items:
                             properties:
                               allowCredentials:
+                                description: In response to a preflight request, setting
+                                  this to true indicates that the actual request can
+                                  include user credentials. This translates to the
+                                  Access- Control-Allow-Credentials header. Defaults
+                                  to false.
                                 type: boolean
                               allowHeaders:
                                 description: Specifies the content for the Access-Control-Allow-Headers
@@ -98,14 +103,24 @@ spec:
                                   type: string
                                 type: array
                               allowOriginRegexes:
+                                description: Specifies the regular expression patterns
+                                  that match allowed origins. For regular expression
+                                  grammar please see en.cppreference.com/w/cpp/regex/ecmascript
+                                  An origin is allowed if it matches either allow_origins
+                                  or allow_origin_regex.
                                 items:
                                   type: string
                                 type: array
                               allowOrigins:
+                                description: Specifies the list of origins that will
+                                  be allowed to do CORS requests. An origin is allowed
+                                  if it matches either allow_origins or allow_origin_regex.
                                 items:
                                   type: string
                                 type: array
                               disabled:
+                                description: If true, specifies the CORS policy is
+                                  disabled.
                                 type: boolean
                               exposeHeaders:
                                 description: Specifies the content for the Access-Control-Expose-Headers
@@ -114,6 +129,9 @@ spec:
                                   type: string
                                 type: array
                               maxAge:
+                                description: Specifies how long the results of a preflight
+                                  request can be cached. This translates to the content
+                                  for the Access-Control-Max-Age header.
                                 type: number
                             type: object
                           type: array
@@ -131,27 +149,56 @@ spec:
                           items:
                             properties:
                               abort:
+                                description: The specification for how client requests
+                                  are aborted as part of fault injection. Structure
+                                  is documented below.
                                 items:
                                   properties:
                                     httpStatus:
+                                      description: The HTTP status code used to abort
+                                        the request. The value must be between 200
+                                        and 599 inclusive.
                                       type: number
                                     percentage:
+                                      description: The percentage of traffic (connections/operations/requests)
+                                        on which delay will be introduced as part
+                                        of fault injection. The value must be between
+                                        0.0 and 100.0 inclusive.
                                       type: number
                                   type: object
                                 type: array
                               delay:
+                                description: The specification for how client requests
+                                  are delayed as part of fault injection, before being
+                                  sent to a backend service. Structure is documented
+                                  below.
                                 items:
                                   properties:
                                     fixedDelay:
+                                      description: Specifies the value of the fixed
+                                        delay interval. Structure is documented below.
                                       items:
                                         properties:
                                           nanos:
+                                            description: Span of time that's a fraction
+                                              of a second at nanosecond resolution.
+                                              Durations less than one second are represented
+                                              with a 0 seconds field and a positive
+                                              nanos field. Must be from 0 to 999,999,999
+                                              inclusive.
                                             type: number
                                           seconds:
+                                            description: Span of time at a resolution
+                                              of a second. Must be from 0 to 315,576,000,000
+                                              inclusive.
                                             type: string
                                         type: object
                                       type: array
                                     percentage:
+                                      description: The percentage of traffic (connections/operations/requests)
+                                        on which delay will be introduced as part
+                                        of fault injection. The value must be between
+                                        0.0 and 100.0 inclusive.
                                       type: number
                                   type: object
                                 type: array
@@ -167,6 +214,10 @@ spec:
                           items:
                             properties:
                               backendService:
+                                description: The default BackendService resource.
+                                  Before forwarding the request to backendService,
+                                  the loadbalancer applies any relevant headerActions
+                                  specified as part of this backendServiceWeight.
                                 type: string
                             required:
                             - backendService
@@ -178,17 +229,31 @@ spec:
                           items:
                             properties:
                               numRetries:
+                                description: Specifies the allowed number retries.
+                                  This number must be > 0.
                                 type: number
                               perTryTimeout:
+                                description: Specifies a non-zero timeout per retry
+                                  attempt. Structure is documented below.
                                 items:
                                   properties:
                                     nanos:
+                                      description: Span of time that's a fraction
+                                        of a second at nanosecond resolution. Durations
+                                        less than one second are represented with
+                                        a 0 seconds field and a positive nanos field.
+                                        Must be from 0 to 999,999,999 inclusive.
                                       type: number
                                     seconds:
+                                      description: Span of time at a resolution of
+                                        a second. Must be from 0 to 315,576,000,000
+                                        inclusive.
                                       type: string
                                   type: object
                                 type: array
                               retryConditions:
+                                description: 'Specifies one or more conditions when
+                                  this retry rule applies. Valid values are:'
                                 items:
                                   type: string
                                 type: array
@@ -205,8 +270,15 @@ spec:
                           items:
                             properties:
                               nanos:
+                                description: Span of time that's a fraction of a second
+                                  at nanosecond resolution. Durations less than one
+                                  second are represented with a 0 seconds field and
+                                  a positive nanos field. Must be from 0 to 999,999,999
+                                  inclusive.
                                 type: number
                               seconds:
+                                description: Span of time at a resolution of a second.
+                                  Must be from 0 to 315,576,000,000 inclusive.
                                 type: string
                             type: object
                           type: array
@@ -217,8 +289,16 @@ spec:
                           items:
                             properties:
                               hostRewrite:
+                                description: Prior to forwarding the request to the
+                                  selected service, the request's host header is replaced
+                                  with contents of hostRewrite. The value must be
+                                  between 1 and 255 characters.
                                 type: string
                               pathPrefixRewrite:
+                                description: Prior to forwarding the request to the
+                                  selected backend service, the matching portion of
+                                  the request's path is replaced by pathPrefixRewrite.
+                                  The value must be between 1 and 1024 characters.
                                 type: string
                             type: object
                           type: array
@@ -237,38 +317,46 @@ spec:
                           items:
                             properties:
                               backendService:
+                                description: The default BackendService resource.
+                                  Before forwarding the request to backendService,
+                                  the loadbalancer applies any relevant headerActions
+                                  specified as part of this backendServiceWeight.
                                 type: string
                               headerAction:
                                 description: Specifies changes to request and response
                                   headers that need to take effect for the selected
-                                  backendService. The headerAction specified here
-                                  take effect after headerAction specified under pathMatcher.
-                                  Structure is documented below.
+                                  backendService. headerAction specified here take
+                                  effect before headerAction in the enclosing HttpRouteRule,
+                                  PathMatcher and UrlMap. Structure is documented
+                                  below.
                                 items:
                                   properties:
                                     requestHeadersToAdd:
+                                      description: Headers to add to a matching request
+                                        prior to forwarding the request to the backendService.
+                                        Structure is documented below.
                                       items:
                                         properties:
                                           headerName:
-                                            description: Name of the resource. Provided
-                                              by the client when the resource is created.
-                                              The name must be 1-63 characters long,
-                                              and comply with RFC1035. Specifically,
-                                              the name must be 1-63 characters long
-                                              and match the regular expression [a-z]([-a-z0-9]*[a-z0-9])?
-                                              which means the first character must
-                                              be a lowercase letter, and all following
-                                              characters must be a dash, lowercase
-                                              letter, or digit, except the last character,
-                                              which cannot be a dash.
+                                            description: The name of the header.
                                             type: string
                                           headerValue:
+                                            description: The value of the header to
+                                              add.
                                             type: string
                                           replace:
+                                            description: If false, headerValue is
+                                              appended to any values that already
+                                              exist for the header. If true, headerValue
+                                              is set for the header, discarding any
+                                              values that were set for that header.
                                             type: boolean
                                         type: object
                                       type: array
                                     requestHeadersToRemove:
+                                      description: A list of header names for headers
+                                        that need to be removed from the request prior
+                                        to forwarding the request to the backendService.
                                       items:
                                         type: string
                                       type: array
@@ -279,31 +367,41 @@ spec:
                                       items:
                                         properties:
                                           headerName:
-                                            description: Name of the resource. Provided
-                                              by the client when the resource is created.
-                                              The name must be 1-63 characters long,
-                                              and comply with RFC1035. Specifically,
-                                              the name must be 1-63 characters long
-                                              and match the regular expression [a-z]([-a-z0-9]*[a-z0-9])?
-                                              which means the first character must
-                                              be a lowercase letter, and all following
-                                              characters must be a dash, lowercase
-                                              letter, or digit, except the last character,
-                                              which cannot be a dash.
+                                            description: The name of the header.
                                             type: string
                                           headerValue:
+                                            description: The value of the header to
+                                              add.
                                             type: string
                                           replace:
+                                            description: If false, headerValue is
+                                              appended to any values that already
+                                              exist for the header. If true, headerValue
+                                              is set for the header, discarding any
+                                              values that were set for that header.
                                             type: boolean
                                         type: object
                                       type: array
                                     responseHeadersToRemove:
+                                      description: A list of header names for headers
+                                        that need to be removed from the response
+                                        prior to sending the response back to the
+                                        client.
                                       items:
                                         type: string
                                       type: array
                                   type: object
                                 type: array
                               weight:
+                                description: Specifies the fraction of traffic sent
+                                  to backendService, computed as weight / (sum of
+                                  all weightedBackendService weights in routeAction)
+                                  . The selection of a backend service is determined
+                                  only for new traffic. Once a user's request has
+                                  been directed to a backendService, subsequent requests
+                                  will be sent to the same backendService as determined
+                                  by the BackendService's session affinity policy.
+                                  The value must be between 0 and 1000
                                 type: number
                             type: object
                           type: array
@@ -430,6 +528,11 @@ spec:
                             Supported values are:'
                           type: string
                         stripQuery:
+                          description: If set to true, any accompanying query portion
+                            of the original URL is removed prior to redirecting the
+                            request. If set to false, the query portion of the original
+                            URL is retained. This field is required to ensure an empty
+                            block is not set. The normal default value is false.
                           type: boolean
                       required:
                       - stripQuery
@@ -447,22 +550,22 @@ spec:
                     items:
                       properties:
                         requestHeadersToAdd:
+                          description: Headers to add to a matching request prior
+                            to forwarding the request to the backendService. Structure
+                            is documented below.
                           items:
                             properties:
                               headerName:
-                                description: Name of the resource. Provided by the
-                                  client when the resource is created. The name must
-                                  be 1-63 characters long, and comply with RFC1035.
-                                  Specifically, the name must be 1-63 characters long
-                                  and match the regular expression [a-z]([-a-z0-9]*[a-z0-9])?
-                                  which means the first character must be a lowercase
-                                  letter, and all following characters must be a dash,
-                                  lowercase letter, or digit, except the last character,
-                                  which cannot be a dash.
+                                description: The name of the header.
                                 type: string
                               headerValue:
+                                description: The value of the header to add.
                                 type: string
                               replace:
+                                description: If false, headerValue is appended to
+                                  any values that already exist for the header. If
+                                  true, headerValue is set for the header, discarding
+                                  any values that were set for that header.
                                 type: boolean
                             required:
                             - headerName
@@ -471,6 +574,9 @@ spec:
                             type: object
                           type: array
                         requestHeadersToRemove:
+                          description: A list of header names for headers that need
+                            to be removed from the request prior to forwarding the
+                            request to the backendService.
                           items:
                             type: string
                           type: array
@@ -481,19 +587,16 @@ spec:
                           items:
                             properties:
                               headerName:
-                                description: Name of the resource. Provided by the
-                                  client when the resource is created. The name must
-                                  be 1-63 characters long, and comply with RFC1035.
-                                  Specifically, the name must be 1-63 characters long
-                                  and match the regular expression [a-z]([-a-z0-9]*[a-z0-9])?
-                                  which means the first character must be a lowercase
-                                  letter, and all following characters must be a dash,
-                                  lowercase letter, or digit, except the last character,
-                                  which cannot be a dash.
+                                description: The name of the header.
                                 type: string
                               headerValue:
+                                description: The value of the header to add.
                                 type: string
                               replace:
+                                description: If false, headerValue is appended to
+                                  any values that already exist for the header. If
+                                  true, headerValue is set for the header, discarding
+                                  any values that were set for that header.
                                 type: boolean
                             required:
                             - headerName
@@ -502,6 +605,9 @@ spec:
                             type: object
                           type: array
                         responseHeadersToRemove:
+                          description: A list of header names for headers that need
+                            to be removed from the response prior to sending the response
+                            back to the client.
                           items:
                             type: string
                           type: array
@@ -559,6 +665,11 @@ spec:
                                 items:
                                   properties:
                                     allowCredentials:
+                                      description: In response to a preflight request,
+                                        setting this to true indicates that the actual
+                                        request can include user credentials. This
+                                        translates to the Access- Control-Allow-Credentials
+                                        header. Defaults to false.
                                       type: boolean
                                     allowHeaders:
                                       description: Specifies the content for the Access-Control-Allow-Headers
@@ -573,14 +684,25 @@ spec:
                                         type: string
                                       type: array
                                     allowOriginRegexes:
+                                      description: Specifies the regular expression
+                                        patterns that match allowed origins. For regular
+                                        expression grammar please see en.cppreference.com/w/cpp/regex/ecmascript
+                                        An origin is allowed if it matches either
+                                        allow_origins or allow_origin_regex.
                                       items:
                                         type: string
                                       type: array
                                     allowOrigins:
+                                      description: Specifies the list of origins that
+                                        will be allowed to do CORS requests. An origin
+                                        is allowed if it matches either allow_origins
+                                        or allow_origin_regex.
                                       items:
                                         type: string
                                       type: array
                                     disabled:
+                                      description: If true, specifies the CORS policy
+                                        is disabled.
                                       type: boolean
                                     exposeHeaders:
                                       description: Specifies the content for the Access-Control-Expose-Headers
@@ -589,6 +711,10 @@ spec:
                                         type: string
                                       type: array
                                     maxAge:
+                                      description: Specifies how long the results
+                                        of a preflight request can be cached. This
+                                        translates to the content for the Access-Control-Max-Age
+                                        header.
                                       type: number
                                   type: object
                                 type: array
@@ -601,34 +727,67 @@ spec:
                                   on a percentage of requests before sending those
                                   request to the backend service. Similarly requests
                                   from clients can be aborted by the Loadbalancer
-                                  for a percentage of requests. timeout and retryPolicy
+                                  for a percentage of requests. timeout and retry_policy
                                   will be ignored by clients that are configured with
-                                  a faultInjectionPolicy. Structure is documented
+                                  a fault_injection_policy. Structure is documented
                                   below.
                                 items:
                                   properties:
                                     abort:
+                                      description: The specification for how client
+                                        requests are aborted as part of fault injection.
+                                        Structure is documented below.
                                       items:
                                         properties:
                                           httpStatus:
+                                            description: The HTTP status code used
+                                              to abort the request. The value must
+                                              be between 200 and 599 inclusive.
                                             type: number
                                           percentage:
+                                            description: The percentage of traffic
+                                              (connections/operations/requests) on
+                                              which delay will be introduced as part
+                                              of fault injection. The value must be
+                                              between 0.0 and 100.0 inclusive.
                                             type: number
                                         type: object
                                       type: array
                                     delay:
+                                      description: The specification for how client
+                                        requests are delayed as part of fault injection,
+                                        before being sent to a backend service. Structure
+                                        is documented below.
                                       items:
                                         properties:
                                           fixedDelay:
+                                            description: Specifies the value of the
+                                              fixed delay interval. Structure is documented
+                                              below.
                                             items:
                                               properties:
                                                 nanos:
+                                                  description: Span of time that's
+                                                    a fraction of a second at nanosecond
+                                                    resolution. Durations less than
+                                                    one second are represented with
+                                                    a 0 seconds field and a positive
+                                                    nanos field. Must be from 0 to
+                                                    999,999,999 inclusive.
                                                   type: number
                                                 seconds:
+                                                  description: Span of time at a resolution
+                                                    of a second. Must be from 0 to
+                                                    315,576,000,000 inclusive.
                                                   type: string
                                               type: object
                                             type: array
                                           percentage:
+                                            description: The percentage of traffic
+                                              (connections/operations/requests) on
+                                              which delay will be introduced as part
+                                              of fault injection. The value must be
+                                              between 0.0 and 100.0 inclusive.
                                             type: number
                                         type: object
                                       type: array
@@ -645,6 +804,10 @@ spec:
                                 items:
                                   properties:
                                     backendService:
+                                      description: The default BackendService resource.
+                                        Before forwarding the request to backendService,
+                                        the loadbalancer applies any relevant headerActions
+                                        specified as part of this backendServiceWeight.
                                       type: string
                                   required:
                                   - backendService
@@ -656,17 +819,33 @@ spec:
                                 items:
                                   properties:
                                     numRetries:
+                                      description: Specifies the allowed number retries.
+                                        This number must be > 0.
                                       type: number
                                     perTryTimeout:
+                                      description: Specifies a non-zero timeout per
+                                        retry attempt. Structure is documented below.
                                       items:
                                         properties:
                                           nanos:
+                                            description: Span of time that's a fraction
+                                              of a second at nanosecond resolution.
+                                              Durations less than one second are represented
+                                              with a 0 seconds field and a positive
+                                              nanos field. Must be from 0 to 999,999,999
+                                              inclusive.
                                             type: number
                                           seconds:
+                                            description: Span of time at a resolution
+                                              of a second. Must be from 0 to 315,576,000,000
+                                              inclusive.
                                             type: string
                                         type: object
                                       type: array
                                     retryConditions:
+                                      description: 'Specifies one or more conditions
+                                        when this retry rule applies. Valid values
+                                        are:'
                                       items:
                                         type: string
                                       type: array
@@ -675,29 +854,45 @@ spec:
                               timeout:
                                 description: Specifies the timeout for the selected
                                   route. Timeout is computed from the time the request
-                                  has been fully processed (i.e. end-of-stream) up
-                                  until the response has been completely processed.
+                                  is has been fully processed (i.e. end-of-stream)
+                                  up until the response has been completely processed.
                                   Timeout includes all retries. If not specified,
-                                  will use the largest timeout among all backend services
-                                  associated with the route. Structure is documented
+                                  the default value is 15 seconds. Structure is documented
                                   below.
                                 items:
                                   properties:
                                     nanos:
+                                      description: Span of time that's a fraction
+                                        of a second at nanosecond resolution. Durations
+                                        less than one second are represented with
+                                        a 0 seconds field and a positive nanos field.
+                                        Must be from 0 to 999,999,999 inclusive.
                                       type: number
                                     seconds:
+                                      description: Span of time at a resolution of
+                                        a second. Must be from 0 to 315,576,000,000
+                                        inclusive.
                                       type: string
                                   type: object
                                 type: array
                               urlRewrite:
                                 description: The spec to modify the URL of the request,
-                                  prior to forwarding the request to the matched service.
+                                  prior to forwarding the request to the matched service
                                   Structure is documented below.
                                 items:
                                   properties:
                                     hostRewrite:
+                                      description: Prior to forwarding the request
+                                        to the selected service, the request's host
+                                        header is replaced with contents of hostRewrite.
+                                        The value must be between 1 and 255 characters.
                                       type: string
                                     pathPrefixRewrite:
+                                      description: Prior to forwarding the request
+                                        to the selected backend service, the matching
+                                        portion of the request's path is replaced
+                                        by pathPrefixRewrite. The value must be between
+                                        1 and 1024 characters.
                                       type: string
                                   type: object
                                 type: array
@@ -707,7 +902,7 @@ spec:
                                   determine the fraction of traffic that flows to
                                   their corresponding backend service. If all traffic
                                   needs to go to a single backend service, there must
-                                  be one weightedBackendService with weight set to
+                                  be one  weightedBackendService with weight set to
                                   a non 0 number. Once a backendService is identified
                                   and before forwarding the request to the backend
                                   service, advanced routing actions like Url rewrites
@@ -717,42 +912,49 @@ spec:
                                 items:
                                   properties:
                                     backendService:
+                                      description: The default BackendService resource.
+                                        Before forwarding the request to backendService,
+                                        the loadbalancer applies any relevant headerActions
+                                        specified as part of this backendServiceWeight.
                                       type: string
                                     headerAction:
                                       description: Specifies changes to request and
                                         response headers that need to take effect
-                                        for the selected backendService. The headerAction
-                                        specified here take effect after headerAction
-                                        specified under pathMatcher. Structure is
-                                        documented below.
+                                        for the selected backendService. headerAction
+                                        specified here take effect before headerAction
+                                        in the enclosing HttpRouteRule, PathMatcher
+                                        and UrlMap. Structure is documented below.
                                       items:
                                         properties:
                                           requestHeadersToAdd:
+                                            description: Headers to add to a matching
+                                              request prior to forwarding the request
+                                              to the backendService. Structure is
+                                              documented below.
                                             items:
                                               properties:
                                                 headerName:
-                                                  description: Name of the resource.
-                                                    Provided by the client when the
-                                                    resource is created. The name
-                                                    must be 1-63 characters long,
-                                                    and comply with RFC1035. Specifically,
-                                                    the name must be 1-63 characters
-                                                    long and match the regular expression
-                                                    [a-z]([-a-z0-9]*[a-z0-9])? which
-                                                    means the first character must
-                                                    be a lowercase letter, and all
-                                                    following characters must be a
-                                                    dash, lowercase letter, or digit,
-                                                    except the last character, which
-                                                    cannot be a dash.
+                                                  description: The name of the header.
                                                   type: string
                                                 headerValue:
+                                                  description: The value of the header
+                                                    to add.
                                                   type: string
                                                 replace:
+                                                  description: If false, headerValue
+                                                    is appended to any values that
+                                                    already exist for the header.
+                                                    If true, headerValue is set for
+                                                    the header, discarding any values
+                                                    that were set for that header.
                                                   type: boolean
                                               type: object
                                             type: array
                                           requestHeadersToRemove:
+                                            description: A list of header names for
+                                              headers that need to be removed from
+                                              the request prior to forwarding the
+                                              request to the backendService.
                                             items:
                                               type: string
                                             type: array
@@ -764,34 +966,43 @@ spec:
                                             items:
                                               properties:
                                                 headerName:
-                                                  description: Name of the resource.
-                                                    Provided by the client when the
-                                                    resource is created. The name
-                                                    must be 1-63 characters long,
-                                                    and comply with RFC1035. Specifically,
-                                                    the name must be 1-63 characters
-                                                    long and match the regular expression
-                                                    [a-z]([-a-z0-9]*[a-z0-9])? which
-                                                    means the first character must
-                                                    be a lowercase letter, and all
-                                                    following characters must be a
-                                                    dash, lowercase letter, or digit,
-                                                    except the last character, which
-                                                    cannot be a dash.
+                                                  description: The name of the header.
                                                   type: string
                                                 headerValue:
+                                                  description: The value of the header
+                                                    to add.
                                                   type: string
                                                 replace:
+                                                  description: If false, headerValue
+                                                    is appended to any values that
+                                                    already exist for the header.
+                                                    If true, headerValue is set for
+                                                    the header, discarding any values
+                                                    that were set for that header.
                                                   type: boolean
                                               type: object
                                             type: array
                                           responseHeadersToRemove:
+                                            description: A list of header names for
+                                              headers that need to be removed from
+                                              the response prior to sending the response
+                                              back to the client.
                                             items:
                                               type: string
                                             type: array
                                         type: object
                                       type: array
                                     weight:
+                                      description: Specifies the fraction of traffic
+                                        sent to backendService, computed as weight
+                                        / (sum of all weightedBackendService weights
+                                        in routeAction) . The selection of a backend
+                                        service is determined only for new traffic.
+                                        Once a user's request has been directed to
+                                        a backendService, subsequent requests will
+                                        be sent to the same backendService as determined
+                                        by the BackendService's session affinity policy.
+                                        The value must be between 0 and 1000
                                       type: number
                                   type: object
                                 type: array
@@ -926,6 +1137,12 @@ spec:
                                   RedirectAction. Supported values are:'
                                 type: string
                               stripQuery:
+                                description: If set to true, any accompanying query
+                                  portion of the original URL is removed prior to
+                                  redirecting the request. If set to false, the query
+                                  portion of the original URL is retained. This field
+                                  is required to ensure an empty block is not set.
+                                  The normal default value is false.
                                 type: boolean
                             required:
                             - stripQuery
@@ -944,24 +1161,23 @@ spec:
                           items:
                             properties:
                               requestHeadersToAdd:
+                                description: Headers to add to a matching request
+                                  prior to forwarding the request to the backendService.
+                                  Structure is documented below.
                                 items:
                                   properties:
                                     headerName:
-                                      description: Name of the resource. Provided
-                                        by the client when the resource is created.
-                                        The name must be 1-63 characters long, and
-                                        comply with RFC1035. Specifically, the name
-                                        must be 1-63 characters long and match the
-                                        regular expression [a-z]([-a-z0-9]*[a-z0-9])?
-                                        which means the first character must be a
-                                        lowercase letter, and all following characters
-                                        must be a dash, lowercase letter, or digit,
-                                        except the last character, which cannot be
-                                        a dash.
+                                      description: The name of the header.
                                       type: string
                                     headerValue:
+                                      description: The value of the header to add.
                                       type: string
                                     replace:
+                                      description: If false, headerValue is appended
+                                        to any values that already exist for the header.
+                                        If true, headerValue is set for the header,
+                                        discarding any values that were set for that
+                                        header.
                                       type: boolean
                                   required:
                                   - headerName
@@ -970,6 +1186,9 @@ spec:
                                   type: object
                                 type: array
                               requestHeadersToRemove:
+                                description: A list of header names for headers that
+                                  need to be removed from the request prior to forwarding
+                                  the request to the backendService.
                                 items:
                                   type: string
                                 type: array
@@ -980,21 +1199,17 @@ spec:
                                 items:
                                   properties:
                                     headerName:
-                                      description: Name of the resource. Provided
-                                        by the client when the resource is created.
-                                        The name must be 1-63 characters long, and
-                                        comply with RFC1035. Specifically, the name
-                                        must be 1-63 characters long and match the
-                                        regular expression [a-z]([-a-z0-9]*[a-z0-9])?
-                                        which means the first character must be a
-                                        lowercase letter, and all following characters
-                                        must be a dash, lowercase letter, or digit,
-                                        except the last character, which cannot be
-                                        a dash.
+                                      description: The name of the header.
                                       type: string
                                     headerValue:
+                                      description: The value of the header to add.
                                       type: string
                                     replace:
+                                      description: If false, headerValue is appended
+                                        to any values that already exist for the header.
+                                        If true, headerValue is set for the header,
+                                        discarding any values that were set for that
+                                        header.
                                       type: boolean
                                   required:
                                   - headerName
@@ -1003,6 +1218,9 @@ spec:
                                   type: object
                                 type: array
                               responseHeadersToRemove:
+                                description: A list of header names for headers that
+                                  need to be removed from the response prior to sending
+                                  the response back to the client.
                                 items:
                                   type: string
                                 type: array
@@ -1035,11 +1253,11 @@ spec:
                                   type: string
                                 type: array
                               routeAction:
-                                description: In response to a matching path, the load
-                                  balancer performs advanced routing actions like
-                                  URL rewrites, header transformations, etc. prior
-                                  to forwarding the request to the selected backend.
-                                  If routeAction specifies any weightedBackendServices,
+                                description: In response to a matching matchRule,
+                                  the load balancer performs advanced routing actions
+                                  like URL rewrites, header transformations, etc.
+                                  prior to forwarding the request to the selected
+                                  backend. If  routeAction specifies any weightedBackendServices,
                                   service must not be set. Conversely if service is
                                   set, routeAction cannot contain any  weightedBackendServices.
                                   Only one of routeAction or urlRedirect must be set.
@@ -1054,6 +1272,12 @@ spec:
                                       items:
                                         properties:
                                           allowCredentials:
+                                            description: In response to a preflight
+                                              request, setting this to true indicates
+                                              that the actual request can include
+                                              user credentials. This translates to
+                                              the Access- Control-Allow-Credentials
+                                              header. Defaults to false.
                                             type: boolean
                                           allowHeaders:
                                             description: Specifies the content for
@@ -1068,14 +1292,26 @@ spec:
                                               type: string
                                             type: array
                                           allowOriginRegexes:
+                                            description: Specifies the regular expression
+                                              patterns that match allowed origins.
+                                              For regular expression grammar please
+                                              see en.cppreference.com/w/cpp/regex/ecmascript
+                                              An origin is allowed if it matches either
+                                              allow_origins or allow_origin_regex.
                                             items:
                                               type: string
                                             type: array
                                           allowOrigins:
+                                            description: Specifies the list of origins
+                                              that will be allowed to do CORS requests.
+                                              An origin is allowed if it matches either
+                                              allow_origins or allow_origin_regex.
                                             items:
                                               type: string
                                             type: array
                                           disabled:
+                                            description: If true, specifies the CORS
+                                              policy is disabled.
                                             type: boolean
                                           exposeHeaders:
                                             description: Specifies the content for
@@ -1084,6 +1320,10 @@ spec:
                                               type: string
                                             type: array
                                           maxAge:
+                                            description: Specifies how long the results
+                                              of a preflight request can be cached.
+                                              This translates to the content for the
+                                              Access-Control-Max-Age header.
                                             type: number
                                         required:
                                         - disabled
@@ -1106,11 +1346,25 @@ spec:
                                       items:
                                         properties:
                                           abort:
+                                            description: The specification for how
+                                              client requests are aborted as part
+                                              of fault injection. Structure is documented
+                                              below.
                                             items:
                                               properties:
                                                 httpStatus:
+                                                  description: The HTTP status code
+                                                    used to abort the request. The
+                                                    value must be between 200 and
+                                                    599 inclusive.
                                                   type: number
                                                 percentage:
+                                                  description: The percentage of traffic
+                                                    (connections/operations/requests)
+                                                    on which delay will be introduced
+                                                    as part of fault injection. The
+                                                    value must be between 0.0 and
+                                                    100.0 inclusive.
                                                   type: number
                                               required:
                                               - httpStatus
@@ -1118,20 +1372,47 @@ spec:
                                               type: object
                                             type: array
                                           delay:
+                                            description: The specification for how
+                                              client requests are delayed as part
+                                              of fault injection, before being sent
+                                              to a backend service. Structure is documented
+                                              below.
                                             items:
                                               properties:
                                                 fixedDelay:
+                                                  description: Specifies the value
+                                                    of the fixed delay interval. Structure
+                                                    is documented below.
                                                   items:
                                                     properties:
                                                       nanos:
+                                                        description: Span of time
+                                                          that's a fraction of a second
+                                                          at nanosecond resolution.
+                                                          Durations less than one
+                                                          second are represented with
+                                                          a 0 seconds field and a
+                                                          positive nanos field. Must
+                                                          be from 0 to 999,999,999
+                                                          inclusive.
                                                         type: number
                                                       seconds:
+                                                        description: Span of time
+                                                          at a resolution of a second.
+                                                          Must be from 0 to 315,576,000,000
+                                                          inclusive.
                                                         type: string
                                                     required:
                                                     - seconds
                                                     type: object
                                                   type: array
                                                 percentage:
+                                                  description: The percentage of traffic
+                                                    (connections/operations/requests)
+                                                    on which delay will be introduced
+                                                    as part of fault injection. The
+                                                    value must be between 0.0 and
+                                                    100.0 inclusive.
                                                   type: number
                                               required:
                                               - fixedDelay
@@ -1151,6 +1432,11 @@ spec:
                                       items:
                                         properties:
                                           backendService:
+                                            description: The default BackendService
+                                              resource. Before forwarding the request
+                                              to backendService, the loadbalancer
+                                              applies any relevant headerActions specified
+                                              as part of this backendServiceWeight.
                                             type: string
                                           backendServiceRef:
                                             description: Reference to a BackendService
@@ -1250,19 +1536,37 @@ spec:
                                       items:
                                         properties:
                                           numRetries:
+                                            description: Specifies the allowed number
+                                              retries. This number must be > 0.
                                             type: number
                                           perTryTimeout:
+                                            description: Specifies a non-zero timeout
+                                              per retry attempt. Structure is documented
+                                              below.
                                             items:
                                               properties:
                                                 nanos:
+                                                  description: Span of time that's
+                                                    a fraction of a second at nanosecond
+                                                    resolution. Durations less than
+                                                    one second are represented with
+                                                    a 0 seconds field and a positive
+                                                    nanos field. Must be from 0 to
+                                                    999,999,999 inclusive.
                                                   type: number
                                                 seconds:
+                                                  description: Span of time at a resolution
+                                                    of a second. Must be from 0 to
+                                                    315,576,000,000 inclusive.
                                                   type: string
                                               required:
                                               - seconds
                                               type: object
                                             type: array
                                           retryConditions:
+                                            description: 'Specifies one or more conditions
+                                              when this retry rule applies. Valid
+                                              values are:'
                                             items:
                                               type: string
                                             type: array
@@ -1279,8 +1583,17 @@ spec:
                                       items:
                                         properties:
                                           nanos:
+                                            description: Span of time that's a fraction
+                                              of a second at nanosecond resolution.
+                                              Durations less than one second are represented
+                                              with a 0 seconds field and a positive
+                                              nanos field. Must be from 0 to 999,999,999
+                                              inclusive.
                                             type: number
                                           seconds:
+                                            description: Span of time at a resolution
+                                              of a second. Must be from 0 to 315,576,000,000
+                                              inclusive.
                                             type: string
                                         required:
                                         - seconds
@@ -1294,8 +1607,18 @@ spec:
                                       items:
                                         properties:
                                           hostRewrite:
+                                            description: Prior to forwarding the request
+                                              to the selected service, the request's
+                                              host header is replaced with contents
+                                              of hostRewrite. The value must be between
+                                              1 and 255 characters.
                                             type: string
                                           pathPrefixRewrite:
+                                            description: Prior to forwarding the request
+                                              to the selected backend service, the
+                                              matching portion of the request's path
+                                              is replaced by pathPrefixRewrite. The
+                                              value must be between 1 and 1024 characters.
                                             type: string
                                         type: object
                                       type: array
@@ -1316,6 +1639,11 @@ spec:
                                       items:
                                         properties:
                                           backendService:
+                                            description: The default BackendService
+                                              resource. Before forwarding the request
+                                              to backendService, the loadbalancer
+                                              applies any relevant headerActions specified
+                                              as part of this backendServiceWeight.
                                             type: string
                                           backendServiceRef:
                                             description: Reference to a BackendService
@@ -1411,36 +1739,35 @@ spec:
                                             description: Specifies changes to request
                                               and response headers that need to take
                                               effect for the selected backendService.
-                                              The headerAction specified here take
-                                              effect after headerAction specified
-                                              under pathMatcher. Structure is documented
-                                              below.
+                                              headerAction specified here take effect
+                                              before headerAction in the enclosing
+                                              HttpRouteRule, PathMatcher and UrlMap.
+                                              Structure is documented below.
                                             items:
                                               properties:
                                                 requestHeadersToAdd:
+                                                  description: Headers to add to a
+                                                    matching request prior to forwarding
+                                                    the request to the backendService.
+                                                    Structure is documented below.
                                                   items:
                                                     properties:
                                                       headerName:
-                                                        description: Name of the resource.
-                                                          Provided by the client when
-                                                          the resource is created.
-                                                          The name must be 1-63 characters
-                                                          long, and comply with RFC1035.
-                                                          Specifically, the name must
-                                                          be 1-63 characters long
-                                                          and match the regular expression
-                                                          [a-z]([-a-z0-9]*[a-z0-9])?
-                                                          which means the first character
-                                                          must be a lowercase letter,
-                                                          and all following characters
-                                                          must be a dash, lowercase
-                                                          letter, or digit, except
-                                                          the last character, which
-                                                          cannot be a dash.
+                                                        description: The name of the
+                                                          header.
                                                         type: string
                                                       headerValue:
+                                                        description: The value of
+                                                          the header to add.
                                                         type: string
                                                       replace:
+                                                        description: If false, headerValue
+                                                          is appended to any values
+                                                          that already exist for the
+                                                          header. If true, headerValue
+                                                          is set for the header, discarding
+                                                          any values that were set
+                                                          for that header.
                                                         type: boolean
                                                     required:
                                                     - headerName
@@ -1449,6 +1776,10 @@ spec:
                                                     type: object
                                                   type: array
                                                 requestHeadersToRemove:
+                                                  description: A list of header names
+                                                    for headers that need to be removed
+                                                    from the request prior to forwarding
+                                                    the request to the backendService.
                                                   items:
                                                     type: string
                                                   type: array
@@ -1460,26 +1791,21 @@ spec:
                                                   items:
                                                     properties:
                                                       headerName:
-                                                        description: Name of the resource.
-                                                          Provided by the client when
-                                                          the resource is created.
-                                                          The name must be 1-63 characters
-                                                          long, and comply with RFC1035.
-                                                          Specifically, the name must
-                                                          be 1-63 characters long
-                                                          and match the regular expression
-                                                          [a-z]([-a-z0-9]*[a-z0-9])?
-                                                          which means the first character
-                                                          must be a lowercase letter,
-                                                          and all following characters
-                                                          must be a dash, lowercase
-                                                          letter, or digit, except
-                                                          the last character, which
-                                                          cannot be a dash.
+                                                        description: The name of the
+                                                          header.
                                                         type: string
                                                       headerValue:
+                                                        description: The value of
+                                                          the header to add.
                                                         type: string
                                                       replace:
+                                                        description: If false, headerValue
+                                                          is appended to any values
+                                                          that already exist for the
+                                                          header. If true, headerValue
+                                                          is set for the header, discarding
+                                                          any values that were set
+                                                          for that header.
                                                         type: boolean
                                                     required:
                                                     - headerName
@@ -1488,12 +1814,28 @@ spec:
                                                     type: object
                                                   type: array
                                                 responseHeadersToRemove:
+                                                  description: A list of header names
+                                                    for headers that need to be removed
+                                                    from the response prior to sending
+                                                    the response back to the client.
                                                   items:
                                                     type: string
                                                   type: array
                                               type: object
                                             type: array
                                           weight:
+                                            description: Specifies the fraction of
+                                              traffic sent to backendService, computed
+                                              as weight / (sum of all weightedBackendService
+                                              weights in routeAction) . The selection
+                                              of a backend service is determined only
+                                              for new traffic. Once a user's request
+                                              has been directed to a backendService,
+                                              subsequent requests will be sent to
+                                              the same backendService as determined
+                                              by the BackendService's session affinity
+                                              policy. The value must be between 0
+                                              and 1000
                                             type: number
                                         required:
                                         - weight
@@ -1503,7 +1845,7 @@ spec:
                                 type: array
                               service:
                                 description: The backend service or backend bucket
-                                  to use if any of the given paths match.
+                                  link that should be matched by this test.
                                 type: string
                               serviceRef:
                                 description: Reference to a BackendBucket in compute
@@ -1586,7 +1928,7 @@ spec:
                                     type: object
                                 type: object
                               urlRedirect:
-                                description: When a path pattern is matched, the request
+                                description: When this rule is matched, the request
                                   is redirected to a URL specified by urlRedirect.
                                   If urlRedirect is specified, service or routeAction
                                   must not be set. Structure is documented below.
@@ -1634,6 +1976,13 @@ spec:
                                         this RedirectAction. Supported values are:'
                                       type: string
                                     stripQuery:
+                                      description: If set to true, any accompanying
+                                        query portion of the original URL is removed
+                                        prior to redirecting the request. If set to
+                                        false, the query portion of the original URL
+                                        is retained. This field is required to ensure
+                                        an empty block is not set. The normal default
+                                        value is false.
                                       type: boolean
                                   required:
                                   - stripQuery
@@ -1657,31 +2006,31 @@ spec:
                               headerAction:
                                 description: Specifies changes to request and response
                                   headers that need to take effect for the selected
-                                  backendService. The headerAction specified here
-                                  are applied before the matching pathMatchers[].headerAction
-                                  and after pathMatchers[].routeRules[].r outeAction.weightedBackendService.backendServiceWeightAction[].headerAction
-                                  Structure is documented below.
+                                  backendService. headerAction specified here take
+                                  effect before headerAction in the enclosing HttpRouteRule,
+                                  PathMatcher and UrlMap. Structure is documented
+                                  below.
                                 items:
                                   properties:
                                     requestHeadersToAdd:
+                                      description: Headers to add to a matching request
+                                        prior to forwarding the request to the backendService.
+                                        Structure is documented below.
                                       items:
                                         properties:
                                           headerName:
-                                            description: Name of the resource. Provided
-                                              by the client when the resource is created.
-                                              The name must be 1-63 characters long,
-                                              and comply with RFC1035. Specifically,
-                                              the name must be 1-63 characters long
-                                              and match the regular expression [a-z]([-a-z0-9]*[a-z0-9])?
-                                              which means the first character must
-                                              be a lowercase letter, and all following
-                                              characters must be a dash, lowercase
-                                              letter, or digit, except the last character,
-                                              which cannot be a dash.
+                                            description: The name of the header.
                                             type: string
                                           headerValue:
+                                            description: The value of the header to
+                                              add.
                                             type: string
                                           replace:
+                                            description: If false, headerValue is
+                                              appended to any values that already
+                                              exist for the header. If true, headerValue
+                                              is set for the header, discarding any
+                                              values that were set for that header.
                                             type: boolean
                                         required:
                                         - headerName
@@ -1690,6 +2039,9 @@ spec:
                                         type: object
                                       type: array
                                     requestHeadersToRemove:
+                                      description: A list of header names for headers
+                                        that need to be removed from the request prior
+                                        to forwarding the request to the backendService.
                                       items:
                                         type: string
                                       type: array
@@ -1700,21 +2052,18 @@ spec:
                                       items:
                                         properties:
                                           headerName:
-                                            description: Name of the resource. Provided
-                                              by the client when the resource is created.
-                                              The name must be 1-63 characters long,
-                                              and comply with RFC1035. Specifically,
-                                              the name must be 1-63 characters long
-                                              and match the regular expression [a-z]([-a-z0-9]*[a-z0-9])?
-                                              which means the first character must
-                                              be a lowercase letter, and all following
-                                              characters must be a dash, lowercase
-                                              letter, or digit, except the last character,
-                                              which cannot be a dash.
+                                            description: The name of the header.
                                             type: string
                                           headerValue:
+                                            description: The value of the header to
+                                              add.
                                             type: string
                                           replace:
+                                            description: If false, headerValue is
+                                              appended to any values that already
+                                              exist for the header. If true, headerValue
+                                              is set for the header, discarding any
+                                              values that were set for that header.
                                             type: boolean
                                         required:
                                         - headerName
@@ -1723,6 +2072,10 @@ spec:
                                         type: object
                                       type: array
                                     responseHeadersToRemove:
+                                      description: A list of header names for headers
+                                        that need to be removed from the response
+                                        prior to sending the response back to the
+                                        client.
                                       items:
                                         type: string
                                       type: array
@@ -1751,19 +2104,14 @@ spec:
                                       items:
                                         properties:
                                           exactMatch:
-                                            description: The value should exactly
-                                              match contents of exactMatch. Only one
-                                              of exactMatch, prefixMatch, suffixMatch,
-                                              regexMatch, presentMatch or rangeMatch
-                                              must be set.
+                                            description: The queryParameterMatch matches
+                                              if the value of the parameter exactly
+                                              matches the contents of exactMatch.
+                                              Only one of presentMatch, exactMatch
+                                              and regexMatch must be set.
                                             type: string
                                           headerName:
-                                            description: The name of the HTTP header
-                                              to match. For matching against the HTTP
-                                              request's authority, use a headerMatch
-                                              with the header name ":authority". For
-                                              matching a request's method, use the
-                                              headerName ":method".
+                                            description: The name of the header.
                                             type: string
                                           invertMatch:
                                             description: If set to false, the headerMatch
@@ -1773,20 +2121,21 @@ spec:
                                               above are NOT met. Defaults to false.
                                             type: boolean
                                           prefixMatch:
-                                            description: The value of the header must
-                                              start with the contents of prefixMatch.
-                                              Only one of exactMatch, prefixMatch,
-                                              suffixMatch, regexMatch, presentMatch
-                                              or rangeMatch must be set.
+                                            description: For satisfying the matchRule
+                                              condition, the request's path must begin
+                                              with the specified prefixMatch. prefixMatch
+                                              must begin with a /. The value must
+                                              be between 1 and 1024 characters. Only
+                                              one of prefixMatch, fullPathMatch or
+                                              regexMatch must be specified.
                                             type: string
                                           presentMatch:
-                                            description: A header with the contents
-                                              of headerName must exist. The match
-                                              takes place whether or not the request's
-                                              header has a value or not. Only one
-                                              of exactMatch, prefixMatch, suffixMatch,
-                                              regexMatch, presentMatch or rangeMatch
-                                              must be set.
+                                            description: Specifies that the queryParameterMatch
+                                              matches if the request contains the
+                                              query parameter, irrespective of whether
+                                              the parameter has a value or not. Only
+                                              one of presentMatch, exactMatch and
+                                              regexMatch must be set.
                                             type: boolean
                                           rangeMatch:
                                             description: The header value must be
@@ -1817,18 +2166,13 @@ spec:
                                               type: object
                                             type: array
                                           regexMatch:
-                                            description: 'The value of the header
-                                              must match the regular expression specified
-                                              in regexMatch. For regular expression
-                                              grammar, please see: en.cppreference.com/w/cpp/regex/ecmascript  For
-                                              matching against a port specified in
-                                              the HTTP request, use a headerMatch
-                                              with headerName set to PORT and a regular
-                                              expression that satisfies the RFC2616
-                                              Host header''s port specifier. Only
-                                              one of exactMatch, prefixMatch, suffixMatch,
-                                              regexMatch, presentMatch or rangeMatch
-                                              must be set.'
+                                            description: The queryParameterMatch matches
+                                              if the value of the parameter matches
+                                              the regular expression specified by
+                                              regexMatch. For the regular expression
+                                              grammar, please see en.cppreference.com/w/cpp/regex/ecmascript  Only
+                                              one of presentMatch, exactMatch and
+                                              regexMatch must be set.
                                             type: string
                                           suffixMatch:
                                             description: The value of the header must
@@ -1878,10 +2222,11 @@ spec:
                                             items:
                                               properties:
                                                 name:
-                                                  description: Name of metadata label.
-                                                    The name can have a maximum length
-                                                    of 1024 characters and must be
-                                                    at least 1 character long.
+                                                  description: The name of the query
+                                                    parameter to match. The query
+                                                    parameter must exist in the request,
+                                                    in the absence of which the request
+                                                    match fails.
                                                   type: string
                                                 value:
                                                   description: The value of the label
@@ -1956,14 +2301,13 @@ spec:
                                         type: object
                                       type: array
                                     regexMatch:
-                                      description: For satisfying the matchRule condition,
-                                        the path of the request must satisfy the regular
-                                        expression specified in regexMatch after removing
-                                        any query parameters and anchor supplied with
-                                        the original URL. For regular expression grammar
-                                        please see en.cppreference.com/w/cpp/regex/ecmascript  Only
-                                        one of prefixMatch, fullPathMatch or regexMatch
-                                        must be specified.
+                                      description: The queryParameterMatch matches
+                                        if the value of the parameter matches the
+                                        regular expression specified by regexMatch.
+                                        For the regular expression grammar, please
+                                        see en.cppreference.com/w/cpp/regex/ecmascript  Only
+                                        one of presentMatch, exactMatch and regexMatch
+                                        must be set.
                                       type: string
                                   type: object
                                 type: array
@@ -2006,6 +2350,12 @@ spec:
                                       items:
                                         properties:
                                           allowCredentials:
+                                            description: In response to a preflight
+                                              request, setting this to true indicates
+                                              that the actual request can include
+                                              user credentials. This translates to
+                                              the Access- Control-Allow-Credentials
+                                              header. Defaults to false.
                                             type: boolean
                                           allowHeaders:
                                             description: Specifies the content for
@@ -2020,14 +2370,26 @@ spec:
                                               type: string
                                             type: array
                                           allowOriginRegexes:
+                                            description: Specifies the regular expression
+                                              patterns that match allowed origins.
+                                              For regular expression grammar please
+                                              see en.cppreference.com/w/cpp/regex/ecmascript
+                                              An origin is allowed if it matches either
+                                              allow_origins or allow_origin_regex.
                                             items:
                                               type: string
                                             type: array
                                           allowOrigins:
+                                            description: Specifies the list of origins
+                                              that will be allowed to do CORS requests.
+                                              An origin is allowed if it matches either
+                                              allow_origins or allow_origin_regex.
                                             items:
                                               type: string
                                             type: array
                                           disabled:
+                                            description: If true, specifies the CORS
+                                              policy is disabled.
                                             type: boolean
                                           exposeHeaders:
                                             description: Specifies the content for
@@ -2036,6 +2398,10 @@ spec:
                                               type: string
                                             type: array
                                           maxAge:
+                                            description: Specifies how long the results
+                                              of a preflight request can be cached.
+                                              This translates to the content for the
+                                              Access-Control-Max-Age header.
                                             type: number
                                         type: object
                                       type: array
@@ -2056,29 +2422,70 @@ spec:
                                       items:
                                         properties:
                                           abort:
+                                            description: The specification for how
+                                              client requests are aborted as part
+                                              of fault injection. Structure is documented
+                                              below.
                                             items:
                                               properties:
                                                 httpStatus:
+                                                  description: The HTTP status code
+                                                    used to abort the request. The
+                                                    value must be between 200 and
+                                                    599 inclusive.
                                                   type: number
                                                 percentage:
+                                                  description: The percentage of traffic
+                                                    (connections/operations/requests)
+                                                    on which delay will be introduced
+                                                    as part of fault injection. The
+                                                    value must be between 0.0 and
+                                                    100.0 inclusive.
                                                   type: number
                                               type: object
                                             type: array
                                           delay:
+                                            description: The specification for how
+                                              client requests are delayed as part
+                                              of fault injection, before being sent
+                                              to a backend service. Structure is documented
+                                              below.
                                             items:
                                               properties:
                                                 fixedDelay:
+                                                  description: Specifies the value
+                                                    of the fixed delay interval. Structure
+                                                    is documented below.
                                                   items:
                                                     properties:
                                                       nanos:
+                                                        description: Span of time
+                                                          that's a fraction of a second
+                                                          at nanosecond resolution.
+                                                          Durations less than one
+                                                          second are represented with
+                                                          a 0 seconds field and a
+                                                          positive nanos field. Must
+                                                          be from 0 to 999,999,999
+                                                          inclusive.
                                                         type: number
                                                       seconds:
+                                                        description: Span of time
+                                                          at a resolution of a second.
+                                                          Must be from 0 to 315,576,000,000
+                                                          inclusive.
                                                         type: string
                                                     required:
                                                     - seconds
                                                     type: object
                                                   type: array
                                                 percentage:
+                                                  description: The percentage of traffic
+                                                    (connections/operations/requests)
+                                                    on which delay will be introduced
+                                                    as part of fault injection. The
+                                                    value must be between 0.0 and
+                                                    100.0 inclusive.
                                                   type: number
                                               type: object
                                             type: array
@@ -2095,6 +2502,11 @@ spec:
                                       items:
                                         properties:
                                           backendService:
+                                            description: The default BackendService
+                                              resource. Before forwarding the request
+                                              to backendService, the loadbalancer
+                                              applies any relevant headerActions specified
+                                              as part of this backendServiceWeight.
                                             type: string
                                         required:
                                         - backendService
@@ -2106,19 +2518,37 @@ spec:
                                       items:
                                         properties:
                                           numRetries:
+                                            description: Specifies the allowed number
+                                              retries. This number must be > 0.
                                             type: number
                                           perTryTimeout:
+                                            description: Specifies a non-zero timeout
+                                              per retry attempt. Structure is documented
+                                              below.
                                             items:
                                               properties:
                                                 nanos:
+                                                  description: Span of time that's
+                                                    a fraction of a second at nanosecond
+                                                    resolution. Durations less than
+                                                    one second are represented with
+                                                    a 0 seconds field and a positive
+                                                    nanos field. Must be from 0 to
+                                                    999,999,999 inclusive.
                                                   type: number
                                                 seconds:
+                                                  description: Span of time at a resolution
+                                                    of a second. Must be from 0 to
+                                                    315,576,000,000 inclusive.
                                                   type: string
                                               required:
                                               - seconds
                                               type: object
                                             type: array
                                           retryConditions:
+                                            description: 'Specifies one or more conditions
+                                              when this retry rule applies. Valid
+                                              values are:'
                                             items:
                                               type: string
                                             type: array
@@ -2137,8 +2567,17 @@ spec:
                                       items:
                                         properties:
                                           nanos:
+                                            description: Span of time that's a fraction
+                                              of a second at nanosecond resolution.
+                                              Durations less than one second are represented
+                                              with a 0 seconds field and a positive
+                                              nanos field. Must be from 0 to 999,999,999
+                                              inclusive.
                                             type: number
                                           seconds:
+                                            description: Span of time at a resolution
+                                              of a second. Must be from 0 to 315,576,000,000
+                                              inclusive.
                                             type: string
                                         required:
                                         - seconds
@@ -2152,8 +2591,18 @@ spec:
                                       items:
                                         properties:
                                           hostRewrite:
+                                            description: Prior to forwarding the request
+                                              to the selected service, the request's
+                                              host header is replaced with contents
+                                              of hostRewrite. The value must be between
+                                              1 and 255 characters.
                                             type: string
                                           pathPrefixRewrite:
+                                            description: Prior to forwarding the request
+                                              to the selected backend service, the
+                                              matching portion of the request's path
+                                              is replaced by pathPrefixRewrite. The
+                                              value must be between 1 and 1024 characters.
                                             type: string
                                         type: object
                                       type: array
@@ -2174,41 +2623,45 @@ spec:
                                       items:
                                         properties:
                                           backendService:
+                                            description: The default BackendService
+                                              resource. Before forwarding the request
+                                              to backendService, the loadbalancer
+                                              applies any relevant headerActions specified
+                                              as part of this backendServiceWeight.
                                             type: string
                                           headerAction:
                                             description: Specifies changes to request
                                               and response headers that need to take
                                               effect for the selected backendService.
-                                              The headerAction specified here take
-                                              effect after headerAction specified
-                                              under pathMatcher. Structure is documented
-                                              below.
+                                              headerAction specified here take effect
+                                              before headerAction in the enclosing
+                                              HttpRouteRule, PathMatcher and UrlMap.
+                                              Structure is documented below.
                                             items:
                                               properties:
                                                 requestHeadersToAdd:
+                                                  description: Headers to add to a
+                                                    matching request prior to forwarding
+                                                    the request to the backendService.
+                                                    Structure is documented below.
                                                   items:
                                                     properties:
                                                       headerName:
-                                                        description: Name of the resource.
-                                                          Provided by the client when
-                                                          the resource is created.
-                                                          The name must be 1-63 characters
-                                                          long, and comply with RFC1035.
-                                                          Specifically, the name must
-                                                          be 1-63 characters long
-                                                          and match the regular expression
-                                                          [a-z]([-a-z0-9]*[a-z0-9])?
-                                                          which means the first character
-                                                          must be a lowercase letter,
-                                                          and all following characters
-                                                          must be a dash, lowercase
-                                                          letter, or digit, except
-                                                          the last character, which
-                                                          cannot be a dash.
+                                                        description: The name of the
+                                                          header.
                                                         type: string
                                                       headerValue:
+                                                        description: The value of
+                                                          the header to add.
                                                         type: string
                                                       replace:
+                                                        description: If false, headerValue
+                                                          is appended to any values
+                                                          that already exist for the
+                                                          header. If true, headerValue
+                                                          is set for the header, discarding
+                                                          any values that were set
+                                                          for that header.
                                                         type: boolean
                                                     required:
                                                     - headerName
@@ -2217,6 +2670,10 @@ spec:
                                                     type: object
                                                   type: array
                                                 requestHeadersToRemove:
+                                                  description: A list of header names
+                                                    for headers that need to be removed
+                                                    from the request prior to forwarding
+                                                    the request to the backendService.
                                                   items:
                                                     type: string
                                                   type: array
@@ -2228,26 +2685,21 @@ spec:
                                                   items:
                                                     properties:
                                                       headerName:
-                                                        description: Name of the resource.
-                                                          Provided by the client when
-                                                          the resource is created.
-                                                          The name must be 1-63 characters
-                                                          long, and comply with RFC1035.
-                                                          Specifically, the name must
-                                                          be 1-63 characters long
-                                                          and match the regular expression
-                                                          [a-z]([-a-z0-9]*[a-z0-9])?
-                                                          which means the first character
-                                                          must be a lowercase letter,
-                                                          and all following characters
-                                                          must be a dash, lowercase
-                                                          letter, or digit, except
-                                                          the last character, which
-                                                          cannot be a dash.
+                                                        description: The name of the
+                                                          header.
                                                         type: string
                                                       headerValue:
+                                                        description: The value of
+                                                          the header to add.
                                                         type: string
                                                       replace:
+                                                        description: If false, headerValue
+                                                          is appended to any values
+                                                          that already exist for the
+                                                          header. If true, headerValue
+                                                          is set for the header, discarding
+                                                          any values that were set
+                                                          for that header.
                                                         type: boolean
                                                     required:
                                                     - headerName
@@ -2256,12 +2708,28 @@ spec:
                                                     type: object
                                                   type: array
                                                 responseHeadersToRemove:
+                                                  description: A list of header names
+                                                    for headers that need to be removed
+                                                    from the response prior to sending
+                                                    the response back to the client.
                                                   items:
                                                     type: string
                                                   type: array
                                               type: object
                                             type: array
                                           weight:
+                                            description: Specifies the fraction of
+                                              traffic sent to backendService, computed
+                                              as weight / (sum of all weightedBackendService
+                                              weights in routeAction) . The selection
+                                              of a backend service is determined only
+                                              for new traffic. Once a user's request
+                                              has been directed to a backendService,
+                                              subsequent requests will be sent to
+                                              the same backendService as determined
+                                              by the BackendService's session affinity
+                                              policy. The value must be between 0
+                                              and 1000
                                             type: number
                                         required:
                                         - backendService
@@ -2271,16 +2739,8 @@ spec:
                                   type: object
                                 type: array
                               service:
-                                description: The backend service resource to which
-                                  traffic is directed if this rule is matched. If
-                                  routeAction is additionally specified, advanced
-                                  routing actions like URL Rewrites, etc. take effect
-                                  prior to sending the request to the backend. However,
-                                  if service is specified, routeAction cannot contain
-                                  any weightedBackendService s. Conversely, if routeAction
-                                  specifies any weightedBackendServices, service must
-                                  not be specified. Only one of urlRedirect, service
-                                  or routeAction.weightedBackendService must be set.
+                                description: The backend service or backend bucket
+                                  link that should be matched by this test.
                                 type: string
                               serviceRef:
                                 description: Reference to a BackendService in compute
@@ -2411,6 +2871,13 @@ spec:
                                         this RedirectAction. Supported values are:'
                                       type: string
                                     stripQuery:
+                                      description: If set to true, any accompanying
+                                        query portion of the original URL is removed
+                                        prior to redirecting the request. If set to
+                                        false, the query portion of the original URL
+                                        is retained. This field is required to ensure
+                                        an empty block is not set. The normal default
+                                        value is false.
                                       type: boolean
                                   type: object
                                 type: array

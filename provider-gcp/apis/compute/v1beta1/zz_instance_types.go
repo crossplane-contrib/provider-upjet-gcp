@@ -30,21 +30,17 @@ type AccessConfigObservation struct {
 
 type AccessConfigParameters struct {
 
-	// The IP address that will be 1:1 mapped to the instance's
-	// network ip. If not given, one will be generated.
+	// If the instance has an access config, either the given external ip (in the nat_ip field) or the ephemeral (generated) ip (if you didn't provide one).
 	// +kubebuilder:validation:Optional
 	NATIP *string `json:"natIp,omitempty" tf:"nat_ip,omitempty"`
 
-	// The networking tier used for configuring this instance.
-	// This field can take the following values: PREMIUM, FIXED_STANDARD or STANDARD. If this field is
-	// not specified, it is assumed to be PREMIUM.
+	// The service-level to be provided for IPv6 traffic when the
+	// subnet has an external subnet. Only PREMIUM or STANDARD tier is valid for IPv6.
 	// +kubebuilder:validation:Optional
 	NetworkTier *string `json:"networkTier,omitempty" tf:"network_tier,omitempty"`
 
-	// The DNS domain name for the public PTR record.
-	// To set this field on an instance, you must be verified as the owner of the domain.
-	// See the docs for how
-	// to become verified as a domain owner.
+	// The domain name to be used when creating DNSv6
+	// records for the external IPv6 ranges..
 	// +kubebuilder:validation:Optional
 	PublicPtrDomainName *string `json:"publicPtrDomainName,omitempty" tf:"public_ptr_domain_name,omitempty"`
 }
@@ -217,7 +213,7 @@ type InitializeParamsParameters struct {
 	// +kubebuilder:validation:Optional
 	Size *float64 `json:"size,omitempty" tf:"size,omitempty"`
 
-	// The GCE disk type. Such as pd-standard, pd-balanced or pd-ssd.
+	// The type of reservation from which this instance can consume resources.
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
@@ -551,7 +547,7 @@ type NodeAffinitiesObservation struct {
 
 type NodeAffinitiesParameters struct {
 
-	// The key for the node affinity label.
+	// Corresponds to the label key of a reservation resource. To target a SPECIFIC_RESERVATION by name, specify compute.googleapis.com/reservation-name as the key and specify the name of your reservation as the only value.
 	// +kubebuilder:validation:Required
 	Key *string `json:"key" tf:"key,omitempty"`
 
@@ -560,7 +556,7 @@ type NodeAffinitiesParameters struct {
 	// +kubebuilder:validation:Required
 	Operator *string `json:"operator" tf:"operator,omitempty"`
 
-	// The values for the node affinity label.
+	// Corresponds to the label values of a reservation resource.
 	// +kubebuilder:validation:Required
 	Values []*string `json:"values" tf:"values,omitempty"`
 }
