@@ -294,6 +294,18 @@ var externalNameConfigs = map[string]config.ExternalName{
 	// Imported by using the following format: {{name}}
 	"google_data_catalog_entry_group": config.IdentifierFromProvider,
 
+	// dialogflow
+	//
+	// More details in https://upboundio.slack.com/archives/C01PK1SMYNN/p1663240546481649
+	// All resources must be configured with config.IdentifierFromProvider due to all depending on agent
+	"google_dialogflow_cx_agent":       config.IdentifierFromProvider,
+	"google_dialogflow_cx_entity_type": config.IdentifierFromProvider,
+	"google_dialogflow_cx_environment": config.IdentifierFromProvider,
+	"google_dialogflow_cx_flow":        config.IdentifierFromProvider,
+	"google_dialogflow_cx_intent":      config.IdentifierFromProvider,
+	"google_dialogflow_cx_page":        config.IdentifierFromProvider,
+	"google_dialogflow_cx_version":     config.IdentifierFromProvider,
+
 	// dns
 	//
 	// Imported by using the following format: projects/{{project}}/managedZones/{{name}}
@@ -302,6 +314,75 @@ var externalNameConfigs = map[string]config.ExternalName{
 	"google_dns_policy": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/policies/{{ .external_name }}"),
 	// Imported by using the following format: projects/{{project}}/managedZones/{{zone}}/rrsets/{{name}}/{{type}}
 	"google_dns_record_set": config.IdentifierFromProvider,
+
+	// endpoints
+	//
+	// Note(donovanmuller): Must be owner of the domain name used in serviceName
+	// This resource does not support import.
+	// "google_endpoints_service": config.IdentifierFromProvider,
+	// Imported by using the following format: services/{{service_name}} roles/viewer user:jane@example.com
+	// "google_endpoints_service_iam_member": config.IdentifierFromProvider,
+	// Imported by using the following format: services/{{service_name}}/consumers/{{consumer_project}} roles/servicemanagement.serviceController user:jane@example.com
+	// "google_endpoints_service_consumers_iam_member": config.IdentifierFromProvider,
+
+	// essential
+	//
+	// Imported by using the following format:
+	"google_essential_contacts_contact": config.IdentifierFromProvider,
+
+	// eventarc
+	//
+	// Imported by using the following format: projects/{{project}}/locations/{{location}}/triggers/{{name}}
+	"google_eventarc_trigger": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/triggers/{{ .external_name }}"),
+
+	// filestore
+	//
+	// Imported by using the following format: projects/{{project}}/locations/{{location}}/instances/{{name}}
+	"google_filestore_instance": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/instances/{{ .external_name }}"),
+
+	// firebaserules
+	//
+	// Imported by using the following format: projects/{{project}}/releases/{{name}}
+	"google_firebaserules_release": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/releases/{{ .external_name }}"),
+	// Imported by using the following format: projects/{{project}}/rulesets/{{name}}
+	"google_firebaserules_ruleset": config.IdentifierFromProvider,
+
+	// firestore
+	//
+	// Imported by using the following format: {{name}}
+	// Note(donovanmuller): This resource creates a Firestore Document on a project that already has Firestore enabled
+	// The Cloud Firestore API is not available for Datastore Mode projects
+	// "google_firestore_document": config.IdentifierFromProvider,
+	// Imported by using the following format: {{name}}
+	// Note(donovanmuller): This resource creates a Firestore Document on a project that already has Firestore enabled
+	// Requires project level IAM permissions
+	// "google_firestore_index": config.IdentifierFromProvider,
+
+	// gameservers
+	//
+	// Note(donovanmuller): All resourcs return this error: Error 404: Method not found
+	// Imported by using the following format: projects/{{project}}/locations/{{location}}/realms/{{realm_id}}/gameServerClusters/{{cluster_id}}
+	// "google_game_services_game_server_cluster": config.TemplatedStringAsIdentifier("cluster_id", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/realms/{{ .parameters.realm_id }}/gameServerClusters/{{ .external_name }}"),
+	// Imported by using the following format: projects/{{project}}/locations/{{location}}/gameServerDeployments/{{deployment_id}}/configs/{{config_id}}
+	// "google_game_services_game_server_config": config.TemplatedStringAsIdentifier("config_id", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/gameServerDeployments/{{ .parameters.deployment_id }}/configs/{{ .external_name }}"),
+	// Imported by using the following format: projects/{{project}}/locations/{{location}}/gameServerDeployments/{{deployment_id}}
+	// "google_game_services_game_server_deployment": config.TemplatedStringAsIdentifier("deployment_id", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/gameServerDeployments/{{ .external_name }}"),
+	// Imported by using the following format: projects/{{project}}/locations/global/gameServerDeployments/{{deployment_id}}/rollout
+	// "google_game_services_game_server_deployment_rollout": config.IdentifierFromProvider,
+	// Imported by using the following format: projects/{{project}}/locations/{{location}}/realms/{{realm_id}}
+	// "google_game_services_realm": config.TemplatedStringAsIdentifier("realm_id", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/realms/{{ .external_name }}"),
+
+	// gkehub
+	//
+	// Imported by using the following format: projects/{{project}}/locations/global/memberships/{{membership_id}}
+	"google_gke_hub_membership": config.TemplatedStringAsIdentifier("membership_id", "projects/{{ .setup.configuration.project }}/locations/global/memberships/{{ .external_name }}"),
+
+	// healthcare
+	//
+	// Imported by using the following format: {{dataset}}/consentStores/{{name}}
+	"google_healthcare_consent_store": config.IdentifierFromProvider,
+	// Imported by using the following format: projects/{{project}}/locations/{{location}}/datasets/{{name}}
+	"google_healthcare_dataset": config.IdentifierFromProvider,
 
 	// iap
 	//
@@ -502,11 +583,6 @@ var externalNameConfigs = map[string]config.ExternalName{
 	"google_storage_default_object_access_control": config.IdentifierFromProvider,
 	// No import documented.
 	"google_storage_default_object_acl": config.IdentifierFromProvider,
-
-	// gkehub
-
-	// Imported by using the following format: projects/{{project}}/locations/global/memberships/{{membership_id}}
-	"google_gke_hub_membership": config.TemplatedStringAsIdentifier("membership_id", "projects/{{ .setup.configuration.project }}/locations/global/memberships/{{ .external_name }}"),
 }
 
 // TemplatedStringAsIdentifierWithNoName uses TemplatedStringAsIdentifier but

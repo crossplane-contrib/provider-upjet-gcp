@@ -12,7 +12,7 @@ spec:
     - gkeCluster:
       - resourceLinkSelector:
           matchLabels:
-            testing.upbound.io/example-name: primary
+            testing.upbound.io/example-name: membership
 
 ---
 
@@ -22,13 +22,11 @@ metadata:
   annotations:
     meta.upbound.io/example-id: gkehub/v1beta1/membership
   labels:
-    testing.upbound.io/example-name: primary
-  name: primary
+    testing.upbound.io/example-name: membership
+  name: membership
 spec:
   forProvider:
     initialNodeCount: 2
     location: us-central1-a
     nodeConfig:
       - machineType: e2-standard-8
-
-

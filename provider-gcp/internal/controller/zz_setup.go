@@ -123,10 +123,24 @@ import (
 	nodepoolcontainerazure "github.com/upbound/official-providers/provider-gcp/internal/controller/containerazure/nodepool"
 	entry "github.com/upbound/official-providers/provider-gcp/internal/controller/datacatalog/entry"
 	entrygroup "github.com/upbound/official-providers/provider-gcp/internal/controller/datacatalog/entrygroup"
+	agent "github.com/upbound/official-providers/provider-gcp/internal/controller/dialogflowcx/agent"
+	entitytype "github.com/upbound/official-providers/provider-gcp/internal/controller/dialogflowcx/entitytype"
+	environmentdialogflowcx "github.com/upbound/official-providers/provider-gcp/internal/controller/dialogflowcx/environment"
+	flow "github.com/upbound/official-providers/provider-gcp/internal/controller/dialogflowcx/flow"
+	intent "github.com/upbound/official-providers/provider-gcp/internal/controller/dialogflowcx/intent"
+	page "github.com/upbound/official-providers/provider-gcp/internal/controller/dialogflowcx/page"
+	version "github.com/upbound/official-providers/provider-gcp/internal/controller/dialogflowcx/version"
 	managedzone "github.com/upbound/official-providers/provider-gcp/internal/controller/dns/managedzone"
 	policy "github.com/upbound/official-providers/provider-gcp/internal/controller/dns/policy"
 	recordset "github.com/upbound/official-providers/provider-gcp/internal/controller/dns/recordset"
+	contact "github.com/upbound/official-providers/provider-gcp/internal/controller/essentialcontacts/contact"
+	trigger "github.com/upbound/official-providers/provider-gcp/internal/controller/eventarc/trigger"
+	instancefilestore "github.com/upbound/official-providers/provider-gcp/internal/controller/filestore/instance"
+	release "github.com/upbound/official-providers/provider-gcp/internal/controller/firebaserules/release"
+	ruleset "github.com/upbound/official-providers/provider-gcp/internal/controller/firebaserules/ruleset"
 	membership "github.com/upbound/official-providers/provider-gcp/internal/controller/gkehub/membership"
+	consentstore "github.com/upbound/official-providers/provider-gcp/internal/controller/healthcare/consentstore"
+	dataset "github.com/upbound/official-providers/provider-gcp/internal/controller/healthcare/dataset"
 	webbackendserviceiammember "github.com/upbound/official-providers/provider-gcp/internal/controller/iap/webbackendserviceiammember"
 	webiammember "github.com/upbound/official-providers/provider-gcp/internal/controller/iap/webiammember"
 	webtypeappengineiammember "github.com/upbound/official-providers/provider-gcp/internal/controller/iap/webtypeappengineiammember"
@@ -313,10 +327,24 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		nodepoolcontainerazure.Setup,
 		entry.Setup,
 		entrygroup.Setup,
+		agent.Setup,
+		entitytype.Setup,
+		environmentdialogflowcx.Setup,
+		flow.Setup,
+		intent.Setup,
+		page.Setup,
+		version.Setup,
 		managedzone.Setup,
 		policy.Setup,
 		recordset.Setup,
+		contact.Setup,
+		trigger.Setup,
+		instancefilestore.Setup,
+		release.Setup,
+		ruleset.Setup,
 		membership.Setup,
+		consentstore.Setup,
+		dataset.Setup,
 		webbackendserviceiammember.Setup,
 		webiammember.Setup,
 		webtypeappengineiammember.Setup,

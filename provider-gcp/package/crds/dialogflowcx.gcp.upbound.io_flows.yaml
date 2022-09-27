@@ -1,0 +1,673 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.8.0
+  creationTimestamp: null
+  name: flows.dialogflowcx.gcp.upbound.io
+spec:
+  group: dialogflowcx.gcp.upbound.io
+  names:
+    categories:
+    - crossplane
+    - managed
+    - gcp
+    kind: Flow
+    listKind: FlowList
+    plural: flows
+    singular: flow
+  scope: Cluster
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
+    - jsonPath: .metadata.annotations.crossplane\.io/external-name
+      name: EXTERNAL-NAME
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1beta1
+    schema:
+      openAPIV3Schema:
+        description: Flow is the Schema for the Flows API. Flows represents the conversation
+          flows when you build your chatbot agent.
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: FlowSpec defines the desired state of Flow
+            properties:
+              deletionPolicy:
+                default: Delete
+                description: DeletionPolicy specifies what will happen to the underlying
+                  external when this managed resource is deleted - either "Delete"
+                  or "Orphan" the external resource.
+                enum:
+                - Orphan
+                - Delete
+                type: string
+              forProvider:
+                properties:
+                  description:
+                    description: The description of the flow. The maximum length is
+                      500 characters. If exceeded, the request is rejected.
+                    type: string
+                  displayName:
+                    description: The human-readable name of the flow.
+                    type: string
+                  eventHandlers:
+                    description: 'A flow''s event handlers serve two purposes: They
+                      are responsible for handling events (e.g. no match, webhook
+                      errors) in the flow. They are inherited by every page''s [event
+                      handlers][Page.event_handlers], which can be used to handle
+                      common events regardless of the current page. Event handlers
+                      defined in the page have higher priority than those defined
+                      in the flow. Unlike transitionRoutes, these handlers are evaluated
+                      on a first-match basis. The first one that matches the event
+                      get executed, with the rest being ignored. Structure is documented
+                      below.'
+                    items:
+                      properties:
+                        event:
+                          description: The name of the event to handle.
+                          type: string
+                        targetFlow:
+                          description: 'The target flow to transition to. Format:
+                            projects//locations//agents//flows/.'
+                          type: string
+                        targetPage:
+                          description: 'The target page to transition to. Format:
+                            projects//locations//agents//flows//pages/.'
+                          type: string
+                        triggerFulfillment:
+                          description: The fulfillment to call when the event occurs.
+                            Handling webhook errors with a fulfillment enabled with
+                            webhook could cause infinite loop. It is invalid to specify
+                            such fulfillment for a handler handling webhooks. Structure
+                            is documented below.
+                          items:
+                            properties:
+                              messages:
+                                description: The list of rich message responses to
+                                  present to the user. Structure is documented below.
+                                items:
+                                  properties:
+                                    text:
+                                      description: A collection of text responses.
+                                      items:
+                                        properties:
+                                          text:
+                                            description: A collection of text responses.
+                                            items:
+                                              type: string
+                                            type: array
+                                        type: object
+                                      type: array
+                                  type: object
+                                type: array
+                              returnPartialResponses:
+                                description: 'Whether Dialogflow should return currently
+                                  queued fulfillment response messages in streaming
+                                  APIs. If a webhook is specified, it happens before
+                                  Dialogflow invokes webhook. Warning: 1) This flag
+                                  only affects streaming API. Responses are still
+                                  queued and returned once in non-streaming API. 2)
+                                  The flag can be enabled in any fulfillment but only
+                                  the first 3 partial responses will be returned.
+                                  You may only want to apply it to fulfillments that
+                                  have slow webhooks.'
+                                type: boolean
+                              tag:
+                                description: The tag used by the webhook to identify
+                                  which fulfillment is being called. This field is
+                                  required if webhook is specified.
+                                type: string
+                              webhook:
+                                description: 'The webhook to call. Format: projects//locations//agents//webhooks/.'
+                                type: string
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  languageCode:
+                    description: 'The language of the following fields in flow: Flow.event_handlers.trigger_fulfillment.messages
+                      Flow.event_handlers.trigger_fulfillment.conditional_cases Flow.transition_routes.trigger_fulfillment.messages
+                      Flow.transition_routes.trigger_fulfillment.conditional_cases
+                      If not specified, the agent''s default language is used. Many
+                      languages are supported. Note: languages must be enabled in
+                      the agent before they can be used.'
+                    type: string
+                  nluSettings:
+                    description: NLU related settings of the flow. Structure is documented
+                      below.
+                    items:
+                      properties:
+                        classificationThreshold:
+                          description: To filter out false positive results and still
+                            get variety in matched natural language inputs for your
+                            agent, you can tune the machine learning classification
+                            threshold. If the returned score value is less than the
+                            threshold value, then a no-match event will be triggered.
+                            The score values range from 0.0 (completely uncertain)
+                            to 1.0 (completely certain). If set to 0.0, the default
+                            of 0.3 is used.
+                          type: number
+                        modelTrainingMode:
+                          description: Indicates NLU model training mode.
+                          type: string
+                        modelType:
+                          description: Indicates the type of NLU model.
+                          type: string
+                      type: object
+                    type: array
+                  parent:
+                    description: 'The agent to create a flow for. Format: projects//locations//agents/.'
+                    type: string
+                  parentRef:
+                    description: Reference to a Agent in dialogflowcx to populate
+                      parent.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: Resolution specifies whether resolution of
+                              this reference is required. The default is 'Required',
+                              which means the reconcile will fail if the reference
+                              cannot be resolved. 'Optional' means this reference
+                              will be a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: Resolve specifies when this reference should
+                              be resolved. The default is 'IfNotPresent', which will
+                              attempt to resolve the reference only when the corresponding
+                              field is not present. Use 'Always' to resolve the reference
+                              on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  parentSelector:
+                    description: Selector for a Agent in dialogflowcx to populate
+                      parent.
+                    properties:
+                      matchControllerRef:
+                        description: MatchControllerRef ensures an object with the
+                          same controller reference as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: Resolution specifies whether resolution of
+                              this reference is required. The default is 'Required',
+                              which means the reconcile will fail if the reference
+                              cannot be resolved. 'Optional' means this reference
+                              will be a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: Resolve specifies when this reference should
+                              be resolved. The default is 'IfNotPresent', which will
+                              attempt to resolve the reference only when the corresponding
+                              field is not present. Use 'Always' to resolve the reference
+                              on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  transitionRouteGroups:
+                    description: 'A flow''s transition route group serve two purposes:
+                      They are responsible for matching the user''s first utterances
+                      in the flow. They are inherited by every page''s [transition
+                      route groups][Page.transition_route_groups]. Transition route
+                      groups defined in the page have higher priority than those defined
+                      in the flow. Format:projects//locations//agents//flows//transitionRouteGroups/.'
+                    items:
+                      type: string
+                    type: array
+                  transitionRoutes:
+                    description: 'A flow''s transition routes serve two purposes:
+                      They are responsible for matching the user''s first utterances
+                      in the flow. They are inherited by every page''s [transition
+                      routes][Page.transition_routes] and can support use cases such
+                      as the user saying "help" or "can I talk to a human?", which
+                      can be handled in a common way regardless of the current page.
+                      Transition routes defined in the page have higher priority than
+                      those defined in the flow.'
+                    items:
+                      properties:
+                        condition:
+                          description: The condition to evaluate against form parameters
+                            or session parameters. At least one of intent or condition
+                            must be specified. When both intent and condition are
+                            specified, the transition can only happen when both are
+                            fulfilled.
+                          type: string
+                        intent:
+                          description: 'The unique identifier of an Intent. Format:
+                            projects//locations//agents//intents/. Indicates that
+                            the transition can only happen when the given intent is
+                            matched. At least one of intent or condition must be specified.
+                            When both intent and condition are specified, the transition
+                            can only happen when both are fulfilled.'
+                          type: string
+                        targetFlow:
+                          description: 'The target flow to transition to. Format:
+                            projects//locations//agents//flows/.'
+                          type: string
+                        targetPage:
+                          description: 'The target page to transition to. Format:
+                            projects//locations//agents//flows//pages/.'
+                          type: string
+                        triggerFulfillment:
+                          description: The fulfillment to call when the condition
+                            is satisfied. At least one of triggerFulfillment and target
+                            must be specified. When both are defined, triggerFulfillment
+                            is executed first. Structure is documented below.
+                          items:
+                            properties:
+                              messages:
+                                description: The list of rich message responses to
+                                  present to the user. Structure is documented below.
+                                items:
+                                  properties:
+                                    text:
+                                      description: A collection of text responses.
+                                      items:
+                                        properties:
+                                          text:
+                                            description: A collection of text responses.
+                                            items:
+                                              type: string
+                                            type: array
+                                        type: object
+                                      type: array
+                                  type: object
+                                type: array
+                              returnPartialResponses:
+                                description: 'Whether Dialogflow should return currently
+                                  queued fulfillment response messages in streaming
+                                  APIs. If a webhook is specified, it happens before
+                                  Dialogflow invokes webhook. Warning: 1) This flag
+                                  only affects streaming API. Responses are still
+                                  queued and returned once in non-streaming API. 2)
+                                  The flag can be enabled in any fulfillment but only
+                                  the first 3 partial responses will be returned.
+                                  You may only want to apply it to fulfillments that
+                                  have slow webhooks.'
+                                type: boolean
+                              tag:
+                                description: The tag used by the webhook to identify
+                                  which fulfillment is being called. This field is
+                                  required if webhook is specified.
+                                type: string
+                              webhook:
+                                description: 'The webhook to call. Format: projects//locations//agents//webhooks/.'
+                                type: string
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                required:
+                - displayName
+                type: object
+              providerConfigRef:
+                default:
+                  name: default
+                description: ProviderConfigReference specifies how the provider that
+                  will be used to create, observe, update, and delete this managed
+                  resource should be configured.
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                  policy:
+                    description: Policies for referencing.
+                    properties:
+                      resolution:
+                        default: Required
+                        description: Resolution specifies whether resolution of this
+                          reference is required. The default is 'Required', which
+                          means the reconcile will fail if the reference cannot be
+                          resolved. 'Optional' means this reference will be a no-op
+                          if it cannot be resolved.
+                        enum:
+                        - Required
+                        - Optional
+                        type: string
+                      resolve:
+                        description: Resolve specifies when this reference should
+                          be resolved. The default is 'IfNotPresent', which will attempt
+                          to resolve the reference only when the corresponding field
+                          is not present. Use 'Always' to resolve the reference on
+                          every reconcile.
+                        enum:
+                        - Always
+                        - IfNotPresent
+                        type: string
+                    type: object
+                required:
+                - name
+                type: object
+              providerRef:
+                description: 'ProviderReference specifies the provider that will be
+                  used to create, observe, update, and delete this managed resource.
+                  Deprecated: Please use ProviderConfigReference, i.e. `providerConfigRef`'
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                  policy:
+                    description: Policies for referencing.
+                    properties:
+                      resolution:
+                        default: Required
+                        description: Resolution specifies whether resolution of this
+                          reference is required. The default is 'Required', which
+                          means the reconcile will fail if the reference cannot be
+                          resolved. 'Optional' means this reference will be a no-op
+                          if it cannot be resolved.
+                        enum:
+                        - Required
+                        - Optional
+                        type: string
+                      resolve:
+                        description: Resolve specifies when this reference should
+                          be resolved. The default is 'IfNotPresent', which will attempt
+                          to resolve the reference only when the corresponding field
+                          is not present. Use 'Always' to resolve the reference on
+                          every reconcile.
+                        enum:
+                        - Always
+                        - IfNotPresent
+                        type: string
+                    type: object
+                required:
+                - name
+                type: object
+              publishConnectionDetailsTo:
+                description: PublishConnectionDetailsTo specifies the connection secret
+                  config which contains a name, metadata and a reference to secret
+                  store config to which any connection details for this managed resource
+                  should be written. Connection details frequently include the endpoint,
+                  username, and password required to connect to the managed resource.
+                properties:
+                  configRef:
+                    default:
+                      name: default
+                    description: SecretStoreConfigRef specifies which secret store
+                      config should be used for this ConnectionSecret.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: Resolution specifies whether resolution of
+                              this reference is required. The default is 'Required',
+                              which means the reconcile will fail if the reference
+                              cannot be resolved. 'Optional' means this reference
+                              will be a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: Resolve specifies when this reference should
+                              be resolved. The default is 'IfNotPresent', which will
+                              attempt to resolve the reference only when the corresponding
+                              field is not present. Use 'Always' to resolve the reference
+                              on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  metadata:
+                    description: Metadata is the metadata for connection secret.
+                    properties:
+                      annotations:
+                        additionalProperties:
+                          type: string
+                        description: Annotations are the annotations to be added to
+                          connection secret. - For Kubernetes secrets, this will be
+                          used as "metadata.annotations". - It is up to Secret Store
+                          implementation for others store types.
+                        type: object
+                      labels:
+                        additionalProperties:
+                          type: string
+                        description: Labels are the labels/tags to be added to connection
+                          secret. - For Kubernetes secrets, this will be used as "metadata.labels".
+                          - It is up to Secret Store implementation for others store
+                          types.
+                        type: object
+                      type:
+                        description: Type is the SecretType for the connection secret.
+                          - Only valid for Kubernetes Secret Stores.
+                        type: string
+                    type: object
+                  name:
+                    description: Name is the name of the connection secret.
+                    type: string
+                required:
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: WriteConnectionSecretToReference specifies the namespace
+                  and name of a Secret to which any connection details for this managed
+                  resource should be written. Connection details frequently include
+                  the endpoint, username, and password required to connect to the
+                  managed resource. This field is planned to be replaced in a future
+                  release in favor of PublishConnectionDetailsTo. Currently, both
+                  could be set independently and connection details would be published
+                  to both without affecting each other.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                  namespace:
+                    description: Namespace of the secret.
+                    type: string
+                required:
+                - name
+                - namespace
+                type: object
+            required:
+            - forProvider
+            type: object
+          status:
+            description: FlowStatus defines the observed state of Flow.
+            properties:
+              atProvider:
+                properties:
+                  eventHandlers:
+                    description: 'A flow''s event handlers serve two purposes: They
+                      are responsible for handling events (e.g. no match, webhook
+                      errors) in the flow. They are inherited by every page''s [event
+                      handlers][Page.event_handlers], which can be used to handle
+                      common events regardless of the current page. Event handlers
+                      defined in the page have higher priority than those defined
+                      in the flow. Unlike transitionRoutes, these handlers are evaluated
+                      on a first-match basis. The first one that matches the event
+                      get executed, with the rest being ignored. Structure is documented
+                      below.'
+                    items:
+                      properties:
+                        name:
+                          description: The unique identifier of this event handler.
+                          type: string
+                        triggerFulfillment:
+                          description: The fulfillment to call when the event occurs.
+                            Handling webhook errors with a fulfillment enabled with
+                            webhook could cause infinite loop. It is invalid to specify
+                            such fulfillment for a handler handling webhooks. Structure
+                            is documented below.
+                          items:
+                            properties:
+                              messages:
+                                description: The list of rich message responses to
+                                  present to the user. Structure is documented below.
+                                items:
+                                  properties:
+                                    text:
+                                      description: A collection of text responses.
+                                      items:
+                                        properties:
+                                          allowPlaybackInterruption:
+                                            description: Whether the playback of this
+                                              message can be interrupted by the end
+                                              user's speech and the client can then
+                                              starts the next Dialogflow request.
+                                            type: boolean
+                                        type: object
+                                      type: array
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  id:
+                    description: an identifier for the resource with format {{parent}}/flows/{{name}}
+                    type: string
+                  name:
+                    description: 'The unique identifier of the flow. Format: projects//locations//agents//flows/.'
+                    type: string
+                  transitionRoutes:
+                    description: 'A flow''s transition routes serve two purposes:
+                      They are responsible for matching the user''s first utterances
+                      in the flow. They are inherited by every page''s [transition
+                      routes][Page.transition_routes] and can support use cases such
+                      as the user saying "help" or "can I talk to a human?", which
+                      can be handled in a common way regardless of the current page.
+                      Transition routes defined in the page have higher priority than
+                      those defined in the flow.'
+                    items:
+                      properties:
+                        name:
+                          description: The unique identifier of this transition route.
+                          type: string
+                        triggerFulfillment:
+                          description: The fulfillment to call when the condition
+                            is satisfied. At least one of triggerFulfillment and target
+                            must be specified. When both are defined, triggerFulfillment
+                            is executed first. Structure is documented below.
+                          items:
+                            properties:
+                              messages:
+                                description: The list of rich message responses to
+                                  present to the user. Structure is documented below.
+                                items:
+                                  properties:
+                                    text:
+                                      description: A collection of text responses.
+                                      items:
+                                        properties:
+                                          allowPlaybackInterruption:
+                                            description: Whether the playback of this
+                                              message can be interrupted by the end
+                                              user's speech and the client can then
+                                              starts the next Dialogflow request.
+                                            type: boolean
+                                        type: object
+                                      type: array
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: LastTransitionTime is the last time this condition
+                        transitioned from one status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: A Message containing details about this condition's
+                        last transition from one status to another, if any.
+                      type: string
+                    reason:
+                      description: A Reason for this condition's last transition from
+                        one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True,
+                        False, or Unknown?
+                      type: string
+                    type:
+                      description: Type of this condition. At most one of each condition
+                        type may apply to a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []

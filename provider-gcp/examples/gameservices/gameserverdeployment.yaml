@@ -1,0 +1,12 @@
+apiVersion: gameservices.gcp.upbound.io/v1beta1
+kind: GameServerDeployment
+metadata:
+  annotations:
+    meta.upbound.io/example-id: gameservices/v1beta1/gameserverdeployment
+    upjet.upbound.io/manual-intervention: "Error 404: Method not found"
+  labels:
+    testing.upbound.io/example-name: game-server-deployment
+  name: game-server-deployment
+spec:
+  forProvider:
+    description: a deployment description
