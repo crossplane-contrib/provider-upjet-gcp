@@ -40,7 +40,7 @@ type BackendBucketObservation struct {
 type BackendBucketParameters struct {
 
 	// Cloud Storage bucket name.
-	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/storage/v1beta1.Bucket
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/storage/v1beta1.Bucket
 	// +kubebuilder:validation:Optional
 	BucketName *string `json:"bucketName,omitempty" tf:"bucket_name,omitempty"`
 
@@ -67,7 +67,7 @@ type BackendBucketParameters struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// The security policy associated with this backend bucket.
-	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.SecurityPolicy
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.SecurityPolicy
 	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	EdgeSecurityPolicy *string `json:"edgeSecurityPolicy,omitempty" tf:"edge_security_policy,omitempty"`

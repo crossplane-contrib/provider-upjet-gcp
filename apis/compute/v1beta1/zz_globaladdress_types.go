@@ -63,7 +63,7 @@ type GlobalAddressParameters struct {
 	// any reserved IP ranges referring to it.
 	// This should only be set when using an Internal address.
 	// +crossplane:generate:reference:type=Network
-	// +crossplane:generate:reference:extractor=github.com/upbound/official-providers/provider-gcp/config/common.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 

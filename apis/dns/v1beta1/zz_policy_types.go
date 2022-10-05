@@ -71,8 +71,8 @@ type PolicyNetworksParameters struct {
 	// The id or fully qualified URL of the VPC network to forward queries to.
 	// This should be formatted like projects/{project}/global/networks/{network} or
 	// https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}
-	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.Network
-	// +crossplane:generate:reference:extractor=github.com/upbound/official-providers/provider-gcp/config/common.ExtractResourceID()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Network
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.ExtractResourceID()
 	// +crossplane:generate:reference:refFieldName=NetworkRef
 	// +crossplane:generate:reference:selectorFieldName=NetworkSelector
 	// +kubebuilder:validation:Optional

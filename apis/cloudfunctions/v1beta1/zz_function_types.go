@@ -151,7 +151,7 @@ type FunctionParameters struct {
 	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty" tf:"service_account_email,omitempty"`
 
 	// The GCS bucket containing the zip archive which contains the function.
-	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/storage/v1beta1.Bucket
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/storage/v1beta1.Bucket
 	// +kubebuilder:validation:Optional
 	SourceArchiveBucket *string `json:"sourceArchiveBucket,omitempty" tf:"source_archive_bucket,omitempty"`
 
@@ -164,7 +164,7 @@ type FunctionParameters struct {
 	SourceArchiveBucketSelector *v1.Selector `json:"sourceArchiveBucketSelector,omitempty" tf:"-"`
 
 	// The source archive object (file) in archive bucket.
-	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/storage/v1beta1.BucketObject
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/storage/v1beta1.BucketObject
 	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractParamPath("name",false)
 	// +kubebuilder:validation:Optional
 	SourceArchiveObject *string `json:"sourceArchiveObject,omitempty" tf:"source_archive_object,omitempty"`

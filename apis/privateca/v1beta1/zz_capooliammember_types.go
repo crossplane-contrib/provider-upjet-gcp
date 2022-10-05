@@ -34,7 +34,7 @@ type CAPoolIAMMemberObservation struct {
 type CAPoolIAMMemberParameters struct {
 
 	// +crossplane:generate:reference:type=CAPool
-	// +crossplane:generate:reference:extractor=github.com/upbound/official-providers/provider-gcp/config/common.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	CAPool *string `json:"caPool,omitempty" tf:"ca_pool,omitempty"`
 

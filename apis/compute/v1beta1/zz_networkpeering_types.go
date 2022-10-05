@@ -57,7 +57,7 @@ type NetworkPeeringParameters struct {
 	ImportSubnetRoutesWithPublicIP *bool `json:"importSubnetRoutesWithPublicIp,omitempty" tf:"import_subnet_routes_with_public_ip,omitempty"`
 
 	// The primary network of the peering.
-	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.Network
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Network
 	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractParamPath("self_link",true)
 	// +kubebuilder:validation:Optional
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
@@ -72,7 +72,7 @@ type NetworkPeeringParameters struct {
 
 	// The peer network in the peering. The peer network
 	// may belong to a different project.
-	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.Network
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Network
 	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractParamPath("self_link",true)
 	// +kubebuilder:validation:Optional
 	PeerNetwork *string `json:"peerNetwork,omitempty" tf:"peer_network,omitempty"`

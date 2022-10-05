@@ -21,8 +21,8 @@ import (
 	"context"
 	reference "github.com/crossplane/crossplane-runtime/pkg/reference"
 	errors "github.com/pkg/errors"
-	v1beta1 "github.com/upbound/official-providers/provider-gcp/apis/storage/v1beta1"
-	common "github.com/upbound/official-providers/provider-gcp/config/common"
+	v1beta1 "github.com/upbound/provider-gcp/apis/storage/v1beta1"
+	common "github.com/upbound/provider-gcp/config/common"
 	resource "github.com/upbound/upjet/pkg/resource"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )

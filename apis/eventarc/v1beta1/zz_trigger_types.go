@@ -39,7 +39,7 @@ type CloudRunServiceParameters struct {
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
 	// Required. Name of the GKE service.
-	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/cloudrun/v1beta1.Service
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cloudrun/v1beta1.Service
 	// +kubebuilder:validation:Optional
 	Service *string `json:"service,omitempty" tf:"service,omitempty"`
 

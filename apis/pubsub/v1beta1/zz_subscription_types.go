@@ -39,7 +39,7 @@ type DeadLetterPolicyParameters struct {
 	// The operation will fail if the topic does not exist.
 	// Users should ensure that there is a subscription attached to this topic
 	// since messages published to a topic with no subscriptions are lost.
-	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/pubsub/v1beta1.Topic
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/pubsub/v1beta1.Topic
 	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	DeadLetterTopic *string `json:"deadLetterTopic,omitempty" tf:"dead_letter_topic,omitempty"`

@@ -52,7 +52,7 @@ type KeyRingIAMMemberParameters struct {
 	Condition []KeyRingIAMMemberConditionParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
 	// +crossplane:generate:reference:type=KeyRing
-	// +crossplane:generate:reference:extractor=github.com/upbound/official-providers/provider-gcp/config/common.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	KeyRingID *string `json:"keyRingId,omitempty" tf:"key_ring_id,omitempty"`
 

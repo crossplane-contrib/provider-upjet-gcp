@@ -10,7 +10,7 @@ import (
 
 	xpv1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 
-	"github.com/upbound/official-providers/provider-gcp/config/common"
+	"github.com/upbound/provider-gcp/config/common"
 )
 
 // CloudSQL connection detail keys

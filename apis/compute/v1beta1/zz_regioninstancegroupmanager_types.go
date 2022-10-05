@@ -32,7 +32,7 @@ type RegionInstanceGroupManagerAutoHealingPoliciesParameters struct {
 
 	// The health check resource that signals autohealing.
 	// +crossplane:generate:reference:type=HealthCheck
-	// +crossplane:generate:reference:extractor=github.com/upbound/official-providers/provider-gcp/config/common.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	HealthCheck *string `json:"healthCheck,omitempty" tf:"health_check,omitempty"`
 
@@ -140,7 +140,7 @@ type RegionInstanceGroupManagerParameters struct {
 	// instances in the group are added. Updating the target pools attribute does
 	// not affect existing instances.
 	// +crossplane:generate:reference:type=TargetPool
-	// +crossplane:generate:reference:extractor=github.com/upbound/official-providers/provider-gcp/config/common.SelfLinkExtractor()
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.SelfLinkExtractor()
 	// +kubebuilder:validation:Optional
 	TargetPools []*string `json:"targetPools,omitempty" tf:"target_pools,omitempty"`
 
@@ -259,7 +259,7 @@ type RegionInstanceGroupManagerVersionParameters struct {
 
 	// - The full URL to an instance template from which all new instances of this version will be created.
 	// +crossplane:generate:reference:type=InstanceTemplate
-	// +crossplane:generate:reference:extractor=github.com/upbound/official-providers/provider-gcp/config/common.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	InstanceTemplate *string `json:"instanceTemplate,omitempty" tf:"instance_template,omitempty"`
 

@@ -1,7 +1,7 @@
 package kms
 
 import (
-	"github.com/upbound/official-providers/provider-gcp/config/common"
+	"github.com/upbound/provider-gcp/config/common"
 
 	"github.com/upbound/upjet/pkg/config"
 )

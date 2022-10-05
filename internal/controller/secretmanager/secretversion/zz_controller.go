@@ -30,7 +30,7 @@ import (
 	"github.com/upbound/upjet/pkg/terraform"
 	ctrl "sigs.k8s.io/controller-runtime"
 
-	v1beta1 "github.com/upbound/official-providers/provider-gcp/apis/secretmanager/v1beta1"
+	v1beta1 "github.com/upbound/provider-gcp/apis/secretmanager/v1beta1"
 )
 
 // Setup adds a controller that reconciles SecretVersion managed resources.

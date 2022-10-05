@@ -9,7 +9,7 @@ import (
 func Configure(p *config.Provider) {
 	p.AddResourceConfigurator("google_cloud_run_domain_mapping", func(r *config.Resource) {
 		r.References["metadata.namespace"] = config.Reference{
-			Type: "github.com/upbound/official-providers/provider-gcp/apis/cloudplatform/v1beta1.Project",
+			Type: "github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1.Project",
 		}
 		r.References["spec.route_name"] = config.Reference{
 			Type: "Service",
@@ -17,12 +17,12 @@ func Configure(p *config.Provider) {
 	})
 	p.AddResourceConfigurator("google_cloud_run_service", func(r *config.Resource) {
 		r.References["metadata.namespace"] = config.Reference{
-			Type: "github.com/upbound/official-providers/provider-gcp/apis/cloudplatform/v1beta1.Project",
+			Type: "github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1.Project",
 		}
 	})
 	p.AddResourceConfigurator("google_cloud_run_service_iam_policy", func(r *config.Resource) {
 		r.References["project"] = config.Reference{
-			Type: "github.com/upbound/official-providers/provider-gcp/apis/cloudplatform/v1beta1.Project",
+			Type: "github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1.Project",
 		}
 		r.References["service"] = config.Reference{
 			Type: "Service",
@@ -31,7 +31,7 @@ func Configure(p *config.Provider) {
 	})
 	p.AddResourceConfigurator("google_cloud_run_service_iam_binding", func(r *config.Resource) {
 		r.References["project"] = config.Reference{
-			Type: "github.com/upbound/official-providers/provider-gcp/apis/cloudplatform/v1beta1.Project",
+			Type: "github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1.Project",
 		}
 		r.References["service"] = config.Reference{
 			Type: "Service",
@@ -40,7 +40,7 @@ func Configure(p *config.Provider) {
 	})
 	p.AddResourceConfigurator("google_cloud_run_service_iam_member", func(r *config.Resource) {
 		r.References["project"] = config.Reference{
-			Type: "github.com/upbound/official-providers/provider-gcp/apis/cloudplatform/v1beta1.Project",
+			Type: "github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1.Project",
 		}
 		r.References["service"] = config.Reference{
 			Type: "Service",

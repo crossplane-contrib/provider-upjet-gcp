@@ -72,7 +72,7 @@ type TopicParameters struct {
 	// (service-{{PROJECT_NUMBER}}@gcp-sa-pubsub.iam.gserviceaccount.com) must have
 	// roles/cloudkms.cryptoKeyEncrypterDecrypter to use this feature.
 	// The expected format is projects/*/locations/*/keyRings/*/cryptoKeys/*
-	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/kms/v1beta1.CryptoKey
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/kms/v1beta1.CryptoKey
 	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`

@@ -49,7 +49,7 @@ type RecordSetParameters struct {
 
 	// The name of the zone in which this record set will
 	// reside.
-	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/dns/v1beta1.ManagedZone
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/dns/v1beta1.ManagedZone
 	// +kubebuilder:validation:Optional
 	ManagedZone *string `json:"managedZone,omitempty" tf:"managed_zone,omitempty"`
 

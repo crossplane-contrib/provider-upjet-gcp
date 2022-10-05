@@ -4,6 +4,7 @@ import (
 	"strings"
 
 	"github.com/pkg/errors"
+
 	jresource "github.com/upbound/upjet/pkg/resource"
 
 	"github.com/crossplane/crossplane-runtime/pkg/fieldpath"
@@ -15,10 +16,10 @@ const (
 	// KeyProject is the key for project in Terraform Provider Configuration
 	KeyProject = "project"
 	// SelfPackagePath is the golang path for this package.
-	SelfPackagePath = "github.com/upbound/official-providers/provider-gcp/config/common"
+	SelfPackagePath = "github.com/upbound/provider-gcp/config/common"
 
 	// ExtractResourceIDFuncPath holds the GCP resource ID extractor func name
-	ExtractResourceIDFuncPath = "github.com/upbound/official-providers/provider-gcp/config/common.ExtractResourceID()"
+	ExtractResourceIDFuncPath = "github.com/upbound/provider-gcp/config/common.ExtractResourceID()"
 )
 
 var (
@@ -55,7 +56,8 @@ func GetNameFromFullyQualifiedID(tfstate map[string]interface{}) (string, error)
 }
 
 // GetField returns the value of field as a string in a map[string]interface{},
-//  fails properly otherwise.
+//
+//	fails properly otherwise.
 func GetField(from map[string]interface{}, path string) (string, error) {
 	return fieldpath.Pave(from).GetString(path)
 }

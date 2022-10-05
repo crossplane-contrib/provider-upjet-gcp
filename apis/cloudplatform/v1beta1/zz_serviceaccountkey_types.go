@@ -76,7 +76,7 @@ type ServiceAccountKeyParameters struct {
 	// syntax is used, the {ACCOUNT} specified can be the full email address of the service account or the service account's
 	// unique id. Substituting - as a wildcard for the {PROJECT_ID} will infer the project from the account.
 	// +crossplane:generate:reference:type=ServiceAccount
-	// +crossplane:generate:reference:extractor=github.com/upbound/official-providers/provider-gcp/config/common.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	ServiceAccountID *string `json:"serviceAccountId,omitempty" tf:"service_account_id,omitempty"`
 

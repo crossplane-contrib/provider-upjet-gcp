@@ -34,7 +34,7 @@ type BackendBucketSignedURLKeyObservation struct {
 type BackendBucketSignedURLKeyParameters struct {
 
 	// The backend bucket this signed URL key belongs.
-	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.BackendBucket
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.BackendBucket
 	// +kubebuilder:validation:Optional
 	BackendBucket *string `json:"backendBucket,omitempty" tf:"backend_bucket,omitempty"`
 

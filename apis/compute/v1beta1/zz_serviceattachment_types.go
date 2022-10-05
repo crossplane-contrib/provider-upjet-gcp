@@ -130,7 +130,7 @@ type ServiceAttachmentParameters struct {
 
 	// The URL of a forwarding rule that represents the service identified by
 	// this service attachment.
-	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.ForwardingRule
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.ForwardingRule
 	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	TargetService *string `json:"targetService,omitempty" tf:"target_service,omitempty"`

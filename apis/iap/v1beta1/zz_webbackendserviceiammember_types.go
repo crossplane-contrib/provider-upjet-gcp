@@ -60,7 +60,7 @@ type WebBackendServiceIAMMemberParameters struct {
 	// +kubebuilder:validation:Required
 	Role *string `json:"role" tf:"role,omitempty"`
 
-	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.BackendService
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.BackendService
 	// +kubebuilder:validation:Optional
 	WebBackendService *string `json:"webBackendService,omitempty" tf:"web_backend_service,omitempty"`
 

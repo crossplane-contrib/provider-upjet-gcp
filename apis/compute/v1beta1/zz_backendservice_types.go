@@ -68,7 +68,7 @@ type BackendParameters struct {
 	// Group resource using the fully-qualified URL, rather than a
 	// partial URL.
 	// +crossplane:generate:reference:type=InstanceGroupManager
-	// +crossplane:generate:reference:extractor=github.com/upbound/official-providers/provider-gcp/config/compute.InstanceGroupExtractor()
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/compute.InstanceGroupExtractor()
 	// +kubebuilder:validation:Optional
 	Group *string `json:"group,omitempty" tf:"group,omitempty"`
 
@@ -274,7 +274,7 @@ type BackendServiceParameters struct {
 	// or serverless NEG as a backend.
 	// For internal load balancing, a URL to a HealthCheck resource must be specified instead.
 	// +crossplane:generate:reference:type=HealthCheck
-	// +crossplane:generate:reference:extractor=github.com/upbound/official-providers/provider-gcp/config/common.SelfLinkExtractor()
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.SelfLinkExtractor()
 	// +kubebuilder:validation:Optional
 	HealthChecks []*string `json:"healthChecks,omitempty" tf:"health_checks,omitempty"`
 

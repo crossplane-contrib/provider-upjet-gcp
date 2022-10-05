@@ -74,7 +74,7 @@ type KeyRingImportJobParameters struct {
 	// The KeyRing that this import job belongs to.
 	// Format: 'projects/{{project}}/locations/{{location}}/keyRings/{{keyRing}}'.
 	// +crossplane:generate:reference:type=KeyRing
-	// +crossplane:generate:reference:extractor=github.com/upbound/official-providers/provider-gcp/config/common.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	KeyRing *string `json:"keyRing,omitempty" tf:"key_ring,omitempty"`
 

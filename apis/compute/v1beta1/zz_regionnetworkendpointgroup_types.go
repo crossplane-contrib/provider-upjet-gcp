@@ -61,7 +61,7 @@ type CloudFunctionParameters struct {
 	// A user-defined name of the Cloud Function.
 	// The function name is case-sensitive and must be 1-63 characters long.
 	// Example value: "func1".
-	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/cloudfunctions/v1beta1.Function
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cloudfunctions/v1beta1.Function
 	// +kubebuilder:validation:Optional
 	Function *string `json:"function,omitempty" tf:"function,omitempty"`
 
@@ -91,7 +91,7 @@ type CloudRunParameters struct {
 	// Cloud Run service is the main resource of Cloud Run.
 	// The service must be 1-63 characters long, and comply with RFC1035.
 	// Example value: "run-service".
-	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/cloudrun/v1beta1.Service
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cloudrun/v1beta1.Service
 	// +kubebuilder:validation:Optional
 	Service *string `json:"service,omitempty" tf:"service,omitempty"`
 

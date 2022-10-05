@@ -66,7 +66,7 @@ type ForwardingRuleParameters struct {
 	// A BackendService to receive the matched traffic. This is used only
 	// for INTERNAL load balancing.
 	// +crossplane:generate:reference:type=RegionBackendService
-	// +crossplane:generate:reference:extractor=github.com/upbound/official-providers/provider-gcp/config/common.SelfLinkExtractor()
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.SelfLinkExtractor()
 	// +kubebuilder:validation:Optional
 	BackendService *string `json:"backendService,omitempty" tf:"backend_service,omitempty"`
 
@@ -96,7 +96,7 @@ type ForwardingRuleParameters struct {
 	// that has validateForProxyless field set to true.
 	// For Private Service Connect forwarding rules that forward traffic to
 	// Google APIs, IP address must be provided.
-	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.Address
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Address
 	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
@@ -146,7 +146,7 @@ type ForwardingRuleParameters struct {
 	// the load balanced IP should belong to for this Forwarding Rule. If
 	// this field is not specified, the default network will be used.
 	// This field is only used for INTERNAL load balancing.
-	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.Network
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Network
 	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
@@ -223,7 +223,7 @@ type ForwardingRuleParameters struct {
 	// If the network specified is in auto subnet mode, this field is
 	// optional. However, if the network is in custom subnet mode, a
 	// subnetwork must be specified.
-	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.Subnetwork
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Subnetwork
 	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
@@ -240,7 +240,7 @@ type ForwardingRuleParameters struct {
 	// The target must live in the same region as the forwarding rule.
 	// The forwarded traffic must be of a type appropriate to the target
 	// object.
-	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.RegionTargetHTTPProxy
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.RegionTargetHTTPProxy
 	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Target *string `json:"target,omitempty" tf:"target,omitempty"`

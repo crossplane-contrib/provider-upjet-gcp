@@ -42,7 +42,7 @@ type AttachedDiskParameters struct {
 	DeviceName *string `json:"deviceName,omitempty" tf:"device_name,omitempty"`
 
 	// name or self_link of the disk that will be attached.
-	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.Disk
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Disk
 	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Disk *string `json:"disk,omitempty" tf:"disk,omitempty"`
@@ -59,7 +59,7 @@ type AttachedDiskParameters struct {
 	// If the self_link is provided then zone and project are extracted from the
 	// self link. If only the name is used then zone and project must be defined
 	// as properties on the resource or provider.
-	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.Instance
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Instance
 	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Instance *string `json:"instance,omitempty" tf:"instance,omitempty"`
