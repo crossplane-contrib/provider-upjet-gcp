@@ -155,27 +155,32 @@ echo_step "Waiting for all pods to come online"
 
 "${KUBECTL}" -n "${NAMESPACE}" get deployment
 
-echo_step "Create default ProviderConfig for AWS"
-multiline="$(echo "${UPTEST_AWS_CREDS}" | sed 's/^/    /g')"
-cat <<EOF | "${KUBECTL}" apply -f -
+# wait until providerconfig CRD is established.
+# kubectl wait on the ESTABLISHED condition seems to be failing...
+sleep 30
+
+echo_step "Create default ProviderConfig for GCP"
+multiline="$(echo "${UPTEST_GCP_CREDS}" | sed 's/^/    /g')"
+"${KUBECTL}" apply -f - << EOF
 apiVersion: v1
 kind: Secret
 metadata:
-  name: aws-creds
+  name: provider-creds
   namespace: upbound-system
 stringData:
   creds: |-
 ${multiline}
 ---
-apiVersion: aws.upbound.io/v1beta1
+apiVersion: gcp.upbound.io/v1beta1
 kind: ProviderConfig
 metadata:
   name: default
 spec:
+  projectID: official-provider-testing
   credentials:
     source: Secret
     secretRef:
-      name: aws-creds
+      name: provider-creds
       namespace: upbound-system
       key: creds
 EOF
