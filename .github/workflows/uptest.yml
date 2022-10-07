@@ -169,7 +169,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v3
         with:
-          name: cluster-dump-${{ needs.get-example-list.outputs.provider_name }}
+          name: cluster-dump-gcp
           path: ./_output/cluster-dump
 
       - name: Cleanup

@@ -205,4 +205,20 @@ go.cachedir:
 go.mod.cachedir:
 	@go env GOMODCACHE
 
+uptest: $(KIND) $(KUBECTL) $(HELM3) $(UP) $(KUTTL)
+	@$(INFO) running uptest using kind $(KIND_VERSION)
+	@./cluster/install_provider.sh || $(FAIL)
+	@echo "$${UPTEST_EXAMPLE_VALUE_REPLACEMENTS}" > $(WORK_DIR)/replacements.yaml
+	@KIND=$(KIND) KUBECTL=$(KUBECTL) KUTTL=$(KUTTL) go run github.com/upbound/official-providers/testing/cmd --data-source "$(WORK_DIR)/replacements.yaml" || $(FAIL)
+
+uptest-local: $(KUBECTL) $(KUTTL)
+	@$(INFO) running automated tests with uptest using current kubeconfig $(KIND_VERSION)
+	@KUBECTL=$(KUBECTL) KUTTL=$(KUTTL) go run github.com/upbound/official-providers/testing/cmd || $(FAIL)
+
+cluster_dump: $(KUBECTL)
+	@mkdir -p ${DUMP_DIRECTORY}
+	@$(KUBECTL) cluster-info dump --output-directory ${DUMP_DIRECTORY} --all-namespaces || true
+	@$(KUBECTL) get managed -o yaml > ${DUMP_DIRECTORY}/managed.yaml || true
+	@cat /tmp/automated-tests/case/*.yaml > ${DUMP_DIRECTORY}/kuttl-inputs.yaml
+
 .PHONY: cobertura reviewable submodules fallthrough go.mod.cachedir go.cachedir
