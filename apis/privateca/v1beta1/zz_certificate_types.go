@@ -132,7 +132,7 @@ type CertificateObservation struct {
 type CertificateParameters struct {
 
 	// Certificate Authority name.
-	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/privateca/v1beta1.CertificateAuthority
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/privateca/v1beta1.CertificateAuthority
 	// +kubebuilder:validation:Optional
 	CertificateAuthority *string `json:"certificateAuthority,omitempty" tf:"certificate_authority,omitempty"`
 
@@ -149,7 +149,7 @@ type CertificateParameters struct {
 	// the caller must have the necessary permission to use this template. If this is
 	// omitted, no template will be used. This template must be in the same location
 	// as the Certificate.
-	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/privateca/v1beta1.CertificateTemplate
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/privateca/v1beta1.CertificateTemplate
 	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	CertificateTemplate *string `json:"certificateTemplate,omitempty" tf:"certificate_template,omitempty"`

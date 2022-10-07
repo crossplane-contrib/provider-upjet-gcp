@@ -124,7 +124,7 @@ type InstanceTemplateDiskParameters struct {
 	// The name (not self_link)
 	// of the disk (such as those managed by google_compute_disk) to attach.
 	// ~> Note: Either source or source_image is required in a disk block unless the disk type is local-ssd. Check the API docs for details.
-	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.Disk
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Disk
 	// +kubebuilder:validation:Optional
 	Source *string `json:"source,omitempty" tf:"source,omitempty"`
 
@@ -545,7 +545,7 @@ type InstanceTemplateServiceAccountParameters struct {
 
 	// The service account e-mail address. If not given, the
 	// default Google Compute Engine service account is used.
-	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1.ServiceAccount
 	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractParamPath("email",true)
 	// +kubebuilder:validation:Optional
 	Email *string `json:"email,omitempty" tf:"email,omitempty"`

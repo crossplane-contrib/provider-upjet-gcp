@@ -227,7 +227,7 @@ type RegionBackendServiceBackendParameters struct {
 	// Group resource using the fully-qualified URL, rather than a
 	// partial URL.
 	// +crossplane:generate:reference:type=RegionInstanceGroupManager
-	// +crossplane:generate:reference:extractor=github.com/upbound/official-providers/provider-gcp/config/compute.InstanceGroupExtractor()
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/compute.InstanceGroupExtractor()
 	// +kubebuilder:validation:Optional
 	Group *string `json:"group,omitempty" tf:"group,omitempty"`
 
@@ -615,7 +615,7 @@ type RegionBackendServiceParameters struct {
 	// A health check must be specified unless the backend service uses an internet
 	// or serverless NEG as a backend.
 	// +crossplane:generate:reference:type=RegionHealthCheck
-	// +crossplane:generate:reference:extractor=github.com/upbound/official-providers/provider-gcp/config/common.SelfLinkExtractor()
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.SelfLinkExtractor()
 	// +kubebuilder:validation:Optional
 	HealthChecks []*string `json:"healthChecks,omitempty" tf:"health_checks,omitempty"`
 

@@ -239,7 +239,7 @@ type PubsubTargetParameters struct {
 	// messages will be published when a job is delivered. ~>NOTE:
 	// The topic name must be in the same format as required by PubSub's
 	// PublishRequest.name, e.g. projects/my-project/topics/my-topic.
-	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/pubsub/v1beta1.Topic
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/pubsub/v1beta1.Topic
 	// +kubebuilder:validation:Optional
 	TopicName *string `json:"topicName,omitempty" tf:"topic_name,omitempty"`
 

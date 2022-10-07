@@ -23,7 +23,7 @@ func Configure(p *config.Provider) {
 		// bucket does not exist indeed. This causes the initial observe call to
 		// hang on until timeout. We configure read timeout to a relatively
 		// smaller value as a workaround/solution.
-		// Related issue: https://github.com/upbound/official-providers/provider-gcp/issues/12
+		// Related issue: https://github.com/upbound/provider-gcp/issues/12
 		r.OperationTimeouts.Read = 1 * time.Minute
 	})
 

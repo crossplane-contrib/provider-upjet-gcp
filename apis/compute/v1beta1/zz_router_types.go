@@ -116,7 +116,7 @@ type RouterParameters struct {
 
 	// A reference to the network to which this router belongs.
 	// +crossplane:generate:reference:type=Network
-	// +crossplane:generate:reference:extractor=github.com/upbound/official-providers/provider-gcp/config/common.SelfLinkExtractor()
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.SelfLinkExtractor()
 	// +kubebuilder:validation:Optional
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 

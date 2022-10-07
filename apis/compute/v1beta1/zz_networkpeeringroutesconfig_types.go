@@ -42,7 +42,7 @@ type NetworkPeeringRoutesConfigParameters struct {
 	ImportCustomRoutes *bool `json:"importCustomRoutes" tf:"import_custom_routes,omitempty"`
 
 	// The name of the primary network for the peering.
-	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.Network
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Network
 	// +kubebuilder:validation:Optional
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
@@ -55,7 +55,7 @@ type NetworkPeeringRoutesConfigParameters struct {
 	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
 
 	// Name of the peering.
-	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.NetworkPeering
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.NetworkPeering
 	// +kubebuilder:validation:Optional
 	Peering *string `json:"peering,omitempty" tf:"peering,omitempty"`
 

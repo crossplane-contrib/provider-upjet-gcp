@@ -4,7 +4,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/upbound/upjet/pkg/config"
 
-	"github.com/upbound/official-providers/provider-gcp/config/common"
+	"github.com/upbound/provider-gcp/config/common"
 )
 
 // Configure configures individual resources by adding custom

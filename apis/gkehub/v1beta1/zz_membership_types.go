@@ -56,7 +56,7 @@ type GkeClusterParameters struct {
 	// For example: //container.googleapis.com/projects/my-project/zones/us-west1-a/clusters/my-cluster.
 	// It can be at the most 1000 characters in length.googleapis.com/${google_container_cluster.my-cluster.id}" or
 	// google_container_cluster.my-cluster.id.
-	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/container/v1beta1.Cluster
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/container/v1beta1.Cluster
 	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	ResourceLink *string `json:"resourceLink,omitempty" tf:"resource_link,omitempty"`

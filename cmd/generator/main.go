@@ -7,7 +7,7 @@ import (
 
 	"github.com/upbound/upjet/pkg/pipeline"
 
-	"github.com/upbound/official-providers/provider-gcp/config"
+	"github.com/upbound/provider-gcp/config"
 )
 
 func main() {

@@ -52,7 +52,7 @@ type NetworkEndpointGroupParameters struct {
 	// The network to which all network endpoints in the NEG belong.
 	// Uses "default" project network if unspecified.
 	// +crossplane:generate:reference:type=Network
-	// +crossplane:generate:reference:extractor=github.com/upbound/official-providers/provider-gcp/config/common.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
@@ -83,7 +83,7 @@ type NetworkEndpointGroupParameters struct {
 
 	// Optional subnetwork to which all network endpoints in the NEG belong.
 	// +crossplane:generate:reference:type=Subnetwork
-	// +crossplane:generate:reference:extractor=github.com/upbound/official-providers/provider-gcp/config/common.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 

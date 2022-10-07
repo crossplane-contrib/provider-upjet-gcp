@@ -91,7 +91,7 @@ type EntityTypeParameters struct {
 
 	// The agent to create a entity type for.
 	// Format: projects//locations//agents/.
-	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/dialogflowcx/v1beta1.Agent
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/dialogflowcx/v1beta1.Agent
 	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Parent *string `json:"parent,omitempty" tf:"parent,omitempty"`

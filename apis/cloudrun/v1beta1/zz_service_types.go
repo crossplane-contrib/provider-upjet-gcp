@@ -246,7 +246,7 @@ type SecretKeyRefParameters struct {
 	Key *string `json:"key" tf:"key,omitempty"`
 
 	// Volume's name.
-	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/secretmanager/v1beta1.Secret
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/secretmanager/v1beta1.Secret
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
@@ -289,7 +289,7 @@ type SecretParameters struct {
 	// commas.
 	// The alias definitions must be set on the run.googleapis.com/secrets
 	// annotation.
-	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/secretmanager/v1beta1.Secret
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/secretmanager/v1beta1.Secret
 	// +kubebuilder:validation:Optional
 	SecretName *string `json:"secretName,omitempty" tf:"secret_name,omitempty"`
 
@@ -368,7 +368,7 @@ type ServiceMetadataParameters struct {
 
 	// In Cloud Run the namespace must be equal to either the
 	// project ID or project number. It will default to the resource's project.
-	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/cloudplatform/v1beta1.Project
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1.Project
 	// +kubebuilder:validation:Optional
 	Namespace *string `json:"namespace,omitempty" tf:"namespace,omitempty"`
 

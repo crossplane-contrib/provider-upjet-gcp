@@ -7,7 +7,7 @@ import (
 	"github.com/pkg/errors"
 	"github.com/upbound/upjet/pkg/config"
 
-	"github.com/upbound/official-providers/provider-gcp/config/common"
+	"github.com/upbound/provider-gcp/config/common"
 )
 
 // Configure configures individual resources by adding custom
@@ -43,7 +43,7 @@ func Configure(p *config.Provider) {
 		}
 		// Note(donovanmuller): Upjet does not generate this reference automatically
 		r.References["bucket_name"] = config.Reference{
-			Type: "github.com/upbound/official-providers/provider-gcp/apis/storage/v1beta1.Bucket",
+			Type: "github.com/upbound/provider-gcp/apis/storage/v1beta1.Bucket",
 		}
 	})
 	p.AddResourceConfigurator("google_service_account_key", func(r *config.Resource) {

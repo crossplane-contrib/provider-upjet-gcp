@@ -49,7 +49,7 @@ type CertificateTemplateIAMMemberObservation struct {
 type CertificateTemplateIAMMemberParameters struct {
 
 	// +crossplane:generate:reference:type=CertificateTemplate
-	// +crossplane:generate:reference:extractor=github.com/upbound/official-providers/provider-gcp/config/common.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	CertificateTemplate *string `json:"certificateTemplate,omitempty" tf:"certificate_template,omitempty"`
 

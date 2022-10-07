@@ -39,12 +39,12 @@ import (
 	tjcontroller "github.com/upbound/upjet/pkg/controller"
 	"github.com/upbound/upjet/pkg/terraform"
 
-	"github.com/upbound/official-providers/provider-gcp/apis"
-	"github.com/upbound/official-providers/provider-gcp/apis/v1alpha1"
-	"github.com/upbound/official-providers/provider-gcp/config"
-	"github.com/upbound/official-providers/provider-gcp/internal/clients"
-	"github.com/upbound/official-providers/provider-gcp/internal/controller"
-	"github.com/upbound/official-providers/provider-gcp/internal/features"
+	"github.com/upbound/provider-gcp/apis"
+	"github.com/upbound/provider-gcp/apis/v1alpha1"
+	"github.com/upbound/provider-gcp/config"
+	"github.com/upbound/provider-gcp/internal/clients"
+	"github.com/upbound/provider-gcp/internal/controller"
+	"github.com/upbound/provider-gcp/internal/features"
 )
 
 const upboundCTXEnv = "UPBOUND_CONTEXT"

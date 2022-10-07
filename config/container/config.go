@@ -9,7 +9,7 @@ import (
 	"k8s.io/client-go/tools/clientcmd"
 	clientcmdapi "k8s.io/client-go/tools/clientcmd/api"
 
-	"github.com/upbound/official-providers/provider-gcp/config/common"
+	"github.com/upbound/provider-gcp/config/common"
 )
 
 // Configure configures individual resources by adding custom
@@ -99,10 +99,10 @@ func Configure(p *config.Provider) { //nolint:gocyclo
 			}, nil
 		}
 		r.References["network"] = config.Reference{
-			Type: "github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.Network",
+			Type: "github.com/upbound/provider-gcp/apis/compute/v1beta1.Network",
 		}
 		r.References["subnetwork"] = config.Reference{
-			Type: "github.com/upbound/official-providers/provider-gcp/apis/compute/v1beta1.Subnetwork",
+			Type: "github.com/upbound/provider-gcp/apis/compute/v1beta1.Subnetwork",
 		}
 		config.MarkAsRequired(r.TerraformResource, "location")
 	})

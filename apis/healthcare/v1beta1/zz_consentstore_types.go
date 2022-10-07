@@ -35,7 +35,7 @@ type ConsentStoreParameters struct {
 
 	// Identifies the dataset addressed by this request. Must be in the format
 	// 'projects/{project}/locations/{location}/datasets/{dataset}'
-	// +crossplane:generate:reference:type=github.com/upbound/official-providers/provider-gcp/apis/healthcare/v1beta1.Dataset
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/healthcare/v1beta1.Dataset
 	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Dataset *string `json:"dataset,omitempty" tf:"dataset,omitempty"`

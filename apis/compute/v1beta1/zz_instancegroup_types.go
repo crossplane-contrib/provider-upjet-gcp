@@ -60,7 +60,7 @@ type InstanceGroupParameters struct {
 	// fails. Defaults to the network where the instances are in (if neither
 	// network nor instances is specified, this field will be blank).
 	// +crossplane:generate:reference:type=Network
-	// +crossplane:generate:reference:extractor=github.com/upbound/official-providers/provider-gcp/config/common.SelfLinkExtractor()
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.SelfLinkExtractor()
 	// +kubebuilder:validation:Optional
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 

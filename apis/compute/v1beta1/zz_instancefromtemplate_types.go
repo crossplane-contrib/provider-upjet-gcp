@@ -309,7 +309,7 @@ type InstanceFromTemplateParameters struct {
 	// Name or self link of an instance
 	// template to create the instance based on.
 	// +crossplane:generate:reference:type=InstanceTemplate
-	// +crossplane:generate:reference:extractor=github.com/upbound/official-providers/provider-gcp/config/common.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	SourceInstanceTemplate *string `json:"sourceInstanceTemplate,omitempty" tf:"source_instance_template,omitempty"`
 

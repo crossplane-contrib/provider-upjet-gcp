@@ -58,7 +58,7 @@ type ServiceAccountIAMMemberParameters struct {
 	Role *string `json:"role" tf:"role,omitempty"`
 
 	// +crossplane:generate:reference:type=ServiceAccount
-	// +crossplane:generate:reference:extractor=github.com/upbound/official-providers/provider-gcp/config/common.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	ServiceAccountID *string `json:"serviceAccountId,omitempty" tf:"service_account_id,omitempty"`
 
