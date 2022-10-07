@@ -1,6 +1,6 @@
 module github.com/upbound/provider-gcp
 
-go 1.19
+go 1.18
 
 require (
 	github.com/crossplane/crossplane-runtime v0.18.0-rc.0.0.20220722162506-9ea84ae53615

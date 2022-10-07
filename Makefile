@@ -38,8 +38,8 @@ NPROCS ?= 1
 # to half the number of CPU cores.
 GO_TEST_PARALLEL := $(shell echo $$(( $(NPROCS) / 2 )))
 
-GO_REQUIRED_VERSION ?= 1.19
-GOLANGCILINT_VERSION ?= 1.50.0
+#GO_REQUIRED_VERSION ?= 1.19
+#GOLANGCILINT_VERSION ?= 1.50.0
 GO_STATIC_PACKAGES = $(GO_PROJECT)/cmd/provider
 GO_LDFLAGS += -X $(GO_PROJECT)/internal/version.Version=$(VERSION)
 GO_SUBDIRS += cmd internal apis
@@ -169,7 +169,7 @@ pull-docs:
 
 generate.init: pull-docs
 
-.PHONY: metadata
+.PHONY: pull-docs
 
 # ====================================================================================
 
