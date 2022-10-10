@@ -3,7 +3,6 @@
 
 PROJECT_NAME := provider-gcp
 PROJECT_REPO := github.com/upbound/$(PROJECT_NAME)
-PROJECT_VERSION_TAG_GROUP := gcp
 
 export TERRAFORM_VERSION := 1.2.1
 export TERRAFORM_PROVIDER_SOURCE := hashicorp/google
