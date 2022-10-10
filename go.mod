@@ -1,6 +1,6 @@
 module github.com/upbound/provider-gcp
 
-go 1.18
+go 1.19
 
 require (
 	github.com/crossplane/crossplane-runtime v0.18.0-rc.0.0.20220722162506-9ea84ae53615
@@ -9,7 +9,7 @@ require (
 	github.com/pkg/errors v0.9.1
 	github.com/upbound/official-providers/testing v0.0.0-20221007091039-7542108227b1
 	github.com/upbound/official-providers/updoc v0.0.0-20221004155610-463bb1c3b2c0
-	github.com/upbound/upjet v0.6.1-0.20220926184909-9fcb735d2821
+	github.com/upbound/upjet v0.6.1-0.20221010090906-75f2d79f05d9
 	gopkg.in/alecthomas/kingpin.v2 v2.2.6
 	k8s.io/apimachinery v0.24.0
 	k8s.io/client-go v0.24.0

@@ -691,8 +691,8 @@ github.com/upbound/official-providers/testing v0.0.0-20221007091039-7542108227b1
 github.com/upbound/official-providers/testing v0.0.0-20221007091039-7542108227b1/go.mod h1:gq+aSoWo842rxD5/iQMkn5e722zmTn3NK+PjuIY7eh8=
 github.com/upbound/official-providers/updoc v0.0.0-20221004155610-463bb1c3b2c0 h1:8gKJYnk6GrOGtONqJRPpUJLRa/lrdXDcofkYRFo+qW8=
 github.com/upbound/official-providers/updoc v0.0.0-20221004155610-463bb1c3b2c0/go.mod h1:4QnHDhS0ZuF7+jguUQTOXHw6U4t7BQUuIVPT8BOQalM=
-github.com/upbound/upjet v0.6.1-0.20220926184909-9fcb735d2821 h1:8P17hfOo0t0dH5OIdShGY+tNgrV3sxLmhJ5S5yTi3DY=
-github.com/upbound/upjet v0.6.1-0.20220926184909-9fcb735d2821/go.mod h1:0+wpQK5gAAvLwiiyq5ZCVeXJioDFPtq2rZ2FUViyaxA=
+github.com/upbound/upjet v0.6.1-0.20221010090906-75f2d79f05d9 h1:E2c3bL6AvftLHWIVuvkO6D+amsBLOGDFEI0CtIKVlTQ=
+github.com/upbound/upjet v0.6.1-0.20221010090906-75f2d79f05d9/go.mod h1:/otlh/ILLnBiPmmcy3ggOs+VHkJrAvR1TynCmw15cg0=
 github.com/vmihailenco/msgpack v3.3.3+incompatible/go.mod h1:fy3FlTQTDXWkZ7Bh6AcGMlsjHatGryHQYUTf1ShIgkk=
 github.com/vmihailenco/msgpack v4.0.4+incompatible h1:dSLoQfGFAo3F6OoNhwUmLwVgaUXK79GlxNBwueZn0xI=
 github.com/vmihailenco/msgpack v4.0.4+incompatible/go.mod h1:fy3FlTQTDXWkZ7Bh6AcGMlsjHatGryHQYUTf1ShIgkk=
