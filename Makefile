@@ -38,9 +38,13 @@ NPROCS ?= 1
 # to half the number of CPU cores.
 GO_TEST_PARALLEL := $(shell echo $$(( $(NPROCS) / 2 )))
 
-#GO_REQUIRED_VERSION ?= 1.19
-#GOLANGCILINT_VERSION ?= 1.50.0
-GO_STATIC_PACKAGES = $(GO_PROJECT)/cmd/provider
+# We need to specify which repos might require login for go commands to authorize
+# correctly.
+export GOPRIVATE = github.com/upbound/*
+
+GO_REQUIRED_VERSION ?= 1.18
+GOLANGCILINT_VERSION ?= 1.50.0
+GO_STATIC_PACKAGES = $(GO_PROJECT)/cmd/provider $(GO_PROJECT)/cmd/generator
 GO_LDFLAGS += -X $(GO_PROJECT)/internal/version.Version=$(VERSION)
 GO_SUBDIRS += cmd internal apis
 GO111MODULE = on
@@ -49,23 +53,48 @@ GO111MODULE = on
 # ====================================================================================
 # Setup Kubernetes tools
 
-UP_VERSION = v0.13.0
+KIND_VERSION = v0.15.0
+UP_VERSION = v0.14.0
 UP_CHANNEL = stable
 -include build/makelib/k8s_tools.mk
 
 # ====================================================================================
 # Setup Images
 
-DOCKER_REGISTRY ?= upbound
+REGISTRY_ORGS ?= xpkg.upbound.io/upbound
 IMAGES = provider-gcp
--include build/makelib/image.mk
+-include build/makelib/imagelight.mk
 
 # ====================================================================================
 # Setup XPKG
 
-XPKG_REGISTRY ?= xpkg.upbound.io
-XPKG_ORG ?= upbound
-XPKG_REPO ?= $(PROJECT_NAME)-staging
+XPKG_REG_ORGS ?= xpkg.upbound.io/upbound
+# NOTE(hasheddan): skip promoting on xpkg.upbound.io as channel tags are
+# inferred.
+XPKG_REG_ORGS_NO_PROMOTE ?= xpkg.upbound.io/upbound
+XPKGS = provider-gcp
+-include build/makelib/xpkg.mk
+
+# NOTE(hasheddan): we force image building to happen prior to xpkg build so that
+# we ensure image is present in daemon.
+xpkg.build.provider-gcp: do.build.images
+
+# ====================================================================================
+# Setup Upbound Docs
+
+updoc-upload:
+	@$(INFO) uploading docs for $(VERSION_MINOR)
+	@go run github.com/upbound/official-providers/updoc/cmd upload \
+        --docs-dir=$(ROOT_DIR)/docs \
+        --name=$(PROJECT_NAME) \
+        --version=$(VERSION_MINOR) \
+        --bucket-name=$(BUCKET_NAME) \
+        --cdn-domain=$(CDN_DOMAIN) || $(FAIL)
+	@$(OK) uploaded docs for $(VERSION_MINOR)
+
+ifneq ($(filter release-%,$(BRANCH_NAME)),)
+publish.artifacts: updoc-upload
+endif
 
 # ====================================================================================
 # Targets
@@ -85,7 +114,7 @@ fallthrough: submodules
 # - generated file
 cobertura:
 	@cat $(GO_TEST_OUTPUT)/coverage.txt | \
-		grep -v zz_generated.deepcopy | \
+		grep -v zz_ | \
 		$(GOCOVER_COBERTURA) > $(GO_TEST_OUTPUT)/cobertura-coverage.xml
 
 # Update the submodules, such as the common build scripts.
@@ -104,33 +133,6 @@ run: go.build
 # NOTE(hasheddan): we ensure up is installed prior to running platform-specific
 # build steps in parallel to avoid encountering an installation race condition.
 build.init: $(UP)
-
-xpkg.build: $(UP) do.build.images
-	@$(INFO) Building package $(PROJECT_NAME)-$(VERSION).xpkg for $(PLATFORM)
-	@mkdir -p $(OUTPUT_DIR)/xpkg/$(PLATFORM)
-	@$(UP) xpkg build \
-		--controller $(BUILD_REGISTRY)/$(PROJECT_NAME)-$(ARCH) \
-		--package-root ./package \
-		--examples-root ./examples \
-		--output ./_output/xpkg/$(PLATFORM)/$(PROJECT_NAME)-$(VERSION).xpkg || $(FAIL)
-	@$(OK) Built package $(PROJECT_NAME)-$(VERSION).xpkg for $(PLATFORM)
-
-build.artifacts.platform: xpkg.build
-
-xpkg.push: $(UP)
-	@$(INFO) Pushing package $(PROJECT_NAME)-$(VERSION).xpkg
-	@$(UP) xpkg push \
-		--package $(OUTPUT_DIR)/xpkg/linux_amd64/$(PROJECT_NAME)-$(VERSION).xpkg \
-		--package $(OUTPUT_DIR)/xpkg/linux_arm64/$(PROJECT_NAME)-$(VERSION).xpkg \
-		$(XPKG_REGISTRY)/$(XPKG_ORG)/$(XPKG_REPO):$(VERSION) || $(FAIL)
-	@$(OK) Pushed package $(PROJECT_NAME)-$(VERSION).xpkg
-
-xpkg.load: $(UP)
-	@$(INFO) Loading package $(PROJECT_NAME)-$(VERSION).xpkg for $(PLATFORM) into Docker daemon
-	@docker load -i $(OUTPUT_DIR)/xpkg/$(PLATFORM)/$(PROJECT_NAME)-$(VERSION).xpkg
-	@$(OK) Loaded package $(PROJECT_NAME)-$(VERSION).xpkg for $(PLATFORM) into Docker daemon
-
-.PHONY: cobertura submodules fallthrough run crds.clean
 
 # ====================================================================================
 # Setup Terraform for fetching provider schema
@@ -155,23 +157,35 @@ $(TERRAFORM_PROVIDER_SCHEMA): $(TERRAFORM)
 	@$(TERRAFORM) -chdir=$(TERRAFORM_WORKDIR) providers schema -json=true > $(TERRAFORM_PROVIDER_SCHEMA) 2>> $(TERRAFORM_WORKDIR)/terraform-logs.txt
 	@$(OK) generating provider schema for $(TERRAFORM_PROVIDER_SOURCE) $(TERRAFORM_PROVIDER_VERSION)
 
-generate.init: $(TERRAFORM_PROVIDER_SCHEMA)
-
-.PHONY: $(TERRAFORM_PROVIDER_SCHEMA)
-
-# ====================================================================================
-# Extract Terraform registry metadata
 pull-docs:
 	@if [ ! -d "$(WORK_DIR)/$(notdir $(TERRAFORM_PROVIDER_REPO))" ]; then \
 		git clone -c advice.detachedHead=false --depth 1 --filter=blob:none --branch "v$(TERRAFORM_PROVIDER_VERSION)" --sparse "$(TERRAFORM_PROVIDER_REPO)" "$(WORK_DIR)/$(notdir $(TERRAFORM_PROVIDER_REPO))"; \
 	fi
 	@git -C "$(WORK_DIR)/$(notdir $(TERRAFORM_PROVIDER_REPO))" sparse-checkout set "$(TERRAFORM_DOCS_PATH)"
 
-generate.init: pull-docs
-
-.PHONY: pull-docs
+generate.init: $(TERRAFORM_PROVIDER_SCHEMA) pull-docs
 
 # ====================================================================================
+# Test utilities
+# TODO(muvaf): Move most of this to build submodule.
+
+uptest: $(KIND) $(KUBECTL) $(HELM3) $(UP) $(KUTTL)
+	@$(INFO) running uptest using kind $(KIND_VERSION)
+	@./cluster/install_provider.sh || $(FAIL)
+	@echo "$${UPTEST_EXAMPLE_VALUE_REPLACEMENTS}" > $(WORK_DIR)/replacements.yaml
+	@KIND=$(KIND) KUBECTL=$(KUBECTL) KUTTL=$(KUTTL) go run github.com/upbound/official-providers/testing/cmd --data-source "$(WORK_DIR)/replacements.yaml" || $(FAIL)
+
+uptest-local: $(KUBECTL) $(KUTTL)
+	@$(INFO) running automated tests with uptest using current kubeconfig $(KIND_VERSION)
+	@KUBECTL=$(KUBECTL) KUTTL=$(KUTTL) go run github.com/upbound/official-providers/testing/cmd || $(FAIL)
+
+cluster_dump: $(KUBECTL)
+	@mkdir -p ${DUMP_DIRECTORY}
+	@$(KUBECTL) cluster-info dump --output-directory ${DUMP_DIRECTORY} --all-namespaces || true
+	@$(KUBECTL) get managed -o yaml > ${DUMP_DIRECTORY}/managed.yaml || true
+	@cat /tmp/automated-tests/case/*.yaml > ${DUMP_DIRECTORY}/kuttl-inputs.yaml
+
+.PHONY: pull-docs
 
 # ====================================================================================
 # Special Targets
@@ -183,7 +197,6 @@ Crossplane Targets:
     run                   Run crossplane locally, out-of-cluster. Useful for development.
 
 endef
-
 # The reason CROSSPLANE_MAKE_HELP is used instead of CROSSPLANE_HELP is because the crossplane
 # binary will try to use CROSSPLANE_HELP if it is set, and this is for something different.
 export CROSSPLANE_MAKE_HELP
@@ -205,20 +218,4 @@ go.cachedir:
 go.mod.cachedir:
 	@go env GOMODCACHE
 
-uptest: $(KIND) $(KUBECTL) $(HELM3) $(UP) $(KUTTL)
-	@$(INFO) running uptest using kind $(KIND_VERSION)
-	@./cluster/install_provider.sh || $(FAIL)
-	@echo "$${UPTEST_EXAMPLE_VALUE_REPLACEMENTS}" > $(WORK_DIR)/replacements.yaml
-	@KIND=$(KIND) KUBECTL=$(KUBECTL) KUTTL=$(KUTTL) go run github.com/upbound/official-providers/testing/cmd --data-source "$(WORK_DIR)/replacements.yaml" || $(FAIL)
-
-uptest-local: $(KUBECTL) $(KUTTL)
-	@$(INFO) running automated tests with uptest using current kubeconfig $(KIND_VERSION)
-	@KUBECTL=$(KUBECTL) KUTTL=$(KUTTL) go run github.com/upbound/official-providers/testing/cmd || $(FAIL)
-
-cluster_dump: $(KUBECTL)
-	@mkdir -p ${DUMP_DIRECTORY}
-	@$(KUBECTL) cluster-info dump --output-directory ${DUMP_DIRECTORY} --all-namespaces || true
-	@$(KUBECTL) get managed -o yaml > ${DUMP_DIRECTORY}/managed.yaml || true
-	@cat /tmp/automated-tests/case/*.yaml > ${DUMP_DIRECTORY}/kuttl-inputs.yaml
-
-.PHONY: cobertura reviewable submodules fallthrough go.mod.cachedir go.cachedir
+.PHONY: cobertura reviewable submodules fallthrough go.mod.cachedir go.cachedir run crds.clean $(TERRAFORM_PROVIDER_SCHEMA)
