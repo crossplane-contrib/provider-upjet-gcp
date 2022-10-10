@@ -1,11 +1,11 @@
-name: Coverage Report
+name: Uptest All
 
 on:
   workflow_dispatch: {}
 
 env:
   # Common versions
-  GO_VERSION: '1.18'
+  GO_VERSION: '1.19'
   DOCKER_BUILDX_VERSION: 'v0.8.2'
 
   UPBOUND_MARKETPLACE_PUSH_ROBOT_USR: ${{ secrets.UPBOUND_MARKETPLACE_PUSH_ROBOT_USR }}
