@@ -9,8 +9,16 @@ GCP API.
 
 Install the provider by using the following command after changing the image tag
 to the [latest release](https://github.com/upbound/provider-gcp/releases):
-```
-kubectl crossplane install provider upbound/provider-gcp:v0.1.0
+
+```bash
+cat << EOF | kubectl apply -f -
+apiVersion: pkg.crossplane.io/v1
+kind: Provider
+metadata:
+  name: provider-gcp
+spec:
+  package: xpkg.upbound.io/upbound/provider-gcp:<version>
+EOF
 ```
 
 You can see the API reference [here](https://doc.crds.dev/github.com/upbound/provider-gcp).

@@ -8,11 +8,6 @@ This guide walks through the process to install Upbound Universal Crossplane and
 
 To use this official provider, install Upbound Universal Crossplane into your Kubernetes cluster, install the `Provider`, apply a `ProviderConfig`, and create a *managed resource* in GCP via Kubernetes.
 
-## Create an Upbound.io user account
-Create an account on [Upbound.io](https://accounts.upbound.io/register). 
-
-<!-- Find detailed instructions in the [account documentation](/getting-started/create-account). -->
-
 ## Install the Up command-line
 Download and install the Upbound `up` command-line.
 
@@ -49,76 +44,7 @@ upbound-bootstrapper-5f47977d54-t8kvk       1/1     Running   0             68m
 xgql-7c4b74c458-5bf2q                       1/1     Running   3 (67m ago)   68m
 ```
 
-## Log in with the Up command-line
-Use `up login` to authenticate to the Upbound Marketplace.
-
-It's important to use `-a <your organization>` when logging in. Only accounts belonging to organizations can use official providers.
-
-```shell
-$ up login -a my-org
-username: my-user
-password: 
-my-user logged in
-```
-## Create an Upbound robot account
-Upbound robots are identities used for authentication that are independent from a single user and aren’t tied to specific usernames or passwords.
-
-Creating a robot account allows Kubernetes to install an official provider.
-
-Use `up robot create <robot account name>` to create a new robot account.
-
-_Note_: only users logged into an organization can create robot accounts.
-
-```shell
-$ up robot create my-robot
-my-org/my-robot created
-```
-
-## Create an Upbound robot account token
-The token associates with a specific robot account and acts as a username and password for authentication.
-
-Generate a token using `up robot token create <robot account> <token name> --output=<file>`.
-
-```shell
-$ up robot token create my-robot my-token --output=token.json
-my-org/my-robot/my-token created
-```
-
-The `output` file is a JSON file containing the robot token's `accessId` and `token`. The `accessId` is the username and `token` is the password for the token.
-
-_Note_: you can't recover a lost robot token. You must delete and recreate the token.
-
-
-## Create a Kubernetes pull secret
-Downloading and installing official providers requires Kubernetes to authenticate to the Upbound Marketplace using a Kubernetes `secret` object.
-
-Using the `up controlplane pull-secret create <secret name> -f <robot token file>` command create an [Upbound robot account](http://docs.upbound.io/cli/command-reference/robot/) account. 
-
-Provide a name for your Kubernetes secret and the robot token JSON file.
-
-_Note_: robot accounts are independent from your account. Your account information is never stored in Kubernetes.
-
-_Note_: you must provide the robot token file or you can't authenticate to install an official provider.  
-
-```shell
-$ up controlplane pull-secret create my-upbound-secret -f token.json
-my-org/my-upbound-secret created
-```
-
-`Up` creates the secret in the `upbound-system` namespace. 
-
-```shell
-$ kubectl get secret -n upbound-system
-NAME                                         TYPE                             DATA   AGE
-my-upbound-secret                            kubernetes.io/dockerconfigjson   1      8m46s
-sh.helm.release.v1.universal-crossplane.v1   helm.sh/release.v1               1      21m
-upbound-agent-tls                            Opaque                           3      21m
-uxp-ca                                       Opaque                           3      21m
-xgql-tls                                     Opaque                           3      21m
-```
-
 ## Install the official GCP provider
-<!-- Use the marketplace button -->
 
 Install the official provider into the Kubernetes cluster with a Kubernetes configuration file. 
 
@@ -128,12 +54,8 @@ kind: Provider
 metadata:
   name: provider-gcp
 spec:
-  package: xpkg.upbound.io/upbound/provider-gcp:latest
-  packagePullSecrets:
-    - name: my-upbound-secret
+  package: xpkg.upbound.io/upbound/provider-gcp:<version>
 ```
-
-_Note_: the `name` of the `packagePullSecrets` must be the same as the name of the Kubernetes secret just created.  
 
 Apply this configuration with `kubectl apply -f`.
 
@@ -142,24 +64,10 @@ After installing the provider, verify the install with `kubectl get providers`.
 ```shell
 $ kubectl get providers
 NAME           INSTALLED   HEALTHY   PACKAGE                                       AGE
-provider-gcp   True        True      xpkg.upbound.io/upbound/provider-gcp:latest   15s
+provider-gcp   True        True      xpkg.upbound.io/upbound/provider-gcp:v0.15.0   15s
 ```
 
 It may take up to 5 minutes to report `HEALTHY`.
-
-If the `packagePullSecrets` is incorrect the provider returns a `401 Unauthorized` error. View the status and error with `kubectl describe provider`.
-
-```yaml
-$ kubectl describe provider
-Name:         provider-gcp
-API Version:  pkg.crossplane.io/v1
-Kind:         Provider
-# Output truncated
-Events:
-  Type     Reason         Age              From                                 Message
-  ----     ------         ----             ----                                 -------
-  Warning  UnpackPackage  1s (x2 over 3s)  packages/provider.pkg.crossplane.io  cannot unpack package: failed to fetch package digest from remote: GET https://xpkg.upbound.io/service/token?scope=repository%!A(MISSING)upbound%!F(MISSING)provider-gcp%!A(MISSING)pull&service=xpkg.upbound.io: unexpected status code 401 Unauthorized
-```
 
 ## Create a Kubernetes secret
 The provider requires credentials to create and manage GCP resources.
@@ -295,7 +203,7 @@ NAME      READY   SYNCED   EXTERNAL-NAME              AGE
 example   True    True     upbound-bucket-4a917c947   90s
 ```
 
-Upbound created the bucket when the values `READY` and `SYNCED` are `True`.
+Provider created the bucket when the values `READY` and `SYNCED` are `True`.
 
 If the `READY` or `SYNCED` are blank or `False` use `kubectl describe` to understand why.
 
