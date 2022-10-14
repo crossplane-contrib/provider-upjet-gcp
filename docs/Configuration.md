@@ -2,17 +2,39 @@
 title: Configuration
 weight: 2
 ---
-# Configuration
-
-Install official provider on self-hosted control planes using Universal Crossplane (`UXP`).
+# GCP official provider documentation
+Upbound supports and maintains the Upbound GCP official provider.
 
 ## Install the provider
-Official providers require a Kubernetes `imagePullSecret` to install. 
-<!-- vale gitlab.Substitutions = NO --> 
-<!-- Details on creating an `imagePullSecret` are available in the [generic provider documentation](/providers/#create-a-kubernetes-imagepullsecret) -->
-<!-- vale gitlab.Substitutions = YES --> 
+### Prerequisites
+#### Upbound Up command-line
+The Upbound Up command-line simplifies configuration and management of Upbound
+Universal Crossplane (UXP) and interacts with the Upbound Marketplace to manage
+users and accounts.
 
-_Note:_ if you already installed an official provider using an `imagePullSecret` a new secret isn't required.
+Install `up` with the command:
+```shell
+curl -sL "https://cli.upbound.io" | sh
+```
+More information about the Up command-line is available in the [Upbound Up
+documentation](https://docs.upbound.io/cli/).
+
+#### Upbound Universal Crossplane
+UXP is the Upbound official enterprise-grade distribution of Crossplane for
+self-hosted control planes. Only Upbound Universal Crossplane (UXP) supports
+official providers.
+
+Official providers aren't supported with open source Crossplane.
+
+Install UXP into your Kubernetes cluster using the Up command-line.
+
+```shell
+up uxp install
+```
+
+Find more information in the [Upbound UXP documentation](https://docs.upbound.io/uxp/).
+
+### Install the provider
 
 Install the Upbound official GCP provider with the following configuration file
 
@@ -22,17 +44,19 @@ kind: Provider
 metadata:
   name: provider-gcp
 spec:
-  package: xpkg.upbound.io/upbound/provider-gcp:v0.4.1
-  packagePullSecrets:
-    - name: package-pull-secret
+  package: xpkg.upbound.io/upbound/provider-gcp:<version>
 ```
 
-Apply the configuration with `kubectl apply -f`
+Define the provider version with `spec.package`.
+
+Install the provider with `kubectl apply -f`.
+
+Verify the configuration with `kubectl get providers`.
 
 ```shell
 $ kubectl get providers
 NAME           INSTALLED   HEALTHY   PACKAGE                                       AGE
-provider-gcp   True        True      xpkg.upbound.io/upbound/provider-gcp:latest   15s
+provider-gcp   True        True      xpkg.upbound.io/upbound/provider-gcp:v0.15.0  62s
 ```
 
 View the Crossplane [Provider CRD definition](https://doc.crds.dev/github.com/crossplane/crossplane/pkg.crossplane.io/Provider/v1) to view all available `Provider` options.

@@ -4,6 +4,7 @@ metadata:
   name: provider-gcp
   annotations:
     meta.crossplane.io/maintainer: Upbound <support@upbound.io>
+    meta.crossplane.io/source: github.com/upbound/provider-gcp
     meta.crossplane.io/description: |
       Upbound's official Crossplane provider to manage Google Cloud Platform (GCP)
       services in Kubernetes.
