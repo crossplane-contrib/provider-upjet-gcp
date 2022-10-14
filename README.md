@@ -8,6 +8,7 @@ GCP API.
 ## Getting Started
 
 Follow the quick start guide [here](https://marketplace.upbound.io/providers/upbound/provider-gcp/latest/docs/quickstart).
+You can find a detailed API reference with all CRDs and examples [here](https://marketplace.upbound.io/providers/upbound/provider-gcp)
 
 ## Developing
 
