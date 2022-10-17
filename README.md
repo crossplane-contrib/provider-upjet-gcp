@@ -10,42 +10,15 @@ GCP API.
 Follow the quick start guide [here](https://marketplace.upbound.io/providers/upbound/provider-gcp/latest/docs/quickstart).
 You can find a detailed API reference with all CRDs and examples [here](https://marketplace.upbound.io/providers/upbound/provider-gcp)
 
-## Developing
+## Contributing
 
-Run code-generation pipeline:
-```console
-go run cmd/generator/main.go
-```
+For the general contribution guide, see [Upjet Contribution Guide](https://github.com/upbound/upjet/blob/main/CONTRIBUTING.md)
 
-Run against a Kubernetes cluster:
+If you'd like to learn how to use Upjet, see [Usage Guide](https://github.com/upbound/upjet/tree/main/docs).
 
-```console
-make run
-```
+### Add a New Resource
 
-Build, push, and install:
-
-```console
-make all
-```
-
-Build image:
-
-```console
-make image
-```
-
-Push image:
-
-```console
-make push
-```
-
-Build binary:
-
-```console
-make build
-```
+Follow the guide [here](https://github.com/upbound/upjet/blob/main/docs/add-new-resource-short.md).
 
 ## Report a Bug
 
