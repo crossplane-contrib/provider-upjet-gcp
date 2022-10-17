@@ -1,6 +1,8 @@
 package notebooks
 
 import (
+	"strings"
+
 	"github.com/upbound/upjet/pkg/config"
 )
 
@@ -22,5 +24,8 @@ func Configure(p *config.Provider) {
 		r.References["runtime_name"] = config.Reference{
 			Type: "Runtime",
 		}
+	})
+	p.AddResourceConfigurator("google_notebooks_runtime", func(r *config.Resource) {
+		r.MetaResource.ArgumentDocs["data_disk.guest_os_features"] = strings.ReplaceAll(r.MetaResource.ArgumentDocs["data_disk.guest_os_features"], "``", "")
 	})
 }

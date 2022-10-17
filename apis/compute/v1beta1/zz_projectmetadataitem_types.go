@@ -27,7 +27,7 @@ import (
 
 type ProjectMetadataItemObservation struct {
 
-	// an identifier for the resource with format `{{key}}``
+	// an identifier for the resource with format `{{key}}`
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 }
 
