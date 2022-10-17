@@ -85,7 +85,7 @@ type DataDiskObservation struct {
 	// Indicates a list of features to enable on the guest operating
 	// system. Applicable only for bootable images. To see a list of
 	// available features, read https://cloud.google.com/compute/docs/ images/create-delete-deprecate-private-images#guest-os-features
-	// options. ``
+	// options.
 	GuestOsFeatures []*string `json:"guestOsFeatures,omitempty" tf:"guest_os_features,omitempty"`
 
 	// Output only. A zero-based index to this disk, where 0 is

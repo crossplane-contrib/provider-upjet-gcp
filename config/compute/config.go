@@ -19,10 +19,6 @@ var (
 	// PathInstanceGroupExtractor is the golang path to InstanceGroupExtractor function
 	// in this package.
 	PathInstanceGroupExtractor = SelfPackagePath + ".InstanceGroupExtractor()"
-
-	// PathInstanceGroupExtractor is the golang path to SelfLinkExtractor function
-	// in this package.
-	PathClusterInstanceGroupExtractor = SelfPackagePath + ".ClusterInstanceGroupExtractor()"
 )
 
 // Configure configures individual resources by adding custom
@@ -424,6 +420,12 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 			Type: "Subnetwork",
 		}
 		config.MarkAsRequired(r.TerraformResource, "region")
+	})
+	p.AddResourceConfigurator("google_compute_firewall_policy_rule", func(r *config.Resource) {
+		r.MetaResource.ArgumentDocs["layer4_configs.ports"] = `An optional list of ports to which this rule applies. This field is only applicable for UDP or TCP protocol. Each entry must be either an integer or a range. If not specified, this rule applies to connections through any port.`
+	})
+	p.AddResourceConfigurator("google_compute_project_metadata_item", func(r *config.Resource) {
+		r.MetaResource.ArgumentDocs["id"] = "an identifier for the resource with format `{{key}}`"
 	})
 }
 
