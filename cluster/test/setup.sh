@@ -18,6 +18,7 @@ kind: ProviderConfig
 metadata:
   name: default
 spec:
+  projectID: official-provider-testing
   credentials:
     source: Secret
     secretRef:
