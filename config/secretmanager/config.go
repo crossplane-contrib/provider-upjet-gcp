@@ -21,7 +21,8 @@ func Configure(p *config.Provider) {
 
 	p.AddResourceConfigurator("google_secret_manager_secret_version", func(r *config.Resource) {
 		r.References["secret"] = config.Reference{
-			Type: "Secret",
+			Type:      "Secret",
+			Extractor: common.ExtractResourceIDFuncPath,
 		}
 	})
 }

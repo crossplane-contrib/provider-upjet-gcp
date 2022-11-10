@@ -49,6 +49,7 @@ type SecretVersionParameters struct {
 
 	// Secret Manager secret resource
 	// +crossplane:generate:reference:type=Secret
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Secret *string `json:"secret,omitempty" tf:"secret,omitempty"`
 
