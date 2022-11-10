@@ -60,7 +60,7 @@ func (mg *SecretVersion) ResolveReferences(ctx context.Context, c client.Reader)
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Secret),
-		Extract:      reference.ExternalName(),
+		Extract:      common.ExtractResourceID(),
 		Reference:    mg.Spec.ForProvider.SecretRef,
 		Selector:     mg.Spec.ForProvider.SecretSelector,
 		To: reference.To{
