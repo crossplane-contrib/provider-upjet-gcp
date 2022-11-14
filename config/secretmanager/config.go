@@ -24,5 +24,6 @@ func Configure(p *config.Provider) {
 			Type:      "Secret",
 			Extractor: common.ExtractResourceIDFuncPath,
 		}
+		r.MetaResource.ArgumentDocs["secret_data"] = `The secret data. Must be no larger than 64KiB.`
 	})
 }
