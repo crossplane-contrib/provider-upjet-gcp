@@ -4704,6 +4704,16 @@ func (in *TableIAMBindingParameters) DeepCopyInto(out *TableIAMBindingParameters
 		*out = new(string)
 		**out = **in
 	}
+	if in.DatasetIDRef != nil {
+		in, out := &in.DatasetIDRef, &out.DatasetIDRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.DatasetIDSelector != nil {
+		in, out := &in.DatasetIDSelector, &out.DatasetIDSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.Members != nil {
 		in, out := &in.Members, &out.Members
 		*out = make([]*string, len(*in))
@@ -4729,6 +4739,16 @@ func (in *TableIAMBindingParameters) DeepCopyInto(out *TableIAMBindingParameters
 		in, out := &in.TableID, &out.TableID
 		*out = new(string)
 		**out = **in
+	}
+	if in.TableIDRef != nil {
+		in, out := &in.TableIDRef, &out.TableIDRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.TableIDSelector != nil {
+		in, out := &in.TableIDSelector, &out.TableIDSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 }
 

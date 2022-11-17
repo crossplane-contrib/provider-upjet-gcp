@@ -614,7 +614,7 @@ var externalNameConfigs = map[string]config.ExternalName{
 	// BigQuery tables can be imported using the project, dataset_id, and table_id: gcp-project/foo/bar
 	"google_bigquery_table": config.TemplatedStringAsIdentifier("table_id", "{{ .parameters.project }}/{{ .parameters.dataset_id }}/{{ .external_name }}"),
 	// IAM binding imports use space-delimited identifiers: the resource and the role: "projects/{{project}}/datasets/{{dataset_id}}/tables/{{table_id}} roles/bigquery.dataOwner"
-	"google_bigquery_table_iam_binding": config.TemplatedStringAsIdentifier("", "projects/{{ .parameters.project }}/datasets/{{ .parameters.dataset_id }}/tables/{{ .parameters.table_id }} {{ .parameters.role }}"),
+	"google_bigquery_table_iam_binding": config.IdentifierFromProvider,
 	// IAM member imports use space-delimited identifiers: the resource, the role, and the member identity: "projects/{{project}}/datasets/{{dataset_id}}/tables/{{table_id}} roles/bigquery.dataOwner user:jane@example.com"
 	"google_bigquery_table_iam_member": config.TemplatedStringAsIdentifier("", "projects/{{ .parameters.project }}/datasets/{{ .parameters.dataset_id }}/tables/{{ .parameters.table_id }} {{ .parameters.member }}"),
 	// IAM policy imports use the identifier of the resource: projects/{{project}}/datasets/{{dataset_id}}/tables/{{table_id}}

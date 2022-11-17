@@ -796,6 +796,48 @@ func (mg *Table) ResolveReferences(ctx context.Context, c client.Reader) error {
 	return nil
 }
 
+// ResolveReferences of this TableIAMBinding.
+func (mg *TableIAMBinding) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.DatasetID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.ForProvider.DatasetIDRef,
+		Selector:     mg.Spec.ForProvider.DatasetIDSelector,
+		To: reference.To{
+			List:    &DatasetList{},
+			Managed: &Dataset{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.DatasetID")
+	}
+	mg.Spec.ForProvider.DatasetID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.DatasetIDRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.TableID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.ForProvider.TableIDRef,
+		Selector:     mg.Spec.ForProvider.TableIDSelector,
+		To: reference.To{
+			List:    &TableList{},
+			Managed: &Table{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.TableID")
+	}
+	mg.Spec.ForProvider.TableID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.TableIDRef = rsp.ResolvedReference
+
+	return nil
+}
+
 // ResolveReferences of this TableIAMPolicy.
 func (mg *TableIAMPolicy) ResolveReferences(ctx context.Context, c client.Reader) error {
 	r := reference.NewAPIResolver(c, mg)

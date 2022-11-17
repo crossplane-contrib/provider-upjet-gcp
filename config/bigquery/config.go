@@ -31,4 +31,12 @@ func Configure(p *config.Provider) {
 			TerraformName: "google_bigquery_dataset",
 		}
 	})
+	p.AddResourceConfigurator("google_bigquery_table_iam_binding", func(r *config.Resource) {
+		r.References["dataset_id"] = config.Reference{
+			TerraformName: "google_bigquery_dataset",
+		}
+		r.References["table_id"] = config.Reference{
+			TerraformName: "google_bigquery_table",
+		}
+	})
 }

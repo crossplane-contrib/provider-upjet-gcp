@@ -51,8 +51,17 @@ type TableIAMBindingParameters struct {
 	// +kubebuilder:validation:Optional
 	Condition []TableIAMBindingConditionParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
-	// +kubebuilder:validation:Required
-	DatasetID *string `json:"datasetId" tf:"dataset_id,omitempty"`
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/bigquery/v1beta1.Dataset
+	// +kubebuilder:validation:Optional
+	DatasetID *string `json:"datasetId,omitempty" tf:"dataset_id,omitempty"`
+
+	// Reference to a Dataset in bigquery to populate datasetId.
+	// +kubebuilder:validation:Optional
+	DatasetIDRef *v1.Reference `json:"datasetIdRef,omitempty" tf:"-"`
+
+	// Selector for a Dataset in bigquery to populate datasetId.
+	// +kubebuilder:validation:Optional
+	DatasetIDSelector *v1.Selector `json:"datasetIdSelector,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Required
 	Members []*string `json:"members" tf:"members,omitempty"`
@@ -63,8 +72,17 @@ type TableIAMBindingParameters struct {
 	// +kubebuilder:validation:Required
 	Role *string `json:"role" tf:"role,omitempty"`
 
-	// +kubebuilder:validation:Required
-	TableID *string `json:"tableId" tf:"table_id,omitempty"`
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/bigquery/v1beta1.Table
+	// +kubebuilder:validation:Optional
+	TableID *string `json:"tableId,omitempty" tf:"table_id,omitempty"`
+
+	// Reference to a Table in bigquery to populate tableId.
+	// +kubebuilder:validation:Optional
+	TableIDRef *v1.Reference `json:"tableIdRef,omitempty" tf:"-"`
+
+	// Selector for a Table in bigquery to populate tableId.
+	// +kubebuilder:validation:Optional
+	TableIDSelector *v1.Selector `json:"tableIdSelector,omitempty" tf:"-"`
 }
 
 // TableIAMBindingSpec defines the desired state of TableIAMBinding
