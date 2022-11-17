@@ -126,7 +126,6 @@ type DestinationTableParameters struct {
 
 	// The ID of the dataset containing this table.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/bigquery/v1beta1.Dataset
-	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	DatasetID *string `json:"datasetId,omitempty" tf:"dataset_id,omitempty"`
 
@@ -275,6 +274,10 @@ type JobParameters struct {
 	// +kubebuilder:validation:Optional
 	Extract []ExtractParameters `json:"extract,omitempty" tf:"extract,omitempty"`
 
+	// The ID of the job. The ID must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-). The maximum length is 1,024 characters.
+	// +kubebuilder:validation:Required
+	JobID *string `json:"jobId" tf:"job_id,omitempty"`
+
 	// Job timeout in milliseconds. If this time limit is exceeded, BigQuery may attempt to terminate the job.
 	// +kubebuilder:validation:Optional
 	JobTimeoutMs *string `json:"jobTimeoutMs,omitempty" tf:"job_timeout_ms,omitempty"`
@@ -324,7 +327,6 @@ type LoadDestinationTableParameters struct {
 
 	// The ID of the dataset containing this table.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/bigquery/v1beta1.Dataset
-	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	DatasetID *string `json:"datasetId,omitempty" tf:"dataset_id,omitempty"`
 
@@ -522,7 +524,6 @@ type QueryDestinationTableParameters struct {
 
 	// The ID of the dataset containing this table.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/bigquery/v1beta1.Dataset
-	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	DatasetID *string `json:"datasetId,omitempty" tf:"dataset_id,omitempty"`
 
@@ -715,7 +716,6 @@ type SourceTableParameters struct {
 
 	// The ID of the dataset containing this table.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/bigquery/v1beta1.Dataset
-	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	DatasetID *string `json:"datasetId,omitempty" tf:"dataset_id,omitempty"`
 

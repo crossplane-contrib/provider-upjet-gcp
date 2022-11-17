@@ -604,7 +604,7 @@ var externalNameConfigs = map[string]config.ExternalName{
 	// TODO: check of the following location or locations
 	// TODO: a `project` argument seems to be missing for this resource, to be checked after generation
 	// Imported with the following format: projects/{{project}}/jobs/{{job_id}}/location/{{location}}
-	"google_bigquery_job": config.TemplatedStringAsIdentifier("job_id", "projects/{{ .setup.configuration.project }}/jobs/{{ .external_name }}/location/{{ .parameters.location }}"),
+	"google_bigquery_job": config.IdentifierFromProvider,
 	// Imported with the following format: projects/{{project}}/locations/{{location}}/reservations/{{name}}
 	"google_bigquery_reservation": config.TemplatedStringAsIdentifier("name", "projects/{{ .parameters.project }}/locations/{{ .parameters.location }}/reservations/{{ .external_name }}"),
 	// Imported with the following format: projects/{{project}}/locations/{{location}}/reservations/{{reservation}}/assignments/{{name}}
@@ -618,7 +618,7 @@ var externalNameConfigs = map[string]config.ExternalName{
 	// IAM member imports use space-delimited identifiers: the resource, the role, and the member identity: "projects/{{project}}/datasets/{{dataset_id}}/tables/{{table_id}} roles/bigquery.dataOwner user:jane@example.com"
 	"google_bigquery_table_iam_member": config.TemplatedStringAsIdentifier("", "projects/{{ .parameters.project }}/datasets/{{ .parameters.dataset_id }}/tables/{{ .parameters.table_id }} {{ .parameters.member }}"),
 	// IAM policy imports use the identifier of the resource: projects/{{project}}/datasets/{{dataset_id}}/tables/{{table_id}}
-	"google_bigquery_table_iam_policy": config.TemplatedStringAsIdentifier("", "projects/{{ .parameters.project }}/datasets/{{ .parameters.dataset_id }}/tables/{{ .parameters.table_id }}"),
+	"google_bigquery_table_iam_policy": config.IdentifierFromProvider,
 
 	// dataflow
 	//

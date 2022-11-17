@@ -35,16 +35,15 @@ type TableIAMPolicyObservation struct {
 
 type TableIAMPolicyParameters struct {
 
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/bigquery/v1beta1.Table
-	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractParamPath("dataset_id",false)
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/bigquery/v1beta1.Dataset
 	// +kubebuilder:validation:Optional
 	DatasetID *string `json:"datasetId,omitempty" tf:"dataset_id,omitempty"`
 
-	// Reference to a Table in bigquery to populate datasetId.
+	// Reference to a Dataset in bigquery to populate datasetId.
 	// +kubebuilder:validation:Optional
 	DatasetIDRef *v1.Reference `json:"datasetIdRef,omitempty" tf:"-"`
 
-	// Selector for a Table in bigquery to populate datasetId.
+	// Selector for a Dataset in bigquery to populate datasetId.
 	// +kubebuilder:validation:Optional
 	DatasetIDSelector *v1.Selector `json:"datasetIdSelector,omitempty" tf:"-"`
 
@@ -55,18 +54,8 @@ type TableIAMPolicyParameters struct {
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the project will be parsed from the identifier of the parent resource. If no project is provided in the parent identifier and no project is specified, the provider project is used.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/bigquery/v1beta1.Table
-	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractParamPath("project",false)
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
-
-	// Reference to a Table in bigquery to populate project.
-	// +kubebuilder:validation:Optional
-	ProjectRef *v1.Reference `json:"projectRef,omitempty" tf:"-"`
-
-	// Selector for a Table in bigquery to populate project.
-	// +kubebuilder:validation:Optional
-	ProjectSelector *v1.Selector `json:"projectSelector,omitempty" tf:"-"`
 
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/bigquery/v1beta1.Table
 	// +kubebuilder:validation:Optional

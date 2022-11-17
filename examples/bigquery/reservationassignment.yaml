@@ -13,7 +13,9 @@ spec:
     reservationSelector:
       matchLabels:
         testing.upbound.io/example-name: reservation
+
 ---
+
 apiVersion: bigquery.gcp.upbound.io/v1beta1
 kind: Reservation
 metadata:

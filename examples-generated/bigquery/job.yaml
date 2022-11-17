@@ -8,6 +8,7 @@ metadata:
   name: job
 spec:
   forProvider:
+    jobId: job_query
     labels:
       example-label: example-value
     query:

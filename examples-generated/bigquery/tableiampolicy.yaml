@@ -12,9 +12,7 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: test
     policyData: ${data.google_iam_policy.admin.policy_data}
-    projectSelector:
-      matchLabels:
-        testing.upbound.io/example-name: test
+    project: ${google_bigquery_table.test.project}
     tableIdSelector:
       matchLabels:
         testing.upbound.io/example-name: test

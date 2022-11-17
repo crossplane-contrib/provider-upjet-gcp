@@ -151,28 +151,6 @@ func (mg *Dataset) ResolveReferences(ctx context.Context, c client.Reader) error
 		}
 	}
 	for i3 := 0; i3 < len(mg.Spec.ForProvider.Access); i3++ {
-		for i4 := 0; i4 < len(mg.Spec.ForProvider.Access[i3].Dataset); i4++ {
-			for i5 := 0; i5 < len(mg.Spec.ForProvider.Access[i3].Dataset[i4].Dataset); i5++ {
-				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Access[i3].Dataset[i4].Dataset[i5].ProjectID),
-					Extract:      resource.ExtractParamPath("project", false),
-					Reference:    mg.Spec.ForProvider.Access[i3].Dataset[i4].Dataset[i5].ProjectIDRef,
-					Selector:     mg.Spec.ForProvider.Access[i3].Dataset[i4].Dataset[i5].ProjectIDSelector,
-					To: reference.To{
-						List:    &DatasetList{},
-						Managed: &Dataset{},
-					},
-				})
-				if err != nil {
-					return errors.Wrap(err, "mg.Spec.ForProvider.Access[i3].Dataset[i4].Dataset[i5].ProjectID")
-				}
-				mg.Spec.ForProvider.Access[i3].Dataset[i4].Dataset[i5].ProjectID = reference.ToPtrValue(rsp.ResolvedValue)
-				mg.Spec.ForProvider.Access[i3].Dataset[i4].Dataset[i5].ProjectIDRef = rsp.ResolvedReference
-
-			}
-		}
-	}
-	for i3 := 0; i3 < len(mg.Spec.ForProvider.Access); i3++ {
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Access[i3].UserByEmail),
 			Extract:      resource.ExtractParamPath("email", true),
@@ -239,26 +217,6 @@ func (mg *DatasetAccess) ResolveReferences(ctx context.Context, c client.Reader)
 
 		}
 	}
-	for i3 := 0; i3 < len(mg.Spec.ForProvider.Dataset); i3++ {
-		for i4 := 0; i4 < len(mg.Spec.ForProvider.Dataset[i3].Dataset); i4++ {
-			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Dataset[i3].Dataset[i4].ProjectID),
-				Extract:      resource.ExtractParamPath("project", false),
-				Reference:    mg.Spec.ForProvider.Dataset[i3].Dataset[i4].ProjectIDRef,
-				Selector:     mg.Spec.ForProvider.Dataset[i3].Dataset[i4].ProjectIDSelector,
-				To: reference.To{
-					List:    &DatasetList{},
-					Managed: &Dataset{},
-				},
-			})
-			if err != nil {
-				return errors.Wrap(err, "mg.Spec.ForProvider.Dataset[i3].Dataset[i4].ProjectID")
-			}
-			mg.Spec.ForProvider.Dataset[i3].Dataset[i4].ProjectID = reference.ToPtrValue(rsp.ResolvedValue)
-			mg.Spec.ForProvider.Dataset[i3].Dataset[i4].ProjectIDRef = rsp.ResolvedReference
-
-		}
-	}
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.DatasetID),
 		Extract:      reference.ExternalName(),
@@ -307,24 +265,6 @@ func (mg *DatasetAccess) ResolveReferences(ctx context.Context, c client.Reader)
 		}
 		mg.Spec.ForProvider.View[i3].DatasetID = reference.ToPtrValue(rsp.ResolvedValue)
 		mg.Spec.ForProvider.View[i3].DatasetIDRef = rsp.ResolvedReference
-
-	}
-	for i3 := 0; i3 < len(mg.Spec.ForProvider.View); i3++ {
-		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.View[i3].ProjectID),
-			Extract:      resource.ExtractParamPath("project", false),
-			Reference:    mg.Spec.ForProvider.View[i3].ProjectIDRef,
-			Selector:     mg.Spec.ForProvider.View[i3].ProjectIDSelector,
-			To: reference.To{
-				List:    &TableList{},
-				Managed: &Table{},
-			},
-		})
-		if err != nil {
-			return errors.Wrap(err, "mg.Spec.ForProvider.View[i3].ProjectID")
-		}
-		mg.Spec.ForProvider.View[i3].ProjectID = reference.ToPtrValue(rsp.ResolvedValue)
-		mg.Spec.ForProvider.View[i3].ProjectIDRef = rsp.ResolvedReference
 
 	}
 	for i3 := 0; i3 < len(mg.Spec.ForProvider.View); i3++ {
@@ -458,7 +398,7 @@ func (mg *Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 		for i4 := 0; i4 < len(mg.Spec.ForProvider.Copy[i3].DestinationTable); i4++ {
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Copy[i3].DestinationTable[i4].DatasetID),
-				Extract:      resource.ExtractResourceID(),
+				Extract:      reference.ExternalName(),
 				Reference:    mg.Spec.ForProvider.Copy[i3].DestinationTable[i4].DatasetIDRef,
 				Selector:     mg.Spec.ForProvider.Copy[i3].DestinationTable[i4].DatasetIDSelector,
 				To: reference.To{
@@ -498,7 +438,7 @@ func (mg *Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 		for i4 := 0; i4 < len(mg.Spec.ForProvider.Extract[i3].SourceTable); i4++ {
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Extract[i3].SourceTable[i4].DatasetID),
-				Extract:      resource.ExtractResourceID(),
+				Extract:      reference.ExternalName(),
 				Reference:    mg.Spec.ForProvider.Extract[i3].SourceTable[i4].DatasetIDRef,
 				Selector:     mg.Spec.ForProvider.Extract[i3].SourceTable[i4].DatasetIDSelector,
 				To: reference.To{
@@ -538,7 +478,7 @@ func (mg *Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 		for i4 := 0; i4 < len(mg.Spec.ForProvider.Load[i3].DestinationTable); i4++ {
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Load[i3].DestinationTable[i4].DatasetID),
-				Extract:      resource.ExtractResourceID(),
+				Extract:      reference.ExternalName(),
 				Reference:    mg.Spec.ForProvider.Load[i3].DestinationTable[i4].DatasetIDRef,
 				Selector:     mg.Spec.ForProvider.Load[i3].DestinationTable[i4].DatasetIDSelector,
 				To: reference.To{
@@ -598,7 +538,7 @@ func (mg *Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 		for i4 := 0; i4 < len(mg.Spec.ForProvider.Query[i3].DestinationTable); i4++ {
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Query[i3].DestinationTable[i4].DatasetID),
-				Extract:      resource.ExtractResourceID(),
+				Extract:      reference.ExternalName(),
 				Reference:    mg.Spec.ForProvider.Query[i3].DestinationTable[i4].DatasetIDRef,
 				Selector:     mg.Spec.ForProvider.Query[i3].DestinationTable[i4].DatasetIDSelector,
 				To: reference.To{
@@ -809,12 +749,12 @@ func (mg *TableIAMPolicy) ResolveReferences(ctx context.Context, c client.Reader
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.DatasetID),
-		Extract:      resource.ExtractParamPath("dataset_id", false),
+		Extract:      reference.ExternalName(),
 		Reference:    mg.Spec.ForProvider.DatasetIDRef,
 		Selector:     mg.Spec.ForProvider.DatasetIDSelector,
 		To: reference.To{
-			List:    &TableList{},
-			Managed: &Table{},
+			List:    &DatasetList{},
+			Managed: &Dataset{},
 		},
 	})
 	if err != nil {
@@ -822,22 +762,6 @@ func (mg *TableIAMPolicy) ResolveReferences(ctx context.Context, c client.Reader
 	}
 	mg.Spec.ForProvider.DatasetID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.DatasetIDRef = rsp.ResolvedReference
-
-	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Project),
-		Extract:      resource.ExtractParamPath("project", false),
-		Reference:    mg.Spec.ForProvider.ProjectRef,
-		Selector:     mg.Spec.ForProvider.ProjectSelector,
-		To: reference.To{
-			List:    &TableList{},
-			Managed: &Table{},
-		},
-	})
-	if err != nil {
-		return errors.Wrap(err, "mg.Spec.ForProvider.Project")
-	}
-	mg.Spec.ForProvider.Project = reference.ToPtrValue(rsp.ResolvedValue)
-	mg.Spec.ForProvider.ProjectRef = rsp.ResolvedReference
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.TableID),

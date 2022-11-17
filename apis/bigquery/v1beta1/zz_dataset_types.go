@@ -116,18 +116,8 @@ type DatasetDatasetParameters struct {
 	DatasetIDSelector *v1.Selector `json:"datasetIdSelector,omitempty" tf:"-"`
 
 	// The ID of the project containing this table.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/bigquery/v1beta1.Dataset
-	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractParamPath("project",false)
-	// +kubebuilder:validation:Optional
-	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
-
-	// Reference to a Dataset in bigquery to populate projectId.
-	// +kubebuilder:validation:Optional
-	ProjectIDRef *v1.Reference `json:"projectIdRef,omitempty" tf:"-"`
-
-	// Selector for a Dataset in bigquery to populate projectId.
-	// +kubebuilder:validation:Optional
-	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
+	// +kubebuilder:validation:Required
+	ProjectID *string `json:"projectId" tf:"project_id,omitempty"`
 }
 
 type DatasetObservation struct {

@@ -639,6 +639,11 @@ spec:
                       - destinationUris
                       type: object
                     type: array
+                  jobId:
+                    description: The ID of the job. The ID must contain only letters
+                      (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-). The
+                      maximum length is 1,024 characters.
+                    type: string
                   jobTimeoutMs:
                     description: Job timeout in milliseconds. If this time limit is
                       exceeded, BigQuery may attempt to terminate the job.
@@ -1497,6 +1502,8 @@ spec:
                       - query
                       type: object
                     type: array
+                required:
+                - jobId
                 type: object
               providerConfigRef:
                 default:
