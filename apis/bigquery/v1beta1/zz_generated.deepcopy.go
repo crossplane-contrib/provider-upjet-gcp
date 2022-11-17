@@ -2327,16 +2327,6 @@ func (in *DestinationTableParameters) DeepCopyInto(out *DestinationTableParamete
 		*out = new(string)
 		**out = **in
 	}
-	if in.ProjectIDRef != nil {
-		in, out := &in.ProjectIDRef, &out.ProjectIDRef
-		*out = new(v1.Reference)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.ProjectIDSelector != nil {
-		in, out := &in.ProjectIDSelector, &out.ProjectIDSelector
-		*out = new(v1.Selector)
-		(*in).DeepCopyInto(*out)
-	}
 	if in.TableID != nil {
 		in, out := &in.TableID, &out.TableID
 		*out = new(string)
@@ -3088,16 +3078,6 @@ func (in *LoadDestinationTableParameters) DeepCopyInto(out *LoadDestinationTable
 		*out = new(string)
 		**out = **in
 	}
-	if in.ProjectIDRef != nil {
-		in, out := &in.ProjectIDRef, &out.ProjectIDRef
-		*out = new(v1.Reference)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.ProjectIDSelector != nil {
-		in, out := &in.ProjectIDSelector, &out.ProjectIDSelector
-		*out = new(v1.Selector)
-		(*in).DeepCopyInto(*out)
-	}
 	if in.TableID != nil {
 		in, out := &in.TableID, &out.TableID
 		*out = new(string)
@@ -3403,16 +3383,6 @@ func (in *QueryDestinationTableParameters) DeepCopyInto(out *QueryDestinationTab
 		in, out := &in.ProjectID, &out.ProjectID
 		*out = new(string)
 		**out = **in
-	}
-	if in.ProjectIDRef != nil {
-		in, out := &in.ProjectIDRef, &out.ProjectIDRef
-		*out = new(v1.Reference)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.ProjectIDSelector != nil {
-		in, out := &in.ProjectIDSelector, &out.ProjectIDSelector
-		*out = new(v1.Selector)
-		(*in).DeepCopyInto(*out)
 	}
 	if in.TableID != nil {
 		in, out := &in.TableID, &out.TableID
@@ -4401,16 +4371,6 @@ func (in *SourceTableParameters) DeepCopyInto(out *SourceTableParameters) {
 		in, out := &in.ProjectID, &out.ProjectID
 		*out = new(string)
 		**out = **in
-	}
-	if in.ProjectIDRef != nil {
-		in, out := &in.ProjectIDRef, &out.ProjectIDRef
-		*out = new(v1.Reference)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.ProjectIDSelector != nil {
-		in, out := &in.ProjectIDSelector, &out.ProjectIDSelector
-		*out = new(v1.Selector)
-		(*in).DeepCopyInto(*out)
 	}
 	if in.TableID != nil {
 		in, out := &in.TableID, &out.TableID

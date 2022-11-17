@@ -47,4 +47,43 @@ func Configure(p *config.Provider) {
 			TerraformName: "google_bigquery_table",
 		}
 	})
+	p.AddResourceConfigurator("google_bigquery_job", func(r *config.Resource) {
+		r.References["query.destination_table.dataset_id"] = config.Reference{
+			TerraformName: "google_bigquery_dataset",
+			Extractor:     "github.com/upbound/upjet/pkg/resource.ExtractResourceID()",
+		}
+		r.References["extract.source_table.table_id"] = config.Reference{
+			TerraformName: "google_bigquery_table",
+			Extractor:     "github.com/upbound/upjet/pkg/resource.ExtractResourceID()",
+		}
+		r.References["load.destination_table.dataset_id"] = config.Reference{
+			TerraformName: "google_bigquery_dataset",
+			Extractor:     "github.com/upbound/upjet/pkg/resource.ExtractResourceID()",
+		}
+		r.References["extract.source_table.dataset_id"] = config.Reference{
+			TerraformName: "google_bigquery_dataset",
+			Extractor:     "github.com/upbound/upjet/pkg/resource.ExtractResourceID()",
+		}
+		r.References["query.destination_table.table_id"] = config.Reference{
+			TerraformName: "google_bigquery_table",
+			Extractor:     "github.com/upbound/upjet/pkg/resource.ExtractResourceID()",
+		}
+		r.References["load.destination_table.table_id"] = config.Reference{
+			TerraformName: "google_bigquery_table",
+			Extractor:     "github.com/upbound/upjet/pkg/resource.ExtractResourceID()",
+		}
+		r.References["copy.destination_table.dataset_id"] = config.Reference{
+			TerraformName: "google_bigquery_dataset",
+			Extractor:     "github.com/upbound/upjet/pkg/resource.ExtractResourceID()",
+		}
+		r.References["copy.destination_table.table_id"] = config.Reference{
+			TerraformName: "google_bigquery_table",
+			Extractor:     "github.com/upbound/upjet/pkg/resource.ExtractResourceID()",
+		}
+
+		delete(r.References, "copy.destination_table.project_id")
+		delete(r.References, "query.destination_table.project_id")
+		delete(r.References, "load.destination_table.project_id")
+		delete(r.References, "extract.source_table.project_id")
+	})
 }

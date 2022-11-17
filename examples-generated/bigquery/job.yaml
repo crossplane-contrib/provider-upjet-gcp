@@ -16,9 +16,7 @@ spec:
       - datasetIdSelector:
           matchLabels:
             testing.upbound.io/example-name: foo
-        projectIdSelector:
-          matchLabels:
-            testing.upbound.io/example-name: foo
+        projectId: ${google_bigquery_table.foo.project}
         tableIdSelector:
           matchLabels:
             testing.upbound.io/example-name: foo
