@@ -1720,6 +1720,16 @@ func (in *DatasetIAMMemberParameters) DeepCopyInto(out *DatasetIAMMemberParamete
 		*out = new(string)
 		**out = **in
 	}
+	if in.DatasetIDRef != nil {
+		in, out := &in.DatasetIDRef, &out.DatasetIDRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.DatasetIDSelector != nil {
+		in, out := &in.DatasetIDSelector, &out.DatasetIDSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.Member != nil {
 		in, out := &in.Member, &out.Member
 		*out = new(string)

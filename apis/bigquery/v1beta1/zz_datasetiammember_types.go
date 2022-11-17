@@ -51,8 +51,17 @@ type DatasetIAMMemberParameters struct {
 	// +kubebuilder:validation:Optional
 	Condition []DatasetIAMMemberConditionParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
-	// +kubebuilder:validation:Required
-	DatasetID *string `json:"datasetId" tf:"dataset_id,omitempty"`
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/bigquery/v1beta1.Dataset
+	// +kubebuilder:validation:Optional
+	DatasetID *string `json:"datasetId,omitempty" tf:"dataset_id,omitempty"`
+
+	// Reference to a Dataset in bigquery to populate datasetId.
+	// +kubebuilder:validation:Optional
+	DatasetIDRef *v1.Reference `json:"datasetIdRef,omitempty" tf:"-"`
+
+	// Selector for a Dataset in bigquery to populate datasetId.
+	// +kubebuilder:validation:Optional
+	DatasetIDSelector *v1.Selector `json:"datasetIdSelector,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Required
 	Member *string `json:"member" tf:"member,omitempty"`
