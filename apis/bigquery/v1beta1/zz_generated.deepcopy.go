@@ -1509,6 +1509,16 @@ func (in *DatasetIAMBindingParameters) DeepCopyInto(out *DatasetIAMBindingParame
 		*out = new(string)
 		**out = **in
 	}
+	if in.DatasetIDRef != nil {
+		in, out := &in.DatasetIDRef, &out.DatasetIDRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.DatasetIDSelector != nil {
+		in, out := &in.DatasetIDSelector, &out.DatasetIDSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.Members != nil {
 		in, out := &in.Members, &out.Members
 		*out = make([]*string, len(*in))
