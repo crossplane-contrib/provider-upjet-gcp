@@ -3,6 +3,7 @@ kind: DatasetIAMPolicy
 metadata:
   annotations:
     meta.upbound.io/example-id: bigquery/v1beta1/datasetiampolicy
+    upjet.upbound.io/manual-intervention: "Policy data refers to an existing user account"
   labels:
     testing.upbound.io/example-name: dataset
   name: dataset
@@ -29,6 +30,7 @@ kind: Dataset
 metadata:
   annotations:
     meta.upbound.io/example-id: bigquery/v1beta1/datasetiampolicy
+    upjet.upbound.io/manual-intervention: "Dependent resource skipped: Policy data refers to an existing user account"
   labels:
     testing.upbound.io/example-name: dataset
   name: dataset
@@ -55,6 +57,7 @@ kind: ServiceAccount
 metadata:
   annotations:
     meta.upbound.io/example-id: bigquery/v1beta1/datasetiampolicy
+    upjet.upbound.io/manual-intervention: "Dependent resource skipped: Policy data refers to an existing user account"
   labels:
     testing.upbound.io/example-name: bqowner
   name: bqowner
