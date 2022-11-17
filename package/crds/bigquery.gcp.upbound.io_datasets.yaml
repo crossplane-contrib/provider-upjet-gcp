@@ -1,0 +1,775 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.8.0
+  creationTimestamp: null
+  name: datasets.bigquery.gcp.upbound.io
+spec:
+  group: bigquery.gcp.upbound.io
+  names:
+    categories:
+    - crossplane
+    - managed
+    - gcp
+    kind: Dataset
+    listKind: DatasetList
+    plural: datasets
+    singular: dataset
+  scope: Cluster
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
+    - jsonPath: .metadata.annotations.crossplane\.io/external-name
+      name: EXTERNAL-NAME
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1beta1
+    schema:
+      openAPIV3Schema:
+        description: Dataset is the Schema for the Datasets API. Datasets allow you
+          to organize and control access to your tables.
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: DatasetSpec defines the desired state of Dataset
+            properties:
+              deletionPolicy:
+                default: Delete
+                description: DeletionPolicy specifies what will happen to the underlying
+                  external when this managed resource is deleted - either "Delete"
+                  or "Orphan" the external resource.
+                enum:
+                - Orphan
+                - Delete
+                type: string
+              forProvider:
+                properties:
+                  access:
+                    description: An array of objects that define dataset access for
+                      one or more entities. Structure is documented below.
+                    items:
+                      properties:
+                        dataset:
+                          description: Grants all resources of particular types in
+                            a particular dataset read access to the current dataset.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              dataset:
+                                description: The dataset this entry applies to Structure
+                                  is documented below.
+                                items:
+                                  properties:
+                                    datasetId:
+                                      description: The ID of the dataset containing
+                                        this table.
+                                      type: string
+                                    datasetIdRef:
+                                      description: Reference to a Dataset in bigquery
+                                        to populate datasetId.
+                                      properties:
+                                        name:
+                                          description: Name of the referenced object.
+                                          type: string
+                                        policy:
+                                          description: Policies for referencing.
+                                          properties:
+                                            resolution:
+                                              default: Required
+                                              description: Resolution specifies whether
+                                                resolution of this reference is required.
+                                                The default is 'Required', which means
+                                                the reconcile will fail if the reference
+                                                cannot be resolved. 'Optional' means
+                                                this reference will be a no-op if
+                                                it cannot be resolved.
+                                              enum:
+                                              - Required
+                                              - Optional
+                                              type: string
+                                            resolve:
+                                              description: Resolve specifies when
+                                                this reference should be resolved.
+                                                The default is 'IfNotPresent', which
+                                                will attempt to resolve the reference
+                                                only when the corresponding field
+                                                is not present. Use 'Always' to resolve
+                                                the reference on every reconcile.
+                                              enum:
+                                              - Always
+                                              - IfNotPresent
+                                              type: string
+                                          type: object
+                                      required:
+                                      - name
+                                      type: object
+                                    datasetIdSelector:
+                                      description: Selector for a Dataset in bigquery
+                                        to populate datasetId.
+                                      properties:
+                                        matchControllerRef:
+                                          description: MatchControllerRef ensures
+                                            an object with the same controller reference
+                                            as the selecting object is selected.
+                                          type: boolean
+                                        matchLabels:
+                                          additionalProperties:
+                                            type: string
+                                          description: MatchLabels ensures an object
+                                            with matching labels is selected.
+                                          type: object
+                                        policy:
+                                          description: Policies for selection.
+                                          properties:
+                                            resolution:
+                                              default: Required
+                                              description: Resolution specifies whether
+                                                resolution of this reference is required.
+                                                The default is 'Required', which means
+                                                the reconcile will fail if the reference
+                                                cannot be resolved. 'Optional' means
+                                                this reference will be a no-op if
+                                                it cannot be resolved.
+                                              enum:
+                                              - Required
+                                              - Optional
+                                              type: string
+                                            resolve:
+                                              description: Resolve specifies when
+                                                this reference should be resolved.
+                                                The default is 'IfNotPresent', which
+                                                will attempt to resolve the reference
+                                                only when the corresponding field
+                                                is not present. Use 'Always' to resolve
+                                                the reference on every reconcile.
+                                              enum:
+                                              - Always
+                                              - IfNotPresent
+                                              type: string
+                                          type: object
+                                      type: object
+                                    projectId:
+                                      description: The ID of the project containing
+                                        this table.
+                                      type: string
+                                    projectIdRef:
+                                      description: Reference to a Dataset in bigquery
+                                        to populate projectId.
+                                      properties:
+                                        name:
+                                          description: Name of the referenced object.
+                                          type: string
+                                        policy:
+                                          description: Policies for referencing.
+                                          properties:
+                                            resolution:
+                                              default: Required
+                                              description: Resolution specifies whether
+                                                resolution of this reference is required.
+                                                The default is 'Required', which means
+                                                the reconcile will fail if the reference
+                                                cannot be resolved. 'Optional' means
+                                                this reference will be a no-op if
+                                                it cannot be resolved.
+                                              enum:
+                                              - Required
+                                              - Optional
+                                              type: string
+                                            resolve:
+                                              description: Resolve specifies when
+                                                this reference should be resolved.
+                                                The default is 'IfNotPresent', which
+                                                will attempt to resolve the reference
+                                                only when the corresponding field
+                                                is not present. Use 'Always' to resolve
+                                                the reference on every reconcile.
+                                              enum:
+                                              - Always
+                                              - IfNotPresent
+                                              type: string
+                                          type: object
+                                      required:
+                                      - name
+                                      type: object
+                                    projectIdSelector:
+                                      description: Selector for a Dataset in bigquery
+                                        to populate projectId.
+                                      properties:
+                                        matchControllerRef:
+                                          description: MatchControllerRef ensures
+                                            an object with the same controller reference
+                                            as the selecting object is selected.
+                                          type: boolean
+                                        matchLabels:
+                                          additionalProperties:
+                                            type: string
+                                          description: MatchLabels ensures an object
+                                            with matching labels is selected.
+                                          type: object
+                                        policy:
+                                          description: Policies for selection.
+                                          properties:
+                                            resolution:
+                                              default: Required
+                                              description: Resolution specifies whether
+                                                resolution of this reference is required.
+                                                The default is 'Required', which means
+                                                the reconcile will fail if the reference
+                                                cannot be resolved. 'Optional' means
+                                                this reference will be a no-op if
+                                                it cannot be resolved.
+                                              enum:
+                                              - Required
+                                              - Optional
+                                              type: string
+                                            resolve:
+                                              description: Resolve specifies when
+                                                this reference should be resolved.
+                                                The default is 'IfNotPresent', which
+                                                will attempt to resolve the reference
+                                                only when the corresponding field
+                                                is not present. Use 'Always' to resolve
+                                                the reference on every reconcile.
+                                              enum:
+                                              - Always
+                                              - IfNotPresent
+                                              type: string
+                                          type: object
+                                      type: object
+                                  type: object
+                                type: array
+                              targetTypes:
+                                description: 'Which resources in the dataset this
+                                  entry applies to. Currently, only views are supported,
+                                  but additional target types may be added in the
+                                  future. Possible values: VIEWS'
+                                items:
+                                  type: string
+                                type: array
+                            required:
+                            - dataset
+                            - targetTypes
+                            type: object
+                          type: array
+                        domain:
+                          description: A domain to grant access to. Any users signed
+                            in with the domain specified will be granted the specified
+                            access
+                          type: string
+                        groupByEmail:
+                          description: An email address of a Google Group to grant
+                            access to.
+                          type: string
+                        role:
+                          description: Describes the rights granted to the user specified
+                            by the other member of the access object. Basic, predefined,
+                            and custom roles are supported. Predefined roles that
+                            have equivalent basic roles are swapped by the API to
+                            their basic counterparts. See official docs.
+                          type: string
+                        specialGroup:
+                          description: 'A special group to grant access to. Possible
+                            values include:'
+                          type: string
+                        userByEmail:
+                          description: 'An email address of a user to grant access
+                            to. For example: fred@example.com'
+                          type: string
+                        userByEmailRef:
+                          description: Reference to a ServiceAccount in cloudplatform
+                            to populate userByEmail.
+                          properties:
+                            name:
+                              description: Name of the referenced object.
+                              type: string
+                            policy:
+                              description: Policies for referencing.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: Resolution specifies whether resolution
+                                    of this reference is required. The default is
+                                    'Required', which means the reconcile will fail
+                                    if the reference cannot be resolved. 'Optional'
+                                    means this reference will be a no-op if it cannot
+                                    be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: Resolve specifies when this reference
+                                    should be resolved. The default is 'IfNotPresent',
+                                    which will attempt to resolve the reference only
+                                    when the corresponding field is not present. Use
+                                    'Always' to resolve the reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          required:
+                          - name
+                          type: object
+                        userByEmailSelector:
+                          description: Selector for a ServiceAccount in cloudplatform
+                            to populate userByEmail.
+                          properties:
+                            matchControllerRef:
+                              description: MatchControllerRef ensures an object with
+                                the same controller reference as the selecting object
+                                is selected.
+                              type: boolean
+                            matchLabels:
+                              additionalProperties:
+                                type: string
+                              description: MatchLabels ensures an object with matching
+                                labels is selected.
+                              type: object
+                            policy:
+                              description: Policies for selection.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: Resolution specifies whether resolution
+                                    of this reference is required. The default is
+                                    'Required', which means the reconcile will fail
+                                    if the reference cannot be resolved. 'Optional'
+                                    means this reference will be a no-op if it cannot
+                                    be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: Resolve specifies when this reference
+                                    should be resolved. The default is 'IfNotPresent',
+                                    which will attempt to resolve the reference only
+                                    when the corresponding field is not present. Use
+                                    'Always' to resolve the reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          type: object
+                        view:
+                          description: A view from a different dataset to grant access
+                            to. Queries executed against that view will have read
+                            access to tables in this dataset. The role field is not
+                            required when this field is set. If that view is updated
+                            by any user, access to the view needs to be granted again
+                            via an update operation. Structure is documented below.
+                          items:
+                            properties:
+                              datasetId:
+                                description: The ID of the dataset containing this
+                                  table.
+                                type: string
+                              projectId:
+                                description: The ID of the project containing this
+                                  table.
+                                type: string
+                              tableId:
+                                description: The ID of the table. The ID must contain
+                                  only letters (a-z, A-Z), numbers (0-9), or underscores
+                                  (_). The maximum length is 1,024 characters.
+                                type: string
+                            required:
+                            - datasetId
+                            - projectId
+                            - tableId
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  defaultEncryptionConfiguration:
+                    description: The default encryption key for all tables in the
+                      dataset. Once this property is set, all newly-created partitioned
+                      tables in the dataset will have encryption key set to this value,
+                      unless table creation request (or query) overrides the key.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        kmsKeyName:
+                          description: Describes the Cloud KMS encryption key that
+                            will be used to protect destination BigQuery table. The
+                            BigQuery Service Account associated with your project
+                            requires access to this encryption key.
+                          type: string
+                        kmsKeyNameRef:
+                          description: Reference to a CryptoKey in kms to populate
+                            kmsKeyName.
+                          properties:
+                            name:
+                              description: Name of the referenced object.
+                              type: string
+                            policy:
+                              description: Policies for referencing.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: Resolution specifies whether resolution
+                                    of this reference is required. The default is
+                                    'Required', which means the reconcile will fail
+                                    if the reference cannot be resolved. 'Optional'
+                                    means this reference will be a no-op if it cannot
+                                    be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: Resolve specifies when this reference
+                                    should be resolved. The default is 'IfNotPresent',
+                                    which will attempt to resolve the reference only
+                                    when the corresponding field is not present. Use
+                                    'Always' to resolve the reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          required:
+                          - name
+                          type: object
+                        kmsKeyNameSelector:
+                          description: Selector for a CryptoKey in kms to populate
+                            kmsKeyName.
+                          properties:
+                            matchControllerRef:
+                              description: MatchControllerRef ensures an object with
+                                the same controller reference as the selecting object
+                                is selected.
+                              type: boolean
+                            matchLabels:
+                              additionalProperties:
+                                type: string
+                              description: MatchLabels ensures an object with matching
+                                labels is selected.
+                              type: object
+                            policy:
+                              description: Policies for selection.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: Resolution specifies whether resolution
+                                    of this reference is required. The default is
+                                    'Required', which means the reconcile will fail
+                                    if the reference cannot be resolved. 'Optional'
+                                    means this reference will be a no-op if it cannot
+                                    be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: Resolve specifies when this reference
+                                    should be resolved. The default is 'IfNotPresent',
+                                    which will attempt to resolve the reference only
+                                    when the corresponding field is not present. Use
+                                    'Always' to resolve the reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          type: object
+                      type: object
+                    type: array
+                  defaultPartitionExpirationMs:
+                    description: The default partition expiration for all partitioned
+                      tables in the dataset, in milliseconds.
+                    type: number
+                  defaultTableExpirationMs:
+                    description: The default lifetime of all tables in the dataset,
+                      in milliseconds. The minimum value is 3600000 milliseconds (one
+                      hour).
+                    type: number
+                  deleteContentsOnDestroy:
+                    description: If set to true, delete all the tables in the dataset
+                      when destroying the resource; otherwise, destroying the resource
+                      will fail if tables are present.
+                    type: boolean
+                  description:
+                    description: A user-friendly description of the dataset
+                    type: string
+                  friendlyName:
+                    description: A descriptive name for the dataset
+                    type: string
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: The labels associated with this dataset. You can
+                      use these to organize and group your datasets
+                    type: object
+                  location:
+                    description: The geographic location where the dataset should
+                      reside. See official docs.
+                    type: string
+                  project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                type: object
+              providerConfigRef:
+                default:
+                  name: default
+                description: ProviderConfigReference specifies how the provider that
+                  will be used to create, observe, update, and delete this managed
+                  resource should be configured.
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                  policy:
+                    description: Policies for referencing.
+                    properties:
+                      resolution:
+                        default: Required
+                        description: Resolution specifies whether resolution of this
+                          reference is required. The default is 'Required', which
+                          means the reconcile will fail if the reference cannot be
+                          resolved. 'Optional' means this reference will be a no-op
+                          if it cannot be resolved.
+                        enum:
+                        - Required
+                        - Optional
+                        type: string
+                      resolve:
+                        description: Resolve specifies when this reference should
+                          be resolved. The default is 'IfNotPresent', which will attempt
+                          to resolve the reference only when the corresponding field
+                          is not present. Use 'Always' to resolve the reference on
+                          every reconcile.
+                        enum:
+                        - Always
+                        - IfNotPresent
+                        type: string
+                    type: object
+                required:
+                - name
+                type: object
+              providerRef:
+                description: 'ProviderReference specifies the provider that will be
+                  used to create, observe, update, and delete this managed resource.
+                  Deprecated: Please use ProviderConfigReference, i.e. `providerConfigRef`'
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                  policy:
+                    description: Policies for referencing.
+                    properties:
+                      resolution:
+                        default: Required
+                        description: Resolution specifies whether resolution of this
+                          reference is required. The default is 'Required', which
+                          means the reconcile will fail if the reference cannot be
+                          resolved. 'Optional' means this reference will be a no-op
+                          if it cannot be resolved.
+                        enum:
+                        - Required
+                        - Optional
+                        type: string
+                      resolve:
+                        description: Resolve specifies when this reference should
+                          be resolved. The default is 'IfNotPresent', which will attempt
+                          to resolve the reference only when the corresponding field
+                          is not present. Use 'Always' to resolve the reference on
+                          every reconcile.
+                        enum:
+                        - Always
+                        - IfNotPresent
+                        type: string
+                    type: object
+                required:
+                - name
+                type: object
+              publishConnectionDetailsTo:
+                description: PublishConnectionDetailsTo specifies the connection secret
+                  config which contains a name, metadata and a reference to secret
+                  store config to which any connection details for this managed resource
+                  should be written. Connection details frequently include the endpoint,
+                  username, and password required to connect to the managed resource.
+                properties:
+                  configRef:
+                    default:
+                      name: default
+                    description: SecretStoreConfigRef specifies which secret store
+                      config should be used for this ConnectionSecret.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: Resolution specifies whether resolution of
+                              this reference is required. The default is 'Required',
+                              which means the reconcile will fail if the reference
+                              cannot be resolved. 'Optional' means this reference
+                              will be a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: Resolve specifies when this reference should
+                              be resolved. The default is 'IfNotPresent', which will
+                              attempt to resolve the reference only when the corresponding
+                              field is not present. Use 'Always' to resolve the reference
+                              on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  metadata:
+                    description: Metadata is the metadata for connection secret.
+                    properties:
+                      annotations:
+                        additionalProperties:
+                          type: string
+                        description: Annotations are the annotations to be added to
+                          connection secret. - For Kubernetes secrets, this will be
+                          used as "metadata.annotations". - It is up to Secret Store
+                          implementation for others store types.
+                        type: object
+                      labels:
+                        additionalProperties:
+                          type: string
+                        description: Labels are the labels/tags to be added to connection
+                          secret. - For Kubernetes secrets, this will be used as "metadata.labels".
+                          - It is up to Secret Store implementation for others store
+                          types.
+                        type: object
+                      type:
+                        description: Type is the SecretType for the connection secret.
+                          - Only valid for Kubernetes Secret Stores.
+                        type: string
+                    type: object
+                  name:
+                    description: Name is the name of the connection secret.
+                    type: string
+                required:
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: WriteConnectionSecretToReference specifies the namespace
+                  and name of a Secret to which any connection details for this managed
+                  resource should be written. Connection details frequently include
+                  the endpoint, username, and password required to connect to the
+                  managed resource. This field is planned to be replaced in a future
+                  release in favor of PublishConnectionDetailsTo. Currently, both
+                  could be set independently and connection details would be published
+                  to both without affecting each other.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                  namespace:
+                    description: Namespace of the secret.
+                    type: string
+                required:
+                - name
+                - namespace
+                type: object
+            required:
+            - forProvider
+            type: object
+          status:
+            description: DatasetStatus defines the observed state of Dataset.
+            properties:
+              atProvider:
+                properties:
+                  creationTime:
+                    description: The time when this dataset was created, in milliseconds
+                      since the epoch.
+                    type: number
+                  etag:
+                    description: A hash of the resource.
+                    type: string
+                  id:
+                    description: an identifier for the resource with format projects/{{project}}/datasets/{{dataset_id}}
+                    type: string
+                  lastModifiedTime:
+                    description: The date when this dataset or any of its tables was
+                      last modified, in milliseconds since the epoch.
+                    type: number
+                  selfLink:
+                    description: The URI of the created resource.
+                    type: string
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: LastTransitionTime is the last time this condition
+                        transitioned from one status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: A Message containing details about this condition's
+                        last transition from one status to another, if any.
+                      type: string
+                    reason:
+                      description: A Reason for this condition's last transition from
+                        one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True,
+                        False, or Unknown?
+                      type: string
+                    type:
+                      description: Type of this condition. At most one of each condition
+                        type may apply to a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []

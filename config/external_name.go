@@ -583,6 +583,47 @@ var externalNameConfigs = map[string]config.ExternalName{
 	"google_storage_default_object_access_control": config.IdentifierFromProvider,
 	// No import documented.
 	"google_storage_default_object_acl": config.IdentifierFromProvider,
+
+	// bigquery
+	//
+	// Imported with the following format: projects/{{project}}/locations/{{location}}/connections/{{connection_id}}
+	// However, connection_id is documented to be optional. Thus, we are using config.IdentifierFromProvider
+	"google_bigquery_connection": config.IdentifierFromProvider,
+	// Imported using the display_name:
+	"google_bigquery_data_transfer_config": config.TemplatedStringAsIdentifier("display_name", "{{ .external_name }}"),
+	// Imported with the following format: projects/{{project}}/datasets/{{dataset_id}}
+	"google_bigquery_dataset": config.TemplatedStringAsIdentifier("dataset_id", "projects/{{ .parameters.project }}/datasets/{{ .external_name }}"),
+	// This resource does not support import
+	"google_bigquery_dataset_access": config.IdentifierFromProvider,
+	// Binding resource can be imported using the dataset_id and role: "projects/your-project-id/datasets/dataset-id roles/viewer"
+	"google_bigquery_dataset_iam_binding": config.TemplatedStringAsIdentifier("", "{{ .parameters.dataset_id }} {{ .parameters.role }}"),
+	// <ember resource can be imported using the dataset_id, role, and account: "projects/your-project-id/datasets/dataset-id roles/viewer user:foo@example.com"
+	"google_bigquery_dataset_iam_member": config.TemplatedStringAsIdentifier("", "{{ .parameters.dataset_id }} {{ .parameters.role }} {{ .parameters.member }}"),
+	// Policy resource can be imported using the dataset_id, role, and account: projects/your-project-id/datasets/dataset-id
+	"google_bigquery_dataset_iam_policy": config.TemplatedStringAsIdentifier("", "{{ .parameters.dataset_id }}"),
+	// TODO: check of the following location or locations
+	// TODO: a `project` argument seems to be missing for this resource, to be checked after generation
+	// Imported with the following format: projects/{{project}}/jobs/{{job_id}}/location/{{location}}
+	"google_bigquery_job": config.TemplatedStringAsIdentifier("job_id", "projects/{{ .setup.configuration.project }}/jobs/{{ .external_name }}/location/{{ .parameters.location }}"),
+	// Imported with the following format: projects/{{project}}/locations/{{location}}/reservations/{{name}}
+	"google_bigquery_reservation": config.TemplatedStringAsIdentifier("name", "projects/{{ .parameters.project }}/locations/{{ .parameters.location }}/reservations/{{ .external_name }}"),
+	// Imported with the following format: projects/{{project}}/locations/{{location}}/reservations/{{reservation}}/assignments/{{name}}
+	"google_bigquery_reservation_assignment": config.TemplatedStringAsIdentifier("", "{{ .parameters.reservation }}/assignments/{{ .external_name }}"),
+	// Imported with the following format: projects/{{project}}/datasets/{{dataset_id}}/routines/{{routine_id}}
+	"google_bigquery_routine": config.TemplatedStringAsIdentifier("routine_id", "{{ .parameters.dataset_id }}/routines/{{ .external_name }}"),
+	// BigQuery tables can be imported using the project, dataset_id, and table_id: gcp-project/foo/bar
+	"google_bigquery_table": config.TemplatedStringAsIdentifier("table_id", "{{ .parameters.project }}/{{ .parameters.dataset_id }}/{{ .external_name }}"),
+	// IAM binding imports use space-delimited identifiers: the resource and the role: "projects/{{project}}/datasets/{{dataset_id}}/tables/{{table_id}} roles/bigquery.dataOwner"
+	"google_bigquery_table_iam_binding": config.TemplatedStringAsIdentifier("", "projects/{{ .parameters.project }}/datasets/{{ .parameters.dataset_id }}/tables/{{ .parameters.table_id }} {{ .parameters.role }}"),
+	// IAM member imports use space-delimited identifiers: the resource, the role, and the member identity: "projects/{{project}}/datasets/{{dataset_id}}/tables/{{table_id}} roles/bigquery.dataOwner user:jane@example.com"
+	"google_bigquery_table_iam_member": config.TemplatedStringAsIdentifier("", "projects/{{ .parameters.project }}/datasets/{{ .parameters.dataset_id }}/tables/{{ .parameters.table_id }} {{ .parameters.member }}"),
+	// IAM policy imports use the identifier of the resource: projects/{{project}}/datasets/{{dataset_id}}/tables/{{table_id}}
+	"google_bigquery_table_iam_policy": config.TemplatedStringAsIdentifier("", "projects/{{ .parameters.project }}/datasets/{{ .parameters.dataset_id }}/tables/{{ .parameters.table_id }}"),
+
+	// dataflow
+	//
+	// This resource does not support import.
+	"google_dataflow_job": config.IdentifierFromProvider,
 }
 
 // TemplatedStringAsIdentifierWithNoName uses TemplatedStringAsIdentifier but
