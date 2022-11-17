@@ -589,8 +589,8 @@ var externalNameConfigs = map[string]config.ExternalName{
 	// Imported with the following format: projects/{{project}}/locations/{{location}}/connections/{{connection_id}}
 	// However, connection_id is documented to be optional. Thus, we are using config.IdentifierFromProvider
 	"google_bigquery_connection": config.IdentifierFromProvider,
-	// Imported using the display_name:
-	"google_bigquery_data_transfer_config": config.TemplatedStringAsIdentifier("display_name", "{{ .external_name }}"),
+	// Imported using ID
+	"google_bigquery_data_transfer_config": config.IdentifierFromProvider,
 	// Imported with the following format: projects/{{project}}/datasets/{{dataset_id}}
 	"google_bigquery_dataset": config.TemplatedStringAsIdentifier("dataset_id", "projects/{{ .parameters.project }}/datasets/{{ .external_name }}"),
 	// This resource does not support import

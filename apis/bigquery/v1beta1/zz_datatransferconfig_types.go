@@ -68,6 +68,10 @@ type DataTransferConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
 
+	// The user specified display name for the transfer config.
+	// +kubebuilder:validation:Required
+	DisplayName *string `json:"displayName" tf:"display_name,omitempty"`
+
 	// Email notifications will be sent according to these preferences to the
 	// email address of the user who owns this transfer config.
 	// Structure is documented below.

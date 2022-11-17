@@ -156,6 +156,10 @@ spec:
                     description: When set to true, no runs are scheduled for a given
                       transfer.
                     type: boolean
+                  displayName:
+                    description: The user specified display name for the transfer
+                      config.
+                    type: string
                   emailPreferences:
                     description: Email notifications will be sent according to these
                       preferences to the email address of the user who owns this transfer
@@ -273,6 +277,7 @@ spec:
                     type: string
                 required:
                 - dataSourceId
+                - displayName
                 - params
                 type: object
               providerConfigRef:

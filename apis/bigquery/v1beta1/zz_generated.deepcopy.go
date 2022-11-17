@@ -828,6 +828,11 @@ func (in *DataTransferConfigParameters) DeepCopyInto(out *DataTransferConfigPara
 		*out = new(bool)
 		**out = **in
 	}
+	if in.DisplayName != nil {
+		in, out := &in.DisplayName, &out.DisplayName
+		*out = new(string)
+		**out = **in
+	}
 	if in.EmailPreferences != nil {
 		in, out := &in.EmailPreferences, &out.EmailPreferences
 		*out = make([]EmailPreferencesParameters, len(*in))
