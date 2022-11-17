@@ -1,0 +1,61 @@
+apiVersion: bigquery.gcp.upbound.io/v1beta1
+kind: Job
+metadata:
+  annotations:
+    meta.upbound.io/example-id: bigquery/v1beta1/job
+  labels:
+    testing.upbound.io/example-name: job
+  name: job
+spec:
+  forProvider:
+    labels:
+      example-label: example-value
+    query:
+    - allowLargeResults: true
+      destinationTable:
+      - datasetIdSelector:
+          matchLabels:
+            testing.upbound.io/example-name: bar
+        projectId: zippy-parity-368910
+        tableIdSelector:
+          matchLabels:
+            testing.upbound.io/example-name: foo
+      flattenResults: true
+      query: SELECT status FROM `foo`
+      #useLegacySql: false
+      scriptOptions:
+      - keyResultStatement: LAST
+
+---
+
+apiVersion: bigquery.gcp.upbound.io/v1beta1
+kind: Dataset
+metadata:
+  annotations:
+    meta.upbound.io/example-id: bigquery/v1beta1/job
+  labels:
+    testing.upbound.io/example-name: bar
+  name: bar
+spec:
+  forProvider:
+    description: This is a test description
+    friendlyName: test
+    location: US
+
+---
+
+apiVersion: bigquery.gcp.upbound.io/v1beta1
+kind: Table
+metadata:
+  annotations:
+    meta.upbound.io/example-id: bigquery/v1beta1/job
+  labels:
+    testing.upbound.io/example-name: foo
+  name: foo
+spec:
+  forProvider:
+    datasetIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: bar
+    deletionProtection: false
+
