@@ -10,6 +10,21 @@ import (
 	"github.com/upbound/upjet/pkg/controller"
 
 	application "github.com/upbound/provider-gcp/internal/controller/appengine/application"
+	connection "github.com/upbound/provider-gcp/internal/controller/bigquery/connection"
+	dataset "github.com/upbound/provider-gcp/internal/controller/bigquery/dataset"
+	datasetaccess "github.com/upbound/provider-gcp/internal/controller/bigquery/datasetaccess"
+	datasetiambinding "github.com/upbound/provider-gcp/internal/controller/bigquery/datasetiambinding"
+	datasetiammember "github.com/upbound/provider-gcp/internal/controller/bigquery/datasetiammember"
+	datasetiampolicy "github.com/upbound/provider-gcp/internal/controller/bigquery/datasetiampolicy"
+	datatransferconfig "github.com/upbound/provider-gcp/internal/controller/bigquery/datatransferconfig"
+	job "github.com/upbound/provider-gcp/internal/controller/bigquery/job"
+	reservation "github.com/upbound/provider-gcp/internal/controller/bigquery/reservation"
+	reservationassignment "github.com/upbound/provider-gcp/internal/controller/bigquery/reservationassignment"
+	routine "github.com/upbound/provider-gcp/internal/controller/bigquery/routine"
+	table "github.com/upbound/provider-gcp/internal/controller/bigquery/table"
+	tableiambinding "github.com/upbound/provider-gcp/internal/controller/bigquery/tableiambinding"
+	tableiammember "github.com/upbound/provider-gcp/internal/controller/bigquery/tableiammember"
+	tableiampolicy "github.com/upbound/provider-gcp/internal/controller/bigquery/tableiampolicy"
 	function "github.com/upbound/provider-gcp/internal/controller/cloudfunctions/function"
 	functioniammember "github.com/upbound/provider-gcp/internal/controller/cloudfunctions/functioniammember"
 	folder "github.com/upbound/provider-gcp/internal/controller/cloudplatform/folder"
@@ -29,7 +44,7 @@ import (
 	domainmapping "github.com/upbound/provider-gcp/internal/controller/cloudrun/domainmapping"
 	service "github.com/upbound/provider-gcp/internal/controller/cloudrun/service"
 	serviceiammember "github.com/upbound/provider-gcp/internal/controller/cloudrun/serviceiammember"
-	job "github.com/upbound/provider-gcp/internal/controller/cloudscheduler/job"
+	jobcloudscheduler "github.com/upbound/provider-gcp/internal/controller/cloudscheduler/job"
 	queue "github.com/upbound/provider-gcp/internal/controller/cloudtasks/queue"
 	environment "github.com/upbound/provider-gcp/internal/controller/composer/environment"
 	address "github.com/upbound/provider-gcp/internal/controller/compute/address"
@@ -91,7 +106,7 @@ import (
 	regiontargethttpproxy "github.com/upbound/provider-gcp/internal/controller/compute/regiontargethttpproxy"
 	regiontargethttpsproxy "github.com/upbound/provider-gcp/internal/controller/compute/regiontargethttpsproxy"
 	regionurlmap "github.com/upbound/provider-gcp/internal/controller/compute/regionurlmap"
-	reservation "github.com/upbound/provider-gcp/internal/controller/compute/reservation"
+	reservationcompute "github.com/upbound/provider-gcp/internal/controller/compute/reservation"
 	resourcepolicy "github.com/upbound/provider-gcp/internal/controller/compute/resourcepolicy"
 	route "github.com/upbound/provider-gcp/internal/controller/compute/route"
 	router "github.com/upbound/provider-gcp/internal/controller/compute/router"
@@ -123,6 +138,7 @@ import (
 	nodepoolcontainerazure "github.com/upbound/provider-gcp/internal/controller/containerazure/nodepool"
 	entry "github.com/upbound/provider-gcp/internal/controller/datacatalog/entry"
 	entrygroup "github.com/upbound/provider-gcp/internal/controller/datacatalog/entrygroup"
+	jobdataflow "github.com/upbound/provider-gcp/internal/controller/dataflow/job"
 	agent "github.com/upbound/provider-gcp/internal/controller/dialogflowcx/agent"
 	entitytype "github.com/upbound/provider-gcp/internal/controller/dialogflowcx/entitytype"
 	environmentdialogflowcx "github.com/upbound/provider-gcp/internal/controller/dialogflowcx/environment"
@@ -140,7 +156,7 @@ import (
 	ruleset "github.com/upbound/provider-gcp/internal/controller/firebaserules/ruleset"
 	membership "github.com/upbound/provider-gcp/internal/controller/gkehub/membership"
 	consentstore "github.com/upbound/provider-gcp/internal/controller/healthcare/consentstore"
-	dataset "github.com/upbound/provider-gcp/internal/controller/healthcare/dataset"
+	datasethealthcare "github.com/upbound/provider-gcp/internal/controller/healthcare/dataset"
 	webbackendserviceiammember "github.com/upbound/provider-gcp/internal/controller/iap/webbackendserviceiammember"
 	webiammember "github.com/upbound/provider-gcp/internal/controller/iap/webiammember"
 	webtypeappengineiammember "github.com/upbound/provider-gcp/internal/controller/iap/webtypeappengineiammember"
@@ -188,7 +204,7 @@ import (
 	secret "github.com/upbound/provider-gcp/internal/controller/secretmanager/secret"
 	secretiammember "github.com/upbound/provider-gcp/internal/controller/secretmanager/secretiammember"
 	secretversion "github.com/upbound/provider-gcp/internal/controller/secretmanager/secretversion"
-	connection "github.com/upbound/provider-gcp/internal/controller/servicenetworking/connection"
+	connectionservicenetworking "github.com/upbound/provider-gcp/internal/controller/servicenetworking/connection"
 	repository "github.com/upbound/provider-gcp/internal/controller/sourcerepo/repository"
 	repositoryiammember "github.com/upbound/provider-gcp/internal/controller/sourcerepo/repositoryiammember"
 	database "github.com/upbound/provider-gcp/internal/controller/spanner/database"
@@ -214,6 +230,21 @@ import (
 func Setup(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
 		application.Setup,
+		connection.Setup,
+		dataset.Setup,
+		datasetaccess.Setup,
+		datasetiambinding.Setup,
+		datasetiammember.Setup,
+		datasetiampolicy.Setup,
+		datatransferconfig.Setup,
+		job.Setup,
+		reservation.Setup,
+		reservationassignment.Setup,
+		routine.Setup,
+		table.Setup,
+		tableiambinding.Setup,
+		tableiammember.Setup,
+		tableiampolicy.Setup,
 		function.Setup,
 		functioniammember.Setup,
 		folder.Setup,
@@ -233,7 +264,7 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		domainmapping.Setup,
 		service.Setup,
 		serviceiammember.Setup,
-		job.Setup,
+		jobcloudscheduler.Setup,
 		queue.Setup,
 		environment.Setup,
 		address.Setup,
@@ -295,7 +326,7 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		regiontargethttpproxy.Setup,
 		regiontargethttpsproxy.Setup,
 		regionurlmap.Setup,
-		reservation.Setup,
+		reservationcompute.Setup,
 		resourcepolicy.Setup,
 		route.Setup,
 		router.Setup,
@@ -327,6 +358,7 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		nodepoolcontainerazure.Setup,
 		entry.Setup,
 		entrygroup.Setup,
+		jobdataflow.Setup,
 		agent.Setup,
 		entitytype.Setup,
 		environmentdialogflowcx.Setup,
@@ -344,7 +376,7 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		ruleset.Setup,
 		membership.Setup,
 		consentstore.Setup,
-		dataset.Setup,
+		datasethealthcare.Setup,
 		webbackendserviceiammember.Setup,
 		webiammember.Setup,
 		webtypeappengineiammember.Setup,
@@ -392,7 +424,7 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		secret.Setup,
 		secretiammember.Setup,
 		secretversion.Setup,
-		connection.Setup,
+		connectionservicenetworking.Setup,
 		repository.Setup,
 		repositoryiammember.Setup,
 		database.Setup,
