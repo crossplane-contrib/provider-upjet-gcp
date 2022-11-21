@@ -8,7 +8,7 @@ metadata:
   name: primary
 spec:
   forProvider:
-    assignee: projects/zippy-parity-368910
+    assignee: projects/${data.cloudplatform_project.projectId}
     jobType: PIPELINE
     reservationSelector:
       matchLabels:
