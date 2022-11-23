@@ -99,10 +99,12 @@ func Configure(p *config.Provider) { //nolint:gocyclo
 			}, nil
 		}
 		r.References["network"] = config.Reference{
-			Type: "github.com/upbound/provider-gcp/apis/compute/v1beta1.Network",
+			Type:      "github.com/upbound/provider-gcp/apis/compute/v1beta1.Network",
+			Extractor: common.PathSelfLinkExtractor,
 		}
 		r.References["subnetwork"] = config.Reference{
-			Type: "github.com/upbound/provider-gcp/apis/compute/v1beta1.Subnetwork",
+			Type:      "github.com/upbound/provider-gcp/apis/compute/v1beta1.Subnetwork",
+			Extractor: common.PathSelfLinkExtractor,
 		}
 		config.MarkAsRequired(r.TerraformResource, "location")
 	})
