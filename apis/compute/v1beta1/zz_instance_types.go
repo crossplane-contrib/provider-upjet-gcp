@@ -57,6 +57,10 @@ type AdvancedMachineFeaturesParameters struct {
 	// he number of threads per physical core. To disable simultaneous multithreading (SMT) set this to 1.
 	// +kubebuilder:validation:Optional
 	ThreadsPerCore *float64 `json:"threadsPerCore,omitempty" tf:"threads_per_core,omitempty"`
+
+	// The number of physical cores to expose to an instance. visible cores info (VC).
+	// +kubebuilder:validation:Optional
+	VisibleCoreCount *float64 `json:"visibleCoreCount,omitempty" tf:"visible_core_count,omitempty"`
 }
 
 type AliasIPRangeObservation struct {
@@ -372,7 +376,8 @@ type InstanceParameters struct {
 
 	// Metadata key/value pairs to make available from
 	// within the instance. Ssh keys attached in the Cloud Console will be removed.
-	// Add them to your config in order to keep them attached to your instance.
+	// Add them to your config in order to keep them attached to your instance. A
+	// list of default metadata values (e.g. ssh-keys) can be found here
 	// +kubebuilder:validation:Optional
 	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
 
@@ -409,7 +414,7 @@ type InstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	ReservationAffinity []ReservationAffinityParameters `json:"reservationAffinity,omitempty" tf:"reservation_affinity,omitempty"`
 
-	// - A list of short names or self_links of resource policies to attach to the instance. Modifying this list will cause the instance to recreate. Currently a max of 1 resource policy is supported.
+	// - A list of self_links of resource policies to attach to the instance. Modifying this list will cause the instance to recreate. Currently a max of 1 resource policy is supported.
 	// +kubebuilder:validation:Optional
 	ResourcePolicies []*string `json:"resourcePolicies,omitempty" tf:"resource_policies,omitempty"`
 
@@ -586,6 +591,10 @@ type SchedulingParameters struct {
 	// Defaults to true.
 	// +kubebuilder:validation:Optional
 	AutomaticRestart *bool `json:"automaticRestart,omitempty" tf:"automatic_restart,omitempty"`
+
+	// Describe the type of termination action for SPOT VM. Can be STOP or DELETE.  Read more on here
+	// +kubebuilder:validation:Optional
+	InstanceTerminationAction *string `json:"instanceTerminationAction,omitempty" tf:"instance_termination_action,omitempty"`
 
 	// The minimum number of virtual CPUs this instance will consume when running on a sole-tenant node.
 	// +kubebuilder:validation:Optional

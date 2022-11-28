@@ -40,8 +40,7 @@ type RouterInterfaceParameters struct {
 
 	// The name or resource link to the
 	// VLAN interconnect for this interface. Changing this forces a new interface to
-	// be created. Only one of vpn_tunnel and interconnect_attachment can be
-	// specified.
+	// be created. Only one of vpn_tunnel, interconnect_attachment or subnetwork can be specified.
 	// +kubebuilder:validation:Optional
 	InterconnectAttachment *string `json:"interconnectAttachment,omitempty" tf:"interconnect_attachment,omitempty"`
 
@@ -50,14 +49,23 @@ type RouterInterfaceParameters struct {
 	// +kubebuilder:validation:Required
 	Name *string `json:"name" tf:"name,omitempty"`
 
-	// The ID of the project in which this interface's router belongs. If it
-	// is not provided, the provider project is used. Changing this forces a new interface to be created.
+	// The regional private internal IP address that is used
+	// to establish BGP sessions to a VM instance acting as a third-party Router Appliance. Changing this forces a new interface to be created.
+	// +kubebuilder:validation:Optional
+	PrivateIPAddress *string `json:"privateIpAddress,omitempty" tf:"private_ip_address,omitempty"`
+
+	// The ID of the project in which this interface's router belongs.
+	// If it is not provided, the provider project is used. Changing this forces a new interface to be created.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
-	// The region this interface's router sits in. If not specified,
-	// the project region will be used. Changing this forces a new interface to be
-	// created.
+	// The name of the interface that is redundant to
+	// this interface. Changing this forces a new interface to be created.
+	// +kubebuilder:validation:Optional
+	RedundantInterface *string `json:"redundantInterface,omitempty" tf:"redundant_interface,omitempty"`
+
+	// The region this interface's router sits in.
+	// If not specified, the project region will be used. Changing this forces a new interface to be created.
 	// +kubebuilder:validation:Optional
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
@@ -75,9 +83,14 @@ type RouterInterfaceParameters struct {
 	// +kubebuilder:validation:Optional
 	RouterSelector *v1.Selector `json:"routerSelector,omitempty" tf:"-"`
 
+	// The URI of the subnetwork resource that this interface
+	// belongs to, which must be in the same region as the Cloud Router. When you establish a BGP session to a VM instance using this interface, the VM instance must belong to the same subnetwork as the subnetwork specified here. Changing this forces a new interface to be created. Only one of vpn_tunnel, interconnect_attachment or subnetwork can be specified.
+	// +kubebuilder:validation:Optional
+	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
+
 	// The name or resource link to the VPN tunnel this
 	// interface will be linked to. Changing this forces a new interface to be created. Only
-	// one of vpn_tunnel and interconnect_attachment can be specified.
+	// one of vpn_tunnel, interconnect_attachment or subnetwork can be specified.
 	// +crossplane:generate:reference:type=VPNTunnel
 	// +kubebuilder:validation:Optional
 	VPNTunnel *string `json:"vpnTunnel,omitempty" tf:"vpn_tunnel,omitempty"`

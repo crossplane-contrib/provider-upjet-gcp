@@ -57,6 +57,11 @@ type BackendBucketParameters struct {
 	// +kubebuilder:validation:Optional
 	CdnPolicy []CdnPolicyParameters `json:"cdnPolicy,omitempty" tf:"cdn_policy,omitempty"`
 
+	// Compress text responses using Brotli or gzip compression, based on the client's Accept-Encoding header.
+	// Possible values are AUTOMATIC and DISABLED.
+	// +kubebuilder:validation:Optional
+	CompressionMode *string `json:"compressionMode,omitempty" tf:"compression_mode,omitempty"`
+
 	// Headers that the HTTP/S load balancer should add to proxied responses.
 	// +kubebuilder:validation:Optional
 	CustomResponseHeaders []*string `json:"customResponseHeaders,omitempty" tf:"custom_response_headers,omitempty"`
@@ -90,10 +95,47 @@ type BackendBucketParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 
+type BypassCacheOnRequestHeadersObservation struct {
+}
+
+type BypassCacheOnRequestHeadersParameters struct {
+
+	// The header field name to match on when bypassing cache. Values are case-insensitive.
+	// +kubebuilder:validation:Optional
+	HeaderName *string `json:"headerName,omitempty" tf:"header_name,omitempty"`
+}
+
+type CacheKeyPolicyObservation struct {
+}
+
+type CacheKeyPolicyParameters struct {
+
+	// Allows HTTP request headers (by name) to be used in the
+	// cache key.
+	// +kubebuilder:validation:Optional
+	IncludeHTTPHeaders []*string `json:"includeHttpHeaders,omitempty" tf:"include_http_headers,omitempty"`
+
+	// Names of query string parameters to include in cache keys.
+	// Default parameters are always included. '&' and '=' will
+	// be percent encoded and not treated as delimiters.
+	// +kubebuilder:validation:Optional
+	QueryStringWhitelist []*string `json:"queryStringWhitelist,omitempty" tf:"query_string_whitelist,omitempty"`
+}
+
 type CdnPolicyObservation struct {
 }
 
 type CdnPolicyParameters struct {
+
+	// Bypass the cache when the specified request headers are matched - e.g. Pragma or Authorization headers. Up to 5 headers can be specified. The cache is bypassed for all cdnPolicy.cacheMode settings.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	BypassCacheOnRequestHeaders []BypassCacheOnRequestHeadersParameters `json:"bypassCacheOnRequestHeaders,omitempty" tf:"bypass_cache_on_request_headers,omitempty"`
+
+	// The CacheKeyPolicy for this CdnPolicy.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	CacheKeyPolicy []CacheKeyPolicyParameters `json:"cacheKeyPolicy,omitempty" tf:"cache_key_policy,omitempty"`
 
 	// Specifies the cache setting for all responses from this backend.
 	// The possible values are: USE_ORIGIN_HEADERS, FORCE_CACHE_ALL and CACHE_ALL_STATIC
@@ -123,6 +165,10 @@ type CdnPolicyParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	NegativeCachingPolicy []NegativeCachingPolicyParameters `json:"negativeCachingPolicy,omitempty" tf:"negative_caching_policy,omitempty"`
+
+	// If true then Cloud CDN will combine multiple concurrent cache fill requests into a small number of requests to the origin.
+	// +kubebuilder:validation:Optional
+	RequestCoalescing *bool `json:"requestCoalescing,omitempty" tf:"request_coalescing,omitempty"`
 
 	// Serve existing content from the cache (if available) when revalidating content with the origin, or when an error is encountered when refreshing the cache.
 	// +kubebuilder:validation:Optional

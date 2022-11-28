@@ -22,7 +22,6 @@ import (
 	reference "github.com/crossplane/crossplane-runtime/pkg/reference"
 	errors "github.com/pkg/errors"
 	v1beta1 "github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1"
-	v1beta11 "github.com/upbound/provider-gcp/apis/secretmanager/v1beta1"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
@@ -97,58 +96,6 @@ func (mg *Service) ResolveReferences(ctx context.Context, c client.Reader) error
 		mg.Spec.ForProvider.Metadata[i3].Namespace = reference.ToPtrValue(rsp.ResolvedValue)
 		mg.Spec.ForProvider.Metadata[i3].NamespaceRef = rsp.ResolvedReference
 
-	}
-	for i3 := 0; i3 < len(mg.Spec.ForProvider.Template); i3++ {
-		for i4 := 0; i4 < len(mg.Spec.ForProvider.Template[i3].Spec); i4++ {
-			for i5 := 0; i5 < len(mg.Spec.ForProvider.Template[i3].Spec[i4].Containers); i5++ {
-				for i6 := 0; i6 < len(mg.Spec.ForProvider.Template[i3].Spec[i4].Containers[i5].Env); i6++ {
-					for i7 := 0; i7 < len(mg.Spec.ForProvider.Template[i3].Spec[i4].Containers[i5].Env[i6].ValueFrom); i7++ {
-						for i8 := 0; i8 < len(mg.Spec.ForProvider.Template[i3].Spec[i4].Containers[i5].Env[i6].ValueFrom[i7].SecretKeyRef); i8++ {
-							rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-								CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Template[i3].Spec[i4].Containers[i5].Env[i6].ValueFrom[i7].SecretKeyRef[i8].Name),
-								Extract:      reference.ExternalName(),
-								Reference:    mg.Spec.ForProvider.Template[i3].Spec[i4].Containers[i5].Env[i6].ValueFrom[i7].SecretKeyRef[i8].NameRef,
-								Selector:     mg.Spec.ForProvider.Template[i3].Spec[i4].Containers[i5].Env[i6].ValueFrom[i7].SecretKeyRef[i8].NameSelector,
-								To: reference.To{
-									List:    &v1beta11.SecretList{},
-									Managed: &v1beta11.Secret{},
-								},
-							})
-							if err != nil {
-								return errors.Wrap(err, "mg.Spec.ForProvider.Template[i3].Spec[i4].Containers[i5].Env[i6].ValueFrom[i7].SecretKeyRef[i8].Name")
-							}
-							mg.Spec.ForProvider.Template[i3].Spec[i4].Containers[i5].Env[i6].ValueFrom[i7].SecretKeyRef[i8].Name = reference.ToPtrValue(rsp.ResolvedValue)
-							mg.Spec.ForProvider.Template[i3].Spec[i4].Containers[i5].Env[i6].ValueFrom[i7].SecretKeyRef[i8].NameRef = rsp.ResolvedReference
-
-						}
-					}
-				}
-			}
-		}
-	}
-	for i3 := 0; i3 < len(mg.Spec.ForProvider.Template); i3++ {
-		for i4 := 0; i4 < len(mg.Spec.ForProvider.Template[i3].Spec); i4++ {
-			for i5 := 0; i5 < len(mg.Spec.ForProvider.Template[i3].Spec[i4].Volumes); i5++ {
-				for i6 := 0; i6 < len(mg.Spec.ForProvider.Template[i3].Spec[i4].Volumes[i5].Secret); i6++ {
-					rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-						CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Template[i3].Spec[i4].Volumes[i5].Secret[i6].SecretName),
-						Extract:      reference.ExternalName(),
-						Reference:    mg.Spec.ForProvider.Template[i3].Spec[i4].Volumes[i5].Secret[i6].SecretNameRef,
-						Selector:     mg.Spec.ForProvider.Template[i3].Spec[i4].Volumes[i5].Secret[i6].SecretNameSelector,
-						To: reference.To{
-							List:    &v1beta11.SecretList{},
-							Managed: &v1beta11.Secret{},
-						},
-					})
-					if err != nil {
-						return errors.Wrap(err, "mg.Spec.ForProvider.Template[i3].Spec[i4].Volumes[i5].Secret[i6].SecretName")
-					}
-					mg.Spec.ForProvider.Template[i3].Spec[i4].Volumes[i5].Secret[i6].SecretName = reference.ToPtrValue(rsp.ResolvedValue)
-					mg.Spec.ForProvider.Template[i3].Spec[i4].Volumes[i5].Secret[i6].SecretNameRef = rsp.ResolvedReference
-
-				}
-			}
-		}
 	}
 
 	return nil

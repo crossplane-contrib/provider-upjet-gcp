@@ -425,6 +425,12 @@ type LoadParameters struct {
 	// +kubebuilder:validation:Optional
 	IgnoreUnknownValues *bool `json:"ignoreUnknownValues,omitempty" tf:"ignore_unknown_values,omitempty"`
 
+	// If sourceFormat is set to newline-delimited JSON, indicates whether it should be processed as a JSON variant such as GeoJSON.
+	// For a sourceFormat other than JSON, omit this field. If the sourceFormat is newline-delimited JSON: - for newline-delimited
+	// GeoJSON: set to GEOJSON.
+	// +kubebuilder:validation:Optional
+	JSONExtension *string `json:"jsonExtension,omitempty" tf:"json_extension,omitempty"`
+
 	// The maximum number of bad records that BigQuery can ignore when running the job. If the number of bad records exceeds this value,
 	// an invalid error is returned in the job result. The default value is 0, which requires that all records are valid.
 	// +kubebuilder:validation:Optional
@@ -478,11 +484,11 @@ type LoadParameters struct {
 	SourceFormat *string `json:"sourceFormat,omitempty" tf:"source_format,omitempty"`
 
 	// The fully-qualified URIs that point to your data in Google Cloud.
-	// For Google Cloud Storage URIs: Each URI can contain one ” wildcard character
+	// For Google Cloud Storage URIs: Each URI can contain one '*' wildcard character
 	// and it must come after the 'bucket' name. Size limits related to load jobs apply
 	// to external data sources. For Google Cloud Bigtable URIs: Exactly one URI can be
 	// specified and it has be a fully specified and valid HTTPS URL for a Google Cloud Bigtable table.
-	// For Google Cloud Datastore backups: Exactly one URI can be specified. Also, the ” wildcard character is not allowed.
+	// For Google Cloud Datastore backups: Exactly one URI can be specified. Also, the '*' wildcard character is not allowed.
 	// +kubebuilder:validation:Required
 	SourceUris []*string `json:"sourceUris" tf:"source_uris,omitempty"`
 

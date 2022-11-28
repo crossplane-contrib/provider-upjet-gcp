@@ -191,6 +191,21 @@ type InitializeParamsParameters struct {
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 }
 
+type KernelsObservation struct {
+}
+
+type KernelsParameters struct {
+
+	// The path to the container image repository.
+	// For example: gcr.io/{project_id}/{imageName}
+	// +kubebuilder:validation:Required
+	Repository *string `json:"repository" tf:"repository,omitempty"`
+
+	// The tag of the container image. If not specified, this defaults to the latest tag.
+	// +kubebuilder:validation:Optional
+	Tag *string `json:"tag,omitempty" tf:"tag,omitempty"`
+}
+
 type MetricsObservation struct {
 
 	// Contains runtime daemon metrics, such as OS and kernels and
@@ -219,6 +234,11 @@ type RuntimeObservation struct {
 	// status
 	// Structure is documented below.
 	Metrics []MetricsObservation `json:"metrics,omitempty" tf:"metrics,omitempty"`
+
+	// The config settings for software inside the runtime.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	SoftwareConfig []SoftwareConfigObservation `json:"softwareConfig,omitempty" tf:"software_config,omitempty"`
 
 	// The state of this runtime.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
@@ -257,6 +277,9 @@ type RuntimeParameters struct {
 }
 
 type SoftwareConfigObservation struct {
+
+	// Bool indicating whether an newer image is available in an image family.
+	Upgradeable *bool `json:"upgradeable,omitempty" tf:"upgradeable,omitempty"`
 }
 
 type SoftwareConfigParameters struct {
@@ -284,6 +307,11 @@ type SoftwareConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	InstallGpuDriver *bool `json:"installGpuDriver,omitempty" tf:"install_gpu_driver,omitempty"`
 
+	// Use a list of container images to use as Kernels in the notebook instance.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Kernels []KernelsParameters `json:"kernels,omitempty" tf:"kernels,omitempty"`
+
 	// Cron expression in UTC timezone for schedule instance auto upgrade.
 	// Please follow the cron format.
 	// +kubebuilder:validation:Optional
@@ -294,6 +322,11 @@ type SoftwareConfigParameters struct {
 	// Cloud Storage path (gs://path-to-file/file-name).
 	// +kubebuilder:validation:Optional
 	PostStartupScript *string `json:"postStartupScript,omitempty" tf:"post_startup_script,omitempty"`
+
+	// Behavior for the post startup script.
+	// Possible values are POST_STARTUP_SCRIPT_BEHAVIOR_UNSPECIFIED, RUN_EVERY_START, and DOWNLOAD_AND_RUN_EVERY_START.
+	// +kubebuilder:validation:Optional
+	PostStartupScriptBehavior *string `json:"postStartupScriptBehavior,omitempty" tf:"post_startup_script_behavior,omitempty"`
 }
 
 type VirtualMachineConfigAcceleratorConfigObservation struct {
@@ -390,6 +423,11 @@ type VirtualMachineConfigParameters struct {
 	// Possible values are UNSPECIFIED_NIC_TYPE, VIRTIO_NET, and GVNIC.
 	// +kubebuilder:validation:Optional
 	NicType *string `json:"nicType,omitempty" tf:"nic_type,omitempty"`
+
+	// Reserved IP Range name is used for VPC Peering. The
+	// subnetwork allocation will use the range name if it's assigned.
+	// +kubebuilder:validation:Optional
+	ReservedIPRange *string `json:"reservedIpRange,omitempty" tf:"reserved_ip_range,omitempty"`
 
 	// Shielded VM Instance configuration settings.
 	// Structure is documented below.

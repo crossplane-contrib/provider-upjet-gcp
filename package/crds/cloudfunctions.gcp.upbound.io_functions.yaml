@@ -74,8 +74,15 @@ spec:
                     description: A set of key/value environment variable pairs available
                       during build time.
                     type: object
+                  buildWorkerPool:
+                    type: string
                   description:
                     description: Description of the function.
+                    type: string
+                  dockerRegistry:
+                    description: Docker Registry to use for storing the function's
+                      Docker images. Allowed values are CONTAINER_REGISTRY (default)
+                      and ARTIFACT_REGISTRY.
                     type: string
                   dockerRepository:
                     description: User managed repository created in Artifact Registry
@@ -131,6 +138,8 @@ spec:
                       type: object
                     type: array
                   httpsTriggerSecurityLevel:
+                    description: 'The security level for the function. The following
+                      options are available:'
                     type: string
                   httpsTriggerUrl:
                     description: URL which triggers function execution. Returned only

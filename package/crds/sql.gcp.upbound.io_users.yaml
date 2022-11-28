@@ -153,6 +153,28 @@ spec:
                             type: string
                         type: object
                     type: object
+                  passwordPolicy:
+                    items:
+                      properties:
+                        allowedFailedAttempts:
+                          description: Number of failed attempts allowed before the
+                            user get locked.
+                          type: number
+                        enableFailedAttemptsCheck:
+                          description: If true, the check that will lock user after
+                            too many failed login attempts will be enabled.
+                          type: boolean
+                        enablePasswordVerification:
+                          description: If true, the user must specify the current
+                            password before changing the password. This flag is supported
+                            only for MySQL.
+                          type: boolean
+                        passwordExpirationDuration:
+                          description: Password expiration duration with one week
+                            grace period.
+                          type: string
+                      type: object
+                    type: array
                   passwordSecretRef:
                     description: The password for the user. Can be updated. For Postgres
                       instances this is a Required field, unless type is set to either
@@ -360,6 +382,35 @@ spec:
                 properties:
                   id:
                     type: string
+                  passwordPolicy:
+                    items:
+                      properties:
+                        status:
+                          items:
+                            properties:
+                              locked:
+                                description: (read only) If true, user does not have
+                                  login privileges.
+                                type: boolean
+                              passwordExpirationTime:
+                                description: (read only) Password expiration duration
+                                  with one week grace period.
+                                type: string
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  sqlServerUserDetails:
+                    items:
+                      properties:
+                        disabled:
+                          type: boolean
+                        serverRoles:
+                          items:
+                            type: string
+                          type: array
+                      type: object
+                    type: array
                 type: object
               conditions:
                 description: Conditions of the resource.

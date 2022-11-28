@@ -68,6 +68,12 @@ spec:
                   columnFamily:
                     description: The name of the column family.
                     type: string
+                  deletionPolicy:
+                    description: The deletion policy for the GC policy. Setting ABANDON
+                      allows the resource to be abandoned rather than deleted. This
+                      is useful for GC policy as it cannot be deleted in a replicated
+                      instance.
+                    type: string
                   gcRules:
                     description: Serialized JSON object to represent a more complex
                       GC policy. Conflicts with mode, max_age and max_version. Conflicts

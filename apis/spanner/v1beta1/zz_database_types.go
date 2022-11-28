@@ -38,8 +38,6 @@ type DatabaseParameters struct {
 
 	// The dialect of the Cloud Spanner Database.
 	// If it is not provided, "GOOGLE_STANDARD_SQL" will be used.
-	// Note: Databases that are created with POSTGRESQL dialect do not support
-	// extra DDL statements in the CreateDatabase call.
 	// Possible values are GOOGLE_STANDARD_SQL and POSTGRESQL.
 	// +kubebuilder:validation:Optional
 	DatabaseDialect *string `json:"databaseDialect,omitempty" tf:"database_dialect,omitempty"`
@@ -76,6 +74,14 @@ type DatabaseParameters struct {
 	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The retention period for the database. The retention period must be between 1 hour
+	// and 7 days, and can be specified in days, hours, minutes, or seconds. For example,
+	// the values 1d, 24h, 1440m, and 86400s are equivalent. Default value is 1h.
+	// If this property is used, you must avoid adding new DDL statements to ddl that
+	// update the database's version_retention_period.
+	// +kubebuilder:validation:Optional
+	VersionRetentionPeriod *string `json:"versionRetentionPeriod,omitempty" tf:"version_retention_period,omitempty"`
 }
 
 type EncryptionConfigObservation struct {

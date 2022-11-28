@@ -25,6 +25,21 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type AcceptedResponseStatusCodesObservation struct {
+}
+
+type AcceptedResponseStatusCodesParameters struct {
+
+	// A class of status codes to accept.
+	// Possible values are STATUS_CLASS_1XX, STATUS_CLASS_2XX, STATUS_CLASS_3XX, STATUS_CLASS_4XX, STATUS_CLASS_5XX, and STATUS_CLASS_ANY.
+	// +kubebuilder:validation:Optional
+	StatusClass *string `json:"statusClass,omitempty" tf:"status_class,omitempty"`
+
+	// A status code to accept.
+	// +kubebuilder:validation:Optional
+	StatusValue *float64 `json:"statusValue,omitempty" tf:"status_value,omitempty"`
+}
+
 type AuthInfoObservation struct {
 }
 
@@ -49,9 +64,14 @@ type ContentMatchersParameters struct {
 	// +kubebuilder:validation:Required
 	Content *string `json:"content" tf:"content,omitempty"`
 
+	// Information needed to perform a JSONPath content match. Used for ContentMatcherOption::MATCHES_JSON_PATH and ContentMatcherOption::NOT_MATCHES_JSON_PATH.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	JSONPathMatcher []JSONPathMatcherParameters `json:"jsonPathMatcher,omitempty" tf:"json_path_matcher,omitempty"`
+
 	// The type of content matcher that will be applied to the server output, compared to the content string when the check is run.
 	// Default value is CONTAINS_STRING.
-	// Possible values are CONTAINS_STRING, NOT_CONTAINS_STRING, MATCHES_REGEX, and NOT_MATCHES_REGEX.
+	// Possible values are CONTAINS_STRING, NOT_CONTAINS_STRING, MATCHES_REGEX, NOT_MATCHES_REGEX, MATCHES_JSON_PATH, and NOT_MATCHES_JSON_PATH.
 	// +kubebuilder:validation:Optional
 	Matcher *string `json:"matcher,omitempty" tf:"matcher,omitempty"`
 }
@@ -60,6 +80,11 @@ type HTTPCheckObservation struct {
 }
 
 type HTTPCheckParameters struct {
+
+	// If present, the check will only pass if the HTTP response status code is in this set of status codes. If empty, the HTTP status code will only pass if the HTTP status code is 200-299.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	AcceptedResponseStatusCodes []AcceptedResponseStatusCodesParameters `json:"acceptedResponseStatusCodes,omitempty" tf:"accepted_response_status_codes,omitempty"`
 
 	// The authentication information. Optional when creating an HTTP check; defaults to empty.
 	// Structure is documented below.
@@ -104,6 +129,22 @@ type HTTPCheckParameters struct {
 	// Boolean specifying whether to include SSL certificate validation as a part of the Uptime check. Only applies to checks where monitoredResource is set to uptime_url. If useSsl is false, setting validateSsl to true has no effect.
 	// +kubebuilder:validation:Optional
 	ValidateSSL *bool `json:"validateSsl,omitempty" tf:"validate_ssl,omitempty"`
+}
+
+type JSONPathMatcherObservation struct {
+}
+
+type JSONPathMatcherParameters struct {
+
+	// Options to perform JSONPath content matching.
+	// Default value is EXACT_MATCH.
+	// Possible values are EXACT_MATCH and REGEX_MATCH.
+	// +kubebuilder:validation:Optional
+	JSONMatcher *string `json:"jsonMatcher,omitempty" tf:"json_matcher,omitempty"`
+
+	// JSONPath within the response output pointing to the expected ContentMatcher::content to match against.
+	// +kubebuilder:validation:Required
+	JSONPath *string `json:"jsonPath" tf:"json_path,omitempty"`
 }
 
 type MonitoredResourceObservation struct {
@@ -178,7 +219,7 @@ type UptimeCheckConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	HTTPCheck []HTTPCheckParameters `json:"httpCheck,omitempty" tf:"http_check,omitempty"`
 
-	// The monitored resource (https://cloud.google.com/monitoring/api/resources) associated with the configuration. The following monitored resource types are supported for uptime checks:  uptime_url  gce_instance  gae_app  aws_ec2_instance  aws_elb_load_balancer
+	// The monitored resource (https://cloud.google.com/monitoring/api/resources) associated with the configuration. The following monitored resource types are supported for uptime checks:  uptime_url  gce_instance  gae_app  aws_ec2_instance aws_elb_load_balancer  k8s_service  servicedirectory_service
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	MonitoredResource []MonitoredResourceParameters `json:"monitoredResource,omitempty" tf:"monitored_resource,omitempty"`

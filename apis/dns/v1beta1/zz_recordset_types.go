@@ -25,18 +25,244 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
-type GeoObservation struct {
+type BackupGeoHealthCheckedTargetsObservation struct {
 }
 
-type GeoParameters struct {
+type BackupGeoHealthCheckedTargetsParameters struct {
+
+	// The list of internal load balancers to health check.
+	// Structure is document below.
+	// +kubebuilder:validation:Required
+	InternalLoadBalancers []HealthCheckedTargetsInternalLoadBalancersParameters `json:"internalLoadBalancers" tf:"internal_load_balancers,omitempty"`
+}
+
+type BackupGeoObservation struct {
+}
+
+type BackupGeoParameters struct {
+
+	// The list of targets to be health checked. Note that if DNSSEC is enabled for this zone, only one of rrdatas or health_checked_targets can be set.
+	// Structure is document below.
+	// +kubebuilder:validation:Optional
+	HealthCheckedTargets []BackupGeoHealthCheckedTargetsParameters `json:"healthCheckedTargets,omitempty" tf:"health_checked_targets,omitempty"`
 
 	// The location name defined in Google Cloud.
 	// +kubebuilder:validation:Required
 	Location *string `json:"location" tf:"location,omitempty"`
 
 	// Same as rrdatas above.
+	// +kubebuilder:validation:Optional
+	Rrdatas []*string `json:"rrdatas,omitempty" tf:"rrdatas,omitempty"`
+}
+
+type GeoObservation struct {
+}
+
+type GeoParameters struct {
+
+	// The list of targets to be health checked. Note that if DNSSEC is enabled for this zone, only one of rrdatas or health_checked_targets can be set.
+	// Structure is document below.
+	// +kubebuilder:validation:Optional
+	HealthCheckedTargets []HealthCheckedTargetsParameters `json:"healthCheckedTargets,omitempty" tf:"health_checked_targets,omitempty"`
+
+	// The location name defined in Google Cloud.
 	// +kubebuilder:validation:Required
-	Rrdatas []*string `json:"rrdatas" tf:"rrdatas,omitempty"`
+	Location *string `json:"location" tf:"location,omitempty"`
+
+	// Same as rrdatas above.
+	// +kubebuilder:validation:Optional
+	Rrdatas []*string `json:"rrdatas,omitempty" tf:"rrdatas,omitempty"`
+}
+
+type HealthCheckedTargetsInternalLoadBalancersObservation struct {
+}
+
+type HealthCheckedTargetsInternalLoadBalancersParameters struct {
+
+	// The frontend IP address of the load balancer.
+	// +kubebuilder:validation:Required
+	IPAddress *string `json:"ipAddress" tf:"ip_address,omitempty"`
+
+	// The configured IP protocol of the load balancer. This value is case-sensitive. Possible values: ["tcp", "udp"]
+	// +kubebuilder:validation:Required
+	IPProtocol *string `json:"ipProtocol" tf:"ip_protocol,omitempty"`
+
+	// The type of load balancer. This value is case-sensitive. Possible values: ["regionalL4ilb"]
+	// +kubebuilder:validation:Required
+	LoadBalancerType *string `json:"loadBalancerType" tf:"load_balancer_type,omitempty"`
+
+	// The fully qualified url of the network in which the load balancer belongs. This should be formatted like projects/{project}/global/networks/{network} or https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}.
+	// +kubebuilder:validation:Required
+	NetworkURL *string `json:"networkUrl" tf:"network_url,omitempty"`
+
+	// The configured port of the load balancer.
+	// +kubebuilder:validation:Required
+	Port *string `json:"port" tf:"port,omitempty"`
+
+	// The ID of the project in which the resource belongs. If it
+	// is not provided, the provider project is used.
+	// +kubebuilder:validation:Required
+	Project *string `json:"project" tf:"project,omitempty"`
+
+	// The region of the load balancer. Only needed for regional load balancers.
+	// +kubebuilder:validation:Optional
+	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+}
+
+type HealthCheckedTargetsObservation struct {
+}
+
+type HealthCheckedTargetsParameters struct {
+
+	// The list of internal load balancers to health check.
+	// Structure is document below.
+	// +kubebuilder:validation:Required
+	InternalLoadBalancers []InternalLoadBalancersParameters `json:"internalLoadBalancers" tf:"internal_load_balancers,omitempty"`
+}
+
+type InternalLoadBalancersObservation struct {
+}
+
+type InternalLoadBalancersParameters struct {
+
+	// The frontend IP address of the load balancer.
+	// +kubebuilder:validation:Required
+	IPAddress *string `json:"ipAddress" tf:"ip_address,omitempty"`
+
+	// The configured IP protocol of the load balancer. This value is case-sensitive. Possible values: ["tcp", "udp"]
+	// +kubebuilder:validation:Required
+	IPProtocol *string `json:"ipProtocol" tf:"ip_protocol,omitempty"`
+
+	// The type of load balancer. This value is case-sensitive. Possible values: ["regionalL4ilb"]
+	// +kubebuilder:validation:Required
+	LoadBalancerType *string `json:"loadBalancerType" tf:"load_balancer_type,omitempty"`
+
+	// The fully qualified url of the network in which the load balancer belongs. This should be formatted like projects/{project}/global/networks/{network} or https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}.
+	// +kubebuilder:validation:Required
+	NetworkURL *string `json:"networkUrl" tf:"network_url,omitempty"`
+
+	// The configured port of the load balancer.
+	// +kubebuilder:validation:Required
+	Port *string `json:"port" tf:"port,omitempty"`
+
+	// The ID of the project in which the resource belongs. If it
+	// is not provided, the provider project is used.
+	// +kubebuilder:validation:Required
+	Project *string `json:"project" tf:"project,omitempty"`
+
+	// The region of the load balancer. Only needed for regional load balancers.
+	// +kubebuilder:validation:Optional
+	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+}
+
+type PrimaryBackupObservation struct {
+}
+
+type PrimaryBackupParameters struct {
+
+	// The backup geo targets, which provide a regional failover policy for the otherwise global primary targets.
+	// Structure is document above.
+	// +kubebuilder:validation:Required
+	BackupGeo []BackupGeoParameters `json:"backupGeo" tf:"backup_geo,omitempty"`
+
+	// Specifies whether to enable fencing for backup geo queries.
+	// +kubebuilder:validation:Optional
+	EnableGeoFencingForBackups *bool `json:"enableGeoFencingForBackups,omitempty" tf:"enable_geo_fencing_for_backups,omitempty"`
+
+	// The list of global primary targets to be health checked.
+	// Structure is document below.
+	// +kubebuilder:validation:Required
+	Primary []PrimaryParameters `json:"primary" tf:"primary,omitempty"`
+
+	// Specifies the percentage of traffic to send to the backup targets even when the primary targets are healthy.
+	// +kubebuilder:validation:Optional
+	TrickleRatio *float64 `json:"trickleRatio,omitempty" tf:"trickle_ratio,omitempty"`
+}
+
+type PrimaryInternalLoadBalancersObservation struct {
+}
+
+type PrimaryInternalLoadBalancersParameters struct {
+
+	// The frontend IP address of the load balancer.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.ForwardingRule
+	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractParamPath("ip_address",false)
+	// +kubebuilder:validation:Optional
+	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
+
+	// Reference to a ForwardingRule in compute to populate ipAddress.
+	// +kubebuilder:validation:Optional
+	IPAddressRef *v1.Reference `json:"ipAddressRef,omitempty" tf:"-"`
+
+	// Selector for a ForwardingRule in compute to populate ipAddress.
+	// +kubebuilder:validation:Optional
+	IPAddressSelector *v1.Selector `json:"ipAddressSelector,omitempty" tf:"-"`
+
+	// The configured IP protocol of the load balancer. This value is case-sensitive. Possible values: ["tcp", "udp"]
+	// +kubebuilder:validation:Required
+	IPProtocol *string `json:"ipProtocol" tf:"ip_protocol,omitempty"`
+
+	// The type of load balancer. This value is case-sensitive. Possible values: ["regionalL4ilb"]
+	// +kubebuilder:validation:Required
+	LoadBalancerType *string `json:"loadBalancerType" tf:"load_balancer_type,omitempty"`
+
+	// The fully qualified url of the network in which the load balancer belongs. This should be formatted like projects/{project}/global/networks/{network} or https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Network
+	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
+	// +kubebuilder:validation:Optional
+	NetworkURL *string `json:"networkUrl,omitempty" tf:"network_url,omitempty"`
+
+	// Reference to a Network in compute to populate networkUrl.
+	// +kubebuilder:validation:Optional
+	NetworkURLRef *v1.Reference `json:"networkUrlRef,omitempty" tf:"-"`
+
+	// Selector for a Network in compute to populate networkUrl.
+	// +kubebuilder:validation:Optional
+	NetworkURLSelector *v1.Selector `json:"networkUrlSelector,omitempty" tf:"-"`
+
+	// The configured port of the load balancer.
+	// +kubebuilder:validation:Required
+	Port *string `json:"port" tf:"port,omitempty"`
+
+	// The ID of the project in which the resource belongs. If it
+	// is not provided, the provider project is used.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.ForwardingRule
+	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractParamPath("project",false)
+	// +kubebuilder:validation:Optional
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Reference to a ForwardingRule in compute to populate project.
+	// +kubebuilder:validation:Optional
+	ProjectRef *v1.Reference `json:"projectRef,omitempty" tf:"-"`
+
+	// Selector for a ForwardingRule in compute to populate project.
+	// +kubebuilder:validation:Optional
+	ProjectSelector *v1.Selector `json:"projectSelector,omitempty" tf:"-"`
+
+	// The region of the load balancer. Only needed for regional load balancers.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.ForwardingRule
+	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractParamPath("region",false)
+	// +kubebuilder:validation:Optional
+	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+
+	// Reference to a ForwardingRule in compute to populate region.
+	// +kubebuilder:validation:Optional
+	RegionRef *v1.Reference `json:"regionRef,omitempty" tf:"-"`
+
+	// Selector for a ForwardingRule in compute to populate region.
+	// +kubebuilder:validation:Optional
+	RegionSelector *v1.Selector `json:"regionSelector,omitempty" tf:"-"`
+}
+
+type PrimaryObservation struct {
+}
+
+type PrimaryParameters struct {
+
+	// The list of internal load balancers to health check.
+	// Structure is document below.
+	// +kubebuilder:validation:Required
+	InternalLoadBalancers []PrimaryInternalLoadBalancersParameters `json:"internalLoadBalancers" tf:"internal_load_balancers,omitempty"`
 }
 
 type RecordSetObservation struct {
@@ -95,10 +321,19 @@ type RoutingPolicyObservation struct {
 
 type RoutingPolicyParameters struct {
 
+	// Specifies whether to enable fencing for geo queries.
+	// +kubebuilder:validation:Optional
+	EnableGeoFencing *bool `json:"enableGeoFencing,omitempty" tf:"enable_geo_fencing,omitempty"`
+
 	// The configuration for Geolocation based routing policy.
 	// Structure is document below.
 	// +kubebuilder:validation:Optional
 	Geo []GeoParameters `json:"geo,omitempty" tf:"geo,omitempty"`
+
+	// The configuration for a primary-backup policy with global to regional failover. Queries are responded to with the global primary targets, but if none of the primary targets are healthy, then we fallback to a regional failover policy.
+	// Structure is document below.
+	// +kubebuilder:validation:Optional
+	PrimaryBackup []PrimaryBackupParameters `json:"primaryBackup,omitempty" tf:"primary_backup,omitempty"`
 
 	// The configuration for Weighted Round Robin based routing policy.
 	// Structure is document below.
@@ -106,14 +341,65 @@ type RoutingPolicyParameters struct {
 	Wrr []WrrParameters `json:"wrr,omitempty" tf:"wrr,omitempty"`
 }
 
+type WrrHealthCheckedTargetsInternalLoadBalancersObservation struct {
+}
+
+type WrrHealthCheckedTargetsInternalLoadBalancersParameters struct {
+
+	// The frontend IP address of the load balancer.
+	// +kubebuilder:validation:Required
+	IPAddress *string `json:"ipAddress" tf:"ip_address,omitempty"`
+
+	// The configured IP protocol of the load balancer. This value is case-sensitive. Possible values: ["tcp", "udp"]
+	// +kubebuilder:validation:Required
+	IPProtocol *string `json:"ipProtocol" tf:"ip_protocol,omitempty"`
+
+	// The type of load balancer. This value is case-sensitive. Possible values: ["regionalL4ilb"]
+	// +kubebuilder:validation:Required
+	LoadBalancerType *string `json:"loadBalancerType" tf:"load_balancer_type,omitempty"`
+
+	// The fully qualified url of the network in which the load balancer belongs. This should be formatted like projects/{project}/global/networks/{network} or https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}.
+	// +kubebuilder:validation:Required
+	NetworkURL *string `json:"networkUrl" tf:"network_url,omitempty"`
+
+	// The configured port of the load balancer.
+	// +kubebuilder:validation:Required
+	Port *string `json:"port" tf:"port,omitempty"`
+
+	// The ID of the project in which the resource belongs. If it
+	// is not provided, the provider project is used.
+	// +kubebuilder:validation:Required
+	Project *string `json:"project" tf:"project,omitempty"`
+
+	// The region of the load balancer. Only needed for regional load balancers.
+	// +kubebuilder:validation:Optional
+	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+}
+
+type WrrHealthCheckedTargetsObservation struct {
+}
+
+type WrrHealthCheckedTargetsParameters struct {
+
+	// The list of internal load balancers to health check.
+	// Structure is document below.
+	// +kubebuilder:validation:Required
+	InternalLoadBalancers []WrrHealthCheckedTargetsInternalLoadBalancersParameters `json:"internalLoadBalancers" tf:"internal_load_balancers,omitempty"`
+}
+
 type WrrObservation struct {
 }
 
 type WrrParameters struct {
 
+	// The list of targets to be health checked. Note that if DNSSEC is enabled for this zone, only one of rrdatas or health_checked_targets can be set.
+	// Structure is document below.
+	// +kubebuilder:validation:Optional
+	HealthCheckedTargets []WrrHealthCheckedTargetsParameters `json:"healthCheckedTargets,omitempty" tf:"health_checked_targets,omitempty"`
+
 	// Same as rrdatas above.
-	// +kubebuilder:validation:Required
-	Rrdatas []*string `json:"rrdatas" tf:"rrdatas,omitempty"`
+	// +kubebuilder:validation:Optional
+	Rrdatas []*string `json:"rrdatas,omitempty" tf:"rrdatas,omitempty"`
 
 	// The ratio of traffic routed to the target.
 	// +kubebuilder:validation:Required

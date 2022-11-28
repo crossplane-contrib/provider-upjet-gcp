@@ -61,8 +61,7 @@ type FilterParameters struct {
 	// +kubebuilder:validation:Optional
 	Direction *string `json:"direction,omitempty" tf:"direction,omitempty"`
 
-	// Protocols that apply as a filter on mirrored traffic.
-	// Each value may be one of tcp, udp, and icmp.
+	// Possible IP protocols including tcp, udp, icmp and esp
 	// +kubebuilder:validation:Optional
 	IPProtocols []*string `json:"ipProtocols,omitempty" tf:"ip_protocols,omitempty"`
 }

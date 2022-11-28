@@ -87,6 +87,13 @@ spec:
                       to receive notifications from the same set of alerting policies
                       on the channel at some point in the future.
                     type: boolean
+                  forceDelete:
+                    description: If true, the notification channel will be deleted
+                      regardless of its use in alert policies (the policies will be
+                      updated to remove the channel). If false, channels that are
+                      still referenced by an existing alerting policy will fail to
+                      be deleted in a delete operation.
+                    type: boolean
                   labels:
                     additionalProperties:
                       type: string

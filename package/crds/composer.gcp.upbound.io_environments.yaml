@@ -136,6 +136,41 @@ spec:
                             - startTime
                             type: object
                           type: array
+                        masterAuthorizedNetworksConfig:
+                          description: Configuration options for the master authorized
+                            networks feature. Enabled master authorized networks will
+                            disallow all external traffic to access Kubernetes master
+                            through HTTPS except traffic from the given CIDR blocks,
+                            Google Compute Engine Public IPs and Google Prod IPs.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              cidrBlocks:
+                                description: cidr_blocks define up to 50 external
+                                  networks that could access Kubernetes master through
+                                  HTTPS. Structure is documented below.
+                                items:
+                                  properties:
+                                    cidrBlock:
+                                      description: '`cidr_block< must be specified
+                                        in CIDR notation.'
+                                      type: string
+                                    displayName:
+                                      description: display_name is a field for users
+                                        to identify CIDR blocks.
+                                      type: string
+                                  required:
+                                  - cidrBlock
+                                  type: object
+                                type: array
+                              enabled:
+                                description: Whether or not master authorized networks
+                                  is enabled.
+                                type: boolean
+                            required:
+                            - enabled
+                            type: object
+                          type: array
                         nodeConfig:
                           description: The configuration used for the Kubernetes Engine
                             cluster.  Structure is documented below.
@@ -146,6 +181,13 @@ spec:
                                   Minimum size is 20GB. If unspecified, defaults to
                                   100GB. Cannot be updated.
                                 type: number
+                              enableIpMasqAgent:
+                                description: Deploys 'ip-masq-agent' daemon set in
+                                  the GKE cluster and defines nonMasqueradeCIDRs equals
+                                  to pod IP range so IP masquerading is used for all
+                                  destination addresses, except between pods traffic.
+                                  See the documentation.
+                                type: boolean
                               ipAllocationPolicy:
                                 description: Configuration for controlling how IPs
                                   are allocated in the GKE cluster. Structure is documented
@@ -511,6 +553,13 @@ spec:
                           items:
                             properties:
                               cloudComposerConnectionSubnetwork:
+                                description: When specified, the environment will
+                                  use Private Service Connect instead of VPC peerings
+                                  to connect to Cloud SQL in the Tenant Project, and
+                                  the PSC endpoint in the Customer Project will use
+                                  an IP address from this subnetwork. This field is
+                                  supported for Cloud Composer environments in versions
+                                  composer-2.*.*-airflow-*.*.* and newer.
                                 type: string
                               cloudComposerNetworkIpv4CidrBlock:
                                 type: string
@@ -525,6 +574,11 @@ spec:
                                   to true, the ip_allocation_policy.use_ip_aliases
                                   field must also be set to true for Cloud Composer
                                   1 environments.
+                                type: boolean
+                              enablePrivatelyUsedPublicIps:
+                                description: When enabled, IPs from public (non-RFC1918)
+                                  ranges can be used for ip_allocation_policy.cluster_ipv4_cidr_block
+                                  and ip_allocation_policy.service_ipv4_cidr_block.
                                 type: boolean
                               masterIpv4CidrBlock:
                                 description: The IP range in CIDR notation to use

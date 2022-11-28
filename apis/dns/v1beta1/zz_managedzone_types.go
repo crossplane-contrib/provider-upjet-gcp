@@ -25,6 +25,16 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type CloudLoggingConfigObservation struct {
+}
+
+type CloudLoggingConfigParameters struct {
+
+	// If set, enable query logging for this ManagedZone. False by default, making logging opt-in.
+	// +kubebuilder:validation:Required
+	EnableLogging *bool `json:"enableLogging" tf:"enable_logging,omitempty"`
+}
+
 type DNSSECConfigObservation struct {
 }
 
@@ -96,10 +106,39 @@ type ForwardingConfigParameters struct {
 	TargetNameServers []TargetNameServersParameters `json:"targetNameServers" tf:"target_name_servers,omitempty"`
 }
 
+type GkeClustersObservation struct {
+}
+
+type GkeClustersParameters struct {
+
+	// The resource name of the cluster to bind this ManagedZone to.
+	// This should be specified in the format like
+	// projects/*/locations/*/clusters/*
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/container/v1beta1.Cluster
+	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
+	// +kubebuilder:validation:Optional
+	GkeClusterName *string `json:"gkeClusterName,omitempty" tf:"gke_cluster_name,omitempty"`
+
+	// Reference to a Cluster in container to populate gkeClusterName.
+	// +kubebuilder:validation:Optional
+	GkeClusterNameRef *v1.Reference `json:"gkeClusterNameRef,omitempty" tf:"-"`
+
+	// Selector for a Cluster in container to populate gkeClusterName.
+	// +kubebuilder:validation:Optional
+	GkeClusterNameSelector *v1.Selector `json:"gkeClusterNameSelector,omitempty" tf:"-"`
+}
+
 type ManagedZoneObservation struct {
+
+	// The time that this resource was created on the server.
+	// This is in RFC3339 text format.
+	CreationTime *string `json:"creationTime,omitempty" tf:"creation_time,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/managedZones/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Unique identifier for the resource; defined by the server.
+	ManagedZoneID *float64 `json:"managedZoneId,omitempty" tf:"managed_zone_id,omitempty"`
 
 	// Delegate your managed_zone to these virtual name servers;
 	// defined by the server
@@ -107,6 +146,11 @@ type ManagedZoneObservation struct {
 }
 
 type ManagedZoneParameters struct {
+
+	// Cloud logging configuration
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	CloudLoggingConfig []CloudLoggingConfigParameters `json:"cloudLoggingConfig,omitempty" tf:"cloud_logging_config,omitempty"`
 
 	// The DNS name of this managed zone, for instance "example.com.".
 	// +kubebuilder:validation:Required
@@ -166,7 +210,7 @@ type NetworksObservation struct {
 
 type NetworksParameters struct {
 
-	// The id or fully qualified URL of the VPC network to bind to.
+	// The id or fully qualified URL of the VPC network to forward queries to.
 	// This should be formatted like projects/{project}/global/networks/{network} or
 	// https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Network
@@ -198,6 +242,11 @@ type PrivateVisibilityConfigObservation struct {
 }
 
 type PrivateVisibilityConfigParameters struct {
+
+	// The list of Google Kubernetes Engine clusters that can see this zone.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	GkeClusters []GkeClustersParameters `json:"gkeClusters,omitempty" tf:"gke_clusters,omitempty"`
 
 	// The list of VPC networks that can see this zone.12 SDK in a future release, you
 	// may experience issues with this resource while updating. If you encounter this issue, remove all networks

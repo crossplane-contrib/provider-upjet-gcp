@@ -2531,6 +2531,11 @@ func (in *ServiceAccountObservation) DeepCopyInto(out *ServiceAccountObservation
 		*out = new(string)
 		**out = **in
 	}
+	if in.Member != nil {
+		in, out := &in.Member, &out.Member
+		*out = new(string)
+		**out = **in
+	}
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
 		*out = new(string)

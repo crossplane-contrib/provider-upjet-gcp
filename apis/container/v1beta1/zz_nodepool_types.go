@@ -25,25 +25,55 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type NodeConfigGuestAcceleratorGpuSharingConfigObservation struct {
+}
+
+type NodeConfigGuestAcceleratorGpuSharingConfigParameters struct {
+
+	// +kubebuilder:validation:Optional
+	GpuSharingStrategy *string `json:"gpuSharingStrategy,omitempty" tf:"gpu_sharing_strategy"`
+
+	// +kubebuilder:validation:Optional
+	MaxSharedClientsPerGpu *float64 `json:"maxSharedClientsPerGpu,omitempty" tf:"max_shared_clients_per_gpu"`
+}
+
 type NodePoolAutoscalingObservation struct {
 }
 
 type NodePoolAutoscalingParameters struct {
 
-	// Maximum number of nodes in the NodePool. Must be >= min_node_count.
-	// +kubebuilder:validation:Required
-	MaxNodeCount *float64 `json:"maxNodeCount" tf:"max_node_count,omitempty"`
+	// Location policy specifies the algorithm used when
+	// scaling-up the node pool. Location policy is supported only in 1.24.1+ clusters.
+	// +kubebuilder:validation:Optional
+	LocationPolicy *string `json:"locationPolicy,omitempty" tf:"location_policy,omitempty"`
 
-	// Minimum number of nodes in the NodePool. Must be >=0 and
-	// <= max_node_count.
-	// +kubebuilder:validation:Required
-	MinNodeCount *float64 `json:"minNodeCount" tf:"min_node_count,omitempty"`
+	// Maximum number of nodes per zone in the NodePool.
+	// Must be >= min_node_count. Cannot be used with total limits.
+	// +kubebuilder:validation:Optional
+	MaxNodeCount *float64 `json:"maxNodeCount,omitempty" tf:"max_node_count,omitempty"`
+
+	// Minimum number of nodes per zone in the NodePool.
+	// Must be >=0 and <= max_node_count. Cannot be used with total limits.
+	// +kubebuilder:validation:Optional
+	MinNodeCount *float64 `json:"minNodeCount,omitempty" tf:"min_node_count,omitempty"`
+
+	// Total maximum number of nodes in the NodePool.
+	// Must be >= total_min_node_count. Cannot be used with per zone limits.
+	// Total size limits are supported only in 1.24.1+ clusters.
+	// +kubebuilder:validation:Optional
+	TotalMaxNodeCount *float64 `json:"totalMaxNodeCount,omitempty" tf:"total_max_node_count,omitempty"`
+
+	// Total minimum number of nodes in the NodePool.
+	// Must be >=0 and <= total_max_node_count. Cannot be used with per zone limits.
+	// Total size limits are supported only in 1.24.1+ clusters.
+	// +kubebuilder:validation:Optional
+	TotalMinNodeCount *float64 `json:"totalMinNodeCount,omitempty" tf:"total_min_node_count,omitempty"`
 }
 
-type NodePoolManagementObservation struct {
+type NodePoolManagementObservation_2 struct {
 }
 
-type NodePoolManagementParameters struct {
+type NodePoolManagementParameters_2 struct {
 
 	// Whether the nodes will be automatically repaired.
 	// +kubebuilder:validation:Optional
@@ -52,6 +82,28 @@ type NodePoolManagementParameters struct {
 	// Whether the nodes will be automatically upgraded.
 	// +kubebuilder:validation:Optional
 	AutoUpgrade *bool `json:"autoUpgrade,omitempty" tf:"auto_upgrade,omitempty"`
+}
+
+type NodePoolNetworkConfigObservation struct {
+}
+
+type NodePoolNetworkConfigParameters struct {
+
+	// Whether to create a new range for pod IPs in this node pool. Defaults are provided for pod_range and pod_ipv4_cidr_block if they are not specified.
+	// +kubebuilder:validation:Optional
+	CreatePodRange *bool `json:"createPodRange,omitempty" tf:"create_pod_range,omitempty"`
+
+	// Whether nodes have internal IP addresses only.
+	// +kubebuilder:validation:Optional
+	EnablePrivateNodes *bool `json:"enablePrivateNodes,omitempty" tf:"enable_private_nodes,omitempty"`
+
+	// The IP address range for pod IPs in this node pool. Only applicable if createPodRange is true. Set to blank to have a range chosen with the default size. Set to /netmask (e.g. /14) to have a range chosen with a specific netmask. Set to a CIDR notation (e.g. 10.96.0.0/14) to pick a specific range to use.
+	// +kubebuilder:validation:Optional
+	PodIPv4CidrBlock *string `json:"podIpv4CidrBlock,omitempty" tf:"pod_ipv4_cidr_block,omitempty"`
+
+	// The ID of the secondary range for pod IPs. If create_pod_range is true, this ID is used for the new range. If create_pod_range is false, uses an existing secondary range with this ID.
+	// +kubebuilder:validation:Optional
+	PodRange *string `json:"podRange,omitempty" tf:"pod_range,omitempty"`
 }
 
 type NodePoolNodeConfigGcfsConfigObservation struct {
@@ -73,6 +125,9 @@ type NodePoolNodeConfigGuestAcceleratorParameters struct {
 
 	// +kubebuilder:validation:Optional
 	GpuPartitionSize *string `json:"gpuPartitionSize,omitempty" tf:"gpu_partition_size"`
+
+	// +kubebuilder:validation:Optional
+	GpuSharingConfig []NodeConfigGuestAcceleratorGpuSharingConfigParameters `json:"gpuSharingConfig,omitempty" tf:"gpu_sharing_config"`
 
 	// The type of the policy. Supports a single value: COMPACT.
 	// Specifying COMPACT placement policy type places node pool's nodes in a closer
@@ -123,6 +178,9 @@ type NodePoolNodeConfigParameters_2 struct {
 	LocalSsdCount *float64 `json:"localSsdCount,omitempty" tf:"local_ssd_count,omitempty"`
 
 	// +kubebuilder:validation:Optional
+	LoggingVariant *string `json:"loggingVariant,omitempty" tf:"logging_variant,omitempty"`
+
+	// +kubebuilder:validation:Optional
 	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
 
 	// +kubebuilder:validation:Optional
@@ -140,6 +198,12 @@ type NodePoolNodeConfigParameters_2 struct {
 	// +kubebuilder:validation:Optional
 	Preemptible *bool `json:"preemptible,omitempty" tf:"preemptible,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	ReservationAffinity []NodePoolNodeConfigReservationAffinityParameters `json:"reservationAffinity,omitempty" tf:"reservation_affinity,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ResourceLabels map[string]*string `json:"resourceLabels,omitempty" tf:"resource_labels,omitempty"`
+
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1.ServiceAccount
 	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractParamPath("email",true)
 	// +kubebuilder:validation:Optional
@@ -154,7 +218,10 @@ type NodePoolNodeConfigParameters_2 struct {
 	ServiceAccountSelector *v1.Selector `json:"serviceAccountSelector,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Optional
-	ShieldedInstanceConfig []NodePoolNodeConfigShieldedInstanceConfigParameters `json:"shieldedInstanceConfig,omitempty" tf:"shielded_instance_config,omitempty"`
+	ShieldedInstanceConfig []NodePoolNodeConfigShieldedInstanceConfigParameters_2 `json:"shieldedInstanceConfig,omitempty" tf:"shielded_instance_config,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Spot *bool `json:"spot,omitempty" tf:"spot,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
@@ -166,10 +233,25 @@ type NodePoolNodeConfigParameters_2 struct {
 	WorkloadMetadataConfig []NodePoolNodeConfigWorkloadMetadataConfigParameters `json:"workloadMetadataConfig,omitempty" tf:"workload_metadata_config,omitempty"`
 }
 
-type NodePoolNodeConfigShieldedInstanceConfigObservation struct {
+type NodePoolNodeConfigReservationAffinityObservation struct {
 }
 
-type NodePoolNodeConfigShieldedInstanceConfigParameters struct {
+type NodePoolNodeConfigReservationAffinityParameters struct {
+
+	// +kubebuilder:validation:Required
+	ConsumeReservationType *string `json:"consumeReservationType" tf:"consume_reservation_type,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Values []*string `json:"values,omitempty" tf:"values,omitempty"`
+}
+
+type NodePoolNodeConfigShieldedInstanceConfigObservation_2 struct {
+}
+
+type NodePoolNodeConfigShieldedInstanceConfigParameters_2 struct {
 
 	// +kubebuilder:validation:Optional
 	EnableIntegrityMonitoring *bool `json:"enableIntegrityMonitoring,omitempty" tf:"enable_integrity_monitoring,omitempty"`
@@ -252,7 +334,7 @@ type NodePoolParameters_2 struct {
 	// Node management configuration, wherein auto-repair and
 	// auto-upgrade is configured. Structure is documented below.
 	// +kubebuilder:validation:Optional
-	Management []NodePoolManagementParameters `json:"management,omitempty" tf:"management,omitempty"`
+	Management []NodePoolManagementParameters_2 `json:"management,omitempty" tf:"management,omitempty"`
 
 	// The maximum number of pods per node in this node pool.
 	// Note that this does not work on node pools which are "route-based" - that is, node
@@ -261,6 +343,12 @@ type NodePoolParameters_2 struct {
 	// for more information.
 	// +kubebuilder:validation:Optional
 	MaxPodsPerNode *float64 `json:"maxPodsPerNode,omitempty" tf:"max_pods_per_node,omitempty"`
+
+	// The network configuration of the pool. Such as
+	// configuration for Adding Pod IP address ranges) to the node pool. Or enabling private nodes. Structure is
+	// documented below
+	// +kubebuilder:validation:Optional
+	NetworkConfig []NodePoolNetworkConfigParameters `json:"networkConfig,omitempty" tf:"network_config,omitempty"`
 
 	// Parameters used in creating the node pool. See
 	// google_container_cluster for schema.
@@ -279,16 +367,20 @@ type NodePoolParameters_2 struct {
 	// +kubebuilder:validation:Optional
 	NodeLocations []*string `json:"nodeLocations,omitempty" tf:"node_locations,omitempty"`
 
+	// Specifies a custom placement policy for the
+	// nodes.
+	// +kubebuilder:validation:Optional
+	PlacementPolicy []NodePoolPlacementPolicyParameters `json:"placementPolicy,omitempty" tf:"placement_policy,omitempty"`
+
 	// The ID of the project in which to create the node pool. If blank,
 	// the provider-configured project will be used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
-	// Specify node upgrade settings to change how many nodes GKE attempts to
-	// upgrade at once. The number of nodes upgraded simultaneously is the sum of max_surge and max_unavailable.
+	// Specify node upgrade settings to change how GKE upgrades nodes.
 	// The maximum number of nodes upgraded simultaneously is limited to 20. Structure is documented below.
 	// +kubebuilder:validation:Optional
-	UpgradeSettings []NodePoolUpgradeSettingsParameters `json:"upgradeSettings,omitempty" tf:"upgrade_settings,omitempty"`
+	UpgradeSettings []NodePoolUpgradeSettingsParameters_2 `json:"upgradeSettings,omitempty" tf:"upgrade_settings,omitempty"`
 
 	// The Kubernetes version for the nodes in this pool. Note that if this field
 	// and auto_upgrade are both specified, they will fight each other for what the node version should
@@ -297,22 +389,76 @@ type NodePoolParameters_2 struct {
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
 }
 
-type NodePoolUpgradeSettingsObservation struct {
+type NodePoolPlacementPolicyObservation struct {
 }
 
-type NodePoolUpgradeSettingsParameters struct {
+type NodePoolPlacementPolicyParameters struct {
+
+	// The type of the policy. Supports a single value: COMPACT.
+	// Specifying COMPACT placement policy type places node pool's nodes in a closer
+	// physical proximity in order to reduce network latency between nodes.
+	// +kubebuilder:validation:Required
+	Type *string `json:"type" tf:"type,omitempty"`
+}
+
+type NodePoolUpgradeSettingsBlueGreenSettingsObservation struct {
+}
+
+type NodePoolUpgradeSettingsBlueGreenSettingsParameters struct {
+
+	// Time needed after draining the entire blue pool.
+	// After this period, the blue pool will be cleaned up.
+	// +kubebuilder:validation:Optional
+	NodePoolSoakDuration *string `json:"nodePoolSoakDuration,omitempty" tf:"node_pool_soak_duration,omitempty"`
+
+	// Specifies the standard policy settings for blue-green upgrades.
+	// +kubebuilder:validation:Required
+	StandardRolloutPolicy []UpgradeSettingsBlueGreenSettingsStandardRolloutPolicyParameters `json:"standardRolloutPolicy" tf:"standard_rollout_policy,omitempty"`
+}
+
+type NodePoolUpgradeSettingsObservation_2 struct {
+}
+
+type NodePoolUpgradeSettingsParameters_2 struct {
+
+	// The settings to adjust blue green upgrades.
+	// Structure is documented below
+	// +kubebuilder:validation:Optional
+	BlueGreenSettings []NodePoolUpgradeSettingsBlueGreenSettingsParameters `json:"blueGreenSettings,omitempty" tf:"blue_green_settings,omitempty"`
 
 	// The number of additional nodes that can be added to the node pool during
 	// an upgrade. Increasing max_surge raises the number of nodes that can be upgraded simultaneously.
 	// Can be set to 0 or greater.
-	// +kubebuilder:validation:Required
-	MaxSurge *float64 `json:"maxSurge" tf:"max_surge,omitempty"`
+	// +kubebuilder:validation:Optional
+	MaxSurge *float64 `json:"maxSurge,omitempty" tf:"max_surge,omitempty"`
 
 	// The number of nodes that can be simultaneously unavailable during
 	// an upgrade. Increasing max_unavailable raises the number of nodes that can be upgraded in
 	// parallel. Can be set to 0 or greater.
-	// +kubebuilder:validation:Required
-	MaxUnavailable *float64 `json:"maxUnavailable" tf:"max_unavailable,omitempty"`
+	// +kubebuilder:validation:Optional
+	MaxUnavailable *float64 `json:"maxUnavailable,omitempty" tf:"max_unavailable,omitempty"`
+
+	// (Default SURGE) The upgrade stragey to be used for upgrading the nodes.
+	// +kubebuilder:validation:Optional
+	Strategy *string `json:"strategy,omitempty" tf:"strategy,omitempty"`
+}
+
+type UpgradeSettingsBlueGreenSettingsStandardRolloutPolicyObservation struct {
+}
+
+type UpgradeSettingsBlueGreenSettingsStandardRolloutPolicyParameters struct {
+
+	// Number of blue nodes to drain in a batch.
+	// +kubebuilder:validation:Optional
+	BatchNodeCount *float64 `json:"batchNodeCount,omitempty" tf:"batch_node_count,omitempty"`
+
+	// Percentage of the blue pool nodes to drain in a batch.
+	// +kubebuilder:validation:Optional
+	BatchPercentage *float64 `json:"batchPercentage,omitempty" tf:"batch_percentage,omitempty"`
+
+	// (Optionial) Soak time after each batch gets drained.
+	// +kubebuilder:validation:Optional
+	BatchSoakDuration *string `json:"batchSoakDuration,omitempty" tf:"batch_soak_duration,omitempty"`
 }
 
 // NodePoolSpec defines the desired state of NodePool

@@ -146,6 +146,41 @@ spec:
                       Structure is documented below.
                     items:
                       properties:
+                        bypassCacheOnRequestHeaders:
+                          description: Bypass the cache when the specified request
+                            headers are matched - e.g. Pragma or Authorization headers.
+                            Up to 5 headers can be specified. The cache is bypassed
+                            for all cdnPolicy.cacheMode settings. Structure is documented
+                            below.
+                          items:
+                            properties:
+                              headerName:
+                                description: The header field name to match on when
+                                  bypassing cache. Values are case-insensitive.
+                                type: string
+                            type: object
+                          type: array
+                        cacheKeyPolicy:
+                          description: The CacheKeyPolicy for this CdnPolicy. Structure
+                            is documented below.
+                          items:
+                            properties:
+                              includeHttpHeaders:
+                                description: Allows HTTP request headers (by name)
+                                  to be used in the cache key.
+                                items:
+                                  type: string
+                                type: array
+                              queryStringWhitelist:
+                                description: Names of query string parameters to include
+                                  in cache keys. Default parameters are always included.
+                                  '&' and '=' will be percent encoded and not treated
+                                  as delimiters.
+                                items:
+                                  type: string
+                                type: array
+                            type: object
+                          type: array
                         cacheMode:
                           description: 'Specifies the cache setting for all responses
                             from this backend. The possible values are: USE_ORIGIN_HEADERS,
@@ -193,6 +228,11 @@ spec:
                                 type: number
                             type: object
                           type: array
+                        requestCoalescing:
+                          description: If true then Cloud CDN will combine multiple
+                            concurrent cache fill requests into a small number of
+                            requests to the origin.
+                          type: boolean
                         serveWhileStale:
                           description: Serve existing content from the cache (if available)
                             when revalidating content with the origin, or when an
@@ -210,6 +250,11 @@ spec:
                           type: number
                       type: object
                     type: array
+                  compressionMode:
+                    description: Compress text responses using Brotli or gzip compression,
+                      based on the client's Accept-Encoding header. Possible values
+                      are AUTOMATIC and DISABLED.
+                    type: string
                   customResponseHeaders:
                     description: Headers that the HTTP/S load balancer should add
                       to proxied responses.

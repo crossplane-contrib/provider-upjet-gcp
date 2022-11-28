@@ -145,14 +145,7 @@ type EnvParameters struct {
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// Variable references $(VAR_NAME) are expanded
-	// using the previous defined environment variables in the container and
-	// any route environment variables. If a variable cannot be resolved,
-	// the reference in the input string will be unchanged. The $(VAR_NAME)
-	// syntax can be escaped with a double $$, ie: $$(VAR_NAME). Escaped
-	// references will never be expanded, regardless of whether the variable
-	// exists or not.
-	// Defaults to "".
+	// The header field value.
 	// +kubebuilder:validation:Optional
 	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 
@@ -202,7 +195,7 @@ type PortsObservation struct {
 
 type PortsParameters struct {
 
-	// Port number the container listens on. This must be a valid port number, 0 < x < 65536.
+	// Port number the container listens on. This must be a valid port number (between 1 and 65535). Defaults to "8080".
 	// +kubebuilder:validation:Optional
 	ContainerPort *float64 `json:"containerPort,omitempty" tf:"container_port,omitempty"`
 
@@ -246,17 +239,8 @@ type SecretKeyRefParameters struct {
 	Key *string `json:"key" tf:"key,omitempty"`
 
 	// Volume's name.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/secretmanager/v1beta1.Secret
-	// +kubebuilder:validation:Optional
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
-
-	// Reference to a Secret in secretmanager to populate name.
-	// +kubebuilder:validation:Optional
-	NameRef *v1.Reference `json:"nameRef,omitempty" tf:"-"`
-
-	// Selector for a Secret in secretmanager to populate name.
-	// +kubebuilder:validation:Optional
-	NameSelector *v1.Selector `json:"nameSelector,omitempty" tf:"-"`
+	// +kubebuilder:validation:Required
+	Name *string `json:"name" tf:"name,omitempty"`
 }
 
 type SecretObservation struct {
@@ -284,22 +268,13 @@ type SecretParameters struct {
 	// is assumed to be in the same project.
 	// If the secret is in another project, you must define an alias.
 	// An alias definition has the form:
-	// :projects/<project-id|project-number>/secrets/.
+	// {alias}:projects/{project-id|project-number}/secrets/{secret-name}.
 	// If multiple alias definitions are needed, they must be separated by
 	// commas.
 	// The alias definitions must be set on the run.googleapis.com/secrets
 	// annotation.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/secretmanager/v1beta1.Secret
-	// +kubebuilder:validation:Optional
-	SecretName *string `json:"secretName,omitempty" tf:"secret_name,omitempty"`
-
-	// Reference to a Secret in secretmanager to populate secretName.
-	// +kubebuilder:validation:Optional
-	SecretNameRef *v1.Reference `json:"secretNameRef,omitempty" tf:"-"`
-
-	// Selector for a Secret in secretmanager to populate secretName.
-	// +kubebuilder:validation:Optional
-	SecretNameSelector *v1.Selector `json:"secretNameSelector,omitempty" tf:"-"`
+	// +kubebuilder:validation:Required
+	SecretName *string `json:"secretName" tf:"secret_name,omitempty"`
 }
 
 type SecretRefLocalObjectReferenceObservation struct {
@@ -641,7 +616,9 @@ type TemplateSpecParameters struct {
 	// +kubebuilder:validation:Optional
 	ServiceAccountName *string `json:"serviceAccountName,omitempty" tf:"service_account_name,omitempty"`
 
-	// TimeoutSeconds holds the max duration the instance is allowed for responding to a request.
+	// Number of seconds after which the probe times out.
+	// Defaults to 1 second. Minimum value is 1. Maximum value is 3600.
+	// Must be smaller than periodSeconds.
 	// +kubebuilder:validation:Optional
 	TimeoutSeconds *float64 `json:"timeoutSeconds,omitempty" tf:"timeout_seconds,omitempty"`
 

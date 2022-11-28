@@ -35,6 +35,11 @@ type GarbageCollectionPolicyParameters struct {
 	// +kubebuilder:validation:Required
 	ColumnFamily *string `json:"columnFamily" tf:"column_family,omitempty"`
 
+	// The deletion policy for the GC policy.
+	// Setting ABANDON allows the resource to be abandoned rather than deleted. This is useful for GC policy as it cannot be deleted in a replicated instance.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Serialized JSON object to represent a more complex GC policy. Conflicts with mode, max_age and max_version. Conflicts with mode, max_age and max_version.
 	// +kubebuilder:validation:Optional
 	GcRules *string `json:"gcRules,omitempty" tf:"gc_rules,omitempty"`

@@ -8,6 +8,11 @@ metadata:
   name: appserver
 spec:
   forProvider:
+    all_instances_config:
+    - labels:
+        label_key: label_value
+      metadata:
+        metadata_key: metadata_value
     autoHealingPolicies:
     - healthCheckSelector:
         matchLabels:

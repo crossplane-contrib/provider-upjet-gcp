@@ -174,8 +174,8 @@ spec:
                             is BOTH. Possible values are INGRESS, EGRESS, and BOTH.
                           type: string
                         ipProtocols:
-                          description: Protocols that apply as a filter on mirrored
-                            traffic. Each value may be one of tcp, udp, and icmp.
+                          description: Possible IP protocols including tcp, udp, icmp
+                            and esp
                           items:
                             type: string
                           type: array

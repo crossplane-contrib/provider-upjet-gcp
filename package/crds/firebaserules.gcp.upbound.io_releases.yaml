@@ -35,8 +35,7 @@ spec:
     name: v1beta1
     schema:
       openAPIV3Schema:
-        description: Release is the Schema for the Releases API. The Firebaserules
-          Release resource
+        description: Release is the Schema for the Releases API.
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -69,7 +68,7 @@ spec:
                     type: string
                   rulesetName:
                     description: Name of the Ruleset referred to by this Release.
-                      The Ruleset must exist the Release to be created.
+                      The Ruleset must exist for the Release to be created.
                     type: string
                   rulesetNameRef:
                     description: Reference to a Ruleset to populate rulesetName.

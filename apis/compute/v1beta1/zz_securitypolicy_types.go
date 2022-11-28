@@ -25,6 +25,49 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type AdaptiveProtectionConfigObservation struct {
+}
+
+type AdaptiveProtectionConfigParameters struct {
+
+	// Configuration for Google Cloud Armor Adaptive Protection Layer 7 DDoS Defense. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Layer7DdosDefenseConfig []Layer7DdosDefenseConfigParameters `json:"layer7DdosDefenseConfig,omitempty" tf:"layer_7_ddos_defense_config,omitempty"`
+}
+
+type AdvancedOptionsConfigObservation struct {
+}
+
+type AdvancedOptionsConfigParameters struct {
+
+	// Custom configuration to apply the JSON parsing. Only applicable when
+	// json_parsing is set to STANDARD. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	JSONCustomConfig []JSONCustomConfigParameters `json:"jsonCustomConfig,omitempty" tf:"json_custom_config,omitempty"`
+
+	// Whether or not to JSON parse the payload body. Defaults to DISABLED.
+	// +kubebuilder:validation:Optional
+	JSONParsing *string `json:"jsonParsing,omitempty" tf:"json_parsing,omitempty"`
+
+	// Log level to use. Defaults to NORMAL.
+	// +kubebuilder:validation:Optional
+	LogLevel *string `json:"logLevel,omitempty" tf:"log_level,omitempty"`
+}
+
+type BanThresholdObservation struct {
+}
+
+type BanThresholdParameters struct {
+
+	// Number of HTTP(S) requests for calculating the threshold.
+	// +kubebuilder:validation:Required
+	Count *float64 `json:"count" tf:"count,omitempty"`
+
+	// Interval over which the threshold is computed.
+	// +kubebuilder:validation:Required
+	IntervalSec *float64 `json:"intervalSec" tf:"interval_sec,omitempty"`
+}
+
 type ConfigObservation struct {
 }
 
@@ -33,6 +76,20 @@ type ConfigParameters struct {
 	// field in config.
 	// +kubebuilder:validation:Required
 	SrcIPRanges []*string `json:"srcIpRanges" tf:"src_ip_ranges,omitempty"`
+}
+
+type ExceedRedirectOptionsObservation struct {
+}
+
+type ExceedRedirectOptionsParameters struct {
+
+	// Target for the redirect action. This is required if the type is EXTERNAL_302 and cannot be specified for GOOGLE_RECAPTCHA.
+	// +kubebuilder:validation:Optional
+	Target *string `json:"target,omitempty" tf:"target,omitempty"`
+
+	// Type of the redirect action.
+	// +kubebuilder:validation:Required
+	Type *string `json:"type" tf:"type,omitempty"`
 }
 
 type ExprObservation struct {
@@ -44,6 +101,137 @@ type ExprParameters struct {
 	// The application context of the containing message determines which well-known feature set of CEL is supported.
 	// +kubebuilder:validation:Required
 	Expression *string `json:"expression" tf:"expression,omitempty"`
+}
+
+type JSONCustomConfigObservation struct {
+}
+
+type JSONCustomConfigParameters struct {
+
+	// A list of custom Content-Type header values to apply the JSON parsing. The
+	// format of the Content-Type header values is defined in
+	// RFC 1341. When configuring a custom Content-Type header
+	// value, only the type/subtype needs to be specified, and the parameters should be excluded.
+	// +kubebuilder:validation:Required
+	ContentTypes []*string `json:"contentTypes" tf:"content_types,omitempty"`
+}
+
+type Layer7DdosDefenseConfigObservation struct {
+}
+
+type Layer7DdosDefenseConfigParameters struct {
+
+	// If set to true, enables CAAP for L7 DDoS detection.
+	// +kubebuilder:validation:Optional
+	Enable *bool `json:"enable,omitempty" tf:"enable,omitempty"`
+
+	// Rule visibility can be one of the following: STANDARD - opaque rules. (default) PREMIUM - transparent rules.
+	// +kubebuilder:validation:Optional
+	RuleVisibility *string `json:"ruleVisibility,omitempty" tf:"rule_visibility,omitempty"`
+}
+
+type RateLimitOptionsObservation struct {
+}
+
+type RateLimitOptionsParameters struct {
+
+	// Can only be specified if the action for the rule is "rate_based_ban".
+	// If specified, determines the time (in seconds) the traffic will continue to be banned by the rate limit after the rate falls below the threshold.
+	// +kubebuilder:validation:Optional
+	BanDurationSec *float64 `json:"banDurationSec,omitempty" tf:"ban_duration_sec,omitempty"`
+
+	// Can only be specified if the action for the rule is "rate_based_ban".
+	// If specified, the key will be banned for the configured 'ban_duration_sec' when the number of requests that exceed the 'rate_limit_threshold' also
+	// exceed this 'ban_threshold'. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	BanThreshold []BanThresholdParameters `json:"banThreshold,omitempty" tf:"ban_threshold,omitempty"`
+
+	// Action to take for requests that are under the configured rate limit threshold. Valid option is "allow" only.
+	// +kubebuilder:validation:Required
+	ConformAction *string `json:"conformAction" tf:"conform_action,omitempty"`
+
+	// Determines the key to enforce the rate_limit_threshold on. If not specified, defaults to "ALL".
+	// +kubebuilder:validation:Optional
+	EnforceOnKey *string `json:"enforceOnKey,omitempty" tf:"enforce_on_key,omitempty"`
+
+	// Rate limit key name applicable only for the following key types: HTTP_HEADER -- Name of the HTTP header whose value is taken as the key value. HTTP_COOKIE -- Name of the HTTP cookie whose value is taken as the key value.
+	// +kubebuilder:validation:Optional
+	EnforceOnKeyName *string `json:"enforceOnKeyName,omitempty" tf:"enforce_on_key_name,omitempty"`
+
+	// When a request is denied, returns the HTTP response code specified.
+	// Valid options are "deny()" where valid values for status are 403, 404, 429, and 502.
+	// +kubebuilder:validation:Required
+	ExceedAction *string `json:"exceedAction" tf:"exceed_action,omitempty"`
+
+	// block supports:
+	// +kubebuilder:validation:Optional
+	ExceedRedirectOptions []ExceedRedirectOptionsParameters `json:"exceedRedirectOptions,omitempty" tf:"exceed_redirect_options,omitempty"`
+
+	// Threshold at which to begin ratelimiting. Structure is documented below.
+	// +kubebuilder:validation:Required
+	RateLimitThreshold []RateLimitThresholdParameters `json:"rateLimitThreshold" tf:"rate_limit_threshold,omitempty"`
+}
+
+type RateLimitThresholdObservation struct {
+}
+
+type RateLimitThresholdParameters struct {
+
+	// Number of HTTP(S) requests for calculating the threshold.
+	// +kubebuilder:validation:Required
+	Count *float64 `json:"count" tf:"count,omitempty"`
+
+	// Interval over which the threshold is computed.
+	// +kubebuilder:validation:Required
+	IntervalSec *float64 `json:"intervalSec" tf:"interval_sec,omitempty"`
+}
+
+type RecaptchaOptionsConfigObservation struct {
+}
+
+type RecaptchaOptionsConfigParameters struct {
+
+	// A field to supply a reCAPTCHA site key to be used for all the rules using the redirect action with the type of GOOGLE_RECAPTCHA under the security policy. The specified site key needs to be created from the reCAPTCHA API. The user is responsible for the validity of the specified site key. If not specified, a Google-managed site key is used.
+	// +kubebuilder:validation:Required
+	RedirectSiteKey *string `json:"redirectSiteKey" tf:"redirect_site_key,omitempty"`
+}
+
+type RedirectOptionsObservation struct {
+}
+
+type RedirectOptionsParameters struct {
+
+	// Target for the redirect action. This is required if the type is EXTERNAL_302 and cannot be specified for GOOGLE_RECAPTCHA.
+	// +kubebuilder:validation:Optional
+	Target *string `json:"target,omitempty" tf:"target,omitempty"`
+
+	// Type of the redirect action.
+	// +kubebuilder:validation:Required
+	Type *string `json:"type" tf:"type,omitempty"`
+}
+
+type RequestHeadersToAddsObservation struct {
+}
+
+type RequestHeadersToAddsParameters struct {
+
+	// The name of the header to set.
+	// +kubebuilder:validation:Required
+	HeaderName *string `json:"headerName" tf:"header_name,omitempty"`
+
+	// The value to set the named header to.
+	// +kubebuilder:validation:Optional
+	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
+}
+
+type RuleHeaderActionObservation struct {
+}
+
+type RuleHeaderActionParameters struct {
+
+	// The list of request headers to add or overwrite if they're already present. Structure is documented below.
+	// +kubebuilder:validation:Required
+	RequestHeadersToAdds []RequestHeadersToAddsParameters `json:"requestHeadersToAdds" tf:"request_headers_to_adds,omitempty"`
 }
 
 type RuleMatchObservation struct {
@@ -82,6 +270,10 @@ type RuleParameters struct {
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// Additional actions that are performed on headers. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	HeaderAction []RuleHeaderActionParameters `json:"headerAction,omitempty" tf:"header_action,omitempty"`
+
 	// A match condition that incoming traffic is evaluated against.
 	// If it evaluates to true, the corresponding action is enforced. Structure is documented below.
 	// +kubebuilder:validation:Required
@@ -96,6 +288,14 @@ type RuleParameters struct {
 	// Rules are evaluated from highest priority (lowest numerically) to lowest priority (highest numerically) in order.
 	// +kubebuilder:validation:Required
 	Priority *float64 `json:"priority" tf:"priority,omitempty"`
+
+	// Must be specified if the action is "rate_based_ban" or "throttle". Cannot be specified for other actions. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	RateLimitOptions []RateLimitOptionsParameters `json:"rateLimitOptions,omitempty" tf:"rate_limit_options,omitempty"`
+
+	// Can be specified if the action is "redirect". Cannot be specified for other actions. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	RedirectOptions []RedirectOptionsParameters `json:"redirectOptions,omitempty" tf:"redirect_options,omitempty"`
 }
 
 type SecurityPolicyObservation struct {
@@ -112,6 +312,15 @@ type SecurityPolicyObservation struct {
 
 type SecurityPolicyParameters struct {
 
+	// Configuration for Google Cloud Armor Adaptive Protection. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	AdaptiveProtectionConfig []AdaptiveProtectionConfigParameters `json:"adaptiveProtectionConfig,omitempty" tf:"adaptive_protection_config,omitempty"`
+
+	// Advanced Configuration Options.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	AdvancedOptionsConfig []AdvancedOptionsConfigParameters `json:"advancedOptionsConfig,omitempty" tf:"advanced_options_config,omitempty"`
+
 	// An optional description of this security policy. Max size is 2048.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -121,13 +330,17 @@ type SecurityPolicyParameters struct {
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	// reCAPTCHA Configuration Options. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	RecaptchaOptionsConfig []RecaptchaOptionsConfigParameters `json:"recaptchaOptionsConfig,omitempty" tf:"recaptcha_options_config,omitempty"`
+
 	// The set of rules that belong to this policy. There must always be a default
 	// rule (rule with priority 2147483647 and match "*"). If no rules are provided when creating a
 	// security policy, a default rule with action "allow" will be added. Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Rule []RuleParameters `json:"rule,omitempty" tf:"rule,omitempty"`
 
-	// The type indicates the intended use of the security policy.
+	// The type indicates the intended use of the security policy. This field can be set only at resource creation time.
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }

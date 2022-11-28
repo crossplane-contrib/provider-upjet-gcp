@@ -78,6 +78,10 @@ spec:
                             disable simultaneous multithreading (SMT) set this to
                             1.
                           type: number
+                        visibleCoreCount:
+                          description: The number of physical cores to expose to an
+                            instance. visible cores info (VC).
+                          type: number
                       type: object
                     type: array
                   allowStoppingForUpdate:
@@ -383,7 +387,8 @@ spec:
                     description: Metadata key/value pairs to make available from within
                       the instance. Ssh keys attached in the Cloud Console will be
                       removed. Add them to your config in order to keep them attached
-                      to your instance.
+                      to your instance. A list of default metadata values (e.g. ssh-keys)
+                      can be found here
                     type: object
                   metadataStartupScript:
                     description: An alternative to using the startup-script metadata
@@ -720,10 +725,9 @@ spec:
                       type: object
                     type: array
                   resourcePolicies:
-                    description: '- A list of short names or self_links of resource
-                      policies to attach to the instance. Modifying this list will
-                      cause the instance to recreate. Currently a max of 1 resource
-                      policy is supported.'
+                    description: '- A list of self_links of resource policies to attach
+                      to the instance. Modifying this list will cause the instance
+                      to recreate. Currently a max of 1 resource policy is supported.'
                     items:
                       type: string
                     type: array
@@ -737,6 +741,10 @@ spec:
                             if it was terminated by Compute Engine (not a user). Defaults
                             to true.
                           type: boolean
+                        instanceTerminationAction:
+                          description: Describe the type of termination action for
+                            SPOT VM. Can be STOP or DELETE.  Read more on here
+                          type: string
                         minNodeCpus:
                           description: The minimum number of virtual CPUs this instance
                             will consume when running on a sole-tenant node.

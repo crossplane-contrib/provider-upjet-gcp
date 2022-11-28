@@ -124,6 +124,9 @@ type JobObservation struct {
 
 	// an identifier for the resource with format projects/{{project}}/locations/{{region}}/jobs/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// State of the job.
+	State *string `json:"state,omitempty" tf:"state,omitempty"`
 }
 
 type JobParameters struct {
@@ -153,6 +156,10 @@ type JobParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	HTTPTarget []HTTPTargetParameters `json:"httpTarget,omitempty" tf:"http_target,omitempty"`
+
+	// Sets the job to a paused state. Jobs default to being enabled when this property is not set.
+	// +kubebuilder:validation:Optional
+	Paused *bool `json:"paused,omitempty" tf:"paused,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.

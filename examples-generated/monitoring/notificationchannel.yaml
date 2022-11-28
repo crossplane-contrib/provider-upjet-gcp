@@ -9,6 +9,7 @@ metadata:
 spec:
   forProvider:
     displayName: Test Notification Channel
+    forceDelete: false
     labels:
       email_address: fake_email@blahblah.com
     type: email

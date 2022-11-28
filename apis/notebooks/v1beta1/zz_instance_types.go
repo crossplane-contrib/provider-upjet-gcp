@@ -89,7 +89,7 @@ type InstanceParameters struct {
 	BootDiskSizeGb *float64 `json:"bootDiskSizeGb,omitempty" tf:"boot_disk_size_gb,omitempty"`
 
 	// Possible disk types for notebook instances.
-	// Possible values are DISK_TYPE_UNSPECIFIED, PD_STANDARD, PD_SSD, and PD_BALANCED.
+	// Possible values are DISK_TYPE_UNSPECIFIED, PD_STANDARD, PD_SSD, PD_BALANCED, and PD_EXTREME.
 	// +kubebuilder:validation:Optional
 	BootDiskType *string `json:"bootDiskType,omitempty" tf:"boot_disk_type,omitempty"`
 
@@ -111,7 +111,7 @@ type InstanceParameters struct {
 	DataDiskSizeGb *float64 `json:"dataDiskSizeGb,omitempty" tf:"data_disk_size_gb,omitempty"`
 
 	// Possible disk types for notebook instances.
-	// Possible values are DISK_TYPE_UNSPECIFIED, PD_STANDARD, PD_SSD, and PD_BALANCED.
+	// Possible values are DISK_TYPE_UNSPECIFIED, PD_STANDARD, PD_SSD, PD_BALANCED, and PD_EXTREME.
 	// +kubebuilder:validation:Optional
 	DataDiskType *string `json:"dataDiskType,omitempty" tf:"data_disk_type,omitempty"`
 
@@ -162,6 +162,11 @@ type InstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
+	// The type of vNIC driver.
+	// Possible values are UNSPECIFIED_NIC_TYPE, VIRTIO_NET, and GVNIC.
+	// +kubebuilder:validation:Optional
+	NicType *string `json:"nicType,omitempty" tf:"nic_type,omitempty"`
+
 	// The notebook instance will not register with the proxy..
 	// +kubebuilder:validation:Optional
 	NoProxyAccess *bool `json:"noProxyAccess,omitempty" tf:"no_proxy_access,omitempty"`
@@ -184,6 +189,11 @@ type InstanceParameters struct {
 	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Reservation Affinity for consuming Zonal reservation.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ReservationAffinity []ReservationAffinityParameters `json:"reservationAffinity,omitempty" tf:"reservation_affinity,omitempty"`
 
 	// The service account on this instance, giving access to other
 	// Google Cloud services. You can use any service account within
@@ -236,6 +246,25 @@ type InstanceVMImageParameters struct {
 	// Format: projects/{project_id}
 	// +kubebuilder:validation:Required
 	Project *string `json:"project" tf:"project,omitempty"`
+}
+
+type ReservationAffinityObservation struct {
+}
+
+type ReservationAffinityParameters struct {
+
+	// The type of Compute Reservation.
+	// Possible values are NO_RESERVATION, ANY_RESERVATION, and SPECIFIC_RESERVATION.
+	// +kubebuilder:validation:Required
+	ConsumeReservationType *string `json:"consumeReservationType" tf:"consume_reservation_type,omitempty"`
+
+	// Corresponds to the label key of reservation resource.
+	// +kubebuilder:validation:Optional
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	// Corresponds to the label values of reservation resource.
+	// +kubebuilder:validation:Optional
+	Values []*string `json:"values,omitempty" tf:"values,omitempty"`
 }
 
 type ShieldedInstanceConfigObservation struct {

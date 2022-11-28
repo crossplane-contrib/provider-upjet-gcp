@@ -26,6 +26,11 @@ import (
 )
 
 type FileSharesObservation struct {
+
+	// The resource name of the backup, in the format
+	// projects/{projectId}/locations/{locationId}/backups/{backupId},
+	// that this file share has been restored from.
+	SourceBackup *string `json:"sourceBackup,omitempty" tf:"source_backup,omitempty"`
 }
 
 type FileSharesParameters struct {
@@ -53,6 +58,12 @@ type InstanceObservation struct {
 	// Server-specified ETag for the instance resource to prevent
 	// simultaneous updates from overwriting each other.
 	Etag *string `json:"etag,omitempty" tf:"etag,omitempty"`
+
+	// File system shares on the instance. For this version, only a
+	// single file share is supported.
+	// Structure is documented below.
+	// +kubebuilder:validation:Required
+	FileShares []FileSharesObservation `json:"fileShares,omitempty" tf:"file_shares,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/instances/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`

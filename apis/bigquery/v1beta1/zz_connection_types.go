@@ -25,6 +25,57 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type AccessRoleObservation struct {
+
+	// A unique Google-owned and Google-generated identity for the Connection. This identity will be used to access the user's AWS IAM Role.
+	Identity *string `json:"identity,omitempty" tf:"identity,omitempty"`
+}
+
+type AccessRoleParameters struct {
+
+	// The user’s AWS IAM Role that trusts the Google-owned AWS IAM user Connection.
+	// +kubebuilder:validation:Required
+	IAMRoleID *string `json:"iamRoleId" tf:"iam_role_id,omitempty"`
+}
+
+type AwsObservation struct {
+
+	// Authentication using Google owned service account to assume into customer's AWS IAM Role.
+	// Structure is documented below.
+	// +kubebuilder:validation:Required
+	AccessRole []AccessRoleObservation `json:"accessRole,omitempty" tf:"access_role,omitempty"`
+}
+
+type AwsParameters struct {
+
+	// Authentication using Google owned service account to assume into customer's AWS IAM Role.
+	// Structure is documented below.
+	// +kubebuilder:validation:Required
+	AccessRole []AccessRoleParameters `json:"accessRole" tf:"access_role,omitempty"`
+}
+
+type AzureObservation struct {
+
+	// The name of the Azure Active Directory Application.
+	Application *string `json:"application,omitempty" tf:"application,omitempty"`
+
+	// The client id of the Azure Active Directory Application.
+	ClientID *string `json:"clientId,omitempty" tf:"client_id,omitempty"`
+
+	// The object id of the Azure Active Directory Application.
+	ObjectID *string `json:"objectId,omitempty" tf:"object_id,omitempty"`
+
+	// The URL user will be redirected to after granting consent during connection setup.
+	RedirectURI *string `json:"redirectUri,omitempty" tf:"redirect_uri,omitempty"`
+}
+
+type AzureParameters struct {
+
+	// The id of customer's directory that host the data.
+	// +kubebuilder:validation:Required
+	CustomerTenantID *string `json:"customerTenantId" tf:"customer_tenant_id,omitempty"`
+}
+
 type CloudResourceObservation struct {
 
 	// The account ID of the service created for the purpose of this connection.
@@ -77,9 +128,33 @@ type CloudSQLParameters struct {
 	Type *string `json:"type" tf:"type,omitempty"`
 }
 
+type CloudSpannerObservation struct {
+}
+
+type CloudSpannerParameters struct {
+
+	// Cloud Spanner database in the form `project/instance/database'
+	// +kubebuilder:validation:Required
+	Database *string `json:"database" tf:"database,omitempty"`
+
+	// If parallelism should be used when reading from Cloud Spanner
+	// +kubebuilder:validation:Optional
+	UseParallelism *bool `json:"useParallelism,omitempty" tf:"use_parallelism,omitempty"`
+}
+
 type ConnectionObservation struct {
 
-	// Cloud Resource properties.
+	// Connection properties specific to Amazon Web Services.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Aws []AwsObservation `json:"aws,omitempty" tf:"aws,omitempty"`
+
+	// Container for connection properties specific to Azure.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Azure []AzureObservation `json:"azure,omitempty" tf:"azure,omitempty"`
+
+	// Container for connection properties for delegation of access to GCP resources.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	CloudResource []CloudResourceObservation `json:"cloudResource,omitempty" tf:"cloud_resource,omitempty"`
@@ -97,15 +172,30 @@ type ConnectionObservation struct {
 
 type ConnectionParameters struct {
 
-	// Cloud Resource properties.
+	// Connection properties specific to Amazon Web Services.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Aws []AwsParameters `json:"aws,omitempty" tf:"aws,omitempty"`
+
+	// Container for connection properties specific to Azure.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Azure []AzureParameters `json:"azure,omitempty" tf:"azure,omitempty"`
+
+	// Container for connection properties for delegation of access to GCP resources.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	CloudResource []CloudResourceParameters `json:"cloudResource,omitempty" tf:"cloud_resource,omitempty"`
 
-	// Cloud SQL properties.
+	// A nested object resource
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	CloudSQL []CloudSQLParameters `json:"cloudSql,omitempty" tf:"cloud_sql,omitempty"`
+
+	// Connection properties specific to Cloud Spanner
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	CloudSpanner []CloudSpannerParameters `json:"cloudSpanner,omitempty" tf:"cloud_spanner,omitempty"`
 
 	// Optional connection id that should be assigned to the created connection.
 	// +kubebuilder:validation:Optional
@@ -122,7 +212,10 @@ type ConnectionParameters struct {
 	// The geographic location where the connection should reside.
 	// Cloud SQL instance must be in the same location as the connection
 	// with following exceptions: Cloud SQL us-central1 maps to BigQuery US, Cloud SQL europe-west1 maps to BigQuery EU.
-	// Examples: US, EU, asia-northeast1, us-central1, europe-west1. The default value is US.
+	// Examples: US, EU, asia-northeast1, us-central1, europe-west1.
+	// Spanner Connections same as spanner region
+	// AWS allowed regions are aws-us-east-1
+	// Azure allowed regions are azure-eastus2
 	// +kubebuilder:validation:Optional
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 

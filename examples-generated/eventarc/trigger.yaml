@@ -42,9 +42,10 @@ spec:
     - spec:
       - containerConcurrency: 50
         containers:
-        - args:
-          - arrgs
-          image: gcr.io/cloudrun/hello
+        - image: gcr.io/cloudrun/hello
+          ports:
+          - containerPort: 8080
+        timeoutSeconds: 100
     traffic:
     - latestRevision: true
       percent: 100

@@ -42,6 +42,20 @@ type AllowedIPRangeParameters struct {
 	Value *string `json:"value" tf:"value,omitempty"`
 }
 
+type CidrBlocksObservation struct {
+}
+
+type CidrBlocksParameters struct {
+
+	// `cidr_block< must be specified in CIDR notation.
+	// +kubebuilder:validation:Required
+	CidrBlock *string `json:"cidrBlock" tf:"cidr_block,omitempty"`
+
+	// display_name is a field for users to identify CIDR blocks.
+	// +kubebuilder:validation:Optional
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+}
+
 type ConfigObservation struct {
 
 	// The URI of the Apache Airflow Web UI hosted within this
@@ -81,6 +95,14 @@ type ConfigParameters struct {
 	// The configuration settings for Cloud Composer maintenance windows.
 	// +kubebuilder:validation:Optional
 	MaintenanceWindow []MaintenanceWindowParameters `json:"maintenanceWindow,omitempty" tf:"maintenance_window,omitempty"`
+
+	// Configuration options for the master authorized networks feature. Enabled
+	// master authorized networks will disallow all external traffic to access
+	// Kubernetes master through HTTPS except traffic from the given CIDR blocks,
+	// Google Compute Engine Public IPs and Google Prod IPs. Structure is
+	// documented below.
+	// +kubebuilder:validation:Optional
+	MasterAuthorizedNetworksConfig []MasterAuthorizedNetworksConfigParameters `json:"masterAuthorizedNetworksConfig,omitempty" tf:"master_authorized_networks_config,omitempty"`
 
 	// The configuration used for the Kubernetes Engine cluster.  Structure is documented below.
 	// +kubebuilder:validation:Optional
@@ -249,6 +271,20 @@ type MaintenanceWindowParameters struct {
 	StartTime *string `json:"startTime" tf:"start_time,omitempty"`
 }
 
+type MasterAuthorizedNetworksConfigObservation struct {
+}
+
+type MasterAuthorizedNetworksConfigParameters struct {
+
+	// cidr_blocks define up to 50 external networks that could access Kubernetes master through HTTPS. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	CidrBlocks []CidrBlocksParameters `json:"cidrBlocks,omitempty" tf:"cidr_blocks,omitempty"`
+
+	// Whether or not master authorized networks is enabled.
+	// +kubebuilder:validation:Required
+	Enabled *bool `json:"enabled" tf:"enabled,omitempty"`
+}
+
 type NodeConfigObservation struct {
 }
 
@@ -258,6 +294,13 @@ type NodeConfigParameters struct {
 	// If unspecified, defaults to 100GB. Cannot be updated.
 	// +kubebuilder:validation:Optional
 	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
+
+	// Deploys 'ip-masq-agent' daemon set in the GKE cluster and defines
+	// nonMasqueradeCIDRs equals to pod IP range so IP masquerading is used for
+	// all destination addresses, except between pods traffic.
+	// See the documentation.
+	// +kubebuilder:validation:Optional
+	EnableIPMasqAgent *bool `json:"enableIpMasqAgent,omitempty" tf:"enable_ip_masq_agent,omitempty"`
 
 	// Configuration for controlling how IPs are allocated in the GKE cluster.
 	// Structure is documented below.
@@ -349,6 +392,10 @@ type PrivateEnvironmentConfigObservation struct {
 
 type PrivateEnvironmentConfigParameters struct {
 
+	// When specified, the environment will use Private Service Connect instead of VPC peerings to connect
+	// to Cloud SQL in the Tenant Project, and the PSC endpoint in the Customer Project will use an IP
+	// address from this subnetwork. This field is supported for Cloud Composer environments in
+	// versions composer-2.*.*-airflow-*.*.* and newer.
 	// +kubebuilder:validation:Optional
 	CloudComposerConnectionSubnetwork *string `json:"cloudComposerConnectionSubnetwork,omitempty" tf:"cloud_composer_connection_subnetwork,omitempty"`
 
@@ -364,6 +411,11 @@ type PrivateEnvironmentConfigParameters struct {
 	// also be set to true for Cloud Composer 1 environments.
 	// +kubebuilder:validation:Optional
 	EnablePrivateEndpoint *bool `json:"enablePrivateEndpoint,omitempty" tf:"enable_private_endpoint,omitempty"`
+
+	// When enabled, IPs from public (non-RFC1918) ranges can be used for
+	// ip_allocation_policy.cluster_ipv4_cidr_block and ip_allocation_policy.service_ipv4_cidr_block.
+	// +kubebuilder:validation:Optional
+	EnablePrivatelyUsedPublicIps *bool `json:"enablePrivatelyUsedPublicIps,omitempty" tf:"enable_privately_used_public_ips,omitempty"`
 
 	// The IP range in CIDR notation to use for the hosted master network. This range is used
 	// for assigning internal IP addresses to the cluster master or set of masters and to the

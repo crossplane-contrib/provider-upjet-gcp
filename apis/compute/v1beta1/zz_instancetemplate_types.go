@@ -30,9 +30,44 @@ type DiskDiskEncryptionKeyObservation struct {
 
 type DiskDiskEncryptionKeyParameters struct {
 
-	// The self link of the encryption key that is stored in Google Cloud KMS
+	// The self link of the encryption key that is
+	// stored in Google Cloud KMS.
 	// +kubebuilder:validation:Required
 	KMSKeySelfLink *string `json:"kmsKeySelfLink" tf:"kms_key_self_link,omitempty"`
+}
+
+type DiskSourceImageEncryptionKeyObservation struct {
+}
+
+type DiskSourceImageEncryptionKeyParameters struct {
+
+	// The self link of the encryption key that is
+	// stored in Google Cloud KMS.
+	// +kubebuilder:validation:Required
+	KMSKeySelfLink *string `json:"kmsKeySelfLink" tf:"kms_key_self_link,omitempty"`
+
+	// The service account being used for the
+	// encryption request for the given KMS key. If absent, the Compute Engine
+	// default service account is used.
+	// +kubebuilder:validation:Optional
+	KMSKeyServiceAccount *string `json:"kmsKeyServiceAccount,omitempty" tf:"kms_key_service_account,omitempty"`
+}
+
+type DiskSourceSnapshotEncryptionKeyObservation struct {
+}
+
+type DiskSourceSnapshotEncryptionKeyParameters struct {
+
+	// The self link of the encryption key that is
+	// stored in Google Cloud KMS.
+	// +kubebuilder:validation:Required
+	KMSKeySelfLink *string `json:"kmsKeySelfLink" tf:"kms_key_self_link,omitempty"`
+
+	// The service account being used for the
+	// encryption request for the given KMS key. If absent, the Compute Engine
+	// default service account is used.
+	// +kubebuilder:validation:Optional
+	KMSKeyServiceAccount *string `json:"kmsKeyServiceAccount,omitempty" tf:"kms_key_service_account,omitempty"`
 }
 
 type InstanceTemplateAdvancedMachineFeaturesObservation struct {
@@ -44,9 +79,13 @@ type InstanceTemplateAdvancedMachineFeaturesParameters struct {
 	// +kubebuilder:validation:Optional
 	EnableNestedVirtualization *bool `json:"enableNestedVirtualization,omitempty" tf:"enable_nested_virtualization,omitempty"`
 
-	// he number of threads per physical core. To disable simultaneous multithreading (SMT) set this to 1.
+	// The number of threads per physical core. To disable simultaneous multithreading (SMT) set this to 1.
 	// +kubebuilder:validation:Optional
 	ThreadsPerCore *float64 `json:"threadsPerCore,omitempty" tf:"threads_per_core,omitempty"`
+
+	// The number of physical cores to expose to an instance. visible cores info (VC).
+	// +kubebuilder:validation:Optional
+	VisibleCoreCount *float64 `json:"visibleCoreCount,omitempty" tf:"visible_core_count,omitempty"`
 }
 
 type InstanceTemplateConfidentialInstanceConfigObservation struct {
@@ -123,7 +162,7 @@ type InstanceTemplateDiskParameters struct {
 
 	// The name (not self_link)
 	// of the disk (such as those managed by google_compute_disk) to attach.
-	// ~> Note: Either source or source_image is required in a disk block unless the disk type is local-ssd. Check the API docs for details.
+	// ~> Note: Either source, source_image, or source_snapshot is required in a disk block unless the disk type is local-ssd. Check the API docs for details.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Disk
 	// +kubebuilder:validation:Optional
 	Source *string `json:"source,omitempty" tf:"source,omitempty"`
@@ -134,9 +173,15 @@ type InstanceTemplateDiskParameters struct {
 	// projects/{project}/global/images/family/{family}, global/images/{image},
 	// global/images/family/{family}, family/{family}, {project}/{family},
 	// {project}/{image}, {family}, or {image}.
-	// ~> Note: Either source or source_image is required in a disk block unless the disk type is local-ssd. Check the API docs for details.
+	// ~> Note: Either source, source_image, or source_snapshot is required in a disk block unless the disk type is local-ssd. Check the API docs for details.
 	// +kubebuilder:validation:Optional
 	SourceImage *string `json:"sourceImage,omitempty" tf:"source_image,omitempty"`
+
+	// The customer-supplied encryption
+	// key of the source image. Required if the source image is protected by a
+	// customer-supplied encryption key.
+	// +kubebuilder:validation:Optional
+	SourceImageEncryptionKey []DiskSourceImageEncryptionKeyParameters `json:"sourceImageEncryptionKey,omitempty" tf:"source_image_encryption_key,omitempty"`
 
 	// Reference to a Disk in compute to populate source.
 	// +kubebuilder:validation:Optional
@@ -145,6 +190,17 @@ type InstanceTemplateDiskParameters struct {
 	// Selector for a Disk in compute to populate source.
 	// +kubebuilder:validation:Optional
 	SourceSelector *v1.Selector `json:"sourceSelector,omitempty" tf:"-"`
+
+	// The source snapshot to create this disk.
+	// ~> Note: Either source, source_image, or source_snapshot is required in a disk block unless the disk type is local-ssd. Check the API docs for details.
+	// +kubebuilder:validation:Optional
+	SourceSnapshot *string `json:"sourceSnapshot,omitempty" tf:"source_snapshot,omitempty"`
+
+	// The customer-supplied encryption
+	// key of the source snapshot. Structure
+	// documented below.
+	// +kubebuilder:validation:Optional
+	SourceSnapshotEncryptionKey []DiskSourceSnapshotEncryptionKeyParameters `json:"sourceSnapshotEncryptionKey,omitempty" tf:"source_snapshot_encryption_key,omitempty"`
 
 	// The type of GCE disk, can be either "SCRATCH" or
 	// "PERSISTENT".
@@ -507,6 +563,10 @@ type InstanceTemplateSchedulingParameters struct {
 	// terminated by a user). This defaults to true.
 	// +kubebuilder:validation:Optional
 	AutomaticRestart *bool `json:"automaticRestart,omitempty" tf:"automatic_restart,omitempty"`
+
+	// Describe the type of termination action for SPOT VM. Can be STOP or DELETE.  Read more on here
+	// +kubebuilder:validation:Optional
+	InstanceTerminationAction *string `json:"instanceTerminationAction,omitempty" tf:"instance_termination_action,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	MinNodeCpus *float64 `json:"minNodeCpus,omitempty" tf:"min_node_cpus,omitempty"`

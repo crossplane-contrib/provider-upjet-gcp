@@ -47,7 +47,6 @@ type FieldsParameters struct {
 	DoubleValue *float64 `json:"doubleValue,omitempty" tf:"double_value,omitempty"`
 
 	// Holds the value for a tag field with enum type. This value must be one of the allowed values in the definition of this enum.
-	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	EnumValue *string `json:"enumValue,omitempty" tf:"enum_value,omitempty"`
 

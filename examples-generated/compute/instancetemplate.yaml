@@ -15,7 +15,7 @@ spec:
       boot: true
       resourcePolicies:
       - ${google_compute_resource_policy.daily_backup.id}
-      sourceImage: debian-cloud/debian-9
+      sourceImage: debian-cloud/debian-11
     - autoDelete: false
       boot: false
       sourceSelector:

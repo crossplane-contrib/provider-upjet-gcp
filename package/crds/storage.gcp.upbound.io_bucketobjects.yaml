@@ -195,9 +195,16 @@ spec:
                       type: object
                     type: array
                   detectMd5Hash:
-                    description: (Computed) Base 64 MD5 hash of the uploaded data.
+                    description: 'MD5 hash of the data, encoded using base64. This
+                      field is not present for composite objects. For more information
+                      about using the MD5 hash, see Hashes and ETags: Best Practices.'
                     type: string
                   eventBasedHold:
+                    description: Whether an object is under event-based hold. Event-based
+                      hold is a way to retain objects until an event occurs, which
+                      is signified by the hold's release (i.e. this value is set to
+                      false). After being released (set to false), such objects will
+                      be subject to bucket-level retention (if any).
                     type: boolean
                   kmsKeyName:
                     description: The resource name of the Cloud KMS key that will
@@ -223,6 +230,9 @@ spec:
                       storage class or to a standard class.'
                     type: string
                   temporaryHold:
+                    description: Whether an object is under temporary hold. While
+                      this flag is set to true, the object is protected against deletion
+                      and overwrites.
                     type: boolean
                 required:
                 - name

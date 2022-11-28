@@ -139,6 +139,10 @@ type CertificateAuthorityParameters struct {
 	// +kubebuilder:validation:Required
 	Location *string `json:"location" tf:"location,omitempty"`
 
+	// The signed CA certificate issued from the subordinated CA's CSR. This is needed when activating the subordiante CA with a third party issuer.
+	// +kubebuilder:validation:Optional
+	PemCACertificate *string `json:"pemCaCertificate,omitempty" tf:"pem_ca_certificate,omitempty"`
+
 	// The name of the CaPool this Certificate Authority belongs to.
 	// +crossplane:generate:reference:type=CAPool
 	// +kubebuilder:validation:Optional
@@ -157,10 +161,22 @@ type CertificateAuthorityParameters struct {
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	// If this flag is set, the Certificate Authority will be deleted as soon as
+	// possible without a 30-day grace period where undeletion would have been
+	// allowed. If you proceed, there will be no way to recover this CA.
+	// Use with care. Defaults to false.
+	// +kubebuilder:validation:Optional
+	SkipGracePeriod *bool `json:"skipGracePeriod,omitempty" tf:"skip_grace_period,omitempty"`
+
+	// If this is a subordinate CertificateAuthority, this field will be set
+	// with the subordinate configuration, which describes its issuers.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	SubordinateConfig []SubordinateConfigParameters `json:"subordinateConfig,omitempty" tf:"subordinate_config,omitempty"`
+
 	// The Type of this CertificateAuthority.
 	// ~> Note: For SUBORDINATE Certificate Authorities, they need to
-	// be manually activated (via Cloud Console of gcloud) before they can
-	// issue certificates.
+	// be activated before they can issue certificates.
 	// Default value is SELF_SIGNED.
 	// Possible values are SELF_SIGNED and SUBORDINATE.
 	// +kubebuilder:validation:Optional
@@ -458,6 +474,45 @@ type KeySpecParameters struct {
 	// projects/*/locations/*/keyRings/*/cryptoKeys/*/cryptoKeyVersions/*.
 	// +kubebuilder:validation:Optional
 	CloudKMSKeyVersion *string `json:"cloudKmsKeyVersion,omitempty" tf:"cloud_kms_key_version,omitempty"`
+}
+
+type PemIssuerChainObservation struct {
+}
+
+type PemIssuerChainParameters struct {
+
+	// Expected to be in leaf-to-root order according to RFC 5246.
+	// +kubebuilder:validation:Optional
+	PemCertificates []*string `json:"pemCertificates,omitempty" tf:"pem_certificates,omitempty"`
+}
+
+type SubordinateConfigObservation struct {
+}
+
+type SubordinateConfigParameters struct {
+
+	// This can refer to a CertificateAuthority that was used to create a
+	// subordinate CertificateAuthority. This field is used for information
+	// and usability purposes only. The resource name is in the format
+	// projects/*/locations/*/caPools/*/certificateAuthorities/*.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/privateca/v1beta1.CertificateAuthority
+	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractParamPath("name",true)
+	// +kubebuilder:validation:Optional
+	CertificateAuthority *string `json:"certificateAuthority,omitempty" tf:"certificate_authority,omitempty"`
+
+	// Reference to a CertificateAuthority in privateca to populate certificateAuthority.
+	// +kubebuilder:validation:Optional
+	CertificateAuthorityRef *v1.Reference `json:"certificateAuthorityRef,omitempty" tf:"-"`
+
+	// Selector for a CertificateAuthority in privateca to populate certificateAuthority.
+	// +kubebuilder:validation:Optional
+	CertificateAuthoritySelector *v1.Selector `json:"certificateAuthoritySelector,omitempty" tf:"-"`
+
+	// Contains the PEM certificate chain for the issuers of this CertificateAuthority,
+	// but not pem certificate for this CA itself.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	PemIssuerChain []PemIssuerChainParameters `json:"pemIssuerChain,omitempty" tf:"pem_issuer_chain,omitempty"`
 }
 
 // CertificateAuthoritySpec defines the desired state of CertificateAuthority
