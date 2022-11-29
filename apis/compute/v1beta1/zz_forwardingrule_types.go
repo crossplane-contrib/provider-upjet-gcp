@@ -96,16 +96,16 @@ type ForwardingRuleParameters struct {
 	// that has validateForProxyless field set to true.
 	// For Private Service Connect forwarding rules that forward traffic to
 	// Google APIs, IP address must be provided.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Address
-	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:type=Address
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.SelfLinkExtractor()
 	// +kubebuilder:validation:Optional
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
 
-	// Reference to a Address in compute to populate ipAddress.
+	// Reference to a Address to populate ipAddress.
 	// +kubebuilder:validation:Optional
 	IPAddressRef *v1.Reference `json:"ipAddressRef,omitempty" tf:"-"`
 
-	// Selector for a Address in compute to populate ipAddress.
+	// Selector for a Address to populate ipAddress.
 	// +kubebuilder:validation:Optional
 	IPAddressSelector *v1.Selector `json:"ipAddressSelector,omitempty" tf:"-"`
 
@@ -146,16 +146,16 @@ type ForwardingRuleParameters struct {
 	// the load balanced IP should belong to for this Forwarding Rule. If
 	// this field is not specified, the default network will be used.
 	// This field is only used for INTERNAL load balancing.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Network
-	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:type=Network
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.SelfLinkExtractor()
 	// +kubebuilder:validation:Optional
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
-	// Reference to a Network in compute to populate network.
+	// Reference to a Network to populate network.
 	// +kubebuilder:validation:Optional
 	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
 
-	// Selector for a Network in compute to populate network.
+	// Selector for a Network to populate network.
 	// +kubebuilder:validation:Optional
 	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
 
@@ -223,16 +223,16 @@ type ForwardingRuleParameters struct {
 	// If the network specified is in auto subnet mode, this field is
 	// optional. However, if the network is in custom subnet mode, a
 	// subnetwork must be specified.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Subnetwork
-	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:type=Subnetwork
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.SelfLinkExtractor()
 	// +kubebuilder:validation:Optional
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 
-	// Reference to a Subnetwork in compute to populate subnetwork.
+	// Reference to a Subnetwork to populate subnetwork.
 	// +kubebuilder:validation:Optional
 	SubnetworkRef *v1.Reference `json:"subnetworkRef,omitempty" tf:"-"`
 
-	// Selector for a Subnetwork in compute to populate subnetwork.
+	// Selector for a Subnetwork to populate subnetwork.
 	// +kubebuilder:validation:Optional
 	SubnetworkSelector *v1.Selector `json:"subnetworkSelector,omitempty" tf:"-"`
 
@@ -240,16 +240,16 @@ type ForwardingRuleParameters struct {
 	// The target must live in the same region as the forwarding rule.
 	// The forwarded traffic must be of a type appropriate to the target
 	// object.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.RegionTargetHTTPProxy
-	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:type=RegionTargetHTTPProxy
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.SelfLinkExtractor()
 	// +kubebuilder:validation:Optional
 	Target *string `json:"target,omitempty" tf:"target,omitempty"`
 
-	// Reference to a RegionTargetHTTPProxy in compute to populate target.
+	// Reference to a RegionTargetHTTPProxy to populate target.
 	// +kubebuilder:validation:Optional
 	TargetRef *v1.Reference `json:"targetRef,omitempty" tf:"-"`
 
-	// Selector for a RegionTargetHTTPProxy in compute to populate target.
+	// Selector for a RegionTargetHTTPProxy to populate target.
 	// +kubebuilder:validation:Optional
 	TargetSelector *v1.Selector `json:"targetSelector,omitempty" tf:"-"`
 }
