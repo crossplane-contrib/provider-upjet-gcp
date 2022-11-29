@@ -18,6 +18,7 @@ package clients
 
 import (
 	"context"
+	"encoding/json"
 
 	xpv1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
@@ -33,6 +34,7 @@ const (
 	keyProject = "project"
 
 	keyCredentials = "credentials"
+	accessToken    = "access_token"
 )
 
 const (
@@ -84,8 +86,17 @@ func TerraformSetupBuilder(version, providerSource, providerVersion string) terr
 			}
 
 			// set provider configuration keys for GCP credentials
-			ps.Configuration[keyCredentials] = string(data)
+			if isJSON(data) {
+				ps.Configuration[keyCredentials] = string(data)
+			} else {
+				ps.Configuration[accessToken] = string(data)
+			}
 		}
 		return ps, nil
 	}
+}
+
+func isJSON(b []byte) bool {
+	var js json.RawMessage
+	return json.Unmarshal(b, &js) == nil
 }
