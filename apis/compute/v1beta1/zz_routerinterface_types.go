@@ -89,6 +89,12 @@ type RouterInterfaceParameters struct {
 	// Selector for a VPNTunnel to populate vpnTunnel.
 	// +kubebuilder:validation:Optional
 	VPNTunnelSelector *v1.Selector `json:"vpnTunnelSelector,omitempty" tf:"-"`
+
+	// +kubebuilder:validation:Optional
+	VPNTunnelSource *string `json:"vpnTunnelSource,omitempty" tf:"vpn_tunnel_source,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	VPNTunnelTarget *string `json:"vpnTunnelTarget,omitempty" tf:"vpn_tunnel_target,omitempty"`
 }
 
 // RouterInterfaceSpec defines the desired state of RouterInterface

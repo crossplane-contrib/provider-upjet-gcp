@@ -624,6 +624,8 @@ var externalNameConfigs = map[string]config.ExternalName{
 	//
 	// This resource does not support import.
 	"google_dataflow_job": config.IdentifierFromProvider,
+	// This resource does not support import.
+	"google_project_iam_policy": config.IdentifierFromProvider,
 }
 
 // TemplatedStringAsIdentifierWithNoName uses TemplatedStringAsIdentifier but

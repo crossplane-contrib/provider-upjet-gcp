@@ -398,15 +398,6 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 		}
 	})
 
-	p.AddResourceConfigurator("google_compute_router_interface", func(r *config.Resource) {
-		r.References["router"] = config.Reference{
-			Type: "Router",
-		}
-		r.References["vpn_tunnel"] = config.Reference{
-			Type: "VPNTunnel",
-		}
-	})
-
 	p.AddResourceConfigurator("google_compute_vpn_gateway", func(r *config.Resource) {
 		config.MarkAsRequired(r.TerraformResource, "region")
 	})
@@ -426,6 +417,23 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 	})
 	p.AddResourceConfigurator("google_compute_project_metadata_item", func(r *config.Resource) {
 		r.MetaResource.ArgumentDocs["id"] = "an identifier for the resource with format `{{key}}`"
+	})
+
+	p.AddResourceConfigurator("google_compute_router_interface", func(r *config.Resource) {
+		r.References["router"] = config.Reference{
+			Type: "Router",
+		}
+		r.References["vpn_tunnel"] = config.Reference{
+			Type: "VPNTunnel",
+		}
+
+		r.TerraformResource.Schema["vpn_tunnel_source"] = r.TerraformResource.Schema["vpn_tunnel"]
+		r.TerraformResource.Schema["vpn_tunnel_target"] = r.TerraformResource.Schema["vpn_tunnel"]
+	})
+
+	p.AddResourceConfigurator("google_compute_network", func(r *config.Resource) {
+		r.TerraformResource.Schema["auto_create_subnetworks"].Required = true
+		r.TerraformResource.Schema["auto_create_subnetworks"].Optional = false
 	})
 }
 

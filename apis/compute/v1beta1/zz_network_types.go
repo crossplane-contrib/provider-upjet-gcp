@@ -45,8 +45,8 @@ type NetworkParameters struct {
 	// 10.128.0.0/9 address range.
 	// When set to false, the network is created in "custom subnet mode" so
 	// the user can explicitly connect subnetwork resources.
-	// +kubebuilder:validation:Optional
-	AutoCreateSubnetworks *bool `json:"autoCreateSubnetworks,omitempty" tf:"auto_create_subnetworks,omitempty"`
+	// +kubebuilder:validation:Required
+	AutoCreateSubnetworks *bool `json:"autoCreateSubnetworks" tf:"auto_create_subnetworks,omitempty"`
 
 	// If set to true, default routes (0.0.0.0/0) will be deleted
 	// immediately after network creation. Defaults to false.

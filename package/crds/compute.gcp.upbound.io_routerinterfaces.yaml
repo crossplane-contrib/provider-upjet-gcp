@@ -245,6 +245,10 @@ spec:
                             type: string
                         type: object
                     type: object
+                  vpnTunnelSource:
+                    type: string
+                  vpnTunnelTarget:
+                    type: string
                 required:
                 - name
                 type: object
