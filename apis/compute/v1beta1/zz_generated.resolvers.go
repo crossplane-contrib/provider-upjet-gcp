@@ -441,7 +441,7 @@ func (mg *ForwardingRule) ResolveReferences(ctx context.Context, c client.Reader
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.IPAddress),
-		Extract:      resource.ExtractResourceID(),
+		Extract:      common.SelfLinkExtractor(),
 		Reference:    mg.Spec.ForProvider.IPAddressRef,
 		Selector:     mg.Spec.ForProvider.IPAddressSelector,
 		To: reference.To{
@@ -457,7 +457,7 @@ func (mg *ForwardingRule) ResolveReferences(ctx context.Context, c client.Reader
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Network),
-		Extract:      resource.ExtractResourceID(),
+		Extract:      common.SelfLinkExtractor(),
 		Reference:    mg.Spec.ForProvider.NetworkRef,
 		Selector:     mg.Spec.ForProvider.NetworkSelector,
 		To: reference.To{
@@ -473,7 +473,7 @@ func (mg *ForwardingRule) ResolveReferences(ctx context.Context, c client.Reader
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Subnetwork),
-		Extract:      resource.ExtractResourceID(),
+		Extract:      common.SelfLinkExtractor(),
 		Reference:    mg.Spec.ForProvider.SubnetworkRef,
 		Selector:     mg.Spec.ForProvider.SubnetworkSelector,
 		To: reference.To{
@@ -489,7 +489,7 @@ func (mg *ForwardingRule) ResolveReferences(ctx context.Context, c client.Reader
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Target),
-		Extract:      resource.ExtractResourceID(),
+		Extract:      common.SelfLinkExtractor(),
 		Reference:    mg.Spec.ForProvider.TargetRef,
 		Selector:     mg.Spec.ForProvider.TargetSelector,
 		To: reference.To{

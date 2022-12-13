@@ -261,6 +261,22 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 			Type:      "RegionBackendService",
 			Extractor: common.PathSelfLinkExtractor,
 		}
+		r.References["ip_address"] = config.Reference{
+			Type:      "Address",
+			Extractor: common.PathSelfLinkExtractor,
+		}
+		r.References["network"] = config.Reference{
+			Type:      "Network",
+			Extractor: common.PathSelfLinkExtractor,
+		}
+		r.References["subnetwork"] = config.Reference{
+			Type:      "Subnetwork",
+			Extractor: common.PathSelfLinkExtractor,
+		}
+		r.References["target"] = config.Reference{
+			Type:      "RegionTargetHTTPProxy",
+			Extractor: common.PathSelfLinkExtractor,
+		}
 		config.MarkAsRequired(r.TerraformResource, "region")
 	})
 
