@@ -23,7 +23,6 @@ import (
 	errors "github.com/pkg/errors"
 	v1beta1 "github.com/upbound/provider-gcp/apis/compute/v1beta1"
 	common "github.com/upbound/provider-gcp/config/common"
-	resource "github.com/upbound/upjet/pkg/resource"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
@@ -38,7 +37,7 @@ func (mg *ManagedZone) ResolveReferences(ctx context.Context, c client.Reader) e
 		for i4 := 0; i4 < len(mg.Spec.ForProvider.PeeringConfig[i3].TargetNetwork); i4++ {
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.PeeringConfig[i3].TargetNetwork[i4].NetworkURL),
-				Extract:      resource.ExtractResourceID(),
+				Extract:      common.SelfLinkExtractor(),
 				Reference:    mg.Spec.ForProvider.PeeringConfig[i3].TargetNetwork[i4].NetworkURLRef,
 				Selector:     mg.Spec.ForProvider.PeeringConfig[i3].TargetNetwork[i4].NetworkURLSelector,
 				To: reference.To{
@@ -58,7 +57,7 @@ func (mg *ManagedZone) ResolveReferences(ctx context.Context, c client.Reader) e
 		for i4 := 0; i4 < len(mg.Spec.ForProvider.PrivateVisibilityConfig[i3].Networks); i4++ {
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.PrivateVisibilityConfig[i3].Networks[i4].NetworkURL),
-				Extract:      resource.ExtractResourceID(),
+				Extract:      common.SelfLinkExtractor(),
 				Reference:    mg.Spec.ForProvider.PrivateVisibilityConfig[i3].Networks[i4].NetworkURLRef,
 				Selector:     mg.Spec.ForProvider.PrivateVisibilityConfig[i3].Networks[i4].NetworkURLSelector,
 				To: reference.To{
