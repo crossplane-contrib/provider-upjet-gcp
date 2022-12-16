@@ -10,4 +10,4 @@ spec:
   forProvider:
     member: "${data.google_iam_member.member}"
     role: "roles/viewer"
-    folder: ${data.cloudplatform_folder.folderId}
+    folder: ${data.cloudplatform_folder.id}

@@ -243,6 +243,16 @@ func (in *FolderIAMMemberParameters) DeepCopyInto(out *FolderIAMMemberParameters
 		*out = new(string)
 		**out = **in
 	}
+	if in.FolderRef != nil {
+		in, out := &in.FolderRef, &out.FolderRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.FolderSelector != nil {
+		in, out := &in.FolderSelector, &out.FolderSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.Member != nil {
 		in, out := &in.Member, &out.Member
 		*out = new(string)

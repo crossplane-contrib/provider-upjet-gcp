@@ -30,7 +30,7 @@ var externalNameConfigs = map[string]config.ExternalName{
 	//
 	// Folders can be imported using the folder's id, e.g. folders/1234567
 	"google_folder": config.IdentifierFromProvider,
-	// Imported by using the following format: your-folder roles/viewer user:foo@example.com
+	// Imported by using the following format: folders/your-folder-id roles/viewer user:foo@example.com
 	"google_folder_iam_member": config.IdentifierFromProvider,
 	// Imported by using the following format: organizations/{{org_id}}/roles/{{role_id}}
 	"google_organization_iam_custom_role": config.IdentifierFromProvider,

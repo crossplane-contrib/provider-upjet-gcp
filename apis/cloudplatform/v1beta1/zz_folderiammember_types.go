@@ -51,8 +51,17 @@ type FolderIAMMemberParameters struct {
 	// +kubebuilder:validation:Optional
 	Condition []ConditionParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
-	// +kubebuilder:validation:Required
-	Folder *string `json:"folder" tf:"folder,omitempty"`
+	// +crossplane:generate:reference:type=Folder
+	// +kubebuilder:validation:Optional
+	Folder *string `json:"folder,omitempty" tf:"folder,omitempty"`
+
+	// Reference to a Folder to populate folder.
+	// +kubebuilder:validation:Optional
+	FolderRef *v1.Reference `json:"folderRef,omitempty" tf:"-"`
+
+	// Selector for a Folder to populate folder.
+	// +kubebuilder:validation:Optional
+	FolderSelector *v1.Selector `json:"folderSelector,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Required
 	Member *string `json:"member" tf:"member,omitempty"`
