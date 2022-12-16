@@ -25,10 +25,10 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
-type OrganizationIAMMemberConditionObservation struct {
+type ConditionObservation struct {
 }
 
-type OrganizationIAMMemberConditionParameters struct {
+type ConditionParameters struct {
 
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -40,72 +40,72 @@ type OrganizationIAMMemberConditionParameters struct {
 	Title *string `json:"title" tf:"title,omitempty"`
 }
 
-type OrganizationIAMMemberObservation struct {
+type FolderIAMMemberObservation struct {
 	Etag *string `json:"etag,omitempty" tf:"etag,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 }
 
-type OrganizationIAMMemberParameters struct {
+type FolderIAMMemberParameters struct {
 
 	// +kubebuilder:validation:Optional
-	Condition []OrganizationIAMMemberConditionParameters `json:"condition,omitempty" tf:"condition,omitempty"`
+	Condition []ConditionParameters `json:"condition,omitempty" tf:"condition,omitempty"`
+
+	// +kubebuilder:validation:Required
+	Folder *string `json:"folder" tf:"folder,omitempty"`
 
 	// +kubebuilder:validation:Required
 	Member *string `json:"member" tf:"member,omitempty"`
 
 	// +kubebuilder:validation:Required
-	OrgID *string `json:"orgId" tf:"org_id,omitempty"`
-
-	// +kubebuilder:validation:Required
 	Role *string `json:"role" tf:"role,omitempty"`
 }
 
-// OrganizationIAMMemberSpec defines the desired state of OrganizationIAMMember
-type OrganizationIAMMemberSpec struct {
+// FolderIAMMemberSpec defines the desired state of FolderIAMMember
+type FolderIAMMemberSpec struct {
 	v1.ResourceSpec `json:",inline"`
-	ForProvider     OrganizationIAMMemberParameters `json:"forProvider"`
+	ForProvider     FolderIAMMemberParameters `json:"forProvider"`
 }
 
-// OrganizationIAMMemberStatus defines the observed state of OrganizationIAMMember.
-type OrganizationIAMMemberStatus struct {
+// FolderIAMMemberStatus defines the observed state of FolderIAMMember.
+type FolderIAMMemberStatus struct {
 	v1.ResourceStatus `json:",inline"`
-	AtProvider        OrganizationIAMMemberObservation `json:"atProvider,omitempty"`
+	AtProvider        FolderIAMMemberObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 
-// OrganizationIAMMember is the Schema for the OrganizationIAMMembers API. <no value>
+// FolderIAMMember is the Schema for the FolderIAMMembers API. <no value>
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
 // +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,gcp}
-type OrganizationIAMMember struct {
+type FolderIAMMember struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              OrganizationIAMMemberSpec   `json:"spec"`
-	Status            OrganizationIAMMemberStatus `json:"status,omitempty"`
+	Spec              FolderIAMMemberSpec   `json:"spec"`
+	Status            FolderIAMMemberStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 
-// OrganizationIAMMemberList contains a list of OrganizationIAMMembers
-type OrganizationIAMMemberList struct {
+// FolderIAMMemberList contains a list of FolderIAMMembers
+type FolderIAMMemberList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []OrganizationIAMMember `json:"items"`
+	Items           []FolderIAMMember `json:"items"`
 }
 
 // Repository type metadata.
 var (
-	OrganizationIAMMember_Kind             = "OrganizationIAMMember"
-	OrganizationIAMMember_GroupKind        = schema.GroupKind{Group: CRDGroup, Kind: OrganizationIAMMember_Kind}.String()
-	OrganizationIAMMember_KindAPIVersion   = OrganizationIAMMember_Kind + "." + CRDGroupVersion.String()
-	OrganizationIAMMember_GroupVersionKind = CRDGroupVersion.WithKind(OrganizationIAMMember_Kind)
+	FolderIAMMember_Kind             = "FolderIAMMember"
+	FolderIAMMember_GroupKind        = schema.GroupKind{Group: CRDGroup, Kind: FolderIAMMember_Kind}.String()
+	FolderIAMMember_KindAPIVersion   = FolderIAMMember_Kind + "." + CRDGroupVersion.String()
+	FolderIAMMember_GroupVersionKind = CRDGroupVersion.WithKind(FolderIAMMember_Kind)
 )
 
 func init() {
-	SchemeBuilder.Register(&OrganizationIAMMember{}, &OrganizationIAMMemberList{})
+	SchemeBuilder.Register(&FolderIAMMember{}, &FolderIAMMemberList{})
 }
