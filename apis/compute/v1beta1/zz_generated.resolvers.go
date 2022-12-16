@@ -1719,7 +1719,7 @@ func (mg *RegionTargetHTTPProxy) ResolveReferences(ctx context.Context, c client
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.URLMap),
-		Extract:      resource.ExtractResourceID(),
+		Extract:      common.SelfLinkExtractor(),
 		Reference:    mg.Spec.ForProvider.URLMapRef,
 		Selector:     mg.Spec.ForProvider.URLMapSelector,
 		To: reference.To{

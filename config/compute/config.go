@@ -310,6 +310,12 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 
 	p.AddResourceConfigurator("google_compute_region_target_http_proxy", func(r *config.Resource) {
 		config.MarkAsRequired(r.TerraformResource, "region")
+
+		r.References["url_map"] = config.Reference{
+			Type:      "RegionURLMap",
+			Extractor: common.PathSelfLinkExtractor,
+		}
+
 	})
 
 	p.AddResourceConfigurator("google_compute_region_url_map", func(r *config.Resource) {
