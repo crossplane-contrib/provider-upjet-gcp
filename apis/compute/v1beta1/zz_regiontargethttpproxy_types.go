@@ -58,16 +58,16 @@ type RegionTargetHTTPProxyParameters struct {
 
 	// A reference to the RegionUrlMap resource that defines the mapping from URL
 	// to the BackendService.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.RegionURLMap
-	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:type=RegionURLMap
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.SelfLinkExtractor()
 	// +kubebuilder:validation:Optional
 	URLMap *string `json:"urlMap,omitempty" tf:"url_map,omitempty"`
 
-	// Reference to a RegionURLMap in compute to populate urlMap.
+	// Reference to a RegionURLMap to populate urlMap.
 	// +kubebuilder:validation:Optional
 	URLMapRef *v1.Reference `json:"urlMapRef,omitempty" tf:"-"`
 
-	// Selector for a RegionURLMap in compute to populate urlMap.
+	// Selector for a RegionURLMap to populate urlMap.
 	// +kubebuilder:validation:Optional
 	URLMapSelector *v1.Selector `json:"urlMapSelector,omitempty" tf:"-"`
 }
