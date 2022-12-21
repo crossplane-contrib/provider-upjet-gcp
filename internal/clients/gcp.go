@@ -18,7 +18,6 @@ package clients
 
 import (
 	"context"
-	"encoding/json"
 
 	xpv1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
@@ -33,8 +32,10 @@ import (
 const (
 	keyProject = "project"
 
-	keyCredentials = "credentials"
-	accessToken    = "access_token"
+	keyCredentials         = "credentials"
+	accountKey             = "Secret"
+	accessToken            = "AccessToken"
+	accessTokenCredentials = "access_token"
 )
 
 const (
@@ -79,24 +80,37 @@ func TerraformSetupBuilder(version, providerSource, providerVersion string) terr
 		switch pc.Spec.Credentials.Source { //nolint:exhaustive
 		case xpv1.CredentialsSourceInjectedIdentity:
 			// We don't need to do anything here, as the TF Provider will take care of workloadIdentity etc.
+		case accessToken:
+			return useAccessToken(ctx, pc, client, ps)
 		default:
-			data, err := resource.CommonCredentialExtractor(ctx, pc.Spec.Credentials.Source, client, pc.Spec.Credentials.CommonCredentialSelectors)
-			if err != nil {
-				return ps, errors.Wrap(err, errExtractCredentials)
-			}
-
-			// set provider configuration keys for GCP credentials
-			if isJSON(data) {
-				ps.Configuration[keyCredentials] = string(data)
-			} else {
-				ps.Configuration[accessToken] = string(data)
-			}
+			return useSecret(ctx, pc, client, ps)
 		}
 		return ps, nil
 	}
 }
 
-func isJSON(b []byte) bool {
-	var js json.RawMessage
-	return json.Unmarshal(b, &js) == nil
+func useDefault(ctx context.Context, pc *v1beta1.ProviderConfig, client client.Client) ([]byte, error) {
+	data, err := resource.CommonCredentialExtractor(ctx, pc.Spec.Credentials.Source, client, pc.Spec.Credentials.CommonCredentialSelectors)
+	if err != nil {
+		return nil, errors.Wrap(err, errExtractCredentials)
+	}
+	return data, nil
+}
+
+func useSecret(ctx context.Context, pc *v1beta1.ProviderConfig, client client.Client, ps terraform.Setup) (terraform.Setup, error) {
+	data, err := useDefault(ctx, pc, client)
+	if err != nil {
+		return ps, err
+	}
+	ps.Configuration[keyCredentials] = string(data)
+	return ps, nil
+}
+
+func useAccessToken(ctx context.Context, pc *v1beta1.ProviderConfig, client client.Client, ps terraform.Setup) (terraform.Setup, error) {
+	data, err := useDefault(ctx, pc, client)
+	if err != nil {
+		return ps, err
+	}
+	ps.Configuration[accessTokenCredentials] = string(data)
+	return ps, nil
 }

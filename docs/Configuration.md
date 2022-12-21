@@ -318,7 +318,7 @@ $ gcloud container clusters create ${CLUSTER_NAME} \
   --no-enable-master-authorized-networks \
   --enable-master-global-access \
   --master-ipv4-cidr=172.16.0.32/28 \
-  --max-nodes=3 \
+  --num-nodes=1 \
   --project=${PROJECT_ID}
 ```
 Get the cluster credentials
@@ -493,7 +493,7 @@ metadata:
 spec:
   projectID: ${PROJECT_ID}
   credentials:
-    source: Secret
+    source: AccessToken
     secretRef:
       name: ${SECRET_NAME}
       namespace: ${NAMESPACE}
