@@ -33,7 +33,6 @@ const (
 	keyProject = "project"
 
 	keyCredentials         = "credentials"
-	accountKey             = "Secret"
 	accessToken            = "AccessToken"
 	accessTokenCredentials = "access_token"
 )
@@ -81,36 +80,19 @@ func TerraformSetupBuilder(version, providerSource, providerVersion string) terr
 		case xpv1.CredentialsSourceInjectedIdentity:
 			// We don't need to do anything here, as the TF Provider will take care of workloadIdentity etc.
 		case accessToken:
-			return useAccessToken(ctx, pc, client, ps)
+			data, err := resource.CommonCredentialExtractor(ctx, "Secret", client, pc.Spec.Credentials.CommonCredentialSelectors)
+			if err != nil {
+				return ps, errors.Wrap(err, errExtractCredentials)
+			}
+			ps.Configuration[accessTokenCredentials] = string(data)
 		default:
-			return useSecret(ctx, pc, client, ps)
+			data, err := resource.CommonCredentialExtractor(ctx, pc.Spec.Credentials.Source, client, pc.Spec.Credentials.CommonCredentialSelectors)
+			if err != nil {
+				return ps, errors.Wrap(err, errExtractCredentials)
+			}
+			ps.Configuration[keyCredentials] = string(data)
 		}
+
 		return ps, nil
 	}
-}
-
-func useDefault(ctx context.Context, pc *v1beta1.ProviderConfig, client client.Client) ([]byte, error) {
-	data, err := resource.CommonCredentialExtractor(ctx, pc.Spec.Credentials.Source, client, pc.Spec.Credentials.CommonCredentialSelectors)
-	if err != nil {
-		return nil, errors.Wrap(err, errExtractCredentials)
-	}
-	return data, nil
-}
-
-func useSecret(ctx context.Context, pc *v1beta1.ProviderConfig, client client.Client, ps terraform.Setup) (terraform.Setup, error) {
-	data, err := useDefault(ctx, pc, client)
-	if err != nil {
-		return ps, err
-	}
-	ps.Configuration[keyCredentials] = string(data)
-	return ps, nil
-}
-
-func useAccessToken(ctx context.Context, pc *v1beta1.ProviderConfig, client client.Client, ps terraform.Setup) (terraform.Setup, error) {
-	data, err := useDefault(ctx, pc, client)
-	if err != nil {
-		return ps, err
-	}
-	ps.Configuration[accessTokenCredentials] = string(data)
-	return ps, nil
 }
