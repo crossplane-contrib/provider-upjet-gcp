@@ -3,6 +3,7 @@ kind: FolderIAMMember
 metadata:
   annotations:
     meta.upbound.io/example-id: cloudplatform/v1beta1/folderiammember
+    upjet.upbound.io/manual-intervention: "Depends on a valid folder & member"
   labels:
     testing.upbound.io/example-name: folder-iam-member
   name: folder-iam-member
