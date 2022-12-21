@@ -45,6 +45,7 @@ import (
 	"github.com/upbound/provider-gcp/internal/clients"
 	"github.com/upbound/provider-gcp/internal/controller"
 	"github.com/upbound/provider-gcp/internal/features"
+	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
 )
 
 func main() {
