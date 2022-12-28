@@ -62,7 +62,7 @@ func (mg *FolderIAMMember) ResolveReferences(ctx context.Context, c client.Reade
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Folder),
-		Extract:      reference.ExternalName(),
+		Extract:      common.ExtractResourceID(),
 		Reference:    mg.Spec.ForProvider.FolderRef,
 		Selector:     mg.Spec.ForProvider.FolderSelector,
 		To: reference.To{
