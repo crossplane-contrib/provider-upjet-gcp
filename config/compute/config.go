@@ -65,10 +65,12 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 
 	p.AddResourceConfigurator("google_compute_address", func(r *config.Resource) {
 		r.References["network"] = config.Reference{
-			Type: "Network",
+			Type:      "Network",
+			Extractor: common.PathSelfLinkExtractor,
 		}
 		r.References["subnetwork"] = config.Reference{
-			Type: "Subnetwork",
+			Type:      "Subnetwork",
+			Extractor: common.PathSelfLinkExtractor,
 		}
 		config.MarkAsRequired(r.TerraformResource, "region")
 	})

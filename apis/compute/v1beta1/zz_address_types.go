@@ -63,6 +63,7 @@ type AddressParameters struct {
 	// can only be used with INTERNAL type with the VPC_PEERING and
 	// IPSEC_INTERCONNECT purposes.
 	// +crossplane:generate:reference:type=Network
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.SelfLinkExtractor()
 	// +kubebuilder:validation:Optional
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
@@ -103,6 +104,7 @@ type AddressParameters struct {
 	// This field can only be used with INTERNAL type with
 	// GCE_ENDPOINT/DNS_RESOLVER purposes.
 	// +crossplane:generate:reference:type=Subnetwork
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.SelfLinkExtractor()
 	// +kubebuilder:validation:Optional
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 
