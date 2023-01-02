@@ -13,6 +13,12 @@ import (
 // Configure configures individual resources by adding custom
 // ResourceConfigurators.
 func Configure(p *config.Provider) {
+	p.AddResourceConfigurator("google_folder_iam_member", func(r *config.Resource) {
+		r.References["folder"] = config.Reference{
+			Type:      "Folder",
+			Extractor: common.ExtractResourceIDFuncPath,
+		}
+	})
 	p.AddResourceConfigurator("google_project", func(r *config.Resource) {
 		r.TerraformResource.Schema["org_id"].Description =
 			"The numeric ID of the organization this project belongs to."

@@ -28,6 +28,7 @@ import (
 	function "github.com/upbound/provider-gcp/internal/controller/cloudfunctions/function"
 	functioniammember "github.com/upbound/provider-gcp/internal/controller/cloudfunctions/functioniammember"
 	folder "github.com/upbound/provider-gcp/internal/controller/cloudplatform/folder"
+	folderiammember "github.com/upbound/provider-gcp/internal/controller/cloudplatform/folderiammember"
 	organizationiamauditconfig "github.com/upbound/provider-gcp/internal/controller/cloudplatform/organizationiamauditconfig"
 	organizationiamcustomrole "github.com/upbound/provider-gcp/internal/controller/cloudplatform/organizationiamcustomrole"
 	organizationiammember "github.com/upbound/provider-gcp/internal/controller/cloudplatform/organizationiammember"
@@ -248,6 +249,7 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		function.Setup,
 		functioniammember.Setup,
 		folder.Setup,
+		folderiammember.Setup,
 		organizationiamauditconfig.Setup,
 		organizationiamcustomrole.Setup,
 		organizationiammember.Setup,
