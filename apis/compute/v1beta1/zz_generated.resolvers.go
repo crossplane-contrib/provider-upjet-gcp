@@ -40,7 +40,7 @@ func (mg *Address) ResolveReferences(ctx context.Context, c client.Reader) error
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Network),
-		Extract:      reference.ExternalName(),
+		Extract:      common.SelfLinkExtractor(),
 		Reference:    mg.Spec.ForProvider.NetworkRef,
 		Selector:     mg.Spec.ForProvider.NetworkSelector,
 		To: reference.To{
@@ -56,7 +56,7 @@ func (mg *Address) ResolveReferences(ctx context.Context, c client.Reader) error
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Subnetwork),
-		Extract:      reference.ExternalName(),
+		Extract:      common.SelfLinkExtractor(),
 		Reference:    mg.Spec.ForProvider.SubnetworkRef,
 		Selector:     mg.Spec.ForProvider.SubnetworkSelector,
 		To: reference.To{
