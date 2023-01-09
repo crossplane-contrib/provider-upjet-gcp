@@ -143,4 +143,127 @@ var ExternalNameNotTestedConfigs = map[string]config.ExternalName{
 	//
 	// projects/{{project}}/locations/{{region}}/instances/{{name}}
 	"google_data_fusion_instance": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.region }}/instances/{{ .external_name }}"),
+
+	// accessapproval
+	//
+	// folders/{{folder_id}}/accessApprovalSettings
+	"google_folder_access_approval_settings": config.TemplatedStringAsIdentifier("", "folders/{{ .parameters.folder_id }}/accessApprovalSettings"),
+	// organizations/{{organization_id}}/accessApprovalSettings
+	"google_organization_access_approval_settings": config.TemplatedStringAsIdentifier("", "organizations/{{ .parameters.organization_id }}/accessApprovalSettings"),
+	// projects/{{project_id}}/accessApprovalSettings
+	"google_project_access_approval_settings": config.TemplatedStringAsIdentifier("", "projects/{{ .parameters.project_id }}/accessApprovalSettings"),
+
+	// accesscontextmanager
+	//
+	// {{name}}
+	"google_access_context_manager_access_level": config.NameAsIdentifier,
+	// No import
+	// TODO: For now API is not normalized. While testing resource we can check the actual ID and normalize the API.
+	"google_access_context_manager_access_level_condition": config.IdentifierFromProvider,
+	// {{name}}
+	"google_access_context_manager_access_policy": config.IdentifierFromProvider,
+	// accessPolicies/{{access_policy}} roles/accesscontextmanager.policyAdmin
+	"google_access_context_manager_access_policy_iam_binding": config.TemplatedStringAsIdentifier("name", "accessPolicies/{{ .external_name }} {{ .parameters.role }}"),
+	// accessPolicies/{{access_policy}} roles/accesscontextmanager.policyAdmin user:jane@example.com
+	"google_access_context_manager_access_policy_iam_member": config.TemplatedStringAsIdentifier("name", "accessPolicies/{{ .external_name }} {{ .parameters.role }} {{ .parameters.member }}"),
+	// accessPolicies/{{access_policy}}
+	"google_access_context_manager_access_policy_iam_policy": config.TemplatedStringAsIdentifier("name", "accessPolicies/{{ .external_name }}"),
+	// {{name}}
+	"google_access_context_manager_gcp_user_access_binding": config.IdentifierFromProvider,
+	// {{name}}
+	"google_access_context_manager_service_perimeter": config.NameAsIdentifier,
+	// {{perimeter_name}}/{{resource}}
+	"google_access_context_manager_service_perimeter_resource": config.TemplatedStringAsIdentifier("resource", "{{ .parameters.perimeter_name }}/{{ .external_name }}"),
+
+	// activedirectory
+	//
+	// {{name}}: projects/{project}/locations/global/domains/{domainName}
+	"google_active_directory_domain": config.TemplatedStringAsIdentifier("domain_name", "projects/{{ .setup.configuration.project }}/locations/global/domains/{{ .external_name }}"),
+	// projects/{{project}}/locations/global/domains/{{domain}}/{{target_domain_name}}
+	"google_active_directory_domain_trust": config.TemplatedStringAsIdentifier("target_domain_name", "projects/{{ .setup.configuration.project }}/locations/global/domains/{{ .parameters.domain }}/{{ .external_name }}"),
+
+	// apigee
+	//
+	// {{org_id}}/endpointAttachments/{{endpoint_attachment_id}}
+	"google_apigee_endpoint_attachment": config.TemplatedStringAsIdentifier("endpoint_attachment_id", "{{ .parameters.org_id }}/endpointAttachments/{{ .external_name }}"),
+	// {{org_id}}/envgroups/{{name}}
+	"google_apigee_envgroup": config.TemplatedStringAsIdentifier("name", "{{ .parameters.org_id }}/envgroups/{{ .external_name }}"),
+	// {{envgroup_id}}/attachments/{{name}}
+	"google_apigee_envgroup_attachment": config.IdentifierFromProvider,
+	// {{org_id}}/environments/{{name}}
+	"google_apigee_environment": config.TemplatedStringAsIdentifier("name", "{{ .parameters.org_id }}/environments/{{ .external_name }}"),
+	// {{org_id}}/environments/{{environment}} roles/viewer
+	"google_apigee_environment_iam_binding": config.TemplatedStringAsIdentifier("", "{{ .parameters.org_id }}/environments/{{ .parameters.env_id }} {{ .parameters.role }}"),
+	// {{org_id}}/environments/{{environment}} roles/viewer user:jane@example.com
+	"google_apigee_environment_iam_member": config.TemplatedStringAsIdentifier("", "{{ .parameters.org_id }}/environments/{{ .parameters.env_id }} {{ .parameters.role }} {{ .parameters.member }}"),
+	// {{org_id}}/environments/{{environment}}
+	"google_apigee_environment_iam_policy": config.TemplatedStringAsIdentifier("", "{{ .parameters.org_id }}/environments/{{ .parameters.env_id }}"),
+	// {{org_id}}/instances/{{name}}
+	"google_apigee_instance": config.TemplatedStringAsIdentifier("name", "{{ .parameters.org_id }}/instances/{{ .external_name }}"),
+	// {{instance_id}}/attachments/{{name}}
+	"google_apigee_instance_attachment": config.IdentifierFromProvider,
+	// organizations/{{name}}
+	"google_apigee_organization": config.IdentifierFromProvider,
+
+	// apikeys
+	//
+	// projects/{{project}}/locations/global/keys/{{name}}
+	"google_apikeys_key": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/global/keys/{{ .external_name }}"),
+
+	// datalossprevention
+	//
+	// {{parent}}/deidentifyTemplates/{{name}}
+	"google_data_loss_prevention_deidentify_template": config.IdentifierFromProvider,
+	// {{parent}}/inspectTemplates/{{name}}
+	"google_data_loss_prevention_inspect_template": config.IdentifierFromProvider,
+	// {{parent}}/jobTriggers/{{name}}
+	"google_data_loss_prevention_job_trigger": config.IdentifierFromProvider,
+	// {{parent}}/storedInfoTypes/{{name}}
+	"google_data_loss_prevention_stored_info_type": config.IdentifierFromProvider,
+
+	// dataproc
+	//
+	// projects/{{project}}/locations/{{location}}/autoscalingPolicies/{{policy_id}}
+	"google_dataproc_autoscaling_policy": config.TemplatedStringAsIdentifier("policy_id", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/autoscalingPolicies/{{ .external_name }}"),
+	// No import
+	// TODO: For now API is not normalized. While testing resource we can check the actual ID and normalize the API.
+	"google_dataproc_cluster": config.IdentifierFromProvider,
+	// projects/{project}/regions/{region}/clusters/{cluster} roles/editor
+	"google_dataproc_cluster_iam_binding": config.TemplatedStringAsIdentifier("", "projects/{{ .setup.configuration.project }}regions/{{ .parameters.region }}/clusters/{{ .parameters.cluster }} {{ .parameters.role }}"),
+	// projects/{project}/regions/{region}/clusters/{cluster} roles/editor user:jane@example.com
+	"google_dataproc_cluster_iam_member": config.TemplatedStringAsIdentifier("", "projects/{{ .setup.configuration.project }}regions/{{ .parameters.region }}/clusters/{{ .parameters.cluster }} {{ .parameters.role }} {{ .parameters.member }}"),
+	// projects/{project}/regions/{region}/clusters/{cluster}
+	"google_dataproc_cluster_iam_policy": config.TemplatedStringAsIdentifier("", "projects/{{ .setup.configuration.project }}regions/{{ .parameters.region }}/clusters/{{ .parameters.cluster }}"),
+	// No import
+	// TODO: For now API is not normalized. While testing resource we can check the actual ID and normalize the API.
+	"google_dataproc_job": config.IdentifierFromProvider,
+	// projects/{project}/regions/{region}/jobs/{job_id} roles/editor
+	"google_dataproc_job_iam_binding": config.TemplatedStringAsIdentifier("", "projects/{{ .setup.configuration.project }}regions/{{ .parameters.region }}/jobs/{{ .parameters.job_id }} {{ .parameters.role }}"),
+	// projects/{project}/regions/{region}/jobs/{job_id} roles/editor user:jane@example.com
+	"google_dataproc_job_iam_member": config.TemplatedStringAsIdentifier("", "projects/{{ .setup.configuration.project }}regions/{{ .parameters.region }}/jobs/{{ .parameters.job_id }} {{ .parameters.role }} {{ .parameters.member }}"),
+	// projects/{project}/regions/{region}/jobs/{job_id}
+	"google_dataproc_job_iam_policy": config.TemplatedStringAsIdentifier("", "projects/{{ .setup.configuration.project }}regions/{{ .parameters.region }}/jobs/{{ .parameters.job_id }} {{ .parameters.role }}"),
+	// projects/{{project}}/locations/{{location}}/workflowTemplates/{{name}}
+	"google_dataproc_workflow_template": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}locations/{{ .parameters.location }}/workflowTemplates{{ .external_name }}"),
+
+	// datastore
+	//
+	// projects/{{project}}/indexes/{{index_id}}
+	"google_datastore_index": config.IdentifierFromProvider,
+
+	// deploymentmanager
+	//
+	// projects/{{project}}/deployments/{{name}}
+	"google_deployment_manager_deployment": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/deployments{{ .external_name }}"),
+
+	// dialogflow
+	//
+	// {{project}}
+	"google_dialogflow_agent": config.TemplatedStringAsIdentifier("", "projects/{{ .setup.configuration.project }}"),
+	// {{name}}
+	"google_dialogflow_entity_type": config.IdentifierFromProvider,
+	// {{name}}
+	"google_dialogflow_fulfillment": config.IdentifierFromProvider,
+	// {{name}}
+	"google_dialogflow_intent": config.IdentifierFromProvider,
 }
