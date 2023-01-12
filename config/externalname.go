@@ -638,6 +638,13 @@ var externalNameConfigs = map[string]config.ExternalName{
 	"google_cloudbuild_trigger": config.IdentifierFromProvider,
 	// projects/{{project}}/locations/{{location}}/workerPools/{{name}}
 	"google_cloudbuild_worker_pool": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/workerPools/{{ .external_name }}"),
+
+	// cloudiot
+	//
+	// {{registry}}/devices/{{name}}
+	"google_cloudiot_device": config.TemplatedStringAsIdentifier("name", "{{ .parameters.registry }}/devices/{{ .external_name }}"),
+	// {{project}}/locations/{{region}}/registries/{{name}}
+	"google_cloudiot_registry": config.IdentifierFromProvider,
 }
 
 // TemplatedStringAsIdentifierWithNoName uses TemplatedStringAsIdentifier but

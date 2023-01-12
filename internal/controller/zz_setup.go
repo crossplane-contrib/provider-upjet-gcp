@@ -29,6 +29,8 @@ import (
 	workerpool "github.com/upbound/provider-gcp/internal/controller/cloudbuild/workerpool"
 	function "github.com/upbound/provider-gcp/internal/controller/cloudfunctions/function"
 	functioniammember "github.com/upbound/provider-gcp/internal/controller/cloudfunctions/functioniammember"
+	device "github.com/upbound/provider-gcp/internal/controller/cloudiot/device"
+	registry "github.com/upbound/provider-gcp/internal/controller/cloudiot/registry"
 	folder "github.com/upbound/provider-gcp/internal/controller/cloudplatform/folder"
 	folderiammember "github.com/upbound/provider-gcp/internal/controller/cloudplatform/folderiammember"
 	organizationiamauditconfig "github.com/upbound/provider-gcp/internal/controller/cloudplatform/organizationiamauditconfig"
@@ -132,7 +134,7 @@ import (
 	vpntunnel "github.com/upbound/provider-gcp/internal/controller/compute/vpntunnel"
 	cluster "github.com/upbound/provider-gcp/internal/controller/container/cluster"
 	nodepool "github.com/upbound/provider-gcp/internal/controller/container/nodepool"
-	registry "github.com/upbound/provider-gcp/internal/controller/container/registry"
+	registrycontainer "github.com/upbound/provider-gcp/internal/controller/container/registry"
 	note "github.com/upbound/provider-gcp/internal/controller/containeranalysis/note"
 	clustercontaineraws "github.com/upbound/provider-gcp/internal/controller/containeraws/cluster"
 	nodepoolcontaineraws "github.com/upbound/provider-gcp/internal/controller/containeraws/nodepool"
@@ -253,6 +255,8 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		workerpool.Setup,
 		function.Setup,
 		functioniammember.Setup,
+		device.Setup,
+		registry.Setup,
 		folder.Setup,
 		folderiammember.Setup,
 		organizationiamauditconfig.Setup,
@@ -356,7 +360,7 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		vpntunnel.Setup,
 		cluster.Setup,
 		nodepool.Setup,
-		registry.Setup,
+		registrycontainer.Setup,
 		note.Setup,
 		clustercontaineraws.Setup,
 		nodepoolcontaineraws.Setup,
