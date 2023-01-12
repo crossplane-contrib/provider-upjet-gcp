@@ -631,6 +631,13 @@ var externalNameConfigs = map[string]config.ExternalName{
 	//
 	// projects/{{project}}/locations/{{region}}/instances/{{name}}
 	"google_data_fusion_instance": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.region }}/instances/{{ .external_name }}"),
+
+	// cloudbuild
+	//
+	// projects/{{project}}/locations/{{location}}/triggers/{{trigger_id}}
+	"google_cloudbuild_trigger": config.IdentifierFromProvider,
+	// projects/{{project}}/locations/{{location}}/workerPools/{{name}}
+	"google_cloudbuild_worker_pool": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/workerPools/{{ .external_name }}"),
 }
 
 // TemplatedStringAsIdentifierWithNoName uses TemplatedStringAsIdentifier but

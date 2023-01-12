@@ -25,6 +25,8 @@ import (
 	tableiambinding "github.com/upbound/provider-gcp/internal/controller/bigquery/tableiambinding"
 	tableiammember "github.com/upbound/provider-gcp/internal/controller/bigquery/tableiammember"
 	tableiampolicy "github.com/upbound/provider-gcp/internal/controller/bigquery/tableiampolicy"
+	trigger "github.com/upbound/provider-gcp/internal/controller/cloudbuild/trigger"
+	workerpool "github.com/upbound/provider-gcp/internal/controller/cloudbuild/workerpool"
 	function "github.com/upbound/provider-gcp/internal/controller/cloudfunctions/function"
 	functioniammember "github.com/upbound/provider-gcp/internal/controller/cloudfunctions/functioniammember"
 	folder "github.com/upbound/provider-gcp/internal/controller/cloudplatform/folder"
@@ -152,7 +154,7 @@ import (
 	policy "github.com/upbound/provider-gcp/internal/controller/dns/policy"
 	recordset "github.com/upbound/provider-gcp/internal/controller/dns/recordset"
 	contact "github.com/upbound/provider-gcp/internal/controller/essentialcontacts/contact"
-	trigger "github.com/upbound/provider-gcp/internal/controller/eventarc/trigger"
+	triggereventarc "github.com/upbound/provider-gcp/internal/controller/eventarc/trigger"
 	instancefilestore "github.com/upbound/provider-gcp/internal/controller/filestore/instance"
 	release "github.com/upbound/provider-gcp/internal/controller/firebaserules/release"
 	ruleset "github.com/upbound/provider-gcp/internal/controller/firebaserules/ruleset"
@@ -247,6 +249,8 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		tableiambinding.Setup,
 		tableiammember.Setup,
 		tableiampolicy.Setup,
+		trigger.Setup,
+		workerpool.Setup,
 		function.Setup,
 		functioniammember.Setup,
 		folder.Setup,
@@ -374,7 +378,7 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		policy.Setup,
 		recordset.Setup,
 		contact.Setup,
-		trigger.Setup,
+		triggereventarc.Setup,
 		instancefilestore.Setup,
 		release.Setup,
 		ruleset.Setup,
