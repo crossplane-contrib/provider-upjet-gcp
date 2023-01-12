@@ -24,6 +24,7 @@ import (
 
 	v1beta1 "github.com/upbound/provider-gcp/apis/appengine/v1beta1"
 	v1beta1bigquery "github.com/upbound/provider-gcp/apis/bigquery/v1beta1"
+	v1beta1cloudbuild "github.com/upbound/provider-gcp/apis/cloudbuild/v1beta1"
 	v1beta1cloudfunctions "github.com/upbound/provider-gcp/apis/cloudfunctions/v1beta1"
 	v1beta1cloudplatform "github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1"
 	v1beta1cloudrun "github.com/upbound/provider-gcp/apis/cloudrun/v1beta1"
@@ -71,6 +72,7 @@ func init() {
 	AddToSchemes = append(AddToSchemes,
 		v1beta1.SchemeBuilder.AddToScheme,
 		v1beta1bigquery.SchemeBuilder.AddToScheme,
+		v1beta1cloudbuild.SchemeBuilder.AddToScheme,
 		v1beta1cloudfunctions.SchemeBuilder.AddToScheme,
 		v1beta1cloudplatform.SchemeBuilder.AddToScheme,
 		v1beta1cloudrun.SchemeBuilder.AddToScheme,

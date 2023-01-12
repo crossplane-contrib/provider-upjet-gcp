@@ -92,13 +92,6 @@ var ExternalNameNotTestedConfigs = map[string]config.ExternalName{
 	// projects/{{project}}/feeds/{{name}}
 	"google_cloud_asset_project_feed": config.IdentifierFromProvider,
 
-	// cloudbuild
-	//
-	// projects/{{project}}/locations/{{location}}/triggers/{{trigger_id}}
-	"google_cloudbuild_trigger": config.IdentifierFromProvider,
-	// projects/{{project}}/locations/{{location}}/workerPools/{{name}}
-	"google_cloudbuild_worker_pool": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/workerPools/{{ .external_name }}"),
-
 	// clouddeploy
 	//
 	// projects/{{project}}/locations/{{location}}/deliveryPipelines/{{name}}
