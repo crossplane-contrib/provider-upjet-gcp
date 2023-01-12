@@ -140,6 +140,7 @@ import (
 	entry "github.com/upbound/provider-gcp/internal/controller/datacatalog/entry"
 	entrygroup "github.com/upbound/provider-gcp/internal/controller/datacatalog/entrygroup"
 	jobdataflow "github.com/upbound/provider-gcp/internal/controller/dataflow/job"
+	instancedatafusion "github.com/upbound/provider-gcp/internal/controller/datafusion/instance"
 	agent "github.com/upbound/provider-gcp/internal/controller/dialogflowcx/agent"
 	entitytype "github.com/upbound/provider-gcp/internal/controller/dialogflowcx/entitytype"
 	environmentdialogflowcx "github.com/upbound/provider-gcp/internal/controller/dialogflowcx/environment"
@@ -361,6 +362,7 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		entry.Setup,
 		entrygroup.Setup,
 		jobdataflow.Setup,
+		instancedatafusion.Setup,
 		agent.Setup,
 		entitytype.Setup,
 		environmentdialogflowcx.Setup,

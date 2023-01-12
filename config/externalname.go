@@ -626,6 +626,11 @@ var externalNameConfigs = map[string]config.ExternalName{
 	//
 	// This resource does not support import.
 	"google_dataflow_job": config.IdentifierFromProvider,
+
+	// datafusion
+	//
+	// projects/{{project}}/locations/{{region}}/instances/{{name}}
+	"google_data_fusion_instance": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.region }}/instances/{{ .external_name }}"),
 }
 
 // TemplatedStringAsIdentifierWithNoName uses TemplatedStringAsIdentifier but
