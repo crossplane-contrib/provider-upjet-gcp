@@ -106,13 +106,6 @@ var ExternalNameNotTestedConfigs = map[string]config.ExternalName{
 	// {{name}}
 	"google_cloud_identity_group_membership": config.IdentifierFromProvider,
 
-	// cloudiot
-	//
-	// {{registry}}/devices/{{name}}
-	"google_cloudiot_device": config.TemplatedStringAsIdentifier("name", "{{ .parameters.registry }}/devices/{{ .external_name }}"),
-	// {{project}}/locations/{{region}}/registries/{{name}}
-	"google_cloudiot_registry": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.region }}/registries/{{ .external_name }}"),
-
 	// datacatalog
 	//
 	// projects/{{project}}/locations/{{region}}/entryGroups/{{entry_group}} roles/viewer
