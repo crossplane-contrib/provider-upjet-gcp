@@ -25,6 +25,16 @@ import (
 	tableiambinding "github.com/upbound/provider-gcp/internal/controller/bigquery/tableiambinding"
 	tableiammember "github.com/upbound/provider-gcp/internal/controller/bigquery/tableiammember"
 	tableiampolicy "github.com/upbound/provider-gcp/internal/controller/bigquery/tableiampolicy"
+	appprofile "github.com/upbound/provider-gcp/internal/controller/bigtable/appprofile"
+	garbagecollectionpolicy "github.com/upbound/provider-gcp/internal/controller/bigtable/garbagecollectionpolicy"
+	instance "github.com/upbound/provider-gcp/internal/controller/bigtable/instance"
+	instanceiambinding "github.com/upbound/provider-gcp/internal/controller/bigtable/instanceiambinding"
+	instanceiammember "github.com/upbound/provider-gcp/internal/controller/bigtable/instanceiammember"
+	instanceiampolicy "github.com/upbound/provider-gcp/internal/controller/bigtable/instanceiampolicy"
+	tablebigtable "github.com/upbound/provider-gcp/internal/controller/bigtable/table"
+	tableiambindingbigtable "github.com/upbound/provider-gcp/internal/controller/bigtable/tableiambinding"
+	tableiammemberbigtable "github.com/upbound/provider-gcp/internal/controller/bigtable/tableiammember"
+	tableiampolicybigtable "github.com/upbound/provider-gcp/internal/controller/bigtable/tableiampolicy"
 	trigger "github.com/upbound/provider-gcp/internal/controller/cloudbuild/trigger"
 	workerpool "github.com/upbound/provider-gcp/internal/controller/cloudbuild/workerpool"
 	function "github.com/upbound/provider-gcp/internal/controller/cloudfunctions/function"
@@ -77,12 +87,12 @@ import (
 	httpshealthcheck "github.com/upbound/provider-gcp/internal/controller/compute/httpshealthcheck"
 	image "github.com/upbound/provider-gcp/internal/controller/compute/image"
 	imageiammember "github.com/upbound/provider-gcp/internal/controller/compute/imageiammember"
-	instance "github.com/upbound/provider-gcp/internal/controller/compute/instance"
+	instancecompute "github.com/upbound/provider-gcp/internal/controller/compute/instance"
 	instancefromtemplate "github.com/upbound/provider-gcp/internal/controller/compute/instancefromtemplate"
 	instancegroup "github.com/upbound/provider-gcp/internal/controller/compute/instancegroup"
 	instancegroupmanager "github.com/upbound/provider-gcp/internal/controller/compute/instancegroupmanager"
 	instancegroupnamedport "github.com/upbound/provider-gcp/internal/controller/compute/instancegroupnamedport"
-	instanceiammember "github.com/upbound/provider-gcp/internal/controller/compute/instanceiammember"
+	instanceiammembercompute "github.com/upbound/provider-gcp/internal/controller/compute/instanceiammember"
 	instancetemplate "github.com/upbound/provider-gcp/internal/controller/compute/instancetemplate"
 	interconnectattachment "github.com/upbound/provider-gcp/internal/controller/compute/interconnectattachment"
 	managedsslcertificate "github.com/upbound/provider-gcp/internal/controller/compute/managedsslcertificate"
@@ -251,6 +261,16 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		tableiambinding.Setup,
 		tableiammember.Setup,
 		tableiampolicy.Setup,
+		appprofile.Setup,
+		garbagecollectionpolicy.Setup,
+		instance.Setup,
+		instanceiambinding.Setup,
+		instanceiammember.Setup,
+		instanceiampolicy.Setup,
+		tablebigtable.Setup,
+		tableiambindingbigtable.Setup,
+		tableiammemberbigtable.Setup,
+		tableiampolicybigtable.Setup,
 		trigger.Setup,
 		workerpool.Setup,
 		function.Setup,
@@ -303,12 +323,12 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		httpshealthcheck.Setup,
 		image.Setup,
 		imageiammember.Setup,
-		instance.Setup,
+		instancecompute.Setup,
 		instancefromtemplate.Setup,
 		instancegroup.Setup,
 		instancegroupmanager.Setup,
 		instancegroupnamedport.Setup,
-		instanceiammember.Setup,
+		instanceiammembercompute.Setup,
 		instancetemplate.Setup,
 		interconnectattachment.Setup,
 		managedsslcertificate.Setup,

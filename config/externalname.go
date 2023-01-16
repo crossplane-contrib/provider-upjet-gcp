@@ -645,6 +645,29 @@ var externalNameConfigs = map[string]config.ExternalName{
 	"google_cloudiot_device": config.TemplatedStringAsIdentifier("name", "{{ .parameters.registry }}/devices/{{ .external_name }}"),
 	// {{project}}/locations/{{region}}/registries/{{name}}
 	"google_cloudiot_registry": config.IdentifierFromProvider,
+
+	// bigtable
+	//
+	// projects/{{project}}/instances/{{instance}}/appProfiles/{{app_profile_id}}
+	"google_bigtable_app_profile": config.TemplatedStringAsIdentifier("app_profile_id", "projects/{{ .setup.configuration.project }}/instances/{{ .parameters.instance }}/appProfiles/{{ .external_name }}"),
+	// No import
+	"google_bigtable_gc_policy": config.IdentifierFromProvider,
+	// projects/{{project}}/instances/{{name}}
+	"google_bigtable_instance": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/instances/{{ .external_name }}"),
+	// projects/{project}/instances/{instance} roles/editor
+	"google_bigtable_instance_iam_binding": config.TemplatedStringAsIdentifier("", "projects/{{ .setup.configuration.project }}/instances/{{ .parameters.instance }} {{ .parameters.role }}"),
+	// projects/{project}/instances/{instance} roles/editor user:jane@example.com
+	"google_bigtable_instance_iam_member": config.TemplatedStringAsIdentifier("", "projects/{{ .setup.configuration.project }}/instances/{{ .parameters.instance }} {{ .parameters.role }} {{ .parameters.member }}"),
+	// projects/{project}/instances/{instance}
+	"google_bigtable_instance_iam_policy": config.TemplatedStringAsIdentifier("", "projects/{{ .setup.configuration.project }}/instances/{{ .parameters.instance }}"),
+	// projects/{{project}}/instances/{{instance_name}}/tables/{{name}}
+	"google_bigtable_table": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/instances/{{ .parameters.instance_name }}/tables/{{ .external_name }}"),
+	// projects/{project}/tables/{table} roles/editor
+	"google_bigtable_table_iam_binding": config.TemplatedStringAsIdentifier("", "projects/{{ .setup.configuration.project }}/tables/{{ .parameters.table }} {{ .parameters.role }}"),
+	// projects/{project}/tables/{table} roles/editor user:jane@example.com
+	"google_bigtable_table_iam_member": config.TemplatedStringAsIdentifier("", "projects/{{ .setup.configuration.project }}/tables/{{ .parameters.table }} {{ .parameters.role }} {{ .parameters.member }}"),
+	// projects/{project}/tables/{table}
+	"google_bigtable_table_iam_policy": config.TemplatedStringAsIdentifier("", "projects/{{ .setup.configuration.project }}/instances/{{ .parameters.table }}"),
 }
 
 // TemplatedStringAsIdentifierWithNoName uses TemplatedStringAsIdentifier but
