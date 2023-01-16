@@ -143,6 +143,14 @@ import (
 	nodepoolcontainerazure "github.com/upbound/provider-gcp/internal/controller/containerazure/nodepool"
 	entry "github.com/upbound/provider-gcp/internal/controller/datacatalog/entry"
 	entrygroup "github.com/upbound/provider-gcp/internal/controller/datacatalog/entrygroup"
+	entrygroupiambinding "github.com/upbound/provider-gcp/internal/controller/datacatalog/entrygroupiambinding"
+	entrygroupiammember "github.com/upbound/provider-gcp/internal/controller/datacatalog/entrygroupiammember"
+	entrygroupiampolicy "github.com/upbound/provider-gcp/internal/controller/datacatalog/entrygroupiampolicy"
+	tag "github.com/upbound/provider-gcp/internal/controller/datacatalog/tag"
+	tagtemplate "github.com/upbound/provider-gcp/internal/controller/datacatalog/tagtemplate"
+	tagtemplateiambinding "github.com/upbound/provider-gcp/internal/controller/datacatalog/tagtemplateiambinding"
+	tagtemplateiammember "github.com/upbound/provider-gcp/internal/controller/datacatalog/tagtemplateiammember"
+	tagtemplateiampolicy "github.com/upbound/provider-gcp/internal/controller/datacatalog/tagtemplateiampolicy"
 	jobdataflow "github.com/upbound/provider-gcp/internal/controller/dataflow/job"
 	instancedatafusion "github.com/upbound/provider-gcp/internal/controller/datafusion/instance"
 	agent "github.com/upbound/provider-gcp/internal/controller/dialogflowcx/agent"
@@ -369,6 +377,14 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		nodepoolcontainerazure.Setup,
 		entry.Setup,
 		entrygroup.Setup,
+		entrygroupiambinding.Setup,
+		entrygroupiammember.Setup,
+		entrygroupiampolicy.Setup,
+		tag.Setup,
+		tagtemplate.Setup,
+		tagtemplateiambinding.Setup,
+		tagtemplateiammember.Setup,
+		tagtemplateiampolicy.Setup,
 		jobdataflow.Setup,
 		instancedatafusion.Setup,
 		agent.Setup,

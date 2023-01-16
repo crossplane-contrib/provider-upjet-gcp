@@ -50,3 +50,97 @@ func (mg *Entry) ResolveReferences(ctx context.Context, c client.Reader) error {
 
 	return nil
 }
+
+// ResolveReferences of this EntryGroupIAMPolicy.
+func (mg *EntryGroupIAMPolicy) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.EntryGroup),
+		Extract:      resource.ExtractParamPath("name", true),
+		Reference:    mg.Spec.ForProvider.EntryGroupRef,
+		Selector:     mg.Spec.ForProvider.EntryGroupSelector,
+		To: reference.To{
+			List:    &EntryGroupList{},
+			Managed: &EntryGroup{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.EntryGroup")
+	}
+	mg.Spec.ForProvider.EntryGroup = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.EntryGroupRef = rsp.ResolvedReference
+
+	return nil
+}
+
+// ResolveReferences of this Tag.
+func (mg *Tag) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Parent),
+		Extract:      resource.ExtractResourceID(),
+		Reference:    mg.Spec.ForProvider.ParentRef,
+		Selector:     mg.Spec.ForProvider.ParentSelector,
+		To: reference.To{
+			List:    &EntryList{},
+			Managed: &Entry{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.Parent")
+	}
+	mg.Spec.ForProvider.Parent = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.ParentRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Template),
+		Extract:      resource.ExtractResourceID(),
+		Reference:    mg.Spec.ForProvider.TemplateRef,
+		Selector:     mg.Spec.ForProvider.TemplateSelector,
+		To: reference.To{
+			List:    &TagTemplateList{},
+			Managed: &TagTemplate{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.Template")
+	}
+	mg.Spec.ForProvider.Template = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.TemplateRef = rsp.ResolvedReference
+
+	return nil
+}
+
+// ResolveReferences of this TagTemplateIAMPolicy.
+func (mg *TagTemplateIAMPolicy) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.TagTemplate),
+		Extract:      resource.ExtractParamPath("name", true),
+		Reference:    mg.Spec.ForProvider.TagTemplateRef,
+		Selector:     mg.Spec.ForProvider.TagTemplateSelector,
+		To: reference.To{
+			List:    &TagTemplateList{},
+			Managed: &TagTemplate{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.TagTemplate")
+	}
+	mg.Spec.ForProvider.TagTemplate = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.TagTemplateRef = rsp.ResolvedReference
+
+	return nil
+}

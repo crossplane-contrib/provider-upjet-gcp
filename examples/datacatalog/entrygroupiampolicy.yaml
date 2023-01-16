@@ -1,0 +1,40 @@
+apiVersion: datacatalog.gcp.upbound.io/v1beta1
+kind: EntryGroupIAMPolicy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: datacatalog/v1beta1/entrygroupiampolicy
+    upjet.upbound.io/manual-intervention: "Requires a real Account ID"
+  labels:
+    testing.upbound.io/example-name: policy
+  name: policy
+spec:
+  forProvider:
+    entryGroupSelector:
+      matchLabels:
+        testing.upbound.io/example-name: basic_entry_group
+    policyData: |
+      {
+        "bindings":[
+          {
+            "members":[
+              "serviceAccount:example"
+            ],
+            "role": "roles/datacatalog.admin"
+          }]
+      }
+
+---
+
+apiVersion: datacatalog.gcp.upbound.io/v1beta1
+kind: EntryGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: datacatalog/v1beta1/entrygroupiampolicy
+  labels:
+    testing.upbound.io/example-name: basic_entry_group
+  name: entrygroup
+spec:
+  forProvider:
+    # Must match regexp "^[A-z_][A-z0-9_]{0,63}$"
+    entryGroupId: entry_group
+    region: us-central1

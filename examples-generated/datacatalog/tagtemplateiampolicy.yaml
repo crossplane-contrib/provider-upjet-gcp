@@ -1,0 +1,17 @@
+apiVersion: datacatalog.gcp.upbound.io/v1beta1
+kind: TagTemplateIAMPolicy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: datacatalog/v1beta1/tagtemplateiampolicy
+  labels:
+    testing.upbound.io/example-name: policy
+  name: policy
+spec:
+  forProvider:
+    policyData: ${data.google_iam_policy.admin.policy_data}
+    tagTemplateSelector:
+      matchLabels:
+        testing.upbound.io/example-name: basic_tag_template
+
+---
+

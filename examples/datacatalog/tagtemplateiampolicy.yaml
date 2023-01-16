@@ -1,0 +1,58 @@
+apiVersion: datacatalog.gcp.upbound.io/v1beta1
+kind: TagTemplateIAMPolicy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: datacatalog/v1beta1/tagtemplateiampolicy
+    upjet.upbound.io/manual-intervention: "Requires a real Account ID"
+  labels:
+    testing.upbound.io/example-name: policy
+  name: policy
+spec:
+  forProvider:
+    policyData: |
+      {
+        "bindings":[
+          {
+            "members":[
+              "serviceAccount:example"
+            ],
+            "role": "roles/datacatalog.admin"
+          }]
+      }
+    tagTemplateSelector:
+      matchLabels:
+        testing.upbound.io/example-name: basic_tag_template
+
+---
+
+apiVersion: datacatalog.gcp.upbound.io/v1beta1
+kind: TagTemplate
+metadata:
+  annotations:
+    meta.upbound.io/example-id: datacatalog/v1beta1/tagtemplateiampolicy
+  labels:
+    testing.upbound.io/example-name: basic_tag_template
+  name: basictagtemplate
+spec:
+  forProvider:
+    displayName: "Demo Tag Template"
+    fields:
+      - displayName: "Source of data asset"
+        fieldId: "source"
+        isRequired: true
+        type:
+          - primitiveType: "STRING"
+      - displayName: "Number of rows in the data asset"
+        fieldId: "num_rows"
+        type:
+          - primitiveType: "DOUBLE"
+      - displayName: "PII type"
+        fieldId: "pii_type"
+        type:
+          - enumType:
+              - allowedValues:
+                  - displayName: "EMAIL"
+                  - displayName: "SOCIAL SECURITY NUMBER"
+                  - displayName: "NONE"
+    forceDelete: true
+    region: us-central1
