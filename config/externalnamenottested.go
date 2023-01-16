@@ -124,4 +124,70 @@ var ExternalNameNotTestedConfigs = map[string]config.ExternalName{
 	"google_data_catalog_tag_template_iam_member": config.IdentifierFromProvider,
 	// projects/{{project}}/locations/{{region}}/tagTemplates/{{tag_template}}
 	"google_data_catalog_tag_template_iam_policy": config.IdentifierFromProvider,
+
+	// accessapproval
+	//
+	// Imported by using the following format: folders/{{folder_id}}/accessApprovalSettings
+	"google_folder_access_approval_settings": config.TemplatedStringAsIdentifier("", "folders/{{ .parameters.folder_id }}/accessApprovalSettings"),
+	// Imported by using the following format: organizations/{{organization_id}}/accessApprovalSettings
+	"google_organization_access_approval_settings": config.TemplatedStringAsIdentifier("", "organizations/{{ .parameters.organization_id }}/accessApprovalSettings"),
+	// Imported by using the following format: projects/{{project_id}}/accessApprovalSettings
+	"google_project_access_approval_settings": config.TemplatedStringAsIdentifier("", "projects/{{ .parameters.project_id }}/accessApprovalSettings"),
+
+	// accesscontextmanager
+	//
+	//
+	// Imported by using the following format: {{name}}: accessPolicies/{policy_id}/accessLevels/{short_name}
+	"google_access_context_manager_access_level": config.IdentifierFromProvider,
+	// No import
+	"google_access_context_manager_access_level_condition": config.IdentifierFromProvider,
+	// Imported by using {{name}}, but name doesn't exist in parameters. Try using IdentifierFromProvider
+	"google_access_context_manager_access_policy": config.IdentifierFromProvider,
+	// Imported by using the following format: accessPolicies/{{access_policy}} roles/accesscontextmanager.policyAdmin
+	"google_access_context_manager_access_policy_iam_binding": config.IdentifierFromProvider,
+	// Imported by using the following format: "accessPolicies/{{access_policy}} roles/accesscontextmanager.policyAdmin user:jane@example.com"
+	"google_access_context_manager_access_policy_iam_member": config.IdentifierFromProvider,
+	// Imported by using the following format: accessPolicies/{{access_policy}}
+	"google_access_context_manager_access_policy_iam_policy": config.TemplatedStringAsIdentifier("name", "accessPolicies/{{ .external_name }}"),
+	// Imported by using the following format: {{name}}
+	"google_access_context_manager_gcp_user_access_binding": config.IdentifierFromProvider,
+	// Imported by using the following format: {{name}}
+	"google_access_context_manager_service_perimeter": config.IdentifierFromProvider,
+	// Imported by using the following format: {{perimeter_name}}/{{resource}}
+	"google_access_context_manager_service_perimeter_resource": config.TemplatedStringAsIdentifier("resource", "{{ .parameters.perimeter_name }}/{{ .external_name }}"),
+
+	// activedirectory
+	//
+	// Imported by using the following format: {{name}}
+	"google_active_directory_domain": config.IdentifierFromProvider,
+	// Imported by using the following format: projects/{{project}}/locations/global/domains/{{domain}}/{{target_domain_name}}
+	"google_active_directory_domain_trust": config.TemplatedStringAsIdentifier("target_domain_name", "projects/{{ .setup.configuration.project }}/locations/global/domains/{{ .parameters.domain }}/{{ .external_name }}"),
+
+	// apigee
+	//
+	// Imported by using the following format: {{org_id}}/endpointAttachments/{{endpoint_attachment_id}}
+	"google_apigee_endpoint_attachment": config.TemplatedStringAsIdentifier("endpoint_attachment_id", "{{ .parameters.org_id }}/endpointAttachments/{{ .external_name }}"),
+	// Imported by using the following format: {{org_id}}/envgroups/{{name}}
+	"google_apigee_envgroup": config.TemplatedStringAsIdentifier("name", "{{ .parameters.org_id }}/envgroups/{{ .external_name }}"),
+	// Imported by using the following format: {{envgroup_id}}/attachments/{{name}}. Name doesn't exist in parameters, try using IdentifierFromProvider
+	"google_apigee_envgroup_attachment": config.IdentifierFromProvider,
+	// Imported by using the following format: {{org_id}}/environments/{{name}}
+	"google_apigee_environment": config.TemplatedStringAsIdentifier("name", "{{ .parameters.org_id }}/environments/{{ .external_name }}"),
+	// Imported by using the following format: {{org_id}}/environments/{{environment}} roles/viewer
+	"google_apigee_environment_iam_binding": config.IdentifierFromProvider,
+	// Imported by using the following format: {{org_id}}/environments/{{environment}} roles/viewer user:jane@example.com
+	"google_apigee_environment_iam_member": config.IdentifierFromProvider,
+	// Imported by using the following format: {{org_id}}/environments/{{environment}}
+	"google_apigee_environment_iam_policy": config.IdentifierFromProvider,
+	// Imported by using the following format: {{org_id}}/instances/{{name}}
+	"google_apigee_instance": config.TemplatedStringAsIdentifier("name", "{{ .parameters.org_id }}/instances/{{ .external_name }}"),
+	// Imported by using the following format: {{instance_id}}/attachments/{{name}}. Name doesn't exist in parameters, try using IdentifierFromProvider
+	"google_apigee_instance_attachment": config.IdentifierFromProvider,
+	// Imported by using the following format: organizations/{{name}}. Name doesn't exist in parameters, try using IdentifierFromProvider
+	"google_apigee_organization": config.IdentifierFromProvider,
+
+	// apikeys
+	//
+	// Imported by using the following format: projects/{{project}}/locations/global/keys/{{name}}
+	"google_apikeys_key": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/global/keys/{{ .external_name }}"),
 }
