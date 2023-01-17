@@ -153,6 +153,8 @@ import (
 	nodepoolcontainerazure "github.com/upbound/provider-gcp/internal/controller/containerazure/nodepool"
 	entry "github.com/upbound/provider-gcp/internal/controller/datacatalog/entry"
 	entrygroup "github.com/upbound/provider-gcp/internal/controller/datacatalog/entrygroup"
+	tag "github.com/upbound/provider-gcp/internal/controller/datacatalog/tag"
+	tagtemplate "github.com/upbound/provider-gcp/internal/controller/datacatalog/tagtemplate"
 	jobdataflow "github.com/upbound/provider-gcp/internal/controller/dataflow/job"
 	instancedatafusion "github.com/upbound/provider-gcp/internal/controller/datafusion/instance"
 	agent "github.com/upbound/provider-gcp/internal/controller/dialogflowcx/agent"
@@ -389,6 +391,8 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		nodepoolcontainerazure.Setup,
 		entry.Setup,
 		entrygroup.Setup,
+		tag.Setup,
+		tagtemplate.Setup,
 		jobdataflow.Setup,
 		instancedatafusion.Setup,
 		agent.Setup,

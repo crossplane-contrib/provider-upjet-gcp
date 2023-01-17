@@ -50,3 +50,45 @@ func (mg *Entry) ResolveReferences(ctx context.Context, c client.Reader) error {
 
 	return nil
 }
+
+// ResolveReferences of this Tag.
+func (mg *Tag) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Parent),
+		Extract:      resource.ExtractResourceID(),
+		Reference:    mg.Spec.ForProvider.ParentRef,
+		Selector:     mg.Spec.ForProvider.ParentSelector,
+		To: reference.To{
+			List:    &EntryList{},
+			Managed: &Entry{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.Parent")
+	}
+	mg.Spec.ForProvider.Parent = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.ParentRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Template),
+		Extract:      resource.ExtractResourceID(),
+		Reference:    mg.Spec.ForProvider.TemplateRef,
+		Selector:     mg.Spec.ForProvider.TemplateSelector,
+		To: reference.To{
+			List:    &TagTemplateList{},
+			Managed: &TagTemplate{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.Template")
+	}
+	mg.Spec.ForProvider.Template = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.TemplateRef = rsp.ResolvedReference
+
+	return nil
+}
