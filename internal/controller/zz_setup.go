@@ -9,6 +9,10 @@ import (
 
 	"github.com/upbound/upjet/pkg/controller"
 
+	envgroup "github.com/upbound/provider-gcp/internal/controller/apigee/envgroup"
+	environment "github.com/upbound/provider-gcp/internal/controller/apigee/environment"
+	instance "github.com/upbound/provider-gcp/internal/controller/apigee/instance"
+	organization "github.com/upbound/provider-gcp/internal/controller/apigee/organization"
 	application "github.com/upbound/provider-gcp/internal/controller/appengine/application"
 	connection "github.com/upbound/provider-gcp/internal/controller/bigquery/connection"
 	dataset "github.com/upbound/provider-gcp/internal/controller/bigquery/dataset"
@@ -27,7 +31,7 @@ import (
 	tableiampolicy "github.com/upbound/provider-gcp/internal/controller/bigquery/tableiampolicy"
 	appprofile "github.com/upbound/provider-gcp/internal/controller/bigtable/appprofile"
 	garbagecollectionpolicy "github.com/upbound/provider-gcp/internal/controller/bigtable/garbagecollectionpolicy"
-	instance "github.com/upbound/provider-gcp/internal/controller/bigtable/instance"
+	instancebigtable "github.com/upbound/provider-gcp/internal/controller/bigtable/instance"
 	instanceiambinding "github.com/upbound/provider-gcp/internal/controller/bigtable/instanceiambinding"
 	instanceiammember "github.com/upbound/provider-gcp/internal/controller/bigtable/instanceiammember"
 	instanceiampolicy "github.com/upbound/provider-gcp/internal/controller/bigtable/instanceiampolicy"
@@ -61,7 +65,7 @@ import (
 	serviceiammember "github.com/upbound/provider-gcp/internal/controller/cloudrun/serviceiammember"
 	jobcloudscheduler "github.com/upbound/provider-gcp/internal/controller/cloudscheduler/job"
 	queue "github.com/upbound/provider-gcp/internal/controller/cloudtasks/queue"
-	environment "github.com/upbound/provider-gcp/internal/controller/composer/environment"
+	environmentcomposer "github.com/upbound/provider-gcp/internal/controller/composer/environment"
 	address "github.com/upbound/provider-gcp/internal/controller/compute/address"
 	attacheddisk "github.com/upbound/provider-gcp/internal/controller/compute/attacheddisk"
 	autoscaler "github.com/upbound/provider-gcp/internal/controller/compute/autoscaler"
@@ -247,6 +251,10 @@ import (
 // the supplied manager.
 func Setup(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		envgroup.Setup,
+		environment.Setup,
+		instance.Setup,
+		organization.Setup,
 		application.Setup,
 		connection.Setup,
 		dataset.Setup,
@@ -265,7 +273,7 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		tableiampolicy.Setup,
 		appprofile.Setup,
 		garbagecollectionpolicy.Setup,
-		instance.Setup,
+		instancebigtable.Setup,
 		instanceiambinding.Setup,
 		instanceiammember.Setup,
 		instanceiampolicy.Setup,
@@ -299,7 +307,7 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		serviceiammember.Setup,
 		jobcloudscheduler.Setup,
 		queue.Setup,
-		environment.Setup,
+		environmentcomposer.Setup,
 		address.Setup,
 		attacheddisk.Setup,
 		autoscaler.Setup,
