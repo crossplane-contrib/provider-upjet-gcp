@@ -295,6 +295,10 @@ var externalNameConfigs = map[string]config.ExternalName{
 	"google_data_catalog_entry": config.IdentifierFromProvider,
 	// Imported by using the following format: {{name}}
 	"google_data_catalog_entry_group": config.IdentifierFromProvider,
+	// {{name}}: projects/{project_id}/locations/{location}/entrygroups/{entryGroupId}/tags/{tag_id} where tag_id is a system-generated identifier
+	"google_data_catalog_tag": config.IdentifierFromProvider,
+	// {{name}}: projects/{project_id}/locations/{location}/tagTemplates/{tagTemplateId}
+	"google_data_catalog_tag_template": config.TemplatedStringAsIdentifier("tag_template_id", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.region }}/tagTemplates/{{ .external_name }}"),
 
 	// dialogflow
 	//

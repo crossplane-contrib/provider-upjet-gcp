@@ -90,10 +90,6 @@ var ExternalNameNotTestedConfigs = map[string]config.ExternalName{
 	"google_data_catalog_entry_group_iam_member": config.IdentifierFromProvider,
 	// projects/{{project}}/locations/{{region}}/entryGroups/{{entry_group}}
 	"google_data_catalog_entry_group_iam_policy": config.IdentifierFromProvider,
-	// {{name}}: projects/{project_id}/locations/{location}/entrygroups/{entryGroupId}/tags/{tag_id} where tag_id is a system-generated identifier
-	"google_data_catalog_tag": config.IdentifierFromProvider,
-	// {{name}}: projects/{project_id}/locations/{location}/tagTemplates/{tagTemplateId}
-	"google_data_catalog_tag_template": config.TemplatedStringAsIdentifier("tag_template_id", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.region }}/tagTemplates/{{ .external_name }}"),
 	// projects/{{project}}/locations/{{region}}/tagTemplates/{{tag_template}} roles/viewer
 	"google_data_catalog_tag_template_iam_binding": config.IdentifierFromProvider,
 	// projects/{{project}}/locations/{{region}}/tagTemplates/{{tag_template}} roles/viewer user:jane@example.com
