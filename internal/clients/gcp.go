@@ -32,15 +32,18 @@ import (
 const (
 	keyProject = "project"
 
-	keyCredentials = "credentials"
+	keyCredentials               = "credentials"
+	credentialsSourceAccessToken = "AccessToken"
+	keyAccessToken               = "access_token"
 )
 
 const (
 	// error messages
-	errNoProviderConfig   = "no providerConfigRef provided"
-	errGetProviderConfig  = "cannot get referenced ProviderConfig"
-	errTrackUsage         = "cannot track ProviderConfig usage"
-	errExtractCredentials = "cannot extract credentials"
+	errNoProviderConfig        = "no providerConfigRef provided"
+	errGetProviderConfig       = "cannot get referenced ProviderConfig"
+	errTrackUsage              = "cannot track ProviderConfig usage"
+	errExtractKeyCredentials   = "cannot extract JSON key credentials"
+	errExtractTokenCredentials = "cannot extract Access Token credentials"
 )
 
 // TerraformSetupBuilder builds Terraform a terraform.SetupFn function which
@@ -77,15 +80,20 @@ func TerraformSetupBuilder(version, providerSource, providerVersion string) terr
 		switch pc.Spec.Credentials.Source { //nolint:exhaustive
 		case xpv1.CredentialsSourceInjectedIdentity:
 			// We don't need to do anything here, as the TF Provider will take care of workloadIdentity etc.
+		case credentialsSourceAccessToken:
+			data, err := resource.CommonCredentialExtractor(ctx, xpv1.CredentialsSourceSecret, client, pc.Spec.Credentials.CommonCredentialSelectors)
+			if err != nil {
+				return ps, errors.Wrap(err, errExtractTokenCredentials)
+			}
+			ps.Configuration[keyAccessToken] = string(data)
 		default:
 			data, err := resource.CommonCredentialExtractor(ctx, pc.Spec.Credentials.Source, client, pc.Spec.Credentials.CommonCredentialSelectors)
 			if err != nil {
-				return ps, errors.Wrap(err, errExtractCredentials)
+				return ps, errors.Wrap(err, errExtractKeyCredentials)
 			}
-
-			// set provider configuration keys for GCP credentials
 			ps.Configuration[keyCredentials] = string(data)
 		}
+
 		return ps, nil
 	}
 }
