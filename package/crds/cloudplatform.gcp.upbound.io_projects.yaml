@@ -176,10 +176,15 @@ spec:
                       organization. The numeric ID of the organization this project
                       belongs to.
                     type: string
+                  projectId:
+                    description: The project ID. Changing this forces a new project
+                      to be created.
+                    type: string
                   skipDelete:
                     type: boolean
                 required:
                 - name
+                - projectId
                 type: object
               providerConfigRef:
                 default:

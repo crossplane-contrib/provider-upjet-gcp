@@ -86,6 +86,10 @@ type ProjectParameters struct {
 	// +kubebuilder:validation:Optional
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
 
+	// The project ID. Changing this forces a new project to be created.
+	// +kubebuilder:validation:Required
+	ProjectID *string `json:"projectId" tf:"project_id,omitempty"`
+
 	// +kubebuilder:validation:Optional
 	SkipDelete *bool `json:"skipDelete,omitempty" tf:"skip_delete,omitempty"`
 }

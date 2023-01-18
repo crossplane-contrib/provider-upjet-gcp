@@ -40,7 +40,7 @@ var externalNameConfigs = map[string]config.ExternalName{
 	// Project-ID has a format as following: projects/{{project}}
 	// So, the GetIDFn function implementation for project-id and import method
 	// for project resource seems that different.
-	"google_project": config.TemplatedStringAsIdentifier("project_id", "projects/{{ .external_name }}"),
+	"google_project": config.IdentifierFromProvider,
 	// Resource with format projects/{{project}}
 	// This resource does not support import
 	"google_project_default_service_accounts": TemplatedStringAsIdentifierWithNoName("projects/{{ .external_name }}"),

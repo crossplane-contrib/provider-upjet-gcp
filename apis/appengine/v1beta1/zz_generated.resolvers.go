@@ -22,6 +22,7 @@ import (
 	reference "github.com/crossplane/crossplane-runtime/pkg/reference"
 	errors "github.com/pkg/errors"
 	v1beta1 "github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1"
+	resource "github.com/upbound/upjet/pkg/resource"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
@@ -34,7 +35,7 @@ func (mg *Application) ResolveReferences(ctx context.Context, c client.Reader) e
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Project),
-		Extract:      reference.ExternalName(),
+		Extract:      resource.ExtractParamPath("project_id", false),
 		Reference:    mg.Spec.ForProvider.ProjectRef,
 		Selector:     mg.Spec.ForProvider.ProjectSelector,
 		To: reference.To{
