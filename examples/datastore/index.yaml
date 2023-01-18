@@ -1,0 +1,17 @@
+apiVersion: datastore.gcp.upbound.io/v1beta1
+kind: Index
+metadata:
+  annotations:
+    meta.upbound.io/example-id: datastore/v1beta1/index
+    upjet.upbound.io/manual-intervention: "Manual intervention due to resource created successfully but Uptest returned error: Index already exist."
+  labels:
+    testing.upbound.io/example-name: index
+  name: index
+spec:
+  forProvider:
+    kind: Index
+    properties:
+      - direction: "DESCENDING"
+        name: "property_example_a"
+      - direction: "DESCENDING"
+        name: "property_example_b"

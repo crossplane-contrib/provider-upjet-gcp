@@ -167,6 +167,7 @@ import (
 	tagtemplate "github.com/upbound/provider-gcp/internal/controller/datacatalog/tagtemplate"
 	jobdataflow "github.com/upbound/provider-gcp/internal/controller/dataflow/job"
 	instancedatafusion "github.com/upbound/provider-gcp/internal/controller/datafusion/instance"
+	index "github.com/upbound/provider-gcp/internal/controller/datastore/index"
 	agent "github.com/upbound/provider-gcp/internal/controller/dialogflowcx/agent"
 	entitytype "github.com/upbound/provider-gcp/internal/controller/dialogflowcx/entitytype"
 	environmentdialogflowcx "github.com/upbound/provider-gcp/internal/controller/dialogflowcx/environment"
@@ -415,6 +416,7 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		tagtemplate.Setup,
 		jobdataflow.Setup,
 		instancedatafusion.Setup,
+		index.Setup,
 		agent.Setup,
 		entitytype.Setup,
 		environmentdialogflowcx.Setup,
