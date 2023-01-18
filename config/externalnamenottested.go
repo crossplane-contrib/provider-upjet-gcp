@@ -213,4 +213,36 @@ var ExternalNameNotTestedConfigs = map[string]config.ExternalName{
 	"google_dialogflow_fulfillment": config.IdentifierFromProvider,
 	// Imported by using the following format: {{name}}
 	"google_dialogflow_intent": config.IdentifierFromProvider,
+
+	// healthcare
+	//
+	// Imported by using the following format: {{dataset}}/consentStores/{{consent_store}} roles/viewer user:jane@example.com
+	"google_healthcare_consent_store_iam_member": config.TemplatedStringAsIdentifier("consent_store_id", "{{ .parameters.dataset }}/consentStores/{{ .external_name }} {{ .parameters.role }} {{ .parameters.member }}"),
+	// Imported by using the following format: your-project-id/location-name/dataset-name roles/viewer user:foo@example.com
+	"google_healthcare_dataset_iam_member": config.TemplatedStringAsIdentifier("", "{{ .parameters.dataset_id }} {{ .parameters.role }} {{ .parameters.member }}"),
+	// Imported by using the following format: {{dataset}}/dicomStores/{{name}}
+	"google_healthcare_dicom_store": config.TemplatedStringAsIdentifier("name", "{{ .parameters.dataset }}/dicomStores/{{ .external_name }}"),
+	// Imported by using the following format: your-project-id/location-name/dataset-name/dicom-store-name roles/viewer user:foo@example.com
+	"google_healthcare_dicom_store_iam_member": config.TemplatedStringAsIdentifier("", "{{ .parameters.dicom_store_id }} {{ .parameters.role }} {{ .parameters.member }}"),
+	// Imported by using the following format: {{dataset}}/fhirStores/{{name}}
+	"google_healthcare_fhir_store": config.TemplatedStringAsIdentifier("name", "{{ .parameters.dataset }}/fhirStores/{{ .external_name }}"),
+	// Imported by using the following format: your-project-id/location-name/dataset-name/fhir-store-name roles/viewer user:foo@example.com
+	"google_healthcare_fhir_store_iam_member": config.TemplatedStringAsIdentifier("", "{{ .parameters.fhir_store_id }} {{ .parameters.role }} {{ .parameters.member }}"),
+	// Imported by using the following format: {{dataset}}/hl7V2Stores/{{name}}
+	"google_healthcare_hl7_v2_store": config.TemplatedStringAsIdentifier("name", "{{ .parameters.dataset }}/hl7V2Stores/{{ .external_name }}"),
+	// Imported by using the following format: your-project-id/location-name/dataset-name/hl7-v2-store-name roles/viewer user:foo@example.com
+	"google_healthcare_hl7_v2_store_iam_member": config.TemplatedStringAsIdentifier("", "{{ .parameters.hl7_v2_store_id }} {{ .parameters.role }} {{ .parameters.member }}"),
+
+	// iap
+	//
+	// Imported by using the following format: projects/{{project_id}}/brands/{{brand_id}}
+	"google_iap_brand": config.IdentifierFromProvider,
+	// Imported by using the following format: {{brand}}/identityAwareProxyClients/{{client_id}}
+	"google_iap_client": config.IdentifierFromProvider,
+	// Imported by using the following format: projects/{{project}}/iap_web/appengine-{{appId}}/services/{{service}} roles/iap.httpsResourceAccessor user:jane@example.com
+	"google_iap_app_engine_service_iam_member": config.TemplatedStringAsIdentifier("service", "projects/{{ .setup.configuration.project }}/iap_web/appengine-{{ .parameters.app_id }}/services/{{ .external_name }} {{ .parameters.role }} {{ .parameters.member }}"),
+	// Imported by using the following format: projects/{{project}}/iap_web/appengine-{{appId}}/services/{{service}}/versions/{{versionId}} roles/iap.httpsResourceAccessor user:jane@example.com
+	"google_iap_app_engine_version_iam_member": config.TemplatedStringAsIdentifier("version_id", "projects/{{ .setup.configuration.project }}/iap_web/appengine-{{ .parameters.app_id }}/services/{{ .parameters.service }}/versions/{{ .external_name }} {{ .parameters.role }} {{ .parameters.member }}"),
+	// Imported by using the following format: projects/{{project}}/iap_web roles/iap.httpsResourceAccessor user:jane@example.com
+	"google_iap_tunnel_iam_member": config.TemplatedStringAsIdentifier("", "/projects/{{ .setup.configuration.project }}/iap_web {{ .parameters.role }} {{ .parameters.member }}"),
 }
