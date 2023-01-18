@@ -9,6 +9,11 @@ import (
 )
 
 var externalNameConfigs = map[string]config.ExternalName{
+	// activedirectory
+	//
+	// Imported by using the following format: {{name}}
+	"google_active_directory_domain": config.IdentifierFromProvider,
+
 	// appengine
 	//
 	// Imported by using the following format: your-project-id
