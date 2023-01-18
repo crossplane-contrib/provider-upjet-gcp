@@ -139,24 +139,16 @@ var ExternalNameNotTestedConfigs = map[string]config.ExternalName{
 	//
 	// Imported by using the following format: {{org_id}}/endpointAttachments/{{endpoint_attachment_id}}
 	"google_apigee_endpoint_attachment": config.TemplatedStringAsIdentifier("endpoint_attachment_id", "{{ .parameters.org_id }}/endpointAttachments/{{ .external_name }}"),
-	// Imported by using the following format: {{org_id}}/envgroups/{{name}}
-	"google_apigee_envgroup": config.TemplatedStringAsIdentifier("name", "{{ .parameters.org_id }}/envgroups/{{ .external_name }}"),
 	// Imported by using the following format: {{envgroup_id}}/attachments/{{name}}. Name doesn't exist in parameters, try using IdentifierFromProvider
 	"google_apigee_envgroup_attachment": config.IdentifierFromProvider,
-	// Imported by using the following format: {{org_id}}/environments/{{name}}
-	"google_apigee_environment": config.TemplatedStringAsIdentifier("name", "{{ .parameters.org_id }}/environments/{{ .external_name }}"),
 	// Imported by using the following format: {{org_id}}/environments/{{environment}} roles/viewer
 	"google_apigee_environment_iam_binding": config.IdentifierFromProvider,
 	// Imported by using the following format: {{org_id}}/environments/{{environment}} roles/viewer user:jane@example.com
 	"google_apigee_environment_iam_member": config.IdentifierFromProvider,
 	// Imported by using the following format: {{org_id}}/environments/{{environment}}
 	"google_apigee_environment_iam_policy": config.IdentifierFromProvider,
-	// Imported by using the following format: {{org_id}}/instances/{{name}}
-	"google_apigee_instance": config.TemplatedStringAsIdentifier("name", "{{ .parameters.org_id }}/instances/{{ .external_name }}"),
 	// Imported by using the following format: {{instance_id}}/attachments/{{name}}. Name doesn't exist in parameters, try using IdentifierFromProvider
 	"google_apigee_instance_attachment": config.IdentifierFromProvider,
-	// Imported by using the following format: organizations/{{name}}. Name doesn't exist in parameters, try using IdentifierFromProvider
-	"google_apigee_organization": config.IdentifierFromProvider,
 
 	// apikeys
 	//
