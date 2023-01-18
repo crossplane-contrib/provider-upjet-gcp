@@ -13,6 +13,12 @@ var externalNameConfigs = map[string]config.ExternalName{
 	//
 	// Imported by using the following format: your-project-id
 	"google_app_engine_application": config.IdentifierFromProvider,
+	// {{project}}
+	"google_app_engine_application_url_dispatch_rules": config.TemplatedStringAsIdentifier("", "{{ .setup.configuration.project }}"),
+	// Imported by using the following format: your-project-id
+	"google_app_engine_service_network_settings": config.IdentifierFromProvider,
+	// apps/{{project}}/services/{{service}}/versions/{{version_id}}
+	"google_app_engine_standard_app_version": config.TemplatedStringAsIdentifier("version_id", "apps/{{ .setup.configuration.project }}/services/{{ .parameters.service }}/versions/{{ .external_name }}"),
 
 	// composer
 	//

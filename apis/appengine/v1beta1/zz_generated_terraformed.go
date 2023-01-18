@@ -98,3 +98,225 @@ func (tr *Application) LateInitialize(attrs []byte) (bool, error) {
 func (tr *Application) GetTerraformSchemaVersion() int {
 	return 0
 }
+
+// GetTerraformResourceType returns Terraform resource type for this ApplicationURLDispatchRules
+func (mg *ApplicationURLDispatchRules) GetTerraformResourceType() string {
+	return "google_app_engine_application_url_dispatch_rules"
+}
+
+// GetConnectionDetailsMapping for this ApplicationURLDispatchRules
+func (tr *ApplicationURLDispatchRules) GetConnectionDetailsMapping() map[string]string {
+	return nil
+}
+
+// GetObservation of this ApplicationURLDispatchRules
+func (tr *ApplicationURLDispatchRules) GetObservation() (map[string]any, error) {
+	o, err := json.TFParser.Marshal(tr.Status.AtProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(o, &base)
+}
+
+// SetObservation for this ApplicationURLDispatchRules
+func (tr *ApplicationURLDispatchRules) SetObservation(obs map[string]any) error {
+	p, err := json.TFParser.Marshal(obs)
+	if err != nil {
+		return err
+	}
+	return json.TFParser.Unmarshal(p, &tr.Status.AtProvider)
+}
+
+// GetID returns ID of underlying Terraform resource of this ApplicationURLDispatchRules
+func (tr *ApplicationURLDispatchRules) GetID() string {
+	if tr.Status.AtProvider.ID == nil {
+		return ""
+	}
+	return *tr.Status.AtProvider.ID
+}
+
+// GetParameters of this ApplicationURLDispatchRules
+func (tr *ApplicationURLDispatchRules) GetParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.ForProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
+}
+
+// SetParameters for this ApplicationURLDispatchRules
+func (tr *ApplicationURLDispatchRules) SetParameters(params map[string]any) error {
+	p, err := json.TFParser.Marshal(params)
+	if err != nil {
+		return err
+	}
+	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
+}
+
+// LateInitialize this ApplicationURLDispatchRules using its observed tfState.
+// returns True if there are any spec changes for the resource.
+func (tr *ApplicationURLDispatchRules) LateInitialize(attrs []byte) (bool, error) {
+	params := &ApplicationURLDispatchRulesParameters{}
+	if err := json.TFParser.Unmarshal(attrs, params); err != nil {
+		return false, errors.Wrap(err, "failed to unmarshal Terraform state parameters for late-initialization")
+	}
+	opts := []resource.GenericLateInitializerOption{resource.WithZeroValueJSONOmitEmptyFilter(resource.CNameWildcard)}
+
+	li := resource.NewGenericLateInitializer(opts...)
+	return li.LateInitialize(&tr.Spec.ForProvider, params)
+}
+
+// GetTerraformSchemaVersion returns the associated Terraform schema version
+func (tr *ApplicationURLDispatchRules) GetTerraformSchemaVersion() int {
+	return 0
+}
+
+// GetTerraformResourceType returns Terraform resource type for this ServiceNetworkSettings
+func (mg *ServiceNetworkSettings) GetTerraformResourceType() string {
+	return "google_app_engine_service_network_settings"
+}
+
+// GetConnectionDetailsMapping for this ServiceNetworkSettings
+func (tr *ServiceNetworkSettings) GetConnectionDetailsMapping() map[string]string {
+	return nil
+}
+
+// GetObservation of this ServiceNetworkSettings
+func (tr *ServiceNetworkSettings) GetObservation() (map[string]any, error) {
+	o, err := json.TFParser.Marshal(tr.Status.AtProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(o, &base)
+}
+
+// SetObservation for this ServiceNetworkSettings
+func (tr *ServiceNetworkSettings) SetObservation(obs map[string]any) error {
+	p, err := json.TFParser.Marshal(obs)
+	if err != nil {
+		return err
+	}
+	return json.TFParser.Unmarshal(p, &tr.Status.AtProvider)
+}
+
+// GetID returns ID of underlying Terraform resource of this ServiceNetworkSettings
+func (tr *ServiceNetworkSettings) GetID() string {
+	if tr.Status.AtProvider.ID == nil {
+		return ""
+	}
+	return *tr.Status.AtProvider.ID
+}
+
+// GetParameters of this ServiceNetworkSettings
+func (tr *ServiceNetworkSettings) GetParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.ForProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
+}
+
+// SetParameters for this ServiceNetworkSettings
+func (tr *ServiceNetworkSettings) SetParameters(params map[string]any) error {
+	p, err := json.TFParser.Marshal(params)
+	if err != nil {
+		return err
+	}
+	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
+}
+
+// LateInitialize this ServiceNetworkSettings using its observed tfState.
+// returns True if there are any spec changes for the resource.
+func (tr *ServiceNetworkSettings) LateInitialize(attrs []byte) (bool, error) {
+	params := &ServiceNetworkSettingsParameters{}
+	if err := json.TFParser.Unmarshal(attrs, params); err != nil {
+		return false, errors.Wrap(err, "failed to unmarshal Terraform state parameters for late-initialization")
+	}
+	opts := []resource.GenericLateInitializerOption{resource.WithZeroValueJSONOmitEmptyFilter(resource.CNameWildcard)}
+
+	li := resource.NewGenericLateInitializer(opts...)
+	return li.LateInitialize(&tr.Spec.ForProvider, params)
+}
+
+// GetTerraformSchemaVersion returns the associated Terraform schema version
+func (tr *ServiceNetworkSettings) GetTerraformSchemaVersion() int {
+	return 0
+}
+
+// GetTerraformResourceType returns Terraform resource type for this StandardAppVersion
+func (mg *StandardAppVersion) GetTerraformResourceType() string {
+	return "google_app_engine_standard_app_version"
+}
+
+// GetConnectionDetailsMapping for this StandardAppVersion
+func (tr *StandardAppVersion) GetConnectionDetailsMapping() map[string]string {
+	return nil
+}
+
+// GetObservation of this StandardAppVersion
+func (tr *StandardAppVersion) GetObservation() (map[string]any, error) {
+	o, err := json.TFParser.Marshal(tr.Status.AtProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(o, &base)
+}
+
+// SetObservation for this StandardAppVersion
+func (tr *StandardAppVersion) SetObservation(obs map[string]any) error {
+	p, err := json.TFParser.Marshal(obs)
+	if err != nil {
+		return err
+	}
+	return json.TFParser.Unmarshal(p, &tr.Status.AtProvider)
+}
+
+// GetID returns ID of underlying Terraform resource of this StandardAppVersion
+func (tr *StandardAppVersion) GetID() string {
+	if tr.Status.AtProvider.ID == nil {
+		return ""
+	}
+	return *tr.Status.AtProvider.ID
+}
+
+// GetParameters of this StandardAppVersion
+func (tr *StandardAppVersion) GetParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.ForProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
+}
+
+// SetParameters for this StandardAppVersion
+func (tr *StandardAppVersion) SetParameters(params map[string]any) error {
+	p, err := json.TFParser.Marshal(params)
+	if err != nil {
+		return err
+	}
+	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
+}
+
+// LateInitialize this StandardAppVersion using its observed tfState.
+// returns True if there are any spec changes for the resource.
+func (tr *StandardAppVersion) LateInitialize(attrs []byte) (bool, error) {
+	params := &StandardAppVersionParameters{}
+	if err := json.TFParser.Unmarshal(attrs, params); err != nil {
+		return false, errors.Wrap(err, "failed to unmarshal Terraform state parameters for late-initialization")
+	}
+	opts := []resource.GenericLateInitializerOption{resource.WithZeroValueJSONOmitEmptyFilter(resource.CNameWildcard)}
+
+	li := resource.NewGenericLateInitializer(opts...)
+	return li.LateInitialize(&tr.Spec.ForProvider, params)
+}
+
+// GetTerraformSchemaVersion returns the associated Terraform schema version
+func (tr *StandardAppVersion) GetTerraformSchemaVersion() int {
+	return 0
+}

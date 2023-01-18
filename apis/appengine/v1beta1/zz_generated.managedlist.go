@@ -27,3 +27,30 @@ func (l *ApplicationList) GetItems() []resource.Managed {
 	}
 	return items
 }
+
+// GetItems of this ApplicationURLDispatchRulesList.
+func (l *ApplicationURLDispatchRulesList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this ServiceNetworkSettingsList.
+func (l *ServiceNetworkSettingsList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this StandardAppVersionList.
+func (l *StandardAppVersionList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}

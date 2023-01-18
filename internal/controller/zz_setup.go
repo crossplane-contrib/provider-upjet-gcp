@@ -14,6 +14,9 @@ import (
 	instance "github.com/upbound/provider-gcp/internal/controller/apigee/instance"
 	organization "github.com/upbound/provider-gcp/internal/controller/apigee/organization"
 	application "github.com/upbound/provider-gcp/internal/controller/appengine/application"
+	applicationurldispatchrules "github.com/upbound/provider-gcp/internal/controller/appengine/applicationurldispatchrules"
+	servicenetworksettings "github.com/upbound/provider-gcp/internal/controller/appengine/servicenetworksettings"
+	standardappversion "github.com/upbound/provider-gcp/internal/controller/appengine/standardappversion"
 	connection "github.com/upbound/provider-gcp/internal/controller/bigquery/connection"
 	dataset "github.com/upbound/provider-gcp/internal/controller/bigquery/dataset"
 	datasetaccess "github.com/upbound/provider-gcp/internal/controller/bigquery/datasetaccess"
@@ -256,6 +259,9 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		instance.Setup,
 		organization.Setup,
 		application.Setup,
+		applicationurldispatchrules.Setup,
+		servicenetworksettings.Setup,
+		standardappversion.Setup,
 		connection.Setup,
 		dataset.Setup,
 		datasetaccess.Setup,
