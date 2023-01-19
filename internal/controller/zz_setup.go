@@ -43,6 +43,8 @@ import (
 	tableiambindingbigtable "github.com/upbound/provider-gcp/internal/controller/bigtable/tableiambinding"
 	tableiammemberbigtable "github.com/upbound/provider-gcp/internal/controller/bigtable/tableiammember"
 	tableiampolicybigtable "github.com/upbound/provider-gcp/internal/controller/bigtable/tableiampolicy"
+	attestor "github.com/upbound/provider-gcp/internal/controller/binaryauthorization/attestor"
+	policy "github.com/upbound/provider-gcp/internal/controller/binaryauthorization/policy"
 	trigger "github.com/upbound/provider-gcp/internal/controller/cloudbuild/trigger"
 	workerpool "github.com/upbound/provider-gcp/internal/controller/cloudbuild/workerpool"
 	function "github.com/upbound/provider-gcp/internal/controller/cloudfunctions/function"
@@ -173,7 +175,7 @@ import (
 	page "github.com/upbound/provider-gcp/internal/controller/dialogflowcx/page"
 	version "github.com/upbound/provider-gcp/internal/controller/dialogflowcx/version"
 	managedzone "github.com/upbound/provider-gcp/internal/controller/dns/managedzone"
-	policy "github.com/upbound/provider-gcp/internal/controller/dns/policy"
+	policydns "github.com/upbound/provider-gcp/internal/controller/dns/policy"
 	recordset "github.com/upbound/provider-gcp/internal/controller/dns/recordset"
 	contact "github.com/upbound/provider-gcp/internal/controller/essentialcontacts/contact"
 	triggereventarc "github.com/upbound/provider-gcp/internal/controller/eventarc/trigger"
@@ -289,6 +291,8 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		tableiambindingbigtable.Setup,
 		tableiammemberbigtable.Setup,
 		tableiampolicybigtable.Setup,
+		attestor.Setup,
+		policy.Setup,
 		trigger.Setup,
 		workerpool.Setup,
 		function.Setup,
@@ -419,7 +423,7 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		page.Setup,
 		version.Setup,
 		managedzone.Setup,
-		policy.Setup,
+		policydns.Setup,
 		recordset.Setup,
 		contact.Setup,
 		triggereventarc.Setup,

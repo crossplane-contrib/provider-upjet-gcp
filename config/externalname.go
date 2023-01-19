@@ -694,6 +694,13 @@ var externalNameConfigs = map[string]config.ExternalName{
 	"google_apigee_instance": config.TemplatedStringAsIdentifier("name", "{{ .parameters.org_id }}/instances/{{ .external_name }}"),
 	// Imported by using the following format: organizations/{{name}}
 	"google_apigee_organization": config.IdentifierFromProvider,
+
+	// binaryauthorization
+	//
+	// projects/{{project}}/attestors/{{name}}
+	"google_binary_authorization_attestor": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/attestors/{{ .external_name }}"),
+	// projects/{{project}}
+	"google_binary_authorization_policy": config.TemplatedStringAsIdentifier("", "projects/{{ .setup.configuration.project }}"),
 }
 
 // TemplatedStringAsIdentifierWithNoName uses TemplatedStringAsIdentifier but
