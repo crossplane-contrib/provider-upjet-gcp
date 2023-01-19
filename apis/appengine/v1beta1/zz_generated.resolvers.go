@@ -22,6 +22,7 @@ import (
 	reference "github.com/crossplane/crossplane-runtime/pkg/reference"
 	errors "github.com/pkg/errors"
 	v1beta1 "github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1"
+	resource "github.com/upbound/upjet/pkg/resource"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
@@ -47,6 +48,61 @@ func (mg *Application) ResolveReferences(ctx context.Context, c client.Reader) e
 	}
 	mg.Spec.ForProvider.Project = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.ProjectRef = rsp.ResolvedReference
+
+	return nil
+}
+
+// ResolveReferences of this ApplicationURLDispatchRules.
+func (mg *ApplicationURLDispatchRules) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.DispatchRules); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.DispatchRules[i3].Service),
+			Extract:      resource.ExtractParamPath("service", false),
+			Reference:    mg.Spec.ForProvider.DispatchRules[i3].ServiceRef,
+			Selector:     mg.Spec.ForProvider.DispatchRules[i3].ServiceSelector,
+			To: reference.To{
+				List:    &StandardAppVersionList{},
+				Managed: &StandardAppVersion{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.DispatchRules[i3].Service")
+		}
+		mg.Spec.ForProvider.DispatchRules[i3].Service = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.DispatchRules[i3].ServiceRef = rsp.ResolvedReference
+
+	}
+
+	return nil
+}
+
+// ResolveReferences of this ServiceNetworkSettings.
+func (mg *ServiceNetworkSettings) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Service),
+		Extract:      resource.ExtractParamPath("service", false),
+		Reference:    mg.Spec.ForProvider.ServiceRef,
+		Selector:     mg.Spec.ForProvider.ServiceSelector,
+		To: reference.To{
+			List:    &StandardAppVersionList{},
+			Managed: &StandardAppVersion{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.Service")
+	}
+	mg.Spec.ForProvider.Service = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.ServiceRef = rsp.ResolvedReference
 
 	return nil
 }
