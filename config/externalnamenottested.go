@@ -35,16 +35,12 @@ var ExternalNameNotTestedConfigs = map[string]config.ExternalName{
 
 	// binaryauthorization
 	//
-	// projects/{{project}}/attestors/{{name}}
-	"google_binary_authorization_attestor": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/attestors/{{ .external_name }}"),
 	// projects/{{project}}/attestors/{{attestor}} roles/viewer
 	"google_binary_authorization_attestor_iam_binding": config.TemplatedStringAsIdentifier("", "projects/{{ .setup.configuration.project }}/attestors/{{ .parameters.attestor }} {{ .parameters.role }}"),
 	// projects/{{project}}/attestors/{{attestor}} roles/viewer user:jane@example.com
 	"google_binary_authorization_attestor_iam_member": config.TemplatedStringAsIdentifier("", "projects/{{ .setup.configuration.project }}/attestors/{{ .parameters.attestor }} {{ .parameters.role }} {{ .parameters.member }}"),
 	// projects/{{project}}/attestors/{{attestor}}
 	"google_binary_authorization_attestor_iam_policy": config.TemplatedStringAsIdentifier("", "projects/{{ .setup.configuration.project }}/attestors/{{ .parameters.attestor }}"),
-	// projects/{{project}}
-	"google_binary_authorization_policy": config.TemplatedStringAsIdentifier("", "projects/{{ .setup.configuration.project }}"),
 
 	// certificatemanager
 	//
