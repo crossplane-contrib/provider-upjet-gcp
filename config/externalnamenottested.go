@@ -124,8 +124,6 @@ var ExternalNameNotTestedConfigs = map[string]config.ExternalName{
 
 	// activedirectory
 	//
-	// Imported by using the following format: {{name}}
-	"google_active_directory_domain": config.IdentifierFromProvider,
 	// Imported by using the following format: projects/{{project}}/locations/global/domains/{{domain}}/{{target_domain_name}}
 	"google_active_directory_domain_trust": config.TemplatedStringAsIdentifier("target_domain_name", "projects/{{ .setup.configuration.project }}/locations/global/domains/{{ .parameters.domain }}/{{ .external_name }}"),
 

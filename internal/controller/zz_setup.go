@@ -9,6 +9,7 @@ import (
 
 	"github.com/upbound/upjet/pkg/controller"
 
+	domain "github.com/upbound/provider-gcp/internal/controller/activedirectory/domain"
 	envgroup "github.com/upbound/provider-gcp/internal/controller/apigee/envgroup"
 	environment "github.com/upbound/provider-gcp/internal/controller/apigee/environment"
 	instance "github.com/upbound/provider-gcp/internal/controller/apigee/instance"
@@ -254,6 +255,7 @@ import (
 // the supplied manager.
 func Setup(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		domain.Setup,
 		envgroup.Setup,
 		environment.Setup,
 		instance.Setup,
