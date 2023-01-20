@@ -233,4 +233,99 @@ var ExternalNameNotTestedConfigs = map[string]config.ExternalName{
 	"google_iap_app_engine_version_iam_member": config.TemplatedStringAsIdentifier("version_id", "projects/{{ .setup.configuration.project }}/iap_web/appengine-{{ .parameters.app_id }}/services/{{ .parameters.service }}/versions/{{ .external_name }} {{ .parameters.role }} {{ .parameters.member }}"),
 	// Imported by using the following format: projects/{{project}}/iap_web roles/iap.httpsResourceAccessor user:jane@example.com
 	"google_iap_tunnel_iam_member": config.TemplatedStringAsIdentifier("", "/projects/{{ .setup.configuration.project }}/iap_web {{ .parameters.role }} {{ .parameters.member }}"),
+	// logging
+	//
+	// Billing account logging exclusions can be imported using their URI
+	// billingAccounts/my-billing_account/exclusions/my-exclusion
+	"google_logging_billing_account_exclusion": config.TemplatedStringAsIdentifier("name", "billingAccounts/{{ .parameters.billing_account }}/exclusions/{{ .external_name }}"),
+	// Billing account logging sinks can be imported using this format: billingAccounts/{{billing_account_id}}/sinks/{{sink_id}}
+	"google_logging_billing_account_sink": config.IdentifierFromProvider,
+	// This resource can be imported using the following format: folders/{{folder}}/locations/{{location}}/buckets/{{bucket_id}}
+	"google_logging_folder_bucket_config": config.TemplatedStringAsIdentifier("", "folders/{{ .parameters.folder }}/locations/{{ .parameters.location }}/buckets/{{ .parameters.bucket_id }}"),
+	// Folder-level logging exclusions can be imported using their URI
+	// folders/my-folder/exclusions/my-exclusion
+	"google_logging_folder_exclusion": config.TemplatedStringAsIdentifier("name", "folders/{{ .parameters.folder }}/exclusions/{{ .external_name }}"),
+	// Folder-level logging sinks can be imported using this format: folders/{{folder_id}}/sinks/{{name}}
+	"google_logging_folder_sink": config.TemplatedStringAsIdentifier("name", "folders/{{ .parameters.folder }}/sinks/{{ .external_name }}"),
+	// LogView can be imported using any of these accepted formats: {{parent}}/locations/{{location}}/buckets/{{bucket}}/views/{{name}}
+	// TODO: {{parent}} and {{location}} fields are optional in documentation. Check CRD if they are required and if not use config.IdentifierFromProvider
+	"google_logging_log_view": config.TemplatedStringAsIdentifier("name", "{{ .parameters.parent }}/locations/{{ .parameters.location }}/buckets/{{ .parameters.bucket }}/views/{{ .external_name }}"),
+	// Metric can be imported using Name
+	"google_logging_metric": config.NameAsIdentifier,
+	// This resource can be imported using the following format: organizations/{{organization}}/locations/{{location}}/buckets/{{bucket_id}}
+	"google_logging_organization_bucket_config": config.TemplatedStringAsIdentifier("", "organizations/{{ .parameters.organization }}/locations/{{ .parameters.location }}/buckets/{{ .parameters.bucket_id }}"),
+	// Organization-level logging exclusions can be imported using their URI
+	// organizations/{{organization}}/exclusions/{{name}}
+	"google_logging_organization_exclusion": config.TemplatedStringAsIdentifier("name", "organizations/{{ .parameters.org_id }}/exclusions/{{ .external_name }}"),
+	// Organization-level logging sinks can be imported using this format: organizations/{{organization_id}}/sinks/{{sink_id}}
+	"google_logging_organization_sink": config.IdentifierFromProvider,
+	// This resource can be imported using the following format: projects/{{project}}/locations/{{location}}/buckets/{{bucket_id}}
+	"google_logging_project_bucket_config": config.TemplatedStringAsIdentifier("", "projects/{{ .parameters.project }}/locations/{{ .parameters.location }}/buckets/{{ .parameters.bucket_id }}"),
+	// Project-level logging exclusions can be imported using their URI
+	// projects/my-project/exclusions/my-exclusion
+	"google_logging_project_exclusion": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/exclusions/{{ .external_name }}"),
+	// Project-level logging sinks can be imported using their URI
+	// projects/my-project/sinks/my-sink
+	"google_logging_project_sink": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/sinks/{{ .external_name }}"),
+
+	// memcache
+	//
+	// nstance can be imported using Name
+	"google_memcache_instance": config.NameAsIdentifier,
+
+	// mlengine
+	//
+	// Model can be imported using Name
+	"google_ml_engine_model": config.NameAsIdentifier,
+
+	// monitoring
+	//
+	// Service can be imported using Name
+	"google_monitoring_custom_service": config.NameAsIdentifier,
+	// Dashboard can be imported using dashboard_id
+	"google_monitoring_dashboard": config.IdentifierFromProvider,
+	// Group can be imported using Name
+	"google_monitoring_group": config.NameAsIdentifier,
+	// MetricDescriptor can be imported using Name
+	"google_monitoring_metric_descriptor": config.NameAsIdentifier,
+	// Slo can be imported using Name
+	"google_monitoring_slo": config.NameAsIdentifier,
+
+	// network
+	//
+	// Hub can be imported using Name
+	"google_network_connectivity_hub": config.NameAsIdentifier,
+	// Spoke can be imported using {{location}}/{{name}}
+	"google_network_connectivity_spoke": config.TemplatedStringAsIdentifier("name", "{{ .parameters.location }}/{{ .external_name }}"),
+
+	// networkmanagement
+	//
+	// ConnectivityTest can be imported using Name
+	"google_network_management_connectivity_test": config.NameAsIdentifier,
+
+	// networkservices
+	//
+	// EdgeCacheKeyset can be imported using Name
+	"google_network_services_edge_cache_keyset": config.NameAsIdentifier,
+	// EdgeCacheOrigin can be imported using Name
+	"google_network_services_edge_cache_origin": config.NameAsIdentifier,
+	// EdgeCacheService can be imported using Name
+	"google_network_services_edge_cache_service": config.NameAsIdentifier,
+
+	// notebooks
+	//
+	// IAM binding imports use space-delimited identifiers: the resource in question and the role
+	// projects/{{project}}/locations/{{location}}/instances/{{instance_name}} roles/viewer
+	"google_notebooks_instance_iam_binding": config.TemplatedStringAsIdentifier("instance_name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/instances/{{ .external_name }} {{ .parameters.role }}"),
+	// IAM policy imports use the identifier of the resource in question
+	// projects/{{project}}/locations/{{location}}/instances/{{instance_name}}
+	"google_notebooks_instance_iam_policy": config.TemplatedStringAsIdentifier("instance_name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/instances/{{ .external_name }}"),
+	// Location can be imported using Name
+	"google_notebooks_location": config.NameAsIdentifier,
+	// IAM binding imports use space-delimited identifiers: the resource in question and the role
+	// projects/{{project}}/locations/{{location}}/runtimes/{{runtime_name}} roles/viewer
+	"google_notebooks_runtime_iam_binding": config.TemplatedStringAsIdentifier("runtime_name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/runtimes/{{ .external_name }} {{ .parameters.role }}"),
+	// IAM policy imports use the identifier of the resource in question
+	// projects/{{project}}/locations/{{location}}/runtimes/{{runtime_name}}
+	"google_notebooks_runtime_iam_policy": config.TemplatedStringAsIdentifier("runtime_name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/runtimes/{{ .external_name }}"),
 }
