@@ -239,8 +239,17 @@ type SecretKeyRefParameters struct {
 	Key *string `json:"key" tf:"key,omitempty"`
 
 	// Volume's name.
-	// +kubebuilder:validation:Required
-	Name *string `json:"name" tf:"name,omitempty"`
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/secretmanager/v1beta1.Secret
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Reference to a Secret in secretmanager to populate name.
+	// +kubebuilder:validation:Optional
+	NameRef *v1.Reference `json:"nameRef,omitempty" tf:"-"`
+
+	// Selector for a Secret in secretmanager to populate name.
+	// +kubebuilder:validation:Optional
+	NameSelector *v1.Selector `json:"nameSelector,omitempty" tf:"-"`
 }
 
 type SecretObservation struct {
@@ -273,8 +282,17 @@ type SecretParameters struct {
 	// commas.
 	// The alias definitions must be set on the run.googleapis.com/secrets
 	// annotation.
-	// +kubebuilder:validation:Required
-	SecretName *string `json:"secretName" tf:"secret_name,omitempty"`
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/secretmanager/v1beta1.Secret
+	// +kubebuilder:validation:Optional
+	SecretName *string `json:"secretName,omitempty" tf:"secret_name,omitempty"`
+
+	// Reference to a Secret in secretmanager to populate secretName.
+	// +kubebuilder:validation:Optional
+	SecretNameRef *v1.Reference `json:"secretNameRef,omitempty" tf:"-"`
+
+	// Selector for a Secret in secretmanager to populate secretName.
+	// +kubebuilder:validation:Optional
+	SecretNameSelector *v1.Selector `json:"secretNameSelector,omitempty" tf:"-"`
 }
 
 type SecretRefLocalObjectReferenceObservation struct {

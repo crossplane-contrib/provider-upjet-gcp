@@ -106,3 +106,29 @@ func (mg *ServiceNetworkSettings) ResolveReferences(ctx context.Context, c clien
 
 	return nil
 }
+
+// ResolveReferences of this StandardAppVersion.
+func (mg *StandardAppVersion) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ServiceAccount),
+		Extract:      resource.ExtractParamPath("email", true),
+		Reference:    mg.Spec.ForProvider.ServiceAccountRef,
+		Selector:     mg.Spec.ForProvider.ServiceAccountSelector,
+		To: reference.To{
+			List:    &v1beta1.ServiceAccountList{},
+			Managed: &v1beta1.ServiceAccount{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.ServiceAccount")
+	}
+	mg.Spec.ForProvider.ServiceAccount = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.ServiceAccountRef = rsp.ResolvedReference
+
+	return nil
+}

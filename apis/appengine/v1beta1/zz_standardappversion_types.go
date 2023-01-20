@@ -208,6 +208,10 @@ type StandardAppVersionObservation struct {
 
 type StandardAppVersionParameters struct {
 
+	// Allows App Engine second generation runtimes to access the legacy bundled services.
+	// +kubebuilder:validation:Optional
+	AppEngineApis *bool `json:"appEngineApis,omitempty" tf:"app_engine_apis,omitempty"`
+
 	// Automatic scaling is based on request rate, response latencies, and other application metrics.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
@@ -287,6 +291,20 @@ type StandardAppVersionParameters struct {
 	// +kubebuilder:validation:Required
 	Service *string `json:"service" tf:"service,omitempty"`
 
+	// The identity that the deployed version will run as. Admin API will use the App Engine Appspot service account as default if this field is neither provided in app.yaml file nor through CLI flag.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractParamPath("email",true)
+	// +kubebuilder:validation:Optional
+	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
+
+	// Reference to a ServiceAccount in cloudplatform to populate serviceAccount.
+	// +kubebuilder:validation:Optional
+	ServiceAccountRef *v1.Reference `json:"serviceAccountRef,omitempty" tf:"-"`
+
+	// Selector for a ServiceAccount in cloudplatform to populate serviceAccount.
+	// +kubebuilder:validation:Optional
+	ServiceAccountSelector *v1.Selector `json:"serviceAccountSelector,omitempty" tf:"-"`
+
 	// Whether multiple requests can be dispatched to this version at once.
 	// +kubebuilder:validation:Optional
 	Threadsafe *bool `json:"threadsafe,omitempty" tf:"threadsafe,omitempty"`
@@ -362,6 +380,10 @@ type VPCAccessConnectorObservation struct {
 }
 
 type VPCAccessConnectorParameters struct {
+
+	// The egress setting for the connector, controlling what traffic is diverted through it.
+	// +kubebuilder:validation:Optional
+	EgressSetting *string `json:"egressSetting,omitempty" tf:"egress_setting,omitempty"`
 
 	// Full Serverless VPC Access Connector name e.g. /projects/my-project/locations/us-central1/connectors/c1.
 	// +kubebuilder:validation:Required

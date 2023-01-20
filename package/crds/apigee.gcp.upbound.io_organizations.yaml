@@ -160,6 +160,36 @@ spec:
                   projectId:
                     description: The project ID associated with the Apigee organization.
                     type: string
+                  properties:
+                    description: Properties defined in the Apigee organization profile.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        property:
+                          description: List of all properties in the object. Structure
+                            is documented below.
+                          items:
+                            properties:
+                              name:
+                                description: Name of the property.
+                                type: string
+                              value:
+                                description: Value of the property.
+                                type: string
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  retention:
+                    description: Optional. This setting is applicable only for organizations
+                      that are soft-deleted (i.e., BillingType is not EVALUATION).
+                      It controls how long Organization data will be retained after
+                      the initial delete operation completes. During this period,
+                      the Organization may be restored to its last known state. After
+                      this period, the Organization will no longer be able to be restored.
+                      Default value is DELETION_RETENTION_UNSPECIFIED. Possible values
+                      are DELETION_RETENTION_UNSPECIFIED and MINIMUM.
+                    type: string
                   runtimeDatabaseEncryptionKeyName:
                     description: 'Cloud KMS key name used for encrypting the data
                       that is stored and replicated across runtime instances. Update

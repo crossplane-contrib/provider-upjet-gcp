@@ -29,6 +29,11 @@ type EnvironmentObservation struct {
 
 	// an identifier for the resource with format {{org_id}}/environments/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// NodeConfig for setting the min/max number of nodes associated with the environment.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	NodeConfig []NodeConfigObservation `json:"nodeConfig,omitempty" tf:"node_config,omitempty"`
 }
 
 type EnvironmentParameters struct {
@@ -58,6 +63,11 @@ type EnvironmentParameters struct {
 	// +kubebuilder:validation:Optional
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
+	// NodeConfig for setting the min/max number of nodes associated with the environment.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	NodeConfig []NodeConfigParameters `json:"nodeConfig,omitempty" tf:"node_config,omitempty"`
+
 	// The Apigee Organization associated with the Apigee environment,
 	// in the format organizations/{{org_name}}.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/apigee/v1beta1.Organization
@@ -72,6 +82,28 @@ type EnvironmentParameters struct {
 	// Selector for a Organization in apigee to populate orgId.
 	// +kubebuilder:validation:Optional
 	OrgIDSelector *v1.Selector `json:"orgIdSelector,omitempty" tf:"-"`
+}
+
+type NodeConfigObservation struct {
+
+	// The current total number of gateway nodes that each environment currently has across
+	// all instances.
+	CurrentAggregateNodeCount *string `json:"currentAggregateNodeCount,omitempty" tf:"current_aggregate_node_count,omitempty"`
+}
+
+type NodeConfigParameters struct {
+
+	// The maximum total number of gateway nodes that the is reserved for all instances that
+	// has the specified environment. If not specified, the default is determined by the
+	// recommended maximum number of nodes for that gateway.
+	// +kubebuilder:validation:Optional
+	MaxNodeCount *string `json:"maxNodeCount,omitempty" tf:"max_node_count,omitempty"`
+
+	// The minimum total number of gateway nodes that the is reserved for all instances that
+	// has the specified environment. If not specified, the default is determined by the
+	// recommended minimum number of nodes for that gateway.
+	// +kubebuilder:validation:Optional
+	MinNodeCount *string `json:"minNodeCount,omitempty" tf:"min_node_count,omitempty"`
 }
 
 // EnvironmentSpec defines the desired state of Environment
