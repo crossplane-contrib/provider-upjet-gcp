@@ -91,14 +91,33 @@ spec:
                   databaseVersion:
                     description: The MySQL, PostgreSQL or SQL Server version to use.
                       Supported values include MYSQL_5_6, MYSQL_5_7, MYSQL_8_0, POSTGRES_9_6,POSTGRES_10,
-                      POSTGRES_11, POSTGRES_12, POSTGRES_13, SQLSERVER_2017_STANDARD,
+                      POSTGRES_11, POSTGRES_12, POSTGRES_13, POSTGRES_14, SQLSERVER_2017_STANDARD,
                       SQLSERVER_2017_ENTERPRISE, SQLSERVER_2017_EXPRESS, SQLSERVER_2017_WEB.
                       SQLSERVER_2019_STANDARD, SQLSERVER_2019_ENTERPRISE, SQLSERVER_2019_EXPRESS,
                       SQLSERVER_2019_WEB. Database Version Policies includes an up-to-date
                       reference of supported versions.
                     type: string
                   deletionProtection:
+                    description: Defaults to true.
                     type: boolean
+                  encryptionKeyName:
+                    description: The full path to the encryption key used for the
+                      CMEK disk encryption. The provided key must be in the same region
+                      as the SQL instance.  In order to use this feature, a special
+                      kind of service account must be created and granted permission
+                      on this key.  This step can currently only be done manually,
+                      please see this step. That service account needs the Cloud KMS
+                      > Cloud KMS CryptoKey Encrypter/Decrypter role on your key -
+                      please see this step.
+                    type: string
+                  maintenanceVersion:
+                    description: The current software version on the instance. This
+                      attribute can not be set during creation. Refer to available_maintenance_versions
+                      attribute to see what maintenance_version are available for
+                      upgrade. When this attribute gets updated, it will cause an
+                      instance restart. Setting a maintenance_version value that is
+                      older than the current one on the instance will be ignored.
+                    type: string
                   masterInstanceName:
                     description: The name of the existing instance that will act as
                       the master in the replication setup. Note, this requires the
@@ -131,6 +150,7 @@ spec:
                           type: string
                         connectRetryInterval:
                           description: The number of seconds between connect retries.
+                            MySQL's default is 60 seconds.
                           type: number
                         dumpFilePath:
                           description: Path to a SQL file in GCS from which replica
@@ -196,8 +216,7 @@ spec:
                       type: object
                     type: array
                   rootPasswordSecretRef:
-                    description: Initial root password. Required for MS SQL Server,
-                      ignored by MySQL and PostgreSQL.
+                    description: Initial root password. Required for MS SQL Server.
                     properties:
                       key:
                         description: The key to select.
@@ -240,7 +259,7 @@ spec:
                             For all instances, ensure that settings.backup_configuration.enabled
                             is set to true. For MySQL instances, ensure that settings.backup_configuration.binary_log_enabled
                             is set to true. For Postgres instances, ensure that settings.backup_configuration.point_in_time_recovery_enabled
-                            is set to true.
+                            is set to true. Defaults to ZONAL.
                           type: string
                         backupConfiguration:
                           items:
@@ -292,6 +311,10 @@ spec:
                         collation:
                           description: The name of server instance collation.
                           type: string
+                        connectorEnforcement:
+                          description: Specifies if connections must use Cloud SQL
+                            connectors.
+                          type: string
                         databaseFlags:
                           items:
                             properties:
@@ -306,19 +329,56 @@ spec:
                             - value
                             type: object
                           type: array
+                        deletionProtectionEnabled:
+                          description: .
+                          type: boolean
+                        denyMaintenancePeriod:
+                          items:
+                            properties:
+                              endDate:
+                                description: '"deny maintenance period" end date.
+                                  If the year of the end date is empty, the year of
+                                  the start date also must be empty. In this case,
+                                  it means the no maintenance interval recurs every
+                                  year. The date is in format yyyy-mm-dd i.e., 2020-11-01,
+                                  or mm-dd, i.e., 11-01'
+                                type: string
+                              startDate:
+                                description: '"deny maintenance period" start date.
+                                  If the year of the start date is empty, the year
+                                  of the end date also must be empty. In this case,
+                                  it means the deny maintenance period recurs every
+                                  year. The date is in format yyyy-mm-dd i.e., 2020-11-01,
+                                  or mm-dd, i.e., 11-01'
+                                type: string
+                              time:
+                                description: 'Time in UTC when the "deny maintenance
+                                  period" starts on startDate and ends on endDate.
+                                  The time is in format: HH:mm:SS, i.e., 00:00:00'
+                                type: string
+                            required:
+                            - endDate
+                            - startDate
+                            - time
+                            type: object
+                          type: array
                         diskAutoresize:
                           description: Enables auto-resizing of the storage size.
-                            Set to false if you want to set disk_size.
+                            Defaults to true.
                           type: boolean
                         diskAutoresizeLimit:
+                          description: The maximum size to which storage capacity
+                            can be automatically increased. The default value is 0,
+                            which specifies that there is no limit.
                           type: number
                         diskSize:
                           description: The size of data disk, in GB. Size of a running
-                            instance cannot be reduced but can be increased. If you
-                            want to set this field, set disk_autoresize to false.
+                            instance cannot be reduced but can be increased. The minimum
+                            value is 10GB.
                           type: number
                         diskType:
-                          description: 'The type of data disk: PD_SSD or PD_HDD.'
+                          description: 'The type of data disk: PD_SSD or PD_HDD. Defaults
+                            to PD_SSD.'
                           type: string
                         insightsConfig:
                           items:
@@ -326,6 +386,11 @@ spec:
                               queryInsightsEnabled:
                                 description: True if Query Insights feature is enabled.
                                 type: boolean
+                              queryPlansPerMinute:
+                                description: Number of query execution plans captured
+                                  by Insights per minute for all queries combined.
+                                  Between 0 and 20. Default to 5.
+                                type: number
                               queryStringLength:
                                 description: Maximum query length stored in bytes.
                                   Between 256 and 4500. Default to 1024.
@@ -474,6 +539,10 @@ spec:
                                 description: A GAE application whose zone to remain
                                   in. Must be in the same region as this instance.
                                 type: string
+                              secondaryZone:
+                                description: The preferred Compute Engine zone for
+                                  the secondary/failover.
+                                type: string
                               zone:
                                 description: The preferred compute engine zone.
                                 type: string
@@ -495,16 +564,72 @@ spec:
                                 type: string
                             type: object
                           type: array
+                        passwordValidationPolicy:
+                          items:
+                            properties:
+                              complexity:
+                                description: Checks if the password is a combination
+                                  of lowercase, uppercase, numeric, and non-alphanumeric
+                                  characters.
+                                type: string
+                              disallowUsernameSubstring:
+                                description: Prevents the use of the username in the
+                                  password.
+                                type: boolean
+                              enablePasswordPolicy:
+                                description: Enables or disable the password validation
+                                  policy.
+                                type: boolean
+                              minLength:
+                                description: Specifies the minimum number of characters
+                                  that the password must have.
+                                type: number
+                              passwordChangeInterval:
+                                description: Specifies the minimum duration after
+                                  which you can change the password.
+                                type: string
+                              reuseInterval:
+                                description: Specifies the number of previous passwords
+                                  that you can't reuse.
+                                type: number
+                            required:
+                            - enablePasswordPolicy
+                            type: object
+                          type: array
                         pricingPlan:
                           description: Pricing plan for this instance, can only be
                             PER_USE.
                           type: string
+                        sqlServerAuditConfig:
+                          items:
+                            properties:
+                              bucket:
+                                description: The name of the destination bucket (e.g.,
+                                  gs://mybucket).
+                                type: string
+                              retentionInterval:
+                                description: 'How long to keep generated audit files.
+                                  A duration in seconds with up to nine fractional
+                                  digits, terminated by ''s''. Example: "3.5s".'
+                                type: string
+                              uploadInterval:
+                                description: 'How often to upload generated audit
+                                  files. A duration in seconds with up to nine fractional
+                                  digits, terminated by ''s''. Example: "3.5s".'
+                                type: string
+                            type: object
+                          type: array
                         tier:
                           description: The machine type to use. See tiers for more
                             details and supported versions. Postgres supports only
                             shared-core machine types, and custom machine types such
                             as db-custom-2-13312. See the Custom Machine Type Documentation
                             to learn about specifying custom machine types.
+                          type: string
+                        timeZone:
+                          description: The time_zone to be used by the database engine
+                            (supported only for SQL Server), in SQL Server timezone
+                            format.
                           type: string
                         userLabels:
                           additionalProperties:
@@ -695,6 +820,12 @@ spec:
             properties:
               atProvider:
                 properties:
+                  availableMaintenanceVersions:
+                    description: The list of all maintenance versions applicable on
+                      the instance.
+                    items:
+                      type: string
+                    type: array
                   connectionName:
                     description: The connection name of the instance to be used in
                       connection strings. For example, when connecting with Cloud

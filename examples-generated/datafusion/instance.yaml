@@ -8,6 +8,8 @@ metadata:
   name: basic-instance
 spec:
   forProvider:
+    options:
+      prober_test_run: "true"
     region: us-central1
     type: BASIC
 

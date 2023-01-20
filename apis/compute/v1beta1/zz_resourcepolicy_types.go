@@ -74,7 +74,9 @@ type GroupPlacementPolicyParameters struct {
 	// +kubebuilder:validation:Optional
 	Collocation *string `json:"collocation,omitempty" tf:"collocation,omitempty"`
 
-	// Number of vms in this placement group.
+	// Number of VMs in this placement group. Google does not recommend that you use this field
+	// unless you use a compact policy and you want your policy to work only if it contains this
+	// exact number of VMs.
 	// +kubebuilder:validation:Optional
 	VMCount *float64 `json:"vmCount,omitempty" tf:"vm_count,omitempty"`
 }
@@ -205,6 +207,12 @@ type SnapshotPropertiesObservation struct {
 }
 
 type SnapshotPropertiesParameters struct {
+
+	// Creates the new snapshot in the snapshot chain labeled with the
+	// specified name. The chain name must be 1-63 characters long and comply
+	// with RFC1035.
+	// +kubebuilder:validation:Optional
+	ChainName *string `json:"chainName,omitempty" tf:"chain_name,omitempty"`
 
 	// Whether to perform a 'guest aware' snapshot.
 	// +kubebuilder:validation:Optional

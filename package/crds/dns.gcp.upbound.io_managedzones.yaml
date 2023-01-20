@@ -64,6 +64,19 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  cloudLoggingConfig:
+                    description: Cloud logging configuration Structure is documented
+                      below.
+                    items:
+                      properties:
+                        enableLogging:
+                          description: If set, enable query logging for this ManagedZone.
+                            False by default, making logging opt-in.
+                          type: boolean
+                      required:
+                      - enableLogging
+                      type: object
+                    type: array
                   description:
                     description: A textual description field.
                     type: string
@@ -274,6 +287,98 @@ spec:
                       documented below.
                     items:
                       properties:
+                        gkeClusters:
+                          description: The list of Google Kubernetes Engine clusters
+                            that can see this zone. Structure is documented below.
+                          items:
+                            properties:
+                              gkeClusterName:
+                                description: The resource name of the cluster to bind
+                                  this ManagedZone to. This should be specified in
+                                  the format like projects/*/locations/*/clusters/*
+                                type: string
+                              gkeClusterNameRef:
+                                description: Reference to a Cluster in container to
+                                  populate gkeClusterName.
+                                properties:
+                                  name:
+                                    description: Name of the referenced object.
+                                    type: string
+                                  policy:
+                                    description: Policies for referencing.
+                                    properties:
+                                      resolution:
+                                        default: Required
+                                        description: Resolution specifies whether
+                                          resolution of this reference is required.
+                                          The default is 'Required', which means the
+                                          reconcile will fail if the reference cannot
+                                          be resolved. 'Optional' means this reference
+                                          will be a no-op if it cannot be resolved.
+                                        enum:
+                                        - Required
+                                        - Optional
+                                        type: string
+                                      resolve:
+                                        description: Resolve specifies when this reference
+                                          should be resolved. The default is 'IfNotPresent',
+                                          which will attempt to resolve the reference
+                                          only when the corresponding field is not
+                                          present. Use 'Always' to resolve the reference
+                                          on every reconcile.
+                                        enum:
+                                        - Always
+                                        - IfNotPresent
+                                        type: string
+                                    type: object
+                                required:
+                                - name
+                                type: object
+                              gkeClusterNameSelector:
+                                description: Selector for a Cluster in container to
+                                  populate gkeClusterName.
+                                properties:
+                                  matchControllerRef:
+                                    description: MatchControllerRef ensures an object
+                                      with the same controller reference as the selecting
+                                      object is selected.
+                                    type: boolean
+                                  matchLabels:
+                                    additionalProperties:
+                                      type: string
+                                    description: MatchLabels ensures an object with
+                                      matching labels is selected.
+                                    type: object
+                                  policy:
+                                    description: Policies for selection.
+                                    properties:
+                                      resolution:
+                                        default: Required
+                                        description: Resolution specifies whether
+                                          resolution of this reference is required.
+                                          The default is 'Required', which means the
+                                          reconcile will fail if the reference cannot
+                                          be resolved. 'Optional' means this reference
+                                          will be a no-op if it cannot be resolved.
+                                        enum:
+                                        - Required
+                                        - Optional
+                                        type: string
+                                      resolve:
+                                        description: Resolve specifies when this reference
+                                          should be resolved. The default is 'IfNotPresent',
+                                          which will attempt to resolve the reference
+                                          only when the corresponding field is not
+                                          present. Use 'Always' to resolve the reference
+                                          on every reconcile.
+                                        enum:
+                                        - Always
+                                        - IfNotPresent
+                                        type: string
+                                    type: object
+                                type: object
+                            type: object
+                          type: array
                         networks:
                           description: The list of VPC networks that can see this
                             zone.12 SDK in a future release, you may experience issues
@@ -285,8 +390,8 @@ spec:
                             properties:
                               networkUrl:
                                 description: The id or fully qualified URL of the
-                                  VPC network to bind to. This should be formatted
-                                  like projects/{project}/global/networks/{network}
+                                  VPC network to forward queries to. This should be
+                                  formatted like projects/{project}/global/networks/{network}
                                   or https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}
                                 type: string
                               networkUrlRef:
@@ -564,9 +669,17 @@ spec:
             properties:
               atProvider:
                 properties:
+                  creationTime:
+                    description: The time that this resource was created on the server.
+                      This is in RFC3339 text format.
+                    type: string
                   id:
                     description: an identifier for the resource with format projects/{{project}}/managedZones/{{name}}
                     type: string
+                  managedZoneId:
+                    description: Unique identifier for the resource; defined by the
+                      server.
+                    type: number
                   nameServers:
                     description: Delegate your managed_zone to these virtual name
                       servers; defined by the server

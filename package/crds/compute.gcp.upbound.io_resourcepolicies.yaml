@@ -90,7 +90,10 @@ spec:
                             policy attached. Possible values are COLLOCATED.
                           type: string
                         vmCount:
-                          description: Number of vms in this placement group.
+                          description: Number of VMs in this placement group. Google
+                            does not recommend that you use this field unless you
+                            use a compact policy and you want your policy to work
+                            only if it contains this exact number of VMs.
                           type: number
                       type: object
                     type: array
@@ -254,6 +257,12 @@ spec:
                             such as labels. Structure is documented below.
                           items:
                             properties:
+                              chainName:
+                                description: Creates the new snapshot in the snapshot
+                                  chain labeled with the specified name. The chain
+                                  name must be 1-63 characters long and comply with
+                                  RFC1035.
+                                type: string
                               guestFlush:
                                 description: Whether to perform a 'guest aware' snapshot.
                                 type: boolean

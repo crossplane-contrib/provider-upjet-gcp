@@ -170,6 +170,15 @@ spec:
                     description: An optional textual description of the instance group
                       manager.
                     type: string
+                  listManagedInstancesResults:
+                    description: 'Pagination behavior of the listManagedInstances
+                      API method for this managed instance group. Valid values are:
+                      PAGELESS, PAGINATED. If PAGELESS (default), Pagination is disabled
+                      for the group''s listManagedInstances API method. maxResults
+                      and pageToken query parameters are ignored and all instances
+                      are returned in a single response. If PAGINATED, pagination
+                      is enabled, maxResults and pageToken query parameters are respected.'
+                    type: string
                   namedPort:
                     description: The named port configuration. See the section below
                       for details on configuration.
@@ -191,7 +200,7 @@ spec:
                       If it is not provided, the provider project is used.
                     type: string
                   statefulDisk:
-                    description: ) Disks created on the instances that will be preserved
+                    description: Disks created on the instances that will be preserved
                       on instance delete, update, etc. Structure is documented below.
                       For more information see the official documentation.
                     items:

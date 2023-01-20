@@ -9,11 +9,18 @@ metadata:
 spec:
   forProvider:
     columnFamily: name
+    deletionPolicy: ABANDON
+    gcRules: |2
+        {
+          "rules": [
+            {
+              "max_age": "168h"
+            }
+          ]
+        }
     instanceNameSelector:
       matchLabels:
         testing.upbound.io/example-name: instance
-    maxAge:
-    - duration: 168h
     tableSelector:
       matchLabels:
         testing.upbound.io/example-name: table

@@ -82,6 +82,10 @@ spec:
                       documented below.
                     items:
                       properties:
+                        kmsKeyName:
+                          description: The name of the encryption key that is stored
+                            in Google Cloud KMS.
+                          type: string
                         rawKeySecretRef:
                           description: 'Specifies a 256-bit customer-supplied encryption
                             key, encoded in RFC 4648 base64 to either encrypt or decrypt
@@ -143,6 +147,11 @@ spec:
                     description: 'The source snapshot used to create this disk. You
                       can provide this as a partial or full URL to the resource. For
                       example, the following are valid values:'
+                    type: string
+                  sourceDisk:
+                    description: 'The source disk used to create this disk. You can
+                      provide this as a partial or full URL to the resource. For example,
+                      the following are valid values:'
                     type: string
                   sourceSnapshotEncryptionKey:
                     description: The customer-supplied encryption key of the source
@@ -380,6 +389,11 @@ spec:
                     type: string
                   selfLink:
                     description: The URI of the created resource.
+                    type: string
+                  sourceDiskId:
+                    description: The ID value of the disk used to create this image.
+                      This value may be used to determine whether the image was taken
+                      from the current or a previous instance of a given disk name.
                     type: string
                   sourceSnapshotEncryptionKey:
                     description: The customer-supplied encryption key of the source

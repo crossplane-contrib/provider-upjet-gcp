@@ -88,6 +88,11 @@ type DiskObservation struct {
 	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
 
+	// The ID value of the disk used to create this image. This value may
+	// be used to determine whether the image was taken from the current
+	// or a previous instance of a given disk name.
+	SourceDiskID *string `json:"sourceDiskId,omitempty" tf:"source_disk_id,omitempty"`
+
 	// The customer-supplied encryption key of the source image. Required if
 	// the source image is protected by a customer-supplied encryption key.
 	// Structure is documented below.
@@ -192,6 +197,11 @@ type DiskParameters struct {
 	// following are valid values:
 	// +kubebuilder:validation:Optional
 	Snapshot *string `json:"snapshot,omitempty" tf:"snapshot,omitempty"`
+
+	// The source disk used to create this disk. You can provide this as a partial or full URL to the resource.
+	// For example, the following are valid values:
+	// +kubebuilder:validation:Optional
+	SourceDisk *string `json:"sourceDisk,omitempty" tf:"source_disk,omitempty"`
 
 	// The customer-supplied encryption key of the source image. Required if
 	// the source image is protected by a customer-supplied encryption key.

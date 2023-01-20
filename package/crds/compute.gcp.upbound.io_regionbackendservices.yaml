@@ -79,8 +79,9 @@ spec:
                       properties:
                         balancingMode:
                           description: Specifies the balancing mode for this backend.
-                            Default value is CONNECTION. Possible values are UTILIZATION,
-                            RATE, and CONNECTION.
+                            See the Backend Services Overview for an explanation of
+                            load balancing modes. Default value is CONNECTION. Possible
+                            values are UTILIZATION, RATE, and CONNECTION.
                           type: string
                         capacityScaler:
                           description: 'A multiplier applied to the group''s maximum
@@ -265,6 +266,12 @@ spec:
                                 description: If true requests to different hosts will
                                   be cached separately.
                                 type: boolean
+                              includeNamedCookies:
+                                description: Names of cookies to include in cache
+                                  keys.
+                                items:
+                                  type: string
+                                type: array
                               includeProtocol:
                                 description: If true, http and https requests will
                                   be cached separately.

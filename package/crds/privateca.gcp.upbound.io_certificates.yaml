@@ -65,7 +65,11 @@ spec:
               forProvider:
                 properties:
                   certificateAuthority:
-                    description: Certificate Authority name.
+                    description: The Certificate Authority ID that should issue the
+                      certificate. For example, to issue a Certificate from a Certificate
+                      Authority with resource name projects/my-project/locations/us-central1/caPools/my-pool/certificateAuthorities/my-ca,
+                      argument pool should be set to projects/my-project/locations/us-central1/caPools/my-pool,
+                      argument certificate_authority should be set to my-ca.
                     type: string
                   certificateAuthorityRef:
                     description: Reference to a CertificateAuthority in privateca
@@ -1384,7 +1388,7 @@ spec:
                     type: string
                   issuerCertificateAuthority:
                     description: The resource name of the issuing CertificateAuthority
-                      in the format projects//locations//caPools//certificateAuthorities/.
+                      in the format projects/*/locations/*/caPools/*/certificateAuthorities/*.
                     type: string
                   pemCertificate:
                     description: Output only. The pem-encoded, signed X.509 certificate.

@@ -25,7 +25,54 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type CryptoKeyConfigObservation struct {
+}
+
+type CryptoKeyConfigParameters struct {
+
+	// The name of the key which is used to encrypt/decrypt customer data. For key in Cloud KMS, the key should be in the format of projects//locations//keyRings//cryptoKeys/.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/kms/v1beta1.CryptoKey
+	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
+	// +kubebuilder:validation:Optional
+	KeyReference *string `json:"keyReference,omitempty" tf:"key_reference,omitempty"`
+
+	// Reference to a CryptoKey in kms to populate keyReference.
+	// +kubebuilder:validation:Optional
+	KeyReferenceRef *v1.Reference `json:"keyReferenceRef,omitempty" tf:"-"`
+
+	// Selector for a CryptoKey in kms to populate keyReference.
+	// +kubebuilder:validation:Optional
+	KeyReferenceSelector *v1.Selector `json:"keyReferenceSelector,omitempty" tf:"-"`
+}
+
+type EventPublishConfigObservation struct {
+}
+
+type EventPublishConfigParameters struct {
+
+	// Option to enable Event Publishing.
+	// +kubebuilder:validation:Required
+	Enabled *bool `json:"enabled" tf:"enabled,omitempty"`
+
+	// The resource name of the Pub/Sub topic. Format: projects/{projectId}/topics/{topic_id}
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/pubsub/v1beta1.Topic
+	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
+	// +kubebuilder:validation:Optional
+	Topic *string `json:"topic,omitempty" tf:"topic,omitempty"`
+
+	// Reference to a Topic in pubsub to populate topic.
+	// +kubebuilder:validation:Optional
+	TopicRef *v1.Reference `json:"topicRef,omitempty" tf:"-"`
+
+	// Selector for a Topic in pubsub to populate topic.
+	// +kubebuilder:validation:Optional
+	TopicSelector *v1.Selector `json:"topicSelector,omitempty" tf:"-"`
+}
+
 type InstanceObservation struct {
+
+	// Endpoint on which the REST APIs is accessible.
+	APIEndpoint *string `json:"apiEndpoint,omitempty" tf:"api_endpoint,omitempty"`
 
 	// The time the instance was created in RFC3339 UTC "Zulu" format, accurate to nanoseconds.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
@@ -35,6 +82,9 @@ type InstanceObservation struct {
 
 	// an identifier for the resource with format projects/{{project}}/locations/{{region}}/instances/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// P4 service account for the customer project.
+	P4ServiceAccount *string `json:"p4ServiceAccount,omitempty" tf:"p4_service_account,omitempty"`
 
 	// Endpoint on which the Data Fusion UI and REST APIs are accessible.
 	ServiceEndpoint *string `json:"serviceEndpoint,omitempty" tf:"service_endpoint,omitempty"`
@@ -54,6 +104,11 @@ type InstanceObservation struct {
 
 type InstanceParameters struct {
 
+	// The crypto key configuration. This field is used by the Customer-Managed Encryption Keys (CMEK) feature.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	CryptoKeyConfig []CryptoKeyConfigParameters `json:"cryptoKeyConfig,omitempty" tf:"crypto_key_config,omitempty"`
+
 	// User-managed service account to set on Dataproc when Cloud Data Fusion creates Dataproc to run data processing pipelines.
 	// +kubebuilder:validation:Optional
 	DataprocServiceAccount *string `json:"dataprocServiceAccount,omitempty" tf:"dataproc_service_account,omitempty"`
@@ -62,6 +117,14 @@ type InstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// Display name for an instance.
+	// +kubebuilder:validation:Optional
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// Option to enable granular role-based access control.
+	// +kubebuilder:validation:Optional
+	EnableRbac *bool `json:"enableRbac,omitempty" tf:"enable_rbac,omitempty"`
+
 	// Option to enable Stackdriver Logging.
 	// +kubebuilder:validation:Optional
 	EnableStackdriverLogging *bool `json:"enableStackdriverLogging,omitempty" tf:"enable_stackdriver_logging,omitempty"`
@@ -69,6 +132,11 @@ type InstanceParameters struct {
 	// Option to enable Stackdriver Monitoring.
 	// +kubebuilder:validation:Optional
 	EnableStackdriverMonitoring *bool `json:"enableStackdriverMonitoring,omitempty" tf:"enable_stackdriver_monitoring,omitempty"`
+
+	// Option to enable and pass metadata for event publishing.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	EventPublishConfig []EventPublishConfigParameters `json:"eventPublishConfig,omitempty" tf:"event_publish_config,omitempty"`
 
 	// The resource labels for instance to use to annotate any related underlying resources,
 	// such as Compute Engine VMs.
@@ -107,6 +175,10 @@ type InstanceParameters struct {
 	// Current version of the Data Fusion.
 	// +kubebuilder:validation:Optional
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
+
+	// Name of the zone in which the Data Fusion instance will be created. Only DEVELOPER instances use this field.
+	// +kubebuilder:validation:Optional
+	Zone *string `json:"zone,omitempty" tf:"zone,omitempty"`
 }
 
 type NetworkConfigObservation struct {

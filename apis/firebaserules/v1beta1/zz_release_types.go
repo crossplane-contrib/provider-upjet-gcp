@@ -46,7 +46,7 @@ type ReleaseParameters struct {
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
-	// Name of the Ruleset referred to by this Release. The Ruleset must exist the Release to be created.
+	// Name of the Ruleset referred to by this Release. The Ruleset must exist for the Release to be created.
 	// +crossplane:generate:reference:type=Ruleset
 	// +kubebuilder:validation:Optional
 	RulesetName *string `json:"rulesetName,omitempty" tf:"ruleset_name,omitempty"`
@@ -74,7 +74,7 @@ type ReleaseStatus struct {
 
 // +kubebuilder:object:root=true
 
-// Release is the Schema for the Releases API. The Firebaserules Release resource
+// Release is the Schema for the Releases API.
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

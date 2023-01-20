@@ -147,6 +147,9 @@ type TransportParameters struct {
 
 type TriggerObservation struct {
 
+	// Output only. The reason(s) why a trigger is in FAILED state.
+	Conditions map[string]*string `json:"conditions,omitempty" tf:"conditions,omitempty"`
+
 	// Output only. The creation time.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
@@ -168,6 +171,10 @@ type TriggerObservation struct {
 }
 
 type TriggerParameters struct {
+
+	// Optional. The name of the channel associated with the trigger in projects/{project}/locations/{location}/channels/{channel} format. You must provide a channel to receive events from Eventarc SaaS partners.
+	// +kubebuilder:validation:Optional
+	Channel *string `json:"channel,omitempty" tf:"channel,omitempty"`
 
 	// Required. Destination specifies where the events should be sent to.
 	// +kubebuilder:validation:Required

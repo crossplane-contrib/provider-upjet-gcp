@@ -106,7 +106,7 @@ type CertificateObservation struct {
 	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/caPools/{{pool}}/certificates/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// The resource name of the issuing CertificateAuthority in the format projects//locations//caPools//certificateAuthorities/.
+	// The resource name of the issuing CertificateAuthority in the format projects/*/locations/*/caPools/*/certificateAuthorities/*.
 	IssuerCertificateAuthority *string `json:"issuerCertificateAuthority,omitempty" tf:"issuer_certificate_authority,omitempty"`
 
 	// Output only. The pem-encoded, signed X.509 certificate.
@@ -131,7 +131,10 @@ type CertificateObservation struct {
 
 type CertificateParameters struct {
 
-	// Certificate Authority name.
+	// The Certificate Authority ID that should issue the certificate. For example, to issue a Certificate from
+	// a Certificate Authority with resource name projects/my-project/locations/us-central1/caPools/my-pool/certificateAuthorities/my-ca,
+	// argument pool should be set to projects/my-project/locations/us-central1/caPools/my-pool, argument certificate_authority
+	// should be set to my-ca.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/privateca/v1beta1.CertificateAuthority
 	// +kubebuilder:validation:Optional
 	CertificateAuthority *string `json:"certificateAuthority,omitempty" tf:"certificate_authority,omitempty"`

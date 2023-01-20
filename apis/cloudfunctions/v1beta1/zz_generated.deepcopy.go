@@ -429,8 +429,18 @@ func (in *FunctionParameters) DeepCopyInto(out *FunctionParameters) {
 			(*out)[key] = val
 		}
 	}
+	if in.BuildWorkerPool != nil {
+		in, out := &in.BuildWorkerPool, &out.BuildWorkerPool
+		*out = new(string)
+		**out = **in
+	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
+		*out = new(string)
+		**out = **in
+	}
+	if in.DockerRegistry != nil {
+		in, out := &in.DockerRegistry, &out.DockerRegistry
 		*out = new(string)
 		**out = **in
 	}

@@ -205,6 +205,10 @@ spec:
                       - uri
                       type: object
                     type: array
+                  paused:
+                    description: Sets the job to a paused state. Jobs default to being
+                      enabled when this property is not set.
+                    type: boolean
                   project:
                     description: The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
@@ -544,6 +548,9 @@ spec:
                 properties:
                   id:
                     description: an identifier for the resource with format projects/{{project}}/locations/{{region}}/jobs/{{name}}
+                    type: string
+                  state:
+                    description: State of the job.
                     type: string
                 type: object
               conditions:

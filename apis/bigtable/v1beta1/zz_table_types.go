@@ -47,6 +47,9 @@ type TableParameters struct {
 	// +kubebuilder:validation:Optional
 	ColumnFamily []ColumnFamilyParameters `json:"columnFamily,omitempty" tf:"column_family,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	DeletionProtection *string `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
+
 	// The name of the Bigtable instance.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/bigtable/v1beta1.Instance
 	// +kubebuilder:validation:Optional

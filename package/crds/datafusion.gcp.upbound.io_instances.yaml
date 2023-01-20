@@ -64,6 +64,97 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  cryptoKeyConfig:
+                    description: The crypto key configuration. This field is used
+                      by the Customer-Managed Encryption Keys (CMEK) feature. Structure
+                      is documented below.
+                    items:
+                      properties:
+                        keyReference:
+                          description: The name of the key which is used to encrypt/decrypt
+                            customer data. For key in Cloud KMS, the key should be
+                            in the format of projects//locations//keyRings//cryptoKeys/.
+                          type: string
+                        keyReferenceRef:
+                          description: Reference to a CryptoKey in kms to populate
+                            keyReference.
+                          properties:
+                            name:
+                              description: Name of the referenced object.
+                              type: string
+                            policy:
+                              description: Policies for referencing.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: Resolution specifies whether resolution
+                                    of this reference is required. The default is
+                                    'Required', which means the reconcile will fail
+                                    if the reference cannot be resolved. 'Optional'
+                                    means this reference will be a no-op if it cannot
+                                    be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: Resolve specifies when this reference
+                                    should be resolved. The default is 'IfNotPresent',
+                                    which will attempt to resolve the reference only
+                                    when the corresponding field is not present. Use
+                                    'Always' to resolve the reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          required:
+                          - name
+                          type: object
+                        keyReferenceSelector:
+                          description: Selector for a CryptoKey in kms to populate
+                            keyReference.
+                          properties:
+                            matchControllerRef:
+                              description: MatchControllerRef ensures an object with
+                                the same controller reference as the selecting object
+                                is selected.
+                              type: boolean
+                            matchLabels:
+                              additionalProperties:
+                                type: string
+                              description: MatchLabels ensures an object with matching
+                                labels is selected.
+                              type: object
+                            policy:
+                              description: Policies for selection.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: Resolution specifies whether resolution
+                                    of this reference is required. The default is
+                                    'Required', which means the reconcile will fail
+                                    if the reference cannot be resolved. 'Optional'
+                                    means this reference will be a no-op if it cannot
+                                    be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: Resolve specifies when this reference
+                                    should be resolved. The default is 'IfNotPresent',
+                                    which will attempt to resolve the reference only
+                                    when the corresponding field is not present. Use
+                                    'Always' to resolve the reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          type: object
+                      type: object
+                    type: array
                   dataprocServiceAccount:
                     description: User-managed service account to set on Dataproc when
                       Cloud Data Fusion creates Dataproc to run data processing pipelines.
@@ -71,12 +162,112 @@ spec:
                   description:
                     description: An optional description of the instance.
                     type: string
+                  displayName:
+                    description: Display name for an instance.
+                    type: string
+                  enableRbac:
+                    description: Option to enable granular role-based access control.
+                    type: boolean
                   enableStackdriverLogging:
                     description: Option to enable Stackdriver Logging.
                     type: boolean
                   enableStackdriverMonitoring:
                     description: Option to enable Stackdriver Monitoring.
                     type: boolean
+                  eventPublishConfig:
+                    description: Option to enable and pass metadata for event publishing.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        enabled:
+                          description: Option to enable Event Publishing.
+                          type: boolean
+                        topic:
+                          description: 'The resource name of the Pub/Sub topic. Format:
+                            projects/{projectId}/topics/{topic_id}'
+                          type: string
+                        topicRef:
+                          description: Reference to a Topic in pubsub to populate
+                            topic.
+                          properties:
+                            name:
+                              description: Name of the referenced object.
+                              type: string
+                            policy:
+                              description: Policies for referencing.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: Resolution specifies whether resolution
+                                    of this reference is required. The default is
+                                    'Required', which means the reconcile will fail
+                                    if the reference cannot be resolved. 'Optional'
+                                    means this reference will be a no-op if it cannot
+                                    be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: Resolve specifies when this reference
+                                    should be resolved. The default is 'IfNotPresent',
+                                    which will attempt to resolve the reference only
+                                    when the corresponding field is not present. Use
+                                    'Always' to resolve the reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          required:
+                          - name
+                          type: object
+                        topicSelector:
+                          description: Selector for a Topic in pubsub to populate
+                            topic.
+                          properties:
+                            matchControllerRef:
+                              description: MatchControllerRef ensures an object with
+                                the same controller reference as the selecting object
+                                is selected.
+                              type: boolean
+                            matchLabels:
+                              additionalProperties:
+                                type: string
+                              description: MatchLabels ensures an object with matching
+                                labels is selected.
+                              type: object
+                            policy:
+                              description: Policies for selection.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: Resolution specifies whether resolution
+                                    of this reference is required. The default is
+                                    'Required', which means the reconcile will fail
+                                    if the reference cannot be resolved. 'Optional'
+                                    means this reference will be a no-op if it cannot
+                                    be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: Resolve specifies when this reference
+                                    should be resolved. The default is 'IfNotPresent',
+                                    which will attempt to resolve the reference only
+                                    when the corresponding field is not present. Use
+                                    'Always' to resolve the reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          type: object
+                      required:
+                      - enabled
+                      type: object
+                    type: array
                   labels:
                     additionalProperties:
                       type: string
@@ -133,6 +324,10 @@ spec:
                     type: string
                   version:
                     description: Current version of the Data Fusion.
+                    type: string
+                  zone:
+                    description: Name of the zone in which the Data Fusion instance
+                      will be created. Only DEVELOPER instances use this field.
                     type: string
                 required:
                 - type
@@ -313,6 +508,9 @@ spec:
             properties:
               atProvider:
                 properties:
+                  apiEndpoint:
+                    description: Endpoint on which the REST APIs is accessible.
+                    type: string
                   createTime:
                     description: The time the instance was created in RFC3339 UTC
                       "Zulu" format, accurate to nanoseconds.
@@ -323,6 +521,9 @@ spec:
                     type: string
                   id:
                     description: an identifier for the resource with format projects/{{project}}/locations/{{region}}/instances/{{name}}
+                    type: string
+                  p4ServiceAccount:
+                    description: P4 service account for the customer project.
                     type: string
                   serviceEndpoint:
                     description: Endpoint on which the Data Fusion UI and REST APIs

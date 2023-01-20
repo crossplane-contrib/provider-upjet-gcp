@@ -93,7 +93,8 @@ spec:
                     type: number
                   bootDiskType:
                     description: Possible disk types for notebook instances. Possible
-                      values are DISK_TYPE_UNSPECIFIED, PD_STANDARD, PD_SSD, and PD_BALANCED.
+                      values are DISK_TYPE_UNSPECIFIED, PD_STANDARD, PD_SSD, PD_BALANCED,
+                      and PD_EXTREME.
                     type: string
                   containerImage:
                     description: Use a container image to start the notebook instance.
@@ -125,7 +126,8 @@ spec:
                     type: number
                   dataDiskType:
                     description: Possible disk types for notebook instances. Possible
-                      values are DISK_TYPE_UNSPECIFIED, PD_STANDARD, PD_SSD, and PD_BALANCED.
+                      values are DISK_TYPE_UNSPECIFIED, PD_STANDARD, PD_SSD, PD_BALANCED,
+                      and PD_EXTREME.
                     type: string
                   diskEncryption:
                     description: Disk encryption method used on the boot and data
@@ -175,6 +177,10 @@ spec:
                     description: 'The name of the VPC that this instance is in. Format:
                       projects/{project_id}/global/networks/{network_id}'
                     type: string
+                  nicType:
+                    description: The type of vNIC driver. Possible values are UNSPECIFIED_NIC_TYPE,
+                      VIRTIO_NET, and GVNIC.
+                    type: string
                   noProxyAccess:
                     description: The notebook instance will not register with the
                       proxy..
@@ -195,6 +201,29 @@ spec:
                     description: The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
+                  reservationAffinity:
+                    description: Reservation Affinity for consuming Zonal reservation.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        consumeReservationType:
+                          description: The type of Compute Reservation. Possible values
+                            are NO_RESERVATION, ANY_RESERVATION, and SPECIFIC_RESERVATION.
+                          type: string
+                        key:
+                          description: Corresponds to the label key of reservation
+                            resource.
+                          type: string
+                        values:
+                          description: Corresponds to the label values of reservation
+                            resource.
+                          items:
+                            type: string
+                          type: array
+                      required:
+                      - consumeReservationType
+                      type: object
+                    type: array
                   serviceAccount:
                     description: The service account on this instance, giving access
                       to other Google Cloud services. You can use any service account

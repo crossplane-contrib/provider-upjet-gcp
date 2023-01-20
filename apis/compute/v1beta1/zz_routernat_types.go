@@ -25,6 +25,25 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type ActionObservation struct {
+}
+
+type ActionParameters struct {
+
+	// A list of URLs of the IP resources used for this NAT rule.
+	// These IP addresses must be valid static external IP addresses assigned to the project.
+	// This field is used for public NAT.
+	// +kubebuilder:validation:Optional
+	SourceNATActiveIps []*string `json:"sourceNatActiveIps,omitempty" tf:"source_nat_active_ips,omitempty"`
+
+	// A list of URLs of the IP resources to be drained.
+	// These IPs must be valid static external IPs that have been assigned to the NAT.
+	// These IPs should be used for updating/patching a NAT rule only.
+	// This field is used for public NAT.
+	// +kubebuilder:validation:Optional
+	SourceNATDrainIps []*string `json:"sourceNatDrainIps,omitempty" tf:"source_nat_drain_ips,omitempty"`
+}
+
 type RouterNATLogConfigObservation struct {
 }
 
@@ -54,8 +73,10 @@ type RouterNATParameters struct {
 	DrainNATIps []*string `json:"drainNatIps,omitempty" tf:"drain_nat_ips,omitempty"`
 
 	// Enable Dynamic Port Allocation.
-	// If minPorts is set, minPortsPerVm must be set to a power of two greater than or equal to 32.
+	// If minPortsPerVm is set, minPortsPerVm must be set to a power of two greater than or equal to 32.
 	// If minPortsPerVm is not set, a minimum of 32 ports will be allocated to a VM from this NAT config.
+	// If maxPortsPerVm is set, maxPortsPerVm must be set to a power of two greater than minPortsPerVm.
+	// If maxPortsPerVm is not set, a maximum of 65536 ports will be allocated to a VM from this NAT config.
 	// Mutually exclusive with enableEndpointIndependentMapping.
 	// +kubebuilder:validation:Optional
 	EnableDynamicPortAllocation *bool `json:"enableDynamicPortAllocation,omitempty" tf:"enable_dynamic_port_allocation,omitempty"`
@@ -73,6 +94,11 @@ type RouterNATParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	LogConfig []RouterNATLogConfigParameters `json:"logConfig,omitempty" tf:"log_config,omitempty"`
+
+	// Maximum number of ports allocated to a VM from this NAT.
+	// This field can only be set when enableDynamicPortAllocation is enabled.
+	// +kubebuilder:validation:Optional
+	MaxPortsPerVM *float64 `json:"maxPortsPerVm,omitempty" tf:"max_ports_per_vm,omitempty"`
 
 	// Minimum number of ports allocated to a VM from this NAT.
 	// +kubebuilder:validation:Optional
@@ -112,6 +138,11 @@ type RouterNATParameters struct {
 	// +kubebuilder:validation:Optional
 	RouterSelector *v1.Selector `json:"routerSelector,omitempty" tf:"-"`
 
+	// A list of rules associated with this NAT.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Rules []RulesParameters `json:"rules,omitempty" tf:"rules,omitempty"`
+
 	// How NAT should be configured per Subnetwork.
 	// If ALL_SUBNETWORKS_ALL_IP_RANGES, all of the
 	// IP ranges in every Subnetwork are allowed to Nat.
@@ -145,6 +176,36 @@ type RouterNATParameters struct {
 	// Timeout (in seconds) for UDP connections. Defaults to 30s if not set.
 	// +kubebuilder:validation:Optional
 	UDPIdleTimeoutSec *float64 `json:"udpIdleTimeoutSec,omitempty" tf:"udp_idle_timeout_sec,omitempty"`
+}
+
+type RulesObservation struct {
+}
+
+type RulesParameters struct {
+
+	// The action to be enforced for traffic that matches this rule.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Action []ActionParameters `json:"action,omitempty" tf:"action,omitempty"`
+
+	// An optional description of this rule.
+	// +kubebuilder:validation:Optional
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// CEL expression that specifies the match condition that egress traffic from a VM is evaluated against.
+	// If it evaluates to true, the corresponding action is enforced.
+	// The following examples are valid match expressions for public NAT:
+	// "inIpRange(destination.ip, '1.1.0.0/16') || inIpRange(destination.ip, '2.2.0.0/16')"
+	// "destination.ip == '1.1.0.1' || destination.ip == '8.8.8.8'"
+	// The following example is a valid match expression for private NAT:
+	// "nexthop.hub == 'https://networkconnectivity.googleapis.com/v1alpha1/projects/my-project/global/hub/hub-1'"
+	// +kubebuilder:validation:Required
+	Match *string `json:"match" tf:"match,omitempty"`
+
+	// An integer uniquely identifying a rule in the list.
+	// The rule number must be a positive value between 0 and 65000, and must be unique among rules within a NAT.
+	// +kubebuilder:validation:Required
+	RuleNumber *float64 `json:"ruleNumber" tf:"rule_number,omitempty"`
 }
 
 type SubnetworkObservation struct {

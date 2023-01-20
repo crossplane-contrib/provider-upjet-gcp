@@ -39,6 +39,9 @@ type SecretVersionObservation struct {
 	// The resource name of the SecretVersion. Format:
 	// projects/{{project}}/secrets/{{secret_id}}/versions/{{version}}
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The version of the Secret.
+	Version *string `json:"version,omitempty" tf:"version,omitempty"`
 }
 
 type SecretVersionParameters struct {

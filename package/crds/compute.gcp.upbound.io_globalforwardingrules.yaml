@@ -681,6 +681,11 @@ spec:
                     description: (Beta) The fingerprint used for optimistic locking
                       of this resource.  Used internally during updates.
                     type: string
+                  pscConnectionId:
+                    description: an identifier for the resource with format projects/{{project}}/global/forwardingRules/{{name}}
+                    type: string
+                  pscConnectionStatus:
+                    type: string
                   selfLink:
                     description: The URI of the created resource.
                     type: string

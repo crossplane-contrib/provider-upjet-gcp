@@ -910,6 +910,13 @@ spec:
                             CSV: Trailing columns JSON: Named values that don''t match
                             any column names'
                           type: boolean
+                        jsonExtension:
+                          description: 'If sourceFormat is set to newline-delimited
+                            JSON, indicates whether it should be processed as a JSON
+                            variant such as GeoJSON. For a sourceFormat other than
+                            JSON, omit this field. If the sourceFormat is newline-delimited
+                            JSON: - for newline-delimited GeoJSON: set to GEOJSON.'
+                          type: string
                         maxBadRecords:
                           description: The maximum number of bad records that BigQuery
                             can ignore when running the job. If the number of bad
@@ -993,13 +1000,13 @@ spec:
                         sourceUris:
                           description: 'The fully-qualified URIs that point to your
                             data in Google Cloud. For Google Cloud Storage URIs: Each
-                            URI can contain one ” wildcard character and it must come
-                            after the ''bucket'' name. Size limits related to load
-                            jobs apply to external data sources. For Google Cloud
+                            URI can contain one ''*'' wildcard character and it must
+                            come after the ''bucket'' name. Size limits related to
+                            load jobs apply to external data sources. For Google Cloud
                             Bigtable URIs: Exactly one URI can be specified and it
                             has be a fully specified and valid HTTPS URL for a Google
                             Cloud Bigtable table. For Google Cloud Datastore backups:
-                            Exactly one URI can be specified. Also, the ” wildcard
+                            Exactly one URI can be specified. Also, the ''*'' wildcard
                             character is not allowed.'
                           items:
                             type: string

@@ -34,7 +34,7 @@ spec:
     - autoDelete: true
       boot: true
       diskSizeGb: 100
-      sourceImage: debian-cloud/debian-9
+      sourceImage: debian-cloud/debian-11
     machineType: e2-medium
     metadata:
       foo: bar

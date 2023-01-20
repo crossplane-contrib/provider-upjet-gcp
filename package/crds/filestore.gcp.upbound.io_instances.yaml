@@ -450,6 +450,19 @@ spec:
                     description: Server-specified ETag for the instance resource to
                       prevent simultaneous updates from overwriting each other.
                     type: string
+                  fileShares:
+                    description: File system shares on the instance. For this version,
+                      only a single file share is supported. Structure is documented
+                      below.
+                    items:
+                      properties:
+                        sourceBackup:
+                          description: The resource name of the backup, in the format
+                            projects/{projectId}/locations/{locationId}/backups/{backupId},
+                            that this file share has been restored from.
+                          type: string
+                      type: object
+                    type: array
                   id:
                     description: an identifier for the resource with format projects/{{project}}/locations/{{location}}/instances/{{name}}
                     type: string

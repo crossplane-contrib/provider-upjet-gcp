@@ -74,9 +74,13 @@ spec:
                             virtualization enabled. Defaults to false.
                           type: boolean
                         threadsPerCore:
-                          description: he number of threads per physical core. To
+                          description: The number of threads per physical core. To
                             disable simultaneous multithreading (SMT) set this to
                             1.
+                          type: number
+                        visibleCoreCount:
+                          description: The number of physical cores to expose to an
+                            instance. visible cores info (VC).
                           type: number
                       type: object
                     type: array
@@ -128,7 +132,7 @@ spec:
                             properties:
                               kmsKeySelfLink:
                                 description: The self link of the encryption key that
-                                  is stored in Google Cloud KMS
+                                  is stored in Google Cloud KMS.
                                 type: string
                             required:
                             - kmsKeySelfLink
@@ -176,9 +180,9 @@ spec:
                         source:
                           description: 'The name (not self_link) of the disk (such
                             as those managed by google_compute_disk) to attach. ~>
-                            Note: Either source or source_image is required in a disk
-                            block unless the disk type is local-ssd. Check the API
-                            docs for details.'
+                            Note: Either source, source_image, or source_snapshot
+                            is required in a disk block unless the disk type is local-ssd.
+                            Check the API docs for details.'
                           type: string
                         sourceImage:
                           description: 'The image from which to initialize this disk.
@@ -186,9 +190,29 @@ spec:
                             projects/{project}/global/images/family/{family}, global/images/{image},
                             global/images/family/{family}, family/{family}, {project}/{family},
                             {project}/{image}, {family}, or {image}. ~> Note: Either
-                            source or source_image is required in a disk block unless
-                            the disk type is local-ssd. Check the API docs for details.'
+                            source, source_image, or source_snapshot is required in
+                            a disk block unless the disk type is local-ssd. Check
+                            the API docs for details.'
                           type: string
+                        sourceImageEncryptionKey:
+                          description: The customer-supplied encryption key of the
+                            source image. Required if the source image is protected
+                            by a customer-supplied encryption key.
+                          items:
+                            properties:
+                              kmsKeySelfLink:
+                                description: The self link of the encryption key that
+                                  is stored in Google Cloud KMS.
+                                type: string
+                              kmsKeyServiceAccount:
+                                description: The service account being used for the
+                                  encryption request for the given KMS key. If absent,
+                                  the Compute Engine default service account is used.
+                                type: string
+                            required:
+                            - kmsKeySelfLink
+                            type: object
+                          type: array
                         sourceRef:
                           description: Reference to a Disk in compute to populate
                             source.
@@ -267,6 +291,30 @@ spec:
                                   type: string
                               type: object
                           type: object
+                        sourceSnapshot:
+                          description: 'The source snapshot to create this disk. ~>
+                            Note: Either source, source_image, or source_snapshot
+                            is required in a disk block unless the disk type is local-ssd.
+                            Check the API docs for details.'
+                          type: string
+                        sourceSnapshotEncryptionKey:
+                          description: The customer-supplied encryption key of the
+                            source snapshot. Structure documented below.
+                          items:
+                            properties:
+                              kmsKeySelfLink:
+                                description: The self link of the encryption key that
+                                  is stored in Google Cloud KMS.
+                                type: string
+                              kmsKeyServiceAccount:
+                                description: The service account being used for the
+                                  encryption request for the given KMS key. If absent,
+                                  the Compute Engine default service account is used.
+                                type: string
+                            required:
+                            - kmsKeySelfLink
+                            type: object
+                          type: array
                         type:
                           description: The type of GCE disk, can be either "SCRATCH"
                             or "PERSISTENT".
@@ -645,6 +693,10 @@ spec:
                             restarted if it is terminated by Compute Engine (not terminated
                             by a user). This defaults to true.
                           type: boolean
+                        instanceTerminationAction:
+                          description: Describe the type of termination action for
+                            SPOT VM. Can be STOP or DELETE.  Read more on here
+                          type: string
                         minNodeCpus:
                           type: number
                         nodeAffinities:

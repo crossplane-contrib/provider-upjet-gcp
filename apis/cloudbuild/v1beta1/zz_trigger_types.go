@@ -165,8 +165,8 @@ type GitFileSourceParameters struct {
 	Path *string `json:"path" tf:"path,omitempty"`
 
 	// The type of the repo, since it may not be explicit from the repo field (e.g from a URL).
-	// Values can be UNKNOWN, CLOUD_SOURCE_REPOSITORIES, GITHUB
-	// Possible values are UNKNOWN, CLOUD_SOURCE_REPOSITORIES, and GITHUB.
+	// Values can be UNKNOWN, CLOUD_SOURCE_REPOSITORIES, GITHUB, BITBUCKET_SERVER
+	// Possible values are UNKNOWN, CLOUD_SOURCE_REPOSITORIES, GITHUB, and BITBUCKET_SERVER.
 	// +kubebuilder:validation:Required
 	RepoType *string `json:"repoType" tf:"repo_type,omitempty"`
 
@@ -480,8 +480,8 @@ type SourceToBuildParameters struct {
 	Ref *string `json:"ref" tf:"ref,omitempty"`
 
 	// The type of the repo, since it may not be explicit from the repo field (e.g from a URL).
-	// Values can be UNKNOWN, CLOUD_SOURCE_REPOSITORIES, GITHUB
-	// Possible values are UNKNOWN, CLOUD_SOURCE_REPOSITORIES, and GITHUB.
+	// Values can be UNKNOWN, CLOUD_SOURCE_REPOSITORIES, GITHUB, BITBUCKET_SERVER
+	// Possible values are UNKNOWN, CLOUD_SOURCE_REPOSITORIES, GITHUB, and BITBUCKET_SERVER.
 	// +kubebuilder:validation:Required
 	RepoType *string `json:"repoType" tf:"repo_type,omitempty"`
 
@@ -533,6 +533,11 @@ type StepParameters struct {
 	// Docker volumes. Each named volume must be used by at least two build steps.
 	// +kubebuilder:validation:Required
 	Name *string `json:"name" tf:"name,omitempty"`
+
+	// A shell script to be executed in the step.
+	// When script is provided, the user cannot specify the entrypoint or args.
+	// +kubebuilder:validation:Optional
+	Script *string `json:"script,omitempty" tf:"script,omitempty"`
 
 	// A list of environment variables which are encrypted using
 	// a Cloud Key
@@ -636,7 +641,7 @@ type TriggerObservation struct {
 	// Time when the trigger was created.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
-	// an identifier for the resource with format projects/{{project}}/triggers/{{trigger_id}}
+	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/triggers/{{trigger_id}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// PubsubConfig describes the configuration of a trigger that creates
@@ -710,6 +715,13 @@ type TriggerParameters struct {
 	// +kubebuilder:validation:Optional
 	IgnoredFiles []*string `json:"ignoredFiles,omitempty" tf:"ignored_files,omitempty"`
 
+	// Build logs will be sent back to GitHub as part of the checkrun
+	// result.  Values can be INCLUDE_BUILD_LOGS_UNSPECIFIED or
+	// INCLUDE_BUILD_LOGS_WITH_STATUS
+	// Possible values are INCLUDE_BUILD_LOGS_UNSPECIFIED and INCLUDE_BUILD_LOGS_WITH_STATUS.
+	// +kubebuilder:validation:Optional
+	IncludeBuildLogs *string `json:"includeBuildLogs,omitempty" tf:"include_build_logs,omitempty"`
+
 	// ignoredFiles and includedFiles are file glob matches using https://golang.org/pkg/path/filepath/#Match
 	// extended with support for **.
 	// If any of the files altered in the commit pass the ignoredFiles filter
@@ -721,6 +733,11 @@ type TriggerParameters struct {
 	// a build.
 	// +kubebuilder:validation:Optional
 	IncludedFiles []*string `json:"includedFiles,omitempty" tf:"included_files,omitempty"`
+
+	// The Cloud Build location for the trigger.
+	// If not specified, "global" is used.
+	// +kubebuilder:validation:Optional
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
 	// Name of the trigger. Must be unique within the project.
 	// +kubebuilder:validation:Optional

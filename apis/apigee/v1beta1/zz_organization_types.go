@@ -80,6 +80,20 @@ type OrganizationParameters struct {
 	// +kubebuilder:validation:Required
 	ProjectID *string `json:"projectId" tf:"project_id,omitempty"`
 
+	// Properties defined in the Apigee organization profile.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Properties []PropertiesParameters `json:"properties,omitempty" tf:"properties,omitempty"`
+
+	// Optional. This setting is applicable only for organizations that are soft-deleted (i.e., BillingType
+	// is not EVALUATION). It controls how long Organization data will be retained after the initial delete
+	// operation completes. During this period, the Organization may be restored to its last known state.
+	// After this period, the Organization will no longer be able to be restored.
+	// Default value is DELETION_RETENTION_UNSPECIFIED.
+	// Possible values are DELETION_RETENTION_UNSPECIFIED and MINIMUM.
+	// +kubebuilder:validation:Optional
+	Retention *string `json:"retention,omitempty" tf:"retention,omitempty"`
+
 	// Cloud KMS key name used for encrypting the data that is stored and replicated across runtime instances.
 	// Update is not allowed after the organization is created.
 	// If not specified, a Google-Managed encryption key will be used.
@@ -102,6 +116,31 @@ type OrganizationParameters struct {
 	// Possible values are CLOUD and HYBRID.
 	// +kubebuilder:validation:Optional
 	RuntimeType *string `json:"runtimeType,omitempty" tf:"runtime_type,omitempty"`
+}
+
+type PropertiesObservation struct {
+}
+
+type PropertiesParameters struct {
+
+	// List of all properties in the object.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Property []PropertyParameters `json:"property,omitempty" tf:"property,omitempty"`
+}
+
+type PropertyObservation struct {
+}
+
+type PropertyParameters struct {
+
+	// Name of the property.
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Value of the property.
+	// +kubebuilder:validation:Optional
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
 
 // OrganizationSpec defines the desired state of Organization

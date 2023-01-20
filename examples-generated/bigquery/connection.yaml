@@ -8,78 +8,12 @@ metadata:
   name: connection
 spec:
   forProvider:
-    cloudSql:
-    - credential:
-      - passwordSecretRef:
-          key: attribute.password
-          name: example-sql-user
-          namespace: upbound-system
-        usernameSelector:
-          matchLabels:
-            testing.upbound.io/example-name: user
-      databaseSelector:
-        matchLabels:
-          testing.upbound.io/example-name: db
-      instanceIdSelector:
-        matchLabels:
-          testing.upbound.io/example-name: instance
-      type: POSTGRES
+    cloudResource:
+    - {}
+    connectionId: my-connection
     description: a riveting description
     friendlyName: "\U0001F44B"
-
----
-
-apiVersion: sql.gcp.upbound.io/v1beta1
-kind: Database
-metadata:
-  annotations:
-    meta.upbound.io/example-id: bigquery/v1beta1/connection
-  labels:
-    testing.upbound.io/example-name: db
-  name: db
-spec:
-  forProvider:
-    instanceSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
-
----
-
-apiVersion: sql.gcp.upbound.io/v1beta1
-kind: DatabaseInstance
-metadata:
-  annotations:
-    meta.upbound.io/example-id: bigquery/v1beta1/connection
-  labels:
-    testing.upbound.io/example-name: instance
-  name: instance
-spec:
-  forProvider:
-    databaseVersion: POSTGRES_11
-    deletionProtection: "true"
-    region: us-central1
-    settings:
-    - tier: db-f1-micro
-
----
-
-apiVersion: sql.gcp.upbound.io/v1beta1
-kind: User
-metadata:
-  annotations:
-    meta.upbound.io/example-id: bigquery/v1beta1/connection
-  labels:
-    testing.upbound.io/example-name: user
-  name: user
-spec:
-  forProvider:
-    instanceSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
-    passwordSecretRef:
-      key: attribute.result
-      name: example-password
-      namespace: upbound-system
+    location: US
 
 ---
 

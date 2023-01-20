@@ -1007,6 +1007,10 @@ spec:
                       - minWaitDuration
                       type: object
                     type: array
+                  skipAwaitRollout:
+                    description: Set to true to skip awaiting rollout during resource
+                      creation and update.
+                    type: boolean
                 required:
                 - instanceFilter
                 - location

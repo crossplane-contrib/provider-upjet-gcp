@@ -8,7 +8,7 @@ metadata:
   name: default
 spec:
   forProvider:
-    image: debian-9-stretch-v20200805
+    image: debian-11-bullseye-v20220719
     labels:
       environment: dev
     physicalBlockSizeBytes: 4096

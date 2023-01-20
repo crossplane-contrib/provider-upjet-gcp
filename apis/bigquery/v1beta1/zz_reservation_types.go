@@ -33,6 +33,10 @@ type ReservationObservation struct {
 
 type ReservationParameters struct {
 
+	// Maximum number of queries that are allowed to run concurrently in this reservation. This is a soft limit due to asynchronous nature of the system and various optimizations for small queries. Default value is 0 which means that concurrency will be automatically set based on the reservation size.
+	// +kubebuilder:validation:Optional
+	Concurrency *float64 `json:"concurrency,omitempty" tf:"concurrency,omitempty"`
+
 	// If false, any query using this reservation will use idle slots from other reservations within
 	// the same admin project. If true, a query using this reservation will execute with the slot
 	// capacity specified above at most.
@@ -43,6 +47,11 @@ type ReservationParameters struct {
 	// Examples: US, EU, asia-northeast1. The default value is US.
 	// +kubebuilder:validation:Optional
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
+	// Applicable only for reservations located within one of the BigQuery multi-regions (US or EU).
+	// If set to true, this reservation is placed in the organization's secondary region which is designated for disaster recovery purposes. If false, this reservation is placed in the organization's default region.
+	// +kubebuilder:validation:Optional
+	MultiRegionAuxiliary *bool `json:"multiRegionAuxiliary,omitempty" tf:"multi_region_auxiliary,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.

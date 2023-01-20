@@ -157,7 +157,8 @@ spec:
                   purpose:
                     description: The immutable purpose of this CryptoKey. See the
                       purpose reference for possible inputs. Default value is ENCRYPT_DECRYPT.
-                      Possible values are ENCRYPT_DECRYPT, ASYMMETRIC_SIGN, and ASYMMETRIC_DECRYPT.
+                      Possible values are ENCRYPT_DECRYPT, ASYMMETRIC_SIGN, ASYMMETRIC_DECRYPT,
+                      and MAC.
                     type: string
                   rotationPeriod:
                     description: Every time this period passes, generate a new CryptoKeyVersion
@@ -185,7 +186,8 @@ spec:
                         protectionLevel:
                           description: The protection level to use when creating a
                             version based on this template. Possible values include
-                            "SOFTWARE", "HSM", "EXTERNAL". Defaults to "SOFTWARE".
+                            "SOFTWARE", "HSM", "EXTERNAL", "EXTERNAL_VPC". Defaults
+                            to "SOFTWARE".
                           type: string
                       required:
                       - algorithm

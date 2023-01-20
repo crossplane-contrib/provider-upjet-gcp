@@ -64,6 +64,12 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  channel:
+                    description: Optional. The name of the channel associated with
+                      the trigger in projects/{project}/locations/{location}/channels/{channel}
+                      format. You must provide a channel to receive events from Eventarc
+                      SaaS partners.
+                    type: string
                   destination:
                     description: Required. Destination specifies where the events
                       should be sent to.
@@ -477,6 +483,12 @@ spec:
             properties:
               atProvider:
                 properties:
+                  conditions:
+                    additionalProperties:
+                      type: string
+                    description: Output only. The reason(s) why a trigger is in FAILED
+                      state.
+                    type: object
                   createTime:
                     description: Output only. The creation time.
                     type: string

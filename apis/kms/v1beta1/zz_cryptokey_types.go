@@ -65,7 +65,7 @@ type CryptoKeyParameters struct {
 	// purpose reference
 	// for possible inputs.
 	// Default value is ENCRYPT_DECRYPT.
-	// Possible values are ENCRYPT_DECRYPT, ASYMMETRIC_SIGN, and ASYMMETRIC_DECRYPT.
+	// Possible values are ENCRYPT_DECRYPT, ASYMMETRIC_SIGN, ASYMMETRIC_DECRYPT, and MAC.
 	// +kubebuilder:validation:Optional
 	Purpose *string `json:"purpose,omitempty" tf:"purpose,omitempty"`
 
@@ -97,7 +97,7 @@ type VersionTemplateParameters struct {
 	// +kubebuilder:validation:Required
 	Algorithm *string `json:"algorithm" tf:"algorithm,omitempty"`
 
-	// The protection level to use when creating a version based on this template. Possible values include "SOFTWARE", "HSM", "EXTERNAL". Defaults to "SOFTWARE".
+	// The protection level to use when creating a version based on this template. Possible values include "SOFTWARE", "HSM", "EXTERNAL", "EXTERNAL_VPC". Defaults to "SOFTWARE".
 	// +kubebuilder:validation:Optional
 	ProtectionLevel *string `json:"protectionLevel,omitempty" tf:"protection_level,omitempty"`
 }

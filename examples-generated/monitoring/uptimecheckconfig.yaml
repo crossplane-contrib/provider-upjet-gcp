@@ -10,7 +10,11 @@ spec:
   forProvider:
     checkerType: STATIC_IP_CHECKERS
     contentMatchers:
-    - content: example
+    - content: '"example"'
+      jsonPathMatcher:
+      - jsonMatcher: EXACT_MATCH
+        jsonPath: $.path
+      matcher: MATCHES_JSON_PATH
     displayName: http-uptime-check
     httpCheck:
     - body: Zm9vJTI1M0RiYXI=

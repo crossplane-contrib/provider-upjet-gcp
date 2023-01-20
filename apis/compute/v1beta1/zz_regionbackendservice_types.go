@@ -25,45 +25,6 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
-type CdnPolicyCacheKeyPolicyObservation struct {
-}
-
-type CdnPolicyCacheKeyPolicyParameters struct {
-
-	// If true requests to different hosts will be cached separately.
-	// +kubebuilder:validation:Optional
-	IncludeHost *bool `json:"includeHost,omitempty" tf:"include_host,omitempty"`
-
-	// If true, http and https requests will be cached separately.
-	// +kubebuilder:validation:Optional
-	IncludeProtocol *bool `json:"includeProtocol,omitempty" tf:"include_protocol,omitempty"`
-
-	// If true, include query string parameters in the cache key
-	// according to query_string_whitelist and
-	// query_string_blacklist. If neither is set, the entire query
-	// string will be included.
-	// If false, the query string will be excluded from the cache
-	// key entirely.
-	// +kubebuilder:validation:Optional
-	IncludeQueryString *bool `json:"includeQueryString,omitempty" tf:"include_query_string,omitempty"`
-
-	// Names of query string parameters to exclude in cache keys.
-	// All other parameters will be included. Either specify
-	// query_string_whitelist or query_string_blacklist, not both.
-	// '&' and '=' will be percent encoded and not treated as
-	// delimiters.
-	// +kubebuilder:validation:Optional
-	QueryStringBlacklist []*string `json:"queryStringBlacklist,omitempty" tf:"query_string_blacklist,omitempty"`
-
-	// Names of query string parameters to include in cache keys.
-	// All other parameters will be excluded. Either specify
-	// query_string_whitelist or query_string_blacklist, not both.
-	// '&' and '=' will be percent encoded and not treated as
-	// delimiters.
-	// +kubebuilder:validation:Optional
-	QueryStringWhitelist []*string `json:"queryStringWhitelist,omitempty" tf:"query_string_whitelist,omitempty"`
-}
-
 type ConsistentHashHTTPCookieObservation struct {
 }
 
@@ -184,6 +145,8 @@ type RegionBackendServiceBackendObservation struct {
 type RegionBackendServiceBackendParameters struct {
 
 	// Specifies the balancing mode for this backend.
+	// See the Backend Services Overview
+	// for an explanation of load balancing modes.
 	// Default value is CONNECTION.
 	// Possible values are UTILIZATION, RATE, and CONNECTION.
 	// +kubebuilder:validation:Optional
@@ -300,6 +263,49 @@ type RegionBackendServiceBackendParameters struct {
 	MaxUtilization *float64 `json:"maxUtilization,omitempty" tf:"max_utilization,omitempty"`
 }
 
+type RegionBackendServiceCdnPolicyCacheKeyPolicyObservation struct {
+}
+
+type RegionBackendServiceCdnPolicyCacheKeyPolicyParameters struct {
+
+	// If true requests to different hosts will be cached separately.
+	// +kubebuilder:validation:Optional
+	IncludeHost *bool `json:"includeHost,omitempty" tf:"include_host,omitempty"`
+
+	// Names of cookies to include in cache keys.
+	// +kubebuilder:validation:Optional
+	IncludeNamedCookies []*string `json:"includeNamedCookies,omitempty" tf:"include_named_cookies,omitempty"`
+
+	// If true, http and https requests will be cached separately.
+	// +kubebuilder:validation:Optional
+	IncludeProtocol *bool `json:"includeProtocol,omitempty" tf:"include_protocol,omitempty"`
+
+	// If true, include query string parameters in the cache key
+	// according to query_string_whitelist and
+	// query_string_blacklist. If neither is set, the entire query
+	// string will be included.
+	// If false, the query string will be excluded from the cache
+	// key entirely.
+	// +kubebuilder:validation:Optional
+	IncludeQueryString *bool `json:"includeQueryString,omitempty" tf:"include_query_string,omitempty"`
+
+	// Names of query string parameters to exclude in cache keys.
+	// All other parameters will be included. Either specify
+	// query_string_whitelist or query_string_blacklist, not both.
+	// '&' and '=' will be percent encoded and not treated as
+	// delimiters.
+	// +kubebuilder:validation:Optional
+	QueryStringBlacklist []*string `json:"queryStringBlacklist,omitempty" tf:"query_string_blacklist,omitempty"`
+
+	// Names of query string parameters to include in cache keys.
+	// All other parameters will be excluded. Either specify
+	// query_string_whitelist or query_string_blacklist, not both.
+	// '&' and '=' will be percent encoded and not treated as
+	// delimiters.
+	// +kubebuilder:validation:Optional
+	QueryStringWhitelist []*string `json:"queryStringWhitelist,omitempty" tf:"query_string_whitelist,omitempty"`
+}
+
 type RegionBackendServiceCdnPolicyNegativeCachingPolicyObservation struct {
 }
 
@@ -319,7 +325,7 @@ type RegionBackendServiceCdnPolicyParameters struct {
 	// The CacheKeyPolicy for this CdnPolicy.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	CacheKeyPolicy []CdnPolicyCacheKeyPolicyParameters `json:"cacheKeyPolicy,omitempty" tf:"cache_key_policy,omitempty"`
+	CacheKeyPolicy []RegionBackendServiceCdnPolicyCacheKeyPolicyParameters `json:"cacheKeyPolicy,omitempty" tf:"cache_key_policy,omitempty"`
 
 	// Specifies the cache setting for all responses from this backend.
 	// The possible values are: USE_ORIGIN_HEADERS, FORCE_CACHE_ALL and CACHE_ALL_STATIC

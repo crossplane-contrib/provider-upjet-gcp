@@ -65,6 +65,12 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  certificateMap:
+                    description: A reference to the CertificateMap resource uri that
+                      identifies a certificate map associated with the given target
+                      proxy. This field can only be set for global target proxies.
+                      Accepted format is //certificatemanager.googleapis.com/projects/{project}/locations/{location}/certificateMaps/{resourceName}.
+                    type: string
                   description:
                     description: An optional description of this resource.
                     type: string

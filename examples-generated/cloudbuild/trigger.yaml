@@ -9,6 +9,7 @@ metadata:
 spec:
   forProvider:
     filename: cloudbuild.yaml
+    location: us-central1
     substitutions:
       _BAZ: qux
       _FOO: bar

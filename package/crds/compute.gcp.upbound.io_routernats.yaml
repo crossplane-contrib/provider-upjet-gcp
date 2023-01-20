@@ -72,11 +72,14 @@ spec:
                       type: string
                     type: array
                   enableDynamicPortAllocation:
-                    description: Enable Dynamic Port Allocation. If minPorts is set,
-                      minPortsPerVm must be set to a power of two greater than or
-                      equal to 32. If minPortsPerVm is not set, a minimum of 32 ports
-                      will be allocated to a VM from this NAT config. Mutually exclusive
-                      with enableEndpointIndependentMapping.
+                    description: Enable Dynamic Port Allocation. If minPortsPerVm
+                      is set, minPortsPerVm must be set to a power of two greater
+                      than or equal to 32. If minPortsPerVm is not set, a minimum
+                      of 32 ports will be allocated to a VM from this NAT config.
+                      If maxPortsPerVm is set, maxPortsPerVm must be set to a power
+                      of two greater than minPortsPerVm. If maxPortsPerVm is not set,
+                      a maximum of 65536 ports will be allocated to a VM from this
+                      NAT config. Mutually exclusive with enableEndpointIndependentMapping.
                     type: boolean
                   enableEndpointIndependentMapping:
                     description: Specifies if endpoint independent mapping is enabled.
@@ -105,6 +108,11 @@ spec:
                       - filter
                       type: object
                     type: array
+                  maxPortsPerVm:
+                    description: Maximum number of ports allocated to a VM from this
+                      NAT. This field can only be set when enableDynamicPortAllocation
+                      is enabled.
+                    type: number
                   minPortsPerVm:
                     description: Minimum number of ports allocated to a VM from this
                       NAT.
@@ -205,6 +213,59 @@ spec:
                             type: string
                         type: object
                     type: object
+                  rules:
+                    description: A list of rules associated with this NAT. Structure
+                      is documented below.
+                    items:
+                      properties:
+                        action:
+                          description: The action to be enforced for traffic that
+                            matches this rule. Structure is documented below.
+                          items:
+                            properties:
+                              sourceNatActiveIps:
+                                description: A list of URLs of the IP resources used
+                                  for this NAT rule. These IP addresses must be valid
+                                  static external IP addresses assigned to the project.
+                                  This field is used for public NAT.
+                                items:
+                                  type: string
+                                type: array
+                              sourceNatDrainIps:
+                                description: A list of URLs of the IP resources to
+                                  be drained. These IPs must be valid static external
+                                  IPs that have been assigned to the NAT. These IPs
+                                  should be used for updating/patching a NAT rule
+                                  only. This field is used for public NAT.
+                                items:
+                                  type: string
+                                type: array
+                            type: object
+                          type: array
+                        description:
+                          description: An optional description of this rule.
+                          type: string
+                        match:
+                          description: 'CEL expression that specifies the match condition
+                            that egress traffic from a VM is evaluated against. If
+                            it evaluates to true, the corresponding action is enforced.
+                            The following examples are valid match expressions for
+                            public NAT: "inIpRange(destination.ip, ''1.1.0.0/16'')
+                            || inIpRange(destination.ip, ''2.2.0.0/16'')" "destination.ip
+                            == ''1.1.0.1'' || destination.ip == ''8.8.8.8''" The following
+                            example is a valid match expression for private NAT: "nexthop.hub
+                            == ''https://networkconnectivity.googleapis.com/v1alpha1/projects/my-project/global/hub/hub-1''"'
+                          type: string
+                        ruleNumber:
+                          description: An integer uniquely identifying a rule in the
+                            list. The rule number must be a positive value between
+                            0 and 65000, and must be unique among rules within a NAT.
+                          type: number
+                      required:
+                      - match
+                      - ruleNumber
+                      type: object
+                    type: array
                   sourceSubnetworkIpRangesToNat:
                     description: 'How NAT should be configured per Subnetwork. If
                       ALL_SUBNETWORKS_ALL_IP_RANGES, all of the IP ranges in every

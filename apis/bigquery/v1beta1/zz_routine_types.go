@@ -56,7 +56,7 @@ type ArgumentsParameters struct {
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 }
 
-type RoutineObservation struct {
+type RoutineObservation_2 struct {
 
 	// The time when this routine was created, in milliseconds since the
 	// epoch.
@@ -70,7 +70,7 @@ type RoutineObservation struct {
 	LastModifiedTime *float64 `json:"lastModifiedTime,omitempty" tf:"last_modified_time,omitempty"`
 }
 
-type RoutineParameters struct {
+type RoutineParameters_2 struct {
 
 	// Input/output argument of a function or a stored procedure.
 	// Structure is documented below.
@@ -147,13 +147,13 @@ type RoutineParameters struct {
 // RoutineSpec defines the desired state of Routine
 type RoutineSpec struct {
 	v1.ResourceSpec `json:",inline"`
-	ForProvider     RoutineParameters `json:"forProvider"`
+	ForProvider     RoutineParameters_2 `json:"forProvider"`
 }
 
 // RoutineStatus defines the observed state of Routine.
 type RoutineStatus struct {
 	v1.ResourceStatus `json:",inline"`
-	AtProvider        RoutineObservation `json:"atProvider,omitempty"`
+	AtProvider        RoutineObservation_2 `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

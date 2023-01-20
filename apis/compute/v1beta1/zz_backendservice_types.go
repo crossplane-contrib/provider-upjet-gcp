@@ -34,6 +34,8 @@ type BackendParameters struct {
 	// For global HTTP(S) or TCP/SSL load balancing, the default is
 	// UTILIZATION. Valid values are UTILIZATION, RATE (for HTTP(S))
 	// and CONNECTION (for TCP/SSL).
+	// See the Backend Services Overview
+	// for an explanation of load balancing modes.
 	// Default value is UTILIZATION.
 	// Possible values are UTILIZATION, RATE, and CONNECTION.
 	// +kubebuilder:validation:Optional
@@ -142,7 +144,7 @@ type BackendServiceCdnPolicyParameters struct {
 	// The CacheKeyPolicy for this CdnPolicy.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	CacheKeyPolicy []CacheKeyPolicyParameters `json:"cacheKeyPolicy,omitempty" tf:"cache_key_policy,omitempty"`
+	CacheKeyPolicy []CdnPolicyCacheKeyPolicyParameters `json:"cacheKeyPolicy,omitempty" tf:"cache_key_policy,omitempty"`
 
 	// Specifies the cache setting for all responses from this backend.
 	// The possible values are: USE_ORIGIN_HEADERS, FORCE_CACHE_ALL and CACHE_ALL_STATIC
@@ -199,6 +201,9 @@ type BackendServiceObservation struct {
 	// object. This field is used in optimistic locking.
 	Fingerprint *string `json:"fingerprint,omitempty" tf:"fingerprint,omitempty"`
 
+	// The unique identifier for the resource. This identifier is defined by the server.
+	GeneratedID *float64 `json:"generatedId,omitempty" tf:"generated_id,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/global/backendServices/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
@@ -231,6 +236,11 @@ type BackendServiceParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	CircuitBreakers []CircuitBreakersParameters `json:"circuitBreakers,omitempty" tf:"circuit_breakers,omitempty"`
+
+	// Compress text responses using Brotli or gzip compression, based on the client's Accept-Encoding header.
+	// Possible values are AUTOMATIC and DISABLED.
+	// +kubebuilder:validation:Optional
+	CompressionMode *string `json:"compressionMode,omitempty" tf:"compression_mode,omitempty"`
 
 	// Time for which instance will be drained (not accept new
 	// connections, but still work to finish started).
@@ -378,14 +388,23 @@ type BaseEjectionTimeParameters struct {
 	Seconds *float64 `json:"seconds" tf:"seconds,omitempty"`
 }
 
-type CacheKeyPolicyObservation struct {
+type CdnPolicyCacheKeyPolicyObservation struct {
 }
 
-type CacheKeyPolicyParameters struct {
+type CdnPolicyCacheKeyPolicyParameters struct {
+
+	// Allows HTTP request headers (by name) to be used in the
+	// cache key.
+	// +kubebuilder:validation:Optional
+	IncludeHTTPHeaders []*string `json:"includeHttpHeaders,omitempty" tf:"include_http_headers,omitempty"`
 
 	// If true requests to different hosts will be cached separately.
 	// +kubebuilder:validation:Optional
 	IncludeHost *bool `json:"includeHost,omitempty" tf:"include_host,omitempty"`
+
+	// Names of cookies to include in cache keys.
+	// +kubebuilder:validation:Optional
+	IncludeNamedCookies []*string `json:"includeNamedCookies,omitempty" tf:"include_named_cookies,omitempty"`
 
 	// If true, http and https requests will be cached separately.
 	// +kubebuilder:validation:Optional

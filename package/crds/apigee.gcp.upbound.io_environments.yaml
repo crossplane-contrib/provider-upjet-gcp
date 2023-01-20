@@ -85,6 +85,25 @@ spec:
                   displayName:
                     description: Display name of the environment.
                     type: string
+                  nodeConfig:
+                    description: NodeConfig for setting the min/max number of nodes
+                      associated with the environment. Structure is documented below.
+                    items:
+                      properties:
+                        maxNodeCount:
+                          description: The maximum total number of gateway nodes that
+                            the is reserved for all instances that has the specified
+                            environment. If not specified, the default is determined
+                            by the recommended maximum number of nodes for that gateway.
+                          type: string
+                        minNodeCount:
+                          description: The minimum total number of gateway nodes that
+                            the is reserved for all instances that has the specified
+                            environment. If not specified, the default is determined
+                            by the recommended minimum number of nodes for that gateway.
+                          type: string
+                      type: object
+                    type: array
                   orgId:
                     description: The Apigee Organization associated with the Apigee
                       environment, in the format organizations/{{org_name}}.
@@ -344,6 +363,17 @@ spec:
                   id:
                     description: an identifier for the resource with format {{org_id}}/environments/{{name}}
                     type: string
+                  nodeConfig:
+                    description: NodeConfig for setting the min/max number of nodes
+                      associated with the environment. Structure is documented below.
+                    items:
+                      properties:
+                        currentAggregateNodeCount:
+                          description: The current total number of gateway nodes that
+                            each environment currently has across all instances.
+                          type: string
+                      type: object
+                    type: array
                 type: object
               conditions:
                 description: Conditions of the resource.

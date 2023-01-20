@@ -25,6 +25,18 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type AvroOptionsObservation struct {
+}
+
+type AvroOptionsParameters struct {
+
+	// If is set to true, indicates whether
+	// to interpret logical types as the corresponding BigQuery data type
+	// (for example, TIMESTAMP), instead of using the raw type (for example, INTEGER).
+	// +kubebuilder:validation:Required
+	UseAvroLogicalTypes *bool `json:"useAvroLogicalTypes" tf:"use_avro_logical_types,omitempty"`
+}
+
 type CsvOptionsObservation struct {
 }
 
@@ -91,10 +103,22 @@ type ExternalDataConfigurationParameters struct {
 	// +kubebuilder:validation:Required
 	Autodetect *bool `json:"autodetect" tf:"autodetect,omitempty"`
 
+	// Additional options if source_format is set to
+	// "AVRO".  Structure is documented below.
+	// +kubebuilder:validation:Optional
+	AvroOptions []AvroOptionsParameters `json:"avroOptions,omitempty" tf:"avro_options,omitempty"`
+
 	// The compression type of the data source.
 	// Valid values are "NONE" or "GZIP".
 	// +kubebuilder:validation:Optional
 	Compression *string `json:"compression,omitempty" tf:"compression,omitempty"`
+
+	// The connection specifying the credentials to be used to read
+	// external storage, such as Azure Blob, Cloud Storage, or S3. The connection_id can have
+	// the form {{project}}.{{location}}.{{connection_id}}
+	// or projects/{{project}}/locations/{{location}}/connections/{{connection_id}}.
+	// +kubebuilder:validation:Optional
+	ConnectionID *string `json:"connectionId,omitempty" tf:"connection_id,omitempty"`
 
 	// Additional properties to set if
 	// source_format is set to "CSV". Structure is documented below.
@@ -367,12 +391,6 @@ type TableParameters struct {
 	RangePartitioning []RangePartitioningParameters `json:"rangePartitioning,omitempty" tf:"range_partitioning,omitempty"`
 
 	// A JSON schema for the table.
-	// ~>NOTE: Because this field expects a JSON string, any changes to the
-	// string will create a diff, even if the JSON itself hasn't changed.
-	// If the API returns a different value for the same schema, e.g. it
-	// switched the order of values or replaced STRUCT field type with RECORD
-	// field type, we currently cannot suppress the recurring diff this causes.
-	// As a workaround, we recommend using the schema as returned by the API.
 	// +kubebuilder:validation:Optional
 	Schema *string `json:"schema,omitempty" tf:"schema,omitempty"`
 

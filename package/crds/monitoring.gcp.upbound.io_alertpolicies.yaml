@@ -300,6 +300,12 @@ spec:
                                   generate spurious alerts, but short enough that
                                   unhealthy states are detected and alerted on quickly.
                                 type: string
+                              evaluationMissingData:
+                                description: A condition control that determines how
+                                  metric-threshold conditions are evaluated when data
+                                  stops arriving. Possible values are EVALUATION_MISSING_DATA_INACTIVE,
+                                  EVALUATION_MISSING_DATA_ACTIVE, and EVALUATION_MISSING_DATA_NO_OP.
+                                type: string
                               query:
                                 description: Monitoring Query Language query that
                                   outputs a boolean stream.
@@ -556,6 +562,12 @@ spec:
                                   is long enough so that a single outlier does not
                                   generate spurious alerts, but short enough that
                                   unhealthy states are detected and alerted on quickly.
+                                type: string
+                              evaluationMissingData:
+                                description: A condition control that determines how
+                                  metric-threshold conditions are evaluated when data
+                                  stops arriving. Possible values are EVALUATION_MISSING_DATA_INACTIVE,
+                                  EVALUATION_MISSING_DATA_ACTIVE, and EVALUATION_MISSING_DATA_NO_OP.
                                 type: string
                               filter:
                                 description: A filter that identifies which time series

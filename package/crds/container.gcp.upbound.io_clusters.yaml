@@ -89,10 +89,48 @@ spec:
                             - disabled
                             type: object
                           type: array
+                        dnsCacheConfig:
+                          description: . The status of the NodeLocal DNSCache addon.
+                            It is disabled by default. Set enabled = true to enable.
+                          items:
+                            properties:
+                              enabled:
+                                description: Enables vertical pod autoscaling
+                                type: boolean
+                            required:
+                            - enabled
+                            type: object
+                          type: array
+                        gcePersistentDiskCsiDriverConfig:
+                          description: . Whether this cluster should enable the Google
+                            Compute Engine Persistent Disk Container Storage Interface
+                            (CSI) Driver. Defaults to disabled; set enabled = true
+                            to enabled.
+                          items:
+                            properties:
+                              enabled:
+                                description: Enables vertical pod autoscaling
+                                type: boolean
+                            required:
+                            - enabled
+                            type: object
+                          type: array
                         gcpFilestoreCsiDriverConfig:
                           description: The status of the Filestore CSI driver addon,
                             which allows the usage of filestore instance as volumes.
                             It is disabled by default; set enabled = true to enable.
+                          items:
+                            properties:
+                              enabled:
+                                description: Enables vertical pod autoscaling
+                                type: boolean
+                            required:
+                            - enabled
+                            type: object
+                          type: array
+                        gkeBackupAgentConfig:
+                          description: . The status of the Backup for GKE agent addon.
+                            It is disabled by default; Set enabled = true to enable.
                           items:
                             properties:
                               enabled:
@@ -173,6 +211,24 @@ spec:
                       - securityGroup
                       type: object
                     type: array
+                  binaryAuthorization:
+                    description: Configuration options for the Binary Authorization
+                      feature. Structure is documented below.
+                    items:
+                      properties:
+                        enabled:
+                          description: (DEPRECATED) Enable Binary Authorization for
+                            this cluster. Deprecated in favor of evaluation_mode.
+                          type: boolean
+                        evaluationMode:
+                          description: Mode of operation for Binary Authorization
+                            policy evaluation. Valid values are DISABLED and PROJECT_SINGLETON_POLICY_ENFORCE.
+                            PROJECT_SINGLETON_POLICY_ENFORCE is functionally equivalent
+                            to the deprecated enable_binary_authorization parameter
+                            being set to true.
+                          type: string
+                      type: object
+                    type: array
                   clusterAutoscaling:
                     description: Per-cluster configuration of Node Auto-Provisioning
                       with Cluster Autoscaler to automatically adjust the size of
@@ -184,13 +240,59 @@ spec:
                       properties:
                         autoProvisioningDefaults:
                           description: Contains defaults for a node pool created by
-                            NAP. Structure is documented below.
+                            NAP. A subset of fields also apply to GKE Autopilot clusters.
+                            Structure is documented below.
                           items:
                             properties:
+                              bootDiskKmsKey:
+                                description: 'The Customer Managed Encryption Key
+                                  used to encrypt the boot disk attached to each node
+                                  in the node pool. This should be of the form projects/[KEY_PROJECT_ID]/locations/[LOCATION]/keyRings/[RING_NAME]/cryptoKeys/[KEY_NAME].
+                                  For more information about protecting resources
+                                  with Cloud KMS Keys please see: https://cloud.google.com/compute/docs/disks/customer-managed-encryption'
+                                type: string
+                              diskSize:
+                                description: Size of the disk attached to each node,
+                                  specified in GB. The smallest allowed disk size
+                                  is 10GB. Defaults to 100
+                                type: number
+                              diskType:
+                                description: Type of the disk attached to each node
+                                  (e.g. 'pd-standard', 'pd-balanced' or 'pd-ssd').
+                                  If unspecified, the default disk type is 'pd-standard'
+                                type: string
                               imageType:
                                 description: The image type to use for this node.
                                   Note that changing the image type will delete and
                                   recreate all nodes in the node pool.
+                                type: string
+                              management:
+                                description: NodeManagement configuration for this
+                                  NodePool. Structure is documented below.
+                                items:
+                                  properties:
+                                    autoRepair:
+                                      description: Specifies whether the node auto-repair
+                                        is enabled for the node pool. If enabled,
+                                        the nodes in this node pool will be monitored
+                                        and, if they fail health checks too many times,
+                                        an automatic repair action will be triggered.
+                                      type: boolean
+                                    autoUpgrade:
+                                      description: Specifies whether node auto-upgrade
+                                        is enabled for the node pool. If enabled,
+                                        node auto-upgrade helps keep the nodes in
+                                        your node pool up to date with the latest
+                                        release version of Kubernetes.
+                                      type: boolean
+                                  type: object
+                                type: array
+                              minCpuPlatform:
+                                description: Minimum CPU platform to be used by this
+                                  instance. The instance may be scheduled on the specified
+                                  or newer CPU platform. Applicable values are the
+                                  friendly names of CPU platforms, such as Intel Haswell.
+                                  See the official documentation for more information.
                                 type: string
                               oauthScopes:
                                 description: The set of Google API scopes to be made
@@ -208,12 +310,100 @@ spec:
                                   Node VMs. If not specified, the "default" service
                                   account is used.
                                 type: string
+                              shieldedInstanceConfig:
+                                description: Shielded Instance options. Structure
+                                  is documented below.
+                                items:
+                                  properties:
+                                    enableIntegrityMonitoring:
+                                      description: Defines if the instance has integrity
+                                        monitoring enabled.
+                                      type: boolean
+                                    enableSecureBoot:
+                                      description: Defines if the instance has Secure
+                                        Boot enabled.
+                                      type: boolean
+                                  type: object
+                                type: array
+                              upgradeSettings:
+                                description: Specifies the upgrade settings for NAP
+                                  created node pools. Structure is documented below.
+                                items:
+                                  properties:
+                                    blueGreenSettings:
+                                      description: Settings for blue-green upgrade
+                                        strategy. To be specified when strategy is
+                                        set to BLUE_GREEN. Structure is documented
+                                        below.
+                                      items:
+                                        properties:
+                                          nodePoolSoakDuration:
+                                            description: 'Time needed after draining
+                                              entire blue pool. After this period,
+                                              blue pool will be cleaned up. A duration
+                                              in seconds with up to nine fractional
+                                              digits, ending with ''s''. Example:
+                                              "3.5s".'
+                                            type: string
+                                          standardRolloutPolicy:
+                                            description: green upgrade. To be specified
+                                              when strategy is set to BLUE_GREEN.
+                                              Structure is documented below.
+                                            items:
+                                              properties:
+                                                batchNodeCount:
+                                                  description: Number of blue nodes
+                                                    to drain in a batch. Only one
+                                                    of the batch_percentage or batch_node_count
+                                                    can be specified.
+                                                  type: number
+                                                batchPercentage:
+                                                  description: ':  Percentage of the
+                                                    bool pool nodes to drain in a
+                                                    batch. The range of this field
+                                                    should be (0.0, 1.0). Only one
+                                                    of the batch_percentage or batch_node_count
+                                                    can be specified.'
+                                                  type: number
+                                                batchSoakDuration:
+                                                  description: 'Soak time after each
+                                                    batch gets drained. A duration
+                                                    in seconds with up to nine fractional
+                                                    digits, ending with ''s''. Example:
+                                                    "3.5s".`.'
+                                                  type: string
+                                              type: object
+                                            type: array
+                                        type: object
+                                      type: array
+                                    maxSurge:
+                                      description: The maximum number of nodes that
+                                        can be created beyond the current size of
+                                        the node pool during the upgrade process.
+                                        To be used when strategy is set to SURGE.
+                                        Default is 0.
+                                      type: number
+                                    maxUnavailable:
+                                      description: The maximum number of nodes that
+                                        can be simultaneously unavailable during the
+                                        upgrade process. To be used when strategy
+                                        is set to SURGE. Default is 0.
+                                      type: number
+                                    strategy:
+                                      description: Strategy used for node pool update.
+                                        Strategy can only be one of BLUE_GREEN or
+                                        SURGE. The default is value is SURGE.
+                                      type: string
+                                  type: object
+                                type: array
                             type: object
                           type: array
                         enabled:
                           description: Whether node auto-provisioning is enabled.
-                            Resource limits for cpu and memory must be defined to
-                            enable node auto-provisioning.
+                            Must be supplied for GKE Standard clusters, true is implied
+                            for autopilot clusters. Resource limits for cpu and memory
+                            must be defined to enable node auto-provisioning for GKE
+                            Standard.
                           type: boolean
                         resourceLimits:
                           description: Global constraints for machine resources in
@@ -240,8 +430,6 @@ spec:
                             - resourceType
                             type: object
                           type: array
-                      required:
-                      - enabled
                       type: object
                     type: array
                   clusterIpv4Cidr:
@@ -258,6 +446,18 @@ spec:
                       properties:
                         enabled:
                           description: Enable Confidential Nodes for this cluster.
+                          type: boolean
+                      required:
+                      - enabled
+                      type: object
+                    type: array
+                  costManagementConfig:
+                    description: Configuration for the Cost Allocation feature. Structure
+                      is documented below.
+                    items:
+                      properties:
+                        enabled:
+                          description: Whether to enable the cost allocation feature.
                           type: boolean
                       required:
                       - enabled
@@ -334,9 +534,9 @@ spec:
                       features.
                     type: boolean
                   enableBinaryAuthorization:
-                    description: Enable Binary Authorization for this cluster. If
-                      enabled, all container images will be validated by Google Binary
-                      Authorization.
+                    description: (DEPRECATED) Enable Binary Authorization for this
+                      cluster. If enabled, all container images will be validated
+                      by Google Binary Authorization. Deprecated in favor of binary_authorization.
                     type: boolean
                   enableIntranodeVisibility:
                     description: Whether Intra-node visibility is enabled for this
@@ -348,6 +548,9 @@ spec:
                       cluster. Note that when this option is enabled, the cluster
                       cannot be upgraded and will be automatically deleted after 30
                       days.
+                    type: boolean
+                  enableL4IlbSubsetting:
+                    description: Whether L4ILB Subsetting is enabled for this cluster.
                     type: boolean
                   enableLegacyAbac:
                     description: Whether the ABAC authorizer is enabled for this cluster.
@@ -364,6 +567,19 @@ spec:
                     description: Whether to enable Cloud TPU resources in this cluster.
                       See the official documentation.
                     type: boolean
+                  gatewayApiConfig:
+                    description: Configuration for GKE Gateway API controller. Structure
+                      is documented below.
+                    items:
+                      properties:
+                        channel:
+                          description: Which Gateway Api channel should be used. CHANNEL_DISABLED
+                            or CHANNEL_STANDARD.
+                          type: string
+                      required:
+                      - channel
+                      type: object
+                    type: array
                   initialNodeCount:
                     description: The number of nodes to create in this cluster's default
                       node pool. In regional or multi-zonal clusters, this is the
@@ -426,7 +642,8 @@ spec:
                       properties:
                         enableComponents:
                           description: 'The GKE components exposing logs. Supported
-                            values include: SYSTEM_COMPONENTS and WORKLOADS.'
+                            values include: SYSTEM_COMPONENTS, APISERVER, CONTROLLER_MANAGER,
+                            SCHEDULER, and WORKLOADS.'
                           items:
                             type: string
                           type: array
@@ -553,6 +770,23 @@ spec:
                             - cidrBlock
                             type: object
                           type: array
+                        gcpPublicCidrsAccessEnabled:
+                          description: Whether Kubernetes master is accessible via
+                            Google Compute Engine Public IPs.
+                          type: boolean
+                      type: object
+                    type: array
+                  meshCertificates:
+                    description: Structure is documented below.
+                    items:
+                      properties:
+                        enableCertificates:
+                          description: Controls the issuance of workload mTLS certificates.
+                            It is enabled by default. Workload Identity is required,
+                            see workload_config.
+                          type: boolean
+                      required:
+                      - enableCertificates
                       type: object
                     type: array
                   minMasterVersion:
@@ -571,11 +805,25 @@ spec:
                     items:
                       properties:
                         enableComponents:
-                          description: The GKE components exposing logs. SYSTEM_COMPONENTS
-                            and in beta provider, both SYSTEM_COMPONENTS and WORKLOADS
-                            are supported.
+                          description: 'The GKE components exposing metrics. Supported
+                            values include: SYSTEM_COMPONENTS, APISERVER, CONTROLLER_MANAGER,
+                            and SCHEDULER. In beta provider, WORKLOADS is supported
+                            on top of those 4 values. (WORKLOADS is deprecated and
+                            removed in GKE 1.24.)'
                           items:
                             type: string
+                          type: array
+                        managedPrometheus:
+                          description: Configuration for Managed Service for Prometheus.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              enabled:
+                                description: Enables vertical pod autoscaling
+                                type: boolean
+                            required:
+                            - enabled
+                            type: object
                           type: array
                       required:
                       - enableComponents
@@ -750,6 +998,22 @@ spec:
                                   Valid values are described in the NVIDIA mig user
                                   guide.
                                 type: string
+                              gpuSharingConfig:
+                                description: Configuration for GPU sharing. Structure
+                                  is documented below.
+                                items:
+                                  properties:
+                                    gpuSharingStrategy:
+                                      description: 'The type of GPU sharing strategy
+                                        to enable on the GPU node. Accepted values
+                                        are:'
+                                      type: string
+                                    maxSharedClientsPerGpu:
+                                      description: The maximum number of containers
+                                        that can share a GPU.
+                                      type: number
+                                  type: object
+                                type: array
                               type:
                                 description: The accelerator type resource to expose
                                   to this instance. E.g. nvidia-tesla-k80.
@@ -790,6 +1054,11 @@ spec:
                           description: The amount of local SSD disks that will be
                             attached to each cluster node. Defaults to 0.
                           type: number
+                        loggingVariant:
+                          description: wide default value. Valid values include DEFAULT
+                            and MAX_THROUGHPUT. See Increasing logging agent throughput
+                            for more information.
+                          type: string
                         machineType:
                           description: The name of a Google Compute Engine machine
                             type. Defaults to e2-medium. To create a custom machine
@@ -830,6 +1099,35 @@ spec:
                             underlying node VMs are preemptible. See the official
                             documentation for more information. Defaults to false.
                           type: boolean
+                        reservationAffinity:
+                          description: The configuration of the desired reservation
+                            which instances could take capacity from. Structure is
+                            documented below.
+                          items:
+                            properties:
+                              consumeReservationType:
+                                description: 'The type of reservation consumption
+                                  Accepted values are:'
+                                type: string
+                              key:
+                                description: Key for taint.
+                                type: string
+                              values:
+                                description: name"
+                                items:
+                                  type: string
+                                type: array
+                            required:
+                            - consumeReservationType
+                            type: object
+                          type: array
+                        resourceLabels:
+                          additionalProperties:
+                            type: string
+                          description: The GCP labels (key/value pairs) to be applied
+                            to each node. Refer here for how these labels are applied
+                            to clusters, node pools and nodes.
+                          type: object
                         serviceAccount:
                           description: The service account to be used by the Node
                             VMs. If not specified, the "default" service account is
@@ -928,6 +1226,11 @@ spec:
                                 type: boolean
                             type: object
                           type: array
+                        spot:
+                          description: A boolean that represents whether the underlying
+                            node VMs are spot. See the official documentation for
+                            more information. Defaults to false.
+                          type: boolean
                         tags:
                           description: The list of instance tags applied to all nodes.
                             Tags are used to identify valid sources or targets for
@@ -982,6 +1285,27 @@ spec:
                     items:
                       type: string
                     type: array
+                  nodePoolDefaults:
+                    description: Default NodePool settings for the entire cluster.
+                      These settings are overridden if specified on the specific NodePool
+                      object. Structure is documented below.
+                    items:
+                      properties:
+                        nodeConfigDefaults:
+                          description: Subset of NodeConfig message that has defaults.
+                          items:
+                            properties:
+                              loggingVariant:
+                                description: The type of logging agent that is deployed
+                                  by default for newly created node pools in the cluster.
+                                  Valid values include DEFAULT and MAX_THROUGHPUT.
+                                  See Increasing logging agent throughput for more
+                                  information.
+                                type: string
+                            type: object
+                          type: array
+                      type: object
+                    type: array
                   nodeVersion:
                     description: The Kubernetes version on the nodes. Must either
                       be unset or set to the same value as min_master_version on create.
@@ -990,6 +1314,52 @@ spec:
                       pool. To update nodes in other node pools, use the version attribute
                       on the node pool.
                     type: string
+                  notificationConfig:
+                    description: Configuration for the cluster upgrade notifications
+                      feature. Structure is documented below.
+                    items:
+                      properties:
+                        pubsub:
+                          description: The pubsub config for the cluster's upgrade
+                            notifications.
+                          items:
+                            properties:
+                              enabled:
+                                description: Whether or not the notification config
+                                  is enabled
+                                type: boolean
+                              filter:
+                                description: Choose what type of notifications you
+                                  want to receive. If no filters are applied, you'll
+                                  receive all notification types. Structure is documented
+                                  below.
+                                items:
+                                  properties:
+                                    eventType:
+                                      description: Can be used to filter what notifications
+                                        are sent. Accepted values are UPGRADE_AVAILABLE_EVENT,
+                                        UPGRADE_EVENT and SECURITY_BULLETIN_EVENT.
+                                        See Filtering notifications for more details.
+                                      items:
+                                        type: string
+                                      type: array
+                                  required:
+                                  - eventType
+                                  type: object
+                                type: array
+                              topic:
+                                description: 'The pubsub topic to push upgrade notifications
+                                  to. Must be in the same project as the cluster.
+                                  Must be in the format: projects/{project}/topics/{topic}.'
+                                type: string
+                            required:
+                            - enabled
+                            type: object
+                          type: array
+                      required:
+                      - pubsub
+                      type: object
+                    type: array
                   privateClusterConfig:
                     description: Configuration for private clusters, clusters with
                       private nodes. Structure is documented below.
@@ -1031,8 +1401,10 @@ spec:
                             This field only applies to private clusters, when enable_private_nodes
                             is true.
                           type: string
-                      required:
-                      - enablePrivateEndpoint
+                        privateEndpointSubnetwork:
+                          description: Subnetwork in cluster's network where master's
+                            endpoint will be provisioned.
+                          type: string
                       type: object
                     type: array
                   privateIpv6GoogleAccess:
@@ -1106,6 +1478,18 @@ spec:
                           type: boolean
                       required:
                       - bigqueryDestination
+                      type: object
+                    type: array
+                  serviceExternalIpsConfig:
+                    description: Structure is documented below.
+                    items:
+                      properties:
+                        enabled:
+                          description: Controls whether external ips specified by
+                            a service will be allowed. It is enabled by default.
+                          type: boolean
+                      required:
+                      - enabled
                       type: object
                     type: array
                   subnetwork:
@@ -1391,6 +1775,44 @@ spec:
             properties:
               atProvider:
                 properties:
+                  clusterAutoscaling:
+                    description: Per-cluster configuration of Node Auto-Provisioning
+                      with Cluster Autoscaler to automatically adjust the size of
+                      the cluster and create/delete node pools based on the current
+                      needs of the cluster's workload. See the guide to using Node
+                      Auto-Provisioning for more details. Structure is documented
+                      below.
+                    items:
+                      properties:
+                        autoProvisioningDefaults:
+                          description: Contains defaults for a node pool created by
+                            NAP. A subset of fields also apply to GKE Autopilot clusters.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              management:
+                                description: NodeManagement configuration for this
+                                  NodePool. Structure is documented below.
+                                items:
+                                  properties:
+                                    upgradeOptions:
+                                      description: Specifies the Auto Upgrade knobs
+                                        for the node pool.
+                                      items:
+                                        properties:
+                                          autoUpgradeStartTime:
+                                            type: string
+                                          description:
+                                            description: Description of the cluster.
+                                            type: string
+                                        type: object
+                                      type: array
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                      type: object
+                    type: array
                   endpoint:
                     description: The IP address of this cluster's Kubernetes master.
                     type: string
@@ -1455,9 +1877,15 @@ spec:
                         autoscaling:
                           items:
                             properties:
+                              locationPolicy:
+                                type: string
                               maxNodeCount:
                                 type: number
                               minNodeCount:
+                                type: number
+                              totalMaxNodeCount:
+                                type: number
+                              totalMinNodeCount:
                                 type: number
                             type: object
                           type: array
@@ -1479,11 +1907,22 @@ spec:
                             type: string
                           type: array
                         management:
+                          description: NodeManagement configuration for this NodePool.
+                            Structure is documented below.
                           items:
                             properties:
                               autoRepair:
+                                description: Specifies whether the node auto-repair
+                                  is enabled for the node pool. If enabled, the nodes
+                                  in this node pool will be monitored and, if they
+                                  fail health checks too many times, an automatic
+                                  repair action will be triggered.
                                 type: boolean
                               autoUpgrade:
+                                description: Specifies whether node auto-upgrade is
+                                  enabled for the node pool. If enabled, node auto-upgrade
+                                  helps keep the nodes in your node pool up to date
+                                  with the latest release version of Kubernetes.
                                 type: boolean
                             type: object
                           type: array
@@ -1495,6 +1934,24 @@ spec:
                           type: string
                         namePrefix:
                           type: string
+                        networkConfig:
+                          items:
+                            properties:
+                              createPodRange:
+                                type: boolean
+                              enablePrivateNodes:
+                                description: Enables the private cluster feature,
+                                  creating a private endpoint on the cluster. In a
+                                  private cluster, nodes only have RFC 1918 private
+                                  addresses and communicate with the master's private
+                                  endpoint via private networking.
+                                type: boolean
+                              podIpv4CidrBlock:
+                                type: string
+                              podRange:
+                                type: string
+                            type: object
+                          type: array
                         nodeConfig:
                           description: Parameters used in creating the default node
                             pool. Structure is documented below.
@@ -1518,17 +1975,10 @@ spec:
                                   If unspecified, the default disk type is 'pd-standard'
                                 type: string
                               gcfsConfig:
-                                description: Parameters for the Google Container Filesystem
-                                  (GCFS). If unspecified, GCFS will not be enabled
-                                  on the node pool. When enabling this feature you
-                                  must specify image_type = "COS_CONTAINERD" and node_version
-                                  from GKE versions 1.19 or later to use it. For GKE
-                                  versions 1.19, 1.20, and 1.21, the recommended minimum
-                                  node_version would be 1.19.15-gke.1300, 1.20.11-gke.1300,
-                                  and 1.21.5-gke.1300 respectively. A machine_type
-                                  that has more than 16 GiB of memory is also recommended.
-                                  GCFS must be enabled in order to use image streaming.
-                                  Structure is documented below.
+                                description: The default Google Container Filesystem
+                                  (GCFS) configuration at the cluster level. e.g.
+                                  enable image streaming across all the node pools
+                                  within the cluster. Structure is documented below.
                                 items:
                                   properties:
                                     enabled:
@@ -1551,6 +2001,22 @@ spec:
                                         the GPU. Valid values are described in the
                                         NVIDIA mig user guide.
                                       type: string
+                                    gpuSharingConfig:
+                                      description: Configuration for GPU sharing.
+                                        Structure is documented below.
+                                      items:
+                                        properties:
+                                          gpuSharingStrategy:
+                                            description: 'The type of GPU sharing
+                                              strategy to enable on the GPU node.
+                                              Accepted values are:'
+                                            type: string
+                                          maxSharedClientsPerGpu:
+                                            description: The maximum number of containers
+                                              that can share a GPU.
+                                            type: number
+                                        type: object
+                                      type: array
                                     type:
                                       description: The accelerator type resource to
                                         expose to this instance. E.g. nvidia-tesla-k80.
@@ -1590,6 +2056,13 @@ spec:
                                 description: The amount of local SSD disks that will
                                   be attached to each cluster node. Defaults to 0.
                                 type: number
+                              loggingVariant:
+                                description: The type of logging agent that is deployed
+                                  by default for newly created node pools in the cluster.
+                                  Valid values include DEFAULT and MAX_THROUGHPUT.
+                                  See Increasing logging agent throughput for more
+                                  information.
+                                type: string
                               machineType:
                                 description: The name of a Google Compute Engine machine
                                   type. Defaults to e2-medium. To create a custom
@@ -1632,6 +2105,32 @@ spec:
                                   the official documentation for more information.
                                   Defaults to false.
                                 type: boolean
+                              reservationAffinity:
+                                description: The configuration of the desired reservation
+                                  which instances could take capacity from. Structure
+                                  is documented below.
+                                items:
+                                  properties:
+                                    consumeReservationType:
+                                      description: 'The type of reservation consumption
+                                        Accepted values are:'
+                                      type: string
+                                    key:
+                                      description: Key for taint.
+                                      type: string
+                                    values:
+                                      description: name"
+                                      items:
+                                        type: string
+                                      type: array
+                                  type: object
+                                type: array
+                              resourceLabels:
+                                additionalProperties:
+                                  type: string
+                                description: The GCE resource labels (a map of key/value
+                                  pairs) to be applied to the cluster.
+                                type: object
                               serviceAccount:
                                 description: The service account to be used by the
                                   Node VMs. If not specified, the "default" service
@@ -1652,10 +2151,14 @@ spec:
                                       type: boolean
                                   type: object
                                 type: array
+                              spot:
+                                description: A boolean that represents whether the
+                                  underlying node VMs are spot. See the official documentation
+                                  for more information. Defaults to false.
+                                type: boolean
                               tags:
-                                description: The list of instance tags applied to
-                                  all nodes. Tags are used to identify valid sources
-                                  or targets for network firewalls.
+                                description: List of network tags applied to auto-provisioned
+                                  node pools.
                                 items:
                                   type: string
                                 type: array
@@ -1708,13 +2211,78 @@ spec:
                           items:
                             type: string
                           type: array
-                        upgradeSettings:
+                        placementPolicy:
                           items:
                             properties:
+                              type:
+                                description: The accelerator type resource to expose
+                                  to this instance. E.g. nvidia-tesla-k80.
+                                type: string
+                            type: object
+                          type: array
+                        upgradeSettings:
+                          description: Specifies the upgrade settings for NAP created
+                            node pools. Structure is documented below.
+                          items:
+                            properties:
+                              blueGreenSettings:
+                                description: Settings for blue-green upgrade strategy.
+                                  To be specified when strategy is set to BLUE_GREEN.
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    nodePoolSoakDuration:
+                                      description: 'Time needed after draining entire
+                                        blue pool. After this period, blue pool will
+                                        be cleaned up. A duration in seconds with
+                                        up to nine fractional digits, ending with
+                                        ''s''. Example: "3.5s".'
+                                      type: string
+                                    standardRolloutPolicy:
+                                      description: green upgrade. To be specified
+                                        when strategy is set to BLUE_GREEN. Structure
+                                        is documented below.
+                                      items:
+                                        properties:
+                                          batchNodeCount:
+                                            description: Number of blue nodes to drain
+                                              in a batch. Only one of the batch_percentage
+                                              or batch_node_count can be specified.
+                                            type: number
+                                          batchPercentage:
+                                            description: ':  Percentage of the bool
+                                              pool nodes to drain in a batch. The
+                                              range of this field should be (0.0,
+                                              1.0). Only one of the batch_percentage
+                                              or batch_node_count can be specified.'
+                                            type: number
+                                          batchSoakDuration:
+                                            description: 'Soak time after each batch
+                                              gets drained. A duration in seconds
+                                              with up to nine fractional digits, ending
+                                              with ''s''. Example: "3.5s".`.'
+                                            type: string
+                                        type: object
+                                      type: array
+                                  type: object
+                                type: array
                               maxSurge:
+                                description: The maximum number of nodes that can
+                                  be created beyond the current size of the node pool
+                                  during the upgrade process. To be used when strategy
+                                  is set to SURGE. Default is 0.
                                 type: number
                               maxUnavailable:
+                                description: The maximum number of nodes that can
+                                  be simultaneously unavailable during the upgrade
+                                  process. To be used when strategy is set to SURGE.
+                                  Default is 0.
                                 type: number
+                              strategy:
+                                description: Strategy used for node pool update. Strategy
+                                  can only be one of BLUE_GREEN or SURGE. The default
+                                  is value is SURGE.
+                                type: string
                             type: object
                           type: array
                         version:

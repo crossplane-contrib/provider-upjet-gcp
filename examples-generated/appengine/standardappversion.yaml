@@ -29,6 +29,23 @@ spec:
       port: "8080"
     runtime: nodejs10
     service: myapp
+    serviceAccountSelector:
+      matchLabels:
+        testing.upbound.io/example-name: custom_service_account
+
+---
+
+apiVersion: cloudplatform.gcp.upbound.io/v1beta1
+kind: ServiceAccount
+metadata:
+  annotations:
+    meta.upbound.io/example-id: appengine/v1beta1/standardappversion
+  labels:
+    testing.upbound.io/example-name: custom_service_account
+  name: custom-service-account
+spec:
+  forProvider:
+    displayName: Custom Service Account
 
 ---
 

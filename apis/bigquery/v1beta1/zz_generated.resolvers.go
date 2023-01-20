@@ -151,6 +151,66 @@ func (mg *Dataset) ResolveReferences(ctx context.Context, c client.Reader) error
 		}
 	}
 	for i3 := 0; i3 < len(mg.Spec.ForProvider.Access); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.ForProvider.Access[i3].Routine); i4++ {
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Access[i3].Routine[i4].DatasetID),
+				Extract:      resource.ExtractParamPath("dataset_id", false),
+				Reference:    mg.Spec.ForProvider.Access[i3].Routine[i4].DatasetIDRef,
+				Selector:     mg.Spec.ForProvider.Access[i3].Routine[i4].DatasetIDSelector,
+				To: reference.To{
+					List:    &RoutineList{},
+					Managed: &Routine{},
+				},
+			})
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.ForProvider.Access[i3].Routine[i4].DatasetID")
+			}
+			mg.Spec.ForProvider.Access[i3].Routine[i4].DatasetID = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.Access[i3].Routine[i4].DatasetIDRef = rsp.ResolvedReference
+
+		}
+	}
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.Access); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.ForProvider.Access[i3].Routine); i4++ {
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Access[i3].Routine[i4].ProjectID),
+				Extract:      resource.ExtractParamPath("project", false),
+				Reference:    mg.Spec.ForProvider.Access[i3].Routine[i4].ProjectIDRef,
+				Selector:     mg.Spec.ForProvider.Access[i3].Routine[i4].ProjectIDSelector,
+				To: reference.To{
+					List:    &RoutineList{},
+					Managed: &Routine{},
+				},
+			})
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.ForProvider.Access[i3].Routine[i4].ProjectID")
+			}
+			mg.Spec.ForProvider.Access[i3].Routine[i4].ProjectID = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.Access[i3].Routine[i4].ProjectIDRef = rsp.ResolvedReference
+
+		}
+	}
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.Access); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.ForProvider.Access[i3].Routine); i4++ {
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Access[i3].Routine[i4].RoutineID),
+				Extract:      reference.ExternalName(),
+				Reference:    mg.Spec.ForProvider.Access[i3].Routine[i4].RoutineIDRef,
+				Selector:     mg.Spec.ForProvider.Access[i3].Routine[i4].RoutineIDSelector,
+				To: reference.To{
+					List:    &RoutineList{},
+					Managed: &Routine{},
+				},
+			})
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.ForProvider.Access[i3].Routine[i4].RoutineID")
+			}
+			mg.Spec.ForProvider.Access[i3].Routine[i4].RoutineID = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.Access[i3].Routine[i4].RoutineIDRef = rsp.ResolvedReference
+
+		}
+	}
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.Access); i3++ {
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Access[i3].UserByEmail),
 			Extract:      resource.ExtractParamPath("email", true),
@@ -233,6 +293,60 @@ func (mg *DatasetAccess) ResolveReferences(ctx context.Context, c client.Reader)
 	mg.Spec.ForProvider.DatasetID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.DatasetIDRef = rsp.ResolvedReference
 
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.Routine); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Routine[i3].DatasetID),
+			Extract:      resource.ExtractParamPath("dataset_id", false),
+			Reference:    mg.Spec.ForProvider.Routine[i3].DatasetIDRef,
+			Selector:     mg.Spec.ForProvider.Routine[i3].DatasetIDSelector,
+			To: reference.To{
+				List:    &RoutineList{},
+				Managed: &Routine{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.Routine[i3].DatasetID")
+		}
+		mg.Spec.ForProvider.Routine[i3].DatasetID = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.Routine[i3].DatasetIDRef = rsp.ResolvedReference
+
+	}
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.Routine); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Routine[i3].ProjectID),
+			Extract:      resource.ExtractParamPath("project", false),
+			Reference:    mg.Spec.ForProvider.Routine[i3].ProjectIDRef,
+			Selector:     mg.Spec.ForProvider.Routine[i3].ProjectIDSelector,
+			To: reference.To{
+				List:    &RoutineList{},
+				Managed: &Routine{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.Routine[i3].ProjectID")
+		}
+		mg.Spec.ForProvider.Routine[i3].ProjectID = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.Routine[i3].ProjectIDRef = rsp.ResolvedReference
+
+	}
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.Routine); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Routine[i3].RoutineID),
+			Extract:      reference.ExternalName(),
+			Reference:    mg.Spec.ForProvider.Routine[i3].RoutineIDRef,
+			Selector:     mg.Spec.ForProvider.Routine[i3].RoutineIDSelector,
+			To: reference.To{
+				List:    &RoutineList{},
+				Managed: &Routine{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.Routine[i3].RoutineID")
+		}
+		mg.Spec.ForProvider.Routine[i3].RoutineID = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.Routine[i3].RoutineIDRef = rsp.ResolvedReference
+
+	}
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.UserByEmail),
 		Extract:      resource.ExtractParamPath("email", true),

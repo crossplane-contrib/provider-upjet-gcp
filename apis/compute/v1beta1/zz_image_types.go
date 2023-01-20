@@ -36,6 +36,23 @@ type GuestOsFeaturesParameters struct {
 	Type *string `json:"type" tf:"type,omitempty"`
 }
 
+type ImageEncryptionKeyObservation struct {
+}
+
+type ImageEncryptionKeyParameters struct {
+
+	// The self link of the encryption key that is stored in Google Cloud
+	// KMS.
+	// +kubebuilder:validation:Optional
+	KMSKeySelfLink *string `json:"kmsKeySelfLink,omitempty" tf:"kms_key_self_link,omitempty"`
+
+	// The service account being used for the encryption request for the
+	// given KMS key. If absent, the Compute Engine default service
+	// account is used.
+	// +kubebuilder:validation:Optional
+	KMSKeyServiceAccount *string `json:"kmsKeyServiceAccount,omitempty" tf:"kms_key_service_account,omitempty"`
+}
+
 type ImageObservation struct {
 
 	// Size of the image tar.gz archive stored in Google Cloud Storage (in
@@ -80,6 +97,14 @@ type ImageParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	GuestOsFeatures []GuestOsFeaturesParameters `json:"guestOsFeatures,omitempty" tf:"guest_os_features,omitempty"`
+
+	// Encrypts the image using a customer-supplied encryption key.
+	// After you encrypt an image with a customer-supplied key, you must
+	// provide the same key if you use the image later (e.g. to create a
+	// disk from the image)
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ImageEncryptionKey []ImageEncryptionKeyParameters `json:"imageEncryptionKey,omitempty" tf:"image_encryption_key,omitempty"`
 
 	// Labels to apply to this Image.
 	// +kubebuilder:validation:Optional

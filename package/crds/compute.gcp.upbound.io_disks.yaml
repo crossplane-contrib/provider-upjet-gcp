@@ -164,6 +164,11 @@ spec:
                       the snapshot is in another project than this disk, you must
                       supply a full URL. For example, the following are valid values:'
                     type: string
+                  sourceDisk:
+                    description: 'The source disk used to create this disk. You can
+                      provide this as a partial or full URL to the resource. For example,
+                      the following are valid values:'
+                    type: string
                   sourceImageEncryptionKey:
                     description: The customer-supplied encryption key of the source
                       image. Required if the source image is protected by a customer-supplied
@@ -441,6 +446,11 @@ spec:
                     type: string
                   selfLink:
                     description: The URI of the created resource.
+                    type: string
+                  sourceDiskId:
+                    description: The ID value of the disk used to create this image.
+                      This value may be used to determine whether the image was taken
+                      from the current or a previous instance of a given disk name.
                     type: string
                   sourceImageEncryptionKey:
                     description: The customer-supplied encryption key of the source
