@@ -311,6 +311,11 @@ var externalNameConfigs = map[string]config.ExternalName{
 	// {{name}}: projects/{project_id}/locations/{location}/tagTemplates/{tagTemplateId}
 	"google_data_catalog_tag_template": config.TemplatedStringAsIdentifier("tag_template_id", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.region }}/tagTemplates/{{ .external_name }}"),
 
+	// datastore
+	//
+	// Imported by using the following format: projects/{{project}}/indexes/{{index_id}}
+	"google_datastore_index": config.IdentifierFromProvider,
+
 	// dialogflow
 	//
 	// More details in https://upboundio.slack.com/archives/C01PK1SMYNN/p1663240546481649

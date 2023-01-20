@@ -181,11 +181,6 @@ var ExternalNameNotTestedConfigs = map[string]config.ExternalName{
 	// Imported by using the following format: projects/{{project}}/locations/{{location}}/workflowTemplates/{{name}}
 	"google_dataproc_workflow_template": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/workflowTemplates/{{ .external_name }}"),
 
-	// datastore
-	//
-	// Imported by using the following format: projects/{{project}}/indexes/{{index_id}}
-	"google_datastore_index": config.IdentifierFromProvider,
-
 	// deploymentmanager
 	//
 	// Imported by using the following format: projects/{{project}}/deployments/{{name}}
