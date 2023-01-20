@@ -203,9 +203,12 @@ import (
 	keyringiammember "github.com/upbound/provider-gcp/internal/controller/kms/keyringiammember"
 	keyringimportjob "github.com/upbound/provider-gcp/internal/controller/kms/keyringimportjob"
 	secretciphertext "github.com/upbound/provider-gcp/internal/controller/kms/secretciphertext"
+	instancememcache "github.com/upbound/provider-gcp/internal/controller/memcache/instance"
+	model "github.com/upbound/provider-gcp/internal/controller/mlengine/model"
 	alertpolicy "github.com/upbound/provider-gcp/internal/controller/monitoring/alertpolicy"
 	notificationchannel "github.com/upbound/provider-gcp/internal/controller/monitoring/notificationchannel"
 	uptimecheckconfig "github.com/upbound/provider-gcp/internal/controller/monitoring/uptimecheckconfig"
+	connectivitytest "github.com/upbound/provider-gcp/internal/controller/networkmanagement/connectivitytest"
 	environmentnotebooks "github.com/upbound/provider-gcp/internal/controller/notebooks/environment"
 	instancenotebooks "github.com/upbound/provider-gcp/internal/controller/notebooks/instance"
 	instanceiammembernotebooks "github.com/upbound/provider-gcp/internal/controller/notebooks/instanceiammember"
@@ -452,9 +455,12 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		keyringiammember.Setup,
 		keyringimportjob.Setup,
 		secretciphertext.Setup,
+		instancememcache.Setup,
+		model.Setup,
 		alertpolicy.Setup,
 		notificationchannel.Setup,
 		uptimecheckconfig.Setup,
+		connectivitytest.Setup,
 		environmentnotebooks.Setup,
 		instancenotebooks.Setup,
 		instanceiammembernotebooks.Setup,

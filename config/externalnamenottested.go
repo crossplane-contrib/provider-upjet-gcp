@@ -263,16 +263,6 @@ var ExternalNameNotTestedConfigs = map[string]config.ExternalName{
 	// projects/my-project/sinks/my-sink
 	"google_logging_project_sink": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/sinks/{{ .external_name }}"),
 
-	// memcache
-	//
-	// nstance can be imported using Name
-	"google_memcache_instance": config.NameAsIdentifier,
-
-	// mlengine
-	//
-	// Model can be imported using Name
-	"google_ml_engine_model": config.NameAsIdentifier,
-
 	// monitoring
 	//
 	// Service can be imported using Name
@@ -292,11 +282,6 @@ var ExternalNameNotTestedConfigs = map[string]config.ExternalName{
 	"google_network_connectivity_hub": config.NameAsIdentifier,
 	// Spoke can be imported using {{location}}/{{name}}
 	"google_network_connectivity_spoke": config.TemplatedStringAsIdentifier("name", "{{ .parameters.location }}/{{ .external_name }}"),
-
-	// networkmanagement
-	//
-	// ConnectivityTest can be imported using Name
-	"google_network_management_connectivity_test": config.NameAsIdentifier,
 
 	// networkservices
 	//
