@@ -160,26 +160,18 @@ var ExternalNameNotTestedConfigs = map[string]config.ExternalName{
 
 	// dataproc
 	//
-	// Imported by using the following format: projects/{{project}}/locations/{{location}}/autoscalingPolicies/{{policy_id}}
-	"google_dataproc_autoscaling_policy": config.TemplatedStringAsIdentifier("policy_id", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/autoscalingPolicies/{{ .external_name }}"),
-	// No Import
-	"google_dataproc_cluster": config.IdentifierFromProvider,
 	// Imported by using the following format: projects/{project}/regions/{region}/clusters/{cluster} roles/editor
 	"google_dataproc_cluster_iam_binding": config.TemplatedStringAsIdentifier("cluster", "projects/{ .setup.configuration.project }/regions/{{ .parameters.region }}/clusters/{{ .external_name }} {{ .parameters.role }}"),
 	// Imported by using the following format: projects/{project}/regions/{region}/clusters/{cluster} roles/editor user:jane@example.com
 	"google_dataproc_cluster_iam_member": config.TemplatedStringAsIdentifier("cluster", "projects/{ .setup.configuration.project }/regions/{{ .parameters.region }}/clusters/{{ .external_name }} {{ .parameters.role }} {{ .parameters.member }}"),
 	// Imported by using the following format: projects/{project}/regions/{region}/clusters/{cluster}
 	"google_dataproc_cluster_iam_policy": config.TemplatedStringAsIdentifier("cluster", "projects/{ .setup.configuration.project }/regions/{{ .parameters.region }}/clusters/{{ .external_name }}"),
-	// No Import
-	"google_dataproc_job": config.IdentifierFromProvider,
 	// Imported by using the following format: projects/{project}/regions/{region}/jobs/{job_id} roles/editor
 	"google_dataproc_job_iam_binding": config.TemplatedStringAsIdentifier("job_id", "projects/{ .setup.configuration.project }/regions/{{ .parameters.region }}/jobs/{{ .external_name }} {{ .parameters.role }}"),
 	// Imported by using the following format: projects/{project}/regions/{region}/jobs/{job_id} roles/editor user:jane@example.com
 	"google_dataproc_job_iam_member": config.TemplatedStringAsIdentifier("job_id", "projects/{ .setup.configuration.project }/regions/{{ .parameters.region }}/jobs/{{ .external_name }} {{ .parameters.role }} {{ .parameters.member }}"),
 	// Imported by using the following format: projects/{project}/regions/{region}/jobs/{job_id}
 	"google_dataproc_job_iam_policy": config.TemplatedStringAsIdentifier("job_id", "projects/{ .setup.configuration.project }/regions/{{ .parameters.region }}/jobs/{{ .external_name }}"),
-	// Imported by using the following format: projects/{{project}}/locations/{{location}}/workflowTemplates/{{name}}
-	"google_dataproc_workflow_template": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/workflowTemplates/{{ .external_name }}"),
 
 	// deploymentmanager
 	//

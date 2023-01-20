@@ -167,6 +167,10 @@ import (
 	tagtemplate "github.com/upbound/provider-gcp/internal/controller/datacatalog/tagtemplate"
 	jobdataflow "github.com/upbound/provider-gcp/internal/controller/dataflow/job"
 	instancedatafusion "github.com/upbound/provider-gcp/internal/controller/datafusion/instance"
+	autoscalingpolicy "github.com/upbound/provider-gcp/internal/controller/dataproc/autoscalingpolicy"
+	clusterdataproc "github.com/upbound/provider-gcp/internal/controller/dataproc/cluster"
+	jobdataproc "github.com/upbound/provider-gcp/internal/controller/dataproc/job"
+	workflowtemplate "github.com/upbound/provider-gcp/internal/controller/dataproc/workflowtemplate"
 	index "github.com/upbound/provider-gcp/internal/controller/datastore/index"
 	agent "github.com/upbound/provider-gcp/internal/controller/dialogflowcx/agent"
 	entitytype "github.com/upbound/provider-gcp/internal/controller/dialogflowcx/entitytype"
@@ -416,6 +420,10 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		tagtemplate.Setup,
 		jobdataflow.Setup,
 		instancedatafusion.Setup,
+		autoscalingpolicy.Setup,
+		clusterdataproc.Setup,
+		jobdataproc.Setup,
+		workflowtemplate.Setup,
 		index.Setup,
 		agent.Setup,
 		entitytype.Setup,
