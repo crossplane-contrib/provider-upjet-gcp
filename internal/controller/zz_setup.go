@@ -212,6 +212,8 @@ import (
 	alertpolicy "github.com/upbound/provider-gcp/internal/controller/monitoring/alertpolicy"
 	notificationchannel "github.com/upbound/provider-gcp/internal/controller/monitoring/notificationchannel"
 	uptimecheckconfig "github.com/upbound/provider-gcp/internal/controller/monitoring/uptimecheckconfig"
+	hub "github.com/upbound/provider-gcp/internal/controller/networkconnectivity/hub"
+	spoke "github.com/upbound/provider-gcp/internal/controller/networkconnectivity/spoke"
 	connectivitytest "github.com/upbound/provider-gcp/internal/controller/networkmanagement/connectivitytest"
 	environmentnotebooks "github.com/upbound/provider-gcp/internal/controller/notebooks/environment"
 	instancenotebooks "github.com/upbound/provider-gcp/internal/controller/notebooks/instance"
@@ -468,6 +470,8 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		alertpolicy.Setup,
 		notificationchannel.Setup,
 		uptimecheckconfig.Setup,
+		hub.Setup,
+		spoke.Setup,
 		connectivitytest.Setup,
 		environmentnotebooks.Setup,
 		instancenotebooks.Setup,

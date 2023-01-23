@@ -476,6 +476,13 @@ var externalNameConfigs = map[string]config.ExternalName{
 	// ConnectivityTest can be imported using Name
 	"google_network_management_connectivity_test": config.IdentifierFromProvider,
 
+	// network
+	//
+	// Hub can be imported using Name
+	"google_network_connectivity_hub": config.IdentifierFromProvider,
+	// Spoke can be imported using {{location}}/{{name}}
+	"google_network_connectivity_spoke": config.IdentifierFromProvider,
+
 	// mlengine
 	//
 	// Model can be imported using Name
