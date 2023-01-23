@@ -210,7 +210,12 @@ import (
 	instancememcache "github.com/upbound/provider-gcp/internal/controller/memcache/instance"
 	model "github.com/upbound/provider-gcp/internal/controller/mlengine/model"
 	alertpolicy "github.com/upbound/provider-gcp/internal/controller/monitoring/alertpolicy"
+	customservice "github.com/upbound/provider-gcp/internal/controller/monitoring/customservice"
+	dashboard "github.com/upbound/provider-gcp/internal/controller/monitoring/dashboard"
+	group "github.com/upbound/provider-gcp/internal/controller/monitoring/group"
+	metricdescriptor "github.com/upbound/provider-gcp/internal/controller/monitoring/metricdescriptor"
 	notificationchannel "github.com/upbound/provider-gcp/internal/controller/monitoring/notificationchannel"
+	slo "github.com/upbound/provider-gcp/internal/controller/monitoring/slo"
 	uptimecheckconfig "github.com/upbound/provider-gcp/internal/controller/monitoring/uptimecheckconfig"
 	connectivitytest "github.com/upbound/provider-gcp/internal/controller/networkmanagement/connectivitytest"
 	environmentnotebooks "github.com/upbound/provider-gcp/internal/controller/notebooks/environment"
@@ -466,7 +471,12 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		instancememcache.Setup,
 		model.Setup,
 		alertpolicy.Setup,
+		customservice.Setup,
+		dashboard.Setup,
+		group.Setup,
+		metricdescriptor.Setup,
 		notificationchannel.Setup,
+		slo.Setup,
 		uptimecheckconfig.Setup,
 		connectivitytest.Setup,
 		environmentnotebooks.Setup,

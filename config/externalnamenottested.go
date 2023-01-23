@@ -255,18 +255,15 @@ var ExternalNameNotTestedConfigs = map[string]config.ExternalName{
 	// projects/my-project/sinks/my-sink
 	"google_logging_project_sink": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/sinks/{{ .external_name }}"),
 
-	// monitoring
+	// memcache
 	//
-	// Service can be imported using Name
-	"google_monitoring_custom_service": config.NameAsIdentifier,
-	// Dashboard can be imported using dashboard_id
-	"google_monitoring_dashboard": config.IdentifierFromProvider,
-	// Group can be imported using Name
-	"google_monitoring_group": config.NameAsIdentifier,
-	// MetricDescriptor can be imported using Name
-	"google_monitoring_metric_descriptor": config.NameAsIdentifier,
-	// Slo can be imported using Name
-	"google_monitoring_slo": config.NameAsIdentifier,
+	// nstance can be imported using Name
+	"google_memcache_instance": config.NameAsIdentifier,
+
+	// mlengine
+	//
+	// Model can be imported using Name
+	"google_ml_engine_model": config.NameAsIdentifier,
 
 	// network
 	//
