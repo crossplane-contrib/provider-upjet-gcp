@@ -217,6 +217,8 @@ import (
 	notificationchannel "github.com/upbound/provider-gcp/internal/controller/monitoring/notificationchannel"
 	slo "github.com/upbound/provider-gcp/internal/controller/monitoring/slo"
 	uptimecheckconfig "github.com/upbound/provider-gcp/internal/controller/monitoring/uptimecheckconfig"
+	hub "github.com/upbound/provider-gcp/internal/controller/networkconnectivity/hub"
+	spoke "github.com/upbound/provider-gcp/internal/controller/networkconnectivity/spoke"
 	connectivitytest "github.com/upbound/provider-gcp/internal/controller/networkmanagement/connectivitytest"
 	environmentnotebooks "github.com/upbound/provider-gcp/internal/controller/notebooks/environment"
 	instancenotebooks "github.com/upbound/provider-gcp/internal/controller/notebooks/instance"
@@ -478,6 +480,8 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		notificationchannel.Setup,
 		slo.Setup,
 		uptimecheckconfig.Setup,
+		hub.Setup,
+		spoke.Setup,
 		connectivitytest.Setup,
 		environmentnotebooks.Setup,
 		instancenotebooks.Setup,

@@ -265,13 +265,6 @@ var ExternalNameNotTestedConfigs = map[string]config.ExternalName{
 	// Model can be imported using Name
 	"google_ml_engine_model": config.NameAsIdentifier,
 
-	// network
-	//
-	// Hub can be imported using Name
-	"google_network_connectivity_hub": config.NameAsIdentifier,
-	// Spoke can be imported using {{location}}/{{name}}
-	"google_network_connectivity_spoke": config.TemplatedStringAsIdentifier("name", "{{ .parameters.location }}/{{ .external_name }}"),
-
 	// networkservices
 	//
 	// EdgeCacheKeyset can be imported using Name
