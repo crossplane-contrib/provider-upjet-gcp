@@ -721,6 +721,17 @@ var externalNameConfigs = map[string]config.ExternalName{
 	"google_binary_authorization_attestor": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/attestors/{{ .external_name }}"),
 	// projects/{{project}}
 	"google_binary_authorization_policy": config.TemplatedStringAsIdentifier("", "projects/{{ .setup.configuration.project }}"),
+
+	// dataproc
+	//
+	// Imported by using the following format: projects/{{project}}/locations/{{location}}/autoscalingPolicies/{{policy_id}}
+	"google_dataproc_autoscaling_policy": config.TemplatedStringAsIdentifier("policy_id", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/autoscalingPolicies/{{ .external_name }}"),
+	// No Import
+	"google_dataproc_cluster": config.IdentifierFromProvider,
+	// No Import
+	"google_dataproc_job": config.IdentifierFromProvider,
+	// Imported by using the following format: projects/{{project}}/locations/{{location}}/workflowTemplates/{{name}}
+	"google_dataproc_workflow_template": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/workflowTemplates/{{ .external_name }}"),
 }
 
 // TemplatedStringAsIdentifierWithNoName uses TemplatedStringAsIdentifier but

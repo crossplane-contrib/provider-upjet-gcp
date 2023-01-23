@@ -44,6 +44,7 @@ import (
 	v1beta1datacatalog "github.com/upbound/provider-gcp/apis/datacatalog/v1beta1"
 	v1beta1dataflow "github.com/upbound/provider-gcp/apis/dataflow/v1beta1"
 	v1beta1datafusion "github.com/upbound/provider-gcp/apis/datafusion/v1beta1"
+	v1beta1dataproc "github.com/upbound/provider-gcp/apis/dataproc/v1beta1"
 	v1beta1datastore "github.com/upbound/provider-gcp/apis/datastore/v1beta1"
 	v1beta1dialogflowcx "github.com/upbound/provider-gcp/apis/dialogflowcx/v1beta1"
 	v1beta1dns "github.com/upbound/provider-gcp/apis/dns/v1beta1"
@@ -101,6 +102,7 @@ func init() {
 		v1beta1datacatalog.SchemeBuilder.AddToScheme,
 		v1beta1dataflow.SchemeBuilder.AddToScheme,
 		v1beta1datafusion.SchemeBuilder.AddToScheme,
+		v1beta1dataproc.SchemeBuilder.AddToScheme,
 		v1beta1datastore.SchemeBuilder.AddToScheme,
 		v1beta1dialogflowcx.SchemeBuilder.AddToScheme,
 		v1beta1dns.SchemeBuilder.AddToScheme,
