@@ -471,6 +471,21 @@ var externalNameConfigs = map[string]config.ExternalName{
 	// Imported by using the following format: projects/{{project}}/locations/{{location}}/runtimes/{{name}}
 	"google_notebooks_runtime_iam_member": config.IdentifierFromProvider,
 
+	// networkmanagement
+	//
+	// ConnectivityTest can be imported using Name
+	"google_network_management_connectivity_test": config.IdentifierFromProvider,
+
+	// mlengine
+	//
+	// Model can be imported using Name
+	"google_ml_engine_model": config.IdentifierFromProvider,
+
+	// memcache
+	//
+	// nstance can be imported using Name
+	"google_memcache_instance": config.IdentifierFromProvider,
+
 	// osconfig
 	//
 	// Imported by using the following format: projects/{{project}}/locations/{{location}}/osPolicyAssignments/{{name}}

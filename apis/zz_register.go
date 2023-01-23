@@ -56,7 +56,10 @@ import (
 	v1beta1iap "github.com/upbound/provider-gcp/apis/iap/v1beta1"
 	v1beta1identityplatform "github.com/upbound/provider-gcp/apis/identityplatform/v1beta1"
 	v1beta1kms "github.com/upbound/provider-gcp/apis/kms/v1beta1"
+	v1beta1memcache "github.com/upbound/provider-gcp/apis/memcache/v1beta1"
+	v1beta1mlengine "github.com/upbound/provider-gcp/apis/mlengine/v1beta1"
 	v1beta1monitoring "github.com/upbound/provider-gcp/apis/monitoring/v1beta1"
+	v1beta1networkmanagement "github.com/upbound/provider-gcp/apis/networkmanagement/v1beta1"
 	v1beta1notebooks "github.com/upbound/provider-gcp/apis/notebooks/v1beta1"
 	v1beta1osconfig "github.com/upbound/provider-gcp/apis/osconfig/v1beta1"
 	v1beta1oslogin "github.com/upbound/provider-gcp/apis/oslogin/v1beta1"
@@ -110,7 +113,10 @@ func init() {
 		v1beta1iap.SchemeBuilder.AddToScheme,
 		v1beta1identityplatform.SchemeBuilder.AddToScheme,
 		v1beta1kms.SchemeBuilder.AddToScheme,
+		v1beta1memcache.SchemeBuilder.AddToScheme,
+		v1beta1mlengine.SchemeBuilder.AddToScheme,
 		v1beta1monitoring.SchemeBuilder.AddToScheme,
+		v1beta1networkmanagement.SchemeBuilder.AddToScheme,
 		v1beta1notebooks.SchemeBuilder.AddToScheme,
 		v1beta1osconfig.SchemeBuilder.AddToScheme,
 		v1beta1oslogin.SchemeBuilder.AddToScheme,
