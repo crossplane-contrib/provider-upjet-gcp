@@ -457,6 +457,16 @@ var externalNameConfigs = map[string]config.ExternalName{
 	"google_monitoring_notification_channel": config.IdentifierFromProvider,
 	// Imported by using the following format: {{name}}
 	"google_monitoring_uptime_check_config": config.IdentifierFromProvider,
+	// Service can be imported using Name
+	"google_monitoring_custom_service": config.IdentifierFromProvider,
+	// Dashboard can be imported using dashboard_id
+	"google_monitoring_dashboard": config.IdentifierFromProvider,
+	// Group can be imported using Name
+	"google_monitoring_group": config.IdentifierFromProvider,
+	// MetricDescriptor can be imported using Name
+	"google_monitoring_metric_descriptor": config.IdentifierFromProvider,
+	// Slo can be imported using Name
+	"google_monitoring_slo": config.IdentifierFromProvider,
 
 	// notebooks
 	//
