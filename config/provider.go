@@ -23,6 +23,7 @@ import (
 	"github.com/upbound/upjet/pkg/types/name"
 
 	"github.com/upbound/provider-gcp/config/accessapproval"
+	"github.com/upbound/provider-gcp/config/beyondcorp"
 	"github.com/upbound/provider-gcp/config/bigquery"
 	"github.com/upbound/provider-gcp/config/bigtable"
 	composer "github.com/upbound/provider-gcp/config/cloudcomposer"
@@ -181,6 +182,7 @@ func GetProvider() *tjconfig.Provider {
 		sql.Configure,
 		redis.Configure,
 		bigquery.Configure,
+		beyondcorp.Configure,
 	} {
 		configure(pc)
 	}
