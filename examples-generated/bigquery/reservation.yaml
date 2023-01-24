@@ -8,6 +8,7 @@ metadata:
   name: reservation
 spec:
   forProvider:
+    concurrency: 0
     ignoreIdleSlots: false
     location: asia-northeast1
     slotCapacity: 0

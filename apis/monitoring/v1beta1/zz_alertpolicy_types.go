@@ -345,6 +345,13 @@ type ConditionMonitoringQueryLanguageParameters struct {
 	// +kubebuilder:validation:Required
 	Duration *string `json:"duration" tf:"duration,omitempty"`
 
+	// A condition control that determines how
+	// metric-threshold conditions are evaluated when
+	// data stops arriving.
+	// Possible values are EVALUATION_MISSING_DATA_INACTIVE, EVALUATION_MISSING_DATA_ACTIVE, and EVALUATION_MISSING_DATA_NO_OP.
+	// +kubebuilder:validation:Optional
+	EvaluationMissingData *string `json:"evaluationMissingData,omitempty" tf:"evaluation_missing_data,omitempty"`
+
 	// Monitoring Query Language query that outputs a boolean stream.
 	// +kubebuilder:validation:Required
 	Query *string `json:"query" tf:"query,omitempty"`
@@ -562,6 +569,13 @@ type ConditionThresholdParameters struct {
 	// alerted on quickly.
 	// +kubebuilder:validation:Required
 	Duration *string `json:"duration" tf:"duration,omitempty"`
+
+	// A condition control that determines how
+	// metric-threshold conditions are evaluated when
+	// data stops arriving.
+	// Possible values are EVALUATION_MISSING_DATA_INACTIVE, EVALUATION_MISSING_DATA_ACTIVE, and EVALUATION_MISSING_DATA_NO_OP.
+	// +kubebuilder:validation:Optional
+	EvaluationMissingData *string `json:"evaluationMissingData,omitempty" tf:"evaluation_missing_data,omitempty"`
 
 	// A filter that identifies which time series
 	// should be compared with the threshold.The

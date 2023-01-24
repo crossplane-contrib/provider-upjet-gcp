@@ -13,6 +13,8 @@ spec:
       - imageSelector:
           matchLabels:
             testing.upbound.io/example-name: example
+        labels:
+          my_label: value
     machineType: e2-medium
     metadata:
       foo: bar

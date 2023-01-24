@@ -45,7 +45,7 @@ spec:
           testing.upbound.io/example-name: static
       name: otherpaths
     test:
-    - host: hi.com
+    - host: example.com
       path: /home
       serviceSelector:
         matchLabels:

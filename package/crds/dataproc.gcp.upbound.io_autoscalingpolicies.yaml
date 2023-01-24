@@ -1,0 +1,452 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.8.0
+  creationTimestamp: null
+  name: autoscalingpolicies.dataproc.gcp.upbound.io
+spec:
+  group: dataproc.gcp.upbound.io
+  names:
+    categories:
+    - crossplane
+    - managed
+    - gcp
+    kind: AutoscalingPolicy
+    listKind: AutoscalingPolicyList
+    plural: autoscalingpolicies
+    singular: autoscalingpolicy
+  scope: Cluster
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
+    - jsonPath: .metadata.annotations.crossplane\.io/external-name
+      name: EXTERNAL-NAME
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1beta1
+    schema:
+      openAPIV3Schema:
+        description: AutoscalingPolicy is the Schema for the AutoscalingPolicys API.
+          Describes an autoscaling policy for Dataproc cluster autoscaler.
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: AutoscalingPolicySpec defines the desired state of AutoscalingPolicy
+            properties:
+              deletionPolicy:
+                default: Delete
+                description: DeletionPolicy specifies what will happen to the underlying
+                  external when this managed resource is deleted - either "Delete"
+                  or "Orphan" the external resource.
+                enum:
+                - Orphan
+                - Delete
+                type: string
+              forProvider:
+                properties:
+                  basicAlgorithm:
+                    description: Basic algorithm for autoscaling. Structure is documented
+                      below.
+                    items:
+                      properties:
+                        cooldownPeriod:
+                          description: 'Duration between scaling events. A scaling
+                            period starts after the update operation from the previous
+                            event has completed. Bounds: [2m, 1d]. Default: 2m.'
+                          type: string
+                        yarnConfig:
+                          description: YARN autoscaling configuration. Structure is
+                            documented below.
+                          items:
+                            properties:
+                              gracefulDecommissionTimeout:
+                                description: 'Timeout for YARN graceful decommissioning
+                                  of Node Managers. Specifies the duration to wait
+                                  for jobs to complete before forcefully removing
+                                  workers (and potentially interrupting jobs). Only
+                                  applicable to downscaling operations. Bounds: [0s,
+                                  1d].'
+                                type: string
+                              scaleDownFactor:
+                                description: 'Fraction of average pending memory in
+                                  the last cooldown period for which to remove workers.
+                                  A scale-down factor of 1 will result in scaling
+                                  down so that there is no available memory remaining
+                                  after the update (more aggressive scaling). A scale-down
+                                  factor of 0 disables removing workers, which can
+                                  be beneficial for autoscaling a single job. Bounds:
+                                  [0.0, 1.0].'
+                                type: number
+                              scaleDownMinWorkerFraction:
+                                description: 'Minimum scale-down threshold as a fraction
+                                  of total cluster size before scaling occurs. For
+                                  example, in a 20-worker cluster, a threshold of
+                                  0.1 means the autoscaler must recommend at least
+                                  a 2 worker scale-down for the cluster to scale.
+                                  A threshold of 0 means the autoscaler will scale
+                                  down on any recommended change. Bounds: [0.0, 1.0].
+                                  Default: 0.0.'
+                                type: number
+                              scaleUpFactor:
+                                description: 'Fraction of average pending memory in
+                                  the last cooldown period for which to add workers.
+                                  A scale-up factor of 1.0 will result in scaling
+                                  up so that there is no pending memory remaining
+                                  after the update (more aggressive scaling). A scale-up
+                                  factor closer to 0 will result in a smaller magnitude
+                                  of scaling up (less aggressive scaling). Bounds:
+                                  [0.0, 1.0].'
+                                type: number
+                              scaleUpMinWorkerFraction:
+                                description: 'Minimum scale-up threshold as a fraction
+                                  of total cluster size before scaling occurs. For
+                                  example, in a 20-worker cluster, a threshold of
+                                  0.1 means the autoscaler must recommend at least
+                                  a 2-worker scale-up for the cluster to scale. A
+                                  threshold of 0 means the autoscaler will scale up
+                                  on any recommended change. Bounds: [0.0, 1.0]. Default:
+                                  0.0.'
+                                type: number
+                            required:
+                            - gracefulDecommissionTimeout
+                            - scaleDownFactor
+                            - scaleUpFactor
+                            type: object
+                          type: array
+                      required:
+                      - yarnConfig
+                      type: object
+                    type: array
+                  location:
+                    description: The  location where the autoscaling policy should
+                      reside. The default value is global.
+                    type: string
+                  project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  secondaryWorkerConfig:
+                    description: Describes how the autoscaler will operate for secondary
+                      workers. Structure is documented below.
+                    items:
+                      properties:
+                        maxInstances:
+                          description: 'Maximum number of instances for this group.
+                            Note that by default, clusters will not use secondary
+                            workers. Required for secondary workers if the minimum
+                            secondary instances is set. Bounds: [minInstances, ).
+                            Defaults to 0.'
+                          type: number
+                        minInstances:
+                          description: 'Minimum number of instances for this group.
+                            Bounds: [0, maxInstances]. Defaults to 0.'
+                          type: number
+                        weight:
+                          description: 'Weight for the instance group, which is used
+                            to determine the fraction of total workers in the cluster
+                            from this instance group. For example, if primary workers
+                            have weight 2, and secondary workers have weight 1, the
+                            cluster will have approximately 2 primary workers for
+                            each secondary worker. The cluster may not reach the specified
+                            balance if constrained by min/max bounds or other autoscaling
+                            settings. For example, if maxInstances for secondary workers
+                            is 0, then only primary workers will be added. The cluster
+                            can also be out of balance when created. If weight is
+                            not set on any instance group, the cluster will default
+                            to equal weight for all groups: the cluster will attempt
+                            to maintain an equal number of workers in each group within
+                            the configured size bounds for each group. If weight is
+                            set for one group only, the cluster will default to zero
+                            weight on the unset group. For example if weight is set
+                            only on primary workers, the cluster will use primary
+                            workers only and no secondary workers.'
+                          type: number
+                      type: object
+                    type: array
+                  workerConfig:
+                    description: Describes how the autoscaler will operate for primary
+                      workers. Structure is documented below.
+                    items:
+                      properties:
+                        maxInstances:
+                          description: Maximum number of instances for this group.
+                          type: number
+                        minInstances:
+                          description: 'Minimum number of instances for this group.
+                            Bounds: [2, maxInstances]. Defaults to 2.'
+                          type: number
+                        weight:
+                          description: 'Weight for the instance group, which is used
+                            to determine the fraction of total workers in the cluster
+                            from this instance group. For example, if primary workers
+                            have weight 2, and secondary workers have weight 1, the
+                            cluster will have approximately 2 primary workers for
+                            each secondary worker. The cluster may not reach the specified
+                            balance if constrained by min/max bounds or other autoscaling
+                            settings. For example, if maxInstances for secondary workers
+                            is 0, then only primary workers will be added. The cluster
+                            can also be out of balance when created. If weight is
+                            not set on any instance group, the cluster will default
+                            to equal weight for all groups: the cluster will attempt
+                            to maintain an equal number of workers in each group within
+                            the configured size bounds for each group. If weight is
+                            set for one group only, the cluster will default to zero
+                            weight on the unset group. For example if weight is set
+                            only on primary workers, the cluster will use primary
+                            workers only and no secondary workers.'
+                          type: number
+                      required:
+                      - maxInstances
+                      type: object
+                    type: array
+                type: object
+              providerConfigRef:
+                default:
+                  name: default
+                description: ProviderConfigReference specifies how the provider that
+                  will be used to create, observe, update, and delete this managed
+                  resource should be configured.
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                  policy:
+                    description: Policies for referencing.
+                    properties:
+                      resolution:
+                        default: Required
+                        description: Resolution specifies whether resolution of this
+                          reference is required. The default is 'Required', which
+                          means the reconcile will fail if the reference cannot be
+                          resolved. 'Optional' means this reference will be a no-op
+                          if it cannot be resolved.
+                        enum:
+                        - Required
+                        - Optional
+                        type: string
+                      resolve:
+                        description: Resolve specifies when this reference should
+                          be resolved. The default is 'IfNotPresent', which will attempt
+                          to resolve the reference only when the corresponding field
+                          is not present. Use 'Always' to resolve the reference on
+                          every reconcile.
+                        enum:
+                        - Always
+                        - IfNotPresent
+                        type: string
+                    type: object
+                required:
+                - name
+                type: object
+              providerRef:
+                description: 'ProviderReference specifies the provider that will be
+                  used to create, observe, update, and delete this managed resource.
+                  Deprecated: Please use ProviderConfigReference, i.e. `providerConfigRef`'
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                  policy:
+                    description: Policies for referencing.
+                    properties:
+                      resolution:
+                        default: Required
+                        description: Resolution specifies whether resolution of this
+                          reference is required. The default is 'Required', which
+                          means the reconcile will fail if the reference cannot be
+                          resolved. 'Optional' means this reference will be a no-op
+                          if it cannot be resolved.
+                        enum:
+                        - Required
+                        - Optional
+                        type: string
+                      resolve:
+                        description: Resolve specifies when this reference should
+                          be resolved. The default is 'IfNotPresent', which will attempt
+                          to resolve the reference only when the corresponding field
+                          is not present. Use 'Always' to resolve the reference on
+                          every reconcile.
+                        enum:
+                        - Always
+                        - IfNotPresent
+                        type: string
+                    type: object
+                required:
+                - name
+                type: object
+              publishConnectionDetailsTo:
+                description: PublishConnectionDetailsTo specifies the connection secret
+                  config which contains a name, metadata and a reference to secret
+                  store config to which any connection details for this managed resource
+                  should be written. Connection details frequently include the endpoint,
+                  username, and password required to connect to the managed resource.
+                properties:
+                  configRef:
+                    default:
+                      name: default
+                    description: SecretStoreConfigRef specifies which secret store
+                      config should be used for this ConnectionSecret.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: Resolution specifies whether resolution of
+                              this reference is required. The default is 'Required',
+                              which means the reconcile will fail if the reference
+                              cannot be resolved. 'Optional' means this reference
+                              will be a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: Resolve specifies when this reference should
+                              be resolved. The default is 'IfNotPresent', which will
+                              attempt to resolve the reference only when the corresponding
+                              field is not present. Use 'Always' to resolve the reference
+                              on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  metadata:
+                    description: Metadata is the metadata for connection secret.
+                    properties:
+                      annotations:
+                        additionalProperties:
+                          type: string
+                        description: Annotations are the annotations to be added to
+                          connection secret. - For Kubernetes secrets, this will be
+                          used as "metadata.annotations". - It is up to Secret Store
+                          implementation for others store types.
+                        type: object
+                      labels:
+                        additionalProperties:
+                          type: string
+                        description: Labels are the labels/tags to be added to connection
+                          secret. - For Kubernetes secrets, this will be used as "metadata.labels".
+                          - It is up to Secret Store implementation for others store
+                          types.
+                        type: object
+                      type:
+                        description: Type is the SecretType for the connection secret.
+                          - Only valid for Kubernetes Secret Stores.
+                        type: string
+                    type: object
+                  name:
+                    description: Name is the name of the connection secret.
+                    type: string
+                required:
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: WriteConnectionSecretToReference specifies the namespace
+                  and name of a Secret to which any connection details for this managed
+                  resource should be written. Connection details frequently include
+                  the endpoint, username, and password required to connect to the
+                  managed resource. This field is planned to be replaced in a future
+                  release in favor of PublishConnectionDetailsTo. Currently, both
+                  could be set independently and connection details would be published
+                  to both without affecting each other.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                  namespace:
+                    description: Namespace of the secret.
+                    type: string
+                required:
+                - name
+                - namespace
+                type: object
+            required:
+            - forProvider
+            type: object
+          status:
+            description: AutoscalingPolicyStatus defines the observed state of AutoscalingPolicy.
+            properties:
+              atProvider:
+                properties:
+                  id:
+                    description: an identifier for the resource with format projects/{{project}}/locations/{{location}}/autoscalingPolicies/{{policy_id}}
+                    type: string
+                  name:
+                    description: The "resource name" of the autoscaling policy.
+                    type: string
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: LastTransitionTime is the last time this condition
+                        transitioned from one status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: A Message containing details about this condition's
+                        last transition from one status to another, if any.
+                      type: string
+                    reason:
+                      description: A Reason for this condition's last transition from
+                        one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True,
+                        False, or Unknown?
+                      type: string
+                    type:
+                      description: Type of this condition. At most one of each condition
+                        type may apply to a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []

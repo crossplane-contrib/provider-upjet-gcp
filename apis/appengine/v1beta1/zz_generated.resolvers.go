@@ -51,3 +51,84 @@ func (mg *Application) ResolveReferences(ctx context.Context, c client.Reader) e
 
 	return nil
 }
+
+// ResolveReferences of this ApplicationURLDispatchRules.
+func (mg *ApplicationURLDispatchRules) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.DispatchRules); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.DispatchRules[i3].Service),
+			Extract:      resource.ExtractParamPath("service", false),
+			Reference:    mg.Spec.ForProvider.DispatchRules[i3].ServiceRef,
+			Selector:     mg.Spec.ForProvider.DispatchRules[i3].ServiceSelector,
+			To: reference.To{
+				List:    &StandardAppVersionList{},
+				Managed: &StandardAppVersion{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.DispatchRules[i3].Service")
+		}
+		mg.Spec.ForProvider.DispatchRules[i3].Service = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.DispatchRules[i3].ServiceRef = rsp.ResolvedReference
+
+	}
+
+	return nil
+}
+
+// ResolveReferences of this ServiceNetworkSettings.
+func (mg *ServiceNetworkSettings) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Service),
+		Extract:      resource.ExtractParamPath("service", false),
+		Reference:    mg.Spec.ForProvider.ServiceRef,
+		Selector:     mg.Spec.ForProvider.ServiceSelector,
+		To: reference.To{
+			List:    &StandardAppVersionList{},
+			Managed: &StandardAppVersion{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.Service")
+	}
+	mg.Spec.ForProvider.Service = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.ServiceRef = rsp.ResolvedReference
+
+	return nil
+}
+
+// ResolveReferences of this StandardAppVersion.
+func (mg *StandardAppVersion) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ServiceAccount),
+		Extract:      resource.ExtractParamPath("email", true),
+		Reference:    mg.Spec.ForProvider.ServiceAccountRef,
+		Selector:     mg.Spec.ForProvider.ServiceAccountSelector,
+		To: reference.To{
+			List:    &v1beta1.ServiceAccountList{},
+			Managed: &v1beta1.ServiceAccount{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.ServiceAccount")
+	}
+	mg.Spec.ForProvider.ServiceAccount = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.ServiceAccountRef = rsp.ResolvedReference
+
+	return nil
+}

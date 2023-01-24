@@ -9,7 +9,15 @@ import (
 
 	"github.com/upbound/upjet/pkg/controller"
 
+	domain "github.com/upbound/provider-gcp/internal/controller/activedirectory/domain"
+	envgroup "github.com/upbound/provider-gcp/internal/controller/apigee/envgroup"
+	environment "github.com/upbound/provider-gcp/internal/controller/apigee/environment"
+	instance "github.com/upbound/provider-gcp/internal/controller/apigee/instance"
+	organization "github.com/upbound/provider-gcp/internal/controller/apigee/organization"
 	application "github.com/upbound/provider-gcp/internal/controller/appengine/application"
+	applicationurldispatchrules "github.com/upbound/provider-gcp/internal/controller/appengine/applicationurldispatchrules"
+	servicenetworksettings "github.com/upbound/provider-gcp/internal/controller/appengine/servicenetworksettings"
+	standardappversion "github.com/upbound/provider-gcp/internal/controller/appengine/standardappversion"
 	connection "github.com/upbound/provider-gcp/internal/controller/bigquery/connection"
 	dataset "github.com/upbound/provider-gcp/internal/controller/bigquery/dataset"
 	datasetaccess "github.com/upbound/provider-gcp/internal/controller/bigquery/datasetaccess"
@@ -25,9 +33,26 @@ import (
 	tableiambinding "github.com/upbound/provider-gcp/internal/controller/bigquery/tableiambinding"
 	tableiammember "github.com/upbound/provider-gcp/internal/controller/bigquery/tableiammember"
 	tableiampolicy "github.com/upbound/provider-gcp/internal/controller/bigquery/tableiampolicy"
+	appprofile "github.com/upbound/provider-gcp/internal/controller/bigtable/appprofile"
+	garbagecollectionpolicy "github.com/upbound/provider-gcp/internal/controller/bigtable/garbagecollectionpolicy"
+	instancebigtable "github.com/upbound/provider-gcp/internal/controller/bigtable/instance"
+	instanceiambinding "github.com/upbound/provider-gcp/internal/controller/bigtable/instanceiambinding"
+	instanceiammember "github.com/upbound/provider-gcp/internal/controller/bigtable/instanceiammember"
+	instanceiampolicy "github.com/upbound/provider-gcp/internal/controller/bigtable/instanceiampolicy"
+	tablebigtable "github.com/upbound/provider-gcp/internal/controller/bigtable/table"
+	tableiambindingbigtable "github.com/upbound/provider-gcp/internal/controller/bigtable/tableiambinding"
+	tableiammemberbigtable "github.com/upbound/provider-gcp/internal/controller/bigtable/tableiammember"
+	tableiampolicybigtable "github.com/upbound/provider-gcp/internal/controller/bigtable/tableiampolicy"
+	attestor "github.com/upbound/provider-gcp/internal/controller/binaryauthorization/attestor"
+	policy "github.com/upbound/provider-gcp/internal/controller/binaryauthorization/policy"
+	trigger "github.com/upbound/provider-gcp/internal/controller/cloudbuild/trigger"
+	workerpool "github.com/upbound/provider-gcp/internal/controller/cloudbuild/workerpool"
 	function "github.com/upbound/provider-gcp/internal/controller/cloudfunctions/function"
 	functioniammember "github.com/upbound/provider-gcp/internal/controller/cloudfunctions/functioniammember"
+	device "github.com/upbound/provider-gcp/internal/controller/cloudiot/device"
+	registry "github.com/upbound/provider-gcp/internal/controller/cloudiot/registry"
 	folder "github.com/upbound/provider-gcp/internal/controller/cloudplatform/folder"
+	folderiammember "github.com/upbound/provider-gcp/internal/controller/cloudplatform/folderiammember"
 	organizationiamauditconfig "github.com/upbound/provider-gcp/internal/controller/cloudplatform/organizationiamauditconfig"
 	organizationiamcustomrole "github.com/upbound/provider-gcp/internal/controller/cloudplatform/organizationiamcustomrole"
 	organizationiammember "github.com/upbound/provider-gcp/internal/controller/cloudplatform/organizationiammember"
@@ -46,7 +71,7 @@ import (
 	serviceiammember "github.com/upbound/provider-gcp/internal/controller/cloudrun/serviceiammember"
 	jobcloudscheduler "github.com/upbound/provider-gcp/internal/controller/cloudscheduler/job"
 	queue "github.com/upbound/provider-gcp/internal/controller/cloudtasks/queue"
-	environment "github.com/upbound/provider-gcp/internal/controller/composer/environment"
+	environmentcomposer "github.com/upbound/provider-gcp/internal/controller/composer/environment"
 	address "github.com/upbound/provider-gcp/internal/controller/compute/address"
 	attacheddisk "github.com/upbound/provider-gcp/internal/controller/compute/attacheddisk"
 	autoscaler "github.com/upbound/provider-gcp/internal/controller/compute/autoscaler"
@@ -72,12 +97,12 @@ import (
 	httpshealthcheck "github.com/upbound/provider-gcp/internal/controller/compute/httpshealthcheck"
 	image "github.com/upbound/provider-gcp/internal/controller/compute/image"
 	imageiammember "github.com/upbound/provider-gcp/internal/controller/compute/imageiammember"
-	instance "github.com/upbound/provider-gcp/internal/controller/compute/instance"
+	instancecompute "github.com/upbound/provider-gcp/internal/controller/compute/instance"
 	instancefromtemplate "github.com/upbound/provider-gcp/internal/controller/compute/instancefromtemplate"
 	instancegroup "github.com/upbound/provider-gcp/internal/controller/compute/instancegroup"
 	instancegroupmanager "github.com/upbound/provider-gcp/internal/controller/compute/instancegroupmanager"
 	instancegroupnamedport "github.com/upbound/provider-gcp/internal/controller/compute/instancegroupnamedport"
-	instanceiammember "github.com/upbound/provider-gcp/internal/controller/compute/instanceiammember"
+	instanceiammembercompute "github.com/upbound/provider-gcp/internal/controller/compute/instanceiammember"
 	instancetemplate "github.com/upbound/provider-gcp/internal/controller/compute/instancetemplate"
 	interconnectattachment "github.com/upbound/provider-gcp/internal/controller/compute/interconnectattachment"
 	managedsslcertificate "github.com/upbound/provider-gcp/internal/controller/compute/managedsslcertificate"
@@ -129,7 +154,7 @@ import (
 	vpntunnel "github.com/upbound/provider-gcp/internal/controller/compute/vpntunnel"
 	cluster "github.com/upbound/provider-gcp/internal/controller/container/cluster"
 	nodepool "github.com/upbound/provider-gcp/internal/controller/container/nodepool"
-	registry "github.com/upbound/provider-gcp/internal/controller/container/registry"
+	registrycontainer "github.com/upbound/provider-gcp/internal/controller/container/registry"
 	note "github.com/upbound/provider-gcp/internal/controller/containeranalysis/note"
 	clustercontaineraws "github.com/upbound/provider-gcp/internal/controller/containeraws/cluster"
 	nodepoolcontaineraws "github.com/upbound/provider-gcp/internal/controller/containeraws/nodepool"
@@ -138,7 +163,15 @@ import (
 	nodepoolcontainerazure "github.com/upbound/provider-gcp/internal/controller/containerazure/nodepool"
 	entry "github.com/upbound/provider-gcp/internal/controller/datacatalog/entry"
 	entrygroup "github.com/upbound/provider-gcp/internal/controller/datacatalog/entrygroup"
+	tag "github.com/upbound/provider-gcp/internal/controller/datacatalog/tag"
+	tagtemplate "github.com/upbound/provider-gcp/internal/controller/datacatalog/tagtemplate"
 	jobdataflow "github.com/upbound/provider-gcp/internal/controller/dataflow/job"
+	instancedatafusion "github.com/upbound/provider-gcp/internal/controller/datafusion/instance"
+	autoscalingpolicy "github.com/upbound/provider-gcp/internal/controller/dataproc/autoscalingpolicy"
+	clusterdataproc "github.com/upbound/provider-gcp/internal/controller/dataproc/cluster"
+	jobdataproc "github.com/upbound/provider-gcp/internal/controller/dataproc/job"
+	workflowtemplate "github.com/upbound/provider-gcp/internal/controller/dataproc/workflowtemplate"
+	index "github.com/upbound/provider-gcp/internal/controller/datastore/index"
 	agent "github.com/upbound/provider-gcp/internal/controller/dialogflowcx/agent"
 	entitytype "github.com/upbound/provider-gcp/internal/controller/dialogflowcx/entitytype"
 	environmentdialogflowcx "github.com/upbound/provider-gcp/internal/controller/dialogflowcx/environment"
@@ -147,10 +180,10 @@ import (
 	page "github.com/upbound/provider-gcp/internal/controller/dialogflowcx/page"
 	version "github.com/upbound/provider-gcp/internal/controller/dialogflowcx/version"
 	managedzone "github.com/upbound/provider-gcp/internal/controller/dns/managedzone"
-	policy "github.com/upbound/provider-gcp/internal/controller/dns/policy"
+	policydns "github.com/upbound/provider-gcp/internal/controller/dns/policy"
 	recordset "github.com/upbound/provider-gcp/internal/controller/dns/recordset"
 	contact "github.com/upbound/provider-gcp/internal/controller/essentialcontacts/contact"
-	trigger "github.com/upbound/provider-gcp/internal/controller/eventarc/trigger"
+	triggereventarc "github.com/upbound/provider-gcp/internal/controller/eventarc/trigger"
 	instancefilestore "github.com/upbound/provider-gcp/internal/controller/filestore/instance"
 	release "github.com/upbound/provider-gcp/internal/controller/firebaserules/release"
 	ruleset "github.com/upbound/provider-gcp/internal/controller/firebaserules/ruleset"
@@ -174,9 +207,19 @@ import (
 	keyringiammember "github.com/upbound/provider-gcp/internal/controller/kms/keyringiammember"
 	keyringimportjob "github.com/upbound/provider-gcp/internal/controller/kms/keyringimportjob"
 	secretciphertext "github.com/upbound/provider-gcp/internal/controller/kms/secretciphertext"
+	instancememcache "github.com/upbound/provider-gcp/internal/controller/memcache/instance"
+	model "github.com/upbound/provider-gcp/internal/controller/mlengine/model"
 	alertpolicy "github.com/upbound/provider-gcp/internal/controller/monitoring/alertpolicy"
+	customservice "github.com/upbound/provider-gcp/internal/controller/monitoring/customservice"
+	dashboard "github.com/upbound/provider-gcp/internal/controller/monitoring/dashboard"
+	group "github.com/upbound/provider-gcp/internal/controller/monitoring/group"
+	metricdescriptor "github.com/upbound/provider-gcp/internal/controller/monitoring/metricdescriptor"
 	notificationchannel "github.com/upbound/provider-gcp/internal/controller/monitoring/notificationchannel"
+	slo "github.com/upbound/provider-gcp/internal/controller/monitoring/slo"
 	uptimecheckconfig "github.com/upbound/provider-gcp/internal/controller/monitoring/uptimecheckconfig"
+	hub "github.com/upbound/provider-gcp/internal/controller/networkconnectivity/hub"
+	spoke "github.com/upbound/provider-gcp/internal/controller/networkconnectivity/spoke"
+	connectivitytest "github.com/upbound/provider-gcp/internal/controller/networkmanagement/connectivitytest"
 	environmentnotebooks "github.com/upbound/provider-gcp/internal/controller/notebooks/environment"
 	instancenotebooks "github.com/upbound/provider-gcp/internal/controller/notebooks/instance"
 	instanceiammembernotebooks "github.com/upbound/provider-gcp/internal/controller/notebooks/instanceiammember"
@@ -229,7 +272,15 @@ import (
 // the supplied manager.
 func Setup(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		domain.Setup,
+		envgroup.Setup,
+		environment.Setup,
+		instance.Setup,
+		organization.Setup,
 		application.Setup,
+		applicationurldispatchrules.Setup,
+		servicenetworksettings.Setup,
+		standardappversion.Setup,
 		connection.Setup,
 		dataset.Setup,
 		datasetaccess.Setup,
@@ -245,9 +296,26 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		tableiambinding.Setup,
 		tableiammember.Setup,
 		tableiampolicy.Setup,
+		appprofile.Setup,
+		garbagecollectionpolicy.Setup,
+		instancebigtable.Setup,
+		instanceiambinding.Setup,
+		instanceiammember.Setup,
+		instanceiampolicy.Setup,
+		tablebigtable.Setup,
+		tableiambindingbigtable.Setup,
+		tableiammemberbigtable.Setup,
+		tableiampolicybigtable.Setup,
+		attestor.Setup,
+		policy.Setup,
+		trigger.Setup,
+		workerpool.Setup,
 		function.Setup,
 		functioniammember.Setup,
+		device.Setup,
+		registry.Setup,
 		folder.Setup,
+		folderiammember.Setup,
 		organizationiamauditconfig.Setup,
 		organizationiamcustomrole.Setup,
 		organizationiammember.Setup,
@@ -266,7 +334,7 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		serviceiammember.Setup,
 		jobcloudscheduler.Setup,
 		queue.Setup,
-		environment.Setup,
+		environmentcomposer.Setup,
 		address.Setup,
 		attacheddisk.Setup,
 		autoscaler.Setup,
@@ -292,12 +360,12 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		httpshealthcheck.Setup,
 		image.Setup,
 		imageiammember.Setup,
-		instance.Setup,
+		instancecompute.Setup,
 		instancefromtemplate.Setup,
 		instancegroup.Setup,
 		instancegroupmanager.Setup,
 		instancegroupnamedport.Setup,
-		instanceiammember.Setup,
+		instanceiammembercompute.Setup,
 		instancetemplate.Setup,
 		interconnectattachment.Setup,
 		managedsslcertificate.Setup,
@@ -349,7 +417,7 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		vpntunnel.Setup,
 		cluster.Setup,
 		nodepool.Setup,
-		registry.Setup,
+		registrycontainer.Setup,
 		note.Setup,
 		clustercontaineraws.Setup,
 		nodepoolcontaineraws.Setup,
@@ -358,7 +426,15 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		nodepoolcontainerazure.Setup,
 		entry.Setup,
 		entrygroup.Setup,
+		tag.Setup,
+		tagtemplate.Setup,
 		jobdataflow.Setup,
+		instancedatafusion.Setup,
+		autoscalingpolicy.Setup,
+		clusterdataproc.Setup,
+		jobdataproc.Setup,
+		workflowtemplate.Setup,
+		index.Setup,
 		agent.Setup,
 		entitytype.Setup,
 		environmentdialogflowcx.Setup,
@@ -367,10 +443,10 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		page.Setup,
 		version.Setup,
 		managedzone.Setup,
-		policy.Setup,
+		policydns.Setup,
 		recordset.Setup,
 		contact.Setup,
-		trigger.Setup,
+		triggereventarc.Setup,
 		instancefilestore.Setup,
 		release.Setup,
 		ruleset.Setup,
@@ -394,9 +470,19 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		keyringiammember.Setup,
 		keyringimportjob.Setup,
 		secretciphertext.Setup,
+		instancememcache.Setup,
+		model.Setup,
 		alertpolicy.Setup,
+		customservice.Setup,
+		dashboard.Setup,
+		group.Setup,
+		metricdescriptor.Setup,
 		notificationchannel.Setup,
+		slo.Setup,
 		uptimecheckconfig.Setup,
+		hub.Setup,
+		spoke.Setup,
+		connectivitytest.Setup,
 		environmentnotebooks.Setup,
 		instancenotebooks.Setup,
 		instanceiammembernotebooks.Setup,

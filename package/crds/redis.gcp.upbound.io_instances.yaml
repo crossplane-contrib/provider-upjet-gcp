@@ -85,6 +85,84 @@ spec:
                       value is DIRECT_PEERING. Possible values are DIRECT_PEERING
                       and PRIVATE_SERVICE_ACCESS.
                     type: string
+                  customerManagedKey:
+                    description: Optional. The KMS key reference that you want to
+                      use to encrypt the data at rest for this Redis instance. If
+                      this is provided, CMEK is enabled.
+                    type: string
+                  customerManagedKeyRef:
+                    description: Reference to a CryptoKey in kms to populate customerManagedKey.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: Resolution specifies whether resolution of
+                              this reference is required. The default is 'Required',
+                              which means the reconcile will fail if the reference
+                              cannot be resolved. 'Optional' means this reference
+                              will be a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: Resolve specifies when this reference should
+                              be resolved. The default is 'IfNotPresent', which will
+                              attempt to resolve the reference only when the corresponding
+                              field is not present. Use 'Always' to resolve the reference
+                              on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  customerManagedKeySelector:
+                    description: Selector for a CryptoKey in kms to populate customerManagedKey.
+                    properties:
+                      matchControllerRef:
+                        description: MatchControllerRef ensures an object with the
+                          same controller reference as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: Resolution specifies whether resolution of
+                              this reference is required. The default is 'Required',
+                              which means the reconcile will fail if the reference
+                              cannot be resolved. 'Optional' means this reference
+                              will be a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: Resolve specifies when this reference should
+                              be resolved. The default is 'IfNotPresent', which will
+                              attempt to resolve the reference only when the corresponding
+                              field is not present. Use 'Always' to resolve the reference
+                              on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
                   displayName:
                     description: An arbitrary and optional user-provided name for
                       the instance.
@@ -164,6 +242,29 @@ spec:
                   memorySizeGb:
                     description: Redis memory size in GiB.
                     type: number
+                  persistenceConfig:
+                    description: Persistence configuration for an instance. Structure
+                      is documented below.
+                    items:
+                      properties:
+                        persistenceMode:
+                          description: Optional. Controls whether Persistence features
+                            are enabled. If not provided, the existing value will
+                            be used.
+                          type: string
+                        rdbSnapshotPeriod:
+                          description: Optional. Available snapshot periods for scheduling.
+                          type: string
+                        rdbSnapshotStartTime:
+                          description: 'Optional. Date and time that the first snapshot
+                            was/will be attempted, and to which future snapshots will
+                            be aligned. If not provided, the current time will be
+                            used. A timestamp in RFC3339 UTC "Zulu" format, with nanosecond
+                            resolution and up to nine fractional digits. Examples:
+                            "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z".'
+                          type: string
+                      type: object
+                    type: array
                   project:
                     description: The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
@@ -484,6 +585,20 @@ spec:
                           type: string
                         zone:
                           description: Location of the node.
+                          type: string
+                      type: object
+                    type: array
+                  persistenceConfig:
+                    description: Persistence configuration for an instance. Structure
+                      is documented below.
+                    items:
+                      properties:
+                        rdbNextSnapshotTime:
+                          description: 'Output only. The next time that a snapshot
+                            attempt is scheduled to occur. A timestamp in RFC3339
+                            UTC "Zulu" format, with nanosecond resolution and up to
+                            nine fractional digits. Examples: "2014-10-02T15:01:23Z"
+                            and "2014-10-02T15:01:23.045123456Z".'
                           type: string
                       type: object
                     type: array

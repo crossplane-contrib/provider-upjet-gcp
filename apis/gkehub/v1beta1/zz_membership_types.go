@@ -72,7 +72,7 @@ type GkeClusterParameters struct {
 
 type MembershipObservation struct {
 
-	// an identifier for the resource with format {{name}}
+	// an identifier for the resource with format projects/{{project}}/locations/global/memberships/{{membership_id}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// The unique identifier of the membership.

@@ -77,9 +77,16 @@ type FunctionParameters struct {
 	// +kubebuilder:validation:Optional
 	BuildEnvironmentVariables map[string]string `json:"buildEnvironmentVariables,omitempty" tf:"build_environment_variables,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	BuildWorkerPool *string `json:"buildWorkerPool,omitempty" tf:"build_worker_pool,omitempty"`
+
 	// Description of the function.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Docker Registry to use for storing the function's Docker images. Allowed values are CONTAINER_REGISTRY (default) and ARTIFACT_REGISTRY.
+	// +kubebuilder:validation:Optional
+	DockerRegistry *string `json:"dockerRegistry,omitempty" tf:"docker_registry,omitempty"`
 
 	// User managed repository created in Artifact Registry optionally with a customer managed encryption key. If specified, deployments will use Artifact Registry. This is the repository to which the function docker image will be pushed after it is built by Cloud Build. If unspecified, Container Registry will be used by default, unless specified otherwise by other means.
 	// +kubebuilder:validation:Optional
@@ -97,6 +104,7 @@ type FunctionParameters struct {
 	// +kubebuilder:validation:Optional
 	EventTrigger []EventTriggerParameters `json:"eventTrigger,omitempty" tf:"event_trigger,omitempty"`
 
+	// The security level for the function. The following options are available:
 	// +kubebuilder:validation:Optional
 	HTTPSTriggerSecurityLevel *string `json:"httpsTriggerSecurityLevel,omitempty" tf:"https_trigger_security_level,omitempty"`
 

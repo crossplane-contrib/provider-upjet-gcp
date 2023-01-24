@@ -133,6 +133,25 @@ func (mg *CertificateAuthority) ResolveReferences(ctx context.Context, c client.
 	mg.Spec.ForProvider.Pool = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.PoolRef = rsp.ResolvedReference
 
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.SubordinateConfig); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.SubordinateConfig[i3].CertificateAuthority),
+			Extract:      resource.ExtractParamPath("name", true),
+			Reference:    mg.Spec.ForProvider.SubordinateConfig[i3].CertificateAuthorityRef,
+			Selector:     mg.Spec.ForProvider.SubordinateConfig[i3].CertificateAuthoritySelector,
+			To: reference.To{
+				List:    &CertificateAuthorityList{},
+				Managed: &CertificateAuthority{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.SubordinateConfig[i3].CertificateAuthority")
+		}
+		mg.Spec.ForProvider.SubordinateConfig[i3].CertificateAuthority = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.SubordinateConfig[i3].CertificateAuthorityRef = rsp.ResolvedReference
+
+	}
+
 	return nil
 }
 

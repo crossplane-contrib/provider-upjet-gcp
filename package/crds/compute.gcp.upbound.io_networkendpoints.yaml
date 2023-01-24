@@ -240,7 +240,6 @@ spec:
                     type: string
                 required:
                 - ipAddress
-                - port
                 type: object
               providerConfigRef:
                 default:

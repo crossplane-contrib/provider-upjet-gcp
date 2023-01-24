@@ -22,9 +22,15 @@ package apis
 import (
 	"k8s.io/apimachinery/pkg/runtime"
 
-	v1beta1 "github.com/upbound/provider-gcp/apis/appengine/v1beta1"
+	v1beta1 "github.com/upbound/provider-gcp/apis/activedirectory/v1beta1"
+	v1beta1apigee "github.com/upbound/provider-gcp/apis/apigee/v1beta1"
+	v1beta1appengine "github.com/upbound/provider-gcp/apis/appengine/v1beta1"
 	v1beta1bigquery "github.com/upbound/provider-gcp/apis/bigquery/v1beta1"
+	v1beta1bigtable "github.com/upbound/provider-gcp/apis/bigtable/v1beta1"
+	v1beta1binaryauthorization "github.com/upbound/provider-gcp/apis/binaryauthorization/v1beta1"
+	v1beta1cloudbuild "github.com/upbound/provider-gcp/apis/cloudbuild/v1beta1"
 	v1beta1cloudfunctions "github.com/upbound/provider-gcp/apis/cloudfunctions/v1beta1"
+	v1beta1cloudiot "github.com/upbound/provider-gcp/apis/cloudiot/v1beta1"
 	v1beta1cloudplatform "github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1"
 	v1beta1cloudrun "github.com/upbound/provider-gcp/apis/cloudrun/v1beta1"
 	v1beta1cloudscheduler "github.com/upbound/provider-gcp/apis/cloudscheduler/v1beta1"
@@ -37,6 +43,9 @@ import (
 	v1beta1containerazure "github.com/upbound/provider-gcp/apis/containerazure/v1beta1"
 	v1beta1datacatalog "github.com/upbound/provider-gcp/apis/datacatalog/v1beta1"
 	v1beta1dataflow "github.com/upbound/provider-gcp/apis/dataflow/v1beta1"
+	v1beta1datafusion "github.com/upbound/provider-gcp/apis/datafusion/v1beta1"
+	v1beta1dataproc "github.com/upbound/provider-gcp/apis/dataproc/v1beta1"
+	v1beta1datastore "github.com/upbound/provider-gcp/apis/datastore/v1beta1"
 	v1beta1dialogflowcx "github.com/upbound/provider-gcp/apis/dialogflowcx/v1beta1"
 	v1beta1dns "github.com/upbound/provider-gcp/apis/dns/v1beta1"
 	v1beta1essentialcontacts "github.com/upbound/provider-gcp/apis/essentialcontacts/v1beta1"
@@ -48,7 +57,11 @@ import (
 	v1beta1iap "github.com/upbound/provider-gcp/apis/iap/v1beta1"
 	v1beta1identityplatform "github.com/upbound/provider-gcp/apis/identityplatform/v1beta1"
 	v1beta1kms "github.com/upbound/provider-gcp/apis/kms/v1beta1"
+	v1beta1memcache "github.com/upbound/provider-gcp/apis/memcache/v1beta1"
+	v1beta1mlengine "github.com/upbound/provider-gcp/apis/mlengine/v1beta1"
 	v1beta1monitoring "github.com/upbound/provider-gcp/apis/monitoring/v1beta1"
+	v1beta1networkconnectivity "github.com/upbound/provider-gcp/apis/networkconnectivity/v1beta1"
+	v1beta1networkmanagement "github.com/upbound/provider-gcp/apis/networkmanagement/v1beta1"
 	v1beta1notebooks "github.com/upbound/provider-gcp/apis/notebooks/v1beta1"
 	v1beta1osconfig "github.com/upbound/provider-gcp/apis/osconfig/v1beta1"
 	v1beta1oslogin "github.com/upbound/provider-gcp/apis/oslogin/v1beta1"
@@ -69,8 +82,14 @@ func init() {
 	// Register the types with the Scheme so the components can map objects to GroupVersionKinds and back
 	AddToSchemes = append(AddToSchemes,
 		v1beta1.SchemeBuilder.AddToScheme,
+		v1beta1apigee.SchemeBuilder.AddToScheme,
+		v1beta1appengine.SchemeBuilder.AddToScheme,
 		v1beta1bigquery.SchemeBuilder.AddToScheme,
+		v1beta1bigtable.SchemeBuilder.AddToScheme,
+		v1beta1binaryauthorization.SchemeBuilder.AddToScheme,
+		v1beta1cloudbuild.SchemeBuilder.AddToScheme,
 		v1beta1cloudfunctions.SchemeBuilder.AddToScheme,
+		v1beta1cloudiot.SchemeBuilder.AddToScheme,
 		v1beta1cloudplatform.SchemeBuilder.AddToScheme,
 		v1beta1cloudrun.SchemeBuilder.AddToScheme,
 		v1beta1cloudscheduler.SchemeBuilder.AddToScheme,
@@ -83,6 +102,9 @@ func init() {
 		v1beta1containerazure.SchemeBuilder.AddToScheme,
 		v1beta1datacatalog.SchemeBuilder.AddToScheme,
 		v1beta1dataflow.SchemeBuilder.AddToScheme,
+		v1beta1datafusion.SchemeBuilder.AddToScheme,
+		v1beta1dataproc.SchemeBuilder.AddToScheme,
+		v1beta1datastore.SchemeBuilder.AddToScheme,
 		v1beta1dialogflowcx.SchemeBuilder.AddToScheme,
 		v1beta1dns.SchemeBuilder.AddToScheme,
 		v1beta1essentialcontacts.SchemeBuilder.AddToScheme,
@@ -94,7 +116,11 @@ func init() {
 		v1beta1iap.SchemeBuilder.AddToScheme,
 		v1beta1identityplatform.SchemeBuilder.AddToScheme,
 		v1beta1kms.SchemeBuilder.AddToScheme,
+		v1beta1memcache.SchemeBuilder.AddToScheme,
+		v1beta1mlengine.SchemeBuilder.AddToScheme,
 		v1beta1monitoring.SchemeBuilder.AddToScheme,
+		v1beta1networkconnectivity.SchemeBuilder.AddToScheme,
+		v1beta1networkmanagement.SchemeBuilder.AddToScheme,
 		v1beta1notebooks.SchemeBuilder.AddToScheme,
 		v1beta1osconfig.SchemeBuilder.AddToScheme,
 		v1beta1oslogin.SchemeBuilder.AddToScheme,

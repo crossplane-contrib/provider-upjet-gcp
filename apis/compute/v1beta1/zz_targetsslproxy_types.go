@@ -56,6 +56,12 @@ type TargetSSLProxyParameters struct {
 	// +kubebuilder:validation:Optional
 	BackendServiceSelector *v1.Selector `json:"backendServiceSelector,omitempty" tf:"-"`
 
+	// A reference to the CertificateMap resource uri that identifies a certificate map
+	// associated with the given target proxy. This field can only be set for global target proxies.
+	// Accepted format is //certificatemanager.googleapis.com/projects/{project}/locations/{location}/certificateMaps/{resourceName}.
+	// +kubebuilder:validation:Optional
+	CertificateMap *string `json:"certificateMap,omitempty" tf:"certificate_map,omitempty"`
+
 	// An optional description of this resource.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`

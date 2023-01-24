@@ -44,9 +44,8 @@ type InstanceGroupParameters struct {
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// List of instances in the group. They should be given
-	// as either self_link or id. When adding instances they must all be in the same
-	// network and zone as the instance group.
+	// The list of instances in the group, in self_link format.
+	// When adding instances they must all be in the same network and zone as the instance group.
 	// +kubebuilder:validation:Optional
 	Instances []*string `json:"instances,omitempty" tf:"instances,omitempty"`
 

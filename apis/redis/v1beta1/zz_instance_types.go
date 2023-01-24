@@ -59,6 +59,11 @@ type InstanceObservation struct {
 	// Structure is documented below.
 	Nodes []NodesObservation `json:"nodes,omitempty" tf:"nodes,omitempty"`
 
+	// Persistence configuration for an instance.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	PersistenceConfig []PersistenceConfigObservation `json:"persistenceConfig,omitempty" tf:"persistence_config,omitempty"`
+
 	// Output only. Cloud IAM identity used by import / export operations
 	// to transfer data to/from Cloud Storage. Format is "serviceAccount:".
 	// The value may change over time for a given instance so should be
@@ -109,6 +114,21 @@ type InstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	ConnectMode *string `json:"connectMode,omitempty" tf:"connect_mode,omitempty"`
 
+	// Optional. The KMS key reference that you want to use to encrypt the data at rest for this Redis
+	// instance. If this is provided, CMEK is enabled.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/kms/v1beta1.CryptoKey
+	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
+	// +kubebuilder:validation:Optional
+	CustomerManagedKey *string `json:"customerManagedKey,omitempty" tf:"customer_managed_key,omitempty"`
+
+	// Reference to a CryptoKey in kms to populate customerManagedKey.
+	// +kubebuilder:validation:Optional
+	CustomerManagedKeyRef *v1.Reference `json:"customerManagedKeyRef,omitempty" tf:"-"`
+
+	// Selector for a CryptoKey in kms to populate customerManagedKey.
+	// +kubebuilder:validation:Optional
+	CustomerManagedKeySelector *v1.Selector `json:"customerManagedKeySelector,omitempty" tf:"-"`
+
 	// An arbitrary and optional user-provided name for the instance.
 	// +kubebuilder:validation:Optional
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
@@ -138,6 +158,11 @@ type InstanceParameters struct {
 	// Redis memory size in GiB.
 	// +kubebuilder:validation:Required
 	MemorySizeGb *float64 `json:"memorySizeGb" tf:"memory_size_gb,omitempty"`
+
+	// Persistence configuration for an instance.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	PersistenceConfig []PersistenceConfigParameters `json:"persistenceConfig,omitempty" tf:"persistence_config,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -264,6 +289,35 @@ type NodesObservation struct {
 }
 
 type NodesParameters struct {
+}
+
+type PersistenceConfigObservation struct {
+
+	// Output only. The next time that a snapshot attempt is scheduled to occur.
+	// A timestamp in RFC3339 UTC "Zulu" format, with nanosecond resolution and up
+	// to nine fractional digits.
+	// Examples: "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z".
+	RdbNextSnapshotTime *string `json:"rdbNextSnapshotTime,omitempty" tf:"rdb_next_snapshot_time,omitempty"`
+}
+
+type PersistenceConfigParameters struct {
+
+	// Optional. Controls whether Persistence features are enabled. If not provided, the existing value will be used.
+	// +kubebuilder:validation:Optional
+	PersistenceMode *string `json:"persistenceMode,omitempty" tf:"persistence_mode,omitempty"`
+
+	// Optional. Available snapshot periods for scheduling.
+	// +kubebuilder:validation:Optional
+	RdbSnapshotPeriod *string `json:"rdbSnapshotPeriod,omitempty" tf:"rdb_snapshot_period,omitempty"`
+
+	// Optional. Date and time that the first snapshot was/will be attempted,
+	// and to which future snapshots will be aligned. If not provided,
+	// the current time will be used.
+	// A timestamp in RFC3339 UTC "Zulu" format, with nanosecond resolution
+	// and up to nine fractional digits.
+	// Examples: "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z".
+	// +kubebuilder:validation:Optional
+	RdbSnapshotStartTime *string `json:"rdbSnapshotStartTime,omitempty" tf:"rdb_snapshot_start_time,omitempty"`
 }
 
 type ServerCACertsObservation struct {

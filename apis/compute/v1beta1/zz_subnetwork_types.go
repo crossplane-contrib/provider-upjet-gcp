@@ -129,7 +129,7 @@ type SubnetworkParameters_2 struct {
 	// The access type of IPv6 address this subnet holds. It's immutable and can only be specified during creation
 	// or the first time the subnet is updated into IPV4_IPV6 dual stack. If the ipv6_type is EXTERNAL then this subnet
 	// cannot enable direct path.
-	// Possible values are EXTERNAL.
+	// Possible values are EXTERNAL and INTERNAL.
 	// +kubebuilder:validation:Optional
 	IPv6AccessType *string `json:"ipv6AccessType,omitempty" tf:"ipv6_access_type,omitempty"`
 

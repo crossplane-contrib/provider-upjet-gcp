@@ -183,6 +183,15 @@ spec:
                     items:
                       type: string
                     type: array
+                  listManagedInstancesResults:
+                    description: 'Pagination behavior of the listManagedInstances
+                      API method for this managed instance group. Valid values are:
+                      PAGELESS, PAGINATED. If PAGELESS (default), Pagination is disabled
+                      for the group''s listManagedInstances API method. maxResults
+                      and pageToken query parameters are ignored and all instances
+                      are returned in a single response. If PAGINATED, pagination
+                      is enabled, maxResults and pageToken query parameters are respected.'
+                    type: string
                   name:
                     description: The name of the instance group manager. Must be 1-63
                       characters long and comply with RFC1035. Supported characters

@@ -105,6 +105,15 @@ type InstanceGroupManagerParameters struct {
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// Pagination behavior of the listManagedInstances API
+	// method for this managed instance group. Valid values are: PAGELESS, PAGINATED.
+	// If PAGELESS (default), Pagination is disabled for the group's listManagedInstances API method.
+	// maxResults and pageToken query parameters are ignored and all instances are returned in a single
+	// response. If PAGINATED, pagination is enabled, maxResults and pageToken query parameters are
+	// respected.
+	// +kubebuilder:validation:Optional
+	ListManagedInstancesResults *string `json:"listManagedInstancesResults,omitempty" tf:"list_managed_instances_results,omitempty"`
+
 	// The named port configuration. See the section below
 	// for details on configuration.
 	// +kubebuilder:validation:Optional
@@ -115,7 +124,7 @@ type InstanceGroupManagerParameters struct {
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
-	// ) Disks created on the instances that will be preserved on instance delete, update, etc. Structure is documented below. For more information see the official documentation.
+	// Disks created on the instances that will be preserved on instance delete, update, etc. Structure is documented below. For more information see the official documentation.
 	// +kubebuilder:validation:Optional
 	StatefulDisk []StatefulDiskParameters `json:"statefulDisk,omitempty" tf:"stateful_disk,omitempty"`
 

@@ -1,0 +1,936 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.8.0
+  creationTimestamp: null
+  name: jobs.dataproc.gcp.upbound.io
+spec:
+  group: dataproc.gcp.upbound.io
+  names:
+    categories:
+    - crossplane
+    - managed
+    - gcp
+    kind: Job
+    listKind: JobList
+    plural: jobs
+    singular: job
+  scope: Cluster
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
+    - jsonPath: .metadata.annotations.crossplane\.io/external-name
+      name: EXTERNAL-NAME
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1beta1
+    schema:
+      openAPIV3Schema:
+        description: Job is the Schema for the Jobs API. Manages a job resource within
+          a Dataproc cluster.
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: JobSpec defines the desired state of Job
+            properties:
+              deletionPolicy:
+                default: Delete
+                description: DeletionPolicy specifies what will happen to the underlying
+                  external when this managed resource is deleted - either "Delete"
+                  or "Orphan" the external resource.
+                enum:
+                - Orphan
+                - Delete
+                type: string
+              forProvider:
+                properties:
+                  forceDelete:
+                    description: By default, you can only delete inactive jobs within
+                      Dataproc. Setting this to true, and calling destroy, will ensure
+                      that the job is first cancelled before issuing the delete.
+                    type: boolean
+                  hadoopConfig:
+                    items:
+                      properties:
+                        archiveUris:
+                          description: HCFS URIs of archives to be extracted in the
+                            working directory of .jar, .tar, .tar.gz, .tgz, and .zip.
+                          items:
+                            type: string
+                          type: array
+                        args:
+                          description: The arguments to pass to the driver. Do not
+                            include arguments, such as -libjars or -Dfoo=bar, that
+                            can be set as job properties, since a collision may occur
+                            that causes an incorrect job submission.
+                          items:
+                            type: string
+                          type: array
+                        fileUris:
+                          description: HCFS URIs of files to be copied to the working
+                            directory of Hadoop drivers and distributed tasks. Useful
+                            for naively parallel tasks.
+                          items:
+                            type: string
+                          type: array
+                        jarFileUris:
+                          description: HCFS URIs of jar files to add to the CLASSPATHs
+                            of the Spark driver and tasks.
+                          items:
+                            type: string
+                          type: array
+                        loggingConfig:
+                          items:
+                            properties:
+                              driverLogLevels:
+                                additionalProperties:
+                                  type: string
+                                description: 'The per-package log levels for the driver.
+                                  This may include ''root'' package name to configure
+                                  rootLogger. Examples: ''com.google = FATAL'', ''root
+                                  = INFO'', ''org.apache = DEBUG'''
+                                type: object
+                            required:
+                            - driverLogLevels
+                            type: object
+                          type: array
+                        mainClass:
+                          description: The name of the driver's main class. The jar
+                            file containing the class must be in the default CLASSPATH
+                            or specified in jar_file_uris. Conflicts with main_jar_file_uri
+                          type: string
+                        mainJarFileUri:
+                          description: 'The HCFS URI of the jar file containing the
+                            main class. Examples: ''gs://foo-bucket/analytics-binaries/extract-useful-metrics-mr.jar''
+                            ''hdfs:/tmp/test-samples/custom-wordcount.jar'' ''file:///home/usr/lib/hadoop-mapreduce/hadoop-mapreduce-examples.jar''.
+                            Conflicts with main_class'
+                          type: string
+                        properties:
+                          additionalProperties:
+                            type: string
+                          description: A mapping of property names to values, used
+                            to configure Hadoop. Properties that conflict with values
+                            set by the Cloud Dataproc API may be overwritten. Can
+                            include properties set in /etc/hadoop/conf/*-site and
+                            classes in user code..
+                          type: object
+                      type: object
+                    type: array
+                  hiveConfig:
+                    items:
+                      properties:
+                        continueOnFailure:
+                          description: Whether to continue executing queries if a
+                            query fails. The default value is false. Setting to true
+                            can be useful when executing independent parallel queries.
+                            Defaults to false.
+                          type: boolean
+                        jarFileUris:
+                          description: HCFS URIs of jar files to add to the CLASSPATH
+                            of the Hive server and Hadoop MapReduce (MR) tasks. Can
+                            contain Hive SerDes and UDFs.
+                          items:
+                            type: string
+                          type: array
+                        properties:
+                          additionalProperties:
+                            type: string
+                          description: A mapping of property names and values, used
+                            to configure Hive. Properties that conflict with values
+                            set by the Cloud Dataproc API may be overwritten. Can
+                            include properties set in /etc/hadoop/conf/*-site.xml,
+                            /etc/hive/conf/hive-site.xml, and classes in user code..
+                          type: object
+                        queryFileUri:
+                          description: HCFS URI of file containing Hive script to
+                            execute as the job. Conflicts with query_list
+                          type: string
+                        queryList:
+                          description: The list of Hive queries or statements to execute
+                            as part of the job. Conflicts with query_file_uri
+                          items:
+                            type: string
+                          type: array
+                        scriptVariables:
+                          additionalProperties:
+                            type: string
+                          description: 'Mapping of query variable names to values
+                            (equivalent to the Hive command: SET name="value";).'
+                          type: object
+                      type: object
+                    type: array
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: The list of labels (key/value pairs) to add to the
+                      job.
+                    type: object
+                  pigConfig:
+                    items:
+                      properties:
+                        continueOnFailure:
+                          description: Whether to continue executing queries if a
+                            query fails. The default value is false. Setting to true
+                            can be useful when executing independent parallel queries.
+                            Defaults to false.
+                          type: boolean
+                        jarFileUris:
+                          description: HCFS URIs of jar files to add to the CLASSPATH
+                            of the Pig Client and Hadoop MapReduce (MR) tasks. Can
+                            contain Pig UDFs.
+                          items:
+                            type: string
+                          type: array
+                        loggingConfig:
+                          items:
+                            properties:
+                              driverLogLevels:
+                                additionalProperties:
+                                  type: string
+                                description: 'The per-package log levels for the driver.
+                                  This may include ''root'' package name to configure
+                                  rootLogger. Examples: ''com.google = FATAL'', ''root
+                                  = INFO'', ''org.apache = DEBUG'''
+                                type: object
+                            required:
+                            - driverLogLevels
+                            type: object
+                          type: array
+                        properties:
+                          additionalProperties:
+                            type: string
+                          description: A mapping of property names to values, used
+                            to configure Pig. Properties that conflict with values
+                            set by the Cloud Dataproc API may be overwritten. Can
+                            include properties set in /etc/hadoop/conf/*-site.xml,
+                            /etc/pig/conf/pig.properties, and classes in user code.
+                          type: object
+                        queryFileUri:
+                          description: HCFS URI of file containing Hive script to
+                            execute as the job. Conflicts with query_list
+                          type: string
+                        queryList:
+                          description: The list of Hive queries or statements to execute
+                            as part of the job. Conflicts with query_file_uri
+                          items:
+                            type: string
+                          type: array
+                        scriptVariables:
+                          additionalProperties:
+                            type: string
+                          description: 'Mapping of query variable names to values
+                            (equivalent to the Pig command: name=[value]).'
+                          type: object
+                      type: object
+                    type: array
+                  placement:
+                    items:
+                      properties:
+                        clusterName:
+                          description: The name of the cluster where the job will
+                            be submitted.
+                          type: string
+                        clusterNameRef:
+                          description: Reference to a Cluster in dataproc to populate
+                            clusterName.
+                          properties:
+                            name:
+                              description: Name of the referenced object.
+                              type: string
+                            policy:
+                              description: Policies for referencing.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: Resolution specifies whether resolution
+                                    of this reference is required. The default is
+                                    'Required', which means the reconcile will fail
+                                    if the reference cannot be resolved. 'Optional'
+                                    means this reference will be a no-op if it cannot
+                                    be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: Resolve specifies when this reference
+                                    should be resolved. The default is 'IfNotPresent',
+                                    which will attempt to resolve the reference only
+                                    when the corresponding field is not present. Use
+                                    'Always' to resolve the reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          required:
+                          - name
+                          type: object
+                        clusterNameSelector:
+                          description: Selector for a Cluster in dataproc to populate
+                            clusterName.
+                          properties:
+                            matchControllerRef:
+                              description: MatchControllerRef ensures an object with
+                                the same controller reference as the selecting object
+                                is selected.
+                              type: boolean
+                            matchLabels:
+                              additionalProperties:
+                                type: string
+                              description: MatchLabels ensures an object with matching
+                                labels is selected.
+                              type: object
+                            policy:
+                              description: Policies for selection.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: Resolution specifies whether resolution
+                                    of this reference is required. The default is
+                                    'Required', which means the reconcile will fail
+                                    if the reference cannot be resolved. 'Optional'
+                                    means this reference will be a no-op if it cannot
+                                    be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: Resolve specifies when this reference
+                                    should be resolved. The default is 'IfNotPresent',
+                                    which will attempt to resolve the reference only
+                                    when the corresponding field is not present. Use
+                                    'Always' to resolve the reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          type: object
+                      type: object
+                    type: array
+                  prestoConfig:
+                    items:
+                      properties:
+                        clientTags:
+                          description: Presto client tags to attach to this query.
+                          items:
+                            type: string
+                          type: array
+                        continueOnFailure:
+                          description: Whether to continue executing queries if a
+                            query fails. Setting to true can be useful when executing
+                            independent parallel queries. Defaults to false.
+                          type: boolean
+                        loggingConfig:
+                          items:
+                            properties:
+                              driverLogLevels:
+                                additionalProperties:
+                                  type: string
+                                description: 'The per-package log levels for the driver.
+                                  This may include ''root'' package name to configure
+                                  rootLogger. Examples: ''com.google = FATAL'', ''root
+                                  = INFO'', ''org.apache = DEBUG'''
+                                type: object
+                            required:
+                            - driverLogLevels
+                            type: object
+                          type: array
+                        outputFormat:
+                          description: The format in which query output will be displayed.
+                            See the Presto documentation for supported output formats.
+                          type: string
+                        properties:
+                          additionalProperties:
+                            type: string
+                          description: A mapping of property names to values. Used
+                            to set Presto session properties Equivalent to using the
+                            --session flag in the Presto CLI.
+                          type: object
+                        queryFileUri:
+                          description: The HCFS URI of the script that contains SQL
+                            queries. Conflicts with query_list
+                          type: string
+                        queryList:
+                          description: The list of SQL queries or statements to execute
+                            as part of the job. Conflicts with query_file_uri
+                          items:
+                            type: string
+                          type: array
+                      type: object
+                    type: array
+                  project:
+                    description: The project in which the cluster can be found and
+                      jobs subsequently run against. If it is not provided, the provider
+                      project is used.
+                    type: string
+                  pysparkConfig:
+                    items:
+                      properties:
+                        archiveUris:
+                          description: HCFS URIs of archives to be extracted in the
+                            working directory of .jar, .tar, .tar.gz, .tgz, and .zip.
+                          items:
+                            type: string
+                          type: array
+                        args:
+                          description: The arguments to pass to the driver.
+                          items:
+                            type: string
+                          type: array
+                        fileUris:
+                          description: HCFS URIs of files to be copied to the working
+                            directory of Python drivers and distributed tasks. Useful
+                            for naively parallel tasks.
+                          items:
+                            type: string
+                          type: array
+                        jarFileUris:
+                          description: HCFS URIs of jar files to add to the CLASSPATHs
+                            of the Python driver and tasks.
+                          items:
+                            type: string
+                          type: array
+                        loggingConfig:
+                          items:
+                            properties:
+                              driverLogLevels:
+                                additionalProperties:
+                                  type: string
+                                description: 'The per-package log levels for the driver.
+                                  This may include ''root'' package name to configure
+                                  rootLogger. Examples: ''com.google = FATAL'', ''root
+                                  = INFO'', ''org.apache = DEBUG'''
+                                type: object
+                            required:
+                            - driverLogLevels
+                            type: object
+                          type: array
+                        mainPythonFileUri:
+                          description: The HCFS URI of the main Python file to use
+                            as the driver. Must be a .py file.
+                          type: string
+                        properties:
+                          additionalProperties:
+                            type: string
+                          description: A mapping of property names to values, used
+                            to configure PySpark. Properties that conflict with values
+                            set by the Cloud Dataproc API may be overwritten. Can
+                            include properties set in /etc/spark/conf/spark-defaults.conf
+                            and classes in user code.
+                          type: object
+                        pythonFileUris:
+                          description: 'HCFS file URIs of Python files to pass to
+                            the PySpark framework. Supported file types: .py, .egg,
+                            and .zip.'
+                          items:
+                            type: string
+                          type: array
+                      required:
+                      - mainPythonFileUri
+                      type: object
+                    type: array
+                  reference:
+                    items:
+                      properties:
+                        jobId:
+                          type: string
+                      type: object
+                    type: array
+                  region:
+                    description: The Cloud Dataproc region. This essentially determines
+                      which clusters are available for this job to be submitted to.
+                      If not specified, defaults to global.
+                    type: string
+                  regionRef:
+                    description: Reference to a Cluster in dataproc to populate region.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: Resolution specifies whether resolution of
+                              this reference is required. The default is 'Required',
+                              which means the reconcile will fail if the reference
+                              cannot be resolved. 'Optional' means this reference
+                              will be a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: Resolve specifies when this reference should
+                              be resolved. The default is 'IfNotPresent', which will
+                              attempt to resolve the reference only when the corresponding
+                              field is not present. Use 'Always' to resolve the reference
+                              on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  regionSelector:
+                    description: Selector for a Cluster in dataproc to populate region.
+                    properties:
+                      matchControllerRef:
+                        description: MatchControllerRef ensures an object with the
+                          same controller reference as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: Resolution specifies whether resolution of
+                              this reference is required. The default is 'Required',
+                              which means the reconcile will fail if the reference
+                              cannot be resolved. 'Optional' means this reference
+                              will be a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: Resolve specifies when this reference should
+                              be resolved. The default is 'IfNotPresent', which will
+                              attempt to resolve the reference only when the corresponding
+                              field is not present. Use 'Always' to resolve the reference
+                              on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  scheduling:
+                    items:
+                      properties:
+                        maxFailuresPerHour:
+                          description: Maximum number of times per hour a driver may
+                            be restarted as a result of driver exiting with non-zero
+                            code before job is reported failed.
+                          type: number
+                        maxFailuresTotal:
+                          description: Maximum number of times in total a driver may
+                            be restarted as a result of driver exiting with non-zero
+                            code before job is reported failed.
+                          type: number
+                      required:
+                      - maxFailuresPerHour
+                      - maxFailuresTotal
+                      type: object
+                    type: array
+                  sparkConfig:
+                    items:
+                      properties:
+                        archiveUris:
+                          description: HCFS URIs of archives to be extracted in the
+                            working directory of .jar, .tar, .tar.gz, .tgz, and .zip.
+                          items:
+                            type: string
+                          type: array
+                        args:
+                          description: The arguments to pass to the driver.
+                          items:
+                            type: string
+                          type: array
+                        fileUris:
+                          description: HCFS URIs of files to be copied to the working
+                            directory of Spark drivers and distributed tasks. Useful
+                            for naively parallel tasks.
+                          items:
+                            type: string
+                          type: array
+                        jarFileUris:
+                          description: HCFS URIs of jar files to add to the CLASSPATHs
+                            of the Spark driver and tasks.
+                          items:
+                            type: string
+                          type: array
+                        loggingConfig:
+                          items:
+                            properties:
+                              driverLogLevels:
+                                additionalProperties:
+                                  type: string
+                                description: 'The per-package log levels for the driver.
+                                  This may include ''root'' package name to configure
+                                  rootLogger. Examples: ''com.google = FATAL'', ''root
+                                  = INFO'', ''org.apache = DEBUG'''
+                                type: object
+                            required:
+                            - driverLogLevels
+                            type: object
+                          type: array
+                        mainClass:
+                          description: The class containing the main method of the
+                            driver. Must be in a provided jar or jar that is already
+                            on the classpath. Conflicts with main_jar_file_uri
+                          type: string
+                        mainJarFileUri:
+                          description: The HCFS URI of jar file containing the driver
+                            jar. Conflicts with main_class
+                          type: string
+                        properties:
+                          additionalProperties:
+                            type: string
+                          description: A mapping of property names to values, used
+                            to configure Spark. Properties that conflict with values
+                            set by the Cloud Dataproc API may be overwritten. Can
+                            include properties set in /etc/spark/conf/spark-defaults.conf
+                            and classes in user code.
+                          type: object
+                      type: object
+                    type: array
+                  sparksqlConfig:
+                    items:
+                      properties:
+                        jarFileUris:
+                          description: HCFS URIs of jar files to be added to the Spark
+                            CLASSPATH.
+                          items:
+                            type: string
+                          type: array
+                        loggingConfig:
+                          items:
+                            properties:
+                              driverLogLevels:
+                                additionalProperties:
+                                  type: string
+                                description: 'The per-package log levels for the driver.
+                                  This may include ''root'' package name to configure
+                                  rootLogger. Examples: ''com.google = FATAL'', ''root
+                                  = INFO'', ''org.apache = DEBUG'''
+                                type: object
+                            required:
+                            - driverLogLevels
+                            type: object
+                          type: array
+                        properties:
+                          additionalProperties:
+                            type: string
+                          description: A mapping of property names to values, used
+                            to configure Spark SQL's SparkConf. Properties that conflict
+                            with values set by the Cloud Dataproc API may be overwritten.
+                          type: object
+                        queryFileUri:
+                          description: The HCFS URI of the script that contains SQL
+                            queries. Conflicts with query_list
+                          type: string
+                        queryList:
+                          description: The list of SQL queries or statements to execute
+                            as part of the job. Conflicts with query_file_uri
+                          items:
+                            type: string
+                          type: array
+                        scriptVariables:
+                          additionalProperties:
+                            type: string
+                          description: 'Mapping of query variable names to values
+                            (equivalent to the Spark SQL command: SET name="value";).'
+                          type: object
+                      type: object
+                    type: array
+                required:
+                - placement
+                type: object
+              providerConfigRef:
+                default:
+                  name: default
+                description: ProviderConfigReference specifies how the provider that
+                  will be used to create, observe, update, and delete this managed
+                  resource should be configured.
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                  policy:
+                    description: Policies for referencing.
+                    properties:
+                      resolution:
+                        default: Required
+                        description: Resolution specifies whether resolution of this
+                          reference is required. The default is 'Required', which
+                          means the reconcile will fail if the reference cannot be
+                          resolved. 'Optional' means this reference will be a no-op
+                          if it cannot be resolved.
+                        enum:
+                        - Required
+                        - Optional
+                        type: string
+                      resolve:
+                        description: Resolve specifies when this reference should
+                          be resolved. The default is 'IfNotPresent', which will attempt
+                          to resolve the reference only when the corresponding field
+                          is not present. Use 'Always' to resolve the reference on
+                          every reconcile.
+                        enum:
+                        - Always
+                        - IfNotPresent
+                        type: string
+                    type: object
+                required:
+                - name
+                type: object
+              providerRef:
+                description: 'ProviderReference specifies the provider that will be
+                  used to create, observe, update, and delete this managed resource.
+                  Deprecated: Please use ProviderConfigReference, i.e. `providerConfigRef`'
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                  policy:
+                    description: Policies for referencing.
+                    properties:
+                      resolution:
+                        default: Required
+                        description: Resolution specifies whether resolution of this
+                          reference is required. The default is 'Required', which
+                          means the reconcile will fail if the reference cannot be
+                          resolved. 'Optional' means this reference will be a no-op
+                          if it cannot be resolved.
+                        enum:
+                        - Required
+                        - Optional
+                        type: string
+                      resolve:
+                        description: Resolve specifies when this reference should
+                          be resolved. The default is 'IfNotPresent', which will attempt
+                          to resolve the reference only when the corresponding field
+                          is not present. Use 'Always' to resolve the reference on
+                          every reconcile.
+                        enum:
+                        - Always
+                        - IfNotPresent
+                        type: string
+                    type: object
+                required:
+                - name
+                type: object
+              publishConnectionDetailsTo:
+                description: PublishConnectionDetailsTo specifies the connection secret
+                  config which contains a name, metadata and a reference to secret
+                  store config to which any connection details for this managed resource
+                  should be written. Connection details frequently include the endpoint,
+                  username, and password required to connect to the managed resource.
+                properties:
+                  configRef:
+                    default:
+                      name: default
+                    description: SecretStoreConfigRef specifies which secret store
+                      config should be used for this ConnectionSecret.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: Resolution specifies whether resolution of
+                              this reference is required. The default is 'Required',
+                              which means the reconcile will fail if the reference
+                              cannot be resolved. 'Optional' means this reference
+                              will be a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: Resolve specifies when this reference should
+                              be resolved. The default is 'IfNotPresent', which will
+                              attempt to resolve the reference only when the corresponding
+                              field is not present. Use 'Always' to resolve the reference
+                              on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  metadata:
+                    description: Metadata is the metadata for connection secret.
+                    properties:
+                      annotations:
+                        additionalProperties:
+                          type: string
+                        description: Annotations are the annotations to be added to
+                          connection secret. - For Kubernetes secrets, this will be
+                          used as "metadata.annotations". - It is up to Secret Store
+                          implementation for others store types.
+                        type: object
+                      labels:
+                        additionalProperties:
+                          type: string
+                        description: Labels are the labels/tags to be added to connection
+                          secret. - For Kubernetes secrets, this will be used as "metadata.labels".
+                          - It is up to Secret Store implementation for others store
+                          types.
+                        type: object
+                      type:
+                        description: Type is the SecretType for the connection secret.
+                          - Only valid for Kubernetes Secret Stores.
+                        type: string
+                    type: object
+                  name:
+                    description: Name is the name of the connection secret.
+                    type: string
+                required:
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: WriteConnectionSecretToReference specifies the namespace
+                  and name of a Secret to which any connection details for this managed
+                  resource should be written. Connection details frequently include
+                  the endpoint, username, and password required to connect to the
+                  managed resource. This field is planned to be replaced in a future
+                  release in favor of PublishConnectionDetailsTo. Currently, both
+                  could be set independently and connection details would be published
+                  to both without affecting each other.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                  namespace:
+                    description: Namespace of the secret.
+                    type: string
+                required:
+                - name
+                - namespace
+                type: object
+            required:
+            - forProvider
+            type: object
+          status:
+            description: JobStatus defines the observed state of Job.
+            properties:
+              atProvider:
+                properties:
+                  driverControlsFilesUri:
+                    description: If present, the location of miscellaneous control
+                      files which may be used as part of job setup and handling. If
+                      not present, control files may be placed in the same location
+                      as driver_output_uri.
+                    type: string
+                  driverOutputResourceUri:
+                    description: A URI pointing to the location of the stdout of the
+                      job's driver program.
+                    type: string
+                  id:
+                    type: string
+                  placement:
+                    items:
+                      properties:
+                        clusterUuid:
+                          description: A cluster UUID generated by the Cloud Dataproc
+                            service when the job is submitted.
+                          type: string
+                      type: object
+                    type: array
+                  status:
+                    items:
+                      properties:
+                        details:
+                          description: Optional job state details, such as an error
+                            description if the state is ERROR.
+                          type: string
+                        state:
+                          description: A state message specifying the overall job
+                            state.
+                          type: string
+                        stateStartTime:
+                          description: The time when this state was entered.
+                          type: string
+                        substate:
+                          description: Additional state information, which includes
+                            status reported by the agent.
+                          type: string
+                      type: object
+                    type: array
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: LastTransitionTime is the last time this condition
+                        transitioned from one status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: A Message containing details about this condition's
+                        last transition from one status to another, if any.
+                      type: string
+                    reason:
+                      description: A Reason for this condition's last transition from
+                        one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True,
+                        False, or Unknown?
+                      type: string
+                    type:
+                      description: Type of this condition. At most one of each condition
+                        type may apply to a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []

@@ -111,6 +111,15 @@ type RegionInstanceGroupManagerParameters struct {
 	// +kubebuilder:validation:Optional
 	DistributionPolicyZones []*string `json:"distributionPolicyZones,omitempty" tf:"distribution_policy_zones,omitempty"`
 
+	// Pagination behavior of the listManagedInstances API
+	// method for this managed instance group. Valid values are: PAGELESS, PAGINATED.
+	// If PAGELESS (default), Pagination is disabled for the group's listManagedInstances API method.
+	// maxResults and pageToken query parameters are ignored and all instances are returned in a single
+	// response. If PAGINATED, pagination is enabled, maxResults and pageToken query parameters are
+	// respected.
+	// +kubebuilder:validation:Optional
+	ListManagedInstancesResults *string `json:"listManagedInstancesResults,omitempty" tf:"list_managed_instances_results,omitempty"`
+
 	// The name of the instance group manager. Must be 1-63
 	// characters long and comply with
 	// RFC1035. Supported characters

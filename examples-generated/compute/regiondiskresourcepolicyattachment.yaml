@@ -28,7 +28,7 @@ metadata:
   name: disk
 spec:
   forProvider:
-    image: debian-cloud/debian-9
+    image: debian-cloud/debian-11
     size: 50
     type: pd-ssd
     zone: us-central1-a

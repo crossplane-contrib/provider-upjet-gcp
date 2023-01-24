@@ -71,6 +71,8 @@ spec:
                           type: boolean
                         threadsPerCore:
                           type: number
+                        visibleCoreCount:
+                          type: number
                       type: object
                     type: array
                   allowStoppingForUpdate:
@@ -441,6 +443,8 @@ spec:
                       properties:
                         automaticRestart:
                           type: boolean
+                        instanceTerminationAction:
+                          type: string
                         minNodeCpus:
                           type: number
                         nodeAffinities:

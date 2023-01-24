@@ -35,6 +35,9 @@ type ServiceAccountObservation struct {
 	// an identifier for the resource with format projects/{{project}}/serviceAccounts/{{email}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// The Identity of the service account in the form serviceAccount:{email}. This value is often used to refer to the service account in order to grant IAM permissions.
+	Member *string `json:"member,omitempty" tf:"member,omitempty"`
+
 	// The fully-qualified name of the service account.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
