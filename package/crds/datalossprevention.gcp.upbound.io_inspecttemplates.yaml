@@ -1,0 +1,784 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.8.0
+  creationTimestamp: null
+  name: inspecttemplates.datalossprevention.gcp.upbound.io
+spec:
+  group: datalossprevention.gcp.upbound.io
+  names:
+    categories:
+    - crossplane
+    - managed
+    - gcp
+    kind: InspectTemplate
+    listKind: InspectTemplateList
+    plural: inspecttemplates
+    singular: inspecttemplate
+  scope: Cluster
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
+    - jsonPath: .metadata.annotations.crossplane\.io/external-name
+      name: EXTERNAL-NAME
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1beta1
+    schema:
+      openAPIV3Schema:
+        description: InspectTemplate is the Schema for the InspectTemplates API. An
+          inspect job template.
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: InspectTemplateSpec defines the desired state of InspectTemplate
+            properties:
+              deletionPolicy:
+                default: Delete
+                description: DeletionPolicy specifies what will happen to the underlying
+                  external when this managed resource is deleted - either "Delete"
+                  or "Orphan" the external resource.
+                enum:
+                - Orphan
+                - Delete
+                type: string
+              forProvider:
+                properties:
+                  description:
+                    description: A description of the inspect template.
+                    type: string
+                  displayName:
+                    description: User set display name of the inspect template.
+                    type: string
+                  inspectConfig:
+                    description: The core content of the template. Structure is documented
+                      below.
+                    items:
+                      properties:
+                        contentOptions:
+                          description: List of options defining data content to scan.
+                            If empty, text, images, and other content will be included.
+                            Each value may be one of CONTENT_TEXT and CONTENT_IMAGE.
+                          items:
+                            type: string
+                          type: array
+                        customInfoTypes:
+                          description: Custom info types to be used. See https://cloud.google.com/dlp/docs/creating-custom-infotypes
+                            to learn more. Structure is documented below.
+                          items:
+                            properties:
+                              dictionary:
+                                description: Dictionary which defines the rule. Structure
+                                  is documented below.
+                                items:
+                                  properties:
+                                    cloudStoragePath:
+                                      description: Newline-delimited file of words
+                                        in Cloud Storage. Only a single file is accepted.
+                                        Structure is documented below.
+                                      items:
+                                        properties:
+                                          path:
+                                            description: 'A url representing a file
+                                              or path (no wildcards) in Cloud Storage.
+                                              Example: gs://[BUCKET_NAME]/dictionary.txt'
+                                            type: string
+                                        required:
+                                        - path
+                                        type: object
+                                      type: array
+                                    wordList:
+                                      description: List of words or phrases to search
+                                        for. Structure is documented below.
+                                      items:
+                                        properties:
+                                          words:
+                                            description: Words or phrases defining
+                                              the dictionary. The dictionary must
+                                              contain at least one phrase and every
+                                              phrase must contain at least 2 characters
+                                              that are letters or digits.
+                                            items:
+                                              type: string
+                                            type: array
+                                        required:
+                                        - words
+                                        type: object
+                                      type: array
+                                  type: object
+                                type: array
+                              exclusionType:
+                                description: If set to EXCLUSION_TYPE_EXCLUDE this
+                                  infoType will not cause a finding to be returned.
+                                  It still can be used for rules matching. Possible
+                                  values are EXCLUSION_TYPE_EXCLUDE.
+                                type: string
+                              infoType:
+                                description: Type of information the findings limit
+                                  applies to. Only one limit per infoType should be
+                                  provided. If InfoTypeLimit does not have an infoType,
+                                  the DLP API applies the limit against all infoTypes
+                                  that are found but not specified in another InfoTypeLimit.
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    name:
+                                      description: Resource name of the requested
+                                        StoredInfoType, for example organizations/433245324/storedInfoTypes/432452342
+                                        or projects/project-id/storedInfoTypes/432452342.
+                                      type: string
+                                  required:
+                                  - name
+                                  type: object
+                                type: array
+                              likelihood:
+                                description: Likelihood to return for this CustomInfoType.
+                                  This base value can be altered by a detection rule
+                                  if the finding meets the criteria specified by the
+                                  rule. Default value is VERY_LIKELY. Possible values
+                                  are VERY_UNLIKELY, UNLIKELY, POSSIBLE, LIKELY, and
+                                  VERY_LIKELY.
+                                type: string
+                              regex:
+                                description: Regular expression which defines the
+                                  rule. Structure is documented below.
+                                items:
+                                  properties:
+                                    groupIndexes:
+                                      description: The index of the submatch to extract
+                                        as findings. When not specified, the entire
+                                        match is returned. No more than 3 may be included.
+                                      items:
+                                        type: number
+                                      type: array
+                                    pattern:
+                                      description: Pattern defining the regular expression.
+                                        Its syntax (https://github.com/google/re2/wiki/Syntax)
+                                        can be found under the google/re2 repository
+                                        on GitHub.
+                                      type: string
+                                  required:
+                                  - pattern
+                                  type: object
+                                type: array
+                              storedType:
+                                description: A reference to a StoredInfoType to use
+                                  with scanning. Structure is documented below.
+                                items:
+                                  properties:
+                                    name:
+                                      description: Resource name of the requested
+                                        StoredInfoType, for example organizations/433245324/storedInfoTypes/432452342
+                                        or projects/project-id/storedInfoTypes/432452342.
+                                      type: string
+                                  required:
+                                  - name
+                                  type: object
+                                type: array
+                            required:
+                            - infoType
+                            type: object
+                          type: array
+                        excludeInfoTypes:
+                          description: When true, excludes type information of the
+                            findings.
+                          type: boolean
+                        includeQuote:
+                          description: When true, a contextual quote from the data
+                            that triggered a finding is included in the response.
+                          type: boolean
+                        infoTypes:
+                          description: Restricts what infoTypes to look for. The values
+                            must correspond to InfoType values returned by infoTypes.list
+                            or listed at https://cloud.google.com/dlp/docs/infotypes-reference.
+                            When no InfoTypes or CustomInfoTypes are specified in
+                            a request, the system may automatically choose what detectors
+                            to run. By default this may be all types, but may change
+                            over time as detectors are updated. Structure is documented
+                            below.
+                          items:
+                            properties:
+                              name:
+                                description: Resource name of the requested StoredInfoType,
+                                  for example organizations/433245324/storedInfoTypes/432452342
+                                  or projects/project-id/storedInfoTypes/432452342.
+                                type: string
+                              version:
+                                description: Version of the information type to use.
+                                  By default, the version is set to stable
+                                type: string
+                            required:
+                            - name
+                            type: object
+                          type: array
+                        limits:
+                          description: Configuration to control the number of findings
+                            returned. Structure is documented below.
+                          items:
+                            properties:
+                              maxFindingsPerInfoType:
+                                description: Configuration of findings limit given
+                                  for specified infoTypes. Structure is documented
+                                  below.
+                                items:
+                                  properties:
+                                    infoType:
+                                      description: Type of information the findings
+                                        limit applies to. Only one limit per infoType
+                                        should be provided. If InfoTypeLimit does
+                                        not have an infoType, the DLP API applies
+                                        the limit against all infoTypes that are found
+                                        but not specified in another InfoTypeLimit.
+                                        Structure is documented below.
+                                      items:
+                                        properties:
+                                          name:
+                                            description: Resource name of the requested
+                                              StoredInfoType, for example organizations/433245324/storedInfoTypes/432452342
+                                              or projects/project-id/storedInfoTypes/432452342.
+                                            type: string
+                                        required:
+                                        - name
+                                        type: object
+                                      type: array
+                                    maxFindings:
+                                      description: Max findings limit for the given
+                                        infoType.
+                                      type: number
+                                  required:
+                                  - infoType
+                                  - maxFindings
+                                  type: object
+                                type: array
+                              maxFindingsPerItem:
+                                description: Max number of findings that will be returned
+                                  for each item scanned. The maximum returned is 2000.
+                                type: number
+                              maxFindingsPerRequest:
+                                description: Max number of findings that will be returned
+                                  per request/job. The maximum returned is 2000.
+                                type: number
+                            required:
+                            - maxFindingsPerItem
+                            - maxFindingsPerRequest
+                            type: object
+                          type: array
+                        minLikelihood:
+                          description: Only returns findings equal or above this threshold.
+                            See https://cloud.google.com/dlp/docs/likelihood for more
+                            info Default value is POSSIBLE. Possible values are VERY_UNLIKELY,
+                            UNLIKELY, POSSIBLE, LIKELY, and VERY_LIKELY.
+                          type: string
+                        ruleSet:
+                          description: Set of rules to apply to the findings for this
+                            InspectConfig. Exclusion rules, contained in the set are
+                            executed in the end, other rules are executed in the order
+                            they are specified for each info type. Structure is documented
+                            below.
+                          items:
+                            properties:
+                              infoTypes:
+                                description: List of infoTypes this rule set is applied
+                                  to. Structure is documented below.
+                                items:
+                                  properties:
+                                    name:
+                                      description: Resource name of the requested
+                                        StoredInfoType, for example organizations/433245324/storedInfoTypes/432452342
+                                        or projects/project-id/storedInfoTypes/432452342.
+                                      type: string
+                                  required:
+                                  - name
+                                  type: object
+                                type: array
+                              rules:
+                                description: Set of rules to be applied to infoTypes.
+                                  The rules are applied in order. Structure is documented
+                                  below.
+                                items:
+                                  properties:
+                                    exclusionRule:
+                                      description: The rule that specifies conditions
+                                        when findings of infoTypes specified in InspectionRuleSet
+                                        are removed from results. Structure is documented
+                                        below.
+                                      items:
+                                        properties:
+                                          dictionary:
+                                            description: Dictionary which defines
+                                              the rule. Structure is documented below.
+                                            items:
+                                              properties:
+                                                cloudStoragePath:
+                                                  description: Newline-delimited file
+                                                    of words in Cloud Storage. Only
+                                                    a single file is accepted. Structure
+                                                    is documented below.
+                                                  items:
+                                                    properties:
+                                                      path:
+                                                        description: 'A url representing
+                                                          a file or path (no wildcards)
+                                                          in Cloud Storage. Example:
+                                                          gs://[BUCKET_NAME]/dictionary.txt'
+                                                        type: string
+                                                    required:
+                                                    - path
+                                                    type: object
+                                                  type: array
+                                                wordList:
+                                                  description: List of words or phrases
+                                                    to search for. Structure is documented
+                                                    below.
+                                                  items:
+                                                    properties:
+                                                      words:
+                                                        description: Words or phrases
+                                                          defining the dictionary.
+                                                          The dictionary must contain
+                                                          at least one phrase and
+                                                          every phrase must contain
+                                                          at least 2 characters that
+                                                          are letters or digits.
+                                                        items:
+                                                          type: string
+                                                        type: array
+                                                    required:
+                                                    - words
+                                                    type: object
+                                                  type: array
+                                              type: object
+                                            type: array
+                                          excludeInfoTypes:
+                                            description: When true, excludes type
+                                              information of the findings.
+                                            items:
+                                              properties:
+                                                infoTypes:
+                                                  description: List of infoTypes this
+                                                    rule set is applied to. Structure
+                                                    is documented below.
+                                                  items:
+                                                    properties:
+                                                      name:
+                                                        description: Resource name
+                                                          of the requested StoredInfoType,
+                                                          for example organizations/433245324/storedInfoTypes/432452342
+                                                          or projects/project-id/storedInfoTypes/432452342.
+                                                        type: string
+                                                    required:
+                                                    - name
+                                                    type: object
+                                                  type: array
+                                              required:
+                                              - infoTypes
+                                              type: object
+                                            type: array
+                                          matchingType:
+                                            description: 'How the rule is applied.
+                                              See the documentation for more information:
+                                              https://cloud.google.com/dlp/docs/reference/rest/v2/InspectConfig#MatchingType
+                                              Possible values are MATCHING_TYPE_FULL_MATCH,
+                                              MATCHING_TYPE_PARTIAL_MATCH, and MATCHING_TYPE_INVERSE_MATCH.'
+                                            type: string
+                                          regex:
+                                            description: Regular expression which
+                                              defines the rule. Structure is documented
+                                              below.
+                                            items:
+                                              properties:
+                                                groupIndexes:
+                                                  description: The index of the submatch
+                                                    to extract as findings. When not
+                                                    specified, the entire match is
+                                                    returned. No more than 3 may be
+                                                    included.
+                                                  items:
+                                                    type: number
+                                                  type: array
+                                                pattern:
+                                                  description: Pattern defining the
+                                                    regular expression. Its syntax
+                                                    (https://github.com/google/re2/wiki/Syntax)
+                                                    can be found under the google/re2
+                                                    repository on GitHub.
+                                                  type: string
+                                              required:
+                                              - pattern
+                                              type: object
+                                            type: array
+                                        required:
+                                        - matchingType
+                                        type: object
+                                      type: array
+                                    hotwordRule:
+                                      description: Hotword-based detection rule. Structure
+                                        is documented below.
+                                      items:
+                                        properties:
+                                          hotwordRegex:
+                                            description: Regular expression pattern
+                                              defining what qualifies as a hotword.
+                                              Structure is documented below.
+                                            items:
+                                              properties:
+                                                groupIndexes:
+                                                  description: The index of the submatch
+                                                    to extract as findings. When not
+                                                    specified, the entire match is
+                                                    returned. No more than 3 may be
+                                                    included.
+                                                  items:
+                                                    type: number
+                                                  type: array
+                                                pattern:
+                                                  description: Pattern defining the
+                                                    regular expression. Its syntax
+                                                    (https://github.com/google/re2/wiki/Syntax)
+                                                    can be found under the google/re2
+                                                    repository on GitHub.
+                                                  type: string
+                                              required:
+                                              - pattern
+                                              type: object
+                                            type: array
+                                          likelihoodAdjustment:
+                                            description: Likelihood adjustment to
+                                              apply to all matching findings. Structure
+                                              is documented below.
+                                            items:
+                                              properties:
+                                                fixedLikelihood:
+                                                  description: Set the likelihood
+                                                    of a finding to a fixed value.
+                                                    Either this or relative_likelihood
+                                                    can be set. Possible values are
+                                                    VERY_UNLIKELY, UNLIKELY, POSSIBLE,
+                                                    LIKELY, and VERY_LIKELY.
+                                                  type: string
+                                                relativeLikelihood:
+                                                  description: Increase or decrease
+                                                    the likelihood by the specified
+                                                    number of levels. For example,
+                                                    if a finding would be POSSIBLE
+                                                    without the detection rule and
+                                                    relativeLikelihood is 1, then
+                                                    it is upgraded to LIKELY, while
+                                                    a value of -1 would downgrade
+                                                    it to UNLIKELY. Likelihood may
+                                                    never drop below VERY_UNLIKELY
+                                                    or exceed VERY_LIKELY, so applying
+                                                    an adjustment of 1 followed by
+                                                    an adjustment of -1 when base
+                                                    likelihood is VERY_LIKELY will
+                                                    result in a final likelihood of
+                                                    LIKELY. Either this or fixed_likelihood
+                                                    can be set.
+                                                  type: number
+                                              type: object
+                                            type: array
+                                          proximity:
+                                            description: Proximity of the finding
+                                              within which the entire hotword must
+                                              reside. The total length of the window
+                                              cannot exceed 1000 characters. Note
+                                              that the finding itself will be included
+                                              in the window, so that hotwords may
+                                              be used to match substrings of the finding
+                                              itself. For example, the certainty of
+                                              a phone number regex (\d{3}) \d{3}-\d{4}
+                                              could be adjusted upwards if the area
+                                              code is known to be the local area code
+                                              of a company office using the hotword
+                                              regex (xxx), where xxx is the area code
+                                              in question. Structure is documented
+                                              below.
+                                            items:
+                                              properties:
+                                                windowAfter:
+                                                  description: Number of characters
+                                                    after the finding to consider.
+                                                    Either this or window_before must
+                                                    be specified
+                                                  type: number
+                                                windowBefore:
+                                                  description: Number of characters
+                                                    before the finding to consider.
+                                                    Either this or window_after must
+                                                    be specified
+                                                  type: number
+                                              type: object
+                                            type: array
+                                        required:
+                                        - hotwordRegex
+                                        - likelihoodAdjustment
+                                        - proximity
+                                        type: object
+                                      type: array
+                                  type: object
+                                type: array
+                            required:
+                            - infoTypes
+                            - rules
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  parent:
+                    description: 'The parent of the inspect template in any of the
+                      following formats:'
+                    type: string
+                required:
+                - parent
+                type: object
+              providerConfigRef:
+                default:
+                  name: default
+                description: ProviderConfigReference specifies how the provider that
+                  will be used to create, observe, update, and delete this managed
+                  resource should be configured.
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                  policy:
+                    description: Policies for referencing.
+                    properties:
+                      resolution:
+                        default: Required
+                        description: Resolution specifies whether resolution of this
+                          reference is required. The default is 'Required', which
+                          means the reconcile will fail if the reference cannot be
+                          resolved. 'Optional' means this reference will be a no-op
+                          if it cannot be resolved.
+                        enum:
+                        - Required
+                        - Optional
+                        type: string
+                      resolve:
+                        description: Resolve specifies when this reference should
+                          be resolved. The default is 'IfNotPresent', which will attempt
+                          to resolve the reference only when the corresponding field
+                          is not present. Use 'Always' to resolve the reference on
+                          every reconcile.
+                        enum:
+                        - Always
+                        - IfNotPresent
+                        type: string
+                    type: object
+                required:
+                - name
+                type: object
+              providerRef:
+                description: 'ProviderReference specifies the provider that will be
+                  used to create, observe, update, and delete this managed resource.
+                  Deprecated: Please use ProviderConfigReference, i.e. `providerConfigRef`'
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                  policy:
+                    description: Policies for referencing.
+                    properties:
+                      resolution:
+                        default: Required
+                        description: Resolution specifies whether resolution of this
+                          reference is required. The default is 'Required', which
+                          means the reconcile will fail if the reference cannot be
+                          resolved. 'Optional' means this reference will be a no-op
+                          if it cannot be resolved.
+                        enum:
+                        - Required
+                        - Optional
+                        type: string
+                      resolve:
+                        description: Resolve specifies when this reference should
+                          be resolved. The default is 'IfNotPresent', which will attempt
+                          to resolve the reference only when the corresponding field
+                          is not present. Use 'Always' to resolve the reference on
+                          every reconcile.
+                        enum:
+                        - Always
+                        - IfNotPresent
+                        type: string
+                    type: object
+                required:
+                - name
+                type: object
+              publishConnectionDetailsTo:
+                description: PublishConnectionDetailsTo specifies the connection secret
+                  config which contains a name, metadata and a reference to secret
+                  store config to which any connection details for this managed resource
+                  should be written. Connection details frequently include the endpoint,
+                  username, and password required to connect to the managed resource.
+                properties:
+                  configRef:
+                    default:
+                      name: default
+                    description: SecretStoreConfigRef specifies which secret store
+                      config should be used for this ConnectionSecret.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: Resolution specifies whether resolution of
+                              this reference is required. The default is 'Required',
+                              which means the reconcile will fail if the reference
+                              cannot be resolved. 'Optional' means this reference
+                              will be a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: Resolve specifies when this reference should
+                              be resolved. The default is 'IfNotPresent', which will
+                              attempt to resolve the reference only when the corresponding
+                              field is not present. Use 'Always' to resolve the reference
+                              on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  metadata:
+                    description: Metadata is the metadata for connection secret.
+                    properties:
+                      annotations:
+                        additionalProperties:
+                          type: string
+                        description: Annotations are the annotations to be added to
+                          connection secret. - For Kubernetes secrets, this will be
+                          used as "metadata.annotations". - It is up to Secret Store
+                          implementation for others store types.
+                        type: object
+                      labels:
+                        additionalProperties:
+                          type: string
+                        description: Labels are the labels/tags to be added to connection
+                          secret. - For Kubernetes secrets, this will be used as "metadata.labels".
+                          - It is up to Secret Store implementation for others store
+                          types.
+                        type: object
+                      type:
+                        description: Type is the SecretType for the connection secret.
+                          - Only valid for Kubernetes Secret Stores.
+                        type: string
+                    type: object
+                  name:
+                    description: Name is the name of the connection secret.
+                    type: string
+                required:
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: WriteConnectionSecretToReference specifies the namespace
+                  and name of a Secret to which any connection details for this managed
+                  resource should be written. Connection details frequently include
+                  the endpoint, username, and password required to connect to the
+                  managed resource. This field is planned to be replaced in a future
+                  release in favor of PublishConnectionDetailsTo. Currently, both
+                  could be set independently and connection details would be published
+                  to both without affecting each other.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                  namespace:
+                    description: Namespace of the secret.
+                    type: string
+                required:
+                - name
+                - namespace
+                type: object
+            required:
+            - forProvider
+            type: object
+          status:
+            description: InspectTemplateStatus defines the observed state of InspectTemplate.
+            properties:
+              atProvider:
+                properties:
+                  id:
+                    description: an identifier for the resource with format {{parent}}/inspectTemplates/{{name}}
+                    type: string
+                  name:
+                    description: The resource name of the inspect template. Set by
+                      the server.
+                    type: string
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: LastTransitionTime is the last time this condition
+                        transitioned from one status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: A Message containing details about this condition's
+                        last transition from one status to another, if any.
+                      type: string
+                    reason:
+                      description: A Reason for this condition's last transition from
+                        one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True,
+                        False, or Unknown?
+                      type: string
+                    type:
+                      description: Type of this condition. At most one of each condition
+                        type may apply to a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []

@@ -167,6 +167,10 @@ import (
 	tagtemplate "github.com/upbound/provider-gcp/internal/controller/datacatalog/tagtemplate"
 	jobdataflow "github.com/upbound/provider-gcp/internal/controller/dataflow/job"
 	instancedatafusion "github.com/upbound/provider-gcp/internal/controller/datafusion/instance"
+	deidentifytemplate "github.com/upbound/provider-gcp/internal/controller/datalossprevention/deidentifytemplate"
+	inspecttemplate "github.com/upbound/provider-gcp/internal/controller/datalossprevention/inspecttemplate"
+	jobtrigger "github.com/upbound/provider-gcp/internal/controller/datalossprevention/jobtrigger"
+	storedinfotype "github.com/upbound/provider-gcp/internal/controller/datalossprevention/storedinfotype"
 	autoscalingpolicy "github.com/upbound/provider-gcp/internal/controller/dataproc/autoscalingpolicy"
 	clusterdataproc "github.com/upbound/provider-gcp/internal/controller/dataproc/cluster"
 	jobdataproc "github.com/upbound/provider-gcp/internal/controller/dataproc/job"
@@ -430,6 +434,10 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		tagtemplate.Setup,
 		jobdataflow.Setup,
 		instancedatafusion.Setup,
+		deidentifytemplate.Setup,
+		inspecttemplate.Setup,
+		jobtrigger.Setup,
+		storedinfotype.Setup,
 		autoscalingpolicy.Setup,
 		clusterdataproc.Setup,
 		jobdataproc.Setup,
