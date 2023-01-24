@@ -142,16 +142,6 @@ var ExternalNameNotTestedConfigs = map[string]config.ExternalName{
 	//
 	// Imported by using the following format: projects/{{project}}/locations/global/keys/{{name}}
 	"google_apikeys_key": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/global/keys/{{ .external_name }}"),
-	// datalossprevention
-	//
-	// Imported by using the following format: {{parent}}/deidentifyTemplates/{{name}}
-	"google_data_loss_prevention_deidentify_template": config.IdentifierFromProvider,
-	// Imported by using the following format: {{parent}}/inspectTemplates/{{name}}
-	"google_data_loss_prevention_inspect_template": config.IdentifierFromProvider,
-	// Imported by using the following format: {{parent}}/jobTriggers/{{name}}
-	"google_data_loss_prevention_job_trigger": config.IdentifierFromProvider,
-	// Imported by using the following format: {{parent}}/storedInfoTypes/{{name}}
-	"google_data_loss_prevention_stored_info_type": config.IdentifierFromProvider,
 
 	// dataplex
 	//

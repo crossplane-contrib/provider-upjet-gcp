@@ -749,6 +749,17 @@ var externalNameConfigs = map[string]config.ExternalName{
 	"google_dataproc_job": config.IdentifierFromProvider,
 	// Imported by using the following format: projects/{{project}}/locations/{{location}}/workflowTemplates/{{name}}
 	"google_dataproc_workflow_template": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/workflowTemplates/{{ .external_name }}"),
+
+	// datalossprevention
+	//
+	// Imported by using the following format: {{parent}}/deidentifyTemplates/{{name}}
+	"google_data_loss_prevention_deidentify_template": config.IdentifierFromProvider,
+	// Imported by using the following format: {{parent}}/inspectTemplates/{{name}}
+	"google_data_loss_prevention_inspect_template": config.IdentifierFromProvider,
+	// Imported by using the following format: {{parent}}/jobTriggers/{{name}}
+	"google_data_loss_prevention_job_trigger": config.IdentifierFromProvider,
+	// Imported by using the following format: {{parent}}/storedInfoTypes/{{name}}
+	"google_data_loss_prevention_stored_info_type": config.IdentifierFromProvider,
 }
 
 // TemplatedStringAsIdentifierWithNoName uses TemplatedStringAsIdentifier but

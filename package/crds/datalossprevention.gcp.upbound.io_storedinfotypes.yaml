@@ -1,0 +1,451 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.8.0
+  creationTimestamp: null
+  name: storedinfotypes.datalossprevention.gcp.upbound.io
+spec:
+  group: datalossprevention.gcp.upbound.io
+  names:
+    categories:
+    - crossplane
+    - managed
+    - gcp
+    kind: StoredInfoType
+    listKind: StoredInfoTypeList
+    plural: storedinfotypes
+    singular: storedinfotype
+  scope: Cluster
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
+    - jsonPath: .metadata.annotations.crossplane\.io/external-name
+      name: EXTERNAL-NAME
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1beta1
+    schema:
+      openAPIV3Schema:
+        description: StoredInfoType is the Schema for the StoredInfoTypes API. Allows
+          creation of custom info types.
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: StoredInfoTypeSpec defines the desired state of StoredInfoType
+            properties:
+              deletionPolicy:
+                default: Delete
+                description: DeletionPolicy specifies what will happen to the underlying
+                  external when this managed resource is deleted - either "Delete"
+                  or "Orphan" the external resource.
+                enum:
+                - Orphan
+                - Delete
+                type: string
+              forProvider:
+                properties:
+                  description:
+                    description: A description of the info type.
+                    type: string
+                  dictionary:
+                    description: Dictionary which defines the rule. Structure is documented
+                      below.
+                    items:
+                      properties:
+                        cloudStoragePath:
+                          description: Newline-delimited file of words in Cloud Storage.
+                            Only a single file is accepted. Structure is documented
+                            below.
+                          items:
+                            properties:
+                              path:
+                                description: 'A url representing a file or path (no
+                                  wildcards) in Cloud Storage. Example: gs://[BUCKET_NAME]/dictionary.txt'
+                                type: string
+                            required:
+                            - path
+                            type: object
+                          type: array
+                        wordList:
+                          description: List of words or phrases to search for. Structure
+                            is documented below.
+                          items:
+                            properties:
+                              words:
+                                description: Words or phrases defining the dictionary.
+                                  The dictionary must contain at least one phrase
+                                  and every phrase must contain at least 2 characters
+                                  that are letters or digits.
+                                items:
+                                  type: string
+                                type: array
+                            required:
+                            - words
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  displayName:
+                    description: User set display name of the info type.
+                    type: string
+                  largeCustomDictionary:
+                    description: Dictionary which defines the rule. Structure is documented
+                      below.
+                    items:
+                      properties:
+                        bigQueryField:
+                          description: Field in a BigQuery table where each cell represents
+                            a dictionary phrase. Structure is documented below.
+                          items:
+                            properties:
+                              field:
+                                description: Designated field in the BigQuery table.
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    name:
+                                      description: The resource name of the info type.
+                                        Set by the server.
+                                      type: string
+                                  required:
+                                  - name
+                                  type: object
+                                type: array
+                              table:
+                                description: Field in a BigQuery table where each
+                                  cell represents a dictionary phrase. Structure is
+                                  documented below.
+                                items:
+                                  properties:
+                                    datasetId:
+                                      description: The dataset ID of the table.
+                                      type: string
+                                    projectId:
+                                      description: The Google Cloud Platform project
+                                        ID of the project containing the table.
+                                      type: string
+                                    tableId:
+                                      description: The name of the table.
+                                      type: string
+                                  required:
+                                  - datasetId
+                                  - projectId
+                                  - tableId
+                                  type: object
+                                type: array
+                            required:
+                            - field
+                            - table
+                            type: object
+                          type: array
+                        cloudStorageFileSet:
+                          description: Set of files containing newline-delimited lists
+                            of dictionary phrases. Structure is documented below.
+                          items:
+                            properties:
+                              url:
+                                description: The url, in the format gs://<bucket>/<path>.
+                                  Trailing wildcard in the path is allowed.
+                                type: string
+                            required:
+                            - url
+                            type: object
+                          type: array
+                        outputPath:
+                          description: Location to store dictionary artifacts in Google
+                            Cloud Storage. These files will only be accessible by
+                            project owners and the DLP API. If any of these artifacts
+                            are modified, the dictionary is considered invalid and
+                            can no longer be used. Structure is documented below.
+                          items:
+                            properties:
+                              path:
+                                description: 'A url representing a file or path (no
+                                  wildcards) in Cloud Storage. Example: gs://[BUCKET_NAME]/dictionary.txt'
+                                type: string
+                            required:
+                            - path
+                            type: object
+                          type: array
+                      required:
+                      - outputPath
+                      type: object
+                    type: array
+                  parent:
+                    description: 'The parent of the info type in any of the following
+                      formats:'
+                    type: string
+                  regex:
+                    description: Regular expression which defines the rule. Structure
+                      is documented below.
+                    items:
+                      properties:
+                        groupIndexes:
+                          description: The index of the submatch to extract as findings.
+                            When not specified, the entire match is returned. No more
+                            than 3 may be included.
+                          items:
+                            type: number
+                          type: array
+                        pattern:
+                          description: Pattern defining the regular expression. Its
+                            syntax (https://github.com/google/re2/wiki/Syntax) can
+                            be found under the google/re2 repository on GitHub.
+                          type: string
+                      required:
+                      - pattern
+                      type: object
+                    type: array
+                required:
+                - parent
+                type: object
+              providerConfigRef:
+                default:
+                  name: default
+                description: ProviderConfigReference specifies how the provider that
+                  will be used to create, observe, update, and delete this managed
+                  resource should be configured.
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                  policy:
+                    description: Policies for referencing.
+                    properties:
+                      resolution:
+                        default: Required
+                        description: Resolution specifies whether resolution of this
+                          reference is required. The default is 'Required', which
+                          means the reconcile will fail if the reference cannot be
+                          resolved. 'Optional' means this reference will be a no-op
+                          if it cannot be resolved.
+                        enum:
+                        - Required
+                        - Optional
+                        type: string
+                      resolve:
+                        description: Resolve specifies when this reference should
+                          be resolved. The default is 'IfNotPresent', which will attempt
+                          to resolve the reference only when the corresponding field
+                          is not present. Use 'Always' to resolve the reference on
+                          every reconcile.
+                        enum:
+                        - Always
+                        - IfNotPresent
+                        type: string
+                    type: object
+                required:
+                - name
+                type: object
+              providerRef:
+                description: 'ProviderReference specifies the provider that will be
+                  used to create, observe, update, and delete this managed resource.
+                  Deprecated: Please use ProviderConfigReference, i.e. `providerConfigRef`'
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                  policy:
+                    description: Policies for referencing.
+                    properties:
+                      resolution:
+                        default: Required
+                        description: Resolution specifies whether resolution of this
+                          reference is required. The default is 'Required', which
+                          means the reconcile will fail if the reference cannot be
+                          resolved. 'Optional' means this reference will be a no-op
+                          if it cannot be resolved.
+                        enum:
+                        - Required
+                        - Optional
+                        type: string
+                      resolve:
+                        description: Resolve specifies when this reference should
+                          be resolved. The default is 'IfNotPresent', which will attempt
+                          to resolve the reference only when the corresponding field
+                          is not present. Use 'Always' to resolve the reference on
+                          every reconcile.
+                        enum:
+                        - Always
+                        - IfNotPresent
+                        type: string
+                    type: object
+                required:
+                - name
+                type: object
+              publishConnectionDetailsTo:
+                description: PublishConnectionDetailsTo specifies the connection secret
+                  config which contains a name, metadata and a reference to secret
+                  store config to which any connection details for this managed resource
+                  should be written. Connection details frequently include the endpoint,
+                  username, and password required to connect to the managed resource.
+                properties:
+                  configRef:
+                    default:
+                      name: default
+                    description: SecretStoreConfigRef specifies which secret store
+                      config should be used for this ConnectionSecret.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: Resolution specifies whether resolution of
+                              this reference is required. The default is 'Required',
+                              which means the reconcile will fail if the reference
+                              cannot be resolved. 'Optional' means this reference
+                              will be a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: Resolve specifies when this reference should
+                              be resolved. The default is 'IfNotPresent', which will
+                              attempt to resolve the reference only when the corresponding
+                              field is not present. Use 'Always' to resolve the reference
+                              on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  metadata:
+                    description: Metadata is the metadata for connection secret.
+                    properties:
+                      annotations:
+                        additionalProperties:
+                          type: string
+                        description: Annotations are the annotations to be added to
+                          connection secret. - For Kubernetes secrets, this will be
+                          used as "metadata.annotations". - It is up to Secret Store
+                          implementation for others store types.
+                        type: object
+                      labels:
+                        additionalProperties:
+                          type: string
+                        description: Labels are the labels/tags to be added to connection
+                          secret. - For Kubernetes secrets, this will be used as "metadata.labels".
+                          - It is up to Secret Store implementation for others store
+                          types.
+                        type: object
+                      type:
+                        description: Type is the SecretType for the connection secret.
+                          - Only valid for Kubernetes Secret Stores.
+                        type: string
+                    type: object
+                  name:
+                    description: Name is the name of the connection secret.
+                    type: string
+                required:
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: WriteConnectionSecretToReference specifies the namespace
+                  and name of a Secret to which any connection details for this managed
+                  resource should be written. Connection details frequently include
+                  the endpoint, username, and password required to connect to the
+                  managed resource. This field is planned to be replaced in a future
+                  release in favor of PublishConnectionDetailsTo. Currently, both
+                  could be set independently and connection details would be published
+                  to both without affecting each other.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                  namespace:
+                    description: Namespace of the secret.
+                    type: string
+                required:
+                - name
+                - namespace
+                type: object
+            required:
+            - forProvider
+            type: object
+          status:
+            description: StoredInfoTypeStatus defines the observed state of StoredInfoType.
+            properties:
+              atProvider:
+                properties:
+                  id:
+                    description: an identifier for the resource with format {{parent}}/storedInfoTypes/{{name}}
+                    type: string
+                  name:
+                    description: The resource name of the info type. Set by the server.
+                    type: string
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: LastTransitionTime is the last time this condition
+                        transitioned from one status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: A Message containing details about this condition's
+                        last transition from one status to another, if any.
+                      type: string
+                    reason:
+                      description: A Reason for this condition's last transition from
+                        one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True,
+                        False, or Unknown?
+                      type: string
+                    type:
+                      description: Type of this condition. At most one of each condition
+                        type may apply to a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
