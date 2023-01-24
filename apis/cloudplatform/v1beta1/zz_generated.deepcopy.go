@@ -1687,6 +1687,11 @@ func (in *ProjectParameters) DeepCopyInto(out *ProjectParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.ProjectID != nil {
+		in, out := &in.ProjectID, &out.ProjectID
+		*out = new(string)
+		**out = **in
+	}
 	if in.SkipDelete != nil {
 		in, out := &in.SkipDelete, &out.SkipDelete
 		*out = new(bool)

@@ -10,6 +10,7 @@ spec:
   forProvider:
     name: My Project
     orgId: "1234567"
+    projectId: your-project-id
 
 ---
 

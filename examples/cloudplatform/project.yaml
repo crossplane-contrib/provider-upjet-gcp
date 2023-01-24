@@ -10,3 +10,4 @@ metadata:
 spec:
   forProvider:
     projectId: project
+    name: project
