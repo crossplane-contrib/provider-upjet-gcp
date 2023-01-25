@@ -82,6 +82,10 @@ var externalNameConfigs = map[string]config.ExternalName{
 	"google_cloud_run_service": config.TemplatedStringAsIdentifier("name", "locations/{{ .parameters.location }}/namespaces/{{ .setup.configuration.project }}/services/{{ .external_name }}"),
 	// Imported by using the following format: projects/{{project}}/locations/{{location}}/services/{{service}} roles/viewer user:jane@example.com
 	"google_cloud_run_service_iam_member": config.IdentifierFromProvider,
+	// Imported by using the following projects/{{project}}/locations/{{location}}/jobs/{{name}}
+	"google_cloud_run_v2_job": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/jobs/{{ .external_name }}"),
+	// Imported by using the following projects/{{project}}/locations/{{location}}/services/{{name}}
+	"google_cloud_run_v2_service": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/services/{{ .external_name }}"),
 
 	// cloudscheduler
 	//
@@ -299,6 +303,16 @@ var externalNameConfigs = map[string]config.ExternalName{
 	//
 	// This resource can not be imported. The resource will create a bucket if missing, and do nothing with any bucket it finds
 	"google_container_registry": config.IdentifierFromProvider,
+
+	// ids
+	//
+	// Imported by using the following projects/{{project}}/locations/{{location}}/endpoints/{{name}}
+	"google_cloud_ids_endpoint": config.IdentifierFromProvider,
+
+	// certificatemanager
+	//
+	// Imported by using the following projects/{{project}}/locations/global/certificateMaps/{{name}}
+	"google_certificate_manager_certificate_map": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/global/certificateMaps/{{ .external_name }}"),
 
 	// datacatalog
 	//

@@ -45,6 +45,8 @@ import (
 	tableiampolicybigtable "github.com/upbound/provider-gcp/internal/controller/bigtable/tableiampolicy"
 	attestor "github.com/upbound/provider-gcp/internal/controller/binaryauthorization/attestor"
 	policy "github.com/upbound/provider-gcp/internal/controller/binaryauthorization/policy"
+	certificatemap "github.com/upbound/provider-gcp/internal/controller/certificatemanager/certificatemap"
+	idsendpoint "github.com/upbound/provider-gcp/internal/controller/cloud/idsendpoint"
 	trigger "github.com/upbound/provider-gcp/internal/controller/cloudbuild/trigger"
 	workerpool "github.com/upbound/provider-gcp/internal/controller/cloudbuild/workerpool"
 	function "github.com/upbound/provider-gcp/internal/controller/cloudfunctions/function"
@@ -69,6 +71,8 @@ import (
 	domainmapping "github.com/upbound/provider-gcp/internal/controller/cloudrun/domainmapping"
 	service "github.com/upbound/provider-gcp/internal/controller/cloudrun/service"
 	serviceiammember "github.com/upbound/provider-gcp/internal/controller/cloudrun/serviceiammember"
+	v2job "github.com/upbound/provider-gcp/internal/controller/cloudrun/v2job"
+	v2service "github.com/upbound/provider-gcp/internal/controller/cloudrun/v2service"
 	jobcloudscheduler "github.com/upbound/provider-gcp/internal/controller/cloudscheduler/job"
 	queue "github.com/upbound/provider-gcp/internal/controller/cloudtasks/queue"
 	environmentcomposer "github.com/upbound/provider-gcp/internal/controller/composer/environment"
@@ -312,6 +316,8 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		tableiampolicybigtable.Setup,
 		attestor.Setup,
 		policy.Setup,
+		certificatemap.Setup,
+		idsendpoint.Setup,
 		trigger.Setup,
 		workerpool.Setup,
 		function.Setup,
@@ -336,6 +342,8 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		domainmapping.Setup,
 		service.Setup,
 		serviceiammember.Setup,
+		v2job.Setup,
+		v2service.Setup,
 		jobcloudscheduler.Setup,
 		queue.Setup,
 		environmentcomposer.Setup,

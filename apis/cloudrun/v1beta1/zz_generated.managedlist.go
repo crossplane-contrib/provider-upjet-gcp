@@ -45,3 +45,21 @@ func (l *ServiceList) GetItems() []resource.Managed {
 	}
 	return items
 }
+
+// GetItems of this V2JobList.
+func (l *V2JobList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this V2ServiceList.
+func (l *V2ServiceList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}

@@ -195,3 +195,125 @@ func (mg *ServiceIAMMember) ResolveReferences(ctx context.Context, c client.Read
 
 	return nil
 }
+
+// ResolveReferences of this V2Job.
+func (mg *V2Job) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.Template); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.ForProvider.Template[i3].Template); i4++ {
+			for i5 := 0; i5 < len(mg.Spec.ForProvider.Template[i3].Template[i4].Containers); i5++ {
+				for i6 := 0; i6 < len(mg.Spec.ForProvider.Template[i3].Template[i4].Containers[i5].Env); i6++ {
+					for i7 := 0; i7 < len(mg.Spec.ForProvider.Template[i3].Template[i4].Containers[i5].Env[i6].ValueSource); i7++ {
+						for i8 := 0; i8 < len(mg.Spec.ForProvider.Template[i3].Template[i4].Containers[i5].Env[i6].ValueSource[i7].SecretKeyRef); i8++ {
+							rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+								CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Template[i3].Template[i4].Containers[i5].Env[i6].ValueSource[i7].SecretKeyRef[i8].Secret),
+								Extract:      reference.ExternalName(),
+								Reference:    mg.Spec.ForProvider.Template[i3].Template[i4].Containers[i5].Env[i6].ValueSource[i7].SecretKeyRef[i8].SecretRef,
+								Selector:     mg.Spec.ForProvider.Template[i3].Template[i4].Containers[i5].Env[i6].ValueSource[i7].SecretKeyRef[i8].SecretSelector,
+								To: reference.To{
+									List:    &v1beta11.SecretList{},
+									Managed: &v1beta11.Secret{},
+								},
+							})
+							if err != nil {
+								return errors.Wrap(err, "mg.Spec.ForProvider.Template[i3].Template[i4].Containers[i5].Env[i6].ValueSource[i7].SecretKeyRef[i8].Secret")
+							}
+							mg.Spec.ForProvider.Template[i3].Template[i4].Containers[i5].Env[i6].ValueSource[i7].SecretKeyRef[i8].Secret = reference.ToPtrValue(rsp.ResolvedValue)
+							mg.Spec.ForProvider.Template[i3].Template[i4].Containers[i5].Env[i6].ValueSource[i7].SecretKeyRef[i8].SecretRef = rsp.ResolvedReference
+
+						}
+					}
+				}
+			}
+		}
+	}
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.Template); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.ForProvider.Template[i3].Template); i4++ {
+			for i5 := 0; i5 < len(mg.Spec.ForProvider.Template[i3].Template[i4].Volumes); i5++ {
+				for i6 := 0; i6 < len(mg.Spec.ForProvider.Template[i3].Template[i4].Volumes[i5].Secret); i6++ {
+					rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+						CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Template[i3].Template[i4].Volumes[i5].Secret[i6].Secret),
+						Extract:      reference.ExternalName(),
+						Reference:    mg.Spec.ForProvider.Template[i3].Template[i4].Volumes[i5].Secret[i6].SecretRef,
+						Selector:     mg.Spec.ForProvider.Template[i3].Template[i4].Volumes[i5].Secret[i6].SecretSelector,
+						To: reference.To{
+							List:    &v1beta11.SecretList{},
+							Managed: &v1beta11.Secret{},
+						},
+					})
+					if err != nil {
+						return errors.Wrap(err, "mg.Spec.ForProvider.Template[i3].Template[i4].Volumes[i5].Secret[i6].Secret")
+					}
+					mg.Spec.ForProvider.Template[i3].Template[i4].Volumes[i5].Secret[i6].Secret = reference.ToPtrValue(rsp.ResolvedValue)
+					mg.Spec.ForProvider.Template[i3].Template[i4].Volumes[i5].Secret[i6].SecretRef = rsp.ResolvedReference
+
+				}
+			}
+		}
+	}
+
+	return nil
+}
+
+// ResolveReferences of this V2Service.
+func (mg *V2Service) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.Template); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.ForProvider.Template[i3].Containers); i4++ {
+			for i5 := 0; i5 < len(mg.Spec.ForProvider.Template[i3].Containers[i4].Env); i5++ {
+				for i6 := 0; i6 < len(mg.Spec.ForProvider.Template[i3].Containers[i4].Env[i5].ValueSource); i6++ {
+					for i7 := 0; i7 < len(mg.Spec.ForProvider.Template[i3].Containers[i4].Env[i5].ValueSource[i6].SecretKeyRef); i7++ {
+						rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+							CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Template[i3].Containers[i4].Env[i5].ValueSource[i6].SecretKeyRef[i7].Secret),
+							Extract:      reference.ExternalName(),
+							Reference:    mg.Spec.ForProvider.Template[i3].Containers[i4].Env[i5].ValueSource[i6].SecretKeyRef[i7].SecretRef,
+							Selector:     mg.Spec.ForProvider.Template[i3].Containers[i4].Env[i5].ValueSource[i6].SecretKeyRef[i7].SecretSelector,
+							To: reference.To{
+								List:    &v1beta11.SecretList{},
+								Managed: &v1beta11.Secret{},
+							},
+						})
+						if err != nil {
+							return errors.Wrap(err, "mg.Spec.ForProvider.Template[i3].Containers[i4].Env[i5].ValueSource[i6].SecretKeyRef[i7].Secret")
+						}
+						mg.Spec.ForProvider.Template[i3].Containers[i4].Env[i5].ValueSource[i6].SecretKeyRef[i7].Secret = reference.ToPtrValue(rsp.ResolvedValue)
+						mg.Spec.ForProvider.Template[i3].Containers[i4].Env[i5].ValueSource[i6].SecretKeyRef[i7].SecretRef = rsp.ResolvedReference
+
+					}
+				}
+			}
+		}
+	}
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.Template); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.ForProvider.Template[i3].Volumes); i4++ {
+			for i5 := 0; i5 < len(mg.Spec.ForProvider.Template[i3].Volumes[i4].Secret); i5++ {
+				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Template[i3].Volumes[i4].Secret[i5].Secret),
+					Extract:      reference.ExternalName(),
+					Reference:    mg.Spec.ForProvider.Template[i3].Volumes[i4].Secret[i5].SecretRef,
+					Selector:     mg.Spec.ForProvider.Template[i3].Volumes[i4].Secret[i5].SecretSelector,
+					To: reference.To{
+						List:    &v1beta11.SecretList{},
+						Managed: &v1beta11.Secret{},
+					},
+				})
+				if err != nil {
+					return errors.Wrap(err, "mg.Spec.ForProvider.Template[i3].Volumes[i4].Secret[i5].Secret")
+				}
+				mg.Spec.ForProvider.Template[i3].Volumes[i4].Secret[i5].Secret = reference.ToPtrValue(rsp.ResolvedValue)
+				mg.Spec.ForProvider.Template[i3].Volumes[i4].Secret[i5].SecretRef = rsp.ResolvedReference
+
+			}
+		}
+	}
+
+	return nil
+}
