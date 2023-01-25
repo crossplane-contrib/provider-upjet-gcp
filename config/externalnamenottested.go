@@ -137,6 +137,10 @@ var ExternalNameNotTestedConfigs = map[string]config.ExternalName{
 	"google_apigee_environment_iam_policy": config.IdentifierFromProvider,
 	// Imported by using the following format: {{instance_id}}/attachments/{{name}}. Name doesn't exist in parameters, try using IdentifierFromProvider
 	"google_apigee_instance_attachment": config.IdentifierFromProvider,
+	// Imported by using the following format: {{instance_id}}/natAddresses/{{name}}
+	"google_apigee_nat_address": config.TemplatedStringAsIdentifier("name", "{{ .parameters.instance_id }}/natAddresses/{{ .external_name }}"),
+	// Imported by using the following format: organizations/{{name}}/syncAuthorization
+	"google_apigee_sync_authorization": config.TemplatedStringAsIdentifier("name", "organizations/{{ .external_name }}/syncAuthorization"),
 
 	// apikeys
 	//
@@ -280,4 +284,72 @@ var ExternalNameNotTestedConfigs = map[string]config.ExternalName{
 	// IAM policy imports use the identifier of the resource in question
 	// projects/{{project}}/locations/{{location}}/runtimes/{{runtime_name}}
 	"google_notebooks_runtime_iam_policy": config.TemplatedStringAsIdentifier("runtime_name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/runtimes/{{ .external_name }}"),
+
+	// artifactregistry
+	//
+	// Imported by using the following format: projects/{{project}}/locations/{{location}}/repositories/{{repository_id}}
+	"google_artifact_registry_repository": config.TemplatedStringAsIdentifier("repository_id", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/repositories/{{ .external_name }}"),
+	// Imported by using the following format: projects/{{project}}/locations/{{location}}/repositories/{{repository}} roles/artifactregistry.reader user:jane@example.com
+	"google_artifact_registry_repository_iam_member": config.TemplatedStringAsIdentifier("repository", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/repositories/{{ .external_name }} {{ .parameters.role }} {{ .parameters.member }}"),
+
+	// beyondcorp
+	//
+	// Imported by using the following projects/{{project}}/locations/{{region}}/appConnections/{{name}}
+	"google_beyondcorp_app_connection": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.region }}/appConnections/{{ .external_name }}"),
+	// Imported by using the following projects/{{project}}/locations/{{region}}/appConnectors/{{name}}
+	"google_beyondcorp_app_connector": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.region }}/appConnectors/{{ .external_name }}"),
+	// Imported by using the following projects/{{project}}/locations/{{region}}/appGateways/{{name}}
+	"google_beyondcorp_app_gateway": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.region }}/appGateways/{{ .external_name }}"),
+
+	// bigqueryanalyticshub
+	//
+	// Imported by using the following projects/{{project}}/locations/{{location}}/dataExchanges/{{data_exchange_id}}
+	"google_bigquery_analytics_hub_data_exchange": config.TemplatedStringAsIdentifier("data_exchange_id", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/dataExchanges/{{ .external_name }}"),
+	// Imported by using the following projects/{{project}}/locations/{{location}}/dataExchanges/{{data_exchange_id}} roles/viewer user:jane@example.com
+	"google_bigquery_analytics_hub_data_exchange_iam_member": config.TemplatedStringAsIdentifier("data_exchange_id", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/dataExchanges/{{ .external_name }} {{ .parameters.role }} {{ .parameters.member }}"),
+	// Imported by using the following projects/{{project}}/locations/{{location}}/dataExchanges/{{data_exchange_id}}/listings/{{listing_id}}
+	"google_bigquery_analytics_hub_listing": config.TemplatedStringAsIdentifier("listing_id", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/dataExchanges/{{ .parameters.data_exchange_id }}/listings/{{ .external_name }}"),
+	// Imported by using the following projects/{{project}}/locations/{{location}}/dataExchanges/{{data_exchange_id}}/listings/{{listing_id}} roles/viewer user:jane@example.com
+	"google_bigquery_analytics_hub_listing_iam_member": config.TemplatedStringAsIdentifier("listing_id", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/dataExchanges/{{ .parameters.data_exchange_id }}/listings/{{ .external_name }} {{ .parameters.role }} {{ .parameters.member }}"),
+
+	// bigqueryconnection
+	//
+	// Imported by using the following projects/{{project}}/locations/{{location}}/connections/{{connection_id}} roles/viewer user:jane@example.com
+	"google_bigquery_connection_iam_member": config.TemplatedStringAsIdentifier("connection_id", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/connections/{{ .external_name }} {{ .parameters.role }} {{ .parameters.member }}"),
+
+	// certificatemanager
+	//
+	// Imported by using the following projects/{{project}}/locations/global/certificateMaps/{{name}}
+	"google_certificate_manager_certificate_map": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/global/certificateMaps/{{ .external_name }}"),
+	// Imported by using the following projects/{{project}}/locations/global/certificateMaps/{{map}}/certificateMapEntries/{{name}}
+	"google_certificate_manager_certificate_map_entry": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/global/certificateMaps/{{ .parameters.map }}/certificateMapEntries/{{ .external_name }}"),
+
+	// ids
+	//
+	// Imported by using the following projects/{{project}}/locations/{{location}}/endpoints/{{name}}
+	"google_cloud_ids_endpoint": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/endpoints/{{ .exyernal_name }}"),
+
+	// cloudrun
+	//
+	// Imported by using the following projects/{{project}}/locations/{{location}}/jobs/{{name}}
+	"google_cloud_run_v2_job": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/jobs/{{ .external_name }}"),
+	// Imported by using the following projects/{{project}}/locations/{{location}}/services/{{name}}
+	"google_cloud_run_v2_service": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/services/{{ .external_name }}"),
+
+	// cloudtasks
+	//
+	// Imported by using the following projects/{{project}}/locations/{{location}}/queues/{{queue}} roles/viewer user:jane@example.com
+	"google_cloud_tasks_queue_iam_member": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/queues/{{ .external_name }} {{ .parameters.role }} {{ .parameters.member }}"),
+
+	// cloudfunctions2
+	//
+	// Imported by using the following projects/{{project}}/locations/{{location}}/functions/{{name}}
+	"google_cloudfunctions2_function": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/functions/{{ .external_name }}"),
+	// Imported by using the following projects/{{project}}/locations/{{location}}/functions/{{cloud_function}} roles/viewer user:jane@example.com
+	"google_cloudfunctions2_function_iam_member": config.TemplatedStringAsIdentifier("cloud_function", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/functions/{{ .external_name }} {{ .parameters.role }} {{ .parameters.member }}"),
+
+	// cloudiot
+	//
+	// Imported by using the following projects/{{project}}/locations/{{location}}/registries/{{device_registry}} roles/viewer user:jane@example.com
+	"google_cloudiot_registry_iam_member": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/registries/{{ .external_name }} {{ .parameters.role }} {{ .parameters.member }}"),
 }
