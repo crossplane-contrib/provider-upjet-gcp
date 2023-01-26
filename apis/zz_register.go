@@ -47,10 +47,13 @@ import (
 	v1beta1dataflow "github.com/upbound/provider-gcp/apis/dataflow/v1beta1"
 	v1beta1datafusion "github.com/upbound/provider-gcp/apis/datafusion/v1beta1"
 	v1beta1datalossprevention "github.com/upbound/provider-gcp/apis/datalossprevention/v1beta1"
+	v1beta1dataplex "github.com/upbound/provider-gcp/apis/dataplex/v1beta1"
 	v1beta1dataproc "github.com/upbound/provider-gcp/apis/dataproc/v1beta1"
 	v1beta1datastore "github.com/upbound/provider-gcp/apis/datastore/v1beta1"
+	v1beta1datastream "github.com/upbound/provider-gcp/apis/datastream/v1beta1"
 	v1beta1dialogflowcx "github.com/upbound/provider-gcp/apis/dialogflowcx/v1beta1"
 	v1beta1dns "github.com/upbound/provider-gcp/apis/dns/v1beta1"
+	v1beta1documentai "github.com/upbound/provider-gcp/apis/documentai/v1beta1"
 	v1beta1essentialcontacts "github.com/upbound/provider-gcp/apis/essentialcontacts/v1beta1"
 	v1beta1eventarc "github.com/upbound/provider-gcp/apis/eventarc/v1beta1"
 	v1beta1filestore "github.com/upbound/provider-gcp/apis/filestore/v1beta1"
@@ -111,10 +114,13 @@ func init() {
 		v1beta1dataflow.SchemeBuilder.AddToScheme,
 		v1beta1datafusion.SchemeBuilder.AddToScheme,
 		v1beta1datalossprevention.SchemeBuilder.AddToScheme,
+		v1beta1dataplex.SchemeBuilder.AddToScheme,
 		v1beta1dataproc.SchemeBuilder.AddToScheme,
 		v1beta1datastore.SchemeBuilder.AddToScheme,
+		v1beta1datastream.SchemeBuilder.AddToScheme,
 		v1beta1dialogflowcx.SchemeBuilder.AddToScheme,
 		v1beta1dns.SchemeBuilder.AddToScheme,
+		v1beta1documentai.SchemeBuilder.AddToScheme,
 		v1beta1essentialcontacts.SchemeBuilder.AddToScheme,
 		v1beta1eventarc.SchemeBuilder.AddToScheme,
 		v1beta1filestore.SchemeBuilder.AddToScheme,

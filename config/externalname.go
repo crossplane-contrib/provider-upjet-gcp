@@ -341,6 +341,24 @@ var externalNameConfigs = map[string]config.ExternalName{
 	"google_dialogflow_cx_intent":      config.IdentifierFromProvider,
 	"google_dialogflow_cx_page":        config.IdentifierFromProvider,
 	"google_dialogflow_cx_version":     config.IdentifierFromProvider,
+	// Imported by using the following {{parent}}/webhooks/{{name}}
+	"google_dialogflow_cx_webhook": config.IdentifierFromProvider,
+
+	// datastream
+	//
+	// Imported by using the following projects/{{project}}/locations/{{location}}/connectionProfiles/{{connection_profile_id}}
+	"google_datastream_connection_profile": config.TemplatedStringAsIdentifier("connection_profile_id", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/connectionProfiles/{{ .external_name }}"),
+	// Imported by using the following projects/{{project}}/locations/{{location}}/privateConnections/{{private_connection_id}}
+	"google_datastream_private_connection": config.TemplatedStringAsIdentifier("private_connection_id", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/privateConnections/{{ .external_name }}"),
+
+	// dataplex
+	//
+	// Imported by using the following format: projects/{{project}}/locations/{{location}}/lakes/{{name}}
+	"google_dataplex_lake": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/lakes/{{ .external_name }}"),
+	// Imported by using the following projects/{{project}}/locations/{{location}}/lakes/{{lake}}/zones/{{dataplex_zone}}/assets/{{name}}
+	"google_dataplex_asset": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/lakes/{{ .parameters.lake }}/zones/{{ .parameters.dataplex_zone }}/assets/{{ .external_name }}"),
+	// Imported by using the following projects/{{project}}/locations/{{location}}/lakes/{{lake}}/zones/{{name}}
+	"google_dataplex_zone": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/lakes/{{ .parameters.lake }}/zones/{{ .external_name }}"),
 
 	// dns
 	//
@@ -804,6 +822,11 @@ var externalNameConfigs = map[string]config.ExternalName{
 	"google_vertex_ai_featurestore_entitytype": config.IdentifierFromProvider,
 	// Imported by using the following projects/{{project}}/locations/{{region}}/tensorboards/{{name}}
 	"google_vertex_ai_tensorboard": config.TemplatedStringAsIdentifier("display_name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.region }}/tensorboards/{{ .external_name }}"),
+
+	// documentai
+	//
+	// Imported by using the following projects/{{project}}/locations/{{location}}/processors/{{name}}
+	"google_document_ai_processor": config.IdentifierFromProvider,
 }
 
 // TemplatedStringAsIdentifierWithNoName uses TemplatedStringAsIdentifier but

@@ -159,11 +159,6 @@ var ExternalNameNotTestedConfigs = map[string]config.ExternalName{
 	// Imported by using the following format: {{parent}}/storedInfoTypes/{{name}}
 	"google_data_loss_prevention_stored_info_type": config.IdentifierFromProvider,
 
-	// dataplex
-	//
-	// Imported by using the following format: projects/{{project}}/locations/{{location}}/lakes/{{name}}
-	"google_dataplex_lake": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/lakes/{{ .external_name }}"),
-
 	// dataproc
 	//
 	// Imported by using the following format: projects/{project}/regions/{region}/clusters/{cluster} roles/editor
@@ -200,8 +195,6 @@ var ExternalNameNotTestedConfigs = map[string]config.ExternalName{
 	"google_dialogflow_fulfillment": config.IdentifierFromProvider,
 	// Imported by using the following format: {{name}}
 	"google_dialogflow_intent": config.IdentifierFromProvider,
-	// Imported by using the following {{parent}}/webhooks/{{name}}
-	"google_dialogflow_cx_webhook": config.IdentifierFromProvider,
 
 	// healthcare
 	//
@@ -378,20 +371,6 @@ var ExternalNameNotTestedConfigs = map[string]config.ExternalName{
 	// Imported by using the following projects/{{project}}/locations/{{location}}/instances/{{instance}} roles/viewer user:jane@example.com
 	"google_data_fusion_instance_iam_member": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/instances/{{ .external_name }} {{ .parameters.role }} {{ .parameters.member }}"),
 
-	// dataplex -
-	//
-	// Imported by using the following projects/{{project}}/locations/{{location}}/lakes/{{lake}}/zones/{{dataplex_zone}}/assets/{{name}}
-	"google_dataplex_asset": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/lakes/{{ .parameters.lake }}/zones/{{ .parameters.dataplex_zone }}/assets/{{ .external_name }}"),
-	// Imported by using the following projects/{{project}}/locations/{{location}}/lakes/{{lake}}/zones/{{name}}
-	"google_dataplex_zone": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/lakes/{{ .parameters.lake }}/zones/{{ .external_name }}"),
-
-	// datastream
-	//
-	// Imported by using the following projects/{{project}}/locations/{{location}}/connectionProfiles/{{connection_profile_id}}
-	"google_datastream_connection_profile": config.TemplatedStringAsIdentifier("connection_profile_id", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/connectionProfiles/{{ .external_name }}"),
-	// Imported by using the following projects/{{project}}/locations/{{location}}/privateConnections/{{private_connection_id}}
-	"google_datastream_private_connection": config.TemplatedStringAsIdentifier("private_connection_id", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/privateConnections/{{ .external_name }}"),
-
 	// dns
 	//
 	// Imported by using the following projects/{{project}}/managedZones/{{managed_zone}} roles/viewer user:jane@example.com
@@ -399,8 +378,6 @@ var ExternalNameNotTestedConfigs = map[string]config.ExternalName{
 
 	// documentai
 	//
-	// Imported by using the following projects/{{project}}/locations/{{location}}/processors/{{name}}
-	"google_document_ai_processor": config.TemplatedStringAsIdentifier("display_name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/processors/{{ .external_name }}"),
 	// Imported by using the following {{processor}}
 	"google_document_ai_processor_default_version": config.ParameterAsIdentifier("processor"),
 

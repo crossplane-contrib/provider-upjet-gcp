@@ -175,11 +175,16 @@ import (
 	inspecttemplate "github.com/upbound/provider-gcp/internal/controller/datalossprevention/inspecttemplate"
 	jobtrigger "github.com/upbound/provider-gcp/internal/controller/datalossprevention/jobtrigger"
 	storedinfotype "github.com/upbound/provider-gcp/internal/controller/datalossprevention/storedinfotype"
+	asset "github.com/upbound/provider-gcp/internal/controller/dataplex/asset"
+	lake "github.com/upbound/provider-gcp/internal/controller/dataplex/lake"
+	zone "github.com/upbound/provider-gcp/internal/controller/dataplex/zone"
 	autoscalingpolicy "github.com/upbound/provider-gcp/internal/controller/dataproc/autoscalingpolicy"
 	clusterdataproc "github.com/upbound/provider-gcp/internal/controller/dataproc/cluster"
 	jobdataproc "github.com/upbound/provider-gcp/internal/controller/dataproc/job"
 	workflowtemplate "github.com/upbound/provider-gcp/internal/controller/dataproc/workflowtemplate"
 	index "github.com/upbound/provider-gcp/internal/controller/datastore/index"
+	connectionprofile "github.com/upbound/provider-gcp/internal/controller/datastream/connectionprofile"
+	privateconnection "github.com/upbound/provider-gcp/internal/controller/datastream/privateconnection"
 	agent "github.com/upbound/provider-gcp/internal/controller/dialogflowcx/agent"
 	entitytype "github.com/upbound/provider-gcp/internal/controller/dialogflowcx/entitytype"
 	environmentdialogflowcx "github.com/upbound/provider-gcp/internal/controller/dialogflowcx/environment"
@@ -187,9 +192,11 @@ import (
 	intent "github.com/upbound/provider-gcp/internal/controller/dialogflowcx/intent"
 	page "github.com/upbound/provider-gcp/internal/controller/dialogflowcx/page"
 	version "github.com/upbound/provider-gcp/internal/controller/dialogflowcx/version"
+	webhook "github.com/upbound/provider-gcp/internal/controller/dialogflowcx/webhook"
 	managedzone "github.com/upbound/provider-gcp/internal/controller/dns/managedzone"
 	policydns "github.com/upbound/provider-gcp/internal/controller/dns/policy"
 	recordset "github.com/upbound/provider-gcp/internal/controller/dns/recordset"
+	processor "github.com/upbound/provider-gcp/internal/controller/documentai/processor"
 	contact "github.com/upbound/provider-gcp/internal/controller/essentialcontacts/contact"
 	triggereventarc "github.com/upbound/provider-gcp/internal/controller/eventarc/trigger"
 	backup "github.com/upbound/provider-gcp/internal/controller/filestore/backup"
@@ -457,11 +464,16 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		inspecttemplate.Setup,
 		jobtrigger.Setup,
 		storedinfotype.Setup,
+		asset.Setup,
+		lake.Setup,
+		zone.Setup,
 		autoscalingpolicy.Setup,
 		clusterdataproc.Setup,
 		jobdataproc.Setup,
 		workflowtemplate.Setup,
 		index.Setup,
+		connectionprofile.Setup,
+		privateconnection.Setup,
 		agent.Setup,
 		entitytype.Setup,
 		environmentdialogflowcx.Setup,
@@ -469,9 +481,11 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		intent.Setup,
 		page.Setup,
 		version.Setup,
+		webhook.Setup,
 		managedzone.Setup,
 		policydns.Setup,
 		recordset.Setup,
+		processor.Setup,
 		contact.Setup,
 		triggereventarc.Setup,
 		backup.Setup,

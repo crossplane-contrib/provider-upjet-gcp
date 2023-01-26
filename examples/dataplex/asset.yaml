@@ -1,0 +1,91 @@
+apiVersion: dataplex.gcp.upbound.io/v1beta1
+kind: Asset
+metadata:
+  annotations:
+    meta.upbound.io/example-id: dataplex/v1beta1/asset
+    upjet.upbound.io/manual-intervention: "This example resource needs a real project Name"
+  labels:
+    testing.upbound.io/example-name: primary
+  name: primary
+spec:
+  forProvider:
+    dataplexZoneSelector:
+      matchLabels:
+        testing.upbound.io/example-name: primary
+    discoverySpec:
+    - enabled: false
+    lake: primary
+    location: us-central1
+    resourceSpec:
+    - name: ${projects/project-name/buckets/bucket-name}
+      type: STORAGE_BUCKET
+
+---
+
+apiVersion: dataplex.gcp.upbound.io/v1beta1
+kind: Lake
+metadata:
+  annotations:
+    meta.upbound.io/example-id: dataplex/v1beta1/asset
+  labels:
+    testing.upbound.io/example-name: primary
+  name: primary
+spec:
+  forProvider:
+    description: Lake for DCL
+    displayName: Lake for DCL
+    labels:
+      my-lake: exists
+    location: us-central1
+
+---
+
+apiVersion: dataplex.gcp.upbound.io/v1beta1
+kind: Zone
+metadata:
+  annotations:
+    meta.upbound.io/example-id: dataplex/v1beta1/asset
+  labels:
+    testing.upbound.io/example-name: primary
+  name: primary
+spec:
+  forProvider:
+    description: Zone for DCL
+    discoverySpec:
+      - enabled: false
+    lake: primary
+    location: us-central1
+    resourceSpec:
+      - locationType: MULTI_REGION
+    type: RAW
+
+---
+
+apiVersion: storage.gcp.upbound.io/v1beta1
+kind: Bucket
+metadata:
+  annotations:
+    meta.upbound.io/example-id: dataplex/v1beta1/asset
+  labels:
+    testing.upbound.io/example-name: basic_bucket
+  name: bucket-${Rand.RFC1123Subdomain}
+spec:
+  forProvider:
+    cors:
+      - maxAgeSeconds: 3600
+        method:
+          - GET
+          - HEAD
+          - PUT
+          - POST
+          - DELETE
+        origin:
+          - http://image-store.com
+        responseHeader:
+          - '*'
+    forceDestroy: true
+    location: US
+    uniformBucketLevelAccess: true
+    website:
+      - mainPageSuffix: index.html
+        notFoundPage: 404.html
