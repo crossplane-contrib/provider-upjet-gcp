@@ -211,6 +211,11 @@ import (
 	keyringiammember "github.com/upbound/provider-gcp/internal/controller/kms/keyringiammember"
 	keyringimportjob "github.com/upbound/provider-gcp/internal/controller/kms/keyringimportjob"
 	secretciphertext "github.com/upbound/provider-gcp/internal/controller/kms/secretciphertext"
+	logview "github.com/upbound/provider-gcp/internal/controller/logging/logview"
+	metric "github.com/upbound/provider-gcp/internal/controller/logging/metric"
+	projectbucketconfig "github.com/upbound/provider-gcp/internal/controller/logging/projectbucketconfig"
+	projectexclusion "github.com/upbound/provider-gcp/internal/controller/logging/projectexclusion"
+	projectsink "github.com/upbound/provider-gcp/internal/controller/logging/projectsink"
 	instancememcache "github.com/upbound/provider-gcp/internal/controller/memcache/instance"
 	model "github.com/upbound/provider-gcp/internal/controller/mlengine/model"
 	alertpolicy "github.com/upbound/provider-gcp/internal/controller/monitoring/alertpolicy"
@@ -478,6 +483,11 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		keyringiammember.Setup,
 		keyringimportjob.Setup,
 		secretciphertext.Setup,
+		logview.Setup,
+		metric.Setup,
+		projectbucketconfig.Setup,
+		projectexclusion.Setup,
+		projectsink.Setup,
 		instancememcache.Setup,
 		model.Setup,
 		alertpolicy.Setup,

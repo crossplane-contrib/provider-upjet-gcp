@@ -58,6 +58,7 @@ import (
 	v1beta1iap "github.com/upbound/provider-gcp/apis/iap/v1beta1"
 	v1beta1identityplatform "github.com/upbound/provider-gcp/apis/identityplatform/v1beta1"
 	v1beta1kms "github.com/upbound/provider-gcp/apis/kms/v1beta1"
+	v1beta1logging "github.com/upbound/provider-gcp/apis/logging/v1beta1"
 	v1beta1memcache "github.com/upbound/provider-gcp/apis/memcache/v1beta1"
 	v1beta1mlengine "github.com/upbound/provider-gcp/apis/mlengine/v1beta1"
 	v1beta1monitoring "github.com/upbound/provider-gcp/apis/monitoring/v1beta1"
@@ -118,6 +119,7 @@ func init() {
 		v1beta1iap.SchemeBuilder.AddToScheme,
 		v1beta1identityplatform.SchemeBuilder.AddToScheme,
 		v1beta1kms.SchemeBuilder.AddToScheme,
+		v1beta1logging.SchemeBuilder.AddToScheme,
 		v1beta1memcache.SchemeBuilder.AddToScheme,
 		v1beta1mlengine.SchemeBuilder.AddToScheme,
 		v1beta1monitoring.SchemeBuilder.AddToScheme,
