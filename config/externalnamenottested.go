@@ -48,6 +48,8 @@ var ExternalNameNotTestedConfigs = map[string]config.ExternalName{
 	"google_certificate_manager_certificate": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/global/certificates/{{ .external_name }}"),
 	// projects/{{project}}/locations/global/dnsAuthorizations/{{name}}
 	"google_certificate_manager_dns_authorization": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/global/dnsAuthorizations/{{ .external_name }}"),
+	// Imported by using the following projects/{{project}}/locations/global/certificateMaps/{{map}}/certificateMapEntries/{{name}}
+	"google_certificate_manager_certificate_map_entry": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/global/certificateMaps/{{ .parameters.map }}/certificateMapEntries/{{ .external_name }}"),
 
 	// cloudasset
 	//
@@ -324,25 +326,6 @@ var ExternalNameNotTestedConfigs = map[string]config.ExternalName{
 	//
 	// Imported by using the following projects/{{project}}/locations/{{location}}/connections/{{connection_id}} roles/viewer user:jane@example.com
 	"google_bigquery_connection_iam_member": config.TemplatedStringAsIdentifier("connection_id", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/connections/{{ .external_name }} {{ .parameters.role }} {{ .parameters.member }}"),
-
-	// certificatemanager
-	//
-	// Imported by using the following projects/{{project}}/locations/global/certificateMaps/{{name}}
-	"google_certificate_manager_certificate_map": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/global/certificateMaps/{{ .external_name }}"),
-	// Imported by using the following projects/{{project}}/locations/global/certificateMaps/{{map}}/certificateMapEntries/{{name}}
-	"google_certificate_manager_certificate_map_entry": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/global/certificateMaps/{{ .parameters.map }}/certificateMapEntries/{{ .external_name }}"),
-
-	// ids
-	//
-	// Imported by using the following projects/{{project}}/locations/{{location}}/endpoints/{{name}}
-	"google_cloud_ids_endpoint": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/endpoints/{{ .exyernal_name }}"),
-
-	// cloudrun
-	//
-	// Imported by using the following projects/{{project}}/locations/{{location}}/jobs/{{name}}
-	"google_cloud_run_v2_job": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/jobs/{{ .external_name }}"),
-	// Imported by using the following projects/{{project}}/locations/{{location}}/services/{{name}}
-	"google_cloud_run_v2_service": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/services/{{ .external_name }}"),
 
 	// cloudtasks
 	//

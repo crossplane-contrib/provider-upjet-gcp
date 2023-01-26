@@ -28,6 +28,8 @@ import (
 	v1beta1bigquery "github.com/upbound/provider-gcp/apis/bigquery/v1beta1"
 	v1beta1bigtable "github.com/upbound/provider-gcp/apis/bigtable/v1beta1"
 	v1beta1binaryauthorization "github.com/upbound/provider-gcp/apis/binaryauthorization/v1beta1"
+	v1beta1certificatemanager "github.com/upbound/provider-gcp/apis/certificatemanager/v1beta1"
+	v1beta1cloud "github.com/upbound/provider-gcp/apis/cloud/v1beta1"
 	v1beta1cloudbuild "github.com/upbound/provider-gcp/apis/cloudbuild/v1beta1"
 	v1beta1cloudfunctions "github.com/upbound/provider-gcp/apis/cloudfunctions/v1beta1"
 	v1beta1cloudiot "github.com/upbound/provider-gcp/apis/cloudiot/v1beta1"
@@ -89,6 +91,8 @@ func init() {
 		v1beta1bigquery.SchemeBuilder.AddToScheme,
 		v1beta1bigtable.SchemeBuilder.AddToScheme,
 		v1beta1binaryauthorization.SchemeBuilder.AddToScheme,
+		v1beta1certificatemanager.SchemeBuilder.AddToScheme,
+		v1beta1cloud.SchemeBuilder.AddToScheme,
 		v1beta1cloudbuild.SchemeBuilder.AddToScheme,
 		v1beta1cloudfunctions.SchemeBuilder.AddToScheme,
 		v1beta1cloudiot.SchemeBuilder.AddToScheme,
