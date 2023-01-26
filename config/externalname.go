@@ -760,6 +760,21 @@ var externalNameConfigs = map[string]config.ExternalName{
 	"google_data_loss_prevention_job_trigger": config.IdentifierFromProvider,
 	// Imported by using the following format: {{parent}}/storedInfoTypes/{{name}}
 	"google_data_loss_prevention_stored_info_type": config.IdentifierFromProvider,
+
+	// logging
+	//
+	// LogView can be imported using any of these accepted formats: {{parent}}/locations/{{location}}/buckets/{{bucket}}/views/{{name}}
+	"google_logging_log_view": config.TemplatedStringAsIdentifier("name", "{{ .parameters.parent }}/locations/{{ .parameters.location }}/buckets/{{ .parameters.bucket }}/views/{{ .external_name }}"),
+	// Metric can be imported using Name
+	"google_logging_metric": config.NameAsIdentifier,
+	// This resource can be imported using the following format: projects/{{project}}/locations/{{location}}/buckets/{{bucket_id}}
+	"google_logging_project_bucket_config": config.TemplatedStringAsIdentifier("", "projects/{{ .parameters.project }}/locations/{{ .parameters.location }}/buckets/{{ .parameters.bucket_id }}"),
+	// Project-level logging exclusions can be imported using their URI
+	// projects/my-project/exclusions/my-exclusion
+	"google_logging_project_exclusion": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/exclusions/{{ .external_name }}"),
+	// Project-level logging sinks can be imported using their URI
+	// projects/my-project/sinks/my-sink
+	"google_logging_project_sink": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/sinks/{{ .external_name }}"),
 }
 
 // TemplatedStringAsIdentifierWithNoName uses TemplatedStringAsIdentifier but
