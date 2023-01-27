@@ -19,8 +19,8 @@ package v1beta1
 
 import resource "github.com/crossplane/crossplane-runtime/pkg/resource"
 
-// GetItems of this BackupList.
-func (l *BackupList) GetItems() []resource.Managed {
+// GetItems of this DatasetList.
+func (l *DatasetList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
 	for i := range l.Items {
 		items[i] = &l.Items[i]
@@ -28,8 +28,8 @@ func (l *BackupList) GetItems() []resource.Managed {
 	return items
 }
 
-// GetItems of this InstanceList.
-func (l *InstanceList) GetItems() []resource.Managed {
+// GetItems of this FeaturestoreEntitytypeList.
+func (l *FeaturestoreEntitytypeList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
 	for i := range l.Items {
 		items[i] = &l.Items[i]
@@ -37,8 +37,17 @@ func (l *InstanceList) GetItems() []resource.Managed {
 	return items
 }
 
-// GetItems of this SnapshotList.
-func (l *SnapshotList) GetItems() []resource.Managed {
+// GetItems of this FeaturestoreList.
+func (l *FeaturestoreList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this TensorboardList.
+func (l *TensorboardList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
 	for i := range l.Items {
 		items[i] = &l.Items[i]

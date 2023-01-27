@@ -411,13 +411,6 @@ var ExternalNameNotTestedConfigs = map[string]config.ExternalName{
 	// Imported by using the following projects/{{project}}/locations/{{location}}/googleChannelConfig
 	"google_eventarc_google_channel_config": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/googleChannelConfig"),
 
-	// filestore
-	//
-	// Imported by using the following projects/{{project}}/locations/{{location}}/backups/{{name}}
-	"google_filestore_backup": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/backups/{{ .external_name }}"),
-	// Imported by using the following projects/{{project}}/locations/{{location}}/instances/{{instance}}/snapshots/{{name}}
-	"google_filestore_snapshot": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/instances/{{ .parameters.instance }}/snapshots/{{ .external_name }}"),
-
 	// gke
 	//
 	// Imported by using the following projects/{{project}}/locations/{{location}}/backupPlans/{{name}}
@@ -477,18 +470,10 @@ var ExternalNameNotTestedConfigs = map[string]config.ExternalName{
 
 	// vertexai
 	//
-	// No Import
-	"google_vertex_ai_dataset": config.IdentifierFromProvider,
 	// Imported by using the following projects/{{project}}/locations/{{location}}/endpoints/{{name}}
 	"google_vertex_ai_endpoint": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/endpoints/{{ .external_name }}"),
-	// Imported by using the following projects/{{project}}/locations/{{region}}/featurestores/{{name}}
-	"google_vertex_ai_featurestore": config.IdentifierFromProvider,
-	// Imported by using the following {{featurestore}}/entityTypes/{{name}}
-	"google_vertex_ai_featurestore_entitytype": config.IdentifierFromProvider,
 	// Imported by using the following {{entitytype}}/features/{{name}}
 	"google_vertex_ai_featurestore_entitytype_feature": config.IdentifierFromProvider,
 	// Imported by using the following projects/{{project}}/locations/{{region}}/indexes/{{name}}
 	"google_vertex_ai_index": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{.parameters.region }}/indexes/{{ .external_name }}"),
-	// Imported by using the following projects/{{project}}/locations/{{region}}/tensorboards/{{name}}
-	"google_vertex_ai_tensorboard": config.TemplatedStringAsIdentifier("display_name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.region }}/tensorboards/{{ .external_name }}"),
 }
