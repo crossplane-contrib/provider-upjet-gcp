@@ -299,7 +299,8 @@ type ConfigX509ConfigCAOptionsParameters struct {
 	IsCA *bool `json:"isCa" tf:"is_ca,omitempty"`
 
 	// Refers to the "path length constraint" in Basic Constraints extension. For a CA certificate, this value describes the depth of
-	// subordinate CA certificates that are allowed. If this value is less than 0, the request will fail.
+	// subordinate CA certificates that are allowed. If this value is less than 0, the request will fail. Setting the value to 0
+	// requires setting zero_max_issuer_path_length = true.
 	// +kubebuilder:validation:Optional
 	MaxIssuerPathLength *float64 `json:"maxIssuerPathLength,omitempty" tf:"max_issuer_path_length,omitempty"`
 
@@ -309,7 +310,7 @@ type ConfigX509ConfigCAOptionsParameters struct {
 	NonCA *bool `json:"nonCa,omitempty" tf:"non_ca,omitempty"`
 
 	// When true, the "path length constraint" in Basic Constraints extension will be set to 0.
-	// if both max_issuer_path_length and zero_max_issuer_path_length are unset,
+	// If both max_issuer_path_length and zero_max_issuer_path_length are unset,
 	// the max path length will be omitted from the CA certificate.
 	// +kubebuilder:validation:Optional
 	ZeroMaxIssuerPathLength *bool `json:"zeroMaxIssuerPathLength,omitempty" tf:"zero_max_issuer_path_length,omitempty"`

@@ -111,6 +111,11 @@ type NodeGroupParameters struct {
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	// Share settings for the node group.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ShareSettings []ShareSettingsParameters `json:"shareSettings,omitempty" tf:"share_settings,omitempty"`
+
 	// The total number of nodes in the node group. One of initial_size or size must be specified.
 	// +kubebuilder:validation:Optional
 	Size *float64 `json:"size,omitempty" tf:"size,omitempty"`
@@ -118,6 +123,56 @@ type NodeGroupParameters struct {
 	// Zone where this node group is located
 	// +kubebuilder:validation:Required
 	Zone *string `json:"zone" tf:"zone,omitempty"`
+}
+
+type ProjectMapObservation struct {
+}
+
+type ProjectMapParameters struct {
+
+	// The identifier for this object. Format specified above.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1.Project
+	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractParamPath("project_id",false)
+	// +kubebuilder:validation:Optional
+	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Reference to a Project in cloudplatform to populate id.
+	// +kubebuilder:validation:Optional
+	IDRef *v1.Reference `json:"idRef,omitempty" tf:"-"`
+
+	// Selector for a Project in cloudplatform to populate id.
+	// +kubebuilder:validation:Optional
+	IDSelector *v1.Selector `json:"idSelector,omitempty" tf:"-"`
+
+	// The project id/number should be the same as the key of this project config in the project map.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1.Project
+	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractParamPath("project_id",false)
+	// +kubebuilder:validation:Optional
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	// Reference to a Project in cloudplatform to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDRef *v1.Reference `json:"projectIdRef,omitempty" tf:"-"`
+
+	// Selector for a Project in cloudplatform to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
+}
+
+type ShareSettingsObservation struct {
+}
+
+type ShareSettingsParameters struct {
+
+	// A map of project id and project config. This is only valid when shareType's value is SPECIFIC_PROJECTS.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ProjectMap []ProjectMapParameters `json:"projectMap,omitempty" tf:"project_map,omitempty"`
+
+	// Node group sharing type.
+	// Possible values are ORGANIZATION, SPECIFIC_PROJECTS, and LOCAL.
+	// +kubebuilder:validation:Required
+	ShareType *string `json:"shareType" tf:"share_type,omitempty"`
 }
 
 // NodeGroupSpec defines the desired state of NodeGroup

@@ -87,20 +87,6 @@ type LocalSsdsParameters struct {
 	Interface *string `json:"interface,omitempty" tf:"interface,omitempty"`
 }
 
-type ProjectMapObservation struct {
-}
-
-type ProjectMapParameters struct {
-
-	// The identifier for this object. Format specified above.
-	// +kubebuilder:validation:Required
-	ID *string `json:"id" tf:"id,omitempty"`
-
-	// The project id/number, should be same as the key of this project config in the project map.
-	// +kubebuilder:validation:Optional
-	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
-}
-
 type ReservationObservation struct {
 
 	// Full or partial URL to a parent commitment. This field displays for
@@ -139,7 +125,7 @@ type ReservationParameters struct {
 	// The share setting for reservations.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	ShareSettings []ShareSettingsParameters `json:"shareSettings,omitempty" tf:"share_settings,omitempty"`
+	ShareSettings []ReservationShareSettingsParameters `json:"shareSettings,omitempty" tf:"share_settings,omitempty"`
 
 	// Reservation for instances with specific machine shapes.
 	// Structure is documented below.
@@ -155,6 +141,22 @@ type ReservationParameters struct {
 	// The zone where the reservation is made.
 	// +kubebuilder:validation:Required
 	Zone *string `json:"zone" tf:"zone,omitempty"`
+}
+
+type ReservationShareSettingsObservation struct {
+}
+
+type ReservationShareSettingsParameters struct {
+
+	// A map of project number and project config. This is only valid when shareType's value is SPECIFIC_PROJECTS.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ProjectMap []ShareSettingsProjectMapParameters `json:"projectMap,omitempty" tf:"project_map,omitempty"`
+
+	// Type of sharing for this shared-reservation
+	// Possible values are LOCAL and SPECIFIC_PROJECTS.
+	// +kubebuilder:validation:Optional
+	ShareType *string `json:"shareType,omitempty" tf:"share_type,omitempty"`
 }
 
 type ReservationSpecificReservationObservation struct {
@@ -175,20 +177,18 @@ type ReservationSpecificReservationParameters struct {
 	InstanceProperties []InstancePropertiesParameters `json:"instanceProperties" tf:"instance_properties,omitempty"`
 }
 
-type ShareSettingsObservation struct {
+type ShareSettingsProjectMapObservation struct {
 }
 
-type ShareSettingsParameters struct {
+type ShareSettingsProjectMapParameters struct {
 
-	// A map of project number and project config. This is only valid when shareType's value is SPECIFIC_PROJECTS.
-	// Structure is documented below.
-	// +kubebuilder:validation:Optional
-	ProjectMap []ProjectMapParameters `json:"projectMap,omitempty" tf:"project_map,omitempty"`
+	// The identifier for this object. Format specified above.
+	// +kubebuilder:validation:Required
+	ID *string `json:"id" tf:"id,omitempty"`
 
-	// Type of sharing for this shared-reservation
-	// Possible values are LOCAL and SPECIFIC_PROJECTS.
+	// The project id/number, should be same as the key of this project config in the project map.
 	// +kubebuilder:validation:Optional
-	ShareType *string `json:"shareType,omitempty" tf:"share_type,omitempty"`
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 }
 
 // ReservationSpec defines the desired state of Reservation

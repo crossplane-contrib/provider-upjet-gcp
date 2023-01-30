@@ -314,6 +314,11 @@ spec:
                           description: The maximum number of bad records that BigQuery
                             can ignore when reading data.
                           type: number
+                        referenceFileSchemaUri:
+                          description: 'When creating an external table, the user
+                            can provide a reference file with the table schema. This
+                            is enabled for the following formats: AVRO, PARQUET, ORC.'
+                          type: string
                         schema:
                           description: 'A JSON schema for the external table. Schema
                             is required for CSV and JSON formats if autodetect is

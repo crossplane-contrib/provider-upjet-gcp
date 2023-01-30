@@ -72,9 +72,9 @@ spec:
                     type: string
                   host:
                     description: The host the user can connect from. This is only
-                      supported for MySQL instances. Don't set this field for PostgreSQL
-                      instances. Can be an IP address. Changing this forces a new
-                      resource to be created.
+                      supported for BUILT_IN users in MySQL instances. Don't set this
+                      field for PostgreSQL and SQL Server instances. Can be an IP
+                      address. Changing this forces a new resource to be created.
                     type: string
                   instance:
                     description: The name of the Cloud SQL instance. Changing this
@@ -178,7 +178,9 @@ spec:
                   passwordSecretRef:
                     description: The password for the user. Can be updated. For Postgres
                       instances this is a Required field, unless type is set to either
-                      CLOUD_IAM_USER or CLOUD_IAM_SERVICE_ACCOUNT.
+                      CLOUD_IAM_USER or CLOUD_IAM_SERVICE_ACCOUNT. Don't set this
+                      field for CLOUD_IAM_USER and CLOUD_IAM_SERVICE_ACCOUNT user
+                      types for any Cloud SQL instance.
                     properties:
                       key:
                         description: The key to select.

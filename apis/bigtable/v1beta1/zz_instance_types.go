@@ -56,7 +56,7 @@ type ClusterParameters struct {
 	// +kubebuilder:validation:Optional
 	AutoscalingConfig []AutoscalingConfigParameters `json:"autoscalingConfig,omitempty" tf:"autoscaling_config,omitempty"`
 
-	// The ID of the Cloud Bigtable cluster.
+	// The ID of the Cloud Bigtable cluster. Must be 6-30 characters and must only contain hyphens, lowercase letters and numbers.
 	// +kubebuilder:validation:Required
 	ClusterID *string `json:"clusterId" tf:"cluster_id,omitempty"`
 
@@ -65,8 +65,7 @@ type ClusterParameters struct {
 	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
 
 	// The number of nodes in your Cloud Bigtable cluster.
-	// Required, with a minimum of 1 for a PRODUCTION instance. Must be left unset
-	// for a DEVELOPMENT instance.
+	// Required, with a minimum of 1 for each cluster in an instance.
 	// +kubebuilder:validation:Optional
 	NumNodes *float64 `json:"numNodes,omitempty" tf:"num_nodes,omitempty"`
 

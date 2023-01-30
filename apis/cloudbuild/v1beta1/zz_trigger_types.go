@@ -160,6 +160,11 @@ type GitFileSourceObservation struct {
 
 type GitFileSourceParameters struct {
 
+	// The full resource name of the github enterprise config.
+	// Format: projects/{project}/locations/{location}/githubEnterpriseConfigs/{id}. projects/{project}/githubEnterpriseConfigs/{id}.
+	// +kubebuilder:validation:Optional
+	GithubEnterpriseConfig *string `json:"githubEnterpriseConfig,omitempty" tf:"github_enterprise_config,omitempty"`
+
 	// The path of the file, with the repo root as the root of the path.
 	// +kubebuilder:validation:Required
 	Path *string `json:"path" tf:"path,omitempty"`
@@ -474,6 +479,11 @@ type SourceToBuildObservation struct {
 }
 
 type SourceToBuildParameters struct {
+
+	// The full resource name of the github enterprise config.
+	// Format: projects/{project}/locations/{location}/githubEnterpriseConfigs/{id}. projects/{project}/githubEnterpriseConfigs/{id}.
+	// +kubebuilder:validation:Optional
+	GithubEnterpriseConfig *string `json:"githubEnterpriseConfig,omitempty" tf:"github_enterprise_config,omitempty"`
 
 	// The branch or tag to use. Must start with "refs/" .
 	// +kubebuilder:validation:Required

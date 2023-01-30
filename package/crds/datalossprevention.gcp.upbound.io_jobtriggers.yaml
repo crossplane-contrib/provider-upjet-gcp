@@ -94,9 +94,24 @@ spec:
                                   - topic
                                   type: object
                                 type: array
+                              publishFindingsToCloudDataCatalog:
+                                description: Publish findings of a DlpJob to Data
+                                  Catalog.
+                                items:
+                                  type: object
+                                type: array
+                              publishSummaryToCscc:
+                                description: Publish the result summary of a DlpJob
+                                  to the Cloud Security Command Center.
+                                items:
+                                  type: object
+                                type: array
                               saveFindings:
-                                description: Schedule for triggered jobs Structure
-                                  is documented below.
+                                description: 'If set, the detailed findings will be
+                                  persisted to the specified OutputStorageConfig.
+                                  Only a single instance of this action can be specified.
+                                  Compatible with: Inspect, Risk Structure is documented
+                                  below.'
                                 items:
                                   properties:
                                     outputConfig:
@@ -170,6 +185,35 @@ spec:
                                   identifiers. Structure is documented below.
                                 items:
                                   properties:
+                                    identifyingFields:
+                                      description: Specifies the BigQuery fields that
+                                        will be returned with findings. If not specified,
+                                        no identifying fields will be returned for
+                                        findings. Structure is documented below.
+                                      items:
+                                        properties:
+                                          name:
+                                            description: 'Specification of the field
+                                              containing the timestamp of scanned
+                                              items. Used for data sources like Datastore
+                                              and BigQuery. For BigQuery: Required
+                                              to filter out rows based on the given
+                                              start and end times. If not specified
+                                              and the table was modified between the
+                                              given start and end times, the entire
+                                              table will be scanned. The valid data
+                                              types of the timestamp field are: INTEGER,
+                                              DATE, TIMESTAMP, or DATETIME BigQuery
+                                              column. For Datastore. Valid data types
+                                              of the timestamp field are: TIMESTAMP.
+                                              Datastore entity will be scanned if
+                                              the timestamp property does not exist
+                                              or its value is empty or invalid.'
+                                            type: string
+                                        required:
+                                        - name
+                                        type: object
+                                      type: array
                                     rowsLimit:
                                       description: Max number of rows to scan. If
                                         the table has more rows than this value, the

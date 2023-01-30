@@ -116,6 +116,10 @@ type ConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	PrivateEnvironmentConfig []PrivateEnvironmentConfigParameters `json:"privateEnvironmentConfig,omitempty" tf:"private_environment_config,omitempty"`
 
+	// The configuration settings for recovery. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	RecoveryConfig []RecoveryConfigParameters `json:"recoveryConfig,omitempty" tf:"recovery_config,omitempty"`
+
 	// The configuration settings for software inside the environment.  Structure is documented below.
 	// +kubebuilder:validation:Optional
 	SoftwareConfig []SoftwareConfigParameters `json:"softwareConfig,omitempty" tf:"software_config,omitempty"`
@@ -280,7 +284,7 @@ type MasterAuthorizedNetworksConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	CidrBlocks []CidrBlocksParameters `json:"cidrBlocks,omitempty" tf:"cidr_blocks,omitempty"`
 
-	// Whether or not master authorized networks is enabled.
+	// When enabled, Cloud Composer periodically saves snapshots of your environment to a Cloud Storage bucket.
 	// +kubebuilder:validation:Required
 	Enabled *bool `json:"enabled" tf:"enabled,omitempty"`
 }
@@ -430,6 +434,38 @@ type PrivateEnvironmentConfigParameters struct {
 	WebServerIPv4CidrBlock *string `json:"webServerIpv4CidrBlock,omitempty" tf:"web_server_ipv4_cidr_block,omitempty"`
 }
 
+type RecoveryConfigObservation struct {
+}
+
+type RecoveryConfigParameters struct {
+
+	// The recovery configuration settings for the Cloud Composer environment.
+	// +kubebuilder:validation:Optional
+	ScheduledSnapshotsConfig []ScheduledSnapshotsConfigParameters `json:"scheduledSnapshotsConfig,omitempty" tf:"scheduled_snapshots_config,omitempty"`
+}
+
+type ScheduledSnapshotsConfigObservation struct {
+}
+
+type ScheduledSnapshotsConfigParameters struct {
+
+	// When enabled, Cloud Composer periodically saves snapshots of your environment to a Cloud Storage bucket.
+	// +kubebuilder:validation:Required
+	Enabled *bool `json:"enabled" tf:"enabled,omitempty"`
+
+	// Snapshot schedule, in the unix-cron format.
+	// +kubebuilder:validation:Optional
+	SnapshotCreationSchedule *string `json:"snapshotCreationSchedule,omitempty" tf:"snapshot_creation_schedule,omitempty"`
+
+	// The URI of a bucket folder where to save the snapshot.
+	// +kubebuilder:validation:Optional
+	SnapshotLocation *string `json:"snapshotLocation,omitempty" tf:"snapshot_location,omitempty"`
+
+	// A time zone for the schedule. This value is a time offset and does not take into account daylight saving time changes. Valid values are from UTC-12 to UTC+12. Examples: UTC, UTC-01, UTC+03.
+	// +kubebuilder:validation:Optional
+	TimeZone *string `json:"timeZone,omitempty" tf:"time_zone,omitempty"`
+}
+
 type SchedulerObservation struct {
 }
 
@@ -439,7 +475,7 @@ type SchedulerParameters struct {
 	// +kubebuilder:validation:Optional
 	CPU *float64 `json:"cpu,omitempty" tf:"cpu,omitempty"`
 
-	// The number of schedulers.
+	// The number of Airflow triggerers.
 	// +kubebuilder:validation:Optional
 	Count *float64 `json:"count,omitempty" tf:"count,omitempty"`
 

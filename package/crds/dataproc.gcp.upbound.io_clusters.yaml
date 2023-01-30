@@ -84,6 +84,35 @@ spec:
                             - policyUri
                             type: object
                           type: array
+                        dataprocMetricConfig:
+                          description: The Compute Engine accelerator (GPU) configuration
+                            for these instances. Can be specified multiple times.
+                            Structure defined below.
+                          items:
+                            properties:
+                              metrics:
+                                description: Metrics sources to enable.
+                                items:
+                                  properties:
+                                    metricOverrides:
+                                      description: One or more [available OSS metrics]
+                                        (https://cloud.google.com/dataproc/docs/guides/monitoring#available_oss_metrics)
+                                        to collect for the metric course.
+                                      items:
+                                        type: string
+                                      type: array
+                                    metricSource:
+                                      description: A source for the collection of
+                                        Dataproc OSS metrics (see available OSS metrics).
+                                      type: string
+                                  required:
+                                  - metricSource
+                                  type: object
+                                type: array
+                            required:
+                            - metrics
+                            type: object
+                          type: array
                         encryptionConfig:
                           description: The Customer managed encryption keys settings
                             for the cluster. Structure defined below.
@@ -140,6 +169,40 @@ spec:
                                   with subnetwork. If neither is specified, this defaults
                                   to the "default" network.
                                 type: string
+                              nodeGroupAffinity:
+                                description: Node Group Affinity for sole-tenant clusters.
+                                items:
+                                  properties:
+                                    nodeGroupUri:
+                                      description: The URI of a sole-tenant node group
+                                        resource that the cluster will be created
+                                        on.
+                                      type: string
+                                  required:
+                                  - nodeGroupUri
+                                  type: object
+                                type: array
+                              reservationAffinity:
+                                description: Reservation Affinity for consuming zonal
+                                  reservation.
+                                items:
+                                  properties:
+                                    consumeReservationType:
+                                      description: Corresponds to the type of reservation
+                                        consumption.
+                                      type: string
+                                    key:
+                                      description: Corresponds to the label key of
+                                        reservation resource.
+                                      type: string
+                                    values:
+                                      description: Corresponds to the label values
+                                        of reservation resource.
+                                      items:
+                                        type: string
+                                      type: array
+                                  type: object
+                                type: array
                               serviceAccount:
                                 description: The service account to be used by the
                                   Node VMs. If not specified, the "default" service

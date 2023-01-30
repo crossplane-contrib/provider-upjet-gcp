@@ -66,15 +66,52 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  caCertificate:
+                    description: The CA certificate on the external server. Include
+                      only if SSL/TLS is used on the external server.
+                    type: string
+                  clientCertificate:
+                    description: The client certificate on the external server. Required
+                      only for server-client authentication. Include only if SSL/TLS
+                      is used on the external server.
+                    type: string
+                  clientKey:
+                    description: The private key file for the client certificate on
+                      the external server. Required only for server-client authentication.
+                      Include only if SSL/TLS is used on the external server.
+                    type: string
                   databaseVersion:
                     description: The MySQL version running on your source database
                       server. Possible values are MYSQL_5_5, MYSQL_5_6, MYSQL_5_7,
                       and MYSQL_8_0.
                     type: string
+                  dumpFilePath:
+                    description: A file in the bucket that contains the data from
+                      the external server.
+                    type: string
                   host:
                     description: The externally accessible IPv4 address for the source
                       database server.
                     type: string
+                  passwordSecretRef:
+                    description: 'The password for the replication user account. Note:
+                      This property is sensitive and will not be displayed in the
+                      plan.'
+                    properties:
+                      key:
+                        description: The key to select.
+                        type: string
+                      name:
+                        description: Name of the secret.
+                        type: string
+                      namespace:
+                        description: Namespace of the secret.
+                        type: string
+                    required:
+                    - key
+                    - name
+                    - namespace
+                    type: object
                   port:
                     description: The externally accessible port for the source database
                       server. Defaults to 3306.
@@ -86,6 +123,9 @@ spec:
                   region:
                     description: The Region in which the created instance should reside.
                       If it is not provided, the provider region is used.
+                    type: string
+                  username:
+                    description: The replication user account on the external server.
                     type: string
                 required:
                 - databaseVersion

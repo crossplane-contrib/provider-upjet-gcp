@@ -9,9 +9,15 @@ metadata:
 spec:
   forProvider:
     databaseVersion: MYSQL_8_0
+    dumpFilePath: gs://replica-bucket/source-database.sql.gz
     host: 10.20.30.40
+    passwordSecretRef:
+      key: example-key
+      name: example-secret
+      namespace: upbound-system
     port: 3306
     region: us-central1
+    username: some-user
 
 ---
 

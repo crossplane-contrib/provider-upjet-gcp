@@ -89,6 +89,18 @@ spec:
                             - disabled
                             type: object
                           type: array
+                        configConnectorConfig:
+                          description: . The status of the ConfigConnector addon.
+                            It is disabled by default; Set enabled = true to enable.
+                          items:
+                            properties:
+                              enabled:
+                                description: Enables vertical pod autoscaling
+                                type: boolean
+                            required:
+                            - enabled
+                            type: object
+                          type: array
                         dnsCacheConfig:
                           description: . The status of the NodeLocal DNSCache addon.
                             It is disabled by default. Set enabled = true to enable.
@@ -1042,6 +1054,33 @@ spec:
                             changing the image type will delete and recreate all nodes
                             in the node pool.
                           type: string
+                        kubeletConfig:
+                          description: Kubelet configuration, currently supported
+                            attributes can be found here. Structure is documented
+                            below.
+                          items:
+                            properties:
+                              cpuCfsQuota:
+                                description: If true, enables CPU CFS quota enforcement
+                                  for containers that specify CPU limits.
+                                type: boolean
+                              cpuCfsQuotaPeriod:
+                                description: The CPU CFS quota period value. Specified
+                                  as a sequence of decimal numbers, each with optional
+                                  fraction and a unit suffix, such as "300ms". Valid
+                                  time units are "ns", "us" (or "µs"), "ms", "s",
+                                  "m", "h". The value must be a positive duration.
+                                type: string
+                              cpuManagerPolicy:
+                                description: The CPU management policy on the node.
+                                  See K8S CPU Management Policies. One of "none" or
+                                  "static". Defaults to none when kubelet_config is
+                                  unset.
+                                type: string
+                            required:
+                            - cpuManagerPolicy
+                            type: object
+                          type: array
                         labels:
                           additionalProperties:
                             type: string
@@ -1050,6 +1089,25 @@ spec:
                             prefixes are reserved by Kubernetes Core components and
                             cannot be specified.
                           type: object
+                        linuxNodeConfig:
+                          description: Linux node configuration, currently supported
+                            attributes can be found here. Note that validations happen
+                            all server side. All attributes are optional. Structure
+                            is documented below.
+                          items:
+                            properties:
+                              sysctls:
+                                additionalProperties:
+                                  type: string
+                                description: The Linux kernel parameters to be applied
+                                  to the nodes and all pods running on the nodes.
+                                  Specified as a map from the key, such as net.core.wmem_max,
+                                  to a string value.
+                                type: object
+                            required:
+                            - sysctls
+                            type: object
+                          type: array
                         localSsdCount:
                           description: The amount of local SSD disks that will be
                             attached to each cluster node. Defaults to 0.
@@ -2044,6 +2102,33 @@ spec:
                                   Note that changing the image type will delete and
                                   recreate all nodes in the node pool.
                                 type: string
+                              kubeletConfig:
+                                description: Kubelet configuration, currently supported
+                                  attributes can be found here. Structure is documented
+                                  below.
+                                items:
+                                  properties:
+                                    cpuCfsQuota:
+                                      description: If true, enables CPU CFS quota
+                                        enforcement for containers that specify CPU
+                                        limits.
+                                      type: boolean
+                                    cpuCfsQuotaPeriod:
+                                      description: The CPU CFS quota period value.
+                                        Specified as a sequence of decimal numbers,
+                                        each with optional fraction and a unit suffix,
+                                        such as "300ms". Valid time units are "ns",
+                                        "us" (or "µs"), "ms", "s", "m", "h". The value
+                                        must be a positive duration.
+                                      type: string
+                                    cpuManagerPolicy:
+                                      description: The CPU management policy on the
+                                        node. See K8S CPU Management Policies. One
+                                        of "none" or "static". Defaults to none when
+                                        kubelet_config is unset.
+                                      type: string
+                                  type: object
+                                type: array
                               labels:
                                 additionalProperties:
                                   type: string
@@ -2052,6 +2137,24 @@ spec:
                                   k8s.io/ prefixes are reserved by Kubernetes Core
                                   components and cannot be specified.
                                 type: object
+                              linuxNodeConfig:
+                                description: Linux node configuration, currently supported
+                                  attributes can be found here. Note that validations
+                                  happen all server side. All attributes are optional.
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    sysctls:
+                                      additionalProperties:
+                                        type: string
+                                      description: The Linux kernel parameters to
+                                        be applied to the nodes and all pods running
+                                        on the nodes. Specified as a map from the
+                                        key, such as net.core.wmem_max, to a string
+                                        value.
+                                      type: object
+                                  type: object
+                                type: array
                               localSsdCount:
                                 description: The amount of local SSD disks that will
                                   be attached to each cluster node. Defaults to 0.

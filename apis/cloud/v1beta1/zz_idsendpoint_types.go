@@ -80,6 +80,10 @@ type IdsEndpointParameters struct {
 	// Possible values are INFORMATIONAL, LOW, MEDIUM, HIGH, and CRITICAL.
 	// +kubebuilder:validation:Required
 	Severity *string `json:"severity" tf:"severity,omitempty"`
+
+	// Configuration for threat IDs excluded from generating alerts. Limit: 99 IDs.
+	// +kubebuilder:validation:Optional
+	ThreatExceptions []*string `json:"threatExceptions,omitempty" tf:"threat_exceptions,omitempty"`
 }
 
 // IdsEndpointSpec defines the desired state of IdsEndpoint

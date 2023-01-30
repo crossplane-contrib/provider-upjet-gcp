@@ -498,6 +498,10 @@ spec:
                   description:
                     description: An optional description of this resource.
                     type: string
+                  edgeSecurityPolicy:
+                    description: The resource URL for the edge security policy associated
+                      with this backend service.
+                    type: string
                   enableCdn:
                     description: If true, enable Cloud CDN for this BackendService.
                     type: boolean

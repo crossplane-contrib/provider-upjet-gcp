@@ -152,6 +152,10 @@ type ExternalDataConfigurationParameters struct {
 	// +kubebuilder:validation:Optional
 	MaxBadRecords *float64 `json:"maxBadRecords,omitempty" tf:"max_bad_records,omitempty"`
 
+	// When creating an external table, the user can provide a reference file with the table schema. This is enabled for the following formats: AVRO, PARQUET, ORC.
+	// +kubebuilder:validation:Optional
+	ReferenceFileSchemaURI *string `json:"referenceFileSchemaUri,omitempty" tf:"reference_file_schema_uri,omitempty"`
+
 	// A JSON schema for the external table. Schema is required
 	// for CSV and JSON formats if autodetect is not on. Schema is disallowed
 	// for Google Cloud Bigtable, Cloud Datastore backups, Avro, ORC and Parquet formats.

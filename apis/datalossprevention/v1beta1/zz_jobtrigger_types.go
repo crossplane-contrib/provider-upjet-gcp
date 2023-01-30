@@ -35,7 +35,15 @@ type ActionsParameters struct {
 	// +kubebuilder:validation:Optional
 	PubSub []PubSubParameters `json:"pubSub,omitempty" tf:"pub_sub,omitempty"`
 
-	// Schedule for triggered jobs
+	// Publish findings of a DlpJob to Data Catalog.
+	// +kubebuilder:validation:Optional
+	PublishFindingsToCloudDataCatalog []PublishFindingsToCloudDataCatalogParameters `json:"publishFindingsToCloudDataCatalog,omitempty" tf:"publish_findings_to_cloud_data_catalog,omitempty"`
+
+	// Publish the result summary of a DlpJob to the Cloud Security Command Center.
+	// +kubebuilder:validation:Optional
+	PublishSummaryToCscc []PublishSummaryToCsccParameters `json:"publishSummaryToCscc,omitempty" tf:"publish_summary_to_cscc,omitempty"`
+
+	// If set, the detailed findings will be persisted to the specified OutputStorageConfig. Only a single instance of this action can be specified. Compatible with: Inspect, Risk
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	SaveFindings []SaveFindingsParameters `json:"saveFindings,omitempty" tf:"save_findings,omitempty"`
@@ -45,6 +53,12 @@ type BigQueryOptionsObservation struct {
 }
 
 type BigQueryOptionsParameters struct {
+
+	// Specifies the BigQuery fields that will be returned with findings.
+	// If not specified, no identifying fields will be returned for findings.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	IdentifyingFields []IdentifyingFieldsParameters `json:"identifyingFields,omitempty" tf:"identifying_fields,omitempty"`
 
 	// Max number of rows to scan. If the table has more rows than this value, the rest of the rows are omitted.
 	// If not set, or if set to 0, all rows will be scanned. Only one of rowsLimit and rowsLimitPercent can be
@@ -143,6 +157,21 @@ type FileSetParameters struct {
 	// equivalent to gs://mybucket/*, and gs://mybucket/directory/ is equivalent to gs://mybucket/directory/*.
 	// +kubebuilder:validation:Optional
 	URL *string `json:"url,omitempty" tf:"url,omitempty"`
+}
+
+type IdentifyingFieldsObservation struct {
+}
+
+type IdentifyingFieldsParameters struct {
+
+	// Specification of the field containing the timestamp of scanned items. Used for data sources like Datastore and BigQuery.
+	// For BigQuery: Required to filter out rows based on the given start and end times. If not specified and the table was
+	// modified between the given start and end times, the entire table will be scanned. The valid data types of the timestamp
+	// field are: INTEGER, DATE, TIMESTAMP, or DATETIME BigQuery column.
+	// For Datastore. Valid data types of the timestamp field are: TIMESTAMP. Datastore entity will be scanned if the
+	// timestamp property does not exist or its value is empty or invalid.
+	// +kubebuilder:validation:Required
+	Name *string `json:"name" tf:"name,omitempty"`
 }
 
 type InspectJobObservation struct {
@@ -268,6 +297,18 @@ type PubSubParameters struct {
 	// Cloud Pub/Sub topic to send notifications to.
 	// +kubebuilder:validation:Required
 	Topic *string `json:"topic" tf:"topic,omitempty"`
+}
+
+type PublishFindingsToCloudDataCatalogObservation struct {
+}
+
+type PublishFindingsToCloudDataCatalogParameters struct {
+}
+
+type PublishSummaryToCsccObservation struct {
+}
+
+type PublishSummaryToCsccParameters struct {
 }
 
 type RegexFileSetObservation struct {

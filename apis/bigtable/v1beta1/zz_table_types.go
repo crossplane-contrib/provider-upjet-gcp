@@ -47,6 +47,7 @@ type TableParameters struct {
 	// +kubebuilder:validation:Optional
 	ColumnFamily []ColumnFamilyParameters `json:"columnFamily,omitempty" tf:"column_family,omitempty"`
 
+	// A field to make the table protected against data loss i.e. when set to PROTECTED, deleting the table, the column families in the table, and the instance containing the table would be prohibited. If not provided, deletion protection will be set to UNPROTECTED.
 	// +kubebuilder:validation:Optional
 	DeletionProtection *string `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
 

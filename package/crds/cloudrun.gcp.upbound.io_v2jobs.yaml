@@ -351,7 +351,8 @@ spec:
                                       description: 'Periodic probe of container liveness.
                                         Container will be restarted if the probe fails.
                                         More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
-                                        Structure is documented below.'
+                                        This field is not supported in Cloud Run Job
+                                        currently. Structure is documented below.'
                                       items:
                                         properties:
                                           failureThreshold:
@@ -482,7 +483,8 @@ spec:
                                         if a startup probe is provided, until it succeeds.
                                         Container will not be added to service endpoints
                                         if the probe fails. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
-                                        Structure is documented below.'
+                                        This field is not supported in Cloud Run Job
+                                        currently. Structure is documented below.'
                                       items:
                                         properties:
                                           failureThreshold:

@@ -194,6 +194,196 @@ spec:
                     description: The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
+                  shareSettings:
+                    description: Share settings for the node group. Structure is documented
+                      below.
+                    items:
+                      properties:
+                        projectMap:
+                          description: A map of project id and project config. This
+                            is only valid when shareType's value is SPECIFIC_PROJECTS.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              id:
+                                description: The identifier for this object. Format
+                                  specified above.
+                                type: string
+                              idRef:
+                                description: Reference to a Project in cloudplatform
+                                  to populate id.
+                                properties:
+                                  name:
+                                    description: Name of the referenced object.
+                                    type: string
+                                  policy:
+                                    description: Policies for referencing.
+                                    properties:
+                                      resolution:
+                                        default: Required
+                                        description: Resolution specifies whether
+                                          resolution of this reference is required.
+                                          The default is 'Required', which means the
+                                          reconcile will fail if the reference cannot
+                                          be resolved. 'Optional' means this reference
+                                          will be a no-op if it cannot be resolved.
+                                        enum:
+                                        - Required
+                                        - Optional
+                                        type: string
+                                      resolve:
+                                        description: Resolve specifies when this reference
+                                          should be resolved. The default is 'IfNotPresent',
+                                          which will attempt to resolve the reference
+                                          only when the corresponding field is not
+                                          present. Use 'Always' to resolve the reference
+                                          on every reconcile.
+                                        enum:
+                                        - Always
+                                        - IfNotPresent
+                                        type: string
+                                    type: object
+                                required:
+                                - name
+                                type: object
+                              idSelector:
+                                description: Selector for a Project in cloudplatform
+                                  to populate id.
+                                properties:
+                                  matchControllerRef:
+                                    description: MatchControllerRef ensures an object
+                                      with the same controller reference as the selecting
+                                      object is selected.
+                                    type: boolean
+                                  matchLabels:
+                                    additionalProperties:
+                                      type: string
+                                    description: MatchLabels ensures an object with
+                                      matching labels is selected.
+                                    type: object
+                                  policy:
+                                    description: Policies for selection.
+                                    properties:
+                                      resolution:
+                                        default: Required
+                                        description: Resolution specifies whether
+                                          resolution of this reference is required.
+                                          The default is 'Required', which means the
+                                          reconcile will fail if the reference cannot
+                                          be resolved. 'Optional' means this reference
+                                          will be a no-op if it cannot be resolved.
+                                        enum:
+                                        - Required
+                                        - Optional
+                                        type: string
+                                      resolve:
+                                        description: Resolve specifies when this reference
+                                          should be resolved. The default is 'IfNotPresent',
+                                          which will attempt to resolve the reference
+                                          only when the corresponding field is not
+                                          present. Use 'Always' to resolve the reference
+                                          on every reconcile.
+                                        enum:
+                                        - Always
+                                        - IfNotPresent
+                                        type: string
+                                    type: object
+                                type: object
+                              projectId:
+                                description: The project id/number should be the same
+                                  as the key of this project config in the project
+                                  map.
+                                type: string
+                              projectIdRef:
+                                description: Reference to a Project in cloudplatform
+                                  to populate projectId.
+                                properties:
+                                  name:
+                                    description: Name of the referenced object.
+                                    type: string
+                                  policy:
+                                    description: Policies for referencing.
+                                    properties:
+                                      resolution:
+                                        default: Required
+                                        description: Resolution specifies whether
+                                          resolution of this reference is required.
+                                          The default is 'Required', which means the
+                                          reconcile will fail if the reference cannot
+                                          be resolved. 'Optional' means this reference
+                                          will be a no-op if it cannot be resolved.
+                                        enum:
+                                        - Required
+                                        - Optional
+                                        type: string
+                                      resolve:
+                                        description: Resolve specifies when this reference
+                                          should be resolved. The default is 'IfNotPresent',
+                                          which will attempt to resolve the reference
+                                          only when the corresponding field is not
+                                          present. Use 'Always' to resolve the reference
+                                          on every reconcile.
+                                        enum:
+                                        - Always
+                                        - IfNotPresent
+                                        type: string
+                                    type: object
+                                required:
+                                - name
+                                type: object
+                              projectIdSelector:
+                                description: Selector for a Project in cloudplatform
+                                  to populate projectId.
+                                properties:
+                                  matchControllerRef:
+                                    description: MatchControllerRef ensures an object
+                                      with the same controller reference as the selecting
+                                      object is selected.
+                                    type: boolean
+                                  matchLabels:
+                                    additionalProperties:
+                                      type: string
+                                    description: MatchLabels ensures an object with
+                                      matching labels is selected.
+                                    type: object
+                                  policy:
+                                    description: Policies for selection.
+                                    properties:
+                                      resolution:
+                                        default: Required
+                                        description: Resolution specifies whether
+                                          resolution of this reference is required.
+                                          The default is 'Required', which means the
+                                          reconcile will fail if the reference cannot
+                                          be resolved. 'Optional' means this reference
+                                          will be a no-op if it cannot be resolved.
+                                        enum:
+                                        - Required
+                                        - Optional
+                                        type: string
+                                      resolve:
+                                        description: Resolve specifies when this reference
+                                          should be resolved. The default is 'IfNotPresent',
+                                          which will attempt to resolve the reference
+                                          only when the corresponding field is not
+                                          present. Use 'Always' to resolve the reference
+                                          on every reconcile.
+                                        enum:
+                                        - Always
+                                        - IfNotPresent
+                                        type: string
+                                    type: object
+                                type: object
+                            type: object
+                          type: array
+                        shareType:
+                          description: Node group sharing type. Possible values are
+                            ORGANIZATION, SPECIFIC_PROJECTS, and LOCAL.
+                          type: string
+                      required:
+                      - shareType
+                      type: object
+                    type: array
                   size:
                     description: The total number of nodes in the node group. One
                       of initial_size or size must be specified.

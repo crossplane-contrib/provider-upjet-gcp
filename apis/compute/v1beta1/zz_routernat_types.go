@@ -168,6 +168,11 @@ type RouterNATParameters struct {
 	// +kubebuilder:validation:Optional
 	TCPEstablishedIdleTimeoutSec *float64 `json:"tcpEstablishedIdleTimeoutSec,omitempty" tf:"tcp_established_idle_timeout_sec,omitempty"`
 
+	// Timeout (in seconds) for TCP connections that are in TIME_WAIT state.
+	// Defaults to 120s if not set.
+	// +kubebuilder:validation:Optional
+	TCPTimeWaitTimeoutSec *float64 `json:"tcpTimeWaitTimeoutSec,omitempty" tf:"tcp_time_wait_timeout_sec,omitempty"`
+
 	// Timeout (in seconds) for TCP transitory connections.
 	// Defaults to 30s if not set.
 	// +kubebuilder:validation:Optional
