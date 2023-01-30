@@ -440,20 +440,11 @@ var ExternalNameNotTestedConfigs = map[string]config.ExternalName{
 	//
 	// Imported by using the following projects/{{project}}/config
 	"google_identity_platform_config": config.TemplatedStringAsIdentifier("", "projects/{{ .setup.configuration.project }}/config"),
-	// Imported by using the following projects/{{project}}/config/{{name}}
-	"google_identity_platform_project_default_config": config.IdentifierFromProvider,
-
-	// kms
-	//
-	// Imported by using the following {{name}}
-	"google_kms_crypto_key_version": config.NameAsIdentifier,
 
 	// monitoring
 	//
 	// Imported by using the following locations/global/metricsScopes/{{metrics_scope}}/projects/{{name}}
 	"google_monitoring_monitored_project": config.TemplatedStringAsIdentifier("name", " locations/global/metricsScopes/{{ .parameters.metrics_scope }}/projects/{{ .external_name }}"),
-	// Imported by using the following projects/{{project}}/services/{{service_id}}
-	"google_monitoring_service": config.TemplatedStringAsIdentifier("service_id", "projects/{{ .setup.configuration.project }}/services/{{ .external_name }}"),
 
 	// scc
 	//

@@ -1,0 +1,48 @@
+apiVersion: kms.gcp.upbound.io/v1beta1
+kind: CryptoKeyVersion
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kms/v1beta1/cryptokeyversion
+  labels:
+    testing.upbound.io/example-name: example-key
+  name: key-version-${Rand.RFC1123Subdomain}
+spec:
+  forProvider:
+    cryptoKeySelector:
+      matchLabels:
+        testing.upbound.io/example-name: crypto-key
+
+---
+
+apiVersion: kms.gcp.upbound.io/v1beta1
+kind: CryptoKey
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kms/v1beta1/cryptokeyversion
+    upjet.upbound.io/manual-intervention: "By default, keys in Cloud KMS spend 24 hours in the Scheduled for destruction (soft deleted) state before the key material is logically deleted from the system"
+  labels:
+    testing.upbound.io/example-name: crypto-key
+  name: crypto-key-version-${Rand.RFC1123Subdomain}
+spec:
+  forProvider:
+    keyRingSelector:
+      matchLabels:
+        testing.upbound.io/example-name: keyring
+    rotationPeriod: 100000s
+    # The minimum duration is 24 hours for all keys, except for import-only keys which have a minimum duration of 0
+    destroyScheduledDuration: 86400s
+
+---
+
+apiVersion: kms.gcp.upbound.io/v1beta1
+kind: KeyRing
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kms/v1beta1/cryptokeyversion
+    upjet.upbound.io/manual-intervention: "This resource is dependency of CryptoKey. This resource is skipping because parent resource was skipped."
+  labels:
+    testing.upbound.io/example-name: keyring
+  name: keyring-crypto-key-version-${Rand.RFC1123Subdomain}
+spec:
+  forProvider:
+    location: global

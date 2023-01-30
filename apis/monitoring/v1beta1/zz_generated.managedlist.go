@@ -82,6 +82,15 @@ func (l *SLOList) GetItems() []resource.Managed {
 	return items
 }
 
+// GetItems of this ServiceList.
+func (l *ServiceList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
 // GetItems of this UptimeCheckConfigList.
 func (l *UptimeCheckConfigList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))

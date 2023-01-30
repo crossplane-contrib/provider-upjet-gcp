@@ -447,6 +447,8 @@ var externalNameConfigs = map[string]config.ExternalName{
 	"google_identity_platform_tenant_inbound_saml_config": config.IdentifierFromProvider,
 	// Imported by using the following: projects/{{project}}/tenants/{{tenant}}/oauthIdpConfigs/{{name}}
 	"google_identity_platform_tenant_oauth_idp_config": config.IdentifierFromProvider,
+	// Imported by using the following projects/{{project}}/config/{{name}}
+	"google_identity_platform_project_default_config": config.IdentifierFromProvider,
 
 	// kms
 	//
@@ -462,6 +464,8 @@ var externalNameConfigs = map[string]config.ExternalName{
 	"google_kms_crypto_key_iam_member": config.IdentifierFromProvider,
 	// This resource does not support import.
 	"google_kms_secret_ciphertext": config.IdentifierFromProvider,
+	// Imported by using the following {{name}}
+	"google_kms_crypto_key_version": config.IdentifierFromProvider,
 
 	// monitoring
 	//
@@ -481,6 +485,8 @@ var externalNameConfigs = map[string]config.ExternalName{
 	"google_monitoring_metric_descriptor": config.IdentifierFromProvider,
 	// Slo can be imported using Name
 	"google_monitoring_slo": config.IdentifierFromProvider,
+	// Imported by using the following projects/{{project}}/services/{{service_id}}
+	"google_monitoring_service": config.TemplatedStringAsIdentifier("service_id", "projects/{{ .setup.configuration.project }}/services/{{ .external_name }}"),
 
 	// notebooks
 	//

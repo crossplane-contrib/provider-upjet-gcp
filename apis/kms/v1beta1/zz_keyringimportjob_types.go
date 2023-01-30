@@ -25,7 +25,7 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
-type AttestationObservation struct {
+type KeyRingImportJobAttestationObservation struct {
 
 	// The attestation data provided by the HSM when the key operation was performed.
 	// A base64-encoded string.
@@ -35,7 +35,7 @@ type AttestationObservation struct {
 	Format *string `json:"format,omitempty" tf:"format,omitempty"`
 }
 
-type AttestationParameters struct {
+type KeyRingImportJobAttestationParameters struct {
 }
 
 type KeyRingImportJobObservation struct {
@@ -44,7 +44,7 @@ type KeyRingImportJobObservation struct {
 	// Use this statement to verify attributes of the key as stored on the HSM, independently of Google.
 	// Only present if the chosen ImportMethod is one with a protection level of HSM.
 	// Structure is documented below.
-	Attestation []AttestationObservation `json:"attestation,omitempty" tf:"attestation,omitempty"`
+	Attestation []KeyRingImportJobAttestationObservation `json:"attestation,omitempty" tf:"attestation,omitempty"`
 
 	// The time at which this resource is scheduled for expiration and can no longer be used.
 	// This is in RFC3339 text format.
