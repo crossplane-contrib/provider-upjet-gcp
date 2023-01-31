@@ -13,11 +13,18 @@ import (
 	envgroup "github.com/upbound/provider-gcp/internal/controller/apigee/envgroup"
 	environment "github.com/upbound/provider-gcp/internal/controller/apigee/environment"
 	instance "github.com/upbound/provider-gcp/internal/controller/apigee/instance"
+	nataddress "github.com/upbound/provider-gcp/internal/controller/apigee/nataddress"
 	organization "github.com/upbound/provider-gcp/internal/controller/apigee/organization"
 	application "github.com/upbound/provider-gcp/internal/controller/appengine/application"
 	applicationurldispatchrules "github.com/upbound/provider-gcp/internal/controller/appengine/applicationurldispatchrules"
 	servicenetworksettings "github.com/upbound/provider-gcp/internal/controller/appengine/servicenetworksettings"
 	standardappversion "github.com/upbound/provider-gcp/internal/controller/appengine/standardappversion"
+	registryrepository "github.com/upbound/provider-gcp/internal/controller/artifact/registryrepository"
+	appconnection "github.com/upbound/provider-gcp/internal/controller/beyondcorp/appconnection"
+	appconnector "github.com/upbound/provider-gcp/internal/controller/beyondcorp/appconnector"
+	appgateway "github.com/upbound/provider-gcp/internal/controller/beyondcorp/appgateway"
+	analyticshubdataexchange "github.com/upbound/provider-gcp/internal/controller/bigquery/analyticshubdataexchange"
+	analyticshublisting "github.com/upbound/provider-gcp/internal/controller/bigquery/analyticshublisting"
 	connection "github.com/upbound/provider-gcp/internal/controller/bigquery/connection"
 	dataset "github.com/upbound/provider-gcp/internal/controller/bigquery/dataset"
 	datasetaccess "github.com/upbound/provider-gcp/internal/controller/bigquery/datasetaccess"
@@ -305,11 +312,18 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		envgroup.Setup,
 		environment.Setup,
 		instance.Setup,
+		nataddress.Setup,
 		organization.Setup,
 		application.Setup,
 		applicationurldispatchrules.Setup,
 		servicenetworksettings.Setup,
 		standardappversion.Setup,
+		registryrepository.Setup,
+		appconnection.Setup,
+		appconnector.Setup,
+		appgateway.Setup,
+		analyticshubdataexchange.Setup,
+		analyticshublisting.Setup,
 		connection.Setup,
 		dataset.Setup,
 		datasetaccess.Setup,

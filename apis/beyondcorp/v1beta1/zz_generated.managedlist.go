@@ -19,8 +19,8 @@ package v1beta1
 
 import resource "github.com/crossplane/crossplane-runtime/pkg/resource"
 
-// GetItems of this EnvgroupList.
-func (l *EnvgroupList) GetItems() []resource.Managed {
+// GetItems of this AppConnectionList.
+func (l *AppConnectionList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
 	for i := range l.Items {
 		items[i] = &l.Items[i]
@@ -28,8 +28,8 @@ func (l *EnvgroupList) GetItems() []resource.Managed {
 	return items
 }
 
-// GetItems of this EnvironmentList.
-func (l *EnvironmentList) GetItems() []resource.Managed {
+// GetItems of this AppConnectorList.
+func (l *AppConnectorList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
 	for i := range l.Items {
 		items[i] = &l.Items[i]
@@ -37,26 +37,8 @@ func (l *EnvironmentList) GetItems() []resource.Managed {
 	return items
 }
 
-// GetItems of this InstanceList.
-func (l *InstanceList) GetItems() []resource.Managed {
-	items := make([]resource.Managed, len(l.Items))
-	for i := range l.Items {
-		items[i] = &l.Items[i]
-	}
-	return items
-}
-
-// GetItems of this NATAddressList.
-func (l *NATAddressList) GetItems() []resource.Managed {
-	items := make([]resource.Managed, len(l.Items))
-	for i := range l.Items {
-		items[i] = &l.Items[i]
-	}
-	return items
-}
-
-// GetItems of this OrganizationList.
-func (l *OrganizationList) GetItems() []resource.Managed {
+// GetItems of this AppGatewayList.
+func (l *AppGatewayList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
 	for i := range l.Items {
 		items[i] = &l.Items[i]
