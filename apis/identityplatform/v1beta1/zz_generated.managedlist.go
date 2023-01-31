@@ -46,6 +46,15 @@ func (l *OAuthIdPConfigList) GetItems() []resource.Managed {
 	return items
 }
 
+// GetItems of this ProjectDefaultConfigList.
+func (l *ProjectDefaultConfigList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
 // GetItems of this TenantDefaultSupportedIdPConfigList.
 func (l *TenantDefaultSupportedIdPConfigList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))

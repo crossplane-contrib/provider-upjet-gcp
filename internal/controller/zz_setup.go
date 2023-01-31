@@ -214,12 +214,14 @@ import (
 	defaultsupportedidpconfig "github.com/upbound/provider-gcp/internal/controller/identityplatform/defaultsupportedidpconfig"
 	inboundsamlconfig "github.com/upbound/provider-gcp/internal/controller/identityplatform/inboundsamlconfig"
 	oauthidpconfig "github.com/upbound/provider-gcp/internal/controller/identityplatform/oauthidpconfig"
+	projectdefaultconfig "github.com/upbound/provider-gcp/internal/controller/identityplatform/projectdefaultconfig"
 	tenant "github.com/upbound/provider-gcp/internal/controller/identityplatform/tenant"
 	tenantdefaultsupportedidpconfig "github.com/upbound/provider-gcp/internal/controller/identityplatform/tenantdefaultsupportedidpconfig"
 	tenantinboundsamlconfig "github.com/upbound/provider-gcp/internal/controller/identityplatform/tenantinboundsamlconfig"
 	tenantoauthidpconfig "github.com/upbound/provider-gcp/internal/controller/identityplatform/tenantoauthidpconfig"
 	cryptokey "github.com/upbound/provider-gcp/internal/controller/kms/cryptokey"
 	cryptokeyiammember "github.com/upbound/provider-gcp/internal/controller/kms/cryptokeyiammember"
+	cryptokeyversion "github.com/upbound/provider-gcp/internal/controller/kms/cryptokeyversion"
 	keyring "github.com/upbound/provider-gcp/internal/controller/kms/keyring"
 	keyringiammember "github.com/upbound/provider-gcp/internal/controller/kms/keyringiammember"
 	keyringimportjob "github.com/upbound/provider-gcp/internal/controller/kms/keyringimportjob"
@@ -237,6 +239,7 @@ import (
 	group "github.com/upbound/provider-gcp/internal/controller/monitoring/group"
 	metricdescriptor "github.com/upbound/provider-gcp/internal/controller/monitoring/metricdescriptor"
 	notificationchannel "github.com/upbound/provider-gcp/internal/controller/monitoring/notificationchannel"
+	servicemonitoring "github.com/upbound/provider-gcp/internal/controller/monitoring/service"
 	slo "github.com/upbound/provider-gcp/internal/controller/monitoring/slo"
 	uptimecheckconfig "github.com/upbound/provider-gcp/internal/controller/monitoring/uptimecheckconfig"
 	hub "github.com/upbound/provider-gcp/internal/controller/networkconnectivity/hub"
@@ -503,12 +506,14 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		defaultsupportedidpconfig.Setup,
 		inboundsamlconfig.Setup,
 		oauthidpconfig.Setup,
+		projectdefaultconfig.Setup,
 		tenant.Setup,
 		tenantdefaultsupportedidpconfig.Setup,
 		tenantinboundsamlconfig.Setup,
 		tenantoauthidpconfig.Setup,
 		cryptokey.Setup,
 		cryptokeyiammember.Setup,
+		cryptokeyversion.Setup,
 		keyring.Setup,
 		keyringiammember.Setup,
 		keyringimportjob.Setup,
@@ -526,6 +531,7 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		group.Setup,
 		metricdescriptor.Setup,
 		notificationchannel.Setup,
+		servicemonitoring.Setup,
 		slo.Setup,
 		uptimecheckconfig.Setup,
 		hub.Setup,

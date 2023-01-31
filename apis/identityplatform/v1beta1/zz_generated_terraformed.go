@@ -247,6 +247,80 @@ func (tr *OAuthIdPConfig) GetTerraformSchemaVersion() int {
 	return 0
 }
 
+// GetTerraformResourceType returns Terraform resource type for this ProjectDefaultConfig
+func (mg *ProjectDefaultConfig) GetTerraformResourceType() string {
+	return "google_identity_platform_project_default_config"
+}
+
+// GetConnectionDetailsMapping for this ProjectDefaultConfig
+func (tr *ProjectDefaultConfig) GetConnectionDetailsMapping() map[string]string {
+	return nil
+}
+
+// GetObservation of this ProjectDefaultConfig
+func (tr *ProjectDefaultConfig) GetObservation() (map[string]any, error) {
+	o, err := json.TFParser.Marshal(tr.Status.AtProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(o, &base)
+}
+
+// SetObservation for this ProjectDefaultConfig
+func (tr *ProjectDefaultConfig) SetObservation(obs map[string]any) error {
+	p, err := json.TFParser.Marshal(obs)
+	if err != nil {
+		return err
+	}
+	return json.TFParser.Unmarshal(p, &tr.Status.AtProvider)
+}
+
+// GetID returns ID of underlying Terraform resource of this ProjectDefaultConfig
+func (tr *ProjectDefaultConfig) GetID() string {
+	if tr.Status.AtProvider.ID == nil {
+		return ""
+	}
+	return *tr.Status.AtProvider.ID
+}
+
+// GetParameters of this ProjectDefaultConfig
+func (tr *ProjectDefaultConfig) GetParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.ForProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
+}
+
+// SetParameters for this ProjectDefaultConfig
+func (tr *ProjectDefaultConfig) SetParameters(params map[string]any) error {
+	p, err := json.TFParser.Marshal(params)
+	if err != nil {
+		return err
+	}
+	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
+}
+
+// LateInitialize this ProjectDefaultConfig using its observed tfState.
+// returns True if there are any spec changes for the resource.
+func (tr *ProjectDefaultConfig) LateInitialize(attrs []byte) (bool, error) {
+	params := &ProjectDefaultConfigParameters{}
+	if err := json.TFParser.Unmarshal(attrs, params); err != nil {
+		return false, errors.Wrap(err, "failed to unmarshal Terraform state parameters for late-initialization")
+	}
+	opts := []resource.GenericLateInitializerOption{resource.WithZeroValueJSONOmitEmptyFilter(resource.CNameWildcard)}
+
+	li := resource.NewGenericLateInitializer(opts...)
+	return li.LateInitialize(&tr.Spec.ForProvider, params)
+}
+
+// GetTerraformSchemaVersion returns the associated Terraform schema version
+func (tr *ProjectDefaultConfig) GetTerraformSchemaVersion() int {
+	return 0
+}
+
 // GetTerraformResourceType returns Terraform resource type for this Tenant
 func (mg *Tenant) GetTerraformResourceType() string {
 	return "google_identity_platform_tenant"
