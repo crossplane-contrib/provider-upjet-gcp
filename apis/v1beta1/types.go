@@ -34,14 +34,25 @@ type ProviderConfigSpec struct {
 // ProviderCredentials required to authenticate.
 type ProviderCredentials struct {
 	// Source of the provider credentials.
-	// +kubebuilder:validation:Enum=None;Secret;AccessToken;InjectedIdentity;Environment;Filesystem;Upbound
+	// +kubebuilder:validation:Enum=None;Secret;AccessToken;ImpersonateServiceAccount;InjectedIdentity;Environment;Filesystem
 	Source xpv1.CredentialsSource `json:"source"`
 
 	// Upbound defines the options for authenticating using Upbound as an
 	// identity provider.
 	Upbound *Upbound `json:"upbound,omitempty"`
 
+	CredentialSelectors `json:",inline"`
+}
+
+type CredentialSelectors struct {
 	xpv1.CommonCredentialSelectors `json:",inline"`
+	// GCP service account impersonation
+	ImpersonateServiceAccountSpec `json:"impersonateServiceAccount,omitempty"`
+}
+
+type ImpersonateServiceAccountSpec struct {
+	// GCP service account email address
+	Name string `json:"name"`
 }
 
 // Upbound defines the options for authenticating using Upbound as an identity

@@ -253,6 +253,63 @@ EOF
 
 Now that you have configured `provider-gcp` with Workload Identity supported.
 
+## Authenticate with Impersonated Service Account
+#### 0. Setup Variables
+
+```console
+$ CLIENT_GCP_SERVICE_ACCOUNT=<YOUR_CLIENT_GCP_SERVICE_ACCOUNT>                               # e.g.) impersonate-example
+```
+
+#### 1. Setup Provider with Workload Identity
+
+Follow directions [here](#authenticating-with-workload-identity)
+
+#### 2. Create Client Service Account
+
+Create a GCP service account, which will be used for provisioning actual
+infrastructure in GCP, and grant IAM roles you need for accessing the Google
+Cloud APIs. Remove role previously created for ${GCP_SERVICE_ACCOUNT}:
+
+```console
+$ gcloud iam service-accounts create ${CLIENT_GCP_SERVICE_ACCOUNT}
+$ gcloud projects remove-iam-policy-binding ${PROJECT_ID} \
+    --member "serviceAccount:${GCP_SERVICE_ACCOUNT}@${PROJECT_ID}.iam.gserviceaccount.com" \
+    --role ${ROLE} \
+    --project ${PROJECT_ID}
+$ gcloud projects add-iam-policy-binding ${PROJECT_ID} \
+    --member "serviceAccount:${CLIENT_GCP_SERVICE_ACCOUNT}@${PROJECT_ID}.iam.gserviceaccount.com" \
+    --role ${ROLE} \
+    --project ${PROJECT_ID}
+$ gcloud iam service-accounts add-iam-policy-binding \
+    ${CLIENT_GCP_SERVICE_ACCOUNT}@${PROJECT_ID}.iam.gserviceaccount.com \
+    --role roles/iam.serviceAccountTokenCreator \
+    --member "serviceAccount:${GCP_SERVICE_ACCOUNT}@${PROJECT_ID}.iam.gserviceaccount.com" \
+    --project ${PROJECT_ID}
+```
+
+### 3. Configure a `ProviderConfig`
+
+Create a `ProviderConfig` with `ImpersonateServiceAccount` in `.spec.credentials.source` and specify a GCP service account in `.spec.credentials.serviceAccount`:
+
+```console
+$ cat <<EOF | kubectl apply -f -
+apiVersion: gcp.upbound.io/v1beta1
+kind: ProviderConfig
+metadata:
+  name: default
+spec:
+  projectID: ${PROJECT_ID}
+  credentials:
+    source: ImpersonateServiceAccount
+    impersonateServiceAccount:
+      name: ${CLIENT_GCP_SERVICE_ACCOUNT}@${PROJECT_ID}.iam.gserviceaccount.com
+EOF
+```
+
+### 4. Next steps
+
+Now that you have configured `provider-gcp` with Workload Identity supported.
+
 ## Authenticating with Access Tokens
 
 Using temporary Access Tokens will require a process to regenerate an access token before it expires. Luckily we can use a Kubernetes CronJob to fulfill that.
