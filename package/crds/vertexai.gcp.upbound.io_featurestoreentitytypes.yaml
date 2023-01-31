@@ -1,0 +1,501 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.8.0
+  creationTimestamp: null
+  name: featurestoreentitytypes.vertexai.gcp.upbound.io
+spec:
+  group: vertexai.gcp.upbound.io
+  names:
+    categories:
+    - crossplane
+    - managed
+    - gcp
+    kind: FeaturestoreEntitytype
+    listKind: FeaturestoreEntitytypeList
+    plural: featurestoreentitytypes
+    singular: featurestoreentitytype
+  scope: Cluster
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
+    - jsonPath: .metadata.annotations.crossplane\.io/external-name
+      name: EXTERNAL-NAME
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1beta1
+    schema:
+      openAPIV3Schema:
+        description: FeaturestoreEntitytype is the Schema for the FeaturestoreEntitytypes
+          API. An entity type is a type of object in a system that needs to be modeled
+          and have stored information about.
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: FeaturestoreEntitytypeSpec defines the desired state of FeaturestoreEntitytype
+            properties:
+              deletionPolicy:
+                default: Delete
+                description: DeletionPolicy specifies what will happen to the underlying
+                  external when this managed resource is deleted - either "Delete"
+                  or "Orphan" the external resource.
+                enum:
+                - Orphan
+                - Delete
+                type: string
+              forProvider:
+                properties:
+                  featurestore:
+                    description: The name of the Featurestore to use, in the format
+                      projects/{project}/locations/{location}/featurestores/{featurestore}.
+                    type: string
+                  featurestoreRef:
+                    description: Reference to a Featurestore in vertexai to populate
+                      featurestore.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: Resolution specifies whether resolution of
+                              this reference is required. The default is 'Required',
+                              which means the reconcile will fail if the reference
+                              cannot be resolved. 'Optional' means this reference
+                              will be a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: Resolve specifies when this reference should
+                              be resolved. The default is 'IfNotPresent', which will
+                              attempt to resolve the reference only when the corresponding
+                              field is not present. Use 'Always' to resolve the reference
+                              on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  featurestoreSelector:
+                    description: Selector for a Featurestore in vertexai to populate
+                      featurestore.
+                    properties:
+                      matchControllerRef:
+                        description: MatchControllerRef ensures an object with the
+                          same controller reference as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: Resolution specifies whether resolution of
+                              this reference is required. The default is 'Required',
+                              which means the reconcile will fail if the reference
+                              cannot be resolved. 'Optional' means this reference
+                              will be a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: Resolve specifies when this reference should
+                              be resolved. The default is 'IfNotPresent', which will
+                              attempt to resolve the reference only when the corresponding
+                              field is not present. Use 'Always' to resolve the reference
+                              on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: A set of key/value label pairs to assign to this
+                      EntityType.
+                    type: object
+                  monitoringConfig:
+                    description: The default monitoring configuration for all Features
+                      under this EntityType. If this is populated with [FeaturestoreMonitoringConfig.monitoring_interval]
+                      specified, snapshot analysis monitoring is enabled. Otherwise,
+                      snapshot analysis monitoring is disabled. Structure is documented
+                      below.
+                    items:
+                      properties:
+                        categoricalThresholdConfig:
+                          description: Threshold for categorical features of anomaly
+                            detection. This is shared by all types of Featurestore
+                            Monitoring for categorical features (i.e. Features with
+                            type (Feature.ValueType) BOOL or STRING). Structure is
+                            documented below.
+                          items:
+                            properties:
+                              value:
+                                description: Specify a threshold value that can trigger
+                                  the alert. For numerical feature, the distribution
+                                  distance is calculated by Jensen–Shannon divergence.
+                                  Each feature must have a non-zero threshold if they
+                                  need to be monitored. Otherwise no alert will be
+                                  triggered for that feature. The default value is
+                                  0.3.
+                                type: number
+                            required:
+                            - value
+                            type: object
+                          type: array
+                        importFeaturesAnalysis:
+                          description: The config for ImportFeatures Analysis Based
+                            Feature Monitoring. Structure is documented below.
+                          items:
+                            properties:
+                              anomalyDetectionBaseline:
+                                description: 'Defines the baseline to do anomaly detection
+                                  for feature values imported by each [entityTypes.importFeatureValues][]
+                                  operation. The value must be one of the values below:'
+                                type: string
+                              state:
+                                description: 'Whether to enable / disable / inherite
+                                  default hebavior for import features analysis. The
+                                  value must be one of the values below:'
+                                type: string
+                            type: object
+                          type: array
+                        numericalThresholdConfig:
+                          description: Threshold for numerical features of anomaly
+                            detection. This is shared by all objectives of Featurestore
+                            Monitoring for numerical features (i.e. Features with
+                            type (Feature.ValueType) DOUBLE or INT64). Structure is
+                            documented below.
+                          items:
+                            properties:
+                              value:
+                                description: Specify a threshold value that can trigger
+                                  the alert. For numerical feature, the distribution
+                                  distance is calculated by Jensen–Shannon divergence.
+                                  Each feature must have a non-zero threshold if they
+                                  need to be monitored. Otherwise no alert will be
+                                  triggered for that feature. The default value is
+                                  0.3.
+                                type: number
+                            required:
+                            - value
+                            type: object
+                          type: array
+                        snapshotAnalysis:
+                          description: The config for Snapshot Analysis Based Feature
+                            Monitoring. Structure is documented below.
+                          items:
+                            properties:
+                              disabled:
+                                description: 'The monitoring schedule for snapshot
+                                  analysis. For EntityType-level config: unset / disabled
+                                  = true indicates disabled by default for Features
+                                  under it; otherwise by default enable snapshot analysis
+                                  monitoring with monitoringInterval for Features
+                                  under it.'
+                                type: boolean
+                              monitoringIntervalDays:
+                                description: Configuration of the snapshot analysis
+                                  based monitoring pipeline running interval. The
+                                  value indicates number of days. The default value
+                                  is 1. If both FeaturestoreMonitoringConfig.SnapshotAnalysis.monitoring_interval_days
+                                  and [FeaturestoreMonitoringConfig.SnapshotAnalysis.monitoring_interval][]
+                                  are set when creating/updating EntityTypes/Features,
+                                  FeaturestoreMonitoringConfig.SnapshotAnalysis.monitoring_interval_days
+                                  will be used.
+                                type: number
+                              stalenessDays:
+                                description: Customized export features time window
+                                  for snapshot analysis. Unit is one day. The default
+                                  value is 21 days. Minimum value is 1 day. Maximum
+                                  value is 4000 days.
+                                type: number
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  name:
+                    description: The name of the EntityType. This value may be up
+                      to 60 characters, and valid characters are [a-z0-9_]. The first
+                      character cannot be a number.
+                    type: string
+                type: object
+              providerConfigRef:
+                default:
+                  name: default
+                description: ProviderConfigReference specifies how the provider that
+                  will be used to create, observe, update, and delete this managed
+                  resource should be configured.
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                  policy:
+                    description: Policies for referencing.
+                    properties:
+                      resolution:
+                        default: Required
+                        description: Resolution specifies whether resolution of this
+                          reference is required. The default is 'Required', which
+                          means the reconcile will fail if the reference cannot be
+                          resolved. 'Optional' means this reference will be a no-op
+                          if it cannot be resolved.
+                        enum:
+                        - Required
+                        - Optional
+                        type: string
+                      resolve:
+                        description: Resolve specifies when this reference should
+                          be resolved. The default is 'IfNotPresent', which will attempt
+                          to resolve the reference only when the corresponding field
+                          is not present. Use 'Always' to resolve the reference on
+                          every reconcile.
+                        enum:
+                        - Always
+                        - IfNotPresent
+                        type: string
+                    type: object
+                required:
+                - name
+                type: object
+              providerRef:
+                description: 'ProviderReference specifies the provider that will be
+                  used to create, observe, update, and delete this managed resource.
+                  Deprecated: Please use ProviderConfigReference, i.e. `providerConfigRef`'
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                  policy:
+                    description: Policies for referencing.
+                    properties:
+                      resolution:
+                        default: Required
+                        description: Resolution specifies whether resolution of this
+                          reference is required. The default is 'Required', which
+                          means the reconcile will fail if the reference cannot be
+                          resolved. 'Optional' means this reference will be a no-op
+                          if it cannot be resolved.
+                        enum:
+                        - Required
+                        - Optional
+                        type: string
+                      resolve:
+                        description: Resolve specifies when this reference should
+                          be resolved. The default is 'IfNotPresent', which will attempt
+                          to resolve the reference only when the corresponding field
+                          is not present. Use 'Always' to resolve the reference on
+                          every reconcile.
+                        enum:
+                        - Always
+                        - IfNotPresent
+                        type: string
+                    type: object
+                required:
+                - name
+                type: object
+              publishConnectionDetailsTo:
+                description: PublishConnectionDetailsTo specifies the connection secret
+                  config which contains a name, metadata and a reference to secret
+                  store config to which any connection details for this managed resource
+                  should be written. Connection details frequently include the endpoint,
+                  username, and password required to connect to the managed resource.
+                properties:
+                  configRef:
+                    default:
+                      name: default
+                    description: SecretStoreConfigRef specifies which secret store
+                      config should be used for this ConnectionSecret.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: Resolution specifies whether resolution of
+                              this reference is required. The default is 'Required',
+                              which means the reconcile will fail if the reference
+                              cannot be resolved. 'Optional' means this reference
+                              will be a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: Resolve specifies when this reference should
+                              be resolved. The default is 'IfNotPresent', which will
+                              attempt to resolve the reference only when the corresponding
+                              field is not present. Use 'Always' to resolve the reference
+                              on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  metadata:
+                    description: Metadata is the metadata for connection secret.
+                    properties:
+                      annotations:
+                        additionalProperties:
+                          type: string
+                        description: Annotations are the annotations to be added to
+                          connection secret. - For Kubernetes secrets, this will be
+                          used as "metadata.annotations". - It is up to Secret Store
+                          implementation for others store types.
+                        type: object
+                      labels:
+                        additionalProperties:
+                          type: string
+                        description: Labels are the labels/tags to be added to connection
+                          secret. - For Kubernetes secrets, this will be used as "metadata.labels".
+                          - It is up to Secret Store implementation for others store
+                          types.
+                        type: object
+                      type:
+                        description: Type is the SecretType for the connection secret.
+                          - Only valid for Kubernetes Secret Stores.
+                        type: string
+                    type: object
+                  name:
+                    description: Name is the name of the connection secret.
+                    type: string
+                required:
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: WriteConnectionSecretToReference specifies the namespace
+                  and name of a Secret to which any connection details for this managed
+                  resource should be written. Connection details frequently include
+                  the endpoint, username, and password required to connect to the
+                  managed resource. This field is planned to be replaced in a future
+                  release in favor of PublishConnectionDetailsTo. Currently, both
+                  could be set independently and connection details would be published
+                  to both without affecting each other.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                  namespace:
+                    description: Namespace of the secret.
+                    type: string
+                required:
+                - name
+                - namespace
+                type: object
+            required:
+            - forProvider
+            type: object
+          status:
+            description: FeaturestoreEntitytypeStatus defines the observed state of
+              FeaturestoreEntitytype.
+            properties:
+              atProvider:
+                properties:
+                  createTime:
+                    description: The timestamp of when the featurestore was created
+                      in RFC3339 UTC "Zulu" format, with nanosecond resolution and
+                      up to nine fractional digits.
+                    type: string
+                  etag:
+                    description: Used to perform consistent read-modify-write updates.
+                    type: string
+                  id:
+                    description: an identifier for the resource with format {{featurestore}}/entityTypes/{{name}}
+                    type: string
+                  region:
+                    type: string
+                  updateTime:
+                    description: The timestamp of when the featurestore was last updated
+                      in RFC3339 UTC "Zulu" format, with nanosecond resolution and
+                      up to nine fractional digits.
+                    type: string
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: LastTransitionTime is the last time this condition
+                        transitioned from one status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: A Message containing details about this condition's
+                        last transition from one status to another, if any.
+                      type: string
+                    reason:
+                      description: A Reason for this condition's last transition from
+                        one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True,
+                        False, or Unknown?
+                      type: string
+                    type:
+                      description: Type of this condition. At most one of each condition
+                        type may apply to a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []

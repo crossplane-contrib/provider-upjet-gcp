@@ -375,6 +375,10 @@ var externalNameConfigs = map[string]config.ExternalName{
 	//
 	// Imported by using the following format: projects/{{project}}/locations/{{location}}/instances/{{name}}
 	"google_filestore_instance": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/instances/{{ .external_name }}"),
+	// Imported by using the following projects/{{project}}/locations/{{location}}/backups/{{name}}
+	"google_filestore_backup": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/backups/{{ .external_name }}"),
+	// Imported by using the following projects/{{project}}/locations/{{location}}/instances/{{instance}}/snapshots/{{name}}
+	"google_filestore_snapshot": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/instances/{{ .parameters.instance }}/snapshots/{{ .external_name }}"),
 
 	// firebaserules
 	//
@@ -789,6 +793,17 @@ var externalNameConfigs = map[string]config.ExternalName{
 	// Project-level logging sinks can be imported using their URI
 	// projects/my-project/sinks/my-sink
 	"google_logging_project_sink": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/sinks/{{ .external_name }}"),
+
+	// vertexai
+	//
+	// No Import
+	"google_vertex_ai_dataset": config.IdentifierFromProvider,
+	// Imported by using the following projects/{{project}}/locations/{{region}}/featurestores/{{name}}
+	"google_vertex_ai_featurestore": config.IdentifierFromProvider,
+	// Imported by using the following {{featurestore}}/entityTypes/{{name}}
+	"google_vertex_ai_featurestore_entitytype": config.IdentifierFromProvider,
+	// Imported by using the following projects/{{project}}/locations/{{region}}/tensorboards/{{name}}
+	"google_vertex_ai_tensorboard": config.TemplatedStringAsIdentifier("display_name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.region }}/tensorboards/{{ .external_name }}"),
 }
 
 // TemplatedStringAsIdentifierWithNoName uses TemplatedStringAsIdentifier but

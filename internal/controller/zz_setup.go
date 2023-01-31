@@ -192,7 +192,9 @@ import (
 	recordset "github.com/upbound/provider-gcp/internal/controller/dns/recordset"
 	contact "github.com/upbound/provider-gcp/internal/controller/essentialcontacts/contact"
 	triggereventarc "github.com/upbound/provider-gcp/internal/controller/eventarc/trigger"
+	backup "github.com/upbound/provider-gcp/internal/controller/filestore/backup"
 	instancefilestore "github.com/upbound/provider-gcp/internal/controller/filestore/instance"
+	snapshot "github.com/upbound/provider-gcp/internal/controller/filestore/snapshot"
 	release "github.com/upbound/provider-gcp/internal/controller/firebaserules/release"
 	ruleset "github.com/upbound/provider-gcp/internal/controller/firebaserules/ruleset"
 	membership "github.com/upbound/provider-gcp/internal/controller/gkehub/membership"
@@ -279,6 +281,10 @@ import (
 	bucketobject "github.com/upbound/provider-gcp/internal/controller/storage/bucketobject"
 	defaultobjectaccesscontrol "github.com/upbound/provider-gcp/internal/controller/storage/defaultobjectaccesscontrol"
 	defaultobjectacl "github.com/upbound/provider-gcp/internal/controller/storage/defaultobjectacl"
+	datasetvertexai "github.com/upbound/provider-gcp/internal/controller/vertexai/dataset"
+	featurestore "github.com/upbound/provider-gcp/internal/controller/vertexai/featurestore"
+	featurestoreentitytype "github.com/upbound/provider-gcp/internal/controller/vertexai/featurestoreentitytype"
+	tensorboard "github.com/upbound/provider-gcp/internal/controller/vertexai/tensorboard"
 )
 
 // Setup creates all controllers with the supplied logger and adds them to
@@ -468,7 +474,9 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		recordset.Setup,
 		contact.Setup,
 		triggereventarc.Setup,
+		backup.Setup,
 		instancefilestore.Setup,
+		snapshot.Setup,
 		release.Setup,
 		ruleset.Setup,
 		membership.Setup,
@@ -555,6 +563,10 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		bucketobject.Setup,
 		defaultobjectaccesscontrol.Setup,
 		defaultobjectacl.Setup,
+		datasetvertexai.Setup,
+		featurestore.Setup,
+		featurestoreentitytype.Setup,
+		tensorboard.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {
 			return err

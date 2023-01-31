@@ -1,0 +1,18 @@
+apiVersion: vertexai.gcp.upbound.io/v1beta1
+kind: Featurestore
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vertexai/v1beta1/featurestore
+    uptest.upbound.io/timeout: "3600"
+  labels:
+    testing.upbound.io/example-name: featurestore
+  name: featurestore
+spec:
+  forProvider:
+    forceDestroy: true
+    labels:
+      foo: bar
+    name: featurestore
+    onlineServingConfig:
+    - fixedNodeCount: 2
+    region: us-central1
