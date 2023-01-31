@@ -1,0 +1,13 @@
+apiVersion: documentai.gcp.upbound.io/v1beta1
+kind: Processor
+metadata:
+  annotations:
+    meta.upbound.io/example-id: documentai/v1beta1/processor
+  labels:
+    testing.upbound.io/example-name: processor
+  name: processor
+spec:
+  forProvider:
+    location: us
+    type: OCR_PROCESSOR
+    displayName: "test-processor"
