@@ -1,0 +1,29 @@
+apiVersion: iam.gcp.upbound.io/v1beta1
+kind: WorkloadIdentityPoolProvider
+metadata:
+  annotations:
+    meta.upbound.io/example-id: iam/v1beta1/workloadidentitypoolprovider
+  labels:
+    testing.upbound.io/example-name: identity-pool-provider
+  name: identity-pool-provider
+spec:
+  forProvider:
+    aws:
+    - accountId: "999999999999"
+    workloadIdentityPoolIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: identity-pool
+
+---
+
+apiVersion: iam.gcp.upbound.io/v1beta1
+kind: WorkloadIdentityPool
+metadata:
+  annotations:
+    meta.upbound.io/example-id: iam/v1beta1/workloadidentitypoolprovider
+    upjet.upbound.io/manual-ntervention: "Needs permissions for Pool creation"
+  labels:
+    testing.upbound.io/example-name: identity-pool
+  name: identity-pool
+spec:
+  forProvider: {}

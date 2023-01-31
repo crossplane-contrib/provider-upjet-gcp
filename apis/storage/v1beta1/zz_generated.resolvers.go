@@ -21,6 +21,7 @@ import (
 	"context"
 	reference "github.com/crossplane/crossplane-runtime/pkg/reference"
 	errors "github.com/pkg/errors"
+	resource "github.com/upbound/upjet/pkg/resource"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
@@ -176,6 +177,90 @@ func (mg *DefaultObjectAccessControl) ResolveReferences(ctx context.Context, c c
 	}
 	mg.Spec.ForProvider.Bucket = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.BucketRef = rsp.ResolvedReference
+
+	return nil
+}
+
+// ResolveReferences of this ObjectACL.
+func (mg *ObjectACL) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Bucket),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.ForProvider.BucketRef,
+		Selector:     mg.Spec.ForProvider.BucketSelector,
+		To: reference.To{
+			List:    &BucketList{},
+			Managed: &Bucket{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.Bucket")
+	}
+	mg.Spec.ForProvider.Bucket = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.BucketRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Object),
+		Extract:      resource.ExtractParamPath("output_name", true),
+		Reference:    mg.Spec.ForProvider.ObjectRef,
+		Selector:     mg.Spec.ForProvider.ObjectSelector,
+		To: reference.To{
+			List:    &BucketObjectList{},
+			Managed: &BucketObject{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.Object")
+	}
+	mg.Spec.ForProvider.Object = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.ObjectRef = rsp.ResolvedReference
+
+	return nil
+}
+
+// ResolveReferences of this ObjectAccessControl.
+func (mg *ObjectAccessControl) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Bucket),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.ForProvider.BucketRef,
+		Selector:     mg.Spec.ForProvider.BucketSelector,
+		To: reference.To{
+			List:    &BucketList{},
+			Managed: &Bucket{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.Bucket")
+	}
+	mg.Spec.ForProvider.Bucket = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.BucketRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Object),
+		Extract:      resource.ExtractParamPath("output_name", true),
+		Reference:    mg.Spec.ForProvider.ObjectRef,
+		Selector:     mg.Spec.ForProvider.ObjectSelector,
+		To: reference.To{
+			List:    &BucketObjectList{},
+			Managed: &BucketObject{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.Object")
+	}
+	mg.Spec.ForProvider.Object = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.ObjectRef = rsp.ResolvedReference
 
 	return nil
 }

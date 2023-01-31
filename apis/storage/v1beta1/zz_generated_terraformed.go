@@ -542,3 +542,151 @@ func (tr *DefaultObjectACL) LateInitialize(attrs []byte) (bool, error) {
 func (tr *DefaultObjectACL) GetTerraformSchemaVersion() int {
 	return 0
 }
+
+// GetTerraformResourceType returns Terraform resource type for this ObjectAccessControl
+func (mg *ObjectAccessControl) GetTerraformResourceType() string {
+	return "google_storage_object_access_control"
+}
+
+// GetConnectionDetailsMapping for this ObjectAccessControl
+func (tr *ObjectAccessControl) GetConnectionDetailsMapping() map[string]string {
+	return nil
+}
+
+// GetObservation of this ObjectAccessControl
+func (tr *ObjectAccessControl) GetObservation() (map[string]any, error) {
+	o, err := json.TFParser.Marshal(tr.Status.AtProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(o, &base)
+}
+
+// SetObservation for this ObjectAccessControl
+func (tr *ObjectAccessControl) SetObservation(obs map[string]any) error {
+	p, err := json.TFParser.Marshal(obs)
+	if err != nil {
+		return err
+	}
+	return json.TFParser.Unmarshal(p, &tr.Status.AtProvider)
+}
+
+// GetID returns ID of underlying Terraform resource of this ObjectAccessControl
+func (tr *ObjectAccessControl) GetID() string {
+	if tr.Status.AtProvider.ID == nil {
+		return ""
+	}
+	return *tr.Status.AtProvider.ID
+}
+
+// GetParameters of this ObjectAccessControl
+func (tr *ObjectAccessControl) GetParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.ForProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
+}
+
+// SetParameters for this ObjectAccessControl
+func (tr *ObjectAccessControl) SetParameters(params map[string]any) error {
+	p, err := json.TFParser.Marshal(params)
+	if err != nil {
+		return err
+	}
+	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
+}
+
+// LateInitialize this ObjectAccessControl using its observed tfState.
+// returns True if there are any spec changes for the resource.
+func (tr *ObjectAccessControl) LateInitialize(attrs []byte) (bool, error) {
+	params := &ObjectAccessControlParameters{}
+	if err := json.TFParser.Unmarshal(attrs, params); err != nil {
+		return false, errors.Wrap(err, "failed to unmarshal Terraform state parameters for late-initialization")
+	}
+	opts := []resource.GenericLateInitializerOption{resource.WithZeroValueJSONOmitEmptyFilter(resource.CNameWildcard)}
+
+	li := resource.NewGenericLateInitializer(opts...)
+	return li.LateInitialize(&tr.Spec.ForProvider, params)
+}
+
+// GetTerraformSchemaVersion returns the associated Terraform schema version
+func (tr *ObjectAccessControl) GetTerraformSchemaVersion() int {
+	return 0
+}
+
+// GetTerraformResourceType returns Terraform resource type for this ObjectACL
+func (mg *ObjectACL) GetTerraformResourceType() string {
+	return "google_storage_object_acl"
+}
+
+// GetConnectionDetailsMapping for this ObjectACL
+func (tr *ObjectACL) GetConnectionDetailsMapping() map[string]string {
+	return nil
+}
+
+// GetObservation of this ObjectACL
+func (tr *ObjectACL) GetObservation() (map[string]any, error) {
+	o, err := json.TFParser.Marshal(tr.Status.AtProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(o, &base)
+}
+
+// SetObservation for this ObjectACL
+func (tr *ObjectACL) SetObservation(obs map[string]any) error {
+	p, err := json.TFParser.Marshal(obs)
+	if err != nil {
+		return err
+	}
+	return json.TFParser.Unmarshal(p, &tr.Status.AtProvider)
+}
+
+// GetID returns ID of underlying Terraform resource of this ObjectACL
+func (tr *ObjectACL) GetID() string {
+	if tr.Status.AtProvider.ID == nil {
+		return ""
+	}
+	return *tr.Status.AtProvider.ID
+}
+
+// GetParameters of this ObjectACL
+func (tr *ObjectACL) GetParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.ForProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
+}
+
+// SetParameters for this ObjectACL
+func (tr *ObjectACL) SetParameters(params map[string]any) error {
+	p, err := json.TFParser.Marshal(params)
+	if err != nil {
+		return err
+	}
+	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
+}
+
+// LateInitialize this ObjectACL using its observed tfState.
+// returns True if there are any spec changes for the resource.
+func (tr *ObjectACL) LateInitialize(attrs []byte) (bool, error) {
+	params := &ObjectACLParameters{}
+	if err := json.TFParser.Unmarshal(attrs, params); err != nil {
+		return false, errors.Wrap(err, "failed to unmarshal Terraform state parameters for late-initialization")
+	}
+	opts := []resource.GenericLateInitializerOption{resource.WithZeroValueJSONOmitEmptyFilter(resource.CNameWildcard)}
+
+	li := resource.NewGenericLateInitializer(opts...)
+	return li.LateInitialize(&tr.Spec.ForProvider, params)
+}
+
+// GetTerraformSchemaVersion returns the associated Terraform schema version
+func (tr *ObjectACL) GetTerraformSchemaVersion() int {
+	return 0
+}
