@@ -89,6 +89,7 @@ import (
 	backendbucket "github.com/upbound/provider-gcp/internal/controller/compute/backendbucket"
 	backendbucketsignedurlkey "github.com/upbound/provider-gcp/internal/controller/compute/backendbucketsignedurlkey"
 	backendservice "github.com/upbound/provider-gcp/internal/controller/compute/backendservice"
+	backendservicesignedurlkey "github.com/upbound/provider-gcp/internal/controller/compute/backendservicesignedurlkey"
 	disk "github.com/upbound/provider-gcp/internal/controller/compute/disk"
 	diskiammember "github.com/upbound/provider-gcp/internal/controller/compute/diskiammember"
 	diskresourcepolicyattachment "github.com/upbound/provider-gcp/internal/controller/compute/diskresourcepolicyattachment"
@@ -120,6 +121,8 @@ import (
 	network "github.com/upbound/provider-gcp/internal/controller/compute/network"
 	networkendpoint "github.com/upbound/provider-gcp/internal/controller/compute/networkendpoint"
 	networkendpointgroup "github.com/upbound/provider-gcp/internal/controller/compute/networkendpointgroup"
+	networkfirewallpolicy "github.com/upbound/provider-gcp/internal/controller/compute/networkfirewallpolicy"
+	networkfirewallpolicyassociation "github.com/upbound/provider-gcp/internal/controller/compute/networkfirewallpolicyassociation"
 	networkpeering "github.com/upbound/provider-gcp/internal/controller/compute/networkpeering"
 	networkpeeringroutesconfig "github.com/upbound/provider-gcp/internal/controller/compute/networkpeeringroutesconfig"
 	nodegroup "github.com/upbound/provider-gcp/internal/controller/compute/nodegroup"
@@ -137,6 +140,8 @@ import (
 	regionhealthcheck "github.com/upbound/provider-gcp/internal/controller/compute/regionhealthcheck"
 	regioninstancegroupmanager "github.com/upbound/provider-gcp/internal/controller/compute/regioninstancegroupmanager"
 	regionnetworkendpointgroup "github.com/upbound/provider-gcp/internal/controller/compute/regionnetworkendpointgroup"
+	regionnetworkfirewallpolicy "github.com/upbound/provider-gcp/internal/controller/compute/regionnetworkfirewallpolicy"
+	regionnetworkfirewallpolicyassociation "github.com/upbound/provider-gcp/internal/controller/compute/regionnetworkfirewallpolicyassociation"
 	regionperinstanceconfig "github.com/upbound/provider-gcp/internal/controller/compute/regionperinstanceconfig"
 	regionsslcertificate "github.com/upbound/provider-gcp/internal/controller/compute/regionsslcertificate"
 	regiontargethttpproxy "github.com/upbound/provider-gcp/internal/controller/compute/regiontargethttpproxy"
@@ -150,7 +155,9 @@ import (
 	routernat "github.com/upbound/provider-gcp/internal/controller/compute/routernat"
 	securitypolicy "github.com/upbound/provider-gcp/internal/controller/compute/securitypolicy"
 	serviceattachment "github.com/upbound/provider-gcp/internal/controller/compute/serviceattachment"
+	snapshot "github.com/upbound/provider-gcp/internal/controller/compute/snapshot"
 	sslcertificate "github.com/upbound/provider-gcp/internal/controller/compute/sslcertificate"
+	sslpolicy "github.com/upbound/provider-gcp/internal/controller/compute/sslpolicy"
 	subnetwork "github.com/upbound/provider-gcp/internal/controller/compute/subnetwork"
 	subnetworkiammember "github.com/upbound/provider-gcp/internal/controller/compute/subnetworkiammember"
 	targetgrpcproxy "github.com/upbound/provider-gcp/internal/controller/compute/targetgrpcproxy"
@@ -205,10 +212,12 @@ import (
 	recordset "github.com/upbound/provider-gcp/internal/controller/dns/recordset"
 	processor "github.com/upbound/provider-gcp/internal/controller/documentai/processor"
 	contact "github.com/upbound/provider-gcp/internal/controller/essentialcontacts/contact"
+	channel "github.com/upbound/provider-gcp/internal/controller/eventarc/channel"
+	googlechannelconfig "github.com/upbound/provider-gcp/internal/controller/eventarc/googlechannelconfig"
 	triggereventarc "github.com/upbound/provider-gcp/internal/controller/eventarc/trigger"
 	backup "github.com/upbound/provider-gcp/internal/controller/filestore/backup"
 	instancefilestore "github.com/upbound/provider-gcp/internal/controller/filestore/instance"
-	snapshot "github.com/upbound/provider-gcp/internal/controller/filestore/snapshot"
+	snapshotfilestore "github.com/upbound/provider-gcp/internal/controller/filestore/snapshot"
 	release "github.com/upbound/provider-gcp/internal/controller/firebaserules/release"
 	ruleset "github.com/upbound/provider-gcp/internal/controller/firebaserules/ruleset"
 	membership "github.com/upbound/provider-gcp/internal/controller/gkehub/membership"
@@ -388,6 +397,7 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		backendbucket.Setup,
 		backendbucketsignedurlkey.Setup,
 		backendservice.Setup,
+		backendservicesignedurlkey.Setup,
 		disk.Setup,
 		diskiammember.Setup,
 		diskresourcepolicyattachment.Setup,
@@ -419,6 +429,8 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		network.Setup,
 		networkendpoint.Setup,
 		networkendpointgroup.Setup,
+		networkfirewallpolicy.Setup,
+		networkfirewallpolicyassociation.Setup,
 		networkpeering.Setup,
 		networkpeeringroutesconfig.Setup,
 		nodegroup.Setup,
@@ -436,6 +448,8 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		regionhealthcheck.Setup,
 		regioninstancegroupmanager.Setup,
 		regionnetworkendpointgroup.Setup,
+		regionnetworkfirewallpolicy.Setup,
+		regionnetworkfirewallpolicyassociation.Setup,
 		regionperinstanceconfig.Setup,
 		regionsslcertificate.Setup,
 		regiontargethttpproxy.Setup,
@@ -449,7 +463,9 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		routernat.Setup,
 		securitypolicy.Setup,
 		serviceattachment.Setup,
+		snapshot.Setup,
 		sslcertificate.Setup,
+		sslpolicy.Setup,
 		subnetwork.Setup,
 		subnetworkiammember.Setup,
 		targetgrpcproxy.Setup,
@@ -504,10 +520,12 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		recordset.Setup,
 		processor.Setup,
 		contact.Setup,
+		channel.Setup,
+		googlechannelconfig.Setup,
 		triggereventarc.Setup,
 		backup.Setup,
 		instancefilestore.Setup,
-		snapshot.Setup,
+		snapshotfilestore.Setup,
 		release.Setup,
 		ruleset.Setup,
 		membership.Setup,

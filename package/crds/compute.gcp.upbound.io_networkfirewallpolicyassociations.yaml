@@ -5,7 +5,7 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.8.0
   creationTimestamp: null
-  name: regiondisks.compute.gcp.upbound.io
+  name: networkfirewallpolicyassociations.compute.gcp.upbound.io
 spec:
   group: compute.gcp.upbound.io
   names:
@@ -13,10 +13,10 @@ spec:
     - crossplane
     - managed
     - gcp
-    kind: RegionDisk
-    listKind: RegionDiskList
-    plural: regiondisks
-    singular: regiondisk
+    kind: NetworkFirewallPolicyAssociation
+    listKind: NetworkFirewallPolicyAssociationList
+    plural: networkfirewallpolicyassociations
+    singular: networkfirewallpolicyassociation
   scope: Cluster
   versions:
   - additionalPrinterColumns:
@@ -35,9 +35,8 @@ spec:
     name: v1beta1
     schema:
       openAPIV3Schema:
-        description: RegionDisk is the Schema for the RegionDisks API. Persistent
-          disks are durable storage devices that function similarly to the physical
-          disks in a desktop or a server.
+        description: NetworkFirewallPolicyAssociation is the Schema for the NetworkFirewallPolicyAssociations
+          API. The Compute NetworkFirewallPolicyAssociation resource
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -52,7 +51,8 @@ spec:
           metadata:
             type: object
           spec:
-            description: RegionDiskSpec defines the desired state of RegionDisk
+            description: NetworkFirewallPolicyAssociationSpec defines the desired
+              state of NetworkFirewallPolicyAssociation
             properties:
               deletionPolicy:
                 default: Delete
@@ -65,91 +65,11 @@ spec:
                 type: string
               forProvider:
                 properties:
-                  description:
-                    description: An optional description of this resource. Provide
-                      this property when you create the resource.
+                  attachmentTarget:
+                    description: The target that the firewall policy is attached to.
                     type: string
-                  diskEncryptionKey:
-                    description: Encrypts the disk using a customer-supplied encryption
-                      key. After you encrypt a disk with a customer-supplied key,
-                      you must provide the same key if you use the disk later (e.g.
-                      to create a disk snapshot or an image, or to attach the disk
-                      to a virtual machine). Customer-supplied encryption keys do
-                      not protect access to metadata of the disk. If you do not provide
-                      an encryption key when creating the disk, then the disk will
-                      be encrypted using an automatically generated key and you do
-                      not need to provide a key to use the disk later. Structure is
-                      documented below.
-                    items:
-                      properties:
-                        kmsKeyName:
-                          description: The name of the encryption key that is stored
-                            in Google Cloud KMS.
-                          type: string
-                        rawKeySecretRef:
-                          description: 'Specifies a 256-bit customer-supplied encryption
-                            key, encoded in RFC 4648 base64 to either encrypt or decrypt
-                            this resource. Note: This property is sensitive and will
-                            not be displayed in the plan.'
-                          properties:
-                            key:
-                              description: The key to select.
-                              type: string
-                            name:
-                              description: Name of the secret.
-                              type: string
-                            namespace:
-                              description: Namespace of the secret.
-                              type: string
-                          required:
-                          - key
-                          - name
-                          - namespace
-                          type: object
-                      type: object
-                    type: array
-                  labels:
-                    additionalProperties:
-                      type: string
-                    description: Labels to apply to this disk.  A list of key->value
-                      pairs.
-                    type: object
-                  physicalBlockSizeBytes:
-                    description: Physical block size of the persistent disk, in bytes.
-                      If not present in a request, a default value is used. Currently
-                      supported sizes are 4096 and 16384, other sizes may be added
-                      in the future. If an unsupported value is requested, the error
-                      message will list the supported values for the caller's project.
-                    type: number
-                  project:
-                    description: The ID of the project in which the resource belongs.
-                      If it is not provided, the provider project is used.
-                    type: string
-                  region:
-                    description: A reference to the region where the disk resides.
-                    type: string
-                  replicaZones:
-                    description: URLs of the zones where the disk should be replicated
-                      to.
-                    items:
-                      type: string
-                    type: array
-                  size:
-                    description: Size of the persistent disk, specified in GB. You
-                      can specify this field when creating a persistent disk using
-                      the sourceImage or sourceSnapshot parameter, or specify it alone
-                      to create an empty persistent disk. If you specify this field
-                      along with sourceImage or sourceSnapshot, the value of sizeGb
-                      must not be less than the size of the sourceImage or the size
-                      of the snapshot.
-                    type: number
-                  snapshot:
-                    description: 'The source snapshot used to create this disk. You
-                      can provide this as a partial or full URL to the resource. For
-                      example, the following are valid values:'
-                    type: string
-                  snapshotRef:
-                    description: Reference to a Snapshot in compute to populate snapshot.
+                  attachmentTargetRef:
+                    description: Reference to a Network in compute to populate attachmentTarget.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -182,8 +102,8 @@ spec:
                     required:
                     - name
                     type: object
-                  snapshotSelector:
-                    description: Selector for a Snapshot in compute to populate snapshot.
+                  attachmentTargetSelector:
+                    description: Selector for a Network in compute to populate attachmentTarget.
                     properties:
                       matchControllerRef:
                         description: MatchControllerRef ensures an object with the
@@ -221,32 +141,87 @@ spec:
                             type: string
                         type: object
                     type: object
-                  sourceDisk:
-                    description: 'The source disk used to create this disk. You can
-                      provide this as a partial or full URL to the resource. For example,
-                      the following are valid values:'
+                  firewallPolicy:
+                    description: The firewall policy ID of the association.
                     type: string
-                  sourceSnapshotEncryptionKey:
-                    description: The customer-supplied encryption key of the source
-                      snapshot. Required if the source snapshot is protected by a
-                      customer-supplied encryption key. Structure is documented below.
-                    items:
-                      properties:
-                        rawKey:
-                          description: Specifies a 256-bit customer-supplied encryption
-                            key, encoded in RFC 4648 base64 to either encrypt or decrypt
-                            this resource.
+                  firewallPolicyRef:
+                    description: Reference to a NetworkFirewallPolicy in compute to
+                      populate firewallPolicy.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: Resolution specifies whether resolution of
+                              this reference is required. The default is 'Required',
+                              which means the reconcile will fail if the reference
+                              cannot be resolved. 'Optional' means this reference
+                              will be a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: Resolve specifies when this reference should
+                              be resolved. The default is 'IfNotPresent', which will
+                              attempt to resolve the reference only when the corresponding
+                              field is not present. Use 'Always' to resolve the reference
+                              on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  firewallPolicySelector:
+                    description: Selector for a NetworkFirewallPolicy in compute to
+                      populate firewallPolicy.
+                    properties:
+                      matchControllerRef:
+                        description: MatchControllerRef ensures an object with the
+                          same controller reference as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
                           type: string
-                      type: object
-                    type: array
-                  type:
-                    description: URL of the disk type resource describing which disk
-                      type to use to create the disk. Provide this when creating the
-                      disk.
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: Resolution specifies whether resolution of
+                              this reference is required. The default is 'Required',
+                              which means the reconcile will fail if the reference
+                              cannot be resolved. 'Optional' means this reference
+                              will be a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: Resolve specifies when this reference should
+                              be resolved. The default is 'IfNotPresent', which will
+                              attempt to resolve the reference only when the corresponding
+                              field is not present. Use 'Always' to resolve the reference
+                              on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  project:
+                    description: The project for the resource
                     type: string
-                required:
-                - region
-                - replicaZones
                 type: object
               providerConfigRef:
                 default:
@@ -420,81 +395,17 @@ spec:
             - forProvider
             type: object
           status:
-            description: RegionDiskStatus defines the observed state of RegionDisk.
+            description: NetworkFirewallPolicyAssociationStatus defines the observed
+              state of NetworkFirewallPolicyAssociation.
             properties:
               atProvider:
                 properties:
-                  creationTimestamp:
-                    description: Creation timestamp in RFC3339 text format.
-                    type: string
-                  diskEncryptionKey:
-                    description: Encrypts the disk using a customer-supplied encryption
-                      key. After you encrypt a disk with a customer-supplied key,
-                      you must provide the same key if you use the disk later (e.g.
-                      to create a disk snapshot or an image, or to attach the disk
-                      to a virtual machine). Customer-supplied encryption keys do
-                      not protect access to metadata of the disk. If you do not provide
-                      an encryption key when creating the disk, then the disk will
-                      be encrypted using an automatically generated key and you do
-                      not need to provide a key to use the disk later. Structure is
-                      documented below.
-                    items:
-                      properties:
-                        sha256:
-                          description: The RFC 4648 base64 encoded SHA-256 hash of
-                            the customer-supplied encryption key that protects this
-                            resource.
-                          type: string
-                      type: object
-                    type: array
                   id:
-                    description: an identifier for the resource with format projects/{{project}}/regions/{{region}}/disks/{{name}}
+                    description: an identifier for the resource with format projects/{{project}}/global/firewallPolicies/{{firewall_policy}}/associations/{{name}}
                     type: string
-                  labelFingerprint:
-                    description: The fingerprint used for optimistic locking of this
-                      resource.  Used internally during updates.
+                  shortName:
+                    description: The short name of the firewall policy of the association.
                     type: string
-                  lastAttachTimestamp:
-                    description: Last attach timestamp in RFC3339 text format.
-                    type: string
-                  lastDetachTimestamp:
-                    description: Last detach timestamp in RFC3339 text format.
-                    type: string
-                  selfLink:
-                    description: The URI of the created resource.
-                    type: string
-                  sourceDiskId:
-                    description: The ID value of the disk used to create this image.
-                      This value may be used to determine whether the image was taken
-                      from the current or a previous instance of a given disk name.
-                    type: string
-                  sourceSnapshotEncryptionKey:
-                    description: The customer-supplied encryption key of the source
-                      snapshot. Required if the source snapshot is protected by a
-                      customer-supplied encryption key. Structure is documented below.
-                    items:
-                      properties:
-                        sha256:
-                          description: The RFC 4648 base64 encoded SHA-256 hash of
-                            the customer-supplied encryption key that protects this
-                            resource.
-                          type: string
-                      type: object
-                    type: array
-                  sourceSnapshotId:
-                    description: The unique ID of the snapshot used to create this
-                      disk. This value identifies the exact snapshot that was used
-                      to create this persistent disk. For example, if you created
-                      the persistent disk from a snapshot that was later deleted and
-                      recreated under the same name, the source snapshot ID would
-                      identify the exact version of the snapshot that was used.
-                    type: string
-                  users:
-                    description: 'Links to the users of the disk (attached instances)
-                      in form: project/zones/zone/instances/instance'
-                    items:
-                      type: string
-                    type: array
                 type: object
               conditions:
                 description: Conditions of the resource.

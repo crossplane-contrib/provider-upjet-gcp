@@ -50,7 +50,9 @@ spec:
     - us-central1-a
     - us-central1-f
     size: 50
-    snapshot: ${google_compute_snapshot.snapdisk.id}
+    snapshotSelector:
+      matchLabels:
+        testing.upbound.io/example-name: snapdisk
     type: pd-ssd
 
 ---
@@ -71,6 +73,23 @@ spec:
       - dailySchedule:
         - daysInCycle: 1
           startTime: "04:00"
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Snapshot
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/regiondiskresourcepolicyattachment
+  labels:
+    testing.upbound.io/example-name: snapdisk
+  name: snapdisk
+spec:
+  forProvider:
+    sourceDiskSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    zone: us-central1-a
 
 ---
 

@@ -162,8 +162,18 @@ type RegionDiskParameters struct {
 	// The source snapshot used to create this disk. You can provide this as
 	// a partial or full URL to the resource. For example, the following are
 	// valid values:
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Snapshot
+	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Snapshot *string `json:"snapshot,omitempty" tf:"snapshot,omitempty"`
+
+	// Reference to a Snapshot in compute to populate snapshot.
+	// +kubebuilder:validation:Optional
+	SnapshotRef *v1.Reference `json:"snapshotRef,omitempty" tf:"-"`
+
+	// Selector for a Snapshot in compute to populate snapshot.
+	// +kubebuilder:validation:Optional
+	SnapshotSelector *v1.Selector `json:"snapshotSelector,omitempty" tf:"-"`
 
 	// The source disk used to create this disk. You can provide this as a partial or full URL to the resource.
 	// For example, the following are valid values:

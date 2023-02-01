@@ -1,0 +1,66 @@
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: BackendServiceSignedURLKey
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/backendservicesignedurlkey
+  labels:
+    testing.upbound.io/example-name: backend_key
+  name: backend-key
+spec:
+  forProvider:
+    backendServiceSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example_backend
+    keyValueSecretRef:
+      key: attribute.b64_url
+      name: backend-service-signed-url-key-id
+      namespace: upbound-system
+    name: test-key
+
+---
+
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: BackendService
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/backendservicesignedurlkey
+  labels:
+    testing.upbound.io/example-name: example_backend
+  name: backend-service
+spec:
+  forProvider:
+    healthChecksSelector:
+      matchLabels:
+        testing.upbound.io/example-name: backend-service
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: HealthCheck
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/backendservicesignedurlkey
+  labels:
+    testing.upbound.io/example-name: backend-service
+  name: backend-service
+spec:
+  forProvider:
+    checkIntervalSec: 1
+    httpHealthCheck:
+      - port: 80
+    timeoutSec: 1
+
+---
+
+apiVersion: v1
+data:
+  attribute.b64_url: WFlYUTVGSVRwb182OW1BNFhDVDdFdw==
+kind: Secret
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/backendservicesignedurlkey
+  labels:
+    testing.upbound.io/example-name: backend-service-signed-url-key
+  name: backend-service-signed-url-key-id
+  namespace: upbound-system
