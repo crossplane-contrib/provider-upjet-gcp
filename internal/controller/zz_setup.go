@@ -51,6 +51,7 @@ import (
 	workerpool "github.com/upbound/provider-gcp/internal/controller/cloudbuild/workerpool"
 	function "github.com/upbound/provider-gcp/internal/controller/cloudfunctions/function"
 	functioniammember "github.com/upbound/provider-gcp/internal/controller/cloudfunctions/functioniammember"
+	functioncloudfunctions2 "github.com/upbound/provider-gcp/internal/controller/cloudfunctions2/function"
 	device "github.com/upbound/provider-gcp/internal/controller/cloudiot/device"
 	registry "github.com/upbound/provider-gcp/internal/controller/cloudiot/registry"
 	folder "github.com/upbound/provider-gcp/internal/controller/cloudplatform/folder"
@@ -343,6 +344,7 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		workerpool.Setup,
 		function.Setup,
 		functioniammember.Setup,
+		functioncloudfunctions2.Setup,
 		device.Setup,
 		registry.Setup,
 		folder.Setup,
