@@ -69,7 +69,7 @@ type ConnectionProfileParameters struct {
 	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
-	// The name of the location this repository is located in.
+	// The name of the location this connection profile is located in.
 	// +kubebuilder:validation:Required
 	Location *string `json:"location" tf:"location,omitempty"`
 

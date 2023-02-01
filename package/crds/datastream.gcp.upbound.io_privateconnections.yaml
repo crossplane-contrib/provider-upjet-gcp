@@ -74,8 +74,8 @@ spec:
                     description: Labels.
                     type: object
                   location:
-                    description: The name of the location this repository is located
-                      in.
+                    description: The name of the location this private connection
+                      is located in.
                     type: string
                   project:
                     description: The ID of the project in which the resource belongs.

@@ -105,8 +105,26 @@ spec:
                             of nodes will not scale automatically but can be scaled
                             manually by providing different values when updating.
                           type: number
-                      required:
-                      - fixedNodeCount
+                        scaling:
+                          description: Online serving scaling configuration. Only
+                            one of fixedNodeCount and scaling can be set. Setting
+                            one will reset the other. Structure is documented below.
+                          items:
+                            properties:
+                              maxNodeCount:
+                                description: The maximum number of nodes to scale
+                                  up to. Must be greater than minNodeCount, and less
+                                  than or equal to 10 times of 'minNodeCount'.
+                                type: number
+                              minNodeCount:
+                                description: The minimum number of nodes to scale
+                                  down to. Must be greater than or equal to 1.
+                                type: number
+                            required:
+                            - maxNodeCount
+                            - minNodeCount
+                            type: object
+                          type: array
                       type: object
                     type: array
                   project:
