@@ -492,6 +492,7 @@ type NetworkInterfaceParameters struct {
 	// Either network or subnetwork must be provided. If network isn't provided it will
 	// be inferred from the subnetwork.
 	// +crossplane:generate:reference:type=Network
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.SelfLinkExtractor()
 	// +kubebuilder:validation:Optional
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
@@ -528,6 +529,7 @@ type NetworkInterfaceParameters struct {
 	// network is in auto subnet mode, specifying the subnetwork is optional. If the network is
 	// in custom subnet mode, specifying the subnetwork is required.
 	// +crossplane:generate:reference:type=Subnetwork
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.SelfLinkExtractor()
 	// +kubebuilder:validation:Optional
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 

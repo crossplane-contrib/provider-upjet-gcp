@@ -125,10 +125,12 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 			Schema["labels"].Elem = schema.TypeString
 
 		r.References["network_interface.network"] = config.Reference{
-			Type: "Network",
+			Type:      "Network",
+			Extractor: common.PathSelfLinkExtractor,
 		}
 		r.References["network_interface.subnetwork"] = config.Reference{
-			Type: "Subnetwork",
+			Type:      "Subnetwork",
+			Extractor: common.PathSelfLinkExtractor,
 		}
 		r.References["boot_disk.initialize_params.image"] = config.Reference{
 			Type: "Image",
