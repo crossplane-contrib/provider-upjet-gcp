@@ -25,6 +25,8 @@ import (
 	v1beta1 "github.com/upbound/provider-gcp/apis/activedirectory/v1beta1"
 	v1beta1apigee "github.com/upbound/provider-gcp/apis/apigee/v1beta1"
 	v1beta1appengine "github.com/upbound/provider-gcp/apis/appengine/v1beta1"
+	v1beta1artifact "github.com/upbound/provider-gcp/apis/artifact/v1beta1"
+	v1beta1beyondcorp "github.com/upbound/provider-gcp/apis/beyondcorp/v1beta1"
 	v1beta1bigquery "github.com/upbound/provider-gcp/apis/bigquery/v1beta1"
 	v1beta1bigtable "github.com/upbound/provider-gcp/apis/bigtable/v1beta1"
 	v1beta1binaryauthorization "github.com/upbound/provider-gcp/apis/binaryauthorization/v1beta1"
@@ -92,6 +94,8 @@ func init() {
 		v1beta1.SchemeBuilder.AddToScheme,
 		v1beta1apigee.SchemeBuilder.AddToScheme,
 		v1beta1appengine.SchemeBuilder.AddToScheme,
+		v1beta1artifact.SchemeBuilder.AddToScheme,
+		v1beta1beyondcorp.SchemeBuilder.AddToScheme,
 		v1beta1bigquery.SchemeBuilder.AddToScheme,
 		v1beta1bigtable.SchemeBuilder.AddToScheme,
 		v1beta1binaryauthorization.SchemeBuilder.AddToScheme,

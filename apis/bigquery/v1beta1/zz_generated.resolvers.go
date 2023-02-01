@@ -28,6 +28,50 @@ import (
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
+// ResolveReferences of this AnalyticsHubListing.
+func (mg *AnalyticsHubListing) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.BigqueryDataset); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.BigqueryDataset[i3].Dataset),
+			Extract:      resource.ExtractResourceID(),
+			Reference:    mg.Spec.ForProvider.BigqueryDataset[i3].DatasetRef,
+			Selector:     mg.Spec.ForProvider.BigqueryDataset[i3].DatasetSelector,
+			To: reference.To{
+				List:    &DatasetList{},
+				Managed: &Dataset{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.BigqueryDataset[i3].Dataset")
+		}
+		mg.Spec.ForProvider.BigqueryDataset[i3].Dataset = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.BigqueryDataset[i3].DatasetRef = rsp.ResolvedReference
+
+	}
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.DataExchangeID),
+		Extract:      resource.ExtractParamPath("data_exchange_id", false),
+		Reference:    mg.Spec.ForProvider.DataExchangeIDRef,
+		Selector:     mg.Spec.ForProvider.DataExchangeIDSelector,
+		To: reference.To{
+			List:    &AnalyticsHubDataExchangeList{},
+			Managed: &AnalyticsHubDataExchange{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.DataExchangeID")
+	}
+	mg.Spec.ForProvider.DataExchangeID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.DataExchangeIDRef = rsp.ResolvedReference
+
+	return nil
+}
+
 // ResolveReferences of this Connection.
 func (mg *Connection) ResolveReferences(ctx context.Context, c client.Reader) error {
 	r := reference.NewAPIResolver(c, mg)

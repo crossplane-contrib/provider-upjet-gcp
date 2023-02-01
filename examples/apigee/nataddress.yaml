@@ -1,0 +1,101 @@
+apiVersion: apigee.gcp.upbound.io/v1beta1
+kind: NATAddress
+metadata:
+  annotations:
+    meta.upbound.io/example-id: apigee/v1beta1/nataddress
+    upjet.upbound.io/manual-intervention: "Organization requires a real Project ID"
+  labels:
+    testing.upbound.io/example-name: apigee-nat
+  name: apigee-nat
+spec:
+  forProvider:
+    instanceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: apigee_instance
+
+---
+
+apiVersion: apigee.gcp.upbound.io/v1beta1
+kind: Instance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: apigee/v1beta1/nataddress
+  labels:
+    testing.upbound.io/example-name: apigee_instance
+  name: apigee-instance
+spec:
+  forProvider:
+    location: us-central1
+    orgIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: apigee_org
+
+---
+
+apiVersion: apigee.gcp.upbound.io/v1beta1
+kind: Organization
+metadata:
+  annotations:
+    meta.upbound.io/example-id: apigee/v1beta1/nataddress
+  labels:
+    testing.upbound.io/example-name: apigee_org
+  name: apigee-org
+spec:
+  forProvider:
+    analyticsRegion: us-central1
+    authorizedNetworkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: apigee_network
+    projectId: ${project.project_id}
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: GlobalAddress
+metadata:
+  annotations:
+    meta.upbound.io/example-id: apigee/v1beta1/nataddress
+  labels:
+    testing.upbound.io/example-name: apigee_range
+  name: apigee-range
+spec:
+  forProvider:
+    addressType: INTERNAL
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: apigee_network
+    prefixLength: 16
+    purpose: VPC_PEERING
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Network
+metadata:
+  annotations:
+    meta.upbound.io/example-id: apigee/v1beta1/nataddress
+  labels:
+    testing.upbound.io/example-name: apigee_network
+  name: apigee-network
+spec:
+  forProvider: {}
+
+---
+
+apiVersion: servicenetworking.gcp.upbound.io/v1beta1
+kind: Connection
+metadata:
+  annotations:
+    meta.upbound.io/example-id: apigee/v1beta1/nataddress
+  labels:
+    testing.upbound.io/example-name: apigee_vpc_connection
+  name: apigee-vpc-connection
+spec:
+  forProvider:
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: apigee_network
+    reservedPeeringRangesSelector:
+      matchLabels:
+        testing.upbound.io/example-name: apigee_range
+    service: servicenetworking.googleapis.com

@@ -1,0 +1,70 @@
+apiVersion: beyondcorp.gcp.upbound.io/v1beta1
+kind: AppConnection
+metadata:
+  annotations:
+    meta.upbound.io/example-id: beyondcorp/v1beta1/appconnection
+    upjet.upbound.io/manual-intervention: "The resource requires a real Project ID"
+  labels:
+    testing.upbound.io/example-name: app_connection
+  name: app-connection
+spec:
+  forProvider:
+    region: us-central1
+    applicationEndpoint:
+      - host: foo-host
+        port: 8080
+    connectors:
+      - projects/${project.project_id}/locations/us-central1/appConnectors/app-connector
+    name: my-app-connection
+    type: TCP_PROXY
+    gateway:
+      - appGateway: app-gateway
+
+---
+
+apiVersion: beyondcorp.gcp.upbound.io/v1beta1
+kind: AppConnector
+metadata:
+  annotations:
+    meta.upbound.io/example-id: beyondcorp/v1beta1/appconnection
+  labels:
+    testing.upbound.io/example-name: app_connector
+  name: app-connector
+spec:
+  forProvider:
+    region: us-central1
+    principalInfo:
+    - serviceAccount:
+      - emailSelector:
+          matchLabels:
+            testing.upbound.io/example-name: service_account
+
+---
+
+apiVersion: cloudplatform.gcp.upbound.io/v1beta1
+kind: ServiceAccount
+metadata:
+  annotations:
+    meta.upbound.io/example-id: beyondcorp/v1beta1/appconnection
+  labels:
+    testing.upbound.io/example-name: service_account
+  name: service-account
+spec:
+  forProvider:
+    displayName: Test Service Account
+
+---
+
+apiVersion: beyondcorp.gcp.upbound.io/v1beta1
+kind: AppGateway
+metadata:
+  annotations:
+    meta.upbound.io/example-id: beyondcorp/v1beta1/appconnection
+  labels:
+    testing.upbound.io/example-name: app_gateway
+  name: app-gateway
+spec:
+  forProvider:
+    hostType: GCP_REGIONAL_MIG
+    region: us-central1
+    type: TCP_PROXY
