@@ -254,6 +254,32 @@ func (mg *BackendService) ResolveReferences(ctx context.Context, c client.Reader
 	return nil
 }
 
+// ResolveReferences of this BackendServiceSignedURLKey.
+func (mg *BackendServiceSignedURLKey) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.BackendService),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.ForProvider.BackendServiceRef,
+		Selector:     mg.Spec.ForProvider.BackendServiceSelector,
+		To: reference.To{
+			List:    &BackendServiceList{},
+			Managed: &BackendService{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.BackendService")
+	}
+	mg.Spec.ForProvider.BackendService = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.BackendServiceRef = rsp.ResolvedReference
+
+	return nil
+}
+
 // ResolveReferences of this DiskIAMMember.
 func (mg *DiskIAMMember) ResolveReferences(ctx context.Context, c client.Reader) error {
 	r := reference.NewAPIResolver(c, mg)
@@ -1159,6 +1185,48 @@ func (mg *NetworkEndpointGroup) ResolveReferences(ctx context.Context, c client.
 	return nil
 }
 
+// ResolveReferences of this NetworkFirewallPolicyAssociation.
+func (mg *NetworkFirewallPolicyAssociation) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.AttachmentTarget),
+		Extract:      resource.ExtractResourceID(),
+		Reference:    mg.Spec.ForProvider.AttachmentTargetRef,
+		Selector:     mg.Spec.ForProvider.AttachmentTargetSelector,
+		To: reference.To{
+			List:    &NetworkList{},
+			Managed: &Network{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.AttachmentTarget")
+	}
+	mg.Spec.ForProvider.AttachmentTarget = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.AttachmentTargetRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.FirewallPolicy),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.ForProvider.FirewallPolicyRef,
+		Selector:     mg.Spec.ForProvider.FirewallPolicySelector,
+		To: reference.To{
+			List:    &NetworkFirewallPolicyList{},
+			Managed: &NetworkFirewallPolicy{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.FirewallPolicy")
+	}
+	mg.Spec.ForProvider.FirewallPolicy = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.FirewallPolicyRef = rsp.ResolvedReference
+
+	return nil
+}
+
 // ResolveReferences of this NetworkPeering.
 func (mg *NetworkPeering) ResolveReferences(ctx context.Context, c client.Reader) error {
 	r := reference.NewAPIResolver(c, mg)
@@ -1469,6 +1537,32 @@ func (mg *RegionBackendService) ResolveReferences(ctx context.Context, c client.
 	return nil
 }
 
+// ResolveReferences of this RegionDisk.
+func (mg *RegionDisk) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Snapshot),
+		Extract:      resource.ExtractResourceID(),
+		Reference:    mg.Spec.ForProvider.SnapshotRef,
+		Selector:     mg.Spec.ForProvider.SnapshotSelector,
+		To: reference.To{
+			List:    &SnapshotList{},
+			Managed: &Snapshot{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.Snapshot")
+	}
+	mg.Spec.ForProvider.Snapshot = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.SnapshotRef = rsp.ResolvedReference
+
+	return nil
+}
+
 // ResolveReferences of this RegionDiskIAMMember.
 func (mg *RegionDiskIAMMember) ResolveReferences(ctx context.Context, c client.Reader) error {
 	r := reference.NewAPIResolver(c, mg)
@@ -1691,6 +1785,48 @@ func (mg *RegionNetworkEndpointGroup) ResolveReferences(ctx context.Context, c c
 	}
 	mg.Spec.ForProvider.Subnetwork = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.SubnetworkRef = rsp.ResolvedReference
+
+	return nil
+}
+
+// ResolveReferences of this RegionNetworkFirewallPolicyAssociation.
+func (mg *RegionNetworkFirewallPolicyAssociation) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.AttachmentTarget),
+		Extract:      resource.ExtractResourceID(),
+		Reference:    mg.Spec.ForProvider.AttachmentTargetRef,
+		Selector:     mg.Spec.ForProvider.AttachmentTargetSelector,
+		To: reference.To{
+			List:    &NetworkList{},
+			Managed: &Network{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.AttachmentTarget")
+	}
+	mg.Spec.ForProvider.AttachmentTarget = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.AttachmentTargetRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.FirewallPolicy),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.ForProvider.FirewallPolicyRef,
+		Selector:     mg.Spec.ForProvider.FirewallPolicySelector,
+		To: reference.To{
+			List:    &RegionNetworkFirewallPolicyList{},
+			Managed: &RegionNetworkFirewallPolicy{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.FirewallPolicy")
+	}
+	mg.Spec.ForProvider.FirewallPolicy = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.FirewallPolicyRef = rsp.ResolvedReference
 
 	return nil
 }
@@ -2227,6 +2363,32 @@ func (mg *ServiceAttachment) ResolveReferences(ctx context.Context, c client.Rea
 	}
 	mg.Spec.ForProvider.TargetService = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.TargetServiceRef = rsp.ResolvedReference
+
+	return nil
+}
+
+// ResolveReferences of this Snapshot.
+func (mg *Snapshot) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.SourceDisk),
+		Extract:      resource.ExtractResourceID(),
+		Reference:    mg.Spec.ForProvider.SourceDiskRef,
+		Selector:     mg.Spec.ForProvider.SourceDiskSelector,
+		To: reference.To{
+			List:    &DiskList{},
+			Managed: &Disk{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.SourceDisk")
+	}
+	mg.Spec.ForProvider.SourceDisk = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.SourceDiskRef = rsp.ResolvedReference
 
 	return nil
 }

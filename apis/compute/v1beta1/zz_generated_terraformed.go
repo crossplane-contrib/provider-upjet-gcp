@@ -469,6 +469,80 @@ func (tr *BackendService) GetTerraformSchemaVersion() int {
 	return 1
 }
 
+// GetTerraformResourceType returns Terraform resource type for this BackendServiceSignedURLKey
+func (mg *BackendServiceSignedURLKey) GetTerraformResourceType() string {
+	return "google_compute_backend_service_signed_url_key"
+}
+
+// GetConnectionDetailsMapping for this BackendServiceSignedURLKey
+func (tr *BackendServiceSignedURLKey) GetConnectionDetailsMapping() map[string]string {
+	return map[string]string{"key_value": "spec.forProvider.keyValueSecretRef"}
+}
+
+// GetObservation of this BackendServiceSignedURLKey
+func (tr *BackendServiceSignedURLKey) GetObservation() (map[string]any, error) {
+	o, err := json.TFParser.Marshal(tr.Status.AtProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(o, &base)
+}
+
+// SetObservation for this BackendServiceSignedURLKey
+func (tr *BackendServiceSignedURLKey) SetObservation(obs map[string]any) error {
+	p, err := json.TFParser.Marshal(obs)
+	if err != nil {
+		return err
+	}
+	return json.TFParser.Unmarshal(p, &tr.Status.AtProvider)
+}
+
+// GetID returns ID of underlying Terraform resource of this BackendServiceSignedURLKey
+func (tr *BackendServiceSignedURLKey) GetID() string {
+	if tr.Status.AtProvider.ID == nil {
+		return ""
+	}
+	return *tr.Status.AtProvider.ID
+}
+
+// GetParameters of this BackendServiceSignedURLKey
+func (tr *BackendServiceSignedURLKey) GetParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.ForProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
+}
+
+// SetParameters for this BackendServiceSignedURLKey
+func (tr *BackendServiceSignedURLKey) SetParameters(params map[string]any) error {
+	p, err := json.TFParser.Marshal(params)
+	if err != nil {
+		return err
+	}
+	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
+}
+
+// LateInitialize this BackendServiceSignedURLKey using its observed tfState.
+// returns True if there are any spec changes for the resource.
+func (tr *BackendServiceSignedURLKey) LateInitialize(attrs []byte) (bool, error) {
+	params := &BackendServiceSignedURLKeyParameters{}
+	if err := json.TFParser.Unmarshal(attrs, params); err != nil {
+		return false, errors.Wrap(err, "failed to unmarshal Terraform state parameters for late-initialization")
+	}
+	opts := []resource.GenericLateInitializerOption{resource.WithZeroValueJSONOmitEmptyFilter(resource.CNameWildcard)}
+
+	li := resource.NewGenericLateInitializer(opts...)
+	return li.LateInitialize(&tr.Spec.ForProvider, params)
+}
+
+// GetTerraformSchemaVersion returns the associated Terraform schema version
+func (tr *BackendServiceSignedURLKey) GetTerraformSchemaVersion() int {
+	return 0
+}
+
 // GetTerraformResourceType returns Terraform resource type for this Disk
 func (mg *Disk) GetTerraformResourceType() string {
 	return "google_compute_disk"
@@ -2763,6 +2837,154 @@ func (tr *NetworkEndpointGroup) GetTerraformSchemaVersion() int {
 	return 0
 }
 
+// GetTerraformResourceType returns Terraform resource type for this NetworkFirewallPolicy
+func (mg *NetworkFirewallPolicy) GetTerraformResourceType() string {
+	return "google_compute_network_firewall_policy"
+}
+
+// GetConnectionDetailsMapping for this NetworkFirewallPolicy
+func (tr *NetworkFirewallPolicy) GetConnectionDetailsMapping() map[string]string {
+	return nil
+}
+
+// GetObservation of this NetworkFirewallPolicy
+func (tr *NetworkFirewallPolicy) GetObservation() (map[string]any, error) {
+	o, err := json.TFParser.Marshal(tr.Status.AtProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(o, &base)
+}
+
+// SetObservation for this NetworkFirewallPolicy
+func (tr *NetworkFirewallPolicy) SetObservation(obs map[string]any) error {
+	p, err := json.TFParser.Marshal(obs)
+	if err != nil {
+		return err
+	}
+	return json.TFParser.Unmarshal(p, &tr.Status.AtProvider)
+}
+
+// GetID returns ID of underlying Terraform resource of this NetworkFirewallPolicy
+func (tr *NetworkFirewallPolicy) GetID() string {
+	if tr.Status.AtProvider.ID == nil {
+		return ""
+	}
+	return *tr.Status.AtProvider.ID
+}
+
+// GetParameters of this NetworkFirewallPolicy
+func (tr *NetworkFirewallPolicy) GetParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.ForProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
+}
+
+// SetParameters for this NetworkFirewallPolicy
+func (tr *NetworkFirewallPolicy) SetParameters(params map[string]any) error {
+	p, err := json.TFParser.Marshal(params)
+	if err != nil {
+		return err
+	}
+	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
+}
+
+// LateInitialize this NetworkFirewallPolicy using its observed tfState.
+// returns True if there are any spec changes for the resource.
+func (tr *NetworkFirewallPolicy) LateInitialize(attrs []byte) (bool, error) {
+	params := &NetworkFirewallPolicyParameters{}
+	if err := json.TFParser.Unmarshal(attrs, params); err != nil {
+		return false, errors.Wrap(err, "failed to unmarshal Terraform state parameters for late-initialization")
+	}
+	opts := []resource.GenericLateInitializerOption{resource.WithZeroValueJSONOmitEmptyFilter(resource.CNameWildcard)}
+
+	li := resource.NewGenericLateInitializer(opts...)
+	return li.LateInitialize(&tr.Spec.ForProvider, params)
+}
+
+// GetTerraformSchemaVersion returns the associated Terraform schema version
+func (tr *NetworkFirewallPolicy) GetTerraformSchemaVersion() int {
+	return 0
+}
+
+// GetTerraformResourceType returns Terraform resource type for this NetworkFirewallPolicyAssociation
+func (mg *NetworkFirewallPolicyAssociation) GetTerraformResourceType() string {
+	return "google_compute_network_firewall_policy_association"
+}
+
+// GetConnectionDetailsMapping for this NetworkFirewallPolicyAssociation
+func (tr *NetworkFirewallPolicyAssociation) GetConnectionDetailsMapping() map[string]string {
+	return nil
+}
+
+// GetObservation of this NetworkFirewallPolicyAssociation
+func (tr *NetworkFirewallPolicyAssociation) GetObservation() (map[string]any, error) {
+	o, err := json.TFParser.Marshal(tr.Status.AtProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(o, &base)
+}
+
+// SetObservation for this NetworkFirewallPolicyAssociation
+func (tr *NetworkFirewallPolicyAssociation) SetObservation(obs map[string]any) error {
+	p, err := json.TFParser.Marshal(obs)
+	if err != nil {
+		return err
+	}
+	return json.TFParser.Unmarshal(p, &tr.Status.AtProvider)
+}
+
+// GetID returns ID of underlying Terraform resource of this NetworkFirewallPolicyAssociation
+func (tr *NetworkFirewallPolicyAssociation) GetID() string {
+	if tr.Status.AtProvider.ID == nil {
+		return ""
+	}
+	return *tr.Status.AtProvider.ID
+}
+
+// GetParameters of this NetworkFirewallPolicyAssociation
+func (tr *NetworkFirewallPolicyAssociation) GetParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.ForProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
+}
+
+// SetParameters for this NetworkFirewallPolicyAssociation
+func (tr *NetworkFirewallPolicyAssociation) SetParameters(params map[string]any) error {
+	p, err := json.TFParser.Marshal(params)
+	if err != nil {
+		return err
+	}
+	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
+}
+
+// LateInitialize this NetworkFirewallPolicyAssociation using its observed tfState.
+// returns True if there are any spec changes for the resource.
+func (tr *NetworkFirewallPolicyAssociation) LateInitialize(attrs []byte) (bool, error) {
+	params := &NetworkFirewallPolicyAssociationParameters{}
+	if err := json.TFParser.Unmarshal(attrs, params); err != nil {
+		return false, errors.Wrap(err, "failed to unmarshal Terraform state parameters for late-initialization")
+	}
+	opts := []resource.GenericLateInitializerOption{resource.WithZeroValueJSONOmitEmptyFilter(resource.CNameWildcard)}
+
+	li := resource.NewGenericLateInitializer(opts...)
+	return li.LateInitialize(&tr.Spec.ForProvider, params)
+}
+
+// GetTerraformSchemaVersion returns the associated Terraform schema version
+func (tr *NetworkFirewallPolicyAssociation) GetTerraformSchemaVersion() int {
+	return 0
+}
+
 // GetTerraformResourceType returns Terraform resource type for this NetworkPeering
 func (mg *NetworkPeering) GetTerraformResourceType() string {
 	return "google_compute_network_peering"
@@ -4021,6 +4243,154 @@ func (tr *RegionNetworkEndpointGroup) GetTerraformSchemaVersion() int {
 	return 0
 }
 
+// GetTerraformResourceType returns Terraform resource type for this RegionNetworkFirewallPolicy
+func (mg *RegionNetworkFirewallPolicy) GetTerraformResourceType() string {
+	return "google_compute_region_network_firewall_policy"
+}
+
+// GetConnectionDetailsMapping for this RegionNetworkFirewallPolicy
+func (tr *RegionNetworkFirewallPolicy) GetConnectionDetailsMapping() map[string]string {
+	return nil
+}
+
+// GetObservation of this RegionNetworkFirewallPolicy
+func (tr *RegionNetworkFirewallPolicy) GetObservation() (map[string]any, error) {
+	o, err := json.TFParser.Marshal(tr.Status.AtProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(o, &base)
+}
+
+// SetObservation for this RegionNetworkFirewallPolicy
+func (tr *RegionNetworkFirewallPolicy) SetObservation(obs map[string]any) error {
+	p, err := json.TFParser.Marshal(obs)
+	if err != nil {
+		return err
+	}
+	return json.TFParser.Unmarshal(p, &tr.Status.AtProvider)
+}
+
+// GetID returns ID of underlying Terraform resource of this RegionNetworkFirewallPolicy
+func (tr *RegionNetworkFirewallPolicy) GetID() string {
+	if tr.Status.AtProvider.ID == nil {
+		return ""
+	}
+	return *tr.Status.AtProvider.ID
+}
+
+// GetParameters of this RegionNetworkFirewallPolicy
+func (tr *RegionNetworkFirewallPolicy) GetParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.ForProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
+}
+
+// SetParameters for this RegionNetworkFirewallPolicy
+func (tr *RegionNetworkFirewallPolicy) SetParameters(params map[string]any) error {
+	p, err := json.TFParser.Marshal(params)
+	if err != nil {
+		return err
+	}
+	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
+}
+
+// LateInitialize this RegionNetworkFirewallPolicy using its observed tfState.
+// returns True if there are any spec changes for the resource.
+func (tr *RegionNetworkFirewallPolicy) LateInitialize(attrs []byte) (bool, error) {
+	params := &RegionNetworkFirewallPolicyParameters{}
+	if err := json.TFParser.Unmarshal(attrs, params); err != nil {
+		return false, errors.Wrap(err, "failed to unmarshal Terraform state parameters for late-initialization")
+	}
+	opts := []resource.GenericLateInitializerOption{resource.WithZeroValueJSONOmitEmptyFilter(resource.CNameWildcard)}
+
+	li := resource.NewGenericLateInitializer(opts...)
+	return li.LateInitialize(&tr.Spec.ForProvider, params)
+}
+
+// GetTerraformSchemaVersion returns the associated Terraform schema version
+func (tr *RegionNetworkFirewallPolicy) GetTerraformSchemaVersion() int {
+	return 0
+}
+
+// GetTerraformResourceType returns Terraform resource type for this RegionNetworkFirewallPolicyAssociation
+func (mg *RegionNetworkFirewallPolicyAssociation) GetTerraformResourceType() string {
+	return "google_compute_region_network_firewall_policy_association"
+}
+
+// GetConnectionDetailsMapping for this RegionNetworkFirewallPolicyAssociation
+func (tr *RegionNetworkFirewallPolicyAssociation) GetConnectionDetailsMapping() map[string]string {
+	return nil
+}
+
+// GetObservation of this RegionNetworkFirewallPolicyAssociation
+func (tr *RegionNetworkFirewallPolicyAssociation) GetObservation() (map[string]any, error) {
+	o, err := json.TFParser.Marshal(tr.Status.AtProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(o, &base)
+}
+
+// SetObservation for this RegionNetworkFirewallPolicyAssociation
+func (tr *RegionNetworkFirewallPolicyAssociation) SetObservation(obs map[string]any) error {
+	p, err := json.TFParser.Marshal(obs)
+	if err != nil {
+		return err
+	}
+	return json.TFParser.Unmarshal(p, &tr.Status.AtProvider)
+}
+
+// GetID returns ID of underlying Terraform resource of this RegionNetworkFirewallPolicyAssociation
+func (tr *RegionNetworkFirewallPolicyAssociation) GetID() string {
+	if tr.Status.AtProvider.ID == nil {
+		return ""
+	}
+	return *tr.Status.AtProvider.ID
+}
+
+// GetParameters of this RegionNetworkFirewallPolicyAssociation
+func (tr *RegionNetworkFirewallPolicyAssociation) GetParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.ForProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
+}
+
+// SetParameters for this RegionNetworkFirewallPolicyAssociation
+func (tr *RegionNetworkFirewallPolicyAssociation) SetParameters(params map[string]any) error {
+	p, err := json.TFParser.Marshal(params)
+	if err != nil {
+		return err
+	}
+	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
+}
+
+// LateInitialize this RegionNetworkFirewallPolicyAssociation using its observed tfState.
+// returns True if there are any spec changes for the resource.
+func (tr *RegionNetworkFirewallPolicyAssociation) LateInitialize(attrs []byte) (bool, error) {
+	params := &RegionNetworkFirewallPolicyAssociationParameters{}
+	if err := json.TFParser.Unmarshal(attrs, params); err != nil {
+		return false, errors.Wrap(err, "failed to unmarshal Terraform state parameters for late-initialization")
+	}
+	opts := []resource.GenericLateInitializerOption{resource.WithZeroValueJSONOmitEmptyFilter(resource.CNameWildcard)}
+
+	li := resource.NewGenericLateInitializer(opts...)
+	return li.LateInitialize(&tr.Spec.ForProvider, params)
+}
+
+// GetTerraformSchemaVersion returns the associated Terraform schema version
+func (tr *RegionNetworkFirewallPolicyAssociation) GetTerraformSchemaVersion() int {
+	return 0
+}
+
 // GetTerraformResourceType returns Terraform resource type for this RegionPerInstanceConfig
 func (mg *RegionPerInstanceConfig) GetTerraformResourceType() string {
 	return "google_compute_region_per_instance_config"
@@ -4983,6 +5353,80 @@ func (tr *ServiceAttachment) GetTerraformSchemaVersion() int {
 	return 0
 }
 
+// GetTerraformResourceType returns Terraform resource type for this Snapshot
+func (mg *Snapshot) GetTerraformResourceType() string {
+	return "google_compute_snapshot"
+}
+
+// GetConnectionDetailsMapping for this Snapshot
+func (tr *Snapshot) GetConnectionDetailsMapping() map[string]string {
+	return map[string]string{"snapshot_encryption_key[*].raw_key": "spec.forProvider.snapshotEncryptionKey[*].rawKeySecretRef", "source_disk_encryption_key[*].raw_key": "spec.forProvider.sourceDiskEncryptionKey[*].rawKeySecretRef"}
+}
+
+// GetObservation of this Snapshot
+func (tr *Snapshot) GetObservation() (map[string]any, error) {
+	o, err := json.TFParser.Marshal(tr.Status.AtProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(o, &base)
+}
+
+// SetObservation for this Snapshot
+func (tr *Snapshot) SetObservation(obs map[string]any) error {
+	p, err := json.TFParser.Marshal(obs)
+	if err != nil {
+		return err
+	}
+	return json.TFParser.Unmarshal(p, &tr.Status.AtProvider)
+}
+
+// GetID returns ID of underlying Terraform resource of this Snapshot
+func (tr *Snapshot) GetID() string {
+	if tr.Status.AtProvider.ID == nil {
+		return ""
+	}
+	return *tr.Status.AtProvider.ID
+}
+
+// GetParameters of this Snapshot
+func (tr *Snapshot) GetParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.ForProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
+}
+
+// SetParameters for this Snapshot
+func (tr *Snapshot) SetParameters(params map[string]any) error {
+	p, err := json.TFParser.Marshal(params)
+	if err != nil {
+		return err
+	}
+	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
+}
+
+// LateInitialize this Snapshot using its observed tfState.
+// returns True if there are any spec changes for the resource.
+func (tr *Snapshot) LateInitialize(attrs []byte) (bool, error) {
+	params := &SnapshotParameters{}
+	if err := json.TFParser.Unmarshal(attrs, params); err != nil {
+		return false, errors.Wrap(err, "failed to unmarshal Terraform state parameters for late-initialization")
+	}
+	opts := []resource.GenericLateInitializerOption{resource.WithZeroValueJSONOmitEmptyFilter(resource.CNameWildcard)}
+
+	li := resource.NewGenericLateInitializer(opts...)
+	return li.LateInitialize(&tr.Spec.ForProvider, params)
+}
+
+// GetTerraformSchemaVersion returns the associated Terraform schema version
+func (tr *Snapshot) GetTerraformSchemaVersion() int {
+	return 0
+}
+
 // GetTerraformResourceType returns Terraform resource type for this SSLCertificate
 func (mg *SSLCertificate) GetTerraformResourceType() string {
 	return "google_compute_ssl_certificate"
@@ -5054,6 +5498,80 @@ func (tr *SSLCertificate) LateInitialize(attrs []byte) (bool, error) {
 
 // GetTerraformSchemaVersion returns the associated Terraform schema version
 func (tr *SSLCertificate) GetTerraformSchemaVersion() int {
+	return 0
+}
+
+// GetTerraformResourceType returns Terraform resource type for this SSLPolicy
+func (mg *SSLPolicy) GetTerraformResourceType() string {
+	return "google_compute_ssl_policy"
+}
+
+// GetConnectionDetailsMapping for this SSLPolicy
+func (tr *SSLPolicy) GetConnectionDetailsMapping() map[string]string {
+	return nil
+}
+
+// GetObservation of this SSLPolicy
+func (tr *SSLPolicy) GetObservation() (map[string]any, error) {
+	o, err := json.TFParser.Marshal(tr.Status.AtProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(o, &base)
+}
+
+// SetObservation for this SSLPolicy
+func (tr *SSLPolicy) SetObservation(obs map[string]any) error {
+	p, err := json.TFParser.Marshal(obs)
+	if err != nil {
+		return err
+	}
+	return json.TFParser.Unmarshal(p, &tr.Status.AtProvider)
+}
+
+// GetID returns ID of underlying Terraform resource of this SSLPolicy
+func (tr *SSLPolicy) GetID() string {
+	if tr.Status.AtProvider.ID == nil {
+		return ""
+	}
+	return *tr.Status.AtProvider.ID
+}
+
+// GetParameters of this SSLPolicy
+func (tr *SSLPolicy) GetParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.ForProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
+}
+
+// SetParameters for this SSLPolicy
+func (tr *SSLPolicy) SetParameters(params map[string]any) error {
+	p, err := json.TFParser.Marshal(params)
+	if err != nil {
+		return err
+	}
+	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
+}
+
+// LateInitialize this SSLPolicy using its observed tfState.
+// returns True if there are any spec changes for the resource.
+func (tr *SSLPolicy) LateInitialize(attrs []byte) (bool, error) {
+	params := &SSLPolicyParameters{}
+	if err := json.TFParser.Unmarshal(attrs, params); err != nil {
+		return false, errors.Wrap(err, "failed to unmarshal Terraform state parameters for late-initialization")
+	}
+	opts := []resource.GenericLateInitializerOption{resource.WithZeroValueJSONOmitEmptyFilter(resource.CNameWildcard)}
+
+	li := resource.NewGenericLateInitializer(opts...)
+	return li.LateInitialize(&tr.Spec.ForProvider, params)
+}
+
+// GetTerraformSchemaVersion returns the associated Terraform schema version
+func (tr *SSLPolicy) GetTerraformSchemaVersion() int {
 	return 0
 }
 

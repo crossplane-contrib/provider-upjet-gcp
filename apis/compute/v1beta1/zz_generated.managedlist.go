@@ -73,6 +73,15 @@ func (l *BackendServiceList) GetItems() []resource.Managed {
 	return items
 }
 
+// GetItems of this BackendServiceSignedURLKeyList.
+func (l *BackendServiceSignedURLKeyList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
 // GetItems of this DiskIAMMemberList.
 func (l *DiskIAMMemberList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
@@ -343,6 +352,24 @@ func (l *NetworkEndpointList) GetItems() []resource.Managed {
 	return items
 }
 
+// GetItems of this NetworkFirewallPolicyAssociationList.
+func (l *NetworkFirewallPolicyAssociationList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this NetworkFirewallPolicyList.
+func (l *NetworkFirewallPolicyList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
 // GetItems of this NetworkList.
 func (l *NetworkList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
@@ -505,6 +532,24 @@ func (l *RegionNetworkEndpointGroupList) GetItems() []resource.Managed {
 	return items
 }
 
+// GetItems of this RegionNetworkFirewallPolicyAssociationList.
+func (l *RegionNetworkFirewallPolicyAssociationList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this RegionNetworkFirewallPolicyList.
+func (l *RegionNetworkFirewallPolicyList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
 // GetItems of this RegionPerInstanceConfigList.
 func (l *RegionPerInstanceConfigList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
@@ -613,6 +658,15 @@ func (l *SSLCertificateList) GetItems() []resource.Managed {
 	return items
 }
 
+// GetItems of this SSLPolicyList.
+func (l *SSLPolicyList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
 // GetItems of this SecurityPolicyList.
 func (l *SecurityPolicyList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
@@ -624,6 +678,15 @@ func (l *SecurityPolicyList) GetItems() []resource.Managed {
 
 // GetItems of this ServiceAttachmentList.
 func (l *ServiceAttachmentList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this SnapshotList.
+func (l *SnapshotList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
 	for i := range l.Items {
 		items[i] = &l.Items[i]
