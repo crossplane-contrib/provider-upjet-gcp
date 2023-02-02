@@ -87,7 +87,9 @@ func constructFederatedCredentials(providerID, serviceAccount string) ([]byte, e
 
 // TerraformSetupBuilder builds Terraform a terraform.SetupFn function which
 // returns Terraform provider setup configuration
-func TerraformSetupBuilder(version, providerSource, providerVersion string) terraform.SetupFn {
+// NOTE(hasheddan): this function is slightly over our cyclomatic complexity
+// goal. Consider refactoring before adding new branches.
+func TerraformSetupBuilder(version, providerSource, providerVersion string) terraform.SetupFn { //nolint:gocyclo
 	return func(ctx context.Context, client client.Client, mg resource.Managed) (terraform.Setup, error) {
 		ps := terraform.Setup{
 			Version: version,
