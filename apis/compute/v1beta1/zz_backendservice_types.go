@@ -273,6 +273,10 @@ type BackendServiceParameters struct {
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// The resource URL for the edge security policy associated with this backend service.
+	// +kubebuilder:validation:Optional
+	EdgeSecurityPolicy *string `json:"edgeSecurityPolicy,omitempty" tf:"edge_security_policy,omitempty"`
+
 	// If true, enable Cloud CDN for this BackendService.
 	// +kubebuilder:validation:Optional
 	EnableCdn *bool `json:"enableCdn,omitempty" tf:"enable_cdn,omitempty"`

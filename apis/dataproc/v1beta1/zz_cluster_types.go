@@ -135,6 +135,11 @@ type ClusterConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	AutoscalingConfig []AutoscalingConfigParameters `json:"autoscalingConfig,omitempty" tf:"autoscaling_config,omitempty"`
 
+	// The Compute Engine accelerator (GPU) configuration for these instances. Can be specified multiple times.
+	// Structure defined below.
+	// +kubebuilder:validation:Optional
+	DataprocMetricConfig []DataprocMetricConfigParameters `json:"dataprocMetricConfig,omitempty" tf:"dataproc_metric_config,omitempty"`
+
 	// The Customer managed encryption keys settings for the cluster.
 	// Structure defined below.
 	// +kubebuilder:validation:Optional
@@ -337,6 +342,16 @@ type ConfigParameters struct {
 	Spot *bool `json:"spot,omitempty" tf:"spot,omitempty"`
 }
 
+type DataprocMetricConfigObservation struct {
+}
+
+type DataprocMetricConfigParameters struct {
+
+	// Metrics sources to enable.
+	// +kubebuilder:validation:Required
+	Metrics []MetricsParameters `json:"metrics" tf:"metrics,omitempty"`
+}
+
 type DiskConfigObservation struct {
 }
 
@@ -410,6 +425,14 @@ type GceClusterConfigParameters struct {
 	// If neither is specified, this defaults to the "default" network.
 	// +kubebuilder:validation:Optional
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
+	// Node Group Affinity for sole-tenant clusters.
+	// +kubebuilder:validation:Optional
+	NodeGroupAffinity []NodeGroupAffinityParameters `json:"nodeGroupAffinity,omitempty" tf:"node_group_affinity,omitempty"`
+
+	// Reservation Affinity for consuming zonal reservation.
+	// +kubebuilder:validation:Optional
+	ReservationAffinity []ReservationAffinityParameters `json:"reservationAffinity,omitempty" tf:"reservation_affinity,omitempty"`
 
 	// The service account to be used by the Node VMs.
 	// If not specified, the "default" service account is used.
@@ -684,6 +707,30 @@ type MetastoreConfigParameters struct {
 	DataprocMetastoreService *string `json:"dataprocMetastoreService" tf:"dataproc_metastore_service,omitempty"`
 }
 
+type MetricsObservation struct {
+}
+
+type MetricsParameters struct {
+
+	// One or more [available OSS metrics] (https://cloud.google.com/dataproc/docs/guides/monitoring#available_oss_metrics) to collect for the metric course.
+	// +kubebuilder:validation:Optional
+	MetricOverrides []*string `json:"metricOverrides,omitempty" tf:"metric_overrides,omitempty"`
+
+	// A source for the collection of Dataproc OSS metrics (see available OSS metrics).
+	// +kubebuilder:validation:Required
+	MetricSource *string `json:"metricSource" tf:"metric_source,omitempty"`
+}
+
+type NodeGroupAffinityObservation struct {
+}
+
+type NodeGroupAffinityParameters struct {
+
+	// The URI of a sole-tenant node group resource that the cluster will be created on.
+	// +kubebuilder:validation:Required
+	NodeGroupURI *string `json:"nodeGroupUri" tf:"node_group_uri,omitempty"`
+}
+
 type NodePoolConfigObservation struct {
 }
 
@@ -772,6 +819,24 @@ type PreemptibleWorkerConfigParameters struct {
 	// Accepted values are:
 	// +kubebuilder:validation:Optional
 	Preemptibility *string `json:"preemptibility,omitempty" tf:"preemptibility,omitempty"`
+}
+
+type ReservationAffinityObservation struct {
+}
+
+type ReservationAffinityParameters struct {
+
+	// Corresponds to the type of reservation consumption.
+	// +kubebuilder:validation:Optional
+	ConsumeReservationType *string `json:"consumeReservationType,omitempty" tf:"consume_reservation_type,omitempty"`
+
+	// Corresponds to the label key of reservation resource.
+	// +kubebuilder:validation:Optional
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	// Corresponds to the label values of reservation resource.
+	// +kubebuilder:validation:Optional
+	Values []*string `json:"values,omitempty" tf:"values,omitempty"`
 }
 
 type SecurityConfigObservation struct {

@@ -145,6 +145,30 @@ type NodePoolNodeConfigGvnicParameters struct {
 	Enabled *bool `json:"enabled" tf:"enabled,omitempty"`
 }
 
+type NodePoolNodeConfigKubeletConfigObservation struct {
+}
+
+type NodePoolNodeConfigKubeletConfigParameters struct {
+
+	// +kubebuilder:validation:Optional
+	CPUCfsQuota *bool `json:"cpuCfsQuota,omitempty" tf:"cpu_cfs_quota,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	CPUCfsQuotaPeriod *string `json:"cpuCfsQuotaPeriod,omitempty" tf:"cpu_cfs_quota_period,omitempty"`
+
+	// +kubebuilder:validation:Required
+	CPUManagerPolicy *string `json:"cpuManagerPolicy" tf:"cpu_manager_policy,omitempty"`
+}
+
+type NodePoolNodeConfigLinuxNodeConfigObservation struct {
+}
+
+type NodePoolNodeConfigLinuxNodeConfigParameters struct {
+
+	// +kubebuilder:validation:Required
+	Sysctls map[string]*string `json:"sysctls" tf:"sysctls,omitempty"`
+}
+
 type NodePoolNodeConfigObservation_2 struct {
 }
 
@@ -172,7 +196,15 @@ type NodePoolNodeConfigParameters_2 struct {
 	ImageType *string `json:"imageType,omitempty" tf:"image_type,omitempty"`
 
 	// +kubebuilder:validation:Optional
+	KubeletConfig []NodePoolNodeConfigKubeletConfigParameters `json:"kubeletConfig,omitempty" tf:"kubelet_config,omitempty"`
+
+	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// Parameters used in creating the node pool. See
+	// google_container_cluster for schema.
+	// +kubebuilder:validation:Optional
+	LinuxNodeConfig []NodePoolNodeConfigLinuxNodeConfigParameters `json:"linuxNodeConfig,omitempty" tf:"linux_node_config,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	LocalSsdCount *float64 `json:"localSsdCount,omitempty" tf:"local_ssd_count,omitempty"`

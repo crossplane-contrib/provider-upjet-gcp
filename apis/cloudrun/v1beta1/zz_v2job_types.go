@@ -306,6 +306,7 @@ type TemplateContainersParameters struct {
 	Image *string `json:"image" tf:"image,omitempty"`
 
 	// Periodic probe of container liveness. Container will be restarted if the probe fails. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
+	// This field is not supported in Cloud Run Job currently.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	LivenessProbe []LivenessProbeParameters `json:"livenessProbe,omitempty" tf:"liveness_probe,omitempty"`
@@ -326,6 +327,7 @@ type TemplateContainersParameters struct {
 	Resources []ContainersResourcesParameters `json:"resources,omitempty" tf:"resources,omitempty"`
 
 	// Startup probe of application within the container. All other probes are disabled if a startup probe is provided, until it succeeds. Container will not be added to service endpoints if the probe fails. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
+	// This field is not supported in Cloud Run Job currently.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	StartupProbe []StartupProbeParameters `json:"startupProbe,omitempty" tf:"startup_probe,omitempty"`

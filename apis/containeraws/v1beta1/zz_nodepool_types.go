@@ -25,6 +25,20 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type AutoscalingMetricsCollectionObservation struct {
+}
+
+type AutoscalingMetricsCollectionParameters struct {
+
+	// The frequency at which EC2 Auto Scaling sends aggregated data to AWS CloudWatch. The only valid value is "1Minute".
+	// +kubebuilder:validation:Required
+	Granularity *string `json:"granularity" tf:"granularity,omitempty"`
+
+	// The metrics to enable. For a list of valid metrics, see https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_EnableMetricsCollection.html. If you specify granularity and don't specify any metrics, all metrics are enabled.
+	// +kubebuilder:validation:Optional
+	Metrics []*string `json:"metrics,omitempty" tf:"metrics,omitempty"`
+}
+
 type AutoscalingObservation struct {
 }
 
@@ -53,6 +67,10 @@ type ConfigObservation struct {
 }
 
 type ConfigParameters struct {
+
+	// Optional. Configuration related to CloudWatch metrics collection on the Auto Scaling group of the node pool. When unspecified, metrics collection is disabled.
+	// +kubebuilder:validation:Optional
+	AutoscalingMetricsCollection []AutoscalingMetricsCollectionParameters `json:"autoscalingMetricsCollection,omitempty" tf:"autoscaling_metrics_collection,omitempty"`
 
 	// The ARN of the AWS KMS key used to encrypt node pool configuration.
 	// +kubebuilder:validation:Required

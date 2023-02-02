@@ -90,8 +90,27 @@ type OnlineServingConfigObservation struct {
 type OnlineServingConfigParameters struct {
 
 	// The number of nodes for each cluster. The number of nodes will not scale automatically but can be scaled manually by providing different values when updating.
+	// +kubebuilder:validation:Optional
+	FixedNodeCount *float64 `json:"fixedNodeCount,omitempty" tf:"fixed_node_count,omitempty"`
+
+	// Online serving scaling configuration. Only one of fixedNodeCount and scaling can be set. Setting one will reset the other.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Scaling []ScalingParameters `json:"scaling,omitempty" tf:"scaling,omitempty"`
+}
+
+type ScalingObservation struct {
+}
+
+type ScalingParameters struct {
+
+	// The maximum number of nodes to scale up to. Must be greater than minNodeCount, and less than or equal to 10 times of 'minNodeCount'.
 	// +kubebuilder:validation:Required
-	FixedNodeCount *float64 `json:"fixedNodeCount" tf:"fixed_node_count,omitempty"`
+	MaxNodeCount *float64 `json:"maxNodeCount" tf:"max_node_count,omitempty"`
+
+	// The minimum number of nodes to scale down to. Must be greater than or equal to 1.
+	// +kubebuilder:validation:Required
+	MinNodeCount *float64 `json:"minNodeCount" tf:"min_node_count,omitempty"`
 }
 
 // FeaturestoreSpec defines the desired state of Featurestore

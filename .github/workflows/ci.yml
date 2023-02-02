@@ -57,6 +57,10 @@ jobs:
           mkdir -p .cache/tools/linux_x86_64
           make crddiff
 
+      - name: Report native schema version changes
+        run: |
+          make schema-version-diff
+
   lint:
     runs-on: ubuntu-22.04
     needs: detect-noop

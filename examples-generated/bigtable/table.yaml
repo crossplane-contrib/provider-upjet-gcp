@@ -8,6 +8,9 @@ metadata:
   name: table
 spec:
   forProvider:
+    columnFamily:
+    - family: family-first
+    - family: family-second
     instanceNameSelector:
       matchLabels:
         testing.upbound.io/example-name: instance

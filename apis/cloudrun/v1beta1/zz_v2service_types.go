@@ -434,6 +434,10 @@ type V2ServiceObservation struct {
 
 type V2ServiceParameters struct {
 
+	// KRM-style annotations for the resource.
+	// +kubebuilder:validation:Optional
+	Annotations map[string]*string `json:"annotations,omitempty" tf:"annotations,omitempty"`
+
 	// Settings for the Binary Authorization feature.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
@@ -546,6 +550,10 @@ type V2ServiceTemplateObservation struct {
 }
 
 type V2ServiceTemplateParameters struct {
+
+	// KRM-style annotations for the resource.
+	// +kubebuilder:validation:Optional
+	Annotations map[string]*string `json:"annotations,omitempty" tf:"annotations,omitempty"`
 
 	// Holds the single container that defines the unit of execution for this task.
 	// Structure is documented below.

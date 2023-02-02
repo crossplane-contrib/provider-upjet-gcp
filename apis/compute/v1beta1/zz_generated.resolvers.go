@@ -1334,6 +1334,47 @@ func (mg *NodeGroup) ResolveReferences(ctx context.Context, c client.Reader) err
 	mg.Spec.ForProvider.NodeTemplate = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.NodeTemplateRef = rsp.ResolvedReference
 
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.ShareSettings); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.ForProvider.ShareSettings[i3].ProjectMap); i4++ {
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ShareSettings[i3].ProjectMap[i4].ID),
+				Extract:      resource.ExtractParamPath("project_id", false),
+				Reference:    mg.Spec.ForProvider.ShareSettings[i3].ProjectMap[i4].IDRef,
+				Selector:     mg.Spec.ForProvider.ShareSettings[i3].ProjectMap[i4].IDSelector,
+				To: reference.To{
+					List:    &v1beta11.ProjectList{},
+					Managed: &v1beta11.Project{},
+				},
+			})
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.ForProvider.ShareSettings[i3].ProjectMap[i4].ID")
+			}
+			mg.Spec.ForProvider.ShareSettings[i3].ProjectMap[i4].ID = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.ShareSettings[i3].ProjectMap[i4].IDRef = rsp.ResolvedReference
+
+		}
+	}
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.ShareSettings); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.ForProvider.ShareSettings[i3].ProjectMap); i4++ {
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ShareSettings[i3].ProjectMap[i4].ProjectID),
+				Extract:      resource.ExtractParamPath("project_id", false),
+				Reference:    mg.Spec.ForProvider.ShareSettings[i3].ProjectMap[i4].ProjectIDRef,
+				Selector:     mg.Spec.ForProvider.ShareSettings[i3].ProjectMap[i4].ProjectIDSelector,
+				To: reference.To{
+					List:    &v1beta11.ProjectList{},
+					Managed: &v1beta11.Project{},
+				},
+			})
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.ForProvider.ShareSettings[i3].ProjectMap[i4].ProjectID")
+			}
+			mg.Spec.ForProvider.ShareSettings[i3].ProjectMap[i4].ProjectID = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.ShareSettings[i3].ProjectMap[i4].ProjectIDRef = rsp.ResolvedReference
+
+		}
+	}
+
 	return nil
 }
 

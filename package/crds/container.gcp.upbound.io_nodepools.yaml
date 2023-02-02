@@ -294,10 +294,36 @@ spec:
                           type: array
                         imageType:
                           type: string
+                        kubeletConfig:
+                          items:
+                            properties:
+                              cpuCfsQuota:
+                                type: boolean
+                              cpuCfsQuotaPeriod:
+                                type: string
+                              cpuManagerPolicy:
+                                type: string
+                            required:
+                            - cpuManagerPolicy
+                            type: object
+                          type: array
                         labels:
                           additionalProperties:
                             type: string
                           type: object
+                        linuxNodeConfig:
+                          description: Parameters used in creating the node pool.
+                            See google_container_cluster for schema.
+                          items:
+                            properties:
+                              sysctls:
+                                additionalProperties:
+                                  type: string
+                                type: object
+                            required:
+                            - sysctls
+                            type: object
+                          type: array
                         localSsdCount:
                           type: number
                         loggingVariant:

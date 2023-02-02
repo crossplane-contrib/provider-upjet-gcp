@@ -33,14 +33,35 @@ type SourceRepresentationInstanceObservation struct {
 
 type SourceRepresentationInstanceParameters struct {
 
+	// The CA certificate on the external server. Include only if SSL/TLS is used on the external server.
+	// +kubebuilder:validation:Optional
+	CACertificate *string `json:"caCertificate,omitempty" tf:"ca_certificate,omitempty"`
+
+	// The client certificate on the external server. Required only for server-client authentication. Include only if SSL/TLS is used on the external server.
+	// +kubebuilder:validation:Optional
+	ClientCertificate *string `json:"clientCertificate,omitempty" tf:"client_certificate,omitempty"`
+
+	// The private key file for the client certificate on the external server. Required only for server-client authentication. Include only if SSL/TLS is used on the external server.
+	// +kubebuilder:validation:Optional
+	ClientKey *string `json:"clientKey,omitempty" tf:"client_key,omitempty"`
+
 	// The MySQL version running on your source database server.
 	// Possible values are MYSQL_5_5, MYSQL_5_6, MYSQL_5_7, and MYSQL_8_0.
 	// +kubebuilder:validation:Required
 	DatabaseVersion *string `json:"databaseVersion" tf:"database_version,omitempty"`
 
+	// A file in the bucket that contains the data from the external server.
+	// +kubebuilder:validation:Optional
+	DumpFilePath *string `json:"dumpFilePath,omitempty" tf:"dump_file_path,omitempty"`
+
 	// The externally accessible IPv4 address for the source database server.
 	// +kubebuilder:validation:Required
 	Host *string `json:"host" tf:"host,omitempty"`
+
+	// The password for the replication user account.
+	// Note: This property is sensitive and will not be displayed in the plan.
+	// +kubebuilder:validation:Optional
+	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
 	// The externally accessible port for the source database server.
 	// Defaults to 3306.
@@ -56,6 +77,10 @@ type SourceRepresentationInstanceParameters struct {
 	// If it is not provided, the provider region is used.
 	// +kubebuilder:validation:Optional
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+
+	// The replication user account on the external server.
+	// +kubebuilder:validation:Optional
+	Username *string `json:"username,omitempty" tf:"username,omitempty"`
 }
 
 // SourceRepresentationInstanceSpec defines the desired state of SourceRepresentationInstance

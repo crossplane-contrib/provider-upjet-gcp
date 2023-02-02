@@ -3391,6 +3391,11 @@ func (in *ExternalDataConfigurationParameters) DeepCopyInto(out *ExternalDataCon
 		*out = new(float64)
 		**out = **in
 	}
+	if in.ReferenceFileSchemaURI != nil {
+		in, out := &in.ReferenceFileSchemaURI, &out.ReferenceFileSchemaURI
+		*out = new(string)
+		**out = **in
+	}
 	if in.Schema != nil {
 		in, out := &in.Schema, &out.Schema
 		*out = new(string)

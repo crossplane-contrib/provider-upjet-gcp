@@ -743,7 +743,7 @@ spec:
                           type: boolean
                         instanceTerminationAction:
                           description: Describe the type of termination action for
-                            SPOT VM. Can be STOP or DELETE.  Read more on here
+                            VM. Can be STOP or DELETE.  Read more on here
                           type: string
                         minNodeCpus:
                           description: The minimum number of virtual CPUs this instance

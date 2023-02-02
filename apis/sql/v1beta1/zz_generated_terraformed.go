@@ -180,7 +180,7 @@ func (mg *SourceRepresentationInstance) GetTerraformResourceType() string {
 
 // GetConnectionDetailsMapping for this SourceRepresentationInstance
 func (tr *SourceRepresentationInstance) GetConnectionDetailsMapping() map[string]string {
-	return nil
+	return map[string]string{"password": "spec.forProvider.passwordSecretRef"}
 }
 
 // GetObservation of this SourceRepresentationInstance

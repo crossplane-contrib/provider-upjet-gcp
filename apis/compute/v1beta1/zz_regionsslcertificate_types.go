@@ -33,6 +33,9 @@ type RegionSSLCertificateObservation struct {
 	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
 
+	// Expire time of the certificate in RFC3339 text format.
+	ExpireTime *string `json:"expireTime,omitempty" tf:"expire_time,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/regions/{{region}}/sslCertificates/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 

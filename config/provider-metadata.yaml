@@ -9342,6 +9342,7 @@ resources:
             external_data_configuration.max_bad_records: |-
                 (Optional) - The maximum number of bad records that
                 BigQuery can ignore when reading data.
+            external_data_configuration.reference_file_schema_uri: '- (Optional) When creating an external table, the user can provide a reference file with the table schema. This is enabled for the following formats: AVRO, PARQUET, ORC.'
             external_data_configuration.schema: |-
                 - (Optional) A JSON schema for the external table. Schema is required
                 for CSV and JSON formats if autodetect is not on. Schema is disallowed
@@ -9829,12 +9830,11 @@ resources:
                 to as many as possible within 8 cloud regions. Removing the field entirely from the config will cause the provider
                 to default to the backend value. See structure below.
             cluster.autoscaling_config: '- (Optional) Autoscaling config for the cluster, contains the following arguments:'
-            cluster.cluster_id: '- (Required) The ID of the Cloud Bigtable cluster.'
+            cluster.cluster_id: '- (Required) The ID of the Cloud Bigtable cluster. Must be 6-30 characters and must only contain hyphens, lowercase letters and numbers.'
             cluster.kms_key_name: '- (Optional) Describes the Cloud KMS encryption key that will be used to protect the destination Bigtable cluster. The requirements for this key are: 1) The Cloud Bigtable service account associated with the project that contains this cluster must be granted the cloudkms.cryptoKeyEncrypterDecrypter role on the CMEK key. 2) Only regional keys can be used and the region of the CMEK key must match the region of the cluster.'
             cluster.num_nodes: |-
                 - (Optional) The number of nodes in your Cloud Bigtable cluster.
-                Required, with a minimum of 1 for a PRODUCTION instance. Must be left unset
-                for a DEVELOPMENT instance.
+                Required, with a minimum of 1 for each cluster in an instance.
             cluster.storage_type: |-
                 - (Optional) The storage type to use. One of "SSD" or
                 "HDD". Defaults to "SSD".
@@ -9857,7 +9857,7 @@ resources:
             labels: '- (Optional) A set of key/value label pairs to assign to the resource. Label keys must follow the requirements at https://cloud.google.com/resource-manager/docs/creating-managing-labels#requirements.'
             max_nodes: '- (Required) The maximum number of nodes for autoscaling.'
             min_nodes: '- (Required) The minimum number of nodes for autoscaling.'
-            name: '- (Required) The name (also called Instance Id in the Cloud Console) of the Cloud Bigtable instance.'
+            name: '- (Required) The name (also called Instance Id in the Cloud Console) of the Cloud Bigtable instance. Must be 6-33 characters and must only contain hyphens, lowercase letters and numbers.'
             project: |-
                 - (Optional) The ID of the project in which the resource belongs. If it
                 is not provided, the provider project is used.
@@ -9905,6 +9905,14 @@ resources:
             - name: table
               manifest: |-
                 {
+                  "column_family": [
+                    {
+                      "family": "family-first"
+                    },
+                    {
+                      "family": "family-second"
+                    }
+                  ],
                   "instance_name": "${google_bigtable_instance.instance.name}",
                   "lifecycle": [
                     {
@@ -9940,10 +9948,11 @@ resources:
                     }
         argumentDocs:
             column_family: '- (Optional) A group of columns within a table which share a common configuration. This can be specified multiple times. Structure is documented below.'
+            deletion_protection: '- (Optional) A field to make the table protected against data loss i.e. when set to PROTECTED, deleting the table, the column families in the table, and the instance containing the table would be prohibited. If not provided, deletion protection will be set to UNPROTECTED.'
             family: '- (Optional) The name of the column family.'
             id: '- an identifier for the resource with format projects/{{project}}/instances/{{instance_name}}/tables/{{name}}'
             instance_name: '- (Required) The name of the Bigtable instance.'
-            name: '- (Required) The name of the table.'
+            name: '- (Required) The name of the table. Must be 1-50 characters and must only contain hyphens, underscores, periods, letters and numbers.'
             project: |-
                 - (Optional) The ID of the project in which the resource belongs. If it
                 is not provided, the provider project is used.
@@ -10086,7 +10095,11 @@ resources:
                   "billing_account": "${data.google_billing_account.account.id}",
                   "budget_filter": [
                     {
-                      "credit_types_treatment": "EXCLUDE_ALL_CREDITS",
+                      "credit_types": [
+                        "PROMOTION",
+                        "FREE_TIER"
+                      ],
+                      "credit_types_treatment": "INCLUDE_SPECIFIED_CREDITS",
                       "projects": [
                         "projects/${data.google_project.project.number}"
                       ],
@@ -10279,6 +10292,7 @@ resources:
                 Optional. If creditTypesTreatment is INCLUDE_SPECIFIED_CREDITS,
                 this is a list of credit types to be subtracted from gross cost to determine the spend for threshold calculations. See a list of acceptable credit type values.
                 If creditTypesTreatment is not INCLUDE_SPECIFIED_CREDITS, this field must be empty.
+                Note: If the field has a value in the config and needs to be removed, the field has to be an emtpy array in the config.
             budget_filter.credit_types_treatment: |-
                 -
                 (Optional)
@@ -10324,6 +10338,7 @@ resources:
                 the parent account, usage from the parent account will be included.
                 If the field is omitted, the report will include usage from the parent
                 account and all subaccounts, if they exist.
+                Note: If the field has a value in the config and needs to be removed, the field has to be an emtpy array in the config.
             create: '- Default is 20 minutes.'
             custom_period.end_date: |-
                 -
@@ -10978,7 +10993,6 @@ resources:
                 Certificate data for a SelfManaged Certificate.
                 SelfManaged Certificates are uploaded by the user. Updating such
                 certificates before they expire remains the user's responsibility.
-                Note: This property is sensitive and will not be displayed in the plan.
                 Structure is documented below.
             self_managed.certificate_pem: |-
                 -
@@ -10995,6 +11009,7 @@ resources:
                 -
                 (Optional)
                 The private key of the leaf certificate in PEM-encoded form.
+                Note: This property is sensitive and will not be displayed in the plan.
             self_managed.private_key_pem: |-
                 -
                 (Optional, Deprecated)
@@ -11982,6 +11997,11 @@ resources:
                 (Required)
                 The minimum alert severity level that is reported by the endpoint.
                 Possible values are INFORMATIONAL, LOW, MEDIUM, HIGH, and CRITICAL.
+            threat_exceptions: |-
+                -
+                (Optional)
+                Configuration for threat IDs excluded from generating alerts. Limit: 99 IDs.
+            update: '- Default is 20 minutes.'
             update_time: |-
                 -
                 Last update timestamp in RFC 3339 text format.
@@ -12951,7 +12971,7 @@ resources:
             service: '- (Required) Used to find the parent resource to bind the IAM policy to'
         importStatements: []
     google_cloud_run_v2_job:
-        subCategory: Cloud Run (2nd gen)
+        subCategory: Cloud Run (v2 API)
         description: A Cloud Run Job resource that references a container image which is run to completion.
         name: google_cloud_run_v2_job
         title: google_cloud_run_v2_job
@@ -13138,48 +13158,6 @@ resources:
                           "containers": [
                             {
                               "image": "us-docker.pkg.dev/cloudrun/container/hello",
-                              "liveness_probe": [
-                                {
-                                  "http_get": [
-                                    {
-                                      "path": "/"
-                                    }
-                                  ]
-                                }
-                              ],
-                              "startup_probe": [
-                                {
-                                  "failure_threshold": 1,
-                                  "initial_delay_seconds": 0,
-                                  "period_seconds": 3,
-                                  "tcp_socket": [
-                                    {
-                                      "port": 8080
-                                    }
-                                  ],
-                                  "timeout_seconds": 1
-                                }
-                              ]
-                            }
-                          ]
-                        }
-                      ]
-                    }
-                  ]
-                }
-            - name: default
-              manifest: |-
-                {
-                  "launch_stage": "BETA",
-                  "location": "us-central1",
-                  "name": "cloudrun-job",
-                  "template": [
-                    {
-                      "template": [
-                        {
-                          "containers": [
-                            {
-                              "image": "us-docker.pkg.dev/cloudrun/container/hello",
                               "volume_mounts": [
                                 {
                                   "mount_path": "/secrets",
@@ -13298,8 +13276,9 @@ resources:
                 URL of the Container image in Google Container Registry or Google Artifact Registry. More info: https://kubernetes.io/docs/concepts/containers/images
             containers.liveness_probe: |-
                 -
-                (Optional)
+                (Optional, Deprecated)
                 Periodic probe of container liveness. Container will be restarted if the probe fails. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
+                This field is not supported in Cloud Run Job currently.
                 Structure is documented below.
             containers.name: |-
                 -
@@ -13318,8 +13297,9 @@ resources:
                 Structure is documented below.
             containers.startup_probe: |-
                 -
-                (Optional)
+                (Optional, Deprecated)
                 Startup probe of application within the container. All other probes are disabled if a startup probe is provided, until it succeeds. Container will not be added to service endpoints if the probe fails. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
+                This field is not supported in Cloud Run Job currently.
                 Structure is documented below.
             containers.volume_mounts: |-
                 -
@@ -13659,8 +13639,48 @@ resources:
                 - (Optional) The ID of the project in which the resource belongs.
                 If it is not provided, the provider project is used.
         importStatements: []
+    google_cloud_run_v2_job_iam_policy:
+        subCategory: Cloud Run (v2 API)
+        description: Collection of resources to manage IAM policy for Cloud Run (v2 API) Job
+        name: google_cloud_run_v2_job_iam_policy
+        title: google_cloud_run_v2_job_iam
+        examples:
+            - name: policy
+              manifest: |-
+                {
+                  "location": "${google_cloud_run_v2_job.default.location}",
+                  "name": "${google_cloud_run_v2_job.default.name}",
+                  "policy_data": "${data.google_iam_policy.admin.policy_data}",
+                  "project": "${google_cloud_run_v2_job.default.project}"
+                }
+              references:
+                location: google_cloud_run_v2_job.default.location
+                name: google_cloud_run_v2_job.default.name
+                policy_data: data.google_iam_policy.admin.policy_data
+                project: google_cloud_run_v2_job.default.project
+        argumentDocs:
+            etag: '- (Computed) The etag of the IAM policy.'
+            google_cloud_run_v2_job_iam_binding: ': Authoritative for a given role. Updates the IAM policy to grant a role to a list of members. Other roles within the IAM policy for the job are preserved.'
+            google_cloud_run_v2_job_iam_member: ': Non-authoritative. Updates the IAM policy to grant a role to a new member. Other members for the role for the job are preserved.'
+            google_cloud_run_v2_job_iam_policy: ': Authoritative. Sets the IAM policy for the job and replaces any existing policy already attached.'
+            location: '- (Required) The location of the cloud run job Used to find the parent resource to bind the IAM policy to'
+            member/members: |-
+                - (Required) Identities that will be granted the privilege in role.
+                Each entry can have one of the following values:
+            name: '- (Required) Used to find the parent resource to bind the IAM policy to'
+            policy_data: |-
+                - (Required only by google_cloud_run_v2_job_iam_policy) The policy data generated by
+                a google_iam_policy data source.
+            project: |-
+                - (Optional) The ID of the project in which the resource belongs.
+                If it is not provided, the project will be parsed from the identifier of the parent resource. If no project is provided in the parent identifier and no project is specified, the provider project is used.
+            role: |-
+                - (Required) The role that should be applied. Only one
+                google_cloud_run_v2_job_iam_binding can be used per role. Note that custom roles must be of the format
+                [projects|organizations]/{parent-name}/roles/{role-name}.
+        importStatements: []
     google_cloud_run_v2_service:
-        subCategory: Cloud Run (2nd gen)
+        subCategory: Cloud Run (v2 API)
         description: Service acts as a top-level container that manages a set of configurations and revision templates which implement a network service.
         name: google_cloud_run_v2_service
         title: google_cloud_run_v2_service
@@ -13668,12 +13688,6 @@ resources:
             - name: default
               manifest: |-
                 {
-                  "binary_authorization": [
-                    {
-                      "breakglass_justification": "Some justification",
-                      "use_default": true
-                    }
-                  ],
                   "ingress": "INGRESS_TRAFFIC_ALL",
                   "location": "us-central1",
                   "name": "cloudrun-service",
@@ -13956,6 +13970,10 @@ resources:
                 -
                 (Optional)
                 If True, indicates to use the default project's binary authorization policy. If False, binary authorization will be disabled.
+            cloud_sql_instance.annotations: |-
+                -
+                (Optional)
+                Unstructured key value map that may be set by external tools to store and arbitrary metadata. They are not queryable and should be preserved when modifying objects. Cloud Run will populate some annotations using 'run.googleapis.com' or 'serving.knative.dev' namespaces. This field follows Kubernetes annotations' namespacing, limits, and rules. More info: https://kubernetes.io/docs/user-guide/annotations
             cloud_sql_instance.binary_authorization: |-
                 -
                 (Optional)
@@ -14147,7 +14165,7 @@ resources:
             liveness_probe.http_get: |-
                 -
                 (Optional)
-                HTTPGet specifies the http request to perform. Exactly one of HTTPGet or TCPSocket must be specified.
+                HTTPGet specifies the http request to perform.
                 Structure is documented below.
             liveness_probe.initial_delay_seconds: |-
                 -
@@ -14159,8 +14177,8 @@ resources:
                 How often (in seconds) to perform the probe. Default to 10 seconds. Minimum value is 1. Maximum value for liveness probe is 3600. Maximum value for startup probe is 240. Must be greater or equal than timeoutSeconds
             liveness_probe.tcp_socket: |-
                 -
-                (Optional)
-                TCPSocket specifies an action involving a TCP port. Exactly one of HTTPGet or TCPSocket must be specified.
+                (Optional, Deprecated)
+                TCPSocket specifies an action involving a TCP port. This field is not supported in liveness probe currently.
                 Structure is documented below.
             liveness_probe.timeout_seconds: |-
                 -
@@ -14251,6 +14269,10 @@ resources:
                 (Required)
                 The template used to create revisions for this Service.
                 Structure is documented below.
+            template.annotations: |-
+                -
+                (Optional)
+                KRM-style annotations for the resource.
             template.containers: |-
                 -
                 (Optional)
@@ -14416,6 +14438,46 @@ resources:
                 (Optional)
                 Traffic VPC egress settings.
                 Possible values are ALL_TRAFFIC and PRIVATE_RANGES_ONLY.
+        importStatements: []
+    google_cloud_run_v2_service_iam_policy:
+        subCategory: Cloud Run (v2 API)
+        description: Collection of resources to manage IAM policy for Cloud Run (v2 API) Service
+        name: google_cloud_run_v2_service_iam_policy
+        title: google_cloud_run_v2_service_iam
+        examples:
+            - name: policy
+              manifest: |-
+                {
+                  "location": "${google_cloud_run_v2_service.default.location}",
+                  "name": "${google_cloud_run_v2_service.default.name}",
+                  "policy_data": "${data.google_iam_policy.admin.policy_data}",
+                  "project": "${google_cloud_run_v2_service.default.project}"
+                }
+              references:
+                location: google_cloud_run_v2_service.default.location
+                name: google_cloud_run_v2_service.default.name
+                policy_data: data.google_iam_policy.admin.policy_data
+                project: google_cloud_run_v2_service.default.project
+        argumentDocs:
+            etag: '- (Computed) The etag of the IAM policy.'
+            google_cloud_run_v2_service_iam_binding: ': Authoritative for a given role. Updates the IAM policy to grant a role to a list of members. Other roles within the IAM policy for the service are preserved.'
+            google_cloud_run_v2_service_iam_member: ': Non-authoritative. Updates the IAM policy to grant a role to a new member. Other members for the role for the service are preserved.'
+            google_cloud_run_v2_service_iam_policy: ': Authoritative. Sets the IAM policy for the service and replaces any existing policy already attached.'
+            location: '- (Required) The location of the cloud run service Used to find the parent resource to bind the IAM policy to'
+            member/members: |-
+                - (Required) Identities that will be granted the privilege in role.
+                Each entry can have one of the following values:
+            name: '- (Required) Used to find the parent resource to bind the IAM policy to'
+            policy_data: |-
+                - (Required only by google_cloud_run_v2_service_iam_policy) The policy data generated by
+                a google_iam_policy data source.
+            project: |-
+                - (Optional) The ID of the project in which the resource belongs.
+                If it is not provided, the project will be parsed from the identifier of the parent resource. If no project is provided in the parent identifier and no project is specified, the provider project is used.
+            role: |-
+                - (Required) The role that should be applied. Only one
+                google_cloud_run_v2_service_iam_binding can be used per role. Note that custom roles must be of the format
+                [projects|organizations]/{parent-name}/roles/{role-name}.
         importStatements: []
     google_cloud_scheduler_job:
         subCategory: Cloud Scheduler
@@ -15290,6 +15352,28 @@ resources:
                     }
                   ]
                 }
+            - name: manual-ghe-trigger
+              manifest: |-
+                {
+                  "git_file_source": [
+                    {
+                      "github_enterprise_config": "projects/myProject/locations/global/githubEnterpriseConfigs/configID",
+                      "path": "cloudbuild.yaml",
+                      "repo_type": "GITHUB",
+                      "revision": "refs/heads/main",
+                      "uri": "https://hashicorp/terraform-provider-google-beta"
+                    }
+                  ],
+                  "name": "terraform-manual-ghe-trigger",
+                  "source_to_build": [
+                    {
+                      "github_enterprise_config": "projects/myProject/locations/global/githubEnterpriseConfigs/configID",
+                      "ref": "refs/heads/main",
+                      "repo_type": "GITHUB",
+                      "uri": "https://hashicorp/terraform-provider-google-beta"
+                    }
+                  ]
+                }
         argumentDocs:
             approval_config: |-
                 -
@@ -15433,6 +15517,11 @@ resources:
                 (Optional)
                 The file source describing the local or remote Build template.
                 Structure is documented below.
+            git_file_source.github_enterprise_config: |-
+                -
+                (Optional)
+                The full resource name of the github enterprise config.
+                Format: projects/{project}/locations/{location}/githubEnterpriseConfigs/{id}. projects/{project}/githubEnterpriseConfigs/{id}.
             git_file_source.path: |-
                 -
                 (Required)
@@ -15733,6 +15822,11 @@ resources:
                 This field is currently only used by Webhook, Pub/Sub, Manual, and Cron triggers.
                 One of trigger_template, github, pubsub_config webhook_config or source_to_build must be provided.
                 Structure is documented below.
+            source_to_build.github_enterprise_config: |-
+                -
+                (Optional)
+                The full resource name of the github enterprise config.
+                Format: projects/{project}/locations/{location}/githubEnterpriseConfigs/{id}. projects/{project}/githubEnterpriseConfigs/{id}.
             source_to_build.ref: |-
                 -
                 (Required)
@@ -16672,7 +16766,7 @@ resources:
                     }
                   ],
                   "location": "us-central1",
-                  "name": "function",
+                  "name": "gcf-function",
                   "service_config": [
                     {
                       "all_traffic_on_latest_revision": true,
@@ -16702,7 +16796,7 @@ resources:
                     }
                 google_service_account.account: |-
                     {
-                      "account_id": "sa",
+                      "account_id": "gcf-sa",
                       "display_name": "Test Service Account"
                     }
                 google_storage_bucket.bucket: |-
@@ -16759,7 +16853,7 @@ resources:
                     }
                   ],
                   "location": "us-central1",
-                  "name": "function",
+                  "name": "gcf-function",
                   "service_config": [
                     {
                       "all_traffic_on_latest_revision": true,
@@ -16817,7 +16911,7 @@ resources:
                     }
                 google_service_account.account: |-
                     {
-                      "account_id": "sa",
+                      "account_id": "gcf-sa",
                       "display_name": "Test Service Account - used for both the cloud function and eventarc trigger in the test"
                     }
                 google_storage_bucket.source-bucket: |-
@@ -18046,6 +18140,10 @@ resources:
                 -
                 (Optional)
                 display_name is a field for users to identify CIDR blocks.
+            cloud_data_lineage_integration.enabled: |-
+                -
+                (Required)
+                Whether or not Cloud Data Lineage integration is enabled.
             config: |-
                 -
                 (Optional)
@@ -18105,6 +18203,10 @@ resources:
                 -
                 (Optional)
                 The configuration used for the Private IP Cloud Composer environment. Structure is documented below.
+            config.recovery_config: |-
+                -
+                (Optional, Cloud Composer 2 only)
+                The configuration settings for recovery. Structure is documented below.
             config.software_config: |-
                 -
                 (Optional)
@@ -18342,6 +18444,26 @@ resources:
                 -
                 (Optional) The ID of the project in which the resource belongs.
                 If it is not provided, the provider project is used.
+            recovery_config.scheduled_snapshots_config: |-
+                -
+                (Optional)
+                The recovery configuration settings for the Cloud Composer environment.
+            recovery_config.scheduled_snapshots_config.enabled: |-
+                -
+                (Optional)
+                When enabled, Cloud Composer periodically saves snapshots of your environment to a Cloud Storage bucket.
+            recovery_config.scheduled_snapshots_config.snapshot_creation_schedule: |-
+                -
+                (Optional)
+                Snapshot schedule, in the unix-cron format.
+            recovery_config.scheduled_snapshots_config.snapshot_location: |-
+                -
+                (Optional)
+                The URI of a bucket folder where to save the snapshot.
+            recovery_config.scheduled_snapshots_config.time_zone: |-
+                -
+                (Optional)
+                A time zone for the schedule. This value is a time offset and does not take into account daylight saving time changes. Valid values are from UTC-12 to UTC+12. Examples: UTC, UTC-01, UTC+03.
             region: |-
                 -
                 (Optional)
@@ -18366,6 +18488,12 @@ resources:
                 -
                 (Optional) Apache Airflow configuration properties to override. Property keys contain the section and property names,
                 separated by a hyphen, for example "core-dags_are_paused_at_creation".
+            software_config.cloud_data_lineage_integration: |-
+                -
+                (Optional, Beta,
+                Cloud Composer environments in versions composer-2.1.2-airflow-..* and newer)
+                The configuration for Cloud Data Lineage integration. Structure is
+                documented below.
             software_config.composer-([0-9]+(\.[0-9]+\.[0-9]+(-preview\.[0-9]+)?)?|latest)-airflow-([0-9]+(\.[0-9]+(\.[0-9]+)?)?): |-
                 .
                 The Cloud Composer portion of the image version is a full semantic version, or an alias in the form of major
@@ -18400,6 +18528,18 @@ resources:
                 -
                 (Optional, Cloud Composer 1 with Airflow 2 only)
                 The number of schedulers for Airflow.
+            triggerer.count: |-
+                -
+                (Required)
+                The number of Airflow triggerers.
+            triggerer.cpu: |-
+                -
+                (Required)
+                The number of CPUs for a single Airflow triggerer.
+            triggerer.memory_gb: |-
+                -
+                (Required)
+                The amount of memory (GB) for a single Airflow triggerer.
             update: '- Default is 60 minutes.'
             web_server.cpu: |-
                 -
@@ -18446,6 +18586,10 @@ resources:
                 -
                 (Optional)
                 Configuration for resources used by Airflow schedulers.
+            workloads_config.triggerer: |-
+                -
+                (Optional, Beta)
+                Configuration for resources used by Airflow triggerer.
             workloads_config.web_server: |-
                 -
                 (Optional)
@@ -20063,6 +20207,10 @@ resources:
                 -
                 (Optional)
                 An optional description of this resource.
+            edge_security_policy: |-
+                -
+                (Optional)
+                The resource URL for the edge security policy associated with this backend service.
             enable_cdn: |-
                 -
                 (Optional)
@@ -25405,6 +25553,15 @@ resources:
             label_fingerprint: '- The unique fingerprint of the labels.'
             labels: '- (Optional) A map of key/value label pairs to assign to the instance.'
             machine_type: '- (Required) The machine type to create.'
+            max_run_duration.nanos: |-
+                - (Optional) Span of time that's a fraction of a second at nanosecond
+                resolution. Durations less than one second are represented with a 0
+                seconds field and a positive nanos field. Must be from 0 to
+                999,999,999 inclusive.
+            max_run_duration.seconds: |-
+                - (Required) Span of time at a resolution of a second. Must be from 0 to
+                315,576,000,000 inclusive. Note: these bounds are computed from: 60
+                sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years.
             metadata: |-
                 - (Optional) Metadata key/value pairs to make available from
                 within the instance. Ssh keys attached in the Cloud Console will be removed.
@@ -25511,7 +25668,8 @@ resources:
                 - (Optional) Specifies if the instance should be
                 restarted if it was terminated by Compute Engine (not a user).
                 Defaults to true.
-            scheduling.instance_termination_action: '- (Optional) Describe the type of termination action for SPOT VM. Can be STOP or DELETE.  Read more on here'
+            scheduling.instance_termination_action: '- (Optional) Describe the type of termination action for VM. Can be STOP or DELETE.  Read more on here'
+            scheduling.max_run_duration: '-  (Optional) Beta The duration of the instance. Instance will run and be terminated after then, the termination action could be defined in instance_termination_action. Only support DELETE instance_termination_action at this point. Structure is documented below.'
             scheduling.min_node_cpus: '- (Optional) The minimum number of virtual CPUs this instance will consume when running on a sole-tenant node.'
             scheduling.node_affinities: |-
                 - (Optional) Specifies node affinities or anti-affinities
@@ -25941,6 +26099,12 @@ resources:
             stateful_disk: '- (Optional) Disks created on the instances that will be preserved on instance delete, update, etc. Structure is documented below. For more information see the official documentation.'
             stateful_disk.delete_rule: '- (Optional), A value that prescribes what should happen to the stateful disk when the VM instance is deleted. The available options are NEVER and ON_PERMANENT_INSTANCE_DELETION. NEVER - detach the disk when the VM is deleted, but do not delete the disk. ON_PERMANENT_INSTANCE_DELETION will delete the stateful disk when the VM is permanently deleted from the instance group. The default is NEVER.'
             stateful_disk.device_name: '- (Required), The device name of the disk to be attached.'
+            stateful_external_ip: '- (Optional, Beta) External network IPs assigned to the instances that will be preserved on instance delete, update, etc. This map is keyed with the network interface name. Structure is documented below.'
+            stateful_external_ip.delete_rule: '- (Optional), A value that prescribes what should happen to the external ip when the VM instance is deleted. The available options are NEVER and ON_PERMANENT_INSTANCE_DELETION. NEVER - detach the ip when the VM is deleted, but do not delete the ip. ON_PERMANENT_INSTANCE_DELETION will delete the external ip when the VM is permanently deleted from the instance group.'
+            stateful_external_ip.network_interface_name: '- (Required), The network interface name of the external Ip.'
+            stateful_internal_ip: '- (Optional, Beta) Internal network IPs assigned to the instances that will be preserved on instance delete, update, etc. This map is keyed with the network interface name. Structure is documented below.'
+            stateful_internal_ip.delete_rule: '- (Optional), A value that prescribes what should happen to the internal ip when the VM instance is deleted. The available options are NEVER and ON_PERMANENT_INSTANCE_DELETION. NEVER - detach the ip when the VM is deleted, but do not delete the ip. ON_PERMANENT_INSTANCE_DELETION will delete the internal ip when the VM is permanently deleted from the instance group.'
+            stateful_internal_ip.network_interface_name: '- (Required), The network interface name of the internal Ip.'
             status: '- The status of this managed instance group.'
             status.is_stable: '- A bit indicating whether the managed instance group is in a stable state. A stable state means that: none of the instances in the managed instance group is currently undergoing any type of change (for example, creation, restart, or deletion); no future changes are scheduled for instances in the managed instance group; and the managed instance group itself is not being modified.'
             status.version_target: '- A status of consistency of Instances'' versions with their target version specified by version field on Instance Group Manager.'
@@ -26439,6 +26603,15 @@ resources:
                 - (Optional) A set of key/value label pairs to assign to instances
                 created from this template.
             machine_type: '- (Required) The machine type to create.'
+            max_run_duration.nanos: |-
+                - (Optional) Span of time that's a fraction of a second at nanosecond
+                resolution. Durations less than one second are represented with a 0
+                seconds field and a positive nanos field. Must be from 0 to
+                999,999,999 inclusive.
+            max_run_duration.seconds: |-
+                - (Required) Span of time at a resolution of a second. Must be from 0 to
+                315,576,000,000 inclusive. Note: these bounds are computed from: 60
+                sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years.
             metadata: |-
                 - (Optional) Metadata key/value pairs to make available from
                 within instances created from this template.
@@ -26532,6 +26705,7 @@ resources:
                 automatically restarted if it is terminated by Compute Engine (not
                 terminated by a user). This defaults to true.
             scheduling.instance_termination_action: '- (Optional) Describe the type of termination action for SPOT VM. Can be STOP or DELETE.  Read more on here'
+            scheduling.max_run_duration: '-  (Optional) Beta The duration of the instance. Instance will run and be terminated after then, the termination action could be defined in instance_termination_action. Only support DELETE instance_termination_action at this point. Structure is documented below.'
             scheduling.node_affinities: |-
                 - (Optional) Specifies node affinities or anti-affinities
                 to determine which sole-tenant nodes your instances and managed instance
@@ -27200,7 +27374,7 @@ resources:
                 An optional description of this resource.
             expire_time: |-
                 -
-                Expire time of the certificate.
+                Expire time of the certificate in RFC3339 text format.
             id: '- an identifier for the resource with format projects/{{project}}/global/sslCertificates/{{name}}'
             managed: |-
                 -
@@ -28050,6 +28224,43 @@ resources:
                       "node_type": "n1-node-96-624",
                       "region": "us-central1"
                     }
+            - name: nodes
+              manifest: |-
+                {
+                  "description": "example google_compute_node_group for Terraform Google Provider",
+                  "name": "soletenant-group",
+                  "node_template": "${google_compute_node_template.soletenant-tmpl.id}",
+                  "share_settings": [
+                    {
+                      "project_map": [
+                        {
+                          "id": "${google_project.guest_project.project_id}",
+                          "project_id": "${google_project.guest_project.project_id}"
+                        }
+                      ],
+                      "share_type": "SPECIFIC_PROJECTS"
+                    }
+                  ],
+                  "size": 1,
+                  "zone": "us-central1-f"
+                }
+              references:
+                node_template: google_compute_node_template.soletenant-tmpl.id
+                share_settings.project_map.id: google_project.guest_project.project_id
+                share_settings.project_map.project_id: google_project.guest_project.project_id
+              dependencies:
+                google_compute_node_template.soletenant-tmpl: |-
+                    {
+                      "name": "soletenant-tmpl",
+                      "node_type": "n1-node-96-624",
+                      "region": "us-central1"
+                    }
+                google_project.guest_project: |-
+                    {
+                      "name": "project-name",
+                      "org_id": "123456789",
+                      "project_id": "project-id"
+                    }
         argumentDocs:
             "OFF": ', ON, and ONLY_SCALE_OUT.'
             autoscaling_policy: |-
@@ -28110,7 +28321,27 @@ resources:
             project: |-
                 - (Optional) The ID of the project in which the resource belongs.
                 If it is not provided, the provider project is used.
+            project_map.id: '- (Required) The identifier for this object. Format specified above.'
+            project_map.project_id: |-
+                -
+                (Required)
+                The project id/number should be the same as the key of this project config in the project map.
             self_link: '- The URI of the created resource.'
+            share_settings: |-
+                -
+                (Optional)
+                Share settings for the node group.
+                Structure is documented below.
+            share_settings.project_map: |-
+                -
+                (Optional)
+                A map of project id and project config. This is only valid when shareType's value is SPECIFIC_PROJECTS.
+                Structure is documented below.
+            share_settings.share_type: |-
+                -
+                (Required)
+                Node group sharing type.
+                Possible values are ORGANIZATION, SPECIFIC_PROJECTS, and LOCAL.
             size: |-
                 -
                 (Optional)
@@ -31295,6 +31526,12 @@ resources:
             stateful_disk: '- (Optional) Disks created on the instances that will be preserved on instance delete, update, etc. Structure is documented below. For more information see the official documentation. Proactive cross zone instance redistribution must be disabled before you can update stateful disks on existing instance group managers. This can be controlled via the update_policy.'
             stateful_disk.delete_rule: '- (Optional), A value that prescribes what should happen to the stateful disk when the VM instance is deleted. The available options are NEVER and ON_PERMANENT_INSTANCE_DELETION. NEVER - detach the disk when the VM is deleted, but do not delete the disk. ON_PERMANENT_INSTANCE_DELETION will delete the stateful disk when the VM is permanently deleted from the instance group. The default is NEVER.'
             stateful_disk.device_name: '- (Required), The device name of the disk to be attached.'
+            stateful_external_ip: '- (Optional, Beta) External network IPs assigned to the instances that will be preserved on instance delete, update, etc. This map is keyed with the network interface name. Structure is documented below.'
+            stateful_external_ip.delete_rule: '- (Optional), A value that prescribes what should happen to the external ip when the VM instance is deleted. The available options are NEVER and ON_PERMANENT_INSTANCE_DELETION. NEVER - detach the ip when the VM is deleted, but do not delete the ip. ON_PERMANENT_INSTANCE_DELETION will delete the external ip when the VM is permanently deleted from the instance group.'
+            stateful_external_ip.network_interface_name: '- (Required), The network interface name of the external Ip.'
+            stateful_internal_ip: '- (Optional, Beta) Internal network IPs assigned to the instances that will be preserved on instance delete, update, etc. This map is keyed with the network interface name. Structure is documented below.'
+            stateful_internal_ip.delete_rule: '- (Optional), A value that prescribes what should happen to the internal ip when the VM instance is deleted. The available options are NEVER and ON_PERMANENT_INSTANCE_DELETION. NEVER - detach the ip when the VM is deleted, but do not delete the ip. ON_PERMANENT_INSTANCE_DELETION will delete the internal ip when the VM is permanently deleted from the instance group.'
+            stateful_internal_ip.network_interface_name: '- (Required), The network interface name of the internal Ip.'
             status.is_stable: '- A bit indicating whether the managed instance group is in a stable state. A stable state means that: none of the instances in the managed instance group is currently undergoing any type of change (for example, creation, restart, or deletion); no future changes are scheduled for instances in the managed instance group; and the managed instance group itself is not being modified.'
             status.version_target: '- A status of consistency of Instances'' versions with their target version specified by version field on Instance Group Manager.'
             target_pools: |-
@@ -32334,6 +32571,9 @@ resources:
                 -
                 (Optional)
                 An optional description of this resource.
+            expire_time: |-
+                -
+                Expire time of the certificate in RFC3339 text format.
             id: '- an identifier for the resource with format projects/{{project}}/regions/{{region}}/sslCertificates/{{name}}'
             name: |-
                 -
@@ -36182,6 +36422,11 @@ resources:
                 (Optional)
                 Timeout (in seconds) for TCP established connections.
                 Defaults to 1200s if not set.
+            tcp_time_wait_timeout_sec: |-
+                -
+                (Optional)
+                Timeout (in seconds) for TCP connections that are in TIME_WAIT state.
+                Defaults to 120s if not set.
             tcp_transitory_idle_timeout_sec: |-
                 -
                 (Optional)
@@ -36652,9 +36897,8 @@ resources:
             '{ban/rate_limit}_threshold.target': '- (Optional) Target for the redirect action. This is required if the type is EXTERNAL_302 and cannot be specified for GOOGLE_RECAPTCHA.'
             '{ban/rate_limit}_threshold.type': '- (Required) Type of the redirect action.'
             adaptive_protection_config: '- (Optional) Configuration for Google Cloud Armor Adaptive Protection. Structure is documented below.'
+            adaptive_protection_config.auto_deploy_config: '- (Optional, Beta) Configuration for Automatically deploy Adaptive Protection suggested rules. Structure is documented below.'
             adaptive_protection_config.layer_7_ddos_defense_config: '- (Optional) Configuration for Google Cloud Armor Adaptive Protection Layer 7 DDoS Defense. Structure is documented below.'
-            adaptive_protection_config.layer_7_ddos_defense_config.enable: '- (Optional) If set to true, enables CAAP for L7 DDoS detection.'
-            adaptive_protection_config.layer_7_ddos_defense_config.rule_visibility: '- (Optional) Rule visibility can be one of the following: STANDARD - opaque rules. (default) PREMIUM - transparent rules.'
             advanced_options_config: |-
                 - (Optional) Advanced Configuration Options.
                 Structure is documented below.
@@ -36663,6 +36907,10 @@ resources:
                 json_parsing is set to STANDARD. Structure is documented below.
             advanced_options_config.json_parsing: '- Whether or not to JSON parse the payload body. Defaults to DISABLED.'
             advanced_options_config.log_level: '- Log level to use. Defaults to NORMAL.'
+            auto_deploy_config.confidence_threshold: '- (Optional) Rules are only automatically deployed for alerts on potential attacks with confidence scores greater than this threshold.'
+            auto_deploy_config.expiration_sec: '- (Optional) Google Cloud Armor stops applying the action in the automatically deployed rule to an identified attacker after this duration. The rule continues to operate against new requests.'
+            auto_deploy_config.impacted_baseline_threshold: '- (Optional) Rules are only automatically deployed when the estimated impact to baseline traffic from the suggested mitigation is below this threshold.'
+            auto_deploy_config.load_threshold: '- (Optional) Identifies new attackers only when the load to the backend service that is under attack exceeds this threshold.'
             config.src_ip_ranges: |-
                 - (Required) Set of IP addresses or ranges (IPV4 or IPV6) in CIDR notation
                 to match against inbound traffic. There is a limit of 10 IP ranges per rule. A value of '*' matches all IPs
@@ -36681,6 +36929,8 @@ resources:
                 format of the Content-Type header values is defined in
                 RFC 1341. When configuring a custom Content-Type header
                 value, only the type/subtype needs to be specified, and the parameters should be excluded.
+            layer_7_ddos_defense_config.enable: '- (Optional) If set to true, enables CAAP for L7 DDoS detection.'
+            layer_7_ddos_defense_config.rule_visibility: '- (Optional) Rule visibility can be one of the following: STANDARD - opaque rules. (default) PREMIUM - transparent rules.'
             match.config: |-
                 - (Optional) The configuration options available when specifying versioned_expr.
                 This field must be specified if versioned_expr is specified and cannot be specified if versioned_expr is not specified.
@@ -37422,6 +37672,9 @@ resources:
                 -
                 (Optional)
                 An optional description of this resource.
+            expire_time: |-
+                -
+                Expire time of the certificate in RFC3339 text format.
             id: '- an identifier for the resource with format projects/{{project}}/global/sslCertificates/{{name}}'
             name: |-
                 -
@@ -40918,10 +41171,11 @@ resources:
                       "issuer_url": "https://oidc.issuer.url"
                     }
                   ],
-                  "platform_version": "1.24.0-gke.1",
+                  "platform_version": "${data.google_container_attached_versions.versions.valid_versions[0]}",
                   "project": "${data.google_project.project.project_id}"
                 }
               references:
+                platform_version: data.google_container_attached_versions.versions.valid_versions[0]
                 project: data.google_project.project.project_id
             - name: primary
               manifest: |-
@@ -40973,10 +41227,35 @@ resources:
                       "jwks": "${base64encode(\"{\\\"keys\\\":[{\\\"use\\\":\\\"sig\\\",\\\"kty\\\":\\\"RSA\\\",\\\"kid\\\":\\\"testid\\\",\\\"alg\\\":\\\"RS256\\\",\\\"n\\\":\\\"somedata\\\",\\\"e\\\":\\\"AQAB\\\"}]}\")}"
                     }
                   ],
-                  "platform_version": "1.24.0-gke.1",
+                  "platform_version": "${data.google_container_attached_versions.versions.valid_versions[0]}",
                   "project": "${data.google_project.project.project_id}"
                 }
               references:
+                platform_version: data.google_container_attached_versions.versions.valid_versions[0]
+                project: data.google_project.project.project_id
+            - name: primary
+              manifest: |-
+                {
+                  "deletion_policy": "DELETE_IGNORE_ERRORS",
+                  "description": "Test cluster",
+                  "distribution": "aks",
+                  "fleet": [
+                    {
+                      "project": "projects/${data.google_project.project.number}"
+                    }
+                  ],
+                  "location": "us-west1",
+                  "name": "basic",
+                  "oidc_config": [
+                    {
+                      "issuer_url": "https://oidc.issuer.url"
+                    }
+                  ],
+                  "platform_version": "${data.google_container_attached_versions.versions.valid_versions[0]}",
+                  "project": "${data.google_project.project.project_id}"
+                }
+              references:
+                platform_version: data.google_container_attached_versions.versions.valid_versions[0]
                 project: data.google_project.project.project_id
         argumentDocs:
             authorization.admin_users: |-
@@ -41029,6 +41308,7 @@ resources:
                 (Optional)
                 Configuration related to the cluster RBAC settings.
                 Structure is documented below.
+            fleet.deletion_policy: '- (Optional) Policy to determine what flags to send on delete.'
             fleet.description: |-
                 -
                 (Optional)
@@ -41660,6 +41940,14 @@ resources:
                 -
                 (Required)
                 Minimum number of nodes in the NodePool. Must be >= 1 and <= max_node_count.
+            autoscaling_metrics_collection.granularity: |-
+                -
+                (Required)
+                The frequency at which EC2 Auto Scaling sends aggregated data to AWS CloudWatch. The only valid value is "1Minute".
+            autoscaling_metrics_collection.metrics: |-
+                -
+                (Optional)
+                The metrics to enable. For a list of valid metrics, see https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_EnableMetricsCollection.html. If you specify granularity and don't specify any metrics, all metrics are enabled.
             cluster: |-
                 -
                 (Required)
@@ -41668,6 +41956,10 @@ resources:
                 -
                 (Required)
                 The configuration of the node pool.
+            config.autoscaling_metrics_collection: |-
+                -
+                (Optional)
+                Optional. Configuration related to CloudWatch metrics collection on the Auto Scaling group of the node pool. When unspecified, metrics collection is disabled.
             config.config_encryption: |-
                 -
                 (Required)
@@ -42433,7 +42725,7 @@ resources:
                 Structure is documented below.
             addons_config.cloudrun_config: '- (Optional). Structure is documented below.'
             addons_config.config_connector_config: |-
-                -  (Optional, Beta).
+                -  (Optional).
                 The status of the ConfigConnector addon. It is disabled by default; Set enabled = true to enable.
             addons_config.dns_cache_config: |-
                 - (Optional).
@@ -42832,14 +43124,14 @@ resources:
                 - (Optional) The image type to use for this node. Note that changing the image type
                 will delete and recreate all nodes in the node pool.
             node_config.kubelet_config: |-
-                - (Optional, Beta)
+                - (Optional)
                 Kubelet configuration, currently supported attributes can be found here.
                 Structure is documented below.
             node_config.labels: |-
                 - (Optional) The Kubernetes labels (key/value pairs) to be applied to each node. The kubernetes.io/ and k8s.io/ prefixes are
                 reserved by Kubernetes Core components and cannot be specified.
             node_config.linux_node_config: |-
-                - (Optional, Beta)
+                - (Optional)
                 Linux node configuration, currently supported attributes can be found here.
                 Note that validations happen all server side. All attributes are optional.
                 Structure is documented below.
@@ -44894,6 +45186,30 @@ resources:
                   "parent": "projects/my-project-name"
                 }
         argumentDocs:
+            bucketing_config.buckets: |-
+                -
+                (Optional)
+                Set of buckets. Ranges must be non-overlapping.
+                Bucket is represented as a range, along with replacement values.
+                Structure is documented below.
+            bucketing_config.buckets.max: |-
+                -
+                (Optional)
+                Upper bound of the range, exclusive; type must match min.
+                The max block must only contain one argument. See the bucketing_config block description for more information about choosing a data type.
+                Structure is documented below.
+            bucketing_config.buckets.min: |-
+                -
+                (Optional)
+                Lower bound of the range, inclusive. Type should be the same as max if used.
+                The min block must only contain one argument. See the bucketing_config block description for more information about choosing a data type.
+                Structure is documented below.
+            bucketing_config.buckets.replacement_value: |-
+                -
+                (Required)
+                Replacement value for this bucket.
+                The replacement_value block must only contain one argument.
+                Structure is documented below.
             character_mask_config.characters_to_ignore: |-
                 -
                 (Optional)
@@ -44988,20 +45304,46 @@ resources:
                 This annotation identifies the surrogate when inspecting content using the custom info type 'Surrogate'. This facilitates reversal of the surrogate when it occurs in free text.
                 Note: For record transformations where the entire cell in a table is being transformed, surrogates are not mandatory. Surrogates are used to denote the location of the token and are necessary for re-identification in free form text.
                 In order for inspection to work properly, the name of this info type must not occur naturally anywhere in your data; otherwise, inspection may either
+            crypto_hash_config.crypto_key: |-
+                -
+                (Optional)
+                The key used by the encryption function.
+                Structure is documented below.
+            crypto_hash_config.crypto_key.kms_wrapped: |-
+                -
+                (Optional)
+                KMS wrapped key.
+                Include to use an existing data crypto key wrapped by KMS. The wrapped key must be a 128-, 192-, or 256-bit key. Authorization requires the following IAM permissions when sending a request to perform a crypto transformation using a KMS-wrapped crypto key: dlp.kms.encrypt
+                For more information, see Creating a wrapped key.
+                Note: When you use Cloud KMS for cryptographic operations, charges apply.
+                Structure is documented below.
+            crypto_hash_config.crypto_key.transient: |-
+                -
+                (Optional)
+                Transient crypto key. Use this to have a random data crypto key generated. It will be discarded after the request finishes.
+                Structure is documented below.
+            crypto_hash_config.crypto_key.unwrapped: |-
+                -
+                (Optional)
+                Unwrapped crypto key. Using raw keys is prone to security risks due to accidentally leaking the key. Choose another type of key if possible.
+                Structure is documented below.
             crypto_key.kms_wrapped: |-
                 -
                 (Optional)
-                Kms wrapped key
+                KMS wrapped key.
+                Include to use an existing data crypto key wrapped by KMS. The wrapped key must be a 128-, 192-, or 256-bit key. Authorization requires the following IAM permissions when sending a request to perform a crypto transformation using a KMS-wrapped crypto key: dlp.kms.encrypt
+                For more information, see Creating a wrapped key.
+                Note: When you use Cloud KMS for cryptographic operations, charges apply.
                 Structure is documented below.
             crypto_key.transient: |-
                 -
                 (Optional)
-                Transient crypto key
+                Transient crypto key. Use this to have a random data crypto key generated. It will be discarded after the request finishes.
                 Structure is documented below.
             crypto_key.unwrapped: |-
                 -
                 (Optional)
-                Unwrapped crypto key
+                Unwrapped crypto key. Using raw keys is prone to security risks due to accidentally leaking the key. Choose another type of key if possible.
                 Structure is documented below.
             crypto_replace_ffx_fpe_config.InfoTypeTransformation: |-
                 is applied to both structured and non-structured ContentItems. Currently, the referenced field may be of value type integer or string.
@@ -45038,6 +45380,26 @@ resources:
                 This annotation identifies the surrogate when inspecting content using the custom infoType SurrogateType. This facilitates reversal of the surrogate when it occurs in free text.
                 In order for inspection to work properly, the name of this infoType must not occur naturally anywhere in your data; otherwise, inspection may find a surrogate that does not correspond to an actual identifier. Therefore, choose your custom infoType name carefully after considering what your data looks like. One way to select a name that has a high chance of yielding reliable detection is to include one or more unicode characters that are highly improbable to exist in your data. For example, assuming your data is entered from a regular ASCII keyboard, the symbol with the hex code point 29DD might be used like so: ⧝MY_TOKEN_TYPE
                 Structure is documented below.
+            date_shift_config.context: |-
+                -
+                (Optional)
+                Points to the field that contains the context, for example, an entity id.
+                If set, must also set cryptoKey. If set, shift will be consistent for the given context.
+                Structure is documented below.
+            date_shift_config.crypto_key: |-
+                -
+                (Optional)
+                Causes the shift to be computed based on this key and the context. This results in the same shift for the same context and cryptoKey. If set, must also set context. Can only be applied to table items.
+                Structure is documented below.
+            date_shift_config.lower_bound_days: |-
+                -
+                (Required)
+                For example, -5 means shift date to at most 5 days back in the past.
+            date_shift_config.upper_bound_days: |-
+                -
+                (Required)
+                Range of shift in days. Actual shift will be selected at random within this range (inclusive ends). Negative means shift to earlier in time. Must not be more than 365250 days (1000 years) each direction.
+                For example, 3 means shift date to at most 3 days into the future.
             date_value.day: |-
                 -
                 (Optional)
@@ -45100,6 +45462,26 @@ resources:
                 -
                 (Optional)
                 Name describing the field.
+            fixed_size_bucketing_config.bucket_size: |-
+                -
+                (Required)
+                Size of each bucket (except for minimum and maximum buckets).
+                So if lower_bound = 10, upper_bound = 89, and bucketSize = 10, then the following buckets would be used: -10, 10-20, 20-30, 30-40, 40-50, 50-60, 60-70, 70-80, 80-89, 89+.
+                Precision up to 2 decimals works.
+            fixed_size_bucketing_config.lower_bound: |-
+                -
+                (Required)
+                Lower bound value of buckets.
+                All values less than lower_bound are grouped together into a single bucket; for example if lower_bound = 10, then all values less than 10 are replaced with the value "-10".
+                The lower_bound block must only contain one argument. See the fixed_size_bucketing_config block description for more information about choosing a data type.
+                Structure is documented below.
+            fixed_size_bucketing_config.upper_bound: |-
+                -
+                (Required)
+                Upper bound value of buckets.
+                All values greater than upper_bound are grouped together into a single bucket; for example if upper_bound = 89, then all values greater than 89 are replaced with the value "89+".
+                The upper_bound block must only contain one argument. See the fixed_size_bucketing_config block description for more information about choosing a data type.
+                Structure is documented below.
             id: '- an identifier for the resource with format {{parent}}/deidentifyTemplates/{{name}}'
             info_type_transformations.transformations: |-
                 -
@@ -45131,7 +45513,112 @@ resources:
                 (Required)
                 The wrapped data crypto key.
                 A base64-encoded string.
+            lower_bound.boolean_value: |-
+                -
+                (Optional)
+                A boolean value.
+            lower_bound.date_value: |-
+                -
+                (Optional)
+                Represents a whole or partial calendar date.
+                Structure is documented below.
+            lower_bound.day_of_week_value: |-
+                -
+                (Optional)
+                Represents a day of the week.
+                Possible values are MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, and SUNDAY.
+            lower_bound.float_value: |-
+                -
+                (Optional)
+                A float value.
+            lower_bound.integer_value: |-
+                -
+                (Optional)
+                An integer value (int64 format)
+            lower_bound.string_value: |-
+                -
+                (Optional)
+                A string value.
+            lower_bound.time_value: |-
+                -
+                (Optional)
+                Represents a time of day.
+                Structure is documented below.
+            lower_bound.timestamp_value: |-
+                -
+                (Optional)
+                A timestamp in RFC3339 UTC "Zulu" format, with nanosecond resolution and up to nine fractional digits. Examples: "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z".
             masking_character: is *
+            max.boolean_value: |-
+                -
+                (Optional)
+                A boolean value.
+            max.date_value: |-
+                -
+                (Optional)
+                Represents a whole or partial calendar date.
+                Structure is documented below.
+            max.day_of_week_value: |-
+                -
+                (Optional)
+                Represents a day of the week.
+                Possible values are MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, and SUNDAY.
+            max.float_value: |-
+                -
+                (Optional)
+                A float value.
+            max.integer_value: |-
+                -
+                (Optional)
+                An integer value (int64 format)
+            max.string_value: |-
+                -
+                (Optional)
+                A string value.
+            max.time_value: |-
+                -
+                (Optional)
+                Represents a time of day.
+                Structure is documented below.
+            max.timestamp_value: |-
+                -
+                (Optional)
+                A timestamp in RFC3339 UTC "Zulu" format, with nanosecond resolution and up to nine fractional digits. Examples: "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z".
+            min.boolean_value: |-
+                -
+                (Optional)
+                A boolean value.
+            min.date_value: |-
+                -
+                (Optional)
+                Represents a whole or partial calendar date.
+                Structure is documented below.
+            min.day_of_week_value: |-
+                -
+                (Optional)
+                Represents a day of the week.
+                Possible values are MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, and SUNDAY.
+            min.float_value: |-
+                -
+                (Optional)
+                A float value.
+            min.integer_value: |-
+                -
+                (Optional)
+                An integer value (int64 format)
+            min.string_value: |-
+                -
+                (Optional)
+                A string value.
+            min.time_value: |-
+                -
+                (Optional)
+                Represents a time of day.
+                Structure is documented below.
+            min.timestamp_value: |-
+                -
+                (Optional)
+                A timestamp in RFC3339 UTC "Zulu" format, with nanosecond resolution and up to nine fractional digits. Examples: "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z".
             name: |-
                 -
                 The resource name of the template. Set by the server.
@@ -45140,6 +45627,14 @@ resources:
                 -
                 (Required)
                 The parent of the template in any of the following formats:
+            primitive_transformation.bucketing_config: |-
+                -
+                (Optional)
+                Generalization function that buckets values based on ranges. The ranges and replacement values are dynamically provided by the user for custom behavior, such as 1-30 -> LOW 31-65 -> MEDIUM 66-100 -> HIGH
+                This can be used on data of type: number, long, string, timestamp.
+                If the provided value type differs from the type of data being transformed, we will first attempt converting the type of the data to be transformed to match the type of the bound before comparing.
+                See https://cloud.google.com/dlp/docs/concepts-bucketing to learn more.
+                Structure is documented below.
             primitive_transformation.character_mask_config: |-
                 -
                 (Optional)
@@ -45151,11 +45646,33 @@ resources:
                 (Optional)
                 Pseudonymization method that generates deterministic encryption for the given input. Outputs a base64 encoded representation of the encrypted output. Uses AES-SIV based on the RFC https://tools.ietf.org/html/rfc5297.
                 Structure is documented below.
+            primitive_transformation.crypto_hash_config: |-
+                -
+                (Optional)
+                Pseudonymization method that generates surrogates via cryptographic hashing. Uses SHA-256. The key size must be either 32 or 64 bytes.
+                Outputs a base64 encoded representation of the hashed output (for example, L7k0BHmF1ha5U3NfGykjro4xWi1MPVQPjhMAZbSV9mM=).
+                Currently, only string and integer values can be hashed.
+                See https://cloud.google.com/dlp/docs/pseudonymization to learn more.
+                Structure is documented below.
             primitive_transformation.crypto_replace_ffx_fpe_config: |-
                 -
                 (Optional)
                 Replaces an identifier with a surrogate using Format Preserving Encryption (FPE) with the FFX mode of operation; however when used in the content.reidentify API method, it serves the opposite function by reversing the surrogate back into the original identifier. The identifier must be encoded as ASCII. For a given crypto key and context, the same identifier will be replaced with the same surrogate. Identifiers must be at least two characters long. In the case that the identifier is the empty string, it will be skipped. See https://cloud.google.com/dlp/docs/pseudonymization to learn more.
                 Note: We recommend using CryptoDeterministicConfig for all use cases which do not require preserving the input alphabet space and size, plus warrant referential integrity.
+                Structure is documented below.
+            primitive_transformation.date_shift_config: |-
+                -
+                (Optional)
+                Shifts dates by random number of days, with option to be consistent for the same context. See https://cloud.google.com/dlp/docs/concepts-date-shifting to learn more.
+                Structure is documented below.
+            primitive_transformation.fixed_size_bucketing_config: |-
+                -
+                (Optional)
+                Buckets values based on fixed size ranges. The Bucketing transformation can provide all of this functionality, but requires more configuration. This message is provided as a convenience to the user for simple bucketing strategies.
+                The transformed value will be a hyphenated string of {lower_bound}-{upper_bound}. For example, if lower_bound = 10 and upper_bound = 20, all values that are within this bucket will be replaced with "10-20".
+                This can be used on data of type: double, long.
+                If the bound Value type differs from the type of data being transformed, we will first attempt converting the type of the data to be transformed to match the type of the bound before comparing.
+                See https://cloud.google.com/dlp/docs/concepts-bucketing to learn more.
                 Structure is documented below.
             primitive_transformation.redact_config: |-
                 -
@@ -45166,10 +45683,20 @@ resources:
                 (Optional)
                 Replace each input value with a given value.
                 Structure is documented below.
+            primitive_transformation.replace_dictionary_config: |-
+                -
+                (Optional)
+                Replace with a value randomly drawn (with replacement) from a dictionary.
+                Structure is documented below.
             primitive_transformation.replace_with_info_type_config: |-
                 -
                 (Optional)
                 Replace each matching finding with the name of the info type.
+            primitive_transformation.time_part_config: |-
+                -
+                (Optional)
+                For use with Date, Timestamp, and TimeOfDay, extract or preserve a portion of the value.
+                Structure is documented below.
             record_suppressions.condition: |-
                 -
                 (Optional)
@@ -45243,11 +45770,64 @@ resources:
                 (Optional)
                 A timestamp in RFC3339 UTC "Zulu" format, with nanosecond resolution and up to nine fractional digits.
                 Examples: "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z".
+            replace_dictionary_config.word_list: |-
+                -
+                (Optional)
+                A list of words to select from for random replacement. The limits page contains details about the size limits of dictionaries.
+                Structure is documented below.
+            replace_dictionary_config.word_list.words: |-
+                -
+                (Required)
+                Words or phrases defining the dictionary. The dictionary must contain at least one phrase and every phrase must contain at least 2 characters that are letters or digits.
+            replacement_value.boolean_value: |-
+                -
+                (Optional)
+                A boolean value.
+            replacement_value.date_value: |-
+                -
+                (Optional)
+                Represents a whole or partial calendar date.
+                Structure is documented below.
+            replacement_value.day_of_week_value: |-
+                -
+                (Optional)
+                Represents a day of the week.
+                Possible values are MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, and SUNDAY.
+            replacement_value.float_value: |-
+                -
+                (Optional)
+                A float value.
+            replacement_value.integer_value: |-
+                -
+                (Optional)
+                An integer value (int64 format)
+            replacement_value.string_value: |-
+                -
+                (Optional)
+                A string value.
+            replacement_value.time_value: |-
+                -
+                (Optional)
+                Represents a time of day.
+                Structure is documented below.
+            replacement_value.timestamp_value: |-
+                -
+                (Optional)
+                A timestamp in RFC3339 UTC "Zulu" format, with nanosecond resolution and up to nine fractional digits. Examples: "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z".
             reverse_order: is false
             surrogate_info_type.name: |-
                 -
                 (Optional)
                 Name of the information type. Either a name of your choosing when creating a CustomInfoType, or one of the names listed at https://cloud.google.com/dlp/docs/infotypes-reference when specifying a built-in type. When sending Cloud DLP results to Data Catalog, infoType names should conform to the pattern [A-Za-z0-9$-_]{1,64}.
+            surrogate_info_type.version: |-
+                -
+                (Optional)
+                Optional version name for this InfoType.
+            time_part_config.part_to_extract: |-
+                -
+                (Optional)
+                The part of the time to keep.
+                Possible values are YEAR, MONTH, DAY_OF_MONTH, DAY_OF_WEEK, WEEK_OF_YEAR, and HOUR_OF_DAY.
             time_value.hours: |-
                 -
                 (Optional)
@@ -45274,6 +45854,41 @@ resources:
                 A 128/192/256 bit key.
                 A base64-encoded string.
             update: '- Default is 20 minutes.'
+            upper_bound.boolean_value: |-
+                -
+                (Optional)
+                A boolean value.
+            upper_bound.date_value: |-
+                -
+                (Optional)
+                Represents a whole or partial calendar date.
+                Structure is documented below.
+            upper_bound.day_of_week_value: |-
+                -
+                (Optional)
+                Represents a day of the week.
+                Possible values are MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, and SUNDAY.
+            upper_bound.float_value: |-
+                -
+                (Optional)
+                A float value.
+            upper_bound.integer_value: |-
+                -
+                (Optional)
+                An integer value (int64 format)
+            upper_bound.string_value: |-
+                -
+                (Optional)
+                A string value.
+            upper_bound.time_value: |-
+                -
+                (Optional)
+                Represents a time of day.
+                Structure is documented below.
+            upper_bound.timestamp_value: |-
+                -
+                (Optional)
+                A timestamp in RFC3339 UTC "Zulu" format, with nanosecond resolution and up to nine fractional digits. Examples: "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z".
             value.boolean_value: |-
                 -
                 (Optional)
@@ -46007,10 +46622,24 @@ resources:
                 (Optional)
                 Publish a message into a given Pub/Sub topic when the job completes.
                 Structure is documented below.
+            actions.publish_findings_to_cloud_data_catalog: |-
+                -
+                (Optional)
+                Publish findings of a DlpJob to Data Catalog.
+            actions.publish_summary_to_cscc: |-
+                -
+                (Optional)
+                Publish the result summary of a DlpJob to the Cloud Security Command Center.
             actions.save_findings: |-
                 -
                 (Optional)
-                Schedule for triggered jobs
+                If set, the detailed findings will be persisted to the specified OutputStorageConfig. Only a single instance of this action can be specified. Compatible with: Inspect, Risk
+                Structure is documented below.
+            big_query_options.identifying_fields: |-
+                -
+                (Optional)
+                Specifies the BigQuery fields that will be returned with findings.
+                If not specified, no identifying fields will be returned for findings.
                 Structure is documented below.
             big_query_options.rows_limit: |-
                 -
@@ -46096,6 +46725,10 @@ resources:
                 non-recursively (content in sub-directories will not be scanned). This means that gs://mybucket/ is
                 equivalent to gs://mybucket/*, and gs://mybucket/directory/ is equivalent to gs://mybucket/directory/*.
             id: '- an identifier for the resource with format {{parent}}/jobTriggers/{{name}}'
+            identifying_fields.name: |-
+                -
+                (Required)
+                Name of a BigQuery field to be returned with the findings.
             inspect_job.actions: |-
                 -
                 (Required)
@@ -47525,6 +48158,9 @@ resources:
                 only be removed by setting policy_uri = "", rather than removing the whole block.
                 Structure defined below.
             cluster_config.autoscaling_config.policy_uri: '- (Required) The autoscaling policy used by the cluster.'
+            cluster_config.dataproc_metric_config: |-
+                (Optional) The Compute Engine accelerator (GPU) configuration for these instances. Can be specified multiple times.
+                Structure defined below.
             cluster_config.encryption_config: |-
                 (Optional) The Customer managed encryption keys settings for the cluster.
                 Structure defined below.
@@ -47547,6 +48183,8 @@ resources:
                 - (Optional, Computed) The name or self_link of the Google Compute Engine
                 network to the cluster will be part of. Conflicts with subnetwork.
                 If neither is specified, this defaults to the "default" network.
+            cluster_config.gce_cluster_config.node_group_affinity: '- (Optional) Node Group Affinity for sole-tenant clusters.'
+            cluster_config.gce_cluster_config.reservation_affinity: '- (Optional) Reservation Affinity for consuming zonal reservation.'
             cluster_config.gce_cluster_config.service_account: |-
                 - (Optional) The service account to be used by the Node VMs.
                 If not specified, the "default" service account is used.
@@ -47674,6 +48312,7 @@ resources:
                 KubernetesComponent enumeration. The value is the version of the software to be installed. At least one entry must be specified.
             component_version[SPARK]: is mandatory to set, or the creation of the cluster will fail.
             config: (Optional) The node pool configuration.
+            consume_reservation_type: '- (Optional) Corresponds to the type of reservation consumption.'
             create: '- Default is 45 minutes.'
             cross_realm_trust_admin_server: |-
                 - (Optional) The admin server (IP or hostname) for the
@@ -47690,6 +48329,7 @@ resources:
                 and the remote trusted realm, in a cross realm trust relationship.
             dataproc_cluster: (Optional) Resource name of an existing Dataproc Cluster to act as a Spark History Server for the workload.
             dataproc_metastore_service: (Required) Resource name of an existing Dataproc Metastore service.
+            dataproc_metric_config.metrics: '- (Required) Metrics sources to enable.'
             delete: '- Default is 45 minutes.'
             enable_kerberos: '- (Optional) Flag to indicate whether to Kerberize the cluster.'
             encryption_config.kms_key_name: |-
@@ -47720,6 +48360,7 @@ resources:
             kdc_db_key_uri: |-
                 - (Optional) The Cloud Storage URI of a KMS encrypted file containing
                 the master key of the KDC database.
+            key: '- (Optional) Corresponds to the label key of reservation resource.'
             key_password_uri: |-
                 - (Optional) The Cloud Storage URI of a KMS encrypted file containing
                 the password to the user provided key. For the self-signed certificate, this password
@@ -47759,6 +48400,8 @@ resources:
             machine_type: (Optional) The name of a Compute Engine machine type.
             max_node_count: (Optional) The maximum number of nodes in the node pool. Must be >= minNodeCount, and must be > 0.
             metastore_config.dataproc_metastore_service: '- (Required) Resource name of an existing Dataproc Metastore service.'
+            metric_overrides: '- (Optional) One or more [available OSS metrics] (https://cloud.google.com/dataproc/docs/guides/monitoring#available_oss_metrics) to collect for the metric course.'
+            metric_source: '- (Required) A source for the collection of Dataproc OSS metrics (see available OSS metrics).'
             min_cpu_platform: |-
                 (Optional) Minimum CPU platform to be used by this instance.
                 The instance may be scheduled on the specified or a newer CPU platform.
@@ -47767,6 +48410,7 @@ resources:
             name: |-
                 - (Required) The name of the cluster, unique within the project and
                 zone.
+            node_group_uri: '- (Required) The URI of a sole-tenant node group resource that the cluster will be created on.'
             node_pool: (Required) The target GKE node pool.
             node_pool_config: |-
                 (Input only) The configuration for the GKE node pool.
@@ -47816,6 +48460,7 @@ resources:
                 - (Optional) The Cloud Storage URI of the truststore file used for
                 SSL encryption. If not provided, Dataproc will provide a self-signed certificate.
             update: '- Default is 45 minutes.'
+            values: '- (Optional) Corresponds to the label values of reservation resource.'
             virtual_cluster_config: |-
                 - (Optional) Allows you to configure a virtual Dataproc on GKE cluster.
                 Structure defined below.
@@ -48549,6 +49194,17 @@ resources:
             state_message: |-
                 -
                 Additional information about the current state of the metastore service, if available.
+            telemetry_config: |-
+                -
+                (Optional)
+                The configuration specifying telemetry settings for the Dataproc Metastore service. If unspecified defaults to JSON.
+                Structure is documented below.
+            telemetry_config.log_format: |-
+                -
+                (Optional)
+                The output format of the Dataproc Metastore service's logs.
+                Default value is JSON.
+                Possible values are LEGACY and JSON.
             tier: |-
                 -
                 (Optional)
@@ -49535,6 +50191,9 @@ resources:
                       "root_path": "/path"
                     }
                   ],
+                  "labels": {
+                    "key": "value"
+                  },
                   "location": "us-central1"
                 }
             - name: default
@@ -49670,7 +50329,7 @@ resources:
             location: |-
                 -
                 (Required)
-                The name of the location this repository is located in.
+                The name of the location this connection profile is located in.
             mysql_profile: |-
                 -
                 (Optional)
@@ -49853,7 +50512,7 @@ resources:
             location: |-
                 -
                 (Required)
-                The name of the location this repository is located in.
+                The name of the location this private connection is located in.
             name: |-
                 -
                 The resource's name.
@@ -49886,6 +50545,627 @@ resources:
                 (Required)
                 Fully qualified name of the VPC that Datastream will peer to.
                 Format: projects/{project}/global/{networks}/{name}
+        importStatements: []
+    google_datastream_stream:
+        subCategory: Datastream
+        description: A resource representing streaming data from a source to a destination.
+        name: google_datastream_stream
+        title: google_datastream_stream
+        examples:
+            - name: default
+              manifest: |-
+                {
+                  "backfill_all": [
+                    {
+                      "mysql_excluded_objects": [
+                        {
+                          "mysql_databases": [
+                            {
+                              "database": "my-database",
+                              "mysql_tables": [
+                                {
+                                  "mysql_columns": [
+                                    {
+                                      "collation": "utf8mb4",
+                                      "column": "excludedColumn",
+                                      "data_type": "VARCHAR",
+                                      "nullable": false,
+                                      "ordinal_position": 0,
+                                      "primary_key": false
+                                    }
+                                  ],
+                                  "table": "excludedTable"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ],
+                  "customer_managed_encryption_key": "kms-name",
+                  "depends_on": [
+                    "${google_kms_crypto_key_iam_member.key_user}"
+                  ],
+                  "desired_state": "NOT_STARTED",
+                  "destination_config": [
+                    {
+                      "destination_connection_profile": "${google_datastream_connection_profile.destination_connection_profile.id}",
+                      "gcs_destination_config": [
+                        {
+                          "file_rotation_interval": "900s",
+                          "file_rotation_mb": 200,
+                          "json_file_format": [
+                            {
+                              "compression": "GZIP",
+                              "schema_file_format": "NO_SCHEMA_FILE"
+                            }
+                          ],
+                          "path": "mydata"
+                        }
+                      ]
+                    }
+                  ],
+                  "display_name": "my stream",
+                  "labels": {
+                    "key": "value"
+                  },
+                  "location": "us-central1",
+                  "source_config": [
+                    {
+                      "mysql_source_config": [
+                        {
+                          "exclude_objects": [
+                            {
+                              "mysql_databases": [
+                                {
+                                  "database": "my-database",
+                                  "mysql_tables": [
+                                    {
+                                      "mysql_columns": [
+                                        {
+                                          "collation": "utf8mb4",
+                                          "column": "excludedColumn",
+                                          "data_type": "VARCHAR",
+                                          "nullable": false,
+                                          "ordinal_position": 0,
+                                          "primary_key": false
+                                        }
+                                      ],
+                                      "table": "excludedTable"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ],
+                          "include_objects": [
+                            {
+                              "mysql_databases": [
+                                {
+                                  "database": "my-database",
+                                  "mysql_tables": [
+                                    {
+                                      "mysql_columns": [
+                                        {
+                                          "collation": "utf8mb4",
+                                          "column": "includedColumn",
+                                          "data_type": "VARCHAR",
+                                          "nullable": false,
+                                          "ordinal_position": 0,
+                                          "primary_key": false
+                                        }
+                                      ],
+                                      "table": "includedTable"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ],
+                          "max_concurrent_cdc_tasks": 5
+                        }
+                      ],
+                      "source_connection_profile": "${google_datastream_connection_profile.source_connection_profile.id}"
+                    }
+                  ],
+                  "stream_id": "my-stream"
+                }
+              references:
+                destination_config.destination_connection_profile: google_datastream_connection_profile.destination_connection_profile.id
+                source_config.source_connection_profile: google_datastream_connection_profile.source_connection_profile.id
+              dependencies:
+                google_datastream_connection_profile.destination_connection_profile: |-
+                    {
+                      "connection_profile_id": "destination-profile",
+                      "display_name": "Connection profile",
+                      "gcs_profile": [
+                        {
+                          "bucket": "${google_storage_bucket.bucket.name}",
+                          "root_path": "/path"
+                        }
+                      ],
+                      "location": "us-central1"
+                    }
+                google_datastream_connection_profile.source_connection_profile: |-
+                    {
+                      "connection_profile_id": "source-profile",
+                      "display_name": "Source connection profile",
+                      "location": "us-central1",
+                      "mysql_profile": [
+                        {
+                          "hostname": "${google_sql_database_instance.instance.public_ip_address}",
+                          "password": "${google_sql_user.user.password}",
+                          "username": "${google_sql_user.user.name}"
+                        }
+                      ]
+                    }
+                google_kms_crypto_key_iam_member.key_user: |-
+                    {
+                      "crypto_key_id": "kms-name",
+                      "member": "serviceAccount:service-${data.google_project.project.number}@gcp-sa-datastream.iam.gserviceaccount.com",
+                      "role": "roles/cloudkms.cryptoKeyEncrypterDecrypter"
+                    }
+                google_sql_database.db: |-
+                    {
+                      "instance": "${google_sql_database_instance.instance.name}",
+                      "name": "db"
+                    }
+                google_sql_database_instance.instance: |-
+                    {
+                      "database_version": "MYSQL_8_0",
+                      "deletion_protection": true,
+                      "name": "my-instance",
+                      "region": "us-central1",
+                      "settings": [
+                        {
+                          "backup_configuration": [
+                            {
+                              "binary_log_enabled": true,
+                              "enabled": true
+                            }
+                          ],
+                          "ip_configuration": [
+                            {
+                              "authorized_networks": [
+                                {
+                                  "value": "34.71.242.81"
+                                },
+                                {
+                                  "value": "34.72.28.29"
+                                },
+                                {
+                                  "value": "34.67.6.157"
+                                },
+                                {
+                                  "value": "34.67.234.134"
+                                },
+                                {
+                                  "value": "34.72.239.218"
+                                }
+                              ]
+                            }
+                          ],
+                          "tier": "db-f1-micro"
+                        }
+                      ]
+                    }
+                google_sql_user.user: |-
+                    {
+                      "host": "%",
+                      "instance": "${google_sql_database_instance.instance.name}",
+                      "name": "user",
+                      "password": "${random_password.pwd.result}"
+                    }
+                google_storage_bucket.bucket: |-
+                    {
+                      "location": "US",
+                      "name": "my-bucket",
+                      "uniform_bucket_level_access": true
+                    }
+                google_storage_bucket_iam_member.creator: |-
+                    {
+                      "bucket": "${google_storage_bucket.bucket.name}",
+                      "member": "serviceAccount:service-${data.google_project.project.number}@gcp-sa-datastream.iam.gserviceaccount.com",
+                      "role": "roles/storage.objectCreator"
+                    }
+                google_storage_bucket_iam_member.reader: |-
+                    {
+                      "bucket": "${google_storage_bucket.bucket.name}",
+                      "member": "serviceAccount:service-${data.google_project.project.number}@gcp-sa-datastream.iam.gserviceaccount.com",
+                      "role": "roles/storage.legacyBucketReader"
+                    }
+                google_storage_bucket_iam_member.viewer: |-
+                    {
+                      "bucket": "${google_storage_bucket.bucket.name}",
+                      "member": "serviceAccount:service-${data.google_project.project.number}@gcp-sa-datastream.iam.gserviceaccount.com",
+                      "role": "roles/storage.objectViewer"
+                    }
+                random_password.pwd: |-
+                    {
+                      "length": 16,
+                      "special": false
+                    }
+            - name: default
+              manifest: |-
+                {
+                  "backfill_none": [
+                    {}
+                  ],
+                  "depends_on": [
+                    "${google_kms_crypto_key_iam_member.bigquery_key_user}"
+                  ],
+                  "destination_config": [
+                    {
+                      "bigquery_destination_config": [
+                        {
+                          "source_hierarchy_datasets": [
+                            {
+                              "dataset_template": [
+                                {
+                                  "kms_key_name": "bigquery-kms-name",
+                                  "location": "us-central1"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ],
+                      "destination_connection_profile": "${google_datastream_connection_profile.destination_connection_profile.id}"
+                    }
+                  ],
+                  "display_name": "my stream",
+                  "location": "us-central1",
+                  "source_config": [
+                    {
+                      "mysql_source_config": [
+                        {}
+                      ],
+                      "source_connection_profile": "${google_datastream_connection_profile.source_connection_profile.id}"
+                    }
+                  ],
+                  "stream_id": "my-stream"
+                }
+              references:
+                destination_config.destination_connection_profile: google_datastream_connection_profile.destination_connection_profile.id
+                source_config.source_connection_profile: google_datastream_connection_profile.source_connection_profile.id
+              dependencies:
+                google_datastream_connection_profile.destination_connection_profile: |-
+                    {
+                      "bigquery_profile": [
+                        {}
+                      ],
+                      "connection_profile_id": "destination-profile",
+                      "display_name": "Connection profile",
+                      "location": "us-central1"
+                    }
+                google_datastream_connection_profile.source_connection_profile: |-
+                    {
+                      "connection_profile_id": "source-profile",
+                      "display_name": "Source connection profile",
+                      "location": "us-central1",
+                      "mysql_profile": [
+                        {
+                          "hostname": "${google_sql_database_instance.instance.public_ip_address}",
+                          "password": "${google_sql_user.user.password}",
+                          "username": "${google_sql_user.user.name}"
+                        }
+                      ]
+                    }
+                google_kms_crypto_key_iam_member.bigquery_key_user: |-
+                    {
+                      "crypto_key_id": "bigquery-kms-name",
+                      "member": "serviceAccount:${data.google_bigquery_default_service_account.bq_sa.email}",
+                      "role": "roles/cloudkms.cryptoKeyEncrypterDecrypter"
+                    }
+                google_sql_database.db: |-
+                    {
+                      "instance": "${google_sql_database_instance.instance.name}",
+                      "name": "db"
+                    }
+                google_sql_database_instance.instance: |-
+                    {
+                      "database_version": "MYSQL_8_0",
+                      "deletion_protection": true,
+                      "name": "my-instance",
+                      "region": "us-central1",
+                      "settings": [
+                        {
+                          "backup_configuration": [
+                            {
+                              "binary_log_enabled": true,
+                              "enabled": true
+                            }
+                          ],
+                          "ip_configuration": [
+                            {
+                              "authorized_networks": [
+                                {
+                                  "value": "34.71.242.81"
+                                },
+                                {
+                                  "value": "34.72.28.29"
+                                },
+                                {
+                                  "value": "34.67.6.157"
+                                },
+                                {
+                                  "value": "34.67.234.134"
+                                },
+                                {
+                                  "value": "34.72.239.218"
+                                }
+                              ]
+                            }
+                          ],
+                          "tier": "db-f1-micro"
+                        }
+                      ]
+                    }
+                google_sql_user.user: |-
+                    {
+                      "host": "%",
+                      "instance": "${google_sql_database_instance.instance.name}",
+                      "name": "user",
+                      "password": "${random_password.pwd.result}"
+                    }
+                random_password.pwd: |-
+                    {
+                      "length": 16,
+                      "special": false
+                    }
+        argumentDocs:
+            backfill_all.mysql_excluded_objects: |-
+                -
+                (Optional)
+                MySQL data source objects to avoid backfilling.
+                Structure is documented below.
+            backfill_all.mysql_excluded_objects.mysql_databases: |-
+                -
+                (Required)
+                MySQL databases on the server
+                Structure is documented below.
+            backfill_all.mysql_excluded_objects.mysql_databases.database: |-
+                -
+                (Required)
+                Database name.
+            backfill_all.mysql_excluded_objects.mysql_databases.mysql_tables: |-
+                -
+                (Optional)
+                Tables in the database.
+                Structure is documented below.
+            bigquery_destination_config.data_freshness: |-
+                -
+                (Optional)
+                The guaranteed data freshness (in seconds) when querying tables created by the stream.
+                Editing this field will only affect new tables created in the future, but existing tables
+                will not be impacted. Lower values mean that queries will return fresher data, but may result in higher cost.
+                A duration in seconds with up to nine fractional digits, terminated by 's'. Example: "3.5s". Defaults to 900s.
+            bigquery_destination_config.single_target_dataset: |-
+                -
+                (Optional)
+                A single target dataset to which all data will be streamed.
+                Structure is documented below.
+            bigquery_destination_config.source_hierarchy_datasets: |-
+                -
+                (Optional)
+                Destination datasets are created so that hierarchy of the destination data objects matches the source hierarchy.
+                Structure is documented below.
+            create: '- Default is 20 minutes.'
+            delete: '- Default is 20 minutes.'
+            destination_config: |-
+                -
+                (Required)
+                Destination connection profile configuration.
+                Structure is documented below.
+            destination_config.bigquery_destination_config: |-
+                -
+                (Optional)
+                A configuration for how data should be loaded to Cloud Storage.
+                Structure is documented below.
+            destination_config.destination_connection_profile: |-
+                -
+                (Required)
+                Destination connection profile resource. Format: projects/{project}/locations/{location}/connectionProfiles/{name}
+            destination_config.gcs_destination_config: |-
+                -
+                (Optional)
+                A configuration for how data should be loaded to Cloud Storage.
+                Structure is documented below.
+            display_name: |-
+                -
+                (Required)
+                Display name.
+            exclude_objects.mysql_databases: |-
+                -
+                (Required)
+                MySQL databases on the server
+                Structure is documented below.
+            exclude_objects.mysql_databases.database: |-
+                -
+                (Required)
+                Database name.
+            exclude_objects.mysql_databases.mysql_tables: |-
+                -
+                (Optional)
+                Tables in the database.
+                Structure is documented below.
+            gcs_destination_config.avro_file_format: |-
+                -
+                (Optional)
+                AVRO file format configuration.
+            gcs_destination_config.file_rotation_interval: |-
+                -
+                (Optional)
+                The maximum duration for which new events are added before a file is closed and a new file is created.
+                A duration in seconds with up to nine fractional digits, terminated by 's'. Example: "3.5s". Defaults to 900s.
+            gcs_destination_config.file_rotation_mb: |-
+                -
+                (Optional)
+                The maximum file size to be saved in the bucket.
+            gcs_destination_config.json_file_format: |-
+                -
+                (Optional)
+                JSON file format configuration.
+                Structure is documented below.
+            gcs_destination_config.path: |-
+                -
+                (Optional)
+                Path inside the Cloud Storage bucket to write data to.
+            id: '- an identifier for the resource with format projects/{{project}}/locations/{{location}}/streams/{{stream_id}}'
+            include_objects.mysql_databases: |-
+                -
+                (Required)
+                MySQL databases on the server
+                Structure is documented below.
+            include_objects.mysql_databases.database: |-
+                -
+                (Required)
+                Database name.
+            include_objects.mysql_databases.mysql_tables: |-
+                -
+                (Optional)
+                Tables in the database.
+                Structure is documented below.
+            json_file_format.compression: |-
+                -
+                (Optional)
+                Compression of the loaded JSON file.
+                Possible values are NO_COMPRESSION and GZIP.
+            json_file_format.schema_file_format: |-
+                -
+                (Optional)
+                The schema file format along JSON data files.
+                Possible values are NO_SCHEMA_FILE and AVRO_SCHEMA_FILE.
+            location: |-
+                -
+                (Required)
+                The name of the location this stream is located in.
+            mysql_columns.collation: |-
+                -
+                (Optional)
+                Column collation.
+            mysql_columns.column: |-
+                -
+                (Optional)
+                Column name.
+            mysql_columns.data_type: |-
+                -
+                (Optional)
+                The MySQL data type. Full data types list can be found here:
+                https://dev.mysql.com/doc/refman/8.0/en/data-types.html
+            mysql_columns.length: |-
+                -
+                Column length.
+            mysql_columns.nullable: |-
+                -
+                (Optional)
+                Whether or not the column can accept a null value.
+            mysql_columns.ordinal_position: |-
+                -
+                (Optional)
+                The ordinal position of the column in the table.
+            mysql_columns.primary_key: |-
+                -
+                (Optional)
+                Whether or not the column represents a primary key.
+            mysql_source_config.exclude_objects: |-
+                -
+                (Optional)
+                MySQL objects to exclude from the stream.
+                Structure is documented below.
+            mysql_source_config.include_objects: |-
+                -
+                (Optional)
+                MySQL objects to retrieve from the source.
+                Structure is documented below.
+            mysql_source_config.max_concurrent_cdc_tasks: |-
+                -
+                (Optional)
+                Maximum number of concurrent CDC tasks. The number should be non negative.
+                If not set (or set to 0), the system's default value will be used.
+            mysql_tables.mysql_columns: |-
+                -
+                (Optional)
+                MySQL columns in the schema. When unspecified as part of include/exclude objects, includes/excludes everything.
+                Structure is documented below.
+            mysql_tables.table: |-
+                -
+                (Required)
+                Table name.
+            name: |-
+                -
+                The stream's name.
+            single_target_dataset.dataset_id: |-
+                -
+                (Required)
+                Dataset ID in the format projects/{project}/datasets/{dataset_id}
+            source_config: |-
+                -
+                (Required)
+                Source connection profile configuration.
+                Structure is documented below.
+            source_config.mysql_source_config: |-
+                -
+                (Required)
+                MySQL data source configuration.
+                Structure is documented below.
+            source_config.source_connection_profile: |-
+                -
+                (Required)
+                Source connection profile resource. Format: projects/{project}/locations/{location}/connectionProfiles/{name}
+            source_hierarchy_datasets.dataset_template: |-
+                -
+                (Required)
+                Dataset template used for dynamic dataset creation.
+                Structure is documented below.
+            source_hierarchy_datasets.dataset_template.backfill_all: |-
+                -
+                (Optional)
+                Backfill strategy to automatically backfill the Stream's objects. Specific objects can be excluded.
+                Structure is documented below.
+            source_hierarchy_datasets.dataset_template.backfill_none: |-
+                -
+                (Optional)
+                Backfill strategy to disable automatic backfill for the Stream's objects.
+            source_hierarchy_datasets.dataset_template.customer_managed_encryption_key: |-
+                -
+                (Optional)
+                A reference to a KMS encryption key. If provided, it will be used to encrypt the data. If left blank, data
+                will be encrypted using an internal Stream-specific encryption key provisioned through KMS.
+            source_hierarchy_datasets.dataset_template.dataset_id_prefix: |-
+                -
+                (Optional)
+                If supplied, every created dataset will have its name prefixed by the provided value.
+                The prefix and name will be separated by an underscore. i.e. _.
+            source_hierarchy_datasets.dataset_template.desired_state: '- (Optional) Desired state of the Stream. Set this field to RUNNING to start the stream, and PAUSED to pause the stream.'
+            source_hierarchy_datasets.dataset_template.kms_key_name: |-
+                -
+                (Optional)
+                Describes the Cloud KMS encryption key that will be used to protect destination BigQuery
+                table. The BigQuery Service Account associated with your project requires access to this
+                encryption key. i.e. projects/{project}/locations/{location}/keyRings/{key_ring}/cryptoKeys/{cryptoKey}.
+                See https://cloud.google.com/bigquery/docs/customer-managed-encryption for more information.
+            source_hierarchy_datasets.dataset_template.labels: |-
+                -
+                (Optional)
+                Labels.
+            source_hierarchy_datasets.dataset_template.location: |-
+                -
+                (Required)
+                The geographic location where the dataset should reside.
+                See https://cloud.google.com/bigquery/docs/locations for supported locations.
+            source_hierarchy_datasets.dataset_template.project: |-
+                - (Optional) The ID of the project in which the resource belongs.
+                If it is not provided, the provider project is used.
+            state: |-
+                -
+                The state of the stream.
+            stream_id: |-
+                -
+                (Required)
+                The stream identifier.
+            update: '- Default is 20 minutes.'
         importStatements: []
     google_deployment_manager_deployment:
         subCategory: Cloud Deployment Manager
@@ -53958,14 +55238,20 @@ resources:
                   "display_name": "Display Name Basic",
                   "package_name": "",
                   "project": "my-project-name",
-                  "provider": "${google-beta}"
+                  "provider": "${google-beta}",
+                  "sha1_hashes": [
+                    "2145bdf698b8715039bd0e83f2069bed435ac21c"
+                  ],
+                  "sha256_hashes": [
+                    "2145bdf698b8715039bd0e83f2069bed435ac21ca1b2c3d4e5f6123456789abc"
+                  ]
                 }
               references:
                 provider: google-beta
         argumentDocs:
             app_id: |-
                 -
-                The globally unique, Firebase-assigned identifier of the App.
+                The globally unique, Firebase-assigned identifier of the AndroidApp.
                 This identifier should be treated as an opaque token, as the data format is not specified.
             create: '- Default is 20 minutes.'
             delete: '- Default is 20 minutes.'
@@ -53978,11 +55264,15 @@ resources:
             display_name: |-
                 -
                 (Required)
-                The user-assigned display name of the App.
+                The user-assigned display name of the AndroidApp.
+            etag: |-
+                -
+                This checksum is computed by the server based on the value of other fields, and it may be sent
+                with update requests to ensure the client has an up-to-date value before proceeding.
             id: '- an identifier for the resource with format {{name}}'
             name: |-
                 -
-                The fully qualified resource name of the App, for example:
+                The fully qualified resource name of the AndroidApp, for example:
                 projects/projectId/androidApps/appId
             package_name: |-
                 -
@@ -53992,6 +55282,14 @@ resources:
             project: |-
                 - (Optional) The ID of the project in which the resource belongs.
                 If it is not provided, the provider project is used.
+            sha1_hashes: |-
+                -
+                (Optional)
+                The SHA1 certificate hashes for the AndroidApp.
+            sha256_hashes: |-
+                -
+                (Optional)
+                The SHA256 certificate hashes for the AndroidApp.
             update: '- Default is 20 minutes.'
         importStatements: []
     google_firebase_apple_app:
@@ -54073,7 +55371,7 @@ resources:
                   "instance_id": "active-db",
                   "project": "my-project-name",
                   "provider": "${google-beta}",
-                  "region": "us-west1"
+                  "region": "us-central1"
                 }
               references:
                 provider: google-beta
@@ -54084,7 +55382,7 @@ resources:
                   "instance_id": "disabled-db",
                   "project": "my-project-name",
                   "provider": "${google-beta}",
-                  "region": "us-west1",
+                  "region": "europe-west1",
                   "type": "USER_DATABASE"
                 }
               references:
@@ -54092,10 +55390,13 @@ resources:
             - name: default
               manifest: |-
                 {
+                  "depends_on": [
+                    "${google_project_service.firebase_database}"
+                  ],
                   "instance_id": "rtdb-project-default-rtdb",
                   "project": "${google_firebase_project.default.project}",
                   "provider": "${google-beta}",
-                  "region": "us-west1",
+                  "region": "us-central1",
                   "type": "DEFAULT_DATABASE"
                 }
               references:
@@ -54150,6 +55451,7 @@ resources:
                 -
                 (Required)
                 A reference to the region where the Firebase Realtime database resides.
+                Check all available regions
             state: |-
                 -
                 The current database state. Set desired_state to :DISABLED to disable the database and :ACTIVE to reenable the database
@@ -54332,6 +55634,9 @@ resources:
               dependencies:
                 google_project.default: |-
                     {
+                      "labels": {
+                        "firebase": "enabled"
+                      },
                       "name": "tf-test",
                       "org_id": "123456789",
                       "project_id": "tf-test",
@@ -54375,6 +55680,9 @@ resources:
                     }
                 google_project.default: |-
                     {
+                      "labels": {
+                        "firebase": "enabled"
+                      },
                       "name": "tf-test",
                       "org_id": "123456789",
                       "project_id": "tf-test",
@@ -54460,6 +55768,9 @@ resources:
                     }
                 google_project.default: |-
                     {
+                      "labels": {
+                        "firebase": "enabled"
+                      },
                       "name": "tf-test",
                       "org_id": "123456789",
                       "project_id": "tf-test",
@@ -55901,6 +57212,48 @@ resources:
                 -
                 Server generated, unique identifier of UUID format.
             update: '- Default is 20 minutes.'
+        importStatements: []
+    google_gke_backup_backup_plan_iam_policy:
+        subCategory: Backup for GKE
+        description: Collection of resources to manage IAM policy for Backup for GKE BackupPlan
+        name: google_gke_backup_backup_plan_iam_policy
+        title: google_gke_backup_backup_plan_iam
+        examples:
+            - name: policy
+              manifest: |-
+                {
+                  "location": "${google_gke_backup_backup_plan.basic.location}",
+                  "name": "${google_gke_backup_backup_plan.basic.name}",
+                  "policy_data": "${data.google_iam_policy.admin.policy_data}",
+                  "project": "${google_gke_backup_backup_plan.basic.project}"
+                }
+              references:
+                location: google_gke_backup_backup_plan.basic.location
+                name: google_gke_backup_backup_plan.basic.name
+                policy_data: data.google_iam_policy.admin.policy_data
+                project: google_gke_backup_backup_plan.basic.project
+        argumentDocs:
+            etag: '- (Computed) The etag of the IAM policy.'
+            google_gke_backup_backup_plan_iam_binding: ': Authoritative for a given role. Updates the IAM policy to grant a role to a list of members. Other roles within the IAM policy for the backupplan are preserved.'
+            google_gke_backup_backup_plan_iam_member: ': Non-authoritative. Updates the IAM policy to grant a role to a new member. Other members for the role for the backupplan are preserved.'
+            google_gke_backup_backup_plan_iam_policy: ': Authoritative. Sets the IAM policy for the backupplan and replaces any existing policy already attached.'
+            location: |-
+                - (Required) The region of the Backup Plan.
+                Used to find the parent resource to bind the IAM policy to
+            member/members: |-
+                - (Required) Identities that will be granted the privilege in role.
+                Each entry can have one of the following values:
+            name: '- (Required) Used to find the parent resource to bind the IAM policy to'
+            policy_data: |-
+                - (Required only by google_gke_backup_backup_plan_iam_policy) The policy data generated by
+                a google_iam_policy data source.
+            project: |-
+                - (Optional) The ID of the project in which the resource belongs.
+                If it is not provided, the project will be parsed from the identifier of the parent resource. If no project is provided in the parent identifier and no project is specified, the provider project is used.
+            role: |-
+                - (Required) The role that should be applied. Only one
+                google_gke_backup_backup_plan_iam_binding can be used per role. Note that custom roles must be of the format
+                [projects|organizations]/{parent-name}/roles/{role-name}.
         importStatements: []
     google_gke_hub_feature:
         subCategory: GKEHub
@@ -57417,6 +58770,147 @@ resources:
                 - (Required) The role that should be applied. Only one
                 google_healthcare_hl7_v2_store_iam_binding can be used per role. Note that custom roles must be of the format
                 [projects|organizations]/{parent-name}/roles/{role-name}.
+        importStatements: []
+    google_iam_access_boundary_policy:
+        subCategory: Cloud IAM
+        description: Represents a collection of access boundary policies to apply to a given resource.
+        name: google_iam_access_boundary_policy
+        title: google_iam_access_boundary_policy
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "display_name": "My AB policy",
+                  "name": "my-ab-policy",
+                  "parent": "${urlencode(\"cloudresourcemanager.googleapis.com/projects/${google_project.project.project_id}\")}",
+                  "rules": [
+                    {
+                      "access_boundary_rule": [
+                        {
+                          "availability_condition": [
+                            {
+                              "expression": "request.matchAccessLevels('${google_project.project.org_id}', ['${google_access_context_manager_access_level.test-access.name}'])",
+                              "title": "Access level expr"
+                            }
+                          ],
+                          "available_permissions": [
+                            "*"
+                          ],
+                          "available_resource": "*"
+                        }
+                      ],
+                      "description": "AB rule"
+                    }
+                  ]
+                }
+              dependencies:
+                google_access_context_manager_access_level.test-access: |-
+                    {
+                      "basic": [
+                        {
+                          "conditions": [
+                            {
+                              "device_policy": [
+                                {
+                                  "os_constraints": [
+                                    {
+                                      "os_type": "DESKTOP_CHROME_OS"
+                                    }
+                                  ],
+                                  "require_screen_lock": true
+                                }
+                              ],
+                              "regions": [
+                                "CH",
+                                "IT",
+                                "US"
+                              ]
+                            }
+                          ]
+                        }
+                      ],
+                      "name": "accessPolicies/${google_access_context_manager_access_policy.access-policy.name}/accessLevels/tf_test_chromeos_no_lock",
+                      "parent": "accessPolicies/${google_access_context_manager_access_policy.access-policy.name}",
+                      "title": "tf_test_chromeos_no_lock"
+                    }
+                google_access_context_manager_access_policy.access-policy: |-
+                    {
+                      "parent": "organizations/${google_project.project.org_id}",
+                      "title": "my policy"
+                    }
+                google_project.project: |-
+                    {
+                      "billing_account": "000000-0000000-0000000-000000",
+                      "name": "tf-test",
+                      "org_id": "123456789",
+                      "project_id": "tf-test"
+                    }
+        argumentDocs:
+            access_boundary_rule.availability_condition: |-
+                -
+                (Optional)
+                The availability condition further constrains the access allowed by the access boundary rule.
+                Structure is documented below.
+            access_boundary_rule.available_permissions: |-
+                -
+                (Optional)
+                A list of permissions that may be allowed for use on the specified resource.
+            access_boundary_rule.available_resource: |-
+                -
+                (Optional)
+                The full resource name of a Google Cloud resource entity.
+            availability_condition.description: |-
+                -
+                (Optional)
+                Description of the expression. This is a longer text which describes the expression,
+                e.g. when hovered over it in a UI.
+            availability_condition.display_name: |-
+                -
+                (Optional)
+                The display name of the rule.
+            availability_condition.expression: |-
+                -
+                (Required)
+                Textual representation of an expression in Common Expression Language syntax.
+            availability_condition.location: |-
+                -
+                (Optional)
+                String indicating the location of the expression for error reporting,
+                e.g. a file name and a position in the file.
+            availability_condition.title: |-
+                -
+                (Optional)
+                Title for the expression, i.e. a short string describing its purpose.
+                This can be used e.g. in UIs which allow to enter the expression.
+            create: '- Default is 20 minutes.'
+            delete: '- Default is 20 minutes.'
+            etag: |-
+                -
+                The hash of the resource. Used internally during updates.
+            id: '- an identifier for the resource with format {{parent}}/{{name}}'
+            name: |-
+                -
+                (Required)
+                The name of the policy.
+            parent: |-
+                -
+                (Required)
+                The attachment point is identified by its URL-encoded full resource name.
+            rules: |-
+                -
+                (Required)
+                Rules to be applied.
+                Structure is documented below.
+            rules.access_boundary_rule: |-
+                -
+                (Optional)
+                An access boundary rule in an IAM policy.
+                Structure is documented below.
+            rules.description: |-
+                -
+                (Optional)
+                The description of the rule.
+            update: '- Default is 20 minutes.'
         importStatements: []
     google_iam_deny_policy:
         subCategory: Cloud IAM
@@ -70409,7 +71903,8 @@ resources:
                 -
                 (Optional)
                 Refers to the "path length constraint" in Basic Constraints extension. For a CA certificate, this value describes the depth of
-                subordinate CA certificates that are allowed. If this value is less than 0, the request will fail.
+                subordinate CA certificates that are allowed. If this value is less than 0, the request will fail. Setting the value to 0
+                requires setting zero_max_issuer_path_length = true.
             ca_options.non_ca: |-
                 -
                 (Optional)
@@ -70419,7 +71914,7 @@ resources:
                 -
                 (Optional)
                 When true, the "path length constraint" in Basic Constraints extension will be set to 0.
-                if both max_issuer_path_length and zero_max_issuer_path_length are unset,
+                If both max_issuer_path_length and zero_max_issuer_path_length are unset,
                 the max path length will be omitted from the CA certificate.
             certificate_authority_id: |-
                 -
@@ -71107,10 +72602,12 @@ resources:
                     }
         argumentDocs:
             auto_create_network: |-
-                - (Optional) Create the 'default' network automatically.  Default true.
-                If set to false, the default network will be deleted.  Note that, for quota purposes, you
-                will still need to have 1 network slot available to create the project successfully, even if
-                you set auto_create_network to false, since the network will exist momentarily.
+                - (Optional) Controls whether the 'default' network exists on the project. Defaults
+                to true, where it is created. If set to false, the default network will still be created by GCP but
+                will be deleted immediately by Terraform. Therefore, for quota purposes, you will still need to have 1
+                network slot available to create the project successfully, even if you set auto_create_network to
+                false. Note that when false, Terraform enables compute.googleapis.com on the project to interact
+                with the GCE API and currently leaves it enabled.
             billing_account: |-
                 - (Optional) The alphanumeric ID of the billing account this project
                 belongs to. The user or service account performing this operation with Terraform
@@ -74983,7 +76480,7 @@ resources:
             connection_name: |-
                 - The connection name of the instance to be used in
                 connection strings. For example, when connecting with Cloud SQL Proxy.
-            create: '- Default is 30 minutes.'
+            create: '- Default is 40 minutes.'
             database_version: |-
                 - (Required) The MySQL, PostgreSQL or
                 SQL Server version to use. Supported values include MYSQL_5_6,
@@ -75012,6 +76509,7 @@ resources:
                 - The first IPv4 address of any type assigned. This is to
                 support accessing the first address in the list in a terraform output
                 when the resource is configured with a count.
+            instance_type: '- The type of the instance. The supported values are SQL_INSTANCE_TYPE_UNSPECIFIED, CLOUD_SQL_INSTANCE, ON_PREMISES_INSTANCE and READ_REPLICA_INSTANCE.'
             ip_address.0.ip_address: '- The IPv4 address assigned.'
             ip_address.0.time_to_retire: |-
                 - The time this IP address will be retired, in RFC
@@ -75109,7 +76607,7 @@ resources:
                 instance, high availability (REGIONAL) or single zone (ZONAL).' For all instances, ensure that
                 settings.backup_configuration.enabled is set to true.
                 For MySQL instances, ensure that settings.backup_configuration.binary_log_enabled is set to true.
-                For Postgres instances, ensure that settings.backup_configuration.point_in_time_recovery_enabled
+                For Postgres and SQL Server instances, ensure that settings.backup_configuration.point_in_time_recovery_enabled
                 is set to true. Defaults to ZONAL.
             settings.backup_configuration.backup_retention_settings: '- (Optional) Backup retention settings. The configuration is detailed below.'
             settings.backup_configuration.backup_retention_settings.retained_backups: |-
@@ -75121,7 +76619,7 @@ resources:
                 Can only be used with MySQL.
             settings.backup_configuration.enabled: '- (Optional) True if backup configuration is enabled.'
             settings.backup_configuration.location: '- (Optional) The region where the backup will be stored'
-            settings.backup_configuration.point_in_time_recovery_enabled: '- (Optional) True if Point-in-time recovery is enabled. Will restart database if enabled after instance creation. Valid only for PostgreSQL instances.'
+            settings.backup_configuration.point_in_time_recovery_enabled: '- (Optional) True if Point-in-time recovery is enabled. Will restart database if enabled after instance creation. Valid only for PostgreSQL and SQL Server instances.'
             settings.backup_configuration.start_time: |-
                 - (Optional) HH:MM format time indicating when backup
                 configuration starts.
@@ -75206,12 +76704,27 @@ resources:
               manifest: |-
                 {
                   "database_version": "MYSQL_8_0",
+                  "dump_file_path": "gs://replica-bucket/source-database.sql.gz",
                   "host": "10.20.30.40",
                   "name": "my-instance",
+                  "password": "password-for-the-user",
                   "port": 3306,
-                  "region": "us-central1"
+                  "region": "us-central1",
+                  "username": "some-user"
                 }
         argumentDocs:
+            ca_certificate: |-
+                -
+                (Optional)
+                The CA certificate on the external server. Include only if SSL/TLS is used on the external server.
+            client_certificate: |-
+                -
+                (Optional)
+                The client certificate on the external server. Required only for server-client authentication. Include only if SSL/TLS is used on the external server.
+            client_key: |-
+                -
+                (Optional)
+                The private key file for the client certificate on the external server. Required only for server-client authentication. Include only if SSL/TLS is used on the external server.
             create: '- Default is 20 minutes.'
             database_version: |-
                 -
@@ -75219,6 +76732,10 @@ resources:
                 The MySQL version running on your source database server.
                 Possible values are MYSQL_5_5, MYSQL_5_6, MYSQL_5_7, and MYSQL_8_0.
             delete: '- Default is 20 minutes.'
+            dump_file_path: |-
+                -
+                (Optional)
+                A file in the bucket that contains the data from the external server.
             host: |-
                 -
                 (Required)
@@ -75228,6 +76745,11 @@ resources:
                 -
                 (Required)
                 The name of the source representation instance. Use any valid Cloud SQL instance name.
+            password: |-
+                -
+                (Optional)
+                The password for the replication user account.
+                Note: This property is sensitive and will not be displayed in the plan.
             port: |-
                 -
                 (Optional)
@@ -75241,6 +76763,10 @@ resources:
                 (Optional)
                 The Region in which the created instance should reside.
                 If it is not provided, the provider region is used.
+            username: |-
+                -
+                (Optional)
+                The replication user account on the external server.
         importStatements: []
     google_sql_ssl_cert:
         subCategory: Cloud SQL
@@ -75366,7 +76892,7 @@ resources:
                 for Postgres, where users cannot be deleted from the API if they have been granted SQL roles.
             host: |-
                 - (Optional) The host the user can connect from. This is only supported
-                for MySQL instances. Don't set this field for PostgreSQL instances.
+                for BUILT_IN users in MySQL instances. Don't set this field for PostgreSQL and SQL Server instances.
                 Can be an IP address. Changing this forces a new resource to be created.
             instance: |-
                 - (Required) The name of the Cloud SQL instance. Changing this
@@ -75377,7 +76903,8 @@ resources:
             password: |-
                 - (Optional) The password for the user. Can be updated. For Postgres
                 instances this is a Required field, unless type is set to either CLOUD_IAM_USER
-                or CLOUD_IAM_SERVICE_ACCOUNT.
+                or CLOUD_IAM_SERVICE_ACCOUNT. Don't set this field for CLOUD_IAM_USER
+                and CLOUD_IAM_SERVICE_ACCOUNT user types for any Cloud SQL instance.
             password_policy.allowed_failed_attempts: '- (Optional) Number of failed attempts allowed before the user get locked.'
             password_policy.enable_failed_attempts_check: '- (Optional) If true, the check that will lock user after too many failed login attempts will be enabled.'
             password_policy.enable_password_verification: '- (Optional) If true, the user must specify the current password before changing the password. This flag is supported only for MySQL.'
@@ -76296,6 +77823,58 @@ resources:
             transfer_spec.posix_data_source: '- (Optional) A POSIX filesystem data source. Structure documented below.'
             transfer_spec.transfer_options: '- (Optional) Characteristics of how to treat files from datasource and sink during job. If the option delete_objects_unique_in_sink is true, object conditions based on objects'' last_modification_time are ignored and do not exclude objects in a data source or a data sink. Structure documented below.'
         importStatements: []
+    google_tags_location_tag_binding:
+        subCategory: Tags
+        description: A LocationTagBinding represents a connection between a TagValue and a Regional cloud resources.
+        name: google_tags_location_tag_binding
+        title: google_tags_location_tag_binding
+        examples:
+            - name: binding
+              manifest: |-
+                {
+                  "location": "us-central1",
+                  "parent": "//run.googleapis.com/projects/${data.google_project.project.number}/locations/${google_cloud_run_service.default.location}/services/${google_cloud_run_service.default.name}",
+                  "tag_value": "tagValues/${google_tags_tag_value.value.name}"
+                }
+              dependencies:
+                google_project.project: |-
+                    {
+                      "name": "project_id",
+                      "org_id": "123456789",
+                      "project_id": "project_id"
+                    }
+                google_tags_tag_key.key: |-
+                    {
+                      "description": "For keyname resources.",
+                      "parent": "organizations/123456789",
+                      "short_name": "keyname"
+                    }
+                google_tags_tag_value.value: |-
+                    {
+                      "description": "For valuename resources.",
+                      "parent": "tagKeys/${google_tags_tag_key.key.name}",
+                      "short_name": "valuename"
+                    }
+        argumentDocs:
+            create: '- Default is 20 minutes.'
+            delete: '- Default is 20 minutes.'
+            id: '- an identifier for the resource with format {{location}}/{{name}}'
+            location: |-
+                -
+                (Required)
+                Location of the resource.
+            name: |-
+                -
+                The generated id for the TagBinding. This is a string of the form: tagBindings/{parent}/{tag-value-name}
+            parent: |-
+                -
+                (Required)
+                The full resource name of the resource the TagValue is bound to. E.g. //cloudresourcemanager.googleapis.com/projects/123
+            tag_value: |-
+                -
+                (Required)
+                The TagValue of the TagBinding. Must be of the form tagValues/456.
+        importStatements: []
     google_tags_tag_binding:
         subCategory: Tags
         description: A TagBinding represents a connection between a TagValue and a cloud resource (currently project, folder, or organization).
@@ -76934,6 +78513,31 @@ resources:
                   ],
                   "region": "us-central1"
                 }
+            - name: featurestore
+              manifest: |-
+                {
+                  "encryption_spec": [
+                    {
+                      "kms_key_name": "kms-name"
+                    }
+                  ],
+                  "force_destroy": true,
+                  "labels": {
+                    "foo": "bar"
+                  },
+                  "name": "terraform",
+                  "online_serving_config": [
+                    {
+                      "scaling": [
+                        {
+                          "max_node_count": 10,
+                          "min_node_count": 2
+                        }
+                      ]
+                    }
+                  ],
+                  "region": "us-central1"
+                }
         argumentDocs:
             create: '- Default is 20 minutes.'
             create_time: |-
@@ -76969,8 +78573,13 @@ resources:
                 Structure is documented below.
             online_serving_config.fixed_node_count: |-
                 -
-                (Required)
+                (Optional)
                 The number of nodes for each cluster. The number of nodes will not scale automatically but can be scaled manually by providing different values when updating.
+            online_serving_config.scaling: |-
+                -
+                (Optional)
+                Online serving scaling configuration. Only one of fixedNodeCount and scaling can be set. Setting one will reset the other.
+                Structure is documented below.
             project: |-
                 - (Optional) The ID of the project in which the resource belongs.
                 If it is not provided, the provider project is used.
@@ -76978,6 +78587,14 @@ resources:
                 -
                 (Optional)
                 The region of the dataset. eg us-central1
+            scaling.max_node_count: |-
+                -
+                (Required)
+                The maximum number of nodes to scale up to. Must be greater than minNodeCount, and less than or equal to 10 times of 'minNodeCount'.
+            scaling.min_node_count: |-
+                -
+                (Required)
+                The minimum number of nodes to scale down to. Must be greater than or equal to 1.
             update: '- Default is 20 minutes.'
             update_time: |-
                 -

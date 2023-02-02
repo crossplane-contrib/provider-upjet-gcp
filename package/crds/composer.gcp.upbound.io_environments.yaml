@@ -164,8 +164,9 @@ spec:
                                   type: object
                                 type: array
                               enabled:
-                                description: Whether or not master authorized networks
-                                  is enabled.
+                                description: When enabled, Cloud Composer periodically
+                                  saves snapshots of your environment to a Cloud Storage
+                                  bucket.
                                 type: boolean
                             required:
                             - enabled
@@ -597,6 +598,42 @@ spec:
                                 type: string
                             type: object
                           type: array
+                        recoveryConfig:
+                          description: The configuration settings for recovery. Structure
+                            is documented below.
+                          items:
+                            properties:
+                              scheduledSnapshotsConfig:
+                                description: The recovery configuration settings for
+                                  the Cloud Composer environment.
+                                items:
+                                  properties:
+                                    enabled:
+                                      description: When enabled, Cloud Composer periodically
+                                        saves snapshots of your environment to a Cloud
+                                        Storage bucket.
+                                      type: boolean
+                                    snapshotCreationSchedule:
+                                      description: Snapshot schedule, in the unix-cron
+                                        format.
+                                      type: string
+                                    snapshotLocation:
+                                      description: The URI of a bucket folder where
+                                        to save the snapshot.
+                                      type: string
+                                    timeZone:
+                                      description: 'A time zone for the schedule.
+                                        This value is a time offset and does not take
+                                        into account daylight saving time changes.
+                                        Valid values are from UTC-12 to UTC+12. Examples:
+                                        UTC, UTC-01, UTC+03.'
+                                      type: string
+                                  required:
+                                  - enabled
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
                         softwareConfig:
                           description: The configuration settings for software inside
                             the environment.  Structure is documented below.
@@ -705,7 +742,7 @@ spec:
                                 items:
                                   properties:
                                     count:
-                                      description: The number of schedulers.
+                                      description: The number of Airflow triggerers.
                                       type: number
                                     cpu:
                                       description: The number of CPUs for a single

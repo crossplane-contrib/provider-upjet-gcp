@@ -35,6 +35,11 @@ type AddonsConfigParameters struct {
 	CloudrunConfig []CloudrunConfigParameters `json:"cloudrunConfig,omitempty" tf:"cloudrun_config,omitempty"`
 
 	// .
+	// The status of the ConfigConnector addon. It is disabled by default; Set enabled = true to enable.
+	// +kubebuilder:validation:Optional
+	ConfigConnectorConfig []ConfigConnectorConfigParameters `json:"configConnectorConfig,omitempty" tf:"config_connector_config,omitempty"`
+
+	// .
 	// The status of the NodeLocal DNSCache addon. It is disabled by default.
 	// Set enabled = true to enable.
 	// +kubebuilder:validation:Optional
@@ -698,6 +703,16 @@ type ConfidentialNodesParameters struct {
 	Enabled *bool `json:"enabled" tf:"enabled,omitempty"`
 }
 
+type ConfigConnectorConfigObservation struct {
+}
+
+type ConfigConnectorConfigParameters struct {
+
+	// Enables vertical pod autoscaling
+	// +kubebuilder:validation:Required
+	Enabled *bool `json:"enabled" tf:"enabled,omitempty"`
+}
+
 type CostManagementConfigObservation struct {
 }
 
@@ -961,6 +976,42 @@ type IPAllocationPolicyParameters struct {
 	ServicesSecondaryRangeName *string `json:"servicesSecondaryRangeName,omitempty" tf:"services_secondary_range_name,omitempty"`
 }
 
+type KubeletConfigObservation struct {
+}
+
+type KubeletConfigParameters struct {
+
+	// If true, enables CPU CFS quota enforcement for
+	// containers that specify CPU limits.
+	// +kubebuilder:validation:Optional
+	CPUCfsQuota *bool `json:"cpuCfsQuota,omitempty" tf:"cpu_cfs_quota,omitempty"`
+
+	// The CPU CFS quota period value. Specified
+	// as a sequence of decimal numbers, each with optional fraction and a unit suffix,
+	// such as "300ms". Valid time units are "ns", "us" (or "µs"), "ms", "s", "m",
+	// "h". The value must be a positive duration.
+	// +kubebuilder:validation:Optional
+	CPUCfsQuotaPeriod *string `json:"cpuCfsQuotaPeriod,omitempty" tf:"cpu_cfs_quota_period,omitempty"`
+
+	// The CPU management policy on the node. See
+	// K8S CPU Management Policies.
+	// One of "none" or "static". Defaults to none when kubelet_config is unset.
+	// +kubebuilder:validation:Required
+	CPUManagerPolicy *string `json:"cpuManagerPolicy" tf:"cpu_manager_policy,omitempty"`
+}
+
+type LinuxNodeConfigObservation struct {
+}
+
+type LinuxNodeConfigParameters struct {
+
+	// The Linux kernel parameters to be applied to the nodes
+	// and all pods running on the nodes. Specified as a map from the key, such as
+	// net.core.wmem_max, to a string value.
+	// +kubebuilder:validation:Required
+	Sysctls map[string]*string `json:"sysctls" tf:"sysctls,omitempty"`
+}
+
 type LoggingConfigObservation struct {
 }
 
@@ -1199,6 +1250,38 @@ type NodeConfigGvnicObservation struct {
 type NodeConfigGvnicParameters struct {
 }
 
+type NodeConfigKubeletConfigObservation struct {
+
+	// If true, enables CPU CFS quota enforcement for
+	// containers that specify CPU limits.
+	CPUCfsQuota *bool `json:"cpuCfsQuota,omitempty" tf:"cpu_cfs_quota,omitempty"`
+
+	// The CPU CFS quota period value. Specified
+	// as a sequence of decimal numbers, each with optional fraction and a unit suffix,
+	// such as "300ms". Valid time units are "ns", "us" (or "µs"), "ms", "s", "m",
+	// "h". The value must be a positive duration.
+	CPUCfsQuotaPeriod *string `json:"cpuCfsQuotaPeriod,omitempty" tf:"cpu_cfs_quota_period,omitempty"`
+
+	// The CPU management policy on the node. See
+	// K8S CPU Management Policies.
+	// One of "none" or "static". Defaults to none when kubelet_config is unset.
+	CPUManagerPolicy *string `json:"cpuManagerPolicy,omitempty" tf:"cpu_manager_policy,omitempty"`
+}
+
+type NodeConfigKubeletConfigParameters struct {
+}
+
+type NodeConfigLinuxNodeConfigObservation struct {
+
+	// The Linux kernel parameters to be applied to the nodes
+	// and all pods running on the nodes. Specified as a map from the key, such as
+	// net.core.wmem_max, to a string value.
+	Sysctls map[string]*string `json:"sysctls,omitempty" tf:"sysctls,omitempty"`
+}
+
+type NodeConfigLinuxNodeConfigParameters struct {
+}
+
 type NodeConfigObservation struct {
 }
 
@@ -1246,10 +1329,21 @@ type NodeConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	ImageType *string `json:"imageType,omitempty" tf:"image_type,omitempty"`
 
+	// Kubelet configuration, currently supported attributes can be found here.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	KubeletConfig []KubeletConfigParameters `json:"kubeletConfig,omitempty" tf:"kubelet_config,omitempty"`
+
 	// The Kubernetes labels (key/value pairs) to be applied to each node. The kubernetes.io/ and k8s.io/ prefixes are
 	// reserved by Kubernetes Core components and cannot be specified.
 	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// Linux node configuration, currently supported attributes can be found here.
+	// Note that validations happen all server side. All attributes are optional.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	LinuxNodeConfig []LinuxNodeConfigParameters `json:"linuxNodeConfig,omitempty" tf:"linux_node_config,omitempty"`
 
 	// The amount of local SSD disks that will be
 	// attached to each cluster node. Defaults to 0.
@@ -1460,9 +1554,18 @@ type NodePoolNodeConfigObservation struct {
 	// will delete and recreate all nodes in the node pool.
 	ImageType *string `json:"imageType,omitempty" tf:"image_type,omitempty"`
 
+	// Kubelet configuration, currently supported attributes can be found here.
+	// Structure is documented below.
+	KubeletConfig []NodeConfigKubeletConfigObservation `json:"kubeletConfig,omitempty" tf:"kubelet_config,omitempty"`
+
 	// The Kubernetes labels (key/value pairs) to be applied to each node. The kubernetes.io/ and k8s.io/ prefixes are
 	// reserved by Kubernetes Core components and cannot be specified.
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// Linux node configuration, currently supported attributes can be found here.
+	// Note that validations happen all server side. All attributes are optional.
+	// Structure is documented below.
+	LinuxNodeConfig []NodeConfigLinuxNodeConfigObservation `json:"linuxNodeConfig,omitempty" tf:"linux_node_config,omitempty"`
 
 	// The amount of local SSD disks that will be
 	// attached to each cluster node. Defaults to 0.

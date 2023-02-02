@@ -296,6 +296,9 @@ spec:
                   creationTimestamp:
                     description: Creation timestamp in RFC3339 text format.
                     type: string
+                  expireTime:
+                    description: Expire time of the certificate in RFC3339 text format.
+                    type: string
                   id:
                     description: an identifier for the resource with format projects/{{project}}/global/sslCertificates/{{name}}
                     type: string

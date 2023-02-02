@@ -77,7 +77,7 @@ type BackupConfigurationParameters struct {
 	// +kubebuilder:validation:Optional
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
-	// True if Point-in-time recovery is enabled. Will restart database if enabled after instance creation. Valid only for PostgreSQL instances.
+	// True if Point-in-time recovery is enabled. Will restart database if enabled after instance creation. Valid only for PostgreSQL and SQL Server instances.
 	// +kubebuilder:validation:Optional
 	PointInTimeRecoveryEnabled *bool `json:"pointInTimeRecoveryEnabled,omitempty" tf:"point_in_time_recovery_enabled,omitempty"`
 
@@ -154,6 +154,9 @@ type DatabaseInstanceObservation struct {
 
 	// The IPv4 address assigned.
 	IPAddress []IPAddressObservation `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
+
+	// The type of the instance. The supported values are SQL_INSTANCE_TYPE_UNSPECIFIED, CLOUD_SQL_INSTANCE, ON_PREMISES_INSTANCE and READ_REPLICA_INSTANCE.
+	InstanceType *string `json:"instanceType,omitempty" tf:"instance_type,omitempty"`
 
 	// The first private (PRIVATE) IPv4 address assigned.
 	PrivateIPAddress *string `json:"privateIpAddress,omitempty" tf:"private_ip_address,omitempty"`
@@ -558,7 +561,7 @@ type SettingsParameters struct {
 	// instance, high availability (REGIONAL) or single zone (ZONAL).' For all instances, ensure that
 	// settings.backup_configuration.enabled is set to true.
 	// For MySQL instances, ensure that settings.backup_configuration.binary_log_enabled is set to true.
-	// For Postgres instances, ensure that settings.backup_configuration.point_in_time_recovery_enabled
+	// For Postgres and SQL Server instances, ensure that settings.backup_configuration.point_in_time_recovery_enabled
 	// is set to true. Defaults to ZONAL.
 	// +kubebuilder:validation:Optional
 	AvailabilityType *string `json:"availabilityType,omitempty" tf:"availability_type,omitempty"`

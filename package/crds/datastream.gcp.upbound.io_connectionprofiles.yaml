@@ -149,8 +149,8 @@ spec:
                     description: Labels.
                     type: object
                   location:
-                    description: The name of the location this repository is located
-                      in.
+                    description: The name of the location this connection profile
+                      is located in.
                     type: string
                   mysqlProfile:
                     description: MySQL database profile. Structure is documented below.

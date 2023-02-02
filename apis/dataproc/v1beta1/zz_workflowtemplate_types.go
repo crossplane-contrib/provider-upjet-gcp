@@ -91,7 +91,7 @@ type ConfigGceClusterConfigParameters struct {
 
 	// Optional. Node Group Affinity for sole-tenant clusters.
 	// +kubebuilder:validation:Optional
-	NodeGroupAffinity []NodeGroupAffinityParameters `json:"nodeGroupAffinity,omitempty" tf:"node_group_affinity,omitempty"`
+	NodeGroupAffinity []GceClusterConfigNodeGroupAffinityParameters `json:"nodeGroupAffinity,omitempty" tf:"node_group_affinity,omitempty"`
 
 	// Optional. The type of IPv6 access for a cluster. Possible values: PRIVATE_IPV6_GOOGLE_ACCESS_UNSPECIFIED, INHERIT_FROM_SUBNETWORK, OUTBOUND, BIDIRECTIONAL
 	// +kubebuilder:validation:Optional
@@ -99,7 +99,7 @@ type ConfigGceClusterConfigParameters struct {
 
 	// Optional. Reservation Affinity for consuming Zonal reservation.
 	// +kubebuilder:validation:Optional
-	ReservationAffinity []ReservationAffinityParameters `json:"reservationAffinity,omitempty" tf:"reservation_affinity,omitempty"`
+	ReservationAffinity []GceClusterConfigReservationAffinityParameters `json:"reservationAffinity,omitempty" tf:"reservation_affinity,omitempty"`
 
 	// Optional. The (https://cloud.google.com/compute/docs/access/service-accounts#default_service_account) is used.
 	// +kubebuilder:validation:Optional
@@ -333,6 +333,34 @@ type ConfigWorkerConfigParameters struct {
 	// Optional. Specifies the preemptibility of the instance group. The default value for master and worker groups is NON_PREEMPTIBLE. This default cannot be changed. The default value for secondary instances is PREEMPTIBLE. Possible values: PREEMPTIBILITY_UNSPECIFIED, NON_PREEMPTIBLE, PREEMPTIBLE
 	// +kubebuilder:validation:Optional
 	Preemptibility *string `json:"preemptibility,omitempty" tf:"preemptibility,omitempty"`
+}
+
+type GceClusterConfigNodeGroupAffinityObservation struct {
+}
+
+type GceClusterConfigNodeGroupAffinityParameters struct {
+
+	// Required. The URI of a sole-tenant /zones/us-central1-a/nodeGroups/node-group-1*node-group-1`
+	// +kubebuilder:validation:Required
+	NodeGroup *string `json:"nodeGroup" tf:"node_group,omitempty"`
+}
+
+type GceClusterConfigReservationAffinityObservation struct {
+}
+
+type GceClusterConfigReservationAffinityParameters struct {
+
+	// Optional. Type of reservation to consume Possible values: TYPE_UNSPECIFIED, NO_RESERVATION, ANY_RESERVATION, SPECIFIC_RESERVATION
+	// +kubebuilder:validation:Optional
+	ConsumeReservationType *string `json:"consumeReservationType,omitempty" tf:"consume_reservation_type,omitempty"`
+
+	// Optional. Corresponds to the label key of reservation resource.
+	// +kubebuilder:validation:Optional
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	// Required. List of allowed values for the parameter.
+	// +kubebuilder:validation:Optional
+	Values []*string `json:"values,omitempty" tf:"values,omitempty"`
 }
 
 type GceClusterConfigShieldedInstanceConfigObservation struct {
@@ -657,16 +685,6 @@ type MasterConfigDiskConfigParameters struct {
 	NumLocalSsds *float64 `json:"numLocalSsds,omitempty" tf:"num_local_ssds,omitempty"`
 }
 
-type NodeGroupAffinityObservation struct {
-}
-
-type NodeGroupAffinityParameters struct {
-
-	// Required. The URI of a sole-tenant /zones/us-central1-a/nodeGroups/node-group-1*node-group-1`
-	// +kubebuilder:validation:Required
-	NodeGroup *string `json:"nodeGroup" tf:"node_group,omitempty"`
-}
-
 type ParametersObservation struct {
 }
 
@@ -863,24 +881,6 @@ type RegexParameters struct {
 	// Required. RE2 regular expressions used to validate the parameter's value. The value must match the regex in its entirety (substring matches are not sufficient).
 	// +kubebuilder:validation:Required
 	Regexes []*string `json:"regexes" tf:"regexes,omitempty"`
-}
-
-type ReservationAffinityObservation struct {
-}
-
-type ReservationAffinityParameters struct {
-
-	// Optional. Type of reservation to consume Possible values: TYPE_UNSPECIFIED, NO_RESERVATION, ANY_RESERVATION, SPECIFIC_RESERVATION
-	// +kubebuilder:validation:Optional
-	ConsumeReservationType *string `json:"consumeReservationType,omitempty" tf:"consume_reservation_type,omitempty"`
-
-	// Optional. Corresponds to the label key of reservation resource.
-	// +kubebuilder:validation:Optional
-	Key *string `json:"key,omitempty" tf:"key,omitempty"`
-
-	// Required. List of allowed values for the parameter.
-	// +kubebuilder:validation:Optional
-	Values []*string `json:"values,omitempty" tf:"values,omitempty"`
 }
 
 type SecondaryWorkerConfigAcceleratorsObservation struct {

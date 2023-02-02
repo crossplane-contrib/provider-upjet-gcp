@@ -105,7 +105,9 @@ spec:
                             type: object
                           type: array
                         clusterId:
-                          description: The ID of the Cloud Bigtable cluster.
+                          description: The ID of the Cloud Bigtable cluster. Must
+                            be 6-30 characters and must only contain hyphens, lowercase
+                            letters and numbers.
                           type: string
                         kmsKeyName:
                           description: 'Describes the Cloud KMS encryption key that
@@ -119,8 +121,8 @@ spec:
                           type: string
                         numNodes:
                           description: The number of nodes in your Cloud Bigtable
-                            cluster. Required, with a minimum of 1 for a PRODUCTION
-                            instance. Must be left unset for a DEVELOPMENT instance.
+                            cluster. Required, with a minimum of 1 for each cluster
+                            in an instance.
                           type: number
                         storageType:
                           description: The storage type to use. One of "SSD" or "HDD".

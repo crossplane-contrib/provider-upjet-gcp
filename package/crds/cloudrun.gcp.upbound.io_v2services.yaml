@@ -65,6 +65,11 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  annotations:
+                    additionalProperties:
+                      type: string
+                    description: KRM-style annotations for the resource.
+                    type: object
                   binaryAuthorization:
                     description: Settings for the Binary Authorization feature. Structure
                       is documented below.
@@ -122,6 +127,11 @@ spec:
                       Structure is documented below.
                     items:
                       properties:
+                        annotations:
+                          additionalProperties:
+                            type: string
+                          description: KRM-style annotations for the resource.
+                          type: object
                         containers:
                           description: Holds the single container that defines the
                             unit of execution for this task. Structure is documented

@@ -160,14 +160,13 @@ spec:
                                             items:
                                               properties:
                                                 context:
-                                                  description: 'The ''tweak'', a context
-                                                    may be used for higher security
-                                                    since the same identifier in two
-                                                    different contexts won''t be given
-                                                    the same surrogate. If the context
-                                                    is not set, a default tweak will
-                                                    be used. If the context is set
-                                                    but:'
+                                                  description: Points to the field
+                                                    that contains the context, for
+                                                    example, an entity id. If set,
+                                                    must also set cryptoKey. If set,
+                                                    shift will be consistent for the
+                                                    given context. Structure is documented
+                                                    below.
                                                   items:
                                                     properties:
                                                       name:
@@ -189,15 +188,34 @@ spec:
                                                     type: object
                                                   type: array
                                                 cryptoKey:
-                                                  description: The key used by the
-                                                    encryption algorithm. Structure
+                                                  description: Causes the shift to
+                                                    be computed based on this key
+                                                    and the context. This results
+                                                    in the same shift for the same
+                                                    context and cryptoKey. If set,
+                                                    must also set context. Can only
+                                                    be applied to table items. Structure
                                                     is documented below.
                                                   items:
                                                     properties:
                                                       kmsWrapped:
-                                                        description: Kms wrapped key
-                                                          Structure is documented
-                                                          below.
+                                                        description: 'KMS wrapped
+                                                          key. Include to use an existing
+                                                          data crypto key wrapped
+                                                          by KMS. The wrapped key
+                                                          must be a 128-, 192-, or
+                                                          256-bit key. Authorization
+                                                          requires the following IAM
+                                                          permissions when sending
+                                                          a request to perform a crypto
+                                                          transformation using a KMS-wrapped
+                                                          crypto key: dlp.kms.encrypt
+                                                          For more information, see
+                                                          Creating a wrapped key.
+                                                          Note: When you use Cloud
+                                                          KMS for cryptographic operations,
+                                                          charges apply. Structure
+                                                          is documented below.'
                                                         items:
                                                           properties:
                                                             cryptoKeyName:
@@ -217,8 +235,11 @@ spec:
                                                         type: array
                                                       transient:
                                                         description: Transient crypto
-                                                          key Structure is documented
-                                                          below.
+                                                          key. Use this to have a
+                                                          random data crypto key generated.
+                                                          It will be discarded after
+                                                          the request finishes. Structure
+                                                          is documented below.
                                                         items:
                                                           properties:
                                                             name:
@@ -246,8 +267,12 @@ spec:
                                                         type: array
                                                       unwrapped:
                                                         description: Unwrapped crypto
-                                                          key Structure is documented
-                                                          below.
+                                                          key. Using raw keys is prone
+                                                          to security risks due to
+                                                          accidentally leaking the
+                                                          key. Choose another type
+                                                          of key if possible. Structure
+                                                          is documented below.
                                                         items:
                                                           properties:
                                                             key:
@@ -319,6 +344,10 @@ spec:
                                                           in a different key being
                                                           generated).'
                                                         type: string
+                                                      version:
+                                                        description: Optional version
+                                                          name for this InfoType.
+                                                        type: string
                                                     type: object
                                                   type: array
                                               type: object
@@ -354,14 +383,13 @@ spec:
                                                     and ALPHA_NUMERIC.
                                                   type: string
                                                 context:
-                                                  description: 'The ''tweak'', a context
-                                                    may be used for higher security
-                                                    since the same identifier in two
-                                                    different contexts won''t be given
-                                                    the same surrogate. If the context
-                                                    is not set, a default tweak will
-                                                    be used. If the context is set
-                                                    but:'
+                                                  description: Points to the field
+                                                    that contains the context, for
+                                                    example, an entity id. If set,
+                                                    must also set cryptoKey. If set,
+                                                    shift will be consistent for the
+                                                    given context. Structure is documented
+                                                    below.
                                                   items:
                                                     properties:
                                                       name:
@@ -383,15 +411,34 @@ spec:
                                                     type: object
                                                   type: array
                                                 cryptoKey:
-                                                  description: The key used by the
-                                                    encryption algorithm. Structure
+                                                  description: Causes the shift to
+                                                    be computed based on this key
+                                                    and the context. This results
+                                                    in the same shift for the same
+                                                    context and cryptoKey. If set,
+                                                    must also set context. Can only
+                                                    be applied to table items. Structure
                                                     is documented below.
                                                   items:
                                                     properties:
                                                       kmsWrapped:
-                                                        description: Kms wrapped key
-                                                          Structure is documented
-                                                          below.
+                                                        description: 'KMS wrapped
+                                                          key. Include to use an existing
+                                                          data crypto key wrapped
+                                                          by KMS. The wrapped key
+                                                          must be a 128-, 192-, or
+                                                          256-bit key. Authorization
+                                                          requires the following IAM
+                                                          permissions when sending
+                                                          a request to perform a crypto
+                                                          transformation using a KMS-wrapped
+                                                          crypto key: dlp.kms.encrypt
+                                                          For more information, see
+                                                          Creating a wrapped key.
+                                                          Note: When you use Cloud
+                                                          KMS for cryptographic operations,
+                                                          charges apply. Structure
+                                                          is documented below.'
                                                         items:
                                                           properties:
                                                             cryptoKeyName:
@@ -411,8 +458,11 @@ spec:
                                                         type: array
                                                       transient:
                                                         description: Transient crypto
-                                                          key Structure is documented
-                                                          below.
+                                                          key. Use this to have a
+                                                          random data crypto key generated.
+                                                          It will be discarded after
+                                                          the request finishes. Structure
+                                                          is documented below.
                                                         items:
                                                           properties:
                                                             name:
@@ -440,8 +490,12 @@ spec:
                                                         type: array
                                                       unwrapped:
                                                         description: Unwrapped crypto
-                                                          key Structure is documented
-                                                          below.
+                                                          key. Using raw keys is prone
+                                                          to security risks due to
+                                                          accidentally leaking the
+                                                          key. Choose another type
+                                                          of key if possible. Structure
+                                                          is documented below.
                                                         items:
                                                           properties:
                                                             key:
@@ -532,6 +586,10 @@ spec:
                                                           the api call will result
                                                           in a different key being
                                                           generated).'
+                                                        type: string
+                                                      version:
+                                                        description: Optional version
+                                                          name for this InfoType.
                                                         type: string
                                                     type: object
                                                   type: array
@@ -958,6 +1016,410 @@ spec:
                                         documented below.
                                       items:
                                         properties:
+                                          bucketingConfig:
+                                            description: 'Generalization function
+                                              that buckets values based on ranges.
+                                              The ranges and replacement values are
+                                              dynamically provided by the user for
+                                              custom behavior, such as 1-30 -> LOW
+                                              31-65 -> MEDIUM 66-100 -> HIGH This
+                                              can be used on data of type: number,
+                                              long, string, timestamp. If the provided
+                                              value type differs from the type of
+                                              data being transformed, we will first
+                                              attempt converting the type of the data
+                                              to be transformed to match the type
+                                              of the bound before comparing. See https://cloud.google.com/dlp/docs/concepts-bucketing
+                                              to learn more. Structure is documented
+                                              below.'
+                                            items:
+                                              properties:
+                                                buckets:
+                                                  description: Set of buckets. Ranges
+                                                    must be non-overlapping. Bucket
+                                                    is represented as a range, along
+                                                    with replacement values. Structure
+                                                    is documented below.
+                                                  items:
+                                                    properties:
+                                                      max:
+                                                        description: Upper bound of
+                                                          the range, exclusive; type
+                                                          must match min. The max
+                                                          block must only contain
+                                                          one argument. See the bucketing_config
+                                                          block description for more
+                                                          information about choosing
+                                                          a data type. Structure is
+                                                          documented below.
+                                                        items:
+                                                          properties:
+                                                            booleanValue:
+                                                              description: A boolean
+                                                                value.
+                                                              type: boolean
+                                                            dateValue:
+                                                              description: Represents
+                                                                a whole or partial
+                                                                calendar date. Structure
+                                                                is documented below.
+                                                              items:
+                                                                properties:
+                                                                  day:
+                                                                    description: Day
+                                                                      of month. Must
+                                                                      be from 1 to
+                                                                      31 and valid
+                                                                      for the year
+                                                                      and month, or
+                                                                      0 if specifying
+                                                                      a year by itself
+                                                                      or a year and
+                                                                      month where
+                                                                      the day is not
+                                                                      significant.
+                                                                    type: number
+                                                                  month:
+                                                                    description: Month
+                                                                      of year. Must
+                                                                      be from 1 to
+                                                                      12, or 0 if
+                                                                      specifying a
+                                                                      year without
+                                                                      a month and
+                                                                      day.
+                                                                    type: number
+                                                                  year:
+                                                                    description: Year
+                                                                      of date. Must
+                                                                      be from 1 to
+                                                                      9999, or 0 if
+                                                                      specifying a
+                                                                      date without
+                                                                      a year.
+                                                                    type: number
+                                                                type: object
+                                                              type: array
+                                                            dayOfWeekValue:
+                                                              description: Represents
+                                                                a day of the week.
+                                                                Possible values are
+                                                                MONDAY, TUESDAY, WEDNESDAY,
+                                                                THURSDAY, FRIDAY,
+                                                                SATURDAY, and SUNDAY.
+                                                              type: string
+                                                            floatValue:
+                                                              description: A float
+                                                                value.
+                                                              type: number
+                                                            integerValue:
+                                                              description: An integer
+                                                                value (int64 format)
+                                                              type: string
+                                                            stringValue:
+                                                              description: A string
+                                                                value.
+                                                              type: string
+                                                            timeValue:
+                                                              description: Represents
+                                                                a time of day. Structure
+                                                                is documented below.
+                                                              items:
+                                                                properties:
+                                                                  hours:
+                                                                    description: Hours
+                                                                      of day in 24
+                                                                      hour format.
+                                                                      Should be from
+                                                                      0 to 23.
+                                                                    type: number
+                                                                  minutes:
+                                                                    description: Minutes
+                                                                      of hour of day.
+                                                                      Must be from
+                                                                      0 to 59.
+                                                                    type: number
+                                                                  nanos:
+                                                                    description: Fractions
+                                                                      of seconds in
+                                                                      nanoseconds.
+                                                                      Must be from
+                                                                      0 to 999,999,999.
+                                                                    type: number
+                                                                  seconds:
+                                                                    description: Seconds
+                                                                      of minutes of
+                                                                      the time. Must
+                                                                      normally be
+                                                                      from 0 to 59.
+                                                                    type: number
+                                                                type: object
+                                                              type: array
+                                                            timestampValue:
+                                                              description: 'A timestamp
+                                                                in RFC3339 UTC "Zulu"
+                                                                format, with nanosecond
+                                                                resolution and up
+                                                                to nine fractional
+                                                                digits. Examples:
+                                                                "2014-10-02T15:01:23Z"
+                                                                and "2014-10-02T15:01:23.045123456Z".'
+                                                              type: string
+                                                          type: object
+                                                        type: array
+                                                      min:
+                                                        description: Lower bound of
+                                                          the range, inclusive. Type
+                                                          should be the same as max
+                                                          if used. The min block must
+                                                          only contain one argument.
+                                                          See the bucketing_config
+                                                          block description for more
+                                                          information about choosing
+                                                          a data type. Structure is
+                                                          documented below.
+                                                        items:
+                                                          properties:
+                                                            booleanValue:
+                                                              description: A boolean
+                                                                value.
+                                                              type: boolean
+                                                            dateValue:
+                                                              description: Represents
+                                                                a whole or partial
+                                                                calendar date. Structure
+                                                                is documented below.
+                                                              items:
+                                                                properties:
+                                                                  day:
+                                                                    description: Day
+                                                                      of month. Must
+                                                                      be from 1 to
+                                                                      31 and valid
+                                                                      for the year
+                                                                      and month, or
+                                                                      0 if specifying
+                                                                      a year by itself
+                                                                      or a year and
+                                                                      month where
+                                                                      the day is not
+                                                                      significant.
+                                                                    type: number
+                                                                  month:
+                                                                    description: Month
+                                                                      of year. Must
+                                                                      be from 1 to
+                                                                      12, or 0 if
+                                                                      specifying a
+                                                                      year without
+                                                                      a month and
+                                                                      day.
+                                                                    type: number
+                                                                  year:
+                                                                    description: Year
+                                                                      of date. Must
+                                                                      be from 1 to
+                                                                      9999, or 0 if
+                                                                      specifying a
+                                                                      date without
+                                                                      a year.
+                                                                    type: number
+                                                                type: object
+                                                              type: array
+                                                            dayOfWeekValue:
+                                                              description: Represents
+                                                                a day of the week.
+                                                                Possible values are
+                                                                MONDAY, TUESDAY, WEDNESDAY,
+                                                                THURSDAY, FRIDAY,
+                                                                SATURDAY, and SUNDAY.
+                                                              type: string
+                                                            floatValue:
+                                                              description: A float
+                                                                value.
+                                                              type: number
+                                                            integerValue:
+                                                              description: An integer
+                                                                value (int64 format)
+                                                              type: string
+                                                            stringValue:
+                                                              description: A string
+                                                                value.
+                                                              type: string
+                                                            timeValue:
+                                                              description: Represents
+                                                                a time of day. Structure
+                                                                is documented below.
+                                                              items:
+                                                                properties:
+                                                                  hours:
+                                                                    description: Hours
+                                                                      of day in 24
+                                                                      hour format.
+                                                                      Should be from
+                                                                      0 to 23.
+                                                                    type: number
+                                                                  minutes:
+                                                                    description: Minutes
+                                                                      of hour of day.
+                                                                      Must be from
+                                                                      0 to 59.
+                                                                    type: number
+                                                                  nanos:
+                                                                    description: Fractions
+                                                                      of seconds in
+                                                                      nanoseconds.
+                                                                      Must be from
+                                                                      0 to 999,999,999.
+                                                                    type: number
+                                                                  seconds:
+                                                                    description: Seconds
+                                                                      of minutes of
+                                                                      the time. Must
+                                                                      normally be
+                                                                      from 0 to 59.
+                                                                    type: number
+                                                                type: object
+                                                              type: array
+                                                            timestampValue:
+                                                              description: 'A timestamp
+                                                                in RFC3339 UTC "Zulu"
+                                                                format, with nanosecond
+                                                                resolution and up
+                                                                to nine fractional
+                                                                digits. Examples:
+                                                                "2014-10-02T15:01:23Z"
+                                                                and "2014-10-02T15:01:23.045123456Z".'
+                                                              type: string
+                                                          type: object
+                                                        type: array
+                                                      replacementValue:
+                                                        description: Replacement value
+                                                          for this bucket. The replacement_value
+                                                          block must only contain
+                                                          one argument. Structure
+                                                          is documented below.
+                                                        items:
+                                                          properties:
+                                                            booleanValue:
+                                                              description: A boolean
+                                                                value.
+                                                              type: boolean
+                                                            dateValue:
+                                                              description: Represents
+                                                                a whole or partial
+                                                                calendar date. Structure
+                                                                is documented below.
+                                                              items:
+                                                                properties:
+                                                                  day:
+                                                                    description: Day
+                                                                      of month. Must
+                                                                      be from 1 to
+                                                                      31 and valid
+                                                                      for the year
+                                                                      and month, or
+                                                                      0 if specifying
+                                                                      a year by itself
+                                                                      or a year and
+                                                                      month where
+                                                                      the day is not
+                                                                      significant.
+                                                                    type: number
+                                                                  month:
+                                                                    description: Month
+                                                                      of year. Must
+                                                                      be from 1 to
+                                                                      12, or 0 if
+                                                                      specifying a
+                                                                      year without
+                                                                      a month and
+                                                                      day.
+                                                                    type: number
+                                                                  year:
+                                                                    description: Year
+                                                                      of date. Must
+                                                                      be from 1 to
+                                                                      9999, or 0 if
+                                                                      specifying a
+                                                                      date without
+                                                                      a year.
+                                                                    type: number
+                                                                type: object
+                                                              type: array
+                                                            dayOfWeekValue:
+                                                              description: Represents
+                                                                a day of the week.
+                                                                Possible values are
+                                                                MONDAY, TUESDAY, WEDNESDAY,
+                                                                THURSDAY, FRIDAY,
+                                                                SATURDAY, and SUNDAY.
+                                                              type: string
+                                                            floatValue:
+                                                              description: A float
+                                                                value.
+                                                              type: number
+                                                            integerValue:
+                                                              description: An integer
+                                                                value (int64 format)
+                                                              type: string
+                                                            stringValue:
+                                                              description: A string
+                                                                value.
+                                                              type: string
+                                                            timeValue:
+                                                              description: Represents
+                                                                a time of day. Structure
+                                                                is documented below.
+                                                              items:
+                                                                properties:
+                                                                  hours:
+                                                                    description: Hours
+                                                                      of day in 24
+                                                                      hour format.
+                                                                      Should be from
+                                                                      0 to 23.
+                                                                    type: number
+                                                                  minutes:
+                                                                    description: Minutes
+                                                                      of hour of day.
+                                                                      Must be from
+                                                                      0 to 59.
+                                                                    type: number
+                                                                  nanos:
+                                                                    description: Fractions
+                                                                      of seconds in
+                                                                      nanoseconds.
+                                                                      Must be from
+                                                                      0 to 999,999,999.
+                                                                    type: number
+                                                                  seconds:
+                                                                    description: Seconds
+                                                                      of minutes of
+                                                                      the time. Must
+                                                                      normally be
+                                                                      from 0 to 59.
+                                                                    type: number
+                                                                type: object
+                                                              type: array
+                                                            timestampValue:
+                                                              description: 'A timestamp
+                                                                in RFC3339 UTC "Zulu"
+                                                                format, with nanosecond
+                                                                resolution and up
+                                                                to nine fractional
+                                                                digits. Examples:
+                                                                "2014-10-02T15:01:23Z"
+                                                                and "2014-10-02T15:01:23.045123456Z".'
+                                                              type: string
+                                                          type: object
+                                                        type: array
+                                                    required:
+                                                    - replacementValue
+                                                    type: object
+                                                  type: array
+                                              type: object
+                                            type: array
                                           characterMaskConfig:
                                             description: Partially mask a string by
                                               replacing a given number of characters
@@ -993,6 +1455,979 @@ spec:
                                                 reverseOrder:
                                                   description: is false
                                                   type: boolean
+                                              type: object
+                                            type: array
+                                          cryptoDeterministicConfig:
+                                            description: Pseudonymization method that
+                                              generates deterministic encryption for
+                                              the given input. Outputs a base64 encoded
+                                              representation of the encrypted output.
+                                              Uses AES-SIV based on the RFC https://tools.ietf.org/html/rfc5297.
+                                              Structure is documented below.
+                                            items:
+                                              properties:
+                                                context:
+                                                  description: Points to the field
+                                                    that contains the context, for
+                                                    example, an entity id. If set,
+                                                    must also set cryptoKey. If set,
+                                                    shift will be consistent for the
+                                                    given context. Structure is documented
+                                                    below.
+                                                  items:
+                                                    properties:
+                                                      name:
+                                                        description: 'Name of the
+                                                          key. This is an arbitrary
+                                                          string used to differentiate
+                                                          different keys. A unique
+                                                          key is generated per name:
+                                                          two separate TransientCryptoKey
+                                                          protos share the same generated
+                                                          key if their names are the
+                                                          same. When the data crypto
+                                                          key is generated, this name
+                                                          is not used in any way (repeating
+                                                          the api call will result
+                                                          in a different key being
+                                                          generated).'
+                                                        type: string
+                                                    type: object
+                                                  type: array
+                                                cryptoKey:
+                                                  description: Causes the shift to
+                                                    be computed based on this key
+                                                    and the context. This results
+                                                    in the same shift for the same
+                                                    context and cryptoKey. If set,
+                                                    must also set context. Can only
+                                                    be applied to table items. Structure
+                                                    is documented below.
+                                                  items:
+                                                    properties:
+                                                      kmsWrapped:
+                                                        description: 'KMS wrapped
+                                                          key. Include to use an existing
+                                                          data crypto key wrapped
+                                                          by KMS. The wrapped key
+                                                          must be a 128-, 192-, or
+                                                          256-bit key. Authorization
+                                                          requires the following IAM
+                                                          permissions when sending
+                                                          a request to perform a crypto
+                                                          transformation using a KMS-wrapped
+                                                          crypto key: dlp.kms.encrypt
+                                                          For more information, see
+                                                          Creating a wrapped key.
+                                                          Note: When you use Cloud
+                                                          KMS for cryptographic operations,
+                                                          charges apply. Structure
+                                                          is documented below.'
+                                                        items:
+                                                          properties:
+                                                            cryptoKeyName:
+                                                              description: The resource
+                                                                name of the KMS CryptoKey
+                                                                to use for unwrapping.
+                                                              type: string
+                                                            wrappedKey:
+                                                              description: The wrapped
+                                                                data crypto key. A
+                                                                base64-encoded string.
+                                                              type: string
+                                                          required:
+                                                          - cryptoKeyName
+                                                          - wrappedKey
+                                                          type: object
+                                                        type: array
+                                                      transient:
+                                                        description: Transient crypto
+                                                          key. Use this to have a
+                                                          random data crypto key generated.
+                                                          It will be discarded after
+                                                          the request finishes. Structure
+                                                          is documented below.
+                                                        items:
+                                                          properties:
+                                                            name:
+                                                              description: 'Name of
+                                                                the key. This is an
+                                                                arbitrary string used
+                                                                to differentiate different
+                                                                keys. A unique key
+                                                                is generated per name:
+                                                                two separate TransientCryptoKey
+                                                                protos share the same
+                                                                generated key if their
+                                                                names are the same.
+                                                                When the data crypto
+                                                                key is generated,
+                                                                this name is not used
+                                                                in any way (repeating
+                                                                the api call will
+                                                                result in a different
+                                                                key being generated).'
+                                                              type: string
+                                                          required:
+                                                          - name
+                                                          type: object
+                                                        type: array
+                                                      unwrapped:
+                                                        description: Unwrapped crypto
+                                                          key. Using raw keys is prone
+                                                          to security risks due to
+                                                          accidentally leaking the
+                                                          key. Choose another type
+                                                          of key if possible. Structure
+                                                          is documented below.
+                                                        items:
+                                                          properties:
+                                                            key:
+                                                              description: A 128/192/256
+                                                                bit key. A base64-encoded
+                                                                string.
+                                                              type: string
+                                                          required:
+                                                          - key
+                                                          type: object
+                                                        type: array
+                                                    type: object
+                                                  type: array
+                                                surrogateInfoType:
+                                                  description: 'The custom infoType
+                                                    to annotate the surrogate with.
+                                                    This annotation will be applied
+                                                    to the surrogate by prefixing
+                                                    it with the name of the custom
+                                                    infoType followed by the number
+                                                    of characters comprising the surrogate.
+                                                    The following scheme defines the
+                                                    format: info_type_name(surrogate_character_count):surrogate
+                                                    For example, if the name of custom
+                                                    infoType is ''MY_TOKEN_INFO_TYPE''
+                                                    and the surrogate is ''abc'',
+                                                    the full replacement value will
+                                                    be: ''MY_TOKEN_INFO_TYPE(3):abc''
+                                                    This annotation identifies the
+                                                    surrogate when inspecting content
+                                                    using the custom infoType SurrogateType.
+                                                    This facilitates reversal of the
+                                                    surrogate when it occurs in free
+                                                    text. In order for inspection
+                                                    to work properly, the name of
+                                                    this infoType must not occur naturally
+                                                    anywhere in your data; otherwise,
+                                                    inspection may find a surrogate
+                                                    that does not correspond to an
+                                                    actual identifier. Therefore,
+                                                    choose your custom infoType name
+                                                    carefully after considering what
+                                                    your data looks like. One way
+                                                    to select a name that has a high
+                                                    chance of yielding reliable detection
+                                                    is to include one or more unicode
+                                                    characters that are highly improbable
+                                                    to exist in your data. For example,
+                                                    assuming your data is entered
+                                                    from a regular ASCII keyboard,
+                                                    the symbol with the hex code point
+                                                    29DD might be used like so: ⧝MY_TOKEN_TYPE
+                                                    Structure is documented below.'
+                                                  items:
+                                                    properties:
+                                                      name:
+                                                        description: 'Name of the
+                                                          key. This is an arbitrary
+                                                          string used to differentiate
+                                                          different keys. A unique
+                                                          key is generated per name:
+                                                          two separate TransientCryptoKey
+                                                          protos share the same generated
+                                                          key if their names are the
+                                                          same. When the data crypto
+                                                          key is generated, this name
+                                                          is not used in any way (repeating
+                                                          the api call will result
+                                                          in a different key being
+                                                          generated).'
+                                                        type: string
+                                                      version:
+                                                        description: Optional version
+                                                          name for this InfoType.
+                                                        type: string
+                                                    type: object
+                                                  type: array
+                                              type: object
+                                            type: array
+                                          cryptoHashConfig:
+                                            description: Pseudonymization method that
+                                              generates surrogates via cryptographic
+                                              hashing. Uses SHA-256. The key size
+                                              must be either 32 or 64 bytes. Outputs
+                                              a base64 encoded representation of the
+                                              hashed output (for example, L7k0BHmF1ha5U3NfGykjro4xWi1MPVQPjhMAZbSV9mM=).
+                                              Currently, only string and integer values
+                                              can be hashed. See https://cloud.google.com/dlp/docs/pseudonymization
+                                              to learn more. Structure is documented
+                                              below.
+                                            items:
+                                              properties:
+                                                cryptoKey:
+                                                  description: Causes the shift to
+                                                    be computed based on this key
+                                                    and the context. This results
+                                                    in the same shift for the same
+                                                    context and cryptoKey. If set,
+                                                    must also set context. Can only
+                                                    be applied to table items. Structure
+                                                    is documented below.
+                                                  items:
+                                                    properties:
+                                                      kmsWrapped:
+                                                        description: 'KMS wrapped
+                                                          key. Include to use an existing
+                                                          data crypto key wrapped
+                                                          by KMS. The wrapped key
+                                                          must be a 128-, 192-, or
+                                                          256-bit key. Authorization
+                                                          requires the following IAM
+                                                          permissions when sending
+                                                          a request to perform a crypto
+                                                          transformation using a KMS-wrapped
+                                                          crypto key: dlp.kms.encrypt
+                                                          For more information, see
+                                                          Creating a wrapped key.
+                                                          Note: When you use Cloud
+                                                          KMS for cryptographic operations,
+                                                          charges apply. Structure
+                                                          is documented below.'
+                                                        items:
+                                                          properties:
+                                                            cryptoKeyName:
+                                                              description: The resource
+                                                                name of the KMS CryptoKey
+                                                                to use for unwrapping.
+                                                              type: string
+                                                            wrappedKey:
+                                                              description: The wrapped
+                                                                data crypto key. A
+                                                                base64-encoded string.
+                                                              type: string
+                                                          required:
+                                                          - cryptoKeyName
+                                                          - wrappedKey
+                                                          type: object
+                                                        type: array
+                                                      transient:
+                                                        description: Transient crypto
+                                                          key. Use this to have a
+                                                          random data crypto key generated.
+                                                          It will be discarded after
+                                                          the request finishes. Structure
+                                                          is documented below.
+                                                        items:
+                                                          properties:
+                                                            name:
+                                                              description: 'Name of
+                                                                the key. This is an
+                                                                arbitrary string used
+                                                                to differentiate different
+                                                                keys. A unique key
+                                                                is generated per name:
+                                                                two separate TransientCryptoKey
+                                                                protos share the same
+                                                                generated key if their
+                                                                names are the same.
+                                                                When the data crypto
+                                                                key is generated,
+                                                                this name is not used
+                                                                in any way (repeating
+                                                                the api call will
+                                                                result in a different
+                                                                key being generated).'
+                                                              type: string
+                                                          required:
+                                                          - name
+                                                          type: object
+                                                        type: array
+                                                      unwrapped:
+                                                        description: Unwrapped crypto
+                                                          key. Using raw keys is prone
+                                                          to security risks due to
+                                                          accidentally leaking the
+                                                          key. Choose another type
+                                                          of key if possible. Structure
+                                                          is documented below.
+                                                        items:
+                                                          properties:
+                                                            key:
+                                                              description: A 128/192/256
+                                                                bit key. A base64-encoded
+                                                                string.
+                                                              type: string
+                                                          required:
+                                                          - key
+                                                          type: object
+                                                        type: array
+                                                    type: object
+                                                  type: array
+                                              type: object
+                                            type: array
+                                          cryptoReplaceFfxFpeConfig:
+                                            description: 'Replaces an identifier with
+                                              a surrogate using Format Preserving
+                                              Encryption (FPE) with the FFX mode of
+                                              operation; however when used in the
+                                              content.reidentify API method, it serves
+                                              the opposite function by reversing the
+                                              surrogate back into the original identifier.
+                                              The identifier must be encoded as ASCII.
+                                              For a given crypto key and context,
+                                              the same identifier will be replaced
+                                              with the same surrogate. Identifiers
+                                              must be at least two characters long.
+                                              In the case that the identifier is the
+                                              empty string, it will be skipped. See
+                                              https://cloud.google.com/dlp/docs/pseudonymization
+                                              to learn more. Note: We recommend using
+                                              CryptoDeterministicConfig for all use
+                                              cases which do not require preserving
+                                              the input alphabet space and size, plus
+                                              warrant referential integrity. Structure
+                                              is documented below.'
+                                            items:
+                                              properties:
+                                                commonAlphabet:
+                                                  description: Common alphabets. Possible
+                                                    values are FFX_COMMON_NATIVE_ALPHABET_UNSPECIFIED,
+                                                    NUMERIC, HEXADECIMAL, UPPER_CASE_ALPHA_NUMERIC,
+                                                    and ALPHA_NUMERIC.
+                                                  type: string
+                                                context:
+                                                  description: Points to the field
+                                                    that contains the context, for
+                                                    example, an entity id. If set,
+                                                    must also set cryptoKey. If set,
+                                                    shift will be consistent for the
+                                                    given context. Structure is documented
+                                                    below.
+                                                  items:
+                                                    properties:
+                                                      name:
+                                                        description: 'Name of the
+                                                          key. This is an arbitrary
+                                                          string used to differentiate
+                                                          different keys. A unique
+                                                          key is generated per name:
+                                                          two separate TransientCryptoKey
+                                                          protos share the same generated
+                                                          key if their names are the
+                                                          same. When the data crypto
+                                                          key is generated, this name
+                                                          is not used in any way (repeating
+                                                          the api call will result
+                                                          in a different key being
+                                                          generated).'
+                                                        type: string
+                                                    type: object
+                                                  type: array
+                                                cryptoKey:
+                                                  description: Causes the shift to
+                                                    be computed based on this key
+                                                    and the context. This results
+                                                    in the same shift for the same
+                                                    context and cryptoKey. If set,
+                                                    must also set context. Can only
+                                                    be applied to table items. Structure
+                                                    is documented below.
+                                                  items:
+                                                    properties:
+                                                      kmsWrapped:
+                                                        description: 'KMS wrapped
+                                                          key. Include to use an existing
+                                                          data crypto key wrapped
+                                                          by KMS. The wrapped key
+                                                          must be a 128-, 192-, or
+                                                          256-bit key. Authorization
+                                                          requires the following IAM
+                                                          permissions when sending
+                                                          a request to perform a crypto
+                                                          transformation using a KMS-wrapped
+                                                          crypto key: dlp.kms.encrypt
+                                                          For more information, see
+                                                          Creating a wrapped key.
+                                                          Note: When you use Cloud
+                                                          KMS for cryptographic operations,
+                                                          charges apply. Structure
+                                                          is documented below.'
+                                                        items:
+                                                          properties:
+                                                            cryptoKeyName:
+                                                              description: The resource
+                                                                name of the KMS CryptoKey
+                                                                to use for unwrapping.
+                                                              type: string
+                                                            wrappedKey:
+                                                              description: The wrapped
+                                                                data crypto key. A
+                                                                base64-encoded string.
+                                                              type: string
+                                                          required:
+                                                          - cryptoKeyName
+                                                          - wrappedKey
+                                                          type: object
+                                                        type: array
+                                                      transient:
+                                                        description: Transient crypto
+                                                          key. Use this to have a
+                                                          random data crypto key generated.
+                                                          It will be discarded after
+                                                          the request finishes. Structure
+                                                          is documented below.
+                                                        items:
+                                                          properties:
+                                                            name:
+                                                              description: 'Name of
+                                                                the key. This is an
+                                                                arbitrary string used
+                                                                to differentiate different
+                                                                keys. A unique key
+                                                                is generated per name:
+                                                                two separate TransientCryptoKey
+                                                                protos share the same
+                                                                generated key if their
+                                                                names are the same.
+                                                                When the data crypto
+                                                                key is generated,
+                                                                this name is not used
+                                                                in any way (repeating
+                                                                the api call will
+                                                                result in a different
+                                                                key being generated).'
+                                                              type: string
+                                                          required:
+                                                          - name
+                                                          type: object
+                                                        type: array
+                                                      unwrapped:
+                                                        description: Unwrapped crypto
+                                                          key. Using raw keys is prone
+                                                          to security risks due to
+                                                          accidentally leaking the
+                                                          key. Choose another type
+                                                          of key if possible. Structure
+                                                          is documented below.
+                                                        items:
+                                                          properties:
+                                                            key:
+                                                              description: A 128/192/256
+                                                                bit key. A base64-encoded
+                                                                string.
+                                                              type: string
+                                                          required:
+                                                          - key
+                                                          type: object
+                                                        type: array
+                                                    type: object
+                                                  type: array
+                                                customAlphabet:
+                                                  description: 'This is supported
+                                                    by mapping these to the alphanumeric
+                                                    characters that the FFX mode natively
+                                                    supports. This happens before/after
+                                                    encryption/decryption. Each character
+                                                    listed must appear only once.
+                                                    Number of characters must be in
+                                                    the range [2, 95]. This must be
+                                                    encoded as ASCII. The order of
+                                                    characters does not matter. The
+                                                    full list of allowed characters
+                                                    is: 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz
+                                                    ~`!@#$%^&*()_-+={[}]|:;"''<,>.?/'
+                                                  type: string
+                                                radix:
+                                                  description: The native way to select
+                                                    the alphabet. Must be in the range
+                                                    [2, 95].
+                                                  type: number
+                                                surrogateInfoType:
+                                                  description: 'The custom infoType
+                                                    to annotate the surrogate with.
+                                                    This annotation will be applied
+                                                    to the surrogate by prefixing
+                                                    it with the name of the custom
+                                                    infoType followed by the number
+                                                    of characters comprising the surrogate.
+                                                    The following scheme defines the
+                                                    format: info_type_name(surrogate_character_count):surrogate
+                                                    For example, if the name of custom
+                                                    infoType is ''MY_TOKEN_INFO_TYPE''
+                                                    and the surrogate is ''abc'',
+                                                    the full replacement value will
+                                                    be: ''MY_TOKEN_INFO_TYPE(3):abc''
+                                                    This annotation identifies the
+                                                    surrogate when inspecting content
+                                                    using the custom infoType SurrogateType.
+                                                    This facilitates reversal of the
+                                                    surrogate when it occurs in free
+                                                    text. In order for inspection
+                                                    to work properly, the name of
+                                                    this infoType must not occur naturally
+                                                    anywhere in your data; otherwise,
+                                                    inspection may find a surrogate
+                                                    that does not correspond to an
+                                                    actual identifier. Therefore,
+                                                    choose your custom infoType name
+                                                    carefully after considering what
+                                                    your data looks like. One way
+                                                    to select a name that has a high
+                                                    chance of yielding reliable detection
+                                                    is to include one or more unicode
+                                                    characters that are highly improbable
+                                                    to exist in your data. For example,
+                                                    assuming your data is entered
+                                                    from a regular ASCII keyboard,
+                                                    the symbol with the hex code point
+                                                    29DD might be used like so: ⧝MY_TOKEN_TYPE
+                                                    Structure is documented below.'
+                                                  items:
+                                                    properties:
+                                                      name:
+                                                        description: 'Name of the
+                                                          key. This is an arbitrary
+                                                          string used to differentiate
+                                                          different keys. A unique
+                                                          key is generated per name:
+                                                          two separate TransientCryptoKey
+                                                          protos share the same generated
+                                                          key if their names are the
+                                                          same. When the data crypto
+                                                          key is generated, this name
+                                                          is not used in any way (repeating
+                                                          the api call will result
+                                                          in a different key being
+                                                          generated).'
+                                                        type: string
+                                                      version:
+                                                        description: Optional version
+                                                          name for this InfoType.
+                                                        type: string
+                                                    type: object
+                                                  type: array
+                                              type: object
+                                            type: array
+                                          dateShiftConfig:
+                                            description: Shifts dates by random number
+                                              of days, with option to be consistent
+                                              for the same context. See https://cloud.google.com/dlp/docs/concepts-date-shifting
+                                              to learn more. Structure is documented
+                                              below.
+                                            items:
+                                              properties:
+                                                context:
+                                                  description: Points to the field
+                                                    that contains the context, for
+                                                    example, an entity id. If set,
+                                                    must also set cryptoKey. If set,
+                                                    shift will be consistent for the
+                                                    given context. Structure is documented
+                                                    below.
+                                                  items:
+                                                    properties:
+                                                      name:
+                                                        description: 'Name of the
+                                                          key. This is an arbitrary
+                                                          string used to differentiate
+                                                          different keys. A unique
+                                                          key is generated per name:
+                                                          two separate TransientCryptoKey
+                                                          protos share the same generated
+                                                          key if their names are the
+                                                          same. When the data crypto
+                                                          key is generated, this name
+                                                          is not used in any way (repeating
+                                                          the api call will result
+                                                          in a different key being
+                                                          generated).'
+                                                        type: string
+                                                    type: object
+                                                  type: array
+                                                cryptoKey:
+                                                  description: Causes the shift to
+                                                    be computed based on this key
+                                                    and the context. This results
+                                                    in the same shift for the same
+                                                    context and cryptoKey. If set,
+                                                    must also set context. Can only
+                                                    be applied to table items. Structure
+                                                    is documented below.
+                                                  items:
+                                                    properties:
+                                                      kmsWrapped:
+                                                        description: 'KMS wrapped
+                                                          key. Include to use an existing
+                                                          data crypto key wrapped
+                                                          by KMS. The wrapped key
+                                                          must be a 128-, 192-, or
+                                                          256-bit key. Authorization
+                                                          requires the following IAM
+                                                          permissions when sending
+                                                          a request to perform a crypto
+                                                          transformation using a KMS-wrapped
+                                                          crypto key: dlp.kms.encrypt
+                                                          For more information, see
+                                                          Creating a wrapped key.
+                                                          Note: When you use Cloud
+                                                          KMS for cryptographic operations,
+                                                          charges apply. Structure
+                                                          is documented below.'
+                                                        items:
+                                                          properties:
+                                                            cryptoKeyName:
+                                                              description: The resource
+                                                                name of the KMS CryptoKey
+                                                                to use for unwrapping.
+                                                              type: string
+                                                            wrappedKey:
+                                                              description: The wrapped
+                                                                data crypto key. A
+                                                                base64-encoded string.
+                                                              type: string
+                                                          required:
+                                                          - cryptoKeyName
+                                                          - wrappedKey
+                                                          type: object
+                                                        type: array
+                                                      transient:
+                                                        description: Transient crypto
+                                                          key. Use this to have a
+                                                          random data crypto key generated.
+                                                          It will be discarded after
+                                                          the request finishes. Structure
+                                                          is documented below.
+                                                        items:
+                                                          properties:
+                                                            name:
+                                                              description: 'Name of
+                                                                the key. This is an
+                                                                arbitrary string used
+                                                                to differentiate different
+                                                                keys. A unique key
+                                                                is generated per name:
+                                                                two separate TransientCryptoKey
+                                                                protos share the same
+                                                                generated key if their
+                                                                names are the same.
+                                                                When the data crypto
+                                                                key is generated,
+                                                                this name is not used
+                                                                in any way (repeating
+                                                                the api call will
+                                                                result in a different
+                                                                key being generated).'
+                                                              type: string
+                                                          required:
+                                                          - name
+                                                          type: object
+                                                        type: array
+                                                      unwrapped:
+                                                        description: Unwrapped crypto
+                                                          key. Using raw keys is prone
+                                                          to security risks due to
+                                                          accidentally leaking the
+                                                          key. Choose another type
+                                                          of key if possible. Structure
+                                                          is documented below.
+                                                        items:
+                                                          properties:
+                                                            key:
+                                                              description: A 128/192/256
+                                                                bit key. A base64-encoded
+                                                                string.
+                                                              type: string
+                                                          required:
+                                                          - key
+                                                          type: object
+                                                        type: array
+                                                    type: object
+                                                  type: array
+                                                lowerBoundDays:
+                                                  description: For example, -5 means
+                                                    shift date to at most 5 days back
+                                                    in the past.
+                                                  type: number
+                                                upperBoundDays:
+                                                  description: Range of shift in days.
+                                                    Actual shift will be selected
+                                                    at random within this range (inclusive
+                                                    ends). Negative means shift to
+                                                    earlier in time. Must not be more
+                                                    than 365250 days (1000 years)
+                                                    each direction. For example, 3
+                                                    means shift date to at most 3
+                                                    days into the future.
+                                                  type: number
+                                              required:
+                                              - lowerBoundDays
+                                              - upperBoundDays
+                                              type: object
+                                            type: array
+                                          fixedSizeBucketingConfig:
+                                            description: 'Buckets values based on
+                                              fixed size ranges. The Bucketing transformation
+                                              can provide all of this functionality,
+                                              but requires more configuration. This
+                                              message is provided as a convenience
+                                              to the user for simple bucketing strategies.
+                                              The transformed value will be a hyphenated
+                                              string of {lower_bound}-{upper_bound}.
+                                              For example, if lower_bound = 10 and
+                                              upper_bound = 20, all values that are
+                                              within this bucket will be replaced
+                                              with "10-20". This can be used on data
+                                              of type: double, long. If the bound
+                                              Value type differs from the type of
+                                              data being transformed, we will first
+                                              attempt converting the type of the data
+                                              to be transformed to match the type
+                                              of the bound before comparing. See https://cloud.google.com/dlp/docs/concepts-bucketing
+                                              to learn more. Structure is documented
+                                              below.'
+                                            items:
+                                              properties:
+                                                bucketSize:
+                                                  description: 'Size of each bucket
+                                                    (except for minimum and maximum
+                                                    buckets). So if lower_bound =
+                                                    10, upper_bound = 89, and bucketSize
+                                                    = 10, then the following buckets
+                                                    would be used: -10, 10-20, 20-30,
+                                                    30-40, 40-50, 50-60, 60-70, 70-80,
+                                                    80-89, 89+. Precision up to 2
+                                                    decimals works.'
+                                                  type: number
+                                                lowerBound:
+                                                  description: Lower bound value of
+                                                    buckets. All values less than
+                                                    lower_bound are grouped together
+                                                    into a single bucket; for example
+                                                    if lower_bound = 10, then all
+                                                    values less than 10 are replaced
+                                                    with the value "-10". The lower_bound
+                                                    block must only contain one argument.
+                                                    See the fixed_size_bucketing_config
+                                                    block description for more information
+                                                    about choosing a data type. Structure
+                                                    is documented below.
+                                                  items:
+                                                    properties:
+                                                      booleanValue:
+                                                        description: A boolean value.
+                                                        type: boolean
+                                                      dateValue:
+                                                        description: Represents a
+                                                          whole or partial calendar
+                                                          date. Structure is documented
+                                                          below.
+                                                        items:
+                                                          properties:
+                                                            day:
+                                                              description: Day of
+                                                                month. Must be from
+                                                                1 to 31 and valid
+                                                                for the year and month,
+                                                                or 0 if specifying
+                                                                a year by itself or
+                                                                a year and month where
+                                                                the day is not significant.
+                                                              type: number
+                                                            month:
+                                                              description: Month of
+                                                                year. Must be from
+                                                                1 to 12, or 0 if specifying
+                                                                a year without a month
+                                                                and day.
+                                                              type: number
+                                                            year:
+                                                              description: Year of
+                                                                date. Must be from
+                                                                1 to 9999, or 0 if
+                                                                specifying a date
+                                                                without a year.
+                                                              type: number
+                                                          type: object
+                                                        type: array
+                                                      dayOfWeekValue:
+                                                        description: Represents a
+                                                          day of the week. Possible
+                                                          values are MONDAY, TUESDAY,
+                                                          WEDNESDAY, THURSDAY, FRIDAY,
+                                                          SATURDAY, and SUNDAY.
+                                                        type: string
+                                                      floatValue:
+                                                        description: A float value.
+                                                        type: number
+                                                      integerValue:
+                                                        description: An integer value
+                                                          (int64 format)
+                                                        type: string
+                                                      stringValue:
+                                                        description: A string value.
+                                                        type: string
+                                                      timeValue:
+                                                        description: Represents a
+                                                          time of day. Structure is
+                                                          documented below.
+                                                        items:
+                                                          properties:
+                                                            hours:
+                                                              description: Hours of
+                                                                day in 24 hour format.
+                                                                Should be from 0 to
+                                                                23.
+                                                              type: number
+                                                            minutes:
+                                                              description: Minutes
+                                                                of hour of day. Must
+                                                                be from 0 to 59.
+                                                              type: number
+                                                            nanos:
+                                                              description: Fractions
+                                                                of seconds in nanoseconds.
+                                                                Must be from 0 to
+                                                                999,999,999.
+                                                              type: number
+                                                            seconds:
+                                                              description: Seconds
+                                                                of minutes of the
+                                                                time. Must normally
+                                                                be from 0 to 59.
+                                                              type: number
+                                                          type: object
+                                                        type: array
+                                                      timestampValue:
+                                                        description: 'A timestamp
+                                                          in RFC3339 UTC "Zulu" format,
+                                                          with nanosecond resolution
+                                                          and up to nine fractional
+                                                          digits. Examples: "2014-10-02T15:01:23Z"
+                                                          and "2014-10-02T15:01:23.045123456Z".'
+                                                        type: string
+                                                    type: object
+                                                  type: array
+                                                upperBound:
+                                                  description: Upper bound value of
+                                                    buckets. All values greater than
+                                                    upper_bound are grouped together
+                                                    into a single bucket; for example
+                                                    if upper_bound = 89, then all
+                                                    values greater than 89 are replaced
+                                                    with the value "89+". The upper_bound
+                                                    block must only contain one argument.
+                                                    See the fixed_size_bucketing_config
+                                                    block description for more information
+                                                    about choosing a data type. Structure
+                                                    is documented below.
+                                                  items:
+                                                    properties:
+                                                      booleanValue:
+                                                        description: A boolean value.
+                                                        type: boolean
+                                                      dateValue:
+                                                        description: Represents a
+                                                          whole or partial calendar
+                                                          date. Structure is documented
+                                                          below.
+                                                        items:
+                                                          properties:
+                                                            day:
+                                                              description: Day of
+                                                                month. Must be from
+                                                                1 to 31 and valid
+                                                                for the year and month,
+                                                                or 0 if specifying
+                                                                a year by itself or
+                                                                a year and month where
+                                                                the day is not significant.
+                                                              type: number
+                                                            month:
+                                                              description: Month of
+                                                                year. Must be from
+                                                                1 to 12, or 0 if specifying
+                                                                a year without a month
+                                                                and day.
+                                                              type: number
+                                                            year:
+                                                              description: Year of
+                                                                date. Must be from
+                                                                1 to 9999, or 0 if
+                                                                specifying a date
+                                                                without a year.
+                                                              type: number
+                                                          type: object
+                                                        type: array
+                                                      dayOfWeekValue:
+                                                        description: Represents a
+                                                          day of the week. Possible
+                                                          values are MONDAY, TUESDAY,
+                                                          WEDNESDAY, THURSDAY, FRIDAY,
+                                                          SATURDAY, and SUNDAY.
+                                                        type: string
+                                                      floatValue:
+                                                        description: A float value.
+                                                        type: number
+                                                      integerValue:
+                                                        description: An integer value
+                                                          (int64 format)
+                                                        type: string
+                                                      stringValue:
+                                                        description: A string value.
+                                                        type: string
+                                                      timeValue:
+                                                        description: Represents a
+                                                          time of day. Structure is
+                                                          documented below.
+                                                        items:
+                                                          properties:
+                                                            hours:
+                                                              description: Hours of
+                                                                day in 24 hour format.
+                                                                Should be from 0 to
+                                                                23.
+                                                              type: number
+                                                            minutes:
+                                                              description: Minutes
+                                                                of hour of day. Must
+                                                                be from 0 to 59.
+                                                              type: number
+                                                            nanos:
+                                                              description: Fractions
+                                                                of seconds in nanoseconds.
+                                                                Must be from 0 to
+                                                                999,999,999.
+                                                              type: number
+                                                            seconds:
+                                                              description: Seconds
+                                                                of minutes of the
+                                                                time. Must normally
+                                                                be from 0 to 59.
+                                                              type: number
+                                                          type: object
+                                                        type: array
+                                                      timestampValue:
+                                                        description: 'A timestamp
+                                                          in RFC3339 UTC "Zulu" format,
+                                                          with nanosecond resolution
+                                                          and up to nine fractional
+                                                          digits. Examples: "2014-10-02T15:01:23Z"
+                                                          and "2014-10-02T15:01:23.045123456Z".'
+                                                        type: string
+                                                    type: object
+                                                  type: array
+                                              required:
+                                              - bucketSize
+                                              - lowerBound
+                                              - upperBound
                                               type: object
                                             type: array
                                           redactConfig:
@@ -1118,6 +2553,52 @@ spec:
                                                   type: array
                                               required:
                                               - newValue
+                                              type: object
+                                            type: array
+                                          replaceDictionaryConfig:
+                                            description: Replace with a value randomly
+                                              drawn (with replacement) from a dictionary.
+                                              Structure is documented below.
+                                            items:
+                                              properties:
+                                                wordList:
+                                                  description: A list of words to
+                                                    select from for random replacement.
+                                                    The limits page contains details
+                                                    about the size limits of dictionaries.
+                                                    Structure is documented below.
+                                                  items:
+                                                    properties:
+                                                      words:
+                                                        description: Words or phrases
+                                                          defining the dictionary.
+                                                          The dictionary must contain
+                                                          at least one phrase and
+                                                          every phrase must contain
+                                                          at least 2 characters that
+                                                          are letters or digits.
+                                                        items:
+                                                          type: string
+                                                        type: array
+                                                    required:
+                                                    - words
+                                                    type: object
+                                                  type: array
+                                              type: object
+                                            type: array
+                                          timePartConfig:
+                                            description: For use with Date, Timestamp,
+                                              and TimeOfDay, extract or preserve a
+                                              portion of the value. Structure is documented
+                                              below.
+                                            items:
+                                              properties:
+                                                partToExtract:
+                                                  description: The part of the time
+                                                    to keep. Possible values are YEAR,
+                                                    MONTH, DAY_OF_MONTH, DAY_OF_WEEK,
+                                                    WEEK_OF_YEAR, and HOUR_OF_DAY.
+                                                  type: string
                                               type: object
                                             type: array
                                         type: object

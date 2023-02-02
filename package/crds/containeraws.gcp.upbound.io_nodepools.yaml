@@ -172,6 +172,29 @@ spec:
                     description: The configuration of the node pool.
                     items:
                       properties:
+                        autoscalingMetricsCollection:
+                          description: Optional. Configuration related to CloudWatch
+                            metrics collection on the Auto Scaling group of the node
+                            pool. When unspecified, metrics collection is disabled.
+                          items:
+                            properties:
+                              granularity:
+                                description: The frequency at which EC2 Auto Scaling
+                                  sends aggregated data to AWS CloudWatch. The only
+                                  valid value is "1Minute".
+                                type: string
+                              metrics:
+                                description: The metrics to enable. For a list of
+                                  valid metrics, see https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_EnableMetricsCollection.html.
+                                  If you specify granularity and don't specify any
+                                  metrics, all metrics are enabled.
+                                items:
+                                  type: string
+                                type: array
+                            required:
+                            - granularity
+                            type: object
+                          type: array
                         configEncryption:
                           description: The ARN of the AWS KMS key used to encrypt
                             node pool configuration.

@@ -161,6 +161,12 @@ spec:
                       by the endpoint. Possible values are INFORMATIONAL, LOW, MEDIUM,
                       HIGH, and CRITICAL.
                     type: string
+                  threatExceptions:
+                    description: 'Configuration for threat IDs excluded from generating
+                      alerts. Limit: 99 IDs.'
+                    items:
+                      type: string
+                    type: array
                 required:
                 - location
                 - name

@@ -36,10 +36,11 @@ type ProjectObservation struct {
 
 type ProjectParameters struct {
 
-	// Create the 'default' network automatically.  Default true.
-	// If set to false, the default network will be deleted.  Note that, for quota purposes, you
-	// will still need to have 1 network slot available to create the project successfully, even if
-	// you set auto_create_network to false, since the network will exist momentarily.
+	// Controls whether the 'default' network exists on the project. Defaults
+	// to true, where it is created. Therefore, for quota purposes, you will still need to have 1
+	// network slot available to create the project successfully, even if you set auto_create_network to
+	// false.googleapis.com on the project to interact
+	// with the GCE API and currently leaves it enabled.
 	// +kubebuilder:validation:Optional
 	AutoCreateNetwork *bool `json:"autoCreateNetwork,omitempty" tf:"auto_create_network,omitempty"`
 

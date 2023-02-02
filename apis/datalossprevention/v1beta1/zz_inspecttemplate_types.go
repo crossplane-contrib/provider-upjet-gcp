@@ -98,7 +98,7 @@ type DictionaryParameters struct {
 	// List of words or phrases to search for.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	WordList []WordListParameters `json:"wordList,omitempty" tf:"word_list,omitempty"`
+	WordList []DictionaryWordListParameters `json:"wordList,omitempty" tf:"word_list,omitempty"`
 }
 
 type DictionaryWordListObservation struct {
@@ -147,7 +147,18 @@ type ExclusionRuleDictionaryParameters struct {
 	// List of words or phrases to search for.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	WordList []DictionaryWordListParameters `json:"wordList,omitempty" tf:"word_list,omitempty"`
+	WordList []ExclusionRuleDictionaryWordListParameters `json:"wordList,omitempty" tf:"word_list,omitempty"`
+}
+
+type ExclusionRuleDictionaryWordListObservation struct {
+}
+
+type ExclusionRuleDictionaryWordListParameters struct {
+
+	// Words or phrases defining the dictionary. The dictionary must contain at least one
+	// phrase and every phrase must contain at least 2 characters that are letters or digits.
+	// +kubebuilder:validation:Required
+	Words []*string `json:"words" tf:"words,omitempty"`
 }
 
 type ExclusionRuleObservation struct {
@@ -482,17 +493,6 @@ type StoredTypeParameters struct {
 	// or projects/project-id/storedInfoTypes/432452342.
 	// +kubebuilder:validation:Required
 	Name *string `json:"name" tf:"name,omitempty"`
-}
-
-type WordListObservation struct {
-}
-
-type WordListParameters struct {
-
-	// Words or phrases defining the dictionary. The dictionary must contain at least one
-	// phrase and every phrase must contain at least 2 characters that are letters or digits.
-	// +kubebuilder:validation:Required
-	Words []*string `json:"words" tf:"words,omitempty"`
 }
 
 // InspectTemplateSpec defines the desired state of InspectTemplate
