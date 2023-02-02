@@ -211,9 +211,12 @@ import (
 	snapshot "github.com/upbound/provider-gcp/internal/controller/filestore/snapshot"
 	release "github.com/upbound/provider-gcp/internal/controller/firebaserules/release"
 	ruleset "github.com/upbound/provider-gcp/internal/controller/firebaserules/ruleset"
+	backupbackupplan "github.com/upbound/provider-gcp/internal/controller/gke/backupbackupplan"
 	membership "github.com/upbound/provider-gcp/internal/controller/gkehub/membership"
 	consentstore "github.com/upbound/provider-gcp/internal/controller/healthcare/consentstore"
 	datasethealthcare "github.com/upbound/provider-gcp/internal/controller/healthcare/dataset"
+	workloadidentitypool "github.com/upbound/provider-gcp/internal/controller/iam/workloadidentitypool"
+	workloadidentitypoolprovider "github.com/upbound/provider-gcp/internal/controller/iam/workloadidentitypoolprovider"
 	webbackendserviceiammember "github.com/upbound/provider-gcp/internal/controller/iap/webbackendserviceiammember"
 	webiammember "github.com/upbound/provider-gcp/internal/controller/iap/webiammember"
 	webtypeappengineiammember "github.com/upbound/provider-gcp/internal/controller/iap/webtypeappengineiammember"
@@ -298,6 +301,9 @@ import (
 	bucketobject "github.com/upbound/provider-gcp/internal/controller/storage/bucketobject"
 	defaultobjectaccesscontrol "github.com/upbound/provider-gcp/internal/controller/storage/defaultobjectaccesscontrol"
 	defaultobjectacl "github.com/upbound/provider-gcp/internal/controller/storage/defaultobjectacl"
+	objectaccesscontrol "github.com/upbound/provider-gcp/internal/controller/storage/objectaccesscontrol"
+	objectacl "github.com/upbound/provider-gcp/internal/controller/storage/objectacl"
+	agentpool "github.com/upbound/provider-gcp/internal/controller/storagetransfer/agentpool"
 	datasetvertexai "github.com/upbound/provider-gcp/internal/controller/vertexai/dataset"
 	featurestore "github.com/upbound/provider-gcp/internal/controller/vertexai/featurestore"
 	featurestoreentitytype "github.com/upbound/provider-gcp/internal/controller/vertexai/featurestoreentitytype"
@@ -510,9 +516,12 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		snapshot.Setup,
 		release.Setup,
 		ruleset.Setup,
+		backupbackupplan.Setup,
 		membership.Setup,
 		consentstore.Setup,
 		datasethealthcare.Setup,
+		workloadidentitypool.Setup,
+		workloadidentitypoolprovider.Setup,
 		webbackendserviceiammember.Setup,
 		webiammember.Setup,
 		webtypeappengineiammember.Setup,
@@ -597,6 +606,9 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		bucketobject.Setup,
 		defaultobjectaccesscontrol.Setup,
 		defaultobjectacl.Setup,
+		objectaccesscontrol.Setup,
+		objectacl.Setup,
+		agentpool.Setup,
 		datasetvertexai.Setup,
 		featurestore.Setup,
 		featurestoreentitytype.Setup,

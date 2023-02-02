@@ -435,6 +435,11 @@ var externalNameConfigs = map[string]config.ExternalName{
 	// Imported by using the following format: projects/{{project}}/locations/global/memberships/{{membership_id}}
 	"google_gke_hub_membership": config.TemplatedStringAsIdentifier("membership_id", "projects/{{ .setup.configuration.project }}/locations/global/memberships/{{ .external_name }}"),
 
+	// gke
+	//
+	// Imported by using the following projects/{{project}}/locations/{{location}}/backupPlans/{{name}}
+	"google_gke_backup_backup_plan": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/backupPlans/{{ .external_name }}"),
+
 	// healthcare
 	//
 	// Imported by using the following format: {{dataset}}/consentStores/{{name}}
@@ -679,6 +684,12 @@ var externalNameConfigs = map[string]config.ExternalName{
 	"google_storage_default_object_access_control": config.IdentifierFromProvider,
 	// No import documented.
 	"google_storage_default_object_acl": config.IdentifierFromProvider,
+	// Imported by using the following {{bucket}}/{{object}}/{{entity}}
+	"google_storage_object_access_control": config.IdentifierFromProvider,
+	// No Import
+	"google_storage_object_acl": config.IdentifierFromProvider,
+	// Imported by using the following projects/{{project}}/agentPools/{{name}}
+	"google_storage_transfer_agent_pool": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/agentPools/{{ .external_name }}"),
 
 	// bigquery
 	//
@@ -793,6 +804,13 @@ var externalNameConfigs = map[string]config.ExternalName{
 	"google_dataproc_job": config.IdentifierFromProvider,
 	// Imported by using the following format: projects/{{project}}/locations/{{location}}/workflowTemplates/{{name}}
 	"google_dataproc_workflow_template": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/workflowTemplates/{{ .external_name }}"),
+
+	// iam
+	//
+	// Imported by using the following projects/{{project}}/locations/global/workloadIdentityPools/{{workload_identity_pool_id}}
+	"google_iam_workload_identity_pool": config.TemplatedStringAsIdentifier("workload_identity_pool_id", "projects/{{ .setup.configuration.project }}/locations/global/workloadIdentityPools/{{ .external_name }}"),
+	// Imported by using the following projects/{{project}}/locations/global/workloadIdentityPools/{{workload_identity_pool_id}}/providers/{{workload_identity_pool_provider_id}}
+	"google_iam_workload_identity_pool_provider": config.TemplatedStringAsIdentifier("workload_identity_pool_provider_id", "projects/{{ .setup.configuration.project }}/locations/global/workloadIdentityPools/{{ .parameters.workload_identity_pool_id }}/providers/{{ .external_name }}"),
 
 	// datalossprevention
 	//

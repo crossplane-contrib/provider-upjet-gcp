@@ -373,8 +373,6 @@ var ExternalNameNotTestedConfigs = map[string]config.ExternalName{
 
 	// gke
 	//
-	// Imported by using the following projects/{{project}}/locations/{{location}}/backupPlans/{{name}}
-	"google_gke_backup_backup_plan": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/backupPlans/{{ .external_name }}"),
 	// Imported by using the following projects/{{project}}/locations/{{location}}/memberships/{{membership_id}} roles/viewer user:jane@example.com
 	"google_gke_hub_membership_iam_member": config.IdentifierFromProvider,
 
@@ -384,10 +382,6 @@ var ExternalNameNotTestedConfigs = map[string]config.ExternalName{
 	"google_iam_workforce_pool": config.TemplatedStringAsIdentifier("workforce_pool_id", "locations/{{ .parameters.location }}/workforcePools/{{ .external_name }}"),
 	// Imported by using the following locations/{{location}}/workforcePools/{{workforce_pool_id}}/providers/{{provider_id}}
 	"google_iam_workforce_pool_provider": config.TemplatedStringAsIdentifier("provider_id", "locations/{{ .parameters.location }}/workforcePools/{{ .parameters.workforce_pool_id }}/providers/{{ .external_name }}"),
-	// Imported by using the following projects/{{project}}/locations/global/workloadIdentityPools/{{workload_identity_pool_id}}
-	"google_iam_workload_identity_pool": config.TemplatedStringAsIdentifier("workload_identity_pool_id", "projects/{{ .setup.configuration.project }}/locations/global/workloadIdentityPools/{{ .external_name }}"),
-	// Imported by using the following projects/{{project}}/locations/global/workloadIdentityPools/{{workload_identity_pool_id}}/providers/{{workload_identity_pool_provider_id}}
-	"google_iam_workload_identity_pool_provider": config.TemplatedStringAsIdentifier("workload_identity_pool_provider_id", "projects/{{ .setup.configuration.project }}/locations/global/workloadIdentityPools/{{ .parameters.workload_identity_pool_id }}/providers/{{ .external_name }}"),
 
 	// identityplatform
 	//
@@ -410,12 +404,6 @@ var ExternalNameNotTestedConfigs = map[string]config.ExternalName{
 	"google_storage_hmac_key": config.IdentifierFromProvider,
 	// Imported by using the following default_bucket/notificationConfigs/102
 	"google_storage_notification": config.IdentifierFromProvider,
-	// Imported by using the following {{bucket}}/{{object}}/{{entity}}
-	"google_storage_object_access_control": config.TemplatedStringAsIdentifier("entity", "{{ .parameters.bucket }}/{{ .parameters.object }}/{{ .external_name }}"),
-	// No Import
-	"google_storage_object_acl": config.IdentifierFromProvider,
-	// Imported by using the following projects/{{project}}/agentPools/{{name}}
-	"google_storage_transfer_agent_pool": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/agentPools/{{ .external_name }}"),
 	// Imported by using the following google_storage_transfer_job.nightly-backup-transfer-job my-project-1asd32/8422144862922355674
 	"google_storage_transfer_job": config.IdentifierFromProvider,
 
