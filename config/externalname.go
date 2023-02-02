@@ -37,6 +37,11 @@ var externalNameConfigs = map[string]config.ExternalName{
 	// Imported by using the following format: projects/{{project}}/locations/{{region}}/functions/{{cloud_function}} roles/viewer user:jane@example.com
 	"google_cloudfunctions_function_iam_member": config.IdentifierFromProvider,
 
+	// cloudfunctions2
+	//
+	// Imported by using the following projects/{{project}}/locations/{{location}}/functions/{{name}}
+	"google_cloudfunctions2_function": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/functions/{{ .external_name }}"),
+
 	// cloudplatform
 	//
 	// Folders can be imported using the folder's id, e.g. folders/1234567
