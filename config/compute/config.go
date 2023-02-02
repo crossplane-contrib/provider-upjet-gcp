@@ -56,6 +56,17 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 		}
 	})
 
+	p.AddResourceConfigurator("google_compute_shared_vpc_service_project", func(r *config.Resource) {
+		r.References["host_project"] = config.Reference{
+			Type:      "github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1.Project",
+			Extractor: common.ExtractResourceIDFuncPath,
+		}
+		r.References["service_project"] = config.Reference{
+			Type:      "github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1.Project",
+			Extractor: common.ExtractResourceIDFuncPath,
+		}
+	})
+
 	p.AddResourceConfigurator("google_compute_subnetwork", func(r *config.Resource) {
 		r.References["network"] = config.Reference{
 			Type: "Network",
