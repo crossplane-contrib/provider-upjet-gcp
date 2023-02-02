@@ -1,0 +1,12 @@
+apiVersion: gcp.upbound.io/v1beta1
+kind: ProviderConfig
+metadata:
+  name: default
+spec:
+  projectID: crossplane-playground
+  credentials:
+    source: Upbound
+    upbound:
+      federation:
+        providerID: projects/<project-id>/locations/global/workloadIdentityPools/<identity-pool>/providers/<identity-provider>
+        serviceAccount: <service-account-name>@<project-name>.iam.gserviceaccount.com
