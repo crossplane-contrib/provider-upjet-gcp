@@ -48,7 +48,7 @@ type ProviderCredentials struct {
 // provider.
 type Upbound struct {
 	// Federation is the configuration for federated identity.
-	Federation *Federation `json:"federation"`
+	Federation *Federation `json:"federation,omitempty"`
 }
 
 // Federation defines the configuration for federated identity from an external

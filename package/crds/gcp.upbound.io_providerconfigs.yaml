@@ -119,8 +119,6 @@ spec:
                         - providerID
                         - serviceAccount
                         type: object
-                    required:
-                    - federation
                     type: object
                 required:
                 - source
