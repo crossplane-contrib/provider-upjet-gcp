@@ -18,6 +18,8 @@ package clients
 
 import (
 	"context"
+	"encoding/json"
+	"fmt"
 
 	xpv1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
@@ -32,23 +34,62 @@ import (
 const (
 	keyProject = "project"
 
+	credentialsSourceUpbound     = "Upbound"
 	keyCredentials               = "credentials"
 	credentialsSourceAccessToken = "AccessToken"
 	keyAccessToken               = "access_token"
+
+	upboundProviderIdentityTokenFile = "/var/run/secrets/upbound.io/provider/token"
 )
 
 const (
 	// error messages
-	errNoProviderConfig        = "no providerConfigRef provided"
-	errGetProviderConfig       = "cannot get referenced ProviderConfig"
-	errTrackUsage              = "cannot track ProviderConfig usage"
-	errExtractKeyCredentials   = "cannot extract JSON key credentials"
-	errExtractTokenCredentials = "cannot extract Access Token credentials"
+	errNoProviderConfig              = "no providerConfigRef provided"
+	errGetProviderConfig             = "cannot get referenced ProviderConfig"
+	errTrackUsage                    = "cannot track ProviderConfig usage"
+	errExtractKeyCredentials         = "cannot extract JSON key credentials"
+	errExtractTokenCredentials       = "cannot extract Access Token credentials"
+	errConstructFederatedCredentials = "cannot construct federated identity credentials"
+	errMissingFederatedConfiguration = "missing identity federation configuration"
 )
+
+// federatedCredentials is the expected client credential configuration
+// structure for federated identity.
+type federatedCredentials struct {
+	Type                           string               `json:"type"`
+	Audience                       string               `json:"audience"`
+	SubjectTokenType               string               `json:"subject_token_type"`
+	TokenURL                       string               `json:"token_url"`
+	CredentialSource               credentialFileSource `json:"credential_source"`
+	ServiceAccountImpersonationURL string               `json:"service_account_impersonation_url"`
+}
+
+// credentialFileSource is the source of the credential data to be used with
+// federated identity.
+type credentialFileSource struct {
+	File string `json:"file"`
+}
+
+// constructFederatedCredentials constructs federated identity credentials with
+// the provided identity provider and service account.
+func constructFederatedCredentials(providerID, serviceAccount string) ([]byte, error) {
+	return json.Marshal(&federatedCredentials{
+		Type:                           "external_account",
+		Audience:                       fmt.Sprintf("//iam.googleapis.com/%s", providerID),
+		SubjectTokenType:               "urn:ietf:params:oauth:token-type:jwt",
+		TokenURL:                       "https://sts.googleapis.com/v1/token",
+		ServiceAccountImpersonationURL: fmt.Sprintf("https://iamcredentials.googleapis.com/v1/projects/-/serviceAccounts/%s:generateAccessToken", serviceAccount),
+		CredentialSource: credentialFileSource{
+			File: upboundProviderIdentityTokenFile,
+		},
+	})
+}
 
 // TerraformSetupBuilder builds Terraform a terraform.SetupFn function which
 // returns Terraform provider setup configuration
-func TerraformSetupBuilder(version, providerSource, providerVersion string) terraform.SetupFn {
+// NOTE(hasheddan): this function is slightly over our cyclomatic complexity
+// goal. Consider refactoring before adding new branches.
+func TerraformSetupBuilder(version, providerSource, providerVersion string) terraform.SetupFn { //nolint:gocyclo
 	return func(ctx context.Context, client client.Client, mg resource.Managed) (terraform.Setup, error) {
 		ps := terraform.Setup{
 			Version: version,
@@ -86,6 +127,15 @@ func TerraformSetupBuilder(version, providerSource, providerVersion string) terr
 				return ps, errors.Wrap(err, errExtractTokenCredentials)
 			}
 			ps.Configuration[keyAccessToken] = string(data)
+		case credentialsSourceUpbound:
+			if pc.Spec.Credentials.Upbound == nil || pc.Spec.Credentials.Upbound.Federation == nil {
+				return ps, errors.Wrap(errors.New(errMissingFederatedConfiguration), errConstructFederatedCredentials)
+			}
+			data, err := constructFederatedCredentials(pc.Spec.Credentials.Upbound.Federation.ProviderID, pc.Spec.Credentials.Upbound.Federation.ServiceAccount)
+			if err != nil {
+				return ps, errors.Wrap(err, errConstructFederatedCredentials)
+			}
+			ps.Configuration[keyCredentials] = string(data)
 		default:
 			data, err := resource.CommonCredentialExtractor(ctx, pc.Spec.Credentials.Source, client, pc.Spec.Credentials.CommonCredentialSelectors)
 			if err != nil {

@@ -34,10 +34,34 @@ type ProviderConfigSpec struct {
 // ProviderCredentials required to authenticate.
 type ProviderCredentials struct {
 	// Source of the provider credentials.
-	// +kubebuilder:validation:Enum=None;Secret;AccessToken;InjectedIdentity;Environment;Filesystem
+	// +kubebuilder:validation:Enum=None;Secret;AccessToken;InjectedIdentity;Environment;Filesystem;Upbound
 	Source xpv1.CredentialsSource `json:"source"`
 
+	// Upbound defines the options for authenticating using Upbound as an
+	// identity provider.
+	Upbound *Upbound `json:"upbound,omitempty"`
+
 	xpv1.CommonCredentialSelectors `json:",inline"`
+}
+
+// Upbound defines the options for authenticating using Upbound as an identity
+// provider.
+type Upbound struct {
+	// Federation is the configuration for federated identity.
+	Federation *Federation `json:"federation,omitempty"`
+}
+
+// Federation defines the configuration for federated identity from an external
+// provider.
+type Federation struct {
+	// ProviderID is the fully-qualified identifier for the identity provider on
+	// GCP. The format is
+	// `project/<project-id>/locations/global/workloadIdentityPools/<identity-pool>/providers/<identity-provider>`.
+	// +kubebuilder:validation:MinLength=1
+	ProviderID string `json:"providerID"`
+	// ServiceAccount is the email address for the attached service account.
+	// +kubebuilder:validation:MinLength=1
+	ServiceAccount string `json:"serviceAccount"`
 }
 
 // A ProviderConfigStatus reflects the observed state of a ProviderConfig.

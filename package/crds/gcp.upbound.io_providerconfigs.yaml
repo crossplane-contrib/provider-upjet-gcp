@@ -97,7 +97,31 @@ spec:
                     - InjectedIdentity
                     - Environment
                     - Filesystem
+                    - Upbound
                     type: string
+                  upbound:
+                    description: Upbound defines the options for authenticating using
+                      Upbound as an identity provider.
+                    properties:
+                      federation:
+                        description: Federation is the configuration for federated
+                          identity.
+                        properties:
+                          providerID:
+                            description: ProviderID is the fully-qualified identifier
+                              for the identity provider on GCP. The format is `project/<project-id>/locations/global/workloadIdentityPools/<identity-pool>/providers/<identity-provider>`.
+                            minLength: 1
+                            type: string
+                          serviceAccount:
+                            description: ServiceAccount is the email address for the
+                              attached service account.
+                            minLength: 1
+                            type: string
+                        required:
+                        - providerID
+                        - serviceAccount
+                        type: object
+                    type: object
                 required:
                 - source
                 type: object
