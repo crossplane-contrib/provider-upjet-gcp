@@ -57,8 +57,10 @@ type Federation struct {
 	// ProviderID is the fully-qualified identifier for the identity provider on
 	// GCP. The format is
 	// `project/<project-id>/locations/global/workloadIdentityPools/<identity-pool>/providers/<identity-provider>`.
+	// +kubebuilder:validation:MinLength=1
 	ProviderID string `json:"providerID"`
 	// ServiceAccount is the email address for the attached service account.
+	// +kubebuilder:validation:MinLength=1
 	ServiceAccount string `json:"serviceAccount"`
 }
 

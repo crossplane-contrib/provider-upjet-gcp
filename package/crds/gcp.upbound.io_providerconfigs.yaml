@@ -110,10 +110,12 @@ spec:
                           providerID:
                             description: ProviderID is the fully-qualified identifier
                               for the identity provider on GCP. The format is `project/<project-id>/locations/global/workloadIdentityPools/<identity-pool>/providers/<identity-provider>`.
+                            minLength: 1
                             type: string
                           serviceAccount:
                             description: ServiceAccount is the email address for the
                               attached service account.
+                            minLength: 1
                             type: string
                         required:
                         - providerID
