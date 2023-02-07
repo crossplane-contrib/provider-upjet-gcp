@@ -69,6 +69,7 @@ import (
 	project "github.com/upbound/provider-gcp/internal/controller/cloudplatform/project"
 	projectdefaultserviceaccounts "github.com/upbound/provider-gcp/internal/controller/cloudplatform/projectdefaultserviceaccounts"
 	projectiamauditconfig "github.com/upbound/provider-gcp/internal/controller/cloudplatform/projectiamauditconfig"
+	projectiamcustomrole "github.com/upbound/provider-gcp/internal/controller/cloudplatform/projectiamcustomrole"
 	projectiammember "github.com/upbound/provider-gcp/internal/controller/cloudplatform/projectiammember"
 	projectservice "github.com/upbound/provider-gcp/internal/controller/cloudplatform/projectservice"
 	projectusageexportbucket "github.com/upbound/provider-gcp/internal/controller/cloudplatform/projectusageexportbucket"
@@ -387,6 +388,7 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		project.Setup,
 		projectdefaultserviceaccounts.Setup,
 		projectiamauditconfig.Setup,
+		projectiamcustomrole.Setup,
 		projectiammember.Setup,
 		projectservice.Setup,
 		projectusageexportbucket.Setup,

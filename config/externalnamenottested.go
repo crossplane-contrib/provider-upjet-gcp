@@ -498,8 +498,6 @@ var ExternalNameNotTestedConfigs = map[string]config.ExternalName{
 	"google_folder_organization_policy": config.TemplatedStringAsIdentifier("constraint", "folders/{{ .parameters.folder }}/constraints/{{ .external_name }}"),
 	// Imported by using the following 123456789/constraints/serviceuser.services
 	"google_organization_policy": config.TemplatedStringAsIdentifier("constraint", "{{ .parameters.org_id }}/constraints/{{ .external_name }}"),
-	// Imported by using the following projects/{{project}}/roles/{{role_id}}
-	"google_project_iam_custom_role": config.TemplatedStringAsIdentifier("role_id", "projects/{{ .setup.configuration.project }}/roles/{{ .external_name }}"),
 	// Imported by using the following projects/test-project:constraints/serviceuser.services
 	"google_project_organization_policy": config.TemplatedStringAsIdentifier("constraint", "projects/{{ .parameters.project }}:constraints/{{ .external_name }}"),
 

@@ -78,6 +78,8 @@ var externalNameConfigs = map[string]config.ExternalName{
 	"google_service_account_key": config.IdentifierFromProvider,
 	// Imported by using the following format: services/{service}/projects/{project}/global/networks/{network}/peeredDnsDomains/{name}
 	"google_service_networking_peered_dns_domain": config.TemplatedStringAsIdentifier("name", "services/{{ .parameters.service }}/projects/{{ .setup.configuration.project }}/global/networks/{{ .parameters.network }}/peeredDnsDomains/{{ .external_name }}"),
+	// Imported by using the following projects/{{project}}/roles/{{role_id}}
+	"google_project_iam_custom_role": config.TemplatedStringAsIdentifier("role_id", "projects/{{ .setup.configuration.project }}/roles/{{ .external_name }}"),
 
 	// cloudrun
 	//
