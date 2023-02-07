@@ -315,10 +315,12 @@ import (
 	objectaccesscontrol "github.com/upbound/provider-gcp/internal/controller/storage/objectaccesscontrol"
 	objectacl "github.com/upbound/provider-gcp/internal/controller/storage/objectacl"
 	agentpool "github.com/upbound/provider-gcp/internal/controller/storagetransfer/agentpool"
+	node "github.com/upbound/provider-gcp/internal/controller/tpu/node"
 	datasetvertexai "github.com/upbound/provider-gcp/internal/controller/vertexai/dataset"
 	featurestore "github.com/upbound/provider-gcp/internal/controller/vertexai/featurestore"
 	featurestoreentitytype "github.com/upbound/provider-gcp/internal/controller/vertexai/featurestoreentitytype"
 	tensorboard "github.com/upbound/provider-gcp/internal/controller/vertexai/tensorboard"
+	workflow "github.com/upbound/provider-gcp/internal/controller/workflows/workflow"
 )
 
 // Setup creates all controllers with the supplied logger and adds them to
@@ -631,10 +633,12 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		objectaccesscontrol.Setup,
 		objectacl.Setup,
 		agentpool.Setup,
+		node.Setup,
 		datasetvertexai.Setup,
 		featurestore.Setup,
 		featurestoreentitytype.Setup,
 		tensorboard.Setup,
+		workflow.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {
 			return err

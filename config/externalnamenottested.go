@@ -526,18 +526,8 @@ var ExternalNameNotTestedConfigs = map[string]config.ExternalName{
 	// Imported by using the following tagBindings/{{name}}
 	"google_tags_tag_binding": config.IdentifierFromProvider,
 
-	// tpu
-	//
-	// Imported by using the following projects/{{project}}/locations/{{zone}}/nodes/{{name}}
-	"google_tpu_node": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.zone }}/nodes/{{ .external_name }}"),
-
 	// vpcaccess
 	//
 	// Imported by using the following projects/{{project}}/locations/{{region}}/connectors/{{name}}
 	"google_vpc_access_connector": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.region }}/connectors/{{ .external_name }}"),
-
-	// workflows
-	//
-	// No import
-	"google_workflows_workflow": config.IdentifierFromProvider,
 }
