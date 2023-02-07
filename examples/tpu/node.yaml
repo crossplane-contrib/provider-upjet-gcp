@@ -1,0 +1,13 @@
+apiVersion: tpu.gcp.upbound.io/v1beta1
+kind: Node
+metadata:
+  annotations:
+    meta.upbound.io/example-id: tpu/v1beta1/node
+  labels:
+    testing.upbound.io/example-name: tpu
+  name: tpu
+spec:
+  forProvider:
+    tensorflowVersion: "2.11.0"
+    acceleratorType: v3-8
+    zone: us-central1-b

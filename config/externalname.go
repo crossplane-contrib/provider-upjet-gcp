@@ -899,6 +899,16 @@ var externalNameConfigs = map[string]config.ExternalName{
 	"google_bigquery_analytics_hub_data_exchange": config.IdentifierFromProvider,
 	// Imported by using the following projects/{{project}}/locations/{{location}}/dataExchanges/{{data_exchange_id}}/listings/{{listing_id}}
 	"google_bigquery_analytics_hub_listing": config.TemplatedStringAsIdentifier("listing_id", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/dataExchanges/{{ .parameters.data_exchange_id }}/listings/{{ .external_name }}"),
+
+	// tpu
+	//
+	// Imported by using the following projects/{{project}}/locations/{{zone}}/nodes/{{name}}
+	"google_tpu_node": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.zone }}/nodes/{{ .external_name }}"),
+
+	// workflows
+	//
+	// No import
+	"google_workflows_workflow": config.IdentifierFromProvider,
 }
 
 // TemplatedStringAsIdentifierWithNoName uses TemplatedStringAsIdentifier but
