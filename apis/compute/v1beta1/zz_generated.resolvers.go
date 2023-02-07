@@ -759,7 +759,7 @@ func (mg *Instance) ResolveReferences(ctx context.Context, c client.Reader) erro
 	for i3 := 0; i3 < len(mg.Spec.ForProvider.NetworkInterface); i3++ {
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.NetworkInterface[i3].Network),
-			Extract:      reference.ExternalName(),
+			Extract:      common.SelfLinkExtractor(),
 			Reference:    mg.Spec.ForProvider.NetworkInterface[i3].NetworkRef,
 			Selector:     mg.Spec.ForProvider.NetworkInterface[i3].NetworkSelector,
 			To: reference.To{
@@ -777,7 +777,7 @@ func (mg *Instance) ResolveReferences(ctx context.Context, c client.Reader) erro
 	for i3 := 0; i3 < len(mg.Spec.ForProvider.NetworkInterface); i3++ {
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.NetworkInterface[i3].Subnetwork),
-			Extract:      reference.ExternalName(),
+			Extract:      common.SelfLinkExtractor(),
 			Reference:    mg.Spec.ForProvider.NetworkInterface[i3].SubnetworkRef,
 			Selector:     mg.Spec.ForProvider.NetworkInterface[i3].SubnetworkSelector,
 			To: reference.To{
