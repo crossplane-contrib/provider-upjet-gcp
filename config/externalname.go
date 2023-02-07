@@ -827,6 +827,8 @@ var externalNameConfigs = map[string]config.ExternalName{
 	"google_dataproc_job": config.IdentifierFromProvider,
 	// Imported by using the following format: projects/{{project}}/locations/{{location}}/workflowTemplates/{{name}}
 	"google_dataproc_workflow_template": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/workflowTemplates/{{ .external_name }}"),
+	// Imported by using the following projects/{{project}}/locations/{{location}}/services/{{service_id}}
+	"google_dataproc_metastore_service": config.TemplatedStringAsIdentifier("service_id", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/services/{{ .external_name }}"),
 
 	// iam
 	//
