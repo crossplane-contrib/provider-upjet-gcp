@@ -22,6 +22,8 @@ import (
 	reference "github.com/crossplane/crossplane-runtime/pkg/reference"
 	errors "github.com/pkg/errors"
 	v1beta1 "github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1"
+	v1beta12 "github.com/upbound/provider-gcp/apis/compute/v1beta1"
+	v1beta11 "github.com/upbound/provider-gcp/apis/kms/v1beta1"
 	resource "github.com/upbound/upjet/pkg/resource"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
@@ -97,6 +99,55 @@ func (mg *Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 	}
 	mg.Spec.ForProvider.Region = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.RegionRef = rsp.ResolvedReference
+
+	return nil
+}
+
+// ResolveReferences of this MetastoreService.
+func (mg *MetastoreService) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.EncryptionConfig); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.EncryptionConfig[i3].KMSKey),
+			Extract:      resource.ExtractResourceID(),
+			Reference:    mg.Spec.ForProvider.EncryptionConfig[i3].KMSKeyRef,
+			Selector:     mg.Spec.ForProvider.EncryptionConfig[i3].KMSKeySelector,
+			To: reference.To{
+				List:    &v1beta11.CryptoKeyList{},
+				Managed: &v1beta11.CryptoKey{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.EncryptionConfig[i3].KMSKey")
+		}
+		mg.Spec.ForProvider.EncryptionConfig[i3].KMSKey = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.EncryptionConfig[i3].KMSKeyRef = rsp.ResolvedReference
+
+	}
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.NetworkConfig); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.ForProvider.NetworkConfig[i3].Consumers); i4++ {
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.NetworkConfig[i3].Consumers[i4].Subnetwork),
+				Extract:      resource.ExtractResourceID(),
+				Reference:    mg.Spec.ForProvider.NetworkConfig[i3].Consumers[i4].SubnetworkRef,
+				Selector:     mg.Spec.ForProvider.NetworkConfig[i3].Consumers[i4].SubnetworkSelector,
+				To: reference.To{
+					List:    &v1beta12.SubnetworkList{},
+					Managed: &v1beta12.Subnetwork{},
+				},
+			})
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.ForProvider.NetworkConfig[i3].Consumers[i4].Subnetwork")
+			}
+			mg.Spec.ForProvider.NetworkConfig[i3].Consumers[i4].Subnetwork = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.NetworkConfig[i3].Consumers[i4].SubnetworkRef = rsp.ResolvedReference
+
+		}
+	}
 
 	return nil
 }

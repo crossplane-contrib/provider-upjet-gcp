@@ -196,6 +196,7 @@ import (
 	autoscalingpolicy "github.com/upbound/provider-gcp/internal/controller/dataproc/autoscalingpolicy"
 	clusterdataproc "github.com/upbound/provider-gcp/internal/controller/dataproc/cluster"
 	jobdataproc "github.com/upbound/provider-gcp/internal/controller/dataproc/job"
+	metastoreservice "github.com/upbound/provider-gcp/internal/controller/dataproc/metastoreservice"
 	workflowtemplate "github.com/upbound/provider-gcp/internal/controller/dataproc/workflowtemplate"
 	index "github.com/upbound/provider-gcp/internal/controller/datastore/index"
 	connectionprofile "github.com/upbound/provider-gcp/internal/controller/datastream/connectionprofile"
@@ -511,6 +512,7 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		autoscalingpolicy.Setup,
 		clusterdataproc.Setup,
 		jobdataproc.Setup,
+		metastoreservice.Setup,
 		workflowtemplate.Setup,
 		index.Setup,
 		connectionprofile.Setup,
