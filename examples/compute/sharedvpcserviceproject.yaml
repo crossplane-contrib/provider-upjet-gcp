@@ -3,11 +3,13 @@ kind: SharedVPCServiceProject
 metadata:
   annotations:
     meta.upbound.io/example-id: compute/v1beta1/sharedvpcserviceproject
-    upjet.upbound.io/manual-intervention: "Only supports this permission at project or organizational level currently"
   labels:
-    testing.upbound.io/example-name: shared-vpc-service-project
-  name: shared-vpc-service-project
+    testing.upbound.io/example-name: service1
+  name: service1
 spec:
   forProvider:
     hostProject: host-project-id
     serviceProject: service-project-id-1
+
+---
+
