@@ -327,6 +327,7 @@ import (
 	bucketobject "github.com/upbound/provider-gcp/internal/controller/storage/bucketobject"
 	defaultobjectaccesscontrol "github.com/upbound/provider-gcp/internal/controller/storage/defaultobjectaccesscontrol"
 	defaultobjectacl "github.com/upbound/provider-gcp/internal/controller/storage/defaultobjectacl"
+	notification "github.com/upbound/provider-gcp/internal/controller/storage/notification"
 	objectaccesscontrol "github.com/upbound/provider-gcp/internal/controller/storage/objectaccesscontrol"
 	objectacl "github.com/upbound/provider-gcp/internal/controller/storage/objectacl"
 	agentpool "github.com/upbound/provider-gcp/internal/controller/storagetransfer/agentpool"
@@ -660,6 +661,7 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		bucketobject.Setup,
 		defaultobjectaccesscontrol.Setup,
 		defaultobjectacl.Setup,
+		notification.Setup,
 		objectaccesscontrol.Setup,
 		objectacl.Setup,
 		agentpool.Setup,

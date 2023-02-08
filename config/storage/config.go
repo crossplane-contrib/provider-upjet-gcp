@@ -39,4 +39,13 @@ func Configure(p *config.Provider) {
 			Type: "Bucket",
 		}
 	})
+
+	p.AddResourceConfigurator("google_storage_notification", func(r *config.Resource) {
+		r.References["bucket"] = config.Reference{
+			Type: "Bucket",
+		}
+		r.References["topic"] = config.Reference{
+			Type: "github.com/upbound/provider-gcp/apis/pubsub/v1beta1.Topic",
+		}
+	})
 }
