@@ -1,4 +1,5 @@
-apiVersion: compute.gcp.upbound.io/v1beta1
+---
+piVersion: compute.gcp.upbound.io/v1beta1
 kind: SharedVPCHostProject
 metadata:
   annotations:
