@@ -547,6 +547,72 @@ func (mg *ProjectIAMAuditConfig) SetWriteConnectionSecretToReference(r *xpv1.Sec
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
+// GetCondition of this ProjectIAMCustomRole.
+func (mg *ProjectIAMCustomRole) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+	return mg.Status.GetCondition(ct)
+}
+
+// GetDeletionPolicy of this ProjectIAMCustomRole.
+func (mg *ProjectIAMCustomRole) GetDeletionPolicy() xpv1.DeletionPolicy {
+	return mg.Spec.DeletionPolicy
+}
+
+// GetProviderConfigReference of this ProjectIAMCustomRole.
+func (mg *ProjectIAMCustomRole) GetProviderConfigReference() *xpv1.Reference {
+	return mg.Spec.ProviderConfigReference
+}
+
+/*
+GetProviderReference of this ProjectIAMCustomRole.
+Deprecated: Use GetProviderConfigReference.
+*/
+func (mg *ProjectIAMCustomRole) GetProviderReference() *xpv1.Reference {
+	return mg.Spec.ProviderReference
+}
+
+// GetPublishConnectionDetailsTo of this ProjectIAMCustomRole.
+func (mg *ProjectIAMCustomRole) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
+	return mg.Spec.PublishConnectionDetailsTo
+}
+
+// GetWriteConnectionSecretToReference of this ProjectIAMCustomRole.
+func (mg *ProjectIAMCustomRole) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
+	return mg.Spec.WriteConnectionSecretToReference
+}
+
+// SetConditions of this ProjectIAMCustomRole.
+func (mg *ProjectIAMCustomRole) SetConditions(c ...xpv1.Condition) {
+	mg.Status.SetConditions(c...)
+}
+
+// SetDeletionPolicy of this ProjectIAMCustomRole.
+func (mg *ProjectIAMCustomRole) SetDeletionPolicy(r xpv1.DeletionPolicy) {
+	mg.Spec.DeletionPolicy = r
+}
+
+// SetProviderConfigReference of this ProjectIAMCustomRole.
+func (mg *ProjectIAMCustomRole) SetProviderConfigReference(r *xpv1.Reference) {
+	mg.Spec.ProviderConfigReference = r
+}
+
+/*
+SetProviderReference of this ProjectIAMCustomRole.
+Deprecated: Use SetProviderConfigReference.
+*/
+func (mg *ProjectIAMCustomRole) SetProviderReference(r *xpv1.Reference) {
+	mg.Spec.ProviderReference = r
+}
+
+// SetPublishConnectionDetailsTo of this ProjectIAMCustomRole.
+func (mg *ProjectIAMCustomRole) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
+	mg.Spec.PublishConnectionDetailsTo = r
+}
+
+// SetWriteConnectionSecretToReference of this ProjectIAMCustomRole.
+func (mg *ProjectIAMCustomRole) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
+	mg.Spec.WriteConnectionSecretToReference = r
+}
+
 // GetCondition of this ProjectIAMMember.
 func (mg *ProjectIAMMember) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
 	return mg.Status.GetCondition(ct)
