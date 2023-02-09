@@ -95,4 +95,9 @@ func Configure(p *config.Provider) {
 		delete(r.References, "load.destination_table.project_id")
 		delete(r.References, "extract.source_table.project_id")
 	})
+	p.AddResourceConfigurator("google_bigquery_analytics_hub_data_exchange_iam_member", func(r *config.Resource) {
+		r.References["data_exchange_id"] = config.Reference{
+			TerraformName: "google_bigquery_analytics_hub_data_exchange",
+		}
+	})
 }

@@ -1,0 +1,32 @@
+apiVersion: healthcare.gcp.upbound.io/v1beta1
+kind: DatasetIAMMember
+metadata:
+  annotations:
+    meta.upbound.io/example-id: healthcare/v1beta1/datasetiammember
+  labels:
+    testing.upbound.io/example-name: dataset-iam-member
+  name: dataset-iam-member
+spec:
+  forProvider:
+    member: "user:joe@example.com"
+    role: "roles/editor"
+    datasetIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: dataset
+
+---
+
+apiVersion: healthcare.gcp.upbound.io/v1beta1
+kind: Dataset
+metadata:
+  annotations:
+    meta.upbound.io/example-id: healthcare/v1beta1/datasetiammember
+    uptest.upbound.io/pre-delete-hook: testhooks/delete-datasetiammember.sh
+  labels:
+    testing.upbound.io/example-name: dataset
+  name: dataset
+spec:
+  forProvider:
+    name: dataset
+    location: us-central1
+    timeZone: UTC

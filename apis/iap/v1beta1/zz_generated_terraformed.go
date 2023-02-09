@@ -25,6 +25,228 @@ import (
 	"github.com/upbound/upjet/pkg/resource/json"
 )
 
+// GetTerraformResourceType returns Terraform resource type for this AppEngineServiceIAMMember
+func (mg *AppEngineServiceIAMMember) GetTerraformResourceType() string {
+	return "google_iap_app_engine_service_iam_member"
+}
+
+// GetConnectionDetailsMapping for this AppEngineServiceIAMMember
+func (tr *AppEngineServiceIAMMember) GetConnectionDetailsMapping() map[string]string {
+	return nil
+}
+
+// GetObservation of this AppEngineServiceIAMMember
+func (tr *AppEngineServiceIAMMember) GetObservation() (map[string]any, error) {
+	o, err := json.TFParser.Marshal(tr.Status.AtProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(o, &base)
+}
+
+// SetObservation for this AppEngineServiceIAMMember
+func (tr *AppEngineServiceIAMMember) SetObservation(obs map[string]any) error {
+	p, err := json.TFParser.Marshal(obs)
+	if err != nil {
+		return err
+	}
+	return json.TFParser.Unmarshal(p, &tr.Status.AtProvider)
+}
+
+// GetID returns ID of underlying Terraform resource of this AppEngineServiceIAMMember
+func (tr *AppEngineServiceIAMMember) GetID() string {
+	if tr.Status.AtProvider.ID == nil {
+		return ""
+	}
+	return *tr.Status.AtProvider.ID
+}
+
+// GetParameters of this AppEngineServiceIAMMember
+func (tr *AppEngineServiceIAMMember) GetParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.ForProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
+}
+
+// SetParameters for this AppEngineServiceIAMMember
+func (tr *AppEngineServiceIAMMember) SetParameters(params map[string]any) error {
+	p, err := json.TFParser.Marshal(params)
+	if err != nil {
+		return err
+	}
+	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
+}
+
+// LateInitialize this AppEngineServiceIAMMember using its observed tfState.
+// returns True if there are any spec changes for the resource.
+func (tr *AppEngineServiceIAMMember) LateInitialize(attrs []byte) (bool, error) {
+	params := &AppEngineServiceIAMMemberParameters{}
+	if err := json.TFParser.Unmarshal(attrs, params); err != nil {
+		return false, errors.Wrap(err, "failed to unmarshal Terraform state parameters for late-initialization")
+	}
+	opts := []resource.GenericLateInitializerOption{resource.WithZeroValueJSONOmitEmptyFilter(resource.CNameWildcard)}
+
+	li := resource.NewGenericLateInitializer(opts...)
+	return li.LateInitialize(&tr.Spec.ForProvider, params)
+}
+
+// GetTerraformSchemaVersion returns the associated Terraform schema version
+func (tr *AppEngineServiceIAMMember) GetTerraformSchemaVersion() int {
+	return 0
+}
+
+// GetTerraformResourceType returns Terraform resource type for this AppEngineVersionIAMMember
+func (mg *AppEngineVersionIAMMember) GetTerraformResourceType() string {
+	return "google_iap_app_engine_version_iam_member"
+}
+
+// GetConnectionDetailsMapping for this AppEngineVersionIAMMember
+func (tr *AppEngineVersionIAMMember) GetConnectionDetailsMapping() map[string]string {
+	return nil
+}
+
+// GetObservation of this AppEngineVersionIAMMember
+func (tr *AppEngineVersionIAMMember) GetObservation() (map[string]any, error) {
+	o, err := json.TFParser.Marshal(tr.Status.AtProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(o, &base)
+}
+
+// SetObservation for this AppEngineVersionIAMMember
+func (tr *AppEngineVersionIAMMember) SetObservation(obs map[string]any) error {
+	p, err := json.TFParser.Marshal(obs)
+	if err != nil {
+		return err
+	}
+	return json.TFParser.Unmarshal(p, &tr.Status.AtProvider)
+}
+
+// GetID returns ID of underlying Terraform resource of this AppEngineVersionIAMMember
+func (tr *AppEngineVersionIAMMember) GetID() string {
+	if tr.Status.AtProvider.ID == nil {
+		return ""
+	}
+	return *tr.Status.AtProvider.ID
+}
+
+// GetParameters of this AppEngineVersionIAMMember
+func (tr *AppEngineVersionIAMMember) GetParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.ForProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
+}
+
+// SetParameters for this AppEngineVersionIAMMember
+func (tr *AppEngineVersionIAMMember) SetParameters(params map[string]any) error {
+	p, err := json.TFParser.Marshal(params)
+	if err != nil {
+		return err
+	}
+	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
+}
+
+// LateInitialize this AppEngineVersionIAMMember using its observed tfState.
+// returns True if there are any spec changes for the resource.
+func (tr *AppEngineVersionIAMMember) LateInitialize(attrs []byte) (bool, error) {
+	params := &AppEngineVersionIAMMemberParameters{}
+	if err := json.TFParser.Unmarshal(attrs, params); err != nil {
+		return false, errors.Wrap(err, "failed to unmarshal Terraform state parameters for late-initialization")
+	}
+	opts := []resource.GenericLateInitializerOption{resource.WithZeroValueJSONOmitEmptyFilter(resource.CNameWildcard)}
+
+	li := resource.NewGenericLateInitializer(opts...)
+	return li.LateInitialize(&tr.Spec.ForProvider, params)
+}
+
+// GetTerraformSchemaVersion returns the associated Terraform schema version
+func (tr *AppEngineVersionIAMMember) GetTerraformSchemaVersion() int {
+	return 0
+}
+
+// GetTerraformResourceType returns Terraform resource type for this TunnelIAMMember
+func (mg *TunnelIAMMember) GetTerraformResourceType() string {
+	return "google_iap_tunnel_iam_member"
+}
+
+// GetConnectionDetailsMapping for this TunnelIAMMember
+func (tr *TunnelIAMMember) GetConnectionDetailsMapping() map[string]string {
+	return nil
+}
+
+// GetObservation of this TunnelIAMMember
+func (tr *TunnelIAMMember) GetObservation() (map[string]any, error) {
+	o, err := json.TFParser.Marshal(tr.Status.AtProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(o, &base)
+}
+
+// SetObservation for this TunnelIAMMember
+func (tr *TunnelIAMMember) SetObservation(obs map[string]any) error {
+	p, err := json.TFParser.Marshal(obs)
+	if err != nil {
+		return err
+	}
+	return json.TFParser.Unmarshal(p, &tr.Status.AtProvider)
+}
+
+// GetID returns ID of underlying Terraform resource of this TunnelIAMMember
+func (tr *TunnelIAMMember) GetID() string {
+	if tr.Status.AtProvider.ID == nil {
+		return ""
+	}
+	return *tr.Status.AtProvider.ID
+}
+
+// GetParameters of this TunnelIAMMember
+func (tr *TunnelIAMMember) GetParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.ForProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
+}
+
+// SetParameters for this TunnelIAMMember
+func (tr *TunnelIAMMember) SetParameters(params map[string]any) error {
+	p, err := json.TFParser.Marshal(params)
+	if err != nil {
+		return err
+	}
+	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
+}
+
+// LateInitialize this TunnelIAMMember using its observed tfState.
+// returns True if there are any spec changes for the resource.
+func (tr *TunnelIAMMember) LateInitialize(attrs []byte) (bool, error) {
+	params := &TunnelIAMMemberParameters{}
+	if err := json.TFParser.Unmarshal(attrs, params); err != nil {
+		return false, errors.Wrap(err, "failed to unmarshal Terraform state parameters for late-initialization")
+	}
+	opts := []resource.GenericLateInitializerOption{resource.WithZeroValueJSONOmitEmptyFilter(resource.CNameWildcard)}
+
+	li := resource.NewGenericLateInitializer(opts...)
+	return li.LateInitialize(&tr.Spec.ForProvider, params)
+}
+
+// GetTerraformSchemaVersion returns the associated Terraform schema version
+func (tr *TunnelIAMMember) GetTerraformSchemaVersion() int {
+	return 0
+}
+
 // GetTerraformResourceType returns Terraform resource type for this WebBackendServiceIAMMember
 func (mg *WebBackendServiceIAMMember) GetTerraformResourceType() string {
 	return "google_iap_web_backend_service_iam_member"

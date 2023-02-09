@@ -1,0 +1,16 @@
+apiVersion: iap.gcp.upbound.io/v1beta1
+kind: AppEngineVersionIAMMember
+metadata:
+  annotations:
+    meta.upbound.io/example-id: iap/v1beta1/appengineversioniammember
+    upjet.upbound.io/manual-intervention: "The resource needs a real App Engine data"
+  labels:
+    testing.upbound.io/example-name: google_iap_app_engine_service_iam_member
+  name: app-engine-version-iam-member
+spec:
+  forProvider:
+    appId: ${data.project.id}
+    member: "user:joe@example.com"
+    role: "roles/viewer"
+    service: "default"
+    versionId: "myapp-v1"

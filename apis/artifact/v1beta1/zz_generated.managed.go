@@ -84,3 +84,69 @@ func (mg *RegistryRepository) SetPublishConnectionDetailsTo(r *xpv1.PublishConne
 func (mg *RegistryRepository) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }
+
+// GetCondition of this RegistryRepositoryIAMMember.
+func (mg *RegistryRepositoryIAMMember) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+	return mg.Status.GetCondition(ct)
+}
+
+// GetDeletionPolicy of this RegistryRepositoryIAMMember.
+func (mg *RegistryRepositoryIAMMember) GetDeletionPolicy() xpv1.DeletionPolicy {
+	return mg.Spec.DeletionPolicy
+}
+
+// GetProviderConfigReference of this RegistryRepositoryIAMMember.
+func (mg *RegistryRepositoryIAMMember) GetProviderConfigReference() *xpv1.Reference {
+	return mg.Spec.ProviderConfigReference
+}
+
+/*
+GetProviderReference of this RegistryRepositoryIAMMember.
+Deprecated: Use GetProviderConfigReference.
+*/
+func (mg *RegistryRepositoryIAMMember) GetProviderReference() *xpv1.Reference {
+	return mg.Spec.ProviderReference
+}
+
+// GetPublishConnectionDetailsTo of this RegistryRepositoryIAMMember.
+func (mg *RegistryRepositoryIAMMember) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
+	return mg.Spec.PublishConnectionDetailsTo
+}
+
+// GetWriteConnectionSecretToReference of this RegistryRepositoryIAMMember.
+func (mg *RegistryRepositoryIAMMember) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
+	return mg.Spec.WriteConnectionSecretToReference
+}
+
+// SetConditions of this RegistryRepositoryIAMMember.
+func (mg *RegistryRepositoryIAMMember) SetConditions(c ...xpv1.Condition) {
+	mg.Status.SetConditions(c...)
+}
+
+// SetDeletionPolicy of this RegistryRepositoryIAMMember.
+func (mg *RegistryRepositoryIAMMember) SetDeletionPolicy(r xpv1.DeletionPolicy) {
+	mg.Spec.DeletionPolicy = r
+}
+
+// SetProviderConfigReference of this RegistryRepositoryIAMMember.
+func (mg *RegistryRepositoryIAMMember) SetProviderConfigReference(r *xpv1.Reference) {
+	mg.Spec.ProviderConfigReference = r
+}
+
+/*
+SetProviderReference of this RegistryRepositoryIAMMember.
+Deprecated: Use SetProviderConfigReference.
+*/
+func (mg *RegistryRepositoryIAMMember) SetProviderReference(r *xpv1.Reference) {
+	mg.Spec.ProviderReference = r
+}
+
+// SetPublishConnectionDetailsTo of this RegistryRepositoryIAMMember.
+func (mg *RegistryRepositoryIAMMember) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
+	mg.Spec.PublishConnectionDetailsTo = r
+}
+
+// SetWriteConnectionSecretToReference of this RegistryRepositoryIAMMember.
+func (mg *RegistryRepositoryIAMMember) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
+	mg.Spec.WriteConnectionSecretToReference = r
+}

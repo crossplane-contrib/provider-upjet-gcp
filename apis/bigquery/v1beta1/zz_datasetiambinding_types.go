@@ -25,10 +25,10 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
-type ConditionObservation struct {
+type DatasetIAMBindingConditionObservation struct {
 }
 
-type ConditionParameters struct {
+type DatasetIAMBindingConditionParameters struct {
 
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -49,7 +49,7 @@ type DatasetIAMBindingObservation struct {
 type DatasetIAMBindingParameters struct {
 
 	// +kubebuilder:validation:Optional
-	Condition []ConditionParameters `json:"condition,omitempty" tf:"condition,omitempty"`
+	Condition []DatasetIAMBindingConditionParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/bigquery/v1beta1.Dataset
 	// +kubebuilder:validation:Optional

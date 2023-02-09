@@ -28,6 +28,32 @@ import (
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
+// ResolveReferences of this AnalyticsHubDataExchangeIAMMember.
+func (mg *AnalyticsHubDataExchangeIAMMember) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.DataExchangeID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.ForProvider.DataExchangeIDRef,
+		Selector:     mg.Spec.ForProvider.DataExchangeIDSelector,
+		To: reference.To{
+			List:    &AnalyticsHubDataExchangeList{},
+			Managed: &AnalyticsHubDataExchange{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.DataExchangeID")
+	}
+	mg.Spec.ForProvider.DataExchangeID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.DataExchangeIDRef = rsp.ResolvedReference
+
+	return nil
+}
+
 // ResolveReferences of this AnalyticsHubListing.
 func (mg *AnalyticsHubListing) ResolveReferences(ctx context.Context, c client.Reader) error {
 	r := reference.NewAPIResolver(c, mg)

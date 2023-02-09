@@ -56,3 +56,29 @@ func (mg *Membership) ResolveReferences(ctx context.Context, c client.Reader) er
 
 	return nil
 }
+
+// ResolveReferences of this MembershipIAMMember.
+func (mg *MembershipIAMMember) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.MembershipID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.ForProvider.MembershipIDRef,
+		Selector:     mg.Spec.ForProvider.MembershipIDSelector,
+		To: reference.To{
+			List:    &MembershipList{},
+			Managed: &Membership{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.MembershipID")
+	}
+	mg.Spec.ForProvider.MembershipID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.MembershipIDRef = rsp.ResolvedReference
+
+	return nil
+}

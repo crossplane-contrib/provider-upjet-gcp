@@ -1,0 +1,66 @@
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: SnapshotIAMMember
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/snapshotiammember
+  labels:
+    testing.upbound.io/example-name: snapshot_iam_member
+  name: snapshot-iam-member
+spec:
+  forProvider:
+    name: snapshot
+    member: "user:joe@example.com"
+    role: "roles/viewer"
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Snapshot
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/snapshotiammember
+  labels:
+    testing.upbound.io/example-name: snapshot
+  name: snapshot
+spec:
+  forProvider:
+    labels:
+      my_label: value
+    sourceDiskSelector:
+      matchLabels:
+        testing.upbound.io/example-name: persistent
+    storageLocations:
+    - us-central1
+    zone: us-central1-a
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Disk
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/snapshotiammember
+  labels:
+    testing.upbound.io/example-name: persistent
+  name: persistent
+spec:
+  forProvider:
+    image: image
+    size: 10
+    type: pd-ssd
+    zone: us-central1-a
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Image
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/snapshotiammember
+  labels:
+    testing.upbound.io/example-name: image
+  name: image
+spec:
+  forProvider:
+    rawDisk:
+      - source: https://storage.googleapis.com/bosh-gce-raw-stemcells/bosh-stemcell-97.98-google-kvm-ubuntu-xenial-go_agent-raw-1557960142.tar.gz

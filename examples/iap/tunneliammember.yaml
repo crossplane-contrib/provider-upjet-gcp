@@ -1,0 +1,12 @@
+apiVersion: iap.gcp.upbound.io/v1beta1
+kind: TunnelIAMMember
+metadata:
+  annotations:
+    meta.upbound.io/example-id: iap/v1beta1/tunneliammember
+  labels:
+    testing.upbound.io/example-name: tunnel_iam_member
+  name: tunnel-iam-member
+spec:
+  forProvider:
+    member: "user:joe@example.com"
+    role: "roles/viewer"
