@@ -1,4 +1,3 @@
----
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: SharedVPCServiceProject
 metadata:
