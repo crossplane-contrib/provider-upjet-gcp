@@ -70,6 +70,7 @@ var groupMap = map[string]GroupKindCalculator{
 	"google_assured_workloads.+":            ReplaceGroupWords("", 2),
 	"google_binary_authorization.+":         ReplaceGroupWords("", 2),
 	"google_container_analysis.+":           ReplaceGroupWords("", 2),
+	"google_container_attached.+":           ReplaceGroupWords("", 2),
 	"google_container_aws.+":                ReplaceGroupWords("", 2),
 	"google_container_azure.+":              ReplaceGroupWords("", 2),
 	"google_deployment_manager.+":           ReplaceGroupWords("", 2),

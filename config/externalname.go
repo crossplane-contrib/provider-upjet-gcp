@@ -306,6 +306,11 @@ var externalNameConfigs = map[string]config.ExternalName{
 	// Imported by using the following format: projects/{{project}}/occurrences/{{name}}
 	// "google_container_analysis_occurrence": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/occurrences/{{ .external_name }}"),
 
+	// containerattached
+	//
+	// Imported by using the following projects/{{project}}/locations/{{location}}/attachedClusters/{{name}}
+	"google_container_attached_cluster": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/attachedClusters/{{ .external_name }}"),
+
 	// containeraws
 	//
 	// Imported by using the following format: projects/my-gcp-project/locations/us-east1-a/clusters/my-cluster

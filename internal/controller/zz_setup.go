@@ -180,6 +180,7 @@ import (
 	nodepool "github.com/upbound/provider-gcp/internal/controller/container/nodepool"
 	registrycontainer "github.com/upbound/provider-gcp/internal/controller/container/registry"
 	note "github.com/upbound/provider-gcp/internal/controller/containeranalysis/note"
+	clustercontainerattached "github.com/upbound/provider-gcp/internal/controller/containerattached/cluster"
 	clustercontaineraws "github.com/upbound/provider-gcp/internal/controller/containeraws/cluster"
 	nodepoolcontaineraws "github.com/upbound/provider-gcp/internal/controller/containeraws/nodepool"
 	client "github.com/upbound/provider-gcp/internal/controller/containerazure/client"
@@ -509,6 +510,7 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		nodepool.Setup,
 		registrycontainer.Setup,
 		note.Setup,
+		clustercontainerattached.Setup,
 		clustercontaineraws.Setup,
 		nodepoolcontaineraws.Setup,
 		client.Setup,
