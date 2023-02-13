@@ -1,0 +1,50 @@
+apiVersion: gkehub.gcp.upbound.io/v1beta1
+kind: MembershipIAMMember
+metadata:
+  annotations:
+    meta.upbound.io/example-id: gkehub/v1beta1/membershipiammember
+  labels:
+    testing.upbound.io/example-name: membership_iam_member
+  name: membership-iam-member
+spec:
+  forProvider:
+    member: "user:joe@example.com"
+    role: "roles/editor"
+    membershipIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: membership
+
+---
+
+apiVersion: gkehub.gcp.upbound.io/v1beta1
+kind: Membership
+metadata:
+  annotations:
+    meta.upbound.io/example-id: gkehub/v1beta1/membershipiammember
+  labels:
+    testing.upbound.io/example-name: membership
+  name: membership
+spec:
+  forProvider:
+    endpoint:
+    - gkeCluster:
+      - resourceLinkSelector:
+          matchLabels:
+            testing.upbound.io/example-name: membership
+
+---
+
+apiVersion: container.gcp.upbound.io/v1beta1
+kind: Cluster
+metadata:
+  annotations:
+    meta.upbound.io/example-id: gkehub/v1beta1/membershipiammember
+  labels:
+    testing.upbound.io/example-name: membership
+  name: membership
+spec:
+  forProvider:
+    initialNodeCount: 2
+    location: us-central1-a
+    nodeConfig:
+      - machineType: e2-standard-8

@@ -1,0 +1,32 @@
+apiVersion: bigquery.gcp.upbound.io/v1beta1
+kind: AnalyticsHubDataExchangeIAMMember
+metadata:
+  annotations:
+    meta.upbound.io/example-id: bigquery/v1beta1/analyticshubdataexchangeiammember
+  labels:
+    testing.upbound.io/example-name: analytics_hub_data_exchange_iam_member
+  name: analytics-hub-data-exchange-iam-member
+spec:
+  forProvider:
+    member: "user:joe@example.com"
+    role: "roles/viewer"
+    dataExchangeIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: data_exchange
+
+---
+
+apiVersion: bigquery.gcp.upbound.io/v1beta1
+kind: AnalyticsHubDataExchange
+metadata:
+  annotations:
+    meta.upbound.io/example-id: bigquery/v1beta1/analyticshubdataexchangeiammember
+  labels:
+    testing.upbound.io/example-name: data_exchange
+  name: data-exchange
+spec:
+  forProvider:
+    dataExchangeId: my_data_exchange
+    description: example data exchange
+    displayName: my_data_exchange
+    location: US

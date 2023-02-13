@@ -12,6 +12,7 @@ import (
 	domain "github.com/upbound/provider-gcp/internal/controller/activedirectory/domain"
 	envgroup "github.com/upbound/provider-gcp/internal/controller/apigee/envgroup"
 	environment "github.com/upbound/provider-gcp/internal/controller/apigee/environment"
+	environmentiammember "github.com/upbound/provider-gcp/internal/controller/apigee/environmentiammember"
 	instance "github.com/upbound/provider-gcp/internal/controller/apigee/instance"
 	nataddress "github.com/upbound/provider-gcp/internal/controller/apigee/nataddress"
 	organization "github.com/upbound/provider-gcp/internal/controller/apigee/organization"
@@ -20,10 +21,12 @@ import (
 	servicenetworksettings "github.com/upbound/provider-gcp/internal/controller/appengine/servicenetworksettings"
 	standardappversion "github.com/upbound/provider-gcp/internal/controller/appengine/standardappversion"
 	registryrepository "github.com/upbound/provider-gcp/internal/controller/artifact/registryrepository"
+	registryrepositoryiammember "github.com/upbound/provider-gcp/internal/controller/artifact/registryrepositoryiammember"
 	appconnection "github.com/upbound/provider-gcp/internal/controller/beyondcorp/appconnection"
 	appconnector "github.com/upbound/provider-gcp/internal/controller/beyondcorp/appconnector"
 	appgateway "github.com/upbound/provider-gcp/internal/controller/beyondcorp/appgateway"
 	analyticshubdataexchange "github.com/upbound/provider-gcp/internal/controller/bigquery/analyticshubdataexchange"
+	analyticshubdataexchangeiammember "github.com/upbound/provider-gcp/internal/controller/bigquery/analyticshubdataexchangeiammember"
 	analyticshublisting "github.com/upbound/provider-gcp/internal/controller/bigquery/analyticshublisting"
 	connection "github.com/upbound/provider-gcp/internal/controller/bigquery/connection"
 	dataset "github.com/upbound/provider-gcp/internal/controller/bigquery/dataset"
@@ -158,6 +161,7 @@ import (
 	securitypolicy "github.com/upbound/provider-gcp/internal/controller/compute/securitypolicy"
 	serviceattachment "github.com/upbound/provider-gcp/internal/controller/compute/serviceattachment"
 	snapshot "github.com/upbound/provider-gcp/internal/controller/compute/snapshot"
+	snapshotiammember "github.com/upbound/provider-gcp/internal/controller/compute/snapshotiammember"
 	sslcertificate "github.com/upbound/provider-gcp/internal/controller/compute/sslcertificate"
 	sslpolicy "github.com/upbound/provider-gcp/internal/controller/compute/sslpolicy"
 	subnetwork "github.com/upbound/provider-gcp/internal/controller/compute/subnetwork"
@@ -211,6 +215,7 @@ import (
 	version "github.com/upbound/provider-gcp/internal/controller/dialogflowcx/version"
 	webhook "github.com/upbound/provider-gcp/internal/controller/dialogflowcx/webhook"
 	managedzone "github.com/upbound/provider-gcp/internal/controller/dns/managedzone"
+	managedzoneiammember "github.com/upbound/provider-gcp/internal/controller/dns/managedzoneiammember"
 	policydns "github.com/upbound/provider-gcp/internal/controller/dns/policy"
 	recordset "github.com/upbound/provider-gcp/internal/controller/dns/recordset"
 	processor "github.com/upbound/provider-gcp/internal/controller/documentai/processor"
@@ -225,10 +230,15 @@ import (
 	ruleset "github.com/upbound/provider-gcp/internal/controller/firebaserules/ruleset"
 	backupbackupplan "github.com/upbound/provider-gcp/internal/controller/gke/backupbackupplan"
 	membership "github.com/upbound/provider-gcp/internal/controller/gkehub/membership"
+	membershipiammember "github.com/upbound/provider-gcp/internal/controller/gkehub/membershipiammember"
 	consentstore "github.com/upbound/provider-gcp/internal/controller/healthcare/consentstore"
 	datasethealthcare "github.com/upbound/provider-gcp/internal/controller/healthcare/dataset"
+	datasetiammemberhealthcare "github.com/upbound/provider-gcp/internal/controller/healthcare/datasetiammember"
 	workloadidentitypool "github.com/upbound/provider-gcp/internal/controller/iam/workloadidentitypool"
 	workloadidentitypoolprovider "github.com/upbound/provider-gcp/internal/controller/iam/workloadidentitypoolprovider"
+	appengineserviceiammember "github.com/upbound/provider-gcp/internal/controller/iap/appengineserviceiammember"
+	appengineversioniammember "github.com/upbound/provider-gcp/internal/controller/iap/appengineversioniammember"
+	tunneliammember "github.com/upbound/provider-gcp/internal/controller/iap/tunneliammember"
 	webbackendserviceiammember "github.com/upbound/provider-gcp/internal/controller/iap/webbackendserviceiammember"
 	webiammember "github.com/upbound/provider-gcp/internal/controller/iap/webiammember"
 	webtypeappengineiammember "github.com/upbound/provider-gcp/internal/controller/iap/webtypeappengineiammember"
@@ -331,6 +341,7 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		domain.Setup,
 		envgroup.Setup,
 		environment.Setup,
+		environmentiammember.Setup,
 		instance.Setup,
 		nataddress.Setup,
 		organization.Setup,
@@ -339,10 +350,12 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		servicenetworksettings.Setup,
 		standardappversion.Setup,
 		registryrepository.Setup,
+		registryrepositoryiammember.Setup,
 		appconnection.Setup,
 		appconnector.Setup,
 		appgateway.Setup,
 		analyticshubdataexchange.Setup,
+		analyticshubdataexchangeiammember.Setup,
 		analyticshublisting.Setup,
 		connection.Setup,
 		dataset.Setup,
@@ -477,6 +490,7 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		securitypolicy.Setup,
 		serviceattachment.Setup,
 		snapshot.Setup,
+		snapshotiammember.Setup,
 		sslcertificate.Setup,
 		sslpolicy.Setup,
 		subnetwork.Setup,
@@ -530,6 +544,7 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		version.Setup,
 		webhook.Setup,
 		managedzone.Setup,
+		managedzoneiammember.Setup,
 		policydns.Setup,
 		recordset.Setup,
 		processor.Setup,
@@ -544,10 +559,15 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		ruleset.Setup,
 		backupbackupplan.Setup,
 		membership.Setup,
+		membershipiammember.Setup,
 		consentstore.Setup,
 		datasethealthcare.Setup,
+		datasetiammemberhealthcare.Setup,
 		workloadidentitypool.Setup,
 		workloadidentitypoolprovider.Setup,
+		appengineserviceiammember.Setup,
+		appengineversioniammember.Setup,
+		tunneliammember.Setup,
 		webbackendserviceiammember.Setup,
 		webiammember.Setup,
 		webtypeappengineiammember.Setup,

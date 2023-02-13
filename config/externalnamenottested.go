@@ -133,8 +133,6 @@ var ExternalNameNotTestedConfigs = map[string]config.ExternalName{
 	"google_apigee_envgroup_attachment": config.IdentifierFromProvider,
 	// Imported by using the following format: {{org_id}}/environments/{{environment}} roles/viewer
 	"google_apigee_environment_iam_binding": config.IdentifierFromProvider,
-	// Imported by using the following format: {{org_id}}/environments/{{environment}} roles/viewer user:jane@example.com
-	"google_apigee_environment_iam_member": config.IdentifierFromProvider,
 	// Imported by using the following format: {{org_id}}/environments/{{environment}}
 	"google_apigee_environment_iam_policy": config.IdentifierFromProvider,
 	// Imported by using the following format: {{instance_id}}/attachments/{{name}}. Name doesn't exist in parameters, try using IdentifierFromProvider
@@ -205,8 +203,6 @@ var ExternalNameNotTestedConfigs = map[string]config.ExternalName{
 	//
 	// Imported by using the following format: {{dataset}}/consentStores/{{consent_store}} roles/viewer user:jane@example.com
 	"google_healthcare_consent_store_iam_member": config.TemplatedStringAsIdentifier("consent_store_id", "{{ .parameters.dataset }}/consentStores/{{ .external_name }} {{ .parameters.role }} {{ .parameters.member }}"),
-	// Imported by using the following format: your-project-id/location-name/dataset-name roles/viewer user:foo@example.com
-	"google_healthcare_dataset_iam_member": config.TemplatedStringAsIdentifier("", "{{ .parameters.dataset_id }} {{ .parameters.role }} {{ .parameters.member }}"),
 	// Imported by using the following format: {{dataset}}/dicomStores/{{name}}
 	"google_healthcare_dicom_store": config.TemplatedStringAsIdentifier("name", "{{ .parameters.dataset }}/dicomStores/{{ .external_name }}"),
 	// Imported by using the following format: your-project-id/location-name/dataset-name/dicom-store-name roles/viewer user:foo@example.com
@@ -226,12 +222,6 @@ var ExternalNameNotTestedConfigs = map[string]config.ExternalName{
 	"google_iap_brand": config.IdentifierFromProvider,
 	// Imported by using the following format: {{brand}}/identityAwareProxyClients/{{client_id}}
 	"google_iap_client": config.IdentifierFromProvider,
-	// Imported by using the following format: projects/{{project}}/iap_web/appengine-{{appId}}/services/{{service}} roles/iap.httpsResourceAccessor user:jane@example.com
-	"google_iap_app_engine_service_iam_member": config.TemplatedStringAsIdentifier("service", "projects/{{ .setup.configuration.project }}/iap_web/appengine-{{ .parameters.app_id }}/services/{{ .external_name }} {{ .parameters.role }} {{ .parameters.member }}"),
-	// Imported by using the following format: projects/{{project}}/iap_web/appengine-{{appId}}/services/{{service}}/versions/{{versionId}} roles/iap.httpsResourceAccessor user:jane@example.com
-	"google_iap_app_engine_version_iam_member": config.TemplatedStringAsIdentifier("version_id", "projects/{{ .setup.configuration.project }}/iap_web/appengine-{{ .parameters.app_id }}/services/{{ .parameters.service }}/versions/{{ .external_name }} {{ .parameters.role }} {{ .parameters.member }}"),
-	// Imported by using the following format: projects/{{project}}/iap_web roles/iap.httpsResourceAccessor user:jane@example.com
-	"google_iap_tunnel_iam_member": config.TemplatedStringAsIdentifier("", "/projects/{{ .setup.configuration.project }}/iap_web {{ .parameters.role }} {{ .parameters.member }}"),
 
 	// logging
 	//
@@ -293,13 +283,6 @@ var ExternalNameNotTestedConfigs = map[string]config.ExternalName{
 	// projects/{{project}}/locations/{{location}}/runtimes/{{runtime_name}}
 	"google_notebooks_runtime_iam_policy": config.TemplatedStringAsIdentifier("runtime_name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/runtimes/{{ .external_name }}"),
 
-	// artifactregistry
-	//
-	// Imported by using the following format: projects/{{project}}/locations/{{location}}/repositories/{{repository_id}}
-	"google_artifact_registry_repository": config.TemplatedStringAsIdentifier("repository_id", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/repositories/{{ .external_name }}"),
-	// Imported by using the following format: projects/{{project}}/locations/{{location}}/repositories/{{repository}} roles/artifactregistry.reader user:jane@example.com
-	"google_artifact_registry_repository_iam_member": config.TemplatedStringAsIdentifier("repository", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/repositories/{{ .external_name }} {{ .parameters.role }} {{ .parameters.member }}"),
-
 	// beyondcorp
 	//
 	// Imported by using the following projects/{{project}}/locations/{{region}}/appConnections/{{name}}
@@ -311,12 +294,6 @@ var ExternalNameNotTestedConfigs = map[string]config.ExternalName{
 
 	// bigqueryanalyticshub
 	//
-	// Imported by using the following projects/{{project}}/locations/{{location}}/dataExchanges/{{data_exchange_id}}
-	"google_bigquery_analytics_hub_data_exchange": config.TemplatedStringAsIdentifier("data_exchange_id", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/dataExchanges/{{ .external_name }}"),
-	// Imported by using the following projects/{{project}}/locations/{{location}}/dataExchanges/{{data_exchange_id}} roles/viewer user:jane@example.com
-	"google_bigquery_analytics_hub_data_exchange_iam_member": config.TemplatedStringAsIdentifier("data_exchange_id", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/dataExchanges/{{ .external_name }} {{ .parameters.role }} {{ .parameters.member }}"),
-	// Imported by using the following projects/{{project}}/locations/{{location}}/dataExchanges/{{data_exchange_id}}/listings/{{listing_id}}
-	"google_bigquery_analytics_hub_listing": config.TemplatedStringAsIdentifier("listing_id", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/dataExchanges/{{ .parameters.data_exchange_id }}/listings/{{ .external_name }}"),
 	// Imported by using the following projects/{{project}}/locations/{{location}}/dataExchanges/{{data_exchange_id}}/listings/{{listing_id}} roles/viewer user:jane@example.com
 	"google_bigquery_analytics_hub_listing_iam_member": config.TemplatedStringAsIdentifier("listing_id", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/dataExchanges/{{ .parameters.data_exchange_id }}/listings/{{ .external_name }} {{ .parameters.role }} {{ .parameters.member }}"),
 
@@ -361,8 +338,6 @@ var ExternalNameNotTestedConfigs = map[string]config.ExternalName{
 	"google_compute_router_peer": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/regions/{{ .parameters.region }}/routers/{{ .parameters.router }}/{{ .external_name }}"),
 	// Imported by using the following projects/{{project}}/global/snapshots/{{name}}
 	"google_compute_snapshot": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/global/snapshots/{{ .external_name }}"),
-	// Imported by using the following projects/{{project}}/global/snapshots/{{snapshot}} roles/viewer user:jane@example.com
-	"google_compute_snapshot_iam_member": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/global/snapshots/{{ .external_name }} {{ .parameters.role }} {{ .parameters.member }}"),
 	// Imported by using the following projects/{{project}}/global/sslPolicies/{{name}}
 	"google_compute_ssl_policy": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/global/sslPolicies/{{ .external_name }}"),
 
@@ -390,11 +365,6 @@ var ExternalNameNotTestedConfigs = map[string]config.ExternalName{
 	// Imported by using the following projects/{{project}}/locations/{{location}}/privateConnections/{{private_connection_id}}
 	"google_datastream_private_connection": config.TemplatedStringAsIdentifier("private_connection_id", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/privateConnections/{{ .external_name }}"),
 
-	// dns
-	//
-	// Imported by using the following projects/{{project}}/managedZones/{{managed_zone}} roles/viewer user:jane@example.com
-	"google_dns_managed_zone_iam_member": config.TemplatedStringAsIdentifier("managed_zone", "projects/{{ .setup.configuration.project }}/managedZones/{{ .external_name }} {{ .parameters.role }} {{ .parameters.member }}"),
-
 	// documentai
 	//
 	// Imported by using the following projects/{{project}}/locations/{{location}}/processors/{{name}}
@@ -420,8 +390,6 @@ var ExternalNameNotTestedConfigs = map[string]config.ExternalName{
 	//
 	// Imported by using the following projects/{{project}}/locations/{{location}}/backupPlans/{{name}}
 	"google_gke_backup_backup_plan": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/backupPlans/{{ .external_name }}"),
-	// Imported by using the following projects/{{project}}/locations/{{location}}/memberships/{{membership_id}} roles/viewer user:jane@example.com
-	"google_gke_hub_membership_iam_member": config.IdentifierFromProvider,
 
 	// iam
 	//

@@ -1,0 +1,53 @@
+apiVersion: dns.gcp.upbound.io/v1beta1
+kind: ManagedZoneIAMMember
+metadata:
+  annotations:
+    meta.upbound.io/example-id: dns/v1beta1/managedzoneiammember
+  labels:
+    testing.upbound.io/example-name: managed_zone_iam_member
+  name: managed-zone-iam-member
+spec:
+  forProvider:
+    member: "user:joe@example.com"
+    role: "roles/editor"
+    managedZone: managed-zone
+
+---
+
+apiVersion: dns.gcp.upbound.io/v1beta1
+kind: ManagedZone
+metadata:
+  annotations:
+    meta.upbound.io/example-id: dns/v1beta1/managedzoneiammember
+  labels:
+    testing.upbound.io/example-name: managed-zone
+  name: managed-zone
+spec:
+  forProvider:
+    description: Example DNS zone
+    dnsName: example-281496.com.
+    labels:
+      environment: dev
+    visibility: private
+
+---
+
+apiVersion: dns.gcp.upbound.io/v1beta1
+kind: RecordSet
+metadata:
+  annotations:
+    meta.upbound.io/example-id: dns/v1beta1/managedzoneiammember
+  labels:
+    testing.upbound.io/example-name: managed-zone
+  name: managed-zone
+spec:
+  forProvider:
+    # Note the trailing period
+    name: test.example-281496.com.
+    managedZoneSelector:
+      matchLabels:
+        testing.upbound.io/example-name: managed-zone
+    rrdatas:
+    - 8.8.8.8
+    ttl: 300
+    type: A

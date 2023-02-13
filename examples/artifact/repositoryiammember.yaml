@@ -1,0 +1,31 @@
+apiVersion: artifact.gcp.upbound.io/v1beta1
+kind: RegistryRepositoryIAMMember
+metadata:
+  annotations:
+    meta.upbound.io/example-id: artifact/v1beta1/registryrepositoryiammember
+  labels:
+    testing.upbound.io/example-name: registry_repository_iam_member
+  name: registry-repository-iam-member
+spec:
+  forProvider:
+    member: "user:john@example.com"
+    role: "roles/viewer"
+    location: us-central1
+    repository: my-repo
+
+---
+
+apiVersion: artifact.gcp.upbound.io/v1beta1
+kind: RegistryRepository
+metadata:
+  annotations:
+    meta.upbound.io/example-id: artifact/v1beta1/registryrepositoryiammember
+    uptest.upbound.io/pre-delete-hook: testhooks/delete-registryrepositoryiammember.sh
+  labels:
+    testing.upbound.io/example-name: my-repo
+  name: my-repo
+spec:
+  forProvider:
+    description: example docker repository
+    format: DOCKER
+    location: us-central1

@@ -3,7 +3,7 @@ kind: ObjectACL
 metadata:
   annotations:
     meta.upbound.io/example-id: storage/v1beta1/objectacl
-    upjet.upbound.io/manual-ntervention: "Needs permissions for provide access to ACL"
+    upjet.upbound.io/manual-intervention: "Needs permissions for provide access to ACL"
   labels:
     testing.upbound.io/example-name: image-store-acl
   name: image-store-acl

@@ -43,6 +43,8 @@ import (
 	"github.com/upbound/provider-gcp/config/endpoints"
 	"github.com/upbound/provider-gcp/config/firebaserules"
 	"github.com/upbound/provider-gcp/config/gameservices"
+	"github.com/upbound/provider-gcp/config/gkehub"
+	"github.com/upbound/provider-gcp/config/healthcare"
 	"github.com/upbound/provider-gcp/config/iap"
 	"github.com/upbound/provider-gcp/config/identityplatform"
 	"github.com/upbound/provider-gcp/config/kms"
@@ -189,6 +191,8 @@ func GetProvider() *tjconfig.Provider {
 		vertexai.Configure,
 		tpu.Configure,
 		vpcaccess.Configure,
+		healthcare.Configure,
+		gkehub.Configure,
 	} {
 		configure(pc)
 	}
