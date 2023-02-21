@@ -3,6 +3,7 @@ kind: SharedVPCHostProject
 metadata:
   annotations:
     meta.upbound.io/example-id: compute/v1beta1/sharedvpchostproject
+    upjet.upbound.io/manual-intervention: "Required organizational level permissions"
   labels:
     testing.upbound.io/example-name: host
   name: host
@@ -17,6 +18,7 @@ kind: SharedVPCServiceProject
 metadata:
   annotations:
     meta.upbound.io/example-id: compute/v1beta1/sharedvpchostproject
+    upjet.upbound.io/manual-intervention: "The dependent resource needs organization-level permissions"
   labels:
     testing.upbound.io/example-name: service1
   name: service1
@@ -32,6 +34,7 @@ kind: SharedVPCServiceProject
 metadata:
   annotations:
     meta.upbound.io/example-id: compute/v1beta1/sharedvpchostproject
+    upjet.upbound.io/manual-intervention: "The dependent resource needs organization-level permissions"
   labels:
     testing.upbound.io/example-name: service2
   name: service2
