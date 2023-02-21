@@ -47,3 +47,21 @@ metadata:
 spec:
   forProvider:
     location: US
+
+---
+
+apiVersion: pubsub.gcp.upbound.io/v1beta1
+kind: TopicIAMMember
+metadata:
+  annotations:
+    meta.upbound.io/example-id: pubsub/v1beta1/topiciammember
+  labels:
+    testing.upbound.io/example-name: topic
+  name: topic-iam-member
+spec:
+  forProvider:
+    member: "serviceAccount:service-${data.cloudplatform_project.projectNumber}@gs-project-accounts.iam.gserviceaccount.com"
+    role: "roles/pubsub.publisher"
+    topicSelector:
+      matchLabels:
+        testing.upbound.io/example-name: topic
