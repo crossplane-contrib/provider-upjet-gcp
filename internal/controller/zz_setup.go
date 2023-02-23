@@ -55,7 +55,10 @@ import (
 	tableiampolicybigtable "github.com/upbound/provider-gcp/internal/controller/bigtable/tableiampolicy"
 	attestor "github.com/upbound/provider-gcp/internal/controller/binaryauthorization/attestor"
 	policy "github.com/upbound/provider-gcp/internal/controller/binaryauthorization/policy"
+	certificate "github.com/upbound/provider-gcp/internal/controller/certificatemanager/certificate"
 	certificatemap "github.com/upbound/provider-gcp/internal/controller/certificatemanager/certificatemap"
+	certificatemapentry "github.com/upbound/provider-gcp/internal/controller/certificatemanager/certificatemapentry"
+	dnsauthorization "github.com/upbound/provider-gcp/internal/controller/certificatemanager/dnsauthorization"
 	idsendpoint "github.com/upbound/provider-gcp/internal/controller/cloud/idsendpoint"
 	trigger "github.com/upbound/provider-gcp/internal/controller/cloudbuild/trigger"
 	workerpool "github.com/upbound/provider-gcp/internal/controller/cloudbuild/workerpool"
@@ -287,7 +290,7 @@ import (
 	sshpublickey "github.com/upbound/provider-gcp/internal/controller/oslogin/sshpublickey"
 	capool "github.com/upbound/provider-gcp/internal/controller/privateca/capool"
 	capooliammember "github.com/upbound/provider-gcp/internal/controller/privateca/capooliammember"
-	certificate "github.com/upbound/provider-gcp/internal/controller/privateca/certificate"
+	certificateprivateca "github.com/upbound/provider-gcp/internal/controller/privateca/certificate"
 	certificateauthority "github.com/upbound/provider-gcp/internal/controller/privateca/certificateauthority"
 	certificatetemplate "github.com/upbound/provider-gcp/internal/controller/privateca/certificatetemplate"
 	certificatetemplateiammember "github.com/upbound/provider-gcp/internal/controller/privateca/certificatetemplateiammember"
@@ -384,7 +387,10 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		tableiampolicybigtable.Setup,
 		attestor.Setup,
 		policy.Setup,
+		certificate.Setup,
 		certificatemap.Setup,
+		certificatemapentry.Setup,
+		dnsauthorization.Setup,
 		idsendpoint.Setup,
 		trigger.Setup,
 		workerpool.Setup,
@@ -616,7 +622,7 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		sshpublickey.Setup,
 		capool.Setup,
 		capooliammember.Setup,
-		certificate.Setup,
+		certificateprivateca.Setup,
 		certificateauthority.Setup,
 		certificatetemplate.Setup,
 		certificatetemplateiammember.Setup,

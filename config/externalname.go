@@ -931,6 +931,15 @@ var externalNameConfigs = map[string]config.ExternalName{
 	//
 	// No import
 	"google_workflows_workflow": config.IdentifierFromProvider,
+
+	// certificatemanager
+	//
+	// projects/{{project}}/locations/global/certificates/{{name}}
+	"google_certificate_manager_certificate": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/global/certificates/{{ .external_name }}"),
+	// projects/{{project}}/locations/global/dnsAuthorizations/{{name}}
+	"google_certificate_manager_dns_authorization": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/global/dnsAuthorizations/{{ .external_name }}"),
+	// Imported by using the following projects/{{project}}/locations/global/certificateMaps/{{map}}/certificateMapEntries/{{name}}
+	"google_certificate_manager_certificate_map_entry": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/global/certificateMaps/{{ .parameters.map }}/certificateMapEntries/{{ .external_name }}"),
 }
 
 // TemplatedStringAsIdentifierWithNoName uses TemplatedStringAsIdentifier but
