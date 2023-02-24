@@ -1,0 +1,33 @@
+apiVersion: certificatemanager.gcp.upbound.io/v1beta1
+kind: Certificate
+metadata:
+  annotations:
+    upjet.upbound.io/manual-intervention: "Certificate requires a real DNS authorization ID"
+    meta.upbound.io/example-id: certificatemanager/v1beta1/certificate
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    description: The default cert
+    scope: DEFAULT
+    managed:
+    - dnsAuthorizations:
+      - projects/official-provider-testing/locations/global/dnsAuthorizations/default
+      domains:
+      - hashicorptest.com
+
+---
+
+apiVersion: certificatemanager.gcp.upbound.io/v1beta1
+kind: DNSAuthorization
+metadata:
+  annotations:
+    meta.upbound.io/example-id: certificatemanager/v1beta1/certificate
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    description: The default dnss
+    domain: hashicorptest.com
