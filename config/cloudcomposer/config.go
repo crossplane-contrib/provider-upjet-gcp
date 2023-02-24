@@ -18,7 +18,7 @@ func Configure(p *config.Provider) {
 			Type: "github.com/upbound/provider-gcp/apis/compute/v1beta1.Subnetwork",
 		}
 		r.References["node_config.service_account"] = config.Reference{
-			Type: "github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1.ServiceAccuount",
+			Type: "github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1.ServiceAccount",
 		}
 		r.References["private_environment_config.cloud_composer_connection_subnetwork"] = config.Reference{
 			Type: "github.com/upbound/provider-gcp/apis/compute/v1beta1.Subnetwork",
