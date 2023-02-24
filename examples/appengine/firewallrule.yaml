@@ -1,0 +1,15 @@
+apiVersion: appengine.gcp.upbound.io/v1beta1
+kind: FirewallRule
+metadata:
+  annotations:
+    upjet.upbound.io/manual-intervention: "Requires a real project_id or a new one project resource."
+    meta.upbound.io/example-id: appengine/v1beta1/firewallrule
+  labels:
+    testing.upbound.io/example-name: rule
+  name: rule
+spec:
+  forProvider:
+    action: ALLOW
+    priority: 1
+    project: "project_id"
+    sourceRange: '*'

@@ -18,6 +18,7 @@ import (
 	organization "github.com/upbound/provider-gcp/internal/controller/apigee/organization"
 	application "github.com/upbound/provider-gcp/internal/controller/appengine/application"
 	applicationurldispatchrules "github.com/upbound/provider-gcp/internal/controller/appengine/applicationurldispatchrules"
+	firewallrule "github.com/upbound/provider-gcp/internal/controller/appengine/firewallrule"
 	servicenetworksettings "github.com/upbound/provider-gcp/internal/controller/appengine/servicenetworksettings"
 	standardappversion "github.com/upbound/provider-gcp/internal/controller/appengine/standardappversion"
 	registryrepository "github.com/upbound/provider-gcp/internal/controller/artifact/registryrepository"
@@ -350,6 +351,7 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		organization.Setup,
 		application.Setup,
 		applicationurldispatchrules.Setup,
+		firewallrule.Setup,
 		servicenetworksettings.Setup,
 		standardappversion.Setup,
 		registryrepository.Setup,
