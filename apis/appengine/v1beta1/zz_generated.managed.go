@@ -151,6 +151,72 @@ func (mg *ApplicationURLDispatchRules) SetWriteConnectionSecretToReference(r *xp
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
+// GetCondition of this FirewallRule.
+func (mg *FirewallRule) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+	return mg.Status.GetCondition(ct)
+}
+
+// GetDeletionPolicy of this FirewallRule.
+func (mg *FirewallRule) GetDeletionPolicy() xpv1.DeletionPolicy {
+	return mg.Spec.DeletionPolicy
+}
+
+// GetProviderConfigReference of this FirewallRule.
+func (mg *FirewallRule) GetProviderConfigReference() *xpv1.Reference {
+	return mg.Spec.ProviderConfigReference
+}
+
+/*
+GetProviderReference of this FirewallRule.
+Deprecated: Use GetProviderConfigReference.
+*/
+func (mg *FirewallRule) GetProviderReference() *xpv1.Reference {
+	return mg.Spec.ProviderReference
+}
+
+// GetPublishConnectionDetailsTo of this FirewallRule.
+func (mg *FirewallRule) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
+	return mg.Spec.PublishConnectionDetailsTo
+}
+
+// GetWriteConnectionSecretToReference of this FirewallRule.
+func (mg *FirewallRule) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
+	return mg.Spec.WriteConnectionSecretToReference
+}
+
+// SetConditions of this FirewallRule.
+func (mg *FirewallRule) SetConditions(c ...xpv1.Condition) {
+	mg.Status.SetConditions(c...)
+}
+
+// SetDeletionPolicy of this FirewallRule.
+func (mg *FirewallRule) SetDeletionPolicy(r xpv1.DeletionPolicy) {
+	mg.Spec.DeletionPolicy = r
+}
+
+// SetProviderConfigReference of this FirewallRule.
+func (mg *FirewallRule) SetProviderConfigReference(r *xpv1.Reference) {
+	mg.Spec.ProviderConfigReference = r
+}
+
+/*
+SetProviderReference of this FirewallRule.
+Deprecated: Use SetProviderConfigReference.
+*/
+func (mg *FirewallRule) SetProviderReference(r *xpv1.Reference) {
+	mg.Spec.ProviderReference = r
+}
+
+// SetPublishConnectionDetailsTo of this FirewallRule.
+func (mg *FirewallRule) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
+	mg.Spec.PublishConnectionDetailsTo = r
+}
+
+// SetWriteConnectionSecretToReference of this FirewallRule.
+func (mg *FirewallRule) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
+	mg.Spec.WriteConnectionSecretToReference = r
+}
+
 // GetCondition of this ServiceNetworkSettings.
 func (mg *ServiceNetworkSettings) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
 	return mg.Status.GetCondition(ct)

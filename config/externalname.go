@@ -24,6 +24,8 @@ var externalNameConfigs = map[string]config.ExternalName{
 	"google_app_engine_service_network_settings": config.IdentifierFromProvider,
 	// apps/{{project}}/services/{{service}}/versions/{{version_id}}
 	"google_app_engine_standard_app_version": config.TemplatedStringAsIdentifier("version_id", "apps/{{ .setup.configuration.project }}/services/{{ .parameters.service }}/versions/{{ .external_name }}"),
+	// apps/{{project}}/firewall/ingressRules/{{priority}}
+	"google_app_engine_firewall_rule": config.IdentifierFromProvider,
 
 	// composer
 	//
