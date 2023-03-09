@@ -314,6 +314,16 @@ type BackendServiceParameters struct {
 	// +kubebuilder:validation:Optional
 	LoadBalancingScheme *string `json:"loadBalancingScheme,omitempty" tf:"load_balancing_scheme,omitempty"`
 
+	// A list of locality load balancing policies to be used in order of
+	// preference. Either the policy or the customPolicy field should be set.
+	// Overrides any value set in the localityLbPolicy field.
+	// localityLbPolicies is only supported when the BackendService is referenced
+	// by a URL Map that is referenced by a target gRPC proxy that has the
+	// validateForProxyless field set to true.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	LocalityLBPolicies []LocalityLBPoliciesParameters `json:"localityLbPolicies,omitempty" tf:"locality_lb_policies,omitempty"`
+
 	// The load balancing algorithm used within the scope of the locality.
 	// The possible values are:
 	// +kubebuilder:validation:Optional
@@ -517,18 +527,41 @@ type ConsistentHashParameters struct {
 	MinimumRingSize *float64 `json:"minimumRingSize,omitempty" tf:"minimum_ring_size,omitempty"`
 }
 
+type CustomPolicyObservation struct {
+}
+
+type CustomPolicyParameters struct {
+
+	// An optional, arbitrary JSON object with configuration data, understood
+	// by a locally installed custom policy implementation.
+	// +kubebuilder:validation:Optional
+	Data *string `json:"data,omitempty" tf:"data,omitempty"`
+
+	// The name of a locality load balancer policy to be used. The value
+	// should be one of the predefined ones as supported by localityLbPolicy,
+	// although at the moment only ROUND_ROBIN is supported.
+	// This field should only be populated when the customPolicy field is not
+	// used.
+	// Note that specifying the same policy more than once for a backend is
+	// not a valid configuration and will be rejected.
+	// The possible values are:
+	// +kubebuilder:validation:Required
+	Name *string `json:"name" tf:"name,omitempty"`
+}
+
 type HTTPCookieObservation struct {
 }
 
 type HTTPCookieParameters struct {
 
-	// Name of the resource. Provided by the client when the resource is
-	// created. The name must be 1-63 characters long, and comply with
-	// RFC1035. Specifically, the name must be 1-63 characters long and match
-	// the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which means the
-	// first character must be a lowercase letter, and all following
-	// characters must be a dash, lowercase letter, or digit, except the last
-	// character, which cannot be a dash.
+	// The name of a locality load balancer policy to be used. The value
+	// should be one of the predefined ones as supported by localityLbPolicy,
+	// although at the moment only ROUND_ROBIN is supported.
+	// This field should only be populated when the customPolicy field is not
+	// used.
+	// Note that specifying the same policy more than once for a backend is
+	// not a valid configuration and will be rejected.
+	// The possible values are:
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
@@ -573,6 +606,23 @@ type IntervalParameters struct {
 	// Must be from 0 to 315,576,000,000 inclusive.
 	// +kubebuilder:validation:Required
 	Seconds *float64 `json:"seconds" tf:"seconds,omitempty"`
+}
+
+type LocalityLBPoliciesObservation struct {
+}
+
+type LocalityLBPoliciesParameters struct {
+
+	// The configuration for a custom policy implemented by the user and
+	// deployed with the client.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	CustomPolicy []CustomPolicyParameters `json:"customPolicy,omitempty" tf:"custom_policy,omitempty"`
+
+	// The configuration for a built-in load balancing policy.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Policy []PolicyParameters `json:"policy,omitempty" tf:"policy,omitempty"`
 }
 
 type LogConfigObservation struct {
@@ -668,6 +718,23 @@ type OutlierDetectionParameters struct {
 	// runtime value should be 1900. Defaults to 1900.
 	// +kubebuilder:validation:Optional
 	SuccessRateStdevFactor *float64 `json:"successRateStdevFactor,omitempty" tf:"success_rate_stdev_factor,omitempty"`
+}
+
+type PolicyObservation struct {
+}
+
+type PolicyParameters struct {
+
+	// The name of a locality load balancer policy to be used. The value
+	// should be one of the predefined ones as supported by localityLbPolicy,
+	// although at the moment only ROUND_ROBIN is supported.
+	// This field should only be populated when the customPolicy field is not
+	// used.
+	// Note that specifying the same policy more than once for a backend is
+	// not a valid configuration and will be rejected.
+	// The possible values are:
+	// +kubebuilder:validation:Required
+	Name *string `json:"name" tf:"name,omitempty"`
 }
 
 type SecuritySettingsObservation struct {

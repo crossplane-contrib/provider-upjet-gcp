@@ -54,6 +54,10 @@ type FeaturestoreEntitytypeObservation struct {
 
 type FeaturestoreEntitytypeParameters struct {
 
+	// Optional. Description of the EntityType.
+	// +kubebuilder:validation:Optional
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
 	// The name of the Featurestore to use, in the format projects/{project}/locations/{location}/featurestores/{featurestore}.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/vertexai/v1beta1.Featurestore
 	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()

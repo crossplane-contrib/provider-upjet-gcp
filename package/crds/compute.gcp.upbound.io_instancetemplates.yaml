@@ -683,6 +683,13 @@ spec:
                       - type
                       type: object
                     type: array
+                  resourcePolicies:
+                    description: '- A list of self_links of resource policies to attach
+                      to the instance. Modifying this list will cause the instance
+                      to recreate. Currently a max of 1 resource policy is supported.'
+                    items:
+                      type: string
+                    type: array
                   scheduling:
                     description: The scheduling strategy to use. More details about
                       this configuration option are detailed below.

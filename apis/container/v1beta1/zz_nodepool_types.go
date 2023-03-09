@@ -158,6 +158,9 @@ type NodePoolNodeConfigKubeletConfigParameters struct {
 
 	// +kubebuilder:validation:Required
 	CPUManagerPolicy *string `json:"cpuManagerPolicy" tf:"cpu_manager_policy,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	PodPidsLimit *float64 `json:"podPidsLimit,omitempty" tf:"pod_pids_limit,omitempty"`
 }
 
 type NodePoolNodeConfigLinuxNodeConfigObservation struct {

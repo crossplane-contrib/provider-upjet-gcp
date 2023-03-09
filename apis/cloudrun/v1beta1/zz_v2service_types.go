@@ -34,6 +34,11 @@ type ContainersLivenessProbeParameters struct {
 	// +kubebuilder:validation:Optional
 	FailureThreshold *float64 `json:"failureThreshold,omitempty" tf:"failure_threshold,omitempty"`
 
+	// GRPC specifies an action involving a GRPC port.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	GRPC []GRPCParameters `json:"grpc,omitempty" tf:"grpc,omitempty"`
+
 	// HTTPGet specifies the http request to perform. Exactly one of HTTPGet or TCPSocket must be specified.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
@@ -80,6 +85,11 @@ type ContainersStartupProbeParameters struct {
 	// Minimum consecutive failures for the probe to be considered failed after having succeeded. Defaults to 3. Minimum value is 1.
 	// +kubebuilder:validation:Optional
 	FailureThreshold *float64 `json:"failureThreshold,omitempty" tf:"failure_threshold,omitempty"`
+
+	// GRPC specifies an action involving a GRPC port.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	GRPC []StartupProbeGRPCParameters `json:"grpc,omitempty" tf:"grpc,omitempty"`
 
 	// HTTPGet specifies the http request to perform. Exactly one of HTTPGet or TCPSocket must be specified.
 	// Structure is documented below.
@@ -149,6 +159,22 @@ type EnvValueSourceSecretKeyRefParameters struct {
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
 }
 
+type GRPCObservation struct {
+}
+
+type GRPCParameters struct {
+
+	// Port number to access on the container. Must be in the range 1 to 65535. If not specified, defaults to 8080.
+	// +kubebuilder:validation:Optional
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+
+	// The name of the service to place in the gRPC HealthCheckRequest
+	// (see https://github.com/grpc/grpc/blob/master/doc/health-checking.md).
+	// If this is not specified, the default behavior is defined by gRPC.
+	// +kubebuilder:validation:Optional
+	Service *string `json:"service,omitempty" tf:"service,omitempty"`
+}
+
 type LivenessProbeHTTPGetHTTPHeadersObservation struct {
 }
 
@@ -200,6 +226,22 @@ type ScalingParameters struct {
 	// Minimum number of serving instances that this resource should have.
 	// +kubebuilder:validation:Optional
 	MinInstanceCount *float64 `json:"minInstanceCount,omitempty" tf:"min_instance_count,omitempty"`
+}
+
+type StartupProbeGRPCObservation struct {
+}
+
+type StartupProbeGRPCParameters struct {
+
+	// Port number to access on the container. Must be in the range 1 to 65535. If not specified, defaults to 8080.
+	// +kubebuilder:validation:Optional
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+
+	// The name of the service to place in the gRPC HealthCheckRequest
+	// (see https://github.com/grpc/grpc/blob/master/doc/health-checking.md).
+	// If this is not specified, the default behavior is defined by gRPC.
+	// +kubebuilder:validation:Optional
+	Service *string `json:"service,omitempty" tf:"service,omitempty"`
 }
 
 type StartupProbeHTTPGetHTTPHeadersObservation struct {

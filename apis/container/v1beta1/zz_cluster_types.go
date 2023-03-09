@@ -998,6 +998,10 @@ type KubeletConfigParameters struct {
 	// One of "none" or "static". Defaults to none when kubelet_config is unset.
 	// +kubebuilder:validation:Required
 	CPUManagerPolicy *string `json:"cpuManagerPolicy" tf:"cpu_manager_policy,omitempty"`
+
+	// Controls the maximum number of processes allowed to run in a pod. The value must be greater than or equal to 1024 and less than 4194304.
+	// +kubebuilder:validation:Optional
+	PodPidsLimit *float64 `json:"podPidsLimit,omitempty" tf:"pod_pids_limit,omitempty"`
 }
 
 type LinuxNodeConfigObservation struct {
@@ -1266,6 +1270,9 @@ type NodeConfigKubeletConfigObservation struct {
 	// K8S CPU Management Policies.
 	// One of "none" or "static". Defaults to none when kubelet_config is unset.
 	CPUManagerPolicy *string `json:"cpuManagerPolicy,omitempty" tf:"cpu_manager_policy,omitempty"`
+
+	// Controls the maximum number of processes allowed to run in a pod. The value must be greater than or equal to 1024 and less than 4194304.
+	PodPidsLimit *float64 `json:"podPidsLimit,omitempty" tf:"pod_pids_limit,omitempty"`
 }
 
 type NodeConfigKubeletConfigParameters struct {

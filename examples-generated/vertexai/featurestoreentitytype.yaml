@@ -8,6 +8,7 @@ metadata:
   name: entity
 spec:
   forProvider:
+    description: test description
     featurestoreSelector:
       matchLabels:
         testing.upbound.io/example-name: featurestore

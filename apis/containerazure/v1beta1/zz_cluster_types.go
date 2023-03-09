@@ -45,6 +45,20 @@ type AuthorizationParameters struct {
 	AdminUsers []AdminUsersParameters `json:"adminUsers" tf:"admin_users,omitempty"`
 }
 
+type AzureServicesAuthenticationObservation struct {
+}
+
+type AzureServicesAuthenticationParameters struct {
+
+	// The Azure Active Directory Application ID for Authentication configuration.
+	// +kubebuilder:validation:Required
+	ApplicationID *string `json:"applicationId" tf:"application_id,omitempty"`
+
+	// The Azure Active Directory Tenant ID for Authentication configuration.
+	// +kubebuilder:validation:Required
+	TenantID *string `json:"tenantId" tf:"tenant_id,omitempty"`
+}
+
 type ClusterObservation struct {
 
 	// Output only. The time at which this cluster was created.
@@ -93,9 +107,13 @@ type ClusterParameters struct {
 	// +kubebuilder:validation:Required
 	AzureRegion *string `json:"azureRegion" tf:"azure_region,omitempty"`
 
+	// Azure authentication configuration for management of Azure resources
+	// +kubebuilder:validation:Optional
+	AzureServicesAuthentication []AzureServicesAuthenticationParameters `json:"azureServicesAuthentication,omitempty" tf:"azure_services_authentication,omitempty"`
+
 	// Name of the AzureClient. The AzureClient resource must reside on the same GCP project and region as the AzureCluster. AzureClient names are formatted as projects/<project-number>/locations/<region>/azureClients/<client-id>. See Resource Names (https:cloud.google.com/apis/design/resource_names) for more details on Google Cloud resource names.
-	// +kubebuilder:validation:Required
-	Client *string `json:"client" tf:"client,omitempty"`
+	// +kubebuilder:validation:Optional
+	Client *string `json:"client,omitempty" tf:"client,omitempty"`
 
 	// Configuration related to the cluster control plane.
 	// +kubebuilder:validation:Required

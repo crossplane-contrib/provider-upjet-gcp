@@ -1077,6 +1077,11 @@ spec:
                                   "static". Defaults to none when kubelet_config is
                                   unset.
                                 type: string
+                              podPidsLimit:
+                                description: Controls the maximum number of processes
+                                  allowed to run in a pod. The value must be greater
+                                  than or equal to 1024 and less than 4194304.
+                                type: number
                             required:
                             - cpuManagerPolicy
                             type: object
@@ -2127,6 +2132,12 @@ spec:
                                         of "none" or "static". Defaults to none when
                                         kubelet_config is unset.
                                       type: string
+                                    podPidsLimit:
+                                      description: Controls the maximum number of
+                                        processes allowed to run in a pod. The value
+                                        must be greater than or equal to 1024 and
+                                        less than 4194304.
+                                      type: number
                                   type: object
                                 type: array
                               labels:

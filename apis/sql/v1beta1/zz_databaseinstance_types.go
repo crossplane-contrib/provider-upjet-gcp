@@ -242,7 +242,7 @@ type DatabaseInstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	RestoreBackupContext []RestoreBackupContextParameters `json:"restoreBackupContext,omitempty" tf:"restore_backup_context,omitempty"`
 
-	// Initial root password. Required for MS SQL Server.
+	// Initial root password. Can be updated. Required for MS SQL Server.
 	// +kubebuilder:validation:Optional
 	RootPasswordSecretRef *v1.SecretKeySelector `json:"rootPasswordSecretRef,omitempty" tf:"-"`
 
@@ -297,6 +297,10 @@ type IPConfigurationParameters struct {
 
 	// +kubebuilder:validation:Optional
 	AuthorizedNetworks []AuthorizedNetworksParameters `json:"authorizedNetworks,omitempty" tf:"authorized_networks,omitempty"`
+
+	// Whether Google Cloud services such as BigQuery are allowed to access data in this Cloud SQL instance over a private IP connection. SQLSERVER database type is not supported.
+	// +kubebuilder:validation:Optional
+	EnablePrivatePathForGoogleCloudServices *bool `json:"enablePrivatePathForGoogleCloudServices,omitempty" tf:"enable_private_path_for_google_cloud_services,omitempty"`
 
 	// Whether this Cloud SQL instance should be assigned
 	// a public IPV4 address. At least ipv4_enabled must be enabled or a

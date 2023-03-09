@@ -303,6 +303,8 @@ spec:
                                 type: string
                               cpuManagerPolicy:
                                 type: string
+                              podPidsLimit:
+                                type: number
                             required:
                             - cpuManagerPolicy
                             type: object

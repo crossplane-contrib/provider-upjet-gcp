@@ -430,15 +430,15 @@ spec:
                           items:
                             properties:
                               name:
-                                description: Name of the resource. Provided by the
-                                  client when the resource is created. The name must
-                                  be 1-63 characters long, and comply with RFC1035.
-                                  Specifically, the name must be 1-63 characters long
-                                  and match the regular expression [a-z]([-a-z0-9]*[a-z0-9])?
-                                  which means the first character must be a lowercase
-                                  letter, and all following characters must be a dash,
-                                  lowercase letter, or digit, except the last character,
-                                  which cannot be a dash.
+                                description: 'The name of a locality load balancer
+                                  policy to be used. The value should be one of the
+                                  predefined ones as supported by localityLbPolicy,
+                                  although at the moment only ROUND_ROBIN is supported.
+                                  This field should only be populated when the customPolicy
+                                  field is not used. Note that specifying the same
+                                  policy more than once for a backend is not a valid
+                                  configuration and will be rejected. The possible
+                                  values are:'
                                 type: string
                               path:
                                 description: Path to set for the cookie.
@@ -630,6 +630,64 @@ spec:
                       Default value is EXTERNAL. Possible values are EXTERNAL, INTERNAL_SELF_MANAGED,
                       and EXTERNAL_MANAGED.
                     type: string
+                  localityLbPolicies:
+                    description: A list of locality load balancing policies to be
+                      used in order of preference. Either the policy or the customPolicy
+                      field should be set. Overrides any value set in the localityLbPolicy
+                      field. localityLbPolicies is only supported when the BackendService
+                      is referenced by a URL Map that is referenced by a target gRPC
+                      proxy that has the validateForProxyless field set to true. Structure
+                      is documented below.
+                    items:
+                      properties:
+                        customPolicy:
+                          description: The configuration for a custom policy implemented
+                            by the user and deployed with the client. Structure is
+                            documented below.
+                          items:
+                            properties:
+                              data:
+                                description: An optional, arbitrary JSON object with
+                                  configuration data, understood by a locally installed
+                                  custom policy implementation.
+                                type: string
+                              name:
+                                description: 'The name of a locality load balancer
+                                  policy to be used. The value should be one of the
+                                  predefined ones as supported by localityLbPolicy,
+                                  although at the moment only ROUND_ROBIN is supported.
+                                  This field should only be populated when the customPolicy
+                                  field is not used. Note that specifying the same
+                                  policy more than once for a backend is not a valid
+                                  configuration and will be rejected. The possible
+                                  values are:'
+                                type: string
+                            required:
+                            - name
+                            type: object
+                          type: array
+                        policy:
+                          description: The configuration for a built-in load balancing
+                            policy. Structure is documented below.
+                          items:
+                            properties:
+                              name:
+                                description: 'The name of a locality load balancer
+                                  policy to be used. The value should be one of the
+                                  predefined ones as supported by localityLbPolicy,
+                                  although at the moment only ROUND_ROBIN is supported.
+                                  This field should only be populated when the customPolicy
+                                  field is not used. Note that specifying the same
+                                  policy more than once for a backend is not a valid
+                                  configuration and will be rejected. The possible
+                                  values are:'
+                                type: string
+                            required:
+                            - name
+                            type: object
+                          type: array
+                      type: object
+                    type: array
                   localityLbPolicy:
                     description: 'The load balancing algorithm used within the scope
                       of the locality. The possible values are:'
