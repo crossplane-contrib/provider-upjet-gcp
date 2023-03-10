@@ -61,8 +61,18 @@ type BuildConfigParameters struct {
 	Source []SourceParameters `json:"source,omitempty" tf:"source,omitempty"`
 
 	// Name of the Cloud Build Custom Worker Pool that should be used to build the function.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cloudbuild/v1beta1.WorkerPool
+	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	WorkerPool *string `json:"workerPool,omitempty" tf:"worker_pool,omitempty"`
+
+	// Reference to a WorkerPool in cloudbuild to populate workerPool.
+	// +kubebuilder:validation:Optional
+	WorkerPoolRef *v1.Reference `json:"workerPoolRef,omitempty" tf:"-"`
+
+	// Selector for a WorkerPool in cloudbuild to populate workerPool.
+	// +kubebuilder:validation:Optional
+	WorkerPoolSelector *v1.Selector `json:"workerPoolSelector,omitempty" tf:"-"`
 }
 
 type EventFiltersObservation struct {

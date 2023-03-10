@@ -486,6 +486,10 @@ type InstanceTemplateParameters struct {
 	// +kubebuilder:validation:Optional
 	ReservationAffinity []InstanceTemplateReservationAffinityParameters `json:"reservationAffinity,omitempty" tf:"reservation_affinity,omitempty"`
 
+	// - A list of self_links of resource policies to attach to the instance. Modifying this list will cause the instance to recreate. Currently a max of 1 resource policy is supported.
+	// +kubebuilder:validation:Optional
+	ResourcePolicies []*string `json:"resourcePolicies,omitempty" tf:"resource_policies,omitempty"`
+
 	// The scheduling strategy to use. More details about
 	// this configuration option are detailed below.
 	// +kubebuilder:validation:Optional

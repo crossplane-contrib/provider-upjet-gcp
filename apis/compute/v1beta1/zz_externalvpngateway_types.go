@@ -45,6 +45,10 @@ type ExternalVPNGatewayParameters struct {
 	// +kubebuilder:validation:Optional
 	Interface []InterfaceParameters `json:"interface,omitempty" tf:"interface,omitempty"`
 
+	// Labels for the external VPN gateway resource.
+	// +kubebuilder:validation:Optional
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional

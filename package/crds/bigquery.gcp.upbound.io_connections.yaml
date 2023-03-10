@@ -96,6 +96,10 @@ spec:
                           description: The id of customer's directory that host the
                             data.
                           type: string
+                        federatedApplicationClientId:
+                          description: The Azure Application (client) ID where the
+                            federated credentials will be hosted.
+                          type: string
                       required:
                       - customerTenantId
                       type: object
@@ -118,13 +122,18 @@ spec:
                           description: If parallelism should be used when reading
                             from Cloud Spanner
                           type: boolean
+                        useServerlessAnalytics:
+                          description: If the serverless analytics service should
+                            be used to read data from Cloud Spanner. useParallelism
+                            must be set when using serverless analytics
+                          type: boolean
                       required:
                       - database
                       type: object
                     type: array
                   cloudSql:
-                    description: A nested object resource Structure is documented
-                      below.
+                    description: Connection properties specific to the Cloud SQL.
+                      Structure is documented below.
                     items:
                       properties:
                         credential:
@@ -640,6 +649,11 @@ spec:
                           description: The client id of the Azure Active Directory
                             Application.
                           type: string
+                        identity:
+                          description: A unique Google-owned and Google-generated
+                            identity for the Connection. This identity will be used
+                            to access the user's Azure Active Directory Application.
+                          type: string
                         objectId:
                           description: The object id of the Azure Active Directory
                             Application.
@@ -658,6 +672,19 @@ spec:
                         serviceAccountId:
                           description: The account ID of the service created for the
                             purpose of this connection.
+                          type: string
+                      type: object
+                    type: array
+                  cloudSql:
+                    description: Connection properties specific to the Cloud SQL.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        serviceAccountId:
+                          description: When the connection is used in the context
+                            of an operation in BigQuery, this service account will
+                            serve as the identity being used for connecting to the
+                            CloudSQL instance specified in this connection.
                           type: string
                       type: object
                     type: array

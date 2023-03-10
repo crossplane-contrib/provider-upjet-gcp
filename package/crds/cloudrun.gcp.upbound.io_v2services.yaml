@@ -325,6 +325,26 @@ spec:
                                         succeeded. Defaults to 3. Minimum value is
                                         1.
                                       type: number
+                                    grpc:
+                                      description: GRPC specifies an action involving
+                                        a GRPC port. Structure is documented below.
+                                      items:
+                                        properties:
+                                          port:
+                                            description: Port number to access on
+                                              the container. Must be in the range
+                                              1 to 65535. If not specified, defaults
+                                              to 8080.
+                                            type: number
+                                          service:
+                                            description: The name of the service to
+                                              place in the gRPC HealthCheckRequest
+                                              (see https://github.com/grpc/grpc/blob/master/doc/health-checking.md).
+                                              If this is not specified, the default
+                                              behavior is defined by gRPC.
+                                            type: string
+                                        type: object
+                                      type: array
                                     httpGet:
                                       description: HTTPGet specifies the http request
                                         to perform. Exactly one of HTTPGet or TCPSocket
@@ -453,6 +473,26 @@ spec:
                                         succeeded. Defaults to 3. Minimum value is
                                         1.
                                       type: number
+                                    grpc:
+                                      description: GRPC specifies an action involving
+                                        a GRPC port. Structure is documented below.
+                                      items:
+                                        properties:
+                                          port:
+                                            description: Port number to access on
+                                              the container. Must be in the range
+                                              1 to 65535. If not specified, defaults
+                                              to 8080.
+                                            type: number
+                                          service:
+                                            description: The name of the service to
+                                              place in the gRPC HealthCheckRequest
+                                              (see https://github.com/grpc/grpc/blob/master/doc/health-checking.md).
+                                              If this is not specified, the default
+                                              behavior is defined by gRPC.
+                                            type: string
+                                        type: object
+                                      type: array
                                     httpGet:
                                       description: HTTPGet specifies the http request
                                         to perform. Exactly one of HTTPGet or TCPSocket

@@ -65,6 +65,9 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  description:
+                    description: Optional. Description of the EntityType.
+                    type: string
                   featurestore:
                     description: The name of the Featurestore to use, in the format
                       projects/{project}/locations/{location}/featurestores/{featurestore}.

@@ -62,6 +62,9 @@ type AzureObservation struct {
 	// The client id of the Azure Active Directory Application.
 	ClientID *string `json:"clientId,omitempty" tf:"client_id,omitempty"`
 
+	// A unique Google-owned and Google-generated identity for the Connection. This identity will be used to access the user's Azure Active Directory Application.
+	Identity *string `json:"identity,omitempty" tf:"identity,omitempty"`
+
 	// The object id of the Azure Active Directory Application.
 	ObjectID *string `json:"objectId,omitempty" tf:"object_id,omitempty"`
 
@@ -74,6 +77,10 @@ type AzureParameters struct {
 	// The id of customer's directory that host the data.
 	// +kubebuilder:validation:Required
 	CustomerTenantID *string `json:"customerTenantId" tf:"customer_tenant_id,omitempty"`
+
+	// The Azure Application (client) ID where the federated credentials will be hosted.
+	// +kubebuilder:validation:Optional
+	FederatedApplicationClientID *string `json:"federatedApplicationClientId,omitempty" tf:"federated_application_client_id,omitempty"`
 }
 
 type CloudResourceObservation struct {
@@ -86,6 +93,9 @@ type CloudResourceParameters struct {
 }
 
 type CloudSQLObservation struct {
+
+	// When the connection is used in the context of an operation in BigQuery, this service account will serve as the identity being used for connecting to the CloudSQL instance specified in this connection.
+	ServiceAccountID *string `json:"serviceAccountId,omitempty" tf:"service_account_id,omitempty"`
 }
 
 type CloudSQLParameters struct {
@@ -140,6 +150,10 @@ type CloudSpannerParameters struct {
 	// If parallelism should be used when reading from Cloud Spanner
 	// +kubebuilder:validation:Optional
 	UseParallelism *bool `json:"useParallelism,omitempty" tf:"use_parallelism,omitempty"`
+
+	// If the serverless analytics service should be used to read data from Cloud Spanner. useParallelism must be set when using serverless analytics
+	// +kubebuilder:validation:Optional
+	UseServerlessAnalytics *bool `json:"useServerlessAnalytics,omitempty" tf:"use_serverless_analytics,omitempty"`
 }
 
 type ConnectionObservation struct {
@@ -158,6 +172,11 @@ type ConnectionObservation struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	CloudResource []CloudResourceObservation `json:"cloudResource,omitempty" tf:"cloud_resource,omitempty"`
+
+	// Connection properties specific to the Cloud SQL.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	CloudSQL []CloudSQLObservation `json:"cloudSql,omitempty" tf:"cloud_sql,omitempty"`
 
 	// True if the connection has credential assigned.
 	HasCredential *bool `json:"hasCredential,omitempty" tf:"has_credential,omitempty"`
@@ -187,7 +206,7 @@ type ConnectionParameters struct {
 	// +kubebuilder:validation:Optional
 	CloudResource []CloudResourceParameters `json:"cloudResource,omitempty" tf:"cloud_resource,omitempty"`
 
-	// A nested object resource
+	// Connection properties specific to the Cloud SQL.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	CloudSQL []CloudSQLParameters `json:"cloudSql,omitempty" tf:"cloud_sql,omitempty"`

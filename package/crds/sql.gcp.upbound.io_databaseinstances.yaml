@@ -216,7 +216,8 @@ spec:
                       type: object
                     type: array
                   rootPasswordSecretRef:
-                    description: Initial root password. Required for MS SQL Server.
+                    description: Initial root password. Can be updated. Required for
+                      MS SQL Server.
                     properties:
                       key:
                         description: The key to select.
@@ -435,6 +436,12 @@ spec:
                                   - value
                                   type: object
                                 type: array
+                              enablePrivatePathForGoogleCloudServices:
+                                description: Whether Google Cloud services such as
+                                  BigQuery are allowed to access data in this Cloud
+                                  SQL instance over a private IP connection. SQLSERVER
+                                  database type is not supported.
+                                type: boolean
                               ipv4Enabled:
                                 description: Whether this Cloud SQL instance should
                                   be assigned a public IPV4 address. At least ipv4_enabled

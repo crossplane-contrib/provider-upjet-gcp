@@ -104,6 +104,24 @@ spec:
                       can call to list all supported Azure regions within a given
                       Google Cloud region.
                     type: string
+                  azureServicesAuthentication:
+                    description: Azure authentication configuration for management
+                      of Azure resources
+                    items:
+                      properties:
+                        applicationId:
+                          description: The Azure Active Directory Application ID for
+                            Authentication configuration.
+                          type: string
+                        tenantId:
+                          description: The Azure Active Directory Tenant ID for Authentication
+                            configuration.
+                          type: string
+                      required:
+                      - applicationId
+                      - tenantId
+                      type: object
+                    type: array
                   client:
                     description: Name of the AzureClient. The AzureClient resource
                       must reside on the same GCP project and region as the AzureCluster.
@@ -303,7 +321,6 @@ spec:
                 required:
                 - authorization
                 - azureRegion
-                - client
                 - controlPlane
                 - fleet
                 - location

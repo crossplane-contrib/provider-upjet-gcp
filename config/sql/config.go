@@ -31,6 +31,9 @@ const (
 // ResourceConfigurators.
 func Configure(p *config.Provider) { //nolint:gocyclo
 	p.AddResourceConfigurator("google_sql_database_instance", func(r *config.Resource) {
+		// we need to workaround the newly added (with v4.56.0)
+		// of `Optional=True` in the native provider
+		config.MoveToStatus(r.TerraformResource, "instance_type")
 		// NOTE(@tnthornton) most of the connection details that were exported
 		// to the connection details secret are marked as non-sensitive for tf.
 		// We need to manually construct the secret details for those items.

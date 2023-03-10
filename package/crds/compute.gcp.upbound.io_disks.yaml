@@ -115,6 +115,27 @@ spec:
                           - name
                           - namespace
                           type: object
+                        rsaEncryptedKeySecretRef:
+                          description: 'Specifies an RFC 4648 base64 encoded, RSA-wrapped
+                            2048-bit customer-supplied encryption key to either encrypt
+                            or decrypt this resource. You can provide either the rawKey
+                            or the rsaEncryptedKey. Note: This property is sensitive
+                            and will not be displayed in the plan.'
+                          properties:
+                            key:
+                              description: The key to select.
+                              type: string
+                            name:
+                              description: Name of the secret.
+                              type: string
+                            namespace:
+                              description: Namespace of the secret.
+                              type: string
+                          required:
+                          - key
+                          - name
+                          - namespace
+                          type: object
                       type: object
                     type: array
                   image:

@@ -7,7 +7,7 @@ require (
 	github.com/crossplane/crossplane-tools v0.0.0-20220310165030-1f43fc12793e
 	github.com/hashicorp/terraform-plugin-sdk/v2 v2.24.0
 	github.com/pkg/errors v0.9.1
-	github.com/upbound/upjet v0.9.0-rc.0.0.20230308103251-5377e5db7994
+	github.com/upbound/upjet v0.9.0-rc.0.0.20230309200654-acc1fd691d21
 	gopkg.in/alecthomas/kingpin.v2 v2.2.6
 	k8s.io/apimachinery v0.25.0
 	k8s.io/client-go v0.25.0
@@ -142,3 +142,5 @@ require (
 	sigs.k8s.io/structured-merge-diff/v4 v4.2.3 // indirect
 	sigs.k8s.io/yaml v1.3.0 // indirect
 )
+
+replace github.com/upbound/upjet => github.com/ulucinar/upbound-upjet v0.0.0-20230309183826-dc98682e7e58
