@@ -89,9 +89,20 @@ func (tr *Cluster) LateInitialize(attrs []byte) (bool, error) {
 		return false, errors.Wrap(err, "failed to unmarshal Terraform state parameters for late-initialization")
 	}
 	opts := []resource.GenericLateInitializerOption{resource.WithZeroValueJSONOmitEmptyFilter(resource.CNameWildcard)}
+	opts = append(opts, resource.WithNameFilter("AddonsConfig.DNSCacheConfig"))
+	opts = append(opts, resource.WithNameFilter("AddonsConfig.GCPFilestoreCsiDriverConfig"))
+	opts = append(opts, resource.WithNameFilter("AddonsConfig.NetworkPolicyConfig"))
+	opts = append(opts, resource.WithNameFilter("ClusterAutoscaling.Enabled"))
+	opts = append(opts, resource.WithNameFilter("ClusterAutoscaling.ResourceLimits"))
 	opts = append(opts, resource.WithNameFilter("ClusterIPv4Cidr"))
+	opts = append(opts, resource.WithNameFilter("DefaultMaxPodsPerNode"))
+	opts = append(opts, resource.WithNameFilter("EnableAutopilot"))
+	opts = append(opts, resource.WithNameFilter("EnableIntranodeVisibility"))
+	opts = append(opts, resource.WithNameFilter("EnableShieldedNodes"))
 	opts = append(opts, resource.WithNameFilter("IPAllocationPolicy"))
+	opts = append(opts, resource.WithNameFilter("NetworkPolicy"))
 	opts = append(opts, resource.WithNameFilter("NodeVersion"))
+	opts = append(opts, resource.WithNameFilter("WorkloadIdentityConfig"))
 
 	li := resource.NewGenericLateInitializer(opts...)
 	return li.LateInitialize(&tr.Spec.ForProvider, params)

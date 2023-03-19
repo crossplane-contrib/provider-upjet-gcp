@@ -22,6 +22,17 @@ func Configure(p *config.Provider) { //nolint:gocyclo
 				"cluster_ipv4_cidr",
 				"ip_allocation_policy",
 				"node_version",
+				"enable_autopilot",
+				"workload_identity_config",
+				"addons_config.network_policy_config",
+				"addons_config.gcp_filestore_csi_driver_config",
+				"addons_config.dns_cache_config",
+				"default_max_pods_per_node",
+				"cluster_autoscaling.enabled",
+				"cluster_autoscaling.resource_limits",
+				"enable_intranode_visibility",
+				"network_policy",
+				"enable_shielded_nodes",
 			},
 		}
 		config.MoveToStatus(r.TerraformResource, "node_pool")

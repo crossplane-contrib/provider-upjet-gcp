@@ -8,6 +8,7 @@ metadata:
   name: cluster
 spec:
   forProvider:
-    initialNodeCount: 1
-    location: us-central1-a
-    removeDefaultNodePool: false
+    location: europe-north1
+    ipAllocationPolicy:
+      - {}
+    enableAutopilot: true
