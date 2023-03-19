@@ -41,12 +41,8 @@ type ProviderCredentials struct {
 	// identity provider.
 	Upbound *Upbound `json:"upbound,omitempty"`
 
-	CredentialSelectors `json:",inline"`
-}
-
-type CredentialSelectors struct {
 	xpv1.CommonCredentialSelectors `json:",inline"`
-	// GCP service account impersonation
+	// Use GCP service account impersonation for authentication.
 	ImpersonateServiceAccountSpec `json:"impersonateServiceAccount,omitempty"`
 }
 

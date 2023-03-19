@@ -71,7 +71,7 @@ spec:
                     - path
                     type: object
                   impersonateServiceAccount:
-                    description: GCP service account impersonation
+                    description: Use GCP service account impersonation for authentication.
                     properties:
                       name:
                         description: GCP service account email address
