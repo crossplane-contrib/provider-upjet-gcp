@@ -107,6 +107,7 @@ spec:
                     - InjectedIdentity
                     - Environment
                     - Filesystem
+                    - Upbound
                     type: string
                   upbound:
                     description: Upbound defines the options for authenticating using
