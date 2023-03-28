@@ -84,6 +84,7 @@ import (
 	serviceaccountiammember "github.com/upbound/provider-gcp/internal/controller/cloudplatform/serviceaccountiammember"
 	serviceaccountkey "github.com/upbound/provider-gcp/internal/controller/cloudplatform/serviceaccountkey"
 	servicenetworkingpeereddnsdomain "github.com/upbound/provider-gcp/internal/controller/cloudplatform/servicenetworkingpeereddnsdomain"
+	storagehmackey "github.com/upbound/provider-gcp/internal/controller/cloudplatform/storagehmackey"
 	domainmapping "github.com/upbound/provider-gcp/internal/controller/cloudrun/domainmapping"
 	service "github.com/upbound/provider-gcp/internal/controller/cloudrun/service"
 	serviceiammember "github.com/upbound/provider-gcp/internal/controller/cloudrun/serviceiammember"
@@ -417,6 +418,7 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		serviceaccountiammember.Setup,
 		serviceaccountkey.Setup,
 		servicenetworkingpeereddnsdomain.Setup,
+		storagehmackey.Setup,
 		domainmapping.Setup,
 		service.Setup,
 		serviceiammember.Setup,

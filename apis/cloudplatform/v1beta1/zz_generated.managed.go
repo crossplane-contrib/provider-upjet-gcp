@@ -1074,3 +1074,69 @@ func (mg *ServiceNetworkingPeeredDNSDomain) SetPublishConnectionDetailsTo(r *xpv
 func (mg *ServiceNetworkingPeeredDNSDomain) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }
+
+// GetCondition of this StorageHMACKey.
+func (mg *StorageHMACKey) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+	return mg.Status.GetCondition(ct)
+}
+
+// GetDeletionPolicy of this StorageHMACKey.
+func (mg *StorageHMACKey) GetDeletionPolicy() xpv1.DeletionPolicy {
+	return mg.Spec.DeletionPolicy
+}
+
+// GetProviderConfigReference of this StorageHMACKey.
+func (mg *StorageHMACKey) GetProviderConfigReference() *xpv1.Reference {
+	return mg.Spec.ProviderConfigReference
+}
+
+/*
+GetProviderReference of this StorageHMACKey.
+Deprecated: Use GetProviderConfigReference.
+*/
+func (mg *StorageHMACKey) GetProviderReference() *xpv1.Reference {
+	return mg.Spec.ProviderReference
+}
+
+// GetPublishConnectionDetailsTo of this StorageHMACKey.
+func (mg *StorageHMACKey) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
+	return mg.Spec.PublishConnectionDetailsTo
+}
+
+// GetWriteConnectionSecretToReference of this StorageHMACKey.
+func (mg *StorageHMACKey) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
+	return mg.Spec.WriteConnectionSecretToReference
+}
+
+// SetConditions of this StorageHMACKey.
+func (mg *StorageHMACKey) SetConditions(c ...xpv1.Condition) {
+	mg.Status.SetConditions(c...)
+}
+
+// SetDeletionPolicy of this StorageHMACKey.
+func (mg *StorageHMACKey) SetDeletionPolicy(r xpv1.DeletionPolicy) {
+	mg.Spec.DeletionPolicy = r
+}
+
+// SetProviderConfigReference of this StorageHMACKey.
+func (mg *StorageHMACKey) SetProviderConfigReference(r *xpv1.Reference) {
+	mg.Spec.ProviderConfigReference = r
+}
+
+/*
+SetProviderReference of this StorageHMACKey.
+Deprecated: Use SetProviderConfigReference.
+*/
+func (mg *StorageHMACKey) SetProviderReference(r *xpv1.Reference) {
+	mg.Spec.ProviderReference = r
+}
+
+// SetPublishConnectionDetailsTo of this StorageHMACKey.
+func (mg *StorageHMACKey) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
+	mg.Spec.PublishConnectionDetailsTo = r
+}
+
+// SetWriteConnectionSecretToReference of this StorageHMACKey.
+func (mg *StorageHMACKey) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
+	mg.Spec.WriteConnectionSecretToReference = r
+}

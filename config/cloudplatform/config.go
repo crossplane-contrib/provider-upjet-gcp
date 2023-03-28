@@ -106,4 +106,11 @@ func Configure(p *config.Provider) {
 		config.MarkAsRequired(r.TerraformResource, "network")
 		config.MarkAsRequired(r.TerraformResource, "service")
 	})
+
+	p.AddResourceConfigurator("google_storage_hmac_key", func(r *config.Resource) {
+		r.References["service_account_email"] = config.Reference{
+			Type:      "ServiceAccount",
+			Extractor: common.ExtractEmailFuncPath,
+		}
+	})
 }

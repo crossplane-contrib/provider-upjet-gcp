@@ -20,6 +20,9 @@ const (
 
 	// ExtractResourceIDFuncPath holds the GCP resource ID extractor func name
 	ExtractResourceIDFuncPath = "github.com/upbound/provider-gcp/config/common.ExtractResourceID()"
+
+	// ExtractEmailFuncPath holds the GCP resource email extractor func name
+	ExtractEmailFuncPath = "github.com/upbound/provider-gcp/config/common.ExtractEmail()"
 )
 
 var (
@@ -62,7 +65,7 @@ func GetField(from map[string]interface{}, path string) (string, error) {
 	return fieldpath.Pave(from).GetString(path)
 }
 
-// ExtractResourceID extracts the value of `spec.atProvider.id`
+// ExtractResourceID extracts the value of `status.atProvider.id`
 // from a Terraformed resource. If mr is not a Terraformed
 // resource, returns an empty string.
 func ExtractResourceID() reference.ExtractValueFn {
@@ -72,5 +75,22 @@ func ExtractResourceID() reference.ExtractValueFn {
 			return ""
 		}
 		return tr.GetID()
+	}
+}
+
+// ExtractEmail extracts the value of `status.atProvider.email`
+// from a Terraformed resource. If mr is not a Terraformed
+// resource, returns an empty string.
+func ExtractEmail() reference.ExtractValueFn {
+	return func(mg resource.Managed) string {
+		paved, err := fieldpath.PaveObject(mg)
+		if err != nil {
+			return ""
+		}
+		r, err := paved.GetString("status.atProvider.email")
+		if err != nil {
+			return ""
+		}
+		return r
 	}
 }
