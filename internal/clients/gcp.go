@@ -89,7 +89,7 @@ func constructFederatedCredentials(providerID, serviceAccount string) ([]byte, e
 // returns Terraform provider setup configuration
 // NOTE(hasheddan): this function is slightly over our cyclomatic complexity
 // goal. Consider refactoring before adding new branches.
-func TerraformSetupBuilder(version, providerSource, providerVersion string) terraform.SetupFn { //nolint:gocyclo
+func TerraformSetupBuilder(version, providerSource, providerVersion string, scheduler terraform.ProviderScheduler) terraform.SetupFn { //nolint:gocyclo
 	return func(ctx context.Context, client client.Client, mg resource.Managed) (terraform.Setup, error) {
 		ps := terraform.Setup{
 			Version: version,
@@ -97,6 +97,7 @@ func TerraformSetupBuilder(version, providerSource, providerVersion string) terr
 				Source:  providerSource,
 				Version: providerVersion,
 			},
+			Scheduler: scheduler,
 		}
 
 		configRef := mg.GetProviderConfigReference()
