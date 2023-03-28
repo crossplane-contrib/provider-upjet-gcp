@@ -55,6 +55,8 @@ var groupMap = map[string]GroupKindCalculator{
 	"google_project_usage_export_bucket$":          ReplaceGroupWords("cloudplatform", 0),
 	"google_service_account.*":                     ReplaceGroupWords("cloudplatform", 0),
 	"google_service_networking_peered_dns_domain$": ReplaceGroupWords("cloudplatform", 0),
+	// Avoid an import cycle, this is a key used for S3-style auth. It's meant to be used by end users, not other resources.
+	"google_storage_hmac_key$": ReplaceGroupWords("cloudplatform", 0),
 
 	// Resources in "Access Approval" group.
 	// Note(turkenh): The following resources are listed under "Access Approval"

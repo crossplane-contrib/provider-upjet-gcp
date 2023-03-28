@@ -725,6 +725,8 @@ var externalNameConfigs = map[string]config.ExternalName{
 	"google_storage_default_object_access_control": config.IdentifierFromProvider,
 	// No import documented.
 	"google_storage_default_object_acl": config.IdentifierFromProvider,
+	// Imported by using the following projects/{{project}}/hmacKeys/{{access_id}}
+	"google_storage_hmac_key": config.IdentifierFromProvider,
 	// Imported by using the following {{bucket}}/{{object}}/{{entity}}
 	"google_storage_object_access_control": config.IdentifierFromProvider,
 	// No Import

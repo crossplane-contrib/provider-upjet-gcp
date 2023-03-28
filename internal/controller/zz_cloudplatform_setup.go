@@ -25,6 +25,7 @@ import (
 	serviceaccountiammember "github.com/upbound/provider-gcp/internal/controller/cloudplatform/serviceaccountiammember"
 	serviceaccountkey "github.com/upbound/provider-gcp/internal/controller/cloudplatform/serviceaccountkey"
 	servicenetworkingpeereddnsdomain "github.com/upbound/provider-gcp/internal/controller/cloudplatform/servicenetworkingpeereddnsdomain"
+	storagehmackey "github.com/upbound/provider-gcp/internal/controller/cloudplatform/storagehmackey"
 )
 
 // Setup_cloudplatform creates all controllers with the supplied logger and adds them to
@@ -47,6 +48,7 @@ func Setup_cloudplatform(mgr ctrl.Manager, o controller.Options) error {
 		serviceaccountiammember.Setup,
 		serviceaccountkey.Setup,
 		servicenetworkingpeereddnsdomain.Setup,
+		storagehmackey.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {
 			return err
