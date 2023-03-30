@@ -207,7 +207,7 @@ func (mg *Notification) ResolveReferences(ctx context.Context, c client.Reader) 
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Topic),
-		Extract:      reference.ExternalName(),
+		Extract:      resource.ExtractResourceID(),
 		Reference:    mg.Spec.ForProvider.TopicRef,
 		Selector:     mg.Spec.ForProvider.TopicSelector,
 		To: reference.To{
