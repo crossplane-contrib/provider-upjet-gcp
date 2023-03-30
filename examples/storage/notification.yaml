@@ -3,6 +3,7 @@ kind: Notification
 metadata:
   annotations:
     meta.upbound.io/example-id: storage/v1beta1/notification
+    upjet.upbound.io/manual-intervention: "This resource depends on TopicIAMMember(TopicIAMBinding) with the required permissions and the correct service account "
   labels:
     testing.upbound.io/example-name: notification
   name: notification
@@ -60,7 +61,7 @@ metadata:
   name: topic-iam-member
 spec:
   forProvider:
-    member: "serviceAccount:service-${data.cloudplatform_project.projectNumber}@gs-project-accounts.iam.gserviceaccount.com"
+    member: "serviceAccount:service-<yourprojectnumber>@gs-project-accounts.iam.gserviceaccount.com"
     role: "roles/pubsub.publisher"
     topicSelector:
       matchLabels:
