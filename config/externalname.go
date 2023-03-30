@@ -73,7 +73,7 @@ var externalNameConfigs = map[string]config.ExternalName{
 	// Imported by using the following format: {{project}}
 	"google_project_usage_export_bucket": config.IdentifierFromProvider,
 	// Service accounts can be imported using their URI, e.g. projects/my-project/serviceAccounts/my-sa@my-project.iam.gserviceaccount.com
-	"google_service_account": config.TemplatedStringAsIdentifier("account_id", "projects/{{ .setup.configuration.project }}/serviceAccounts/{{ .external_name }}@{{ .setup.configuration.project }}.iam.gserviceaccount.com"),
+	"google_service_account": config.TemplatedStringAsIdentifier("account_id", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/serviceAccounts/{{ .external_name }}@{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}.iam.gserviceaccount.com"),
 	// Imported by using the following format: projects/{your-project-id}/serviceAccounts/{your-service-account-email} roles/iam.serviceAccountUser user:foo@example.com expires_after_2019_12_31
 	"google_service_account_iam_member": config.IdentifierFromProvider,
 	// No import
