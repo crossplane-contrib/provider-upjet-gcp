@@ -16,6 +16,10 @@ GCP API.
 Follow the quick start guide [here](https://marketplace.upbound.io/providers/upbound/provider-gcp/latest/docs/quickstart).
 You can find a detailed API reference with all CRDs and examples [here](https://marketplace.upbound.io/providers/upbound/provider-gcp)
 
+For getting more information about resource consumption and monitoring
+the upjet runtime, please see [Sizing Guide](https://github.com/upbound/upjet/blob/main/docs/sizing-guide.md)
+and [Monitoring Guide](https://github.com/upbound/upjet/blob/main/docs/monitoring.md)
+
 ## Contributing
 
 For the general contribution guide, see [Upjet Contribution Guide](https://github.com/upbound/upjet/blob/main/CONTRIBUTING.md)
