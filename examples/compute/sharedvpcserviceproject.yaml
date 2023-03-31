@@ -13,6 +13,3 @@ spec:
     serviceProjectSelector:
       matchLabels:
         testing.upbound.io/example-name: example
-
----
-
