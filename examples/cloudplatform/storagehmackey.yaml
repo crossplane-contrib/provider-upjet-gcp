@@ -4,13 +4,13 @@ metadata:
   annotations:
     meta.upbound.io/example-id: cloudplatform/v1beta1/storagehmackey
   labels:
-    testing.upbound.io/example-name: example-service-account-hmac-key
-  name: example-service-account-hmac-key
+    testing.upbound.io/example-name: example-sa-hmac-key
+  name: example-sa-hmac-key
 spec:
   forProvider:
     serviceAccountEmailSelector:
       matchLabels:
-        testing.upbound.io/example-name: example-service-account-hmac-key
+        testing.upbound.io/example-name: example-sa-hmac-key
 
 ---
 
@@ -20,7 +20,7 @@ metadata:
   annotations:
     meta.upbound.io/example-id: cloudplatform/v1beta1/storagehmackey
   labels:
-    testing.upbound.io/example-name: example-service-account-hmac-key
-  name: example-service-account-hmac-key
+    testing.upbound.io/example-name: example-sa-hmac-key
+  name: example-sa-hmac-key
 spec:
   forProvider: {}
