@@ -1,0 +1,18 @@
+apiVersion: meta.pkg.crossplane.io/v1alpha1
+kind: Provider
+metadata:
+  name: provider-gcp
+  annotations:
+    meta.crossplane.io/maintainer: Upbound <support@upbound.io>
+    meta.crossplane.io/source: github.com/upbound/provider-gcp
+    meta.crossplane.io/description: |
+      Upbound's official Crossplane provider to manage Google Cloud Platform (GCP)
+      services in Kubernetes.
+    meta.crossplane.io/readme: |
+      Provider GCP is a Crossplane provider for [Google Cloud Platform
+      (GCP)](https://cloud.google.com) developed and supported by Upbound.
+      Available resources and their fields can be found in the [Upbound
+      Marketplace](https://marketplace.upbound.io/providers/upbound/provider-gcp).
+      If you encounter an issue please reach out on support@upbound.io email
+      address.
+    friendly-name.meta.crossplane.io: Provider GCP
