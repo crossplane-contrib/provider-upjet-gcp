@@ -30,11 +30,29 @@ type ProjectIAMCustomRoleObservation struct {
 	// The current deleted state of the role.
 	Deleted *bool `json:"deleted,omitempty" tf:"deleted,omitempty"`
 
+	// A human-readable description for the role.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
 	// an identifier for the resource with the format projects/{{project}}/roles/{{role_id}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// The name of the role in the format projects/{{project}}/roles/{{role_id}}. Like id, this field can be used as a reference in other resources such as IAM role bindings.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The names of the permissions this role grants when bound in an IAM policy. At least one permission must be specified.
+	Permissions []*string `json:"permissions,omitempty" tf:"permissions,omitempty"`
+
+	// The project that the service account will be created in.
+	// Defaults to the provider project configuration.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The current launch stage of the role.
+	// Defaults to GA.
+	// List of possible stages is here.
+	Stage *string `json:"stage,omitempty" tf:"stage,omitempty"`
+
+	// A human-readable title for the role.
+	Title *string `json:"title,omitempty" tf:"title,omitempty"`
 }
 
 type ProjectIAMCustomRoleParameters struct {
@@ -44,8 +62,8 @@ type ProjectIAMCustomRoleParameters struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// The names of the permissions this role grants when bound in an IAM policy. At least one permission must be specified.
-	// +kubebuilder:validation:Required
-	Permissions []*string `json:"permissions" tf:"permissions,omitempty"`
+	// +kubebuilder:validation:Optional
+	Permissions []*string `json:"permissions,omitempty" tf:"permissions,omitempty"`
 
 	// The project that the service account will be created in.
 	// Defaults to the provider project configuration.
@@ -59,8 +77,8 @@ type ProjectIAMCustomRoleParameters struct {
 	Stage *string `json:"stage,omitempty" tf:"stage,omitempty"`
 
 	// A human-readable title for the role.
-	// +kubebuilder:validation:Required
-	Title *string `json:"title" tf:"title,omitempty"`
+	// +kubebuilder:validation:Optional
+	Title *string `json:"title,omitempty" tf:"title,omitempty"`
 }
 
 // ProjectIAMCustomRoleSpec defines the desired state of ProjectIAMCustomRole
@@ -87,8 +105,10 @@ type ProjectIAMCustomRoleStatus struct {
 type ProjectIAMCustomRole struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              ProjectIAMCustomRoleSpec   `json:"spec"`
-	Status            ProjectIAMCustomRoleStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.permissions)",message="permissions is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.title)",message="title is a required parameter"
+	Spec   ProjectIAMCustomRoleSpec   `json:"spec"`
+	Status ProjectIAMCustomRoleStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -27,6 +27,9 @@ import (
 
 type ClientObservation struct {
 
+	// The Azure Active Directory Application ID.
+	ApplicationID *string `json:"applicationId,omitempty" tf:"application_id,omitempty"`
+
 	// Output only. The PEM encoded x509 certificate.
 	Certificate *string `json:"certificate,omitempty" tf:"certificate,omitempty"`
 
@@ -36,6 +39,15 @@ type ClientObservation struct {
 	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/azureClients/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// The location for the resource
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
+	// The project for the resource
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The Azure Active Directory Tenant ID.
+	TenantID *string `json:"tenantId,omitempty" tf:"tenant_id,omitempty"`
+
 	// Output only. A globally unique identifier for the client.
 	UID *string `json:"uid,omitempty" tf:"uid,omitempty"`
 }
@@ -43,8 +55,8 @@ type ClientObservation struct {
 type ClientParameters struct {
 
 	// The Azure Active Directory Application ID.
-	// +kubebuilder:validation:Required
-	ApplicationID *string `json:"applicationId" tf:"application_id,omitempty"`
+	// +kubebuilder:validation:Optional
+	ApplicationID *string `json:"applicationId,omitempty" tf:"application_id,omitempty"`
 
 	// The location for the resource
 	// +kubebuilder:validation:Required
@@ -55,8 +67,8 @@ type ClientParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The Azure Active Directory Tenant ID.
-	// +kubebuilder:validation:Required
-	TenantID *string `json:"tenantId" tf:"tenant_id,omitempty"`
+	// +kubebuilder:validation:Optional
+	TenantID *string `json:"tenantId,omitempty" tf:"tenant_id,omitempty"`
 }
 
 // ClientSpec defines the desired state of Client
@@ -83,8 +95,10 @@ type ClientStatus struct {
 type Client struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              ClientSpec   `json:"spec"`
-	Status            ClientStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.applicationId)",message="applicationId is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.tenantId)",message="tenantId is a required parameter"
+	Spec   ClientSpec   `json:"spec"`
+	Status ClientStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

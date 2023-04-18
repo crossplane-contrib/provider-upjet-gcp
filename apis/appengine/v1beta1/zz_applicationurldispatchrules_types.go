@@ -27,16 +27,24 @@ import (
 
 type ApplicationURLDispatchRulesObservation struct {
 
+	// Rules to match an HTTP request and dispatch that request to a service.
+	// Structure is documented below.
+	DispatchRules []DispatchRulesObservation `json:"dispatchRules,omitempty" tf:"dispatch_rules,omitempty"`
+
 	// an identifier for the resource with format {{project}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 
 type ApplicationURLDispatchRulesParameters struct {
 
 	// Rules to match an HTTP request and dispatch that request to a service.
 	// Structure is documented below.
-	// +kubebuilder:validation:Required
-	DispatchRules []DispatchRulesParameters `json:"dispatchRules" tf:"dispatch_rules,omitempty"`
+	// +kubebuilder:validation:Optional
+	DispatchRules []DispatchRulesParameters `json:"dispatchRules,omitempty" tf:"dispatch_rules,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -45,6 +53,18 @@ type ApplicationURLDispatchRulesParameters struct {
 }
 
 type DispatchRulesObservation struct {
+
+	// Domain name to match against. The wildcard "" is supported if specified before a period: ".".
+	// Defaults to matching all domains: "*".
+	Domain *string `json:"domain,omitempty" tf:"domain,omitempty"`
+
+	// Pathname within the host. Must start with a "/". A single "*" can be included at the end of the path.
+	// The sum of the lengths of the domain and path may not exceed 100 characters.
+	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+
+	// Pathname within the host. Must start with a "/". A single "*" can be included at the end of the path.
+	// The sum of the lengths of the domain and path may not exceed 100 characters.
+	Service *string `json:"service,omitempty" tf:"service,omitempty"`
 }
 
 type DispatchRulesParameters struct {
@@ -99,8 +119,9 @@ type ApplicationURLDispatchRulesStatus struct {
 type ApplicationURLDispatchRules struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              ApplicationURLDispatchRulesSpec   `json:"spec"`
-	Status            ApplicationURLDispatchRulesStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.dispatchRules)",message="dispatchRules is a required parameter"
+	Spec   ApplicationURLDispatchRulesSpec   `json:"spec"`
+	Status ApplicationURLDispatchRulesStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

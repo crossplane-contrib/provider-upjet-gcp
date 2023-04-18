@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.11.1
+    controller-gen.kubebuilder.io/version: v0.11.3
   creationTimestamp: null
   name: regionperinstanceconfigs.compute.gcp.upbound.io
 spec:
@@ -57,9 +57,13 @@ spec:
             properties:
               deletionPolicy:
                 default: Delete
-                description: DeletionPolicy specifies what will happen to the underlying
+                description: 'DeletionPolicy specifies what will happen to the underlying
                   external when this managed resource is deleted - either "Delete"
-                  or "Orphan" the external resource.
+                  or "Orphan" the external resource. This field is planned to be deprecated
+                  in favor of the ManagementPolicy field in a future release. Currently,
+                  both could be set independently and non-default values would be
+                  honored if the feature flag is enabled. See the design doc for more
+                  information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
                 enum:
                 - Orphan
                 - Delete
@@ -373,9 +377,22 @@ spec:
                       state from the underlying instance. State will be removed on
                       the next instance recreation or update.
                     type: boolean
-                required:
-                - name
                 type: object
+              managementPolicy:
+                default: FullControl
+                description: 'THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice. ManagementPolicy
+                  specifies the level of control Crossplane has over the managed external
+                  resource. This field is planned to replace the DeletionPolicy field
+                  in a future release. Currently, both could be set independently
+                  and non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
+                enum:
+                - FullControl
+                - ObserveOnly
+                - OrphanOnDelete
+                type: string
               providerConfigRef:
                 default:
                   name: default
@@ -547,6 +564,9 @@ spec:
             required:
             - forProvider
             type: object
+            x-kubernetes-validations:
+            - message: name is a required parameter
+              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.name)
           status:
             description: RegionPerInstanceConfigStatus defines the observed state
               of RegionPerInstanceConfig.
@@ -556,6 +576,81 @@ spec:
                   id:
                     description: an identifier for the resource with format {{project}}/{{region}}/{{region_instance_group_manager}}/{{name}}
                     type: string
+                  minimalAction:
+                    description: 'The minimal action to perform on the instance during
+                      an update. Default is NONE. Possible values are:'
+                    type: string
+                  mostDisruptiveAllowedAction:
+                    description: 'The most disruptive action to perform on the instance
+                      during an update. Default is REPLACE. Possible values are:'
+                    type: string
+                  name:
+                    description: The name for this per-instance config and its corresponding
+                      instance.
+                    type: string
+                  preservedState:
+                    description: The preserved state for this instance. Structure
+                      is documented below.
+                    items:
+                      properties:
+                        disk:
+                          description: Stateful disks for the instance. Structure
+                            is documented below.
+                          items:
+                            properties:
+                              deleteRule:
+                                description: A value that prescribes what should happen
+                                  to the stateful disk when the VM instance is deleted.
+                                  The available options are NEVER and ON_PERMANENT_INSTANCE_DELETION.
+                                  NEVER - detach the disk when the VM is deleted,
+                                  but do not delete the disk. ON_PERMANENT_INSTANCE_DELETION
+                                  will delete the stateful disk when the VM is permanently
+                                  deleted from the instance group. Default value is
+                                  NEVER. Possible values are NEVER and ON_PERMANENT_INSTANCE_DELETION.
+                                type: string
+                              deviceName:
+                                description: A unique device name that is reflected
+                                  into the /dev/ tree of a Linux operating system
+                                  running within the instance.
+                                type: string
+                              mode:
+                                description: The mode of the disk. Default value is
+                                  READ_WRITE. Possible values are READ_ONLY and READ_WRITE.
+                                type: string
+                              source:
+                                description: The URI of an existing persistent disk
+                                  to attach under the specified device-name in the
+                                  format projects/project-id/zones/zone/disks/disk-name.
+                                type: string
+                            type: object
+                          type: array
+                        metadata:
+                          additionalProperties:
+                            type: string
+                          description: Preserved metadata defined for this instance.
+                            This is a list of key->value pairs.
+                          type: object
+                      type: object
+                    type: array
+                  project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  region:
+                    description: Region where the containing instance group manager
+                      is located
+                    type: string
+                  regionInstanceGroupManager:
+                    description: The region instance group manager this instance config
+                      is part of.
+                    type: string
+                  removeInstanceStateOnDestroy:
+                    description: When true, deleting this config will immediately
+                      remove any specified state from the underlying instance. When
+                      false, deleting this config will not immediately remove any
+                      state from the underlying instance. State will be removed on
+                      the next instance recreation or update.
+                    type: boolean
                 type: object
               conditions:
                 description: Conditions of the resource.

@@ -26,6 +26,14 @@ import (
 )
 
 type AccessDatasetObservation struct {
+
+	// The dataset this entry applies to
+	// Structure is documented below.
+	Dataset []DatasetDatasetObservation `json:"dataset,omitempty" tf:"dataset,omitempty"`
+
+	// Which resources in the dataset this entry applies to. Currently, only views are supported,
+	// but additional target types may be added in the future. Possible values: VIEWS
+	TargetTypes []*string `json:"targetTypes,omitempty" tf:"target_types,omitempty"`
 }
 
 type AccessDatasetParameters struct {
@@ -42,6 +50,47 @@ type AccessDatasetParameters struct {
 }
 
 type AccessObservation struct {
+
+	// Grants all resources of particular types in a particular dataset read access to the current dataset.
+	// Structure is documented below.
+	Dataset []AccessDatasetObservation `json:"dataset,omitempty" tf:"dataset,omitempty"`
+
+	// A domain to grant access to. Any users signed in with the
+	// domain specified will be granted the specified access
+	Domain *string `json:"domain,omitempty" tf:"domain,omitempty"`
+
+	// An email address of a Google Group to grant access to.
+	GroupByEmail *string `json:"groupByEmail,omitempty" tf:"group_by_email,omitempty"`
+
+	// Describes the rights granted to the user specified by the other
+	// member of the access object. Basic, predefined, and custom roles
+	// are supported. Predefined roles that have equivalent basic roles
+	// are swapped by the API to their basic counterparts. See
+	// official docs.
+	Role *string `json:"role,omitempty" tf:"role,omitempty"`
+
+	// A routine from a different dataset to grant access to. Queries
+	// executed against that routine will have read access to tables in
+	// this dataset. The role field is not required when this field is
+	// set. If that routine is updated by any user, access to the routine
+	// needs to be granted again via an update operation.
+	// Structure is documented below.
+	Routine []RoutineObservation `json:"routine,omitempty" tf:"routine,omitempty"`
+
+	// A special group to grant access to. Possible values include:
+	SpecialGroup *string `json:"specialGroup,omitempty" tf:"special_group,omitempty"`
+
+	// An email address of a user to grant access to. For example:
+	// fred@example.com
+	UserByEmail *string `json:"userByEmail,omitempty" tf:"user_by_email,omitempty"`
+
+	// A view from a different dataset to grant access to. Queries
+	// executed against that view will have read access to tables in
+	// this dataset. The role field is not required when this field is
+	// set. If that view is updated by any user, access to the view
+	// needs to be granted again via an update operation.
+	// Structure is documented below.
+	View []ViewObservation `json:"view,omitempty" tf:"view,omitempty"`
 }
 
 type AccessParameters struct {
@@ -107,6 +156,12 @@ type AccessParameters struct {
 }
 
 type DatasetDatasetObservation struct {
+
+	// The ID of the dataset containing this table.
+	DatasetID *string `json:"datasetId,omitempty" tf:"dataset_id,omitempty"`
+
+	// The ID of the project containing this table.
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 }
 
 type DatasetDatasetParameters struct {
@@ -131,19 +186,63 @@ type DatasetDatasetParameters struct {
 
 type DatasetObservation struct {
 
+	// An array of objects that define dataset access for one or more entities.
+	// Structure is documented below.
+	Access []AccessObservation `json:"access,omitempty" tf:"access,omitempty"`
+
 	// The time when this dataset was created, in milliseconds since the
 	// epoch.
 	CreationTime *float64 `json:"creationTime,omitempty" tf:"creation_time,omitempty"`
 
+	// The default encryption key for all tables in the dataset. Once this property is set,
+	// all newly-created partitioned tables in the dataset will have encryption key set to
+	// this value, unless table creation request (or query) overrides the key.
+	// Structure is documented below.
+	DefaultEncryptionConfiguration []DefaultEncryptionConfigurationObservation `json:"defaultEncryptionConfiguration,omitempty" tf:"default_encryption_configuration,omitempty"`
+
+	// The default partition expiration for all partitioned tables in
+	// the dataset, in milliseconds.
+	DefaultPartitionExpirationMs *float64 `json:"defaultPartitionExpirationMs,omitempty" tf:"default_partition_expiration_ms,omitempty"`
+
+	// The default lifetime of all tables in the dataset, in milliseconds.
+	// The minimum value is 3600000 milliseconds (one hour).
+	DefaultTableExpirationMs *float64 `json:"defaultTableExpirationMs,omitempty" tf:"default_table_expiration_ms,omitempty"`
+
+	// If set to true, delete all the tables in the
+	// dataset when destroying the resource; otherwise,
+	// destroying the resource will fail if tables are present.
+	DeleteContentsOnDestroy *bool `json:"deleteContentsOnDestroy,omitempty" tf:"delete_contents_on_destroy,omitempty"`
+
+	// A user-friendly description of the dataset
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
 	// A hash of the resource.
 	Etag *string `json:"etag,omitempty" tf:"etag,omitempty"`
+
+	// A descriptive name for the dataset
+	FriendlyName *string `json:"friendlyName,omitempty" tf:"friendly_name,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/datasets/{{dataset_id}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// The labels associated with this dataset. You can use these to
+	// organize and group your datasets
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
 	// The date when this dataset or any of its tables was last modified, in
 	// milliseconds since the epoch.
 	LastModifiedTime *float64 `json:"lastModifiedTime,omitempty" tf:"last_modified_time,omitempty"`
+
+	// The geographic location where the dataset should reside.
+	// See official docs.
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
+	// Defines the time travel window in hours. The value can be from 48 to 168 hours (2 to 7 days).
+	MaxTimeTravelHours *string `json:"maxTimeTravelHours,omitempty" tf:"max_time_travel_hours,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
@@ -208,6 +307,11 @@ type DatasetParameters struct {
 }
 
 type DefaultEncryptionConfigurationObservation struct {
+
+	// Describes the Cloud KMS encryption key that will be used to protect destination
+	// BigQuery table. The BigQuery Service Account associated with your project requires
+	// access to this encryption key.
+	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
 }
 
 type DefaultEncryptionConfigurationParameters struct {
@@ -230,6 +334,17 @@ type DefaultEncryptionConfigurationParameters struct {
 }
 
 type RoutineObservation struct {
+
+	// The ID of the dataset containing this table.
+	DatasetID *string `json:"datasetId,omitempty" tf:"dataset_id,omitempty"`
+
+	// The ID of the project containing this table.
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	// The ID of the routine. The ID must contain only letters (a-z,
+	// A-Z), numbers (0-9), or underscores (_). The maximum length
+	// is 256 characters.
+	RoutineID *string `json:"routineId,omitempty" tf:"routine_id,omitempty"`
 }
 
 type RoutineParameters struct {
@@ -279,6 +394,17 @@ type RoutineParameters struct {
 }
 
 type ViewObservation struct {
+
+	// The ID of the dataset containing this table.
+	DatasetID *string `json:"datasetId,omitempty" tf:"dataset_id,omitempty"`
+
+	// The ID of the project containing this table.
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	// The ID of the table. The ID must contain only letters (a-z,
+	// A-Z), numbers (0-9), or underscores (_). The maximum length
+	// is 1,024 characters.
+	TableID *string `json:"tableId,omitempty" tf:"table_id,omitempty"`
 }
 
 type ViewParameters struct {

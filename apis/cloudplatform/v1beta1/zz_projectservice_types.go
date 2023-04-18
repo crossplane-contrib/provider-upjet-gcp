@@ -27,8 +27,26 @@ import (
 
 type ProjectServiceObservation struct {
 
+	// If true, services that are enabled
+	// and which depend on this service should also be disabled when this service is
+	// destroyed. If false or unset, an error will be generated if any enabled
+	// services depend on this service when destroying it.
+	DisableDependentServices *bool `json:"disableDependentServices,omitempty" tf:"disable_dependent_services,omitempty"`
+
+	// Defaults to true. May be useful in the event
+	// that a project is long-lived but the infrastructure running in that project
+	// changes frequently.
+	DisableOnDestroy *bool `json:"disableOnDestroy,omitempty" tf:"disable_on_destroy,omitempty"`
+
 	// an identifier for the resource with format {{project}}/{{service}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The project ID. If not provided, the provider project
+	// is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The service to enable.
+	Service *string `json:"service,omitempty" tf:"service,omitempty"`
 }
 
 type ProjectServiceParameters struct {
@@ -61,8 +79,8 @@ type ProjectServiceParameters struct {
 	ProjectSelector *v1.Selector `json:"projectSelector,omitempty" tf:"-"`
 
 	// The service to enable.
-	// +kubebuilder:validation:Required
-	Service *string `json:"service" tf:"service,omitempty"`
+	// +kubebuilder:validation:Optional
+	Service *string `json:"service,omitempty" tf:"service,omitempty"`
 }
 
 // ProjectServiceSpec defines the desired state of ProjectService
@@ -89,8 +107,9 @@ type ProjectServiceStatus struct {
 type ProjectService struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              ProjectServiceSpec   `json:"spec"`
-	Status            ProjectServiceStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.service)",message="service is a required parameter"
+	Spec   ProjectServiceSpec   `json:"spec"`
+	Status ProjectServiceStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

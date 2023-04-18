@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.11.1
+    controller-gen.kubebuilder.io/version: v0.11.3
   creationTimestamp: null
   name: networks.compute.gcp.upbound.io
 spec:
@@ -55,9 +55,13 @@ spec:
             properties:
               deletionPolicy:
                 default: Delete
-                description: DeletionPolicy specifies what will happen to the underlying
+                description: 'DeletionPolicy specifies what will happen to the underlying
                   external when this managed resource is deleted - either "Delete"
-                  or "Orphan" the external resource.
+                  or "Orphan" the external resource. This field is planned to be deprecated
+                  in favor of the ManagementPolicy field in a future release. Currently,
+                  both could be set independently and non-default values would be
+                  honored if the feature flag is enabled. See the design doc for more
+                  information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
                 enum:
                 - Orphan
                 - Delete
@@ -115,6 +119,21 @@ spec:
                       Possible values are REGIONAL and GLOBAL.
                     type: string
                 type: object
+              managementPolicy:
+                default: FullControl
+                description: 'THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice. ManagementPolicy
+                  specifies the level of control Crossplane has over the managed external
+                  resource. This field is planned to replace the DeletionPolicy field
+                  in a future release. Currently, both could be set independently
+                  and non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
+                enum:
+                - FullControl
+                - ObserveOnly
+                - OrphanOnDelete
+                type: string
               providerConfigRef:
                 default:
                   name: default
@@ -291,12 +310,62 @@ spec:
             properties:
               atProvider:
                 properties:
+                  autoCreateSubnetworks:
+                    description: When set to true, the network is created in "auto
+                      subnet mode" and it will create a subnet for each region automatically
+                      across the 10.128.0.0/9 address range. When set to false, the
+                      network is created in "custom subnet mode" so the user can explicitly
+                      connect subnetwork resources.
+                    type: boolean
+                  deleteDefaultRoutesOnCreate:
+                    description: If set to true, default routes (0.0.0.0/0) will be
+                      deleted immediately after network creation. Defaults to false.
+                    type: boolean
+                  description:
+                    description: An optional description of this resource. The resource
+                      must be recreated to modify this field.
+                    type: string
+                  enableUlaInternalIpv6:
+                    description: Enable ULA internal ipv6 on this network. Enabling
+                      this feature will assign a /48 from google defined ULA prefix
+                      fd20::/20.
+                    type: boolean
                   gatewayIpv4:
                     description: The gateway address for default routing out of the
                       network. This value is selected by GCP.
                     type: string
                   id:
                     description: an identifier for the resource with format projects/{{project}}/global/networks/{{name}}
+                    type: string
+                  internalIpv6Range:
+                    description: When enabling ula internal ipv6, caller optionally
+                      can specify the /48 range they want from the google defined
+                      ULA prefix fd20::/20. The input must be a valid /48 ULA IPv6
+                      address and must be within the fd20::/20. Operation will fail
+                      if the speficied /48 is already in used by another resource.
+                      If the field is not speficied, then a /48 range will be randomly
+                      allocated from fd20::/20 and returned via this field.
+                    type: string
+                  mtu:
+                    description: Maximum Transmission Unit in bytes. The default value
+                      is 1460 bytes. The minimum value for this field is 1300 and
+                      the maximum value is 8896 bytes (jumbo frames). Note that packets
+                      larger than 1500 bytes (standard Ethernet) can be subject to
+                      TCP-MSS clamping or dropped with an ICMP Fragmentation-Needed
+                      message if the packets are routed to the Internet or other VPCs
+                      with varying MTUs.
+                    type: number
+                  project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  routingMode:
+                    description: The network-wide routing mode to use. If set to REGIONAL,
+                      this network's cloud routers will only advertise routes with
+                      subnetworks of this network in the same region as the router.
+                      If set to GLOBAL, this network's cloud routers will advertise
+                      routes with all subnetworks of this network, across regions.
+                      Possible values are REGIONAL and GLOBAL.
                     type: string
                   selfLink:
                     description: The URI of the created resource.

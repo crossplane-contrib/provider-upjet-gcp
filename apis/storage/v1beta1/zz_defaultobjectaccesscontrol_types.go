@@ -27,11 +27,17 @@ import (
 
 type DefaultObjectAccessControlObservation struct {
 
+	// The name of the bucket.
+	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
+
 	// The domain associated with the entity.
 	Domain *string `json:"domain,omitempty" tf:"domain,omitempty"`
 
 	// The email address associated with the entity.
 	Email *string `json:"email,omitempty" tf:"email,omitempty"`
+
+	// The entity holding the permission, in one of the following forms:
+	Entity *string `json:"entity,omitempty" tf:"entity,omitempty"`
 
 	// The ID for the entity
 	EntityID *string `json:"entityId,omitempty" tf:"entity_id,omitempty"`
@@ -42,9 +48,16 @@ type DefaultObjectAccessControlObservation struct {
 	// an identifier for the resource with format {{bucket}}/{{entity}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// The name of the object, if applied to an object.
+	Object *string `json:"object,omitempty" tf:"object,omitempty"`
+
 	// The project team associated with the entity
 	// Structure is documented below.
 	ProjectTeam []ProjectTeamObservation `json:"projectTeam,omitempty" tf:"project_team,omitempty"`
+
+	// The access permission for the entity.
+	// Possible values are OWNER and READER.
+	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 }
 
 type DefaultObjectAccessControlParameters struct {
@@ -63,8 +76,8 @@ type DefaultObjectAccessControlParameters struct {
 	BucketSelector *v1.Selector `json:"bucketSelector,omitempty" tf:"-"`
 
 	// The entity holding the permission, in one of the following forms:
-	// +kubebuilder:validation:Required
-	Entity *string `json:"entity" tf:"entity,omitempty"`
+	// +kubebuilder:validation:Optional
+	Entity *string `json:"entity,omitempty" tf:"entity,omitempty"`
 
 	// The name of the object, if applied to an object.
 	// +kubebuilder:validation:Optional
@@ -72,8 +85,8 @@ type DefaultObjectAccessControlParameters struct {
 
 	// The access permission for the entity.
 	// Possible values are OWNER and READER.
-	// +kubebuilder:validation:Required
-	Role *string `json:"role" tf:"role,omitempty"`
+	// +kubebuilder:validation:Optional
+	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 }
 
 type ProjectTeamObservation struct {
@@ -113,8 +126,10 @@ type DefaultObjectAccessControlStatus struct {
 type DefaultObjectAccessControl struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DefaultObjectAccessControlSpec   `json:"spec"`
-	Status            DefaultObjectAccessControlStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.entity)",message="entity is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.role)",message="role is a required parameter"
+	Spec   DefaultObjectAccessControlSpec   `json:"spec"`
+	Status DefaultObjectAccessControlStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

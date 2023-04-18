@@ -27,11 +27,31 @@ import (
 
 type TargetTCPProxyObservation struct {
 
+	// A reference to the BackendService resource.
+	BackendService *string `json:"backendService,omitempty" tf:"backend_service,omitempty"`
+
 	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
 
+	// An optional description of this resource.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/global/targetTcpProxies/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// This field only applies when the forwarding rule that references
+	// this target proxy has a loadBalancingScheme set to INTERNAL_SELF_MANAGED.
+	ProxyBind *bool `json:"proxyBind,omitempty" tf:"proxy_bind,omitempty"`
+
+	// Specifies the type of proxy header to append before sending data to
+	// the backend.
+	// Default value is NONE.
+	// Possible values are NONE and PROXY_V1.
+	ProxyHeader *string `json:"proxyHeader,omitempty" tf:"proxy_header,omitempty"`
 
 	// The unique identifier for the resource.
 	ProxyID *float64 `json:"proxyId,omitempty" tf:"proxy_id,omitempty"`

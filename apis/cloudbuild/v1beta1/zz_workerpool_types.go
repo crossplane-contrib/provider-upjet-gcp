@@ -26,6 +26,12 @@ import (
 )
 
 type NetworkConfigObservation struct {
+
+	// Immutable. The network definition that the workers are peered to. If this section is left empty, the workers will be peered to WorkerPool.project_id on the service producer network. Must be in the format projects/{project}/global/networks/{network}, where {project} is a project number, such as 12345, and {network} is the name of a VPC network in the project. See (https://cloud.google.com/cloud-build/docs/custom-workers/set-up-custom-worker-pool-environment#understanding_the_network_configuration_options)
+	PeeredNetwork *string `json:"peeredNetwork,omitempty" tf:"peered_network,omitempty"`
+
+	// Immutable. Subnet IP range within the peered network. This is specified in CIDR notation with a slash and the subnet prefix size. You can optionally specify an IP address before the subnet prefix value. e.g. 192.168.0.0/29 would specify an IP range starting at 192.168.0.0 with a prefix size of 29 bits. /16 would specify a prefix size of 16 bits, with an automatically determined IP within the peered VPC. If unspecified, a value of /24 will be used.
+	PeeredNetworkIPRange *string `json:"peeredNetworkIpRange,omitempty" tf:"peered_network_ip_range,omitempty"`
 }
 
 type NetworkConfigParameters struct {
@@ -50,6 +56,15 @@ type NetworkConfigParameters struct {
 }
 
 type WorkerConfigObservation struct {
+
+	// Size of the disk attached to the worker, in GB. See (https://cloud.google.com/cloud-build/docs/custom-workers/worker-pool-config-file). Specify a value of up to 1000. If 0 is specified, Cloud Build will use a standard disk size.
+	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
+
+	// Machine type of a worker, such as n1-standard-1. See (https://cloud.google.com/cloud-build/docs/custom-workers/worker-pool-config-file). If left blank, Cloud Build will use n1-standard-1.
+	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
+
+	// If true, workers are created without any public address, which prevents network egress to public IPs.
+	NoExternalIP *bool `json:"noExternalIp,omitempty" tf:"no_external_ip,omitempty"`
 }
 
 type WorkerConfigParameters struct {
@@ -68,6 +83,7 @@ type WorkerConfigParameters struct {
 }
 
 type WorkerPoolObservation struct {
+	Annotations map[string]*string `json:"annotations,omitempty" tf:"annotations,omitempty"`
 
 	// Output only. Time at which the request to create the WorkerPool was received.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
@@ -75,8 +91,20 @@ type WorkerPoolObservation struct {
 	// Output only. Time at which the request to delete the WorkerPool was received.
 	DeleteTime *string `json:"deleteTime,omitempty" tf:"delete_time,omitempty"`
 
+	// User-defined name of the WorkerPool.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/workerPools/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The location for the resource
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
+	// Network configuration for the WorkerPool. Structure is documented below.
+	NetworkConfig []NetworkConfigObservation `json:"networkConfig,omitempty" tf:"network_config,omitempty"`
+
+	// The project for the resource
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Output only. WorkerPool state. Possible values: STATE_UNSPECIFIED, PENDING, APPROVED, REJECTED, CANCELLED
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
@@ -86,6 +114,9 @@ type WorkerPoolObservation struct {
 
 	// Output only. Time at which the request to update the WorkerPool was received.
 	UpdateTime *string `json:"updateTime,omitempty" tf:"update_time,omitempty"`
+
+	// Configuration to be used for a creating workers in the WorkerPool. Structure is documented below.
+	WorkerConfig []WorkerConfigObservation `json:"workerConfig,omitempty" tf:"worker_config,omitempty"`
 }
 
 type WorkerPoolParameters struct {

@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.11.1
+    controller-gen.kubebuilder.io/version: v0.11.3
   creationTimestamp: null
   name: analyticshubdataexchanges.bigquery.gcp.upbound.io
 spec:
@@ -56,9 +56,13 @@ spec:
             properties:
               deletionPolicy:
                 default: Delete
-                description: DeletionPolicy specifies what will happen to the underlying
+                description: 'DeletionPolicy specifies what will happen to the underlying
                   external when this managed resource is deleted - either "Delete"
-                  or "Orphan" the external resource.
+                  or "Orphan" the external resource. This field is planned to be deprecated
+                  in favor of the ManagementPolicy field in a future release. Currently,
+                  both could be set independently and non-default values would be
+                  honored if the feature flag is enabled. See the design doc for more
+                  information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
                 enum:
                 - Orphan
                 - Delete
@@ -96,11 +100,22 @@ spec:
                     description: The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
-                required:
-                - dataExchangeId
-                - displayName
-                - location
                 type: object
+              managementPolicy:
+                default: FullControl
+                description: 'THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice. ManagementPolicy
+                  specifies the level of control Crossplane has over the managed external
+                  resource. This field is planned to replace the DeletionPolicy field
+                  in a future release. Currently, both could be set independently
+                  and non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
+                enum:
+                - FullControl
+                - ObserveOnly
+                - OrphanOnDelete
+                type: string
               providerConfigRef:
                 default:
                   name: default
@@ -272,21 +287,59 @@ spec:
             required:
             - forProvider
             type: object
+            x-kubernetes-validations:
+            - message: dataExchangeId is a required parameter
+              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.dataExchangeId)
+            - message: displayName is a required parameter
+              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.displayName)
+            - message: location is a required parameter
+              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.location)
           status:
             description: AnalyticsHubDataExchangeStatus defines the observed state
               of AnalyticsHubDataExchange.
             properties:
               atProvider:
                 properties:
+                  dataExchangeId:
+                    description: The ID of the data exchange. Must contain only Unicode
+                      letters, numbers (0-9), underscores (_). Should not use characters
+                      that require URL-escaping, or characters outside of ASCII, spaces.
+                    type: string
+                  description:
+                    description: Description of the data exchange.
+                    type: string
+                  displayName:
+                    description: Human-readable display name of the data exchange.
+                      The display name must contain only Unicode letters, numbers
+                      (0-9), underscores (_), dashes (-), spaces ( ), and must not
+                      start or end with spaces.
+                    type: string
+                  documentation:
+                    description: Documentation describing the data exchange.
+                    type: string
+                  icon:
+                    description: Base64 encoded image representing the data exchange.
+                    type: string
                   id:
                     description: an identifier for the resource with format projects/{{project}}/locations/{{location}}/dataExchanges/{{data_exchange_id}}
                     type: string
                   listingCount:
                     description: Number of listings contained in the data exchange.
                     type: number
+                  location:
+                    description: The name of the location this data exchange.
+                    type: string
                   name:
                     description: 'The resource name of the data exchange, for example:
                       "projects/myproject/locations/US/dataExchanges/123"'
+                    type: string
+                  primaryContact:
+                    description: Email or URL of the primary point of contact of the
+                      data exchange.
+                    type: string
+                  project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
                     type: string
                 type: object
               conditions:

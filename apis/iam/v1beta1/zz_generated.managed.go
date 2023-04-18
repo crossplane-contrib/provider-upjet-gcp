@@ -29,6 +29,11 @@ func (mg *WorkloadIdentityPool) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
+// GetManagementPolicy of this WorkloadIdentityPool.
+func (mg *WorkloadIdentityPool) GetManagementPolicy() xpv1.ManagementPolicy {
+	return mg.Spec.ManagementPolicy
+}
+
 // GetProviderConfigReference of this WorkloadIdentityPool.
 func (mg *WorkloadIdentityPool) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
@@ -60,6 +65,11 @@ func (mg *WorkloadIdentityPool) SetConditions(c ...xpv1.Condition) {
 // SetDeletionPolicy of this WorkloadIdentityPool.
 func (mg *WorkloadIdentityPool) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
+}
+
+// SetManagementPolicy of this WorkloadIdentityPool.
+func (mg *WorkloadIdentityPool) SetManagementPolicy(r xpv1.ManagementPolicy) {
+	mg.Spec.ManagementPolicy = r
 }
 
 // SetProviderConfigReference of this WorkloadIdentityPool.
@@ -95,6 +105,11 @@ func (mg *WorkloadIdentityPoolProvider) GetDeletionPolicy() xpv1.DeletionPolicy 
 	return mg.Spec.DeletionPolicy
 }
 
+// GetManagementPolicy of this WorkloadIdentityPoolProvider.
+func (mg *WorkloadIdentityPoolProvider) GetManagementPolicy() xpv1.ManagementPolicy {
+	return mg.Spec.ManagementPolicy
+}
+
 // GetProviderConfigReference of this WorkloadIdentityPoolProvider.
 func (mg *WorkloadIdentityPoolProvider) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
@@ -126,6 +141,11 @@ func (mg *WorkloadIdentityPoolProvider) SetConditions(c ...xpv1.Condition) {
 // SetDeletionPolicy of this WorkloadIdentityPoolProvider.
 func (mg *WorkloadIdentityPoolProvider) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
+}
+
+// SetManagementPolicy of this WorkloadIdentityPoolProvider.
+func (mg *WorkloadIdentityPoolProvider) SetManagementPolicy(r xpv1.ManagementPolicy) {
+	mg.Spec.ManagementPolicy = r
 }
 
 // SetProviderConfigReference of this WorkloadIdentityPoolProvider.

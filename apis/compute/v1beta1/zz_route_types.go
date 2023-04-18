@@ -27,14 +27,65 @@ import (
 
 type RouteObservation struct {
 
+	// An optional description of this resource. Provide this property
+	// when you create the resource.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// The destination range of outgoing packets that this route applies to.
+	// Only IPv4 is supported.
+	DestRange *string `json:"destRange,omitempty" tf:"dest_range,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/global/routes/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The network that this route applies to.
+	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
+	// URL to a gateway that should handle matching packets.
+	// Currently, you can only specify the internet gateway, using a full or
+	// partial valid URL:
+	NextHopGateway *string `json:"nextHopGateway,omitempty" tf:"next_hop_gateway,omitempty"`
+
+	// Network IP address of an instance that should handle matching packets.
+	NextHopIP *string `json:"nextHopIp,omitempty" tf:"next_hop_ip,omitempty"`
+
+	// The IP address or URL to a forwarding rule of type
+	// loadBalancingScheme=INTERNAL that should handle matching
+	// packets.
+	// With the GA provider you can only specify the forwarding
+	// rule as a partial or full URL. For example, the following
+	// are all valid values:
+	NextHopIlb *string `json:"nextHopIlb,omitempty" tf:"next_hop_ilb,omitempty"`
+
+	// URL to an instance that should handle matching packets.
+	// You can specify this as a full or partial URL. For example:
+	NextHopInstance *string `json:"nextHopInstance,omitempty" tf:"next_hop_instance,omitempty"`
+
+	// .
+	NextHopInstanceZone *string `json:"nextHopInstanceZone,omitempty" tf:"next_hop_instance_zone,omitempty"`
 
 	// URL to a Network that should handle matching packets.
 	NextHopNetwork *string `json:"nextHopNetwork,omitempty" tf:"next_hop_network,omitempty"`
 
+	// URL to a VpnTunnel that should handle matching packets.
+	NextHopVPNTunnel *string `json:"nextHopVpnTunnel,omitempty" tf:"next_hop_vpn_tunnel,omitempty"`
+
+	// The priority of this route. Priority is used to break ties in cases
+	// where there is more than one matching route of equal prefix length.
+	// In the case of two routes with equal prefix length, the one with the
+	// lowest-numbered priority value wins.
+	// Default value is 1000. Valid range is 0 through 65535.
+	Priority *float64 `json:"priority,omitempty" tf:"priority,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
 	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
+
+	// A list of instance tags to which this route applies.
+	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
 }
 
 type RouteParameters struct {
@@ -46,8 +97,8 @@ type RouteParameters struct {
 
 	// The destination range of outgoing packets that this route applies to.
 	// Only IPv4 is supported.
-	// +kubebuilder:validation:Required
-	DestRange *string `json:"destRange" tf:"dest_range,omitempty"`
+	// +kubebuilder:validation:Optional
+	DestRange *string `json:"destRange,omitempty" tf:"dest_range,omitempty"`
 
 	// The network that this route applies to.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Network
@@ -155,8 +206,9 @@ type RouteStatus struct {
 type Route struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              RouteSpec   `json:"spec"`
-	Status            RouteStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.destRange)",message="destRange is a required parameter"
+	Spec   RouteSpec   `json:"spec"`
+	Status RouteStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

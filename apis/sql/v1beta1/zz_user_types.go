@@ -26,6 +26,19 @@ import (
 )
 
 type PasswordPolicyObservation struct {
+
+	// Number of failed attempts allowed before the user get locked.
+	AllowedFailedAttempts *float64 `json:"allowedFailedAttempts,omitempty" tf:"allowed_failed_attempts,omitempty"`
+
+	// If true, the check that will lock user after too many failed login attempts will be enabled.
+	EnableFailedAttemptsCheck *bool `json:"enableFailedAttemptsCheck,omitempty" tf:"enable_failed_attempts_check,omitempty"`
+
+	// If true, the user must specify the current password before changing the password. This flag is supported only for MySQL.
+	EnablePasswordVerification *bool `json:"enablePasswordVerification,omitempty" tf:"enable_password_verification,omitempty"`
+
+	// Password expiration duration with one week grace period.
+	PasswordExpirationDuration *string `json:"passwordExpirationDuration,omitempty" tf:"password_expiration_duration,omitempty"`
+
 	Status []StatusObservation `json:"status,omitempty" tf:"status,omitempty"`
 }
 
@@ -70,12 +83,35 @@ type StatusParameters struct {
 }
 
 type UserObservation struct {
+
+	// The deletion policy for the user.
+	// Setting ABANDON allows the resource to be abandoned rather than deleted. This is useful
+	// for Postgres, where users cannot be deleted from the API if they have been granted SQL roles.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
+	// The host the user can connect from. This is only supported
+	// for BUILT_IN users in MySQL instances. Don't set this field for PostgreSQL and SQL Server instances.
+	// Can be an IP address. Changing this forces a new resource to be created.
+	Host *string `json:"host,omitempty" tf:"host,omitempty"`
+
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// +kubebuilder:validation:Optional
+	// The name of the Cloud SQL instance. Changing this
+	// forces a new resource to be created.
+	Instance *string `json:"instance,omitempty" tf:"instance,omitempty"`
+
 	PasswordPolicy []PasswordPolicyObservation `json:"passwordPolicy,omitempty" tf:"password_policy,omitempty"`
 
+	// The ID of the project in which the resource belongs. If it
+	// is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
 	SQLServerUserDetails []SQLServerUserDetailsObservation `json:"sqlServerUserDetails,omitempty" tf:"sql_server_user_details,omitempty"`
+
+	// The user type. It determines the method to authenticate the
+	// user during login. The default is the database's built-in user type. Flags
+	// include "BUILT_IN", "CLOUD_IAM_USER", or "CLOUD_IAM_SERVICE_ACCOUNT".
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type UserParameters struct {

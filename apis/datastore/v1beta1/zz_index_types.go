@@ -27,11 +27,27 @@ import (
 
 type IndexObservation struct {
 
+	// Policy for including ancestors in the index.
+	// Default value is NONE.
+	// Possible values are NONE and ALL_ANCESTORS.
+	Ancestor *string `json:"ancestor,omitempty" tf:"ancestor,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/indexes/{{index_id}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// The index id.
 	IndexID *string `json:"indexId,omitempty" tf:"index_id,omitempty"`
+
+	// The entity kind which the index applies to.
+	Kind *string `json:"kind,omitempty" tf:"kind,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// An ordered list of properties to index on.
+	// Structure is documented below.
+	Properties []PropertiesObservation `json:"properties,omitempty" tf:"properties,omitempty"`
 }
 
 type IndexParameters struct {
@@ -43,8 +59,8 @@ type IndexParameters struct {
 	Ancestor *string `json:"ancestor,omitempty" tf:"ancestor,omitempty"`
 
 	// The entity kind which the index applies to.
-	// +kubebuilder:validation:Required
-	Kind *string `json:"kind" tf:"kind,omitempty"`
+	// +kubebuilder:validation:Optional
+	Kind *string `json:"kind,omitempty" tf:"kind,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -58,6 +74,13 @@ type IndexParameters struct {
 }
 
 type PropertiesObservation struct {
+
+	// The direction the index should optimize for sorting.
+	// Possible values are ASCENDING and DESCENDING.
+	Direction *string `json:"direction,omitempty" tf:"direction,omitempty"`
+
+	// The property name to index.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 }
 
 type PropertiesParameters struct {
@@ -96,8 +119,9 @@ type IndexStatus struct {
 type Index struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              IndexSpec   `json:"spec"`
-	Status            IndexStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.kind)",message="kind is a required parameter"
+	Spec   IndexSpec   `json:"spec"`
+	Status IndexStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

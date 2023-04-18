@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.11.1
+    controller-gen.kubebuilder.io/version: v0.11.3
   creationTimestamp: null
   name: garbagecollectionpolicies.bigtable.gcp.upbound.io
 spec:
@@ -56,9 +56,13 @@ spec:
             properties:
               deletionPolicy:
                 default: Delete
-                description: DeletionPolicy specifies what will happen to the underlying
+                description: 'DeletionPolicy specifies what will happen to the underlying
                   external when this managed resource is deleted - either "Delete"
-                  or "Orphan" the external resource.
+                  or "Orphan" the external resource. This field is planned to be deprecated
+                  in favor of the ManagementPolicy field in a future release. Currently,
+                  both could be set independently and non-default values would be
+                  honored if the feature flag is enabled. See the design doc for more
+                  information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
                 enum:
                 - Orphan
                 - Delete
@@ -265,9 +269,22 @@ spec:
                             type: string
                         type: object
                     type: object
-                required:
-                - columnFamily
                 type: object
+              managementPolicy:
+                default: FullControl
+                description: 'THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice. ManagementPolicy
+                  specifies the level of control Crossplane has over the managed external
+                  resource. This field is planned to replace the DeletionPolicy field
+                  in a future release. Currently, both could be set independently
+                  and non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
+                enum:
+                - FullControl
+                - ObserveOnly
+                - OrphanOnDelete
+                type: string
               providerConfigRef:
                 default:
                   name: default
@@ -439,13 +456,68 @@ spec:
             required:
             - forProvider
             type: object
+            x-kubernetes-validations:
+            - message: columnFamily is a required parameter
+              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.columnFamily)
           status:
             description: GarbageCollectionPolicyStatus defines the observed state
               of GarbageCollectionPolicy.
             properties:
               atProvider:
                 properties:
+                  columnFamily:
+                    description: The name of the column family.
+                    type: string
+                  deletionPolicy:
+                    description: The deletion policy for the GC policy. Setting ABANDON
+                      allows the resource to be abandoned rather than deleted. This
+                      is useful for GC policy as it cannot be deleted in a replicated
+                      instance.
+                    type: string
+                  gcRules:
+                    description: Serialized JSON object to represent a more complex
+                      GC policy. Conflicts with mode, max_age and max_version. Conflicts
+                      with mode, max_age and max_version.
+                    type: string
                   id:
+                    type: string
+                  instanceName:
+                    description: The name of the Bigtable instance.
+                    type: string
+                  maxAge:
+                    description: GC policy that applies to all cells older than the
+                      given age.
+                    items:
+                      properties:
+                        days:
+                          description: Number of days before applying GC policy.
+                          type: number
+                        duration:
+                          description: Duration before applying GC policy (ex. "8h").
+                            This is required when days isn't set
+                          type: string
+                      type: object
+                    type: array
+                  maxVersion:
+                    description: GC policy that applies to all versions of a cell
+                      except for the most recent.
+                    items:
+                      properties:
+                        number:
+                          description: Number of version before applying the GC policy.
+                          type: number
+                      type: object
+                    type: array
+                  mode:
+                    description: If multiple policies are set, you should choose between
+                      UNION OR INTERSECTION.
+                    type: string
+                  project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  table:
+                    description: The name of the table.
                     type: string
                 type: object
               conditions:

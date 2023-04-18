@@ -26,6 +26,11 @@ import (
 )
 
 type WebTypeAppEngineIAMMemberConditionObservation struct {
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	Expression *string `json:"expression,omitempty" tf:"expression,omitempty"`
+
+	Title *string `json:"title,omitempty" tf:"title,omitempty"`
 }
 
 type WebTypeAppEngineIAMMemberConditionParameters struct {
@@ -41,9 +46,19 @@ type WebTypeAppEngineIAMMemberConditionParameters struct {
 }
 
 type WebTypeAppEngineIAMMemberObservation struct {
+	AppID *string `json:"appId,omitempty" tf:"app_id,omitempty"`
+
+	Condition []WebTypeAppEngineIAMMemberConditionObservation `json:"condition,omitempty" tf:"condition,omitempty"`
+
 	Etag *string `json:"etag,omitempty" tf:"etag,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	Member *string `json:"member,omitempty" tf:"member,omitempty"`
+
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 }
 
 type WebTypeAppEngineIAMMemberParameters struct {
@@ -63,14 +78,14 @@ type WebTypeAppEngineIAMMemberParameters struct {
 	// +kubebuilder:validation:Optional
 	Condition []WebTypeAppEngineIAMMemberConditionParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
-	// +kubebuilder:validation:Required
-	Member *string `json:"member" tf:"member,omitempty"`
+	// +kubebuilder:validation:Optional
+	Member *string `json:"member,omitempty" tf:"member,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
-	// +kubebuilder:validation:Required
-	Role *string `json:"role" tf:"role,omitempty"`
+	// +kubebuilder:validation:Optional
+	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 }
 
 // WebTypeAppEngineIAMMemberSpec defines the desired state of WebTypeAppEngineIAMMember
@@ -97,8 +112,10 @@ type WebTypeAppEngineIAMMemberStatus struct {
 type WebTypeAppEngineIAMMember struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              WebTypeAppEngineIAMMemberSpec   `json:"spec"`
-	Status            WebTypeAppEngineIAMMemberStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.member)",message="member is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.role)",message="role is a required parameter"
+	Spec   WebTypeAppEngineIAMMemberSpec   `json:"spec"`
+	Status WebTypeAppEngineIAMMemberStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

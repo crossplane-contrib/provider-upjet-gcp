@@ -93,8 +93,29 @@ func (in *ConnectionObservation) DeepCopyInto(out *ConnectionObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.Network != nil {
+		in, out := &in.Network, &out.Network
+		*out = new(string)
+		**out = **in
+	}
 	if in.Peering != nil {
 		in, out := &in.Peering, &out.Peering
+		*out = new(string)
+		**out = **in
+	}
+	if in.ReservedPeeringRanges != nil {
+		in, out := &in.ReservedPeeringRanges, &out.ReservedPeeringRanges
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
+	}
+	if in.Service != nil {
+		in, out := &in.Service, &out.Service
 		*out = new(string)
 		**out = **in
 	}

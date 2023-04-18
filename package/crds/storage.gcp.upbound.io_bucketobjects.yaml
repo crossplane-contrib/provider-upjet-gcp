@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.11.1
+    controller-gen.kubebuilder.io/version: v0.11.3
   creationTimestamp: null
   name: bucketobjects.storage.gcp.upbound.io
 spec:
@@ -55,9 +55,13 @@ spec:
             properties:
               deletionPolicy:
                 default: Delete
-                description: DeletionPolicy specifies what will happen to the underlying
+                description: 'DeletionPolicy specifies what will happen to the underlying
                   external when this managed resource is deleted - either "Delete"
-                  or "Orphan" the external resource.
+                  or "Orphan" the external resource. This field is planned to be deprecated
+                  in favor of the ManagementPolicy field in a future release. Currently,
+                  both could be set independently and non-default values would be
+                  honored if the feature flag is enabled. See the design doc for more
+                  information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
                 enum:
                 - Orphan
                 - Delete
@@ -234,9 +238,22 @@ spec:
                       this flag is set to true, the object is protected against deletion
                       and overwrites.
                     type: boolean
-                required:
-                - name
                 type: object
+              managementPolicy:
+                default: FullControl
+                description: 'THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice. ManagementPolicy
+                  specifies the level of control Crossplane has over the managed external
+                  resource. This field is planned to replace the DeletionPolicy field
+                  in a future release. Currently, both could be set independently
+                  and non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
+                enum:
+                - FullControl
+                - ObserveOnly
+                - OrphanOnDelete
+                type: string
               providerConfigRef:
                 default:
                   name: default
@@ -408,21 +425,86 @@ spec:
             required:
             - forProvider
             type: object
+            x-kubernetes-validations:
+            - message: name is a required parameter
+              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.name)
           status:
             description: BucketObjectStatus defines the observed state of BucketObject.
             properties:
               atProvider:
                 properties:
+                  bucket:
+                    description: The name of the containing bucket.
+                    type: string
+                  cacheControl:
+                    description: Cache-Control directive to specify caching behavior
+                      of object data. If omitted and object is accessible to all anonymous
+                      users, the default will be public, max-age=3600
+                    type: string
+                  content:
+                    description: 'Data as string to be uploaded. Must be defined if
+                      source is not. Note: The content field is marked as sensitive.
+                      To view the raw contents of the object, please define an output.'
+                    type: string
+                  contentDisposition:
+                    description: Content-Disposition of the object data.
+                    type: string
+                  contentEncoding:
+                    description: Content-Encoding of the object data.
+                    type: string
+                  contentLanguage:
+                    description: Content-Language of the object data.
+                    type: string
+                  contentType:
+                    description: Content-Type of the object data. Defaults to "application/octet-stream"
+                      or "text/plain; charset=utf-8".
+                    type: string
                   crc32c:
                     description: (Computed) Base 64 CRC32 hash of the uploaded data.
                     type: string
+                  customerEncryption:
+                    description: Enables object encryption with Customer-Supplied
+                      Encryption Key (CSEK). [Google documentation about CSEK.](https://cloud.google.com/storage/docs/encryption/customer-supplied-keys)
+                      Structure is documented below.
+                    items:
+                      properties:
+                        encryptionAlgorithm:
+                          description: 'Encryption algorithm. Default: AES256'
+                          type: string
+                      type: object
+                    type: array
+                  detectMd5Hash:
+                    description: 'MD5 hash of the data, encoded using base64. This
+                      field is not present for composite objects. For more information
+                      about using the MD5 hash, see Hashes and ETags: Best Practices.'
+                    type: string
+                  eventBasedHold:
+                    description: Whether an object is under event-based hold. Event-based
+                      hold is a way to retain objects until an event occurs, which
+                      is signified by the hold's release (i.e. this value is set to
+                      false). After being released (set to false), such objects will
+                      be subject to bucket-level retention (if any).
+                    type: boolean
                   id:
+                    type: string
+                  kmsKeyName:
+                    description: The resource name of the Cloud KMS key that will
+                      be used to encrypt the object.
                     type: string
                   md5hash:
                     description: (Computed) Base 64 MD5 hash of the uploaded data.
                     type: string
                   mediaLink:
                     description: (Computed) A url reference to download this object.
+                    type: string
+                  metadata:
+                    additionalProperties:
+                      type: string
+                    description: User-provided metadata, in key/value pairs.
+                    type: object
+                  name:
+                    description: The name of the object. If you're interpolating the
+                      name of this object, see output_name instead.
                     type: string
                   outputName:
                     description: (Computed) The name of the object. Use this field
@@ -433,6 +515,21 @@ spec:
                   selfLink:
                     description: (Computed) A url reference to this object.
                     type: string
+                  source:
+                    description: A path to the data you want to upload. Must be defined
+                      if content is not.
+                    type: string
+                  storageClass:
+                    description: 'The StorageClass of the new bucket object. Supported
+                      values include: MULTI_REGIONAL, REGIONAL, NEARLINE, COLDLINE,
+                      ARCHIVE. If not provided, this defaults to the bucket''s default
+                      storage class or to a standard class.'
+                    type: string
+                  temporaryHold:
+                    description: Whether an object is under temporary hold. While
+                      this flag is set to true, the object is protected against deletion
+                      and overwrites.
+                    type: boolean
                 type: object
               conditions:
                 description: Conditions of the resource.

@@ -26,6 +26,11 @@ import (
 )
 
 type ConditionObservation struct {
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	Expression *string `json:"expression,omitempty" tf:"expression,omitempty"`
+
+	Title *string `json:"title,omitempty" tf:"title,omitempty"`
 }
 
 type ConditionParameters struct {
@@ -41,9 +46,19 @@ type ConditionParameters struct {
 }
 
 type EnvironmentIAMMemberObservation struct {
+	Condition []ConditionObservation `json:"condition,omitempty" tf:"condition,omitempty"`
+
+	EnvID *string `json:"envId,omitempty" tf:"env_id,omitempty"`
+
 	Etag *string `json:"etag,omitempty" tf:"etag,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	Member *string `json:"member,omitempty" tf:"member,omitempty"`
+
+	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
+
+	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 }
 
 type EnvironmentIAMMemberParameters struct {
@@ -51,17 +66,17 @@ type EnvironmentIAMMemberParameters struct {
 	// +kubebuilder:validation:Optional
 	Condition []ConditionParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
-	// +kubebuilder:validation:Required
-	EnvID *string `json:"envId" tf:"env_id,omitempty"`
+	// +kubebuilder:validation:Optional
+	EnvID *string `json:"envId,omitempty" tf:"env_id,omitempty"`
 
-	// +kubebuilder:validation:Required
-	Member *string `json:"member" tf:"member,omitempty"`
+	// +kubebuilder:validation:Optional
+	Member *string `json:"member,omitempty" tf:"member,omitempty"`
 
-	// +kubebuilder:validation:Required
-	OrgID *string `json:"orgId" tf:"org_id,omitempty"`
+	// +kubebuilder:validation:Optional
+	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
 
-	// +kubebuilder:validation:Required
-	Role *string `json:"role" tf:"role,omitempty"`
+	// +kubebuilder:validation:Optional
+	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 }
 
 // EnvironmentIAMMemberSpec defines the desired state of EnvironmentIAMMember
@@ -88,8 +103,12 @@ type EnvironmentIAMMemberStatus struct {
 type EnvironmentIAMMember struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              EnvironmentIAMMemberSpec   `json:"spec"`
-	Status            EnvironmentIAMMemberStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.envId)",message="envId is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.member)",message="member is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.orgId)",message="orgId is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.role)",message="role is a required parameter"
+	Spec   EnvironmentIAMMemberSpec   `json:"spec"`
+	Status EnvironmentIAMMemberStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

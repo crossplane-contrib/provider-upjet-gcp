@@ -46,6 +46,12 @@ type VersionObservation struct {
 	// A timestamp in RFC3339 UTC "Zulu" format, with nanosecond resolution and up to nine fractional digits. Examples: "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z".
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
+	// The description of the version. The maximum length is 500 characters. If exceeded, the request is rejected.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// The human-readable name of the version. Limit of 64 characters.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
 	// an identifier for the resource with format {{parent}}/versions/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
@@ -55,6 +61,10 @@ type VersionObservation struct {
 	// The NLU settings of the flow at version creation.
 	// Structure is documented below.
 	NluSettings []VersionNluSettingsObservation `json:"nluSettings,omitempty" tf:"nlu_settings,omitempty"`
+
+	// The Flow to create an Version for.
+	// Format: projects//locations//agents//flows/.
+	Parent *string `json:"parent,omitempty" tf:"parent,omitempty"`
 
 	// The state of this version.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
@@ -67,8 +77,8 @@ type VersionParameters struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// The human-readable name of the version. Limit of 64 characters.
-	// +kubebuilder:validation:Required
-	DisplayName *string `json:"displayName" tf:"display_name,omitempty"`
+	// +kubebuilder:validation:Optional
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// The Flow to create an Version for.
 	// Format: projects//locations//agents//flows/.
@@ -110,8 +120,9 @@ type VersionStatus struct {
 type Version struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              VersionSpec   `json:"spec"`
-	Status            VersionStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.displayName)",message="displayName is a required parameter"
+	Spec   VersionSpec   `json:"spec"`
+	Status VersionStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

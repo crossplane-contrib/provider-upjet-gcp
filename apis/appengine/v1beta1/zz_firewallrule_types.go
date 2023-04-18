@@ -27,16 +27,37 @@ import (
 
 type FirewallRuleObservation struct {
 
+	// The action to take if this rule matches.
+	// Possible values are UNSPECIFIED_ACTION, ALLOW, and DENY.
+	Action *string `json:"action,omitempty" tf:"action,omitempty"`
+
+	// An optional string description of this rule.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
 	// an identifier for the resource with format apps/{{project}}/firewall/ingressRules/{{priority}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// A positive integer that defines the order of rule evaluation.
+	// Rules with the lowest priority are evaluated first.
+	// A default rule at priority Int32.MaxValue matches all IPv4 and
+	// IPv6 traffic when no previous rule matches. Only the action of
+	// this rule can be modified by the user.
+	Priority *float64 `json:"priority,omitempty" tf:"priority,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// IP address or range, defined using CIDR notation, of requests that this rule applies to.
+	SourceRange *string `json:"sourceRange,omitempty" tf:"source_range,omitempty"`
 }
 
 type FirewallRuleParameters struct {
 
 	// The action to take if this rule matches.
 	// Possible values are UNSPECIFIED_ACTION, ALLOW, and DENY.
-	// +kubebuilder:validation:Required
-	Action *string `json:"action" tf:"action,omitempty"`
+	// +kubebuilder:validation:Optional
+	Action *string `json:"action,omitempty" tf:"action,omitempty"`
 
 	// An optional string description of this rule.
 	// +kubebuilder:validation:Optional
@@ -66,8 +87,8 @@ type FirewallRuleParameters struct {
 	ProjectSelector *v1.Selector `json:"projectSelector,omitempty" tf:"-"`
 
 	// IP address or range, defined using CIDR notation, of requests that this rule applies to.
-	// +kubebuilder:validation:Required
-	SourceRange *string `json:"sourceRange" tf:"source_range,omitempty"`
+	// +kubebuilder:validation:Optional
+	SourceRange *string `json:"sourceRange,omitempty" tf:"source_range,omitempty"`
 }
 
 // FirewallRuleSpec defines the desired state of FirewallRule
@@ -94,8 +115,10 @@ type FirewallRuleStatus struct {
 type FirewallRule struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              FirewallRuleSpec   `json:"spec"`
-	Status            FirewallRuleStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.action)",message="action is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.sourceRange)",message="sourceRange is a required parameter"
+	Spec   FirewallRuleSpec   `json:"spec"`
+	Status FirewallRuleStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

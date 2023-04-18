@@ -26,6 +26,14 @@ import (
 )
 
 type BasicServiceObservation struct {
+
+	// Labels that specify the resource that emits the monitoring data
+	// which is used for SLO reporting of this Service.
+	ServiceLabels map[string]*string `json:"serviceLabels,omitempty" tf:"service_labels,omitempty"`
+
+	// The type of service that this basic service defines, e.g.
+	// APP_ENGINE service type
+	ServiceType *string `json:"serviceType,omitempty" tf:"service_type,omitempty"`
 }
 
 type BasicServiceParameters struct {
@@ -43,6 +51,15 @@ type BasicServiceParameters struct {
 
 type ServiceObservation struct {
 
+	// A well-known service type, defined by its service type and service labels.
+	// Valid values are described at
+	// https://cloud.google.com/stackdriver/docs/solutions/slo-monitoring/api/api-structures#basic-svc-w-basic-sli
+	// Structure is documented below.
+	BasicService []BasicServiceObservation `json:"basicService,omitempty" tf:"basic_service,omitempty"`
+
+	// Name used for UI elements listing this Service.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/services/{{service_id}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
@@ -50,9 +67,21 @@ type ServiceObservation struct {
 	// projects/[PROJECT_ID]/services/[SERVICE_ID].
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
 	// Configuration for how to query telemetry on a Service.
 	// Structure is documented below.
 	Telemetry []ServiceTelemetryObservation `json:"telemetry,omitempty" tf:"telemetry,omitempty"`
+
+	// Labels which have been used to annotate the service. Label keys must start
+	// with a letter. Label keys and values may contain lowercase letters,
+	// numbers, underscores, and dashes. Label keys and values have a maximum
+	// length of 63 characters, and must be less than 128 bytes in size. Up to 64
+	// label entries may be stored. For labels which do not have a semantic value,
+	// the empty string may be supplied for the label value.
+	UserLabels map[string]*string `json:"userLabels,omitempty" tf:"user_labels,omitempty"`
 }
 
 type ServiceParameters struct {

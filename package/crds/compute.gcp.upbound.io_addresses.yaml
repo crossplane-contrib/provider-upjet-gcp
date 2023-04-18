@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.11.1
+    controller-gen.kubebuilder.io/version: v0.11.3
   creationTimestamp: null
   name: addresses.compute.gcp.upbound.io
 spec:
@@ -55,9 +55,13 @@ spec:
             properties:
               deletionPolicy:
                 default: Delete
-                description: DeletionPolicy specifies what will happen to the underlying
+                description: 'DeletionPolicy specifies what will happen to the underlying
                   external when this managed resource is deleted - either "Delete"
-                  or "Orphan" the external resource.
+                  or "Orphan" the external resource. This field is planned to be deprecated
+                  in favor of the ManagementPolicy field in a future release. Currently,
+                  both could be set independently and non-default values would be
+                  honored if the feature flag is enabled. See the design doc for more
+                  information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
                 enum:
                 - Orphan
                 - Delete
@@ -258,6 +262,21 @@ spec:
                 required:
                 - region
                 type: object
+              managementPolicy:
+                default: FullControl
+                description: 'THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice. ManagementPolicy
+                  specifies the level of control Crossplane has over the managed external
+                  resource. This field is planned to replace the DeletionPolicy field
+                  in a future release. Currently, both could be set independently
+                  and non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
+                enum:
+                - FullControl
+                - ObserveOnly
+                - OrphanOnDelete
+                type: string
               providerConfigRef:
                 default:
                   name: default
@@ -434,14 +453,59 @@ spec:
             properties:
               atProvider:
                 properties:
+                  address:
+                    description: The static external IP address represented by this
+                      resource. Only IPv4 is supported. An address may only be specified
+                      for INTERNAL address types. The IP address must be inside the
+                      specified subnetwork, if any. Set by the API if undefined.
+                    type: string
+                  addressType:
+                    description: The type of address to reserve. Default value is
+                      EXTERNAL. Possible values are INTERNAL and EXTERNAL.
+                    type: string
                   creationTimestamp:
                     description: Creation timestamp in RFC3339 text format.
+                    type: string
+                  description:
+                    description: An optional description of this resource.
                     type: string
                   id:
                     description: an identifier for the resource with format projects/{{project}}/regions/{{region}}/addresses/{{name}}
                     type: string
+                  network:
+                    description: The URL of the network in which to reserve the address.
+                      This field can only be used with INTERNAL type with the VPC_PEERING
+                      and IPSEC_INTERCONNECT purposes.
+                    type: string
+                  networkTier:
+                    description: The networking tier used for configuring this address.
+                      If this field is not specified, it is assumed to be PREMIUM.
+                      Possible values are PREMIUM and STANDARD.
+                    type: string
+                  prefixLength:
+                    description: The prefix length if the resource represents an IP
+                      range.
+                    type: number
+                  project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  purpose:
+                    description: 'The purpose of this resource, which can be one of
+                      the following values:'
+                    type: string
+                  region:
+                    description: The Region in which the created address should reside.
+                      If it is not provided, the provider region is used.
+                    type: string
                   selfLink:
                     description: The URI of the created resource.
+                    type: string
+                  subnetwork:
+                    description: The URL of the subnetwork in which to reserve the
+                      address. If an IP address is specified, it must be within the
+                      subnetwork's IP range. This field can only be used with INTERNAL
+                      type with GCE_ENDPOINT/DNS_RESOLVER purposes.
                     type: string
                   users:
                     description: The URLs of the resources that are using this address.

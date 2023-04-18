@@ -26,6 +26,11 @@ import (
 )
 
 type ServiceAccountIAMMemberConditionObservation struct {
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	Expression *string `json:"expression,omitempty" tf:"expression,omitempty"`
+
+	Title *string `json:"title,omitempty" tf:"title,omitempty"`
 }
 
 type ServiceAccountIAMMemberConditionParameters struct {
@@ -41,9 +46,17 @@ type ServiceAccountIAMMemberConditionParameters struct {
 }
 
 type ServiceAccountIAMMemberObservation struct {
+	Condition []ServiceAccountIAMMemberConditionObservation `json:"condition,omitempty" tf:"condition,omitempty"`
+
 	Etag *string `json:"etag,omitempty" tf:"etag,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	Member *string `json:"member,omitempty" tf:"member,omitempty"`
+
+	Role *string `json:"role,omitempty" tf:"role,omitempty"`
+
+	ServiceAccountID *string `json:"serviceAccountId,omitempty" tf:"service_account_id,omitempty"`
 }
 
 type ServiceAccountIAMMemberParameters struct {
@@ -51,11 +64,11 @@ type ServiceAccountIAMMemberParameters struct {
 	// +kubebuilder:validation:Optional
 	Condition []ServiceAccountIAMMemberConditionParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
-	// +kubebuilder:validation:Required
-	Member *string `json:"member" tf:"member,omitempty"`
+	// +kubebuilder:validation:Optional
+	Member *string `json:"member,omitempty" tf:"member,omitempty"`
 
-	// +kubebuilder:validation:Required
-	Role *string `json:"role" tf:"role,omitempty"`
+	// +kubebuilder:validation:Optional
+	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 
 	// +crossplane:generate:reference:type=ServiceAccount
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.ExtractResourceID()
@@ -95,8 +108,10 @@ type ServiceAccountIAMMemberStatus struct {
 type ServiceAccountIAMMember struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              ServiceAccountIAMMemberSpec   `json:"spec"`
-	Status            ServiceAccountIAMMemberStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.member)",message="member is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.role)",message="role is a required parameter"
+	Spec   ServiceAccountIAMMemberSpec   `json:"spec"`
+	Status ServiceAccountIAMMemberStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.11.1
+    controller-gen.kubebuilder.io/version: v0.11.3
   creationTimestamp: null
   name: globaladdresses.compute.gcp.upbound.io
 spec:
@@ -55,9 +55,13 @@ spec:
             properties:
               deletionPolicy:
                 default: Delete
-                description: DeletionPolicy specifies what will happen to the underlying
+                description: 'DeletionPolicy specifies what will happen to the underlying
                   external when this managed resource is deleted - either "Delete"
-                  or "Orphan" the external resource.
+                  or "Orphan" the external resource. This field is planned to be deprecated
+                  in favor of the ManagementPolicy field in a future release. Currently,
+                  both could be set independently and non-default values would be
+                  honored if the feature flag is enabled. See the design doc for more
+                  information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
                 enum:
                 - Orphan
                 - Delete
@@ -173,6 +177,21 @@ spec:
                     description: 'The purpose of the resource. Possible values include:'
                     type: string
                 type: object
+              managementPolicy:
+                default: FullControl
+                description: 'THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice. ManagementPolicy
+                  specifies the level of control Crossplane has over the managed external
+                  resource. This field is planned to replace the DeletionPolicy field
+                  in a future release. Currently, both could be set independently
+                  and non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
+                enum:
+                - FullControl
+                - ObserveOnly
+                - OrphanOnDelete
+                type: string
               providerConfigRef:
                 default:
                   name: default
@@ -349,11 +368,46 @@ spec:
             properties:
               atProvider:
                 properties:
+                  address:
+                    description: The IP address or beginning of the address range
+                      represented by this resource. This can be supplied as an input
+                      to reserve a specific address or omitted to allow GCP to choose
+                      a valid one for you.
+                    type: string
+                  addressType:
+                    description: The type of the address to reserve.
+                    type: string
                   creationTimestamp:
                     description: Creation timestamp in RFC3339 text format.
                     type: string
+                  description:
+                    description: An optional description of this resource.
+                    type: string
                   id:
                     description: an identifier for the resource with format projects/{{project}}/global/addresses/{{name}}
+                    type: string
+                  ipVersion:
+                    description: The IP Version that will be used by this address.
+                      The default value is IPV4. Possible values are IPV4 and IPV6.
+                    type: string
+                  network:
+                    description: The URL of the network in which to reserve the IP
+                      range. The IP range must be in RFC1918 space. The network cannot
+                      be deleted if there are any reserved IP ranges referring to
+                      it. This should only be set when using an Internal address.
+                    type: string
+                  prefixLength:
+                    description: The prefix length of the IP range. If not present,
+                      it means the address field is a single IP address. This field
+                      is not applicable to addresses with addressType=EXTERNAL, or
+                      addressType=INTERNAL when purpose=PRIVATE_SERVICE_CONNECT
+                    type: number
+                  project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  purpose:
+                    description: 'The purpose of the resource. Possible values include:'
                     type: string
                   selfLink:
                     description: The URI of the created resource.

@@ -27,22 +27,50 @@ import (
 
 type NodeTemplateObservation struct {
 
+	// CPU overcommit.
+	// Default value is NONE.
+	// Possible values are ENABLED and NONE.
+	CPUOvercommitType *string `json:"cpuOvercommitType,omitempty" tf:"cpu_overcommit_type,omitempty"`
+
 	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
 
+	// An optional textual description of the resource.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/regions/{{region}}/nodeTemplates/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Labels to use for node affinity, which will be used in
+	// instance scheduling.
+	NodeAffinityLabels map[string]*string `json:"nodeAffinityLabels,omitempty" tf:"node_affinity_labels,omitempty"`
+
+	// Node type to use for nodes group that are created from this template.
+	// Only one of nodeTypeFlexibility and nodeType can be specified.
+	NodeType *string `json:"nodeType,omitempty" tf:"node_type,omitempty"`
 
 	// Flexible properties for the desired node type. Node groups that
 	// use this node template will create nodes of a type that matches
 	// these properties. Only one of nodeTypeFlexibility and nodeType can
 	// be specified.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	NodeTypeFlexibility []NodeTypeFlexibilityObservation `json:"nodeTypeFlexibility,omitempty" tf:"node_type_flexibility,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Region where nodes using the node template will be created.
+	// If it is not provided, the provider region is used.
+	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
 	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
+
+	// The server binding policy for nodes using this template. Determines
+	// where the nodes should restart following a maintenance event.
+	// Structure is documented below.
+	ServerBinding []ServerBindingObservation `json:"serverBinding,omitempty" tf:"server_binding,omitempty"`
 }
 
 type NodeTemplateParameters struct {
@@ -94,8 +122,14 @@ type NodeTemplateParameters struct {
 
 type NodeTypeFlexibilityObservation struct {
 
+	// Number of virtual CPUs to use.
+	Cpus *string `json:"cpus,omitempty" tf:"cpus,omitempty"`
+
 	// Use local SSD
 	LocalSsd *string `json:"localSsd,omitempty" tf:"local_ssd,omitempty"`
+
+	// Physical memory available to the node, defined in MB.
+	Memory *string `json:"memory,omitempty" tf:"memory,omitempty"`
 }
 
 type NodeTypeFlexibilityParameters struct {
@@ -110,6 +144,20 @@ type NodeTypeFlexibilityParameters struct {
 }
 
 type ServerBindingObservation struct {
+
+	// Type of server binding policy. If RESTART_NODE_ON_ANY_SERVER,
+	// nodes using this template will restart on any physical server
+	// following a maintenance event.
+	// If RESTART_NODE_ON_MINIMAL_SERVER, nodes using this template
+	// will restart on the same physical server following a maintenance
+	// event, instead of being live migrated to or restarted on a new
+	// physical server. This option may be useful if you are using
+	// software licenses tied to the underlying server characteristics
+	// such as physical sockets or cores, to avoid the need for
+	// additional licenses when maintenance occurs. However, VMs on such
+	// nodes will experience outages while maintenance is applied.
+	// Possible values are RESTART_NODE_ON_ANY_SERVER and RESTART_NODE_ON_MINIMAL_SERVERS.
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type ServerBindingParameters struct {

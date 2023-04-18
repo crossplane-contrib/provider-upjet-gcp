@@ -27,8 +27,22 @@ import (
 
 type RegionDiskResourcePolicyAttachmentObservation struct {
 
+	// The name of the regional disk in which the resource policies are attached to.
+	Disk *string `json:"disk,omitempty" tf:"disk,omitempty"`
+
 	// an identifier for the resource with format {{project}}/{{region}}/{{disk}}/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The resource policy to be attached to the disk for scheduling snapshot
+	// creation. Do not specify the self link.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// A reference to the region where the disk resides.
+	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 }
 
 type RegionDiskResourcePolicyAttachmentParameters struct {
@@ -66,8 +80,8 @@ type RegionDiskResourcePolicyAttachmentParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// A reference to the region where the disk resides.
-	// +kubebuilder:validation:Required
-	Region *string `json:"region" tf:"region,omitempty"`
+	// +kubebuilder:validation:Optional
+	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 }
 
 // RegionDiskResourcePolicyAttachmentSpec defines the desired state of RegionDiskResourcePolicyAttachment
@@ -94,8 +108,9 @@ type RegionDiskResourcePolicyAttachmentStatus struct {
 type RegionDiskResourcePolicyAttachment struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              RegionDiskResourcePolicyAttachmentSpec   `json:"spec"`
-	Status            RegionDiskResourcePolicyAttachmentStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.region)",message="region is a required parameter"
+	Spec   RegionDiskResourcePolicyAttachmentSpec   `json:"spec"`
+	Status RegionDiskResourcePolicyAttachmentStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

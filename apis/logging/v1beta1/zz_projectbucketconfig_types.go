@@ -27,6 +27,14 @@ import (
 
 type CmekSettingsObservation struct {
 
+	// The resource name for the configured Cloud KMS key.
+	// KMS key name format:
+	// 'projects/[PROJECT_ID]/locations/[LOCATION]/keyRings/[KEYRING]/cryptoKeys/[KEY]'
+	// To enable CMEK for the bucket, set this field to a valid kmsKeyName for which the associated service account has the required cloudkms.cryptoKeyEncrypterDecrypter roles assigned for the key.
+	// The Cloud KMS key used by the bucket can be updated by changing the kmsKeyName to a new valid key name. Encryption operations that are in progress will be completed with the key that was in use when they started. Decryption operations will be completed using the key that was used at the time of encryption unless access to that key has been revoked.
+	// See Enabling CMEK for Logging Buckets for more information.
+	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
+
 	// The CryptoKeyVersion resource name for the configured Cloud KMS key.
 	// KMS key name format:
 	// 'projects/[PROJECT_ID]/locations/[LOCATION]/keyRings/[KEYRING]/cryptoKeys/[KEY]/cryptoKeyVersions/[VERSION]'
@@ -68,9 +76,14 @@ type CmekSettingsParameters struct {
 
 type ProjectBucketConfigObservation struct {
 
+	// The name of the logging bucket. Logging automatically creates two log buckets: _Required and _Default.
+	BucketID *string `json:"bucketId,omitempty" tf:"bucket_id,omitempty"`
+
 	// The CMEK settings of the log bucket. If present, new log entries written to this log bucket are encrypted using the CMEK key provided in this configuration. If a log bucket has CMEK settings, the CMEK settings cannot be disabled later by updating the log bucket. Changing the KMS key is allowed. Structure is documented below.
-	// +kubebuilder:validation:Optional
 	CmekSettings []CmekSettingsObservation `json:"cmekSettings,omitempty" tf:"cmek_settings,omitempty"`
+
+	// Describes this bucket.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/buckets/{{bucket_id}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -78,8 +91,17 @@ type ProjectBucketConfigObservation struct {
 	// The bucket's lifecycle such as active or deleted. See LifecycleState.
 	LifecycleState *string `json:"lifecycleState,omitempty" tf:"lifecycle_state,omitempty"`
 
+	// The location of the bucket.
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
 	// The resource name of the bucket. For example: "projects/my-project-id/locations/my-location/buckets/my-bucket-id"
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The parent resource that contains the logging bucket.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Logs will be retained by default for this amount of time, after which they will automatically be deleted. The minimum retention period is 1 day. If this value is set to zero at bucket creation time, the default time of 30 days will be used.
+	RetentionDays *float64 `json:"retentionDays,omitempty" tf:"retention_days,omitempty"`
 }
 
 type ProjectBucketConfigParameters struct {

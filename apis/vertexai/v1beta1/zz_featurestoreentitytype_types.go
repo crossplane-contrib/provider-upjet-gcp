@@ -26,6 +26,9 @@ import (
 )
 
 type CategoricalThresholdConfigObservation struct {
+
+	// Specify a threshold value that can trigger the alert. For numerical feature, the distribution distance is calculated by Jensen–Shannon divergence. Each feature must have a non-zero threshold if they need to be monitored. Otherwise no alert will be triggered for that feature. The default value is 0.3.
+	Value *float64 `json:"value,omitempty" tf:"value,omitempty"`
 }
 
 type CategoricalThresholdConfigParameters struct {
@@ -40,11 +43,28 @@ type FeaturestoreEntitytypeObservation struct {
 	// The timestamp of when the featurestore was created in RFC3339 UTC "Zulu" format, with nanosecond resolution and up to nine fractional digits.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
+	// Optional. Description of the EntityType.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
 	// Used to perform consistent read-modify-write updates.
 	Etag *string `json:"etag,omitempty" tf:"etag,omitempty"`
 
+	// The name of the Featurestore to use, in the format projects/{project}/locations/{location}/featurestores/{featurestore}.
+	Featurestore *string `json:"featurestore,omitempty" tf:"featurestore,omitempty"`
+
 	// an identifier for the resource with format {{featurestore}}/entityTypes/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// A set of key/value label pairs to assign to this EntityType.
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// The default monitoring configuration for all Features under this EntityType.
+	// If this is populated with [FeaturestoreMonitoringConfig.monitoring_interval] specified, snapshot analysis monitoring is enabled. Otherwise, snapshot analysis monitoring is disabled.
+	// Structure is documented below.
+	MonitoringConfig []MonitoringConfigObservation `json:"monitoringConfig,omitempty" tf:"monitoring_config,omitempty"`
+
+	// The name of the EntityType. This value may be up to 60 characters, and valid characters are [a-z0-9_]. The first character cannot be a number.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
@@ -88,6 +108,12 @@ type FeaturestoreEntitytypeParameters struct {
 }
 
 type ImportFeaturesAnalysisObservation struct {
+
+	// Defines the baseline to do anomaly detection for feature values imported by each [entityTypes.importFeatureValues][] operation. The value must be one of the values below:
+	AnomalyDetectionBaseline *string `json:"anomalyDetectionBaseline,omitempty" tf:"anomaly_detection_baseline,omitempty"`
+
+	// Whether to enable / disable / inherite default hebavior for import features analysis. The value must be one of the values below:
+	State *string `json:"state,omitempty" tf:"state,omitempty"`
 }
 
 type ImportFeaturesAnalysisParameters struct {
@@ -102,6 +128,22 @@ type ImportFeaturesAnalysisParameters struct {
 }
 
 type MonitoringConfigObservation struct {
+
+	// Threshold for categorical features of anomaly detection. This is shared by all types of Featurestore Monitoring for categorical features (i.e. Features with type (Feature.ValueType) BOOL or STRING).
+	// Structure is documented below.
+	CategoricalThresholdConfig []CategoricalThresholdConfigObservation `json:"categoricalThresholdConfig,omitempty" tf:"categorical_threshold_config,omitempty"`
+
+	// The config for ImportFeatures Analysis Based Feature Monitoring.
+	// Structure is documented below.
+	ImportFeaturesAnalysis []ImportFeaturesAnalysisObservation `json:"importFeaturesAnalysis,omitempty" tf:"import_features_analysis,omitempty"`
+
+	// Threshold for numerical features of anomaly detection. This is shared by all objectives of Featurestore Monitoring for numerical features (i.e. Features with type (Feature.ValueType) DOUBLE or INT64).
+	// Structure is documented below.
+	NumericalThresholdConfig []NumericalThresholdConfigObservation `json:"numericalThresholdConfig,omitempty" tf:"numerical_threshold_config,omitempty"`
+
+	// The config for Snapshot Analysis Based Feature Monitoring.
+	// Structure is documented below.
+	SnapshotAnalysis []SnapshotAnalysisObservation `json:"snapshotAnalysis,omitempty" tf:"snapshot_analysis,omitempty"`
 }
 
 type MonitoringConfigParameters struct {
@@ -128,6 +170,9 @@ type MonitoringConfigParameters struct {
 }
 
 type NumericalThresholdConfigObservation struct {
+
+	// Specify a threshold value that can trigger the alert. For numerical feature, the distribution distance is calculated by Jensen–Shannon divergence. Each feature must have a non-zero threshold if they need to be monitored. Otherwise no alert will be triggered for that feature. The default value is 0.3.
+	Value *float64 `json:"value,omitempty" tf:"value,omitempty"`
 }
 
 type NumericalThresholdConfigParameters struct {
@@ -138,6 +183,16 @@ type NumericalThresholdConfigParameters struct {
 }
 
 type SnapshotAnalysisObservation struct {
+
+	// The monitoring schedule for snapshot analysis. For EntityType-level config: unset / disabled = true indicates disabled by default for Features under it; otherwise by default enable snapshot analysis monitoring with monitoringInterval for Features under it.
+	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
+
+	// Configuration of the snapshot analysis based monitoring pipeline running interval. The value indicates number of days. The default value is 1.
+	// If both FeaturestoreMonitoringConfig.SnapshotAnalysis.monitoring_interval_days and [FeaturestoreMonitoringConfig.SnapshotAnalysis.monitoring_interval][] are set when creating/updating EntityTypes/Features, FeaturestoreMonitoringConfig.SnapshotAnalysis.monitoring_interval_days will be used.
+	MonitoringIntervalDays *float64 `json:"monitoringIntervalDays,omitempty" tf:"monitoring_interval_days,omitempty"`
+
+	// Customized export features time window for snapshot analysis. Unit is one day. The default value is 21 days. Minimum value is 1 day. Maximum value is 4000 days.
+	StalenessDays *float64 `json:"stalenessDays,omitempty" tf:"staleness_days,omitempty"`
 }
 
 type SnapshotAnalysisParameters struct {

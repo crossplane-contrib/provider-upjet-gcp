@@ -26,6 +26,11 @@ import (
 )
 
 type OrganizationIAMMemberConditionObservation struct {
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	Expression *string `json:"expression,omitempty" tf:"expression,omitempty"`
+
+	Title *string `json:"title,omitempty" tf:"title,omitempty"`
 }
 
 type OrganizationIAMMemberConditionParameters struct {
@@ -41,9 +46,17 @@ type OrganizationIAMMemberConditionParameters struct {
 }
 
 type OrganizationIAMMemberObservation struct {
+	Condition []OrganizationIAMMemberConditionObservation `json:"condition,omitempty" tf:"condition,omitempty"`
+
 	Etag *string `json:"etag,omitempty" tf:"etag,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	Member *string `json:"member,omitempty" tf:"member,omitempty"`
+
+	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
+
+	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 }
 
 type OrganizationIAMMemberParameters struct {
@@ -51,14 +64,14 @@ type OrganizationIAMMemberParameters struct {
 	// +kubebuilder:validation:Optional
 	Condition []OrganizationIAMMemberConditionParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
-	// +kubebuilder:validation:Required
-	Member *string `json:"member" tf:"member,omitempty"`
+	// +kubebuilder:validation:Optional
+	Member *string `json:"member,omitempty" tf:"member,omitempty"`
 
-	// +kubebuilder:validation:Required
-	OrgID *string `json:"orgId" tf:"org_id,omitempty"`
+	// +kubebuilder:validation:Optional
+	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
 
-	// +kubebuilder:validation:Required
-	Role *string `json:"role" tf:"role,omitempty"`
+	// +kubebuilder:validation:Optional
+	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 }
 
 // OrganizationIAMMemberSpec defines the desired state of OrganizationIAMMember
@@ -85,8 +98,11 @@ type OrganizationIAMMemberStatus struct {
 type OrganizationIAMMember struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              OrganizationIAMMemberSpec   `json:"spec"`
-	Status            OrganizationIAMMemberStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.member)",message="member is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.orgId)",message="orgId is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.role)",message="role is a required parameter"
+	Spec   OrganizationIAMMemberSpec   `json:"spec"`
+	Status OrganizationIAMMemberStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

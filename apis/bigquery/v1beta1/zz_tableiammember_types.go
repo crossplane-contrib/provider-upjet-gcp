@@ -26,6 +26,11 @@ import (
 )
 
 type TableIAMMemberConditionObservation struct {
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	Expression *string `json:"expression,omitempty" tf:"expression,omitempty"`
+
+	Title *string `json:"title,omitempty" tf:"title,omitempty"`
 }
 
 type TableIAMMemberConditionParameters struct {
@@ -41,9 +46,21 @@ type TableIAMMemberConditionParameters struct {
 }
 
 type TableIAMMemberObservation struct {
+	Condition []TableIAMMemberConditionObservation `json:"condition,omitempty" tf:"condition,omitempty"`
+
+	DatasetID *string `json:"datasetId,omitempty" tf:"dataset_id,omitempty"`
+
 	Etag *string `json:"etag,omitempty" tf:"etag,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	Member *string `json:"member,omitempty" tf:"member,omitempty"`
+
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	Role *string `json:"role,omitempty" tf:"role,omitempty"`
+
+	TableID *string `json:"tableId,omitempty" tf:"table_id,omitempty"`
 }
 
 type TableIAMMemberParameters struct {
@@ -69,8 +86,8 @@ type TableIAMMemberParameters struct {
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
-	// +kubebuilder:validation:Required
-	Role *string `json:"role" tf:"role,omitempty"`
+	// +kubebuilder:validation:Optional
+	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/bigquery/v1beta1.Table
 	// +kubebuilder:validation:Optional
@@ -109,8 +126,9 @@ type TableIAMMemberStatus struct {
 type TableIAMMember struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              TableIAMMemberSpec   `json:"spec"`
-	Status            TableIAMMemberStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.role)",message="role is a required parameter"
+	Spec   TableIAMMemberSpec   `json:"spec"`
+	Status TableIAMMemberStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

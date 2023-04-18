@@ -27,8 +27,17 @@ import (
 
 type FirewallPolicyAssociationObservation struct {
 
+	// The target that the firewall policy is attached to.
+	AttachmentTarget *string `json:"attachmentTarget,omitempty" tf:"attachment_target,omitempty"`
+
+	// The firewall policy ID of the association.
+	FirewallPolicy *string `json:"firewallPolicy,omitempty" tf:"firewall_policy,omitempty"`
+
 	// an identifier for the resource with format locations/global/firewallPolicies/{{firewall_policy}}/associations/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The name for an association.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// The short name of the firewall policy of the association.
 	ShortName *string `json:"shortName,omitempty" tf:"short_name,omitempty"`
@@ -65,8 +74,8 @@ type FirewallPolicyAssociationParameters struct {
 	FirewallPolicySelector *v1.Selector `json:"firewallPolicySelector,omitempty" tf:"-"`
 
 	// The name for an association.
-	// +kubebuilder:validation:Required
-	Name *string `json:"name" tf:"name,omitempty"`
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 }
 
 // FirewallPolicyAssociationSpec defines the desired state of FirewallPolicyAssociation
@@ -93,8 +102,9 @@ type FirewallPolicyAssociationStatus struct {
 type FirewallPolicyAssociation struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              FirewallPolicyAssociationSpec   `json:"spec"`
-	Status            FirewallPolicyAssociationStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.name)",message="name is a required parameter"
+	Spec   FirewallPolicyAssociationSpec   `json:"spec"`
+	Status FirewallPolicyAssociationStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

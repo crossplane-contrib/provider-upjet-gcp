@@ -27,24 +27,41 @@ import (
 
 type InstanceGroupNamedPortObservation struct {
 
+	// The name of the instance group.
+	Group *string `json:"group,omitempty" tf:"group,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/zones/{{zone}}/instanceGroups/{{group}}/{{port}}/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The name for this named port. The name must be 1-63 characters
+	// long, and comply with RFC1035.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The port number, which can be a value between 1 and 65535.
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The zone of the instance group.
+	Zone *string `json:"zone,omitempty" tf:"zone,omitempty"`
 }
 
 type InstanceGroupNamedPortParameters struct {
 
 	// The name of the instance group.
-	// +kubebuilder:validation:Required
-	Group *string `json:"group" tf:"group,omitempty"`
+	// +kubebuilder:validation:Optional
+	Group *string `json:"group,omitempty" tf:"group,omitempty"`
 
 	// The name for this named port. The name must be 1-63 characters
 	// long, and comply with RFC1035.
-	// +kubebuilder:validation:Required
-	Name *string `json:"name" tf:"name,omitempty"`
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// The port number, which can be a value between 1 and 65535.
-	// +kubebuilder:validation:Required
-	Port *float64 `json:"port" tf:"port,omitempty"`
+	// +kubebuilder:validation:Optional
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -80,8 +97,11 @@ type InstanceGroupNamedPortStatus struct {
 type InstanceGroupNamedPort struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              InstanceGroupNamedPortSpec   `json:"spec"`
-	Status            InstanceGroupNamedPortStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.group)",message="group is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.name)",message="name is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.port)",message="port is a required parameter"
+	Spec   InstanceGroupNamedPortSpec   `json:"spec"`
+	Status InstanceGroupNamedPortStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

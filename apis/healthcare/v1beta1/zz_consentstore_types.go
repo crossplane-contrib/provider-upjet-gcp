@@ -27,8 +27,33 @@ import (
 
 type ConsentStoreObservation struct {
 
+	// Identifies the dataset addressed by this request. Must be in the format
+	// 'projects/{project}/locations/{location}/datasets/{dataset}'
+	Dataset *string `json:"dataset,omitempty" tf:"dataset,omitempty"`
+
+	// Default time to live for consents in this store. Must be at least 24 hours. Updating this field will not affect the expiration time of existing consents.
+	// A duration in seconds with up to nine fractional digits, terminated by 's'. Example: "3.5s".
+	DefaultConsentTTL *string `json:"defaultConsentTtl,omitempty" tf:"default_consent_ttl,omitempty"`
+
+	// If true, [consents.patch] [google.cloud.healthcare.v1.consent.UpdateConsent] creates the consent if it does not already exist.
+	EnableConsentCreateOnUpdate *bool `json:"enableConsentCreateOnUpdate,omitempty" tf:"enable_consent_create_on_update,omitempty"`
+
 	// an identifier for the resource with format {{dataset}}/consentStores/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// User-supplied key-value pairs used to organize Consent stores.
+	// Label keys must be between 1 and 63 characters long, have a UTF-8 encoding of maximum 128 bytes, and must
+	// conform to the following PCRE regular expression: [\p{Ll}\p{Lo}][\p{Ll}\p{Lo}\p{N}_-]{0,62}
+	// Label values are optional, must be between 1 and 63 characters long, have a UTF-8 encoding of maximum 128
+	// bytes, and must conform to the following PCRE regular expression: [\p{Ll}\p{Lo}\p{N}_-]{0,63}
+	// No more than 64 labels can be associated with a given store.
+	// An object containing a list of "key": value pairs.
+	// Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }.
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// The name of this ConsentStore, for example:
+	// "consent1"
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 }
 
 type ConsentStoreParameters struct {
@@ -70,8 +95,8 @@ type ConsentStoreParameters struct {
 
 	// The name of this ConsentStore, for example:
 	// "consent1"
-	// +kubebuilder:validation:Required
-	Name *string `json:"name" tf:"name,omitempty"`
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 }
 
 // ConsentStoreSpec defines the desired state of ConsentStore
@@ -98,8 +123,9 @@ type ConsentStoreStatus struct {
 type ConsentStore struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              ConsentStoreSpec   `json:"spec"`
-	Status            ConsentStoreStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.name)",message="name is a required parameter"
+	Spec   ConsentStoreSpec   `json:"spec"`
+	Status ConsentStoreStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

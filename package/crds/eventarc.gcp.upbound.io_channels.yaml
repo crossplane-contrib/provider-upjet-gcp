@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.11.1
+    controller-gen.kubebuilder.io/version: v0.11.3
   creationTimestamp: null
   name: channels.eventarc.gcp.upbound.io
 spec:
@@ -55,9 +55,13 @@ spec:
             properties:
               deletionPolicy:
                 default: Delete
-                description: DeletionPolicy specifies what will happen to the underlying
+                description: 'DeletionPolicy specifies what will happen to the underlying
                   external when this managed resource is deleted - either "Delete"
-                  or "Orphan" the external resource.
+                  or "Orphan" the external resource. This field is planned to be deprecated
+                  in favor of the ManagementPolicy field in a future release. Currently,
+                  both could be set independently and non-default values would be
+                  honored if the feature flag is enabled. See the design doc for more
+                  information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
                 enum:
                 - Orphan
                 - Delete
@@ -84,6 +88,21 @@ spec:
                 required:
                 - location
                 type: object
+              managementPolicy:
+                default: FullControl
+                description: 'THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice. ManagementPolicy
+                  specifies the level of control Crossplane has over the managed external
+                  resource. This field is planned to replace the DeletionPolicy field
+                  in a future release. Currently, both could be set independently
+                  and non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
+                enum:
+                - FullControl
+                - ObserveOnly
+                - OrphanOnDelete
+                type: string
               providerConfigRef:
                 default:
                   name: default
@@ -268,8 +287,19 @@ spec:
                   createTime:
                     description: Output only. The creation time.
                     type: string
+                  cryptoKeyName:
+                    description: Optional. Resource name of a KMS crypto key (managed
+                      by the user) used to encrypt/decrypt their event data. It must
+                      match the pattern projects/*/locations/*/keyRings/*/cryptoKeys/*.
+                    type: string
                   id:
                     description: an identifier for the resource with format projects/{{project}}/locations/{{location}}/channels/{{name}}
+                    type: string
+                  location:
+                    description: The location for the resource
+                    type: string
+                  project:
+                    description: The project for the resource
                     type: string
                   pubsubTopic:
                     description: 'Output only. The name of the Pub/Sub topic created
@@ -279,6 +309,12 @@ spec:
                   state:
                     description: 'Output only. The state of a Channel. Possible values:
                       STATE_UNSPECIFIED, PENDING, ACTIVE, INACTIVE'
+                    type: string
+                  thirdPartyProvider:
+                    description: 'The name of the event provider (e.g. Eventarc SaaS
+                      partner) associated with the channel. This provider will be
+                      granted permissions to publish events to the channel. Format:
+                      projects/{project}/locations/{location}/providers/{provider_id}.'
                     type: string
                   uid:
                     description: Output only. Server assigned unique identifier for

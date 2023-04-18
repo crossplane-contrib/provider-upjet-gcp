@@ -26,6 +26,9 @@ import (
 )
 
 type ColumnFamilyObservation struct {
+
+	// The name of the column family.
+	Family *string `json:"family,omitempty" tf:"family,omitempty"`
 }
 
 type ColumnFamilyParameters struct {
@@ -37,8 +40,24 @@ type ColumnFamilyParameters struct {
 
 type TableObservation struct {
 
+	// A group of columns within a table which share a common configuration. This can be specified multiple times. Structure is documented below.
+	ColumnFamily []ColumnFamilyObservation `json:"columnFamily,omitempty" tf:"column_family,omitempty"`
+
+	// A field to make the table protected against data loss i.e. when set to PROTECTED, deleting the table, the column families in the table, and the instance containing the table would be prohibited. If not provided, deletion protection will be set to UNPROTECTED.
+	DeletionProtection *string `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/instances/{{instance_name}}/tables/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The name of the Bigtable instance.
+	InstanceName *string `json:"instanceName,omitempty" tf:"instance_name,omitempty"`
+
+	// The ID of the project in which the resource belongs. If it
+	// is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// A list of predefined keys to split the table on.
+	SplitKeys []*string `json:"splitKeys,omitempty" tf:"split_keys,omitempty"`
 }
 
 type TableParameters struct {

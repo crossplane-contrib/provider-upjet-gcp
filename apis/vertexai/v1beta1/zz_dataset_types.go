@@ -30,11 +30,31 @@ type DatasetObservation struct {
 	// The timestamp of when the dataset was created in RFC3339 UTC "Zulu" format, with nanosecond resolution and up to nine fractional digits.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
+	// The user-defined name of the Dataset. The name can be up to 128 characters long and can be consist of any UTF-8 characters.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// Customer-managed encryption key spec for a Dataset. If set, this Dataset and all sub-resources of this Dataset will be secured by this key.
+	// Structure is documented below.
+	EncryptionSpec []EncryptionSpecObservation `json:"encryptionSpec,omitempty" tf:"encryption_spec,omitempty"`
+
 	// an identifier for the resource with format {{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// A set of key/value label pairs to assign to this Workflow.
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// Points to a YAML file stored on Google Cloud Storage describing additional information about the Dataset. The schema is defined as an OpenAPI 3.0.2 Schema Object. The schema files that can be used here are found in gs://google-cloud-aiplatform/schema/dataset/metadata/.
+	MetadataSchemaURI *string `json:"metadataSchemaUri,omitempty" tf:"metadata_schema_uri,omitempty"`
+
 	// The resource name of the Dataset. This value is set by Google.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The region of the dataset. eg us-central1
+	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
 	// The timestamp of when the dataset was last updated in RFC3339 UTC "Zulu" format, with nanosecond resolution and up to nine fractional digits.
 	UpdateTime *string `json:"updateTime,omitempty" tf:"update_time,omitempty"`
@@ -43,8 +63,8 @@ type DatasetObservation struct {
 type DatasetParameters struct {
 
 	// The user-defined name of the Dataset. The name can be up to 128 characters long and can be consist of any UTF-8 characters.
-	// +kubebuilder:validation:Required
-	DisplayName *string `json:"displayName" tf:"display_name,omitempty"`
+	// +kubebuilder:validation:Optional
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// Customer-managed encryption key spec for a Dataset. If set, this Dataset and all sub-resources of this Dataset will be secured by this key.
 	// Structure is documented below.
@@ -56,8 +76,8 @@ type DatasetParameters struct {
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Points to a YAML file stored on Google Cloud Storage describing additional information about the Dataset. The schema is defined as an OpenAPI 3.0.2 Schema Object. The schema files that can be used here are found in gs://google-cloud-aiplatform/schema/dataset/metadata/.
-	// +kubebuilder:validation:Required
-	MetadataSchemaURI *string `json:"metadataSchemaUri" tf:"metadata_schema_uri,omitempty"`
+	// +kubebuilder:validation:Optional
+	MetadataSchemaURI *string `json:"metadataSchemaUri,omitempty" tf:"metadata_schema_uri,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -70,6 +90,10 @@ type DatasetParameters struct {
 }
 
 type EncryptionSpecObservation struct {
+
+	// Required. The Cloud KMS resource identifier of the customer managed encryption key used to protect a resource.
+	// Has the form: projects/my-project/locations/my-region/keyRings/my-kr/cryptoKeys/my-key. The key needs to be in the same region as where the resource is created.
+	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
 }
 
 type EncryptionSpecParameters struct {
@@ -104,8 +128,10 @@ type DatasetStatus struct {
 type Dataset struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DatasetSpec   `json:"spec"`
-	Status            DatasetStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.displayName)",message="displayName is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.metadataSchemaUri)",message="metadataSchemaUri is a required parameter"
+	Spec   DatasetSpec   `json:"spec"`
+	Status DatasetStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

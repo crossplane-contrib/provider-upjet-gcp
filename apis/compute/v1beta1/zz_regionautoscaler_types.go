@@ -26,6 +26,12 @@ import (
 )
 
 type AutoscalingPolicyCPUUtilizationObservation struct {
+
+	// Indicates whether predictive autoscaling based on CPU metric is enabled. Valid values are:
+	PredictiveMethod *string `json:"predictiveMethod,omitempty" tf:"predictive_method,omitempty"`
+
+	// URL of the managed instance group that this autoscaler will scale.
+	Target *float64 `json:"target,omitempty" tf:"target,omitempty"`
 }
 
 type AutoscalingPolicyCPUUtilizationParameters struct {
@@ -40,6 +46,9 @@ type AutoscalingPolicyCPUUtilizationParameters struct {
 }
 
 type AutoscalingPolicyLoadBalancingUtilizationObservation struct {
+
+	// URL of the managed instance group that this autoscaler will scale.
+	Target *float64 `json:"target,omitempty" tf:"target,omitempty"`
 }
 
 type AutoscalingPolicyLoadBalancingUtilizationParameters struct {
@@ -50,6 +59,17 @@ type AutoscalingPolicyLoadBalancingUtilizationParameters struct {
 }
 
 type AutoscalingPolicyMetricObservation struct {
+
+	// The identifier for this object. Format specified above.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// URL of the managed instance group that this autoscaler will scale.
+	Target *float64 `json:"target,omitempty" tf:"target,omitempty"`
+
+	// Defines how target utilization value is expressed for a
+	// Stackdriver Monitoring metric.
+	// Possible values are GAUGE, DELTA_PER_SECOND, and DELTA_PER_MINUTE.
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type AutoscalingPolicyMetricParameters struct {
@@ -70,6 +90,14 @@ type AutoscalingPolicyMetricParameters struct {
 }
 
 type AutoscalingPolicyScaleInControlObservation struct {
+
+	// A nested object resource
+	// Structure is documented below.
+	MaxScaledInReplicas []ScaleInControlMaxScaledInReplicasObservation `json:"maxScaledInReplicas,omitempty" tf:"max_scaled_in_replicas,omitempty"`
+
+	// How long back autoscaling should look when computing recommendations
+	// to include directives regarding slower scale down, as described above.
+	TimeWindowSec *float64 `json:"timeWindowSec,omitempty" tf:"time_window_sec,omitempty"`
 }
 
 type AutoscalingPolicyScaleInControlParameters struct {
@@ -86,6 +114,27 @@ type AutoscalingPolicyScaleInControlParameters struct {
 }
 
 type AutoscalingPolicyScalingSchedulesObservation struct {
+
+	// A description of a scaling schedule.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// A boolean value that specifies if a scaling schedule can influence autoscaler recommendations. If set to true, then a scaling schedule has no effect.
+	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
+
+	// The duration of time intervals (in seconds) for which this scaling schedule will be running. The minimum allowed value is 300.
+	DurationSec *float64 `json:"durationSec,omitempty" tf:"duration_sec,omitempty"`
+
+	// Minimum number of VM instances that autoscaler will recommend in time intervals starting according to schedule.
+	MinRequiredReplicas *float64 `json:"minRequiredReplicas,omitempty" tf:"min_required_replicas,omitempty"`
+
+	// The identifier for this object. Format specified above.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The start timestamps of time intervals when this scaling schedule should provide a scaling signal. This field uses the extended cron format (with an optional year field).
+	Schedule *string `json:"schedule,omitempty" tf:"schedule,omitempty"`
+
+	// The time zone to be used when interpreting the schedule. The value of this field must be a time zone name from the tz database: http://en.wikipedia.org/wiki/Tz_database.
+	TimeZone *string `json:"timeZone,omitempty" tf:"time_zone,omitempty"`
 }
 
 type AutoscalingPolicyScalingSchedulesParameters struct {
@@ -120,6 +169,57 @@ type AutoscalingPolicyScalingSchedulesParameters struct {
 }
 
 type RegionAutoscalerAutoscalingPolicyObservation struct {
+
+	// Defines the CPU utilization policy that allows the autoscaler to
+	// scale based on the average CPU utilization of a managed instance
+	// group.
+	// Structure is documented below.
+	CPUUtilization []AutoscalingPolicyCPUUtilizationObservation `json:"cpuUtilization,omitempty" tf:"cpu_utilization,omitempty"`
+
+	// The number of seconds that the autoscaler should wait before it
+	// starts collecting information from a new instance. This prevents
+	// the autoscaler from collecting information when the instance is
+	// initializing, during which the collected usage would not be
+	// reliable. The default time autoscaler waits is 60 seconds.
+	// Virtual machine initialization times might vary because of
+	// numerous factors. We recommend that you test how long an
+	// instance may take to initialize. To do this, create an instance
+	// and time the startup process.
+	CooldownPeriod *float64 `json:"cooldownPeriod,omitempty" tf:"cooldown_period,omitempty"`
+
+	// Configuration parameters of autoscaling based on a load balancer.
+	// Structure is documented below.
+	LoadBalancingUtilization []AutoscalingPolicyLoadBalancingUtilizationObservation `json:"loadBalancingUtilization,omitempty" tf:"load_balancing_utilization,omitempty"`
+
+	// The maximum number of instances that the autoscaler can scale up
+	// to. This is required when creating or updating an autoscaler. The
+	// maximum number of replicas should not be lower than minimal number
+	// of replicas.
+	MaxReplicas *float64 `json:"maxReplicas,omitempty" tf:"max_replicas,omitempty"`
+
+	// Configuration parameters of autoscaling based on a custom metric.
+	// Structure is documented below.
+	Metric []AutoscalingPolicyMetricObservation `json:"metric,omitempty" tf:"metric,omitempty"`
+
+	// The minimum number of replicas that the autoscaler can scale down
+	// to. This cannot be less than 0. If not provided, autoscaler will
+	// choose a default value depending on maximum number of instances
+	// allowed.
+	MinReplicas *float64 `json:"minReplicas,omitempty" tf:"min_replicas,omitempty"`
+
+	// Defines operating mode for this policy.
+	// Default value is ON.
+	// Possible values are OFF, ONLY_UP, and ON.
+	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
+
+	// Defines scale in controls to reduce the risk of response latency
+	// and outages due to abrupt scale-in events
+	// Structure is documented below.
+	ScaleInControl []AutoscalingPolicyScaleInControlObservation `json:"scaleInControl,omitempty" tf:"scale_in_control,omitempty"`
+
+	// Scaling schedules defined for an autoscaler. Multiple schedules can be set on an autoscaler and they can overlap.
+	// Structure is documented below.
+	ScalingSchedules []AutoscalingPolicyScalingSchedulesObservation `json:"scalingSchedules,omitempty" tf:"scaling_schedules,omitempty"`
 }
 
 type RegionAutoscalerAutoscalingPolicyParameters struct {
@@ -187,14 +287,35 @@ type RegionAutoscalerAutoscalingPolicyParameters struct {
 
 type RegionAutoscalerObservation struct {
 
+	// The configuration parameters for the autoscaling algorithm. You can
+	// define one or more of the policies for an autoscaler: cpuUtilization,
+	// customMetricUtilizations, and loadBalancingUtilization.
+	// If none of these are specified, the default will be to autoscale based
+	// on cpuUtilization to 0.6 or 60%.
+	// Structure is documented below.
+	AutoscalingPolicy []RegionAutoscalerAutoscalingPolicyObservation `json:"autoscalingPolicy,omitempty" tf:"autoscaling_policy,omitempty"`
+
 	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
+
+	// A description of a scaling schedule.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/regions/{{region}}/autoscalers/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// URL of the region where the instance group resides.
+	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+
 	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
+
+	// URL of the managed instance group that this autoscaler will scale.
+	Target *string `json:"target,omitempty" tf:"target,omitempty"`
 }
 
 type RegionAutoscalerParameters struct {
@@ -205,8 +326,8 @@ type RegionAutoscalerParameters struct {
 	// If none of these are specified, the default will be to autoscale based
 	// on cpuUtilization to 0.6 or 60%.
 	// Structure is documented below.
-	// +kubebuilder:validation:Required
-	AutoscalingPolicy []RegionAutoscalerAutoscalingPolicyParameters `json:"autoscalingPolicy" tf:"autoscaling_policy,omitempty"`
+	// +kubebuilder:validation:Optional
+	AutoscalingPolicy []RegionAutoscalerAutoscalingPolicyParameters `json:"autoscalingPolicy,omitempty" tf:"autoscaling_policy,omitempty"`
 
 	// A description of a scaling schedule.
 	// +kubebuilder:validation:Optional
@@ -237,6 +358,14 @@ type RegionAutoscalerParameters struct {
 }
 
 type ScaleInControlMaxScaledInReplicasObservation struct {
+
+	// Specifies a fixed number of VM instances. This must be a positive
+	// integer.
+	Fixed *float64 `json:"fixed,omitempty" tf:"fixed,omitempty"`
+
+	// Specifies a percentage of instances between 0 to 100%, inclusive.
+	// For example, specify 80 for 80%.
+	Percent *float64 `json:"percent,omitempty" tf:"percent,omitempty"`
 }
 
 type ScaleInControlMaxScaledInReplicasParameters struct {
@@ -276,8 +405,9 @@ type RegionAutoscalerStatus struct {
 type RegionAutoscaler struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              RegionAutoscalerSpec   `json:"spec"`
-	Status            RegionAutoscalerStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.autoscalingPolicy)",message="autoscalingPolicy is a required parameter"
+	Spec   RegionAutoscalerSpec   `json:"spec"`
+	Status RegionAutoscalerStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

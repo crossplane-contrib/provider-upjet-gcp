@@ -27,8 +27,24 @@ import (
 
 type GlobalNetworkEndpointGroupObservation struct {
 
+	// The default port used if the port number is not specified in the
+	// network endpoint.
+	DefaultPort *float64 `json:"defaultPort,omitempty" tf:"default_port,omitempty"`
+
+	// An optional description of this resource. Provide this property when
+	// you create the resource.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/global/networkEndpointGroups/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Type of network endpoints in this network endpoint group.
+	// Possible values are INTERNET_IP_PORT and INTERNET_FQDN_PORT.
+	NetworkEndpointType *string `json:"networkEndpointType,omitempty" tf:"network_endpoint_type,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
@@ -48,8 +64,8 @@ type GlobalNetworkEndpointGroupParameters struct {
 
 	// Type of network endpoints in this network endpoint group.
 	// Possible values are INTERNET_IP_PORT and INTERNET_FQDN_PORT.
-	// +kubebuilder:validation:Required
-	NetworkEndpointType *string `json:"networkEndpointType" tf:"network_endpoint_type,omitempty"`
+	// +kubebuilder:validation:Optional
+	NetworkEndpointType *string `json:"networkEndpointType,omitempty" tf:"network_endpoint_type,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -81,8 +97,9 @@ type GlobalNetworkEndpointGroupStatus struct {
 type GlobalNetworkEndpointGroup struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              GlobalNetworkEndpointGroupSpec   `json:"spec"`
-	Status            GlobalNetworkEndpointGroupStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.networkEndpointType)",message="networkEndpointType is a required parameter"
+	Spec   GlobalNetworkEndpointGroupSpec   `json:"spec"`
+	Status GlobalNetworkEndpointGroupStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

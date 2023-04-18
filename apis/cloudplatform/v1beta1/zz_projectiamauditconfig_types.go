@@ -26,6 +26,9 @@ import (
 )
 
 type ProjectIAMAuditConfigAuditLogConfigObservation struct {
+	ExemptedMembers []*string `json:"exemptedMembers,omitempty" tf:"exempted_members,omitempty"`
+
+	LogType *string `json:"logType,omitempty" tf:"log_type,omitempty"`
 }
 
 type ProjectIAMAuditConfigAuditLogConfigParameters struct {
@@ -38,15 +41,21 @@ type ProjectIAMAuditConfigAuditLogConfigParameters struct {
 }
 
 type ProjectIAMAuditConfigObservation struct {
+	AuditLogConfig []ProjectIAMAuditConfigAuditLogConfigObservation `json:"auditLogConfig,omitempty" tf:"audit_log_config,omitempty"`
+
 	Etag *string `json:"etag,omitempty" tf:"etag,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	Service *string `json:"service,omitempty" tf:"service,omitempty"`
 }
 
 type ProjectIAMAuditConfigParameters struct {
 
-	// +kubebuilder:validation:Required
-	AuditLogConfig []ProjectIAMAuditConfigAuditLogConfigParameters `json:"auditLogConfig" tf:"audit_log_config,omitempty"`
+	// +kubebuilder:validation:Optional
+	AuditLogConfig []ProjectIAMAuditConfigAuditLogConfigParameters `json:"auditLogConfig,omitempty" tf:"audit_log_config,omitempty"`
 
 	// +crossplane:generate:reference:type=Project
 	// +kubebuilder:validation:Optional
@@ -60,8 +69,8 @@ type ProjectIAMAuditConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectSelector *v1.Selector `json:"projectSelector,omitempty" tf:"-"`
 
-	// +kubebuilder:validation:Required
-	Service *string `json:"service" tf:"service,omitempty"`
+	// +kubebuilder:validation:Optional
+	Service *string `json:"service,omitempty" tf:"service,omitempty"`
 }
 
 // ProjectIAMAuditConfigSpec defines the desired state of ProjectIAMAuditConfig
@@ -88,8 +97,10 @@ type ProjectIAMAuditConfigStatus struct {
 type ProjectIAMAuditConfig struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              ProjectIAMAuditConfigSpec   `json:"spec"`
-	Status            ProjectIAMAuditConfigStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.auditLogConfig)",message="auditLogConfig is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.service)",message="service is a required parameter"
+	Spec   ProjectIAMAuditConfigSpec   `json:"spec"`
+	Status ProjectIAMAuditConfigStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

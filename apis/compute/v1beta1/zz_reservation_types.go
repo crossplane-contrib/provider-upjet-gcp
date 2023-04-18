@@ -26,6 +26,16 @@ import (
 )
 
 type GuestAcceleratorsObservation struct {
+
+	// The number of the guest accelerator cards exposed to
+	// this instance.
+	AcceleratorCount *float64 `json:"acceleratorCount,omitempty" tf:"accelerator_count,omitempty"`
+
+	// The full or partial URL of the accelerator type to
+	// attach to this instance. For example:
+	// projects/my-project/zones/us-central1-c/acceleratorTypes/nvidia-tesla-p100
+	// If you are creating an instance template, specify only the accelerator name.
+	AcceleratorType *string `json:"acceleratorType,omitempty" tf:"accelerator_type,omitempty"`
 }
 
 type GuestAcceleratorsParameters struct {
@@ -44,6 +54,24 @@ type GuestAcceleratorsParameters struct {
 }
 
 type InstancePropertiesObservation struct {
+
+	// Guest accelerator type and count.
+	// Structure is documented below.
+	GuestAccelerators []GuestAcceleratorsObservation `json:"guestAccelerators,omitempty" tf:"guest_accelerators,omitempty"`
+
+	// The amount of local ssd to reserve with each instance. This
+	// reserves disks of type local-ssd.
+	// Structure is documented below.
+	LocalSsds []LocalSsdsObservation `json:"localSsds,omitempty" tf:"local_ssds,omitempty"`
+
+	// The name of the machine type to reserve.
+	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
+
+	// The minimum CPU platform for the reservation. For example,
+	// "Intel Skylake". See
+	// the CPU platform availability reference](https://cloud.google.com/compute/docs/instances/specify-min-cpu-platform#availablezones)
+	// for information on available CPU platforms.
+	MinCPUPlatform *string `json:"minCpuPlatform,omitempty" tf:"min_cpu_platform,omitempty"`
 }
 
 type InstancePropertiesParameters struct {
@@ -72,6 +100,14 @@ type InstancePropertiesParameters struct {
 }
 
 type LocalSsdsObservation struct {
+
+	// The size of the disk in base-2 GB.
+	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
+
+	// The disk interface to use for attaching this disk.
+	// Default value is SCSI.
+	// Possible values are SCSI and NVME.
+	Interface *string `json:"interface,omitempty" tf:"interface,omitempty"`
 }
 
 type LocalSsdsParameters struct {
@@ -96,19 +132,37 @@ type ReservationObservation struct {
 	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
 
+	// An optional description of this resource.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/zones/{{zone}}/reservations/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
 
+	// The share setting for reservations.
+	// Structure is documented below.
+	ShareSettings []ReservationShareSettingsObservation `json:"shareSettings,omitempty" tf:"share_settings,omitempty"`
+
 	// Reservation for instances with specific machine shapes.
 	// Structure is documented below.
-	// +kubebuilder:validation:Required
 	SpecificReservation []ReservationSpecificReservationObservation `json:"specificReservation,omitempty" tf:"specific_reservation,omitempty"`
+
+	// When set to true, only VMs that target this reservation by name can
+	// consume this reservation. Otherwise, it can be consumed by VMs with
+	// affinity for any reservation. Defaults to false.
+	SpecificReservationRequired *bool `json:"specificReservationRequired,omitempty" tf:"specific_reservation_required,omitempty"`
 
 	// The status of the reservation.
 	Status *string `json:"status,omitempty" tf:"status,omitempty"`
+
+	// The zone where the reservation is made.
+	Zone *string `json:"zone,omitempty" tf:"zone,omitempty"`
 }
 
 type ReservationParameters struct {
@@ -129,8 +183,8 @@ type ReservationParameters struct {
 
 	// Reservation for instances with specific machine shapes.
 	// Structure is documented below.
-	// +kubebuilder:validation:Required
-	SpecificReservation []ReservationSpecificReservationParameters `json:"specificReservation" tf:"specific_reservation,omitempty"`
+	// +kubebuilder:validation:Optional
+	SpecificReservation []ReservationSpecificReservationParameters `json:"specificReservation,omitempty" tf:"specific_reservation,omitempty"`
 
 	// When set to true, only VMs that target this reservation by name can
 	// consume this reservation. Otherwise, it can be consumed by VMs with
@@ -144,6 +198,14 @@ type ReservationParameters struct {
 }
 
 type ReservationShareSettingsObservation struct {
+
+	// A map of project number and project config. This is only valid when shareType's value is SPECIFIC_PROJECTS.
+	// Structure is documented below.
+	ProjectMap []ShareSettingsProjectMapObservation `json:"projectMap,omitempty" tf:"project_map,omitempty"`
+
+	// Type of sharing for this shared-reservation
+	// Possible values are LOCAL and SPECIFIC_PROJECTS.
+	ShareType *string `json:"shareType,omitempty" tf:"share_type,omitempty"`
 }
 
 type ReservationShareSettingsParameters struct {
@@ -161,8 +223,15 @@ type ReservationShareSettingsParameters struct {
 
 type ReservationSpecificReservationObservation struct {
 
+	// The number of resources that are allocated.
+	Count *float64 `json:"count,omitempty" tf:"count,omitempty"`
+
 	// How many instances are in use.
 	InUseCount *float64 `json:"inUseCount,omitempty" tf:"in_use_count,omitempty"`
+
+	// The instance properties for the reservation.
+	// Structure is documented below.
+	InstanceProperties []InstancePropertiesObservation `json:"instanceProperties,omitempty" tf:"instance_properties,omitempty"`
 }
 
 type ReservationSpecificReservationParameters struct {
@@ -178,6 +247,12 @@ type ReservationSpecificReservationParameters struct {
 }
 
 type ShareSettingsProjectMapObservation struct {
+
+	// The identifier for this object. Format specified above.
+	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The project id/number, should be same as the key of this project config in the project map.
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 }
 
 type ShareSettingsProjectMapParameters struct {
@@ -215,8 +290,9 @@ type ReservationStatus struct {
 type Reservation struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              ReservationSpec   `json:"spec"`
-	Status            ReservationStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.specificReservation)",message="specificReservation is a required parameter"
+	Spec   ReservationSpec   `json:"spec"`
+	Status ReservationStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

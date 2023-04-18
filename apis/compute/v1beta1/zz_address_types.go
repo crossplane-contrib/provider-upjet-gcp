@@ -27,14 +27,58 @@ import (
 
 type AddressObservation struct {
 
+	// The static external IP address represented by this resource. Only
+	// IPv4 is supported. An address may only be specified for INTERNAL
+	// address types. The IP address must be inside the specified subnetwork,
+	// if any. Set by the API if undefined.
+	Address *string `json:"address,omitempty" tf:"address,omitempty"`
+
+	// The type of address to reserve.
+	// Default value is EXTERNAL.
+	// Possible values are INTERNAL and EXTERNAL.
+	AddressType *string `json:"addressType,omitempty" tf:"address_type,omitempty"`
+
 	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
+
+	// An optional description of this resource.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/regions/{{region}}/addresses/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// The URL of the network in which to reserve the address. This field
+	// can only be used with INTERNAL type with the VPC_PEERING and
+	// IPSEC_INTERCONNECT purposes.
+	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
+	// The networking tier used for configuring this address. If this field is not
+	// specified, it is assumed to be PREMIUM.
+	// Possible values are PREMIUM and STANDARD.
+	NetworkTier *string `json:"networkTier,omitempty" tf:"network_tier,omitempty"`
+
+	// The prefix length if the resource represents an IP range.
+	PrefixLength *float64 `json:"prefixLength,omitempty" tf:"prefix_length,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The purpose of this resource, which can be one of the following values:
+	Purpose *string `json:"purpose,omitempty" tf:"purpose,omitempty"`
+
+	// The Region in which the created address should reside.
+	// If it is not provided, the provider region is used.
+	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+
 	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
+
+	// The URL of the subnetwork in which to reserve the address. If an IP
+	// address is specified, it must be within the subnetwork's IP range.
+	// This field can only be used with INTERNAL type with
+	// GCE_ENDPOINT/DNS_RESOLVER purposes.
+	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 
 	// The URLs of the resources that are using this address.
 	Users []*string `json:"users,omitempty" tf:"users,omitempty"`

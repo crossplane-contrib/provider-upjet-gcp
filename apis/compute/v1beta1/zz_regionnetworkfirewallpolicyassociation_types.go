@@ -27,8 +27,20 @@ import (
 
 type RegionNetworkFirewallPolicyAssociationObservation struct {
 
+	// The target that the firewall policy is attached to.
+	AttachmentTarget *string `json:"attachmentTarget,omitempty" tf:"attachment_target,omitempty"`
+
+	// The firewall policy ID of the association.
+	FirewallPolicy *string `json:"firewallPolicy,omitempty" tf:"firewall_policy,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/regions/{{region}}/firewallPolicies/{{firewall_policy}}/associations/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The project for the resource
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The location of this resource.
+	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
 	// The short name of the firewall policy of the association.
 	ShortName *string `json:"shortName,omitempty" tf:"short_name,omitempty"`

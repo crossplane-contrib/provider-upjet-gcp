@@ -30,11 +30,27 @@ type SnapshotObservation struct {
 	// The time when the snapshot was created in RFC3339 text format.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
+	// A description of the snapshot with 2048 characters or less. Requests with longer descriptions will be rejected.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
 	// The amount of bytes needed to allocate a full copy of the snapshot content.
 	FilesystemUsedBytes *string `json:"filesystemUsedBytes,omitempty" tf:"filesystem_used_bytes,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/instances/{{instance}}/snapshots/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The resource name of the filestore instance.
+	Instance *string `json:"instance,omitempty" tf:"instance,omitempty"`
+
+	// Resource labels to represent user-provided metadata.
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// The name of the location of the instance. This can be a region for ENTERPRISE tier instances.
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The snapshot state.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`

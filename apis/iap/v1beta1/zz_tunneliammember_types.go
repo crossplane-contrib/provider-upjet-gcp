@@ -26,6 +26,11 @@ import (
 )
 
 type TunnelIAMMemberConditionObservation struct {
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	Expression *string `json:"expression,omitempty" tf:"expression,omitempty"`
+
+	Title *string `json:"title,omitempty" tf:"title,omitempty"`
 }
 
 type TunnelIAMMemberConditionParameters struct {
@@ -41,9 +46,17 @@ type TunnelIAMMemberConditionParameters struct {
 }
 
 type TunnelIAMMemberObservation struct {
+	Condition []TunnelIAMMemberConditionObservation `json:"condition,omitempty" tf:"condition,omitempty"`
+
 	Etag *string `json:"etag,omitempty" tf:"etag,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	Member *string `json:"member,omitempty" tf:"member,omitempty"`
+
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 }
 
 type TunnelIAMMemberParameters struct {

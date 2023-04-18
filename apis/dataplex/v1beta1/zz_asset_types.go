@@ -30,11 +30,38 @@ type AssetObservation struct {
 	// Output only. The time when the asset was created.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
+	// The zone for the resource
+	DataplexZone *string `json:"dataplexZone,omitempty" tf:"dataplex_zone,omitempty"`
+
+	// Optional. Description of the asset.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Required. Specification of the discovery feature applied to data referenced by this asset. When this spec is left unset, the asset will use the spec set on the parent zone.
+	DiscoverySpec []DiscoverySpecObservation `json:"discoverySpec,omitempty" tf:"discovery_spec,omitempty"`
+
 	// Output only. Status of the discovery feature applied to data referenced by this asset.
 	DiscoveryStatus []DiscoveryStatusObservation `json:"discoveryStatus,omitempty" tf:"discovery_status,omitempty"`
 
+	// Optional. User friendly display name.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/lakes/{{lake}}/zones/{{dataplex_zone}}/assets/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Optional. User defined labels for the asset.
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// The lake for the resource
+	Lake *string `json:"lake,omitempty" tf:"lake,omitempty"`
+
+	// The location for the resource
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
+	// The project for the resource
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Required. Immutable. Specification of the resource that is referenced by this asset.
+	ResourceSpec []ResourceSpecObservation `json:"resourceSpec,omitempty" tf:"resource_spec,omitempty"`
 
 	// Output only. Status of the resource referenced by this asset.
 	ResourceStatus []ResourceStatusObservation `json:"resourceStatus,omitempty" tf:"resource_status,omitempty"`
@@ -72,8 +99,8 @@ type AssetParameters struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Required. Specification of the discovery feature applied to data referenced by this asset. When this spec is left unset, the asset will use the spec set on the parent zone.
-	// +kubebuilder:validation:Required
-	DiscoverySpec []DiscoverySpecParameters `json:"discoverySpec" tf:"discovery_spec,omitempty"`
+	// +kubebuilder:validation:Optional
+	DiscoverySpec []DiscoverySpecParameters `json:"discoverySpec,omitempty" tf:"discovery_spec,omitempty"`
 
 	// Optional. User friendly display name.
 	// +kubebuilder:validation:Optional
@@ -105,11 +132,23 @@ type AssetParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Required. Immutable. Specification of the resource that is referenced by this asset.
-	// +kubebuilder:validation:Required
-	ResourceSpec []ResourceSpecParameters `json:"resourceSpec" tf:"resource_spec,omitempty"`
+	// +kubebuilder:validation:Optional
+	ResourceSpec []ResourceSpecParameters `json:"resourceSpec,omitempty" tf:"resource_spec,omitempty"`
 }
 
 type CsvOptionsObservation struct {
+
+	// Optional. The delimiter being used to separate values. This defaults to ','.
+	Delimiter *string `json:"delimiter,omitempty" tf:"delimiter,omitempty"`
+
+	// Optional. Whether to disable the inference of data type for Json data. If true, all columns will be registered as their primitive types (strings, number or boolean).
+	DisableTypeInference *bool `json:"disableTypeInference,omitempty" tf:"disable_type_inference,omitempty"`
+
+	// Optional. The character encoding of the data. The default is UTF-8.
+	Encoding *string `json:"encoding,omitempty" tf:"encoding,omitempty"`
+
+	// Optional. The number of rows to interpret as header rows that should be skipped when reading data rows.
+	HeaderRows *float64 `json:"headerRows,omitempty" tf:"header_rows,omitempty"`
 }
 
 type CsvOptionsParameters struct {
@@ -132,6 +171,24 @@ type CsvOptionsParameters struct {
 }
 
 type DiscoverySpecObservation struct {
+
+	// Optional. Configuration for CSV data.
+	CsvOptions []CsvOptionsObservation `json:"csvOptions,omitempty" tf:"csv_options,omitempty"`
+
+	// Required. Whether discovery is enabled.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+
+	// Optional. The list of patterns to apply for selecting data to exclude during discovery. For Cloud Storage bucket assets, these are interpreted as glob patterns used to match object names. For BigQuery dataset assets, these are interpreted as patterns to match table names.
+	ExcludePatterns []*string `json:"excludePatterns,omitempty" tf:"exclude_patterns,omitempty"`
+
+	// Optional. The list of patterns to apply for selecting data to include during discovery if only a subset of the data should considered. For Cloud Storage bucket assets, these are interpreted as glob patterns used to match object names. For BigQuery dataset assets, these are interpreted as patterns to match table names.
+	IncludePatterns []*string `json:"includePatterns,omitempty" tf:"include_patterns,omitempty"`
+
+	// Optional. Configuration for Json data.
+	JSONOptions []JSONOptionsObservation `json:"jsonOptions,omitempty" tf:"json_options,omitempty"`
+
+	// Optional. Cron schedule (https://en.wikipedia.org/wiki/Cron) for running discovery periodically. Successive discovery runs must be scheduled at least 60 minutes apart. The default value is to run discovery every 60 minutes. To explicitly set a timezone to the cron tab, apply a prefix in the cron tab: "CRON_TZ=${IANA_TIME_ZONE}" or TZ=${IANA_TIME_ZONE}". The ${IANA_TIME_ZONE} may only be a valid string from IANA time zone database. For example, "CRON_TZ=America/New_York 1 * * * *", or "TZ=America/New_York 1 * * * *".
+	Schedule *string `json:"schedule,omitempty" tf:"schedule,omitempty"`
 }
 
 type DiscoverySpecParameters struct {
@@ -181,6 +238,12 @@ type DiscoveryStatusParameters struct {
 }
 
 type JSONOptionsObservation struct {
+
+	// Optional. Whether to disable the inference of data type for Json data. If true, all columns will be registered as their primitive types (strings, number or boolean).
+	DisableTypeInference *bool `json:"disableTypeInference,omitempty" tf:"disable_type_inference,omitempty"`
+
+	// Optional. The character encoding of the data. The default is UTF-8.
+	Encoding *string `json:"encoding,omitempty" tf:"encoding,omitempty"`
 }
 
 type JSONOptionsParameters struct {
@@ -195,6 +258,12 @@ type JSONOptionsParameters struct {
 }
 
 type ResourceSpecObservation struct {
+
+	// Immutable. Relative name of the cloud resource that contains the data that is being managed within a lake. For example: projects/{project_number}/buckets/{bucket_id} projects/{project_number}/datasets/{dataset_id}
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Required. Immutable. Type of resource. Possible values: STORAGE_BUCKET, BIGQUERY_DATASET
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type ResourceSpecParameters struct {
@@ -271,8 +340,10 @@ type AssetStatus struct {
 type Asset struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              AssetSpec   `json:"spec"`
-	Status            AssetStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.discoverySpec)",message="discoverySpec is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.resourceSpec)",message="resourceSpec is a required parameter"
+	Spec   AssetSpec   `json:"spec"`
+	Status AssetStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

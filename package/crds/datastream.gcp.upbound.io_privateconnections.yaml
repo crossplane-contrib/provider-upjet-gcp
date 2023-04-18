@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.11.1
+    controller-gen.kubebuilder.io/version: v0.11.3
   creationTimestamp: null
   name: privateconnections.datastream.gcp.upbound.io
 spec:
@@ -56,9 +56,13 @@ spec:
             properties:
               deletionPolicy:
                 default: Delete
-                description: DeletionPolicy specifies what will happen to the underlying
+                description: 'DeletionPolicy specifies what will happen to the underlying
                   external when this managed resource is deleted - either "Delete"
-                  or "Orphan" the external resource.
+                  or "Orphan" the external resource. This field is planned to be deprecated
+                  in favor of the ManagementPolicy field in a future release. Currently,
+                  both could be set independently and non-default values would be
+                  honored if the feature flag is enabled. See the design doc for more
+                  information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
                 enum:
                 - Orphan
                 - Delete
@@ -177,10 +181,23 @@ spec:
                       type: object
                     type: array
                 required:
-                - displayName
                 - location
-                - vpcPeeringConfig
                 type: object
+              managementPolicy:
+                default: FullControl
+                description: 'THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice. ManagementPolicy
+                  specifies the level of control Crossplane has over the managed external
+                  resource. This field is planned to replace the DeletionPolicy field
+                  in a future release. Currently, both could be set independently
+                  and non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
+                enum:
+                - FullControl
+                - ObserveOnly
+                - OrphanOnDelete
+                type: string
               providerConfigRef:
                 default:
                   name: default
@@ -352,11 +369,19 @@ spec:
             required:
             - forProvider
             type: object
+            x-kubernetes-validations:
+            - message: displayName is a required parameter
+              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.displayName)
+            - message: vpcPeeringConfig is a required parameter
+              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.vpcPeeringConfig)
           status:
             description: PrivateConnectionStatus defines the observed state of PrivateConnection.
             properties:
               atProvider:
                 properties:
+                  displayName:
+                    description: Display name.
+                    type: string
                   error:
                     description: The PrivateConnection error in case of failure. Structure
                       is documented below.
@@ -376,12 +401,40 @@ spec:
                   id:
                     description: an identifier for the resource with format projects/{{project}}/locations/{{location}}/privateConnections/{{private_connection_id}}
                     type: string
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: Labels.
+                    type: object
+                  location:
+                    description: The name of the location this private connection
+                      is located in.
+                    type: string
                   name:
                     description: The resource's name.
+                    type: string
+                  project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
                     type: string
                   state:
                     description: State of the PrivateConnection.
                     type: string
+                  vpcPeeringConfig:
+                    description: The VPC Peering configuration is used to create VPC
+                      peering between Datastream and the consumer's VPC. Structure
+                      is documented below.
+                    items:
+                      properties:
+                        subnet:
+                          description: A free subnet for peering. (CIDR of /29)
+                          type: string
+                        vpc:
+                          description: 'Fully qualified name of the VPC that Datastream
+                            will peer to. Format: projects/{project}/global/{networks}/{name}'
+                          type: string
+                      type: object
+                    type: array
                 type: object
               conditions:
                 description: Conditions of the resource.

@@ -26,6 +26,9 @@ import (
 )
 
 type AwsObservation struct {
+
+	// The AWS account ID.
+	AccountID *string `json:"accountId,omitempty" tf:"account_id,omitempty"`
 }
 
 type AwsParameters struct {
@@ -36,6 +39,18 @@ type AwsParameters struct {
 }
 
 type OidcObservation struct {
+
+	// Acceptable values for the aud field (audience) in the OIDC token. Token exchange
+	// requests are rejected if the token audience does not match one of the configured
+	// values. Each audience may be at most 256 characters. A maximum of 10 audiences may
+	// be configured.
+	// If this list is empty, the OIDC token audience must be equal to the full canonical
+	// resource name of the WorkloadIdentityPoolProvider, with or without the HTTPS prefix.
+	// For example:
+	AllowedAudiences []*string `json:"allowedAudiences,omitempty" tf:"allowed_audiences,omitempty"`
+
+	// The OIDC issuer URL.
+	IssuerURI *string `json:"issuerUri,omitempty" tf:"issuer_uri,omitempty"`
 }
 
 type OidcParameters struct {
@@ -57,6 +72,33 @@ type OidcParameters struct {
 
 type WorkloadIdentityPoolProviderObservation struct {
 
+	// A Common Expression Language expression, in
+	// plain text, to restrict what otherwise valid authentication credentials issued by the
+	// provider should not be accepted.
+	// The expression must output a boolean representing whether to allow the federation.
+	// The following keywords may be referenced in the expressions:
+	AttributeCondition *string `json:"attributeCondition,omitempty" tf:"attribute_condition,omitempty"`
+
+	// Maps attributes from authentication credentials issued by an external identity provider
+	// to Google Cloud attributes, such as subject and segment.
+	// Each key must be a string specifying the Google Cloud IAM attribute to map to.
+	// The following keys are supported:
+	AttributeMapping map[string]*string `json:"attributeMapping,omitempty" tf:"attribute_mapping,omitempty"`
+
+	// An Amazon Web Services identity provider. Not compatible with the property oidc.
+	// Structure is documented below.
+	Aws []AwsObservation `json:"aws,omitempty" tf:"aws,omitempty"`
+
+	// A description for the provider. Cannot exceed 256 characters.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Whether the provider is disabled. You cannot use a disabled provider to exchange tokens.
+	// However, existing tokens still grant access.
+	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
+
+	// A display name for the provider. Cannot exceed 32 characters.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/locations/global/workloadIdentityPools/{{workload_identity_pool_id}}/providers/{{workload_identity_pool_provider_id}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
@@ -64,8 +106,21 @@ type WorkloadIdentityPoolProviderObservation struct {
 	// projects/{project_number}/locations/global/workloadIdentityPools/{workload_identity_pool_id}/providers/{workload_identity_pool_provider_id}.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// An OpenId Connect 1.0 identity provider. Not compatible with the property aws.
+	// Structure is documented below.
+	Oidc []OidcObservation `json:"oidc,omitempty" tf:"oidc,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
 	// The state of the provider.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
+
+	// The ID used for the pool, which is the final component of the pool resource name. This
+	// value should be 4-32 characters, and may contain the characters [a-z0-9-]. The prefix
+	// gcp- is reserved for use by Google, and may not be specified.
+	WorkloadIdentityPoolID *string `json:"workloadIdentityPoolId,omitempty" tf:"workload_identity_pool_id,omitempty"`
 }
 
 type WorkloadIdentityPoolProviderParameters struct {

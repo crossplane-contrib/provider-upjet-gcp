@@ -27,16 +27,120 @@ import (
 
 type ForwardingRuleObservation struct {
 
+	// This field can be used with internal load balancer or network load balancer
+	// when the forwarding rule references a backend service, or with the target
+	// field when it references a TargetInstance. Set this to true to
+	// allow packets addressed to any ports to be forwarded to the backends configured
+	// with this forwarding rule. This can be used when the protocol is TCP/UDP, and it
+	// must be set to true when the protocol is set to L3_DEFAULT.
+	// Cannot be set if port or portRange are set.
+	AllPorts *bool `json:"allPorts,omitempty" tf:"all_ports,omitempty"`
+
+	// If true, clients can access ILB from all regions.
+	// Otherwise only allows from the local region the ILB is located at.
+	AllowGlobalAccess *bool `json:"allowGlobalAccess,omitempty" tf:"allow_global_access,omitempty"`
+
+	// A BackendService to receive the matched traffic. This is used only
+	// for INTERNAL load balancing.
+	BackendService *string `json:"backendService,omitempty" tf:"backend_service,omitempty"`
+
 	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
 
+	// An optional description of this resource. Provide this property when
+	// you create the resource.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/regions/{{region}}/forwardingRules/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The IP address that this forwarding rule serves. When a client sends
+	// traffic to this IP address, the forwarding rule directs the traffic to
+	// the target that you specify in the forwarding rule. The
+	// loadBalancingScheme and the forwarding rule's target determine the
+	// type of IP address that you can use. For detailed information, refer
+	// to IP address specifications.
+	// An address can be specified either by a literal IP address or a
+	// reference to an existing Address resource. If you don't specify a
+	// reserved IP address, an ephemeral IP address is assigned.
+	// The value must be set to 0.0.0.0 when the target is a targetGrpcProxy
+	// that has validateForProxyless field set to true.
+	// For Private Service Connect forwarding rules that forward traffic to
+	// Google APIs, IP address must be provided.
+	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
+
+	// The IP protocol to which this rule applies.
+	// When the load balancing scheme is INTERNAL, only TCP and UDP are
+	// valid.
+	// Possible values are TCP, UDP, ESP, AH, SCTP, ICMP, and L3_DEFAULT.
+	IPProtocol *string `json:"ipProtocol,omitempty" tf:"ip_protocol,omitempty"`
+
+	// Indicates whether or not this load balancer can be used
+	// as a collector for packet mirroring. To prevent mirroring loops,
+	// instances behind this load balancer will not have their traffic
+	// mirrored even if a PacketMirroring rule applies to them. This
+	// can only be set to true for load balancers that have their
+	// loadBalancingScheme set to INTERNAL.
+	IsMirroringCollector *bool `json:"isMirroringCollector,omitempty" tf:"is_mirroring_collector,omitempty"`
 
 	// (Beta)
 	// The fingerprint used for optimistic locking of this resource.  Used
 	// internally during updates.
 	LabelFingerprint *string `json:"labelFingerprint,omitempty" tf:"label_fingerprint,omitempty"`
+
+	// Labels to apply to this forwarding rule.  A list of key->value pairs.
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// This signifies what the ForwardingRule will be used for and can be
+	// EXTERNAL, EXTERNAL_MANAGED, INTERNAL, or INTERNAL_MANAGED. EXTERNAL is used for Classic
+	// Cloud VPN gateways, protocol forwarding to VMs from an external IP address,
+	// and HTTP(S), SSL Proxy, TCP Proxy, and Network TCP/UDP load balancers.
+	// INTERNAL is used for protocol forwarding to VMs from an internal IP address,
+	// and internal TCP/UDP load balancers.
+	// EXTERNAL_MANAGED is used for regional external HTTP(S) load balancers.
+	// INTERNAL_MANAGED is used for internal HTTP(S) load balancers.
+	// (Beta only) Note: This field must be set to ""
+	// if the target is an URI of a service attachment.
+	// Default value is EXTERNAL.
+	// Possible values are EXTERNAL, EXTERNAL_MANAGED, INTERNAL, and INTERNAL_MANAGED.
+	LoadBalancingScheme *string `json:"loadBalancingScheme,omitempty" tf:"load_balancing_scheme,omitempty"`
+
+	// For internal load balancing, this field identifies the network that
+	// the load balanced IP should belong to for this Forwarding Rule. If
+	// this field is not specified, the default network will be used.
+	// This field is only used for INTERNAL load balancing.
+	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
+	// The networking tier used for configuring this address. If this field is not
+	// specified, it is assumed to be PREMIUM.
+	// Possible values are PREMIUM and STANDARD.
+	NetworkTier *string `json:"networkTier,omitempty" tf:"network_tier,omitempty"`
+
+	// This field is used along with the target field for TargetHttpProxy,
+	// TargetHttpsProxy, TargetSslProxy, TargetTcpProxy, TargetVpnGateway,
+	// TargetPool, TargetInstance.
+	// Applicable only when IPProtocol is TCP, UDP, or SCTP, only packets
+	// addressed to ports in the specified range will be forwarded to target.
+	// Forwarding rules with the same [IPAddress, IPProtocol] pair must have
+	// disjoint port ranges.
+	// Some types of forwarding target have constraints on the acceptable
+	// ports:
+	PortRange *string `json:"portRange,omitempty" tf:"port_range,omitempty"`
+
+	// This field is used along with internal load balancing and network
+	// load balancer when the forwarding rule references a backend service
+	// and when protocol is not L3_DEFAULT.
+	// A single port or a comma separated list of ports can be configured.
+	// Only packets addressed to these ports will be forwarded to the backends
+	// configured with this forwarding rule.
+	// You can only use one of ports and portRange, or allPorts.
+	// The three are mutually exclusive.
+	// You may specify a maximum of up to 5 ports, which can be non-contiguous.
+	Ports []*string `json:"ports,omitempty" tf:"ports,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The PSC connection id of the PSC Forwarding Rule.
 	PscConnectionID *string `json:"pscConnectionId,omitempty" tf:"psc_connection_id,omitempty"`
@@ -44,12 +148,46 @@ type ForwardingRuleObservation struct {
 	// The PSC connection status of the PSC Forwarding Rule. Possible values: STATUS_UNSPECIFIED, PENDING, ACCEPTED, REJECTED, CLOSED
 	PscConnectionStatus *string `json:"pscConnectionStatus,omitempty" tf:"psc_connection_status,omitempty"`
 
+	// A reference to the region where the regional forwarding rule resides.
+	// This field is not applicable to global forwarding rules.
+	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+
 	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
+
+	// Service Directory resources to register this forwarding rule with. Currently,
+	// only supports a single Service Directory resource.
+	// Structure is documented below.
+	ServiceDirectoryRegistrations []ServiceDirectoryRegistrationsObservation `json:"serviceDirectoryRegistrations,omitempty" tf:"service_directory_registrations,omitempty"`
+
+	// An optional prefix to the service name for this Forwarding Rule.
+	// If specified, will be the first label of the fully qualified service
+	// name.
+	// The label must be 1-63 characters long, and comply with RFC1035.
+	// Specifically, the label must be 1-63 characters long and match the
+	// regular expression [a-z]([-a-z0-9]*[a-z0-9])? which means the first
+	// character must be a lowercase letter, and all following characters
+	// must be a dash, lowercase letter, or digit, except the last
+	// character, which cannot be a dash.
+	// This field is only used for INTERNAL load balancing.
+	ServiceLabel *string `json:"serviceLabel,omitempty" tf:"service_label,omitempty"`
 
 	// The internal fully qualified service name for this Forwarding Rule.
 	// This field is only used for INTERNAL load balancing.
 	ServiceName *string `json:"serviceName,omitempty" tf:"service_name,omitempty"`
+
+	// The subnetwork that the load balanced IP should belong to for this
+	// Forwarding Rule.  This field is only used for INTERNAL load balancing.
+	// If the network specified is in auto subnet mode, this field is
+	// optional. However, if the network is in custom subnet mode, a
+	// subnetwork must be specified.
+	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
+
+	// The URL of the target resource to receive the matched traffic.
+	// The target must live in the same region as the forwarding rule.
+	// The forwarded traffic must be of a type appropriate to the target
+	// object.
+	Target *string `json:"target,omitempty" tf:"target,omitempty"`
 }
 
 type ForwardingRuleParameters struct {
@@ -263,6 +401,12 @@ type ForwardingRuleParameters struct {
 }
 
 type ServiceDirectoryRegistrationsObservation struct {
+
+	// Service Directory namespace to register the forwarding rule under.
+	Namespace *string `json:"namespace,omitempty" tf:"namespace,omitempty"`
+
+	// Service Directory service to register the forwarding rule under.
+	Service *string `json:"service,omitempty" tf:"service,omitempty"`
 }
 
 type ServiceDirectoryRegistrationsParameters struct {

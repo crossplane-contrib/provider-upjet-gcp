@@ -27,18 +27,27 @@ import (
 
 type InstanceObservation struct {
 
+	// The full name of the GCE network to connect the instance to.  If not provided,
+	// 'default' will be used.
+	AuthorizedNetwork *string `json:"authorizedNetwork,omitempty" tf:"authorized_network,omitempty"`
+
 	// Creation timestamp in RFC3339 text format.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
 	// Endpoint for Discovery API
 	DiscoveryEndpoint *string `json:"discoveryEndpoint,omitempty" tf:"discovery_endpoint,omitempty"`
 
+	// A user-visible name for the instance.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/locations/{{region}}/instances/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// Resource labels to represent user-provided metadata.
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
 	// Maintenance policy for an instance.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	MaintenancePolicy []MaintenancePolicyObservation `json:"maintenancePolicy,omitempty" tf:"maintenance_policy,omitempty"`
 
 	// Output only. Published maintenance schedule.
@@ -54,8 +63,35 @@ type InstanceObservation struct {
 
 	// User-specified parameters for this memcache instance.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	MemcacheParameters []MemcacheParametersObservation `json:"memcacheParameters,omitempty" tf:"memcache_parameters,omitempty"`
+
+	// The major version of Memcached software. If not provided, latest supported version will be used.
+	// Currently the latest supported major version is MEMCACHE_1_5. The minor version will be automatically
+	// determined by our system based on the latest supported minor version.
+	// Default value is MEMCACHE_1_5.
+	// Possible values are MEMCACHE_1_5.
+	MemcacheVersion *string `json:"memcacheVersion,omitempty" tf:"memcache_version,omitempty"`
+
+	// The resource name of the instance.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Configuration for memcache nodes.
+	// Structure is documented below.
+	NodeConfig []NodeConfigObservation `json:"nodeConfig,omitempty" tf:"node_config,omitempty"`
+
+	// Number of nodes in the memcache instance.
+	NodeCount *float64 `json:"nodeCount,omitempty" tf:"node_count,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The region of the Memcache instance. If it is not provided, the provider region is used.
+	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+
+	// Zones where memcache nodes should be provisioned.  If not
+	// provided, all zones will be used.
+	Zones []*string `json:"zones,omitempty" tf:"zones,omitempty"`
 }
 
 type InstanceParameters struct {
@@ -102,17 +138,17 @@ type InstanceParameters struct {
 	MemcacheVersion *string `json:"memcacheVersion,omitempty" tf:"memcache_version,omitempty"`
 
 	// The resource name of the instance.
-	// +kubebuilder:validation:Required
-	Name *string `json:"name" tf:"name,omitempty"`
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// Configuration for memcache nodes.
 	// Structure is documented below.
-	// +kubebuilder:validation:Required
-	NodeConfig []NodeConfigParameters `json:"nodeConfig" tf:"node_config,omitempty"`
+	// +kubebuilder:validation:Optional
+	NodeConfig []NodeConfigParameters `json:"nodeConfig,omitempty" tf:"node_config,omitempty"`
 
 	// Number of nodes in the memcache instance.
-	// +kubebuilder:validation:Required
-	NodeCount *float64 `json:"nodeCount" tf:"node_count,omitempty"`
+	// +kubebuilder:validation:Optional
+	NodeCount *float64 `json:"nodeCount,omitempty" tf:"node_count,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -136,10 +172,21 @@ type MaintenancePolicyObservation struct {
 	// resolution and up to nine fractional digits
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
+	// Optional. Description of what this policy is for.
+	// Create/Update methods return INVALID_ARGUMENT if the
+	// length is greater than 512.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
 	// Output only. The time when the policy was updated.
 	// A timestamp in RFC3339 UTC "Zulu" format, with nanosecond
 	// resolution and up to nine fractional digits.
 	UpdateTime *string `json:"updateTime,omitempty" tf:"update_time,omitempty"`
+
+	// Required. Maintenance window that is applied to resources covered by this policy.
+	// Minimum 1. For the current version, the maximum number of weekly_maintenance_windows
+	// is expected to be one.
+	// Structure is documented below.
+	WeeklyMaintenanceWindow []WeeklyMaintenanceWindowObservation `json:"weeklyMaintenanceWindow,omitempty" tf:"weekly_maintenance_window,omitempty"`
 }
 
 type MaintenancePolicyParameters struct {
@@ -205,6 +252,9 @@ type MemcacheParametersObservation struct {
 
 	// This is a unique ID associated with this set of parameters.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// User-defined set of parameters to use in the memcache process.
+	Params map[string]*string `json:"params,omitempty" tf:"params,omitempty"`
 }
 
 type MemcacheParametersParameters struct {
@@ -215,6 +265,12 @@ type MemcacheParametersParameters struct {
 }
 
 type NodeConfigObservation struct {
+
+	// Number of CPUs per node.
+	CPUCount *float64 `json:"cpuCount,omitempty" tf:"cpu_count,omitempty"`
+
+	// Memory size in Mebibytes for each memcache node.
+	MemorySizeMb *float64 `json:"memorySizeMb,omitempty" tf:"memory_size_mb,omitempty"`
 }
 
 type NodeConfigParameters struct {
@@ -229,6 +285,20 @@ type NodeConfigParameters struct {
 }
 
 type StartTimeObservation struct {
+
+	// Hours of day in 24 hour format. Should be from 0 to 23.
+	// An API may choose to allow the value "24:00:00" for scenarios like business closing time.
+	Hours *float64 `json:"hours,omitempty" tf:"hours,omitempty"`
+
+	// Minutes of hour of day. Must be from 0 to 59.
+	Minutes *float64 `json:"minutes,omitempty" tf:"minutes,omitempty"`
+
+	// Fractions of seconds in nanoseconds. Must be from 0 to 999,999,999.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Seconds of minutes of the time. Must normally be from 0 to 59.
+	// An API may allow the value 60 if it allows leap-seconds.
+	Seconds *float64 `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
 type StartTimeParameters struct {
@@ -253,6 +323,18 @@ type StartTimeParameters struct {
 }
 
 type WeeklyMaintenanceWindowObservation struct {
+
+	// Required. The day of week that maintenance updates occur.
+	Day *string `json:"day,omitempty" tf:"day,omitempty"`
+
+	// Required. The length of the maintenance window, ranging from 3 hours to 8 hours.
+	// A duration in seconds with up to nine fractional digits,
+	// terminated by 's'. Example: "3.5s".
+	Duration *string `json:"duration,omitempty" tf:"duration,omitempty"`
+
+	// Required. Start time of the window in UTC time.
+	// Structure is documented below.
+	StartTime []StartTimeObservation `json:"startTime,omitempty" tf:"start_time,omitempty"`
 }
 
 type WeeklyMaintenanceWindowParameters struct {
@@ -297,8 +379,11 @@ type InstanceStatus struct {
 type Instance struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              InstanceSpec   `json:"spec"`
-	Status            InstanceStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.name)",message="name is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.nodeConfig)",message="nodeConfig is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.nodeCount)",message="nodeCount is a required parameter"
+	Spec   InstanceSpec   `json:"spec"`
+	Status InstanceStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

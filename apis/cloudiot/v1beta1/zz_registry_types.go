@@ -26,6 +26,16 @@ import (
 )
 
 type EventNotificationConfigsObservation struct {
+
+	// PubSub topic name to publish device events.
+	PubsubTopicName *string `json:"pubsubTopicName,omitempty" tf:"pubsub_topic_name,omitempty"`
+
+	// If the subfolder name matches this string exactly, this
+	// configuration will be used. The string must not include the
+	// leading '/' character. If empty, all strings are matched. Empty
+	// value can only be used for the last event_notification_configs
+	// item.
+	SubfolderMatches *string `json:"subfolderMatches,omitempty" tf:"subfolder_matches,omitempty"`
 }
 
 type EventNotificationConfigsParameters struct {
@@ -54,6 +64,9 @@ type EventNotificationConfigsParameters struct {
 }
 
 type RegistryCredentialsObservation struct {
+
+	// A public key certificate format and data.
+	PublicKeyCertificate map[string]string `json:"publicKeyCertificate,omitempty" tf:"public_key_certificate,omitempty"`
 }
 
 type RegistryCredentialsParameters struct {
@@ -65,8 +78,49 @@ type RegistryCredentialsParameters struct {
 
 type RegistryObservation struct {
 
+	// List of public key certificates to authenticate devices.
+	// The structure is documented below.
+	Credentials []RegistryCredentialsObservation `json:"credentials,omitempty" tf:"credentials,omitempty"`
+
+	// List of configurations for event notifications, such as PubSub topics
+	// to publish device events to.
+	// Structure is documented below.
+	EventNotificationConfigs []EventNotificationConfigsObservation `json:"eventNotificationConfigs,omitempty" tf:"event_notification_configs,omitempty"`
+
+	// Activate or deactivate HTTP.
+	// The structure is documented below.
+	HTTPConfig map[string]string `json:"httpConfig,omitempty" tf:"http_config,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/locations/{{region}}/registries/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The default logging verbosity for activity from devices in this
+	// registry. Specifies which events should be written to logs. For
+	// example, if the LogLevel is ERROR, only events that terminate in
+	// errors will be logged. LogLevel is inclusive; enabling INFO logging
+	// will also enable ERROR logging.
+	// Default value is NONE.
+	// Possible values are NONE, ERROR, INFO, and DEBUG.
+	LogLevel *string `json:"logLevel,omitempty" tf:"log_level,omitempty"`
+
+	// Activate or deactivate MQTT.
+	// The structure is documented below.
+	MqttConfig map[string]string `json:"mqttConfig,omitempty" tf:"mqtt_config,omitempty"`
+
+	// A unique name for the resource, required by device registry.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The region in which the created registry should reside.
+	// If it is not provided, the provider region is used.
+	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+
+	// A PubSub topic to publish device state updates.
+	// The structure is documented below.
+	StateNotificationConfig map[string]string `json:"stateNotificationConfig,omitempty" tf:"state_notification_config,omitempty"`
 }
 
 type RegistryParameters struct {
@@ -103,8 +157,8 @@ type RegistryParameters struct {
 	MqttConfig map[string]string `json:"mqttConfig,omitempty" tf:"mqtt_config,omitempty"`
 
 	// A unique name for the resource, required by device registry.
-	// +kubebuilder:validation:Required
-	Name *string `json:"name" tf:"name,omitempty"`
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -146,8 +200,9 @@ type RegistryStatus struct {
 type Registry struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              RegistrySpec   `json:"spec"`
-	Status            RegistryStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.name)",message="name is a required parameter"
+	Spec   RegistrySpec   `json:"spec"`
+	Status RegistryStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

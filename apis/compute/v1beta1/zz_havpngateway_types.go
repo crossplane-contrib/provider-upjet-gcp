@@ -27,15 +27,27 @@ import (
 
 type HaVPNGatewayObservation struct {
 
+	// An optional description of this resource.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/regions/{{region}}/vpnGateways/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The network this VPN gateway is accepting traffic for.
+	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The region this gateway should sit in.
+	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
 	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
 
 	// A list of interfaces on this VPN gateway.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	VPNInterfaces []VPNInterfacesObservation `json:"vpnInterfaces,omitempty" tf:"vpn_interfaces,omitempty"`
 }
 
@@ -76,8 +88,19 @@ type HaVPNGatewayParameters struct {
 
 type VPNInterfacesObservation struct {
 
+	// The numeric ID of this VPN gateway interface.
+	ID *float64 `json:"id,omitempty" tf:"id,omitempty"`
+
 	// The external IP address for this VPN gateway interface.
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
+
+	// URL of the interconnect attachment resource. When the value
+	// of this field is present, the VPN Gateway will be used for
+	// IPsec-encrypted Cloud Interconnect; all Egress or Ingress
+	// traffic for this VPN Gateway interface will go through the
+	// specified interconnect attachment resource.
+	// Not currently available publicly.
+	InterconnectAttachment *string `json:"interconnectAttachment,omitempty" tf:"interconnect_attachment,omitempty"`
 }
 
 type VPNInterfacesParameters struct {

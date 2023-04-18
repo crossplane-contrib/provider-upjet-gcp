@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.11.1
+    controller-gen.kubebuilder.io/version: v0.11.3
   creationTimestamp: null
   name: webhooks.dialogflowcx.gcp.upbound.io
 spec:
@@ -55,9 +55,13 @@ spec:
             properties:
               deletionPolicy:
                 default: Delete
-                description: DeletionPolicy specifies what will happen to the underlying
+                description: 'DeletionPolicy specifies what will happen to the underlying
                   external when this managed resource is deleted - either "Delete"
-                  or "Orphan" the external resource.
+                  or "Orphan" the external resource. This field is planned to be deprecated
+                  in favor of the ManagementPolicy field in a future release. Currently,
+                  both could be set independently and non-default values would be
+                  honored if the feature flag is enabled. See the design doc for more
+                  information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
                 enum:
                 - Orphan
                 - Delete
@@ -227,9 +231,22 @@ spec:
                   timeout:
                     description: Webhook execution timeout.
                     type: string
-                required:
-                - displayName
                 type: object
+              managementPolicy:
+                default: FullControl
+                description: 'THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice. ManagementPolicy
+                  specifies the level of control Crossplane has over the managed external
+                  resource. This field is planned to replace the DeletionPolicy field
+                  in a future release. Currently, both could be set independently
+                  and non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
+                enum:
+                - FullControl
+                - ObserveOnly
+                - OrphanOnDelete
+                type: string
               providerConfigRef:
                 default:
                   name: default
@@ -401,21 +418,105 @@ spec:
             required:
             - forProvider
             type: object
+            x-kubernetes-validations:
+            - message: displayName is a required parameter
+              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.displayName)
           status:
             description: WebhookStatus defines the observed state of Webhook.
             properties:
               atProvider:
                 properties:
+                  disabled:
+                    description: Indicates whether the webhook is disabled.
+                    type: boolean
+                  displayName:
+                    description: The human-readable name of the webhook, unique within
+                      the agent.
+                    type: string
+                  enableSpellCorrection:
+                    description: Indicates if automatic spell correction is enabled
+                      in detect intent requests.
+                    type: boolean
+                  enableStackdriverLogging:
+                    description: Determines whether this agent should log conversation
+                      queries.
+                    type: boolean
+                  genericWebService:
+                    description: Configuration for a generic web service. Structure
+                      is documented below.
+                    items:
+                      properties:
+                        allowedCaCerts:
+                          description: Specifies a list of allowed custom CA certificates
+                            (in DER format) for HTTPS verification.
+                          items:
+                            type: string
+                          type: array
+                        requestHeaders:
+                          additionalProperties:
+                            type: string
+                          description: The HTTP request headers to send together with
+                            webhook requests.
+                          type: object
+                        uri:
+                          description: Whether to use speech adaptation for speech
+                            recognition.
+                          type: string
+                      type: object
+                    type: array
                   id:
                     description: an identifier for the resource with format {{parent}}/webhooks/{{name}}
                     type: string
                   name:
                     description: 'The unique identifier of the webhook. Format: projects//locations//agents//webhooks/.'
                     type: string
+                  parent:
+                    description: 'The agent to create a webhook for. Format: projects//locations//agents/.'
+                    type: string
+                  securitySettings:
+                    description: 'Name of the SecuritySettings reference for the agent.
+                      Format: projects//locations//securitySettings/.'
+                    type: string
+                  serviceDirectory:
+                    description: Configuration for a Service Directory service. Structure
+                      is documented below.
+                    items:
+                      properties:
+                        genericWebService:
+                          description: The name of Service Directory service. Structure
+                            is documented below.
+                          items:
+                            properties:
+                              allowedCaCerts:
+                                description: Specifies a list of allowed custom CA
+                                  certificates (in DER format) for HTTPS verification.
+                                items:
+                                  type: string
+                                type: array
+                              requestHeaders:
+                                additionalProperties:
+                                  type: string
+                                description: The HTTP request headers to send together
+                                  with webhook requests.
+                                type: object
+                              uri:
+                                description: Whether to use speech adaptation for
+                                  speech recognition.
+                                type: string
+                            type: object
+                          type: array
+                        service:
+                          description: The name of Service Directory service.
+                          type: string
+                      type: object
+                    type: array
                   startFlow:
                     description: 'Name of the start flow in this agent. A start flow
                       will be automatically created when the agent is created, and
                       can only be deleted by deleting the agent. Format: projects//locations//agents//flows/.'
+                    type: string
+                  timeout:
+                    description: Webhook execution timeout.
                     type: string
                 type: object
               conditions:

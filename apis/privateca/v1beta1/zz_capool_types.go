@@ -26,6 +26,17 @@ import (
 )
 
 type AdditionalExtensionsObservation struct {
+
+	// Indicates whether or not this extension is critical (i.e., if the client does not know how to
+	// handle this extension, the client should consider this to be an error).
+	Critical *bool `json:"critical,omitempty" tf:"critical,omitempty"`
+
+	// Describes values that are relevant in a CA certificate.
+	// Structure is documented below.
+	ObjectID []ObjectIDObservation `json:"objectId,omitempty" tf:"object_id,omitempty"`
+
+	// The value of this X.509 extension. A base64-encoded string.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
 
 type AdditionalExtensionsParameters struct {
@@ -46,6 +57,12 @@ type AdditionalExtensionsParameters struct {
 }
 
 type AllowedIssuanceModesObservation struct {
+
+	// When true, allows callers to create Certificates by specifying a CertificateConfig.
+	AllowConfigBasedIssuance *bool `json:"allowConfigBasedIssuance,omitempty" tf:"allow_config_based_issuance,omitempty"`
+
+	// When true, allows callers to create Certificates by specifying a CSR.
+	AllowCsrBasedIssuance *bool `json:"allowCsrBasedIssuance,omitempty" tf:"allow_csr_based_issuance,omitempty"`
 }
 
 type AllowedIssuanceModesParameters struct {
@@ -60,6 +77,14 @@ type AllowedIssuanceModesParameters struct {
 }
 
 type AllowedKeyTypesObservation struct {
+
+	// Represents an allowed Elliptic Curve key type.
+	// Structure is documented below.
+	EllipticCurve []EllipticCurveObservation `json:"ellipticCurve,omitempty" tf:"elliptic_curve,omitempty"`
+
+	// Describes an RSA key that may be used in a Certificate issued from a CaPool.
+	// Structure is documented below.
+	Rsa []RsaObservation `json:"rsa,omitempty" tf:"rsa,omitempty"`
 }
 
 type AllowedKeyTypesParameters struct {
@@ -76,6 +101,33 @@ type AllowedKeyTypesParameters struct {
 }
 
 type BaseKeyUsageObservation struct {
+
+	// The key may be used to sign certificates.
+	CertSign *bool `json:"certSign,omitempty" tf:"cert_sign,omitempty"`
+
+	// The key may be used for cryptographic commitments. Note that this may also be referred to as "non-repudiation".
+	ContentCommitment *bool `json:"contentCommitment,omitempty" tf:"content_commitment,omitempty"`
+
+	// The key may be used sign certificate revocation lists.
+	CrlSign *bool `json:"crlSign,omitempty" tf:"crl_sign,omitempty"`
+
+	// The key may be used to encipher data.
+	DataEncipherment *bool `json:"dataEncipherment,omitempty" tf:"data_encipherment,omitempty"`
+
+	// The key may be used to decipher only.
+	DecipherOnly *bool `json:"decipherOnly,omitempty" tf:"decipher_only,omitempty"`
+
+	// The key may be used for digital signatures.
+	DigitalSignature *bool `json:"digitalSignature,omitempty" tf:"digital_signature,omitempty"`
+
+	// The key may be used to encipher only.
+	EncipherOnly *bool `json:"encipherOnly,omitempty" tf:"encipher_only,omitempty"`
+
+	// The key may be used in a key agreement protocol.
+	KeyAgreement *bool `json:"keyAgreement,omitempty" tf:"key_agreement,omitempty"`
+
+	// The key may be used to encipher other keys.
+	KeyEncipherment *bool `json:"keyEncipherment,omitempty" tf:"key_encipherment,omitempty"`
 }
 
 type BaseKeyUsageParameters struct {
@@ -118,6 +170,26 @@ type BaseKeyUsageParameters struct {
 }
 
 type BaselineValuesObservation struct {
+
+	// Specifies an X.509 extension, which may be used in different parts of X.509 objects like certificates, CSRs, and CRLs.
+	// Structure is documented below.
+	AdditionalExtensions []AdditionalExtensionsObservation `json:"additionalExtensions,omitempty" tf:"additional_extensions,omitempty"`
+
+	// Describes Online Certificate Status Protocol (OCSP) endpoint addresses that appear in the
+	// "Authority Information Access" extension in the certificate.
+	AiaOcspServers []*string `json:"aiaOcspServers,omitempty" tf:"aia_ocsp_servers,omitempty"`
+
+	// Describes values that are relevant in a CA certificate.
+	// Structure is documented below.
+	CAOptions []CAOptionsObservation `json:"caOptions,omitempty" tf:"ca_options,omitempty"`
+
+	// Indicates the intended use for keys that correspond to a certificate.
+	// Structure is documented below.
+	KeyUsage []KeyUsageObservation `json:"keyUsage,omitempty" tf:"key_usage,omitempty"`
+
+	// Describes the X.509 certificate policy object identifiers, per https://tools.ietf.org/html/rfc5280#section-4.2.1.4.
+	// Structure is documented below.
+	PolicyIds []PolicyIdsObservation `json:"policyIds,omitempty" tf:"policy_ids,omitempty"`
 }
 
 type BaselineValuesParameters struct {
@@ -149,6 +221,22 @@ type BaselineValuesParameters struct {
 }
 
 type CAOptionsObservation struct {
+
+	// When true, the "CA" in Basic Constraints extension will be set to true.
+	IsCA *bool `json:"isCa,omitempty" tf:"is_ca,omitempty"`
+
+	// Refers to the "path length constraint" in Basic Constraints extension. For a CA certificate, this value describes the depth of
+	// subordinate CA certificates that are allowed. If this value is less than 0, the request will fail.
+	MaxIssuerPathLength *float64 `json:"maxIssuerPathLength,omitempty" tf:"max_issuer_path_length,omitempty"`
+
+	// When true, the "CA" in Basic Constraints extension will be set to false.
+	// If both is_ca and non_ca are unset, the extension will be omitted from the CA certificate.
+	NonCA *bool `json:"nonCa,omitempty" tf:"non_ca,omitempty"`
+
+	// When true, the "path length constraint" in Basic Constraints extension will be set to 0.
+	// if both max_issuer_path_length and zero_max_issuer_path_length are unset,
+	// the max path length will be omitted from the CA certificate.
+	ZeroMaxIssuerPathLength *bool `json:"zeroMaxIssuerPathLength,omitempty" tf:"zero_max_issuer_path_length,omitempty"`
 }
 
 type CAOptionsParameters struct {
@@ -178,6 +266,31 @@ type CAPoolObservation struct {
 
 	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/caPools/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The IssuancePolicy to control how Certificates will be issued from this CaPool.
+	// Structure is documented below.
+	IssuancePolicy []IssuancePolicyObservation `json:"issuancePolicy,omitempty" tf:"issuance_policy,omitempty"`
+
+	// Labels with user-defined metadata.
+	// An object containing a list of "key": value pairs. Example: { "name": "wrench", "mass":
+	// "1.3kg", "count": "3" }.
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// Location of the CaPool. A full list of valid locations can be found by
+	// running gcloud privateca locations list.
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The PublishingOptions to follow when issuing Certificates from any CertificateAuthority in this CaPool.
+	// Structure is documented below.
+	PublishingOptions []PublishingOptionsObservation `json:"publishingOptions,omitempty" tf:"publishing_options,omitempty"`
+
+	// The Tier of this CaPool.
+	// Possible values are ENTERPRISE and DEVOPS.
+	Tier *string `json:"tier,omitempty" tf:"tier,omitempty"`
 }
 
 type CAPoolParameters struct {
@@ -210,11 +323,24 @@ type CAPoolParameters struct {
 
 	// The Tier of this CaPool.
 	// Possible values are ENTERPRISE and DEVOPS.
-	// +kubebuilder:validation:Required
-	Tier *string `json:"tier" tf:"tier,omitempty"`
+	// +kubebuilder:validation:Optional
+	Tier *string `json:"tier,omitempty" tf:"tier,omitempty"`
 }
 
 type CelExpressionObservation struct {
+
+	// Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Textual representation of an expression in Common Expression Language syntax.
+	Expression *string `json:"expression,omitempty" tf:"expression,omitempty"`
+
+	// Location of the CaPool. A full list of valid locations can be found by
+	// running gcloud privateca locations list.
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
+	// Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression.
+	Title *string `json:"title,omitempty" tf:"title,omitempty"`
 }
 
 type CelExpressionParameters struct {
@@ -238,6 +364,10 @@ type CelExpressionParameters struct {
 }
 
 type EllipticCurveObservation struct {
+
+	// The algorithm used.
+	// Possible values are ECDSA_P256, ECDSA_P384, and EDDSA_25519.
+	SignatureAlgorithm *string `json:"signatureAlgorithm,omitempty" tf:"signature_algorithm,omitempty"`
 }
 
 type EllipticCurveParameters struct {
@@ -249,6 +379,24 @@ type EllipticCurveParameters struct {
 }
 
 type ExtendedKeyUsageObservation struct {
+
+	// Corresponds to OID 1.3.6.1.5.5.7.3.2. Officially described as "TLS WWW client authentication", though regularly used for non-WWW TLS.
+	ClientAuth *bool `json:"clientAuth,omitempty" tf:"client_auth,omitempty"`
+
+	// Corresponds to OID 1.3.6.1.5.5.7.3.3. Officially described as "Signing of downloadable executable code client authentication".
+	CodeSigning *bool `json:"codeSigning,omitempty" tf:"code_signing,omitempty"`
+
+	// Corresponds to OID 1.3.6.1.5.5.7.3.4. Officially described as "Email protection".
+	EmailProtection *bool `json:"emailProtection,omitempty" tf:"email_protection,omitempty"`
+
+	// Corresponds to OID 1.3.6.1.5.5.7.3.9. Officially described as "Signing OCSP responses".
+	OcspSigning *bool `json:"ocspSigning,omitempty" tf:"ocsp_signing,omitempty"`
+
+	// Corresponds to OID 1.3.6.1.5.5.7.3.1. Officially described as "TLS WWW server authentication", though regularly used for non-WWW TLS.
+	ServerAuth *bool `json:"serverAuth,omitempty" tf:"server_auth,omitempty"`
+
+	// Corresponds to OID 1.3.6.1.5.5.7.3.8. Officially described as "Binding the hash of an object to a time".
+	TimeStamping *bool `json:"timeStamping,omitempty" tf:"time_stamping,omitempty"`
 }
 
 type ExtendedKeyUsageParameters struct {
@@ -279,6 +427,20 @@ type ExtendedKeyUsageParameters struct {
 }
 
 type IdentityConstraintsObservation struct {
+
+	// If this is set, the SubjectAltNames extension may be copied from a certificate request into the signed certificate.
+	// Otherwise, the requested SubjectAltNames will be discarded.
+	AllowSubjectAltNamesPassthrough *bool `json:"allowSubjectAltNamesPassthrough,omitempty" tf:"allow_subject_alt_names_passthrough,omitempty"`
+
+	// If this is set, the Subject field may be copied from a certificate request into the signed certificate.
+	// Otherwise, the requested Subject will be discarded.
+	AllowSubjectPassthrough *bool `json:"allowSubjectPassthrough,omitempty" tf:"allow_subject_passthrough,omitempty"`
+
+	// A CEL expression that may be used to validate the resolved X.509 Subject and/or Subject Alternative Name before a
+	// certificate is signed. To see the full allowed syntax and some examples,
+	// see https://cloud.google.com/certificate-authority-service/docs/cel-guide
+	// Structure is documented below.
+	CelExpression []CelExpressionObservation `json:"celExpression,omitempty" tf:"cel_expression,omitempty"`
 }
 
 type IdentityConstraintsParameters struct {
@@ -302,6 +464,31 @@ type IdentityConstraintsParameters struct {
 }
 
 type IssuancePolicyObservation struct {
+
+	// IssuanceModes specifies the allowed ways in which Certificates may be requested from this CaPool.
+	// Structure is documented below.
+	AllowedIssuanceModes []AllowedIssuanceModesObservation `json:"allowedIssuanceModes,omitempty" tf:"allowed_issuance_modes,omitempty"`
+
+	// If any AllowedKeyType is specified, then the certificate request's public key must match one of the key types listed here.
+	// Otherwise, any key may be used.
+	// Structure is documented below.
+	AllowedKeyTypes []AllowedKeyTypesObservation `json:"allowedKeyTypes,omitempty" tf:"allowed_key_types,omitempty"`
+
+	// A set of X.509 values that will be applied to all certificates issued through this CaPool. If a certificate request
+	// includes conflicting values for the same properties, they will be overwritten by the values defined here. If a certificate
+	// request uses a CertificateTemplate that defines conflicting predefinedValues for the same properties, the certificate
+	// issuance request will fail.
+	// Structure is documented below.
+	BaselineValues []BaselineValuesObservation `json:"baselineValues,omitempty" tf:"baseline_values,omitempty"`
+
+	// Describes constraints on identities that may appear in Certificates issued through this CaPool.
+	// If this is omitted, then this CaPool will not add restrictions on a certificate's identity.
+	// Structure is documented below.
+	IdentityConstraints []IdentityConstraintsObservation `json:"identityConstraints,omitempty" tf:"identity_constraints,omitempty"`
+
+	// The maximum lifetime allowed for issued Certificates. Note that if the issuing CertificateAuthority
+	// expires before a Certificate's requested maximumLifetime, the effective lifetime will be explicitly truncated to match it.
+	MaximumLifetime *string `json:"maximumLifetime,omitempty" tf:"maximum_lifetime,omitempty"`
 }
 
 type IssuancePolicyParameters struct {
@@ -338,6 +525,18 @@ type IssuancePolicyParameters struct {
 }
 
 type KeyUsageObservation struct {
+
+	// Describes high-level ways in which a key may be used.
+	// Structure is documented below.
+	BaseKeyUsage []BaseKeyUsageObservation `json:"baseKeyUsage,omitempty" tf:"base_key_usage,omitempty"`
+
+	// Describes high-level ways in which a key may be used.
+	// Structure is documented below.
+	ExtendedKeyUsage []ExtendedKeyUsageObservation `json:"extendedKeyUsage,omitempty" tf:"extended_key_usage,omitempty"`
+
+	// An ObjectId specifies an object identifier (OID). These provide context and describe types in ASN.1 messages.
+	// Structure is documented below.
+	UnknownExtendedKeyUsages []UnknownExtendedKeyUsagesObservation `json:"unknownExtendedKeyUsages,omitempty" tf:"unknown_extended_key_usages,omitempty"`
 }
 
 type KeyUsageParameters struct {
@@ -359,6 +558,9 @@ type KeyUsageParameters struct {
 }
 
 type ObjectIDObservation struct {
+
+	// An ObjectId specifies an object identifier (OID). These provide context and describe types in ASN.1 messages.
+	ObjectIDPath []*float64 `json:"objectIdPath,omitempty" tf:"object_id_path,omitempty"`
 }
 
 type ObjectIDParameters struct {
@@ -369,6 +571,9 @@ type ObjectIDParameters struct {
 }
 
 type PolicyIdsObservation struct {
+
+	// An ObjectId specifies an object identifier (OID). These provide context and describe types in ASN.1 messages.
+	ObjectIDPath []*float64 `json:"objectIdPath,omitempty" tf:"object_id_path,omitempty"`
 }
 
 type PolicyIdsParameters struct {
@@ -379,6 +584,17 @@ type PolicyIdsParameters struct {
 }
 
 type PublishingOptionsObservation struct {
+
+	// When true, publishes each CertificateAuthority's CA certificate and includes its URL in the "Authority Information Access"
+	// X.509 extension in all issued Certificates. If this is false, the CA certificate will not be published and the corresponding
+	// X.509 extension will not be written in issued certificates.
+	PublishCACert *bool `json:"publishCaCert,omitempty" tf:"publish_ca_cert,omitempty"`
+
+	// When true, publishes each CertificateAuthority's CRL and includes its URL in the "CRL Distribution Points" X.509 extension
+	// in all issued Certificates. If this is false, CRLs will not be published and the corresponding X.509 extension will not
+	// be written in issued certificates. CRLs will expire 7 days from their creation. However, we will rebuild daily. CRLs are
+	// also rebuilt shortly after a certificate is revoked.
+	PublishCrl *bool `json:"publishCrl,omitempty" tf:"publish_crl,omitempty"`
 }
 
 type PublishingOptionsParameters struct {
@@ -398,6 +614,14 @@ type PublishingOptionsParameters struct {
 }
 
 type RsaObservation struct {
+
+	// The maximum allowed RSA modulus size, in bits. If this is not set, or if set to zero, the
+	// service will not enforce an explicit upper bound on RSA modulus sizes.
+	MaxModulusSize *string `json:"maxModulusSize,omitempty" tf:"max_modulus_size,omitempty"`
+
+	// The minimum allowed RSA modulus size, in bits. If this is not set, or if set to zero, the
+	// service-level min RSA modulus size will continue to apply.
+	MinModulusSize *string `json:"minModulusSize,omitempty" tf:"min_modulus_size,omitempty"`
 }
 
 type RsaParameters struct {
@@ -414,6 +638,9 @@ type RsaParameters struct {
 }
 
 type UnknownExtendedKeyUsagesObservation struct {
+
+	// An ObjectId specifies an object identifier (OID). These provide context and describe types in ASN.1 messages.
+	ObjectIDPath []*float64 `json:"objectIdPath,omitempty" tf:"object_id_path,omitempty"`
 }
 
 type UnknownExtendedKeyUsagesParameters struct {
@@ -447,8 +674,9 @@ type CAPoolStatus struct {
 type CAPool struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              CAPoolSpec   `json:"spec"`
-	Status            CAPoolStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.tier)",message="tier is a required parameter"
+	Spec   CAPoolSpec   `json:"spec"`
+	Status CAPoolStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

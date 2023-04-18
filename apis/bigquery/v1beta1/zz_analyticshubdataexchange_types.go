@@ -27,30 +27,55 @@ import (
 
 type AnalyticsHubDataExchangeObservation struct {
 
+	// The ID of the data exchange. Must contain only Unicode letters, numbers (0-9), underscores (_). Should not use characters that require URL-escaping, or characters outside of ASCII, spaces.
+	DataExchangeID *string `json:"dataExchangeId,omitempty" tf:"data_exchange_id,omitempty"`
+
+	// Description of the data exchange.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Human-readable display name of the data exchange. The display name must contain only Unicode letters, numbers (0-9), underscores (_), dashes (-), spaces ( ), and must not start or end with spaces.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// Documentation describing the data exchange.
+	Documentation *string `json:"documentation,omitempty" tf:"documentation,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/dataExchanges/{{data_exchange_id}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Base64 encoded image representing the data exchange.
+	Icon *string `json:"icon,omitempty" tf:"icon,omitempty"`
 
 	// Number of listings contained in the data exchange.
 	ListingCount *float64 `json:"listingCount,omitempty" tf:"listing_count,omitempty"`
 
+	// The name of the location this data exchange.
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
 	// The resource name of the data exchange, for example:
 	// "projects/myproject/locations/US/dataExchanges/123"
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Email or URL of the primary point of contact of the data exchange.
+	PrimaryContact *string `json:"primaryContact,omitempty" tf:"primary_contact,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 
 type AnalyticsHubDataExchangeParameters struct {
 
 	// The ID of the data exchange. Must contain only Unicode letters, numbers (0-9), underscores (_). Should not use characters that require URL-escaping, or characters outside of ASCII, spaces.
-	// +kubebuilder:validation:Required
-	DataExchangeID *string `json:"dataExchangeId" tf:"data_exchange_id,omitempty"`
+	// +kubebuilder:validation:Optional
+	DataExchangeID *string `json:"dataExchangeId,omitempty" tf:"data_exchange_id,omitempty"`
 
 	// Description of the data exchange.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Human-readable display name of the data exchange. The display name must contain only Unicode letters, numbers (0-9), underscores (_), dashes (-), spaces ( ), and must not start or end with spaces.
-	// +kubebuilder:validation:Required
-	DisplayName *string `json:"displayName" tf:"display_name,omitempty"`
+	// +kubebuilder:validation:Optional
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// Documentation describing the data exchange.
 	// +kubebuilder:validation:Optional
@@ -61,8 +86,8 @@ type AnalyticsHubDataExchangeParameters struct {
 	Icon *string `json:"icon,omitempty" tf:"icon,omitempty"`
 
 	// The name of the location this data exchange.
-	// +kubebuilder:validation:Required
-	Location *string `json:"location" tf:"location,omitempty"`
+	// +kubebuilder:validation:Optional
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
 	// Email or URL of the primary point of contact of the data exchange.
 	// +kubebuilder:validation:Optional
@@ -98,8 +123,11 @@ type AnalyticsHubDataExchangeStatus struct {
 type AnalyticsHubDataExchange struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              AnalyticsHubDataExchangeSpec   `json:"spec"`
-	Status            AnalyticsHubDataExchangeStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.dataExchangeId)",message="dataExchangeId is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.displayName)",message="displayName is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.location)",message="location is a required parameter"
+	Spec   AnalyticsHubDataExchangeSpec   `json:"spec"`
+	Status AnalyticsHubDataExchangeStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

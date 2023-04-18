@@ -33,11 +33,18 @@ type SSLCertificateObservation struct {
 	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
 
+	// An optional description of this resource.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
 	// Expire time of the certificate in RFC3339 text format.
 	ExpireTime *string `json:"expireTime,omitempty" tf:"expire_time,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/global/sslCertificates/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
@@ -49,7 +56,7 @@ type SSLCertificateParameters struct {
 	// The certificate chain must be no greater than 5 certs long.
 	// The chain must include at least one intermediate cert.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	CertificateSecretRef v1.SecretKeySelector `json:"certificateSecretRef" tf:"-"`
 
 	// An optional description of this resource.
@@ -58,7 +65,7 @@ type SSLCertificateParameters struct {
 
 	// The write-only private key in PEM format.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	PrivateKeySecretRef v1.SecretKeySelector `json:"privateKeySecretRef" tf:"-"`
 
 	// The ID of the project in which the resource belongs.
@@ -91,8 +98,10 @@ type SSLCertificateStatus struct {
 type SSLCertificate struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              SSLCertificateSpec   `json:"spec"`
-	Status            SSLCertificateStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.certificateSecretRef)",message="certificateSecretRef is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.privateKeySecretRef)",message="privateKeySecretRef is a required parameter"
+	Spec   SSLCertificateSpec   `json:"spec"`
+	Status SSLCertificateStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

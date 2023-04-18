@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.11.1
+    controller-gen.kubebuilder.io/version: v0.11.3
   creationTimestamp: null
   name: organizations.apigee.gcp.upbound.io
 spec:
@@ -54,9 +54,13 @@ spec:
             properties:
               deletionPolicy:
                 default: Delete
-                description: DeletionPolicy specifies what will happen to the underlying
+                description: 'DeletionPolicy specifies what will happen to the underlying
                   external when this managed resource is deleted - either "Delete"
-                  or "Orphan" the external resource.
+                  or "Orphan" the external resource. This field is planned to be deprecated
+                  in favor of the ManagementPolicy field in a future release. Currently,
+                  both could be set independently and non-default values would be
+                  honored if the feature flag is enabled. See the design doc for more
+                  information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
                 enum:
                 - Orphan
                 - Delete
@@ -275,9 +279,22 @@ spec:
                       the Apigee subscription purchased. Default value is CLOUD. Possible
                       values are CLOUD and HYBRID.
                     type: string
-                required:
-                - projectId
                 type: object
+              managementPolicy:
+                default: FullControl
+                description: 'THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice. ManagementPolicy
+                  specifies the level of control Crossplane has over the managed external
+                  resource. This field is planned to replace the DeletionPolicy field
+                  in a future release. Currently, both could be set independently
+                  and non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
+                enum:
+                - FullControl
+                - ObserveOnly
+                - OrphanOnDelete
+                type: string
               providerConfigRef:
                 default:
                   name: default
@@ -449,21 +466,90 @@ spec:
             required:
             - forProvider
             type: object
+            x-kubernetes-validations:
+            - message: projectId is a required parameter
+              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.projectId)
           status:
             description: OrganizationStatus defines the observed state of Organization.
             properties:
               atProvider:
                 properties:
+                  analyticsRegion:
+                    description: Primary GCP region for analytics data storage. For
+                      valid values, see Create an Apigee organization.
+                    type: string
+                  authorizedNetwork:
+                    description: 'Compute Engine network used for Service Networking
+                      to be peered with Apigee runtime instances. See Getting started
+                      with the Service Networking API. Valid only when RuntimeType
+                      is set to CLOUD. The value can be updated only when there are
+                      no runtime instances. For example: "default".'
+                    type: string
+                  billingType:
+                    description: Billing type of the Apigee organization. See Apigee
+                      pricing.
+                    type: string
                   caCertificate:
                     description: Output only. Base64-encoded public certificate for
                       the root CA of the Apigee organization. Valid only when RuntimeType
                       is CLOUD. A base64-encoded string.
+                    type: string
+                  description:
+                    description: Description of the Apigee organization.
+                    type: string
+                  displayName:
+                    description: The display name of the Apigee organization.
                     type: string
                   id:
                     description: an identifier for the resource with format organizations/{{name}}
                     type: string
                   name:
                     description: Output only. Name of the Apigee organization.
+                    type: string
+                  projectId:
+                    description: The project ID associated with the Apigee organization.
+                    type: string
+                  properties:
+                    description: Properties defined in the Apigee organization profile.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        property:
+                          description: List of all properties in the object. Structure
+                            is documented below.
+                          items:
+                            properties:
+                              name:
+                                description: Name of the property.
+                                type: string
+                              value:
+                                description: Value of the property.
+                                type: string
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  retention:
+                    description: Optional. This setting is applicable only for organizations
+                      that are soft-deleted (i.e., BillingType is not EVALUATION).
+                      It controls how long Organization data will be retained after
+                      the initial delete operation completes. During this period,
+                      the Organization may be restored to its last known state. After
+                      this period, the Organization will no longer be able to be restored.
+                      Default value is DELETION_RETENTION_UNSPECIFIED. Possible values
+                      are DELETION_RETENTION_UNSPECIFIED and MINIMUM.
+                    type: string
+                  runtimeDatabaseEncryptionKeyName:
+                    description: 'Cloud KMS key name used for encrypting the data
+                      that is stored and replicated across runtime instances. Update
+                      is not allowed after the organization is created. If not specified,
+                      a Google-Managed encryption key will be used. Valid only when
+                      RuntimeType is CLOUD. For example: projects/foo/locations/us/keyRings/bar/cryptoKeys/baz.'
+                    type: string
+                  runtimeType:
+                    description: Runtime type of the Apigee organization based on
+                      the Apigee subscription purchased. Default value is CLOUD. Possible
+                      values are CLOUD and HYBRID.
                     type: string
                   subscriptionType:
                     description: Output only. Subscription type of the Apigee organization.

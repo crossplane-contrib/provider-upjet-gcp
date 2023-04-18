@@ -53,8 +53,21 @@ type KeyRingImportJobObservation struct {
 	// an identifier for the resource with format {{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// The wrapping method to be used for incoming key material.
+	// Possible values are RSA_OAEP_3072_SHA1_AES_256 and RSA_OAEP_4096_SHA1_AES_256.
+	ImportMethod *string `json:"importMethod,omitempty" tf:"import_method,omitempty"`
+
+	// The KeyRing that this import job belongs to.
+	// Format: 'projects/{{project}}/locations/{{location}}/keyRings/{{keyRing}}'.
+	KeyRing *string `json:"keyRing,omitempty" tf:"key_ring,omitempty"`
+
 	// The resource name for this ImportJob in the format projects//locations//keyRings//importJobs/.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The protection level of the ImportJob. This must match the protectionLevel of the
+	// versionTemplate on the CryptoKey you attempt to import into.
+	// Possible values are SOFTWARE, HSM, and EXTERNAL.
+	ProtectionLevel *string `json:"protectionLevel,omitempty" tf:"protection_level,omitempty"`
 
 	// The public key with which to wrap key material prior to import. Only returned if state is ACTIVE.
 	// Structure is documented below.
@@ -68,8 +81,8 @@ type KeyRingImportJobParameters struct {
 
 	// The wrapping method to be used for incoming key material.
 	// Possible values are RSA_OAEP_3072_SHA1_AES_256 and RSA_OAEP_4096_SHA1_AES_256.
-	// +kubebuilder:validation:Required
-	ImportMethod *string `json:"importMethod" tf:"import_method,omitempty"`
+	// +kubebuilder:validation:Optional
+	ImportMethod *string `json:"importMethod,omitempty" tf:"import_method,omitempty"`
 
 	// The KeyRing that this import job belongs to.
 	// Format: 'projects/{{project}}/locations/{{location}}/keyRings/{{keyRing}}'.
@@ -89,8 +102,8 @@ type KeyRingImportJobParameters struct {
 	// The protection level of the ImportJob. This must match the protectionLevel of the
 	// versionTemplate on the CryptoKey you attempt to import into.
 	// Possible values are SOFTWARE, HSM, and EXTERNAL.
-	// +kubebuilder:validation:Required
-	ProtectionLevel *string `json:"protectionLevel" tf:"protection_level,omitempty"`
+	// +kubebuilder:validation:Optional
+	ProtectionLevel *string `json:"protectionLevel,omitempty" tf:"protection_level,omitempty"`
 }
 
 type PublicKeyObservation struct {
@@ -127,8 +140,10 @@ type KeyRingImportJobStatus struct {
 type KeyRingImportJob struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              KeyRingImportJobSpec   `json:"spec"`
-	Status            KeyRingImportJobStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.importMethod)",message="importMethod is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.protectionLevel)",message="protectionLevel is a required parameter"
+	Spec   KeyRingImportJobSpec   `json:"spec"`
+	Status KeyRingImportJobStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -26,6 +26,12 @@ import (
 )
 
 type ActionObservation struct {
+
+	// The Storage Class of the new bucket. Supported values include: STANDARD, MULTI_REGIONAL, REGIONAL, NEARLINE, COLDLINE, ARCHIVE.
+	StorageClass *string `json:"storageClass,omitempty" tf:"storage_class,omitempty"`
+
+	// The type of the action of this Lifecycle Rule. Supported values include: Delete, SetStorageClass and AbortIncompleteMultipartUpload.
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type ActionParameters struct {
@@ -40,6 +46,9 @@ type ActionParameters struct {
 }
 
 type AutoclassObservation struct {
+
+	// While set to true, autoclass automatically transitions objects in your bucket to appropriate storage classes based on each object's access pattern.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 }
 
 type AutoclassParameters struct {
@@ -50,13 +59,70 @@ type AutoclassParameters struct {
 }
 
 type BucketObservation struct {
+
+	// The bucket's Autoclass configuration.  Structure is documented below.
+	Autoclass []AutoclassObservation `json:"autoclass,omitempty" tf:"autoclass,omitempty"`
+
+	// The bucket's Cross-Origin Resource Sharing (CORS) configuration. Multiple blocks of this type are permitted. Structure is documented below.
+	Cors []CorsObservation `json:"cors,omitempty" tf:"cors,omitempty"`
+
+	// The bucket's custom location configuration, which specifies the individual regions that comprise a dual-region bucket. If the bucket is designated a single or multi-region, the parameters are empty. Structure is documented below.
+	CustomPlacementConfig []CustomPlacementConfigObservation `json:"customPlacementConfig,omitempty" tf:"custom_placement_config,omitempty"`
+
+	// Whether or not to automatically apply an eventBasedHold to new objects added to the bucket.
+	DefaultEventBasedHold *bool `json:"defaultEventBasedHold,omitempty" tf:"default_event_based_hold,omitempty"`
+
+	// The bucket's encryption configuration. Structure is documented below.
+	Encryption []EncryptionObservation `json:"encryption,omitempty" tf:"encryption,omitempty"`
+
+	// When deleting a bucket, this
+	// boolean option will delete all contained objects.
+	ForceDestroy *bool `json:"forceDestroy,omitempty" tf:"force_destroy,omitempty"`
+
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// A map of key/value label pairs to assign to the bucket.
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// The bucket's Lifecycle Rules configuration. Multiple blocks of this type are permitted. Structure is documented below.
+	LifecycleRule []LifecycleRuleObservation `json:"lifecycleRule,omitempty" tf:"lifecycle_rule,omitempty"`
+
+	// The GCS location.
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
+	// The bucket's Access & Storage Logs configuration. Structure is documented below.
+	Logging []LoggingObservation `json:"logging,omitempty" tf:"logging,omitempty"`
+
+	// The ID of the project in which the resource belongs. If it
+	// is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Prevents public access to a bucket. Acceptable values are "inherited" or "enforced". If "inherited", the bucket uses public access prevention. only if the bucket is subject to the public access prevention organization policy constraint. Defaults to "inherited".
+	PublicAccessPrevention *string `json:"publicAccessPrevention,omitempty" tf:"public_access_prevention,omitempty"`
+
+	// Enables Requester Pays on a storage bucket.
+	RequesterPays *bool `json:"requesterPays,omitempty" tf:"requester_pays,omitempty"`
+
+	// Configuration of the bucket's data retention policy for how long objects in the bucket should be retained. Structure is documented below.
+	RetentionPolicy []RetentionPolicyObservation `json:"retentionPolicy,omitempty" tf:"retention_policy,omitempty"`
 
 	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
 
+	// The Storage Class of the new bucket. Supported values include: STANDARD, MULTI_REGIONAL, REGIONAL, NEARLINE, COLDLINE, ARCHIVE.
+	StorageClass *string `json:"storageClass,omitempty" tf:"storage_class,omitempty"`
+
 	// The base URL of the bucket, in the format gs://<bucket-name>.
 	URL *string `json:"url,omitempty" tf:"url,omitempty"`
+
+	// Enables Uniform bucket-level access access to a bucket.
+	UniformBucketLevelAccess *bool `json:"uniformBucketLevelAccess,omitempty" tf:"uniform_bucket_level_access,omitempty"`
+
+	// The bucket's Versioning configuration.  Structure is documented below.
+	Versioning []VersioningObservation `json:"versioning,omitempty" tf:"versioning,omitempty"`
+
+	// Configuration if the bucket acts as a website. Structure is documented below.
+	Website []WebsiteObservation `json:"website,omitempty" tf:"website,omitempty"`
 }
 
 type BucketParameters struct {
@@ -95,8 +161,8 @@ type BucketParameters struct {
 	LifecycleRule []LifecycleRuleParameters `json:"lifecycleRule,omitempty" tf:"lifecycle_rule,omitempty"`
 
 	// The GCS location.
-	// +kubebuilder:validation:Required
-	Location *string `json:"location" tf:"location,omitempty"`
+	// +kubebuilder:validation:Optional
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
 	// The bucket's Access & Storage Logs configuration. Structure is documented below.
 	// +kubebuilder:validation:Optional
@@ -137,6 +203,39 @@ type BucketParameters struct {
 }
 
 type ConditionObservation struct {
+
+	// Minimum age of an object in days to satisfy this condition.
+	Age *float64 `json:"age,omitempty" tf:"age,omitempty"`
+
+	// A date in the RFC 3339 format YYYY-MM-DD. This condition is satisfied when an object is created before midnight of the specified date in UTC.
+	CreatedBefore *string `json:"createdBefore,omitempty" tf:"created_before,omitempty"`
+
+	// A date in the RFC 3339 format YYYY-MM-DD. This condition is satisfied when the customTime metadata for the object is set to an earlier date than the date used in this lifecycle condition.
+	CustomTimeBefore *string `json:"customTimeBefore,omitempty" tf:"custom_time_before,omitempty"`
+
+	// Days since the date set in the customTime metadata for the object. This condition is satisfied when the current date and time is at least the specified number of days after the customTime.
+	DaysSinceCustomTime *float64 `json:"daysSinceCustomTime,omitempty" tf:"days_since_custom_time,omitempty"`
+
+	// Relevant only for versioned objects. Number of days elapsed since the noncurrent timestamp of an object.
+	DaysSinceNoncurrentTime *float64 `json:"daysSinceNoncurrentTime,omitempty" tf:"days_since_noncurrent_time,omitempty"`
+
+	// One or more matching name prefixes to satisfy this condition.
+	MatchesPrefix []*string `json:"matchesPrefix,omitempty" tf:"matches_prefix,omitempty"`
+
+	// Storage Class of objects to satisfy this condition. Supported values include: STANDARD, MULTI_REGIONAL, REGIONAL, NEARLINE, COLDLINE, ARCHIVE, DURABLE_REDUCED_AVAILABILITY.
+	MatchesStorageClass []*string `json:"matchesStorageClass,omitempty" tf:"matches_storage_class,omitempty"`
+
+	// One or more matching name suffixes to satisfy this condition.
+	MatchesSuffix []*string `json:"matchesSuffix,omitempty" tf:"matches_suffix,omitempty"`
+
+	// Relevant only for versioned objects. The date in RFC 3339 (e.g. 2017-06-13) when the object became nonconcurrent.
+	NoncurrentTimeBefore *string `json:"noncurrentTimeBefore,omitempty" tf:"noncurrent_time_before,omitempty"`
+
+	// Relevant only for versioned objects. The number of newer versions of an object to satisfy this condition.
+	NumNewerVersions *float64 `json:"numNewerVersions,omitempty" tf:"num_newer_versions,omitempty"`
+
+	// Match to live and/or archived objects. Unversioned buckets have only live objects. Supported values include: "LIVE", "ARCHIVED", "ANY".
+	WithState *string `json:"withState,omitempty" tf:"with_state,omitempty"`
 }
 
 type ConditionParameters struct {
@@ -187,6 +286,18 @@ type ConditionParameters struct {
 }
 
 type CorsObservation struct {
+
+	// The value, in seconds, to return in the Access-Control-Max-Age header used in preflight responses.
+	MaxAgeSeconds *float64 `json:"maxAgeSeconds,omitempty" tf:"max_age_seconds,omitempty"`
+
+	// The list of HTTP methods on which to include CORS response headers, (GET, OPTIONS, POST, etc) Note: "*" is permitted in the list of methods, and means "any method".
+	Method []*string `json:"method,omitempty" tf:"method,omitempty"`
+
+	// The list of Origins eligible to receive CORS response headers. Note: "*" is permitted in the list of origins, and means "any Origin".
+	Origin []*string `json:"origin,omitempty" tf:"origin,omitempty"`
+
+	// The list of HTTP headers other than the simple response headers to give permission for the user-agent to share across domains.
+	ResponseHeader []*string `json:"responseHeader,omitempty" tf:"response_header,omitempty"`
 }
 
 type CorsParameters struct {
@@ -209,6 +320,9 @@ type CorsParameters struct {
 }
 
 type CustomPlacementConfigObservation struct {
+
+	// The list of individual regions that comprise a dual-region bucket. See Cloud Storage bucket locations for a list of acceptable regions. Note: If any of the data_locations changes, it will recreate the bucket.
+	DataLocations []*string `json:"dataLocations,omitempty" tf:"data_locations,omitempty"`
 }
 
 type CustomPlacementConfigParameters struct {
@@ -219,6 +333,11 @@ type CustomPlacementConfigParameters struct {
 }
 
 type EncryptionObservation struct {
+
+	// : The id of a Cloud KMS key that will be used to encrypt objects inserted into this bucket, if no encryption method is specified.
+	// You must pay attention to whether the crypto key is available in the location that this bucket is created in.
+	// See the docs for more details.
+	DefaultKMSKeyName *string `json:"defaultKmsKeyName,omitempty" tf:"default_kms_key_name,omitempty"`
 }
 
 type EncryptionParameters struct {
@@ -231,6 +350,12 @@ type EncryptionParameters struct {
 }
 
 type LifecycleRuleObservation struct {
+
+	// The Lifecycle Rule's action configuration. A single block of this type is supported. Structure is documented below.
+	Action []ActionObservation `json:"action,omitempty" tf:"action,omitempty"`
+
+	// The Lifecycle Rule's condition configuration. A single block of this type is supported. Structure is documented below.
+	Condition []ConditionObservation `json:"condition,omitempty" tf:"condition,omitempty"`
 }
 
 type LifecycleRuleParameters struct {
@@ -245,6 +370,13 @@ type LifecycleRuleParameters struct {
 }
 
 type LoggingObservation struct {
+
+	// The bucket that will receive log objects.
+	LogBucket *string `json:"logBucket,omitempty" tf:"log_bucket,omitempty"`
+
+	// The object prefix for log objects. If it's not provided,
+	// by default GCS sets this to this bucket's name.
+	LogObjectPrefix *string `json:"logObjectPrefix,omitempty" tf:"log_object_prefix,omitempty"`
 }
 
 type LoggingParameters struct {
@@ -260,6 +392,12 @@ type LoggingParameters struct {
 }
 
 type RetentionPolicyObservation struct {
+
+	// If set to true, the bucket will be locked and permanently restrict edits to the bucket's retention policy.  Caution: Locking a bucket is an irreversible action.
+	IsLocked *bool `json:"isLocked,omitempty" tf:"is_locked,omitempty"`
+
+	// The period of time, in seconds, that objects in the bucket must be retained and cannot be deleted, overwritten, or archived. The value must be less than 2,147,483,647 seconds.
+	RetentionPeriod *float64 `json:"retentionPeriod,omitempty" tf:"retention_period,omitempty"`
 }
 
 type RetentionPolicyParameters struct {
@@ -274,6 +412,9 @@ type RetentionPolicyParameters struct {
 }
 
 type VersioningObservation struct {
+
+	// While set to true, versioning is fully enabled for this bucket.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 }
 
 type VersioningParameters struct {
@@ -284,6 +425,14 @@ type VersioningParameters struct {
 }
 
 type WebsiteObservation struct {
+
+	// Behaves as the bucket's directory index where
+	// missing objects are treated as potential directories.
+	MainPageSuffix *string `json:"mainPageSuffix,omitempty" tf:"main_page_suffix,omitempty"`
+
+	// The custom object to return when a requested
+	// resource is not found.
+	NotFoundPage *string `json:"notFoundPage,omitempty" tf:"not_found_page,omitempty"`
 }
 
 type WebsiteParameters struct {
@@ -323,8 +472,9 @@ type BucketStatus struct {
 type Bucket struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              BucketSpec   `json:"spec"`
-	Status            BucketStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.location)",message="location is a required parameter"
+	Spec   BucketSpec   `json:"spec"`
+	Status BucketStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

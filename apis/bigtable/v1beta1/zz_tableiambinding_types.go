@@ -26,6 +26,11 @@ import (
 )
 
 type TableIAMBindingConditionObservation struct {
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	Expression *string `json:"expression,omitempty" tf:"expression,omitempty"`
+
+	Title *string `json:"title,omitempty" tf:"title,omitempty"`
 }
 
 type TableIAMBindingConditionParameters struct {
@@ -41,9 +46,21 @@ type TableIAMBindingConditionParameters struct {
 }
 
 type TableIAMBindingObservation struct {
+	Condition []TableIAMBindingConditionObservation `json:"condition,omitempty" tf:"condition,omitempty"`
+
 	Etag *string `json:"etag,omitempty" tf:"etag,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	Instance *string `json:"instance,omitempty" tf:"instance,omitempty"`
+
+	Members []*string `json:"members,omitempty" tf:"members,omitempty"`
+
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	Role *string `json:"role,omitempty" tf:"role,omitempty"`
+
+	Table *string `json:"table,omitempty" tf:"table,omitempty"`
 }
 
 type TableIAMBindingParameters struct {
@@ -51,11 +68,11 @@ type TableIAMBindingParameters struct {
 	// +kubebuilder:validation:Optional
 	Condition []TableIAMBindingConditionParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
-	// +kubebuilder:validation:Required
-	Instance *string `json:"instance" tf:"instance,omitempty"`
+	// +kubebuilder:validation:Optional
+	Instance *string `json:"instance,omitempty" tf:"instance,omitempty"`
 
-	// +kubebuilder:validation:Required
-	Members []*string `json:"members" tf:"members,omitempty"`
+	// +kubebuilder:validation:Optional
+	Members []*string `json:"members,omitempty" tf:"members,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
@@ -91,8 +108,10 @@ type TableIAMBindingStatus struct {
 type TableIAMBinding struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              TableIAMBindingSpec   `json:"spec"`
-	Status            TableIAMBindingStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.instance)",message="instance is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.members)",message="members is a required parameter"
+	Spec   TableIAMBindingSpec   `json:"spec"`
+	Status TableIAMBindingStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

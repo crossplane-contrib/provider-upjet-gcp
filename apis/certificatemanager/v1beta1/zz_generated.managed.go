@@ -29,6 +29,11 @@ func (mg *Certificate) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
+// GetManagementPolicy of this Certificate.
+func (mg *Certificate) GetManagementPolicy() xpv1.ManagementPolicy {
+	return mg.Spec.ManagementPolicy
+}
+
 // GetProviderConfigReference of this Certificate.
 func (mg *Certificate) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
@@ -60,6 +65,11 @@ func (mg *Certificate) SetConditions(c ...xpv1.Condition) {
 // SetDeletionPolicy of this Certificate.
 func (mg *Certificate) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
+}
+
+// SetManagementPolicy of this Certificate.
+func (mg *Certificate) SetManagementPolicy(r xpv1.ManagementPolicy) {
+	mg.Spec.ManagementPolicy = r
 }
 
 // SetProviderConfigReference of this Certificate.
@@ -95,6 +105,11 @@ func (mg *CertificateMap) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
+// GetManagementPolicy of this CertificateMap.
+func (mg *CertificateMap) GetManagementPolicy() xpv1.ManagementPolicy {
+	return mg.Spec.ManagementPolicy
+}
+
 // GetProviderConfigReference of this CertificateMap.
 func (mg *CertificateMap) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
@@ -126,6 +141,11 @@ func (mg *CertificateMap) SetConditions(c ...xpv1.Condition) {
 // SetDeletionPolicy of this CertificateMap.
 func (mg *CertificateMap) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
+}
+
+// SetManagementPolicy of this CertificateMap.
+func (mg *CertificateMap) SetManagementPolicy(r xpv1.ManagementPolicy) {
+	mg.Spec.ManagementPolicy = r
 }
 
 // SetProviderConfigReference of this CertificateMap.
@@ -161,6 +181,11 @@ func (mg *CertificateMapEntry) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
+// GetManagementPolicy of this CertificateMapEntry.
+func (mg *CertificateMapEntry) GetManagementPolicy() xpv1.ManagementPolicy {
+	return mg.Spec.ManagementPolicy
+}
+
 // GetProviderConfigReference of this CertificateMapEntry.
 func (mg *CertificateMapEntry) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
@@ -192,6 +217,11 @@ func (mg *CertificateMapEntry) SetConditions(c ...xpv1.Condition) {
 // SetDeletionPolicy of this CertificateMapEntry.
 func (mg *CertificateMapEntry) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
+}
+
+// SetManagementPolicy of this CertificateMapEntry.
+func (mg *CertificateMapEntry) SetManagementPolicy(r xpv1.ManagementPolicy) {
+	mg.Spec.ManagementPolicy = r
 }
 
 // SetProviderConfigReference of this CertificateMapEntry.
@@ -227,6 +257,11 @@ func (mg *DNSAuthorization) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
+// GetManagementPolicy of this DNSAuthorization.
+func (mg *DNSAuthorization) GetManagementPolicy() xpv1.ManagementPolicy {
+	return mg.Spec.ManagementPolicy
+}
+
 // GetProviderConfigReference of this DNSAuthorization.
 func (mg *DNSAuthorization) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
@@ -258,6 +293,11 @@ func (mg *DNSAuthorization) SetConditions(c ...xpv1.Condition) {
 // SetDeletionPolicy of this DNSAuthorization.
 func (mg *DNSAuthorization) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
+}
+
+// SetManagementPolicy of this DNSAuthorization.
+func (mg *DNSAuthorization) SetManagementPolicy(r xpv1.ManagementPolicy) {
+	mg.Spec.ManagementPolicy = r
 }
 
 // SetProviderConfigReference of this DNSAuthorization.

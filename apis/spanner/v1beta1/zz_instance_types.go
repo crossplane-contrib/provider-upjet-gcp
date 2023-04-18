@@ -27,8 +27,38 @@ import (
 
 type InstanceObservation struct {
 
+	// The name of the instance's configuration (similar but not
+	// quite the same as a region) which defines the geographic placement and
+	// replication of your databases in this instance. It determines where your data
+	// is stored. Values are typically of the form regional-europe-west1 , us-central etc.
+	// In order to obtain a valid list please consult the
+	// Configuration section of the docs.
+	Config *string `json:"config,omitempty" tf:"config,omitempty"`
+
+	// The descriptive name for this instance as it appears in UIs. Must be
+	// unique per project and between 4 and 30 characters in length.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// When deleting a spanner instance, this boolean option will delete all backups of this instance.
+	// This must be set to true if you created a backup manually in the console.
+	ForceDestroy *bool `json:"forceDestroy,omitempty" tf:"force_destroy,omitempty"`
+
 	// an identifier for the resource with format {{project}}/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// An object containing a list of "key": value pairs.
+	// Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }.
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// The number of nodes allocated to this instance.
+	NumNodes *float64 `json:"numNodes,omitempty" tf:"num_nodes,omitempty"`
+
+	// The number of processing units allocated to this instance.
+	ProcessingUnits *float64 `json:"processingUnits,omitempty" tf:"processing_units,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Instance status: CREATING or READY.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
@@ -42,13 +72,13 @@ type InstanceParameters struct {
 	// is stored. Values are typically of the form regional-europe-west1 , us-central etc.
 	// In order to obtain a valid list please consult the
 	// Configuration section of the docs.
-	// +kubebuilder:validation:Required
-	Config *string `json:"config" tf:"config,omitempty"`
+	// +kubebuilder:validation:Optional
+	Config *string `json:"config,omitempty" tf:"config,omitempty"`
 
 	// The descriptive name for this instance as it appears in UIs. Must be
 	// unique per project and between 4 and 30 characters in length.
-	// +kubebuilder:validation:Required
-	DisplayName *string `json:"displayName" tf:"display_name,omitempty"`
+	// +kubebuilder:validation:Optional
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// When deleting a spanner instance, this boolean option will delete all backups of this instance.
 	// This must be set to true if you created a backup manually in the console.
@@ -98,8 +128,10 @@ type InstanceStatus struct {
 type Instance struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              InstanceSpec   `json:"spec"`
-	Status            InstanceStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.config)",message="config is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.displayName)",message="displayName is a required parameter"
+	Spec   InstanceSpec   `json:"spec"`
+	Status InstanceStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -26,6 +26,27 @@ import (
 )
 
 type ArgumentsObservation struct {
+
+	// Defaults to FIXED_TYPE.
+	// Default value is FIXED_TYPE.
+	// Possible values are FIXED_TYPE and ANY_TYPE.
+	ArgumentKind *string `json:"argumentKind,omitempty" tf:"argument_kind,omitempty"`
+
+	// A JSON schema for the data type. Required unless argumentKind = ANY_TYPE.
+	// ~>NOTE: Because this field expects a JSON string, any changes to the string
+	// will create a diff, even if the JSON itself hasn't changed. If the API returns
+	// a different value for the same schema, e.g. it switched the order of values
+	// or replaced STRUCT field type with RECORD field type, we currently cannot
+	// suppress the recurring diff this causes. As a workaround, we recommend using
+	// the schema as returned by the API.
+	DataType *string `json:"dataType,omitempty" tf:"data_type,omitempty"`
+
+	// Specifies whether the argument is input or output. Can be set for procedures only.
+	// Possible values are IN, OUT, and INOUT.
+	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
+
+	// The name of this argument. Can be absent for function return argument.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 }
 
 type ArgumentsParameters struct {
@@ -58,16 +79,67 @@ type ArgumentsParameters struct {
 
 type RoutineObservation_2 struct {
 
+	// Input/output argument of a function or a stored procedure.
+	// Structure is documented below.
+	Arguments []ArgumentsObservation `json:"arguments,omitempty" tf:"arguments,omitempty"`
+
 	// The time when this routine was created, in milliseconds since the
 	// epoch.
 	CreationTime *float64 `json:"creationTime,omitempty" tf:"creation_time,omitempty"`
 
+	// The ID of the dataset containing this routine
+	DatasetID *string `json:"datasetId,omitempty" tf:"dataset_id,omitempty"`
+
+	// The body of the routine. For functions, this is the expression in the AS clause.
+	// If language=SQL, it is the substring inside (but excluding) the parentheses.
+	DefinitionBody *string `json:"definitionBody,omitempty" tf:"definition_body,omitempty"`
+
+	// The description of the routine if defined.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// The determinism level of the JavaScript UDF if defined.
+	// Possible values are DETERMINISM_LEVEL_UNSPECIFIED, DETERMINISTIC, and NOT_DETERMINISTIC.
+	DeterminismLevel *string `json:"determinismLevel,omitempty" tf:"determinism_level,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/datasets/{{dataset_id}}/routines/{{routine_id}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Optional. If language = "JAVASCRIPT", this field stores the path of the
+	// imported JAVASCRIPT libraries.
+	ImportedLibraries []*string `json:"importedLibraries,omitempty" tf:"imported_libraries,omitempty"`
+
+	// The language of the routine.
+	// Possible values are SQL and JAVASCRIPT.
+	Language *string `json:"language,omitempty" tf:"language,omitempty"`
 
 	// The time when this routine was modified, in milliseconds since the
 	// epoch.
 	LastModifiedTime *float64 `json:"lastModifiedTime,omitempty" tf:"last_modified_time,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Optional. Can be set only if routineType = "TABLE_VALUED_FUNCTION".
+	// If absent, the return table type is inferred from definitionBody at query time in each query
+	// that references this routine. If present, then the columns in the evaluated table result will
+	// be cast to match the column types specificed in return table type, at query time.
+	ReturnTableType *string `json:"returnTableType,omitempty" tf:"return_table_type,omitempty"`
+
+	// A JSON schema for the return type. Optional if language = "SQL"; required otherwise.
+	// If absent, the return type is inferred from definitionBody at query time in each query
+	// that references this routine. If present, then the evaluated result will be cast to
+	// the specified returned type at query time. ~>NOTE: Because this field expects a JSON
+	// string, any changes to the string will create a diff, even if the JSON itself hasn't
+	// changed. If the API returns a different value for the same schema, e.g. it switche
+	// d the order of values or replaced STRUCT field type with RECORD field type, we currently
+	// cannot suppress the recurring diff this causes. As a workaround, we recommend using
+	// the schema as returned by the API.
+	ReturnType *string `json:"returnType,omitempty" tf:"return_type,omitempty"`
+
+	// The type of routine.
+	// Possible values are SCALAR_FUNCTION, PROCEDURE, and TABLE_VALUED_FUNCTION.
+	RoutineType *string `json:"routineType,omitempty" tf:"routine_type,omitempty"`
 }
 
 type RoutineParameters_2 struct {
@@ -92,8 +164,8 @@ type RoutineParameters_2 struct {
 
 	// The body of the routine. For functions, this is the expression in the AS clause.
 	// If language=SQL, it is the substring inside (but excluding) the parentheses.
-	// +kubebuilder:validation:Required
-	DefinitionBody *string `json:"definitionBody" tf:"definition_body,omitempty"`
+	// +kubebuilder:validation:Optional
+	DefinitionBody *string `json:"definitionBody,omitempty" tf:"definition_body,omitempty"`
 
 	// The description of the routine if defined.
 	// +kubebuilder:validation:Optional
@@ -168,8 +240,9 @@ type RoutineStatus struct {
 type Routine struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              RoutineSpec   `json:"spec"`
-	Status            RoutineStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.definitionBody)",message="definitionBody is a required parameter"
+	Spec   RoutineSpec   `json:"spec"`
+	Status RoutineStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

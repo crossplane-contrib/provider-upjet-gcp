@@ -26,6 +26,9 @@ import (
 )
 
 type DefaultVersionObservation struct {
+
+	// The name specified for the version when it was created.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 }
 
 type DefaultVersionParameters struct {
@@ -37,8 +40,36 @@ type DefaultVersionParameters struct {
 
 type ModelObservation struct {
 
+	// The default version of the model. This version will be used to handle
+	// prediction requests that do not specify a version.
+	// Structure is documented below.
+	DefaultVersion []DefaultVersionObservation `json:"defaultVersion,omitempty" tf:"default_version,omitempty"`
+
+	// The description specified for the model when it was created.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/models/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// One or more labels that you can add, to organize your models.
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// The name specified for the model.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// If true, online prediction nodes send stderr and stdout streams to Stackdriver Logging
+	OnlinePredictionConsoleLogging *bool `json:"onlinePredictionConsoleLogging,omitempty" tf:"online_prediction_console_logging,omitempty"`
+
+	// If true, online prediction access logs are sent to StackDriver Logging.
+	OnlinePredictionLogging *bool `json:"onlinePredictionLogging,omitempty" tf:"online_prediction_logging,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The list of regions where the model is going to be deployed.
+	// Currently only one region per model is supported
+	Regions []*string `json:"regions,omitempty" tf:"regions,omitempty"`
 }
 
 type ModelParameters struct {
@@ -58,8 +89,8 @@ type ModelParameters struct {
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The name specified for the model.
-	// +kubebuilder:validation:Required
-	Name *string `json:"name" tf:"name,omitempty"`
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// If true, online prediction nodes send stderr and stdout streams to Stackdriver Logging
 	// +kubebuilder:validation:Optional
@@ -104,8 +135,9 @@ type ModelStatus struct {
 type Model struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              ModelSpec   `json:"spec"`
-	Status            ModelStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.name)",message="name is a required parameter"
+	Spec   ModelSpec   `json:"spec"`
+	Status ModelStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

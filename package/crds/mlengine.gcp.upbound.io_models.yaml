@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.11.1
+    controller-gen.kubebuilder.io/version: v0.11.3
   creationTimestamp: null
   name: models.mlengine.gcp.upbound.io
 spec:
@@ -55,9 +55,13 @@ spec:
             properties:
               deletionPolicy:
                 default: Delete
-                description: DeletionPolicy specifies what will happen to the underlying
+                description: 'DeletionPolicy specifies what will happen to the underlying
                   external when this managed resource is deleted - either "Delete"
-                  or "Orphan" the external resource.
+                  or "Orphan" the external resource. This field is planned to be deprecated
+                  in favor of the ManagementPolicy field in a future release. Currently,
+                  both could be set independently and non-default values would be
+                  honored if the feature flag is enabled. See the design doc for more
+                  information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
                 enum:
                 - Orphan
                 - Delete
@@ -109,9 +113,22 @@ spec:
                     items:
                       type: string
                     type: array
-                required:
-                - name
                 type: object
+              managementPolicy:
+                default: FullControl
+                description: 'THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice. ManagementPolicy
+                  specifies the level of control Crossplane has over the managed external
+                  resource. This field is planned to replace the DeletionPolicy field
+                  in a future release. Currently, both could be set independently
+                  and non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
+                enum:
+                - FullControl
+                - ObserveOnly
+                - OrphanOnDelete
+                type: string
               providerConfigRef:
                 default:
                   name: default
@@ -283,14 +300,60 @@ spec:
             required:
             - forProvider
             type: object
+            x-kubernetes-validations:
+            - message: name is a required parameter
+              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.name)
           status:
             description: ModelStatus defines the observed state of Model.
             properties:
               atProvider:
                 properties:
+                  defaultVersion:
+                    description: The default version of the model. This version will
+                      be used to handle prediction requests that do not specify a
+                      version. Structure is documented below.
+                    items:
+                      properties:
+                        name:
+                          description: The name specified for the version when it
+                            was created.
+                          type: string
+                      type: object
+                    type: array
+                  description:
+                    description: The description specified for the model when it was
+                      created.
+                    type: string
                   id:
                     description: an identifier for the resource with format projects/{{project}}/models/{{name}}
                     type: string
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: One or more labels that you can add, to organize
+                      your models.
+                    type: object
+                  name:
+                    description: The name specified for the model.
+                    type: string
+                  onlinePredictionConsoleLogging:
+                    description: If true, online prediction nodes send stderr and
+                      stdout streams to Stackdriver Logging
+                    type: boolean
+                  onlinePredictionLogging:
+                    description: If true, online prediction access logs are sent to
+                      StackDriver Logging.
+                    type: boolean
+                  project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  regions:
+                    description: The list of regions where the model is going to be
+                      deployed. Currently only one region per model is supported
+                    items:
+                      type: string
+                    type: array
                 type: object
               conditions:
                 description: Conditions of the resource.

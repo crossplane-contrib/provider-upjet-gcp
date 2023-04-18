@@ -26,7 +26,17 @@ import (
 )
 
 type ProjectUsageExportBucketObservation struct {
+
+	// :  The bucket to store reports in.
+	BucketName *string `json:"bucketName,omitempty" tf:"bucket_name,omitempty"`
+
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// :  A prefix for the reports, for instance, the project name.
+	Prefix *string `json:"prefix,omitempty" tf:"prefix,omitempty"`
+
+	// :  The project to set the export bucket on. If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 
 type ProjectUsageExportBucketParameters struct {

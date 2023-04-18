@@ -29,13 +29,20 @@ type ProjectMetadataObservation struct {
 
 	// an identifier for the resource with format {{project}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// A series of key value pairs.
+	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
+
+	// The ID of the project in which the resource belongs. If it
+	// is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 
 type ProjectMetadataParameters struct {
 
 	// A series of key value pairs.
-	// +kubebuilder:validation:Required
-	Metadata map[string]*string `json:"metadata" tf:"metadata,omitempty"`
+	// +kubebuilder:validation:Optional
+	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
 
 	// The ID of the project in which the resource belongs. If it
 	// is not provided, the provider project is used.
@@ -67,8 +74,9 @@ type ProjectMetadataStatus struct {
 type ProjectMetadata struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              ProjectMetadataSpec   `json:"spec"`
-	Status            ProjectMetadataStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.metadata)",message="metadata is a required parameter"
+	Spec   ProjectMetadataSpec   `json:"spec"`
+	Status ProjectMetadataStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

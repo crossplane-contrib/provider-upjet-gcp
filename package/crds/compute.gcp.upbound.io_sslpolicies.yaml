@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.11.1
+    controller-gen.kubebuilder.io/version: v0.11.3
   creationTimestamp: null
   name: sslpolicies.compute.gcp.upbound.io
 spec:
@@ -55,9 +55,13 @@ spec:
             properties:
               deletionPolicy:
                 default: Delete
-                description: DeletionPolicy specifies what will happen to the underlying
+                description: 'DeletionPolicy specifies what will happen to the underlying
                   external when this managed resource is deleted - either "Delete"
-                  or "Orphan" the external resource.
+                  or "Orphan" the external resource. This field is planned to be deprecated
+                  in favor of the ManagementPolicy field in a future release. Currently,
+                  both could be set independently and non-default values would be
+                  honored if the feature flag is enabled. See the design doc for more
+                  information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
                 enum:
                 - Orphan
                 - Delete
@@ -100,6 +104,21 @@ spec:
                       If it is not provided, the provider project is used.
                     type: string
                 type: object
+              managementPolicy:
+                default: FullControl
+                description: 'THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice. ManagementPolicy
+                  specifies the level of control Crossplane has over the managed external
+                  resource. This field is planned to replace the DeletionPolicy field
+                  in a future release. Currently, both could be set independently
+                  and non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
+                enum:
+                - FullControl
+                - ObserveOnly
+                - OrphanOnDelete
+                type: string
               providerConfigRef:
                 default:
                   name: default
@@ -279,6 +298,21 @@ spec:
                   creationTimestamp:
                     description: Creation timestamp in RFC3339 text format.
                     type: string
+                  customFeatures:
+                    description: 'Profile specifies the set of SSL features that can
+                      be used by the load balancer when negotiating SSL with clients.
+                      This can be one of COMPATIBLE, MODERN, RESTRICTED, or CUSTOM.
+                      If using CUSTOM, the set of SSL features to enable must be specified
+                      in the customFeatures field. See the official documentation
+                      for which ciphers are available to use. Note: this argument
+                      must be present when using the CUSTOM profile. This argument
+                      must not be present when using any other profile.'
+                    items:
+                      type: string
+                    type: array
+                  description:
+                    description: An optional description of this resource.
+                    type: string
                   enabledFeatures:
                     description: The list of features enabled in the SSL policy.
                     items:
@@ -290,6 +324,26 @@ spec:
                     type: string
                   id:
                     description: an identifier for the resource with format projects/{{project}}/global/sslPolicies/{{name}}
+                    type: string
+                  minTlsVersion:
+                    description: The minimum version of SSL protocol that can be used
+                      by the clients to establish a connection with the load balancer.
+                      Default value is TLS_1_0. Possible values are TLS_1_0, TLS_1_1,
+                      and TLS_1_2.
+                    type: string
+                  profile:
+                    description: Profile specifies the set of SSL features that can
+                      be used by the load balancer when negotiating SSL with clients.
+                      If using CUSTOM, the set of SSL features to enable must be specified
+                      in the customFeatures field. See the official documentation
+                      for information on what cipher suites each profile provides.
+                      If CUSTOM is used, the custom_features attribute must be set.
+                      Default value is COMPATIBLE. Possible values are COMPATIBLE,
+                      MODERN, RESTRICTED, and CUSTOM.
+                    type: string
+                  project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
                     type: string
                   selfLink:
                     description: The URI of the created resource.

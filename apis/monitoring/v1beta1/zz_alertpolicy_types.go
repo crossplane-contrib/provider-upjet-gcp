@@ -26,6 +26,89 @@ import (
 )
 
 type AggregationsObservation struct {
+
+	// The alignment period for per-time
+	// series alignment. If present,
+	// alignmentPeriod must be at least
+	// 60 seconds. After per-time series
+	// alignment, each time series will
+	// contain data points only on the
+	// period boundaries. If
+	// perSeriesAligner is not specified
+	// or equals ALIGN_NONE, then this
+	// field is ignored. If
+	// perSeriesAligner is specified and
+	// does not equal ALIGN_NONE, then
+	// this field must be defined;
+	// otherwise an error is returned.
+	AlignmentPeriod *string `json:"alignmentPeriod,omitempty" tf:"alignment_period,omitempty"`
+
+	// The approach to be used to combine
+	// time series. Not all reducer
+	// functions may be applied to all
+	// time series, depending on the
+	// metric type and the value type of
+	// the original time series.
+	// Reduction may change the metric
+	// type of value type of the time
+	// series.Time series data must be
+	// aligned in order to perform cross-
+	// time series reduction. If
+	// crossSeriesReducer is specified,
+	// then perSeriesAligner must be
+	// specified and not equal ALIGN_NONE
+	// and alignmentPeriod must be
+	// specified; otherwise, an error is
+	// returned.
+	// Possible values are REDUCE_NONE, REDUCE_MEAN, REDUCE_MIN, REDUCE_MAX, REDUCE_SUM, REDUCE_STDDEV, REDUCE_COUNT, REDUCE_COUNT_TRUE, REDUCE_COUNT_FALSE, REDUCE_FRACTION_TRUE, REDUCE_PERCENTILE_99, REDUCE_PERCENTILE_95, REDUCE_PERCENTILE_50, and REDUCE_PERCENTILE_05.
+	CrossSeriesReducer *string `json:"crossSeriesReducer,omitempty" tf:"cross_series_reducer,omitempty"`
+
+	// The set of fields to preserve when
+	// crossSeriesReducer is specified.
+	// The groupByFields determine how
+	// the time series are partitioned
+	// into subsets prior to applying the
+	// aggregation function. Each subset
+	// contains time series that have the
+	// same value for each of the
+	// grouping fields. Each individual
+	// time series is a member of exactly
+	// one subset. The crossSeriesReducer
+	// is applied to each subset of time
+	// series. It is not possible to
+	// reduce across different resource
+	// types, so this field implicitly
+	// contains resource.type. Fields not
+	// specified in groupByFields are
+	// aggregated away. If groupByFields
+	// is not specified and all the time
+	// series have the same resource
+	// type, then the time series are
+	// aggregated into a single output
+	// time series. If crossSeriesReducer
+	// is not defined, this field is
+	// ignored.
+	GroupByFields []*string `json:"groupByFields,omitempty" tf:"group_by_fields,omitempty"`
+
+	// The approach to be used to align
+	// individual time series. Not all
+	// alignment functions may be applied
+	// to all time series, depending on
+	// the metric type and value type of
+	// the original time series.
+	// Alignment may change the metric
+	// type or the value type of the time
+	// series.Time series data must be
+	// aligned in order to perform cross-
+	// time series reduction. If
+	// crossSeriesReducer is specified,
+	// then perSeriesAligner must be
+	// specified and not equal ALIGN_NONE
+	// and alignmentPeriod must be
+	// specified; otherwise, an error is
+	// returned.
+	// Possible values are ALIGN_NONE, ALIGN_DELTA, ALIGN_RATE, ALIGN_INTERPOLATE, ALIGN_NEXT_OLDER, ALIGN_MIN, ALIGN_MAX, ALIGN_MEAN, ALIGN_COUNT, ALIGN_SUM, ALIGN_STDDEV, ALIGN_COUNT_TRUE, ALIGN_COUNT_FALSE, ALIGN_FRACTION_TRUE, ALIGN_PERCENTILE_99, ALIGN_PERCENTILE_95, ALIGN_PERCENTILE_50, ALIGN_PERCENTILE_05, and ALIGN_PERCENT_CHANGE.
+	PerSeriesAligner *string `json:"perSeriesAligner,omitempty" tf:"per_series_aligner,omitempty"`
 }
 
 type AggregationsParameters struct {
@@ -120,12 +203,20 @@ type AggregationsParameters struct {
 
 type AlertPolicyObservation struct {
 
+	// Control over how this alert policy's notification channels are notified.
+	// Structure is documented below.
+	AlertStrategy []AlertStrategyObservation `json:"alertStrategy,omitempty" tf:"alert_strategy,omitempty"`
+
+	// How to combine the results of multiple conditions to
+	// determine if an incident should be opened.
+	// Possible values are AND, OR, and AND_WITH_MATCHING_RESOURCE.
+	Combiner *string `json:"combiner,omitempty" tf:"combiner,omitempty"`
+
 	// A list of conditions for the policy. The conditions are combined by
 	// AND or OR according to the combiner field. If the combined conditions
 	// evaluate to true, then an incident is created. A policy can have from
 	// one to six conditions.
 	// Structure is documented below.
-	// +kubebuilder:validation:Required
 	Conditions []ConditionsObservation `json:"conditions,omitempty" tf:"conditions,omitempty"`
 
 	// A read-only record of the creation of the alerting policy.
@@ -134,12 +225,49 @@ type AlertPolicyObservation struct {
 	// Structure is documented below.
 	CreationRecord []CreationRecordObservation `json:"creationRecord,omitempty" tf:"creation_record,omitempty"`
 
+	// A short name or phrase used to identify the policy in
+	// dashboards, notifications, and incidents. To avoid confusion, don't use
+	// the same display name for multiple policies in the same project. The
+	// name is limited to 512 Unicode characters.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// Documentation that is included with notifications and incidents related
+	// to this policy. Best practice is for the documentation to include information
+	// to help responders understand, mitigate, escalate, and correct the underlying
+	// problems detected by the alerting policy. Notification channels that have
+	// limited capacity might not show this documentation.
+	// Structure is documented below.
+	Documentation []DocumentationObservation `json:"documentation,omitempty" tf:"documentation,omitempty"`
+
+	// Whether or not the policy is enabled. The default is true.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+
 	// an identifier for the resource with format {{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// The unique resource name for this policy.
 	// Its syntax is: projects/[PROJECT_ID]/alertPolicies/[ALERT_POLICY_ID]
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Identifies the notification channels to which notifications should be
+	// sent when incidents are opened or closed or when new violations occur
+	// on an already opened incident. Each element of this array corresponds
+	// to the name field in each of the NotificationChannel objects that are
+	// returned from the notificationChannels.list method. The syntax of the
+	// entries in this field is
+	// projects/[PROJECT_ID]/notificationChannels/[CHANNEL_ID]
+	NotificationChannels []*string `json:"notificationChannels,omitempty" tf:"notification_channels,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// This field is intended to be used for organizing and identifying the AlertPolicy
+	// objects.The field can contain up to 64 entries. Each key and value is limited
+	// to 63 Unicode characters or 128 bytes, whichever is smaller. Labels and values
+	// can contain only lowercase letters, numerals, underscores, and dashes. Keys
+	// must begin with a letter.
+	UserLabels map[string]*string `json:"userLabels,omitempty" tf:"user_labels,omitempty"`
 }
 
 type AlertPolicyParameters struct {
@@ -152,23 +280,23 @@ type AlertPolicyParameters struct {
 	// How to combine the results of multiple conditions to
 	// determine if an incident should be opened.
 	// Possible values are AND, OR, and AND_WITH_MATCHING_RESOURCE.
-	// +kubebuilder:validation:Required
-	Combiner *string `json:"combiner" tf:"combiner,omitempty"`
+	// +kubebuilder:validation:Optional
+	Combiner *string `json:"combiner,omitempty" tf:"combiner,omitempty"`
 
 	// A list of conditions for the policy. The conditions are combined by
 	// AND or OR according to the combiner field. If the combined conditions
 	// evaluate to true, then an incident is created. A policy can have from
 	// one to six conditions.
 	// Structure is documented below.
-	// +kubebuilder:validation:Required
-	Conditions []ConditionsParameters `json:"conditions" tf:"conditions,omitempty"`
+	// +kubebuilder:validation:Optional
+	Conditions []ConditionsParameters `json:"conditions,omitempty" tf:"conditions,omitempty"`
 
 	// A short name or phrase used to identify the policy in
 	// dashboards, notifications, and incidents. To avoid confusion, don't use
 	// the same display name for multiple policies in the same project. The
 	// name is limited to 512 Unicode characters.
-	// +kubebuilder:validation:Required
-	DisplayName *string `json:"displayName" tf:"display_name,omitempty"`
+	// +kubebuilder:validation:Optional
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// Documentation that is included with notifications and incidents related
 	// to this policy. Best practice is for the documentation to include information
@@ -208,6 +336,14 @@ type AlertPolicyParameters struct {
 }
 
 type AlertStrategyObservation struct {
+
+	// If an alert policy that was active has no data for this long, any open incidents will close.
+	AutoClose *string `json:"autoClose,omitempty" tf:"auto_close,omitempty"`
+
+	// Required for alert policies with a LogMatch condition.
+	// This limit is not implemented for alert policies that are not log-based.
+	// Structure is documented below.
+	NotificationRateLimit []NotificationRateLimitObservation `json:"notificationRateLimit,omitempty" tf:"notification_rate_limit,omitempty"`
 }
 
 type AlertStrategyParameters struct {
@@ -224,6 +360,64 @@ type AlertStrategyParameters struct {
 }
 
 type ConditionAbsentObservation struct {
+
+	// Specifies the alignment of data points in
+	// individual time series as well as how to
+	// combine the retrieved time series together
+	// (such as when aggregating multiple streams
+	// on each resource to a single stream for each
+	// resource or when aggregating streams across
+	// all members of a group of resources).
+	// Multiple aggregations are applied in the
+	// order specified.This field is similar to the
+	// one in the MetricService.ListTimeSeries
+	// request. It is advisable to use the
+	// ListTimeSeries method when debugging this
+	// field.
+	// Structure is documented below.
+	Aggregations []AggregationsObservation `json:"aggregations,omitempty" tf:"aggregations,omitempty"`
+
+	// The amount of time that a time series must
+	// violate the threshold to be considered
+	// failing. Currently, only values that are a
+	// multiple of a minute--e.g., 0, 60, 120, or
+	// 300 seconds--are supported. If an invalid
+	// value is given, an error will be returned.
+	// When choosing a duration, it is useful to
+	// keep in mind the frequency of the underlying
+	// time series data (which may also be affected
+	// by any alignments specified in the
+	// aggregations field); a good duration is long
+	// enough so that a single outlier does not
+	// generate spurious alerts, but short enough
+	// that unhealthy states are detected and
+	// alerted on quickly.
+	Duration *string `json:"duration,omitempty" tf:"duration,omitempty"`
+
+	// A filter that identifies which time series
+	// should be compared with the threshold.The
+	// filter is similar to the one that is
+	// specified in the
+	// MetricService.ListTimeSeries request (that
+	// call is useful to verify the time series
+	// that will be retrieved / processed) and must
+	// specify the metric type and optionally may
+	// contain restrictions on resource type,
+	// resource labels, and metric labels. This
+	// field may not exceed 2048 Unicode characters
+	// in length.
+	Filter *string `json:"filter,omitempty" tf:"filter,omitempty"`
+
+	// The number/percent of time series for which
+	// the comparison must hold in order for the
+	// condition to trigger. If unspecified, then
+	// the condition will trigger if the comparison
+	// is true for any of the time series that have
+	// been identified by filter and aggregations,
+	// or by the ratio, if denominator_filter and
+	// denominator_aggregations are specified.
+	// Structure is documented below.
+	Trigger []TriggerObservation `json:"trigger,omitempty" tf:"trigger,omitempty"`
 }
 
 type ConditionAbsentParameters struct {
@@ -292,6 +486,29 @@ type ConditionAbsentParameters struct {
 }
 
 type ConditionMatchedLogObservation struct {
+
+	// A filter that identifies which time series
+	// should be compared with the threshold.The
+	// filter is similar to the one that is
+	// specified in the
+	// MetricService.ListTimeSeries request (that
+	// call is useful to verify the time series
+	// that will be retrieved / processed) and must
+	// specify the metric type and optionally may
+	// contain restrictions on resource type,
+	// resource labels, and metric labels. This
+	// field may not exceed 2048 Unicode characters
+	// in length.
+	Filter *string `json:"filter,omitempty" tf:"filter,omitempty"`
+
+	// A map from a label key to an extractor expression, which is used to
+	// extract the value for this label key. Each entry in this map is
+	// a specification for how data should be extracted from log entries that
+	// match filter. Each combination of extracted values is treated as
+	// a separate rule for the purposes of triggering notifications.
+	// Label keys and corresponding values can be used in notifications
+	// generated by this condition.
+	LabelExtractors map[string]*string `json:"labelExtractors,omitempty" tf:"label_extractors,omitempty"`
 }
 
 type ConditionMatchedLogParameters struct {
@@ -323,6 +540,43 @@ type ConditionMatchedLogParameters struct {
 }
 
 type ConditionMonitoringQueryLanguageObservation struct {
+
+	// The amount of time that a time series must
+	// violate the threshold to be considered
+	// failing. Currently, only values that are a
+	// multiple of a minute--e.g., 0, 60, 120, or
+	// 300 seconds--are supported. If an invalid
+	// value is given, an error will be returned.
+	// When choosing a duration, it is useful to
+	// keep in mind the frequency of the underlying
+	// time series data (which may also be affected
+	// by any alignments specified in the
+	// aggregations field); a good duration is long
+	// enough so that a single outlier does not
+	// generate spurious alerts, but short enough
+	// that unhealthy states are detected and
+	// alerted on quickly.
+	Duration *string `json:"duration,omitempty" tf:"duration,omitempty"`
+
+	// A condition control that determines how
+	// metric-threshold conditions are evaluated when
+	// data stops arriving.
+	// Possible values are EVALUATION_MISSING_DATA_INACTIVE, EVALUATION_MISSING_DATA_ACTIVE, and EVALUATION_MISSING_DATA_NO_OP.
+	EvaluationMissingData *string `json:"evaluationMissingData,omitempty" tf:"evaluation_missing_data,omitempty"`
+
+	// Monitoring Query Language query that outputs a boolean stream.
+	Query *string `json:"query,omitempty" tf:"query,omitempty"`
+
+	// The number/percent of time series for which
+	// the comparison must hold in order for the
+	// condition to trigger. If unspecified, then
+	// the condition will trigger if the comparison
+	// is true for any of the time series that have
+	// been identified by filter and aggregations,
+	// or by the ratio, if denominator_filter and
+	// denominator_aggregations are specified.
+	// Structure is documented below.
+	Trigger []ConditionMonitoringQueryLanguageTriggerObservation `json:"trigger,omitempty" tf:"trigger,omitempty"`
 }
 
 type ConditionMonitoringQueryLanguageParameters struct {
@@ -370,6 +624,16 @@ type ConditionMonitoringQueryLanguageParameters struct {
 }
 
 type ConditionMonitoringQueryLanguageTriggerObservation struct {
+
+	// The absolute number of time series
+	// that must fail the predicate for the
+	// condition to be triggered.
+	Count *float64 `json:"count,omitempty" tf:"count,omitempty"`
+
+	// The percentage of time series that
+	// must fail the predicate for the
+	// condition to be triggered.
+	Percent *float64 `json:"percent,omitempty" tf:"percent,omitempty"`
 }
 
 type ConditionMonitoringQueryLanguageTriggerParameters struct {
@@ -388,6 +652,89 @@ type ConditionMonitoringQueryLanguageTriggerParameters struct {
 }
 
 type ConditionThresholdAggregationsObservation struct {
+
+	// The alignment period for per-time
+	// series alignment. If present,
+	// alignmentPeriod must be at least
+	// 60 seconds. After per-time series
+	// alignment, each time series will
+	// contain data points only on the
+	// period boundaries. If
+	// perSeriesAligner is not specified
+	// or equals ALIGN_NONE, then this
+	// field is ignored. If
+	// perSeriesAligner is specified and
+	// does not equal ALIGN_NONE, then
+	// this field must be defined;
+	// otherwise an error is returned.
+	AlignmentPeriod *string `json:"alignmentPeriod,omitempty" tf:"alignment_period,omitempty"`
+
+	// The approach to be used to combine
+	// time series. Not all reducer
+	// functions may be applied to all
+	// time series, depending on the
+	// metric type and the value type of
+	// the original time series.
+	// Reduction may change the metric
+	// type of value type of the time
+	// series.Time series data must be
+	// aligned in order to perform cross-
+	// time series reduction. If
+	// crossSeriesReducer is specified,
+	// then perSeriesAligner must be
+	// specified and not equal ALIGN_NONE
+	// and alignmentPeriod must be
+	// specified; otherwise, an error is
+	// returned.
+	// Possible values are REDUCE_NONE, REDUCE_MEAN, REDUCE_MIN, REDUCE_MAX, REDUCE_SUM, REDUCE_STDDEV, REDUCE_COUNT, REDUCE_COUNT_TRUE, REDUCE_COUNT_FALSE, REDUCE_FRACTION_TRUE, REDUCE_PERCENTILE_99, REDUCE_PERCENTILE_95, REDUCE_PERCENTILE_50, and REDUCE_PERCENTILE_05.
+	CrossSeriesReducer *string `json:"crossSeriesReducer,omitempty" tf:"cross_series_reducer,omitempty"`
+
+	// The set of fields to preserve when
+	// crossSeriesReducer is specified.
+	// The groupByFields determine how
+	// the time series are partitioned
+	// into subsets prior to applying the
+	// aggregation function. Each subset
+	// contains time series that have the
+	// same value for each of the
+	// grouping fields. Each individual
+	// time series is a member of exactly
+	// one subset. The crossSeriesReducer
+	// is applied to each subset of time
+	// series. It is not possible to
+	// reduce across different resource
+	// types, so this field implicitly
+	// contains resource.type. Fields not
+	// specified in groupByFields are
+	// aggregated away. If groupByFields
+	// is not specified and all the time
+	// series have the same resource
+	// type, then the time series are
+	// aggregated into a single output
+	// time series. If crossSeriesReducer
+	// is not defined, this field is
+	// ignored.
+	GroupByFields []*string `json:"groupByFields,omitempty" tf:"group_by_fields,omitempty"`
+
+	// The approach to be used to align
+	// individual time series. Not all
+	// alignment functions may be applied
+	// to all time series, depending on
+	// the metric type and value type of
+	// the original time series.
+	// Alignment may change the metric
+	// type or the value type of the time
+	// series.Time series data must be
+	// aligned in order to perform cross-
+	// time series reduction. If
+	// crossSeriesReducer is specified,
+	// then perSeriesAligner must be
+	// specified and not equal ALIGN_NONE
+	// and alignmentPeriod must be
+	// specified; otherwise, an error is
+	// returned.
+	// Possible values are ALIGN_NONE, ALIGN_DELTA, ALIGN_RATE, ALIGN_INTERPOLATE, ALIGN_NEXT_OLDER, ALIGN_MIN, ALIGN_MAX, ALIGN_MEAN, ALIGN_COUNT, ALIGN_SUM, ALIGN_STDDEV, ALIGN_COUNT_TRUE, ALIGN_COUNT_FALSE, ALIGN_FRACTION_TRUE, ALIGN_PERCENTILE_99, ALIGN_PERCENTILE_95, ALIGN_PERCENTILE_50, ALIGN_PERCENTILE_05, and ALIGN_PERCENT_CHANGE.
+	PerSeriesAligner *string `json:"perSeriesAligner,omitempty" tf:"per_series_aligner,omitempty"`
 }
 
 type ConditionThresholdAggregationsParameters struct {
@@ -481,6 +828,121 @@ type ConditionThresholdAggregationsParameters struct {
 }
 
 type ConditionThresholdObservation struct {
+
+	// Specifies the alignment of data points in
+	// individual time series as well as how to
+	// combine the retrieved time series together
+	// (such as when aggregating multiple streams
+	// on each resource to a single stream for each
+	// resource or when aggregating streams across
+	// all members of a group of resources).
+	// Multiple aggregations are applied in the
+	// order specified.This field is similar to the
+	// one in the MetricService.ListTimeSeries
+	// request. It is advisable to use the
+	// ListTimeSeries method when debugging this
+	// field.
+	// Structure is documented below.
+	Aggregations []ConditionThresholdAggregationsObservation `json:"aggregations,omitempty" tf:"aggregations,omitempty"`
+
+	// The comparison to apply between the time
+	// series (indicated by filter and aggregation)
+	// and the threshold (indicated by
+	// threshold_value). The comparison is applied
+	// on each time series, with the time series on
+	// the left-hand side and the threshold on the
+	// right-hand side. Only COMPARISON_LT and
+	// COMPARISON_GT are supported currently.
+	// Possible values are COMPARISON_GT, COMPARISON_GE, COMPARISON_LT, COMPARISON_LE, COMPARISON_EQ, and COMPARISON_NE.
+	Comparison *string `json:"comparison,omitempty" tf:"comparison,omitempty"`
+
+	// Specifies the alignment of data points in
+	// individual time series selected by
+	// denominatorFilter as well as how to combine
+	// the retrieved time series together (such as
+	// when aggregating multiple streams on each
+	// resource to a single stream for each
+	// resource or when aggregating streams across
+	// all members of a group of resources).When
+	// computing ratios, the aggregations and
+	// denominator_aggregations fields must use the
+	// same alignment period and produce time
+	// series that have the same periodicity and
+	// labels.This field is similar to the one in
+	// the MetricService.ListTimeSeries request. It
+	// is advisable to use the ListTimeSeries
+	// method when debugging this field.
+	// Structure is documented below.
+	DenominatorAggregations []DenominatorAggregationsObservation `json:"denominatorAggregations,omitempty" tf:"denominator_aggregations,omitempty"`
+
+	// A filter that identifies a time series that
+	// should be used as the denominator of a ratio
+	// that will be compared with the threshold. If
+	// a denominator_filter is specified, the time
+	// series specified by the filter field will be
+	// used as the numerator.The filter is similar
+	// to the one that is specified in the
+	// MetricService.ListTimeSeries request (that
+	// call is useful to verify the time series
+	// that will be retrieved / processed) and must
+	// specify the metric type and optionally may
+	// contain restrictions on resource type,
+	// resource labels, and metric labels. This
+	// field may not exceed 2048 Unicode characters
+	// in length.
+	DenominatorFilter *string `json:"denominatorFilter,omitempty" tf:"denominator_filter,omitempty"`
+
+	// The amount of time that a time series must
+	// violate the threshold to be considered
+	// failing. Currently, only values that are a
+	// multiple of a minute--e.g., 0, 60, 120, or
+	// 300 seconds--are supported. If an invalid
+	// value is given, an error will be returned.
+	// When choosing a duration, it is useful to
+	// keep in mind the frequency of the underlying
+	// time series data (which may also be affected
+	// by any alignments specified in the
+	// aggregations field); a good duration is long
+	// enough so that a single outlier does not
+	// generate spurious alerts, but short enough
+	// that unhealthy states are detected and
+	// alerted on quickly.
+	Duration *string `json:"duration,omitempty" tf:"duration,omitempty"`
+
+	// A condition control that determines how
+	// metric-threshold conditions are evaluated when
+	// data stops arriving.
+	// Possible values are EVALUATION_MISSING_DATA_INACTIVE, EVALUATION_MISSING_DATA_ACTIVE, and EVALUATION_MISSING_DATA_NO_OP.
+	EvaluationMissingData *string `json:"evaluationMissingData,omitempty" tf:"evaluation_missing_data,omitempty"`
+
+	// A filter that identifies which time series
+	// should be compared with the threshold.The
+	// filter is similar to the one that is
+	// specified in the
+	// MetricService.ListTimeSeries request (that
+	// call is useful to verify the time series
+	// that will be retrieved / processed) and must
+	// specify the metric type and optionally may
+	// contain restrictions on resource type,
+	// resource labels, and metric labels. This
+	// field may not exceed 2048 Unicode characters
+	// in length.
+	Filter *string `json:"filter,omitempty" tf:"filter,omitempty"`
+
+	// A value against which to compare the time
+	// series.
+	ThresholdValue *float64 `json:"thresholdValue,omitempty" tf:"threshold_value,omitempty"`
+
+	// The number/percent of time series for which
+	// the comparison must hold in order for the
+	// condition to trigger. If unspecified, then
+	// the condition will trigger if the comparison
+	// is true for any of the time series that have
+	// been identified by filter and aggregations,
+	// or by the ratio, if denominator_filter and
+	// denominator_aggregations are specified.
+	// Structure is documented below.
+	Trigger []ConditionThresholdTriggerObservation `json:"trigger,omitempty" tf:"trigger,omitempty"`
 }
 
 type ConditionThresholdParameters struct {
@@ -611,6 +1073,16 @@ type ConditionThresholdParameters struct {
 }
 
 type ConditionThresholdTriggerObservation struct {
+
+	// The absolute number of time series
+	// that must fail the predicate for the
+	// condition to be triggered.
+	Count *float64 `json:"count,omitempty" tf:"count,omitempty"`
+
+	// The percentage of time series that
+	// must fail the predicate for the
+	// condition to be triggered.
+	Percent *float64 `json:"percent,omitempty" tf:"percent,omitempty"`
 }
 
 type ConditionThresholdTriggerParameters struct {
@@ -629,6 +1101,32 @@ type ConditionThresholdTriggerParameters struct {
 }
 
 type ConditionsObservation struct {
+
+	// A condition that checks that a time series
+	// continues to receive new data points.
+	// Structure is documented below.
+	ConditionAbsent []ConditionAbsentObservation `json:"conditionAbsent,omitempty" tf:"condition_absent,omitempty"`
+
+	// A condition that checks for log messages matching given constraints.
+	// If set, no other conditions can be present.
+	// Structure is documented below.
+	ConditionMatchedLog []ConditionMatchedLogObservation `json:"conditionMatchedLog,omitempty" tf:"condition_matched_log,omitempty"`
+
+	// A Monitoring Query Language query that outputs a boolean stream
+	// Structure is documented below.
+	ConditionMonitoringQueryLanguage []ConditionMonitoringQueryLanguageObservation `json:"conditionMonitoringQueryLanguage,omitempty" tf:"condition_monitoring_query_language,omitempty"`
+
+	// A condition that compares a time series against a
+	// threshold.
+	// Structure is documented below.
+	ConditionThreshold []ConditionThresholdObservation `json:"conditionThreshold,omitempty" tf:"condition_threshold,omitempty"`
+
+	// A short name or phrase used to identify the
+	// condition in dashboards, notifications, and
+	// incidents. To avoid confusion, don't use the same
+	// display name for multiple conditions in the same
+	// policy.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// The unique resource name for this condition.
 	// Its syntax is:
@@ -686,6 +1184,89 @@ type CreationRecordParameters struct {
 }
 
 type DenominatorAggregationsObservation struct {
+
+	// The alignment period for per-time
+	// series alignment. If present,
+	// alignmentPeriod must be at least
+	// 60 seconds. After per-time series
+	// alignment, each time series will
+	// contain data points only on the
+	// period boundaries. If
+	// perSeriesAligner is not specified
+	// or equals ALIGN_NONE, then this
+	// field is ignored. If
+	// perSeriesAligner is specified and
+	// does not equal ALIGN_NONE, then
+	// this field must be defined;
+	// otherwise an error is returned.
+	AlignmentPeriod *string `json:"alignmentPeriod,omitempty" tf:"alignment_period,omitempty"`
+
+	// The approach to be used to combine
+	// time series. Not all reducer
+	// functions may be applied to all
+	// time series, depending on the
+	// metric type and the value type of
+	// the original time series.
+	// Reduction may change the metric
+	// type of value type of the time
+	// series.Time series data must be
+	// aligned in order to perform cross-
+	// time series reduction. If
+	// crossSeriesReducer is specified,
+	// then perSeriesAligner must be
+	// specified and not equal ALIGN_NONE
+	// and alignmentPeriod must be
+	// specified; otherwise, an error is
+	// returned.
+	// Possible values are REDUCE_NONE, REDUCE_MEAN, REDUCE_MIN, REDUCE_MAX, REDUCE_SUM, REDUCE_STDDEV, REDUCE_COUNT, REDUCE_COUNT_TRUE, REDUCE_COUNT_FALSE, REDUCE_FRACTION_TRUE, REDUCE_PERCENTILE_99, REDUCE_PERCENTILE_95, REDUCE_PERCENTILE_50, and REDUCE_PERCENTILE_05.
+	CrossSeriesReducer *string `json:"crossSeriesReducer,omitempty" tf:"cross_series_reducer,omitempty"`
+
+	// The set of fields to preserve when
+	// crossSeriesReducer is specified.
+	// The groupByFields determine how
+	// the time series are partitioned
+	// into subsets prior to applying the
+	// aggregation function. Each subset
+	// contains time series that have the
+	// same value for each of the
+	// grouping fields. Each individual
+	// time series is a member of exactly
+	// one subset. The crossSeriesReducer
+	// is applied to each subset of time
+	// series. It is not possible to
+	// reduce across different resource
+	// types, so this field implicitly
+	// contains resource.type. Fields not
+	// specified in groupByFields are
+	// aggregated away. If groupByFields
+	// is not specified and all the time
+	// series have the same resource
+	// type, then the time series are
+	// aggregated into a single output
+	// time series. If crossSeriesReducer
+	// is not defined, this field is
+	// ignored.
+	GroupByFields []*string `json:"groupByFields,omitempty" tf:"group_by_fields,omitempty"`
+
+	// The approach to be used to align
+	// individual time series. Not all
+	// alignment functions may be applied
+	// to all time series, depending on
+	// the metric type and value type of
+	// the original time series.
+	// Alignment may change the metric
+	// type or the value type of the time
+	// series.Time series data must be
+	// aligned in order to perform cross-
+	// time series reduction. If
+	// crossSeriesReducer is specified,
+	// then perSeriesAligner must be
+	// specified and not equal ALIGN_NONE
+	// and alignmentPeriod must be
+	// specified; otherwise, an error is
+	// returned.
+	// Possible values are ALIGN_NONE, ALIGN_DELTA, ALIGN_RATE, ALIGN_INTERPOLATE, ALIGN_NEXT_OLDER, ALIGN_MIN, ALIGN_MAX, ALIGN_MEAN, ALIGN_COUNT, ALIGN_SUM, ALIGN_STDDEV, ALIGN_COUNT_TRUE, ALIGN_COUNT_FALSE, ALIGN_FRACTION_TRUE, ALIGN_PERCENTILE_99, ALIGN_PERCENTILE_95, ALIGN_PERCENTILE_50, ALIGN_PERCENTILE_05, and ALIGN_PERCENT_CHANGE.
+	PerSeriesAligner *string `json:"perSeriesAligner,omitempty" tf:"per_series_aligner,omitempty"`
 }
 
 type DenominatorAggregationsParameters struct {
@@ -779,6 +1360,16 @@ type DenominatorAggregationsParameters struct {
 }
 
 type DocumentationObservation struct {
+
+	// The text of the documentation, interpreted according to mimeType.
+	// The content may not exceed 8,192 Unicode characters and may not
+	// exceed more than 10,240 bytes when encoded in UTF-8 format,
+	// whichever is smaller.
+	Content *string `json:"content,omitempty" tf:"content,omitempty"`
+
+	// The format of the content field. Presently, only the value
+	// "text/markdown" is supported.
+	MimeType *string `json:"mimeType,omitempty" tf:"mime_type,omitempty"`
 }
 
 type DocumentationParameters struct {
@@ -797,6 +1388,9 @@ type DocumentationParameters struct {
 }
 
 type NotificationRateLimitObservation struct {
+
+	// Not more than one notification per period.
+	Period *string `json:"period,omitempty" tf:"period,omitempty"`
 }
 
 type NotificationRateLimitParameters struct {
@@ -807,6 +1401,16 @@ type NotificationRateLimitParameters struct {
 }
 
 type TriggerObservation struct {
+
+	// The absolute number of time series
+	// that must fail the predicate for the
+	// condition to be triggered.
+	Count *float64 `json:"count,omitempty" tf:"count,omitempty"`
+
+	// The percentage of time series that
+	// must fail the predicate for the
+	// condition to be triggered.
+	Percent *float64 `json:"percent,omitempty" tf:"percent,omitempty"`
 }
 
 type TriggerParameters struct {
@@ -848,8 +1452,11 @@ type AlertPolicyStatus struct {
 type AlertPolicy struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              AlertPolicySpec   `json:"spec"`
-	Status            AlertPolicyStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.combiner)",message="combiner is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.conditions)",message="conditions is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.displayName)",message="displayName is a required parameter"
+	Spec   AlertPolicySpec   `json:"spec"`
+	Status AlertPolicyStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

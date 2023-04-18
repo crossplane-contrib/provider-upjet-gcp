@@ -33,8 +33,23 @@ type DNSAuthorizationObservation struct {
 	// Structure is documented below.
 	DNSResourceRecord []DNSResourceRecordObservation `json:"dnsResourceRecord,omitempty" tf:"dns_resource_record,omitempty"`
 
+	// A human-readable description of the resource.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// A domain which is being authorized. A DnsAuthorization resource covers a
+	// single domain and its wildcard, e.g. authorization for "example.com" can
+	// be used to issue certificates for "example.com" and "*.example.com".
+	Domain *string `json:"domain,omitempty" tf:"domain,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/locations/global/dnsAuthorizations/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Set of label tags associated with the DNS Authorization resource.
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 
 type DNSAuthorizationParameters struct {
@@ -46,8 +61,8 @@ type DNSAuthorizationParameters struct {
 	// A domain which is being authorized. A DnsAuthorization resource covers a
 	// single domain and its wildcard, e.g. authorization for "example.com" can
 	// be used to issue certificates for "example.com" and "*.example.com".
-	// +kubebuilder:validation:Required
-	Domain *string `json:"domain" tf:"domain,omitempty"`
+	// +kubebuilder:validation:Optional
+	Domain *string `json:"domain,omitempty" tf:"domain,omitempty"`
 
 	// Set of label tags associated with the DNS Authorization resource.
 	// +kubebuilder:validation:Optional
@@ -99,8 +114,9 @@ type DNSAuthorizationStatus struct {
 type DNSAuthorization struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DNSAuthorizationSpec   `json:"spec"`
-	Status            DNSAuthorizationStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.domain)",message="domain is a required parameter"
+	Spec   DNSAuthorizationSpec   `json:"spec"`
+	Status DNSAuthorizationStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

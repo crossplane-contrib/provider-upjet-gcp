@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.11.1
+    controller-gen.kubebuilder.io/version: v0.11.3
   creationTimestamp: null
   name: disks.compute.gcp.upbound.io
 spec:
@@ -56,9 +56,13 @@ spec:
             properties:
               deletionPolicy:
                 default: Delete
-                description: DeletionPolicy specifies what will happen to the underlying
+                description: 'DeletionPolicy specifies what will happen to the underlying
                   external when this managed resource is deleted - either "Delete"
-                  or "Orphan" the external resource.
+                  or "Orphan" the external resource. This field is planned to be deprecated
+                  in favor of the ManagementPolicy field in a future release. Currently,
+                  both could be set independently and non-default values would be
+                  honored if the feature flag is enabled. See the design doc for more
+                  information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
                 enum:
                 - Orphan
                 - Delete
@@ -253,6 +257,21 @@ spec:
                 required:
                 - zone
                 type: object
+              managementPolicy:
+                default: FullControl
+                description: 'THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice. ManagementPolicy
+                  specifies the level of control Crossplane has over the managed external
+                  resource. This field is planned to replace the DeletionPolicy field
+                  in a future release. Currently, both could be set independently
+                  and non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
+                enum:
+                - FullControl
+                - ObserveOnly
+                - OrphanOnDelete
+                type: string
               providerConfigRef:
                 default:
                   name: default
@@ -432,6 +451,10 @@ spec:
                   creationTimestamp:
                     description: Creation timestamp in RFC3339 text format.
                     type: string
+                  description:
+                    description: An optional description of this resource. Provide
+                      this property when you create the resource.
+                    type: string
                   diskEncryptionKey:
                     description: Encrypts the disk using a customer-supplied encryption
                       key. After you encrypt a disk with a customer-supplied key,
@@ -445,6 +468,19 @@ spec:
                       documented below.
                     items:
                       properties:
+                        kmsKeySelfLink:
+                          description: The self link of the encryption key used to
+                            encrypt the disk. Also called KmsKeyName in the cloud
+                            console. Your project's Compute Engine System service
+                            account (service-{{PROJECT_NUMBER}}@compute-system.iam.gserviceaccount.com)
+                            must have roles/cloudkms.cryptoKeyEncrypterDecrypter to
+                            use this feature. See https://cloud.google.com/compute/docs/disks/customer-managed-encryption#encrypt_a_new_persistent_disk_with_your_own_keys
+                          type: string
+                        kmsKeyServiceAccount:
+                          description: The service account used for the encryption
+                            request for the given KMS key. If absent, the Compute
+                            Engine Service Agent service account is used.
+                          type: string
                         sha256:
                           description: The RFC 4648 base64 encoded SHA-256 hash of
                             the customer-supplied encryption key that protects this
@@ -455,18 +491,70 @@ spec:
                   id:
                     description: an identifier for the resource with format projects/{{project}}/zones/{{zone}}/disks/{{name}}
                     type: string
+                  image:
+                    description: 'The image from which to initialize this disk. This
+                      can be one of: the image''s self_link, projects/{project}/global/images/{image},
+                      projects/{project}/global/images/family/{family}, global/images/{image},
+                      global/images/family/{family}, family/{family}, {project}/{family},
+                      {project}/{image}, {family}, or {image}. If referred by family,
+                      the images names must include the family name. If they don''t,
+                      use the google_compute_image data source. For instance, the
+                      image centos-6-v20180104 includes its family name centos-6.
+                      These images can be referred by family name here.'
+                    type: string
                   labelFingerprint:
                     description: The fingerprint used for optimistic locking of this
                       resource.  Used internally during updates.
                     type: string
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: Labels to apply to this disk.  A list of key->value
+                      pairs.
+                    type: object
                   lastAttachTimestamp:
                     description: Last attach timestamp in RFC3339 text format.
                     type: string
                   lastDetachTimestamp:
                     description: Last detach timestamp in RFC3339 text format.
                     type: string
+                  physicalBlockSizeBytes:
+                    description: Physical block size of the persistent disk, in bytes.
+                      If not present in a request, a default value is used. Currently
+                      supported sizes are 4096 and 16384, other sizes may be added
+                      in the future. If an unsupported value is requested, the error
+                      message will list the supported values for the caller's project.
+                    type: number
+                  project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  provisionedIops:
+                    description: Indicates how many IOPS must be provisioned for the
+                      disk.
+                    type: number
                   selfLink:
                     description: The URI of the created resource.
+                    type: string
+                  size:
+                    description: Size of the persistent disk, specified in GB. You
+                      can specify this field when creating a persistent disk using
+                      the image or snapshot parameter, or specify it alone to create
+                      an empty persistent disk. If you specify this field along with
+                      image or snapshot, the value must not be less than the size
+                      of the image or the size of the snapshot. You can add lifecycle.prevent_destroy
+                      in the config to prevent destroying and recreating.
+                    type: number
+                  snapshot:
+                    description: 'The source snapshot used to create this disk. You
+                      can provide this as a partial or full URL to the resource. If
+                      the snapshot is in another project than this disk, you must
+                      supply a full URL. For example, the following are valid values:'
+                    type: string
+                  sourceDisk:
+                    description: 'The source disk used to create this disk. You can
+                      provide this as a partial or full URL to the resource. For example,
+                      the following are valid values:'
                     type: string
                   sourceDiskId:
                     description: The ID value of the disk used to create this image.
@@ -479,6 +567,24 @@ spec:
                       encryption key. Structure is documented below.
                     items:
                       properties:
+                        kmsKeySelfLink:
+                          description: The self link of the encryption key used to
+                            encrypt the disk. Also called KmsKeyName in the cloud
+                            console. Your project's Compute Engine System service
+                            account (service-{{PROJECT_NUMBER}}@compute-system.iam.gserviceaccount.com)
+                            must have roles/cloudkms.cryptoKeyEncrypterDecrypter to
+                            use this feature. See https://cloud.google.com/compute/docs/disks/customer-managed-encryption#encrypt_a_new_persistent_disk_with_your_own_keys
+                          type: string
+                        kmsKeyServiceAccount:
+                          description: The service account used for the encryption
+                            request for the given KMS key. If absent, the Compute
+                            Engine Service Agent service account is used.
+                          type: string
+                        rawKey:
+                          description: Specifies a 256-bit customer-supplied encryption
+                            key, encoded in RFC 4648 base64 to either encrypt or decrypt
+                            this resource.
+                          type: string
                         sha256:
                           description: The RFC 4648 base64 encoded SHA-256 hash of
                             the customer-supplied encryption key that protects this
@@ -500,6 +606,24 @@ spec:
                       customer-supplied encryption key. Structure is documented below.
                     items:
                       properties:
+                        kmsKeySelfLink:
+                          description: The self link of the encryption key used to
+                            encrypt the disk. Also called KmsKeyName in the cloud
+                            console. Your project's Compute Engine System service
+                            account (service-{{PROJECT_NUMBER}}@compute-system.iam.gserviceaccount.com)
+                            must have roles/cloudkms.cryptoKeyEncrypterDecrypter to
+                            use this feature. See https://cloud.google.com/compute/docs/disks/customer-managed-encryption#encrypt_a_new_persistent_disk_with_your_own_keys
+                          type: string
+                        kmsKeyServiceAccount:
+                          description: The service account used for the encryption
+                            request for the given KMS key. If absent, the Compute
+                            Engine Service Agent service account is used.
+                          type: string
+                        rawKey:
+                          description: Specifies a 256-bit customer-supplied encryption
+                            key, encoded in RFC 4648 base64 to either encrypt or decrypt
+                            this resource.
+                          type: string
                         sha256:
                           description: The RFC 4648 base64 encoded SHA-256 hash of
                             the customer-supplied encryption key that protects this
@@ -515,12 +639,20 @@ spec:
                       recreated under the same name, the source snapshot ID would
                       identify the exact version of the snapshot that was used.
                     type: string
+                  type:
+                    description: URL of the disk type resource describing which disk
+                      type to use to create the disk. Provide this when creating the
+                      disk.
+                    type: string
                   users:
                     description: 'Links to the users of the disk (attached instances)
                       in form: project/zones/zone/instances/instance'
                     items:
                       type: string
                     type: array
+                  zone:
+                    description: A reference to the zone where the disk resides.
+                    type: string
                 type: object
               conditions:
                 description: Conditions of the resource.

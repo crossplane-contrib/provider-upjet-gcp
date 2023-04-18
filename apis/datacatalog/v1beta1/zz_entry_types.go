@@ -70,9 +70,21 @@ type EntryObservation struct {
 	// Structure is documented below.
 	BigqueryTableSpec []BigqueryTableSpecObservation `json:"bigqueryTableSpec,omitempty" tf:"bigquery_table_spec,omitempty"`
 
+	// Entry description, which can consist of several sentences or paragraphs that describe entry contents.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Display information such as title and description. A short name to identify the entry,
+	// for example, "Analytics Data - Jan 2011".
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// The name of the entry group this entry is in.
+	EntryGroup *string `json:"entryGroup,omitempty" tf:"entry_group,omitempty"`
+
+	// The id of the entry to create.
+	EntryID *string `json:"entryId,omitempty" tf:"entry_id,omitempty"`
+
 	// Specification that applies to a Cloud Storage fileset. This is only valid on entries of type FILESET.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	GcsFilesetSpec []GcsFilesetSpecObservation `json:"gcsFilesetSpec,omitempty" tf:"gcs_fileset_spec,omitempty"`
 
 	// an identifier for the resource with format {{name}}
@@ -81,10 +93,41 @@ type EntryObservation struct {
 	// This field indicates the entry's source system that Data Catalog integrates with, such as BigQuery or Pub/Sub.
 	IntegratedSystem *string `json:"integratedSystem,omitempty" tf:"integrated_system,omitempty"`
 
+	// The resource this metadata entry refers to.
+	// For Google Cloud Platform resources, linkedResource is the full name of the resource.
+	// For example, the linkedResource for a table resource from BigQuery is:
+	// //bigquery.googleapis.com/projects/projectId/datasets/datasetId/tables/tableId
+	// Output only when Entry is of type in the EntryType enum. For entries with userSpecifiedType,
+	// this field is optional and defaults to an empty string.
+	LinkedResource *string `json:"linkedResource,omitempty" tf:"linked_resource,omitempty"`
+
 	// The Data Catalog resource name of the entry in URL format.
 	// Example: projects/{project_id}/locations/{location}/entryGroups/{entryGroupId}/entries/{entryId}.
 	// Note that this Entry and its child resources may not actually be stored in the location in this name.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Schema of the entry (e.g. BigQuery, GoogleSQL, Avro schema), as a json string. An entry might not have any schema
+	// attached to it. See
+	// https://cloud.google.com/data-catalog/docs/reference/rest/v1/projects.locations.entryGroups.entries#schema
+	// for what fields this schema can contain.
+	Schema *string `json:"schema,omitempty" tf:"schema,omitempty"`
+
+	// The type of the entry. Only used for Entries with types in the EntryType enum.
+	// Currently, only FILESET enum value is allowed. All other entries created through Data Catalog must use userSpecifiedType.
+	// Possible values are FILESET.
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+
+	// This field indicates the entry's source system that Data Catalog does not integrate with.
+	// userSpecifiedSystem strings must begin with a letter or underscore and can only contain letters, numbers,
+	// and underscores; are case insensitive; must be at least 1 character and at most 64 characters long.
+	UserSpecifiedSystem *string `json:"userSpecifiedSystem,omitempty" tf:"user_specified_system,omitempty"`
+
+	// Entry type if it does not fit any of the input-allowed values listed in EntryType enum above.
+	// When creating an entry, users should check the enum values first, if nothing matches the entry
+	// to be created, then provide a custom value, for example "my_special_type".
+	// userSpecifiedType strings must begin with a letter or underscore and can only contain letters,
+	// numbers, and underscores; are case insensitive; must be at least 1 character and at most 64 characters long.
+	UserSpecifiedType *string `json:"userSpecifiedType,omitempty" tf:"user_specified_type,omitempty"`
 }
 
 type EntryParameters struct {
@@ -113,8 +156,8 @@ type EntryParameters struct {
 	EntryGroupSelector *v1.Selector `json:"entryGroupSelector,omitempty" tf:"-"`
 
 	// The id of the entry to create.
-	// +kubebuilder:validation:Required
-	EntryID *string `json:"entryId" tf:"entry_id,omitempty"`
+	// +kubebuilder:validation:Optional
+	EntryID *string `json:"entryId,omitempty" tf:"entry_id,omitempty"`
 
 	// Specification that applies to a Cloud Storage fileset. This is only valid on entries of type FILESET.
 	// Structure is documented below.
@@ -159,6 +202,11 @@ type EntryParameters struct {
 }
 
 type GcsFilesetSpecObservation struct {
+
+	// Patterns to identify a set of files in Google Cloud Storage.
+	// See Cloud Storage documentation
+	// for more information. Note that bucket wildcards are currently not supported. Examples of valid filePatterns:
+	FilePatterns []*string `json:"filePatterns,omitempty" tf:"file_patterns,omitempty"`
 
 	// Sample files contained in this fileset, not all files contained in this fileset are represented here.
 	// Structure is documented below.
@@ -231,8 +279,9 @@ type EntryStatus struct {
 type Entry struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              EntrySpec   `json:"spec"`
-	Status            EntryStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.entryId)",message="entryId is a required parameter"
+	Spec   EntrySpec   `json:"spec"`
+	Status EntryStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

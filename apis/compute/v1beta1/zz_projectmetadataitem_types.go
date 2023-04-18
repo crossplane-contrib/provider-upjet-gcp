@@ -29,13 +29,23 @@ type ProjectMetadataItemObservation struct {
 
 	// an identifier for the resource with format `{{key}}`
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The metadata key to set.
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	// The ID of the project in which the resource belongs. If it
+	// is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The value to set for the given metadata key.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
 
 type ProjectMetadataItemParameters struct {
 
 	// The metadata key to set.
-	// +kubebuilder:validation:Required
-	Key *string `json:"key" tf:"key,omitempty"`
+	// +kubebuilder:validation:Optional
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
 
 	// The ID of the project in which the resource belongs. If it
 	// is not provided, the provider project is used.
@@ -43,8 +53,8 @@ type ProjectMetadataItemParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The value to set for the given metadata key.
-	// +kubebuilder:validation:Required
-	Value *string `json:"value" tf:"value,omitempty"`
+	// +kubebuilder:validation:Optional
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
 
 // ProjectMetadataItemSpec defines the desired state of ProjectMetadataItem
@@ -71,8 +81,10 @@ type ProjectMetadataItemStatus struct {
 type ProjectMetadataItem struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              ProjectMetadataItemSpec   `json:"spec"`
-	Status            ProjectMetadataItemStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.key)",message="key is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.value)",message="value is a required parameter"
+	Spec   ProjectMetadataItemSpec   `json:"spec"`
+	Status ProjectMetadataItemStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

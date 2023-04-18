@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.11.1
+    controller-gen.kubebuilder.io/version: v0.11.3
   creationTimestamp: null
   name: routerinterfaces.compute.gcp.upbound.io
 spec:
@@ -55,9 +55,13 @@ spec:
             properties:
               deletionPolicy:
                 default: Delete
-                description: DeletionPolicy specifies what will happen to the underlying
+                description: 'DeletionPolicy specifies what will happen to the underlying
                   external when this managed resource is deleted - either "Delete"
-                  or "Orphan" the external resource.
+                  or "Orphan" the external resource. This field is planned to be deprecated
+                  in favor of the ManagementPolicy field in a future release. Currently,
+                  both could be set independently and non-default values would be
+                  honored if the feature flag is enabled. See the design doc for more
+                  information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
                 enum:
                 - Orphan
                 - Delete
@@ -264,9 +268,22 @@ spec:
                             type: string
                         type: object
                     type: object
-                required:
-                - name
                 type: object
+              managementPolicy:
+                default: FullControl
+                description: 'THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice. ManagementPolicy
+                  specifies the level of control Crossplane has over the managed external
+                  resource. This field is planned to replace the DeletionPolicy field
+                  in a future release. Currently, both could be set independently
+                  and non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
+                enum:
+                - FullControl
+                - ObserveOnly
+                - OrphanOnDelete
+                type: string
               providerConfigRef:
                 default:
                   name: default
@@ -438,6 +455,9 @@ spec:
             required:
             - forProvider
             type: object
+            x-kubernetes-validations:
+            - message: name is a required parameter
+              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.name)
           status:
             description: RouterInterfaceStatus defines the observed state of RouterInterface.
             properties:
@@ -445,6 +465,60 @@ spec:
                 properties:
                   id:
                     description: an identifier for the resource with format {{region}}/{{router}}/{{name}}
+                    type: string
+                  interconnectAttachment:
+                    description: The name or resource link to the VLAN interconnect
+                      for this interface. Changing this forces a new interface to
+                      be created. Only one of vpn_tunnel, interconnect_attachment
+                      or subnetwork can be specified.
+                    type: string
+                  ipRange:
+                    description: IP address and range of the interface. The IP range
+                      must be in the RFC3927 link-local IP space. Changing this forces
+                      a new interface to be created.
+                    type: string
+                  name:
+                    description: A unique name for the interface, required by GCE.
+                      Changing this forces a new interface to be created.
+                    type: string
+                  privateIpAddress:
+                    description: The regional private internal IP address that is
+                      used to establish BGP sessions to a VM instance acting as a
+                      third-party Router Appliance. Changing this forces a new interface
+                      to be created.
+                    type: string
+                  project:
+                    description: The ID of the project in which this interface's router
+                      belongs. If it is not provided, the provider project is used.
+                      Changing this forces a new interface to be created.
+                    type: string
+                  redundantInterface:
+                    description: The name of the interface that is redundant to this
+                      interface. Changing this forces a new interface to be created.
+                    type: string
+                  region:
+                    description: The region this interface's router sits in. If not
+                      specified, the project region will be used. Changing this forces
+                      a new interface to be created.
+                    type: string
+                  router:
+                    description: The name of the router this interface will be attached
+                      to. Changing this forces a new interface to be created.
+                    type: string
+                  subnetwork:
+                    description: The URI of the subnetwork resource that this interface
+                      belongs to, which must be in the same region as the Cloud Router.
+                      When you establish a BGP session to a VM instance using this
+                      interface, the VM instance must belong to the same subnetwork
+                      as the subnetwork specified here. Changing this forces a new
+                      interface to be created. Only one of vpn_tunnel, interconnect_attachment
+                      or subnetwork can be specified.
+                    type: string
+                  vpnTunnel:
+                    description: The name or resource link to the VPN tunnel this
+                      interface will be linked to. Changing this forces a new interface
+                      to be created. Only one of vpn_tunnel, interconnect_attachment
+                      or subnetwork can be specified.
                     type: string
                 type: object
               conditions:

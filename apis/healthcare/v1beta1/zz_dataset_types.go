@@ -30,19 +30,34 @@ type DatasetObservation struct {
 	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/datasets/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// The location for the Dataset.
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
+	// The resource name for the Dataset.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
 	// The fully qualified name of this dataset
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
+
+	// The default timezone used by this dataset. Must be a either a valid IANA time zone name such as
+	// "America/New_York" or empty, which defaults to UTC. This is used for parsing times in resources
+	// (e.g., HL7 messages) where no explicit timezone is specified.
+	TimeZone *string `json:"timeZone,omitempty" tf:"time_zone,omitempty"`
 }
 
 type DatasetParameters struct {
 
 	// The location for the Dataset.
-	// +kubebuilder:validation:Required
-	Location *string `json:"location" tf:"location,omitempty"`
+	// +kubebuilder:validation:Optional
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
 	// The resource name for the Dataset.
-	// +kubebuilder:validation:Required
-	Name *string `json:"name" tf:"name,omitempty"`
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -80,8 +95,10 @@ type DatasetStatus struct {
 type Dataset struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DatasetSpec   `json:"spec"`
-	Status            DatasetStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.location)",message="location is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.name)",message="name is a required parameter"
+	Spec   DatasetSpec   `json:"spec"`
+	Status DatasetStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

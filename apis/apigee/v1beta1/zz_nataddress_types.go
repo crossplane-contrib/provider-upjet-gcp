@@ -33,6 +33,10 @@ type NATAddressObservation struct {
 	// The allocated NAT IP address.
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
 
+	// The Apigee instance associated with the Apigee environment,
+	// in the format organizations/{{org_name}}/instances/{{instance_name}}.
+	InstanceID *string `json:"instanceId,omitempty" tf:"instance_id,omitempty"`
+
 	// State of the NAT IP address.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 }

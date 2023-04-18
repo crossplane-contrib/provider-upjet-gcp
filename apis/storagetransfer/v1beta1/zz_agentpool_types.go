@@ -27,8 +27,19 @@ import (
 
 type AgentPoolObservation struct {
 
+	// Specifies the bandwidth limit details. If this field is unspecified, the default value is set as 'No Limit'.
+	// Structure is documented below.
+	BandwidthLimit []BandwidthLimitObservation `json:"bandwidthLimit,omitempty" tf:"bandwidth_limit,omitempty"`
+
+	// Specifies the client-specified AgentPool description.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/agentPools/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Specifies the state of the AgentPool.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
@@ -52,6 +63,9 @@ type AgentPoolParameters struct {
 }
 
 type BandwidthLimitObservation struct {
+
+	// Bandwidth rate in megabytes per second, distributed across all the agents in the pool.
+	LimitMbps *string `json:"limitMbps,omitempty" tf:"limit_mbps,omitempty"`
 }
 
 type BandwidthLimitParameters struct {

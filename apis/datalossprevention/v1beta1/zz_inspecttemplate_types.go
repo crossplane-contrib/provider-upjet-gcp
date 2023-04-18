@@ -26,6 +26,9 @@ import (
 )
 
 type CloudStoragePathObservation struct {
+
+	// A url representing a file or path (no wildcards) in Cloud Storage. Example: gs://[BUCKET_NAME]/dictionary.txt
+	Path *string `json:"path,omitempty" tf:"path,omitempty"`
 }
 
 type CloudStoragePathParameters struct {
@@ -36,6 +39,34 @@ type CloudStoragePathParameters struct {
 }
 
 type CustomInfoTypesObservation struct {
+
+	// Dictionary which defines the rule.
+	// Structure is documented below.
+	Dictionary []DictionaryObservation `json:"dictionary,omitempty" tf:"dictionary,omitempty"`
+
+	// If set to EXCLUSION_TYPE_EXCLUDE this infoType will not cause a finding to be returned. It still can be used for rules matching.
+	// Possible values are EXCLUSION_TYPE_EXCLUDE.
+	ExclusionType *string `json:"exclusionType,omitempty" tf:"exclusion_type,omitempty"`
+
+	// Type of information the findings limit applies to. Only one limit per infoType should be provided. If InfoTypeLimit does
+	// not have an infoType, the DLP API applies the limit against all infoTypes that are found but not
+	// specified in another InfoTypeLimit.
+	// Structure is documented below.
+	InfoType []InfoTypeObservation `json:"infoType,omitempty" tf:"info_type,omitempty"`
+
+	// Likelihood to return for this CustomInfoType. This base value can be altered by a detection rule if the finding meets the criteria
+	// specified by the rule.
+	// Default value is VERY_LIKELY.
+	// Possible values are VERY_UNLIKELY, UNLIKELY, POSSIBLE, LIKELY, and VERY_LIKELY.
+	Likelihood *string `json:"likelihood,omitempty" tf:"likelihood,omitempty"`
+
+	// Regular expression which defines the rule.
+	// Structure is documented below.
+	Regex []RegexObservation `json:"regex,omitempty" tf:"regex,omitempty"`
+
+	// A reference to a StoredInfoType to use with scanning.
+	// Structure is documented below.
+	StoredType []StoredTypeObservation `json:"storedType,omitempty" tf:"stored_type,omitempty"`
 }
 
 type CustomInfoTypesParameters struct {
@@ -76,6 +107,9 @@ type CustomInfoTypesParameters struct {
 }
 
 type DictionaryCloudStoragePathObservation struct {
+
+	// A url representing a file or path (no wildcards) in Cloud Storage. Example: gs://[BUCKET_NAME]/dictionary.txt
+	Path *string `json:"path,omitempty" tf:"path,omitempty"`
 }
 
 type DictionaryCloudStoragePathParameters struct {
@@ -86,6 +120,14 @@ type DictionaryCloudStoragePathParameters struct {
 }
 
 type DictionaryObservation struct {
+
+	// Newline-delimited file of words in Cloud Storage. Only a single file is accepted.
+	// Structure is documented below.
+	CloudStoragePath []CloudStoragePathObservation `json:"cloudStoragePath,omitempty" tf:"cloud_storage_path,omitempty"`
+
+	// List of words or phrases to search for.
+	// Structure is documented below.
+	WordList []DictionaryWordListObservation `json:"wordList,omitempty" tf:"word_list,omitempty"`
 }
 
 type DictionaryParameters struct {
@@ -102,6 +144,10 @@ type DictionaryParameters struct {
 }
 
 type DictionaryWordListObservation struct {
+
+	// Words or phrases defining the dictionary. The dictionary must contain at least one
+	// phrase and every phrase must contain at least 2 characters that are letters or digits.
+	Words []*string `json:"words,omitempty" tf:"words,omitempty"`
 }
 
 type DictionaryWordListParameters struct {
@@ -113,6 +159,10 @@ type DictionaryWordListParameters struct {
 }
 
 type ExcludeInfoTypesInfoTypesObservation struct {
+
+	// Resource name of the requested StoredInfoType, for example organizations/433245324/storedInfoTypes/432452342
+	// or projects/project-id/storedInfoTypes/432452342.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 }
 
 type ExcludeInfoTypesInfoTypesParameters struct {
@@ -124,6 +174,10 @@ type ExcludeInfoTypesInfoTypesParameters struct {
 }
 
 type ExcludeInfoTypesObservation struct {
+
+	// List of infoTypes this rule set is applied to.
+	// Structure is documented below.
+	InfoTypes []ExcludeInfoTypesInfoTypesObservation `json:"infoTypes,omitempty" tf:"info_types,omitempty"`
 }
 
 type ExcludeInfoTypesParameters struct {
@@ -135,6 +189,14 @@ type ExcludeInfoTypesParameters struct {
 }
 
 type ExclusionRuleDictionaryObservation struct {
+
+	// Newline-delimited file of words in Cloud Storage. Only a single file is accepted.
+	// Structure is documented below.
+	CloudStoragePath []DictionaryCloudStoragePathObservation `json:"cloudStoragePath,omitempty" tf:"cloud_storage_path,omitempty"`
+
+	// List of words or phrases to search for.
+	// Structure is documented below.
+	WordList []ExclusionRuleDictionaryWordListObservation `json:"wordList,omitempty" tf:"word_list,omitempty"`
 }
 
 type ExclusionRuleDictionaryParameters struct {
@@ -151,6 +213,10 @@ type ExclusionRuleDictionaryParameters struct {
 }
 
 type ExclusionRuleDictionaryWordListObservation struct {
+
+	// Words or phrases defining the dictionary. The dictionary must contain at least one
+	// phrase and every phrase must contain at least 2 characters that are letters or digits.
+	Words []*string `json:"words,omitempty" tf:"words,omitempty"`
 }
 
 type ExclusionRuleDictionaryWordListParameters struct {
@@ -162,6 +228,21 @@ type ExclusionRuleDictionaryWordListParameters struct {
 }
 
 type ExclusionRuleObservation struct {
+
+	// Dictionary which defines the rule.
+	// Structure is documented below.
+	Dictionary []ExclusionRuleDictionaryObservation `json:"dictionary,omitempty" tf:"dictionary,omitempty"`
+
+	// When true, excludes type information of the findings.
+	ExcludeInfoTypes []ExcludeInfoTypesObservation `json:"excludeInfoTypes,omitempty" tf:"exclude_info_types,omitempty"`
+
+	// How the rule is applied. See the documentation for more information: https://cloud.google.com/dlp/docs/reference/rest/v2/InspectConfig#MatchingType
+	// Possible values are MATCHING_TYPE_FULL_MATCH, MATCHING_TYPE_PARTIAL_MATCH, and MATCHING_TYPE_INVERSE_MATCH.
+	MatchingType *string `json:"matchingType,omitempty" tf:"matching_type,omitempty"`
+
+	// Regular expression which defines the rule.
+	// Structure is documented below.
+	Regex []ExclusionRuleRegexObservation `json:"regex,omitempty" tf:"regex,omitempty"`
 }
 
 type ExclusionRuleParameters struct {
@@ -187,6 +268,13 @@ type ExclusionRuleParameters struct {
 }
 
 type ExclusionRuleRegexObservation struct {
+
+	// The index of the submatch to extract as findings. When not specified, the entire match is returned. No more than 3 may be included.
+	GroupIndexes []*float64 `json:"groupIndexes,omitempty" tf:"group_indexes,omitempty"`
+
+	// Pattern defining the regular expression.
+	// Its syntax (https://github.com/google/re2/wiki/Syntax) can be found under the google/re2 repository on GitHub.
+	Pattern *string `json:"pattern,omitempty" tf:"pattern,omitempty"`
 }
 
 type ExclusionRuleRegexParameters struct {
@@ -202,6 +290,13 @@ type ExclusionRuleRegexParameters struct {
 }
 
 type HotwordRegexObservation struct {
+
+	// The index of the submatch to extract as findings. When not specified, the entire match is returned. No more than 3 may be included.
+	GroupIndexes []*float64 `json:"groupIndexes,omitempty" tf:"group_indexes,omitempty"`
+
+	// Pattern defining the regular expression.
+	// Its syntax (https://github.com/google/re2/wiki/Syntax) can be found under the google/re2 repository on GitHub.
+	Pattern *string `json:"pattern,omitempty" tf:"pattern,omitempty"`
 }
 
 type HotwordRegexParameters struct {
@@ -217,6 +312,22 @@ type HotwordRegexParameters struct {
 }
 
 type HotwordRuleObservation struct {
+
+	// Regular expression pattern defining what qualifies as a hotword.
+	// Structure is documented below.
+	HotwordRegex []HotwordRegexObservation `json:"hotwordRegex,omitempty" tf:"hotword_regex,omitempty"`
+
+	// Likelihood adjustment to apply to all matching findings.
+	// Structure is documented below.
+	LikelihoodAdjustment []LikelihoodAdjustmentObservation `json:"likelihoodAdjustment,omitempty" tf:"likelihood_adjustment,omitempty"`
+
+	// Proximity of the finding within which the entire hotword must reside. The total length of the window cannot
+	// exceed 1000 characters. Note that the finding itself will be included in the window, so that hotwords may be
+	// used to match substrings of the finding itself. For example, the certainty of a phone number regex
+	// (\d{3}) \d{3}-\d{4} could be adjusted upwards if the area code is known to be the local area code of a company
+	// office using the hotword regex (xxx), where xxx is the area code in question.
+	// Structure is documented below.
+	Proximity []ProximityObservation `json:"proximity,omitempty" tf:"proximity,omitempty"`
 }
 
 type HotwordRuleParameters struct {
@@ -242,6 +353,10 @@ type HotwordRuleParameters struct {
 }
 
 type InfoTypeObservation struct {
+
+	// Resource name of the requested StoredInfoType, for example organizations/433245324/storedInfoTypes/432452342
+	// or projects/project-id/storedInfoTypes/432452342.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 }
 
 type InfoTypeParameters struct {
@@ -253,6 +368,13 @@ type InfoTypeParameters struct {
 }
 
 type InspectConfigInfoTypesObservation struct {
+
+	// Resource name of the requested StoredInfoType, for example organizations/433245324/storedInfoTypes/432452342
+	// or projects/project-id/storedInfoTypes/432452342.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Version of the information type to use. By default, the version is set to stable
+	Version *string `json:"version,omitempty" tf:"version,omitempty"`
 }
 
 type InspectConfigInfoTypesParameters struct {
@@ -268,6 +390,41 @@ type InspectConfigInfoTypesParameters struct {
 }
 
 type InspectConfigObservation struct {
+
+	// List of options defining data content to scan. If empty, text, images, and other content will be included.
+	// Each value may be one of CONTENT_TEXT and CONTENT_IMAGE.
+	ContentOptions []*string `json:"contentOptions,omitempty" tf:"content_options,omitempty"`
+
+	// Custom info types to be used. See https://cloud.google.com/dlp/docs/creating-custom-infotypes to learn more.
+	// Structure is documented below.
+	CustomInfoTypes []CustomInfoTypesObservation `json:"customInfoTypes,omitempty" tf:"custom_info_types,omitempty"`
+
+	// When true, excludes type information of the findings.
+	ExcludeInfoTypes *bool `json:"excludeInfoTypes,omitempty" tf:"exclude_info_types,omitempty"`
+
+	// When true, a contextual quote from the data that triggered a finding is included in the response.
+	IncludeQuote *bool `json:"includeQuote,omitempty" tf:"include_quote,omitempty"`
+
+	// Restricts what infoTypes to look for. The values must correspond to InfoType values returned by infoTypes.list
+	// or listed at https://cloud.google.com/dlp/docs/infotypes-reference.
+	// When no InfoTypes or CustomInfoTypes are specified in a request, the system may automatically choose what detectors to run.
+	// By default this may be all types, but may change over time as detectors are updated.
+	// Structure is documented below.
+	InfoTypes []InspectConfigInfoTypesObservation `json:"infoTypes,omitempty" tf:"info_types,omitempty"`
+
+	// Configuration to control the number of findings returned.
+	// Structure is documented below.
+	Limits []LimitsObservation `json:"limits,omitempty" tf:"limits,omitempty"`
+
+	// Only returns findings equal or above this threshold. See https://cloud.google.com/dlp/docs/likelihood for more info
+	// Default value is POSSIBLE.
+	// Possible values are VERY_UNLIKELY, UNLIKELY, POSSIBLE, LIKELY, and VERY_LIKELY.
+	MinLikelihood *string `json:"minLikelihood,omitempty" tf:"min_likelihood,omitempty"`
+
+	// Set of rules to apply to the findings for this InspectConfig. Exclusion rules, contained in the set are executed in the end,
+	// other rules are executed in the order they are specified for each info type.
+	// Structure is documented below.
+	RuleSet []RuleSetObservation `json:"ruleSet,omitempty" tf:"rule_set,omitempty"`
 }
 
 type InspectConfigParameters struct {
@@ -318,11 +475,24 @@ type InspectConfigParameters struct {
 
 type InspectTemplateObservation struct {
 
+	// A description of the inspect template.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// User set display name of the inspect template.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
 	// an identifier for the resource with format {{parent}}/inspectTemplates/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// The core content of the template.
+	// Structure is documented below.
+	InspectConfig []InspectConfigObservation `json:"inspectConfig,omitempty" tf:"inspect_config,omitempty"`
+
 	// The resource name of the inspect template. Set by the server.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The parent of the inspect template in any of the following formats:
+	Parent *string `json:"parent,omitempty" tf:"parent,omitempty"`
 }
 
 type InspectTemplateParameters struct {
@@ -341,11 +511,23 @@ type InspectTemplateParameters struct {
 	InspectConfig []InspectConfigParameters `json:"inspectConfig,omitempty" tf:"inspect_config,omitempty"`
 
 	// The parent of the inspect template in any of the following formats:
-	// +kubebuilder:validation:Required
-	Parent *string `json:"parent" tf:"parent,omitempty"`
+	// +kubebuilder:validation:Optional
+	Parent *string `json:"parent,omitempty" tf:"parent,omitempty"`
 }
 
 type LikelihoodAdjustmentObservation struct {
+
+	// Set the likelihood of a finding to a fixed value. Either this or relative_likelihood can be set.
+	// Possible values are VERY_UNLIKELY, UNLIKELY, POSSIBLE, LIKELY, and VERY_LIKELY.
+	FixedLikelihood *string `json:"fixedLikelihood,omitempty" tf:"fixed_likelihood,omitempty"`
+
+	// Increase or decrease the likelihood by the specified number of levels. For example,
+	// if a finding would be POSSIBLE without the detection rule and relativeLikelihood is 1,
+	// then it is upgraded to LIKELY, while a value of -1 would downgrade it to UNLIKELY.
+	// Likelihood may never drop below VERY_UNLIKELY or exceed VERY_LIKELY, so applying an
+	// adjustment of 1 followed by an adjustment of -1 when base likelihood is VERY_LIKELY
+	// will result in a final likelihood of LIKELY. Either this or fixed_likelihood can be set.
+	RelativeLikelihood *float64 `json:"relativeLikelihood,omitempty" tf:"relative_likelihood,omitempty"`
 }
 
 type LikelihoodAdjustmentParameters struct {
@@ -366,6 +548,16 @@ type LikelihoodAdjustmentParameters struct {
 }
 
 type LimitsObservation struct {
+
+	// Configuration of findings limit given for specified infoTypes.
+	// Structure is documented below.
+	MaxFindingsPerInfoType []MaxFindingsPerInfoTypeObservation `json:"maxFindingsPerInfoType,omitempty" tf:"max_findings_per_info_type,omitempty"`
+
+	// Max number of findings that will be returned for each item scanned. The maximum returned is 2000.
+	MaxFindingsPerItem *float64 `json:"maxFindingsPerItem,omitempty" tf:"max_findings_per_item,omitempty"`
+
+	// Max number of findings that will be returned per request/job. The maximum returned is 2000.
+	MaxFindingsPerRequest *float64 `json:"maxFindingsPerRequest,omitempty" tf:"max_findings_per_request,omitempty"`
 }
 
 type LimitsParameters struct {
@@ -385,6 +577,10 @@ type LimitsParameters struct {
 }
 
 type MaxFindingsPerInfoTypeInfoTypeObservation struct {
+
+	// Resource name of the requested StoredInfoType, for example organizations/433245324/storedInfoTypes/432452342
+	// or projects/project-id/storedInfoTypes/432452342.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 }
 
 type MaxFindingsPerInfoTypeInfoTypeParameters struct {
@@ -396,6 +592,15 @@ type MaxFindingsPerInfoTypeInfoTypeParameters struct {
 }
 
 type MaxFindingsPerInfoTypeObservation struct {
+
+	// Type of information the findings limit applies to. Only one limit per infoType should be provided. If InfoTypeLimit does
+	// not have an infoType, the DLP API applies the limit against all infoTypes that are found but not
+	// specified in another InfoTypeLimit.
+	// Structure is documented below.
+	InfoType []MaxFindingsPerInfoTypeInfoTypeObservation `json:"infoType,omitempty" tf:"info_type,omitempty"`
+
+	// Max findings limit for the given infoType.
+	MaxFindings *float64 `json:"maxFindings,omitempty" tf:"max_findings,omitempty"`
 }
 
 type MaxFindingsPerInfoTypeParameters struct {
@@ -413,6 +618,12 @@ type MaxFindingsPerInfoTypeParameters struct {
 }
 
 type ProximityObservation struct {
+
+	// Number of characters after the finding to consider. Either this or window_before must be specified
+	WindowAfter *float64 `json:"windowAfter,omitempty" tf:"window_after,omitempty"`
+
+	// Number of characters before the finding to consider. Either this or window_after must be specified
+	WindowBefore *float64 `json:"windowBefore,omitempty" tf:"window_before,omitempty"`
 }
 
 type ProximityParameters struct {
@@ -427,6 +638,13 @@ type ProximityParameters struct {
 }
 
 type RegexObservation struct {
+
+	// The index of the submatch to extract as findings. When not specified, the entire match is returned. No more than 3 may be included.
+	GroupIndexes []*float64 `json:"groupIndexes,omitempty" tf:"group_indexes,omitempty"`
+
+	// Pattern defining the regular expression.
+	// Its syntax (https://github.com/google/re2/wiki/Syntax) can be found under the google/re2 repository on GitHub.
+	Pattern *string `json:"pattern,omitempty" tf:"pattern,omitempty"`
 }
 
 type RegexParameters struct {
@@ -442,6 +660,10 @@ type RegexParameters struct {
 }
 
 type RuleSetInfoTypesObservation struct {
+
+	// Resource name of the requested StoredInfoType, for example organizations/433245324/storedInfoTypes/432452342
+	// or projects/project-id/storedInfoTypes/432452342.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 }
 
 type RuleSetInfoTypesParameters struct {
@@ -453,6 +675,14 @@ type RuleSetInfoTypesParameters struct {
 }
 
 type RuleSetObservation struct {
+
+	// List of infoTypes this rule set is applied to.
+	// Structure is documented below.
+	InfoTypes []RuleSetInfoTypesObservation `json:"infoTypes,omitempty" tf:"info_types,omitempty"`
+
+	// Set of rules to be applied to infoTypes. The rules are applied in order.
+	// Structure is documented below.
+	Rules []RulesObservation `json:"rules,omitempty" tf:"rules,omitempty"`
 }
 
 type RuleSetParameters struct {
@@ -469,6 +699,14 @@ type RuleSetParameters struct {
 }
 
 type RulesObservation struct {
+
+	// The rule that specifies conditions when findings of infoTypes specified in InspectionRuleSet are removed from results.
+	// Structure is documented below.
+	ExclusionRule []ExclusionRuleObservation `json:"exclusionRule,omitempty" tf:"exclusion_rule,omitempty"`
+
+	// Hotword-based detection rule.
+	// Structure is documented below.
+	HotwordRule []HotwordRuleObservation `json:"hotwordRule,omitempty" tf:"hotword_rule,omitempty"`
 }
 
 type RulesParameters struct {
@@ -485,6 +723,10 @@ type RulesParameters struct {
 }
 
 type StoredTypeObservation struct {
+
+	// Resource name of the requested StoredInfoType, for example organizations/433245324/storedInfoTypes/432452342
+	// or projects/project-id/storedInfoTypes/432452342.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 }
 
 type StoredTypeParameters struct {
@@ -519,8 +761,9 @@ type InspectTemplateStatus struct {
 type InspectTemplate struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              InspectTemplateSpec   `json:"spec"`
-	Status            InspectTemplateStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.parent)",message="parent is a required parameter"
+	Spec   InspectTemplateSpec   `json:"spec"`
+	Status InspectTemplateStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

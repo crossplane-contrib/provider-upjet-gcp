@@ -26,6 +26,10 @@ import (
 )
 
 type GuestOsFeaturesObservation struct {
+
+	// The type of supported feature. Read Enabling guest operating system features to see a list of available options.
+	// Possible values are MULTI_IP_SUBNET, SECURE_BOOT, SEV_CAPABLE, UEFI_COMPATIBLE, VIRTIO_SCSI_MULTIQUEUE, WINDOWS, and GVNIC.
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type GuestOsFeaturesParameters struct {
@@ -37,6 +41,15 @@ type GuestOsFeaturesParameters struct {
 }
 
 type ImageEncryptionKeyObservation struct {
+
+	// The self link of the encryption key that is stored in Google Cloud
+	// KMS.
+	KMSKeySelfLink *string `json:"kmsKeySelfLink,omitempty" tf:"kms_key_self_link,omitempty"`
+
+	// The service account being used for the encryption request for the
+	// given KMS key. If absent, the Compute Engine default service
+	// account is used.
+	KMSKeyServiceAccount *string `json:"kmsKeyServiceAccount,omitempty" tf:"kms_key_service_account,omitempty"`
 }
 
 type ImageEncryptionKeyParameters struct {
@@ -62,15 +75,68 @@ type ImageObservation struct {
 	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
 
+	// An optional description of this resource. Provide this property when
+	// you create the resource.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Size of the image when restored onto a persistent disk (in GB).
+	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
+
+	// The name of the image family to which this image belongs. You can
+	// create disks by specifying an image family instead of a specific
+	// image name. The image family always returns its latest image that is
+	// not deprecated. The name of the image family must comply with
+	// RFC1035.
+	Family *string `json:"family,omitempty" tf:"family,omitempty"`
+
+	// A list of features to enable on the guest operating system.
+	// Applicable only for bootable images.
+	// Structure is documented below.
+	GuestOsFeatures []GuestOsFeaturesObservation `json:"guestOsFeatures,omitempty" tf:"guest_os_features,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/global/images/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Encrypts the image using a customer-supplied encryption key.
+	// After you encrypt an image with a customer-supplied key, you must
+	// provide the same key if you use the image later (e.g. to create a
+	// disk from the image)
+	// Structure is documented below.
+	ImageEncryptionKey []ImageEncryptionKeyObservation `json:"imageEncryptionKey,omitempty" tf:"image_encryption_key,omitempty"`
 
 	// The fingerprint used for optimistic locking of this resource. Used
 	// internally during updates.
 	LabelFingerprint *string `json:"labelFingerprint,omitempty" tf:"label_fingerprint,omitempty"`
 
+	// Labels to apply to this Image.
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// Any applicable license URI.
+	Licenses []*string `json:"licenses,omitempty" tf:"licenses,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The parameters of the raw disk image.
+	// Structure is documented below.
+	RawDisk []RawDiskObservation `json:"rawDisk,omitempty" tf:"raw_disk,omitempty"`
+
 	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
+
+	// The source disk to create this image based on.
+	// You must provide either this property or the
+	// rawDisk.source property but not both to create an image.
+	SourceDisk *string `json:"sourceDisk,omitempty" tf:"source_disk,omitempty"`
+
+	// URL of the source image used to create this image. In order to create an image, you must provide the full or partial
+	// URL of one of the following:
+	SourceImage *string `json:"sourceImage,omitempty" tf:"source_image,omitempty"`
+
+	// URL of the source snapshot used to create this image.
+	// In order to create an image, you must provide the full or partial URL of one of the following:
+	SourceSnapshot *string `json:"sourceSnapshot,omitempty" tf:"source_snapshot,omitempty"`
 }
 
 type ImageParameters struct {
@@ -142,6 +208,23 @@ type ImageParameters struct {
 }
 
 type RawDiskObservation struct {
+
+	// The format used to encode and transmit the block device, which
+	// should be TAR. This is just a container and transmission format
+	// and not a runtime format. Provided by the client when the disk
+	// image is created.
+	// Default value is TAR.
+	// Possible values are TAR.
+	ContainerType *string `json:"containerType,omitempty" tf:"container_type,omitempty"`
+
+	// An optional SHA1 checksum of the disk image before unpackaging.
+	// This is provided by the client when the disk image is created.
+	Sha1 *string `json:"sha1,omitempty" tf:"sha1,omitempty"`
+
+	// The full Google Cloud Storage URL where disk storage is stored
+	// You must provide either this property or the sourceDisk property
+	// but not both.
+	Source *string `json:"source,omitempty" tf:"source,omitempty"`
 }
 
 type RawDiskParameters struct {

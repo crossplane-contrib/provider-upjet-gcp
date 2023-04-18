@@ -27,13 +27,41 @@ import (
 
 type CertificateMapEntryObservation struct {
 
+	// A set of Certificates defines for the given hostname.
+	// There can be defined up to fifteen certificates in each Certificate Map Entry.
+	// Each certificate must match pattern projects//locations//certificates/*.
+	Certificates []*string `json:"certificates,omitempty" tf:"certificates,omitempty"`
+
 	// Creation timestamp of a Certificate Map Entry. Timestamp in RFC3339 UTC "Zulu" format,
 	// with nanosecond resolution and up to nine fractional digits.
 	// Examples: "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z".
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
+	// A human-readable description of the resource.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// A Hostname (FQDN, e.g. example.com) or a wildcard hostname expression (*.example.com)
+	// for a set of hostnames with common suffix. Used as Server Name Indication (SNI) for
+	// selecting a proper certificate.
+	Hostname *string `json:"hostname,omitempty" tf:"hostname,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/locations/global/certificateMaps/{{map}}/certificateMapEntries/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Set of labels associated with a Certificate Map Entry.
+	// An object containing a list of "key": value pairs.
+	// Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }.
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// A map entry that is inputted into the cetrificate map
+	Map *string `json:"map,omitempty" tf:"map,omitempty"`
+
+	// A predefined matcher for particular cases, other than SNI selection
+	Matcher *string `json:"matcher,omitempty" tf:"matcher,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// A serving state of this Certificate Map Entry.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
@@ -49,8 +77,8 @@ type CertificateMapEntryParameters struct {
 	// A set of Certificates defines for the given hostname.
 	// There can be defined up to fifteen certificates in each Certificate Map Entry.
 	// Each certificate must match pattern projects//locations//certificates/*.
-	// +kubebuilder:validation:Required
-	Certificates []*string `json:"certificates" tf:"certificates,omitempty"`
+	// +kubebuilder:validation:Optional
+	Certificates []*string `json:"certificates,omitempty" tf:"certificates,omitempty"`
 
 	// A human-readable description of the resource.
 	// +kubebuilder:validation:Optional
@@ -115,8 +143,9 @@ type CertificateMapEntryStatus struct {
 type CertificateMapEntry struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              CertificateMapEntrySpec   `json:"spec"`
-	Status            CertificateMapEntryStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.certificates)",message="certificates is a required parameter"
+	Spec   CertificateMapEntrySpec   `json:"spec"`
+	Status CertificateMapEntryStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -27,18 +27,30 @@ import (
 
 type ServiceNetworkingPeeredDNSDomainObservation struct {
 
+	// The DNS domain suffix of the peered DNS domain. Make sure to suffix with a . (dot).
+	DNSSuffix *string `json:"dnsSuffix,omitempty" tf:"dns_suffix,omitempty"`
+
 	// an identifier for the resource with format services/{{service}}/projects/{{project}}/global/networks/{{network}}/peeredDnsDomains/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// The network in the consumer project.
+	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
 	// an identifier for the resource with format services/{{service}}/projects/{{project}}/global/networks/{{network}}
 	Parent *string `json:"parent,omitempty" tf:"parent,omitempty"`
+
+	// The producer project number. If not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Private service connection between service and consumer network, defaults to servicenetworking.googleapis.com
+	Service *string `json:"service,omitempty" tf:"service,omitempty"`
 }
 
 type ServiceNetworkingPeeredDNSDomainParameters struct {
 
 	// The DNS domain suffix of the peered DNS domain. Make sure to suffix with a . (dot).
-	// +kubebuilder:validation:Required
-	DNSSuffix *string `json:"dnsSuffix" tf:"dns_suffix,omitempty"`
+	// +kubebuilder:validation:Optional
+	DNSSuffix *string `json:"dnsSuffix,omitempty" tf:"dns_suffix,omitempty"`
 
 	// The network in the consumer project.
 	// +kubebuilder:validation:Required
@@ -77,8 +89,9 @@ type ServiceNetworkingPeeredDNSDomainStatus struct {
 type ServiceNetworkingPeeredDNSDomain struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              ServiceNetworkingPeeredDNSDomainSpec   `json:"spec"`
-	Status            ServiceNetworkingPeeredDNSDomainStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.dnsSuffix)",message="dnsSuffix is a required parameter"
+	Spec   ServiceNetworkingPeeredDNSDomainSpec   `json:"spec"`
+	Status ServiceNetworkingPeeredDNSDomainStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

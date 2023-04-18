@@ -26,14 +26,43 @@ import (
 )
 
 type GarbageCollectionPolicyObservation struct {
+
+	// The name of the column family.
+	ColumnFamily *string `json:"columnFamily,omitempty" tf:"column_family,omitempty"`
+
+	// The deletion policy for the GC policy.
+	// Setting ABANDON allows the resource to be abandoned rather than deleted. This is useful for GC policy as it cannot be deleted in a replicated instance.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
+	// Serialized JSON object to represent a more complex GC policy. Conflicts with mode, max_age and max_version. Conflicts with mode, max_age and max_version.
+	GcRules *string `json:"gcRules,omitempty" tf:"gc_rules,omitempty"`
+
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The name of the Bigtable instance.
+	InstanceName *string `json:"instanceName,omitempty" tf:"instance_name,omitempty"`
+
+	// GC policy that applies to all cells older than the given age.
+	MaxAge []MaxAgeObservation `json:"maxAge,omitempty" tf:"max_age,omitempty"`
+
+	// GC policy that applies to all versions of a cell except for the most recent.
+	MaxVersion []MaxVersionObservation `json:"maxVersion,omitempty" tf:"max_version,omitempty"`
+
+	// If multiple policies are set, you should choose between UNION OR INTERSECTION.
+	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
+
+	// The ID of the project in which the resource belongs. If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The name of the table.
+	Table *string `json:"table,omitempty" tf:"table,omitempty"`
 }
 
 type GarbageCollectionPolicyParameters struct {
 
 	// The name of the column family.
-	// +kubebuilder:validation:Required
-	ColumnFamily *string `json:"columnFamily" tf:"column_family,omitempty"`
+	// +kubebuilder:validation:Optional
+	ColumnFamily *string `json:"columnFamily,omitempty" tf:"column_family,omitempty"`
 
 	// The deletion policy for the GC policy.
 	// Setting ABANDON allows the resource to be abandoned rather than deleted. This is useful for GC policy as it cannot be deleted in a replicated instance.
@@ -88,6 +117,12 @@ type GarbageCollectionPolicyParameters struct {
 }
 
 type MaxAgeObservation struct {
+
+	// Number of days before applying GC policy.
+	Days *float64 `json:"days,omitempty" tf:"days,omitempty"`
+
+	// Duration before applying GC policy (ex. "8h"). This is required when days isn't set
+	Duration *string `json:"duration,omitempty" tf:"duration,omitempty"`
 }
 
 type MaxAgeParameters struct {
@@ -102,6 +137,9 @@ type MaxAgeParameters struct {
 }
 
 type MaxVersionObservation struct {
+
+	// Number of version before applying the GC policy.
+	Number *float64 `json:"number,omitempty" tf:"number,omitempty"`
 }
 
 type MaxVersionParameters struct {
@@ -135,8 +173,9 @@ type GarbageCollectionPolicyStatus struct {
 type GarbageCollectionPolicy struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              GarbageCollectionPolicySpec   `json:"spec"`
-	Status            GarbageCollectionPolicyStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.columnFamily)",message="columnFamily is a required parameter"
+	Spec   GarbageCollectionPolicySpec   `json:"spec"`
+	Status GarbageCollectionPolicyStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

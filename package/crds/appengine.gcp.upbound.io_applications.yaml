@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.11.1
+    controller-gen.kubebuilder.io/version: v0.11.3
   creationTimestamp: null
   name: applications.appengine.gcp.upbound.io
 spec:
@@ -55,9 +55,13 @@ spec:
             properties:
               deletionPolicy:
                 default: Delete
-                description: DeletionPolicy specifies what will happen to the underlying
+                description: 'DeletionPolicy specifies what will happen to the underlying
                   external when this managed resource is deleted - either "Delete"
-                  or "Orphan" the external resource.
+                  or "Orphan" the external resource. This field is planned to be deprecated
+                  in favor of the ManagementPolicy field in a future release. Currently,
+                  both could be set independently and non-default values would be
+                  honored if the feature flag is enabled. See the design doc for more
+                  information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
                 enum:
                 - Orphan
                 - Delete
@@ -210,9 +214,22 @@ spec:
                   servingStatus:
                     description: The serving status of the app.
                     type: string
-                required:
-                - locationId
                 type: object
+              managementPolicy:
+                default: FullControl
+                description: 'THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice. ManagementPolicy
+                  specifies the level of control Crossplane has over the managed external
+                  resource. This field is planned to replace the DeletionPolicy field
+                  in a future release. Currently, both could be set independently
+                  and non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
+                enum:
+                - FullControl
+                - ObserveOnly
+                - OrphanOnDelete
+                type: string
               providerConfigRef:
                 default:
                   name: default
@@ -384,6 +401,9 @@ spec:
             required:
             - forProvider
             type: object
+            x-kubernetes-validations:
+            - message: locationId is a required parameter
+              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.locationId)
           status:
             description: ApplicationStatus defines the observed state of Application.
             properties:
@@ -392,8 +412,19 @@ spec:
                   appId:
                     description: Identifier of the app, usually {PROJECT_ID}
                     type: string
+                  authDomain:
+                    description: The domain to authenticate users with when using
+                      App Engine's User API.
+                    type: string
                   codeBucket:
                     description: The GCS bucket code is being stored in for this app.
+                    type: string
+                  databaseType:
+                    description: The type of the Cloud Firestore or Cloud Datastore
+                      database associated with this application. Can be CLOUD_FIRESTORE
+                      or CLOUD_DATASTORE_COMPATIBILITY for new instances.  To support
+                      old instances, the value CLOUD_DATASTORE is accepted by the
+                      provider, but will be rejected by the API.
                     type: string
                   defaultBucket:
                     description: The GCS bucket content is being stored in for this
@@ -402,15 +433,51 @@ spec:
                   defaultHostname:
                     description: The default hostname for this app.
                     type: string
+                  featureSettings:
+                    description: 'A block of optional settings to configure specific
+                      App Engine features:'
+                    items:
+                      properties:
+                        splitHealthChecks:
+                          description: Set to false to use the legacy health check
+                            instead of the readiness and liveness checks.
+                          type: boolean
+                      type: object
+                    type: array
                   gcrDomain:
                     description: The GCR domain used for storing managed Docker images
                       for this app.
                     type: string
+                  iap:
+                    description: Settings for enabling Cloud Identity Aware Proxy
+                    items:
+                      properties:
+                        enabled:
+                          description: Whether the serving infrastructure will authenticate
+                            and authorize all incoming requests. (default is false)
+                          type: boolean
+                        oauth2ClientId:
+                          description: OAuth2 client ID to use for the authentication
+                            flow.
+                          type: string
+                      type: object
+                    type: array
                   id:
                     description: an identifier for the resource with format {{project}}
                     type: string
+                  locationId:
+                    description: The location to serve the app from.
+                    type: string
                   name:
                     description: Unique name of the app, usually apps/{PROJECT_ID}
+                    type: string
+                  project:
+                    description: 'The project ID to create the application under.
+                      ~>NOTE: GCP only accepts project ID, not project number. If
+                      you are using number, you may get a "Permission denied" error.'
+                    type: string
+                  servingStatus:
+                    description: The serving status of the app.
                     type: string
                   urlDispatchRule:
                     description: A list of dispatch rule blocks. Each block has a

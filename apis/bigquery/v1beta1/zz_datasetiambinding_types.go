@@ -26,6 +26,11 @@ import (
 )
 
 type DatasetIAMBindingConditionObservation struct {
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	Expression *string `json:"expression,omitempty" tf:"expression,omitempty"`
+
+	Title *string `json:"title,omitempty" tf:"title,omitempty"`
 }
 
 type DatasetIAMBindingConditionParameters struct {
@@ -41,9 +46,19 @@ type DatasetIAMBindingConditionParameters struct {
 }
 
 type DatasetIAMBindingObservation struct {
+	Condition []DatasetIAMBindingConditionObservation `json:"condition,omitempty" tf:"condition,omitempty"`
+
+	DatasetID *string `json:"datasetId,omitempty" tf:"dataset_id,omitempty"`
+
 	Etag *string `json:"etag,omitempty" tf:"etag,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	Members []*string `json:"members,omitempty" tf:"members,omitempty"`
+
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 }
 
 type DatasetIAMBindingParameters struct {
@@ -63,8 +78,8 @@ type DatasetIAMBindingParameters struct {
 	// +kubebuilder:validation:Optional
 	DatasetIDSelector *v1.Selector `json:"datasetIdSelector,omitempty" tf:"-"`
 
-	// +kubebuilder:validation:Required
-	Members []*string `json:"members" tf:"members,omitempty"`
+	// +kubebuilder:validation:Optional
+	Members []*string `json:"members,omitempty" tf:"members,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
@@ -97,8 +112,9 @@ type DatasetIAMBindingStatus struct {
 type DatasetIAMBinding struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DatasetIAMBindingSpec   `json:"spec"`
-	Status            DatasetIAMBindingStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.members)",message="members is a required parameter"
+	Spec   DatasetIAMBindingSpec   `json:"spec"`
+	Status DatasetIAMBindingStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

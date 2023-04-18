@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.11.1
+    controller-gen.kubebuilder.io/version: v0.11.3
   creationTimestamp: null
   name: servicenetworkingpeereddnsdomains.cloudplatform.gcp.upbound.io
 spec:
@@ -56,9 +56,13 @@ spec:
             properties:
               deletionPolicy:
                 default: Delete
-                description: DeletionPolicy specifies what will happen to the underlying
+                description: 'DeletionPolicy specifies what will happen to the underlying
                   external when this managed resource is deleted - either "Delete"
-                  or "Orphan" the external resource.
+                  or "Orphan" the external resource. This field is planned to be deprecated
+                  in favor of the ManagementPolicy field in a future release. Currently,
+                  both could be set independently and non-default values would be
+                  honored if the feature flag is enabled. See the design doc for more
+                  information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
                 enum:
                 - Orphan
                 - Delete
@@ -81,10 +85,24 @@ spec:
                       network, defaults to servicenetworking.googleapis.com
                     type: string
                 required:
-                - dnsSuffix
                 - network
                 - service
                 type: object
+              managementPolicy:
+                default: FullControl
+                description: 'THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice. ManagementPolicy
+                  specifies the level of control Crossplane has over the managed external
+                  resource. This field is planned to replace the DeletionPolicy field
+                  in a future release. Currently, both could be set independently
+                  and non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
+                enum:
+                - FullControl
+                - ObserveOnly
+                - OrphanOnDelete
+                type: string
               providerConfigRef:
                 default:
                   name: default
@@ -256,17 +274,35 @@ spec:
             required:
             - forProvider
             type: object
+            x-kubernetes-validations:
+            - message: dnsSuffix is a required parameter
+              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.dnsSuffix)
           status:
             description: ServiceNetworkingPeeredDNSDomainStatus defines the observed
               state of ServiceNetworkingPeeredDNSDomain.
             properties:
               atProvider:
                 properties:
+                  dnsSuffix:
+                    description: The DNS domain suffix of the peered DNS domain. Make
+                      sure to suffix with a . (dot).
+                    type: string
                   id:
                     description: an identifier for the resource with format services/{{service}}/projects/{{project}}/global/networks/{{network}}/peeredDnsDomains/{{name}}
                     type: string
+                  network:
+                    description: The network in the consumer project.
+                    type: string
                   parent:
                     description: an identifier for the resource with format services/{{service}}/projects/{{project}}/global/networks/{{network}}
+                    type: string
+                  project:
+                    description: The producer project number. If not provided, the
+                      provider project is used.
+                    type: string
+                  service:
+                    description: Private service connection between service and consumer
+                      network, defaults to servicenetworking.googleapis.com
                     type: string
                 type: object
               conditions:

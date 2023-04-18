@@ -27,19 +27,35 @@ import (
 
 type NetworkPeeringRoutesConfigObservation struct {
 
+	// Whether to export the custom routes to the peer network.
+	ExportCustomRoutes *bool `json:"exportCustomRoutes,omitempty" tf:"export_custom_routes,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/global/networks/{{network}}/networkPeerings/{{peering}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Whether to import the custom routes to the peer network.
+	ImportCustomRoutes *bool `json:"importCustomRoutes,omitempty" tf:"import_custom_routes,omitempty"`
+
+	// The name of the primary network for the peering.
+	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
+	// Name of the peering.
+	Peering *string `json:"peering,omitempty" tf:"peering,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 
 type NetworkPeeringRoutesConfigParameters struct {
 
 	// Whether to export the custom routes to the peer network.
-	// +kubebuilder:validation:Required
-	ExportCustomRoutes *bool `json:"exportCustomRoutes" tf:"export_custom_routes,omitempty"`
+	// +kubebuilder:validation:Optional
+	ExportCustomRoutes *bool `json:"exportCustomRoutes,omitempty" tf:"export_custom_routes,omitempty"`
 
 	// Whether to import the custom routes to the peer network.
-	// +kubebuilder:validation:Required
-	ImportCustomRoutes *bool `json:"importCustomRoutes" tf:"import_custom_routes,omitempty"`
+	// +kubebuilder:validation:Optional
+	ImportCustomRoutes *bool `json:"importCustomRoutes,omitempty" tf:"import_custom_routes,omitempty"`
 
 	// The name of the primary network for the peering.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Network
@@ -97,8 +113,10 @@ type NetworkPeeringRoutesConfigStatus struct {
 type NetworkPeeringRoutesConfig struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              NetworkPeeringRoutesConfigSpec   `json:"spec"`
-	Status            NetworkPeeringRoutesConfigStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.exportCustomRoutes)",message="exportCustomRoutes is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.importCustomRoutes)",message="importCustomRoutes is a required parameter"
+	Spec   NetworkPeeringRoutesConfigSpec   `json:"spec"`
+	Status NetworkPeeringRoutesConfigStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

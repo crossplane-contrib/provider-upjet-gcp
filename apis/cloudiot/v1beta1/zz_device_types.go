@@ -45,6 +45,13 @@ type ConfigParameters struct {
 }
 
 type CredentialsObservation struct {
+
+	// The time at which this credential becomes invalid.
+	ExpirationTime *string `json:"expirationTime,omitempty" tf:"expiration_time,omitempty"`
+
+	// A public key used to verify the signature of JSON Web Tokens (JWTs).
+	// Structure is documented below.
+	PublicKey []PublicKeyObservation `json:"publicKey,omitempty" tf:"public_key,omitempty"`
 }
 
 type CredentialsParameters struct {
@@ -61,13 +68,19 @@ type CredentialsParameters struct {
 
 type DeviceObservation struct {
 
+	// If a device is blocked, connections or requests from this device will fail.
+	Blocked *bool `json:"blocked,omitempty" tf:"blocked,omitempty"`
+
 	// The most recent device configuration, which is eventually sent from Cloud IoT Core to the device.
 	// Structure is documented below.
 	Config []ConfigObservation `json:"config,omitempty" tf:"config,omitempty"`
 
+	// The credentials used to authenticate this device.
+	// Structure is documented below.
+	Credentials []CredentialsObservation `json:"credentials,omitempty" tf:"credentials,omitempty"`
+
 	// Gateway-related configuration and state.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	GatewayConfig []GatewayConfigObservation `json:"gatewayConfig,omitempty" tf:"gateway_config,omitempty"`
 
 	// an identifier for the resource with format {{registry}}/devices/{{name}}
@@ -95,9 +108,19 @@ type DeviceObservation struct {
 	// The last time a state event was received.
 	LastStateTime *string `json:"lastStateTime,omitempty" tf:"last_state_time,omitempty"`
 
+	// The logging verbosity for device activity.
+	// Possible values are NONE, ERROR, INFO, and DEBUG.
+	LogLevel *string `json:"logLevel,omitempty" tf:"log_level,omitempty"`
+
+	// The metadata key-value pairs assigned to the device.
+	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
+
 	// A server-defined unique numeric ID for the device.
 	// This is a more compact way to identify devices, and it is globally unique.
 	NumID *string `json:"numId,omitempty" tf:"num_id,omitempty"`
+
+	// The name of the device registry where this device should be created.
+	Registry *string `json:"registry,omitempty" tf:"registry,omitempty"`
 
 	// The state most recently received from the device.
 	// Structure is documented below.
@@ -146,6 +169,15 @@ type DeviceParameters struct {
 
 type GatewayConfigObservation struct {
 
+	// Indicates whether the device is a gateway.
+	// Possible values are ASSOCIATION_ONLY, DEVICE_AUTH_TOKEN_ONLY, and ASSOCIATION_AND_DEVICE_AUTH_TOKEN.
+	GatewayAuthMethod *string `json:"gatewayAuthMethod,omitempty" tf:"gateway_auth_method,omitempty"`
+
+	// Indicates whether the device is a gateway.
+	// Default value is NON_GATEWAY.
+	// Possible values are GATEWAY and NON_GATEWAY.
+	GatewayType *string `json:"gatewayType,omitempty" tf:"gateway_type,omitempty"`
+
 	// The ID of the gateway the device accessed most recently.
 	LastAccessedGatewayID *string `json:"lastAccessedGatewayId,omitempty" tf:"last_accessed_gateway_id,omitempty"`
 
@@ -183,6 +215,13 @@ type LastErrorStatusParameters struct {
 }
 
 type PublicKeyObservation struct {
+
+	// The format of the key.
+	// Possible values are RSA_PEM, RSA_X509_PEM, ES256_PEM, and ES256_X509_PEM.
+	Format *string `json:"format,omitempty" tf:"format,omitempty"`
+
+	// The key data.
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
 }
 
 type PublicKeyParameters struct {

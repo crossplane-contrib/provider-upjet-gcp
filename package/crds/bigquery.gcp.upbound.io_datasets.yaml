@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.11.1
+    controller-gen.kubebuilder.io/version: v0.11.3
   creationTimestamp: null
   name: datasets.bigquery.gcp.upbound.io
 spec:
@@ -55,9 +55,13 @@ spec:
             properties:
               deletionPolicy:
                 default: Delete
-                description: DeletionPolicy specifies what will happen to the underlying
+                description: 'DeletionPolicy specifies what will happen to the underlying
                   external when this managed resource is deleted - either "Delete"
-                  or "Orphan" the external resource.
+                  or "Orphan" the external resource. This field is planned to be deprecated
+                  in favor of the ManagementPolicy field in a future release. Currently,
+                  both could be set independently and non-default values would be
+                  honored if the feature flag is enabled. See the design doc for more
+                  information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
                 enum:
                 - Orphan
                 - Delete
@@ -719,6 +723,21 @@ spec:
                       If it is not provided, the provider project is used.
                     type: string
                 type: object
+              managementPolicy:
+                default: FullControl
+                description: 'THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice. ManagementPolicy
+                  specifies the level of control Crossplane has over the managed external
+                  resource. This field is planned to replace the DeletionPolicy field
+                  in a future release. Currently, both could be set independently
+                  and non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
+                enum:
+                - FullControl
+                - ObserveOnly
+                - OrphanOnDelete
+                type: string
               providerConfigRef:
                 default:
                   name: default
@@ -895,20 +914,185 @@ spec:
             properties:
               atProvider:
                 properties:
+                  access:
+                    description: An array of objects that define dataset access for
+                      one or more entities. Structure is documented below.
+                    items:
+                      properties:
+                        dataset:
+                          description: Grants all resources of particular types in
+                            a particular dataset read access to the current dataset.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              dataset:
+                                description: The dataset this entry applies to Structure
+                                  is documented below.
+                                items:
+                                  properties:
+                                    datasetId:
+                                      description: The ID of the dataset containing
+                                        this table.
+                                      type: string
+                                    projectId:
+                                      description: The ID of the project containing
+                                        this table.
+                                      type: string
+                                  type: object
+                                type: array
+                              targetTypes:
+                                description: 'Which resources in the dataset this
+                                  entry applies to. Currently, only views are supported,
+                                  but additional target types may be added in the
+                                  future. Possible values: VIEWS'
+                                items:
+                                  type: string
+                                type: array
+                            type: object
+                          type: array
+                        domain:
+                          description: A domain to grant access to. Any users signed
+                            in with the domain specified will be granted the specified
+                            access
+                          type: string
+                        groupByEmail:
+                          description: An email address of a Google Group to grant
+                            access to.
+                          type: string
+                        role:
+                          description: Describes the rights granted to the user specified
+                            by the other member of the access object. Basic, predefined,
+                            and custom roles are supported. Predefined roles that
+                            have equivalent basic roles are swapped by the API to
+                            their basic counterparts. See official docs.
+                          type: string
+                        routine:
+                          description: A routine from a different dataset to grant
+                            access to. Queries executed against that routine will
+                            have read access to tables in this dataset. The role field
+                            is not required when this field is set. If that routine
+                            is updated by any user, access to the routine needs to
+                            be granted again via an update operation. Structure is
+                            documented below.
+                          items:
+                            properties:
+                              datasetId:
+                                description: The ID of the dataset containing this
+                                  table.
+                                type: string
+                              projectId:
+                                description: The ID of the project containing this
+                                  table.
+                                type: string
+                              routineId:
+                                description: The ID of the routine. The ID must contain
+                                  only letters (a-z, A-Z), numbers (0-9), or underscores
+                                  (_). The maximum length is 256 characters.
+                                type: string
+                            type: object
+                          type: array
+                        specialGroup:
+                          description: 'A special group to grant access to. Possible
+                            values include:'
+                          type: string
+                        userByEmail:
+                          description: 'An email address of a user to grant access
+                            to. For example: fred@example.com'
+                          type: string
+                        view:
+                          description: A view from a different dataset to grant access
+                            to. Queries executed against that view will have read
+                            access to tables in this dataset. The role field is not
+                            required when this field is set. If that view is updated
+                            by any user, access to the view needs to be granted again
+                            via an update operation. Structure is documented below.
+                          items:
+                            properties:
+                              datasetId:
+                                description: The ID of the dataset containing this
+                                  table.
+                                type: string
+                              projectId:
+                                description: The ID of the project containing this
+                                  table.
+                                type: string
+                              tableId:
+                                description: The ID of the table. The ID must contain
+                                  only letters (a-z, A-Z), numbers (0-9), or underscores
+                                  (_). The maximum length is 1,024 characters.
+                                type: string
+                            type: object
+                          type: array
+                      type: object
+                    type: array
                   creationTime:
                     description: The time when this dataset was created, in milliseconds
                       since the epoch.
                     type: number
+                  defaultEncryptionConfiguration:
+                    description: The default encryption key for all tables in the
+                      dataset. Once this property is set, all newly-created partitioned
+                      tables in the dataset will have encryption key set to this value,
+                      unless table creation request (or query) overrides the key.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        kmsKeyName:
+                          description: Describes the Cloud KMS encryption key that
+                            will be used to protect destination BigQuery table. The
+                            BigQuery Service Account associated with your project
+                            requires access to this encryption key.
+                          type: string
+                      type: object
+                    type: array
+                  defaultPartitionExpirationMs:
+                    description: The default partition expiration for all partitioned
+                      tables in the dataset, in milliseconds.
+                    type: number
+                  defaultTableExpirationMs:
+                    description: The default lifetime of all tables in the dataset,
+                      in milliseconds. The minimum value is 3600000 milliseconds (one
+                      hour).
+                    type: number
+                  deleteContentsOnDestroy:
+                    description: If set to true, delete all the tables in the dataset
+                      when destroying the resource; otherwise, destroying the resource
+                      will fail if tables are present.
+                    type: boolean
+                  description:
+                    description: A user-friendly description of the dataset
+                    type: string
                   etag:
                     description: A hash of the resource.
+                    type: string
+                  friendlyName:
+                    description: A descriptive name for the dataset
                     type: string
                   id:
                     description: an identifier for the resource with format projects/{{project}}/datasets/{{dataset_id}}
                     type: string
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: The labels associated with this dataset. You can
+                      use these to organize and group your datasets
+                    type: object
                   lastModifiedTime:
                     description: The date when this dataset or any of its tables was
                       last modified, in milliseconds since the epoch.
                     type: number
+                  location:
+                    description: The geographic location where the dataset should
+                      reside. See official docs.
+                    type: string
+                  maxTimeTravelHours:
+                    description: Defines the time travel window in hours. The value
+                      can be from 48 to 168 hours (2 to 7 days).
+                    type: string
+                  project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
                   selfLink:
                     description: The URI of the created resource.
                     type: string

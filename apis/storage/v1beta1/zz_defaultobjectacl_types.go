@@ -26,7 +26,16 @@ import (
 )
 
 type DefaultObjectACLObservation struct {
+
+	// The name of the bucket it applies to.
+	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
+
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// List of role/entity pairs in the form ROLE:entity.
+	// See GCS Object ACL documentation for more details.
+	// Omitting the field is the same as providing an empty list.
+	RoleEntity []*string `json:"roleEntity,omitempty" tf:"role_entity,omitempty"`
 }
 
 type DefaultObjectACLParameters struct {

@@ -70,6 +70,10 @@ type CryptoKeyVersionObservation struct {
 	// Structure is documented below.
 	Attestation []AttestationObservation `json:"attestation,omitempty" tf:"attestation,omitempty"`
 
+	// The name of the cryptoKey associated with the CryptoKeyVersions.
+	// Format: 'projects/{{project}}/locations/{{location}}/keyRings/{{keyring}}/cryptoKeys/{{cryptoKey}}'
+	CryptoKey *string `json:"cryptoKey,omitempty" tf:"crypto_key,omitempty"`
+
 	// The time this CryptoKeyVersion key material was generated
 	GenerateTime *string `json:"generateTime,omitempty" tf:"generate_time,omitempty"`
 
@@ -81,6 +85,10 @@ type CryptoKeyVersionObservation struct {
 
 	// The ProtectionLevel describing how crypto operations are performed with this CryptoKeyVersion.
 	ProtectionLevel *string `json:"protectionLevel,omitempty" tf:"protection_level,omitempty"`
+
+	// The current state of the CryptoKeyVersion.
+	// Possible values are PENDING_GENERATION, ENABLED, DISABLED, DESTROYED, DESTROY_SCHEDULED, PENDING_IMPORT, and IMPORT_FAILED.
+	State *string `json:"state,omitempty" tf:"state,omitempty"`
 }
 
 type CryptoKeyVersionParameters struct {

@@ -27,11 +27,17 @@ import (
 
 type ObjectAccessControlObservation struct {
 
+	// The name of the bucket.
+	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
+
 	// The domain associated with the entity.
 	Domain *string `json:"domain,omitempty" tf:"domain,omitempty"`
 
 	// The email address associated with the entity.
 	Email *string `json:"email,omitempty" tf:"email,omitempty"`
+
+	// The entity holding the permission, in one of the following forms:
+	Entity *string `json:"entity,omitempty" tf:"entity,omitempty"`
 
 	// The ID for the entity
 	EntityID *string `json:"entityId,omitempty" tf:"entity_id,omitempty"`
@@ -42,9 +48,16 @@ type ObjectAccessControlObservation struct {
 	// an identifier for the resource with format {{bucket}}/{{object}}/{{entity}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// The name of the object to apply the access control to.
+	Object *string `json:"object,omitempty" tf:"object,omitempty"`
+
 	// The project team associated with the entity
 	// Structure is documented below.
 	ProjectTeam []ObjectAccessControlProjectTeamObservation `json:"projectTeam,omitempty" tf:"project_team,omitempty"`
+
+	// The access permission for the entity.
+	// Possible values are OWNER and READER.
+	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 }
 
 type ObjectAccessControlParameters struct {
@@ -63,8 +76,8 @@ type ObjectAccessControlParameters struct {
 	BucketSelector *v1.Selector `json:"bucketSelector,omitempty" tf:"-"`
 
 	// The entity holding the permission, in one of the following forms:
-	// +kubebuilder:validation:Required
-	Entity *string `json:"entity" tf:"entity,omitempty"`
+	// +kubebuilder:validation:Optional
+	Entity *string `json:"entity,omitempty" tf:"entity,omitempty"`
 
 	// The name of the object to apply the access control to.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/storage/v1beta1.BucketObject
@@ -82,8 +95,8 @@ type ObjectAccessControlParameters struct {
 
 	// The access permission for the entity.
 	// Possible values are OWNER and READER.
-	// +kubebuilder:validation:Required
-	Role *string `json:"role" tf:"role,omitempty"`
+	// +kubebuilder:validation:Optional
+	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 }
 
 type ObjectAccessControlProjectTeamObservation struct {
@@ -123,8 +136,10 @@ type ObjectAccessControlStatus struct {
 type ObjectAccessControl struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              ObjectAccessControlSpec   `json:"spec"`
-	Status            ObjectAccessControlStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.entity)",message="entity is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.role)",message="role is a required parameter"
+	Spec   ObjectAccessControlSpec   `json:"spec"`
+	Status ObjectAccessControlStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

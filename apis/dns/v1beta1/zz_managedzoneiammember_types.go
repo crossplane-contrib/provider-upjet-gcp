@@ -26,6 +26,11 @@ import (
 )
 
 type ConditionObservation struct {
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	Expression *string `json:"expression,omitempty" tf:"expression,omitempty"`
+
+	Title *string `json:"title,omitempty" tf:"title,omitempty"`
 }
 
 type ConditionParameters struct {
@@ -41,9 +46,19 @@ type ConditionParameters struct {
 }
 
 type ManagedZoneIAMMemberObservation struct {
+	Condition []ConditionObservation `json:"condition,omitempty" tf:"condition,omitempty"`
+
 	Etag *string `json:"etag,omitempty" tf:"etag,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	ManagedZone *string `json:"managedZone,omitempty" tf:"managed_zone,omitempty"`
+
+	Member *string `json:"member,omitempty" tf:"member,omitempty"`
+
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 }
 
 type ManagedZoneIAMMemberParameters struct {
@@ -51,17 +66,17 @@ type ManagedZoneIAMMemberParameters struct {
 	// +kubebuilder:validation:Optional
 	Condition []ConditionParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
-	// +kubebuilder:validation:Required
-	ManagedZone *string `json:"managedZone" tf:"managed_zone,omitempty"`
+	// +kubebuilder:validation:Optional
+	ManagedZone *string `json:"managedZone,omitempty" tf:"managed_zone,omitempty"`
 
-	// +kubebuilder:validation:Required
-	Member *string `json:"member" tf:"member,omitempty"`
+	// +kubebuilder:validation:Optional
+	Member *string `json:"member,omitempty" tf:"member,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
-	// +kubebuilder:validation:Required
-	Role *string `json:"role" tf:"role,omitempty"`
+	// +kubebuilder:validation:Optional
+	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 }
 
 // ManagedZoneIAMMemberSpec defines the desired state of ManagedZoneIAMMember
@@ -88,8 +103,11 @@ type ManagedZoneIAMMemberStatus struct {
 type ManagedZoneIAMMember struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              ManagedZoneIAMMemberSpec   `json:"spec"`
-	Status            ManagedZoneIAMMemberStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.managedZone)",message="managedZone is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.member)",message="member is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.role)",message="role is a required parameter"
+	Spec   ManagedZoneIAMMemberSpec   `json:"spec"`
+	Status ManagedZoneIAMMemberStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -27,6 +27,9 @@ import (
 
 type AccessRoleObservation struct {
 
+	// The user’s AWS IAM Role that trusts the Google-owned AWS IAM user Connection.
+	IAMRoleID *string `json:"iamRoleId,omitempty" tf:"iam_role_id,omitempty"`
+
 	// A unique Google-owned and Google-generated identity for the Connection. This identity will be used to access the user's AWS IAM Role.
 	Identity *string `json:"identity,omitempty" tf:"identity,omitempty"`
 }
@@ -42,7 +45,6 @@ type AwsObservation struct {
 
 	// Authentication using Google owned service account to assume into customer's AWS IAM Role.
 	// Structure is documented below.
-	// +kubebuilder:validation:Required
 	AccessRole []AccessRoleObservation `json:"accessRole,omitempty" tf:"access_role,omitempty"`
 }
 
@@ -61,6 +63,12 @@ type AzureObservation struct {
 
 	// The client id of the Azure Active Directory Application.
 	ClientID *string `json:"clientId,omitempty" tf:"client_id,omitempty"`
+
+	// The id of customer's directory that host the data.
+	CustomerTenantID *string `json:"customerTenantId,omitempty" tf:"customer_tenant_id,omitempty"`
+
+	// The Azure Application (client) ID where the federated credentials will be hosted.
+	FederatedApplicationClientID *string `json:"federatedApplicationClientId,omitempty" tf:"federated_application_client_id,omitempty"`
 
 	// A unique Google-owned and Google-generated identity for the Connection. This identity will be used to access the user's Azure Active Directory Application.
 	Identity *string `json:"identity,omitempty" tf:"identity,omitempty"`
@@ -94,8 +102,22 @@ type CloudResourceParameters struct {
 
 type CloudSQLObservation struct {
 
+	// Cloud SQL properties.
+	// Structure is documented below.
+	Credential []CredentialObservation `json:"credential,omitempty" tf:"credential,omitempty"`
+
+	// Database name.
+	Database *string `json:"database,omitempty" tf:"database,omitempty"`
+
+	// Cloud SQL instance ID in the form project:location:instance.
+	InstanceID *string `json:"instanceId,omitempty" tf:"instance_id,omitempty"`
+
 	// When the connection is used in the context of an operation in BigQuery, this service account will serve as the identity being used for connecting to the CloudSQL instance specified in this connection.
 	ServiceAccountID *string `json:"serviceAccountId,omitempty" tf:"service_account_id,omitempty"`
+
+	// Type of the Cloud SQL database.
+	// Possible values are DATABASE_TYPE_UNSPECIFIED, POSTGRES, and MYSQL.
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type CloudSQLParameters struct {
@@ -139,6 +161,15 @@ type CloudSQLParameters struct {
 }
 
 type CloudSpannerObservation struct {
+
+	// Cloud Spanner database in the form `project/instance/database'
+	Database *string `json:"database,omitempty" tf:"database,omitempty"`
+
+	// If parallelism should be used when reading from Cloud Spanner
+	UseParallelism *bool `json:"useParallelism,omitempty" tf:"use_parallelism,omitempty"`
+
+	// If the serverless analytics service should be used to read data from Cloud Spanner. useParallelism must be set when using serverless analytics
+	UseServerlessAnalytics *bool `json:"useServerlessAnalytics,omitempty" tf:"use_serverless_analytics,omitempty"`
 }
 
 type CloudSpannerParameters struct {
@@ -160,23 +191,32 @@ type ConnectionObservation struct {
 
 	// Connection properties specific to Amazon Web Services.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	Aws []AwsObservation `json:"aws,omitempty" tf:"aws,omitempty"`
 
 	// Container for connection properties specific to Azure.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	Azure []AzureObservation `json:"azure,omitempty" tf:"azure,omitempty"`
 
 	// Container for connection properties for delegation of access to GCP resources.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	CloudResource []CloudResourceObservation `json:"cloudResource,omitempty" tf:"cloud_resource,omitempty"`
 
 	// Connection properties specific to the Cloud SQL.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	CloudSQL []CloudSQLObservation `json:"cloudSql,omitempty" tf:"cloud_sql,omitempty"`
+
+	// Connection properties specific to Cloud Spanner
+	// Structure is documented below.
+	CloudSpanner []CloudSpannerObservation `json:"cloudSpanner,omitempty" tf:"cloud_spanner,omitempty"`
+
+	// Optional connection id that should be assigned to the created connection.
+	ConnectionID *string `json:"connectionId,omitempty" tf:"connection_id,omitempty"`
+
+	// A descriptive description for the connection
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// A descriptive name for the connection
+	FriendlyName *string `json:"friendlyName,omitempty" tf:"friendly_name,omitempty"`
 
 	// True if the connection has credential assigned.
 	HasCredential *bool `json:"hasCredential,omitempty" tf:"has_credential,omitempty"`
@@ -184,9 +224,22 @@ type ConnectionObservation struct {
 	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/connections/{{connection_id}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// The geographic location where the connection should reside.
+	// Cloud SQL instance must be in the same location as the connection
+	// with following exceptions: Cloud SQL us-central1 maps to BigQuery US, Cloud SQL europe-west1 maps to BigQuery EU.
+	// Examples: US, EU, asia-northeast1, us-central1, europe-west1.
+	// Spanner Connections same as spanner region
+	// AWS allowed regions are aws-us-east-1
+	// Azure allowed regions are azure-eastus2
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
 	// The resource name of the connection in the form of:
 	// "projects/{project_id}/locations/{location_id}/connections/{connectionId}"
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 
 type ConnectionParameters struct {
@@ -245,6 +298,9 @@ type ConnectionParameters struct {
 }
 
 type CredentialObservation struct {
+
+	// Username for database.
+	Username *string `json:"username,omitempty" tf:"username,omitempty"`
 }
 
 type CredentialParameters struct {

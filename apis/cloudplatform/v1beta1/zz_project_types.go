@@ -27,11 +27,51 @@ import (
 
 type ProjectObservation struct {
 
+	// Controls whether the 'default' network exists on the project. Defaults
+	// to true, where it is created. Therefore, for quota purposes, you will still need to have 1
+	// network slot available to create the project successfully, even if you set auto_create_network to
+	// false.googleapis.com on the project to interact
+	// with the GCE API and currently leaves it enabled.
+	AutoCreateNetwork *bool `json:"autoCreateNetwork,omitempty" tf:"auto_create_network,omitempty"`
+
+	// The alphanumeric ID of the billing account this project
+	// belongs to.user) on the billing account.
+	// See Google Cloud Billing API Access Control
+	// for more details.
+	BillingAccount *string `json:"billingAccount,omitempty" tf:"billing_account,omitempty"`
+
+	// The numeric ID of the folder this project should be
+	// created under. Only one of org_id or folder_id may be
+	// specified. If the folder_id is specified, then the project is
+	// created under the specified folder. Changing this forces the
+	// project to be migrated to the newly specified folder.
+	FolderID *string `json:"folderId,omitempty" tf:"folder_id,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// A set of key/value label pairs to assign to the project.
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// The display name of the project.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
 	// The numeric identifier of the project.
 	Number *string `json:"number,omitempty" tf:"number,omitempty"`
+
+	// The numeric ID of the organization this project belongs to.
+	// Changing this forces a new project to be created.  Only one of
+	// org_id or folder_id may be specified. If the org_id is
+	// specified then the project is created at the top level. Changing
+	// this forces the project to be migrated to the newly specified
+	// organization.
+	// The numeric ID of the organization this project belongs to.
+	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
+
+	// The project ID. Changing this forces a new project to be created.
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	SkipDelete *bool `json:"skipDelete,omitempty" tf:"skip_delete,omitempty"`
 }
 
 type ProjectParameters struct {
@@ -74,8 +114,8 @@ type ProjectParameters struct {
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The display name of the project.
-	// +kubebuilder:validation:Required
-	Name *string `json:"name" tf:"name,omitempty"`
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// The numeric ID of the organization this project belongs to.
 	// Changing this forces a new project to be created.  Only one of
@@ -88,8 +128,8 @@ type ProjectParameters struct {
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
 
 	// The project ID. Changing this forces a new project to be created.
-	// +kubebuilder:validation:Required
-	ProjectID *string `json:"projectId" tf:"project_id,omitempty"`
+	// +kubebuilder:validation:Optional
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	SkipDelete *bool `json:"skipDelete,omitempty" tf:"skip_delete,omitempty"`
@@ -119,8 +159,10 @@ type ProjectStatus struct {
 type Project struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              ProjectSpec   `json:"spec"`
-	Status            ProjectStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.name)",message="name is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.projectId)",message="projectId is a required parameter"
+	Spec   ProjectSpec   `json:"spec"`
+	Status ProjectStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

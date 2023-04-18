@@ -27,8 +27,42 @@ import (
 
 type SourceRepresentationInstanceObservation struct {
 
+	// The CA certificate on the external server. Include only if SSL/TLS is used on the external server.
+	CACertificate *string `json:"caCertificate,omitempty" tf:"ca_certificate,omitempty"`
+
+	// The client certificate on the external server. Required only for server-client authentication. Include only if SSL/TLS is used on the external server.
+	ClientCertificate *string `json:"clientCertificate,omitempty" tf:"client_certificate,omitempty"`
+
+	// The private key file for the client certificate on the external server. Required only for server-client authentication. Include only if SSL/TLS is used on the external server.
+	ClientKey *string `json:"clientKey,omitempty" tf:"client_key,omitempty"`
+
+	// The MySQL version running on your source database server.
+	// Possible values are MYSQL_5_5, MYSQL_5_6, MYSQL_5_7, and MYSQL_8_0.
+	DatabaseVersion *string `json:"databaseVersion,omitempty" tf:"database_version,omitempty"`
+
+	// A file in the bucket that contains the data from the external server.
+	DumpFilePath *string `json:"dumpFilePath,omitempty" tf:"dump_file_path,omitempty"`
+
+	// The externally accessible IPv4 address for the source database server.
+	Host *string `json:"host,omitempty" tf:"host,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/instances/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The externally accessible port for the source database server.
+	// Defaults to 3306.
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The Region in which the created instance should reside.
+	// If it is not provided, the provider region is used.
+	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+
+	// The replication user account on the external server.
+	Username *string `json:"username,omitempty" tf:"username,omitempty"`
 }
 
 type SourceRepresentationInstanceParameters struct {
@@ -47,16 +81,16 @@ type SourceRepresentationInstanceParameters struct {
 
 	// The MySQL version running on your source database server.
 	// Possible values are MYSQL_5_5, MYSQL_5_6, MYSQL_5_7, and MYSQL_8_0.
-	// +kubebuilder:validation:Required
-	DatabaseVersion *string `json:"databaseVersion" tf:"database_version,omitempty"`
+	// +kubebuilder:validation:Optional
+	DatabaseVersion *string `json:"databaseVersion,omitempty" tf:"database_version,omitempty"`
 
 	// A file in the bucket that contains the data from the external server.
 	// +kubebuilder:validation:Optional
 	DumpFilePath *string `json:"dumpFilePath,omitempty" tf:"dump_file_path,omitempty"`
 
 	// The externally accessible IPv4 address for the source database server.
-	// +kubebuilder:validation:Required
-	Host *string `json:"host" tf:"host,omitempty"`
+	// +kubebuilder:validation:Optional
+	Host *string `json:"host,omitempty" tf:"host,omitempty"`
 
 	// The password for the replication user account.
 	// Note: This property is sensitive and will not be displayed in the plan.
@@ -107,8 +141,10 @@ type SourceRepresentationInstanceStatus struct {
 type SourceRepresentationInstance struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              SourceRepresentationInstanceSpec   `json:"spec"`
-	Status            SourceRepresentationInstanceStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.databaseVersion)",message="databaseVersion is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.host)",message="host is a required parameter"
+	Spec   SourceRepresentationInstanceSpec   `json:"spec"`
+	Status SourceRepresentationInstanceStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

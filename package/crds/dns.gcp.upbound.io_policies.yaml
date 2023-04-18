@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.11.1
+    controller-gen.kubebuilder.io/version: v0.11.3
   creationTimestamp: null
   name: policies.dns.gcp.upbound.io
 spec:
@@ -55,9 +55,13 @@ spec:
             properties:
               deletionPolicy:
                 default: Delete
-                description: DeletionPolicy specifies what will happen to the underlying
+                description: 'DeletionPolicy specifies what will happen to the underlying
                   external when this managed resource is deleted - either "Delete"
-                  or "Orphan" the external resource.
+                  or "Orphan" the external resource. This field is planned to be deprecated
+                  in favor of the ManagementPolicy field in a future release. Currently,
+                  both could be set independently and non-default values would be
+                  honored if the feature flag is enabled. See the design doc for more
+                  information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
                 enum:
                 - Orphan
                 - Delete
@@ -208,6 +212,21 @@ spec:
                       If it is not provided, the provider project is used.
                     type: string
                 type: object
+              managementPolicy:
+                default: FullControl
+                description: 'THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice. ManagementPolicy
+                  specifies the level of control Crossplane has over the managed external
+                  resource. This field is planned to replace the DeletionPolicy field
+                  in a future release. Currently, both could be set independently
+                  and non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
+                enum:
+                - FullControl
+                - ObserveOnly
+                - OrphanOnDelete
+                type: string
               providerConfigRef:
                 default:
                   name: default
@@ -384,8 +403,69 @@ spec:
             properties:
               atProvider:
                 properties:
+                  alternativeNameServerConfig:
+                    description: Sets an alternative name server for the associated
+                      networks. When specified, all DNS queries are forwarded to a
+                      name server that you choose. Names such as .internal are not
+                      available when an alternative name server is specified. Structure
+                      is documented below.
+                    items:
+                      properties:
+                        targetNameServers:
+                          description: Sets an alternative name server for the associated
+                            networks. When specified, all DNS queries are forwarded
+                            to a name server that you choose. Names such as .internal
+                            are not available when an alternative name server is specified.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              forwardingPath:
+                                description: Forwarding path for this TargetNameServer.
+                                  If unset or default Cloud DNS will make forwarding
+                                  decision based on address ranges, i.e. RFC1918 addresses
+                                  go to the VPC, Non-RFC1918 addresses go to the Internet.
+                                  When set to private, Cloud DNS will always send
+                                  queries through VPC for this target Possible values
+                                  are default and private.
+                                type: string
+                              ipv4Address:
+                                description: IPv4 address to forward to.
+                                type: string
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  description:
+                    description: A textual description field.
+                    type: string
+                  enableInboundForwarding:
+                    description: Allows networks bound to this policy to receive DNS
+                      queries sent by VMs or applications over VPN connections. When
+                      enabled, a virtual IP address will be allocated from each of
+                      the sub-networks that are bound to this policy.
+                    type: boolean
+                  enableLogging:
+                    description: Controls whether logging is enabled for the networks
+                      bound to this policy. Defaults to no logging if not set.
+                    type: boolean
                   id:
                     description: an identifier for the resource with format projects/{{project}}/policies/{{name}}
+                    type: string
+                  networks:
+                    description: List of network names specifying networks to which
+                      this policy is applied. Structure is documented below.
+                    items:
+                      properties:
+                        networkUrl:
+                          description: The id or fully qualified URL of the VPC network
+                            to forward queries to. This should be formatted like projects/{project}/global/networks/{network}
+                            or https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}
+                          type: string
+                      type: object
+                    type: array
+                  project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
                     type: string
                 type: object
               conditions:

@@ -27,16 +27,24 @@ import (
 
 type DashboardObservation struct {
 
+	// The JSON representation of a dashboard, following the format at https://cloud.google.com/monitoring/api/ref_v3/rest/v1/projects.dashboards.
+	// The representation of an existing dashboard can be found by using the API Explorer
+	DashboardJSON *string `json:"dashboardJson,omitempty" tf:"dashboard_json,omitempty"`
+
 	// an identifier for the resource with format projects/{project_id_or_number}/dashboards/{dashboard_id}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 
 type DashboardParameters struct {
 
 	// The JSON representation of a dashboard, following the format at https://cloud.google.com/monitoring/api/ref_v3/rest/v1/projects.dashboards.
 	// The representation of an existing dashboard can be found by using the API Explorer
-	// +kubebuilder:validation:Required
-	DashboardJSON *string `json:"dashboardJson" tf:"dashboard_json,omitempty"`
+	// +kubebuilder:validation:Optional
+	DashboardJSON *string `json:"dashboardJson,omitempty" tf:"dashboard_json,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -68,8 +76,9 @@ type DashboardStatus struct {
 type Dashboard struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DashboardSpec   `json:"spec"`
-	Status            DashboardStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.dashboardJson)",message="dashboardJson is a required parameter"
+	Spec   DashboardSpec   `json:"spec"`
+	Status DashboardStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

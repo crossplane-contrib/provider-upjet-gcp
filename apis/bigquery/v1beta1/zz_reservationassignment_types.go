@@ -27,11 +27,26 @@ import (
 
 type ReservationAssignmentObservation struct {
 
+	// The resource which will use the reservation. E.g. projects/myproject, folders/123, organizations/456.
+	Assignee *string `json:"assignee,omitempty" tf:"assignee,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/reservations/{{reservation}}/assignments/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// Types of job, which could be specified when using the reservation. Possible values: JOB_TYPE_UNSPECIFIED, PIPELINE, QUERY
+	JobType *string `json:"jobType,omitempty" tf:"job_type,omitempty"`
+
+	// The location for the resource
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
 	// Output only. The resource name of the assignment.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The project for the resource
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The reservation for the resource
+	Reservation *string `json:"reservation,omitempty" tf:"reservation,omitempty"`
 
 	// Assignment will remain in PENDING state if no active capacity commitment is present. It will become ACTIVE when some capacity commitment becomes active. Possible values: STATE_UNSPECIFIED, PENDING, ACTIVE
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
@@ -40,12 +55,12 @@ type ReservationAssignmentObservation struct {
 type ReservationAssignmentParameters struct {
 
 	// The resource which will use the reservation. E.g. projects/myproject, folders/123, organizations/456.
-	// +kubebuilder:validation:Required
-	Assignee *string `json:"assignee" tf:"assignee,omitempty"`
+	// +kubebuilder:validation:Optional
+	Assignee *string `json:"assignee,omitempty" tf:"assignee,omitempty"`
 
 	// Types of job, which could be specified when using the reservation. Possible values: JOB_TYPE_UNSPECIFIED, PIPELINE, QUERY
-	// +kubebuilder:validation:Required
-	JobType *string `json:"jobType" tf:"job_type,omitempty"`
+	// +kubebuilder:validation:Optional
+	JobType *string `json:"jobType,omitempty" tf:"job_type,omitempty"`
 
 	// The location for the resource
 	// +kubebuilder:validation:Optional
@@ -94,8 +109,10 @@ type ReservationAssignmentStatus struct {
 type ReservationAssignment struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              ReservationAssignmentSpec   `json:"spec"`
-	Status            ReservationAssignmentStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.assignee)",message="assignee is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.jobType)",message="jobType is a required parameter"
+	Spec   ReservationAssignmentSpec   `json:"spec"`
+	Status ReservationAssignmentStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

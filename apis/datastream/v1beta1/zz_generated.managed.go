@@ -29,6 +29,11 @@ func (mg *ConnectionProfile) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
+// GetManagementPolicy of this ConnectionProfile.
+func (mg *ConnectionProfile) GetManagementPolicy() xpv1.ManagementPolicy {
+	return mg.Spec.ManagementPolicy
+}
+
 // GetProviderConfigReference of this ConnectionProfile.
 func (mg *ConnectionProfile) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
@@ -60,6 +65,11 @@ func (mg *ConnectionProfile) SetConditions(c ...xpv1.Condition) {
 // SetDeletionPolicy of this ConnectionProfile.
 func (mg *ConnectionProfile) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
+}
+
+// SetManagementPolicy of this ConnectionProfile.
+func (mg *ConnectionProfile) SetManagementPolicy(r xpv1.ManagementPolicy) {
+	mg.Spec.ManagementPolicy = r
 }
 
 // SetProviderConfigReference of this ConnectionProfile.
@@ -95,6 +105,11 @@ func (mg *PrivateConnection) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
+// GetManagementPolicy of this PrivateConnection.
+func (mg *PrivateConnection) GetManagementPolicy() xpv1.ManagementPolicy {
+	return mg.Spec.ManagementPolicy
+}
+
 // GetProviderConfigReference of this PrivateConnection.
 func (mg *PrivateConnection) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
@@ -126,6 +141,11 @@ func (mg *PrivateConnection) SetConditions(c ...xpv1.Condition) {
 // SetDeletionPolicy of this PrivateConnection.
 func (mg *PrivateConnection) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
+}
+
+// SetManagementPolicy of this PrivateConnection.
+func (mg *PrivateConnection) SetManagementPolicy(r xpv1.ManagementPolicy) {
+	mg.Spec.ManagementPolicy = r
 }
 
 // SetProviderConfigReference of this PrivateConnection.

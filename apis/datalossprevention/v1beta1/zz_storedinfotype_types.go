@@ -26,6 +26,9 @@ import (
 )
 
 type BigQueryFieldFieldObservation struct {
+
+	// The resource name of the info type. Set by the server.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 }
 
 type BigQueryFieldFieldParameters struct {
@@ -36,6 +39,14 @@ type BigQueryFieldFieldParameters struct {
 }
 
 type BigQueryFieldObservation struct {
+
+	// Designated field in the BigQuery table.
+	// Structure is documented below.
+	Field []BigQueryFieldFieldObservation `json:"field,omitempty" tf:"field,omitempty"`
+
+	// Field in a BigQuery table where each cell represents a dictionary phrase.
+	// Structure is documented below.
+	Table []BigQueryFieldTableObservation `json:"table,omitempty" tf:"table,omitempty"`
 }
 
 type BigQueryFieldParameters struct {
@@ -52,6 +63,15 @@ type BigQueryFieldParameters struct {
 }
 
 type BigQueryFieldTableObservation struct {
+
+	// The dataset ID of the table.
+	DatasetID *string `json:"datasetId,omitempty" tf:"dataset_id,omitempty"`
+
+	// The Google Cloud Platform project ID of the project containing the table.
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	// The name of the table.
+	TableID *string `json:"tableId,omitempty" tf:"table_id,omitempty"`
 }
 
 type BigQueryFieldTableParameters struct {
@@ -70,6 +90,9 @@ type BigQueryFieldTableParameters struct {
 }
 
 type CloudStorageFileSetObservation struct {
+
+	// The url, in the format gs://<bucket>/<path>. Trailing wildcard in the path is allowed.
+	URL *string `json:"url,omitempty" tf:"url,omitempty"`
 }
 
 type CloudStorageFileSetParameters struct {
@@ -80,6 +103,19 @@ type CloudStorageFileSetParameters struct {
 }
 
 type LargeCustomDictionaryObservation struct {
+
+	// Field in a BigQuery table where each cell represents a dictionary phrase.
+	// Structure is documented below.
+	BigQueryField []BigQueryFieldObservation `json:"bigQueryField,omitempty" tf:"big_query_field,omitempty"`
+
+	// Set of files containing newline-delimited lists of dictionary phrases.
+	// Structure is documented below.
+	CloudStorageFileSet []CloudStorageFileSetObservation `json:"cloudStorageFileSet,omitempty" tf:"cloud_storage_file_set,omitempty"`
+
+	// Location to store dictionary artifacts in Google Cloud Storage. These files will only be accessible by project owners and the DLP API.
+	// If any of these artifacts are modified, the dictionary is considered invalid and can no longer be used.
+	// Structure is documented below.
+	OutputPath []OutputPathObservation `json:"outputPath,omitempty" tf:"output_path,omitempty"`
 }
 
 type LargeCustomDictionaryParameters struct {
@@ -102,6 +138,9 @@ type LargeCustomDictionaryParameters struct {
 }
 
 type OutputPathObservation struct {
+
+	// A url representing a file or path (no wildcards) in Cloud Storage. Example: gs://[BUCKET_NAME]/dictionary.txt
+	Path *string `json:"path,omitempty" tf:"path,omitempty"`
 }
 
 type OutputPathParameters struct {
@@ -112,6 +151,9 @@ type OutputPathParameters struct {
 }
 
 type StoredInfoTypeDictionaryCloudStoragePathObservation struct {
+
+	// A url representing a file or path (no wildcards) in Cloud Storage. Example: gs://[BUCKET_NAME]/dictionary.txt
+	Path *string `json:"path,omitempty" tf:"path,omitempty"`
 }
 
 type StoredInfoTypeDictionaryCloudStoragePathParameters struct {
@@ -122,6 +164,14 @@ type StoredInfoTypeDictionaryCloudStoragePathParameters struct {
 }
 
 type StoredInfoTypeDictionaryObservation struct {
+
+	// Newline-delimited file of words in Cloud Storage. Only a single file is accepted.
+	// Structure is documented below.
+	CloudStoragePath []StoredInfoTypeDictionaryCloudStoragePathObservation `json:"cloudStoragePath,omitempty" tf:"cloud_storage_path,omitempty"`
+
+	// List of words or phrases to search for.
+	// Structure is documented below.
+	WordList []StoredInfoTypeDictionaryWordListObservation `json:"wordList,omitempty" tf:"word_list,omitempty"`
 }
 
 type StoredInfoTypeDictionaryParameters struct {
@@ -138,6 +188,10 @@ type StoredInfoTypeDictionaryParameters struct {
 }
 
 type StoredInfoTypeDictionaryWordListObservation struct {
+
+	// Words or phrases defining the dictionary. The dictionary must contain at least one
+	// phrase and every phrase must contain at least 2 characters that are letters or digits.
+	Words []*string `json:"words,omitempty" tf:"words,omitempty"`
 }
 
 type StoredInfoTypeDictionaryWordListParameters struct {
@@ -150,11 +204,32 @@ type StoredInfoTypeDictionaryWordListParameters struct {
 
 type StoredInfoTypeObservation struct {
 
+	// A description of the info type.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Dictionary which defines the rule.
+	// Structure is documented below.
+	Dictionary []StoredInfoTypeDictionaryObservation `json:"dictionary,omitempty" tf:"dictionary,omitempty"`
+
+	// User set display name of the info type.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
 	// an identifier for the resource with format {{parent}}/storedInfoTypes/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// Dictionary which defines the rule.
+	// Structure is documented below.
+	LargeCustomDictionary []LargeCustomDictionaryObservation `json:"largeCustomDictionary,omitempty" tf:"large_custom_dictionary,omitempty"`
+
 	// The resource name of the info type. Set by the server.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The parent of the info type in any of the following formats:
+	Parent *string `json:"parent,omitempty" tf:"parent,omitempty"`
+
+	// Regular expression which defines the rule.
+	// Structure is documented below.
+	Regex []StoredInfoTypeRegexObservation `json:"regex,omitempty" tf:"regex,omitempty"`
 }
 
 type StoredInfoTypeParameters struct {
@@ -178,8 +253,8 @@ type StoredInfoTypeParameters struct {
 	LargeCustomDictionary []LargeCustomDictionaryParameters `json:"largeCustomDictionary,omitempty" tf:"large_custom_dictionary,omitempty"`
 
 	// The parent of the info type in any of the following formats:
-	// +kubebuilder:validation:Required
-	Parent *string `json:"parent" tf:"parent,omitempty"`
+	// +kubebuilder:validation:Optional
+	Parent *string `json:"parent,omitempty" tf:"parent,omitempty"`
 
 	// Regular expression which defines the rule.
 	// Structure is documented below.
@@ -188,6 +263,13 @@ type StoredInfoTypeParameters struct {
 }
 
 type StoredInfoTypeRegexObservation struct {
+
+	// The index of the submatch to extract as findings. When not specified, the entire match is returned. No more than 3 may be included.
+	GroupIndexes []*float64 `json:"groupIndexes,omitempty" tf:"group_indexes,omitempty"`
+
+	// Pattern defining the regular expression.
+	// Its syntax (https://github.com/google/re2/wiki/Syntax) can be found under the google/re2 repository on GitHub.
+	Pattern *string `json:"pattern,omitempty" tf:"pattern,omitempty"`
 }
 
 type StoredInfoTypeRegexParameters struct {
@@ -226,8 +308,9 @@ type StoredInfoTypeStatus struct {
 type StoredInfoType struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              StoredInfoTypeSpec   `json:"spec"`
-	Status            StoredInfoTypeStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.parent)",message="parent is a required parameter"
+	Spec   StoredInfoTypeSpec   `json:"spec"`
+	Status StoredInfoTypeStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

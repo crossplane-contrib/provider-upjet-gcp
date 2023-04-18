@@ -30,11 +30,24 @@ type VPNGatewayObservation struct {
 	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
 
+	// An optional description of this resource.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
 	// The unique identifier for the resource.
 	GatewayID *float64 `json:"gatewayId,omitempty" tf:"gateway_id,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/regions/{{region}}/targetVpnGateways/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The network this VPN gateway is accepting traffic for.
+	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The region this gateway should sit in.
+	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
 	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`

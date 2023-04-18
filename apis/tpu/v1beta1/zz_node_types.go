@@ -39,8 +39,33 @@ type NetworkEndpointsParameters struct {
 
 type NodeObservation struct {
 
+	// The type of hardware accelerators associated with this node.
+	AcceleratorType *string `json:"acceleratorType,omitempty" tf:"accelerator_type,omitempty"`
+
+	// The CIDR block that the TPU node will use when selecting an IP
+	// address. This CIDR block must be a /29 block; the Compute Engine
+	// networks API forbids a smaller block, and using a larger block would
+	// be wasteful (a node can only consume one IP address).
+	// Errors will occur if the CIDR block has already been used for a
+	// currently existing TPU node, the CIDR block conflicts with any
+	// subnetworks in the user's provided network, or the provided network
+	// is peered with another network that is using that CIDR block.
+	CidrBlock *string `json:"cidrBlock,omitempty" tf:"cidr_block,omitempty"`
+
+	// The user-supplied description of the TPU. Maximum of 512 characters.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/locations/{{zone}}/nodes/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Resource labels to represent user provided metadata.
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// The name of a network to peer the TPU node to. It must be a
+	// preexisting Compute Engine network inside of the project on which
+	// this API has been activated. If none is provided, "default" will be
+	// used.
+	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
 	// The network endpoints where TPU workers can be accessed and sent work.
 	// It is recommended that Tensorflow clients of the node first reach out
@@ -48,18 +73,38 @@ type NodeObservation struct {
 	// Structure is documented below.
 	NetworkEndpoints []NetworkEndpointsObservation `json:"networkEndpoints,omitempty" tf:"network_endpoints,omitempty"`
 
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Sets the scheduling options for this TPU instance.
+	// Structure is documented below.
+	SchedulingConfig []SchedulingConfigObservation `json:"schedulingConfig,omitempty" tf:"scheduling_config,omitempty"`
+
 	// The service account used to run the tensor flow services within the
 	// node. To share resources, including Google Cloud Storage data, with
 	// the Tensorflow job running in the Node, this account must have
 	// permissions to that data.
 	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
+
+	// The version of Tensorflow running in the Node.
+	TensorflowVersion *string `json:"tensorflowVersion,omitempty" tf:"tensorflow_version,omitempty"`
+
+	// Whether the VPC peering for the node is set up through Service Networking API.
+	// The VPC Peering should be set up before provisioning the node. If this field is set,
+	// cidr_block field should not be specified. If the network that you want to peer the
+	// TPU Node to is a Shared VPC network, the node must be created with this this field enabled.
+	UseServiceNetworking *bool `json:"useServiceNetworking,omitempty" tf:"use_service_networking,omitempty"`
+
+	// The GCP location for the TPU. If it is not provided, the provider zone is used.
+	Zone *string `json:"zone,omitempty" tf:"zone,omitempty"`
 }
 
 type NodeParameters struct {
 
 	// The type of hardware accelerators associated with this node.
-	// +kubebuilder:validation:Required
-	AcceleratorType *string `json:"acceleratorType" tf:"accelerator_type,omitempty"`
+	// +kubebuilder:validation:Optional
+	AcceleratorType *string `json:"acceleratorType,omitempty" tf:"accelerator_type,omitempty"`
 
 	// The CIDR block that the TPU node will use when selecting an IP
 	// address. This CIDR block must be a /29 block; the Compute Engine
@@ -108,8 +153,8 @@ type NodeParameters struct {
 	SchedulingConfig []SchedulingConfigParameters `json:"schedulingConfig,omitempty" tf:"scheduling_config,omitempty"`
 
 	// The version of Tensorflow running in the Node.
-	// +kubebuilder:validation:Required
-	TensorflowVersion *string `json:"tensorflowVersion" tf:"tensorflow_version,omitempty"`
+	// +kubebuilder:validation:Optional
+	TensorflowVersion *string `json:"tensorflowVersion,omitempty" tf:"tensorflow_version,omitempty"`
 
 	// Whether the VPC peering for the node is set up through Service Networking API.
 	// The VPC Peering should be set up before provisioning the node. If this field is set,
@@ -124,6 +169,9 @@ type NodeParameters struct {
 }
 
 type SchedulingConfigObservation struct {
+
+	// Defines whether the TPU instance is preemptible.
+	Preemptible *bool `json:"preemptible,omitempty" tf:"preemptible,omitempty"`
 }
 
 type SchedulingConfigParameters struct {
@@ -157,8 +205,10 @@ type NodeStatus struct {
 type Node struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              NodeSpec   `json:"spec"`
-	Status            NodeStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.acceleratorType)",message="acceleratorType is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.tensorflowVersion)",message="tensorflowVersion is a required parameter"
+	Spec   NodeSpec   `json:"spec"`
+	Status NodeStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.11.1
+    controller-gen.kubebuilder.io/version: v0.11.3
   creationTimestamp: null
   name: notificationchannels.monitoring.gcp.upbound.io
 spec:
@@ -56,9 +56,13 @@ spec:
             properties:
               deletionPolicy:
                 default: Delete
-                description: DeletionPolicy specifies what will happen to the underlying
+                description: 'DeletionPolicy specifies what will happen to the underlying
                   external when this managed resource is deleted - either "Delete"
-                  or "Orphan" the external resource.
+                  or "Orphan" the external resource. This field is planned to be deprecated
+                  in favor of the ManagementPolicy field in a future release. Currently,
+                  both could be set independently and non-default values would be
+                  honored if the feature flag is enabled. See the design doc for more
+                  information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
                 enum:
                 - Orphan
                 - Delete
@@ -200,9 +204,22 @@ spec:
                       is smaller. Labels and values can contain only lowercase letters,
                       numerals, underscores, and dashes. Keys must begin with a letter.
                     type: object
-                required:
-                - type
                 type: object
+              managementPolicy:
+                default: FullControl
+                description: 'THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice. ManagementPolicy
+                  specifies the level of control Crossplane has over the managed external
+                  resource. This field is planned to replace the DeletionPolicy field
+                  in a future release. Currently, both could be set independently
+                  and non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
+                enum:
+                - FullControl
+                - ObserveOnly
+                - OrphanOnDelete
+                type: string
               providerConfigRef:
                 default:
                   name: default
@@ -374,20 +391,158 @@ spec:
             required:
             - forProvider
             type: object
+            x-kubernetes-validations:
+            - message: type is a required parameter
+              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.type)
           status:
             description: NotificationChannelStatus defines the observed state of NotificationChannel.
             properties:
               atProvider:
                 properties:
+                  description:
+                    description: An optional human-readable description of this notification
+                      channel. This description may provide additional details, beyond
+                      the display name, for the channel. This may not exceed 1024
+                      Unicode characters.
+                    type: string
+                  displayName:
+                    description: An optional human-readable name for this notification
+                      channel. It is recommended that you specify a non-empty and
+                      unique name in order to make it easier to identify the channels
+                      in your project, though this is not enforced. The display name
+                      is limited to 512 Unicode characters.
+                    type: string
+                  enabled:
+                    description: Whether notifications are forwarded to the described
+                      channel. This makes it possible to disable delivery of notifications
+                      to a particular channel without removing the channel from all
+                      alerting policies that reference the channel. This is a more
+                      convenient approach when the change is temporary and you want
+                      to receive notifications from the same set of alerting policies
+                      on the channel at some point in the future.
+                    type: boolean
+                  forceDelete:
+                    description: If true, the notification channel will be deleted
+                      regardless of its use in alert policies (the policies will be
+                      updated to remove the channel). If false, channels that are
+                      still referenced by an existing alerting policy will fail to
+                      be deleted in a delete operation.
+                    type: boolean
                   id:
                     description: an identifier for the resource with format {{name}}
                     type: string
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: Configuration fields that define the channel and
+                      its behavior. The permissible and required labels are specified
+                      in the NotificationChannelDescriptor corresponding to the type
+                      field. They can also be configured via the sensitive_labels
+                      block, but cannot be configured in both places.
+                    type: object
                   name:
                     description: 'The full REST resource name for this channel. The
                       syntax is: projects/[PROJECT_ID]/notificationChannels/[CHANNEL_ID]
                       The [CHANNEL_ID] is automatically assigned by the server on
                       creation.'
                     type: string
+                  project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  sensitiveLabels:
+                    description: 'Different notification type behaviors are configured
+                      primarily using the the labels field on this resource. This
+                      block contains the labels which contain secrets or passwords
+                      so that they can be marked sensitive and hidden from plan output.
+                      The name of the field, eg: password, will be the key in the
+                      labels map in the api request. Credentials may not be specified
+                      in both locations and will cause an error. Changing from one
+                      location to a different credential configuration in the config
+                      will require an apply to update state. Structure is documented
+                      below.'
+                    items:
+                      properties:
+                        authTokenSecretRef:
+                          description: 'An authorization token for a notification
+                            channel. Channel types that support this field include:
+                            slack Note: This property is sensitive and will not be
+                            displayed in the plan.'
+                          properties:
+                            key:
+                              description: The key to select.
+                              type: string
+                            name:
+                              description: Name of the secret.
+                              type: string
+                            namespace:
+                              description: Namespace of the secret.
+                              type: string
+                          required:
+                          - key
+                          - name
+                          - namespace
+                          type: object
+                        passwordSecretRef:
+                          description: 'An password for a notification channel. Channel
+                            types that support this field include: webhook_basicauth
+                            Note: This property is sensitive and will not be displayed
+                            in the plan.'
+                          properties:
+                            key:
+                              description: The key to select.
+                              type: string
+                            name:
+                              description: Name of the secret.
+                              type: string
+                            namespace:
+                              description: Namespace of the secret.
+                              type: string
+                          required:
+                          - key
+                          - name
+                          - namespace
+                          type: object
+                        serviceKeySecretRef:
+                          description: 'An servicekey token for a notification channel.
+                            Channel types that support this field include: pagerduty
+                            Note: This property is sensitive and will not be displayed
+                            in the plan.'
+                          properties:
+                            key:
+                              description: The key to select.
+                              type: string
+                            name:
+                              description: Name of the secret.
+                              type: string
+                            namespace:
+                              description: Namespace of the secret.
+                              type: string
+                          required:
+                          - key
+                          - name
+                          - namespace
+                          type: object
+                      type: object
+                    type: array
+                  type:
+                    description: The type of the notification channel. This field
+                      matches the value of the NotificationChannelDescriptor.type
+                      field. See https://cloud.google.com/monitoring/api/ref_v3/rest/v3/projects.notificationChannelDescriptors/list
+                      to get the list of valid values such as "email", "slack", etc...
+                    type: string
+                  userLabels:
+                    additionalProperties:
+                      type: string
+                    description: User-supplied key/value data that does not need to
+                      conform to the corresponding NotificationChannelDescriptor's
+                      schema, unlike the labels field. This field is intended to be
+                      used for organizing and identifying the NotificationChannel
+                      objects.The field can contain up to 64 entries. Each key and
+                      value is limited to 63 Unicode characters or 128 bytes, whichever
+                      is smaller. Labels and values can contain only lowercase letters,
+                      numerals, underscores, and dashes. Keys must begin with a letter.
+                    type: object
                   verificationStatus:
                     description: Indicates whether this channel has been verified
                       or not. On a ListNotificationChannels or GetNotificationChannel

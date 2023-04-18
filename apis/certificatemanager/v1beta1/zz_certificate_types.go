@@ -47,15 +47,38 @@ type AuthorizationAttemptInfoParameters struct {
 
 type CertificateObservation struct {
 
+	// A human-readable description of the resource.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/locations/global/certificates/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Set of label tags associated with the Certificate resource.
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Configuration and state of a Managed Certificate.
 	// Certificate Manager provisions and renews Managed Certificates
 	// automatically, for as long as it's authorized to do so.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	Managed []ManagedObservation `json:"managed,omitempty" tf:"managed,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The scope of the certificate.
+	// DEFAULT: Certificates with default scope are served from core Google data centers.
+	// If unsure, choose this option.
+	// EDGE_CACHE: Certificates with scope EDGE_CACHE are special-purposed certificates,
+	// served from non-core Google data centers.
+	// Currently allowed only for managed certificates.
+	Scope *string `json:"scope,omitempty" tf:"scope,omitempty"`
+
+	// Certificate data for a SelfManaged Certificate.
+	// SelfManaged Certificates are uploaded by the user. Updating such
+	// certificates before they expire remains the user's responsibility.
+	// Structure is documented below.
+	SelfManaged []SelfManagedObservation `json:"selfManaged,omitempty" tf:"self_managed,omitempty"`
 }
 
 type CertificateParameters struct {
@@ -104,6 +127,13 @@ type ManagedObservation struct {
 	// Structure is documented below.
 	AuthorizationAttemptInfo []AuthorizationAttemptInfoObservation `json:"authorizationAttemptInfo,omitempty" tf:"authorization_attempt_info,omitempty"`
 
+	// Authorizations that will be used for performing domain authorization
+	DNSAuthorizations []*string `json:"dnsAuthorizations,omitempty" tf:"dns_authorizations,omitempty"`
+
+	// The domains for which a managed SSL certificate will be generated.
+	// Wildcard domains are only supported with DNS challenge resolution
+	Domains []*string `json:"domains,omitempty" tf:"domains,omitempty"`
+
 	// Information about issues with provisioning this Managed Certificate.
 	// Structure is documented below.
 	ProvisioningIssue []ProvisioningIssueObservation `json:"provisioningIssue,omitempty" tf:"provisioning_issue,omitempty"`
@@ -139,6 +169,10 @@ type ProvisioningIssueParameters struct {
 }
 
 type SelfManagedObservation struct {
+
+	// The certificate chain in PEM-encoded form.
+	// Leaf certificate comes first, followed by intermediate ones if any.
+	PemCertificate *string `json:"pemCertificate,omitempty" tf:"pem_certificate,omitempty"`
 }
 
 type SelfManagedParameters struct {

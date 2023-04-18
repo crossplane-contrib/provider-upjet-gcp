@@ -30,8 +30,17 @@ type ApplicationObservation struct {
 	// Identifier of the app, usually {PROJECT_ID}
 	AppID *string `json:"appId,omitempty" tf:"app_id,omitempty"`
 
+	// The domain to authenticate users with when using App Engine's User API.
+	AuthDomain *string `json:"authDomain,omitempty" tf:"auth_domain,omitempty"`
+
 	// The GCS bucket code is being stored in for this app.
 	CodeBucket *string `json:"codeBucket,omitempty" tf:"code_bucket,omitempty"`
+
+	// The type of the Cloud Firestore or Cloud Datastore database associated with this application.
+	// Can be CLOUD_FIRESTORE or CLOUD_DATASTORE_COMPATIBILITY for new
+	// instances.  To support old instances, the value CLOUD_DATASTORE is accepted
+	// by the provider, but will be rejected by the API.
+	DatabaseType *string `json:"databaseType,omitempty" tf:"database_type,omitempty"`
 
 	// The GCS bucket content is being stored in for this app.
 	DefaultBucket *string `json:"defaultBucket,omitempty" tf:"default_bucket,omitempty"`
@@ -39,14 +48,32 @@ type ApplicationObservation struct {
 	// The default hostname for this app.
 	DefaultHostname *string `json:"defaultHostname,omitempty" tf:"default_hostname,omitempty"`
 
+	// A block of optional settings to configure specific App Engine features:
+	FeatureSettings []FeatureSettingsObservation `json:"featureSettings,omitempty" tf:"feature_settings,omitempty"`
+
 	// The GCR domain used for storing managed Docker images for this app.
 	GcrDomain *string `json:"gcrDomain,omitempty" tf:"gcr_domain,omitempty"`
 
 	// an identifier for the resource with format {{project}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// Settings for enabling Cloud Identity Aware Proxy
+	Iap []IapObservation `json:"iap,omitempty" tf:"iap,omitempty"`
+
+	// The location
+	// to serve the app from.
+	LocationID *string `json:"locationId,omitempty" tf:"location_id,omitempty"`
+
 	// Unique name of the app, usually apps/{PROJECT_ID}
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The project ID to create the application under.
+	// ~>NOTE: GCP only accepts project ID, not project number. If you are using number,
+	// you may get a "Permission denied" error.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The serving status of the app.
+	ServingStatus *string `json:"servingStatus,omitempty" tf:"serving_status,omitempty"`
 
 	// A list of dispatch rule blocks. Each block has a domain, path, and service field.
 	URLDispatchRule []URLDispatchRuleObservation `json:"urlDispatchRule,omitempty" tf:"url_dispatch_rule,omitempty"`
@@ -75,8 +102,8 @@ type ApplicationParameters struct {
 
 	// The location
 	// to serve the app from.
-	// +kubebuilder:validation:Required
-	LocationID *string `json:"locationId" tf:"location_id,omitempty"`
+	// +kubebuilder:validation:Optional
+	LocationID *string `json:"locationId,omitempty" tf:"location_id,omitempty"`
 
 	// The project ID to create the application under.
 	// ~>NOTE: GCP only accepts project ID, not project number. If you are using number,
@@ -100,6 +127,10 @@ type ApplicationParameters struct {
 }
 
 type FeatureSettingsObservation struct {
+
+	// Set to false to use the legacy health check instead of the readiness
+	// and liveness checks.
+	SplitHealthChecks *bool `json:"splitHealthChecks,omitempty" tf:"split_health_checks,omitempty"`
 }
 
 type FeatureSettingsParameters struct {
@@ -111,6 +142,13 @@ type FeatureSettingsParameters struct {
 }
 
 type IapObservation struct {
+
+	// Whether the serving infrastructure will authenticate and authorize all incoming requests.
+	// (default is false)
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+
+	// OAuth2 client ID to use for the authentication flow.
+	Oauth2ClientID *string `json:"oauth2ClientId,omitempty" tf:"oauth2_client_id,omitempty"`
 }
 
 type IapParameters struct {
@@ -165,8 +203,9 @@ type ApplicationStatus struct {
 type Application struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              ApplicationSpec   `json:"spec"`
-	Status            ApplicationStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.locationId)",message="locationId is a required parameter"
+	Spec   ApplicationSpec   `json:"spec"`
+	Status ApplicationStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -27,8 +27,25 @@ import (
 
 type AppConnectorObservation struct {
 
+	// An arbitrary user-provided name for the AppConnector.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/locations/{{region}}/appConnectors/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Resource labels to represent user provided metadata.
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// Principal information about the Identity of the AppConnector.
+	// Structure is documented below.
+	PrincipalInfo []PrincipalInfoObservation `json:"principalInfo,omitempty" tf:"principal_info,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The region of the AppConnector.
+	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
 	// Represents the different states of a AppConnector.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
@@ -46,8 +63,8 @@ type AppConnectorParameters struct {
 
 	// Principal information about the Identity of the AppConnector.
 	// Structure is documented below.
-	// +kubebuilder:validation:Required
-	PrincipalInfo []PrincipalInfoParameters `json:"principalInfo" tf:"principal_info,omitempty"`
+	// +kubebuilder:validation:Optional
+	PrincipalInfo []PrincipalInfoParameters `json:"principalInfo,omitempty" tf:"principal_info,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -60,6 +77,10 @@ type AppConnectorParameters struct {
 }
 
 type PrincipalInfoObservation struct {
+
+	// ServiceAccount represents a GCP service account.
+	// Structure is documented below.
+	ServiceAccount []ServiceAccountObservation `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
 }
 
 type PrincipalInfoParameters struct {
@@ -71,6 +92,9 @@ type PrincipalInfoParameters struct {
 }
 
 type ServiceAccountObservation struct {
+
+	// Email address of the service account.
+	Email *string `json:"email,omitempty" tf:"email,omitempty"`
 }
 
 type ServiceAccountParameters struct {
@@ -114,8 +138,9 @@ type AppConnectorStatus struct {
 type AppConnector struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              AppConnectorSpec   `json:"spec"`
-	Status            AppConnectorStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.principalInfo)",message="principalInfo is a required parameter"
+	Spec   AppConnectorSpec   `json:"spec"`
+	Status AppConnectorStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

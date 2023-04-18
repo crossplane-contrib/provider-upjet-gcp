@@ -32,12 +32,22 @@ type CertificateMapObservation struct {
 	// Examples: "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z".
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
+	// A human-readable description of the resource.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
 	// A list of target proxies that use this Certificate Map
 	// Structure is documented below.
 	GclbTargets []GclbTargetsObservation `json:"gclbTargets,omitempty" tf:"gclb_targets,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/locations/global/certificateMaps/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Set of labels associated with a Certificate Map resource.
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Update timestamp of a Certificate Map. Timestamp is in RFC3339 UTC "Zulu" format,
 	// accurate to nanoseconds with up to nine fractional digits.

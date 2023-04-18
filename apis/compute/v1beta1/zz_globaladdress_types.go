@@ -27,11 +27,45 @@ import (
 
 type GlobalAddressObservation struct {
 
+	// The IP address or beginning of the address range represented by this
+	// resource. This can be supplied as an input to reserve a specific
+	// address or omitted to allow GCP to choose a valid one for you.
+	Address *string `json:"address,omitempty" tf:"address,omitempty"`
+
+	// The type of the address to reserve.
+	AddressType *string `json:"addressType,omitempty" tf:"address_type,omitempty"`
+
 	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
 
+	// An optional description of this resource.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/global/addresses/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The IP Version that will be used by this address. The default value is IPV4.
+	// Possible values are IPV4 and IPV6.
+	IPVersion *string `json:"ipVersion,omitempty" tf:"ip_version,omitempty"`
+
+	// The URL of the network in which to reserve the IP range. The IP range
+	// must be in RFC1918 space. The network cannot be deleted if there are
+	// any reserved IP ranges referring to it.
+	// This should only be set when using an Internal address.
+	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
+	// The prefix length of the IP range. If not present, it means the
+	// address field is a single IP address.
+	// This field is not applicable to addresses with addressType=EXTERNAL,
+	// or addressType=INTERNAL when purpose=PRIVATE_SERVICE_CONNECT
+	PrefixLength *float64 `json:"prefixLength,omitempty" tf:"prefix_length,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The purpose of the resource. Possible values include:
+	Purpose *string `json:"purpose,omitempty" tf:"purpose,omitempty"`
 
 	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`

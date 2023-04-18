@@ -26,6 +26,9 @@ import (
 )
 
 type CloudLoggingConfigObservation struct {
+
+	// If set, enable query logging for this ManagedZone. False by default, making logging opt-in.
+	EnableLogging *bool `json:"enableLogging,omitempty" tf:"enable_logging,omitempty"`
 }
 
 type CloudLoggingConfigParameters struct {
@@ -36,6 +39,25 @@ type CloudLoggingConfigParameters struct {
 }
 
 type DNSSECConfigObservation struct {
+
+	// Specifies parameters that will be used for generating initial DnsKeys
+	// for this ManagedZone. If you provide a spec for keySigning or zoneSigning,
+	// you must also provide one for the other.
+	// default_key_specs can only be updated when the state is off.
+	// Structure is documented below.
+	DefaultKeySpecs []DefaultKeySpecsObservation `json:"defaultKeySpecs,omitempty" tf:"default_key_specs,omitempty"`
+
+	// Identifies what kind of resource this is
+	Kind *string `json:"kind,omitempty" tf:"kind,omitempty"`
+
+	// Specifies the mechanism used to provide authenticated denial-of-existence responses.
+	// non_existence can only be updated when the state is off.
+	// Possible values are nsec and nsec3.
+	NonExistence *string `json:"nonExistence,omitempty" tf:"non_existence,omitempty"`
+
+	// Specifies whether DNSSEC is enabled, and what mode it is in
+	// Possible values are off, on, and transfer.
+	State *string `json:"state,omitempty" tf:"state,omitempty"`
 }
 
 type DNSSECConfigParameters struct {
@@ -65,6 +87,25 @@ type DNSSECConfigParameters struct {
 }
 
 type DefaultKeySpecsObservation struct {
+
+	// String mnemonic specifying the DNSSEC algorithm of this key
+	// Possible values are ecdsap256sha256, ecdsap384sha384, rsasha1, rsasha256, and rsasha512.
+	Algorithm *string `json:"algorithm,omitempty" tf:"algorithm,omitempty"`
+
+	// Length of the keys in bits
+	KeyLength *float64 `json:"keyLength,omitempty" tf:"key_length,omitempty"`
+
+	// Specifies whether this is a key signing key (KSK) or a zone
+	// signing key (ZSK). Key signing keys have the Secure Entry
+	// Point flag set and, when active, will only be used to sign
+	// resource record sets of type DNSKEY. Zone signing keys do
+	// not have the Secure Entry Point flag set and will be used
+	// to sign all other types of resource record sets.
+	// Possible values are keySigning and zoneSigning.
+	KeyType *string `json:"keyType,omitempty" tf:"key_type,omitempty"`
+
+	// Identifies what kind of resource this is
+	Kind *string `json:"kind,omitempty" tf:"kind,omitempty"`
 }
 
 type DefaultKeySpecsParameters struct {
@@ -94,6 +135,12 @@ type DefaultKeySpecsParameters struct {
 }
 
 type ForwardingConfigObservation struct {
+
+	// List of target name servers to forward to. Cloud DNS will
+	// select the best available name server if more than
+	// one target is given.
+	// Structure is documented below.
+	TargetNameServers []TargetNameServersObservation `json:"targetNameServers,omitempty" tf:"target_name_servers,omitempty"`
 }
 
 type ForwardingConfigParameters struct {
@@ -107,6 +154,11 @@ type ForwardingConfigParameters struct {
 }
 
 type GkeClustersObservation struct {
+
+	// The resource name of the cluster to bind this ManagedZone to.
+	// This should be specified in the format like
+	// projects/*/locations/*/clusters/*
+	GkeClusterName *string `json:"gkeClusterName,omitempty" tf:"gke_cluster_name,omitempty"`
 }
 
 type GkeClustersParameters struct {
@@ -130,12 +182,38 @@ type GkeClustersParameters struct {
 
 type ManagedZoneObservation struct {
 
+	// Cloud logging configuration
+	// Structure is documented below.
+	CloudLoggingConfig []CloudLoggingConfigObservation `json:"cloudLoggingConfig,omitempty" tf:"cloud_logging_config,omitempty"`
+
 	// The time that this resource was created on the server.
 	// This is in RFC3339 text format.
 	CreationTime *string `json:"creationTime,omitempty" tf:"creation_time,omitempty"`
 
+	// The DNS name of this managed zone, for instance "example.com.".
+	DNSName *string `json:"dnsName,omitempty" tf:"dns_name,omitempty"`
+
+	// DNSSEC configuration
+	// Structure is documented below.
+	DNSSECConfig []DNSSECConfigObservation `json:"dnssecConfig,omitempty" tf:"dnssec_config,omitempty"`
+
+	// A textual description field.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Set this true to delete all records in the zone.
+	ForceDestroy *bool `json:"forceDestroy,omitempty" tf:"force_destroy,omitempty"`
+
+	// The presence for this field indicates that outbound forwarding is enabled
+	// for this zone. The value of this field contains the set of destinations
+	// to forward to.
+	// Structure is documented below.
+	ForwardingConfig []ForwardingConfigObservation `json:"forwardingConfig,omitempty" tf:"forwarding_config,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/managedZones/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// A set of key/value label pairs to assign to this ManagedZone.
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Unique identifier for the resource; defined by the server.
 	ManagedZoneID *float64 `json:"managedZoneId,omitempty" tf:"managed_zone_id,omitempty"`
@@ -143,6 +221,26 @@ type ManagedZoneObservation struct {
 	// Delegate your managed_zone to these virtual name servers;
 	// defined by the server
 	NameServers []*string `json:"nameServers,omitempty" tf:"name_servers,omitempty"`
+
+	// The presence of this field indicates that DNS Peering is enabled for this
+	// zone. The value of this field contains the network to peer with.
+	// Structure is documented below.
+	PeeringConfig []PeeringConfigObservation `json:"peeringConfig,omitempty" tf:"peering_config,omitempty"`
+
+	// For privately visible zones, the set of Virtual Private Cloud
+	// resources that the zone is visible from.
+	// Structure is documented below.
+	PrivateVisibilityConfig []PrivateVisibilityConfigObservation `json:"privateVisibilityConfig,omitempty" tf:"private_visibility_config,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The zone's visibility: public zones are exposed to the Internet,
+	// while private zones are visible only to Virtual Private Cloud resources.
+	// Default value is public.
+	// Possible values are private and public.
+	Visibility *string `json:"visibility,omitempty" tf:"visibility,omitempty"`
 }
 
 type ManagedZoneParameters struct {
@@ -153,8 +251,8 @@ type ManagedZoneParameters struct {
 	CloudLoggingConfig []CloudLoggingConfigParameters `json:"cloudLoggingConfig,omitempty" tf:"cloud_logging_config,omitempty"`
 
 	// The DNS name of this managed zone, for instance "example.com.".
-	// +kubebuilder:validation:Required
-	DNSName *string `json:"dnsName" tf:"dns_name,omitempty"`
+	// +kubebuilder:validation:Optional
+	DNSName *string `json:"dnsName,omitempty" tf:"dns_name,omitempty"`
 
 	// DNSSEC configuration
 	// Structure is documented below.
@@ -206,6 +304,11 @@ type ManagedZoneParameters struct {
 }
 
 type NetworksObservation struct {
+
+	// The id or fully qualified URL of the VPC network to forward queries to.
+	// This should be formatted like projects/{project}/global/networks/{network} or
+	// https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}
+	NetworkURL *string `json:"networkUrl,omitempty" tf:"network_url,omitempty"`
 }
 
 type NetworksParameters struct {
@@ -228,6 +331,10 @@ type NetworksParameters struct {
 }
 
 type PeeringConfigObservation struct {
+
+	// The network with which to peer.
+	// Structure is documented below.
+	TargetNetwork []TargetNetworkObservation `json:"targetNetwork,omitempty" tf:"target_network,omitempty"`
 }
 
 type PeeringConfigParameters struct {
@@ -239,6 +346,16 @@ type PeeringConfigParameters struct {
 }
 
 type PrivateVisibilityConfigObservation struct {
+
+	// The list of Google Kubernetes Engine clusters that can see this zone.
+	// Structure is documented below.
+	GkeClusters []GkeClustersObservation `json:"gkeClusters,omitempty" tf:"gke_clusters,omitempty"`
+
+	// The list of VPC networks that can see this zone.12 SDK in a future release, you
+	// may experience issues with this resource while updating. If you encounter this issue, remove all networks
+	// blocks in an update and then apply another update adding all of them back simultaneously.
+	// Structure is documented below.
+	Networks []NetworksObservation `json:"networks,omitempty" tf:"networks,omitempty"`
 }
 
 type PrivateVisibilityConfigParameters struct {
@@ -257,6 +374,15 @@ type PrivateVisibilityConfigParameters struct {
 }
 
 type TargetNameServersObservation struct {
+
+	// Forwarding path for this TargetNameServer. If unset or default Cloud DNS will make forwarding
+	// decision based on address ranges, i.e. RFC1918 addresses go to the VPC, Non-RFC1918 addresses go
+	// to the Internet. When set to private, Cloud DNS will always send queries through VPC for this target
+	// Possible values are default and private.
+	ForwardingPath *string `json:"forwardingPath,omitempty" tf:"forwarding_path,omitempty"`
+
+	// IPv4 address of a target name server.
+	IPv4Address *string `json:"ipv4Address,omitempty" tf:"ipv4_address,omitempty"`
 }
 
 type TargetNameServersParameters struct {
@@ -274,6 +400,11 @@ type TargetNameServersParameters struct {
 }
 
 type TargetNetworkObservation struct {
+
+	// The id or fully qualified URL of the VPC network to forward queries to.
+	// This should be formatted like projects/{project}/global/networks/{network} or
+	// https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}
+	NetworkURL *string `json:"networkUrl,omitempty" tf:"network_url,omitempty"`
 }
 
 type TargetNetworkParameters struct {
@@ -319,8 +450,9 @@ type ManagedZoneStatus struct {
 type ManagedZone struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              ManagedZoneSpec   `json:"spec"`
-	Status            ManagedZoneStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.dnsName)",message="dnsName is a required parameter"
+	Spec   ManagedZoneSpec   `json:"spec"`
+	Status ManagedZoneStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

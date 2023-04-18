@@ -27,21 +27,48 @@ import (
 
 type AppConnectionObservation struct {
 
+	// Address of the remote application endpoint for the BeyondCorp AppConnection.
+	// Structure is documented below.
+	ApplicationEndpoint []ApplicationEndpointObservation `json:"applicationEndpoint,omitempty" tf:"application_endpoint,omitempty"`
+
+	// List of AppConnectors that are authorised to be associated with this AppConnection
+	Connectors []*string `json:"connectors,omitempty" tf:"connectors,omitempty"`
+
+	// An arbitrary user-provided name for the AppConnection.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
 	// Gateway used by the AppConnection.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	Gateway []GatewayObservation `json:"gateway,omitempty" tf:"gateway,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/locations/{{region}}/appConnections/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Resource labels to represent user provided metadata.
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// ID of the AppConnection.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The region of the AppConnection.
+	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+
+	// The type of hosting used by the gateway. Refer to
+	// https://cloud.google.com/beyondcorp/docs/reference/rest/v1/projects.locations.appConnections#Type_1
+	// for a list of possible values.
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type AppConnectionParameters struct {
 
 	// Address of the remote application endpoint for the BeyondCorp AppConnection.
 	// Structure is documented below.
-	// +kubebuilder:validation:Required
-	ApplicationEndpoint []ApplicationEndpointParameters `json:"applicationEndpoint" tf:"application_endpoint,omitempty"`
+	// +kubebuilder:validation:Optional
+	ApplicationEndpoint []ApplicationEndpointParameters `json:"applicationEndpoint,omitempty" tf:"application_endpoint,omitempty"`
 
 	// List of AppConnectors that are authorised to be associated with this AppConnection
 	// +kubebuilder:validation:Optional
@@ -61,8 +88,8 @@ type AppConnectionParameters struct {
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// ID of the AppConnection.
-	// +kubebuilder:validation:Required
-	Name *string `json:"name" tf:"name,omitempty"`
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -70,8 +97,8 @@ type AppConnectionParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The region of the AppConnection.
-	// +kubebuilder:validation:Required
-	Region *string `json:"region" tf:"region,omitempty"`
+	// +kubebuilder:validation:Optional
+	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
 	// The type of hosting used by the gateway. Refer to
 	// https://cloud.google.com/beyondcorp/docs/reference/rest/v1/projects.locations.appConnections#Type_1
@@ -81,6 +108,12 @@ type AppConnectionParameters struct {
 }
 
 type ApplicationEndpointObservation struct {
+
+	// Hostname or IP address of the remote application endpoint.
+	Host *string `json:"host,omitempty" tf:"host,omitempty"`
+
+	// Port of the remote application endpoint.
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
 }
 
 type ApplicationEndpointParameters struct {
@@ -96,8 +129,16 @@ type ApplicationEndpointParameters struct {
 
 type GatewayObservation struct {
 
+	// AppGateway name in following format: projects/{project_id}/locations/{locationId}/appgateways/{gateway_id}.
+	AppGateway *string `json:"appGateway,omitempty" tf:"app_gateway,omitempty"`
+
 	// Ingress port reserved on the gateways for this AppConnection, if not specified or zero, the default port is 19443.
 	IngressPort *float64 `json:"ingressPort,omitempty" tf:"ingress_port,omitempty"`
+
+	// The type of hosting used by the gateway. Refer to
+	// https://cloud.google.com/beyondcorp/docs/reference/rest/v1/projects.locations.appConnections#Type_1
+	// for a list of possible values.
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 
 	// Server-defined URI for this resource.
 	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`
@@ -150,8 +191,11 @@ type AppConnectionStatus struct {
 type AppConnection struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              AppConnectionSpec   `json:"spec"`
-	Status            AppConnectionStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.applicationEndpoint)",message="applicationEndpoint is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.name)",message="name is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.region)",message="region is a required parameter"
+	Spec   AppConnectionSpec   `json:"spec"`
+	Status AppConnectionStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

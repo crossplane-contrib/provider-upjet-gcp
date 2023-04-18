@@ -26,6 +26,9 @@ import (
 )
 
 type FeaturestoreEncryptionSpecObservation struct {
+
+	// The Cloud KMS resource identifier of the customer managed encryption key used to protect a resource. Has the form: projects/my-project/locations/my-region/keyRings/my-kr/cryptoKeys/my-key. The key needs to be in the same region as where the compute resource is created.
+	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
 }
 
 type FeaturestoreEncryptionSpecParameters struct {
@@ -40,11 +43,35 @@ type FeaturestoreObservation struct {
 	// The timestamp of when the featurestore was created in RFC3339 UTC "Zulu" format, with nanosecond resolution and up to nine fractional digits.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
+	// If set, both of the online and offline data storage will be secured by this key.
+	// Structure is documented below.
+	EncryptionSpec []FeaturestoreEncryptionSpecObservation `json:"encryptionSpec,omitempty" tf:"encryption_spec,omitempty"`
+
 	// Used to perform consistent read-modify-write updates.
 	Etag *string `json:"etag,omitempty" tf:"etag,omitempty"`
 
+	// If set to true, any EntityTypes and Features for this Featurestore will also be deleted
+	ForceDestroy *bool `json:"forceDestroy,omitempty" tf:"force_destroy,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/locations/{{region}}/featurestores/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// A set of key/value label pairs to assign to this Featurestore.
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// The name of the Featurestore. This value may be up to 60 characters, and valid characters are [a-z0-9_]. The first character cannot be a number.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Config for online serving resources.
+	// Structure is documented below.
+	OnlineServingConfig []OnlineServingConfigObservation `json:"onlineServingConfig,omitempty" tf:"online_serving_config,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The region of the dataset. eg us-central1
+	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
 	// The timestamp of when the featurestore was last updated in RFC3339 UTC "Zulu" format, with nanosecond resolution and up to nine fractional digits.
 	UpdateTime *string `json:"updateTime,omitempty" tf:"update_time,omitempty"`
@@ -85,6 +112,13 @@ type FeaturestoreParameters struct {
 }
 
 type OnlineServingConfigObservation struct {
+
+	// The number of nodes for each cluster. The number of nodes will not scale automatically but can be scaled manually by providing different values when updating.
+	FixedNodeCount *float64 `json:"fixedNodeCount,omitempty" tf:"fixed_node_count,omitempty"`
+
+	// Online serving scaling configuration. Only one of fixedNodeCount and scaling can be set. Setting one will reset the other.
+	// Structure is documented below.
+	Scaling []ScalingObservation `json:"scaling,omitempty" tf:"scaling,omitempty"`
 }
 
 type OnlineServingConfigParameters struct {
@@ -100,6 +134,12 @@ type OnlineServingConfigParameters struct {
 }
 
 type ScalingObservation struct {
+
+	// The maximum number of nodes to scale up to. Must be greater than minNodeCount, and less than or equal to 10 times of 'minNodeCount'.
+	MaxNodeCount *float64 `json:"maxNodeCount,omitempty" tf:"max_node_count,omitempty"`
+
+	// The minimum number of nodes to scale down to. Must be greater than or equal to 1.
+	MinNodeCount *float64 `json:"minNodeCount,omitempty" tf:"min_node_count,omitempty"`
 }
 
 type ScalingParameters struct {

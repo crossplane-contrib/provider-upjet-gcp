@@ -27,8 +27,22 @@ import (
 
 type DiskResourcePolicyAttachmentObservation struct {
 
+	// The name of the disk in which the resource policies are attached to.
+	Disk *string `json:"disk,omitempty" tf:"disk,omitempty"`
+
 	// an identifier for the resource with format {{project}}/{{zone}}/{{disk}}/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The resource policy to be attached to the disk for scheduling snapshot
+	// creation. Do not specify the self link.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// A reference to the zone where the disk resides.
+	Zone *string `json:"zone,omitempty" tf:"zone,omitempty"`
 }
 
 type DiskResourcePolicyAttachmentParameters struct {

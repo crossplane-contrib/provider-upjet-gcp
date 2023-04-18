@@ -26,6 +26,17 @@ import (
 )
 
 type AttestationAuthorityObservation struct {
+
+	// This submessage provides human-readable hints about the purpose of
+	// the AttestationAuthority. Because the name of a Note acts as its
+	// resource reference, it is important to disambiguate the canonical
+	// name of the Note (which might be a UUID for security purposes)
+	// from "readable" names more suitable for debug output. Note that
+	// these hints should NOT be used to look up AttestationAuthorities
+	// in security sensitive contexts, such as when looking up
+	// Attestations to verify.
+	// Structure is documented below.
+	Hint []HintObservation `json:"hint,omitempty" tf:"hint,omitempty"`
 }
 
 type AttestationAuthorityParameters struct {
@@ -44,6 +55,10 @@ type AttestationAuthorityParameters struct {
 }
 
 type HintObservation struct {
+
+	// The human readable name of this Attestation Authority, for
+	// example "qa".
+	HumanReadableName *string `json:"humanReadableName,omitempty" tf:"human_readable_name,omitempty"`
 }
 
 type HintParameters struct {
@@ -56,14 +71,46 @@ type HintParameters struct {
 
 type NoteObservation struct {
 
+	// Note kind that represents a logical attestation "role" or "authority".
+	// For example, an organization might have one AttestationAuthority for
+	// "QA" and one for "build". This Note is intended to act strictly as a
+	// grouping mechanism for the attached Occurrences (Attestations). This
+	// grouping mechanism also provides a security boundary, since IAM ACLs
+	// gate the ability for a principle to attach an Occurrence to a given
+	// Note. It also provides a single point of lookup to find all attached
+	// Attestation Occurrences, even if they don't all live in the same
+	// project.
+	// Structure is documented below.
+	AttestationAuthority []AttestationAuthorityObservation `json:"attestationAuthority,omitempty" tf:"attestation_authority,omitempty"`
+
 	// The time this note was created.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
+
+	// Time of expiration for this note. Leave empty if note does not expire.
+	ExpirationTime *string `json:"expirationTime,omitempty" tf:"expiration_time,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/notes/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// The type of analysis this note describes
 	Kind *string `json:"kind,omitempty" tf:"kind,omitempty"`
+
+	// A detailed description of the note
+	LongDescription *string `json:"longDescription,omitempty" tf:"long_description,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Names of other notes related to this note.
+	RelatedNoteNames []*string `json:"relatedNoteNames,omitempty" tf:"related_note_names,omitempty"`
+
+	// URLs associated with this note and related metadata.
+	// Structure is documented below.
+	RelatedURL []RelatedURLObservation `json:"relatedUrl,omitempty" tf:"related_url,omitempty"`
+
+	// A one sentence description of the note.
+	ShortDescription *string `json:"shortDescription,omitempty" tf:"short_description,omitempty"`
 
 	// The time this note was last updated.
 	UpdateTime *string `json:"updateTime,omitempty" tf:"update_time,omitempty"`
@@ -81,8 +128,8 @@ type NoteParameters struct {
 	// Attestation Occurrences, even if they don't all live in the same
 	// project.
 	// Structure is documented below.
-	// +kubebuilder:validation:Required
-	AttestationAuthority []AttestationAuthorityParameters `json:"attestationAuthority" tf:"attestation_authority,omitempty"`
+	// +kubebuilder:validation:Optional
+	AttestationAuthority []AttestationAuthorityParameters `json:"attestationAuthority,omitempty" tf:"attestation_authority,omitempty"`
 
 	// Time of expiration for this note. Leave empty if note does not expire.
 	// +kubebuilder:validation:Optional
@@ -112,6 +159,12 @@ type NoteParameters struct {
 }
 
 type RelatedURLObservation struct {
+
+	// Label to describe usage of the URL
+	Label *string `json:"label,omitempty" tf:"label,omitempty"`
+
+	// Specific URL associated with the resource.
+	URL *string `json:"url,omitempty" tf:"url,omitempty"`
 }
 
 type RelatedURLParameters struct {
@@ -149,8 +202,9 @@ type NoteStatus struct {
 type Note struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              NoteSpec   `json:"spec"`
-	Status            NoteStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.attestationAuthority)",message="attestationAuthority is a required parameter"
+	Spec   NoteSpec   `json:"spec"`
+	Status NoteStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

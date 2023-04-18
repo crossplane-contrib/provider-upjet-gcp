@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.11.1
+    controller-gen.kubebuilder.io/version: v0.11.3
   creationTimestamp: null
   name: connectionprofiles.datastream.gcp.upbound.io
 spec:
@@ -56,9 +56,13 @@ spec:
             properties:
               deletionPolicy:
                 default: Delete
-                description: DeletionPolicy specifies what will happen to the underlying
+                description: 'DeletionPolicy specifies what will happen to the underlying
                   external when this managed resource is deleted - either "Delete"
-                  or "Orphan" the external resource.
+                  or "Orphan" the external resource. This field is planned to be deprecated
+                  in favor of the ManagementPolicy field in a future release. Currently,
+                  both could be set independently and non-default values would be
+                  honored if the feature flag is enabled. See the design doc for more
+                  information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
                 enum:
                 - Orphan
                 - Delete
@@ -673,9 +677,23 @@ spec:
                       If it is not provided, the provider project is used.
                     type: string
                 required:
-                - displayName
                 - location
                 type: object
+              managementPolicy:
+                default: FullControl
+                description: 'THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice. ManagementPolicy
+                  specifies the level of control Crossplane has over the managed external
+                  resource. This field is planned to replace the DeletionPolicy field
+                  in a future release. Currently, both could be set independently
+                  and non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
+                enum:
+                - FullControl
+                - ObserveOnly
+                - OrphanOnDelete
+                type: string
               providerConfigRef:
                 default:
                   name: default
@@ -847,18 +865,73 @@ spec:
             required:
             - forProvider
             type: object
+            x-kubernetes-validations:
+            - message: displayName is a required parameter
+              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.displayName)
           status:
             description: ConnectionProfileStatus defines the observed state of ConnectionProfile.
             properties:
               atProvider:
                 properties:
+                  bigqueryProfile:
+                    description: BigQuery warehouse profile.
+                    items:
+                      type: object
+                    type: array
+                  displayName:
+                    description: Display name.
+                    type: string
+                  forwardSshConnectivity:
+                    description: Forward SSH tunnel connectivity. Structure is documented
+                      below.
+                    items:
+                      properties:
+                        hostname:
+                          description: Hostname for the SSH tunnel.
+                          type: string
+                        port:
+                          description: Port for the SSH tunnel.
+                          type: number
+                        username:
+                          description: Username for the SSH tunnel.
+                          type: string
+                      type: object
+                    type: array
+                  gcsProfile:
+                    description: Cloud Storage bucket profile. Structure is documented
+                      below.
+                    items:
+                      properties:
+                        bucket:
+                          description: The Cloud Storage bucket name.
+                          type: string
+                        rootPath:
+                          description: The root path inside the Cloud Storage bucket.
+                          type: string
+                      type: object
+                    type: array
                   id:
                     description: an identifier for the resource with format projects/{{project}}/locations/{{location}}/connectionProfiles/{{connection_profile_id}}
+                    type: string
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: Labels.
+                    type: object
+                  location:
+                    description: The name of the location this connection profile
+                      is located in.
                     type: string
                   mysqlProfile:
                     description: MySQL database profile. Structure is documented below.
                     items:
                       properties:
+                        hostname:
+                          description: Hostname for the MySQL connection.
+                          type: string
+                        port:
+                          description: Port for the MySQL connection.
+                          type: number
                         sslConfig:
                           description: SSL configuration for the MySQL connection.
                             Structure is documented below.
@@ -878,10 +951,70 @@ spec:
                                 type: boolean
                             type: object
                           type: array
+                        username:
+                          description: Username for the MySQL connection.
+                          type: string
                       type: object
                     type: array
                   name:
                     description: The resource's name.
+                    type: string
+                  oracleProfile:
+                    description: Oracle database profile. Structure is documented
+                      below.
+                    items:
+                      properties:
+                        connectionAttributes:
+                          additionalProperties:
+                            type: string
+                          description: Connection string attributes
+                          type: object
+                        databaseService:
+                          description: Database for the Oracle connection.
+                          type: string
+                        hostname:
+                          description: Hostname for the Oracle connection.
+                          type: string
+                        port:
+                          description: Port for the Oracle connection.
+                          type: number
+                        username:
+                          description: Username for the Oracle connection.
+                          type: string
+                      type: object
+                    type: array
+                  postgresqlProfile:
+                    description: PostgreSQL database profile. Structure is documented
+                      below.
+                    items:
+                      properties:
+                        database:
+                          description: Database for the PostgreSQL connection.
+                          type: string
+                        hostname:
+                          description: Hostname for the PostgreSQL connection.
+                          type: string
+                        port:
+                          description: Port for the PostgreSQL connection.
+                          type: number
+                        username:
+                          description: Username for the PostgreSQL connection.
+                          type: string
+                      type: object
+                    type: array
+                  privateConnectivity:
+                    description: Private connectivity. Structure is documented below.
+                    items:
+                      properties:
+                        privateConnection:
+                          description: 'A reference to a private connection resource.
+                            Format: projects/{project}/locations/{location}/privateConnections/{name}'
+                          type: string
+                      type: object
+                    type: array
+                  project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
                     type: string
                 type: object
               conditions:

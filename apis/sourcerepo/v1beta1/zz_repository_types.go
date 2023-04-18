@@ -26,6 +26,18 @@ import (
 )
 
 type PubsubConfigsObservation struct {
+
+	// The format of the Cloud Pub/Sub messages.
+	MessageFormat *string `json:"messageFormat,omitempty" tf:"message_format,omitempty"`
+
+	// Email address of the service account used for publishing Cloud Pub/Sub messages.
+	// This service account needs to be in the same project as the PubsubConfig. When added,
+	// the caller needs to have iam.serviceAccounts.actAs permission on this service account.
+	// If unspecified, it defaults to the compute engine default service account.
+	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty" tf:"service_account_email,omitempty"`
+
+	// The identifier for this object. Format specified above.
+	Topic *string `json:"topic,omitempty" tf:"topic,omitempty"`
 }
 
 type PubsubConfigsParameters struct {
@@ -70,6 +82,15 @@ type RepositoryObservation struct {
 
 	// an identifier for the resource with format projects/{{project}}/repos/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// How this repository publishes a change in the repository through Cloud Pub/Sub.
+	// Keyed by the topic names.
+	// Structure is documented below.
+	PubsubConfigs []PubsubConfigsObservation `json:"pubsubConfigs,omitempty" tf:"pubsub_configs,omitempty"`
 
 	// The disk usage of the repo, in bytes.
 	Size *float64 `json:"size,omitempty" tf:"size,omitempty"`

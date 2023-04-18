@@ -26,6 +26,9 @@ import (
 )
 
 type AllowedValuesObservation struct {
+
+	// The display name for this field.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 }
 
 type AllowedValuesParameters struct {
@@ -36,6 +39,14 @@ type AllowedValuesParameters struct {
 }
 
 type EnumTypeObservation struct {
+
+	// The set of allowed values for this enum. The display names of the
+	// values must be case-insensitively unique within this set. Currently,
+	// enum values can only be added to the list of allowed values. Deletion
+	// and renaming of enum values are not supported.
+	// Can have up to 500 allowed values.
+	// Structure is documented below.
+	AllowedValues []AllowedValuesObservation `json:"allowedValues,omitempty" tf:"allowed_values,omitempty"`
 }
 
 type EnumTypeParameters struct {
@@ -52,8 +63,29 @@ type EnumTypeParameters struct {
 
 type TagTemplateFieldsObservation struct {
 
+	// A description for this field.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// The display name for this field.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// The identifier for this object. Format specified above.
+	FieldID *string `json:"fieldId,omitempty" tf:"field_id,omitempty"`
+
+	// Whether this is a required field. Defaults to false.
+	IsRequired *bool `json:"isRequired,omitempty" tf:"is_required,omitempty"`
+
 	// The resource name of the tag template field in URL format. Example: projects/{project_id}/locations/{location}/tagTemplates/{tagTemplateId}/fields/{field}
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The order of this field with respect to other fields in this tag template.
+	// A higher value indicates a more important field. The value can be negative.
+	// Multiple fields can have the same order, and field orders within a tag do not have to be sequential.
+	Order *float64 `json:"order,omitempty" tf:"order,omitempty"`
+
+	// The type of value this tag field can contain.
+	// Structure is documented below.
+	Type []TypeObservation `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type TagTemplateFieldsParameters struct {
@@ -88,16 +120,28 @@ type TagTemplateFieldsParameters struct {
 
 type TagTemplateObservation struct {
 
+	// The display name for this field.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
 	// Set of tag template field IDs and the settings for the field. This set is an exhaustive list of the allowed fields. This set must contain at least one field and at most 500 fields. The change of field_id will be resulting in re-creating of field. The change of primitive_type will be resulting in re-creating of field, however if the field is a required, you cannot update it.
 	// Structure is documented below.
-	// +kubebuilder:validation:Required
 	Fields []TagTemplateFieldsObservation `json:"fields,omitempty" tf:"fields,omitempty"`
+
+	// This confirms the deletion of any possible tags using this template. Must be set to true in order to delete the tag template.
+	ForceDelete *bool `json:"forceDelete,omitempty" tf:"force_delete,omitempty"`
 
 	// an identifier for the resource with format {{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// The resource name of the tag template in URL format. Example: projects/{project_id}/locations/{location}/tagTemplates/{tagTemplateId}
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Template location region.
+	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 }
 
 type TagTemplateParameters struct {
@@ -108,8 +152,8 @@ type TagTemplateParameters struct {
 
 	// Set of tag template field IDs and the settings for the field. This set is an exhaustive list of the allowed fields. This set must contain at least one field and at most 500 fields. The change of field_id will be resulting in re-creating of field. The change of primitive_type will be resulting in re-creating of field, however if the field is a required, you cannot update it.
 	// Structure is documented below.
-	// +kubebuilder:validation:Required
-	Fields []TagTemplateFieldsParameters `json:"fields" tf:"fields,omitempty"`
+	// +kubebuilder:validation:Optional
+	Fields []TagTemplateFieldsParameters `json:"fields,omitempty" tf:"fields,omitempty"`
 
 	// This confirms the deletion of any possible tags using this template. Must be set to true in order to delete the tag template.
 	// +kubebuilder:validation:Optional
@@ -126,6 +170,16 @@ type TagTemplateParameters struct {
 }
 
 type TypeObservation struct {
+
+	// Represents an enum type.
+	// Exactly one of primitive_type or enum_type must be set
+	// Structure is documented below.
+	EnumType []EnumTypeObservation `json:"enumType,omitempty" tf:"enum_type,omitempty"`
+
+	// Represents primitive types - string, bool etc.
+	// Exactly one of primitive_type or enum_type must be set
+	// Possible values are DOUBLE, STRING, BOOL, and TIMESTAMP.
+	PrimitiveType *string `json:"primitiveType,omitempty" tf:"primitive_type,omitempty"`
 }
 
 type TypeParameters struct {
@@ -167,8 +221,9 @@ type TagTemplateStatus struct {
 type TagTemplate struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              TagTemplateSpec   `json:"spec"`
-	Status            TagTemplateStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.fields)",message="fields is a required parameter"
+	Spec   TagTemplateSpec   `json:"spec"`
+	Status TagTemplateStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

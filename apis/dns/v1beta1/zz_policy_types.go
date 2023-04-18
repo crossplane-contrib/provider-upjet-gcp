@@ -26,6 +26,12 @@ import (
 )
 
 type AlternativeNameServerConfigObservation struct {
+
+	// Sets an alternative name server for the associated networks. When specified,
+	// all DNS queries are forwarded to a name server that you choose. Names such as .internal
+	// are not available when an alternative name server is specified.
+	// Structure is documented below.
+	TargetNameServers []AlternativeNameServerConfigTargetNameServersObservation `json:"targetNameServers,omitempty" tf:"target_name_servers,omitempty"`
 }
 
 type AlternativeNameServerConfigParameters struct {
@@ -39,6 +45,15 @@ type AlternativeNameServerConfigParameters struct {
 }
 
 type AlternativeNameServerConfigTargetNameServersObservation struct {
+
+	// Forwarding path for this TargetNameServer. If unset or default Cloud DNS will make forwarding
+	// decision based on address ranges, i.e. RFC1918 addresses go to the VPC, Non-RFC1918 addresses go
+	// to the Internet. When set to private, Cloud DNS will always send queries through VPC for this target
+	// Possible values are default and private.
+	ForwardingPath *string `json:"forwardingPath,omitempty" tf:"forwarding_path,omitempty"`
+
+	// IPv4 address to forward to.
+	IPv4Address *string `json:"ipv4Address,omitempty" tf:"ipv4_address,omitempty"`
 }
 
 type AlternativeNameServerConfigTargetNameServersParameters struct {
@@ -56,6 +71,11 @@ type AlternativeNameServerConfigTargetNameServersParameters struct {
 }
 
 type PolicyNetworksObservation struct {
+
+	// The id or fully qualified URL of the VPC network to forward queries to.
+	// This should be formatted like projects/{project}/global/networks/{network} or
+	// https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}
+	NetworkURL *string `json:"networkUrl,omitempty" tf:"network_url,omitempty"`
 }
 
 type PolicyNetworksParameters struct {
@@ -81,8 +101,35 @@ type PolicyNetworksParameters struct {
 
 type PolicyObservation struct {
 
+	// Sets an alternative name server for the associated networks.
+	// When specified, all DNS queries are forwarded to a name server that you choose.
+	// Names such as .internal are not available when an alternative name server is specified.
+	// Structure is documented below.
+	AlternativeNameServerConfig []AlternativeNameServerConfigObservation `json:"alternativeNameServerConfig,omitempty" tf:"alternative_name_server_config,omitempty"`
+
+	// A textual description field.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Allows networks bound to this policy to receive DNS queries sent
+	// by VMs or applications over VPN connections. When enabled, a
+	// virtual IP address will be allocated from each of the sub-networks
+	// that are bound to this policy.
+	EnableInboundForwarding *bool `json:"enableInboundForwarding,omitempty" tf:"enable_inbound_forwarding,omitempty"`
+
+	// Controls whether logging is enabled for the networks bound to this policy.
+	// Defaults to no logging if not set.
+	EnableLogging *bool `json:"enableLogging,omitempty" tf:"enable_logging,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/policies/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// List of network names specifying networks to which this policy is applied.
+	// Structure is documented below.
+	Networks []PolicyNetworksObservation `json:"networks,omitempty" tf:"networks,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 
 type PolicyParameters struct {

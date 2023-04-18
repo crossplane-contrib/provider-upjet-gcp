@@ -45,6 +45,19 @@ type SpConfigSpCertificatesParameters struct {
 }
 
 type TenantInboundSAMLConfigIdPConfigObservation struct {
+
+	// The IDP's certificate data to verify the signature in the SAMLResponse issued by the IDP.
+	// Structure is documented below.
+	IdPCertificates []IdPConfigIdPCertificatesParameters `json:"idpCertificates,omitempty" tf:"idp_certificates,omitempty"`
+
+	// Unique identifier for all SAML entities
+	IdPEntityID *string `json:"idpEntityId,omitempty" tf:"idp_entity_id,omitempty"`
+
+	// Indicates if outbounding SAMLRequest should be signed.
+	SignRequest *bool `json:"signRequest,omitempty" tf:"sign_request,omitempty"`
+
+	// URL to send Authentication request to.
+	SsoURL *string `json:"ssoUrl,omitempty" tf:"sso_url,omitempty"`
 }
 
 type TenantInboundSAMLConfigIdPConfigParameters struct {
@@ -69,21 +82,42 @@ type TenantInboundSAMLConfigIdPConfigParameters struct {
 
 type TenantInboundSAMLConfigObservation struct {
 
+	// Human friendly display name.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// If this config allows users to sign in with the provider.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/tenants/{{tenant}}/inboundSamlConfigs/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// SAML IdP configuration when the project acts as the relying party
+	// Structure is documented below.
+	IdPConfig []TenantInboundSAMLConfigIdPConfigObservation `json:"idpConfig,omitempty" tf:"idp_config,omitempty"`
+
+	// The name of the InboundSamlConfig resource. Must start with 'saml.' and can only have alphanumeric characters,
+	// hyphens, underscores or periods. The part after 'saml.' must also start with a lowercase letter, end with an
+	// alphanumeric character, and have at least 2 characters.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// SAML SP (Service Provider) configuration when the project acts as the relying party to receive
 	// and accept an authentication assertion issued by a SAML identity provider.
 	// Structure is documented below.
-	// +kubebuilder:validation:Required
 	SpConfig []TenantInboundSAMLConfigSpConfigObservation `json:"spConfig,omitempty" tf:"sp_config,omitempty"`
+
+	// The name of the tenant where this inbound SAML config resource exists
+	Tenant *string `json:"tenant,omitempty" tf:"tenant,omitempty"`
 }
 
 type TenantInboundSAMLConfigParameters struct {
 
 	// Human friendly display name.
-	// +kubebuilder:validation:Required
-	DisplayName *string `json:"displayName" tf:"display_name,omitempty"`
+	// +kubebuilder:validation:Optional
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// If this config allows users to sign in with the provider.
 	// +kubebuilder:validation:Optional
@@ -91,14 +125,14 @@ type TenantInboundSAMLConfigParameters struct {
 
 	// SAML IdP configuration when the project acts as the relying party
 	// Structure is documented below.
-	// +kubebuilder:validation:Required
-	IdPConfig []TenantInboundSAMLConfigIdPConfigParameters `json:"idpConfig" tf:"idp_config,omitempty"`
+	// +kubebuilder:validation:Optional
+	IdPConfig []TenantInboundSAMLConfigIdPConfigParameters `json:"idpConfig,omitempty" tf:"idp_config,omitempty"`
 
 	// The name of the InboundSamlConfig resource. Must start with 'saml.' and can only have alphanumeric characters,
 	// hyphens, underscores or periods. The part after 'saml.' must also start with a lowercase letter, end with an
 	// alphanumeric character, and have at least 2 characters.
-	// +kubebuilder:validation:Required
-	Name *string `json:"name" tf:"name,omitempty"`
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -108,8 +142,8 @@ type TenantInboundSAMLConfigParameters struct {
 	// SAML SP (Service Provider) configuration when the project acts as the relying party to receive
 	// and accept an authentication assertion issued by a SAML identity provider.
 	// Structure is documented below.
-	// +kubebuilder:validation:Required
-	SpConfig []TenantInboundSAMLConfigSpConfigParameters `json:"spConfig" tf:"sp_config,omitempty"`
+	// +kubebuilder:validation:Optional
+	SpConfig []TenantInboundSAMLConfigSpConfigParameters `json:"spConfig,omitempty" tf:"sp_config,omitempty"`
 
 	// The name of the tenant where this inbound SAML config resource exists
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/identityplatform/v1beta1.Tenant
@@ -128,9 +162,15 @@ type TenantInboundSAMLConfigParameters struct {
 
 type TenantInboundSAMLConfigSpConfigObservation struct {
 
+	// Callback URI where responses from IDP are handled. Must start with https://.
+	CallbackURI *string `json:"callbackUri,omitempty" tf:"callback_uri,omitempty"`
+
 	// The IDP's certificate data to verify the signature in the SAMLResponse issued by the IDP.
 	// Structure is documented below.
 	SpCertificates []SpConfigSpCertificatesObservation `json:"spCertificates,omitempty" tf:"sp_certificates,omitempty"`
+
+	// Unique identifier for all SAML entities.
+	SpEntityID *string `json:"spEntityId,omitempty" tf:"sp_entity_id,omitempty"`
 }
 
 type TenantInboundSAMLConfigSpConfigParameters struct {
@@ -168,8 +208,12 @@ type TenantInboundSAMLConfigStatus struct {
 type TenantInboundSAMLConfig struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              TenantInboundSAMLConfigSpec   `json:"spec"`
-	Status            TenantInboundSAMLConfigStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.displayName)",message="displayName is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.idpConfig)",message="idpConfig is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.name)",message="name is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.spConfig)",message="spConfig is a required parameter"
+	Spec   TenantInboundSAMLConfigSpec   `json:"spec"`
+	Status TenantInboundSAMLConfigStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

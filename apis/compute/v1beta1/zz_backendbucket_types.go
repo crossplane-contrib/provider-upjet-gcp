@@ -27,11 +27,39 @@ import (
 
 type BackendBucketObservation struct {
 
+	// Cloud Storage bucket name.
+	BucketName *string `json:"bucketName,omitempty" tf:"bucket_name,omitempty"`
+
+	// Cloud CDN configuration for this Backend Bucket.
+	// Structure is documented below.
+	CdnPolicy []CdnPolicyObservation `json:"cdnPolicy,omitempty" tf:"cdn_policy,omitempty"`
+
+	// Compress text responses using Brotli or gzip compression, based on the client's Accept-Encoding header.
+	// Possible values are AUTOMATIC and DISABLED.
+	CompressionMode *string `json:"compressionMode,omitempty" tf:"compression_mode,omitempty"`
+
 	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
 
+	// Headers that the HTTP/S load balancer should add to proxied responses.
+	CustomResponseHeaders []*string `json:"customResponseHeaders,omitempty" tf:"custom_response_headers,omitempty"`
+
+	// An optional textual description of the resource; provided by the
+	// client when the resource is created.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// The security policy associated with this backend bucket.
+	EdgeSecurityPolicy *string `json:"edgeSecurityPolicy,omitempty" tf:"edge_security_policy,omitempty"`
+
+	// If true, enable Cloud CDN for this BackendBucket.
+	EnableCdn *bool `json:"enableCdn,omitempty" tf:"enable_cdn,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/global/backendBuckets/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
@@ -96,6 +124,9 @@ type BackendBucketParameters struct {
 }
 
 type BypassCacheOnRequestHeadersObservation struct {
+
+	// The header field name to match on when bypassing cache. Values are case-insensitive.
+	HeaderName *string `json:"headerName,omitempty" tf:"header_name,omitempty"`
 }
 
 type BypassCacheOnRequestHeadersParameters struct {
@@ -106,6 +137,15 @@ type BypassCacheOnRequestHeadersParameters struct {
 }
 
 type CacheKeyPolicyObservation struct {
+
+	// Allows HTTP request headers (by name) to be used in the
+	// cache key.
+	IncludeHTTPHeaders []*string `json:"includeHttpHeaders,omitempty" tf:"include_http_headers,omitempty"`
+
+	// Names of query string parameters to include in cache keys.
+	// Default parameters are always included. '&' and '=' will
+	// be percent encoded and not treated as delimiters.
+	QueryStringWhitelist []*string `json:"queryStringWhitelist,omitempty" tf:"query_string_whitelist,omitempty"`
 }
 
 type CacheKeyPolicyParameters struct {
@@ -123,6 +163,53 @@ type CacheKeyPolicyParameters struct {
 }
 
 type CdnPolicyObservation struct {
+
+	// Bypass the cache when the specified request headers are matched - e.g. Pragma or Authorization headers. Up to 5 headers can be specified. The cache is bypassed for all cdnPolicy.cacheMode settings.
+	// Structure is documented below.
+	BypassCacheOnRequestHeaders []BypassCacheOnRequestHeadersObservation `json:"bypassCacheOnRequestHeaders,omitempty" tf:"bypass_cache_on_request_headers,omitempty"`
+
+	// The CacheKeyPolicy for this CdnPolicy.
+	// Structure is documented below.
+	CacheKeyPolicy []CacheKeyPolicyObservation `json:"cacheKeyPolicy,omitempty" tf:"cache_key_policy,omitempty"`
+
+	// Specifies the cache setting for all responses from this backend.
+	// The possible values are: USE_ORIGIN_HEADERS, FORCE_CACHE_ALL and CACHE_ALL_STATIC
+	// Possible values are USE_ORIGIN_HEADERS, FORCE_CACHE_ALL, and CACHE_ALL_STATIC.
+	CacheMode *string `json:"cacheMode,omitempty" tf:"cache_mode,omitempty"`
+
+	// Specifies the maximum allowed TTL for cached content served by this origin.
+	ClientTTL *float64 `json:"clientTtl,omitempty" tf:"client_ttl,omitempty"`
+
+	// Specifies the default TTL for cached content served by this origin for responses
+	// that do not have an existing valid TTL (max-age or s-max-age).
+	DefaultTTL *float64 `json:"defaultTtl,omitempty" tf:"default_ttl,omitempty"`
+
+	// Specifies the maximum allowed TTL for cached content served by this origin.
+	MaxTTL *float64 `json:"maxTtl,omitempty" tf:"max_ttl,omitempty"`
+
+	// Negative caching allows per-status code TTLs to be set, in order to apply fine-grained caching for common errors or redirects.
+	NegativeCaching *bool `json:"negativeCaching,omitempty" tf:"negative_caching,omitempty"`
+
+	// Sets a cache TTL for the specified HTTP status code. negativeCaching must be enabled to configure negativeCachingPolicy.
+	// Omitting the policy and leaving negativeCaching enabled will use Cloud CDN's default cache TTLs.
+	// Structure is documented below.
+	NegativeCachingPolicy []NegativeCachingPolicyObservation `json:"negativeCachingPolicy,omitempty" tf:"negative_caching_policy,omitempty"`
+
+	// If true then Cloud CDN will combine multiple concurrent cache fill requests into a small number of requests to the origin.
+	RequestCoalescing *bool `json:"requestCoalescing,omitempty" tf:"request_coalescing,omitempty"`
+
+	// Serve existing content from the cache (if available) when revalidating content with the origin, or when an error is encountered when refreshing the cache.
+	ServeWhileStale *float64 `json:"serveWhileStale,omitempty" tf:"serve_while_stale,omitempty"`
+
+	// Maximum number of seconds the response to a signed URL request will
+	// be considered fresh. After this time period,
+	// the response will be revalidated before being served.
+	// When serving responses to signed URL requests,
+	// Cloud CDN will internally behave as though
+	// all responses from this backend had a "Cache-Control: public,
+	// max-age=[TTL]" header, regardless of any existing Cache-Control
+	// header. The actual headers served in responses will not be altered.
+	SignedURLCacheMaxAgeSec *float64 `json:"signedUrlCacheMaxAgeSec,omitempty" tf:"signed_url_cache_max_age_sec,omitempty"`
 }
 
 type CdnPolicyParameters struct {
@@ -187,6 +274,14 @@ type CdnPolicyParameters struct {
 }
 
 type NegativeCachingPolicyObservation struct {
+
+	// The HTTP status code to define a TTL against. Only HTTP status codes 300, 301, 308, 404, 405, 410, 421, 451 and 501
+	// can be specified as values, and you cannot specify a status code more than once.
+	Code *float64 `json:"code,omitempty" tf:"code,omitempty"`
+
+	// The TTL (in seconds) for which to cache responses with the corresponding status code. The maximum allowed value is 1800s
+	// (30 minutes), noting that infrequently accessed objects may be evicted from the cache before the defined TTL.
+	TTL *float64 `json:"ttl,omitempty" tf:"ttl,omitempty"`
 }
 
 type NegativeCachingPolicyParameters struct {

@@ -26,6 +26,12 @@ import (
 )
 
 type BinaryAuthorizationObservation struct {
+
+	// If present, indicates to use Breakglass using this justification. If useDefault is False, then it must be empty. For more information on breakglass, see https://cloud.google.com/binary-authorization/docs/using-breakglass
+	BreakglassJustification *string `json:"breakglassJustification,omitempty" tf:"breakglass_justification,omitempty"`
+
+	// If True, indicates to use the default project's binary authorization policy. If False, binary authorization will be disabled.
+	UseDefault *bool `json:"useDefault,omitempty" tf:"use_default,omitempty"`
 }
 
 type BinaryAuthorizationParameters struct {
@@ -40,6 +46,9 @@ type BinaryAuthorizationParameters struct {
 }
 
 type CloudSQLInstanceObservation struct {
+
+	// The Cloud SQL instance connection names, as can be found in https://console.cloud.google.com/sql/instances. Visit https://cloud.google.com/sql/docs/mysql/connect-run for more information on how to connect Cloud SQL and Cloud Run. Format: {project}:{location}:{instance}
+	Instances []*string `json:"instances,omitempty" tf:"instances,omitempty"`
 }
 
 type CloudSQLInstanceParameters struct {
@@ -50,6 +59,16 @@ type CloudSQLInstanceParameters struct {
 }
 
 type ContainersEnvObservation struct {
+
+	// Volume's name.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The header field value
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+
+	// Source for the environment variable's value.
+	// Structure is documented below.
+	ValueSource []ValueSourceObservation `json:"valueSource,omitempty" tf:"value_source,omitempty"`
 }
 
 type ContainersEnvParameters struct {
@@ -69,6 +88,12 @@ type ContainersEnvParameters struct {
 }
 
 type ContainersPortsObservation struct {
+
+	// Port number the container listens on. This must be a valid TCP port number, 0 < containerPort < 65536.
+	ContainerPort *float64 `json:"containerPort,omitempty" tf:"container_port,omitempty"`
+
+	// Volume's name.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 }
 
 type ContainersPortsParameters struct {
@@ -83,6 +108,9 @@ type ContainersPortsParameters struct {
 }
 
 type ContainersResourcesObservation struct {
+
+	// Only memory and CPU are supported. Note: The only supported values for CPU are '1', '2', '4', and '8'. Setting 4 CPU requires at least 2Gi of memory. The values of the map is string form of the 'quantity' k8s type: https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/apimachinery/pkg/api/resource/quantity.go
+	Limits map[string]*string `json:"limits,omitempty" tf:"limits,omitempty"`
 }
 
 type ContainersResourcesParameters struct {
@@ -93,6 +121,12 @@ type ContainersResourcesParameters struct {
 }
 
 type ContainersVolumeMountsObservation struct {
+
+	// Path within the container at which the volume should be mounted. Must not contain ':'. For Cloud SQL volumes, it can be left empty, or must otherwise be /cloudsql. All instances defined in the Volume will be available as /cloudsql/[instance]. For more information on Cloud SQL volumes, visit https://cloud.google.com/sql/docs/mysql/connect-run
+	MountPath *string `json:"mountPath,omitempty" tf:"mount_path,omitempty"`
+
+	// Volume's name.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 }
 
 type ContainersVolumeMountsParameters struct {
@@ -107,6 +141,12 @@ type ContainersVolumeMountsParameters struct {
 }
 
 type HTTPGetHTTPHeadersObservation struct {
+
+	// Volume's name.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The header field value
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
 
 type HTTPGetHTTPHeadersParameters struct {
@@ -121,6 +161,13 @@ type HTTPGetHTTPHeadersParameters struct {
 }
 
 type HTTPGetObservation struct {
+
+	// Custom headers to set in the request. HTTP allows repeated headers.
+	// Structure is documented below.
+	HTTPHeaders []HTTPHeadersObservation `json:"httpHeaders,omitempty" tf:"http_headers,omitempty"`
+
+	// The relative path of the secret in the container.
+	Path *string `json:"path,omitempty" tf:"path,omitempty"`
 }
 
 type HTTPGetParameters struct {
@@ -136,6 +183,12 @@ type HTTPGetParameters struct {
 }
 
 type HTTPHeadersObservation struct {
+
+	// Volume's name.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The header field value
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
 
 type HTTPHeadersParameters struct {
@@ -167,6 +220,26 @@ type LatestCreatedExecutionParameters struct {
 }
 
 type LivenessProbeObservation struct {
+
+	// Minimum consecutive failures for the probe to be considered failed after having succeeded. Defaults to 3. Minimum value is 1.
+	FailureThreshold *float64 `json:"failureThreshold,omitempty" tf:"failure_threshold,omitempty"`
+
+	// HTTPGet specifies the http request to perform. Exactly one of HTTPGet or TCPSocket must be specified.
+	// Structure is documented below.
+	HTTPGet []HTTPGetObservation `json:"httpGet,omitempty" tf:"http_get,omitempty"`
+
+	// Number of seconds after the container has started before the probe is initiated. Defaults to 0 seconds. Minimum value is 0. Maximum value for liveness probe is 3600. Maximum value for startup probe is 240. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
+	InitialDelaySeconds *float64 `json:"initialDelaySeconds,omitempty" tf:"initial_delay_seconds,omitempty"`
+
+	// How often (in seconds) to perform the probe. Default to 10 seconds. Minimum value is 1. Maximum value for liveness probe is 3600. Maximum value for startup probe is 240. Must be greater or equal than timeoutSeconds
+	PeriodSeconds *float64 `json:"periodSeconds,omitempty" tf:"period_seconds,omitempty"`
+
+	// TCPSocket specifies an action involving a TCP port. Exactly one of HTTPGet or TCPSocket must be specified.
+	// Structure is documented below.
+	TCPSocket []TCPSocketObservation `json:"tcpSocket,omitempty" tf:"tcp_socket,omitempty"`
+
+	// Number of seconds after which the probe times out. Defaults to 1 second. Minimum value is 1. Maximum value is 3600. Must be smaller than periodSeconds. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
+	TimeoutSeconds *float64 `json:"timeoutSeconds,omitempty" tf:"timeout_seconds,omitempty"`
 }
 
 type LivenessProbeParameters struct {
@@ -199,6 +272,15 @@ type LivenessProbeParameters struct {
 }
 
 type SecretItemsObservation struct {
+
+	// Integer octal mode bits to use on this file, must be a value between 01 and 0777 (octal). If 0 or not set, the Volume's default mode will be used.
+	Mode *float64 `json:"mode,omitempty" tf:"mode,omitempty"`
+
+	// The relative path of the secret in the container.
+	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+
+	// The Cloud Secret Manager secret version. Can be 'latest' for the latest value or an integer for a specific version.
+	Version *string `json:"version,omitempty" tf:"version,omitempty"`
 }
 
 type SecretItemsParameters struct {
@@ -217,6 +299,13 @@ type SecretItemsParameters struct {
 }
 
 type StartupProbeHTTPGetObservation struct {
+
+	// Custom headers to set in the request. HTTP allows repeated headers.
+	// Structure is documented below.
+	HTTPHeaders []HTTPGetHTTPHeadersObservation `json:"httpHeaders,omitempty" tf:"http_headers,omitempty"`
+
+	// The relative path of the secret in the container.
+	Path *string `json:"path,omitempty" tf:"path,omitempty"`
 }
 
 type StartupProbeHTTPGetParameters struct {
@@ -232,6 +321,26 @@ type StartupProbeHTTPGetParameters struct {
 }
 
 type StartupProbeObservation struct {
+
+	// Minimum consecutive failures for the probe to be considered failed after having succeeded. Defaults to 3. Minimum value is 1.
+	FailureThreshold *float64 `json:"failureThreshold,omitempty" tf:"failure_threshold,omitempty"`
+
+	// HTTPGet specifies the http request to perform. Exactly one of HTTPGet or TCPSocket must be specified.
+	// Structure is documented below.
+	HTTPGet []StartupProbeHTTPGetObservation `json:"httpGet,omitempty" tf:"http_get,omitempty"`
+
+	// Number of seconds after the container has started before the probe is initiated. Defaults to 0 seconds. Minimum value is 0. Maximum value for liveness probe is 3600. Maximum value for startup probe is 240. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
+	InitialDelaySeconds *float64 `json:"initialDelaySeconds,omitempty" tf:"initial_delay_seconds,omitempty"`
+
+	// How often (in seconds) to perform the probe. Default to 10 seconds. Minimum value is 1. Maximum value for liveness probe is 3600. Maximum value for startup probe is 240. Must be greater or equal than timeoutSeconds
+	PeriodSeconds *float64 `json:"periodSeconds,omitempty" tf:"period_seconds,omitempty"`
+
+	// TCPSocket specifies an action involving a TCP port. Exactly one of HTTPGet or TCPSocket must be specified.
+	// Structure is documented below.
+	TCPSocket []StartupProbeTCPSocketObservation `json:"tcpSocket,omitempty" tf:"tcp_socket,omitempty"`
+
+	// Number of seconds after which the probe times out. Defaults to 1 second. Minimum value is 1. Maximum value is 3600. Must be smaller than periodSeconds. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
+	TimeoutSeconds *float64 `json:"timeoutSeconds,omitempty" tf:"timeout_seconds,omitempty"`
 }
 
 type StartupProbeParameters struct {
@@ -264,6 +373,9 @@ type StartupProbeParameters struct {
 }
 
 type StartupProbeTCPSocketObservation struct {
+
+	// Port number to access on the container. Must be in the range 1 to 65535. If not specified, defaults to 8080.
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
 }
 
 type StartupProbeTCPSocketParameters struct {
@@ -274,6 +386,9 @@ type StartupProbeTCPSocketParameters struct {
 }
 
 type TCPSocketObservation struct {
+
+	// Port number to access on the container. Must be in the range 1 to 65535. If not specified, defaults to 8080.
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
 }
 
 type TCPSocketParameters struct {
@@ -284,6 +399,48 @@ type TCPSocketParameters struct {
 }
 
 type TemplateContainersObservation struct {
+
+	// Arguments to the entrypoint. The docker image's CMD is used if this is not provided. Variable references $(VAR_NAME) are expanded using the container's environment. If a variable cannot be resolved, the reference in the input string will be unchanged. The $(VAR_NAME) syntax can be escaped with a double $$, ie: $$(VAR_NAME). Escaped references will never be expanded, regardless of whether the variable exists or not. More info: https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/#running-a-command-in-a-shell
+	Args []*string `json:"args,omitempty" tf:"args,omitempty"`
+
+	// Entrypoint array. Not executed within a shell. The docker image's ENTRYPOINT is used if this is not provided. Variable references $(VAR_NAME) are expanded using the container's environment. If a variable cannot be resolved, the reference in the input string will be unchanged. The $(VAR_NAME) syntax can be escaped with a double $$, ie: $$(VAR_NAME). Escaped references will never be expanded, regardless of whether the variable exists or not. More info: https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/#running-a-command-in-a-shell
+	Command []*string `json:"command,omitempty" tf:"command,omitempty"`
+
+	// List of environment variables to set in the container.
+	// Structure is documented below.
+	Env []ContainersEnvObservation `json:"env,omitempty" tf:"env,omitempty"`
+
+	// URL of the Container image in Google Container Registry or Google Artifact Registry. More info: https://kubernetes.io/docs/concepts/containers/images
+	Image *string `json:"image,omitempty" tf:"image,omitempty"`
+
+	// Periodic probe of container liveness. Container will be restarted if the probe fails. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
+	// This field is not supported in Cloud Run Job currently.
+	// Structure is documented below.
+	LivenessProbe []LivenessProbeObservation `json:"livenessProbe,omitempty" tf:"liveness_probe,omitempty"`
+
+	// Volume's name.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// List of ports to expose from the container. Only a single port can be specified. The specified ports must be listening on all interfaces (0.0.0.0) within the container to be accessible.
+	// If omitted, a port number will be chosen and passed to the container through the PORT environment variable for the container to listen on
+	// Structure is documented below.
+	Ports []ContainersPortsObservation `json:"ports,omitempty" tf:"ports,omitempty"`
+
+	// Compute Resource requirements by this container. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#resources
+	// Structure is documented below.
+	Resources []ContainersResourcesObservation `json:"resources,omitempty" tf:"resources,omitempty"`
+
+	// Startup probe of application within the container. All other probes are disabled if a startup probe is provided, until it succeeds. Container will not be added to service endpoints if the probe fails. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
+	// This field is not supported in Cloud Run Job currently.
+	// Structure is documented below.
+	StartupProbe []StartupProbeObservation `json:"startupProbe,omitempty" tf:"startup_probe,omitempty"`
+
+	// Volume to mount into the container's filesystem.
+	// Structure is documented below.
+	VolumeMounts []ContainersVolumeMountsObservation `json:"volumeMounts,omitempty" tf:"volume_mounts,omitempty"`
+
+	// Container's working directory. If not specified, the container runtime's default will be used, which might be configured in the container image.
+	WorkingDir *string `json:"workingDir,omitempty" tf:"working_dir,omitempty"`
 }
 
 type TemplateContainersParameters struct {
@@ -343,6 +500,35 @@ type TemplateContainersParameters struct {
 }
 
 type TemplateTemplateObservation struct {
+
+	// Holds the single container that defines the unit of execution for this task.
+	// Structure is documented below.
+	Containers []TemplateContainersObservation `json:"containers,omitempty" tf:"containers,omitempty"`
+
+	// A reference to a customer managed encryption key (CMEK) to use to encrypt this container image. For more information, go to https://cloud.google.com/run/docs/securing/using-cmek
+	EncryptionKey *string `json:"encryptionKey,omitempty" tf:"encryption_key,omitempty"`
+
+	// The execution environment being used to host this Task.
+	// Possible values are EXECUTION_ENVIRONMENT_GEN1 and EXECUTION_ENVIRONMENT_GEN2.
+	ExecutionEnvironment *string `json:"executionEnvironment,omitempty" tf:"execution_environment,omitempty"`
+
+	// Number of retries allowed per Task, before marking this Task failed.
+	MaxRetries *float64 `json:"maxRetries,omitempty" tf:"max_retries,omitempty"`
+
+	// Email address of the IAM service account associated with the Task of a Job. The service account represents the identity of the running task, and determines what permissions the task has. If not provided, the task will use the project's default service account.
+	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
+
+	// Max allowed time duration the Task may be active before the system will actively try to mark it failed and kill associated containers. This applies per attempt of a task, meaning each retry can run for the full timeout.
+	// A duration in seconds with up to nine fractional digits, ending with 's'. Example: "3.5s".
+	Timeout *string `json:"timeout,omitempty" tf:"timeout,omitempty"`
+
+	// VPC Access configuration to use for this Task. For more information, visit https://cloud.google.com/run/docs/configuring/connecting-vpc.
+	// Structure is documented below.
+	VPCAccess []VPCAccessObservation `json:"vpcAccess,omitempty" tf:"vpc_access,omitempty"`
+
+	// A list of Volumes to make available to containers.
+	// Structure is documented below.
+	Volumes []TemplateVolumesObservation `json:"volumes,omitempty" tf:"volumes,omitempty"`
 }
 
 type TemplateTemplateParameters struct {
@@ -386,6 +572,17 @@ type TemplateTemplateParameters struct {
 }
 
 type TemplateVolumesObservation struct {
+
+	// For Cloud SQL volumes, contains the specific instances that should be mounted. Visit https://cloud.google.com/sql/docs/mysql/connect-run for more information on how to connect Cloud SQL and Cloud Run.
+	// Structure is documented below.
+	CloudSQLInstance []CloudSQLInstanceObservation `json:"cloudSqlInstance,omitempty" tf:"cloud_sql_instance,omitempty"`
+
+	// Volume's name.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Secret represents a secret that should populate this volume. More info: https://kubernetes.io/docs/concepts/storage/volumes#secret
+	// Structure is documented below.
+	Secret []VolumesSecretObservation `json:"secret,omitempty" tf:"secret,omitempty"`
 }
 
 type TemplateVolumesParameters struct {
@@ -469,6 +666,16 @@ type V2JobConditionsParameters struct {
 
 type V2JobObservation struct {
 
+	// Settings for the Binary Authorization feature.
+	// Structure is documented below.
+	BinaryAuthorization []BinaryAuthorizationObservation `json:"binaryAuthorization,omitempty" tf:"binary_authorization,omitempty"`
+
+	// Arbitrary identifier for the API client.
+	Client *string `json:"client,omitempty" tf:"client,omitempty"`
+
+	// Arbitrary version identifier for the API client.
+	ClientVersion *string `json:"clientVersion,omitempty" tf:"client_version,omitempty"`
+
 	// The Conditions of all other associated sub-resources. They contain additional diagnostics information in case the Job does not reach its desired state. See comments in reconciling for additional information on reconciliation process in Cloud Run.
 	// Structure is documented below.
 	Conditions []V2JobConditionsObservation `json:"conditions,omitempty" tf:"conditions,omitempty"`
@@ -485,18 +692,36 @@ type V2JobObservation struct {
 	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/jobs/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// KRM-style labels for the resource. User-provided labels are shared with Google's billing system, so they can be used to filter, or break down billing charges by team, component, environment, state, etc. For more information, visit https://cloud.google.com/resource-manager/docs/creating-managing-labels or https://cloud.google.com/run/docs/configuring/labels Cloud Run will populate some labels with 'run.googleapis.com' or 'serving.knative.dev' namespaces. Those labels are read-only, and user changes will not be preserved.
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
 	// Name of the last created execution.
 	// Structure is documented below.
 	LatestCreatedExecution []LatestCreatedExecutionObservation `json:"latestCreatedExecution,omitempty" tf:"latest_created_execution,omitempty"`
 
+	// The launch stage as defined by Google Cloud Platform Launch Stages. Cloud Run supports ALPHA, BETA, and GA. If no value is specified, GA is assumed.
+	// Possible values are UNIMPLEMENTED, PRELAUNCH, EARLY_ACCESS, ALPHA, BETA, GA, and DEPRECATED.
+	LaunchStage *string `json:"launchStage,omitempty" tf:"launch_stage,omitempty"`
+
+	// The location of the cloud run job
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
 	// The generation of this Job. See comments in reconciling for additional information on reconciliation process in Cloud Run.
 	ObservedGeneration *string `json:"observedGeneration,omitempty" tf:"observed_generation,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Returns true if the Job is currently being acted upon by the system to bring it into the desired state.
 	// When a new Job is created, or an existing one is updated, Cloud Run will asynchronously perform all necessary steps to bring the Job to the desired state. This process is called reconciliation. While reconciliation is in process, observedGeneration and latest_succeeded_execution, will have transient values that might mismatch the intended state: Once reconciliation is over (and this field is false), there are two possible outcomes: reconciliation succeeded and the state matches the Job, or there was an error, and reconciliation failed. This state can be found in terminalCondition.state.
 	// If reconciliation succeeded, the following fields will match: observedGeneration and generation, latest_succeeded_execution and latestCreatedExecution.
 	// If reconciliation failed, observedGeneration and latest_succeeded_execution will have the state of the last succeeded execution or empty for newly created Job. Additional information on the failure can be found in terminalCondition and conditions
 	Reconciling *bool `json:"reconciling,omitempty" tf:"reconciling,omitempty"`
+
+	// The template used to create executions for this Job.
+	// Structure is documented below.
+	Template []V2JobTemplateObservation `json:"template,omitempty" tf:"template,omitempty"`
 
 	// The Condition of this Job, containing its readiness status, and detailed error information in case it did not reach the desired state
 	// Structure is documented below.
@@ -541,11 +766,24 @@ type V2JobParameters struct {
 
 	// The template used to create executions for this Job.
 	// Structure is documented below.
-	// +kubebuilder:validation:Required
-	Template []V2JobTemplateParameters `json:"template" tf:"template,omitempty"`
+	// +kubebuilder:validation:Optional
+	Template []V2JobTemplateParameters `json:"template,omitempty" tf:"template,omitempty"`
 }
 
 type V2JobTemplateObservation struct {
+
+	// KRM-style labels for the resource.
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// Specifies the maximum desired number of tasks the execution should run at given time. Must be <= taskCount. When the job is run, if this field is 0 or unset, the maximum possible value will be used for that execution. The actual number of tasks running in steady state will be less than this number when there are fewer tasks waiting to be completed remaining, i.e. when the work left to do is less than max parallelism.
+	Parallelism *float64 `json:"parallelism,omitempty" tf:"parallelism,omitempty"`
+
+	// Specifies the desired number of tasks the execution should run. Setting to 1 means that parallelism is limited to 1 and the success of that task signals the success of the execution. More info: https://kubernetes.io/docs/concepts/workloads/controllers/jobs-run-to-completion/
+	TaskCount *float64 `json:"taskCount,omitempty" tf:"task_count,omitempty"`
+
+	// Describes the task(s) that will be created when executing an execution
+	// Structure is documented below.
+	Template []TemplateTemplateObservation `json:"template,omitempty" tf:"template,omitempty"`
 }
 
 type V2JobTemplateParameters struct {
@@ -569,6 +807,13 @@ type V2JobTemplateParameters struct {
 }
 
 type VPCAccessObservation struct {
+
+	// VPC Access connector name. Format: projects/{project}/locations/{location}/connectors/{connector}, where {project} can be project id or number.
+	Connector *string `json:"connector,omitempty" tf:"connector,omitempty"`
+
+	// Traffic VPC egress settings.
+	// Possible values are ALL_TRAFFIC and PRIVATE_RANGES_ONLY.
+	Egress *string `json:"egress,omitempty" tf:"egress,omitempty"`
 }
 
 type VPCAccessParameters struct {
@@ -584,6 +829,10 @@ type VPCAccessParameters struct {
 }
 
 type ValueSourceObservation struct {
+
+	// Selects a secret and a specific version from Cloud Secret Manager.
+	// Structure is documented below.
+	SecretKeyRef []ValueSourceSecretKeyRefObservation `json:"secretKeyRef,omitempty" tf:"secret_key_ref,omitempty"`
 }
 
 type ValueSourceParameters struct {
@@ -595,6 +844,13 @@ type ValueSourceParameters struct {
 }
 
 type ValueSourceSecretKeyRefObservation struct {
+
+	// Secret represents a secret that should populate this volume. More info: https://kubernetes.io/docs/concepts/storage/volumes#secret
+	// Structure is documented below.
+	Secret *string `json:"secret,omitempty" tf:"secret,omitempty"`
+
+	// The Cloud Secret Manager secret version. Can be 'latest' for the latest value or an integer for a specific version.
+	Version *string `json:"version,omitempty" tf:"version,omitempty"`
 }
 
 type ValueSourceSecretKeyRefParameters struct {
@@ -619,6 +875,17 @@ type ValueSourceSecretKeyRefParameters struct {
 }
 
 type VolumesSecretObservation struct {
+
+	// Integer representation of mode bits to use on created files by default. Must be a value between 0000 and 0777 (octal), defaulting to 0444. Directories within the path are not affected by this setting.
+	DefaultMode *float64 `json:"defaultMode,omitempty" tf:"default_mode,omitempty"`
+
+	// If unspecified, the volume will expose a file whose name is the secret, relative to VolumeMount.mount_path. If specified, the key will be used as the version to fetch from Cloud Secret Manager and the path will be the name of the file exposed in the volume. When items are defined, they must specify a path and a version.
+	// Structure is documented below.
+	Items []SecretItemsObservation `json:"items,omitempty" tf:"items,omitempty"`
+
+	// Secret represents a secret that should populate this volume. More info: https://kubernetes.io/docs/concepts/storage/volumes#secret
+	// Structure is documented below.
+	Secret *string `json:"secret,omitempty" tf:"secret,omitempty"`
 }
 
 type VolumesSecretParameters struct {
@@ -671,8 +938,9 @@ type V2JobStatus struct {
 type V2Job struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              V2JobSpec   `json:"spec"`
-	Status            V2JobStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.template)",message="template is a required parameter"
+	Spec   V2JobSpec   `json:"spec"`
+	Status V2JobStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true
