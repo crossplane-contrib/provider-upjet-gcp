@@ -26,6 +26,20 @@ import (
 )
 
 type ActionsObservation struct {
+
+	// Publish a message into a given Pub/Sub topic when the job completes.
+	// Structure is documented below.
+	PubSub []PubSubObservation `json:"pubSub,omitempty" tf:"pub_sub,omitempty"`
+
+	// Publish findings of a DlpJob to Data Catalog.
+	PublishFindingsToCloudDataCatalog []PublishFindingsToCloudDataCatalogParameters `json:"publishFindingsToCloudDataCatalog,omitempty" tf:"publish_findings_to_cloud_data_catalog,omitempty"`
+
+	// Publish the result summary of a DlpJob to the Cloud Security Command Center.
+	PublishSummaryToCscc []PublishSummaryToCsccParameters `json:"publishSummaryToCscc,omitempty" tf:"publish_summary_to_cscc,omitempty"`
+
+	// If set, the detailed findings will be persisted to the specified OutputStorageConfig. Only a single instance of this action can be specified. Compatible with: Inspect, Risk
+	// Structure is documented below.
+	SaveFindings []SaveFindingsObservation `json:"saveFindings,omitempty" tf:"save_findings,omitempty"`
 }
 
 type ActionsParameters struct {
@@ -50,6 +64,30 @@ type ActionsParameters struct {
 }
 
 type BigQueryOptionsObservation struct {
+
+	// Specifies the BigQuery fields that will be returned with findings.
+	// If not specified, no identifying fields will be returned for findings.
+	// Structure is documented below.
+	IdentifyingFields []IdentifyingFieldsObservation `json:"identifyingFields,omitempty" tf:"identifying_fields,omitempty"`
+
+	// Max number of rows to scan. If the table has more rows than this value, the rest of the rows are omitted.
+	// If not set, or if set to 0, all rows will be scanned. Only one of rowsLimit and rowsLimitPercent can be
+	// specified. Cannot be used in conjunction with TimespanConfig.
+	RowsLimit *float64 `json:"rowsLimit,omitempty" tf:"rows_limit,omitempty"`
+
+	// Max percentage of rows to scan. The rest are omitted. The number of rows scanned is rounded down.
+	// Must be between 0 and 100, inclusively. Both 0 and 100 means no limit. Defaults to 0. Only one of
+	// rowsLimit and rowsLimitPercent can be specified. Cannot be used in conjunction with TimespanConfig.
+	RowsLimitPercent *float64 `json:"rowsLimitPercent,omitempty" tf:"rows_limit_percent,omitempty"`
+
+	// How to sample bytes if not all bytes are scanned. Meaningful only when used in conjunction with bytesLimitPerFile.
+	// If not specified, scanning would start from the top.
+	// Possible values are TOP and RANDOM_START.
+	SampleMethod *string `json:"sampleMethod,omitempty" tf:"sample_method,omitempty"`
+
+	// Set of files to scan.
+	// Structure is documented below.
+	TableReference []TableReferenceObservation `json:"tableReference,omitempty" tf:"table_reference,omitempty"`
 }
 
 type BigQueryOptionsParameters struct {
@@ -85,6 +123,33 @@ type BigQueryOptionsParameters struct {
 }
 
 type CloudStorageOptionsObservation struct {
+
+	// Max number of bytes to scan from a file. If a scanned file's size is bigger than this value
+	// then the rest of the bytes are omitted.
+	BytesLimitPerFile *float64 `json:"bytesLimitPerFile,omitempty" tf:"bytes_limit_per_file,omitempty"`
+
+	// Max percentage of bytes to scan from a file. The rest are omitted. The number of bytes scanned is rounded down.
+	// Must be between 0 and 100, inclusively. Both 0 and 100 means no limit.
+	BytesLimitPerFilePercent *float64 `json:"bytesLimitPerFilePercent,omitempty" tf:"bytes_limit_per_file_percent,omitempty"`
+
+	// Set of files to scan.
+	// Structure is documented below.
+	FileSet []FileSetObservation `json:"fileSet,omitempty" tf:"file_set,omitempty"`
+
+	// List of file type groups to include in the scan. If empty, all files are scanned and available data
+	// format processors are applied. In addition, the binary content of the selected files is always scanned as well.
+	// Images are scanned only as binary if the specified region does not support image inspection and no fileTypes were specified.
+	// Each value may be one of BINARY_FILE, TEXT_FILE, IMAGE, WORD, PDF, AVRO, CSV, and TSV.
+	FileTypes []*string `json:"fileTypes,omitempty" tf:"file_types,omitempty"`
+
+	// Limits the number of files to scan to this percentage of the input FileSet. Number of files scanned is rounded down.
+	// Must be between 0 and 100, inclusively. Both 0 and 100 means no limit.
+	FilesLimitPercent *float64 `json:"filesLimitPercent,omitempty" tf:"files_limit_percent,omitempty"`
+
+	// How to sample bytes if not all bytes are scanned. Meaningful only when used in conjunction with bytesLimitPerFile.
+	// If not specified, scanning would start from the top.
+	// Possible values are TOP and RANDOM_START.
+	SampleMethod *string `json:"sampleMethod,omitempty" tf:"sample_method,omitempty"`
 }
 
 type CloudStorageOptionsParameters struct {
@@ -124,6 +189,15 @@ type CloudStorageOptionsParameters struct {
 }
 
 type DatastoreOptionsObservation struct {
+
+	// A representation of a Datastore kind.
+	// Structure is documented below.
+	Kind []KindObservation `json:"kind,omitempty" tf:"kind,omitempty"`
+
+	// Datastore partition ID. A partition ID identifies a grouping of entities. The grouping
+	// is always by project and namespace, however the namespace ID may be empty.
+	// Structure is documented below.
+	PartitionID []PartitionIDObservation `json:"partitionId,omitempty" tf:"partition_id,omitempty"`
 }
 
 type DatastoreOptionsParameters struct {
@@ -141,6 +215,17 @@ type DatastoreOptionsParameters struct {
 }
 
 type FileSetObservation struct {
+
+	// The regex-filtered set of files to scan.
+	// Structure is documented below.
+	RegexFileSet []RegexFileSetObservation `json:"regexFileSet,omitempty" tf:"regex_file_set,omitempty"`
+
+	// The Cloud Storage url of the file(s) to scan, in the format gs://<bucket>/<path>. Trailing wildcard
+	// in the path is allowed.
+	// If the url ends in a trailing slash, the bucket or directory represented by the url will be scanned
+	// non-recursively (content in sub-directories will not be scanned). This means that gs://mybucket/ is
+	// equivalent to gs://mybucket/*, and gs://mybucket/directory/ is equivalent to gs://mybucket/directory/*.
+	URL *string `json:"url,omitempty" tf:"url,omitempty"`
 }
 
 type FileSetParameters struct {
@@ -160,6 +245,14 @@ type FileSetParameters struct {
 }
 
 type IdentifyingFieldsObservation struct {
+
+	// Specification of the field containing the timestamp of scanned items. Used for data sources like Datastore and BigQuery.
+	// For BigQuery: Required to filter out rows based on the given start and end times. If not specified and the table was
+	// modified between the given start and end times, the entire table will be scanned. The valid data types of the timestamp
+	// field are: INTEGER, DATE, TIMESTAMP, or DATETIME BigQuery column.
+	// For Datastore. Valid data types of the timestamp field are: TIMESTAMP. Datastore entity will be scanned if the
+	// timestamp property does not exist or its value is empty or invalid.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 }
 
 type IdentifyingFieldsParameters struct {
@@ -175,6 +268,17 @@ type IdentifyingFieldsParameters struct {
 }
 
 type InspectJobObservation struct {
+
+	// A task to execute on the completion of a job.
+	// Structure is documented below.
+	Actions []ActionsObservation `json:"actions,omitempty" tf:"actions,omitempty"`
+
+	// The name of the template to run when this job is triggered.
+	InspectTemplateName *string `json:"inspectTemplateName,omitempty" tf:"inspect_template_name,omitempty"`
+
+	// Information on where to inspect
+	// Structure is documented below.
+	StorageConfig []StorageConfigObservation `json:"storageConfig,omitempty" tf:"storage_config,omitempty"`
 }
 
 type InspectJobParameters struct {
@@ -196,14 +300,37 @@ type InspectJobParameters struct {
 
 type JobTriggerObservation struct {
 
+	// A description of the job trigger.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// User set display name of the job trigger.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
 	// an identifier for the resource with format {{parent}}/jobTriggers/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Controls what and how to inspect for findings.
+	// Structure is documented below.
+	InspectJob []InspectJobObservation `json:"inspectJob,omitempty" tf:"inspect_job,omitempty"`
 
 	// The timestamp of the last time this trigger executed.
 	LastRunTime *string `json:"lastRunTime,omitempty" tf:"last_run_time,omitempty"`
 
 	// The resource name of the job trigger. Set by the server.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The parent of the trigger, either in the format projects/{{project}}
+	// or projects/{{project}}/locations/{{location}}
+	Parent *string `json:"parent,omitempty" tf:"parent,omitempty"`
+
+	// Whether the trigger is currently active.
+	// Default value is HEALTHY.
+	// Possible values are PAUSED, HEALTHY, and CANCELLED.
+	Status *string `json:"status,omitempty" tf:"status,omitempty"`
+
+	// What event needs to occur for a new job to be started.
+	// Structure is documented below.
+	Triggers []TriggersObservation `json:"triggers,omitempty" tf:"triggers,omitempty"`
 }
 
 type JobTriggerParameters struct {
@@ -223,8 +350,8 @@ type JobTriggerParameters struct {
 
 	// The parent of the trigger, either in the format projects/{{project}}
 	// or projects/{{project}}/locations/{{location}}
-	// +kubebuilder:validation:Required
-	Parent *string `json:"parent" tf:"parent,omitempty"`
+	// +kubebuilder:validation:Optional
+	Parent *string `json:"parent,omitempty" tf:"parent,omitempty"`
 
 	// Whether the trigger is currently active.
 	// Default value is HEALTHY.
@@ -234,11 +361,19 @@ type JobTriggerParameters struct {
 
 	// What event needs to occur for a new job to be started.
 	// Structure is documented below.
-	// +kubebuilder:validation:Required
-	Triggers []TriggersParameters `json:"triggers" tf:"triggers,omitempty"`
+	// +kubebuilder:validation:Optional
+	Triggers []TriggersParameters `json:"triggers,omitempty" tf:"triggers,omitempty"`
 }
 
 type KindObservation struct {
+
+	// Specification of the field containing the timestamp of scanned items. Used for data sources like Datastore and BigQuery.
+	// For BigQuery: Required to filter out rows based on the given start and end times. If not specified and the table was
+	// modified between the given start and end times, the entire table will be scanned. The valid data types of the timestamp
+	// field are: INTEGER, DATE, TIMESTAMP, or DATETIME BigQuery column.
+	// For Datastore. Valid data types of the timestamp field are: TIMESTAMP. Datastore entity will be scanned if the
+	// timestamp property does not exist or its value is empty or invalid.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 }
 
 type KindParameters struct {
@@ -254,6 +389,20 @@ type KindParameters struct {
 }
 
 type OutputConfigObservation struct {
+
+	// Schema used for writing the findings for Inspect jobs. This field is only used for
+	// Inspect and must be unspecified for Risk jobs. Columns are derived from the Finding
+	// object. If appending to an existing table, any columns from the predefined schema
+	// that are missing will be added. No columns in the existing table will be deleted.
+	// If unspecified, then all available columns will be used for a new table or an (existing)
+	// table with no schema, and no changes will be made to an existing table that has a schema.
+	// Only for use with external storage.
+	// Possible values are BASIC_COLUMNS, GCS_COLUMNS, DATASTORE_COLUMNS, BIG_QUERY_COLUMNS, and ALL_COLUMNS.
+	OutputSchema *string `json:"outputSchema,omitempty" tf:"output_schema,omitempty"`
+
+	// Information on the location of the target BigQuery Table.
+	// Structure is documented below.
+	Table []TableObservation `json:"table,omitempty" tf:"table,omitempty"`
 }
 
 type OutputConfigParameters struct {
@@ -276,6 +425,12 @@ type OutputConfigParameters struct {
 }
 
 type PartitionIDObservation struct {
+
+	// If not empty, the ID of the namespace to which the entities belong.
+	NamespaceID *string `json:"namespaceId,omitempty" tf:"namespace_id,omitempty"`
+
+	// The Google Cloud Platform project ID of the project containing the table.
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 }
 
 type PartitionIDParameters struct {
@@ -290,6 +445,9 @@ type PartitionIDParameters struct {
 }
 
 type PubSubObservation struct {
+
+	// Cloud Pub/Sub topic to send notifications to.
+	Topic *string `json:"topic,omitempty" tf:"topic,omitempty"`
 }
 
 type PubSubParameters struct {
@@ -312,6 +470,19 @@ type PublishSummaryToCsccParameters struct {
 }
 
 type RegexFileSetObservation struct {
+
+	// The name of a Cloud Storage bucket.
+	BucketName *string `json:"bucketName,omitempty" tf:"bucket_name,omitempty"`
+
+	// A list of regular expressions matching file paths to exclude. All files in the bucket that match at
+	// least one of these regular expressions will be excluded from the scan.
+	ExcludeRegex []*string `json:"excludeRegex,omitempty" tf:"exclude_regex,omitempty"`
+
+	// A list of regular expressions matching file paths to include. All files in the bucket
+	// that match at least one of these regular expressions will be included in the set of files,
+	// except for those that also match an item in excludeRegex. Leaving this field empty will
+	// match all files by default (this is equivalent to including .* in the list)
+	IncludeRegex []*string `json:"includeRegex,omitempty" tf:"include_regex,omitempty"`
 }
 
 type RegexFileSetParameters struct {
@@ -334,6 +505,10 @@ type RegexFileSetParameters struct {
 }
 
 type SaveFindingsObservation struct {
+
+	// Information on where to store output
+	// Structure is documented below.
+	OutputConfig []OutputConfigObservation `json:"outputConfig,omitempty" tf:"output_config,omitempty"`
 }
 
 type SaveFindingsParameters struct {
@@ -345,6 +520,12 @@ type SaveFindingsParameters struct {
 }
 
 type ScheduleObservation struct {
+
+	// With this option a job is started a regular periodic basis. For example: every day (86400 seconds).
+	// A scheduled start time will be skipped if the previous execution has not ended when its scheduled time occurs.
+	// This value must be set to a time duration greater than or equal to 1 day and can be no longer than 60 days.
+	// A duration in seconds with up to nine fractional digits, terminated by 's'. Example: "3.5s".
+	RecurrencePeriodDuration *string `json:"recurrencePeriodDuration,omitempty" tf:"recurrence_period_duration,omitempty"`
 }
 
 type ScheduleParameters struct {
@@ -358,6 +539,22 @@ type ScheduleParameters struct {
 }
 
 type StorageConfigObservation struct {
+
+	// Options defining BigQuery table and row identifiers.
+	// Structure is documented below.
+	BigQueryOptions []BigQueryOptionsObservation `json:"bigQueryOptions,omitempty" tf:"big_query_options,omitempty"`
+
+	// Options defining a file or a set of files within a Google Cloud Storage bucket.
+	// Structure is documented below.
+	CloudStorageOptions []CloudStorageOptionsObservation `json:"cloudStorageOptions,omitempty" tf:"cloud_storage_options,omitempty"`
+
+	// Options defining a data set within Google Cloud Datastore.
+	// Structure is documented below.
+	DatastoreOptions []DatastoreOptionsObservation `json:"datastoreOptions,omitempty" tf:"datastore_options,omitempty"`
+
+	// Information on where to inspect
+	// Structure is documented below.
+	TimespanConfig []TimespanConfigObservation `json:"timespanConfig,omitempty" tf:"timespan_config,omitempty"`
 }
 
 type StorageConfigParameters struct {
@@ -384,6 +581,15 @@ type StorageConfigParameters struct {
 }
 
 type TableObservation struct {
+
+	// The dataset ID of the table.
+	DatasetID *string `json:"datasetId,omitempty" tf:"dataset_id,omitempty"`
+
+	// The Google Cloud Platform project ID of the project containing the table.
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	// The name of the table.
+	TableID *string `json:"tableId,omitempty" tf:"table_id,omitempty"`
 }
 
 type TableParameters struct {
@@ -402,6 +608,15 @@ type TableParameters struct {
 }
 
 type TableReferenceObservation struct {
+
+	// The dataset ID of the table.
+	DatasetID *string `json:"datasetId,omitempty" tf:"dataset_id,omitempty"`
+
+	// The Google Cloud Platform project ID of the project containing the table.
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	// The name of the table.
+	TableID *string `json:"tableId,omitempty" tf:"table_id,omitempty"`
 }
 
 type TableReferenceParameters struct {
@@ -420,6 +635,21 @@ type TableReferenceParameters struct {
 }
 
 type TimespanConfigObservation struct {
+
+	// When the job is started by a JobTrigger we will automatically figure out a valid startTime to avoid
+	// scanning files that have not been modified since the last time the JobTrigger executed. This will
+	// be based on the time of the execution of the last run of the JobTrigger.
+	EnableAutoPopulationOfTimespanConfig *bool `json:"enableAutoPopulationOfTimespanConfig,omitempty" tf:"enable_auto_population_of_timespan_config,omitempty"`
+
+	// Exclude files or rows newer than this value. If set to zero, no upper time limit is applied.
+	EndTime *string `json:"endTime,omitempty" tf:"end_time,omitempty"`
+
+	// Exclude files or rows older than this value.
+	StartTime *string `json:"startTime,omitempty" tf:"start_time,omitempty"`
+
+	// Information on where to inspect
+	// Structure is documented below.
+	TimestampField []TimestampFieldObservation `json:"timestampField,omitempty" tf:"timestamp_field,omitempty"`
 }
 
 type TimespanConfigParameters struct {
@@ -445,6 +675,14 @@ type TimespanConfigParameters struct {
 }
 
 type TimestampFieldObservation struct {
+
+	// Specification of the field containing the timestamp of scanned items. Used for data sources like Datastore and BigQuery.
+	// For BigQuery: Required to filter out rows based on the given start and end times. If not specified and the table was
+	// modified between the given start and end times, the entire table will be scanned. The valid data types of the timestamp
+	// field are: INTEGER, DATE, TIMESTAMP, or DATETIME BigQuery column.
+	// For Datastore. Valid data types of the timestamp field are: TIMESTAMP. Datastore entity will be scanned if the
+	// timestamp property does not exist or its value is empty or invalid.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 }
 
 type TimestampFieldParameters struct {
@@ -460,6 +698,10 @@ type TimestampFieldParameters struct {
 }
 
 type TriggersObservation struct {
+
+	// Schedule for triggered jobs
+	// Structure is documented below.
+	Schedule []ScheduleObservation `json:"schedule,omitempty" tf:"schedule,omitempty"`
 }
 
 type TriggersParameters struct {
@@ -494,8 +736,10 @@ type JobTriggerStatus struct {
 type JobTrigger struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              JobTriggerSpec   `json:"spec"`
-	Status            JobTriggerStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.parent)",message="parent is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.triggers)",message="triggers is a required parameter"
+	Spec   JobTriggerSpec   `json:"spec"`
+	Status JobTriggerStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

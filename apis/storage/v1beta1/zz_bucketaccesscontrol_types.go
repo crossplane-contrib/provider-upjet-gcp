@@ -27,14 +27,38 @@ import (
 
 type BucketAccessControlObservation struct {
 
+	// The name of the bucket.
+	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
+
 	// The domain associated with the entity.
 	Domain *string `json:"domain,omitempty" tf:"domain,omitempty"`
 
 	// The email address associated with the entity.
 	Email *string `json:"email,omitempty" tf:"email,omitempty"`
 
+	// The entity holding the permission, in one of the following forms:
+	// user-userId
+	// user-email
+	// group-groupId
+	// group-email
+	// domain-domain
+	// project-team-projectId
+	// allUsers
+	// allAuthenticatedUsers
+	// Examples:
+	// The user liz@example.com would be user-liz@example.com.
+	// The group example@googlegroups.com would be
+	// group-example@googlegroups.com.
+	// To refer to all members of the Google Apps for Business domain
+	// example.com, the entity would be domain-example.com.
+	Entity *string `json:"entity,omitempty" tf:"entity,omitempty"`
+
 	// an identifier for the resource with format {{bucket}}/{{entity}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The access permission for the entity.
+	// Possible values are OWNER, READER, and WRITER.
+	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 }
 
 type BucketAccessControlParameters struct {
@@ -67,8 +91,8 @@ type BucketAccessControlParameters struct {
 	// group-example@googlegroups.com.
 	// To refer to all members of the Google Apps for Business domain
 	// example.com, the entity would be domain-example.com.
-	// +kubebuilder:validation:Required
-	Entity *string `json:"entity" tf:"entity,omitempty"`
+	// +kubebuilder:validation:Optional
+	Entity *string `json:"entity,omitempty" tf:"entity,omitempty"`
 
 	// The access permission for the entity.
 	// Possible values are OWNER, READER, and WRITER.
@@ -100,8 +124,9 @@ type BucketAccessControlStatus struct {
 type BucketAccessControl struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              BucketAccessControlSpec   `json:"spec"`
-	Status            BucketAccessControlStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.entity)",message="entity is a required parameter"
+	Spec   BucketAccessControlSpec   `json:"spec"`
+	Status BucketAccessControlStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

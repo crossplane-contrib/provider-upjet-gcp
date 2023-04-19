@@ -26,6 +26,15 @@ import (
 )
 
 type GenericWebServiceObservation struct {
+
+	// Specifies a list of allowed custom CA certificates (in DER format) for HTTPS verification.
+	AllowedCACerts []*string `json:"allowedCaCerts,omitempty" tf:"allowed_ca_certs,omitempty"`
+
+	// The HTTP request headers to send together with webhook requests.
+	RequestHeaders map[string]*string `json:"requestHeaders,omitempty" tf:"request_headers,omitempty"`
+
+	// Whether to use speech adaptation for speech recognition.
+	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`
 }
 
 type GenericWebServiceParameters struct {
@@ -44,6 +53,15 @@ type GenericWebServiceParameters struct {
 }
 
 type ServiceDirectoryGenericWebServiceObservation struct {
+
+	// Specifies a list of allowed custom CA certificates (in DER format) for HTTPS verification.
+	AllowedCACerts []*string `json:"allowedCaCerts,omitempty" tf:"allowed_ca_certs,omitempty"`
+
+	// The HTTP request headers to send together with webhook requests.
+	RequestHeaders map[string]*string `json:"requestHeaders,omitempty" tf:"request_headers,omitempty"`
+
+	// Whether to use speech adaptation for speech recognition.
+	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`
 }
 
 type ServiceDirectoryGenericWebServiceParameters struct {
@@ -62,6 +80,13 @@ type ServiceDirectoryGenericWebServiceParameters struct {
 }
 
 type ServiceDirectoryObservation struct {
+
+	// The name of Service Directory service.
+	// Structure is documented below.
+	GenericWebService []ServiceDirectoryGenericWebServiceObservation `json:"genericWebService,omitempty" tf:"generic_web_service,omitempty"`
+
+	// The name of Service Directory service.
+	Service *string `json:"service,omitempty" tf:"service,omitempty"`
 }
 
 type ServiceDirectoryParameters struct {
@@ -78,6 +103,22 @@ type ServiceDirectoryParameters struct {
 
 type WebhookObservation struct {
 
+	// Indicates whether the webhook is disabled.
+	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
+
+	// The human-readable name of the webhook, unique within the agent.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// Indicates if automatic spell correction is enabled in detect intent requests.
+	EnableSpellCorrection *bool `json:"enableSpellCorrection,omitempty" tf:"enable_spell_correction,omitempty"`
+
+	// Determines whether this agent should log conversation queries.
+	EnableStackdriverLogging *bool `json:"enableStackdriverLogging,omitempty" tf:"enable_stackdriver_logging,omitempty"`
+
+	// Configuration for a generic web service.
+	// Structure is documented below.
+	GenericWebService []GenericWebServiceObservation `json:"genericWebService,omitempty" tf:"generic_web_service,omitempty"`
+
 	// an identifier for the resource with format {{parent}}/webhooks/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
@@ -85,8 +126,22 @@ type WebhookObservation struct {
 	// Format: projects//locations//agents//webhooks/.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// The agent to create a webhook for.
+	// Format: projects//locations//agents/.
+	Parent *string `json:"parent,omitempty" tf:"parent,omitempty"`
+
+	// Name of the SecuritySettings reference for the agent. Format: projects//locations//securitySettings/.
+	SecuritySettings *string `json:"securitySettings,omitempty" tf:"security_settings,omitempty"`
+
+	// Configuration for a Service Directory service.
+	// Structure is documented below.
+	ServiceDirectory []ServiceDirectoryObservation `json:"serviceDirectory,omitempty" tf:"service_directory,omitempty"`
+
 	// Name of the start flow in this agent. A start flow will be automatically created when the agent is created, and can only be deleted by deleting the agent. Format: projects//locations//agents//flows/.
 	StartFlow *string `json:"startFlow,omitempty" tf:"start_flow,omitempty"`
+
+	// Webhook execution timeout.
+	Timeout *string `json:"timeout,omitempty" tf:"timeout,omitempty"`
 }
 
 type WebhookParameters struct {
@@ -96,8 +151,8 @@ type WebhookParameters struct {
 	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
 
 	// The human-readable name of the webhook, unique within the agent.
-	// +kubebuilder:validation:Required
-	DisplayName *string `json:"displayName" tf:"display_name,omitempty"`
+	// +kubebuilder:validation:Optional
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// Indicates if automatic spell correction is enabled in detect intent requests.
 	// +kubebuilder:validation:Optional
@@ -165,8 +220,9 @@ type WebhookStatus struct {
 type Webhook struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              WebhookSpec   `json:"spec"`
-	Status            WebhookStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.displayName)",message="displayName is a required parameter"
+	Spec   WebhookSpec   `json:"spec"`
+	Status WebhookStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

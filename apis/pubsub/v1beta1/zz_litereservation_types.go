@@ -29,6 +29,18 @@ type LiteReservationObservation struct {
 
 	// an identifier for the resource with format projects/{{project}}/locations/{{region}}/reservations/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The region of the pubsub lite reservation.
+	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+
+	// The reserved throughput capacity. Every unit of throughput capacity is
+	// equivalent to 1 MiB/s of published messages or 2 MiB/s of subscribed
+	// messages.
+	ThroughputCapacity *float64 `json:"throughputCapacity,omitempty" tf:"throughput_capacity,omitempty"`
 }
 
 type LiteReservationParameters struct {
@@ -45,8 +57,8 @@ type LiteReservationParameters struct {
 	// The reserved throughput capacity. Every unit of throughput capacity is
 	// equivalent to 1 MiB/s of published messages or 2 MiB/s of subscribed
 	// messages.
-	// +kubebuilder:validation:Required
-	ThroughputCapacity *float64 `json:"throughputCapacity" tf:"throughput_capacity,omitempty"`
+	// +kubebuilder:validation:Optional
+	ThroughputCapacity *float64 `json:"throughputCapacity,omitempty" tf:"throughput_capacity,omitempty"`
 }
 
 // LiteReservationSpec defines the desired state of LiteReservation
@@ -73,8 +85,9 @@ type LiteReservationStatus struct {
 type LiteReservation struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              LiteReservationSpec   `json:"spec"`
-	Status            LiteReservationStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.throughputCapacity)",message="throughputCapacity is a required parameter"
+	Spec   LiteReservationSpec   `json:"spec"`
+	Status LiteReservationStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

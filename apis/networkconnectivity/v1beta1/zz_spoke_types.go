@@ -26,6 +26,12 @@ import (
 )
 
 type InstancesObservation struct {
+
+	// The IP address on the VM to use for peering.
+	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
+
+	// The URI of the virtual machine resource
+	VirtualMachine *string `json:"virtualMachine,omitempty" tf:"virtual_machine,omitempty"`
 }
 
 type InstancesParameters struct {
@@ -50,6 +56,12 @@ type InstancesParameters struct {
 }
 
 type LinkedInterconnectAttachmentsObservation struct {
+
+	// A value that controls whether site-to-site data transfer is enabled for these resources. Note that data transfer is available only in supported locations.
+	SiteToSiteDataTransfer *bool `json:"siteToSiteDataTransfer,omitempty" tf:"site_to_site_data_transfer,omitempty"`
+
+	// The URIs of linked interconnect attachment resources
+	Uris []*string `json:"uris,omitempty" tf:"uris,omitempty"`
 }
 
 type LinkedInterconnectAttachmentsParameters struct {
@@ -64,6 +76,12 @@ type LinkedInterconnectAttachmentsParameters struct {
 }
 
 type LinkedRouterApplianceInstancesObservation struct {
+
+	// The list of router appliance instances
+	Instances []InstancesObservation `json:"instances,omitempty" tf:"instances,omitempty"`
+
+	// A value that controls whether site-to-site data transfer is enabled for these resources. Note that data transfer is available only in supported locations.
+	SiteToSiteDataTransfer *bool `json:"siteToSiteDataTransfer,omitempty" tf:"site_to_site_data_transfer,omitempty"`
 }
 
 type LinkedRouterApplianceInstancesParameters struct {
@@ -78,6 +96,12 @@ type LinkedRouterApplianceInstancesParameters struct {
 }
 
 type LinkedVPNTunnelsObservation struct {
+
+	// A value that controls whether site-to-site data transfer is enabled for these resources. Note that data transfer is available only in supported locations.
+	SiteToSiteDataTransfer *bool `json:"siteToSiteDataTransfer,omitempty" tf:"site_to_site_data_transfer,omitempty"`
+
+	// The URIs of linked VPN tunnel resources.
+	Uris []*string `json:"uris,omitempty" tf:"uris,omitempty"`
 }
 
 type LinkedVPNTunnelsParameters struct {
@@ -96,8 +120,35 @@ type SpokeObservation struct {
 	// Output only. The time the spoke was created.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
+	// An optional description of the spoke.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Immutable. The URI of the hub that this spoke is attached to.
+	Hub *string `json:"hub,omitempty" tf:"hub,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/spokes/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Optional labels in key:value format. For more information about labels, see Requirements for labels.
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// A collection of VLAN attachment resources. These resources should be redundant attachments that all advertise the same prefixes to Google Cloud. Alternatively, in active/passive configurations, all attachments should be capable of advertising the same prefixes.
+	LinkedInterconnectAttachments []LinkedInterconnectAttachmentsObservation `json:"linkedInterconnectAttachments,omitempty" tf:"linked_interconnect_attachments,omitempty"`
+
+	// The URIs of linked Router appliance resources
+	LinkedRouterApplianceInstances []LinkedRouterApplianceInstancesObservation `json:"linkedRouterApplianceInstances,omitempty" tf:"linked_router_appliance_instances,omitempty"`
+
+	// The URIs of linked VPN tunnel resources
+	LinkedVPNTunnels []LinkedVPNTunnelsObservation `json:"linkedVpnTunnels,omitempty" tf:"linked_vpn_tunnels,omitempty"`
+
+	// The location for the resource
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
+	// Immutable. The name of the spoke. Spoke names must be unique.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The project for the resource
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Output only. The current lifecycle state of this spoke. Possible values: STATE_UNSPECIFIED, CREATING, ACTIVE, DELETING
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
@@ -146,12 +197,12 @@ type SpokeParameters struct {
 	LinkedVPNTunnels []LinkedVPNTunnelsParameters `json:"linkedVpnTunnels,omitempty" tf:"linked_vpn_tunnels,omitempty"`
 
 	// The location for the resource
-	// +kubebuilder:validation:Required
-	Location *string `json:"location" tf:"location,omitempty"`
+	// +kubebuilder:validation:Optional
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
 	// Immutable. The name of the spoke. Spoke names must be unique.
-	// +kubebuilder:validation:Required
-	Name *string `json:"name" tf:"name,omitempty"`
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// The project for the resource
 	// +kubebuilder:validation:Optional
@@ -182,8 +233,10 @@ type SpokeStatus struct {
 type Spoke struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              SpokeSpec   `json:"spec"`
-	Status            SpokeStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.location)",message="location is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.name)",message="name is a required parameter"
+	Spec   SpokeSpec   `json:"spec"`
+	Status SpokeStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

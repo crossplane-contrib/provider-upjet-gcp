@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.11.1
+    controller-gen.kubebuilder.io/version: v0.11.3
   creationTimestamp: null
   name: regionnetworkendpointgroups.compute.gcp.upbound.io
 spec:
@@ -56,9 +56,13 @@ spec:
             properties:
               deletionPolicy:
                 default: Delete
-                description: DeletionPolicy specifies what will happen to the underlying
+                description: 'DeletionPolicy specifies what will happen to the underlying
                   external when this managed resource is deleted - either "Delete"
-                  or "Orphan" the external resource.
+                  or "Orphan" the external resource. This field is planned to be deprecated
+                  in favor of the ManagementPolicy field in a future release. Currently,
+                  both could be set independently and non-default values would be
+                  honored if the feature flag is enabled. See the design doc for more
+                  information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
                 enum:
                 - Orphan
                 - Delete
@@ -559,6 +563,21 @@ spec:
                 required:
                 - region
                 type: object
+              managementPolicy:
+                default: FullControl
+                description: 'THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice. ManagementPolicy
+                  specifies the level of control Crossplane has over the managed external
+                  resource. This field is planned to replace the DeletionPolicy field
+                  in a future release. Currently, both could be set independently
+                  and non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
+                enum:
+                - FullControl
+                - ObserveOnly
+                - OrphanOnDelete
+                type: string
               providerConfigRef:
                 default:
                   name: default
@@ -736,11 +755,123 @@ spec:
             properties:
               atProvider:
                 properties:
+                  appEngine:
+                    description: Only valid when networkEndpointType is "SERVERLESS".
+                      Only one of cloud_run, app_engine, cloud_function or serverless_deployment
+                      may be set. Structure is documented below.
+                    items:
+                      properties:
+                        service:
+                          description: 'Optional serving service. The service name
+                            must be 1-63 characters long, and comply with RFC1035.
+                            Example value: "default", "my-service".'
+                          type: string
+                        urlMask:
+                          description: A template to parse service and version fields
+                            from a request URL. URL mask allows for routing to multiple
+                            App Engine services without having to create multiple
+                            Network Endpoint Groups and backend services. For example,
+                            the request URLs "foo1-dot-appname.appspot.com/v1" and
+                            "foo1-dot-appname.appspot.com/v2" can be backed by the
+                            same Serverless NEG with URL mask "-dot-appname.appspot.com/".
+                            The URL mask will parse them to { service = "foo1", version
+                            = "v1" } and { service = "foo1", version = "v2" } respectively.
+                          type: string
+                        version:
+                          description: 'Optional serving version. The version must
+                            be 1-63 characters long, and comply with RFC1035. Example
+                            value: "v1", "v2".'
+                          type: string
+                      type: object
+                    type: array
+                  cloudFunction:
+                    description: Only valid when networkEndpointType is "SERVERLESS".
+                      Only one of cloud_run, app_engine, cloud_function or serverless_deployment
+                      may be set. Structure is documented below.
+                    items:
+                      properties:
+                        function:
+                          description: 'A user-defined name of the Cloud Function.
+                            The function name is case-sensitive and must be 1-63 characters
+                            long. Example value: "func1".'
+                          type: string
+                        urlMask:
+                          description: A template to parse function field from a request
+                            URL. URL mask allows for routing to multiple Cloud Functions
+                            without having to create multiple Network Endpoint Groups
+                            and backend services. For example, request URLs "mydomain.com/function1"
+                            and "mydomain.com/function2" can be backed by the same
+                            Serverless NEG with URL mask "/". The URL mask will parse
+                            them to { function = "function1" } and { function = "function2"
+                            } respectively.
+                          type: string
+                      type: object
+                    type: array
+                  cloudRun:
+                    description: Only valid when networkEndpointType is "SERVERLESS".
+                      Only one of cloud_run, app_engine, cloud_function or serverless_deployment
+                      may be set. Structure is documented below.
+                    items:
+                      properties:
+                        service:
+                          description: 'Cloud Run service is the main resource of
+                            Cloud Run. The service must be 1-63 characters long, and
+                            comply with RFC1035. Example value: "run-service".'
+                          type: string
+                        tag:
+                          description: 'Cloud Run tag represents the "named-revision"
+                            to provide additional fine-grained traffic routing information.
+                            The tag must be 1-63 characters long, and comply with
+                            RFC1035. Example value: "revision-0010".'
+                          type: string
+                        urlMask:
+                          description: A template to parse service and tag fields
+                            from a request URL. URL mask allows for routing to multiple
+                            Run services without having to create multiple network
+                            endpoint groups and backend services. For example, request
+                            URLs "foo1.domain.com/bar1" and "foo1.domain.com/bar2"
+                            an be backed by the same Serverless Network Endpoint Group
+                            (NEG) with URL mask ".domain.com/". The URL mask will
+                            parse them to { service="bar1", tag="foo1" } and { service="bar2",
+                            tag="foo2" } respectively.
+                          type: string
+                      type: object
+                    type: array
+                  description:
+                    description: An optional description of this resource. Provide
+                      this property when you create the resource.
+                    type: string
                   id:
                     description: an identifier for the resource with format projects/{{project}}/regions/{{region}}/networkEndpointGroups/{{name}}
                     type: string
+                  network:
+                    description: This field is only used for PSC. The URL of the network
+                      to which all network endpoints in the NEG belong. Uses "default"
+                      project network if unspecified.
+                    type: string
+                  networkEndpointType:
+                    description: Type of network endpoints in this network endpoint
+                      group. Defaults to SERVERLESS Default value is SERVERLESS. Possible
+                      values are SERVERLESS and PRIVATE_SERVICE_CONNECT.
+                    type: string
+                  project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  pscTargetService:
+                    description: The target service url used to set up private service
+                      connection to a Google API or a PSC Producer Service Attachment.
+                    type: string
+                  region:
+                    description: A reference to the region where the Serverless NEGs
+                      Reside.
+                    type: string
                   selfLink:
                     description: The URI of the created resource.
+                    type: string
+                  subnetwork:
+                    description: This field is only used for PSC. Optional URL of
+                      the subnetwork to which all network endpoints in the NEG belong.
                     type: string
                 type: object
               conditions:

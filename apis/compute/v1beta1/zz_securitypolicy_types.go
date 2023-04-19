@@ -26,6 +26,9 @@ import (
 )
 
 type AdaptiveProtectionConfigObservation struct {
+
+	// Configuration for Google Cloud Armor Adaptive Protection Layer 7 DDoS Defense. Structure is documented below.
+	Layer7DdosDefenseConfig []Layer7DdosDefenseConfigObservation `json:"layer7DdosDefenseConfig,omitempty" tf:"layer_7_ddos_defense_config,omitempty"`
 }
 
 type AdaptiveProtectionConfigParameters struct {
@@ -36,6 +39,16 @@ type AdaptiveProtectionConfigParameters struct {
 }
 
 type AdvancedOptionsConfigObservation struct {
+
+	// Custom configuration to apply the JSON parsing. Only applicable when
+	// json_parsing is set to STANDARD. Structure is documented below.
+	JSONCustomConfig []JSONCustomConfigObservation `json:"jsonCustomConfig,omitempty" tf:"json_custom_config,omitempty"`
+
+	// Whether or not to JSON parse the payload body. Defaults to DISABLED.
+	JSONParsing *string `json:"jsonParsing,omitempty" tf:"json_parsing,omitempty"`
+
+	// Log level to use. Defaults to NORMAL.
+	LogLevel *string `json:"logLevel,omitempty" tf:"log_level,omitempty"`
 }
 
 type AdvancedOptionsConfigParameters struct {
@@ -55,6 +68,12 @@ type AdvancedOptionsConfigParameters struct {
 }
 
 type BanThresholdObservation struct {
+
+	// Number of HTTP(S) requests for calculating the threshold.
+	Count *float64 `json:"count,omitempty" tf:"count,omitempty"`
+
+	// Interval over which the threshold is computed.
+	IntervalSec *float64 `json:"intervalSec,omitempty" tf:"interval_sec,omitempty"`
 }
 
 type BanThresholdParameters struct {
@@ -69,6 +88,9 @@ type BanThresholdParameters struct {
 }
 
 type ConfigObservation struct {
+
+	// field in config.
+	SrcIPRanges []*string `json:"srcIpRanges,omitempty" tf:"src_ip_ranges,omitempty"`
 }
 
 type ConfigParameters struct {
@@ -79,6 +101,12 @@ type ConfigParameters struct {
 }
 
 type ExceedRedirectOptionsObservation struct {
+
+	// Target for the redirect action. This is required if the type is EXTERNAL_302 and cannot be specified for GOOGLE_RECAPTCHA.
+	Target *string `json:"target,omitempty" tf:"target,omitempty"`
+
+	// Type of the redirect action.
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type ExceedRedirectOptionsParameters struct {
@@ -93,6 +121,10 @@ type ExceedRedirectOptionsParameters struct {
 }
 
 type ExprObservation struct {
+
+	// Textual representation of an expression in Common Expression Language syntax.
+	// The application context of the containing message determines which well-known feature set of CEL is supported.
+	Expression *string `json:"expression,omitempty" tf:"expression,omitempty"`
 }
 
 type ExprParameters struct {
@@ -104,6 +136,12 @@ type ExprParameters struct {
 }
 
 type JSONCustomConfigObservation struct {
+
+	// A list of custom Content-Type header values to apply the JSON parsing. The
+	// format of the Content-Type header values is defined in
+	// RFC 1341. When configuring a custom Content-Type header
+	// value, only the type/subtype needs to be specified, and the parameters should be excluded.
+	ContentTypes []*string `json:"contentTypes,omitempty" tf:"content_types,omitempty"`
 }
 
 type JSONCustomConfigParameters struct {
@@ -117,6 +155,12 @@ type JSONCustomConfigParameters struct {
 }
 
 type Layer7DdosDefenseConfigObservation struct {
+
+	// If set to true, enables CAAP for L7 DDoS detection.
+	Enable *bool `json:"enable,omitempty" tf:"enable,omitempty"`
+
+	// Rule visibility can be one of the following: STANDARD - opaque rules. (default) PREMIUM - transparent rules.
+	RuleVisibility *string `json:"ruleVisibility,omitempty" tf:"rule_visibility,omitempty"`
 }
 
 type Layer7DdosDefenseConfigParameters struct {
@@ -131,6 +175,34 @@ type Layer7DdosDefenseConfigParameters struct {
 }
 
 type RateLimitOptionsObservation struct {
+
+	// Can only be specified if the action for the rule is "rate_based_ban".
+	// If specified, determines the time (in seconds) the traffic will continue to be banned by the rate limit after the rate falls below the threshold.
+	BanDurationSec *float64 `json:"banDurationSec,omitempty" tf:"ban_duration_sec,omitempty"`
+
+	// Can only be specified if the action for the rule is "rate_based_ban".
+	// If specified, the key will be banned for the configured 'ban_duration_sec' when the number of requests that exceed the 'rate_limit_threshold' also
+	// exceed this 'ban_threshold'. Structure is documented below.
+	BanThreshold []BanThresholdObservation `json:"banThreshold,omitempty" tf:"ban_threshold,omitempty"`
+
+	// Action to take for requests that are under the configured rate limit threshold. Valid option is "allow" only.
+	ConformAction *string `json:"conformAction,omitempty" tf:"conform_action,omitempty"`
+
+	// Determines the key to enforce the rate_limit_threshold on. If not specified, defaults to "ALL".
+	EnforceOnKey *string `json:"enforceOnKey,omitempty" tf:"enforce_on_key,omitempty"`
+
+	// Rate limit key name applicable only for the following key types: HTTP_HEADER -- Name of the HTTP header whose value is taken as the key value. HTTP_COOKIE -- Name of the HTTP cookie whose value is taken as the key value.
+	EnforceOnKeyName *string `json:"enforceOnKeyName,omitempty" tf:"enforce_on_key_name,omitempty"`
+
+	// When a request is denied, returns the HTTP response code specified.
+	// Valid options are "deny()" where valid values for status are 403, 404, 429, and 502.
+	ExceedAction *string `json:"exceedAction,omitempty" tf:"exceed_action,omitempty"`
+
+	// block supports:
+	ExceedRedirectOptions []ExceedRedirectOptionsObservation `json:"exceedRedirectOptions,omitempty" tf:"exceed_redirect_options,omitempty"`
+
+	// Threshold at which to begin ratelimiting. Structure is documented below.
+	RateLimitThreshold []RateLimitThresholdObservation `json:"rateLimitThreshold,omitempty" tf:"rate_limit_threshold,omitempty"`
 }
 
 type RateLimitOptionsParameters struct {
@@ -173,6 +245,12 @@ type RateLimitOptionsParameters struct {
 }
 
 type RateLimitThresholdObservation struct {
+
+	// Number of HTTP(S) requests for calculating the threshold.
+	Count *float64 `json:"count,omitempty" tf:"count,omitempty"`
+
+	// Interval over which the threshold is computed.
+	IntervalSec *float64 `json:"intervalSec,omitempty" tf:"interval_sec,omitempty"`
 }
 
 type RateLimitThresholdParameters struct {
@@ -187,6 +265,9 @@ type RateLimitThresholdParameters struct {
 }
 
 type RecaptchaOptionsConfigObservation struct {
+
+	// A field to supply a reCAPTCHA site key to be used for all the rules using the redirect action with the type of GOOGLE_RECAPTCHA under the security policy. The specified site key needs to be created from the reCAPTCHA API. The user is responsible for the validity of the specified site key. If not specified, a Google-managed site key is used.
+	RedirectSiteKey *string `json:"redirectSiteKey,omitempty" tf:"redirect_site_key,omitempty"`
 }
 
 type RecaptchaOptionsConfigParameters struct {
@@ -197,6 +278,12 @@ type RecaptchaOptionsConfigParameters struct {
 }
 
 type RedirectOptionsObservation struct {
+
+	// Target for the redirect action. This is required if the type is EXTERNAL_302 and cannot be specified for GOOGLE_RECAPTCHA.
+	Target *string `json:"target,omitempty" tf:"target,omitempty"`
+
+	// Type of the redirect action.
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type RedirectOptionsParameters struct {
@@ -211,6 +298,12 @@ type RedirectOptionsParameters struct {
 }
 
 type RequestHeadersToAddsObservation struct {
+
+	// The name of the header to set.
+	HeaderName *string `json:"headerName,omitempty" tf:"header_name,omitempty"`
+
+	// The value to set the named header to.
+	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
 }
 
 type RequestHeadersToAddsParameters struct {
@@ -225,6 +318,9 @@ type RequestHeadersToAddsParameters struct {
 }
 
 type RuleHeaderActionObservation struct {
+
+	// The list of request headers to add or overwrite if they're already present. Structure is documented below.
+	RequestHeadersToAdds []RequestHeadersToAddsObservation `json:"requestHeadersToAdds,omitempty" tf:"request_headers_to_adds,omitempty"`
 }
 
 type RuleHeaderActionParameters struct {
@@ -235,6 +331,20 @@ type RuleHeaderActionParameters struct {
 }
 
 type RuleMatchObservation struct {
+
+	// The configuration options available when specifying versioned_expr.
+	// This field must be specified if versioned_expr is specified and cannot be specified if versioned_expr is not specified.
+	// Structure is documented below.
+	Config []ConfigObservation `json:"config,omitempty" tf:"config,omitempty"`
+
+	// User defined CEVAL expression. A CEVAL expression is used to specify match criteria
+	// such as origin.ip, source.region_code and contents in the request header.
+	// Structure is documented below.
+	Expr []ExprObservation `json:"expr,omitempty" tf:"expr,omitempty"`
+
+	// Predefined rule expression. If this field is specified, config must also be specified.
+	// Available options:
+	VersionedExpr *string `json:"versionedExpr,omitempty" tf:"versioned_expr,omitempty"`
 }
 
 type RuleMatchParameters struct {
@@ -258,6 +368,33 @@ type RuleMatchParameters struct {
 }
 
 type RuleObservation struct {
+
+	// Action to take when match matches the request. Valid values:
+	Action *string `json:"action,omitempty" tf:"action,omitempty"`
+
+	// An optional description of this rule. Max size is 64.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Additional actions that are performed on headers. Structure is documented below.
+	HeaderAction []RuleHeaderActionObservation `json:"headerAction,omitempty" tf:"header_action,omitempty"`
+
+	// A match condition that incoming traffic is evaluated against.
+	// If it evaluates to true, the corresponding action is enforced. Structure is documented below.
+	Match []RuleMatchObservation `json:"match,omitempty" tf:"match,omitempty"`
+
+	// When set to true, the action specified above is not enforced.
+	// Stackdriver logs for requests that trigger a preview action are annotated as such.
+	Preview *bool `json:"preview,omitempty" tf:"preview,omitempty"`
+
+	// An unique positive integer indicating the priority of evaluation for a rule.
+	// Rules are evaluated from highest priority (lowest numerically) to lowest priority (highest numerically) in order.
+	Priority *float64 `json:"priority,omitempty" tf:"priority,omitempty"`
+
+	// Must be specified if the action is "rate_based_ban" or "throttle". Cannot be specified for other actions. Structure is documented below.
+	RateLimitOptions []RateLimitOptionsObservation `json:"rateLimitOptions,omitempty" tf:"rate_limit_options,omitempty"`
+
+	// Can be specified if the action is "redirect". Cannot be specified for other actions. Structure is documented below.
+	RedirectOptions []RedirectOptionsObservation `json:"redirectOptions,omitempty" tf:"redirect_options,omitempty"`
 }
 
 type RuleParameters struct {
@@ -300,14 +437,39 @@ type RuleParameters struct {
 
 type SecurityPolicyObservation struct {
 
+	// Configuration for Google Cloud Armor Adaptive Protection. Structure is documented below.
+	AdaptiveProtectionConfig []AdaptiveProtectionConfigObservation `json:"adaptiveProtectionConfig,omitempty" tf:"adaptive_protection_config,omitempty"`
+
+	// Advanced Configuration Options.
+	// Structure is documented below.
+	AdvancedOptionsConfig []AdvancedOptionsConfigObservation `json:"advancedOptionsConfig,omitempty" tf:"advanced_options_config,omitempty"`
+
+	// An optional description of this security policy. Max size is 2048.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
 	// Fingerprint of this resource.
 	Fingerprint *string `json:"fingerprint,omitempty" tf:"fingerprint,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/global/securityPolicies/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// The project in which the resource belongs. If it
+	// is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// reCAPTCHA Configuration Options. Structure is documented below.
+	RecaptchaOptionsConfig []RecaptchaOptionsConfigObservation `json:"recaptchaOptionsConfig,omitempty" tf:"recaptcha_options_config,omitempty"`
+
+	// The set of rules that belong to this policy. There must always be a default
+	// rule (rule with priority 2147483647 and match "*"). If no rules are provided when creating a
+	// security policy, a default rule with action "allow" will be added. Structure is documented below.
+	Rule []RuleObservation `json:"rule,omitempty" tf:"rule,omitempty"`
+
 	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
+
+	// The type indicates the intended use of the security policy. This field can be set only at resource creation time.
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type SecurityPolicyParameters struct {

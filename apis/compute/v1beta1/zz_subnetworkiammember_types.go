@@ -26,6 +26,11 @@ import (
 )
 
 type SubnetworkIAMMemberConditionObservation struct {
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	Expression *string `json:"expression,omitempty" tf:"expression,omitempty"`
+
+	Title *string `json:"title,omitempty" tf:"title,omitempty"`
 }
 
 type SubnetworkIAMMemberConditionParameters struct {
@@ -41,9 +46,21 @@ type SubnetworkIAMMemberConditionParameters struct {
 }
 
 type SubnetworkIAMMemberObservation struct {
+	Condition []SubnetworkIAMMemberConditionObservation `json:"condition,omitempty" tf:"condition,omitempty"`
+
 	Etag *string `json:"etag,omitempty" tf:"etag,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	Member *string `json:"member,omitempty" tf:"member,omitempty"`
+
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+
+	Role *string `json:"role,omitempty" tf:"role,omitempty"`
+
+	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 }
 
 type SubnetworkIAMMemberParameters struct {
@@ -51,17 +68,17 @@ type SubnetworkIAMMemberParameters struct {
 	// +kubebuilder:validation:Optional
 	Condition []SubnetworkIAMMemberConditionParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
-	// +kubebuilder:validation:Required
-	Member *string `json:"member" tf:"member,omitempty"`
+	// +kubebuilder:validation:Optional
+	Member *string `json:"member,omitempty" tf:"member,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
-	// +kubebuilder:validation:Required
-	Region *string `json:"region" tf:"region,omitempty"`
+	// +kubebuilder:validation:Optional
+	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
-	// +kubebuilder:validation:Required
-	Role *string `json:"role" tf:"role,omitempty"`
+	// +kubebuilder:validation:Optional
+	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 
 	// +crossplane:generate:reference:type=Subnetwork
 	// +kubebuilder:validation:Optional
@@ -100,8 +117,11 @@ type SubnetworkIAMMemberStatus struct {
 type SubnetworkIAMMember struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              SubnetworkIAMMemberSpec   `json:"spec"`
-	Status            SubnetworkIAMMemberStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.member)",message="member is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.region)",message="region is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.role)",message="role is a required parameter"
+	Spec   SubnetworkIAMMemberSpec   `json:"spec"`
+	Status SubnetworkIAMMemberStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

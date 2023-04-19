@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.11.1
+    controller-gen.kubebuilder.io/version: v0.11.3
   creationTimestamp: null
   name: devices.cloudiot.gcp.upbound.io
 spec:
@@ -55,9 +55,13 @@ spec:
             properties:
               deletionPolicy:
                 default: Delete
-                description: DeletionPolicy specifies what will happen to the underlying
+                description: 'DeletionPolicy specifies what will happen to the underlying
                   external when this managed resource is deleted - either "Delete"
-                  or "Orphan" the external resource.
+                  or "Orphan" the external resource. This field is planned to be deprecated
+                  in favor of the ManagementPolicy field in a future release. Currently,
+                  both could be set independently and non-default values would be
+                  honored if the feature flag is enabled. See the design doc for more
+                  information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
                 enum:
                 - Orphan
                 - Delete
@@ -201,6 +205,21 @@ spec:
                         type: object
                     type: object
                 type: object
+              managementPolicy:
+                default: FullControl
+                description: 'THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice. ManagementPolicy
+                  specifies the level of control Crossplane has over the managed external
+                  resource. This field is planned to replace the DeletionPolicy field
+                  in a future release. Currently, both could be set independently
+                  and non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
+                enum:
+                - FullControl
+                - ObserveOnly
+                - OrphanOnDelete
+                type: string
               providerConfigRef:
                 default:
                   name: default
@@ -377,6 +396,10 @@ spec:
             properties:
               atProvider:
                 properties:
+                  blocked:
+                    description: If a device is blocked, connections or requests from
+                      this device will fail.
+                    type: boolean
                   config:
                     description: The most recent device configuration, which is eventually
                       sent from Cloud IoT Core to the device. Structure is documented
@@ -400,11 +423,45 @@ spec:
                           type: string
                       type: object
                     type: array
+                  credentials:
+                    description: The credentials used to authenticate this device.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        expirationTime:
+                          description: The time at which this credential becomes invalid.
+                          type: string
+                        publicKey:
+                          description: A public key used to verify the signature of
+                            JSON Web Tokens (JWTs). Structure is documented below.
+                          items:
+                            properties:
+                              format:
+                                description: The format of the key. Possible values
+                                  are RSA_PEM, RSA_X509_PEM, ES256_PEM, and ES256_X509_PEM.
+                                type: string
+                              key:
+                                description: The key data.
+                                type: string
+                            type: object
+                          type: array
+                      type: object
+                    type: array
                   gatewayConfig:
                     description: Gateway-related configuration and state. Structure
                       is documented below.
                     items:
                       properties:
+                        gatewayAuthMethod:
+                          description: Indicates whether the device is a gateway.
+                            Possible values are ASSOCIATION_ONLY, DEVICE_AUTH_TOKEN_ONLY,
+                            and ASSOCIATION_AND_DEVICE_AUTH_TOKEN.
+                          type: string
+                        gatewayType:
+                          description: Indicates whether the device is a gateway.
+                            Default value is NON_GATEWAY. Possible values are GATEWAY
+                            and NON_GATEWAY.
+                          type: string
                         lastAccessedGatewayId:
                           description: The ID of the gateway the device accessed most
                             recently.
@@ -460,10 +517,23 @@ spec:
                   lastStateTime:
                     description: The last time a state event was received.
                     type: string
+                  logLevel:
+                    description: The logging verbosity for device activity. Possible
+                      values are NONE, ERROR, INFO, and DEBUG.
+                    type: string
+                  metadata:
+                    additionalProperties:
+                      type: string
+                    description: The metadata key-value pairs assigned to the device.
+                    type: object
                   numId:
                     description: A server-defined unique numeric ID for the device.
                       This is a more compact way to identify devices, and it is globally
                       unique.
+                    type: string
+                  registry:
+                    description: The name of the device registry where this device
+                      should be created.
                     type: string
                   state:
                     description: The state most recently received from the device.

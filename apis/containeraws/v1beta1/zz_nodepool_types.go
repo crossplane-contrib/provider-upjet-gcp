@@ -26,6 +26,12 @@ import (
 )
 
 type AutoscalingMetricsCollectionObservation struct {
+
+	// The frequency at which EC2 Auto Scaling sends aggregated data to AWS CloudWatch. The only valid value is "1Minute".
+	Granularity *string `json:"granularity,omitempty" tf:"granularity,omitempty"`
+
+	// The metrics to enable. For a list of valid metrics, see https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_EnableMetricsCollection.html. If you specify granularity and don't specify any metrics, all metrics are enabled.
+	Metrics []*string `json:"metrics,omitempty" tf:"metrics,omitempty"`
 }
 
 type AutoscalingMetricsCollectionParameters struct {
@@ -40,6 +46,12 @@ type AutoscalingMetricsCollectionParameters struct {
 }
 
 type AutoscalingObservation struct {
+
+	// Maximum number of nodes in the NodePool. Must be >= min_node_count.
+	MaxNodeCount *float64 `json:"maxNodeCount,omitempty" tf:"max_node_count,omitempty"`
+
+	// Minimum number of nodes in the NodePool. Must be >= 1 and <= max_node_count.
+	MinNodeCount *float64 `json:"minNodeCount,omitempty" tf:"min_node_count,omitempty"`
 }
 
 type AutoscalingParameters struct {
@@ -54,6 +66,9 @@ type AutoscalingParameters struct {
 }
 
 type ConfigConfigEncryptionObservation struct {
+
+	// Optional. The Amazon Resource Name (ARN) of the Customer Managed Key (CMK) used to encrypt AWS EBS volumes. If not specified, the default Amazon managed key associated to the AWS region where this cluster runs will be used.
+	KMSKeyArn *string `json:"kmsKeyArn,omitempty" tf:"kms_key_arn,omitempty"`
 }
 
 type ConfigConfigEncryptionParameters struct {
@@ -64,6 +79,39 @@ type ConfigConfigEncryptionParameters struct {
 }
 
 type ConfigObservation struct {
+
+	// Optional. Configuration related to CloudWatch metrics collection on the Auto Scaling group of the node pool. When unspecified, metrics collection is disabled.
+	AutoscalingMetricsCollection []AutoscalingMetricsCollectionObservation `json:"autoscalingMetricsCollection,omitempty" tf:"autoscaling_metrics_collection,omitempty"`
+
+	// The ARN of the AWS KMS key used to encrypt node pool configuration.
+	ConfigEncryption []ConfigConfigEncryptionObservation `json:"configEncryption,omitempty" tf:"config_encryption,omitempty"`
+
+	// The name of the AWS IAM role assigned to nodes in the pool.
+	IAMInstanceProfile *string `json:"iamInstanceProfile,omitempty" tf:"iam_instance_profile,omitempty"`
+
+	// Optional. The AWS instance type. When unspecified, it defaults to m5.large.
+	InstanceType *string `json:"instanceType,omitempty" tf:"instance_type,omitempty"`
+
+	// Optional. The initial labels assigned to nodes of this node pool. An object containing a list of "key": value pairs. Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }.
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// Proxy configuration for outbound HTTP(S) traffic.
+	ProxyConfig []ConfigProxyConfigObservation `json:"proxyConfig,omitempty" tf:"proxy_config,omitempty"`
+
+	// Optional. Template for the root volume provisioned for node pool nodes. Volumes will be provisioned in the availability zone assigned to the node pool subnet. When unspecified, it defaults to 32 GiB with the GP2 volume type.
+	RootVolume []ConfigRootVolumeObservation `json:"rootVolume,omitempty" tf:"root_volume,omitempty"`
+
+	// Optional. The SSH configuration.
+	SSHConfig []ConfigSSHConfigObservation `json:"sshConfig,omitempty" tf:"ssh_config,omitempty"`
+
+	// Optional. The IDs of additional security groups to add to nodes in this pool. The manager will automatically create security groups with minimum rules needed for a functioning cluster.
+	SecurityGroupIds []*string `json:"securityGroupIds,omitempty" tf:"security_group_ids,omitempty"`
+
+	// Optional. Key/value metadata to assign to each underlying AWS resource. Specify at most 50 pairs containing alphanumerics, spaces, and symbols (.+-=_:@/). Keys can be up to 127 Unicode characters. Values can be up to 255 Unicode characters.
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
+
+	// Optional. The initial taints assigned to nodes of this node pool.
+	Taints []TaintsObservation `json:"taints,omitempty" tf:"taints,omitempty"`
 }
 
 type ConfigParameters struct {
@@ -114,6 +162,12 @@ type ConfigParameters struct {
 }
 
 type ConfigProxyConfigObservation struct {
+
+	// The ARN of the AWS Secret Manager secret that contains the HTTP(S) proxy configuration.
+	SecretArn *string `json:"secretArn,omitempty" tf:"secret_arn,omitempty"`
+
+	// The version string of the AWS Secret Manager secret that contains the HTTP(S) proxy configuration.
+	SecretVersion *string `json:"secretVersion,omitempty" tf:"secret_version,omitempty"`
 }
 
 type ConfigProxyConfigParameters struct {
@@ -128,6 +182,18 @@ type ConfigProxyConfigParameters struct {
 }
 
 type ConfigRootVolumeObservation struct {
+
+	// Optional. The number of I/O operations per second (IOPS) to provision for GP3 volume.
+	Iops *float64 `json:"iops,omitempty" tf:"iops,omitempty"`
+
+	// Optional. The Amazon Resource Name (ARN) of the Customer Managed Key (CMK) used to encrypt AWS EBS volumes. If not specified, the default Amazon managed key associated to the AWS region where this cluster runs will be used.
+	KMSKeyArn *string `json:"kmsKeyArn,omitempty" tf:"kms_key_arn,omitempty"`
+
+	// Optional. The size of the volume, in GiBs. When unspecified, a default value is provided. See the specific reference in the parent resource.
+	SizeGib *float64 `json:"sizeGib,omitempty" tf:"size_gib,omitempty"`
+
+	// Optional. Type of the EBS volume. When unspecified, it defaults to GP2 volume. Possible values: VOLUME_TYPE_UNSPECIFIED, GP2, GP3
+	VolumeType *string `json:"volumeType,omitempty" tf:"volume_type,omitempty"`
 }
 
 type ConfigRootVolumeParameters struct {
@@ -150,6 +216,9 @@ type ConfigRootVolumeParameters struct {
 }
 
 type ConfigSSHConfigObservation struct {
+
+	// The name of the EC2 key pair used to login into cluster machines.
+	EC2KeyPair *string `json:"ec2KeyPair,omitempty" tf:"ec2_key_pair,omitempty"`
 }
 
 type ConfigSSHConfigParameters struct {
@@ -160,6 +229,9 @@ type ConfigSSHConfigParameters struct {
 }
 
 type MaxPodsConstraintObservation struct {
+
+	// The maximum number of pods to schedule on a single node.
+	MaxPodsPerNode *float64 `json:"maxPodsPerNode,omitempty" tf:"max_pods_per_node,omitempty"`
 }
 
 type MaxPodsConstraintParameters struct {
@@ -171,6 +243,18 @@ type MaxPodsConstraintParameters struct {
 
 type NodePoolObservation struct {
 
+	// Optional. Annotations on the node pool. This field has the same restrictions as Kubernetes annotations. The total size of all keys and values combined is limited to 256k. Key can have 2 segments: prefix  and name , separated by a slash (/). Prefix must be a DNS subdomain. Name must be 63 characters or less, begin and end with alphanumerics, with dashes (-), underscores (_), dots (.), and alphanumerics between.
+	Annotations map[string]*string `json:"annotations,omitempty" tf:"annotations,omitempty"`
+
+	// Autoscaler configuration for this node pool.
+	Autoscaling []AutoscalingObservation `json:"autoscaling,omitempty" tf:"autoscaling,omitempty"`
+
+	// The awsCluster for the resource
+	Cluster *string `json:"cluster,omitempty" tf:"cluster,omitempty"`
+
+	// The configuration of the node pool.
+	Config []ConfigObservation `json:"config,omitempty" tf:"config,omitempty"`
+
 	// Output only. The time at which this node pool was created.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
@@ -180,17 +264,32 @@ type NodePoolObservation struct {
 	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/awsClusters/{{cluster}}/awsNodePools/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// The location for the resource
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
+	// The constraint on the maximum number of pods that can be run simultaneously on a node in the node pool.
+	MaxPodsConstraint []MaxPodsConstraintObservation `json:"maxPodsConstraint,omitempty" tf:"max_pods_constraint,omitempty"`
+
+	// The project for the resource
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
 	// Output only. If set, there are currently changes in flight to the node pool.
 	Reconciling *bool `json:"reconciling,omitempty" tf:"reconciling,omitempty"`
 
 	// Output only. The lifecycle state of the node pool. Possible values: STATE_UNSPECIFIED, PROVISIONING, RUNNING, RECONCILING, STOPPING, ERROR, DEGRADED
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 
+	// The subnet where the node pool node run.
+	SubnetID *string `json:"subnetId,omitempty" tf:"subnet_id,omitempty"`
+
 	// Output only. A globally unique identifier for the node pool.
 	UID *string `json:"uid,omitempty" tf:"uid,omitempty"`
 
 	// Output only. The time at which this node pool was last updated.
 	UpdateTime *string `json:"updateTime,omitempty" tf:"update_time,omitempty"`
+
+	// The Kubernetes version to run on this node pool (e.g. 1.19.10-gke.1000). You can list all supported versions on a given Google Cloud region by calling GetAwsServerConfig.
+	Version *string `json:"version,omitempty" tf:"version,omitempty"`
 }
 
 type NodePoolParameters struct {
@@ -200,8 +299,8 @@ type NodePoolParameters struct {
 	Annotations map[string]*string `json:"annotations,omitempty" tf:"annotations,omitempty"`
 
 	// Autoscaler configuration for this node pool.
-	// +kubebuilder:validation:Required
-	Autoscaling []AutoscalingParameters `json:"autoscaling" tf:"autoscaling,omitempty"`
+	// +kubebuilder:validation:Optional
+	Autoscaling []AutoscalingParameters `json:"autoscaling,omitempty" tf:"autoscaling,omitempty"`
 
 	// The awsCluster for the resource
 	// +crossplane:generate:reference:type=Cluster
@@ -217,31 +316,40 @@ type NodePoolParameters struct {
 	ClusterSelector *v1.Selector `json:"clusterSelector,omitempty" tf:"-"`
 
 	// The configuration of the node pool.
-	// +kubebuilder:validation:Required
-	Config []ConfigParameters `json:"config" tf:"config,omitempty"`
+	// +kubebuilder:validation:Optional
+	Config []ConfigParameters `json:"config,omitempty" tf:"config,omitempty"`
 
 	// The location for the resource
 	// +kubebuilder:validation:Required
 	Location *string `json:"location" tf:"location,omitempty"`
 
 	// The constraint on the maximum number of pods that can be run simultaneously on a node in the node pool.
-	// +kubebuilder:validation:Required
-	MaxPodsConstraint []MaxPodsConstraintParameters `json:"maxPodsConstraint" tf:"max_pods_constraint,omitempty"`
+	// +kubebuilder:validation:Optional
+	MaxPodsConstraint []MaxPodsConstraintParameters `json:"maxPodsConstraint,omitempty" tf:"max_pods_constraint,omitempty"`
 
 	// The project for the resource
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The subnet where the node pool node run.
-	// +kubebuilder:validation:Required
-	SubnetID *string `json:"subnetId" tf:"subnet_id,omitempty"`
+	// +kubebuilder:validation:Optional
+	SubnetID *string `json:"subnetId,omitempty" tf:"subnet_id,omitempty"`
 
 	// The Kubernetes version to run on this node pool (e.g. 1.19.10-gke.1000). You can list all supported versions on a given Google Cloud region by calling GetAwsServerConfig.
-	// +kubebuilder:validation:Required
-	Version *string `json:"version" tf:"version,omitempty"`
+	// +kubebuilder:validation:Optional
+	Version *string `json:"version,omitempty" tf:"version,omitempty"`
 }
 
 type TaintsObservation struct {
+
+	// The taint effect. Possible values: EFFECT_UNSPECIFIED, NO_SCHEDULE, PREFER_NO_SCHEDULE, NO_EXECUTE
+	Effect *string `json:"effect,omitempty" tf:"effect,omitempty"`
+
+	// Key for the taint.
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	// Value for the taint.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
 
 type TaintsParameters struct {
@@ -283,8 +391,13 @@ type NodePoolStatus struct {
 type NodePool struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              NodePoolSpec   `json:"spec"`
-	Status            NodePoolStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.autoscaling)",message="autoscaling is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.config)",message="config is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.maxPodsConstraint)",message="maxPodsConstraint is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.subnetId)",message="subnetId is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.version)",message="version is a required parameter"
+	Spec   NodePoolSpec   `json:"spec"`
+	Status NodePoolStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

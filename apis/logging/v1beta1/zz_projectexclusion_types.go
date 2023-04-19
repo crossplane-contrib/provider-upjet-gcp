@@ -27,8 +27,24 @@ import (
 
 type ProjectExclusionObservation struct {
 
+	// A human-readable description.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Whether this exclusion rule should be disabled or not. This defaults to
+	// false.
+	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
+
+	// The filter to apply when excluding logs. Only log entries that match the filter are excluded.
+	// See Advanced Log Filters for information on how to
+	// write a filter.
+	Filter *string `json:"filter,omitempty" tf:"filter,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/exclusions/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The project to create the exclusion in. If omitted, the project associated with the provider is
+	// used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 
 type ProjectExclusionParameters struct {
@@ -45,8 +61,8 @@ type ProjectExclusionParameters struct {
 	// The filter to apply when excluding logs. Only log entries that match the filter are excluded.
 	// See Advanced Log Filters for information on how to
 	// write a filter.
-	// +kubebuilder:validation:Required
-	Filter *string `json:"filter" tf:"filter,omitempty"`
+	// +kubebuilder:validation:Optional
+	Filter *string `json:"filter,omitempty" tf:"filter,omitempty"`
 
 	// The project to create the exclusion in. If omitted, the project associated with the provider is
 	// used.
@@ -78,8 +94,9 @@ type ProjectExclusionStatus struct {
 type ProjectExclusion struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              ProjectExclusionSpec   `json:"spec"`
-	Status            ProjectExclusionStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.filter)",message="filter is a required parameter"
+	Spec   ProjectExclusionSpec   `json:"spec"`
+	Status ProjectExclusionStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -27,8 +27,20 @@ import (
 
 type ProjectDefaultServiceAccountsObservation struct {
 
+	// The action to be performed in the default service accounts. Valid values are: DEPRIVILEGE, DELETE, DISABLE. Note that DEPRIVILEGE action will ignore the REVERT configuration in the restore_policy
+	Action *string `json:"action,omitempty" tf:"action,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The project ID where service accounts are created.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The action to be performed in the default service accounts on the resource destroy.
+	// Valid values are NONE, REVERT and REVERT_AND_IGNORE_FAILURE. It is applied for any action but in the DEPRIVILEGE.
+	// If set to REVERT it attempts to restore all default SAs but the DEPRIVILEGE action.
+	// If set to REVERT_AND_IGNORE_FAILURE it is the same behavior as REVERT but ignores errors returned by the API.
+	RestorePolicy *string `json:"restorePolicy,omitempty" tf:"restore_policy,omitempty"`
 
 	// The Service Accounts changed by this resource. It is used for REVERT the action on the destroy.
 	ServiceAccounts map[string]string `json:"serviceAccounts,omitempty" tf:"service_accounts,omitempty"`
@@ -37,8 +49,8 @@ type ProjectDefaultServiceAccountsObservation struct {
 type ProjectDefaultServiceAccountsParameters struct {
 
 	// The action to be performed in the default service accounts. Valid values are: DEPRIVILEGE, DELETE, DISABLE. Note that DEPRIVILEGE action will ignore the REVERT configuration in the restore_policy
-	// +kubebuilder:validation:Required
-	Action *string `json:"action" tf:"action,omitempty"`
+	// +kubebuilder:validation:Optional
+	Action *string `json:"action,omitempty" tf:"action,omitempty"`
 
 	// The project ID where service accounts are created.
 	// +crossplane:generate:reference:type=Project
@@ -85,8 +97,9 @@ type ProjectDefaultServiceAccountsStatus struct {
 type ProjectDefaultServiceAccounts struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              ProjectDefaultServiceAccountsSpec   `json:"spec"`
-	Status            ProjectDefaultServiceAccountsStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.action)",message="action is a required parameter"
+	Spec   ProjectDefaultServiceAccountsSpec   `json:"spec"`
+	Status ProjectDefaultServiceAccountsStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

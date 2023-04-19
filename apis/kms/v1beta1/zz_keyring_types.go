@@ -29,6 +29,14 @@ type KeyRingObservation struct {
 
 	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/keyRings/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The location for the KeyRing.
+	// A full list of valid locations can be found by running gcloud kms locations list.
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 
 type KeyRingParameters struct {

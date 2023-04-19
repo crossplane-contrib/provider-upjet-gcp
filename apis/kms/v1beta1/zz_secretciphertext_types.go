@@ -30,8 +30,16 @@ type SecretCiphertextObservation struct {
 	// Contains the result of encrypting the provided plaintext, encoded in base64.
 	Ciphertext *string `json:"ciphertext,omitempty" tf:"ciphertext,omitempty"`
 
+	// The full name of the CryptoKey that will be used to encrypt the provided plaintext.
+	// Format: 'projects/{{project}}/locations/{{location}}/keyRings/{{keyRing}}/cryptoKeys/{{cryptoKey}}'
+	CryptoKey *string `json:"cryptoKey,omitempty" tf:"crypto_key,omitempty"`
+
 	// an identifier for the resource with format {{crypto_key}}/{{ciphertext}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The plaintext to be encrypted.
+	// Note: This property is sensitive and will not be displayed in the plan.
+	Plaintext *string `json:"plaintext,omitempty" tf:"plaintext,omitempty"`
 }
 
 type SecretCiphertextParameters struct {
@@ -58,8 +66,8 @@ type SecretCiphertextParameters struct {
 
 	// The plaintext to be encrypted.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	// +kubebuilder:validation:Required
-	Plaintext *string `json:"plaintext" tf:"plaintext,omitempty"`
+	// +kubebuilder:validation:Optional
+	Plaintext *string `json:"plaintext,omitempty" tf:"plaintext,omitempty"`
 }
 
 // SecretCiphertextSpec defines the desired state of SecretCiphertext
@@ -86,8 +94,9 @@ type SecretCiphertextStatus struct {
 type SecretCiphertext struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              SecretCiphertextSpec   `json:"spec"`
-	Status            SecretCiphertextStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.plaintext)",message="plaintext is a required parameter"
+	Spec   SecretCiphertextSpec   `json:"spec"`
+	Status SecretCiphertextStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

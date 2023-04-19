@@ -26,6 +26,9 @@ import (
 )
 
 type AuditLogConfigObservation struct {
+	ExemptedMembers []*string `json:"exemptedMembers,omitempty" tf:"exempted_members,omitempty"`
+
+	LogType *string `json:"logType,omitempty" tf:"log_type,omitempty"`
 }
 
 type AuditLogConfigParameters struct {
@@ -38,21 +41,27 @@ type AuditLogConfigParameters struct {
 }
 
 type OrganizationIAMAuditConfigObservation struct {
+	AuditLogConfig []AuditLogConfigObservation `json:"auditLogConfig,omitempty" tf:"audit_log_config,omitempty"`
+
 	Etag *string `json:"etag,omitempty" tf:"etag,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
+
+	Service *string `json:"service,omitempty" tf:"service,omitempty"`
 }
 
 type OrganizationIAMAuditConfigParameters struct {
 
-	// +kubebuilder:validation:Required
-	AuditLogConfig []AuditLogConfigParameters `json:"auditLogConfig" tf:"audit_log_config,omitempty"`
+	// +kubebuilder:validation:Optional
+	AuditLogConfig []AuditLogConfigParameters `json:"auditLogConfig,omitempty" tf:"audit_log_config,omitempty"`
 
-	// +kubebuilder:validation:Required
-	OrgID *string `json:"orgId" tf:"org_id,omitempty"`
+	// +kubebuilder:validation:Optional
+	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
 
-	// +kubebuilder:validation:Required
-	Service *string `json:"service" tf:"service,omitempty"`
+	// +kubebuilder:validation:Optional
+	Service *string `json:"service,omitempty" tf:"service,omitempty"`
 }
 
 // OrganizationIAMAuditConfigSpec defines the desired state of OrganizationIAMAuditConfig
@@ -79,8 +88,11 @@ type OrganizationIAMAuditConfigStatus struct {
 type OrganizationIAMAuditConfig struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              OrganizationIAMAuditConfigSpec   `json:"spec"`
-	Status            OrganizationIAMAuditConfigStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.auditLogConfig)",message="auditLogConfig is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.orgId)",message="orgId is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.service)",message="service is a required parameter"
+	Spec   OrganizationIAMAuditConfigSpec   `json:"spec"`
+	Status OrganizationIAMAuditConfigStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -50,10 +50,23 @@ type DomainMappingObservation struct {
 	// an identifier for the resource with format locations/{{location}}/namespaces/{{project}}/domainmappings/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// The location of the cloud run instance. eg us-central1
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
 	// Metadata associated with this DomainMapping.
 	// Structure is documented below.
-	// +kubebuilder:validation:Required
 	Metadata []MetadataObservation `json:"metadata,omitempty" tf:"metadata,omitempty"`
+
+	// Name should be a verified domain
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The spec for this DomainMapping.
+	// Structure is documented below.
+	Spec []SpecObservation `json:"spec,omitempty" tf:"spec,omitempty"`
 
 	// The current status of the DomainMapping.
 	// Structure is documented below.
@@ -63,17 +76,17 @@ type DomainMappingObservation struct {
 type DomainMappingParameters struct {
 
 	// The location of the cloud run instance. eg us-central1
-	// +kubebuilder:validation:Required
-	Location *string `json:"location" tf:"location,omitempty"`
+	// +kubebuilder:validation:Optional
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
 	// Metadata associated with this DomainMapping.
 	// Structure is documented below.
-	// +kubebuilder:validation:Required
-	Metadata []MetadataParameters `json:"metadata" tf:"metadata,omitempty"`
+	// +kubebuilder:validation:Optional
+	Metadata []MetadataParameters `json:"metadata,omitempty" tf:"metadata,omitempty"`
 
 	// Name should be a verified domain
-	// +kubebuilder:validation:Required
-	Name *string `json:"name" tf:"name,omitempty"`
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -82,14 +95,30 @@ type DomainMappingParameters struct {
 
 	// The spec for this DomainMapping.
 	// Structure is documented below.
-	// +kubebuilder:validation:Required
-	Spec []SpecParameters `json:"spec" tf:"spec,omitempty"`
+	// +kubebuilder:validation:Optional
+	Spec []SpecParameters `json:"spec,omitempty" tf:"spec,omitempty"`
 }
 
 type MetadataObservation struct {
 
+	// Annotations is a key value map stored with a resource that
+	// may be set by external tools to store and retrieve arbitrary metadata. More
+	// info: http://kubernetes.io/docs/user-guide/annotations
+	// Note: The Cloud Run API may add additional annotations that were not provided in your config.ignore_changes rule to the metadata.0.annotations field.
+	Annotations map[string]*string `json:"annotations,omitempty" tf:"annotations,omitempty"`
+
 	// A sequence number representing a specific generation of the desired state.
 	Generation *float64 `json:"generation,omitempty" tf:"generation,omitempty"`
+
+	// Map of string keys and values that can be used to organize and categorize
+	// (scope and select) objects. May match selectors of replication controllers
+	// and routes.
+	// More info: http://kubernetes.io/docs/user-guide/labels
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// In Cloud Run the namespace must be equal to either the
+	// project ID or project number.
+	Namespace *string `json:"namespace,omitempty" tf:"namespace,omitempty"`
 
 	// An opaque value that represents the internal version of this object that
 	// can be used by clients to determine when objects have changed. May be used
@@ -159,6 +188,21 @@ type ResourceRecordsParameters struct {
 }
 
 type SpecObservation struct {
+
+	// The mode of the certificate.
+	// Default value is AUTOMATIC.
+	// Possible values are NONE and AUTOMATIC.
+	CertificateMode *string `json:"certificateMode,omitempty" tf:"certificate_mode,omitempty"`
+
+	// If set, the mapping will override any mapping set before this spec was set.
+	// It is recommended that the user leaves this empty to receive an error
+	// warning about a potential conflict and only set it once the respective UI
+	// has given such a warning.
+	ForceOverride *bool `json:"forceOverride,omitempty" tf:"force_override,omitempty"`
+
+	// The name of the Cloud Run Service that this DomainMapping applies to.
+	// The route must exist.
+	RouteName *string `json:"routeName,omitempty" tf:"route_name,omitempty"`
 }
 
 type SpecParameters struct {
@@ -239,8 +283,12 @@ type DomainMappingStatus struct {
 type DomainMapping struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DomainMappingSpec   `json:"spec"`
-	Status            DomainMappingStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.location)",message="location is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.metadata)",message="metadata is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.name)",message="name is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.spec)",message="spec is a required parameter"
+	Spec   DomainMappingSpec   `json:"spec"`
+	Status DomainMappingStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

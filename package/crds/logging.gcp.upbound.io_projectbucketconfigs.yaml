@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.11.1
+    controller-gen.kubebuilder.io/version: v0.11.3
   creationTimestamp: null
   name: projectbucketconfigs.logging.gcp.upbound.io
 spec:
@@ -55,9 +55,13 @@ spec:
             properties:
               deletionPolicy:
                 default: Delete
-                description: DeletionPolicy specifies what will happen to the underlying
+                description: 'DeletionPolicy specifies what will happen to the underlying
                   external when this managed resource is deleted - either "Delete"
-                  or "Orphan" the external resource.
+                  or "Orphan" the external resource. This field is planned to be deprecated
+                  in favor of the ManagementPolicy field in a future release. Currently,
+                  both could be set independently and non-default values would be
+                  honored if the feature flag is enabled. See the design doc for more
+                  information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
                 enum:
                 - Orphan
                 - Delete
@@ -267,6 +271,21 @@ spec:
                 - bucketId
                 - location
                 type: object
+              managementPolicy:
+                default: FullControl
+                description: 'THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice. ManagementPolicy
+                  specifies the level of control Crossplane has over the managed external
+                  resource. This field is planned to replace the DeletionPolicy field
+                  in a future release. Currently, both could be set independently
+                  and non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
+                enum:
+                - FullControl
+                - ObserveOnly
+                - OrphanOnDelete
+                type: string
               providerConfigRef:
                 default:
                   name: default
@@ -443,6 +462,10 @@ spec:
             properties:
               atProvider:
                 properties:
+                  bucketId:
+                    description: 'The name of the logging bucket. Logging automatically
+                      creates two log buckets: _Required and _Default.'
+                    type: string
                   cmekSettings:
                     description: The CMEK settings of the log bucket. If present,
                       new log entries written to this log bucket are encrypted using
@@ -452,6 +475,21 @@ spec:
                       Structure is documented below.
                     items:
                       properties:
+                        kmsKeyName:
+                          description: 'The resource name for the configured Cloud
+                            KMS key. KMS key name format: ''projects/[PROJECT_ID]/locations/[LOCATION]/keyRings/[KEYRING]/cryptoKeys/[KEY]''
+                            To enable CMEK for the bucket, set this field to a valid
+                            kmsKeyName for which the associated service account has
+                            the required cloudkms.cryptoKeyEncrypterDecrypter roles
+                            assigned for the key. The Cloud KMS key used by the bucket
+                            can be updated by changing the kmsKeyName to a new valid
+                            key name. Encryption operations that are in progress will
+                            be completed with the key that was in use when they started.
+                            Decryption operations will be completed using the key
+                            that was used at the time of encryption unless access
+                            to that key has been revoked. See Enabling CMEK for Logging
+                            Buckets for more information.'
+                          type: string
                         kmsKeyVersionName:
                           description: 'The CryptoKeyVersion resource name for the
                             configured Cloud KMS key. KMS key name format: ''projects/[PROJECT_ID]/locations/[LOCATION]/keyRings/[KEYRING]/cryptoKeys/[KEY]/cryptoKeyVersions/[VERSION]''
@@ -475,6 +513,9 @@ spec:
                           type: string
                       type: object
                     type: array
+                  description:
+                    description: Describes this bucket.
+                    type: string
                   id:
                     description: an identifier for the resource with format projects/{{project}}/locations/{{location}}/buckets/{{bucket_id}}
                     type: string
@@ -482,9 +523,22 @@ spec:
                     description: The bucket's lifecycle such as active or deleted.
                       See LifecycleState.
                     type: string
+                  location:
+                    description: The location of the bucket.
+                    type: string
                   name:
                     description: 'The resource name of the bucket. For example: "projects/my-project-id/locations/my-location/buckets/my-bucket-id"'
                     type: string
+                  project:
+                    description: The parent resource that contains the logging bucket.
+                    type: string
+                  retentionDays:
+                    description: Logs will be retained by default for this amount
+                      of time, after which they will automatically be deleted. The
+                      minimum retention period is 1 day. If this value is set to zero
+                      at bucket creation time, the default time of 30 days will be
+                      used.
+                    type: number
                 type: object
               conditions:
                 description: Conditions of the resource.

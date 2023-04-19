@@ -27,14 +27,33 @@ import (
 
 type TenantOAuthIdPConfigObservation struct {
 
+	// Human friendly display name.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// If this config allows users to sign in with the provider.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/tenants/{{tenant}}/oauthIdpConfigs/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// For OIDC Idps, the issuer identifier.
+	Issuer *string `json:"issuer,omitempty" tf:"issuer,omitempty"`
+
+	// The name of the OauthIdpConfig. Must start with oidc..
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The name of the tenant where this OIDC IDP configuration resource exists
+	Tenant *string `json:"tenant,omitempty" tf:"tenant,omitempty"`
 }
 
 type TenantOAuthIdPConfigParameters struct {
 
 	// The client id of an OAuth client.
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	ClientIDSecretRef v1.SecretKeySelector `json:"clientIdSecretRef" tf:"-"`
 
 	// The client secret of the OAuth client, to enable OIDC code flow.
@@ -42,20 +61,20 @@ type TenantOAuthIdPConfigParameters struct {
 	ClientSecretSecretRef *v1.SecretKeySelector `json:"clientSecretSecretRef,omitempty" tf:"-"`
 
 	// Human friendly display name.
-	// +kubebuilder:validation:Required
-	DisplayName *string `json:"displayName" tf:"display_name,omitempty"`
+	// +kubebuilder:validation:Optional
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// If this config allows users to sign in with the provider.
 	// +kubebuilder:validation:Optional
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 
 	// For OIDC Idps, the issuer identifier.
-	// +kubebuilder:validation:Required
-	Issuer *string `json:"issuer" tf:"issuer,omitempty"`
+	// +kubebuilder:validation:Optional
+	Issuer *string `json:"issuer,omitempty" tf:"issuer,omitempty"`
 
 	// The name of the OauthIdpConfig. Must start with oidc..
-	// +kubebuilder:validation:Required
-	Name *string `json:"name" tf:"name,omitempty"`
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -101,8 +120,12 @@ type TenantOAuthIdPConfigStatus struct {
 type TenantOAuthIdPConfig struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              TenantOAuthIdPConfigSpec   `json:"spec"`
-	Status            TenantOAuthIdPConfigStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.clientIdSecretRef)",message="clientIdSecretRef is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.displayName)",message="displayName is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.issuer)",message="issuer is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.name)",message="name is a required parameter"
+	Spec   TenantOAuthIdPConfigSpec   `json:"spec"`
+	Status TenantOAuthIdPConfigStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

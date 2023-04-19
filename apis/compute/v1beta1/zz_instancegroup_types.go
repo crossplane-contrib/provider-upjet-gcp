@@ -27,14 +27,39 @@ import (
 
 type InstanceGroupObservation struct {
 
+	// An optional textual description of the instance
+	// group.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}/zones/{{zone}}/instanceGroups/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The list of instances in the group, in self_link format.
+	// When adding instances they must all be in the same network and zone as the instance group.
+	Instances []*string `json:"instances,omitempty" tf:"instances,omitempty"`
+
+	// The named port configuration. See the section below
+	// for details on configuration. Structure is documented below.
+	NamedPort []NamedPortObservation `json:"namedPort,omitempty" tf:"named_port,omitempty"`
+
+	// The URL of the network the instance group is in. If
+	// this is different from the network where the instances are in, the creation
+	// fails. Defaults to the network where the instances are in (if neither
+	// network nor instances is specified, this field will be blank).
+	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
+	// The ID of the project in which the resource belongs. If it
+	// is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
 
 	// The number of instances in the group.
 	Size *float64 `json:"size,omitempty" tf:"size,omitempty"`
+
+	// The zone that this instance group should be created in.
+	Zone *string `json:"zone,omitempty" tf:"zone,omitempty"`
 }
 
 type InstanceGroupParameters struct {
@@ -82,6 +107,12 @@ type InstanceGroupParameters struct {
 }
 
 type NamedPortObservation struct {
+
+	// The name which the port will be mapped to.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The port number to map the name to.
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
 }
 
 type NamedPortParameters struct {

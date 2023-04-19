@@ -27,10 +27,45 @@ import (
 
 type BucketObjectObservation struct {
 
+	// The name of the containing bucket.
+	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
+
+	// Cache-Control
+	// directive to specify caching behavior of object data. If omitted and object is accessible to all anonymous users, the default will be public, max-age=3600
+	CacheControl *string `json:"cacheControl,omitempty" tf:"cache_control,omitempty"`
+
+	// Data as string to be uploaded. Must be defined if source is not. Note: The content field is marked as sensitive. To view the raw contents of the object, please define an output.
+	Content *string `json:"content,omitempty" tf:"content,omitempty"`
+
+	// Content-Disposition of the object data.
+	ContentDisposition *string `json:"contentDisposition,omitempty" tf:"content_disposition,omitempty"`
+
+	// Content-Encoding of the object data.
+	ContentEncoding *string `json:"contentEncoding,omitempty" tf:"content_encoding,omitempty"`
+
+	// Content-Language of the object data.
+	ContentLanguage *string `json:"contentLanguage,omitempty" tf:"content_language,omitempty"`
+
+	// Content-Type of the object data. Defaults to "application/octet-stream" or "text/plain; charset=utf-8".
+	ContentType *string `json:"contentType,omitempty" tf:"content_type,omitempty"`
+
 	// (Computed) Base 64 CRC32 hash of the uploaded data.
 	Crc32C *string `json:"crc32c,omitempty" tf:"crc32c,omitempty"`
 
+	// Enables object encryption with Customer-Supplied Encryption Key (CSEK). [Google documentation about CSEK.](https://cloud.google.com/storage/docs/encryption/customer-supplied-keys)
+	// Structure is documented below.
+	CustomerEncryption []CustomerEncryptionObservation `json:"customerEncryption,omitempty" tf:"customer_encryption,omitempty"`
+
+	// MD5 hash of the data, encoded using base64. This field is not present for composite objects. For more information about using the MD5 hash, see Hashes and ETags: Best Practices.
+	DetectMd5Hash *string `json:"detectMd5Hash,omitempty" tf:"detect_md5hash,omitempty"`
+
+	// Whether an object is under event-based hold. Event-based hold is a way to retain objects until an event occurs, which is signified by the hold's release (i.e. this value is set to false). After being released (set to false), such objects will be subject to bucket-level retention (if any).
+	EventBasedHold *bool `json:"eventBasedHold,omitempty" tf:"event_based_hold,omitempty"`
+
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The resource name of the Cloud KMS key that will be used to encrypt the object.
+	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
 
 	// (Computed) Base 64 MD5 hash of the uploaded data.
 	Md5Hash *string `json:"md5hash,omitempty" tf:"md5hash,omitempty"`
@@ -38,12 +73,30 @@ type BucketObjectObservation struct {
 	// (Computed) A url reference to download this object.
 	MediaLink *string `json:"mediaLink,omitempty" tf:"media_link,omitempty"`
 
+	// User-provided metadata, in key/value pairs.
+	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
+
+	// The name of the object. If you're interpolating the name of this object, see output_name instead.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
 	// (Computed) The name of the object. Use this field in interpolations with google_storage_object_acl to recreate
 	// google_storage_object_acl resources when your google_storage_bucket_object is recreated.
 	OutputName *string `json:"outputName,omitempty" tf:"output_name,omitempty"`
 
 	// (Computed) A url reference to this object.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
+
+	// A path to the data you want to upload. Must be defined
+	// if content is not.
+	Source *string `json:"source,omitempty" tf:"source,omitempty"`
+
+	// The StorageClass of the new bucket object.
+	// Supported values include: MULTI_REGIONAL, REGIONAL, NEARLINE, COLDLINE, ARCHIVE. If not provided, this defaults to the bucket's default
+	// storage class or to a standard class.
+	StorageClass *string `json:"storageClass,omitempty" tf:"storage_class,omitempty"`
+
+	// Whether an object is under temporary hold. While this flag is set to true, the object is protected against deletion and overwrites.
+	TemporaryHold *bool `json:"temporaryHold,omitempty" tf:"temporary_hold,omitempty"`
 }
 
 type BucketObjectParameters struct {
@@ -108,8 +161,8 @@ type BucketObjectParameters struct {
 	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
 
 	// The name of the object. If you're interpolating the name of this object, see output_name instead.
-	// +kubebuilder:validation:Required
-	Name *string `json:"name" tf:"name,omitempty"`
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// A path to the data you want to upload. Must be defined
 	// if content is not.
@@ -128,6 +181,9 @@ type BucketObjectParameters struct {
 }
 
 type CustomerEncryptionObservation struct {
+
+	// Encryption algorithm. Default: AES256
+	EncryptionAlgorithm *string `json:"encryptionAlgorithm,omitempty" tf:"encryption_algorithm,omitempty"`
 }
 
 type CustomerEncryptionParameters struct {
@@ -165,8 +221,9 @@ type BucketObjectStatus struct {
 type BucketObject struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              BucketObjectSpec   `json:"spec"`
-	Status            BucketObjectStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.name)",message="name is a required parameter"
+	Spec   BucketObjectSpec   `json:"spec"`
+	Status BucketObjectStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

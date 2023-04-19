@@ -33,6 +33,9 @@ type BackupObservation struct {
 	// The time when the snapshot was created in RFC3339 text format.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
+	// A description of the backup with 2048 characters or less. Requests with longer descriptions will be rejected.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
 	// Amount of bytes that will be downloaded if the backup is restored.
 	DownloadBytes *string `json:"downloadBytes,omitempty" tf:"download_bytes,omitempty"`
 
@@ -41,6 +44,22 @@ type BackupObservation struct {
 
 	// KMS key name used for data encryption.
 	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
+
+	// Resource labels to represent user-provided metadata.
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// The name of the location of the instance. This can be a region for ENTERPRISE tier instances.
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Name of the file share in the source Cloud Filestore instance that the backup is created from.
+	SourceFileShare *string `json:"sourceFileShare,omitempty" tf:"source_file_share,omitempty"`
+
+	// The resource name of the source Cloud Filestore instance, in the format projects/{projectId}/locations/{locationId}/instances/{instanceId}, used to create this backup.
+	SourceInstance *string `json:"sourceInstance,omitempty" tf:"source_instance,omitempty"`
 
 	// The service tier of the source Cloud Filestore instance that this backup is created from.
 	SourceInstanceTier *string `json:"sourceInstanceTier,omitempty" tf:"source_instance_tier,omitempty"`
@@ -72,8 +91,8 @@ type BackupParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Name of the file share in the source Cloud Filestore instance that the backup is created from.
-	// +kubebuilder:validation:Required
-	SourceFileShare *string `json:"sourceFileShare" tf:"source_file_share,omitempty"`
+	// +kubebuilder:validation:Optional
+	SourceFileShare *string `json:"sourceFileShare,omitempty" tf:"source_file_share,omitempty"`
 
 	// The resource name of the source Cloud Filestore instance, in the format projects/{projectId}/locations/{locationId}/instances/{instanceId}, used to create this backup.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/filestore/v1beta1.Instance
@@ -114,8 +133,9 @@ type BackupStatus struct {
 type Backup struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              BackupSpec   `json:"spec"`
-	Status            BackupStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.sourceFileShare)",message="sourceFileShare is a required parameter"
+	Spec   BackupSpec   `json:"spec"`
+	Status BackupStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

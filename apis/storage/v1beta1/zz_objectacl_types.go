@@ -26,7 +26,21 @@ import (
 )
 
 type ObjectACLObservation struct {
+
+	// The name of the bucket the object is stored in.
+	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
+
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The name of the object to apply the acl to.
+	Object *string `json:"object,omitempty" tf:"object,omitempty"`
+
+	// The "canned" predefined ACL to apply. Must be set if role_entity is not.
+	PredefinedACL *string `json:"predefinedAcl,omitempty" tf:"predefined_acl,omitempty"`
+
+	// List of role/entity pairs in the form ROLE:entity. See GCS Object ACL documentation for more details.
+	// Must be set if predefined_acl is not.
+	RoleEntity []*string `json:"roleEntity,omitempty" tf:"role_entity,omitempty"`
 }
 
 type ObjectACLParameters struct {

@@ -43,11 +43,34 @@ type AppGatewayObservation struct {
 	// Structure is documented below.
 	AllocatedConnections []AllocatedConnectionsObservation `json:"allocatedConnections,omitempty" tf:"allocated_connections,omitempty"`
 
+	// An arbitrary user-provided name for the AppGateway.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// The type of hosting used by the AppGateway.
+	// Default value is HOST_TYPE_UNSPECIFIED.
+	// Possible values are HOST_TYPE_UNSPECIFIED and GCP_REGIONAL_MIG.
+	HostType *string `json:"hostType,omitempty" tf:"host_type,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/locations/{{region}}/appGateways/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// Resource labels to represent user provided metadata.
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The region of the AppGateway.
+	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+
 	// Represents the different states of a AppGateway.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
+
+	// The type of network connectivity used by the AppGateway.
+	// Default value is TYPE_UNSPECIFIED.
+	// Possible values are TYPE_UNSPECIFIED and TCP_PROXY.
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 
 	// Server-defined URI for this resource.
 	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`

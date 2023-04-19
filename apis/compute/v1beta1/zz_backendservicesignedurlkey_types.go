@@ -27,8 +27,18 @@ import (
 
 type BackendServiceSignedURLKeyObservation struct {
 
+	// The backend service this signed URL key belongs.
+	BackendService *string `json:"backendService,omitempty" tf:"backend_service,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/global/backendServices/{{backend_service}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Name of the signed URL key.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 
 type BackendServiceSignedURLKeyParameters struct {
@@ -49,12 +59,12 @@ type BackendServiceSignedURLKeyParameters struct {
 	// 128-bit key value used for signing the URL. The key value must be a
 	// valid RFC 4648 Section 5 base64url encoded string.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	KeyValueSecretRef v1.SecretKeySelector `json:"keyValueSecretRef" tf:"-"`
 
 	// Name of the signed URL key.
-	// +kubebuilder:validation:Required
-	Name *string `json:"name" tf:"name,omitempty"`
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -86,8 +96,10 @@ type BackendServiceSignedURLKeyStatus struct {
 type BackendServiceSignedURLKey struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              BackendServiceSignedURLKeySpec   `json:"spec"`
-	Status            BackendServiceSignedURLKeyStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.keyValueSecretRef)",message="keyValueSecretRef is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.name)",message="name is a required parameter"
+	Spec   BackendServiceSignedURLKeySpec   `json:"spec"`
+	Status BackendServiceSignedURLKeyStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

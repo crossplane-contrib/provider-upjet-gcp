@@ -27,6 +27,13 @@ import (
 
 type SnapshotEncryptionKeyObservation struct {
 
+	// The name of the encryption key that is stored in Google Cloud KMS.
+	KMSKeySelfLink *string `json:"kmsKeySelfLink,omitempty" tf:"kms_key_self_link,omitempty"`
+
+	// The service account used for the encryption request for the given KMS key.
+	// If absent, the Compute Engine Service Agent service account is used.
+	KMSKeyServiceAccount *string `json:"kmsKeyServiceAccount,omitempty" tf:"kms_key_service_account,omitempty"`
+
 	// The RFC 4648 base64 encoded SHA-256 hash of the customer-supplied
 	// encryption key that protects this resource.
 	Sha256 *string `json:"sha256,omitempty" tf:"sha256,omitempty"`
@@ -52,8 +59,19 @@ type SnapshotEncryptionKeyParameters struct {
 
 type SnapshotObservation struct {
 
+	// Creates the new snapshot in the snapshot chain labeled with the
+	// specified name. The chain name must be 1-63 characters long and
+	// comply with RFC1035. This is an uncommon option only for advanced
+	// service owners who needs to create separate snapshot chains, for
+	// example, for chargeback tracking.  When you describe your snapshot
+	// resource, this field is visible only if it has a non-empty value.
+	ChainName *string `json:"chainName,omitempty" tf:"chain_name,omitempty"`
+
 	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
+
+	// An optional description of this resource.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Size of the snapshot, specified in GB.
 	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
@@ -65,11 +83,18 @@ type SnapshotObservation struct {
 	// internally during updates.
 	LabelFingerprint *string `json:"labelFingerprint,omitempty" tf:"label_fingerprint,omitempty"`
 
+	// Labels to apply to this Snapshot.
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
 	// A list of public visible licenses that apply to this snapshot. This
 	// can be because the original image had licenses attached (such as a
 	// Windows image).  snapshotEncryptionKey nested object Encrypts the
 	// snapshot using a customer-supplied encryption key.
 	Licenses []*string `json:"licenses,omitempty" tf:"licenses,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
@@ -85,16 +110,30 @@ type SnapshotObservation struct {
 	// then the snapshot will be encrypted using an automatically generated
 	// key and you do not need to provide a key to use the snapshot later.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	SnapshotEncryptionKey []SnapshotEncryptionKeyObservation `json:"snapshotEncryptionKey,omitempty" tf:"snapshot_encryption_key,omitempty"`
 
 	// The unique identifier for the resource.
 	SnapshotID *float64 `json:"snapshotId,omitempty" tf:"snapshot_id,omitempty"`
 
+	// A reference to the disk used to create this snapshot.
+	SourceDisk *string `json:"sourceDisk,omitempty" tf:"source_disk,omitempty"`
+
+	// The customer-supplied encryption key of the source snapshot. Required
+	// if the source snapshot is protected by a customer-supplied encryption
+	// key.
+	// Structure is documented below.
+	SourceDiskEncryptionKey []SourceDiskEncryptionKeyObservation `json:"sourceDiskEncryptionKey,omitempty" tf:"source_disk_encryption_key,omitempty"`
+
 	// A size of the storage used by the snapshot. As snapshots share
 	// storage, this number is expected to change with snapshot
 	// creation/deletion.
 	StorageBytes *float64 `json:"storageBytes,omitempty" tf:"storage_bytes,omitempty"`
+
+	// Cloud Storage bucket storage location of the snapshot (regional or multi-regional).
+	StorageLocations []*string `json:"storageLocations,omitempty" tf:"storage_locations,omitempty"`
+
+	// A reference to the zone where the disk is hosted.
+	Zone *string `json:"zone,omitempty" tf:"zone,omitempty"`
 }
 
 type SnapshotParameters struct {
@@ -166,6 +205,10 @@ type SnapshotParameters struct {
 }
 
 type SourceDiskEncryptionKeyObservation struct {
+
+	// The service account used for the encryption request for the given KMS key.
+	// If absent, the Compute Engine Service Agent service account is used.
+	KMSKeyServiceAccount *string `json:"kmsKeyServiceAccount,omitempty" tf:"kms_key_service_account,omitempty"`
 }
 
 type SourceDiskEncryptionKeyParameters struct {

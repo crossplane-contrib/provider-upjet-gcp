@@ -40,6 +40,14 @@ type AccessUrlsParameters struct {
 }
 
 type CertificateAuthorityConfigObservation struct {
+
+	// Specifies some of the values in a certificate that are related to the subject.
+	// Structure is documented below.
+	SubjectConfig []ConfigSubjectConfigObservation `json:"subjectConfig,omitempty" tf:"subject_config,omitempty"`
+
+	// Describes how some of the technical X.509 fields in a certificate should be populated.
+	// Structure is documented below.
+	X509Config []ConfigX509ConfigObservation `json:"x509Config,omitempty" tf:"x509_config,omitempty"`
 }
 
 type CertificateAuthorityConfigParameters struct {
@@ -61,17 +69,60 @@ type CertificateAuthorityObservation struct {
 	// Structure is documented below.
 	AccessUrls []AccessUrlsObservation `json:"accessUrls,omitempty" tf:"access_urls,omitempty"`
 
+	// The config used to create a self-signed X.509 certificate or CSR.
+	// Structure is documented below.
+	Config []CertificateAuthorityConfigObservation `json:"config,omitempty" tf:"config,omitempty"`
+
 	// The time at which this CertificateAuthority was created.
 	// A timestamp in RFC3339 UTC "Zulu" format, with nanosecond resolution and up to nine
 	// fractional digits. Examples: "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z".
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
+	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
+
+	// Desired state of the CertificateAuthority. Set this field to STAGED to create a STAGED root CA.
+	DesiredState *string `json:"desiredState,omitempty" tf:"desired_state,omitempty"`
+
+	// The name of a Cloud Storage bucket where this CertificateAuthority will publish content,
+	// such as the CA certificate and CRLs. This must be a bucket name, without any prefixes
+	// (such as gs://) or suffixes (such as .googleapis.com). For example, to use a bucket named
+	// my-bucket, you would simply specify my-bucket. If not specified, a managed bucket will be
+	// created.
+	GcsBucket *string `json:"gcsBucket,omitempty" tf:"gcs_bucket,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/caPools/{{pool}}/certificateAuthorities/{{certificate_authority_id}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// This field allows the CA to be deleted even if the CA has active certs. Active certs include both unrevoked and unexpired certs.
+	// Use with care. Defaults to false.
+	IgnoreActiveCertificatesOnDeletion *bool `json:"ignoreActiveCertificatesOnDeletion,omitempty" tf:"ignore_active_certificates_on_deletion,omitempty"`
+
+	// Used when issuing certificates for this CertificateAuthority. If this CertificateAuthority
+	// is a self-signed CertificateAuthority, this key is also used to sign the self-signed CA
+	// certificate. Otherwise, it is used to sign a CSR.
+	// Structure is documented below.
+	KeySpec []KeySpecObservation `json:"keySpec,omitempty" tf:"key_spec,omitempty"`
+
+	// Labels with user-defined metadata.
+	// An object containing a list of "key": value pairs. Example: { "name": "wrench", "mass":
+	// "1.3kg", "count": "3" }.
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// The desired lifetime of the CA certificate. Used to create the "notBeforeTime" and
+	// "notAfterTime" fields inside an X.509 certificate. A duration in seconds with up to nine
+	// fractional digits, terminated by 's'. Example: "3.5s".
+	Lifetime *string `json:"lifetime,omitempty" tf:"lifetime,omitempty"`
+
+	// Location of the CertificateAuthority. A full list of valid locations can be found by
+	// running gcloud privateca locations list.
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
 	// The resource name for this CertificateAuthority in the format
 	// projects//locations//certificateAuthorities/*.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The signed CA certificate issued from the subordinated CA's CSR. This is needed when activating the subordiante CA with a third party issuer.
+	PemCACertificate *string `json:"pemCaCertificate,omitempty" tf:"pem_ca_certificate,omitempty"`
 
 	// This CertificateAuthority's certificate chain, including the current
 	// CertificateAuthority's certificate. Ordered such that the root issuer is the final
@@ -79,8 +130,33 @@ type CertificateAuthorityObservation struct {
 	// CertificateAuthority's certificate.
 	PemCACertificates []*string `json:"pemCaCertificates,omitempty" tf:"pem_ca_certificates,omitempty"`
 
+	// The name of the CaPool this Certificate Authority belongs to.
+	Pool *string `json:"pool,omitempty" tf:"pool,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// If this flag is set, the Certificate Authority will be deleted as soon as
+	// possible without a 30-day grace period where undeletion would have been
+	// allowed. If you proceed, there will be no way to recover this CA.
+	// Use with care. Defaults to false.
+	SkipGracePeriod *bool `json:"skipGracePeriod,omitempty" tf:"skip_grace_period,omitempty"`
+
 	// The State for this CertificateAuthority.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
+
+	// If this is a subordinate CertificateAuthority, this field will be set
+	// with the subordinate configuration, which describes its issuers.
+	// Structure is documented below.
+	SubordinateConfig []SubordinateConfigObservation `json:"subordinateConfig,omitempty" tf:"subordinate_config,omitempty"`
+
+	// The Type of this CertificateAuthority.
+	// ~> Note: For SUBORDINATE Certificate Authorities, they need to
+	// be activated before they can issue certificates.
+	// Default value is SELF_SIGNED.
+	// Possible values are SELF_SIGNED and SUBORDINATE.
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 
 	// The time at which this CertificateAuthority was updated.
 	// A timestamp in RFC3339 UTC "Zulu" format, with nanosecond resolution and up to nine
@@ -92,8 +168,8 @@ type CertificateAuthorityParameters struct {
 
 	// The config used to create a self-signed X.509 certificate or CSR.
 	// Structure is documented below.
-	// +kubebuilder:validation:Required
-	Config []CertificateAuthorityConfigParameters `json:"config" tf:"config,omitempty"`
+	// +kubebuilder:validation:Optional
+	Config []CertificateAuthorityConfigParameters `json:"config,omitempty" tf:"config,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
@@ -119,8 +195,8 @@ type CertificateAuthorityParameters struct {
 	// is a self-signed CertificateAuthority, this key is also used to sign the self-signed CA
 	// certificate. Otherwise, it is used to sign a CSR.
 	// Structure is documented below.
-	// +kubebuilder:validation:Required
-	KeySpec []KeySpecParameters `json:"keySpec" tf:"key_spec,omitempty"`
+	// +kubebuilder:validation:Optional
+	KeySpec []KeySpecParameters `json:"keySpec,omitempty" tf:"key_spec,omitempty"`
 
 	// Labels with user-defined metadata.
 	// An object containing a list of "key": value pairs. Example: { "name": "wrench", "mass":
@@ -184,6 +260,14 @@ type CertificateAuthorityParameters struct {
 }
 
 type ConfigSubjectConfigObservation struct {
+
+	// Contains distinguished name fields such as the location and organization.
+	// Structure is documented below.
+	Subject []ConfigSubjectConfigSubjectObservation `json:"subject,omitempty" tf:"subject,omitempty"`
+
+	// The subject alternative name fields.
+	// Structure is documented below.
+	SubjectAltName []ConfigSubjectConfigSubjectAltNameObservation `json:"subjectAltName,omitempty" tf:"subject_alt_name,omitempty"`
 }
 
 type ConfigSubjectConfigParameters struct {
@@ -200,6 +284,18 @@ type ConfigSubjectConfigParameters struct {
 }
 
 type ConfigSubjectConfigSubjectAltNameObservation struct {
+
+	// Contains only valid, fully-qualified host names.
+	DNSNames []*string `json:"dnsNames,omitempty" tf:"dns_names,omitempty"`
+
+	// Contains only valid RFC 2822 E-mail addresses.
+	EmailAddresses []*string `json:"emailAddresses,omitempty" tf:"email_addresses,omitempty"`
+
+	// Contains only valid 32-bit IPv4 addresses or RFC 4291 IPv6 addresses.
+	IPAddresses []*string `json:"ipAddresses,omitempty" tf:"ip_addresses,omitempty"`
+
+	// Contains only valid RFC 3986 URIs.
+	Uris []*string `json:"uris,omitempty" tf:"uris,omitempty"`
 }
 
 type ConfigSubjectConfigSubjectAltNameParameters struct {
@@ -222,6 +318,30 @@ type ConfigSubjectConfigSubjectAltNameParameters struct {
 }
 
 type ConfigSubjectConfigSubjectObservation struct {
+
+	// The common name of the distinguished name.
+	CommonName *string `json:"commonName,omitempty" tf:"common_name,omitempty"`
+
+	// The country code of the subject.
+	CountryCode *string `json:"countryCode,omitempty" tf:"country_code,omitempty"`
+
+	// The locality or city of the subject.
+	Locality *string `json:"locality,omitempty" tf:"locality,omitempty"`
+
+	// The organization of the subject.
+	Organization *string `json:"organization,omitempty" tf:"organization,omitempty"`
+
+	// The organizational unit of the subject.
+	OrganizationalUnit *string `json:"organizationalUnit,omitempty" tf:"organizational_unit,omitempty"`
+
+	// The postal code of the subject.
+	PostalCode *string `json:"postalCode,omitempty" tf:"postal_code,omitempty"`
+
+	// The province, territory, or regional state of the subject.
+	Province *string `json:"province,omitempty" tf:"province,omitempty"`
+
+	// The street address of the subject.
+	StreetAddress *string `json:"streetAddress,omitempty" tf:"street_address,omitempty"`
 }
 
 type ConfigSubjectConfigSubjectParameters struct {
@@ -260,6 +380,9 @@ type ConfigSubjectConfigSubjectParameters struct {
 }
 
 type ConfigX509ConfigAdditionalExtensionsObjectIDObservation struct {
+
+	// An ObjectId specifies an object identifier (OID). These provide context and describe types in ASN.1 messages.
+	ObjectIDPath []*float64 `json:"objectIdPath,omitempty" tf:"object_id_path,omitempty"`
 }
 
 type ConfigX509ConfigAdditionalExtensionsObjectIDParameters struct {
@@ -270,6 +393,17 @@ type ConfigX509ConfigAdditionalExtensionsObjectIDParameters struct {
 }
 
 type ConfigX509ConfigAdditionalExtensionsObservation struct {
+
+	// Indicates whether or not this extension is critical (i.e., if the client does not know how to
+	// handle this extension, the client should consider this to be an error).
+	Critical *bool `json:"critical,omitempty" tf:"critical,omitempty"`
+
+	// Describes values that are relevant in a CA certificate.
+	// Structure is documented below.
+	ObjectID []ConfigX509ConfigAdditionalExtensionsObjectIDObservation `json:"objectId,omitempty" tf:"object_id,omitempty"`
+
+	// The value of this X.509 extension. A base64-encoded string.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
 
 type ConfigX509ConfigAdditionalExtensionsParameters struct {
@@ -290,6 +424,23 @@ type ConfigX509ConfigAdditionalExtensionsParameters struct {
 }
 
 type ConfigX509ConfigCAOptionsObservation struct {
+
+	// When true, the "CA" in Basic Constraints extension will be set to true.
+	IsCA *bool `json:"isCa,omitempty" tf:"is_ca,omitempty"`
+
+	// Refers to the "path length constraint" in Basic Constraints extension. For a CA certificate, this value describes the depth of
+	// subordinate CA certificates that are allowed. If this value is less than 0, the request will fail. Setting the value to 0
+	// requires setting zero_max_issuer_path_length = true.
+	MaxIssuerPathLength *float64 `json:"maxIssuerPathLength,omitempty" tf:"max_issuer_path_length,omitempty"`
+
+	// When true, the "CA" in Basic Constraints extension will be set to false.
+	// If both is_ca and non_ca are unset, the extension will be omitted from the CA certificate.
+	NonCA *bool `json:"nonCa,omitempty" tf:"non_ca,omitempty"`
+
+	// When true, the "path length constraint" in Basic Constraints extension will be set to 0.
+	// If both max_issuer_path_length and zero_max_issuer_path_length are unset,
+	// the max path length will be omitted from the CA certificate.
+	ZeroMaxIssuerPathLength *bool `json:"zeroMaxIssuerPathLength,omitempty" tf:"zero_max_issuer_path_length,omitempty"`
 }
 
 type ConfigX509ConfigCAOptionsParameters struct {
@@ -317,6 +468,33 @@ type ConfigX509ConfigCAOptionsParameters struct {
 }
 
 type ConfigX509ConfigKeyUsageBaseKeyUsageObservation struct {
+
+	// The key may be used to sign certificates.
+	CertSign *bool `json:"certSign,omitempty" tf:"cert_sign,omitempty"`
+
+	// The key may be used for cryptographic commitments. Note that this may also be referred to as "non-repudiation".
+	ContentCommitment *bool `json:"contentCommitment,omitempty" tf:"content_commitment,omitempty"`
+
+	// The key may be used sign certificate revocation lists.
+	CrlSign *bool `json:"crlSign,omitempty" tf:"crl_sign,omitempty"`
+
+	// The key may be used to encipher data.
+	DataEncipherment *bool `json:"dataEncipherment,omitempty" tf:"data_encipherment,omitempty"`
+
+	// The key may be used to decipher only.
+	DecipherOnly *bool `json:"decipherOnly,omitempty" tf:"decipher_only,omitempty"`
+
+	// The key may be used for digital signatures.
+	DigitalSignature *bool `json:"digitalSignature,omitempty" tf:"digital_signature,omitempty"`
+
+	// The key may be used to encipher only.
+	EncipherOnly *bool `json:"encipherOnly,omitempty" tf:"encipher_only,omitempty"`
+
+	// The key may be used in a key agreement protocol.
+	KeyAgreement *bool `json:"keyAgreement,omitempty" tf:"key_agreement,omitempty"`
+
+	// The key may be used to encipher other keys.
+	KeyEncipherment *bool `json:"keyEncipherment,omitempty" tf:"key_encipherment,omitempty"`
 }
 
 type ConfigX509ConfigKeyUsageBaseKeyUsageParameters struct {
@@ -359,6 +537,24 @@ type ConfigX509ConfigKeyUsageBaseKeyUsageParameters struct {
 }
 
 type ConfigX509ConfigKeyUsageExtendedKeyUsageObservation struct {
+
+	// Corresponds to OID 1.3.6.1.5.5.7.3.2. Officially described as "TLS WWW client authentication", though regularly used for non-WWW TLS.
+	ClientAuth *bool `json:"clientAuth,omitempty" tf:"client_auth,omitempty"`
+
+	// Corresponds to OID 1.3.6.1.5.5.7.3.3. Officially described as "Signing of downloadable executable code client authentication".
+	CodeSigning *bool `json:"codeSigning,omitempty" tf:"code_signing,omitempty"`
+
+	// Corresponds to OID 1.3.6.1.5.5.7.3.4. Officially described as "Email protection".
+	EmailProtection *bool `json:"emailProtection,omitempty" tf:"email_protection,omitempty"`
+
+	// Corresponds to OID 1.3.6.1.5.5.7.3.9. Officially described as "Signing OCSP responses".
+	OcspSigning *bool `json:"ocspSigning,omitempty" tf:"ocsp_signing,omitempty"`
+
+	// Corresponds to OID 1.3.6.1.5.5.7.3.1. Officially described as "TLS WWW server authentication", though regularly used for non-WWW TLS.
+	ServerAuth *bool `json:"serverAuth,omitempty" tf:"server_auth,omitempty"`
+
+	// Corresponds to OID 1.3.6.1.5.5.7.3.8. Officially described as "Binding the hash of an object to a time".
+	TimeStamping *bool `json:"timeStamping,omitempty" tf:"time_stamping,omitempty"`
 }
 
 type ConfigX509ConfigKeyUsageExtendedKeyUsageParameters struct {
@@ -389,6 +585,18 @@ type ConfigX509ConfigKeyUsageExtendedKeyUsageParameters struct {
 }
 
 type ConfigX509ConfigKeyUsageObservation struct {
+
+	// Describes high-level ways in which a key may be used.
+	// Structure is documented below.
+	BaseKeyUsage []ConfigX509ConfigKeyUsageBaseKeyUsageObservation `json:"baseKeyUsage,omitempty" tf:"base_key_usage,omitempty"`
+
+	// Describes high-level ways in which a key may be used.
+	// Structure is documented below.
+	ExtendedKeyUsage []ConfigX509ConfigKeyUsageExtendedKeyUsageObservation `json:"extendedKeyUsage,omitempty" tf:"extended_key_usage,omitempty"`
+
+	// An ObjectId specifies an object identifier (OID). These provide context and describe types in ASN.1 messages.
+	// Structure is documented below.
+	UnknownExtendedKeyUsages []ConfigX509ConfigKeyUsageUnknownExtendedKeyUsagesObservation `json:"unknownExtendedKeyUsages,omitempty" tf:"unknown_extended_key_usages,omitempty"`
 }
 
 type ConfigX509ConfigKeyUsageParameters struct {
@@ -410,6 +618,9 @@ type ConfigX509ConfigKeyUsageParameters struct {
 }
 
 type ConfigX509ConfigKeyUsageUnknownExtendedKeyUsagesObservation struct {
+
+	// An ObjectId specifies an object identifier (OID). These provide context and describe types in ASN.1 messages.
+	ObjectIDPath []*float64 `json:"objectIdPath,omitempty" tf:"object_id_path,omitempty"`
 }
 
 type ConfigX509ConfigKeyUsageUnknownExtendedKeyUsagesParameters struct {
@@ -420,6 +631,26 @@ type ConfigX509ConfigKeyUsageUnknownExtendedKeyUsagesParameters struct {
 }
 
 type ConfigX509ConfigObservation struct {
+
+	// Specifies an X.509 extension, which may be used in different parts of X.509 objects like certificates, CSRs, and CRLs.
+	// Structure is documented below.
+	AdditionalExtensions []ConfigX509ConfigAdditionalExtensionsObservation `json:"additionalExtensions,omitempty" tf:"additional_extensions,omitempty"`
+
+	// Describes Online Certificate Status Protocol (OCSP) endpoint addresses that appear in the
+	// "Authority Information Access" extension in the certificate.
+	AiaOcspServers []*string `json:"aiaOcspServers,omitempty" tf:"aia_ocsp_servers,omitempty"`
+
+	// Describes values that are relevant in a CA certificate.
+	// Structure is documented below.
+	CAOptions []ConfigX509ConfigCAOptionsObservation `json:"caOptions,omitempty" tf:"ca_options,omitempty"`
+
+	// Indicates the intended use for keys that correspond to a certificate.
+	// Structure is documented below.
+	KeyUsage []ConfigX509ConfigKeyUsageObservation `json:"keyUsage,omitempty" tf:"key_usage,omitempty"`
+
+	// Describes the X.509 certificate policy object identifiers, per https://tools.ietf.org/html/rfc5280#section-4.2.1.4.
+	// Structure is documented below.
+	PolicyIds []ConfigX509ConfigPolicyIdsObservation `json:"policyIds,omitempty" tf:"policy_ids,omitempty"`
 }
 
 type ConfigX509ConfigParameters struct {
@@ -451,6 +682,9 @@ type ConfigX509ConfigParameters struct {
 }
 
 type ConfigX509ConfigPolicyIdsObservation struct {
+
+	// An ObjectId specifies an object identifier (OID). These provide context and describe types in ASN.1 messages.
+	ObjectIDPath []*float64 `json:"objectIdPath,omitempty" tf:"object_id_path,omitempty"`
 }
 
 type ConfigX509ConfigPolicyIdsParameters struct {
@@ -461,6 +695,15 @@ type ConfigX509ConfigPolicyIdsParameters struct {
 }
 
 type KeySpecObservation struct {
+
+	// The algorithm to use for creating a managed Cloud KMS key for a for a simplified
+	// experience. All managed keys will be have their ProtectionLevel as HSM.
+	// Possible values are SIGN_HASH_ALGORITHM_UNSPECIFIED, RSA_PSS_2048_SHA256, RSA_PSS_3072_SHA256, RSA_PSS_4096_SHA256, RSA_PKCS1_2048_SHA256, RSA_PKCS1_3072_SHA256, RSA_PKCS1_4096_SHA256, EC_P256_SHA256, and EC_P384_SHA384.
+	Algorithm *string `json:"algorithm,omitempty" tf:"algorithm,omitempty"`
+
+	// The resource name for an existing Cloud KMS CryptoKeyVersion in the format
+	// projects/*/locations/*/keyRings/*/cryptoKeys/*/cryptoKeyVersions/*.
+	CloudKMSKeyVersion *string `json:"cloudKmsKeyVersion,omitempty" tf:"cloud_kms_key_version,omitempty"`
 }
 
 type KeySpecParameters struct {
@@ -478,6 +721,9 @@ type KeySpecParameters struct {
 }
 
 type PemIssuerChainObservation struct {
+
+	// Expected to be in leaf-to-root order according to RFC 5246.
+	PemCertificates []*string `json:"pemCertificates,omitempty" tf:"pem_certificates,omitempty"`
 }
 
 type PemIssuerChainParameters struct {
@@ -488,6 +734,17 @@ type PemIssuerChainParameters struct {
 }
 
 type SubordinateConfigObservation struct {
+
+	// This can refer to a CertificateAuthority that was used to create a
+	// subordinate CertificateAuthority. This field is used for information
+	// and usability purposes only. The resource name is in the format
+	// projects/*/locations/*/caPools/*/certificateAuthorities/*.
+	CertificateAuthority *string `json:"certificateAuthority,omitempty" tf:"certificate_authority,omitempty"`
+
+	// Contains the PEM certificate chain for the issuers of this CertificateAuthority,
+	// but not pem certificate for this CA itself.
+	// Structure is documented below.
+	PemIssuerChain []PemIssuerChainObservation `json:"pemIssuerChain,omitempty" tf:"pem_issuer_chain,omitempty"`
 }
 
 type SubordinateConfigParameters struct {
@@ -540,8 +797,10 @@ type CertificateAuthorityStatus struct {
 type CertificateAuthority struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              CertificateAuthoritySpec   `json:"spec"`
-	Status            CertificateAuthorityStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.config)",message="config is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.keySpec)",message="keySpec is a required parameter"
+	Spec   CertificateAuthoritySpec   `json:"spec"`
+	Status CertificateAuthorityStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

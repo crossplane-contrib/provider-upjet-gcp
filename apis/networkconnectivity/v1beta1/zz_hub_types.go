@@ -30,8 +30,20 @@ type HubObservation struct {
 	// Output only. The time the hub was created.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
+	// An optional description of the hub.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/locations/global/hubs/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Optional labels in key:value format. For more information about labels, see Requirements for labels.
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// Immutable. The name of the hub. Hub names must be unique. They use the following form: projects/{project_number}/locations/global/hubs/{hub_id}
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The project for the resource
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The VPC network associated with this hub's spokes. All of the VPN tunnels, VLAN attachments, and router appliance instances referenced by this hub's spokes must belong to this VPC network. This field is read-only. Network Connectivity Center automatically populates it based on the set of spokes attached to the hub.
 	RoutingVpcs []RoutingVpcsObservation `json:"routingVpcs,omitempty" tf:"routing_vpcs,omitempty"`
@@ -57,8 +69,8 @@ type HubParameters struct {
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Immutable. The name of the hub. Hub names must be unique. They use the following form: projects/{project_number}/locations/global/hubs/{hub_id}
-	// +kubebuilder:validation:Required
-	Name *string `json:"name" tf:"name,omitempty"`
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// The project for the resource
 	// +kubebuilder:validation:Optional
@@ -96,8 +108,9 @@ type HubStatus struct {
 type Hub struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              HubSpec   `json:"spec"`
-	Status            HubStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.name)",message="name is a required parameter"
+	Spec   HubSpec   `json:"spec"`
+	Status HubStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

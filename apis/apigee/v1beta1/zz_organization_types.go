@@ -27,15 +27,58 @@ import (
 
 type OrganizationObservation struct {
 
+	// Primary GCP region for analytics data storage. For valid values, see Create an Apigee organization.
+	AnalyticsRegion *string `json:"analyticsRegion,omitempty" tf:"analytics_region,omitempty"`
+
+	// Compute Engine network used for Service Networking to be peered with Apigee runtime instances.
+	// See Getting started with the Service Networking API.
+	// Valid only when RuntimeType is set to CLOUD. The value can be updated only when there are no runtime instances. For example: "default".
+	AuthorizedNetwork *string `json:"authorizedNetwork,omitempty" tf:"authorized_network,omitempty"`
+
+	// Billing type of the Apigee organization. See Apigee pricing.
+	BillingType *string `json:"billingType,omitempty" tf:"billing_type,omitempty"`
+
 	// Output only. Base64-encoded public certificate for the root CA of the Apigee organization.
 	// Valid only when RuntimeType is CLOUD. A base64-encoded string.
 	CACertificate *string `json:"caCertificate,omitempty" tf:"ca_certificate,omitempty"`
+
+	// Description of the Apigee organization.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// The display name of the Apigee organization.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// an identifier for the resource with format organizations/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// Output only. Name of the Apigee organization.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The project ID associated with the Apigee organization.
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	// Properties defined in the Apigee organization profile.
+	// Structure is documented below.
+	Properties []PropertiesObservation `json:"properties,omitempty" tf:"properties,omitempty"`
+
+	// Optional. This setting is applicable only for organizations that are soft-deleted (i.e., BillingType
+	// is not EVALUATION). It controls how long Organization data will be retained after the initial delete
+	// operation completes. During this period, the Organization may be restored to its last known state.
+	// After this period, the Organization will no longer be able to be restored.
+	// Default value is DELETION_RETENTION_UNSPECIFIED.
+	// Possible values are DELETION_RETENTION_UNSPECIFIED and MINIMUM.
+	Retention *string `json:"retention,omitempty" tf:"retention,omitempty"`
+
+	// Cloud KMS key name used for encrypting the data that is stored and replicated across runtime instances.
+	// Update is not allowed after the organization is created.
+	// If not specified, a Google-Managed encryption key will be used.
+	// Valid only when RuntimeType is CLOUD. For example: projects/foo/locations/us/keyRings/bar/cryptoKeys/baz.
+	RuntimeDatabaseEncryptionKeyName *string `json:"runtimeDatabaseEncryptionKeyName,omitempty" tf:"runtime_database_encryption_key_name,omitempty"`
+
+	// Runtime type of the Apigee organization based on the Apigee subscription purchased.
+	// Default value is CLOUD.
+	// Possible values are CLOUD and HYBRID.
+	RuntimeType *string `json:"runtimeType,omitempty" tf:"runtime_type,omitempty"`
 
 	// Output only. Subscription type of the Apigee organization.
 	// Valid values include trial (free, limited, and for evaluation purposes only) or paid (full subscription has been purchased).
@@ -77,8 +120,8 @@ type OrganizationParameters struct {
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// The project ID associated with the Apigee organization.
-	// +kubebuilder:validation:Required
-	ProjectID *string `json:"projectId" tf:"project_id,omitempty"`
+	// +kubebuilder:validation:Optional
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// Properties defined in the Apigee organization profile.
 	// Structure is documented below.
@@ -119,6 +162,10 @@ type OrganizationParameters struct {
 }
 
 type PropertiesObservation struct {
+
+	// List of all properties in the object.
+	// Structure is documented below.
+	Property []PropertyObservation `json:"property,omitempty" tf:"property,omitempty"`
 }
 
 type PropertiesParameters struct {
@@ -130,6 +177,12 @@ type PropertiesParameters struct {
 }
 
 type PropertyObservation struct {
+
+	// Name of the property.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Value of the property.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
 
 type PropertyParameters struct {
@@ -167,8 +220,9 @@ type OrganizationStatus struct {
 type Organization struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              OrganizationSpec   `json:"spec"`
-	Status            OrganizationStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.projectId)",message="projectId is a required parameter"
+	Spec   OrganizationSpec   `json:"spec"`
+	Status OrganizationStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

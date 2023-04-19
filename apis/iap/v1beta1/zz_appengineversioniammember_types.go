@@ -26,6 +26,11 @@ import (
 )
 
 type AppEngineVersionIAMMemberConditionObservation struct {
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	Expression *string `json:"expression,omitempty" tf:"expression,omitempty"`
+
+	Title *string `json:"title,omitempty" tf:"title,omitempty"`
 }
 
 type AppEngineVersionIAMMemberConditionParameters struct {
@@ -41,33 +46,47 @@ type AppEngineVersionIAMMemberConditionParameters struct {
 }
 
 type AppEngineVersionIAMMemberObservation struct {
+	AppID *string `json:"appId,omitempty" tf:"app_id,omitempty"`
+
+	Condition []AppEngineVersionIAMMemberConditionObservation `json:"condition,omitempty" tf:"condition,omitempty"`
+
 	Etag *string `json:"etag,omitempty" tf:"etag,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	Member *string `json:"member,omitempty" tf:"member,omitempty"`
+
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	Role *string `json:"role,omitempty" tf:"role,omitempty"`
+
+	Service *string `json:"service,omitempty" tf:"service,omitempty"`
+
+	VersionID *string `json:"versionId,omitempty" tf:"version_id,omitempty"`
 }
 
 type AppEngineVersionIAMMemberParameters struct {
 
-	// +kubebuilder:validation:Required
-	AppID *string `json:"appId" tf:"app_id,omitempty"`
+	// +kubebuilder:validation:Optional
+	AppID *string `json:"appId,omitempty" tf:"app_id,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	Condition []AppEngineVersionIAMMemberConditionParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
-	// +kubebuilder:validation:Required
-	Member *string `json:"member" tf:"member,omitempty"`
+	// +kubebuilder:validation:Optional
+	Member *string `json:"member,omitempty" tf:"member,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
-	// +kubebuilder:validation:Required
-	Role *string `json:"role" tf:"role,omitempty"`
+	// +kubebuilder:validation:Optional
+	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 
-	// +kubebuilder:validation:Required
-	Service *string `json:"service" tf:"service,omitempty"`
+	// +kubebuilder:validation:Optional
+	Service *string `json:"service,omitempty" tf:"service,omitempty"`
 
-	// +kubebuilder:validation:Required
-	VersionID *string `json:"versionId" tf:"version_id,omitempty"`
+	// +kubebuilder:validation:Optional
+	VersionID *string `json:"versionId,omitempty" tf:"version_id,omitempty"`
 }
 
 // AppEngineVersionIAMMemberSpec defines the desired state of AppEngineVersionIAMMember
@@ -94,8 +113,13 @@ type AppEngineVersionIAMMemberStatus struct {
 type AppEngineVersionIAMMember struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              AppEngineVersionIAMMemberSpec   `json:"spec"`
-	Status            AppEngineVersionIAMMemberStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.appId)",message="appId is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.member)",message="member is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.role)",message="role is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.service)",message="service is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.versionId)",message="versionId is a required parameter"
+	Spec   AppEngineVersionIAMMemberSpec   `json:"spec"`
+	Status AppEngineVersionIAMMemberStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

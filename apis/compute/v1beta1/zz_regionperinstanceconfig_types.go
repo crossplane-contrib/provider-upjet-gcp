@@ -29,6 +29,36 @@ type RegionPerInstanceConfigObservation struct {
 
 	// an identifier for the resource with format {{project}}/{{region}}/{{region_instance_group_manager}}/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The minimal action to perform on the instance during an update.
+	// Default is NONE. Possible values are:
+	MinimalAction *string `json:"minimalAction,omitempty" tf:"minimal_action,omitempty"`
+
+	// The most disruptive action to perform on the instance during an update.
+	// Default is REPLACE. Possible values are:
+	MostDisruptiveAllowedAction *string `json:"mostDisruptiveAllowedAction,omitempty" tf:"most_disruptive_allowed_action,omitempty"`
+
+	// The name for this per-instance config and its corresponding instance.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The preserved state for this instance.
+	// Structure is documented below.
+	PreservedState []RegionPerInstanceConfigPreservedStateObservation `json:"preservedState,omitempty" tf:"preserved_state,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Region where the containing instance group manager is located
+	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+
+	// The region instance group manager this instance config is part of.
+	RegionInstanceGroupManager *string `json:"regionInstanceGroupManager,omitempty" tf:"region_instance_group_manager,omitempty"`
+
+	// When true, deleting this config will immediately remove any specified state from the underlying instance.
+	// When false, deleting this config will not immediately remove any state from the underlying instance.
+	// State will be removed on the next instance recreation or update.
+	RemoveInstanceStateOnDestroy *bool `json:"removeInstanceStateOnDestroy,omitempty" tf:"remove_instance_state_on_destroy,omitempty"`
 }
 
 type RegionPerInstanceConfigParameters struct {
@@ -44,8 +74,8 @@ type RegionPerInstanceConfigParameters struct {
 	MostDisruptiveAllowedAction *string `json:"mostDisruptiveAllowedAction,omitempty" tf:"most_disruptive_allowed_action,omitempty"`
 
 	// The name for this per-instance config and its corresponding instance.
-	// +kubebuilder:validation:Required
-	Name *string `json:"name" tf:"name,omitempty"`
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// The preserved state for this instance.
 	// Structure is documented below.
@@ -93,6 +123,27 @@ type RegionPerInstanceConfigParameters struct {
 }
 
 type RegionPerInstanceConfigPreservedStateDiskObservation struct {
+
+	// A value that prescribes what should happen to the stateful disk when the VM instance is deleted.
+	// The available options are NEVER and ON_PERMANENT_INSTANCE_DELETION.
+	// NEVER - detach the disk when the VM is deleted, but do not delete the disk.
+	// ON_PERMANENT_INSTANCE_DELETION will delete the stateful disk when the VM is permanently
+	// deleted from the instance group.
+	// Default value is NEVER.
+	// Possible values are NEVER and ON_PERMANENT_INSTANCE_DELETION.
+	DeleteRule *string `json:"deleteRule,omitempty" tf:"delete_rule,omitempty"`
+
+	// A unique device name that is reflected into the /dev/ tree of a Linux operating system running within the instance.
+	DeviceName *string `json:"deviceName,omitempty" tf:"device_name,omitempty"`
+
+	// The mode of the disk.
+	// Default value is READ_WRITE.
+	// Possible values are READ_ONLY and READ_WRITE.
+	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
+
+	// The URI of an existing persistent disk to attach under the specified device-name in the format
+	// projects/project-id/zones/zone/disks/disk-name.
+	Source *string `json:"source,omitempty" tf:"source,omitempty"`
 }
 
 type RegionPerInstanceConfigPreservedStateDiskParameters struct {
@@ -134,6 +185,13 @@ type RegionPerInstanceConfigPreservedStateDiskParameters struct {
 }
 
 type RegionPerInstanceConfigPreservedStateObservation struct {
+
+	// Stateful disks for the instance.
+	// Structure is documented below.
+	Disk []RegionPerInstanceConfigPreservedStateDiskObservation `json:"disk,omitempty" tf:"disk,omitempty"`
+
+	// Preserved metadata defined for this instance. This is a list of key->value pairs.
+	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
 }
 
 type RegionPerInstanceConfigPreservedStateParameters struct {
@@ -172,8 +230,9 @@ type RegionPerInstanceConfigStatus struct {
 type RegionPerInstanceConfig struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              RegionPerInstanceConfigSpec   `json:"spec"`
-	Status            RegionPerInstanceConfigStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.name)",message="name is a required parameter"
+	Spec   RegionPerInstanceConfigSpec   `json:"spec"`
+	Status RegionPerInstanceConfigStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

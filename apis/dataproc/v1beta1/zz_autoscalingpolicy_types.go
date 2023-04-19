@@ -27,11 +27,31 @@ import (
 
 type AutoscalingPolicyObservation struct {
 
+	// Basic algorithm for autoscaling.
+	// Structure is documented below.
+	BasicAlgorithm []BasicAlgorithmObservation `json:"basicAlgorithm,omitempty" tf:"basic_algorithm,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/autoscalingPolicies/{{policy_id}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// The  location where the autoscaling policy should reside.
+	// The default value is global.
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
 	// The "resource name" of the autoscaling policy.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Describes how the autoscaler will operate for secondary workers.
+	// Structure is documented below.
+	SecondaryWorkerConfig []SecondaryWorkerConfigObservation `json:"secondaryWorkerConfig,omitempty" tf:"secondary_worker_config,omitempty"`
+
+	// Describes how the autoscaler will operate for primary workers.
+	// Structure is documented below.
+	WorkerConfig []WorkerConfigObservation `json:"workerConfig,omitempty" tf:"worker_config,omitempty"`
 }
 
 type AutoscalingPolicyParameters struct {
@@ -63,6 +83,15 @@ type AutoscalingPolicyParameters struct {
 }
 
 type BasicAlgorithmObservation struct {
+
+	// Duration between scaling events. A scaling period starts after the
+	// update operation from the previous event has completed.
+	// Bounds: [2m, 1d]. Default: 2m.
+	CooldownPeriod *string `json:"cooldownPeriod,omitempty" tf:"cooldown_period,omitempty"`
+
+	// YARN autoscaling configuration.
+	// Structure is documented below.
+	YarnConfig []YarnConfigObservation `json:"yarnConfig,omitempty" tf:"yarn_config,omitempty"`
 }
 
 type BasicAlgorithmParameters struct {
@@ -80,6 +109,28 @@ type BasicAlgorithmParameters struct {
 }
 
 type SecondaryWorkerConfigObservation struct {
+
+	// Maximum number of instances for this group. Note that by default, clusters will not use
+	// secondary workers. Required for secondary workers if the minimum secondary instances is set.
+	// Bounds: [minInstances, ). Defaults to 0.
+	MaxInstances *float64 `json:"maxInstances,omitempty" tf:"max_instances,omitempty"`
+
+	// Minimum number of instances for this group. Bounds: [0, maxInstances]. Defaults to 0.
+	MinInstances *float64 `json:"minInstances,omitempty" tf:"min_instances,omitempty"`
+
+	// Weight for the instance group, which is used to determine the fraction of total workers
+	// in the cluster from this instance group. For example, if primary workers have weight 2,
+	// and secondary workers have weight 1, the cluster will have approximately 2 primary workers
+	// for each secondary worker.
+	// The cluster may not reach the specified balance if constrained by min/max bounds or other
+	// autoscaling settings. For example, if maxInstances for secondary workers is 0, then only
+	// primary workers will be added. The cluster can also be out of balance when created.
+	// If weight is not set on any instance group, the cluster will default to equal weight for
+	// all groups: the cluster will attempt to maintain an equal number of workers in each group
+	// within the configured size bounds for each group. If weight is set for one group only,
+	// the cluster will default to zero weight on the unset group. For example if weight is set
+	// only on primary workers, the cluster will use primary workers only and no secondary workers.
+	Weight *float64 `json:"weight,omitempty" tf:"weight,omitempty"`
 }
 
 type SecondaryWorkerConfigParameters struct {
@@ -111,6 +162,26 @@ type SecondaryWorkerConfigParameters struct {
 }
 
 type WorkerConfigObservation struct {
+
+	// Maximum number of instances for this group.
+	MaxInstances *float64 `json:"maxInstances,omitempty" tf:"max_instances,omitempty"`
+
+	// Minimum number of instances for this group. Bounds: [2, maxInstances]. Defaults to 2.
+	MinInstances *float64 `json:"minInstances,omitempty" tf:"min_instances,omitempty"`
+
+	// Weight for the instance group, which is used to determine the fraction of total workers
+	// in the cluster from this instance group. For example, if primary workers have weight 2,
+	// and secondary workers have weight 1, the cluster will have approximately 2 primary workers
+	// for each secondary worker.
+	// The cluster may not reach the specified balance if constrained by min/max bounds or other
+	// autoscaling settings. For example, if maxInstances for secondary workers is 0, then only
+	// primary workers will be added. The cluster can also be out of balance when created.
+	// If weight is not set on any instance group, the cluster will default to equal weight for
+	// all groups: the cluster will attempt to maintain an equal number of workers in each group
+	// within the configured size bounds for each group. If weight is set for one group only,
+	// the cluster will default to zero weight on the unset group. For example if weight is set
+	// only on primary workers, the cluster will use primary workers only and no secondary workers.
+	Weight *float64 `json:"weight,omitempty" tf:"weight,omitempty"`
 }
 
 type WorkerConfigParameters struct {
@@ -140,6 +211,42 @@ type WorkerConfigParameters struct {
 }
 
 type YarnConfigObservation struct {
+
+	// Timeout for YARN graceful decommissioning of Node Managers. Specifies the
+	// duration to wait for jobs to complete before forcefully removing workers
+	// (and potentially interrupting jobs). Only applicable to downscaling operations.
+	// Bounds: [0s, 1d].
+	GracefulDecommissionTimeout *string `json:"gracefulDecommissionTimeout,omitempty" tf:"graceful_decommission_timeout,omitempty"`
+
+	// Fraction of average pending memory in the last cooldown period for which to
+	// remove workers. A scale-down factor of 1 will result in scaling down so that there
+	// is no available memory remaining after the update (more aggressive scaling).
+	// A scale-down factor of 0 disables removing workers, which can be beneficial for
+	// autoscaling a single job.
+	// Bounds: [0.0, 1.0].
+	ScaleDownFactor *float64 `json:"scaleDownFactor,omitempty" tf:"scale_down_factor,omitempty"`
+
+	// Minimum scale-down threshold as a fraction of total cluster size before scaling occurs.
+	// For example, in a 20-worker cluster, a threshold of 0.1 means the autoscaler must
+	// recommend at least a 2 worker scale-down for the cluster to scale. A threshold of 0
+	// means the autoscaler will scale down on any recommended change.
+	// Bounds: [0.0, 1.0]. Default: 0.0.
+	ScaleDownMinWorkerFraction *float64 `json:"scaleDownMinWorkerFraction,omitempty" tf:"scale_down_min_worker_fraction,omitempty"`
+
+	// Fraction of average pending memory in the last cooldown period for which to
+	// add workers. A scale-up factor of 1.0 will result in scaling up so that there
+	// is no pending memory remaining after the update (more aggressive scaling).
+	// A scale-up factor closer to 0 will result in a smaller magnitude of scaling up
+	// (less aggressive scaling).
+	// Bounds: [0.0, 1.0].
+	ScaleUpFactor *float64 `json:"scaleUpFactor,omitempty" tf:"scale_up_factor,omitempty"`
+
+	// Minimum scale-up threshold as a fraction of total cluster size before scaling
+	// occurs. For example, in a 20-worker cluster, a threshold of 0.1 means the autoscaler
+	// must recommend at least a 2-worker scale-up for the cluster to scale. A threshold of
+	// 0 means the autoscaler will scale up on any recommended change.
+	// Bounds: [0.0, 1.0]. Default: 0.0.
+	ScaleUpMinWorkerFraction *float64 `json:"scaleUpMinWorkerFraction,omitempty" tf:"scale_up_min_worker_fraction,omitempty"`
 }
 
 type YarnConfigParameters struct {

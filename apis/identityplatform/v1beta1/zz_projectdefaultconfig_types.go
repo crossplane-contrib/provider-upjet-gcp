@@ -26,6 +26,9 @@ import (
 )
 
 type AnonymousObservation struct {
+
+	// Whether phone number auth is enabled for the project or not.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 }
 
 type AnonymousParameters struct {
@@ -36,6 +39,14 @@ type AnonymousParameters struct {
 }
 
 type EmailObservation struct {
+
+	// Whether phone number auth is enabled for the project or not.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+
+	// Whether a password is required for email auth or not. If true, both an email and
+	// password must be provided to sign in. If false, a user may sign in via either
+	// email/password or email link.
+	PasswordRequired *bool `json:"passwordRequired,omitempty" tf:"password_required,omitempty"`
 }
 
 type EmailParameters struct {
@@ -73,6 +84,12 @@ type HashConfigParameters struct {
 }
 
 type PhoneNumberObservation struct {
+
+	// Whether phone number auth is enabled for the project or not.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+
+	// A map of <test phone number, fake code> that can be used for phone auth testing.
+	TestPhoneNumbers map[string]*string `json:"testPhoneNumbers,omitempty" tf:"test_phone_numbers,omitempty"`
 }
 
 type PhoneNumberParameters struct {
@@ -94,9 +111,12 @@ type ProjectDefaultConfigObservation struct {
 	// The name of the Config resource. Example: "projects/my-awesome-project/config"
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
 	// Configuration related to local sign in methods.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	SignIn []SignInObservation `json:"signIn,omitempty" tf:"sign_in,omitempty"`
 }
 
@@ -115,9 +135,24 @@ type ProjectDefaultConfigParameters struct {
 
 type SignInObservation struct {
 
+	// Whether to allow more than one account to have the same email.
+	AllowDuplicateEmails *bool `json:"allowDuplicateEmails,omitempty" tf:"allow_duplicate_emails,omitempty"`
+
+	// Configuration options related to authenticating an anonymous user.
+	// Structure is documented below.
+	Anonymous []AnonymousObservation `json:"anonymous,omitempty" tf:"anonymous,omitempty"`
+
+	// Configuration options related to authenticating a user by their email address.
+	// Structure is documented below.
+	Email []EmailObservation `json:"email,omitempty" tf:"email,omitempty"`
+
 	// Output only. Hash config information.
 	// Structure is documented below.
 	HashConfig []HashConfigObservation `json:"hashConfig,omitempty" tf:"hash_config,omitempty"`
+
+	// Configuration options related to authenticated a user by their phone number.
+	// Structure is documented below.
+	PhoneNumber []PhoneNumberObservation `json:"phoneNumber,omitempty" tf:"phone_number,omitempty"`
 }
 
 type SignInParameters struct {

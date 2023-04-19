@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.11.1
+    controller-gen.kubebuilder.io/version: v0.11.3
   creationTimestamp: null
   name: managedsslcertificates.compute.gcp.upbound.io
 spec:
@@ -55,9 +55,13 @@ spec:
             properties:
               deletionPolicy:
                 default: Delete
-                description: DeletionPolicy specifies what will happen to the underlying
+                description: 'DeletionPolicy specifies what will happen to the underlying
                   external when this managed resource is deleted - either "Delete"
-                  or "Orphan" the external resource.
+                  or "Orphan" the external resource. This field is planned to be deprecated
+                  in favor of the ManagementPolicy field in a future release. Currently,
+                  both could be set independently and non-default values would be
+                  honored if the feature flag is enabled. See the design doc for more
+                  information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
                 enum:
                 - Orphan
                 - Delete
@@ -97,6 +101,21 @@ spec:
                       Possible values are MANAGED.
                     type: string
                 type: object
+              managementPolicy:
+                default: FullControl
+                description: 'THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice. ManagementPolicy
+                  specifies the level of control Crossplane has over the managed external
+                  resource. This field is planned to replace the DeletionPolicy field
+                  in a future release. Currently, both could be set independently
+                  and non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
+                enum:
+                - FullControl
+                - ObserveOnly
+                - OrphanOnDelete
+                type: string
               providerConfigRef:
                 default:
                   name: default
@@ -274,14 +293,39 @@ spec:
             properties:
               atProvider:
                 properties:
+                  certificateId:
+                    description: The unique identifier for the resource.
+                    type: number
                   creationTimestamp:
                     description: Creation timestamp in RFC3339 text format.
+                    type: string
+                  description:
+                    description: An optional description of this resource.
                     type: string
                   expireTime:
                     description: Expire time of the certificate in RFC3339 text format.
                     type: string
                   id:
                     description: an identifier for the resource with format projects/{{project}}/global/sslCertificates/{{name}}
+                    type: string
+                  managed:
+                    description: Properties relevant to a managed certificate.  These
+                      will be used if the certificate is managed (as indicated by
+                      a value of MANAGED in type). Structure is documented below.
+                    items:
+                      properties:
+                        domains:
+                          description: Domains for which a managed SSL certificate
+                            will be valid.  Currently, there can be up to 100 domains
+                            in this list.
+                          items:
+                            type: string
+                          type: array
+                      type: object
+                    type: array
+                  project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
                     type: string
                   selfLink:
                     description: The URI of the created resource.
@@ -292,6 +336,11 @@ spec:
                     items:
                       type: string
                     type: array
+                  type:
+                    description: Enum field whose value is always MANAGED - used to
+                      signal to the API which type this is. Default value is MANAGED.
+                      Possible values are MANAGED.
+                    type: string
                 type: object
               conditions:
                 description: Conditions of the resource.

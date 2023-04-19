@@ -27,25 +27,47 @@ import (
 
 type GroupObservation struct {
 
+	// A user-assigned name for this group, used only for display
+	// purposes.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// The filter used to determine which monitored resources
+	// belong to this group.
+	Filter *string `json:"filter,omitempty" tf:"filter,omitempty"`
+
 	// an identifier for the resource with format {{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// If true, the members of this group are considered to be a
+	// cluster. The system can perform additional analysis on
+	// groups that are clusters.
+	IsCluster *bool `json:"isCluster,omitempty" tf:"is_cluster,omitempty"`
 
 	// A unique identifier for this group. The format is
 	// "projects/{project_id_or_number}/groups/{group_id}".
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The name of the group's parent, if it has one. The format is
+	// "projects/{project_id_or_number}/groups/{group_id}". For
+	// groups with no parent, parentName is the empty string, "".
+	ParentName *string `json:"parentName,omitempty" tf:"parent_name,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 
 type GroupParameters struct {
 
 	// A user-assigned name for this group, used only for display
 	// purposes.
-	// +kubebuilder:validation:Required
-	DisplayName *string `json:"displayName" tf:"display_name,omitempty"`
+	// +kubebuilder:validation:Optional
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// The filter used to determine which monitored resources
 	// belong to this group.
-	// +kubebuilder:validation:Required
-	Filter *string `json:"filter" tf:"filter,omitempty"`
+	// +kubebuilder:validation:Optional
+	Filter *string `json:"filter,omitempty" tf:"filter,omitempty"`
 
 	// If true, the members of this group are considered to be a
 	// cluster. The system can perform additional analysis on
@@ -99,8 +121,10 @@ type GroupStatus struct {
 type Group struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              GroupSpec   `json:"spec"`
-	Status            GroupStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.displayName)",message="displayName is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.filter)",message="filter is a required parameter"
+	Spec   GroupSpec   `json:"spec"`
+	Status GroupStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

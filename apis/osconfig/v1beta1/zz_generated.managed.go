@@ -29,6 +29,11 @@ func (mg *OsPolicyAssignment) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
+// GetManagementPolicy of this OsPolicyAssignment.
+func (mg *OsPolicyAssignment) GetManagementPolicy() xpv1.ManagementPolicy {
+	return mg.Spec.ManagementPolicy
+}
+
 // GetProviderConfigReference of this OsPolicyAssignment.
 func (mg *OsPolicyAssignment) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
@@ -60,6 +65,11 @@ func (mg *OsPolicyAssignment) SetConditions(c ...xpv1.Condition) {
 // SetDeletionPolicy of this OsPolicyAssignment.
 func (mg *OsPolicyAssignment) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
+}
+
+// SetManagementPolicy of this OsPolicyAssignment.
+func (mg *OsPolicyAssignment) SetManagementPolicy(r xpv1.ManagementPolicy) {
+	mg.Spec.ManagementPolicy = r
 }
 
 // SetProviderConfigReference of this OsPolicyAssignment.
@@ -95,6 +105,11 @@ func (mg *PatchDeployment) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
+// GetManagementPolicy of this PatchDeployment.
+func (mg *PatchDeployment) GetManagementPolicy() xpv1.ManagementPolicy {
+	return mg.Spec.ManagementPolicy
+}
+
 // GetProviderConfigReference of this PatchDeployment.
 func (mg *PatchDeployment) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
@@ -126,6 +141,11 @@ func (mg *PatchDeployment) SetConditions(c ...xpv1.Condition) {
 // SetDeletionPolicy of this PatchDeployment.
 func (mg *PatchDeployment) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
+}
+
+// SetManagementPolicy of this PatchDeployment.
+func (mg *PatchDeployment) SetManagementPolicy(r xpv1.ManagementPolicy) {
+	mg.Spec.ManagementPolicy = r
 }
 
 // SetProviderConfigReference of this PatchDeployment.

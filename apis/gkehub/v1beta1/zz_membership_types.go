@@ -26,6 +26,10 @@ import (
 )
 
 type AuthorityObservation struct {
+
+	// A JSON Web Token (JWT) issuer URI. issuer must start with https:// and // be a valid
+	// with length <2000 characters. For example: https://container.googleapis.com/v1/projects/my-project/locations/us-west1/clusters/my-cluster (must be locations rather than zones).googleapis.com/v1/${google_container_cluster.my-cluster.id}".
+	Issuer *string `json:"issuer,omitempty" tf:"issuer,omitempty"`
 }
 
 type AuthorityParameters struct {
@@ -37,6 +41,10 @@ type AuthorityParameters struct {
 }
 
 type EndpointObservation struct {
+
+	// If this Membership is a Kubernetes API server hosted on GKE, this is a self link to its GCP resource.
+	// Structure is documented below.
+	GkeCluster []GkeClusterObservation `json:"gkeCluster,omitempty" tf:"gke_cluster,omitempty"`
 }
 
 type EndpointParameters struct {
@@ -48,6 +56,12 @@ type EndpointParameters struct {
 }
 
 type GkeClusterObservation struct {
+
+	// Self-link of the GCP resource for the GKE cluster.
+	// For example: //container.googleapis.com/projects/my-project/zones/us-west1-a/clusters/my-cluster.
+	// It can be at the most 1000 characters in length.googleapis.com/${google_container_cluster.my-cluster.id}" or
+	// google_container_cluster.my-cluster.id.
+	ResourceLink *string `json:"resourceLink,omitempty" tf:"resource_link,omitempty"`
 }
 
 type GkeClusterParameters struct {
@@ -72,11 +86,28 @@ type GkeClusterParameters struct {
 
 type MembershipObservation struct {
 
+	// Authority encodes how Google will recognize identities from this Membership.
+	// See the workload identity documentation for more details:
+	// https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity
+	// Structure is documented below.
+	Authority []AuthorityObservation `json:"authority,omitempty" tf:"authority,omitempty"`
+
+	// If this Membership is a Kubernetes API server hosted on GKE, this is a self link to its GCP resource.
+	// Structure is documented below.
+	Endpoint []EndpointObservation `json:"endpoint,omitempty" tf:"endpoint,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/locations/global/memberships/{{membership_id}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// Labels to apply to this membership.
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
 	// The unique identifier of the membership.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 
 type MembershipParameters struct {

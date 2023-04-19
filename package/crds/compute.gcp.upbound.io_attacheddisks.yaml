@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.11.1
+    controller-gen.kubebuilder.io/version: v0.11.3
   creationTimestamp: null
   name: attacheddisks.compute.gcp.upbound.io
 spec:
@@ -55,9 +55,13 @@ spec:
             properties:
               deletionPolicy:
                 default: Delete
-                description: DeletionPolicy specifies what will happen to the underlying
+                description: 'DeletionPolicy specifies what will happen to the underlying
                   external when this managed resource is deleted - either "Delete"
-                  or "Orphan" the external resource.
+                  or "Orphan" the external resource. This field is planned to be deprecated
+                  in favor of the ManagementPolicy field in a future release. Currently,
+                  both could be set independently and non-default values would be
+                  honored if the feature flag is enabled. See the design doc for more
+                  information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
                 enum:
                 - Orphan
                 - Delete
@@ -243,6 +247,21 @@ spec:
                       zone defined in the link will take precedence.
                     type: string
                 type: object
+              managementPolicy:
+                default: FullControl
+                description: 'THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice. ManagementPolicy
+                  specifies the level of control Crossplane has over the managed external
+                  resource. This field is planned to replace the DeletionPolicy field
+                  in a future release. Currently, both could be set independently
+                  and non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
+                enum:
+                - FullControl
+                - ObserveOnly
+                - OrphanOnDelete
+                type: string
               providerConfigRef:
                 default:
                   name: default
@@ -419,8 +438,40 @@ spec:
             properties:
               atProvider:
                 properties:
+                  deviceName:
+                    description: Specifies a unique device name of your choice that
+                      is reflected into the /dev/disk/by-id/google-* tree of a Linux
+                      operating system running within the instance. This name can
+                      be used to reference the device for mounting, resizing, and
+                      so on, from within the instance.
+                    type: string
+                  disk:
+                    description: name or self_link of the disk that will be attached.
+                    type: string
                   id:
                     description: an identifier for the resource with format projects/{{project}}/zones/{{zone}}/disks/{{disk.name}}
+                    type: string
+                  instance:
+                    description: name or self_link of the compute instance that the
+                      disk will be attached to. If the self_link is provided then
+                      zone and project are extracted from the self link. If only the
+                      name is used then zone and project must be defined as properties
+                      on the resource or provider.
+                    type: string
+                  mode:
+                    description: The mode in which to attach this disk, either READ_WRITE
+                      or READ_ONLY. If not specified, the default is to attach the
+                      disk in READ_WRITE mode.
+                    type: string
+                  project:
+                    description: The project that the referenced compute instance
+                      is a part of. If instance is referenced by its self_link the
+                      project defined in the link will take precedence.
+                    type: string
+                  zone:
+                    description: The zone that the referenced compute instance is
+                      located within. If instance is referenced by its self_link the
+                      zone defined in the link will take precedence.
                     type: string
                 type: object
               conditions:

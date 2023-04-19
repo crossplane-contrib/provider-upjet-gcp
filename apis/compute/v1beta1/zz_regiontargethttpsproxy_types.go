@@ -30,14 +30,34 @@ type RegionTargetHTTPSProxyObservation struct {
 	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
 
+	// An optional description of this resource.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/regions/{{region}}/targetHttpsProxies/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The unique identifier for the resource.
 	ProxyID *float64 `json:"proxyId,omitempty" tf:"proxy_id,omitempty"`
 
+	// The Region in which the created target https proxy should reside.
+	// If it is not provided, the provider region is used.
+	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+
+	// A list of RegionSslCertificate resources that are used to authenticate
+	// connections between users and the load balancer. Currently, exactly
+	// one SSL certificate must be specified.
+	SSLCertificates []*string `json:"sslCertificates,omitempty" tf:"ssl_certificates,omitempty"`
+
 	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
+
+	// A reference to the RegionUrlMap resource that defines the mapping from URL
+	// to the RegionBackendService.
+	URLMap *string `json:"urlMap,omitempty" tf:"url_map,omitempty"`
 }
 
 type RegionTargetHTTPSProxyParameters struct {

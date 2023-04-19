@@ -26,6 +26,9 @@ import (
 )
 
 type AvailabilityObservation struct {
+
+	// Whether an availability SLI is enabled or not. Must be set to true. Defaults to true.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 }
 
 type AvailabilityParameters struct {
@@ -36,6 +39,38 @@ type AvailabilityParameters struct {
 }
 
 type BasicSliObservation struct {
+
+	// Availability based SLI, dervied from count of requests made to this service that return successfully.
+	// Structure is documented below.
+	Availability []AvailabilityObservation `json:"availability,omitempty" tf:"availability,omitempty"`
+
+	// Parameters for a latency threshold SLI.
+	// Structure is documented below.
+	Latency []LatencyObservation `json:"latency,omitempty" tf:"latency,omitempty"`
+
+	// An optional set of locations to which this SLI is relevant.
+	// Telemetry from other locations will not be used to calculate
+	// performance for this SLI. If omitted, this SLI applies to all
+	// locations in which the Service has activity. For service types
+	// that don't support breaking down by location, setting this
+	// field will result in an error.
+	Location []*string `json:"location,omitempty" tf:"location,omitempty"`
+
+	// An optional set of RPCs to which this SLI is relevant.
+	// Telemetry from other methods will not be used to calculate
+	// performance for this SLI. If omitted, this SLI applies to all
+	// the Service's methods. For service types that don't support
+	// breaking down by method, setting this field will result in an
+	// error.
+	Method []*string `json:"method,omitempty" tf:"method,omitempty"`
+
+	// The set of API versions to which this SLI is relevant.
+	// Telemetry from other API versions will not be used to
+	// calculate performance for this SLI. If omitted,
+	// this SLI applies to all API versions. For service types
+	// that don't support breaking down by version, setting this
+	// field will result in an error.
+	Version []*string `json:"version,omitempty" tf:"version,omitempty"`
 }
 
 type BasicSliParameters struct {
@@ -79,6 +114,9 @@ type BasicSliParameters struct {
 }
 
 type BasicSliPerformanceAvailabilityObservation struct {
+
+	// Whether an availability SLI is enabled or not. Must be set to true. Defaults to true.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 }
 
 type BasicSliPerformanceAvailabilityParameters struct {
@@ -89,6 +127,11 @@ type BasicSliPerformanceAvailabilityParameters struct {
 }
 
 type BasicSliPerformanceLatencyObservation struct {
+
+	// A duration string, e.g. 10s.
+	// Good service is defined to be the count of requests made to
+	// this service that return in no more than threshold.
+	Threshold *string `json:"threshold,omitempty" tf:"threshold,omitempty"`
 }
 
 type BasicSliPerformanceLatencyParameters struct {
@@ -101,6 +144,38 @@ type BasicSliPerformanceLatencyParameters struct {
 }
 
 type BasicSliPerformanceObservation struct {
+
+	// Availability based SLI, dervied from count of requests made to this service that return successfully.
+	// Structure is documented below.
+	Availability []BasicSliPerformanceAvailabilityObservation `json:"availability,omitempty" tf:"availability,omitempty"`
+
+	// Parameters for a latency threshold SLI.
+	// Structure is documented below.
+	Latency []BasicSliPerformanceLatencyObservation `json:"latency,omitempty" tf:"latency,omitempty"`
+
+	// An optional set of locations to which this SLI is relevant.
+	// Telemetry from other locations will not be used to calculate
+	// performance for this SLI. If omitted, this SLI applies to all
+	// locations in which the Service has activity. For service types
+	// that don't support breaking down by location, setting this
+	// field will result in an error.
+	Location []*string `json:"location,omitempty" tf:"location,omitempty"`
+
+	// An optional set of RPCs to which this SLI is relevant.
+	// Telemetry from other methods will not be used to calculate
+	// performance for this SLI. If omitted, this SLI applies to all
+	// the Service's methods. For service types that don't support
+	// breaking down by method, setting this field will result in an
+	// error.
+	Method []*string `json:"method,omitempty" tf:"method,omitempty"`
+
+	// The set of API versions to which this SLI is relevant.
+	// Telemetry from other API versions will not be used to
+	// calculate performance for this SLI. If omitted,
+	// this SLI applies to all API versions. For service types
+	// that don't support breaking down by version, setting this
+	// field will result in an error.
+	Version []*string `json:"version,omitempty" tf:"version,omitempty"`
 }
 
 type BasicSliPerformanceParameters struct {
@@ -144,6 +219,21 @@ type BasicSliPerformanceParameters struct {
 }
 
 type DistributionCutObservation struct {
+
+	// A TimeSeries monitoring filter
+	// aggregating values to quantify the good service provided.
+	// Must have ValueType = DISTRIBUTION and
+	// MetricKind = DELTA or MetricKind = CUMULATIVE.
+	DistributionFilter *string `json:"distributionFilter,omitempty" tf:"distribution_filter,omitempty"`
+
+	// Range of numerical values. The computed good_service
+	// will be the count of values x in the Distribution such
+	// that range.min <= x <= range.max. inclusive of min and
+	// max. Open ranges can be defined by setting
+	// just one of min or max. Summed value X should satisfy
+	// range.min <= X <= range.max for a good window.
+	// Structure is documented below.
+	Range []RangeObservation `json:"range,omitempty" tf:"range,omitempty"`
 }
 
 type DistributionCutParameters struct {
@@ -167,6 +257,16 @@ type DistributionCutParameters struct {
 }
 
 type DistributionCutRangeObservation struct {
+
+	// max value for the range (inclusive). If not given,
+	// will be set to "infinity", defining an open range
+	// ">= range.min"
+	Max *float64 `json:"max,omitempty" tf:"max,omitempty"`
+
+	// Min value for the range (inclusive). If not given,
+	// will be set to "-infinity", defining an open range
+	// "< range.max"
+	Min *float64 `json:"min,omitempty" tf:"min,omitempty"`
 }
 
 type DistributionCutRangeParameters struct {
@@ -185,6 +285,32 @@ type DistributionCutRangeParameters struct {
 }
 
 type GoodTotalRatioObservation struct {
+
+	// A TimeSeries monitoring filter
+	// quantifying bad service provided, either demanded service that
+	// was not provided or demanded service that was of inadequate
+	// quality.
+	// Must have ValueType = DOUBLE or ValueType = INT64 and
+	// must have MetricKind = DELTA or MetricKind = CUMULATIVE.
+	// Exactly two of good_service_filter,bad_service_filter,total_service_filter
+	// must be set (good + bad = total is assumed).
+	BadServiceFilter *string `json:"badServiceFilter,omitempty" tf:"bad_service_filter,omitempty"`
+
+	// A TimeSeries monitoring filter
+	// quantifying good service provided.
+	// Must have ValueType = DOUBLE or ValueType = INT64 and
+	// must have MetricKind = DELTA or MetricKind = CUMULATIVE.
+	// Exactly two of good_service_filter,bad_service_filter,total_service_filter
+	// must be set (good + bad = total is assumed).
+	GoodServiceFilter *string `json:"goodServiceFilter,omitempty" tf:"good_service_filter,omitempty"`
+
+	// A TimeSeries monitoring filter
+	// quantifying total demanded service.
+	// Must have ValueType = DOUBLE or ValueType = INT64 and
+	// must have MetricKind = DELTA or MetricKind = CUMULATIVE.
+	// Exactly two of good_service_filter,bad_service_filter,total_service_filter
+	// must be set (good + bad = total is assumed).
+	TotalServiceFilter *string `json:"totalServiceFilter,omitempty" tf:"total_service_filter,omitempty"`
 }
 
 type GoodTotalRatioParameters struct {
@@ -220,6 +346,19 @@ type GoodTotalRatioParameters struct {
 }
 
 type GoodTotalRatioThresholdObservation struct {
+
+	// Basic SLI to evaluate to judge window quality.
+	// Structure is documented below.
+	BasicSliPerformance []BasicSliPerformanceObservation `json:"basicSliPerformance,omitempty" tf:"basic_sli_performance,omitempty"`
+
+	// Request-based SLI to evaluate to judge window quality.
+	// Structure is documented below.
+	Performance []PerformanceObservation `json:"performance,omitempty" tf:"performance,omitempty"`
+
+	// A duration string, e.g. 10s.
+	// Good service is defined to be the count of requests made to
+	// this service that return in no more than threshold.
+	Threshold *float64 `json:"threshold,omitempty" tf:"threshold,omitempty"`
 }
 
 type GoodTotalRatioThresholdParameters struct {
@@ -242,6 +381,11 @@ type GoodTotalRatioThresholdParameters struct {
 }
 
 type LatencyObservation struct {
+
+	// A duration string, e.g. 10s.
+	// Good service is defined to be the count of requests made to
+	// this service that return in no more than threshold.
+	Threshold *string `json:"threshold,omitempty" tf:"threshold,omitempty"`
 }
 
 type LatencyParameters struct {
@@ -254,6 +398,24 @@ type LatencyParameters struct {
 }
 
 type MetricMeanInRangeObservation struct {
+
+	// Range of numerical values. The computed good_service
+	// will be the count of values x in the Distribution such
+	// that range.min <= x <= range.max. inclusive of min and
+	// max. Open ranges can be defined by setting
+	// just one of min or max. Summed value X should satisfy
+	// range.min <= X <= range.max for a good window.
+	// Structure is documented below.
+	Range []MetricMeanInRangeRangeObservation `json:"range,omitempty" tf:"range,omitempty"`
+
+	// A monitoring filter
+	// specifying the TimeSeries to use for evaluating window
+	// quality. The provided TimeSeries must have
+	// ValueType = INT64 or ValueType = DOUBLE and
+	// MetricKind = GAUGE.
+	// Summed value X should satisfy
+	// range.min <= X <= range.max for a good window.
+	TimeSeries *string `json:"timeSeries,omitempty" tf:"time_series,omitempty"`
 }
 
 type MetricMeanInRangeParameters struct {
@@ -280,6 +442,16 @@ type MetricMeanInRangeParameters struct {
 }
 
 type MetricMeanInRangeRangeObservation struct {
+
+	// max value for the range (inclusive). If not given,
+	// will be set to "infinity", defining an open range
+	// ">= range.min"
+	Max *float64 `json:"max,omitempty" tf:"max,omitempty"`
+
+	// Min value for the range (inclusive). If not given,
+	// will be set to "-infinity", defining an open range
+	// "< range.max"
+	Min *float64 `json:"min,omitempty" tf:"min,omitempty"`
 }
 
 type MetricMeanInRangeRangeParameters struct {
@@ -298,6 +470,24 @@ type MetricMeanInRangeRangeParameters struct {
 }
 
 type MetricSumInRangeObservation struct {
+
+	// Range of numerical values. The computed good_service
+	// will be the count of values x in the Distribution such
+	// that range.min <= x <= range.max. inclusive of min and
+	// max. Open ranges can be defined by setting
+	// just one of min or max. Summed value X should satisfy
+	// range.min <= X <= range.max for a good window.
+	// Structure is documented below.
+	Range []MetricSumInRangeRangeObservation `json:"range,omitempty" tf:"range,omitempty"`
+
+	// A monitoring filter
+	// specifying the TimeSeries to use for evaluating window
+	// quality. The provided TimeSeries must have
+	// ValueType = INT64 or ValueType = DOUBLE and
+	// MetricKind = GAUGE.
+	// Summed value X should satisfy
+	// range.min <= X <= range.max for a good window.
+	TimeSeries *string `json:"timeSeries,omitempty" tf:"time_series,omitempty"`
 }
 
 type MetricSumInRangeParameters struct {
@@ -324,6 +514,16 @@ type MetricSumInRangeParameters struct {
 }
 
 type MetricSumInRangeRangeObservation struct {
+
+	// max value for the range (inclusive). If not given,
+	// will be set to "infinity", defining an open range
+	// ">= range.min"
+	Max *float64 `json:"max,omitempty" tf:"max,omitempty"`
+
+	// Min value for the range (inclusive). If not given,
+	// will be set to "-infinity", defining an open range
+	// "< range.max"
+	Min *float64 `json:"min,omitempty" tf:"min,omitempty"`
 }
 
 type MetricSumInRangeRangeParameters struct {
@@ -342,6 +542,21 @@ type MetricSumInRangeRangeParameters struct {
 }
 
 type PerformanceDistributionCutObservation struct {
+
+	// A TimeSeries monitoring filter
+	// aggregating values to quantify the good service provided.
+	// Must have ValueType = DISTRIBUTION and
+	// MetricKind = DELTA or MetricKind = CUMULATIVE.
+	DistributionFilter *string `json:"distributionFilter,omitempty" tf:"distribution_filter,omitempty"`
+
+	// Range of numerical values. The computed good_service
+	// will be the count of values x in the Distribution such
+	// that range.min <= x <= range.max. inclusive of min and
+	// max. Open ranges can be defined by setting
+	// just one of min or max. Summed value X should satisfy
+	// range.min <= X <= range.max for a good window.
+	// Structure is documented below.
+	Range []DistributionCutRangeObservation `json:"range,omitempty" tf:"range,omitempty"`
 }
 
 type PerformanceDistributionCutParameters struct {
@@ -365,6 +580,32 @@ type PerformanceDistributionCutParameters struct {
 }
 
 type PerformanceGoodTotalRatioObservation struct {
+
+	// A TimeSeries monitoring filter
+	// quantifying bad service provided, either demanded service that
+	// was not provided or demanded service that was of inadequate
+	// quality.
+	// Must have ValueType = DOUBLE or ValueType = INT64 and
+	// must have MetricKind = DELTA or MetricKind = CUMULATIVE.
+	// Exactly two of good_service_filter,bad_service_filter,total_service_filter
+	// must be set (good + bad = total is assumed).
+	BadServiceFilter *string `json:"badServiceFilter,omitempty" tf:"bad_service_filter,omitempty"`
+
+	// A TimeSeries monitoring filter
+	// quantifying good service provided.
+	// Must have ValueType = DOUBLE or ValueType = INT64 and
+	// must have MetricKind = DELTA or MetricKind = CUMULATIVE.
+	// Exactly two of good_service_filter,bad_service_filter,total_service_filter
+	// must be set (good + bad = total is assumed).
+	GoodServiceFilter *string `json:"goodServiceFilter,omitempty" tf:"good_service_filter,omitempty"`
+
+	// A TimeSeries monitoring filter
+	// quantifying total demanded service.
+	// Must have ValueType = DOUBLE or ValueType = INT64 and
+	// must have MetricKind = DELTA or MetricKind = CUMULATIVE.
+	// Exactly two of good_service_filter,bad_service_filter,total_service_filter
+	// must be set (good + bad = total is assumed).
+	TotalServiceFilter *string `json:"totalServiceFilter,omitempty" tf:"total_service_filter,omitempty"`
 }
 
 type PerformanceGoodTotalRatioParameters struct {
@@ -400,6 +641,24 @@ type PerformanceGoodTotalRatioParameters struct {
 }
 
 type PerformanceObservation struct {
+
+	// Used when good_service is defined by a count of values aggregated in a
+	// Distribution that fall into a good range. The total_service is the
+	// total count of all values aggregated in the Distribution.
+	// Defines a distribution TimeSeries filter and thresholds used for
+	// measuring good service and total service.
+	// Exactly one of distribution_cut or good_total_ratio can be set.
+	// Structure is documented below.
+	DistributionCut []PerformanceDistributionCutObservation `json:"distributionCut,omitempty" tf:"distribution_cut,omitempty"`
+
+	// A means to compute a ratio of good_service to total_service.
+	// Defines computing this ratio with two TimeSeries monitoring filters
+	// Must specify exactly two of good, bad, and total service filters.
+	// The relationship good_service + bad_service = total_service
+	// will be assumed.
+	// Exactly one of distribution_cut or good_total_ratio can be set.
+	// Structure is documented below.
+	GoodTotalRatio []PerformanceGoodTotalRatioObservation `json:"goodTotalRatio,omitempty" tf:"good_total_ratio,omitempty"`
 }
 
 type PerformanceParameters struct {
@@ -426,6 +685,16 @@ type PerformanceParameters struct {
 }
 
 type RangeObservation struct {
+
+	// max value for the range (inclusive). If not given,
+	// will be set to "infinity", defining an open range
+	// ">= range.min"
+	Max *float64 `json:"max,omitempty" tf:"max,omitempty"`
+
+	// Min value for the range (inclusive). If not given,
+	// will be set to "-infinity", defining an open range
+	// "< range.max"
+	Min *float64 `json:"min,omitempty" tf:"min,omitempty"`
 }
 
 type RangeParameters struct {
@@ -444,6 +713,24 @@ type RangeParameters struct {
 }
 
 type RequestBasedSliObservation struct {
+
+	// Used when good_service is defined by a count of values aggregated in a
+	// Distribution that fall into a good range. The total_service is the
+	// total count of all values aggregated in the Distribution.
+	// Defines a distribution TimeSeries filter and thresholds used for
+	// measuring good service and total service.
+	// Exactly one of distribution_cut or good_total_ratio can be set.
+	// Structure is documented below.
+	DistributionCut []DistributionCutObservation `json:"distributionCut,omitempty" tf:"distribution_cut,omitempty"`
+
+	// A means to compute a ratio of good_service to total_service.
+	// Defines computing this ratio with two TimeSeries monitoring filters
+	// Must specify exactly two of good, bad, and total service filters.
+	// The relationship good_service + bad_service = total_service
+	// will be assumed.
+	// Exactly one of distribution_cut or good_total_ratio can be set.
+	// Structure is documented below.
+	GoodTotalRatio []GoodTotalRatioObservation `json:"goodTotalRatio,omitempty" tf:"good_total_ratio,omitempty"`
 }
 
 type RequestBasedSliParameters struct {
@@ -471,12 +758,75 @@ type RequestBasedSliParameters struct {
 
 type SLOObservation struct {
 
+	// Basic Service-Level Indicator (SLI) on a well-known service type.
+	// Performance will be computed on the basis of pre-defined metrics.
+	// SLIs are used to measure and calculate the quality of the Service's
+	// performance with respect to a single aspect of service quality.
+	// Exactly one of the following must be set:
+	// basic_sli, request_based_sli, windows_based_sli
+	// Structure is documented below.
+	BasicSli []BasicSliObservation `json:"basicSli,omitempty" tf:"basic_sli,omitempty"`
+
+	// A calendar period, semantically "since the start of the current
+	// ".
+	// Possible values are DAY, WEEK, FORTNIGHT, and MONTH.
+	CalendarPeriod *string `json:"calendarPeriod,omitempty" tf:"calendar_period,omitempty"`
+
+	// Name used for UI elements listing this SLO.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// The fraction of service that must be good in order for this objective
+	// to be met. 0 < goal <= 0.999
+	Goal *float64 `json:"goal,omitempty" tf:"goal,omitempty"`
+
 	// an identifier for the resource with format {{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// The full resource name for this service. The syntax is:
 	// projects/[PROJECT_ID_OR_NUMBER]/services/[SERVICE_ID]/serviceLevelObjectives/[SLO_NAME]
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// A request-based SLI defines a SLI for which atomic units of
+	// service are counted directly.
+	// A SLI describes a good service.
+	// It is used to measure and calculate the quality of the Service's
+	// performance with respect to a single aspect of service quality.
+	// Exactly one of the following must be set:
+	// basic_sli, request_based_sli, windows_based_sli
+	// Structure is documented below.
+	RequestBasedSli []RequestBasedSliObservation `json:"requestBasedSli,omitempty" tf:"request_based_sli,omitempty"`
+
+	// A rolling time period, semantically "in the past X days".
+	// Must be between 1 to 30 days, inclusive.
+	RollingPeriodDays *float64 `json:"rollingPeriodDays,omitempty" tf:"rolling_period_days,omitempty"`
+
+	// The id to use for this ServiceLevelObjective. If omitted, an id will be generated instead.
+	SLOID *string `json:"sloId,omitempty" tf:"slo_id,omitempty"`
+
+	// ID of the service to which this SLO belongs.
+	Service *string `json:"service,omitempty" tf:"service,omitempty"`
+
+	// This field is intended to be used for organizing and identifying the AlertPolicy
+	// objects.The field can contain up to 64 entries. Each key and value is limited
+	// to 63 Unicode characters or 128 bytes, whichever is smaller. Labels and values
+	// can contain only lowercase letters, numerals, underscores, and dashes. Keys
+	// must begin with a letter.
+	UserLabels map[string]*string `json:"userLabels,omitempty" tf:"user_labels,omitempty"`
+
+	// A windows-based SLI defines the criteria for time windows.
+	// good_service is defined based off the count of these time windows
+	// for which the provided service was of good quality.
+	// A SLI describes a good service. It is used to measure and calculate
+	// the quality of the Service's performance with respect to a single
+	// aspect of service quality.
+	// Exactly one of the following must be set:
+	// basic_sli, request_based_sli, windows_based_sli
+	// Structure is documented below.
+	WindowsBasedSli []WindowsBasedSliObservation `json:"windowsBasedSli,omitempty" tf:"windows_based_sli,omitempty"`
 }
 
 type SLOParameters struct {
@@ -503,8 +853,8 @@ type SLOParameters struct {
 
 	// The fraction of service that must be good in order for this objective
 	// to be met. 0 < goal <= 0.999
-	// +kubebuilder:validation:Required
-	Goal *float64 `json:"goal" tf:"goal,omitempty"`
+	// +kubebuilder:validation:Optional
+	Goal *float64 `json:"goal,omitempty" tf:"goal,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -567,6 +917,45 @@ type SLOParameters struct {
 }
 
 type WindowsBasedSliObservation struct {
+
+	// A TimeSeries monitoring filter
+	// with ValueType = BOOL. The window is good if any true values
+	// appear in the window. One of good_bad_metric_filter,
+	// good_total_ratio_threshold, metric_mean_in_range,
+	// metric_sum_in_range must be set for windows_based_sli.
+	GoodBadMetricFilter *string `json:"goodBadMetricFilter,omitempty" tf:"good_bad_metric_filter,omitempty"`
+
+	// Criterion that describes a window as good if its performance is
+	// high enough. One of good_bad_metric_filter,
+	// good_total_ratio_threshold, metric_mean_in_range,
+	// metric_sum_in_range must be set for windows_based_sli.
+	// Structure is documented below.
+	GoodTotalRatioThreshold []GoodTotalRatioThresholdObservation `json:"goodTotalRatioThreshold,omitempty" tf:"good_total_ratio_threshold,omitempty"`
+
+	// Criterion that describes a window as good if the metric's value
+	// is in a good range, averaged across returned streams.
+	// One of good_bad_metric_filter,
+	// good_total_ratio_threshold, metric_mean_in_range,
+	// metric_sum_in_range must be set for windows_based_sli.
+	// Average value X of time_series should satisfy
+	// range.min <= X <= range.max for a good window.
+	// Structure is documented below.
+	MetricMeanInRange []MetricMeanInRangeObservation `json:"metricMeanInRange,omitempty" tf:"metric_mean_in_range,omitempty"`
+
+	// Criterion that describes a window as good if the metric's value
+	// is in a good range, summed across returned streams.
+	// Summed value X of time_series should satisfy
+	// range.min <= X <= range.max for a good window.
+	// One of good_bad_metric_filter,
+	// good_total_ratio_threshold, metric_mean_in_range,
+	// metric_sum_in_range must be set for windows_based_sli.
+	// Structure is documented below.
+	MetricSumInRange []MetricSumInRangeObservation `json:"metricSumInRange,omitempty" tf:"metric_sum_in_range,omitempty"`
+
+	// Duration over which window quality is evaluated, given as a
+	// duration string "{X}s" representing X seconds. Must be an
+	// integer fraction of a day and at least 60s.
+	WindowPeriod *string `json:"windowPeriod,omitempty" tf:"window_period,omitempty"`
 }
 
 type WindowsBasedSliParameters struct {
@@ -640,8 +1029,9 @@ type SLOStatus struct {
 type SLO struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              SLOSpec   `json:"spec"`
-	Status            SLOStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.goal)",message="goal is a required parameter"
+	Spec   SLOSpec   `json:"spec"`
+	Status SLOStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -27,8 +27,22 @@ import (
 
 type SchemaObservation struct {
 
+	// The definition of the schema.
+	// This should contain a string representing the full definition of the schema
+	// that is a valid schema definition of the type specified in type.
+	Definition *string `json:"definition,omitempty" tf:"definition,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/schemas/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The type of the schema definition
+	// Default value is TYPE_UNSPECIFIED.
+	// Possible values are TYPE_UNSPECIFIED, PROTOCOL_BUFFER, and AVRO.
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type SchemaParameters struct {

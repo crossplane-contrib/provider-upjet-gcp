@@ -29,6 +29,11 @@ func (mg *AppEngineServiceIAMMember) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
+// GetManagementPolicy of this AppEngineServiceIAMMember.
+func (mg *AppEngineServiceIAMMember) GetManagementPolicy() xpv1.ManagementPolicy {
+	return mg.Spec.ManagementPolicy
+}
+
 // GetProviderConfigReference of this AppEngineServiceIAMMember.
 func (mg *AppEngineServiceIAMMember) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
@@ -60,6 +65,11 @@ func (mg *AppEngineServiceIAMMember) SetConditions(c ...xpv1.Condition) {
 // SetDeletionPolicy of this AppEngineServiceIAMMember.
 func (mg *AppEngineServiceIAMMember) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
+}
+
+// SetManagementPolicy of this AppEngineServiceIAMMember.
+func (mg *AppEngineServiceIAMMember) SetManagementPolicy(r xpv1.ManagementPolicy) {
+	mg.Spec.ManagementPolicy = r
 }
 
 // SetProviderConfigReference of this AppEngineServiceIAMMember.
@@ -95,6 +105,11 @@ func (mg *AppEngineVersionIAMMember) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
+// GetManagementPolicy of this AppEngineVersionIAMMember.
+func (mg *AppEngineVersionIAMMember) GetManagementPolicy() xpv1.ManagementPolicy {
+	return mg.Spec.ManagementPolicy
+}
+
 // GetProviderConfigReference of this AppEngineVersionIAMMember.
 func (mg *AppEngineVersionIAMMember) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
@@ -126,6 +141,11 @@ func (mg *AppEngineVersionIAMMember) SetConditions(c ...xpv1.Condition) {
 // SetDeletionPolicy of this AppEngineVersionIAMMember.
 func (mg *AppEngineVersionIAMMember) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
+}
+
+// SetManagementPolicy of this AppEngineVersionIAMMember.
+func (mg *AppEngineVersionIAMMember) SetManagementPolicy(r xpv1.ManagementPolicy) {
+	mg.Spec.ManagementPolicy = r
 }
 
 // SetProviderConfigReference of this AppEngineVersionIAMMember.
@@ -161,6 +181,11 @@ func (mg *TunnelIAMMember) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
+// GetManagementPolicy of this TunnelIAMMember.
+func (mg *TunnelIAMMember) GetManagementPolicy() xpv1.ManagementPolicy {
+	return mg.Spec.ManagementPolicy
+}
+
 // GetProviderConfigReference of this TunnelIAMMember.
 func (mg *TunnelIAMMember) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
@@ -192,6 +217,11 @@ func (mg *TunnelIAMMember) SetConditions(c ...xpv1.Condition) {
 // SetDeletionPolicy of this TunnelIAMMember.
 func (mg *TunnelIAMMember) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
+}
+
+// SetManagementPolicy of this TunnelIAMMember.
+func (mg *TunnelIAMMember) SetManagementPolicy(r xpv1.ManagementPolicy) {
+	mg.Spec.ManagementPolicy = r
 }
 
 // SetProviderConfigReference of this TunnelIAMMember.
@@ -227,6 +257,11 @@ func (mg *WebBackendServiceIAMMember) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
+// GetManagementPolicy of this WebBackendServiceIAMMember.
+func (mg *WebBackendServiceIAMMember) GetManagementPolicy() xpv1.ManagementPolicy {
+	return mg.Spec.ManagementPolicy
+}
+
 // GetProviderConfigReference of this WebBackendServiceIAMMember.
 func (mg *WebBackendServiceIAMMember) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
@@ -258,6 +293,11 @@ func (mg *WebBackendServiceIAMMember) SetConditions(c ...xpv1.Condition) {
 // SetDeletionPolicy of this WebBackendServiceIAMMember.
 func (mg *WebBackendServiceIAMMember) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
+}
+
+// SetManagementPolicy of this WebBackendServiceIAMMember.
+func (mg *WebBackendServiceIAMMember) SetManagementPolicy(r xpv1.ManagementPolicy) {
+	mg.Spec.ManagementPolicy = r
 }
 
 // SetProviderConfigReference of this WebBackendServiceIAMMember.
@@ -293,6 +333,11 @@ func (mg *WebIAMMember) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
+// GetManagementPolicy of this WebIAMMember.
+func (mg *WebIAMMember) GetManagementPolicy() xpv1.ManagementPolicy {
+	return mg.Spec.ManagementPolicy
+}
+
 // GetProviderConfigReference of this WebIAMMember.
 func (mg *WebIAMMember) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
@@ -324,6 +369,11 @@ func (mg *WebIAMMember) SetConditions(c ...xpv1.Condition) {
 // SetDeletionPolicy of this WebIAMMember.
 func (mg *WebIAMMember) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
+}
+
+// SetManagementPolicy of this WebIAMMember.
+func (mg *WebIAMMember) SetManagementPolicy(r xpv1.ManagementPolicy) {
+	mg.Spec.ManagementPolicy = r
 }
 
 // SetProviderConfigReference of this WebIAMMember.
@@ -359,6 +409,11 @@ func (mg *WebTypeAppEngineIAMMember) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
+// GetManagementPolicy of this WebTypeAppEngineIAMMember.
+func (mg *WebTypeAppEngineIAMMember) GetManagementPolicy() xpv1.ManagementPolicy {
+	return mg.Spec.ManagementPolicy
+}
+
 // GetProviderConfigReference of this WebTypeAppEngineIAMMember.
 func (mg *WebTypeAppEngineIAMMember) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
@@ -390,6 +445,11 @@ func (mg *WebTypeAppEngineIAMMember) SetConditions(c ...xpv1.Condition) {
 // SetDeletionPolicy of this WebTypeAppEngineIAMMember.
 func (mg *WebTypeAppEngineIAMMember) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
+}
+
+// SetManagementPolicy of this WebTypeAppEngineIAMMember.
+func (mg *WebTypeAppEngineIAMMember) SetManagementPolicy(r xpv1.ManagementPolicy) {
+	mg.Spec.ManagementPolicy = r
 }
 
 // SetProviderConfigReference of this WebTypeAppEngineIAMMember.
@@ -425,6 +485,11 @@ func (mg *WebTypeComputeIAMMember) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
+// GetManagementPolicy of this WebTypeComputeIAMMember.
+func (mg *WebTypeComputeIAMMember) GetManagementPolicy() xpv1.ManagementPolicy {
+	return mg.Spec.ManagementPolicy
+}
+
 // GetProviderConfigReference of this WebTypeComputeIAMMember.
 func (mg *WebTypeComputeIAMMember) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
@@ -456,6 +521,11 @@ func (mg *WebTypeComputeIAMMember) SetConditions(c ...xpv1.Condition) {
 // SetDeletionPolicy of this WebTypeComputeIAMMember.
 func (mg *WebTypeComputeIAMMember) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
+}
+
+// SetManagementPolicy of this WebTypeComputeIAMMember.
+func (mg *WebTypeComputeIAMMember) SetManagementPolicy(r xpv1.ManagementPolicy) {
+	mg.Spec.ManagementPolicy = r
 }
 
 // SetProviderConfigReference of this WebTypeComputeIAMMember.

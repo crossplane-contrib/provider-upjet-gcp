@@ -33,12 +33,18 @@ type SecretVersionObservation struct {
 	// The time at which the Secret was destroyed. Only present if state is DESTROYED.
 	DestroyTime *string `json:"destroyTime,omitempty" tf:"destroy_time,omitempty"`
 
+	// The current state of the SecretVersion.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+
 	// an identifier for the resource with format {{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// The resource name of the SecretVersion. Format:
 	// projects/{{project}}/secrets/{{secret_id}}/versions/{{version}}
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Secret Manager secret resource
+	Secret *string `json:"secret,omitempty" tf:"secret,omitempty"`
 
 	// The version of the Secret.
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
@@ -57,7 +63,7 @@ type SecretVersionParameters struct {
 	Secret *string `json:"secret,omitempty" tf:"secret,omitempty"`
 
 	// The secret data. Must be no larger than 64KiB.
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	SecretDataSecretRef v1.SecretKeySelector `json:"secretDataSecretRef" tf:"-"`
 
 	// Reference to a Secret to populate secret.
@@ -93,8 +99,9 @@ type SecretVersionStatus struct {
 type SecretVersion struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              SecretVersionSpec   `json:"spec"`
-	Status            SecretVersionStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.secretDataSecretRef)",message="secretDataSecretRef is a required parameter"
+	Spec   SecretVersionSpec   `json:"spec"`
+	Status SecretVersionStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -39,6 +39,9 @@ type ErrorParameters struct {
 
 type PrivateConnectionObservation struct {
 
+	// Display name.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
 	// The PrivateConnection error in case of failure.
 	// Structure is documented below.
 	Error []ErrorObservation `json:"error,omitempty" tf:"error,omitempty"`
@@ -46,18 +49,33 @@ type PrivateConnectionObservation struct {
 	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/privateConnections/{{private_connection_id}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// Labels.
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// The name of the location this private connection is located in.
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
 	// The resource's name.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
 	// State of the PrivateConnection.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
+
+	// The VPC Peering configuration is used to create VPC peering
+	// between Datastream and the consumer's VPC.
+	// Structure is documented below.
+	VPCPeeringConfig []VPCPeeringConfigObservation `json:"vpcPeeringConfig,omitempty" tf:"vpc_peering_config,omitempty"`
 }
 
 type PrivateConnectionParameters struct {
 
 	// Display name.
-	// +kubebuilder:validation:Required
-	DisplayName *string `json:"displayName" tf:"display_name,omitempty"`
+	// +kubebuilder:validation:Optional
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// Labels.
 	// +kubebuilder:validation:Optional
@@ -75,11 +93,18 @@ type PrivateConnectionParameters struct {
 	// The VPC Peering configuration is used to create VPC peering
 	// between Datastream and the consumer's VPC.
 	// Structure is documented below.
-	// +kubebuilder:validation:Required
-	VPCPeeringConfig []VPCPeeringConfigParameters `json:"vpcPeeringConfig" tf:"vpc_peering_config,omitempty"`
+	// +kubebuilder:validation:Optional
+	VPCPeeringConfig []VPCPeeringConfigParameters `json:"vpcPeeringConfig,omitempty" tf:"vpc_peering_config,omitempty"`
 }
 
 type VPCPeeringConfigObservation struct {
+
+	// A free subnet for peering. (CIDR of /29)
+	Subnet *string `json:"subnet,omitempty" tf:"subnet,omitempty"`
+
+	// Fully qualified name of the VPC that Datastream will peer to.
+	// Format: projects/{project}/global/{networks}/{name}
+	VPC *string `json:"vpc,omitempty" tf:"vpc,omitempty"`
 }
 
 type VPCPeeringConfigParameters struct {
@@ -128,8 +153,10 @@ type PrivateConnectionStatus struct {
 type PrivateConnection struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              PrivateConnectionSpec   `json:"spec"`
-	Status            PrivateConnectionStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.displayName)",message="displayName is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.vpcPeeringConfig)",message="vpcPeeringConfig is a required parameter"
+	Spec   PrivateConnectionSpec   `json:"spec"`
+	Status PrivateConnectionStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

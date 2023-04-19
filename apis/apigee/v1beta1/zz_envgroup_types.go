@@ -27,8 +27,15 @@ import (
 
 type EnvgroupObservation struct {
 
+	// Hostnames of the environment group.
+	Hostnames []*string `json:"hostnames,omitempty" tf:"hostnames,omitempty"`
+
 	// an identifier for the resource with format {{org_id}}/envgroups/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The Apigee Organization associated with the Apigee environment group,
+	// in the format organizations/{{org_name}}.
+	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
 }
 
 type EnvgroupParameters struct {

@@ -27,30 +27,42 @@ import (
 
 type ContactObservation struct {
 
+	// The email address to send notifications to. This does not need to be a Google account.
+	Email *string `json:"email,omitempty" tf:"email,omitempty"`
+
 	// an identifier for the resource with format {{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// The preferred language for notifications, as a ISO 639-1 language code. See Supported languages for a list of supported languages.
+	LanguageTag *string `json:"languageTag,omitempty" tf:"language_tag,omitempty"`
+
 	// The identifier for the contact. Format: {resourceType}/{resource_id}/contacts/{contact_id}
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The categories of notifications that the contact will receive communications for.
+	NotificationCategorySubscriptions []*string `json:"notificationCategorySubscriptions,omitempty" tf:"notification_category_subscriptions,omitempty"`
+
+	// The resource to save this contact for. Format: organizations/{organization_id}, folders/{folder_id} or projects/{project_id}
+	Parent *string `json:"parent,omitempty" tf:"parent,omitempty"`
 }
 
 type ContactParameters struct {
 
 	// The email address to send notifications to. This does not need to be a Google account.
-	// +kubebuilder:validation:Required
-	Email *string `json:"email" tf:"email,omitempty"`
+	// +kubebuilder:validation:Optional
+	Email *string `json:"email,omitempty" tf:"email,omitempty"`
 
 	// The preferred language for notifications, as a ISO 639-1 language code. See Supported languages for a list of supported languages.
-	// +kubebuilder:validation:Required
-	LanguageTag *string `json:"languageTag" tf:"language_tag,omitempty"`
+	// +kubebuilder:validation:Optional
+	LanguageTag *string `json:"languageTag,omitempty" tf:"language_tag,omitempty"`
 
 	// The categories of notifications that the contact will receive communications for.
-	// +kubebuilder:validation:Required
-	NotificationCategorySubscriptions []*string `json:"notificationCategorySubscriptions" tf:"notification_category_subscriptions,omitempty"`
+	// +kubebuilder:validation:Optional
+	NotificationCategorySubscriptions []*string `json:"notificationCategorySubscriptions,omitempty" tf:"notification_category_subscriptions,omitempty"`
 
 	// The resource to save this contact for. Format: organizations/{organization_id}, folders/{folder_id} or projects/{project_id}
-	// +kubebuilder:validation:Required
-	Parent *string `json:"parent" tf:"parent,omitempty"`
+	// +kubebuilder:validation:Optional
+	Parent *string `json:"parent,omitempty" tf:"parent,omitempty"`
 }
 
 // ContactSpec defines the desired state of Contact
@@ -77,8 +89,12 @@ type ContactStatus struct {
 type Contact struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              ContactSpec   `json:"spec"`
-	Status            ContactStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.email)",message="email is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.languageTag)",message="languageTag is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.notificationCategorySubscriptions)",message="notificationCategorySubscriptions is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.parent)",message="parent is a required parameter"
+	Spec   ContactSpec   `json:"spec"`
+	Status ContactStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -26,6 +26,9 @@ import (
 )
 
 type MaintenanceWindowObservation struct {
+
+	// instances.start time of the window. This must be in UTC format that resolves to one of 00:00, 04:00, 08:00, 12:00, 16:00, or 20:00. For example, both 13:00-5 and 08:00 are valid.
+	StartTime *string `json:"startTime,omitempty" tf:"start_time,omitempty"`
 }
 
 type MaintenanceWindowParameters struct {
@@ -36,6 +39,17 @@ type MaintenanceWindowParameters struct {
 }
 
 type NodeGroupAutoscalingPolicyObservation struct {
+
+	// Maximum size of the node group. Set to a value less than or equal
+	// to 100 and greater than or equal to min-nodes.
+	MaxNodes *float64 `json:"maxNodes,omitempty" tf:"max_nodes,omitempty"`
+
+	// Minimum size of the node group. Must be less
+	// than or equal to max-nodes. The default value is 0.
+	MinNodes *float64 `json:"minNodes,omitempty" tf:"min_nodes,omitempty"`
+
+	// The autoscaling mode. Set to one of the following:
+	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
 }
 
 type NodeGroupAutoscalingPolicyParameters struct {
@@ -57,14 +71,49 @@ type NodeGroupAutoscalingPolicyParameters struct {
 
 type NodeGroupObservation struct {
 
+	// If you use sole-tenant nodes for your workloads, you can use the node
+	// group autoscaler to automatically manage the sizes of your node groups.
+	// Structure is documented below.
+	AutoscalingPolicy []NodeGroupAutoscalingPolicyObservation `json:"autoscalingPolicy,omitempty" tf:"autoscaling_policy,omitempty"`
+
 	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
+
+	// An optional textual description of the resource.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/zones/{{zone}}/nodeGroups/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// The initial number of nodes in the node group. One of initial_size or size must be specified.
+	InitialSize *float64 `json:"initialSize,omitempty" tf:"initial_size,omitempty"`
+
+	// Specifies how to handle instances when a node in the group undergoes maintenance. Set to one of: DEFAULT, RESTART_IN_PLACE, or MIGRATE_WITHIN_NODE_GROUP. The default value is DEFAULT.
+	MaintenancePolicy *string `json:"maintenancePolicy,omitempty" tf:"maintenance_policy,omitempty"`
+
+	// contains properties for the timeframe of maintenance
+	// Structure is documented below.
+	MaintenanceWindow []MaintenanceWindowObservation `json:"maintenanceWindow,omitempty" tf:"maintenance_window,omitempty"`
+
+	// The URL of the node template to which this node group belongs.
+	NodeTemplate *string `json:"nodeTemplate,omitempty" tf:"node_template,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
 	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
+
+	// Share settings for the node group.
+	// Structure is documented below.
+	ShareSettings []ShareSettingsObservation `json:"shareSettings,omitempty" tf:"share_settings,omitempty"`
+
+	// The total number of nodes in the node group. One of initial_size or size must be specified.
+	Size *float64 `json:"size,omitempty" tf:"size,omitempty"`
+
+	// Zone where this node group is located
+	Zone *string `json:"zone,omitempty" tf:"zone,omitempty"`
 }
 
 type NodeGroupParameters struct {
@@ -126,6 +175,12 @@ type NodeGroupParameters struct {
 }
 
 type ProjectMapObservation struct {
+
+	// The identifier for this object. Format specified above.
+	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The project id/number should be the same as the key of this project config in the project map.
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 }
 
 type ProjectMapParameters struct {
@@ -160,6 +215,14 @@ type ProjectMapParameters struct {
 }
 
 type ShareSettingsObservation struct {
+
+	// A map of project id and project config. This is only valid when shareType's value is SPECIFIC_PROJECTS.
+	// Structure is documented below.
+	ProjectMap []ProjectMapObservation `json:"projectMap,omitempty" tf:"project_map,omitempty"`
+
+	// Node group sharing type.
+	// Possible values are ORGANIZATION, SPECIFIC_PROJECTS, and LOCAL.
+	ShareType *string `json:"shareType,omitempty" tf:"share_type,omitempty"`
 }
 
 type ShareSettingsParameters struct {

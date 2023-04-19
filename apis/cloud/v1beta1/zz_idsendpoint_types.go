@@ -30,6 +30,9 @@ type IdsEndpointObservation struct {
 	// Creation timestamp in RFC 3339 text format.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
+	// An optional description of the endpoint.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
 	// URL of the endpoint's network address to which traffic is to be sent by Packet Mirroring.
 	EndpointForwardingRule *string `json:"endpointForwardingRule,omitempty" tf:"endpoint_forwarding_rule,omitempty"`
 
@@ -38,6 +41,26 @@ type IdsEndpointObservation struct {
 
 	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/endpoints/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The location for the endpoint.
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
+	// Name of the endpoint in the format projects/{project_id}/locations/{locationId}/endpoints/{endpointId}.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Name of the VPC network that is connected to the IDS endpoint. This can either contain the VPC network name itself (like "src-net") or the full URL to the network (like "projects/{project_id}/global/networks/src-net").
+	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The minimum alert severity level that is reported by the endpoint.
+	// Possible values are INFORMATIONAL, LOW, MEDIUM, HIGH, and CRITICAL.
+	Severity *string `json:"severity,omitempty" tf:"severity,omitempty"`
+
+	// Configuration for threat IDs excluded from generating alerts. Limit: 99 IDs.
+	ThreatExceptions []*string `json:"threatExceptions,omitempty" tf:"threat_exceptions,omitempty"`
 
 	// Last update timestamp in RFC 3339 text format.
 	UpdateTime *string `json:"updateTime,omitempty" tf:"update_time,omitempty"`
@@ -50,12 +73,12 @@ type IdsEndpointParameters struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// The location for the endpoint.
-	// +kubebuilder:validation:Required
-	Location *string `json:"location" tf:"location,omitempty"`
+	// +kubebuilder:validation:Optional
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
 	// Name of the endpoint in the format projects/{project_id}/locations/{locationId}/endpoints/{endpointId}.
-	// +kubebuilder:validation:Required
-	Name *string `json:"name" tf:"name,omitempty"`
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// Name of the VPC network that is connected to the IDS endpoint. This can either contain the VPC network name itself (like "src-net") or the full URL to the network (like "projects/{project_id}/global/networks/src-net").
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Network
@@ -78,8 +101,8 @@ type IdsEndpointParameters struct {
 
 	// The minimum alert severity level that is reported by the endpoint.
 	// Possible values are INFORMATIONAL, LOW, MEDIUM, HIGH, and CRITICAL.
-	// +kubebuilder:validation:Required
-	Severity *string `json:"severity" tf:"severity,omitempty"`
+	// +kubebuilder:validation:Optional
+	Severity *string `json:"severity,omitempty" tf:"severity,omitempty"`
 
 	// Configuration for threat IDs excluded from generating alerts. Limit: 99 IDs.
 	// +kubebuilder:validation:Optional
@@ -110,8 +133,11 @@ type IdsEndpointStatus struct {
 type IdsEndpoint struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              IdsEndpointSpec   `json:"spec"`
-	Status            IdsEndpointStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.location)",message="location is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.name)",message="name is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.severity)",message="severity is a required parameter"
+	Spec   IdsEndpointSpec   `json:"spec"`
+	Status IdsEndpointStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

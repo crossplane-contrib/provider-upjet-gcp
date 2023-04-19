@@ -27,13 +27,31 @@ import (
 
 type FieldsObservation struct {
 
+	// Holds the value for a tag field with boolean type.
+	BoolValue *bool `json:"boolValue,omitempty" tf:"bool_value,omitempty"`
+
 	// The display name of this field
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// Holds the value for a tag field with double type.
+	DoubleValue *float64 `json:"doubleValue,omitempty" tf:"double_value,omitempty"`
+
+	// Holds the value for a tag field with enum type. This value must be one of the allowed values in the definition of this enum.
+	EnumValue *string `json:"enumValue,omitempty" tf:"enum_value,omitempty"`
+
+	// The identifier for this object. Format specified above.
+	FieldName *string `json:"fieldName,omitempty" tf:"field_name,omitempty"`
 
 	// The order of this field with respect to other fields in this tag. For example, a higher value can indicate
 	// a more important field. The value can be negative. Multiple fields can have the same order, and field orders
 	// within a tag do not have to be sequential.
 	Order *float64 `json:"order,omitempty" tf:"order,omitempty"`
+
+	// Holds the value for a tag field with string type.
+	StringValue *string `json:"stringValue,omitempty" tf:"string_value,omitempty"`
+
+	// Holds the value for a tag field with timestamp type.
+	TimestampValue *string `json:"timestampValue,omitempty" tf:"timestamp_value,omitempty"`
 }
 
 type FieldsParameters struct {
@@ -65,10 +83,15 @@ type FieldsParameters struct {
 
 type TagObservation struct {
 
+	// Resources like Entry can have schemas associated with them. This scope allows users to attach tags to an
+	// individual column based on that schema.
+	// For attaching a tag to a nested column, use . to separate the column names. Example:
+	// outer_column.inner_column
+	Column *string `json:"column,omitempty" tf:"column,omitempty"`
+
 	// This maps the ID of a tag field to the value of and additional information about that field.
 	// Valid field IDs are defined by the tag's template. A tag must have at least 1 field and at most 500 fields.
 	// Structure is documented below.
-	// +kubebuilder:validation:Required
 	Fields []FieldsObservation `json:"fields,omitempty" tf:"fields,omitempty"`
 
 	// an identifier for the resource with format {{name}}
@@ -79,6 +102,15 @@ type TagObservation struct {
 	// projects/{project_id}/locations/{location}/entrygroups/{entryGroupId}/tags/{tag_id}
 	// where tag_id is a system-generated identifier. Note that this Tag may not actually be stored in the location in this name.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The name of the parent this tag is attached to. This can be the name of an entry or an entry group. If an entry group, the tag will be attached to
+	// all entries in that group.
+	Parent *string `json:"parent,omitempty" tf:"parent,omitempty"`
+
+	// The resource name of the tag template that this tag uses. Example:
+	// projects/{project_id}/locations/{location}/tagTemplates/{tagTemplateId}
+	// This field cannot be modified after creation.
+	Template *string `json:"template,omitempty" tf:"template,omitempty"`
 
 	// The display name of the tag template.
 	TemplateDisplayname *string `json:"templateDisplayname,omitempty" tf:"template_displayname,omitempty"`
@@ -96,8 +128,8 @@ type TagParameters struct {
 	// This maps the ID of a tag field to the value of and additional information about that field.
 	// Valid field IDs are defined by the tag's template. A tag must have at least 1 field and at most 500 fields.
 	// Structure is documented below.
-	// +kubebuilder:validation:Required
-	Fields []FieldsParameters `json:"fields" tf:"fields,omitempty"`
+	// +kubebuilder:validation:Optional
+	Fields []FieldsParameters `json:"fields,omitempty" tf:"fields,omitempty"`
 
 	// The name of the parent this tag is attached to. This can be the name of an entry or an entry group. If an entry group, the tag will be attached to
 	// all entries in that group.
@@ -155,8 +187,9 @@ type TagStatus struct {
 type Tag struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              TagSpec   `json:"spec"`
-	Status            TagStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.fields)",message="fields is a required parameter"
+	Spec   TagSpec   `json:"spec"`
+	Status TagStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -45,11 +45,29 @@ type LakeObservation struct {
 	// Output only. The time when the lake was created.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
+	// Optional. Description of the lake.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Optional. User friendly display name.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/lakes/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// Optional. User-defined labels for the lake.
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// The location for the resource
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
+	// Optional. Settings to manage lake and Dataproc Metastore service instance association.
+	Metastore []MetastoreObservation `json:"metastore,omitempty" tf:"metastore,omitempty"`
+
 	// Output only. Metastore status of the lake.
 	MetastoreStatus []MetastoreStatusObservation `json:"metastoreStatus,omitempty" tf:"metastore_status,omitempty"`
+
+	// The project for the resource
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Output only. Service account associated with this lake. This service account must be authorized to access or operate on resources managed by the lake.
 	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
@@ -92,6 +110,9 @@ type LakeParameters struct {
 }
 
 type MetastoreObservation struct {
+
+	// Optional. A relative reference to the Dataproc Metastore (https://cloud.google.com/dataproc-metastore/docs) service associated with the lake: projects/{project_id}/locations/{location_id}/services/{service_id}
+	Service *string `json:"service,omitempty" tf:"service,omitempty"`
 }
 
 type MetastoreParameters struct {

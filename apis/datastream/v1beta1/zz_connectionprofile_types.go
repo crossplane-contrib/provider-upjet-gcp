@@ -33,16 +33,51 @@ type BigqueryProfileParameters struct {
 
 type ConnectionProfileObservation struct {
 
+	// BigQuery warehouse profile.
+	BigqueryProfile []BigqueryProfileParameters `json:"bigqueryProfile,omitempty" tf:"bigquery_profile,omitempty"`
+
+	// Display name.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// Forward SSH tunnel connectivity.
+	// Structure is documented below.
+	ForwardSSHConnectivity []ForwardSSHConnectivityObservation `json:"forwardSshConnectivity,omitempty" tf:"forward_ssh_connectivity,omitempty"`
+
+	// Cloud Storage bucket profile.
+	// Structure is documented below.
+	GcsProfile []GcsProfileObservation `json:"gcsProfile,omitempty" tf:"gcs_profile,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/connectionProfiles/{{connection_profile_id}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// Labels.
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// The name of the location this connection profile is located in.
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
 	// MySQL database profile.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	MySQLProfile []MySQLProfileObservation `json:"mysqlProfile,omitempty" tf:"mysql_profile,omitempty"`
 
 	// The resource's name.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Oracle database profile.
+	// Structure is documented below.
+	OracleProfile []OracleProfileObservation `json:"oracleProfile,omitempty" tf:"oracle_profile,omitempty"`
+
+	// PostgreSQL database profile.
+	// Structure is documented below.
+	PostgresqlProfile []PostgresqlProfileObservation `json:"postgresqlProfile,omitempty" tf:"postgresql_profile,omitempty"`
+
+	// Private connectivity.
+	// Structure is documented below.
+	PrivateConnectivity []PrivateConnectivityObservation `json:"privateConnectivity,omitempty" tf:"private_connectivity,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 
 type ConnectionProfileParameters struct {
@@ -52,8 +87,8 @@ type ConnectionProfileParameters struct {
 	BigqueryProfile []BigqueryProfileParameters `json:"bigqueryProfile,omitempty" tf:"bigquery_profile,omitempty"`
 
 	// Display name.
-	// +kubebuilder:validation:Required
-	DisplayName *string `json:"displayName" tf:"display_name,omitempty"`
+	// +kubebuilder:validation:Optional
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// Forward SSH tunnel connectivity.
 	// Structure is documented below.
@@ -100,6 +135,15 @@ type ConnectionProfileParameters struct {
 }
 
 type ForwardSSHConnectivityObservation struct {
+
+	// Hostname for the SSH tunnel.
+	Hostname *string `json:"hostname,omitempty" tf:"hostname,omitempty"`
+
+	// Port for the SSH tunnel.
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+
+	// Username for the SSH tunnel.
+	Username *string `json:"username,omitempty" tf:"username,omitempty"`
 }
 
 type ForwardSSHConnectivityParameters struct {
@@ -128,6 +172,12 @@ type ForwardSSHConnectivityParameters struct {
 }
 
 type GcsProfileObservation struct {
+
+	// The Cloud Storage bucket name.
+	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
+
+	// The root path inside the Cloud Storage bucket.
+	RootPath *string `json:"rootPath,omitempty" tf:"root_path,omitempty"`
 }
 
 type GcsProfileParameters struct {
@@ -143,10 +193,18 @@ type GcsProfileParameters struct {
 
 type MySQLProfileObservation struct {
 
+	// Hostname for the MySQL connection.
+	Hostname *string `json:"hostname,omitempty" tf:"hostname,omitempty"`
+
+	// Port for the MySQL connection.
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+
 	// SSL configuration for the MySQL connection.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	SSLConfig []SSLConfigObservation `json:"sslConfig,omitempty" tf:"ssl_config,omitempty"`
+
+	// Username for the MySQL connection.
+	Username *string `json:"username,omitempty" tf:"username,omitempty"`
 }
 
 type MySQLProfileParameters struct {
@@ -175,6 +233,21 @@ type MySQLProfileParameters struct {
 }
 
 type OracleProfileObservation struct {
+
+	// Connection string attributes
+	ConnectionAttributes map[string]*string `json:"connectionAttributes,omitempty" tf:"connection_attributes,omitempty"`
+
+	// Database for the Oracle connection.
+	DatabaseService *string `json:"databaseService,omitempty" tf:"database_service,omitempty"`
+
+	// Hostname for the Oracle connection.
+	Hostname *string `json:"hostname,omitempty" tf:"hostname,omitempty"`
+
+	// Port for the Oracle connection.
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+
+	// Username for the Oracle connection.
+	Username *string `json:"username,omitempty" tf:"username,omitempty"`
 }
 
 type OracleProfileParameters struct {
@@ -206,6 +279,18 @@ type OracleProfileParameters struct {
 }
 
 type PostgresqlProfileObservation struct {
+
+	// Database for the PostgreSQL connection.
+	Database *string `json:"database,omitempty" tf:"database,omitempty"`
+
+	// Hostname for the PostgreSQL connection.
+	Hostname *string `json:"hostname,omitempty" tf:"hostname,omitempty"`
+
+	// Port for the PostgreSQL connection.
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+
+	// Username for the PostgreSQL connection.
+	Username *string `json:"username,omitempty" tf:"username,omitempty"`
 }
 
 type PostgresqlProfileParameters struct {
@@ -261,6 +346,9 @@ type PostgresqlProfileParameters struct {
 }
 
 type PrivateConnectivityObservation struct {
+
+	// A reference to a private connection resource. Format: projects/{project}/locations/{location}/privateConnections/{name}
+	PrivateConnection *string `json:"privateConnection,omitempty" tf:"private_connection,omitempty"`
 }
 
 type PrivateConnectivityParameters struct {
@@ -340,8 +428,9 @@ type ConnectionProfileStatus struct {
 type ConnectionProfile struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              ConnectionProfileSpec   `json:"spec"`
-	Status            ConnectionProfileStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.displayName)",message="displayName is a required parameter"
+	Spec   ConnectionProfileSpec   `json:"spec"`
+	Status ConnectionProfileStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

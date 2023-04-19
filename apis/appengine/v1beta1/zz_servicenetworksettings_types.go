@@ -26,6 +26,11 @@ import (
 )
 
 type NetworkSettingsObservation struct {
+
+	// The ingress settings for version or service.
+	// Default value is INGRESS_TRAFFIC_ALLOWED_UNSPECIFIED.
+	// Possible values are INGRESS_TRAFFIC_ALLOWED_UNSPECIFIED, INGRESS_TRAFFIC_ALLOWED_ALL, INGRESS_TRAFFIC_ALLOWED_INTERNAL_ONLY, and INGRESS_TRAFFIC_ALLOWED_INTERNAL_AND_LB.
+	IngressTrafficAllowed *string `json:"ingressTrafficAllowed,omitempty" tf:"ingress_traffic_allowed,omitempty"`
 }
 
 type NetworkSettingsParameters struct {
@@ -41,14 +46,25 @@ type ServiceNetworkSettingsObservation struct {
 
 	// an identifier for the resource with format apps/{{project}}/services/{{service}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Ingress settings for this service. Will apply to all versions.
+	// Structure is documented below.
+	NetworkSettings []NetworkSettingsObservation `json:"networkSettings,omitempty" tf:"network_settings,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The name of the service these settings apply to.
+	Service *string `json:"service,omitempty" tf:"service,omitempty"`
 }
 
 type ServiceNetworkSettingsParameters struct {
 
 	// Ingress settings for this service. Will apply to all versions.
 	// Structure is documented below.
-	// +kubebuilder:validation:Required
-	NetworkSettings []NetworkSettingsParameters `json:"networkSettings" tf:"network_settings,omitempty"`
+	// +kubebuilder:validation:Optional
+	NetworkSettings []NetworkSettingsParameters `json:"networkSettings,omitempty" tf:"network_settings,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -94,8 +110,9 @@ type ServiceNetworkSettingsStatus struct {
 type ServiceNetworkSettings struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              ServiceNetworkSettingsSpec   `json:"spec"`
-	Status            ServiceNetworkSettingsStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.networkSettings)",message="networkSettings is a required parameter"
+	Spec   ServiceNetworkSettingsSpec   `json:"spec"`
+	Status ServiceNetworkSettingsStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

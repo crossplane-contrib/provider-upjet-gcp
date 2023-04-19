@@ -30,14 +30,29 @@ type TargetHTTPProxyObservation struct {
 	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
 
+	// An optional description of this resource.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/global/targetHttpProxies/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// This field only applies when the forwarding rule that references
+	// this target proxy has a loadBalancingScheme set to INTERNAL_SELF_MANAGED.
+	ProxyBind *bool `json:"proxyBind,omitempty" tf:"proxy_bind,omitempty"`
 
 	// The unique identifier for the resource.
 	ProxyID *float64 `json:"proxyId,omitempty" tf:"proxy_id,omitempty"`
 
 	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
+
+	// A reference to the UrlMap resource that defines the mapping from URL
+	// to the BackendService.
+	URLMap *string `json:"urlMap,omitempty" tf:"url_map,omitempty"`
 }
 
 type TargetHTTPProxyParameters struct {

@@ -30,6 +30,20 @@ type SSLPolicyObservation struct {
 	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
 
+	// Profile specifies the set of SSL features that can be used by the
+	// load balancer when negotiating SSL with clients. This can be one of
+	// COMPATIBLE, MODERN, RESTRICTED, or CUSTOM. If using CUSTOM,
+	// the set of SSL features to enable must be specified in the
+	// customFeatures field.
+	// See the official documentation
+	// for which ciphers are available to use. Note: this argument
+	// must be present when using the CUSTOM profile. This argument
+	// must not be present when using any other profile.
+	CustomFeatures []*string `json:"customFeatures,omitempty" tf:"custom_features,omitempty"`
+
+	// An optional description of this resource.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
 	// The list of features enabled in the SSL policy.
 	EnabledFeatures []*string `json:"enabledFeatures,omitempty" tf:"enabled_features,omitempty"`
 
@@ -39,6 +53,27 @@ type SSLPolicyObservation struct {
 
 	// an identifier for the resource with format projects/{{project}}/global/sslPolicies/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The minimum version of SSL protocol that can be used by the clients
+	// to establish a connection with the load balancer.
+	// Default value is TLS_1_0.
+	// Possible values are TLS_1_0, TLS_1_1, and TLS_1_2.
+	MinTLSVersion *string `json:"minTlsVersion,omitempty" tf:"min_tls_version,omitempty"`
+
+	// Profile specifies the set of SSL features that can be used by the
+	// load balancer when negotiating SSL with clients. If using CUSTOM,
+	// the set of SSL features to enable must be specified in the
+	// customFeatures field.
+	// See the official documentation
+	// for information on what cipher suites each profile provides. If
+	// CUSTOM is used, the custom_features attribute must be set.
+	// Default value is COMPATIBLE.
+	// Possible values are COMPATIBLE, MODERN, RESTRICTED, and CUSTOM.
+	Profile *string `json:"profile,omitempty" tf:"profile,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`

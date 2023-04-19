@@ -26,6 +26,36 @@ import (
 )
 
 type DefaultRouteActionCorsPolicyObservation struct {
+
+	// In response to a preflight request, setting this to true indicates that the
+	// actual request can include user credentials. This translates to the Access-
+	// Control-Allow-Credentials header. Defaults to false.
+	AllowCredentials *bool `json:"allowCredentials,omitempty" tf:"allow_credentials,omitempty"`
+
+	// Specifies the content for the Access-Control-Allow-Headers header.
+	AllowHeaders []*string `json:"allowHeaders,omitempty" tf:"allow_headers,omitempty"`
+
+	// Specifies the content for the Access-Control-Allow-Methods header.
+	AllowMethods []*string `json:"allowMethods,omitempty" tf:"allow_methods,omitempty"`
+
+	// Specifies the regular expression patterns that match allowed origins. For
+	// regular expression grammar please see en.cppreference.com/w/cpp/regex/ecmascript
+	// An origin is allowed if it matches either allow_origins or allow_origin_regex.
+	AllowOriginRegexes []*string `json:"allowOriginRegexes,omitempty" tf:"allow_origin_regexes,omitempty"`
+
+	// Specifies the list of origins that will be allowed to do CORS requests. An
+	// origin is allowed if it matches either allow_origins or allow_origin_regex.
+	AllowOrigins []*string `json:"allowOrigins,omitempty" tf:"allow_origins,omitempty"`
+
+	// If true, specifies the CORS policy is disabled.
+	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
+
+	// Specifies the content for the Access-Control-Expose-Headers header.
+	ExposeHeaders []*string `json:"exposeHeaders,omitempty" tf:"expose_headers,omitempty"`
+
+	// Specifies how long the results of a preflight request can be cached. This
+	// translates to the content for the Access-Control-Max-Age header.
+	MaxAge *float64 `json:"maxAge,omitempty" tf:"max_age,omitempty"`
 }
 
 type DefaultRouteActionCorsPolicyParameters struct {
@@ -70,6 +100,15 @@ type DefaultRouteActionCorsPolicyParameters struct {
 }
 
 type DefaultRouteActionFaultInjectionPolicyAbortObservation struct {
+
+	// The HTTP status code used to abort the request. The value must be between 200
+	// and 599 inclusive.
+	HTTPStatus *float64 `json:"httpStatus,omitempty" tf:"http_status,omitempty"`
+
+	// The percentage of traffic (connections/operations/requests) on which delay will
+	// be introduced as part of fault injection. The value must be between 0.0 and
+	// 100.0 inclusive.
+	Percentage *float64 `json:"percentage,omitempty" tf:"percentage,omitempty"`
 }
 
 type DefaultRouteActionFaultInjectionPolicyAbortParameters struct {
@@ -87,6 +126,15 @@ type DefaultRouteActionFaultInjectionPolicyAbortParameters struct {
 }
 
 type DefaultRouteActionFaultInjectionPolicyDelayFixedDelayObservation struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution. Durations
+	// less than one second are represented with a 0 seconds field and a positive
+	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
+	// inclusive.
+	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
 type DefaultRouteActionFaultInjectionPolicyDelayFixedDelayParameters struct {
@@ -104,6 +152,15 @@ type DefaultRouteActionFaultInjectionPolicyDelayFixedDelayParameters struct {
 }
 
 type DefaultRouteActionFaultInjectionPolicyDelayObservation struct {
+
+	// Specifies the value of the fixed delay interval.
+	// Structure is documented below.
+	FixedDelay []DefaultRouteActionFaultInjectionPolicyDelayFixedDelayObservation `json:"fixedDelay,omitempty" tf:"fixed_delay,omitempty"`
+
+	// The percentage of traffic (connections/operations/requests) on which delay will
+	// be introduced as part of fault injection. The value must be between 0.0 and
+	// 100.0 inclusive.
+	Percentage *float64 `json:"percentage,omitempty" tf:"percentage,omitempty"`
 }
 
 type DefaultRouteActionFaultInjectionPolicyDelayParameters struct {
@@ -121,6 +178,16 @@ type DefaultRouteActionFaultInjectionPolicyDelayParameters struct {
 }
 
 type DefaultRouteActionFaultInjectionPolicyObservation struct {
+
+	// The specification for how client requests are aborted as part of fault
+	// injection.
+	// Structure is documented below.
+	Abort []DefaultRouteActionFaultInjectionPolicyAbortObservation `json:"abort,omitempty" tf:"abort,omitempty"`
+
+	// The specification for how client requests are delayed as part of fault
+	// injection, before being sent to a backend service.
+	// Structure is documented below.
+	Delay []DefaultRouteActionFaultInjectionPolicyDelayObservation `json:"delay,omitempty" tf:"delay,omitempty"`
 }
 
 type DefaultRouteActionFaultInjectionPolicyParameters struct {
@@ -139,6 +206,11 @@ type DefaultRouteActionFaultInjectionPolicyParameters struct {
 }
 
 type DefaultRouteActionRequestMirrorPolicyObservation struct {
+
+	// The default BackendService resource. Before
+	// forwarding the request to backendService, the loadbalancer applies any relevant
+	// headerActions specified as part of this backendServiceWeight.
+	BackendService *string `json:"backendService,omitempty" tf:"backend_service,omitempty"`
 }
 
 type DefaultRouteActionRequestMirrorPolicyParameters struct {
@@ -151,6 +223,16 @@ type DefaultRouteActionRequestMirrorPolicyParameters struct {
 }
 
 type DefaultRouteActionRetryPolicyObservation struct {
+
+	// Specifies the allowed number retries. This number must be > 0.
+	NumRetries *float64 `json:"numRetries,omitempty" tf:"num_retries,omitempty"`
+
+	// Specifies a non-zero timeout per retry attempt.
+	// Structure is documented below.
+	PerTryTimeout []DefaultRouteActionRetryPolicyPerTryTimeoutObservation `json:"perTryTimeout,omitempty" tf:"per_try_timeout,omitempty"`
+
+	// Specifies one or more conditions when this retry rule applies. Valid values are:
+	RetryConditions []*string `json:"retryConditions,omitempty" tf:"retry_conditions,omitempty"`
 }
 
 type DefaultRouteActionRetryPolicyParameters struct {
@@ -170,6 +252,15 @@ type DefaultRouteActionRetryPolicyParameters struct {
 }
 
 type DefaultRouteActionRetryPolicyPerTryTimeoutObservation struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution. Durations
+	// less than one second are represented with a 0 seconds field and a positive
+	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
+	// inclusive.
+	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
 type DefaultRouteActionRetryPolicyPerTryTimeoutParameters struct {
@@ -187,6 +278,15 @@ type DefaultRouteActionRetryPolicyPerTryTimeoutParameters struct {
 }
 
 type DefaultRouteActionTimeoutObservation struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution. Durations
+	// less than one second are represented with a 0 seconds field and a positive
+	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
+	// inclusive.
+	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
 type DefaultRouteActionTimeoutParameters struct {
@@ -204,6 +304,16 @@ type DefaultRouteActionTimeoutParameters struct {
 }
 
 type DefaultRouteActionURLRewriteObservation struct {
+
+	// Prior to forwarding the request to the selected service, the request's host
+	// header is replaced with contents of hostRewrite. The value must be between 1 and
+	// 255 characters.
+	HostRewrite *string `json:"hostRewrite,omitempty" tf:"host_rewrite,omitempty"`
+
+	// Prior to forwarding the request to the selected backend service, the matching
+	// portion of the request's path is replaced by pathPrefixRewrite. The value must
+	// be between 1 and 1024 characters.
+	PathPrefixRewrite *string `json:"pathPrefixRewrite,omitempty" tf:"path_prefix_rewrite,omitempty"`
 }
 
 type DefaultRouteActionURLRewriteParameters struct {
@@ -222,6 +332,23 @@ type DefaultRouteActionURLRewriteParameters struct {
 }
 
 type DefaultRouteActionWeightedBackendServicesHeaderActionObservation struct {
+
+	// Headers to add to a matching request prior to forwarding the request to the
+	// backendService.
+	// Structure is documented below.
+	RequestHeadersToAdd []DefaultRouteActionWeightedBackendServicesHeaderActionRequestHeadersToAddObservation `json:"requestHeadersToAdd,omitempty" tf:"request_headers_to_add,omitempty"`
+
+	// A list of header names for headers that need to be removed from the request
+	// prior to forwarding the request to the backendService.
+	RequestHeadersToRemove []*string `json:"requestHeadersToRemove,omitempty" tf:"request_headers_to_remove,omitempty"`
+
+	// Headers to add the response prior to sending the response back to the client.
+	// Structure is documented below.
+	ResponseHeadersToAdd []DefaultRouteActionWeightedBackendServicesHeaderActionResponseHeadersToAddObservation `json:"responseHeadersToAdd,omitempty" tf:"response_headers_to_add,omitempty"`
+
+	// A list of header names for headers that need to be removed from the response
+	// prior to sending the response back to the client.
+	ResponseHeadersToRemove []*string `json:"responseHeadersToRemove,omitempty" tf:"response_headers_to_remove,omitempty"`
 }
 
 type DefaultRouteActionWeightedBackendServicesHeaderActionParameters struct {
@@ -249,6 +376,17 @@ type DefaultRouteActionWeightedBackendServicesHeaderActionParameters struct {
 }
 
 type DefaultRouteActionWeightedBackendServicesHeaderActionRequestHeadersToAddObservation struct {
+
+	// The name of the header.
+	HeaderName *string `json:"headerName,omitempty" tf:"header_name,omitempty"`
+
+	// The value of the header to add.
+	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
+
+	// If false, headerValue is appended to any values that already exist for the
+	// header. If true, headerValue is set for the header, discarding any values that
+	// were set for that header.
+	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
 }
 
 type DefaultRouteActionWeightedBackendServicesHeaderActionRequestHeadersToAddParameters struct {
@@ -269,6 +407,17 @@ type DefaultRouteActionWeightedBackendServicesHeaderActionRequestHeadersToAddPar
 }
 
 type DefaultRouteActionWeightedBackendServicesHeaderActionResponseHeadersToAddObservation struct {
+
+	// The name of the header.
+	HeaderName *string `json:"headerName,omitempty" tf:"header_name,omitempty"`
+
+	// The value of the header to add.
+	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
+
+	// If false, headerValue is appended to any values that already exist for the
+	// header. If true, headerValue is set for the header, discarding any values that
+	// were set for that header.
+	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
 }
 
 type DefaultRouteActionWeightedBackendServicesHeaderActionResponseHeadersToAddParameters struct {
@@ -289,6 +438,25 @@ type DefaultRouteActionWeightedBackendServicesHeaderActionResponseHeadersToAddPa
 }
 
 type DefaultRouteActionWeightedBackendServicesObservation struct {
+
+	// The default BackendService resource. Before
+	// forwarding the request to backendService, the loadbalancer applies any relevant
+	// headerActions specified as part of this backendServiceWeight.
+	BackendService *string `json:"backendService,omitempty" tf:"backend_service,omitempty"`
+
+	// Specifies changes to request and response headers that need to take effect for
+	// the selected backendService. headerAction specified here take effect before
+	// headerAction in the enclosing HttpRouteRule, PathMatcher and UrlMap.
+	// Structure is documented below.
+	HeaderAction []DefaultRouteActionWeightedBackendServicesHeaderActionObservation `json:"headerAction,omitempty" tf:"header_action,omitempty"`
+
+	// Specifies the fraction of traffic sent to backendService, computed as weight /
+	// (sum of all weightedBackendService weights in routeAction) . The selection of a
+	// backend service is determined only for new traffic. Once a user's request has
+	// been directed to a backendService, subsequent requests will be sent to the same
+	// backendService as determined by the BackendService's session affinity policy.
+	// The value must be between 0 and 1000
+	Weight *float64 `json:"weight,omitempty" tf:"weight,omitempty"`
 }
 
 type DefaultRouteActionWeightedBackendServicesParameters struct {
@@ -317,6 +485,12 @@ type DefaultRouteActionWeightedBackendServicesParameters struct {
 }
 
 type HeaderMatchesRangeMatchObservation struct {
+
+	// The end of the range (exclusive).
+	RangeEnd *float64 `json:"rangeEnd,omitempty" tf:"range_end,omitempty"`
+
+	// The start of the range (inclusive).
+	RangeStart *float64 `json:"rangeStart,omitempty" tf:"range_start,omitempty"`
 }
 
 type HeaderMatchesRangeMatchParameters struct {
@@ -331,6 +505,50 @@ type HeaderMatchesRangeMatchParameters struct {
 }
 
 type MatchRulesHeaderMatchesObservation struct {
+
+	// The queryParameterMatch matches if the value of the parameter exactly matches
+	// the contents of exactMatch. Only one of presentMatch, exactMatch and regexMatch
+	// must be set.
+	ExactMatch *string `json:"exactMatch,omitempty" tf:"exact_match,omitempty"`
+
+	// The name of the header.
+	HeaderName *string `json:"headerName,omitempty" tf:"header_name,omitempty"`
+
+	// If set to false, the headerMatch is considered a match if the match criteria
+	// above are met. If set to true, the headerMatch is considered a match if the
+	// match criteria above are NOT met. Defaults to false.
+	InvertMatch *bool `json:"invertMatch,omitempty" tf:"invert_match,omitempty"`
+
+	// For satisfying the matchRule condition, the request's path must begin with the
+	// specified prefixMatch. prefixMatch must begin with a /. The value must be
+	// between 1 and 1024 characters. Only one of prefixMatch, fullPathMatch or
+	// regexMatch must be specified.
+	PrefixMatch *string `json:"prefixMatch,omitempty" tf:"prefix_match,omitempty"`
+
+	// Specifies that the queryParameterMatch matches if the request contains the query
+	// parameter, irrespective of whether the parameter has a value or not. Only one of
+	// presentMatch, exactMatch and regexMatch must be set.
+	PresentMatch *bool `json:"presentMatch,omitempty" tf:"present_match,omitempty"`
+
+	// The header value must be an integer and its value must be in the range specified
+	// in rangeMatch. If the header does not contain an integer, number or is empty,
+	// the match fails. For example for a range [-5, 0]   - -3 will match.  - 0 will
+	// not match.  - 0.25 will not match.  - -3someString will not match.   Only one of
+	// exactMatch, prefixMatch, suffixMatch, regexMatch, presentMatch or rangeMatch
+	// must be set.
+	// Structure is documented below.
+	RangeMatch []HeaderMatchesRangeMatchObservation `json:"rangeMatch,omitempty" tf:"range_match,omitempty"`
+
+	// The queryParameterMatch matches if the value of the parameter matches the
+	// regular expression specified by regexMatch. For the regular expression grammar,
+	// please see en.cppreference.com/w/cpp/regex/ecmascript  Only one of presentMatch,
+	// exactMatch and regexMatch must be set.
+	RegexMatch *string `json:"regexMatch,omitempty" tf:"regex_match,omitempty"`
+
+	// The value of the header must end with the contents of suffixMatch. Only one of
+	// exactMatch, prefixMatch, suffixMatch, regexMatch, presentMatch or rangeMatch
+	// must be set.
+	SuffixMatch *string `json:"suffixMatch,omitempty" tf:"suffix_match,omitempty"`
 }
 
 type MatchRulesHeaderMatchesParameters struct {
@@ -389,6 +607,14 @@ type MatchRulesHeaderMatchesParameters struct {
 }
 
 type MatchRulesMetadataFiltersFilterLabelsObservation struct {
+
+	// The name of the query parameter to match. The query parameter must exist in the
+	// request, in the absence of which the request match fails.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The value of the label must match the specified value. value can have a maximum
+	// length of 1024 characters.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
 
 type MatchRulesMetadataFiltersFilterLabelsParameters struct {
@@ -405,6 +631,26 @@ type MatchRulesMetadataFiltersFilterLabelsParameters struct {
 }
 
 type MatchRulesQueryParameterMatchesObservation struct {
+
+	// The queryParameterMatch matches if the value of the parameter exactly matches
+	// the contents of exactMatch. Only one of presentMatch, exactMatch and regexMatch
+	// must be set.
+	ExactMatch *string `json:"exactMatch,omitempty" tf:"exact_match,omitempty"`
+
+	// The name of the query parameter to match. The query parameter must exist in the
+	// request, in the absence of which the request match fails.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Specifies that the queryParameterMatch matches if the request contains the query
+	// parameter, irrespective of whether the parameter has a value or not. Only one of
+	// presentMatch, exactMatch and regexMatch must be set.
+	PresentMatch *bool `json:"presentMatch,omitempty" tf:"present_match,omitempty"`
+
+	// The queryParameterMatch matches if the value of the parameter matches the
+	// regular expression specified by regexMatch. For the regular expression grammar,
+	// please see en.cppreference.com/w/cpp/regex/ecmascript  Only one of presentMatch,
+	// exactMatch and regexMatch must be set.
+	RegexMatch *string `json:"regexMatch,omitempty" tf:"regex_match,omitempty"`
 }
 
 type MatchRulesQueryParameterMatchesParameters struct {
@@ -435,6 +681,36 @@ type MatchRulesQueryParameterMatchesParameters struct {
 }
 
 type PathMatcherDefaultRouteActionCorsPolicyObservation struct {
+
+	// In response to a preflight request, setting this to true indicates that the
+	// actual request can include user credentials. This translates to the Access-
+	// Control-Allow-Credentials header. Defaults to false.
+	AllowCredentials *bool `json:"allowCredentials,omitempty" tf:"allow_credentials,omitempty"`
+
+	// Specifies the content for the Access-Control-Allow-Headers header.
+	AllowHeaders []*string `json:"allowHeaders,omitempty" tf:"allow_headers,omitempty"`
+
+	// Specifies the content for the Access-Control-Allow-Methods header.
+	AllowMethods []*string `json:"allowMethods,omitempty" tf:"allow_methods,omitempty"`
+
+	// Specifies the regular expression patterns that match allowed origins. For
+	// regular expression grammar please see en.cppreference.com/w/cpp/regex/ecmascript
+	// An origin is allowed if it matches either allow_origins or allow_origin_regex.
+	AllowOriginRegexes []*string `json:"allowOriginRegexes,omitempty" tf:"allow_origin_regexes,omitempty"`
+
+	// Specifies the list of origins that will be allowed to do CORS requests. An
+	// origin is allowed if it matches either allow_origins or allow_origin_regex.
+	AllowOrigins []*string `json:"allowOrigins,omitempty" tf:"allow_origins,omitempty"`
+
+	// If true, specifies the CORS policy is disabled.
+	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
+
+	// Specifies the content for the Access-Control-Expose-Headers header.
+	ExposeHeaders []*string `json:"exposeHeaders,omitempty" tf:"expose_headers,omitempty"`
+
+	// Specifies how long the results of a preflight request can be cached. This
+	// translates to the content for the Access-Control-Max-Age header.
+	MaxAge *float64 `json:"maxAge,omitempty" tf:"max_age,omitempty"`
 }
 
 type PathMatcherDefaultRouteActionCorsPolicyParameters struct {
@@ -479,6 +755,15 @@ type PathMatcherDefaultRouteActionCorsPolicyParameters struct {
 }
 
 type PathMatcherDefaultRouteActionFaultInjectionPolicyAbortObservation struct {
+
+	// The HTTP status code used to abort the request. The value must be between 200
+	// and 599 inclusive.
+	HTTPStatus *float64 `json:"httpStatus,omitempty" tf:"http_status,omitempty"`
+
+	// The percentage of traffic (connections/operations/requests) on which delay will
+	// be introduced as part of fault injection. The value must be between 0.0 and
+	// 100.0 inclusive.
+	Percentage *float64 `json:"percentage,omitempty" tf:"percentage,omitempty"`
 }
 
 type PathMatcherDefaultRouteActionFaultInjectionPolicyAbortParameters struct {
@@ -496,6 +781,15 @@ type PathMatcherDefaultRouteActionFaultInjectionPolicyAbortParameters struct {
 }
 
 type PathMatcherDefaultRouteActionFaultInjectionPolicyDelayFixedDelayObservation struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution. Durations
+	// less than one second are represented with a 0 seconds field and a positive
+	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
+	// inclusive.
+	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
 type PathMatcherDefaultRouteActionFaultInjectionPolicyDelayFixedDelayParameters struct {
@@ -513,6 +807,15 @@ type PathMatcherDefaultRouteActionFaultInjectionPolicyDelayFixedDelayParameters 
 }
 
 type PathMatcherDefaultRouteActionFaultInjectionPolicyDelayObservation struct {
+
+	// Specifies the value of the fixed delay interval.
+	// Structure is documented below.
+	FixedDelay []PathMatcherDefaultRouteActionFaultInjectionPolicyDelayFixedDelayObservation `json:"fixedDelay,omitempty" tf:"fixed_delay,omitempty"`
+
+	// The percentage of traffic (connections/operations/requests) on which delay will
+	// be introduced as part of fault injection. The value must be between 0.0 and
+	// 100.0 inclusive.
+	Percentage *float64 `json:"percentage,omitempty" tf:"percentage,omitempty"`
 }
 
 type PathMatcherDefaultRouteActionFaultInjectionPolicyDelayParameters struct {
@@ -530,6 +833,16 @@ type PathMatcherDefaultRouteActionFaultInjectionPolicyDelayParameters struct {
 }
 
 type PathMatcherDefaultRouteActionFaultInjectionPolicyObservation struct {
+
+	// The specification for how client requests are aborted as part of fault
+	// injection.
+	// Structure is documented below.
+	Abort []PathMatcherDefaultRouteActionFaultInjectionPolicyAbortObservation `json:"abort,omitempty" tf:"abort,omitempty"`
+
+	// The specification for how client requests are delayed as part of fault
+	// injection, before being sent to a backend service.
+	// Structure is documented below.
+	Delay []PathMatcherDefaultRouteActionFaultInjectionPolicyDelayObservation `json:"delay,omitempty" tf:"delay,omitempty"`
 }
 
 type PathMatcherDefaultRouteActionFaultInjectionPolicyParameters struct {
@@ -548,6 +861,55 @@ type PathMatcherDefaultRouteActionFaultInjectionPolicyParameters struct {
 }
 
 type PathMatcherDefaultRouteActionObservation struct {
+
+	// The specification for allowing client side cross-origin requests. Please see W3C
+	// Recommendation for Cross Origin Resource Sharing
+	// Structure is documented below.
+	CorsPolicy []PathMatcherDefaultRouteActionCorsPolicyObservation `json:"corsPolicy,omitempty" tf:"cors_policy,omitempty"`
+
+	// The specification for fault injection introduced into traffic to test the
+	// resiliency of clients to backend service failure. As part of fault injection,
+	// when clients send requests to a backend service, delays can be introduced by
+	// Loadbalancer on a percentage of requests before sending those request to the
+	// backend service. Similarly requests from clients can be aborted by the
+	// Loadbalancer for a percentage of requests. timeout and retry_policy will be
+	// ignored by clients that are configured with a fault_injection_policy.
+	// Structure is documented below.
+	FaultInjectionPolicy []PathMatcherDefaultRouteActionFaultInjectionPolicyObservation `json:"faultInjectionPolicy,omitempty" tf:"fault_injection_policy,omitempty"`
+
+	// Specifies the policy on how requests intended for the route's backends are
+	// shadowed to a separate mirrored backend service. Loadbalancer does not wait for
+	// responses from the shadow service. Prior to sending traffic to the shadow
+	// service, the host / authority header is suffixed with -shadow.
+	// Structure is documented below.
+	RequestMirrorPolicy []PathMatcherDefaultRouteActionRequestMirrorPolicyObservation `json:"requestMirrorPolicy,omitempty" tf:"request_mirror_policy,omitempty"`
+
+	// Specifies the retry policy associated with this route.
+	// Structure is documented below.
+	RetryPolicy []PathMatcherDefaultRouteActionRetryPolicyObservation `json:"retryPolicy,omitempty" tf:"retry_policy,omitempty"`
+
+	// Specifies the timeout for the selected route. Timeout is computed from the time
+	// the request is has been fully processed (i.e. end-of-stream) up until the
+	// response has been completely processed. Timeout includes all retries. If not
+	// specified, the default value is 15 seconds.
+	// Structure is documented below.
+	Timeout []PathMatcherDefaultRouteActionTimeoutObservation `json:"timeout,omitempty" tf:"timeout,omitempty"`
+
+	// The spec to modify the URL of the request, prior to forwarding the request to
+	// the matched service
+	// Structure is documented below.
+	URLRewrite []PathMatcherDefaultRouteActionURLRewriteObservation `json:"urlRewrite,omitempty" tf:"url_rewrite,omitempty"`
+
+	// A list of weighted backend services to send traffic to when a route match
+	// occurs. The weights determine the fraction of traffic that flows to their
+	// corresponding backend service. If all traffic needs to go to a single backend
+	// service, there must be one  weightedBackendService with weight set to a non 0
+	// number. Once a backendService is identified and before forwarding the request to
+	// the backend service, advanced routing actions like Url rewrites and header
+	// transformations are applied depending on additional settings specified in this
+	// HttpRouteAction.
+	// Structure is documented below.
+	WeightedBackendServices []PathMatcherDefaultRouteActionWeightedBackendServicesObservation `json:"weightedBackendServices,omitempty" tf:"weighted_backend_services,omitempty"`
 }
 
 type PathMatcherDefaultRouteActionParameters struct {
@@ -610,6 +972,11 @@ type PathMatcherDefaultRouteActionParameters struct {
 }
 
 type PathMatcherDefaultRouteActionRequestMirrorPolicyObservation struct {
+
+	// The default BackendService resource. Before
+	// forwarding the request to backendService, the loadbalancer applies any relevant
+	// headerActions specified as part of this backendServiceWeight.
+	BackendService *string `json:"backendService,omitempty" tf:"backend_service,omitempty"`
 }
 
 type PathMatcherDefaultRouteActionRequestMirrorPolicyParameters struct {
@@ -622,6 +989,16 @@ type PathMatcherDefaultRouteActionRequestMirrorPolicyParameters struct {
 }
 
 type PathMatcherDefaultRouteActionRetryPolicyObservation struct {
+
+	// Specifies the allowed number retries. This number must be > 0.
+	NumRetries *float64 `json:"numRetries,omitempty" tf:"num_retries,omitempty"`
+
+	// Specifies a non-zero timeout per retry attempt.
+	// Structure is documented below.
+	PerTryTimeout []PathMatcherDefaultRouteActionRetryPolicyPerTryTimeoutObservation `json:"perTryTimeout,omitempty" tf:"per_try_timeout,omitempty"`
+
+	// Specifies one or more conditions when this retry rule applies. Valid values are:
+	RetryConditions []*string `json:"retryConditions,omitempty" tf:"retry_conditions,omitempty"`
 }
 
 type PathMatcherDefaultRouteActionRetryPolicyParameters struct {
@@ -641,6 +1018,15 @@ type PathMatcherDefaultRouteActionRetryPolicyParameters struct {
 }
 
 type PathMatcherDefaultRouteActionRetryPolicyPerTryTimeoutObservation struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution. Durations
+	// less than one second are represented with a 0 seconds field and a positive
+	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
+	// inclusive.
+	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
 type PathMatcherDefaultRouteActionRetryPolicyPerTryTimeoutParameters struct {
@@ -658,6 +1044,15 @@ type PathMatcherDefaultRouteActionRetryPolicyPerTryTimeoutParameters struct {
 }
 
 type PathMatcherDefaultRouteActionTimeoutObservation struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution. Durations
+	// less than one second are represented with a 0 seconds field and a positive
+	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
+	// inclusive.
+	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
 type PathMatcherDefaultRouteActionTimeoutParameters struct {
@@ -675,6 +1070,16 @@ type PathMatcherDefaultRouteActionTimeoutParameters struct {
 }
 
 type PathMatcherDefaultRouteActionURLRewriteObservation struct {
+
+	// Prior to forwarding the request to the selected service, the request's host
+	// header is replaced with contents of hostRewrite. The value must be between 1 and
+	// 255 characters.
+	HostRewrite *string `json:"hostRewrite,omitempty" tf:"host_rewrite,omitempty"`
+
+	// Prior to forwarding the request to the selected backend service, the matching
+	// portion of the request's path is replaced by pathPrefixRewrite. The value must
+	// be between 1 and 1024 characters.
+	PathPrefixRewrite *string `json:"pathPrefixRewrite,omitempty" tf:"path_prefix_rewrite,omitempty"`
 }
 
 type PathMatcherDefaultRouteActionURLRewriteParameters struct {
@@ -693,6 +1098,23 @@ type PathMatcherDefaultRouteActionURLRewriteParameters struct {
 }
 
 type PathMatcherDefaultRouteActionWeightedBackendServicesHeaderActionObservation struct {
+
+	// Headers to add to a matching request prior to forwarding the request to the
+	// backendService.
+	// Structure is documented below.
+	RequestHeadersToAdd []PathMatcherDefaultRouteActionWeightedBackendServicesHeaderActionRequestHeadersToAddObservation `json:"requestHeadersToAdd,omitempty" tf:"request_headers_to_add,omitempty"`
+
+	// A list of header names for headers that need to be removed from the request
+	// prior to forwarding the request to the backendService.
+	RequestHeadersToRemove []*string `json:"requestHeadersToRemove,omitempty" tf:"request_headers_to_remove,omitempty"`
+
+	// Headers to add the response prior to sending the response back to the client.
+	// Structure is documented below.
+	ResponseHeadersToAdd []PathMatcherDefaultRouteActionWeightedBackendServicesHeaderActionResponseHeadersToAddObservation `json:"responseHeadersToAdd,omitempty" tf:"response_headers_to_add,omitempty"`
+
+	// A list of header names for headers that need to be removed from the response
+	// prior to sending the response back to the client.
+	ResponseHeadersToRemove []*string `json:"responseHeadersToRemove,omitempty" tf:"response_headers_to_remove,omitempty"`
 }
 
 type PathMatcherDefaultRouteActionWeightedBackendServicesHeaderActionParameters struct {
@@ -720,6 +1142,17 @@ type PathMatcherDefaultRouteActionWeightedBackendServicesHeaderActionParameters 
 }
 
 type PathMatcherDefaultRouteActionWeightedBackendServicesHeaderActionRequestHeadersToAddObservation struct {
+
+	// The name of the header.
+	HeaderName *string `json:"headerName,omitempty" tf:"header_name,omitempty"`
+
+	// The value of the header to add.
+	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
+
+	// If false, headerValue is appended to any values that already exist for the
+	// header. If true, headerValue is set for the header, discarding any values that
+	// were set for that header.
+	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
 }
 
 type PathMatcherDefaultRouteActionWeightedBackendServicesHeaderActionRequestHeadersToAddParameters struct {
@@ -740,6 +1173,17 @@ type PathMatcherDefaultRouteActionWeightedBackendServicesHeaderActionRequestHead
 }
 
 type PathMatcherDefaultRouteActionWeightedBackendServicesHeaderActionResponseHeadersToAddObservation struct {
+
+	// The name of the header.
+	HeaderName *string `json:"headerName,omitempty" tf:"header_name,omitempty"`
+
+	// The value of the header to add.
+	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
+
+	// If false, headerValue is appended to any values that already exist for the
+	// header. If true, headerValue is set for the header, discarding any values that
+	// were set for that header.
+	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
 }
 
 type PathMatcherDefaultRouteActionWeightedBackendServicesHeaderActionResponseHeadersToAddParameters struct {
@@ -760,6 +1204,25 @@ type PathMatcherDefaultRouteActionWeightedBackendServicesHeaderActionResponseHea
 }
 
 type PathMatcherDefaultRouteActionWeightedBackendServicesObservation struct {
+
+	// The default BackendService resource. Before
+	// forwarding the request to backendService, the loadbalancer applies any relevant
+	// headerActions specified as part of this backendServiceWeight.
+	BackendService *string `json:"backendService,omitempty" tf:"backend_service,omitempty"`
+
+	// Specifies changes to request and response headers that need to take effect for
+	// the selected backendService. headerAction specified here take effect before
+	// headerAction in the enclosing HttpRouteRule, PathMatcher and UrlMap.
+	// Structure is documented below.
+	HeaderAction []PathMatcherDefaultRouteActionWeightedBackendServicesHeaderActionObservation `json:"headerAction,omitempty" tf:"header_action,omitempty"`
+
+	// Specifies the fraction of traffic sent to backendService, computed as weight /
+	// (sum of all weightedBackendService weights in routeAction) . The selection of a
+	// backend service is determined only for new traffic. Once a user's request has
+	// been directed to a backendService, subsequent requests will be sent to the same
+	// backendService as determined by the BackendService's session affinity policy.
+	// The value must be between 0 and 1000
+	Weight *float64 `json:"weight,omitempty" tf:"weight,omitempty"`
 }
 
 type PathMatcherDefaultRouteActionWeightedBackendServicesParameters struct {
@@ -788,6 +1251,23 @@ type PathMatcherDefaultRouteActionWeightedBackendServicesParameters struct {
 }
 
 type PathMatcherHeaderActionObservation struct {
+
+	// Headers to add to a matching request prior to forwarding the request to the
+	// backendService.
+	// Structure is documented below.
+	RequestHeadersToAdd []PathMatcherHeaderActionRequestHeadersToAddObservation `json:"requestHeadersToAdd,omitempty" tf:"request_headers_to_add,omitempty"`
+
+	// A list of header names for headers that need to be removed from the request
+	// prior to forwarding the request to the backendService.
+	RequestHeadersToRemove []*string `json:"requestHeadersToRemove,omitempty" tf:"request_headers_to_remove,omitempty"`
+
+	// Headers to add the response prior to sending the response back to the client.
+	// Structure is documented below.
+	ResponseHeadersToAdd []PathMatcherHeaderActionResponseHeadersToAddObservation `json:"responseHeadersToAdd,omitempty" tf:"response_headers_to_add,omitempty"`
+
+	// A list of header names for headers that need to be removed from the response
+	// prior to sending the response back to the client.
+	ResponseHeadersToRemove []*string `json:"responseHeadersToRemove,omitempty" tf:"response_headers_to_remove,omitempty"`
 }
 
 type PathMatcherHeaderActionParameters struct {
@@ -815,6 +1295,17 @@ type PathMatcherHeaderActionParameters struct {
 }
 
 type PathMatcherHeaderActionRequestHeadersToAddObservation struct {
+
+	// The name of the header.
+	HeaderName *string `json:"headerName,omitempty" tf:"header_name,omitempty"`
+
+	// The value of the header to add.
+	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
+
+	// If false, headerValue is appended to any values that already exist for the
+	// header. If true, headerValue is set for the header, discarding any values that
+	// were set for that header.
+	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
 }
 
 type PathMatcherHeaderActionRequestHeadersToAddParameters struct {
@@ -835,6 +1326,17 @@ type PathMatcherHeaderActionRequestHeadersToAddParameters struct {
 }
 
 type PathMatcherHeaderActionResponseHeadersToAddObservation struct {
+
+	// The name of the header.
+	HeaderName *string `json:"headerName,omitempty" tf:"header_name,omitempty"`
+
+	// The value of the header to add.
+	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
+
+	// If false, headerValue is appended to any values that already exist for the
+	// header. If true, headerValue is set for the header, discarding any values that
+	// were set for that header.
+	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
 }
 
 type PathMatcherHeaderActionResponseHeadersToAddParameters struct {
@@ -855,6 +1357,30 @@ type PathMatcherHeaderActionResponseHeadersToAddParameters struct {
 }
 
 type PathMatcherPathRuleObservation struct {
+
+	// The list of path patterns to match. Each must start with / and the only place a
+	// * is allowed is at the end following a /. The string fed to the path matcher
+	// does not include any text after the first ? or #, and those chars are not
+	// allowed here.
+	Paths []*string `json:"paths,omitempty" tf:"paths,omitempty"`
+
+	// In response to a matching matchRule, the load balancer performs advanced routing
+	// actions like URL rewrites, header transformations, etc. prior to forwarding the
+	// request to the selected backend. If  routeAction specifies any
+	// weightedBackendServices, service must not be set. Conversely if service is set,
+	// routeAction cannot contain any  weightedBackendServices. Only one of routeAction
+	// or urlRedirect must be set.
+	// Structure is documented below.
+	RouteAction []PathRuleRouteActionObservation `json:"routeAction,omitempty" tf:"route_action,omitempty"`
+
+	// The backend service or backend bucket link that should be matched by this test.
+	Service *string `json:"service,omitempty" tf:"service,omitempty"`
+
+	// When this rule is matched, the request is redirected to a URL specified by
+	// urlRedirect. If urlRedirect is specified, service or routeAction must not be
+	// set.
+	// Structure is documented below.
+	URLRedirect []PathRuleURLRedirectObservation `json:"urlRedirect,omitempty" tf:"url_redirect,omitempty"`
 }
 
 type PathMatcherPathRuleParameters struct {
@@ -899,6 +1425,23 @@ type PathMatcherPathRuleParameters struct {
 }
 
 type PathMatcherRouteRulesHeaderActionObservation struct {
+
+	// Headers to add to a matching request prior to forwarding the request to the
+	// backendService.
+	// Structure is documented below.
+	RequestHeadersToAdd []PathMatcherRouteRulesHeaderActionRequestHeadersToAddObservation `json:"requestHeadersToAdd,omitempty" tf:"request_headers_to_add,omitempty"`
+
+	// A list of header names for headers that need to be removed from the request
+	// prior to forwarding the request to the backendService.
+	RequestHeadersToRemove []*string `json:"requestHeadersToRemove,omitempty" tf:"request_headers_to_remove,omitempty"`
+
+	// Headers to add the response prior to sending the response back to the client.
+	// Structure is documented below.
+	ResponseHeadersToAdd []PathMatcherRouteRulesHeaderActionResponseHeadersToAddObservation `json:"responseHeadersToAdd,omitempty" tf:"response_headers_to_add,omitempty"`
+
+	// A list of header names for headers that need to be removed from the response
+	// prior to sending the response back to the client.
+	ResponseHeadersToRemove []*string `json:"responseHeadersToRemove,omitempty" tf:"response_headers_to_remove,omitempty"`
 }
 
 type PathMatcherRouteRulesHeaderActionParameters struct {
@@ -926,6 +1469,17 @@ type PathMatcherRouteRulesHeaderActionParameters struct {
 }
 
 type PathMatcherRouteRulesHeaderActionRequestHeadersToAddObservation struct {
+
+	// The name of the header.
+	HeaderName *string `json:"headerName,omitempty" tf:"header_name,omitempty"`
+
+	// The value of the header to add.
+	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
+
+	// If false, headerValue is appended to any values that already exist for the
+	// header. If true, headerValue is set for the header, discarding any values that
+	// were set for that header.
+	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
 }
 
 type PathMatcherRouteRulesHeaderActionRequestHeadersToAddParameters struct {
@@ -946,6 +1500,17 @@ type PathMatcherRouteRulesHeaderActionRequestHeadersToAddParameters struct {
 }
 
 type PathMatcherRouteRulesHeaderActionResponseHeadersToAddObservation struct {
+
+	// The name of the header.
+	HeaderName *string `json:"headerName,omitempty" tf:"header_name,omitempty"`
+
+	// The value of the header to add.
+	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
+
+	// If false, headerValue is appended to any values that already exist for the
+	// header. If true, headerValue is set for the header, discarding any values that
+	// were set for that header.
+	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
 }
 
 type PathMatcherRouteRulesHeaderActionResponseHeadersToAddParameters struct {
@@ -966,6 +1531,49 @@ type PathMatcherRouteRulesHeaderActionResponseHeadersToAddParameters struct {
 }
 
 type PathMatcherRouteRulesObservation struct {
+
+	// Specifies changes to request and response headers that need to take effect for
+	// the selected backendService. headerAction specified here take effect before
+	// headerAction in the enclosing HttpRouteRule, PathMatcher and UrlMap.
+	// Structure is documented below.
+	HeaderAction []PathMatcherRouteRulesHeaderActionObservation `json:"headerAction,omitempty" tf:"header_action,omitempty"`
+
+	// The rules for determining a match.
+	// Structure is documented below.
+	MatchRules []RouteRulesMatchRulesObservation `json:"matchRules,omitempty" tf:"match_rules,omitempty"`
+
+	// For routeRules within a given pathMatcher, priority determines the order
+	// in which load balancer will interpret routeRules. RouteRules are evaluated
+	// in order of priority, from the lowest to highest number. The priority of
+	// a rule decreases as its number increases (1, 2, 3, N+1). The first rule
+	// that matches the request is applied.
+	// You cannot configure two or more routeRules with the same priority.
+	// Priority for each rule must be set to a number between 0 and
+	// 2147483647 inclusive.
+	// Priority numbers can have gaps, which enable you to add or remove rules
+	// in the future without affecting the rest of the rules. For example,
+	// 1, 2, 3, 4, 5, 9, 12, 16 is a valid series of priority numbers to which
+	// you could add rules numbered from 6 to 8, 10 to 11, and 13 to 15 in the
+	// future without any impact on existing rules.
+	Priority *float64 `json:"priority,omitempty" tf:"priority,omitempty"`
+
+	// In response to a matching matchRule, the load balancer performs advanced routing
+	// actions like URL rewrites, header transformations, etc. prior to forwarding the
+	// request to the selected backend. If  routeAction specifies any
+	// weightedBackendServices, service must not be set. Conversely if service is set,
+	// routeAction cannot contain any  weightedBackendServices. Only one of routeAction
+	// or urlRedirect must be set.
+	// Structure is documented below.
+	RouteAction []PathMatcherRouteRulesRouteActionObservation `json:"routeAction,omitempty" tf:"route_action,omitempty"`
+
+	// The backend service or backend bucket link that should be matched by this test.
+	Service *string `json:"service,omitempty" tf:"service,omitempty"`
+
+	// When this rule is matched, the request is redirected to a URL specified by
+	// urlRedirect. If urlRedirect is specified, service or routeAction must not be
+	// set.
+	// Structure is documented below.
+	URLRedirect []PathMatcherRouteRulesURLRedirectObservation `json:"urlRedirect,omitempty" tf:"url_redirect,omitempty"`
 }
 
 type PathMatcherRouteRulesParameters struct {
@@ -1031,6 +1639,36 @@ type PathMatcherRouteRulesParameters struct {
 }
 
 type PathMatcherRouteRulesRouteActionCorsPolicyObservation struct {
+
+	// In response to a preflight request, setting this to true indicates that the
+	// actual request can include user credentials. This translates to the Access-
+	// Control-Allow-Credentials header. Defaults to false.
+	AllowCredentials *bool `json:"allowCredentials,omitempty" tf:"allow_credentials,omitempty"`
+
+	// Specifies the content for the Access-Control-Allow-Headers header.
+	AllowHeaders []*string `json:"allowHeaders,omitempty" tf:"allow_headers,omitempty"`
+
+	// Specifies the content for the Access-Control-Allow-Methods header.
+	AllowMethods []*string `json:"allowMethods,omitempty" tf:"allow_methods,omitempty"`
+
+	// Specifies the regular expression patterns that match allowed origins. For
+	// regular expression grammar please see en.cppreference.com/w/cpp/regex/ecmascript
+	// An origin is allowed if it matches either allow_origins or allow_origin_regex.
+	AllowOriginRegexes []*string `json:"allowOriginRegexes,omitempty" tf:"allow_origin_regexes,omitempty"`
+
+	// Specifies the list of origins that will be allowed to do CORS requests. An
+	// origin is allowed if it matches either allow_origins or allow_origin_regex.
+	AllowOrigins []*string `json:"allowOrigins,omitempty" tf:"allow_origins,omitempty"`
+
+	// If true, specifies the CORS policy is disabled.
+	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
+
+	// Specifies the content for the Access-Control-Expose-Headers header.
+	ExposeHeaders []*string `json:"exposeHeaders,omitempty" tf:"expose_headers,omitempty"`
+
+	// Specifies how long the results of a preflight request can be cached. This
+	// translates to the content for the Access-Control-Max-Age header.
+	MaxAge *float64 `json:"maxAge,omitempty" tf:"max_age,omitempty"`
 }
 
 type PathMatcherRouteRulesRouteActionCorsPolicyParameters struct {
@@ -1075,6 +1713,16 @@ type PathMatcherRouteRulesRouteActionCorsPolicyParameters struct {
 }
 
 type PathMatcherRouteRulesRouteActionFaultInjectionPolicyObservation struct {
+
+	// The specification for how client requests are aborted as part of fault
+	// injection.
+	// Structure is documented below.
+	Abort []RouteRulesRouteActionFaultInjectionPolicyAbortObservation `json:"abort,omitempty" tf:"abort,omitempty"`
+
+	// The specification for how client requests are delayed as part of fault
+	// injection, before being sent to a backend service.
+	// Structure is documented below.
+	Delay []RouteRulesRouteActionFaultInjectionPolicyDelayObservation `json:"delay,omitempty" tf:"delay,omitempty"`
 }
 
 type PathMatcherRouteRulesRouteActionFaultInjectionPolicyParameters struct {
@@ -1093,6 +1741,55 @@ type PathMatcherRouteRulesRouteActionFaultInjectionPolicyParameters struct {
 }
 
 type PathMatcherRouteRulesRouteActionObservation struct {
+
+	// The specification for allowing client side cross-origin requests. Please see W3C
+	// Recommendation for Cross Origin Resource Sharing
+	// Structure is documented below.
+	CorsPolicy []PathMatcherRouteRulesRouteActionCorsPolicyObservation `json:"corsPolicy,omitempty" tf:"cors_policy,omitempty"`
+
+	// The specification for fault injection introduced into traffic to test the
+	// resiliency of clients to backend service failure. As part of fault injection,
+	// when clients send requests to a backend service, delays can be introduced by
+	// Loadbalancer on a percentage of requests before sending those request to the
+	// backend service. Similarly requests from clients can be aborted by the
+	// Loadbalancer for a percentage of requests. timeout and retry_policy will be
+	// ignored by clients that are configured with a fault_injection_policy.
+	// Structure is documented below.
+	FaultInjectionPolicy []PathMatcherRouteRulesRouteActionFaultInjectionPolicyObservation `json:"faultInjectionPolicy,omitempty" tf:"fault_injection_policy,omitempty"`
+
+	// Specifies the policy on how requests intended for the route's backends are
+	// shadowed to a separate mirrored backend service. Loadbalancer does not wait for
+	// responses from the shadow service. Prior to sending traffic to the shadow
+	// service, the host / authority header is suffixed with -shadow.
+	// Structure is documented below.
+	RequestMirrorPolicy []PathMatcherRouteRulesRouteActionRequestMirrorPolicyObservation `json:"requestMirrorPolicy,omitempty" tf:"request_mirror_policy,omitempty"`
+
+	// Specifies the retry policy associated with this route.
+	// Structure is documented below.
+	RetryPolicy []PathMatcherRouteRulesRouteActionRetryPolicyObservation `json:"retryPolicy,omitempty" tf:"retry_policy,omitempty"`
+
+	// Specifies the timeout for the selected route. Timeout is computed from the time
+	// the request is has been fully processed (i.e. end-of-stream) up until the
+	// response has been completely processed. Timeout includes all retries. If not
+	// specified, the default value is 15 seconds.
+	// Structure is documented below.
+	Timeout []PathMatcherRouteRulesRouteActionTimeoutObservation `json:"timeout,omitempty" tf:"timeout,omitempty"`
+
+	// The spec to modify the URL of the request, prior to forwarding the request to
+	// the matched service
+	// Structure is documented below.
+	URLRewrite []PathMatcherRouteRulesRouteActionURLRewriteObservation `json:"urlRewrite,omitempty" tf:"url_rewrite,omitempty"`
+
+	// A list of weighted backend services to send traffic to when a route match
+	// occurs. The weights determine the fraction of traffic that flows to their
+	// corresponding backend service. If all traffic needs to go to a single backend
+	// service, there must be one  weightedBackendService with weight set to a non 0
+	// number. Once a backendService is identified and before forwarding the request to
+	// the backend service, advanced routing actions like Url rewrites and header
+	// transformations are applied depending on additional settings specified in this
+	// HttpRouteAction.
+	// Structure is documented below.
+	WeightedBackendServices []PathMatcherRouteRulesRouteActionWeightedBackendServicesObservation `json:"weightedBackendServices,omitempty" tf:"weighted_backend_services,omitempty"`
 }
 
 type PathMatcherRouteRulesRouteActionParameters struct {
@@ -1155,6 +1852,11 @@ type PathMatcherRouteRulesRouteActionParameters struct {
 }
 
 type PathMatcherRouteRulesRouteActionRequestMirrorPolicyObservation struct {
+
+	// The default BackendService resource. Before
+	// forwarding the request to backendService, the loadbalancer applies any relevant
+	// headerActions specified as part of this backendServiceWeight.
+	BackendService *string `json:"backendService,omitempty" tf:"backend_service,omitempty"`
 }
 
 type PathMatcherRouteRulesRouteActionRequestMirrorPolicyParameters struct {
@@ -1167,6 +1869,16 @@ type PathMatcherRouteRulesRouteActionRequestMirrorPolicyParameters struct {
 }
 
 type PathMatcherRouteRulesRouteActionRetryPolicyObservation struct {
+
+	// Specifies the allowed number retries. This number must be > 0.
+	NumRetries *float64 `json:"numRetries,omitempty" tf:"num_retries,omitempty"`
+
+	// Specifies a non-zero timeout per retry attempt.
+	// Structure is documented below.
+	PerTryTimeout []RouteRulesRouteActionRetryPolicyPerTryTimeoutObservation `json:"perTryTimeout,omitempty" tf:"per_try_timeout,omitempty"`
+
+	// Specifies one or more conditions when this retry rule applies. Valid values are:
+	RetryConditions []*string `json:"retryConditions,omitempty" tf:"retry_conditions,omitempty"`
 }
 
 type PathMatcherRouteRulesRouteActionRetryPolicyParameters struct {
@@ -1186,6 +1898,15 @@ type PathMatcherRouteRulesRouteActionRetryPolicyParameters struct {
 }
 
 type PathMatcherRouteRulesRouteActionTimeoutObservation struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution. Durations
+	// less than one second are represented with a 0 seconds field and a positive
+	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
+	// inclusive.
+	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
 type PathMatcherRouteRulesRouteActionTimeoutParameters struct {
@@ -1203,6 +1924,16 @@ type PathMatcherRouteRulesRouteActionTimeoutParameters struct {
 }
 
 type PathMatcherRouteRulesRouteActionURLRewriteObservation struct {
+
+	// Prior to forwarding the request to the selected service, the request's host
+	// header is replaced with contents of hostRewrite. The value must be between 1 and
+	// 255 characters.
+	HostRewrite *string `json:"hostRewrite,omitempty" tf:"host_rewrite,omitempty"`
+
+	// Prior to forwarding the request to the selected backend service, the matching
+	// portion of the request's path is replaced by pathPrefixRewrite. The value must
+	// be between 1 and 1024 characters.
+	PathPrefixRewrite *string `json:"pathPrefixRewrite,omitempty" tf:"path_prefix_rewrite,omitempty"`
 }
 
 type PathMatcherRouteRulesRouteActionURLRewriteParameters struct {
@@ -1221,6 +1952,25 @@ type PathMatcherRouteRulesRouteActionURLRewriteParameters struct {
 }
 
 type PathMatcherRouteRulesRouteActionWeightedBackendServicesObservation struct {
+
+	// The default BackendService resource. Before
+	// forwarding the request to backendService, the loadbalancer applies any relevant
+	// headerActions specified as part of this backendServiceWeight.
+	BackendService *string `json:"backendService,omitempty" tf:"backend_service,omitempty"`
+
+	// Specifies changes to request and response headers that need to take effect for
+	// the selected backendService. headerAction specified here take effect before
+	// headerAction in the enclosing HttpRouteRule, PathMatcher and UrlMap.
+	// Structure is documented below.
+	HeaderAction []RouteRulesRouteActionWeightedBackendServicesHeaderActionObservation `json:"headerAction,omitempty" tf:"header_action,omitempty"`
+
+	// Specifies the fraction of traffic sent to backendService, computed as weight /
+	// (sum of all weightedBackendService weights in routeAction) . The selection of a
+	// backend service is determined only for new traffic. Once a user's request has
+	// been directed to a backendService, subsequent requests will be sent to the same
+	// backendService as determined by the BackendService's session affinity policy.
+	// The value must be between 0 and 1000
+	Weight *float64 `json:"weight,omitempty" tf:"weight,omitempty"`
 }
 
 type PathMatcherRouteRulesRouteActionWeightedBackendServicesParameters struct {
@@ -1249,6 +1999,42 @@ type PathMatcherRouteRulesRouteActionWeightedBackendServicesParameters struct {
 }
 
 type PathMatcherRouteRulesURLRedirectObservation struct {
+
+	// If set to true, the URL scheme in the redirected request is set to https.
+	// If set to false, the URL scheme of the redirected request will remain the
+	// same as that of the request. This must only be set for UrlMaps used in
+	// TargetHttpProxys. Setting this true for TargetHttpsProxy is not
+	// permitted. The default is set to false.
+	HTTPSRedirect *bool `json:"httpsRedirect,omitempty" tf:"https_redirect,omitempty"`
+
+	// The host that will be used in the redirect response instead of the one
+	// that was supplied in the request. The value must be between 1 and 255
+	// characters.
+	HostRedirect *string `json:"hostRedirect,omitempty" tf:"host_redirect,omitempty"`
+
+	// The path that will be used in the redirect response instead of the one
+	// that was supplied in the request. pathRedirect cannot be supplied
+	// together with prefixRedirect. Supply one alone or neither. If neither is
+	// supplied, the path of the original request will be used for the redirect.
+	// The value must be between 1 and 1024 characters.
+	PathRedirect *string `json:"pathRedirect,omitempty" tf:"path_redirect,omitempty"`
+
+	// The prefix that replaces the prefixMatch specified in the
+	// HttpRouteRuleMatch, retaining the remaining portion of the URL before
+	// redirecting the request. prefixRedirect cannot be supplied together with
+	// pathRedirect. Supply one alone or neither. If neither is supplied, the
+	// path of the original request will be used for the redirect. The value
+	// must be between 1 and 1024 characters.
+	PrefixRedirect *string `json:"prefixRedirect,omitempty" tf:"prefix_redirect,omitempty"`
+
+	// The HTTP Status code to use for this RedirectAction. Supported values are:
+	RedirectResponseCode *string `json:"redirectResponseCode,omitempty" tf:"redirect_response_code,omitempty"`
+
+	// If set to true, any accompanying query portion of the original URL is
+	// removed prior to redirecting the request. If set to false, the query
+	// portion of the original URL is retained.
+	// This field is required to ensure an empty block is not set. The normal default value is false.
+	StripQuery *bool `json:"stripQuery,omitempty" tf:"strip_query,omitempty"`
 }
 
 type PathMatcherRouteRulesURLRedirectParameters struct {
@@ -1297,6 +2083,36 @@ type PathMatcherRouteRulesURLRedirectParameters struct {
 }
 
 type PathRuleRouteActionCorsPolicyObservation struct {
+
+	// In response to a preflight request, setting this to true indicates that the
+	// actual request can include user credentials. This translates to the Access-
+	// Control-Allow-Credentials header. Defaults to false.
+	AllowCredentials *bool `json:"allowCredentials,omitempty" tf:"allow_credentials,omitempty"`
+
+	// Specifies the content for the Access-Control-Allow-Headers header.
+	AllowHeaders []*string `json:"allowHeaders,omitempty" tf:"allow_headers,omitempty"`
+
+	// Specifies the content for the Access-Control-Allow-Methods header.
+	AllowMethods []*string `json:"allowMethods,omitempty" tf:"allow_methods,omitempty"`
+
+	// Specifies the regular expression patterns that match allowed origins. For
+	// regular expression grammar please see en.cppreference.com/w/cpp/regex/ecmascript
+	// An origin is allowed if it matches either allow_origins or allow_origin_regex.
+	AllowOriginRegexes []*string `json:"allowOriginRegexes,omitempty" tf:"allow_origin_regexes,omitempty"`
+
+	// Specifies the list of origins that will be allowed to do CORS requests. An
+	// origin is allowed if it matches either allow_origins or allow_origin_regex.
+	AllowOrigins []*string `json:"allowOrigins,omitempty" tf:"allow_origins,omitempty"`
+
+	// If true, specifies the CORS policy is disabled.
+	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
+
+	// Specifies the content for the Access-Control-Expose-Headers header.
+	ExposeHeaders []*string `json:"exposeHeaders,omitempty" tf:"expose_headers,omitempty"`
+
+	// Specifies how long the results of a preflight request can be cached. This
+	// translates to the content for the Access-Control-Max-Age header.
+	MaxAge *float64 `json:"maxAge,omitempty" tf:"max_age,omitempty"`
 }
 
 type PathRuleRouteActionCorsPolicyParameters struct {
@@ -1341,6 +2157,15 @@ type PathRuleRouteActionCorsPolicyParameters struct {
 }
 
 type PathRuleRouteActionFaultInjectionPolicyAbortObservation struct {
+
+	// The HTTP status code used to abort the request. The value must be between 200
+	// and 599 inclusive.
+	HTTPStatus *float64 `json:"httpStatus,omitempty" tf:"http_status,omitempty"`
+
+	// The percentage of traffic (connections/operations/requests) on which delay will
+	// be introduced as part of fault injection. The value must be between 0.0 and
+	// 100.0 inclusive.
+	Percentage *float64 `json:"percentage,omitempty" tf:"percentage,omitempty"`
 }
 
 type PathRuleRouteActionFaultInjectionPolicyAbortParameters struct {
@@ -1358,6 +2183,15 @@ type PathRuleRouteActionFaultInjectionPolicyAbortParameters struct {
 }
 
 type PathRuleRouteActionFaultInjectionPolicyDelayObservation struct {
+
+	// Specifies the value of the fixed delay interval.
+	// Structure is documented below.
+	FixedDelay []RouteActionFaultInjectionPolicyDelayFixedDelayObservation `json:"fixedDelay,omitempty" tf:"fixed_delay,omitempty"`
+
+	// The percentage of traffic (connections/operations/requests) on which delay will
+	// be introduced as part of fault injection. The value must be between 0.0 and
+	// 100.0 inclusive.
+	Percentage *float64 `json:"percentage,omitempty" tf:"percentage,omitempty"`
 }
 
 type PathRuleRouteActionFaultInjectionPolicyDelayParameters struct {
@@ -1375,6 +2209,16 @@ type PathRuleRouteActionFaultInjectionPolicyDelayParameters struct {
 }
 
 type PathRuleRouteActionFaultInjectionPolicyObservation struct {
+
+	// The specification for how client requests are aborted as part of fault
+	// injection.
+	// Structure is documented below.
+	Abort []PathRuleRouteActionFaultInjectionPolicyAbortObservation `json:"abort,omitempty" tf:"abort,omitempty"`
+
+	// The specification for how client requests are delayed as part of fault
+	// injection, before being sent to a backend service.
+	// Structure is documented below.
+	Delay []PathRuleRouteActionFaultInjectionPolicyDelayObservation `json:"delay,omitempty" tf:"delay,omitempty"`
 }
 
 type PathRuleRouteActionFaultInjectionPolicyParameters struct {
@@ -1393,6 +2237,55 @@ type PathRuleRouteActionFaultInjectionPolicyParameters struct {
 }
 
 type PathRuleRouteActionObservation struct {
+
+	// The specification for allowing client side cross-origin requests. Please see W3C
+	// Recommendation for Cross Origin Resource Sharing
+	// Structure is documented below.
+	CorsPolicy []PathRuleRouteActionCorsPolicyObservation `json:"corsPolicy,omitempty" tf:"cors_policy,omitempty"`
+
+	// The specification for fault injection introduced into traffic to test the
+	// resiliency of clients to backend service failure. As part of fault injection,
+	// when clients send requests to a backend service, delays can be introduced by
+	// Loadbalancer on a percentage of requests before sending those request to the
+	// backend service. Similarly requests from clients can be aborted by the
+	// Loadbalancer for a percentage of requests. timeout and retry_policy will be
+	// ignored by clients that are configured with a fault_injection_policy.
+	// Structure is documented below.
+	FaultInjectionPolicy []PathRuleRouteActionFaultInjectionPolicyObservation `json:"faultInjectionPolicy,omitempty" tf:"fault_injection_policy,omitempty"`
+
+	// Specifies the policy on how requests intended for the route's backends are
+	// shadowed to a separate mirrored backend service. Loadbalancer does not wait for
+	// responses from the shadow service. Prior to sending traffic to the shadow
+	// service, the host / authority header is suffixed with -shadow.
+	// Structure is documented below.
+	RequestMirrorPolicy []PathRuleRouteActionRequestMirrorPolicyObservation `json:"requestMirrorPolicy,omitempty" tf:"request_mirror_policy,omitempty"`
+
+	// Specifies the retry policy associated with this route.
+	// Structure is documented below.
+	RetryPolicy []PathRuleRouteActionRetryPolicyObservation `json:"retryPolicy,omitempty" tf:"retry_policy,omitempty"`
+
+	// Specifies the timeout for the selected route. Timeout is computed from the time
+	// the request is has been fully processed (i.e. end-of-stream) up until the
+	// response has been completely processed. Timeout includes all retries. If not
+	// specified, the default value is 15 seconds.
+	// Structure is documented below.
+	Timeout []PathRuleRouteActionTimeoutObservation `json:"timeout,omitempty" tf:"timeout,omitempty"`
+
+	// The spec to modify the URL of the request, prior to forwarding the request to
+	// the matched service
+	// Structure is documented below.
+	URLRewrite []PathRuleRouteActionURLRewriteObservation `json:"urlRewrite,omitempty" tf:"url_rewrite,omitempty"`
+
+	// A list of weighted backend services to send traffic to when a route match
+	// occurs. The weights determine the fraction of traffic that flows to their
+	// corresponding backend service. If all traffic needs to go to a single backend
+	// service, there must be one  weightedBackendService with weight set to a non 0
+	// number. Once a backendService is identified and before forwarding the request to
+	// the backend service, advanced routing actions like Url rewrites and header
+	// transformations are applied depending on additional settings specified in this
+	// HttpRouteAction.
+	// Structure is documented below.
+	WeightedBackendServices []PathRuleRouteActionWeightedBackendServicesObservation `json:"weightedBackendServices,omitempty" tf:"weighted_backend_services,omitempty"`
 }
 
 type PathRuleRouteActionParameters struct {
@@ -1455,6 +2348,11 @@ type PathRuleRouteActionParameters struct {
 }
 
 type PathRuleRouteActionRequestMirrorPolicyObservation struct {
+
+	// The default BackendService resource. Before
+	// forwarding the request to backendService, the loadbalancer applies any relevant
+	// headerActions specified as part of this backendServiceWeight.
+	BackendService *string `json:"backendService,omitempty" tf:"backend_service,omitempty"`
 }
 
 type PathRuleRouteActionRequestMirrorPolicyParameters struct {
@@ -1477,6 +2375,16 @@ type PathRuleRouteActionRequestMirrorPolicyParameters struct {
 }
 
 type PathRuleRouteActionRetryPolicyObservation struct {
+
+	// Specifies the allowed number retries. This number must be > 0.
+	NumRetries *float64 `json:"numRetries,omitempty" tf:"num_retries,omitempty"`
+
+	// Specifies a non-zero timeout per retry attempt.
+	// Structure is documented below.
+	PerTryTimeout []PathRuleRouteActionRetryPolicyPerTryTimeoutObservation `json:"perTryTimeout,omitempty" tf:"per_try_timeout,omitempty"`
+
+	// Specifies one or more conditions when this retry rule applies. Valid values are:
+	RetryConditions []*string `json:"retryConditions,omitempty" tf:"retry_conditions,omitempty"`
 }
 
 type PathRuleRouteActionRetryPolicyParameters struct {
@@ -1496,6 +2404,15 @@ type PathRuleRouteActionRetryPolicyParameters struct {
 }
 
 type PathRuleRouteActionRetryPolicyPerTryTimeoutObservation struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution. Durations
+	// less than one second are represented with a 0 seconds field and a positive
+	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
+	// inclusive.
+	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
 type PathRuleRouteActionRetryPolicyPerTryTimeoutParameters struct {
@@ -1513,6 +2430,15 @@ type PathRuleRouteActionRetryPolicyPerTryTimeoutParameters struct {
 }
 
 type PathRuleRouteActionTimeoutObservation struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution. Durations
+	// less than one second are represented with a 0 seconds field and a positive
+	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
+	// inclusive.
+	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
 type PathRuleRouteActionTimeoutParameters struct {
@@ -1530,6 +2456,16 @@ type PathRuleRouteActionTimeoutParameters struct {
 }
 
 type PathRuleRouteActionURLRewriteObservation struct {
+
+	// Prior to forwarding the request to the selected service, the request's host
+	// header is replaced with contents of hostRewrite. The value must be between 1 and
+	// 255 characters.
+	HostRewrite *string `json:"hostRewrite,omitempty" tf:"host_rewrite,omitempty"`
+
+	// Prior to forwarding the request to the selected backend service, the matching
+	// portion of the request's path is replaced by pathPrefixRewrite. The value must
+	// be between 1 and 1024 characters.
+	PathPrefixRewrite *string `json:"pathPrefixRewrite,omitempty" tf:"path_prefix_rewrite,omitempty"`
 }
 
 type PathRuleRouteActionURLRewriteParameters struct {
@@ -1548,6 +2484,23 @@ type PathRuleRouteActionURLRewriteParameters struct {
 }
 
 type PathRuleRouteActionWeightedBackendServicesHeaderActionObservation struct {
+
+	// Headers to add to a matching request prior to forwarding the request to the
+	// backendService.
+	// Structure is documented below.
+	RequestHeadersToAdd []RouteActionWeightedBackendServicesHeaderActionRequestHeadersToAddObservation `json:"requestHeadersToAdd,omitempty" tf:"request_headers_to_add,omitempty"`
+
+	// A list of header names for headers that need to be removed from the request
+	// prior to forwarding the request to the backendService.
+	RequestHeadersToRemove []*string `json:"requestHeadersToRemove,omitempty" tf:"request_headers_to_remove,omitempty"`
+
+	// Headers to add the response prior to sending the response back to the client.
+	// Structure is documented below.
+	ResponseHeadersToAdd []RouteActionWeightedBackendServicesHeaderActionResponseHeadersToAddObservation `json:"responseHeadersToAdd,omitempty" tf:"response_headers_to_add,omitempty"`
+
+	// A list of header names for headers that need to be removed from the response
+	// prior to sending the response back to the client.
+	ResponseHeadersToRemove []*string `json:"responseHeadersToRemove,omitempty" tf:"response_headers_to_remove,omitempty"`
 }
 
 type PathRuleRouteActionWeightedBackendServicesHeaderActionParameters struct {
@@ -1575,6 +2528,25 @@ type PathRuleRouteActionWeightedBackendServicesHeaderActionParameters struct {
 }
 
 type PathRuleRouteActionWeightedBackendServicesObservation struct {
+
+	// The default BackendService resource. Before
+	// forwarding the request to backendService, the loadbalancer applies any relevant
+	// headerActions specified as part of this backendServiceWeight.
+	BackendService *string `json:"backendService,omitempty" tf:"backend_service,omitempty"`
+
+	// Specifies changes to request and response headers that need to take effect for
+	// the selected backendService. headerAction specified here take effect before
+	// headerAction in the enclosing HttpRouteRule, PathMatcher and UrlMap.
+	// Structure is documented below.
+	HeaderAction []PathRuleRouteActionWeightedBackendServicesHeaderActionObservation `json:"headerAction,omitempty" tf:"header_action,omitempty"`
+
+	// Specifies the fraction of traffic sent to backendService, computed as weight /
+	// (sum of all weightedBackendService weights in routeAction) . The selection of a
+	// backend service is determined only for new traffic. Once a user's request has
+	// been directed to a backendService, subsequent requests will be sent to the same
+	// backendService as determined by the BackendService's session affinity policy.
+	// The value must be between 0 and 1000
+	Weight *float64 `json:"weight,omitempty" tf:"weight,omitempty"`
 }
 
 type PathRuleRouteActionWeightedBackendServicesParameters struct {
@@ -1613,6 +2585,42 @@ type PathRuleRouteActionWeightedBackendServicesParameters struct {
 }
 
 type PathRuleURLRedirectObservation struct {
+
+	// If set to true, the URL scheme in the redirected request is set to https.
+	// If set to false, the URL scheme of the redirected request will remain the
+	// same as that of the request. This must only be set for UrlMaps used in
+	// TargetHttpProxys. Setting this true for TargetHttpsProxy is not
+	// permitted. The default is set to false.
+	HTTPSRedirect *bool `json:"httpsRedirect,omitempty" tf:"https_redirect,omitempty"`
+
+	// The host that will be used in the redirect response instead of the one
+	// that was supplied in the request. The value must be between 1 and 255
+	// characters.
+	HostRedirect *string `json:"hostRedirect,omitempty" tf:"host_redirect,omitempty"`
+
+	// The path that will be used in the redirect response instead of the one
+	// that was supplied in the request. pathRedirect cannot be supplied
+	// together with prefixRedirect. Supply one alone or neither. If neither is
+	// supplied, the path of the original request will be used for the redirect.
+	// The value must be between 1 and 1024 characters.
+	PathRedirect *string `json:"pathRedirect,omitempty" tf:"path_redirect,omitempty"`
+
+	// The prefix that replaces the prefixMatch specified in the
+	// HttpRouteRuleMatch, retaining the remaining portion of the URL before
+	// redirecting the request. prefixRedirect cannot be supplied together with
+	// pathRedirect. Supply one alone or neither. If neither is supplied, the
+	// path of the original request will be used for the redirect. The value
+	// must be between 1 and 1024 characters.
+	PrefixRedirect *string `json:"prefixRedirect,omitempty" tf:"prefix_redirect,omitempty"`
+
+	// The HTTP Status code to use for this RedirectAction. Supported values are:
+	RedirectResponseCode *string `json:"redirectResponseCode,omitempty" tf:"redirect_response_code,omitempty"`
+
+	// If set to true, any accompanying query portion of the original URL is
+	// removed prior to redirecting the request. If set to false, the query
+	// portion of the original URL is retained.
+	// This field is required to ensure an empty block is not set. The normal default value is false.
+	StripQuery *bool `json:"stripQuery,omitempty" tf:"strip_query,omitempty"`
 }
 
 type PathRuleURLRedirectParameters struct {
@@ -1661,6 +2669,15 @@ type PathRuleURLRedirectParameters struct {
 }
 
 type RouteActionFaultInjectionPolicyDelayFixedDelayObservation struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution. Durations
+	// less than one second are represented with a 0 seconds field and a positive
+	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
+	// inclusive.
+	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
 type RouteActionFaultInjectionPolicyDelayFixedDelayParameters struct {
@@ -1678,6 +2695,17 @@ type RouteActionFaultInjectionPolicyDelayFixedDelayParameters struct {
 }
 
 type RouteActionWeightedBackendServicesHeaderActionRequestHeadersToAddObservation struct {
+
+	// The name of the header.
+	HeaderName *string `json:"headerName,omitempty" tf:"header_name,omitempty"`
+
+	// The value of the header to add.
+	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
+
+	// If false, headerValue is appended to any values that already exist for the
+	// header. If true, headerValue is set for the header, discarding any values that
+	// were set for that header.
+	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
 }
 
 type RouteActionWeightedBackendServicesHeaderActionRequestHeadersToAddParameters struct {
@@ -1698,6 +2726,17 @@ type RouteActionWeightedBackendServicesHeaderActionRequestHeadersToAddParameters
 }
 
 type RouteActionWeightedBackendServicesHeaderActionResponseHeadersToAddObservation struct {
+
+	// The name of the header.
+	HeaderName *string `json:"headerName,omitempty" tf:"header_name,omitempty"`
+
+	// The value of the header to add.
+	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
+
+	// If false, headerValue is appended to any values that already exist for the
+	// header. If true, headerValue is set for the header, discarding any values that
+	// were set for that header.
+	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
 }
 
 type RouteActionWeightedBackendServicesHeaderActionResponseHeadersToAddParameters struct {
@@ -1718,6 +2757,16 @@ type RouteActionWeightedBackendServicesHeaderActionResponseHeadersToAddParameter
 }
 
 type RouteRulesMatchRulesMetadataFiltersObservation struct {
+
+	// The list of label value pairs that must match labels in the provided metadata
+	// based on filterMatchCriteria  This list must not be empty and can have at the
+	// most 64 entries.
+	// Structure is documented below.
+	FilterLabels []MatchRulesMetadataFiltersFilterLabelsObservation `json:"filterLabels,omitempty" tf:"filter_labels,omitempty"`
+
+	// Specifies how individual filterLabel matches within the list of filterLabels
+	// contribute towards the overall metadataFilter match. Supported values are:
+	FilterMatchCriteria *string `json:"filterMatchCriteria,omitempty" tf:"filter_match_criteria,omitempty"`
 }
 
 type RouteRulesMatchRulesMetadataFiltersParameters struct {
@@ -1736,6 +2785,53 @@ type RouteRulesMatchRulesMetadataFiltersParameters struct {
 }
 
 type RouteRulesMatchRulesObservation struct {
+
+	// For satisfying the matchRule condition, the path of the request must exactly
+	// match the value specified in fullPathMatch after removing any query parameters
+	// and anchor that may be part of the original URL. FullPathMatch must be between 1
+	// and 1024 characters. Only one of prefixMatch, fullPathMatch or regexMatch must
+	// be specified.
+	FullPathMatch *string `json:"fullPathMatch,omitempty" tf:"full_path_match,omitempty"`
+
+	// Specifies a list of header match criteria, all of which must match corresponding
+	// headers in the request.
+	// Structure is documented below.
+	HeaderMatches []MatchRulesHeaderMatchesObservation `json:"headerMatches,omitempty" tf:"header_matches,omitempty"`
+
+	// Specifies that prefixMatch and fullPathMatch matches are case sensitive.
+	// Defaults to false.
+	IgnoreCase *bool `json:"ignoreCase,omitempty" tf:"ignore_case,omitempty"`
+
+	// Opaque filter criteria used by Loadbalancer to restrict routing configuration to
+	// a limited set xDS compliant clients. In their xDS requests to Loadbalancer, xDS
+	// clients present node metadata. If a match takes place, the relevant routing
+	// configuration is made available to those proxies. For each metadataFilter in
+	// this list, if its filterMatchCriteria is set to MATCH_ANY, at least one of the
+	// filterLabels must match the corresponding label provided in the metadata. If its
+	// filterMatchCriteria is set to MATCH_ALL, then all of its filterLabels must match
+	// with corresponding labels in the provided metadata. metadataFilters specified
+	// here can be overrides those specified in ForwardingRule that refers to this
+	// UrlMap. metadataFilters only applies to Loadbalancers that have their
+	// loadBalancingScheme set to INTERNAL_SELF_MANAGED.
+	// Structure is documented below.
+	MetadataFilters []RouteRulesMatchRulesMetadataFiltersObservation `json:"metadataFilters,omitempty" tf:"metadata_filters,omitempty"`
+
+	// For satisfying the matchRule condition, the request's path must begin with the
+	// specified prefixMatch. prefixMatch must begin with a /. The value must be
+	// between 1 and 1024 characters. Only one of prefixMatch, fullPathMatch or
+	// regexMatch must be specified.
+	PrefixMatch *string `json:"prefixMatch,omitempty" tf:"prefix_match,omitempty"`
+
+	// Specifies a list of query parameter match criteria, all of which must match
+	// corresponding query parameters in the request.
+	// Structure is documented below.
+	QueryParameterMatches []MatchRulesQueryParameterMatchesObservation `json:"queryParameterMatches,omitempty" tf:"query_parameter_matches,omitempty"`
+
+	// The queryParameterMatch matches if the value of the parameter matches the
+	// regular expression specified by regexMatch. For the regular expression grammar,
+	// please see en.cppreference.com/w/cpp/regex/ecmascript  Only one of presentMatch,
+	// exactMatch and regexMatch must be set.
+	RegexMatch *string `json:"regexMatch,omitempty" tf:"regex_match,omitempty"`
 }
 
 type RouteRulesMatchRulesParameters struct {
@@ -1796,6 +2892,15 @@ type RouteRulesMatchRulesParameters struct {
 }
 
 type RouteRulesRouteActionFaultInjectionPolicyAbortObservation struct {
+
+	// The HTTP status code used to abort the request. The value must be between 200
+	// and 599 inclusive.
+	HTTPStatus *float64 `json:"httpStatus,omitempty" tf:"http_status,omitempty"`
+
+	// The percentage of traffic (connections/operations/requests) on which delay will
+	// be introduced as part of fault injection. The value must be between 0.0 and
+	// 100.0 inclusive.
+	Percentage *float64 `json:"percentage,omitempty" tf:"percentage,omitempty"`
 }
 
 type RouteRulesRouteActionFaultInjectionPolicyAbortParameters struct {
@@ -1813,6 +2918,15 @@ type RouteRulesRouteActionFaultInjectionPolicyAbortParameters struct {
 }
 
 type RouteRulesRouteActionFaultInjectionPolicyDelayFixedDelayObservation struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution. Durations
+	// less than one second are represented with a 0 seconds field and a positive
+	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
+	// inclusive.
+	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
 type RouteRulesRouteActionFaultInjectionPolicyDelayFixedDelayParameters struct {
@@ -1830,6 +2944,15 @@ type RouteRulesRouteActionFaultInjectionPolicyDelayFixedDelayParameters struct {
 }
 
 type RouteRulesRouteActionFaultInjectionPolicyDelayObservation struct {
+
+	// Specifies the value of the fixed delay interval.
+	// Structure is documented below.
+	FixedDelay []RouteRulesRouteActionFaultInjectionPolicyDelayFixedDelayObservation `json:"fixedDelay,omitempty" tf:"fixed_delay,omitempty"`
+
+	// The percentage of traffic (connections/operations/requests) on which delay will
+	// be introduced as part of fault injection. The value must be between 0.0 and
+	// 100.0 inclusive.
+	Percentage *float64 `json:"percentage,omitempty" tf:"percentage,omitempty"`
 }
 
 type RouteRulesRouteActionFaultInjectionPolicyDelayParameters struct {
@@ -1847,6 +2970,15 @@ type RouteRulesRouteActionFaultInjectionPolicyDelayParameters struct {
 }
 
 type RouteRulesRouteActionRetryPolicyPerTryTimeoutObservation struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution. Durations
+	// less than one second are represented with a 0 seconds field and a positive
+	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
+	// inclusive.
+	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
 type RouteRulesRouteActionRetryPolicyPerTryTimeoutParameters struct {
@@ -1864,6 +2996,23 @@ type RouteRulesRouteActionRetryPolicyPerTryTimeoutParameters struct {
 }
 
 type RouteRulesRouteActionWeightedBackendServicesHeaderActionObservation struct {
+
+	// Headers to add to a matching request prior to forwarding the request to the
+	// backendService.
+	// Structure is documented below.
+	RequestHeadersToAdd []RouteRulesRouteActionWeightedBackendServicesHeaderActionRequestHeadersToAddObservation `json:"requestHeadersToAdd,omitempty" tf:"request_headers_to_add,omitempty"`
+
+	// A list of header names for headers that need to be removed from the request
+	// prior to forwarding the request to the backendService.
+	RequestHeadersToRemove []*string `json:"requestHeadersToRemove,omitempty" tf:"request_headers_to_remove,omitempty"`
+
+	// Headers to add the response prior to sending the response back to the client.
+	// Structure is documented below.
+	ResponseHeadersToAdd []RouteRulesRouteActionWeightedBackendServicesHeaderActionResponseHeadersToAddObservation `json:"responseHeadersToAdd,omitempty" tf:"response_headers_to_add,omitempty"`
+
+	// A list of header names for headers that need to be removed from the response
+	// prior to sending the response back to the client.
+	ResponseHeadersToRemove []*string `json:"responseHeadersToRemove,omitempty" tf:"response_headers_to_remove,omitempty"`
 }
 
 type RouteRulesRouteActionWeightedBackendServicesHeaderActionParameters struct {
@@ -1891,6 +3040,17 @@ type RouteRulesRouteActionWeightedBackendServicesHeaderActionParameters struct {
 }
 
 type RouteRulesRouteActionWeightedBackendServicesHeaderActionRequestHeadersToAddObservation struct {
+
+	// The name of the header.
+	HeaderName *string `json:"headerName,omitempty" tf:"header_name,omitempty"`
+
+	// The value of the header to add.
+	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
+
+	// If false, headerValue is appended to any values that already exist for the
+	// header. If true, headerValue is set for the header, discarding any values that
+	// were set for that header.
+	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
 }
 
 type RouteRulesRouteActionWeightedBackendServicesHeaderActionRequestHeadersToAddParameters struct {
@@ -1911,6 +3071,17 @@ type RouteRulesRouteActionWeightedBackendServicesHeaderActionRequestHeadersToAdd
 }
 
 type RouteRulesRouteActionWeightedBackendServicesHeaderActionResponseHeadersToAddObservation struct {
+
+	// The name of the header.
+	HeaderName *string `json:"headerName,omitempty" tf:"header_name,omitempty"`
+
+	// The value of the header to add.
+	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
+
+	// If false, headerValue is appended to any values that already exist for the
+	// header. If true, headerValue is set for the header, discarding any values that
+	// were set for that header.
+	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
 }
 
 type RouteRulesRouteActionWeightedBackendServicesHeaderActionResponseHeadersToAddParameters struct {
@@ -1931,6 +3102,49 @@ type RouteRulesRouteActionWeightedBackendServicesHeaderActionResponseHeadersToAd
 }
 
 type URLMapDefaultRouteActionObservation struct {
+
+	// The specification for allowing client side cross-origin requests. Please see
+	// W3C Recommendation for Cross Origin Resource Sharing
+	// Structure is documented below.
+	CorsPolicy []DefaultRouteActionCorsPolicyObservation `json:"corsPolicy,omitempty" tf:"cors_policy,omitempty"`
+
+	// The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure.
+	// As part of fault injection, when clients send requests to a backend service, delays can be introduced by Loadbalancer on a
+	// percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted
+	// by the Loadbalancer for a percentage of requests.
+	// timeout and retryPolicy will be ignored by clients that are configured with a faultInjectionPolicy.
+	// Structure is documented below.
+	FaultInjectionPolicy []DefaultRouteActionFaultInjectionPolicyObservation `json:"faultInjectionPolicy,omitempty" tf:"fault_injection_policy,omitempty"`
+
+	// Specifies the policy on how requests intended for the route's backends are shadowed to a separate mirrored backend service.
+	// Loadbalancer does not wait for responses from the shadow service. Prior to sending traffic to the shadow service,
+	// the host / authority header is suffixed with -shadow.
+	// Structure is documented below.
+	RequestMirrorPolicy []DefaultRouteActionRequestMirrorPolicyObservation `json:"requestMirrorPolicy,omitempty" tf:"request_mirror_policy,omitempty"`
+
+	// Specifies the retry policy associated with this route.
+	// Structure is documented below.
+	RetryPolicy []DefaultRouteActionRetryPolicyObservation `json:"retryPolicy,omitempty" tf:"retry_policy,omitempty"`
+
+	// Specifies the timeout for the selected route. Timeout is computed from the time the request has been
+	// fully processed (i.e. end-of-stream) up until the response has been completely processed. Timeout includes all retries.
+	// If not specified, will use the largest timeout among all backend services associated with the route.
+	// Structure is documented below.
+	Timeout []DefaultRouteActionTimeoutObservation `json:"timeout,omitempty" tf:"timeout,omitempty"`
+
+	// The spec to modify the URL of the request, prior to forwarding the request to the matched service.
+	// Structure is documented below.
+	URLRewrite []DefaultRouteActionURLRewriteObservation `json:"urlRewrite,omitempty" tf:"url_rewrite,omitempty"`
+
+	// A list of weighted backend services to send traffic to when a route match occurs.
+	// The weights determine the fraction of traffic that flows to their corresponding backend service.
+	// If all traffic needs to go to a single backend service, there must be one weightedBackendService
+	// with weight set to a non 0 number.
+	// Once a backendService is identified and before forwarding the request to the backend service,
+	// advanced routing actions like Url rewrites and header transformations are applied depending on
+	// additional settings specified in this HttpRouteAction.
+	// Structure is documented below.
+	WeightedBackendServices []DefaultRouteActionWeightedBackendServicesObservation `json:"weightedBackendServices,omitempty" tf:"weighted_backend_services,omitempty"`
 }
 
 type URLMapDefaultRouteActionParameters struct {
@@ -1987,6 +3201,39 @@ type URLMapDefaultRouteActionParameters struct {
 }
 
 type URLMapDefaultURLRedirectObservation struct {
+
+	// If set to true, the URL scheme in the redirected request is set to https. If set to
+	// false, the URL scheme of the redirected request will remain the same as that of the
+	// request. This must only be set for UrlMaps used in TargetHttpProxys. Setting this
+	// true for TargetHttpsProxy is not permitted. The default is set to false.
+	HTTPSRedirect *bool `json:"httpsRedirect,omitempty" tf:"https_redirect,omitempty"`
+
+	// The host that will be used in the redirect response instead of the one that was
+	// supplied in the request. The value must be between 1 and 255 characters.
+	HostRedirect *string `json:"hostRedirect,omitempty" tf:"host_redirect,omitempty"`
+
+	// The path that will be used in the redirect response instead of the one that was
+	// supplied in the request. pathRedirect cannot be supplied together with
+	// prefixRedirect. Supply one alone or neither. If neither is supplied, the path of the
+	// original request will be used for the redirect. The value must be between 1 and 1024
+	// characters.
+	PathRedirect *string `json:"pathRedirect,omitempty" tf:"path_redirect,omitempty"`
+
+	// The prefix that replaces the prefixMatch specified in the HttpRouteRuleMatch,
+	// retaining the remaining portion of the URL before redirecting the request.
+	// prefixRedirect cannot be supplied together with pathRedirect. Supply one alone or
+	// neither. If neither is supplied, the path of the original request will be used for
+	// the redirect. The value must be between 1 and 1024 characters.
+	PrefixRedirect *string `json:"prefixRedirect,omitempty" tf:"prefix_redirect,omitempty"`
+
+	// The HTTP Status code to use for this RedirectAction. Supported values are:
+	RedirectResponseCode *string `json:"redirectResponseCode,omitempty" tf:"redirect_response_code,omitempty"`
+
+	// If set to true, any accompanying query portion of the original URL is removed prior
+	// to redirecting the request. If set to false, the query portion of the original URL is
+	// retained.
+	// This field is required to ensure an empty block is not set. The normal default value is false.
+	StripQuery *bool `json:"stripQuery,omitempty" tf:"strip_query,omitempty"`
 }
 
 type URLMapDefaultURLRedirectParameters struct {
@@ -2032,6 +3279,23 @@ type URLMapDefaultURLRedirectParameters struct {
 }
 
 type URLMapHeaderActionObservation struct {
+
+	// Headers to add to a matching request prior to forwarding the request to the
+	// backendService.
+	// Structure is documented below.
+	RequestHeadersToAdd []URLMapHeaderActionRequestHeadersToAddObservation `json:"requestHeadersToAdd,omitempty" tf:"request_headers_to_add,omitempty"`
+
+	// A list of header names for headers that need to be removed from the request
+	// prior to forwarding the request to the backendService.
+	RequestHeadersToRemove []*string `json:"requestHeadersToRemove,omitempty" tf:"request_headers_to_remove,omitempty"`
+
+	// Headers to add the response prior to sending the response back to the client.
+	// Structure is documented below.
+	ResponseHeadersToAdd []URLMapHeaderActionResponseHeadersToAddObservation `json:"responseHeadersToAdd,omitempty" tf:"response_headers_to_add,omitempty"`
+
+	// A list of header names for headers that need to be removed from the response
+	// prior to sending the response back to the client.
+	ResponseHeadersToRemove []*string `json:"responseHeadersToRemove,omitempty" tf:"response_headers_to_remove,omitempty"`
 }
 
 type URLMapHeaderActionParameters struct {
@@ -2059,6 +3323,17 @@ type URLMapHeaderActionParameters struct {
 }
 
 type URLMapHeaderActionRequestHeadersToAddObservation struct {
+
+	// The name of the header.
+	HeaderName *string `json:"headerName,omitempty" tf:"header_name,omitempty"`
+
+	// The value of the header to add.
+	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
+
+	// If false, headerValue is appended to any values that already exist for the
+	// header. If true, headerValue is set for the header, discarding any values that
+	// were set for that header.
+	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
 }
 
 type URLMapHeaderActionRequestHeadersToAddParameters struct {
@@ -2079,6 +3354,17 @@ type URLMapHeaderActionRequestHeadersToAddParameters struct {
 }
 
 type URLMapHeaderActionResponseHeadersToAddObservation struct {
+
+	// The name of the header.
+	HeaderName *string `json:"headerName,omitempty" tf:"header_name,omitempty"`
+
+	// The value of the header to add.
+	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
+
+	// If false, headerValue is appended to any values that already exist for the
+	// header. If true, headerValue is set for the header, discarding any values that
+	// were set for that header.
+	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
 }
 
 type URLMapHeaderActionResponseHeadersToAddParameters struct {
@@ -2099,6 +3385,19 @@ type URLMapHeaderActionResponseHeadersToAddParameters struct {
 }
 
 type URLMapHostRuleObservation struct {
+
+	// An optional description of this resource. Provide this property when you create
+	// the resource.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// The list of host patterns to match. They must be valid hostnames, except * will
+	// match any string of ([a-z0-9-.]*). In that case, * must be the first character
+	// and must be followed in the pattern by either - or ..
+	Hosts []*string `json:"hosts,omitempty" tf:"hosts,omitempty"`
+
+	// The name of the PathMatcher to use to match the path portion of the URL if the
+	// hostRule matches the URL's host portion.
+	PathMatcher *string `json:"pathMatcher,omitempty" tf:"path_matcher,omitempty"`
 }
 
 type URLMapHostRuleParameters struct {
@@ -2125,9 +3424,40 @@ type URLMapObservation struct {
 	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
 
+	// defaultRouteAction takes effect when none of the hostRules match. The load balancer performs advanced routing actions
+	// like URL rewrites, header transformations, etc. prior to forwarding the request to the selected backend.
+	// If defaultRouteAction specifies any weightedBackendServices, defaultService must not be set. Conversely if defaultService
+	// is set, defaultRouteAction cannot contain any weightedBackendServices.
+	// Only one of defaultRouteAction or defaultUrlRedirect must be set.
+	// Structure is documented below.
+	DefaultRouteAction []URLMapDefaultRouteActionObservation `json:"defaultRouteAction,omitempty" tf:"default_route_action,omitempty"`
+
+	// The backend service or backend bucket to use when none of the given rules match.
+	DefaultService *string `json:"defaultService,omitempty" tf:"default_service,omitempty"`
+
+	// When none of the specified hostRules match, the request is redirected to a URL specified
+	// by defaultUrlRedirect. If defaultUrlRedirect is specified, defaultService or
+	// defaultRouteAction must not be set.
+	// Structure is documented below.
+	DefaultURLRedirect []URLMapDefaultURLRedirectObservation `json:"defaultUrlRedirect,omitempty" tf:"default_url_redirect,omitempty"`
+
+	// An optional description of this resource. Provide this property when you create
+	// the resource.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
 	// Fingerprint of this resource. A hash of the contents stored in this object. This
 	// field is used in optimistic locking.
 	Fingerprint *string `json:"fingerprint,omitempty" tf:"fingerprint,omitempty"`
+
+	// Specifies changes to request and response headers that need to take effect for
+	// the selected backendService. The headerAction specified here take effect after
+	// headerAction specified under pathMatcher.
+	// Structure is documented below.
+	HeaderAction []URLMapHeaderActionObservation `json:"headerAction,omitempty" tf:"header_action,omitempty"`
+
+	// The list of HostRules to use against the URL.
+	// Structure is documented below.
+	HostRule []URLMapHostRuleObservation `json:"hostRule,omitempty" tf:"host_rule,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/global/urlMaps/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -2135,8 +3465,22 @@ type URLMapObservation struct {
 	// The unique identifier for the resource.
 	MapID *float64 `json:"mapId,omitempty" tf:"map_id,omitempty"`
 
+	// The list of named PathMatchers to use against the URL.
+	// Structure is documented below.
+	PathMatcher []URLMapPathMatcherObservation `json:"pathMatcher,omitempty" tf:"path_matcher,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
 	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
+
+	// The list of expected URL mapping tests. Request to update this UrlMap will
+	// succeed only if all of the test cases pass. You can specify a maximum of 100
+	// tests per UrlMap.
+	// Structure is documented below.
+	Test []URLMapTestObservation `json:"test,omitempty" tf:"test,omitempty"`
 }
 
 type URLMapParameters struct {
@@ -2207,6 +3551,42 @@ type URLMapParameters struct {
 }
 
 type URLMapPathMatcherDefaultURLRedirectObservation struct {
+
+	// If set to true, the URL scheme in the redirected request is set to https.
+	// If set to false, the URL scheme of the redirected request will remain the
+	// same as that of the request. This must only be set for UrlMaps used in
+	// TargetHttpProxys. Setting this true for TargetHttpsProxy is not
+	// permitted. The default is set to false.
+	HTTPSRedirect *bool `json:"httpsRedirect,omitempty" tf:"https_redirect,omitempty"`
+
+	// The host that will be used in the redirect response instead of the one
+	// that was supplied in the request. The value must be between 1 and 255
+	// characters.
+	HostRedirect *string `json:"hostRedirect,omitempty" tf:"host_redirect,omitempty"`
+
+	// The path that will be used in the redirect response instead of the one
+	// that was supplied in the request. pathRedirect cannot be supplied
+	// together with prefixRedirect. Supply one alone or neither. If neither is
+	// supplied, the path of the original request will be used for the redirect.
+	// The value must be between 1 and 1024 characters.
+	PathRedirect *string `json:"pathRedirect,omitempty" tf:"path_redirect,omitempty"`
+
+	// The prefix that replaces the prefixMatch specified in the
+	// HttpRouteRuleMatch, retaining the remaining portion of the URL before
+	// redirecting the request. prefixRedirect cannot be supplied together with
+	// pathRedirect. Supply one alone or neither. If neither is supplied, the
+	// path of the original request will be used for the redirect. The value
+	// must be between 1 and 1024 characters.
+	PrefixRedirect *string `json:"prefixRedirect,omitempty" tf:"prefix_redirect,omitempty"`
+
+	// The HTTP Status code to use for this RedirectAction. Supported values are:
+	RedirectResponseCode *string `json:"redirectResponseCode,omitempty" tf:"redirect_response_code,omitempty"`
+
+	// If set to true, any accompanying query portion of the original URL is
+	// removed prior to redirecting the request. If set to false, the query
+	// portion of the original URL is retained.
+	// This field is required to ensure an empty block is not set. The normal default value is false.
+	StripQuery *bool `json:"stripQuery,omitempty" tf:"strip_query,omitempty"`
 }
 
 type URLMapPathMatcherDefaultURLRedirectParameters struct {
@@ -2255,6 +3635,54 @@ type URLMapPathMatcherDefaultURLRedirectParameters struct {
 }
 
 type URLMapPathMatcherObservation struct {
+
+	// defaultRouteAction takes effect when none of the pathRules or routeRules match. The load balancer performs
+	// advanced routing actions like URL rewrites, header transformations, etc. prior to forwarding the request
+	// to the selected backend. If defaultRouteAction specifies any weightedBackendServices, defaultService must not be set.
+	// Conversely if defaultService is set, defaultRouteAction cannot contain any weightedBackendServices.
+	// Only one of defaultRouteAction or defaultUrlRedirect must be set.
+	// Structure is documented below.
+	DefaultRouteAction []PathMatcherDefaultRouteActionObservation `json:"defaultRouteAction,omitempty" tf:"default_route_action,omitempty"`
+
+	// The backend service or backend bucket to use when none of the given paths match.
+	DefaultService *string `json:"defaultService,omitempty" tf:"default_service,omitempty"`
+
+	// When none of the specified hostRules match, the request is redirected to a URL specified
+	// by defaultUrlRedirect. If defaultUrlRedirect is specified, defaultService or
+	// defaultRouteAction must not be set.
+	// Structure is documented below.
+	DefaultURLRedirect []URLMapPathMatcherDefaultURLRedirectObservation `json:"defaultUrlRedirect,omitempty" tf:"default_url_redirect,omitempty"`
+
+	// An optional description of this resource. Provide this property when you create
+	// the resource.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Specifies changes to request and response headers that need to take effect for
+	// the selected backendService. HeaderAction specified here are applied after the
+	// matching HttpRouteRule HeaderAction and before the HeaderAction in the UrlMap
+	// Structure is documented below.
+	HeaderAction []PathMatcherHeaderActionObservation `json:"headerAction,omitempty" tf:"header_action,omitempty"`
+
+	// The name to which this PathMatcher is referred by the HostRule.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The list of path rules. Use this list instead of routeRules when routing based
+	// on simple path matching is all that's required. The order by which path rules
+	// are specified does not matter. Matches are always done on the longest-path-first
+	// basis. For example: a pathRule with a path /a/b/c/* will match before /a/b/*
+	// irrespective of the order in which those paths appear in this list. Within a
+	// given pathMatcher, only one of pathRules or routeRules must be set.
+	// Structure is documented below.
+	PathRule []PathMatcherPathRuleObservation `json:"pathRule,omitempty" tf:"path_rule,omitempty"`
+
+	// The list of ordered HTTP route rules. Use this list instead of pathRules when
+	// advanced route matching and routing actions are desired. The order of specifying
+	// routeRules matters: the first rule that matches will cause its specified routing
+	// action to take effect. Within a given pathMatcher, only one of pathRules or
+	// routeRules must be set. routeRules are not supported in UrlMaps intended for
+	// External load balancers.
+	// Structure is documented below.
+	RouteRules []PathMatcherRouteRulesObservation `json:"routeRules,omitempty" tf:"route_rules,omitempty"`
 }
 
 type URLMapPathMatcherParameters struct {
@@ -2327,6 +3755,18 @@ type URLMapPathMatcherParameters struct {
 }
 
 type URLMapTestObservation struct {
+
+	// Description of this test case.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Host portion of the URL.
+	Host *string `json:"host,omitempty" tf:"host,omitempty"`
+
+	// Path portion of the URL.
+	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+
+	// The backend service or backend bucket link that should be matched by this test.
+	Service *string `json:"service,omitempty" tf:"service,omitempty"`
 }
 
 type URLMapTestParameters struct {

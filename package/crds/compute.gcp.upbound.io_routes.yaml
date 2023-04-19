@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.11.1
+    controller-gen.kubebuilder.io/version: v0.11.3
   creationTimestamp: null
   name: routes.compute.gcp.upbound.io
 spec:
@@ -54,9 +54,13 @@ spec:
             properties:
               deletionPolicy:
                 default: Delete
-                description: DeletionPolicy specifies what will happen to the underlying
+                description: 'DeletionPolicy specifies what will happen to the underlying
                   external when this managed resource is deleted - either "Delete"
-                  or "Orphan" the external resource.
+                  or "Orphan" the external resource. This field is planned to be deprecated
+                  in favor of the ManagementPolicy field in a future release. Currently,
+                  both could be set independently and non-default values would be
+                  honored if the feature flag is enabled. See the design doc for more
+                  information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
                 enum:
                 - Orphan
                 - Delete
@@ -337,9 +341,22 @@ spec:
                     items:
                       type: string
                     type: array
-                required:
-                - destRange
                 type: object
+              managementPolicy:
+                default: FullControl
+                description: 'THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice. ManagementPolicy
+                  specifies the level of control Crossplane has over the managed external
+                  resource. This field is planned to replace the DeletionPolicy field
+                  in a future release. Currently, both could be set independently
+                  and non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
+                enum:
+                - FullControl
+                - ObserveOnly
+                - OrphanOnDelete
+                type: string
               providerConfigRef:
                 default:
                   name: default
@@ -511,20 +528,76 @@ spec:
             required:
             - forProvider
             type: object
+            x-kubernetes-validations:
+            - message: destRange is a required parameter
+              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.destRange)
           status:
             description: RouteStatus defines the observed state of Route.
             properties:
               atProvider:
                 properties:
+                  description:
+                    description: An optional description of this resource. Provide
+                      this property when you create the resource.
+                    type: string
+                  destRange:
+                    description: The destination range of outgoing packets that this
+                      route applies to. Only IPv4 is supported.
+                    type: string
                   id:
                     description: an identifier for the resource with format projects/{{project}}/global/routes/{{name}}
+                    type: string
+                  network:
+                    description: The network that this route applies to.
+                    type: string
+                  nextHopGateway:
+                    description: 'URL to a gateway that should handle matching packets.
+                      Currently, you can only specify the internet gateway, using
+                      a full or partial valid URL:'
+                    type: string
+                  nextHopIlb:
+                    description: 'The IP address or URL to a forwarding rule of type
+                      loadBalancingScheme=INTERNAL that should handle matching packets.
+                      With the GA provider you can only specify the forwarding rule
+                      as a partial or full URL. For example, the following are all
+                      valid values:'
+                    type: string
+                  nextHopInstance:
+                    description: 'URL to an instance that should handle matching packets.
+                      You can specify this as a full or partial URL. For example:'
+                    type: string
+                  nextHopInstanceZone:
+                    description: .
+                    type: string
+                  nextHopIp:
+                    description: Network IP address of an instance that should handle
+                      matching packets.
                     type: string
                   nextHopNetwork:
                     description: URL to a Network that should handle matching packets.
                     type: string
+                  nextHopVpnTunnel:
+                    description: URL to a VpnTunnel that should handle matching packets.
+                    type: string
+                  priority:
+                    description: The priority of this route. Priority is used to break
+                      ties in cases where there is more than one matching route of
+                      equal prefix length. In the case of two routes with equal prefix
+                      length, the one with the lowest-numbered priority value wins.
+                      Default value is 1000. Valid range is 0 through 65535.
+                    type: number
+                  project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
                   selfLink:
                     description: The URI of the created resource.
                     type: string
+                  tags:
+                    description: A list of instance tags to which this route applies.
+                    items:
+                      type: string
+                    type: array
                 type: object
               conditions:
                 description: Conditions of the resource.

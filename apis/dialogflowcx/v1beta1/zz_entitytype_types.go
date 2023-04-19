@@ -26,6 +26,15 @@ import (
 )
 
 type EntitiesObservation struct {
+
+	// A collection of value synonyms. For example, if the entity type is vegetable, and value is scallions, a synonym could be green onions.
+	// For KIND_LIST entity types: This collection must contain exactly one synonym equal to value.
+	Synonyms []*string `json:"synonyms,omitempty" tf:"synonyms,omitempty"`
+
+	// The primary value associated with this entity entry. For example, if the entity type is vegetable, the value could be scallions.
+	// For KIND_MAP entity types: A canonical value to be used in place of synonyms.
+	// For KIND_LIST entity types: A string that can contain references to other entity types (with or without aliases).
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
 
 type EntitiesParameters struct {
@@ -44,12 +53,47 @@ type EntitiesParameters struct {
 
 type EntityTypeObservation struct {
 
+	// Represents kinds of entities.
+	AutoExpansionMode *string `json:"autoExpansionMode,omitempty" tf:"auto_expansion_mode,omitempty"`
+
+	// The human-readable name of the entity type, unique within the agent.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// Enables fuzzy entity extraction during classification.
+	EnableFuzzyExtraction *bool `json:"enableFuzzyExtraction,omitempty" tf:"enable_fuzzy_extraction,omitempty"`
+
+	// The collection of entity entries associated with the entity type.
+	// Structure is documented below.
+	Entities []EntitiesObservation `json:"entities,omitempty" tf:"entities,omitempty"`
+
+	// Collection of exceptional words and phrases that shouldn't be matched. For example, if you have a size entity type with entry giant(an adjective), you might consider adding giants(a noun) as an exclusion.
+	// If the kind of entity type is KIND_MAP, then the phrases specified by entities and excluded phrases should be mutually exclusive.
+	// Structure is documented below.
+	ExcludedPhrases []ExcludedPhrasesObservation `json:"excludedPhrases,omitempty" tf:"excluded_phrases,omitempty"`
+
 	// an identifier for the resource with format {{parent}}/entityTypes/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Indicates whether the entity type can be automatically expanded.
+	Kind *string `json:"kind,omitempty" tf:"kind,omitempty"`
+
+	// The language of the following fields in entityType:
+	// EntityType.entities.value
+	// EntityType.entities.synonyms
+	// EntityType.excluded_phrases.value
+	// If not specified, the agent's default language is used. Many languages are supported. Note: languages must be enabled in the agent before they can be used.
+	LanguageCode *string `json:"languageCode,omitempty" tf:"language_code,omitempty"`
 
 	// The unique identifier of the entity type.
 	// Format: projects//locations//agents//entityTypes/.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The agent to create a entity type for.
+	// Format: projects//locations//agents/.
+	Parent *string `json:"parent,omitempty" tf:"parent,omitempty"`
+
+	// Indicates whether parameters of the entity type should be redacted in log. If redaction is enabled, page parameters and intent parameters referring to the entity type will be replaced by parameter name when logging.
+	Redact *bool `json:"redact,omitempty" tf:"redact,omitempty"`
 }
 
 type EntityTypeParameters struct {
@@ -59,8 +103,8 @@ type EntityTypeParameters struct {
 	AutoExpansionMode *string `json:"autoExpansionMode,omitempty" tf:"auto_expansion_mode,omitempty"`
 
 	// The human-readable name of the entity type, unique within the agent.
-	// +kubebuilder:validation:Required
-	DisplayName *string `json:"displayName" tf:"display_name,omitempty"`
+	// +kubebuilder:validation:Optional
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// Enables fuzzy entity extraction during classification.
 	// +kubebuilder:validation:Optional
@@ -68,8 +112,8 @@ type EntityTypeParameters struct {
 
 	// The collection of entity entries associated with the entity type.
 	// Structure is documented below.
-	// +kubebuilder:validation:Required
-	Entities []EntitiesParameters `json:"entities" tf:"entities,omitempty"`
+	// +kubebuilder:validation:Optional
+	Entities []EntitiesParameters `json:"entities,omitempty" tf:"entities,omitempty"`
 
 	// Collection of exceptional words and phrases that shouldn't be matched. For example, if you have a size entity type with entry giant(an adjective), you might consider adding giants(a noun) as an exclusion.
 	// If the kind of entity type is KIND_MAP, then the phrases specified by entities and excluded phrases should be mutually exclusive.
@@ -78,8 +122,8 @@ type EntityTypeParameters struct {
 	ExcludedPhrases []ExcludedPhrasesParameters `json:"excludedPhrases,omitempty" tf:"excluded_phrases,omitempty"`
 
 	// Indicates whether the entity type can be automatically expanded.
-	// +kubebuilder:validation:Required
-	Kind *string `json:"kind" tf:"kind,omitempty"`
+	// +kubebuilder:validation:Optional
+	Kind *string `json:"kind,omitempty" tf:"kind,omitempty"`
 
 	// The language of the following fields in entityType:
 	// EntityType.entities.value
@@ -110,6 +154,9 @@ type EntityTypeParameters struct {
 }
 
 type ExcludedPhrasesObservation struct {
+
+	// The word or phrase to be excluded.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
 
 type ExcludedPhrasesParameters struct {
@@ -143,8 +190,11 @@ type EntityTypeStatus struct {
 type EntityType struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              EntityTypeSpec   `json:"spec"`
-	Status            EntityTypeStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.displayName)",message="displayName is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.entities)",message="entities is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.kind)",message="kind is a required parameter"
+	Spec   EntityTypeSpec   `json:"spec"`
+	Status EntityTypeStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

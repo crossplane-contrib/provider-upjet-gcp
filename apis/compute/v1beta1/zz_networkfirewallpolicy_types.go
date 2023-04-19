@@ -30,6 +30,9 @@ type NetworkFirewallPolicyObservation struct {
 	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
 
+	// An optional description of this resource. Provide this property when you create the resource.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
 	// Fingerprint of the resource. This field is used internally during updates of this resource.
 	Fingerprint *string `json:"fingerprint,omitempty" tf:"fingerprint,omitempty"`
 
@@ -38,6 +41,9 @@ type NetworkFirewallPolicyObservation struct {
 
 	// The unique identifier for the resource. This identifier is defined by the server.
 	NetworkFirewallPolicyID *string `json:"networkFirewallPolicyId,omitempty" tf:"network_firewall_policy_id,omitempty"`
+
+	// The project for the resource
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Total count of all firewall policy rule tuples. A firewall policy can not exceed a set number of tuples.
 	RuleTupleCount *float64 `json:"ruleTupleCount,omitempty" tf:"rule_tuple_count,omitempty"`

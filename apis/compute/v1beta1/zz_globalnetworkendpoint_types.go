@@ -27,8 +27,25 @@ import (
 
 type GlobalNetworkEndpointObservation struct {
 
+	// Fully qualified domain name of network endpoint.
+	// This can only be specified when network_endpoint_type of the NEG is INTERNET_FQDN_PORT.
+	Fqdn *string `json:"fqdn,omitempty" tf:"fqdn,omitempty"`
+
+	// The global network endpoint group this endpoint is part of.
+	GlobalNetworkEndpointGroup *string `json:"globalNetworkEndpointGroup,omitempty" tf:"global_network_endpoint_group,omitempty"`
+
 	// an identifier for the resource with format {{project}}/{{global_network_endpoint_group}}/{{ip_address}}/{{fqdn}}/{{port}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// IPv4 address external endpoint.
+	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
+
+	// Port number of the external endpoint.
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 
 type GlobalNetworkEndpointParameters struct {
@@ -56,8 +73,8 @@ type GlobalNetworkEndpointParameters struct {
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
 
 	// Port number of the external endpoint.
-	// +kubebuilder:validation:Required
-	Port *float64 `json:"port" tf:"port,omitempty"`
+	// +kubebuilder:validation:Optional
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -89,8 +106,9 @@ type GlobalNetworkEndpointStatus struct {
 type GlobalNetworkEndpoint struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              GlobalNetworkEndpointSpec   `json:"spec"`
-	Status            GlobalNetworkEndpointStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.port)",message="port is a required parameter"
+	Spec   GlobalNetworkEndpointSpec   `json:"spec"`
+	Status GlobalNetworkEndpointStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

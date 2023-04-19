@@ -29,6 +29,11 @@ func (mg *RegistryRepository) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
+// GetManagementPolicy of this RegistryRepository.
+func (mg *RegistryRepository) GetManagementPolicy() xpv1.ManagementPolicy {
+	return mg.Spec.ManagementPolicy
+}
+
 // GetProviderConfigReference of this RegistryRepository.
 func (mg *RegistryRepository) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
@@ -60,6 +65,11 @@ func (mg *RegistryRepository) SetConditions(c ...xpv1.Condition) {
 // SetDeletionPolicy of this RegistryRepository.
 func (mg *RegistryRepository) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
+}
+
+// SetManagementPolicy of this RegistryRepository.
+func (mg *RegistryRepository) SetManagementPolicy(r xpv1.ManagementPolicy) {
+	mg.Spec.ManagementPolicy = r
 }
 
 // SetProviderConfigReference of this RegistryRepository.
@@ -95,6 +105,11 @@ func (mg *RegistryRepositoryIAMMember) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
+// GetManagementPolicy of this RegistryRepositoryIAMMember.
+func (mg *RegistryRepositoryIAMMember) GetManagementPolicy() xpv1.ManagementPolicy {
+	return mg.Spec.ManagementPolicy
+}
+
 // GetProviderConfigReference of this RegistryRepositoryIAMMember.
 func (mg *RegistryRepositoryIAMMember) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
@@ -126,6 +141,11 @@ func (mg *RegistryRepositoryIAMMember) SetConditions(c ...xpv1.Condition) {
 // SetDeletionPolicy of this RegistryRepositoryIAMMember.
 func (mg *RegistryRepositoryIAMMember) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
+}
+
+// SetManagementPolicy of this RegistryRepositoryIAMMember.
+func (mg *RegistryRepositoryIAMMember) SetManagementPolicy(r xpv1.ManagementPolicy) {
+	mg.Spec.ManagementPolicy = r
 }
 
 // SetProviderConfigReference of this RegistryRepositoryIAMMember.

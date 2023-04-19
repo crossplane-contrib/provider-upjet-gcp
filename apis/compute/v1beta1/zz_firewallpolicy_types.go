@@ -30,6 +30,9 @@ type FirewallPolicyObservation struct {
 	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
 
+	// An optional description of this resource. Provide this property when you create the resource.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
 	// Fingerprint of the resource. This field is used internally during updates of this resource.
 	Fingerprint *string `json:"fingerprint,omitempty" tf:"fingerprint,omitempty"`
 
@@ -42,6 +45,9 @@ type FirewallPolicyObservation struct {
 	// Name of the resource. It is a numeric ID allocated by GCP which uniquely identifies the Firewall Policy.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// The parent of the firewall policy.
+	Parent *string `json:"parent,omitempty" tf:"parent,omitempty"`
+
 	// Total count of all firewall policy rule tuples. A firewall policy can not exceed a set number of tuples.
 	RuleTupleCount *float64 `json:"ruleTupleCount,omitempty" tf:"rule_tuple_count,omitempty"`
 
@@ -50,6 +56,9 @@ type FirewallPolicyObservation struct {
 
 	// Server-defined URL for this resource with the resource id.
 	SelfLinkWithID *string `json:"selfLinkWithId,omitempty" tf:"self_link_with_id,omitempty"`
+
+	// User-provided name of the Organization firewall policy. The name should be unique in the organization in which the firewall policy is created. The name must be 1-63 characters long, and comply with RFC1035. Specifically, the name must be 1-63 characters long and match the regular expression a-z? which means the first character must be a lowercase letter, and all following characters must be a dash, lowercase letter, or digit, except the last character, which cannot be a dash.
+	ShortName *string `json:"shortName,omitempty" tf:"short_name,omitempty"`
 }
 
 type FirewallPolicyParameters struct {
@@ -59,12 +68,12 @@ type FirewallPolicyParameters struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// The parent of the firewall policy.
-	// +kubebuilder:validation:Required
-	Parent *string `json:"parent" tf:"parent,omitempty"`
+	// +kubebuilder:validation:Optional
+	Parent *string `json:"parent,omitempty" tf:"parent,omitempty"`
 
 	// User-provided name of the Organization firewall policy. The name should be unique in the organization in which the firewall policy is created. The name must be 1-63 characters long, and comply with RFC1035. Specifically, the name must be 1-63 characters long and match the regular expression a-z? which means the first character must be a lowercase letter, and all following characters must be a dash, lowercase letter, or digit, except the last character, which cannot be a dash.
-	// +kubebuilder:validation:Required
-	ShortName *string `json:"shortName" tf:"short_name,omitempty"`
+	// +kubebuilder:validation:Optional
+	ShortName *string `json:"shortName,omitempty" tf:"short_name,omitempty"`
 }
 
 // FirewallPolicySpec defines the desired state of FirewallPolicy
@@ -91,8 +100,10 @@ type FirewallPolicyStatus struct {
 type FirewallPolicy struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              FirewallPolicySpec   `json:"spec"`
-	Status            FirewallPolicyStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.parent)",message="parent is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.shortName)",message="shortName is a required parameter"
+	Spec   FirewallPolicySpec   `json:"spec"`
+	Status FirewallPolicyStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

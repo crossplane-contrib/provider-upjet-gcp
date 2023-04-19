@@ -26,13 +26,35 @@ import (
 )
 
 type NotificationObservation struct {
+
+	// The name of the bucket.
+	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
+
+	// A set of key/value attribute pairs to attach to each Cloud PubSub message published for this notification subscription
+	CustomAttributes map[string]*string `json:"customAttributes,omitempty" tf:"custom_attributes,omitempty"`
+
+	// List of event type filters for this notification config. If not specified, Cloud Storage will send notifications for all event types. The valid types are: "OBJECT_FINALIZE", "OBJECT_METADATA_UPDATE", "OBJECT_DELETE", "OBJECT_ARCHIVE"
+	EventTypes []*string `json:"eventTypes,omitempty" tf:"event_types,omitempty"`
+
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// The ID of the created notification.
 	NotificationID *string `json:"notificationId,omitempty" tf:"notification_id,omitempty"`
 
+	// Specifies a prefix path filter for this notification config. Cloud Storage will only send notifications for objects in this bucket whose names begin with the specified prefix.
+	ObjectNamePrefix *string `json:"objectNamePrefix,omitempty" tf:"object_name_prefix,omitempty"`
+
+	// The desired content of the Payload. One of "JSON_API_V1" or "NONE".
+	PayloadFormat *string `json:"payloadFormat,omitempty" tf:"payload_format,omitempty"`
+
 	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
+
+	// The Cloud PubSub topic to which this subscription publishes. Expects either the
+	// topic name, assumed to belong to the default GCP provider project, or the project-level name,
+	// i.e. projects/my-gcp-project/topics/my-topic or my-topic. If the project is not set in the provider,
+	// you will need to use the project-level name.
+	Topic *string `json:"topic,omitempty" tf:"topic,omitempty"`
 }
 
 type NotificationParameters struct {
@@ -63,8 +85,8 @@ type NotificationParameters struct {
 	ObjectNamePrefix *string `json:"objectNamePrefix,omitempty" tf:"object_name_prefix,omitempty"`
 
 	// The desired content of the Payload. One of "JSON_API_V1" or "NONE".
-	// +kubebuilder:validation:Required
-	PayloadFormat *string `json:"payloadFormat" tf:"payload_format,omitempty"`
+	// +kubebuilder:validation:Optional
+	PayloadFormat *string `json:"payloadFormat,omitempty" tf:"payload_format,omitempty"`
 
 	// The Cloud PubSub topic to which this subscription publishes. Expects either the
 	// topic name, assumed to belong to the default GCP provider project, or the project-level name,
@@ -108,8 +130,9 @@ type NotificationStatus struct {
 type Notification struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              NotificationSpec   `json:"spec"`
-	Status            NotificationStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.payloadFormat)",message="payloadFormat is a required parameter"
+	Spec   NotificationSpec   `json:"spec"`
+	Status NotificationStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -26,6 +26,11 @@ import (
 )
 
 type RuntimeIAMMemberConditionObservation struct {
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	Expression *string `json:"expression,omitempty" tf:"expression,omitempty"`
+
+	Title *string `json:"title,omitempty" tf:"title,omitempty"`
 }
 
 type RuntimeIAMMemberConditionParameters struct {
@@ -41,9 +46,21 @@ type RuntimeIAMMemberConditionParameters struct {
 }
 
 type RuntimeIAMMemberObservation struct {
+	Condition []RuntimeIAMMemberConditionObservation `json:"condition,omitempty" tf:"condition,omitempty"`
+
 	Etag *string `json:"etag,omitempty" tf:"etag,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
+	Member *string `json:"member,omitempty" tf:"member,omitempty"`
+
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	Role *string `json:"role,omitempty" tf:"role,omitempty"`
+
+	RuntimeName *string `json:"runtimeName,omitempty" tf:"runtime_name,omitempty"`
 }
 
 type RuntimeIAMMemberParameters struct {
@@ -54,14 +71,14 @@ type RuntimeIAMMemberParameters struct {
 	// +kubebuilder:validation:Optional
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
-	// +kubebuilder:validation:Required
-	Member *string `json:"member" tf:"member,omitempty"`
+	// +kubebuilder:validation:Optional
+	Member *string `json:"member,omitempty" tf:"member,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
-	// +kubebuilder:validation:Required
-	Role *string `json:"role" tf:"role,omitempty"`
+	// +kubebuilder:validation:Optional
+	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 
 	// +crossplane:generate:reference:type=Runtime
 	// +kubebuilder:validation:Optional
@@ -100,8 +117,10 @@ type RuntimeIAMMemberStatus struct {
 type RuntimeIAMMember struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              RuntimeIAMMemberSpec   `json:"spec"`
-	Status            RuntimeIAMMemberStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.member)",message="member is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.role)",message="role is a required parameter"
+	Spec   RuntimeIAMMemberSpec   `json:"spec"`
+	Status RuntimeIAMMemberStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

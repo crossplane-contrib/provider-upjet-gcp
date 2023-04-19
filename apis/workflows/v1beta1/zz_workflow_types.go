@@ -30,11 +30,39 @@ type WorkflowObservation struct {
 	// The timestamp of when the workflow was created in RFC3339 UTC "Zulu" format, with nanosecond resolution and up to nine fractional digits.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
+	// Description of the workflow provided by the user. Must be at most 1000 unicode characters long.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/locations/{{region}}/workflows/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// A set of key/value label pairs to assign to this Workflow.
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// Name of the Workflow.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Creates a unique name beginning with the
+	// specified prefix. If this and name are unspecified, a random value is chosen for the name.
+	NamePrefix *string `json:"namePrefix,omitempty" tf:"name_prefix,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The region of the workflow.
+	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+
 	// The revision of the workflow. A new one is generated if the service account or source contents is changed.
 	RevisionID *string `json:"revisionId,omitempty" tf:"revision_id,omitempty"`
+
+	// Name of the service account associated with the latest workflow version. This service
+	// account represents the identity of the workflow and determines what permissions the workflow has.
+	// Format: projects/{project}/serviceAccounts/{account}.
+	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
+
+	// Workflow code to be executed. The size limit is 32KB.
+	SourceContents *string `json:"sourceContents,omitempty" tf:"source_contents,omitempty"`
 
 	// State of the workflow deployment.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`

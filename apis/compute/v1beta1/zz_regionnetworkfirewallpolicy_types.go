@@ -30,11 +30,20 @@ type RegionNetworkFirewallPolicyObservation struct {
 	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
 
+	// An optional description of this resource. Provide this property when you create the resource.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
 	// Fingerprint of the resource. This field is used internally during updates of this resource.
 	Fingerprint *string `json:"fingerprint,omitempty" tf:"fingerprint,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/regions/{{region}}/firewallPolicies/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The project for the resource
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The location of this resource.
+	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
 	// The unique identifier for the resource. This identifier is defined by the server.
 	RegionNetworkFirewallPolicyID *string `json:"regionNetworkFirewallPolicyId,omitempty" tf:"region_network_firewall_policy_id,omitempty"`

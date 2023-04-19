@@ -26,6 +26,15 @@ import (
 )
 
 type MavenConfigObservation struct {
+
+	// The repository with this flag will allow publishing the same
+	// snapshot versions.
+	AllowSnapshotOverwrites *bool `json:"allowSnapshotOverwrites,omitempty" tf:"allow_snapshot_overwrites,omitempty"`
+
+	// Version policy defines the versions that the registry will accept.
+	// Default value is VERSION_POLICY_UNSPECIFIED.
+	// Possible values are VERSION_POLICY_UNSPECIFIED, RELEASE, and SNAPSHOT.
+	VersionPolicy *string `json:"versionPolicy,omitempty" tf:"version_policy,omitempty"`
 }
 
 type MavenConfigParameters struct {
@@ -47,12 +56,47 @@ type RegistryRepositoryObservation struct {
 	// The time when the repository was created.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
+	// The user-provided description of the repository.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// The format of packages that are stored in the repository. Supported formats
+	// can be found here.
+	// You can only create alpha formats if you are a member of the
+	// alpha user group.
+	Format *string `json:"format,omitempty" tf:"format,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/repositories/{{repository_id}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The Cloud KMS resource name of the customer managed encryption key that’s
+	// used to encrypt the contents of the Repository. Has the form:
+	// projects/my-project/locations/my-region/keyRings/my-kr/cryptoKeys/my-key.
+	// This value may not be changed after the Repository has been created.
+	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
+
+	// Labels with user-defined metadata.
+	// This field may contain up to 64 entries. Label keys and values may be no
+	// longer than 63 characters. Label keys must begin with a lowercase letter
+	// and may only contain lowercase letters, numeric characters, underscores,
+	// and dashes.
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// The name of the location this repository is located in.
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
+	// MavenRepositoryConfig is maven related repository details.
+	// Provides additional configuration details for repositories of the maven
+	// format type.
+	// Structure is documented below.
+	MavenConfig []MavenConfigObservation `json:"mavenConfig,omitempty" tf:"maven_config,omitempty"`
 
 	// The name of the repository, for example:
 	// "projects/p1/locations/us-central1/repositories/repo1"
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The time when the repository was last updated.
 	UpdateTime *string `json:"updateTime,omitempty" tf:"update_time,omitempty"`
@@ -68,8 +112,8 @@ type RegistryRepositoryParameters struct {
 	// can be found here.
 	// You can only create alpha formats if you are a member of the
 	// alpha user group.
-	// +kubebuilder:validation:Required
-	Format *string `json:"format" tf:"format,omitempty"`
+	// +kubebuilder:validation:Optional
+	Format *string `json:"format,omitempty" tf:"format,omitempty"`
 
 	// The Cloud KMS resource name of the customer managed encryption key that’s
 	// used to encrypt the contents of the Repository. Has the form:
@@ -127,8 +171,9 @@ type RegistryRepositoryStatus struct {
 type RegistryRepository struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              RegistryRepositorySpec   `json:"spec"`
-	Status            RegistryRepositoryStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.format)",message="format is a required parameter"
+	Spec   RegistryRepositorySpec   `json:"spec"`
+	Status RegistryRepositoryStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

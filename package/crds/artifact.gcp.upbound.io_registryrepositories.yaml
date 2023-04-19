@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.11.1
+    controller-gen.kubebuilder.io/version: v0.11.3
   creationTimestamp: null
   name: registryrepositories.artifact.gcp.upbound.io
 spec:
@@ -55,9 +55,13 @@ spec:
             properties:
               deletionPolicy:
                 default: Delete
-                description: DeletionPolicy specifies what will happen to the underlying
+                description: 'DeletionPolicy specifies what will happen to the underlying
                   external when this managed resource is deleted - either "Delete"
-                  or "Orphan" the external resource.
+                  or "Orphan" the external resource. This field is planned to be deprecated
+                  in favor of the ManagementPolicy field in a future release. Currently,
+                  both could be set independently and non-default values would be
+                  honored if the feature flag is enabled. See the design doc for more
+                  information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
                 enum:
                 - Orphan
                 - Delete
@@ -114,9 +118,22 @@ spec:
                     description: The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
-                required:
-                - format
                 type: object
+              managementPolicy:
+                default: FullControl
+                description: 'THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice. ManagementPolicy
+                  specifies the level of control Crossplane has over the managed external
+                  resource. This field is planned to replace the DeletionPolicy field
+                  in a future release. Currently, both could be set independently
+                  and non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
+                enum:
+                - FullControl
+                - ObserveOnly
+                - OrphanOnDelete
+                type: string
               providerConfigRef:
                 default:
                   name: default
@@ -288,6 +305,9 @@ spec:
             required:
             - forProvider
             type: object
+            x-kubernetes-validations:
+            - message: format is a required parameter
+              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.format)
           status:
             description: RegistryRepositoryStatus defines the observed state of RegistryRepository.
             properties:
@@ -296,11 +316,61 @@ spec:
                   createTime:
                     description: The time when the repository was created.
                     type: string
+                  description:
+                    description: The user-provided description of the repository.
+                    type: string
+                  format:
+                    description: The format of packages that are stored in the repository.
+                      Supported formats can be found here. You can only create alpha
+                      formats if you are a member of the alpha user group.
+                    type: string
                   id:
                     description: an identifier for the resource with format projects/{{project}}/locations/{{location}}/repositories/{{repository_id}}
                     type: string
+                  kmsKeyName:
+                    description: 'The Cloud KMS resource name of the customer managed
+                      encryption key that’s used to encrypt the contents of the Repository.
+                      Has the form: projects/my-project/locations/my-region/keyRings/my-kr/cryptoKeys/my-key.
+                      This value may not be changed after the Repository has been
+                      created.'
+                    type: string
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: Labels with user-defined metadata. This field may
+                      contain up to 64 entries. Label keys and values may be no longer
+                      than 63 characters. Label keys must begin with a lowercase letter
+                      and may only contain lowercase letters, numeric characters,
+                      underscores, and dashes.
+                    type: object
+                  location:
+                    description: The name of the location this repository is located
+                      in.
+                    type: string
+                  mavenConfig:
+                    description: MavenRepositoryConfig is maven related repository
+                      details. Provides additional configuration details for repositories
+                      of the maven format type. Structure is documented below.
+                    items:
+                      properties:
+                        allowSnapshotOverwrites:
+                          description: The repository with this flag will allow publishing
+                            the same snapshot versions.
+                          type: boolean
+                        versionPolicy:
+                          description: Version policy defines the versions that the
+                            registry will accept. Default value is VERSION_POLICY_UNSPECIFIED.
+                            Possible values are VERSION_POLICY_UNSPECIFIED, RELEASE,
+                            and SNAPSHOT.
+                          type: string
+                      type: object
+                    type: array
                   name:
                     description: 'The name of the repository, for example: "projects/p1/locations/us-central1/repositories/repo1"'
+                    type: string
+                  project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
                     type: string
                   updateTime:
                     description: The time when the repository was last updated.

@@ -26,6 +26,10 @@ import (
 )
 
 type BackupGeoHealthCheckedTargetsObservation struct {
+
+	// The list of internal load balancers to health check.
+	// Structure is document below.
+	InternalLoadBalancers []HealthCheckedTargetsInternalLoadBalancersObservation `json:"internalLoadBalancers,omitempty" tf:"internal_load_balancers,omitempty"`
 }
 
 type BackupGeoHealthCheckedTargetsParameters struct {
@@ -37,6 +41,16 @@ type BackupGeoHealthCheckedTargetsParameters struct {
 }
 
 type BackupGeoObservation struct {
+
+	// The list of targets to be health checked. Note that if DNSSEC is enabled for this zone, only one of rrdatas or health_checked_targets can be set.
+	// Structure is document below.
+	HealthCheckedTargets []BackupGeoHealthCheckedTargetsObservation `json:"healthCheckedTargets,omitempty" tf:"health_checked_targets,omitempty"`
+
+	// The location name defined in Google Cloud.
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
+	// Same as rrdatas above.
+	Rrdatas []*string `json:"rrdatas,omitempty" tf:"rrdatas,omitempty"`
 }
 
 type BackupGeoParameters struct {
@@ -56,6 +70,16 @@ type BackupGeoParameters struct {
 }
 
 type GeoObservation struct {
+
+	// The list of targets to be health checked. Note that if DNSSEC is enabled for this zone, only one of rrdatas or health_checked_targets can be set.
+	// Structure is document below.
+	HealthCheckedTargets []HealthCheckedTargetsObservation `json:"healthCheckedTargets,omitempty" tf:"health_checked_targets,omitempty"`
+
+	// The location name defined in Google Cloud.
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
+	// Same as rrdatas above.
+	Rrdatas []*string `json:"rrdatas,omitempty" tf:"rrdatas,omitempty"`
 }
 
 type GeoParameters struct {
@@ -75,6 +99,28 @@ type GeoParameters struct {
 }
 
 type HealthCheckedTargetsInternalLoadBalancersObservation struct {
+
+	// The frontend IP address of the load balancer.
+	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
+
+	// The configured IP protocol of the load balancer. This value is case-sensitive. Possible values: ["tcp", "udp"]
+	IPProtocol *string `json:"ipProtocol,omitempty" tf:"ip_protocol,omitempty"`
+
+	// The type of load balancer. This value is case-sensitive. Possible values: ["regionalL4ilb"]
+	LoadBalancerType *string `json:"loadBalancerType,omitempty" tf:"load_balancer_type,omitempty"`
+
+	// The fully qualified url of the network in which the load balancer belongs. This should be formatted like projects/{project}/global/networks/{network} or https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}.
+	NetworkURL *string `json:"networkUrl,omitempty" tf:"network_url,omitempty"`
+
+	// The configured port of the load balancer.
+	Port *string `json:"port,omitempty" tf:"port,omitempty"`
+
+	// The ID of the project in which the resource belongs. If it
+	// is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The region of the load balancer. Only needed for regional load balancers.
+	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 }
 
 type HealthCheckedTargetsInternalLoadBalancersParameters struct {
@@ -110,6 +156,10 @@ type HealthCheckedTargetsInternalLoadBalancersParameters struct {
 }
 
 type HealthCheckedTargetsObservation struct {
+
+	// The list of internal load balancers to health check.
+	// Structure is document below.
+	InternalLoadBalancers []InternalLoadBalancersObservation `json:"internalLoadBalancers,omitempty" tf:"internal_load_balancers,omitempty"`
 }
 
 type HealthCheckedTargetsParameters struct {
@@ -121,6 +171,28 @@ type HealthCheckedTargetsParameters struct {
 }
 
 type InternalLoadBalancersObservation struct {
+
+	// The frontend IP address of the load balancer.
+	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
+
+	// The configured IP protocol of the load balancer. This value is case-sensitive. Possible values: ["tcp", "udp"]
+	IPProtocol *string `json:"ipProtocol,omitempty" tf:"ip_protocol,omitempty"`
+
+	// The type of load balancer. This value is case-sensitive. Possible values: ["regionalL4ilb"]
+	LoadBalancerType *string `json:"loadBalancerType,omitempty" tf:"load_balancer_type,omitempty"`
+
+	// The fully qualified url of the network in which the load balancer belongs. This should be formatted like projects/{project}/global/networks/{network} or https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}.
+	NetworkURL *string `json:"networkUrl,omitempty" tf:"network_url,omitempty"`
+
+	// The configured port of the load balancer.
+	Port *string `json:"port,omitempty" tf:"port,omitempty"`
+
+	// The ID of the project in which the resource belongs. If it
+	// is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The region of the load balancer. Only needed for regional load balancers.
+	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 }
 
 type InternalLoadBalancersParameters struct {
@@ -156,6 +228,20 @@ type InternalLoadBalancersParameters struct {
 }
 
 type PrimaryBackupObservation struct {
+
+	// The backup geo targets, which provide a regional failover policy for the otherwise global primary targets.
+	// Structure is document above.
+	BackupGeo []BackupGeoObservation `json:"backupGeo,omitempty" tf:"backup_geo,omitempty"`
+
+	// Specifies whether to enable fencing for backup geo queries.
+	EnableGeoFencingForBackups *bool `json:"enableGeoFencingForBackups,omitempty" tf:"enable_geo_fencing_for_backups,omitempty"`
+
+	// The list of global primary targets to be health checked.
+	// Structure is document below.
+	Primary []PrimaryObservation `json:"primary,omitempty" tf:"primary,omitempty"`
+
+	// Specifies the percentage of traffic to send to the backup targets even when the primary targets are healthy.
+	TrickleRatio *float64 `json:"trickleRatio,omitempty" tf:"trickle_ratio,omitempty"`
 }
 
 type PrimaryBackupParameters struct {
@@ -180,6 +266,28 @@ type PrimaryBackupParameters struct {
 }
 
 type PrimaryInternalLoadBalancersObservation struct {
+
+	// The frontend IP address of the load balancer.
+	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
+
+	// The configured IP protocol of the load balancer. This value is case-sensitive. Possible values: ["tcp", "udp"]
+	IPProtocol *string `json:"ipProtocol,omitempty" tf:"ip_protocol,omitempty"`
+
+	// The type of load balancer. This value is case-sensitive. Possible values: ["regionalL4ilb"]
+	LoadBalancerType *string `json:"loadBalancerType,omitempty" tf:"load_balancer_type,omitempty"`
+
+	// The fully qualified url of the network in which the load balancer belongs. This should be formatted like projects/{project}/global/networks/{network} or https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}.
+	NetworkURL *string `json:"networkUrl,omitempty" tf:"network_url,omitempty"`
+
+	// The configured port of the load balancer.
+	Port *string `json:"port,omitempty" tf:"port,omitempty"`
+
+	// The ID of the project in which the resource belongs. If it
+	// is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The region of the load balancer. Only needed for regional load balancers.
+	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 }
 
 type PrimaryInternalLoadBalancersParameters struct {
@@ -255,6 +363,10 @@ type PrimaryInternalLoadBalancersParameters struct {
 }
 
 type PrimaryObservation struct {
+
+	// The list of internal load balancers to health check.
+	// Structure is document below.
+	InternalLoadBalancers []PrimaryInternalLoadBalancersObservation `json:"internalLoadBalancers,omitempty" tf:"internal_load_balancers,omitempty"`
 }
 
 type PrimaryParameters struct {
@@ -269,6 +381,32 @@ type RecordSetObservation struct {
 
 	// an identifier for the resource with format projects/{{project}}/managedZones/{{zone}}/rrsets/{{name}}/{{type}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The name of the zone in which this record set will
+	// reside.
+	ManagedZone *string `json:"managedZone,omitempty" tf:"managed_zone,omitempty"`
+
+	// The DNS name this record set will apply to.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The ID of the project in which the resource belongs. If it
+	// is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The configuration for steering traffic based on query.
+	// Now you can specify either Weighted Round Robin(WRR) type or Geolocation(GEO) type.
+	// Structure is documented below.
+	RoutingPolicy []RoutingPolicyObservation `json:"routingPolicy,omitempty" tf:"routing_policy,omitempty"`
+
+	// The string data for the records in this record set
+	// whose meaning depends on the DNS type. For TXT record, if the string data contains spaces, add surrounding \" if you don't want your string to get split on spaces.g. "first255characters\" \"morecharacters").
+	Rrdatas []*string `json:"rrdatas,omitempty" tf:"rrdatas,omitempty"`
+
+	// The time-to-live of this record set (seconds).
+	TTL *float64 `json:"ttl,omitempty" tf:"ttl,omitempty"`
+
+	// The DNS record set type.
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type RecordSetParameters struct {
@@ -288,8 +426,8 @@ type RecordSetParameters struct {
 	ManagedZoneSelector *v1.Selector `json:"managedZoneSelector,omitempty" tf:"-"`
 
 	// The DNS name this record set will apply to.
-	// +kubebuilder:validation:Required
-	Name *string `json:"name" tf:"name,omitempty"`
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// The ID of the project in which the resource belongs. If it
 	// is not provided, the provider project is used.
@@ -312,11 +450,26 @@ type RecordSetParameters struct {
 	TTL *float64 `json:"ttl,omitempty" tf:"ttl,omitempty"`
 
 	// The DNS record set type.
-	// +kubebuilder:validation:Required
-	Type *string `json:"type" tf:"type,omitempty"`
+	// +kubebuilder:validation:Optional
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type RoutingPolicyObservation struct {
+
+	// Specifies whether to enable fencing for geo queries.
+	EnableGeoFencing *bool `json:"enableGeoFencing,omitempty" tf:"enable_geo_fencing,omitempty"`
+
+	// The configuration for Geolocation based routing policy.
+	// Structure is document below.
+	Geo []GeoObservation `json:"geo,omitempty" tf:"geo,omitempty"`
+
+	// The configuration for a primary-backup policy with global to regional failover. Queries are responded to with the global primary targets, but if none of the primary targets are healthy, then we fallback to a regional failover policy.
+	// Structure is document below.
+	PrimaryBackup []PrimaryBackupObservation `json:"primaryBackup,omitempty" tf:"primary_backup,omitempty"`
+
+	// The configuration for Weighted Round Robin based routing policy.
+	// Structure is document below.
+	Wrr []WrrObservation `json:"wrr,omitempty" tf:"wrr,omitempty"`
 }
 
 type RoutingPolicyParameters struct {
@@ -342,6 +495,28 @@ type RoutingPolicyParameters struct {
 }
 
 type WrrHealthCheckedTargetsInternalLoadBalancersObservation struct {
+
+	// The frontend IP address of the load balancer.
+	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
+
+	// The configured IP protocol of the load balancer. This value is case-sensitive. Possible values: ["tcp", "udp"]
+	IPProtocol *string `json:"ipProtocol,omitempty" tf:"ip_protocol,omitempty"`
+
+	// The type of load balancer. This value is case-sensitive. Possible values: ["regionalL4ilb"]
+	LoadBalancerType *string `json:"loadBalancerType,omitempty" tf:"load_balancer_type,omitempty"`
+
+	// The fully qualified url of the network in which the load balancer belongs. This should be formatted like projects/{project}/global/networks/{network} or https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}.
+	NetworkURL *string `json:"networkUrl,omitempty" tf:"network_url,omitempty"`
+
+	// The configured port of the load balancer.
+	Port *string `json:"port,omitempty" tf:"port,omitempty"`
+
+	// The ID of the project in which the resource belongs. If it
+	// is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The region of the load balancer. Only needed for regional load balancers.
+	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 }
 
 type WrrHealthCheckedTargetsInternalLoadBalancersParameters struct {
@@ -377,6 +552,10 @@ type WrrHealthCheckedTargetsInternalLoadBalancersParameters struct {
 }
 
 type WrrHealthCheckedTargetsObservation struct {
+
+	// The list of internal load balancers to health check.
+	// Structure is document below.
+	InternalLoadBalancers []WrrHealthCheckedTargetsInternalLoadBalancersObservation `json:"internalLoadBalancers,omitempty" tf:"internal_load_balancers,omitempty"`
 }
 
 type WrrHealthCheckedTargetsParameters struct {
@@ -388,6 +567,16 @@ type WrrHealthCheckedTargetsParameters struct {
 }
 
 type WrrObservation struct {
+
+	// The list of targets to be health checked. Note that if DNSSEC is enabled for this zone, only one of rrdatas or health_checked_targets can be set.
+	// Structure is document below.
+	HealthCheckedTargets []WrrHealthCheckedTargetsObservation `json:"healthCheckedTargets,omitempty" tf:"health_checked_targets,omitempty"`
+
+	// Same as rrdatas above.
+	Rrdatas []*string `json:"rrdatas,omitempty" tf:"rrdatas,omitempty"`
+
+	// The ratio of traffic routed to the target.
+	Weight *float64 `json:"weight,omitempty" tf:"weight,omitempty"`
 }
 
 type WrrParameters struct {
@@ -430,8 +619,10 @@ type RecordSetStatus struct {
 type RecordSet struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              RecordSetSpec   `json:"spec"`
-	Status            RecordSetStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.name)",message="name is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.type)",message="type is a required parameter"
+	Spec   RecordSetSpec   `json:"spec"`
+	Status RecordSetStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

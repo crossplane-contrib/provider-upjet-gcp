@@ -27,8 +27,36 @@ import (
 
 type DatabaseObservation struct {
 
+	// The charset value. See MySQL's
+	// Supported Character Sets and Collations
+	// and Postgres' Character Set Support
+	// for more details and supported values. Postgres databases only support
+	// a value of UTF8 at creation time.
+	Charset *string `json:"charset,omitempty" tf:"charset,omitempty"`
+
+	// The collation value. See MySQL's
+	// Supported Character Sets and Collations
+	// and Postgres' Collation Support
+	// for more details and supported values. Postgres databases only support
+	// a value of en_US.UTF8 at creation time.
+	Collation *string `json:"collation,omitempty" tf:"collation,omitempty"`
+
+	// The deletion policy for the database. Setting ABANDON allows the resource
+	// to be abandoned rather than deleted. This is useful for Postgres, where databases cannot be
+	// deleted from the API if there are users other than cloudsqlsuperuser with access. Possible
+	// values are: "ABANDON", "DELETE". Defaults to "DELETE".
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/instances/{{instance}}/databases/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The name of the Cloud SQL instance. This does not include the project
+	// ID.
+	Instance *string `json:"instance,omitempty" tf:"instance,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`

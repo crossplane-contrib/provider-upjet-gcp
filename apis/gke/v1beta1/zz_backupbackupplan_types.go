@@ -27,6 +27,26 @@ import (
 
 type BackupBackupPlanObservation struct {
 
+	// Defines the configuration of Backups created via this BackupPlan.
+	// Structure is documented below.
+	BackupConfig []BackupConfigObservation `json:"backupConfig,omitempty" tf:"backup_config,omitempty"`
+
+	// Defines a schedule for automatic Backup creation via this BackupPlan.
+	// Structure is documented below.
+	BackupSchedule []BackupScheduleObservation `json:"backupSchedule,omitempty" tf:"backup_schedule,omitempty"`
+
+	// The source cluster from which Backups will be created via this BackupPlan.
+	Cluster *string `json:"cluster,omitempty" tf:"cluster,omitempty"`
+
+	// This flag indicates whether this BackupPlan has been deactivated.
+	// Setting this field to True locks the BackupPlan such that no further updates will be allowed
+	// (except deletes), including the deactivated field itself. It also prevents any new Backups
+	// from being created via this BackupPlan (including scheduled Backups).
+	Deactivated *bool `json:"deactivated,omitempty" tf:"deactivated,omitempty"`
+
+	// User specified descriptive string for this BackupPlan.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
 	// etag is used for optimistic concurrency control as a way to help prevent simultaneous
 	// updates of a backup plan from overwriting each other. It is strongly suggested that
 	// systems make use of the 'etag' in the read-modify-write cycle to perform BackupPlan updates
@@ -38,8 +58,24 @@ type BackupBackupPlanObservation struct {
 	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/backupPlans/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// Description: A set of custom labels supplied by the user.
+	// A list of key->value pairs.
+	// Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }.
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// The region of the Backup Plan.
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
 	// The number of Kubernetes Pods backed up in the last successful Backup created via this BackupPlan.
 	ProtectedPodCount *float64 `json:"protectedPodCount,omitempty" tf:"protected_pod_count,omitempty"`
+
+	// RetentionPolicy governs lifecycle of Backups created under this plan.
+	// Structure is documented below.
+	RetentionPolicy []RetentionPolicyObservation `json:"retentionPolicy,omitempty" tf:"retention_policy,omitempty"`
 
 	// Server generated, unique identifier of UUID format.
 	UID *string `json:"uid,omitempty" tf:"uid,omitempty"`
@@ -104,6 +140,30 @@ type BackupBackupPlanParameters struct {
 }
 
 type BackupConfigObservation struct {
+
+	// If True, include all namespaced resources.
+	AllNamespaces *bool `json:"allNamespaces,omitempty" tf:"all_namespaces,omitempty"`
+
+	// This defines a customer managed encryption key that will be used to encrypt the "config"
+	// portion (the Kubernetes resources) of Backups created via this plan.
+	// Structure is documented below.
+	EncryptionKey []EncryptionKeyObservation `json:"encryptionKey,omitempty" tf:"encryption_key,omitempty"`
+
+	// This flag specifies whether Kubernetes Secret resources should be included
+	// when they fall into the scope of Backups.
+	IncludeSecrets *bool `json:"includeSecrets,omitempty" tf:"include_secrets,omitempty"`
+
+	// This flag specifies whether volume data should be backed up when PVCs are
+	// included in the scope of a Backup.
+	IncludeVolumeData *bool `json:"includeVolumeData,omitempty" tf:"include_volume_data,omitempty"`
+
+	// A list of namespaced Kubernetes Resources.
+	// Structure is documented below.
+	SelectedApplications []SelectedApplicationsObservation `json:"selectedApplications,omitempty" tf:"selected_applications,omitempty"`
+
+	// If set, include just the resources in the listed namespaces.
+	// Structure is documented below.
+	SelectedNamespaces []SelectedNamespacesObservation `json:"selectedNamespaces,omitempty" tf:"selected_namespaces,omitempty"`
 }
 
 type BackupConfigParameters struct {
@@ -140,6 +200,14 @@ type BackupConfigParameters struct {
 }
 
 type BackupScheduleObservation struct {
+
+	// A standard cron string that defines a repeating schedule for
+	// creating Backups via this BackupPlan.
+	// If this is defined, then backupRetainDays must also be defined.
+	CronSchedule *string `json:"cronSchedule,omitempty" tf:"cron_schedule,omitempty"`
+
+	// This flag denotes whether automatic Backup creation is paused for this BackupPlan.
+	Paused *bool `json:"paused,omitempty" tf:"paused,omitempty"`
 }
 
 type BackupScheduleParameters struct {
@@ -156,6 +224,9 @@ type BackupScheduleParameters struct {
 }
 
 type EncryptionKeyObservation struct {
+
+	// Google Cloud KMS encryption key. Format: projects//locations//keyRings//cryptoKeys/
+	GCPKMSEncryptionKey *string `json:"gcpKmsEncryptionKey,omitempty" tf:"gcp_kms_encryption_key,omitempty"`
 }
 
 type EncryptionKeyParameters struct {
@@ -176,6 +247,12 @@ type EncryptionKeyParameters struct {
 }
 
 type NamespacedNamesObservation struct {
+
+	// The name of a Kubernetes Resource.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The namespace of a Kubernetes Resource.
+	Namespace *string `json:"namespace,omitempty" tf:"namespace,omitempty"`
 }
 
 type NamespacedNamesParameters struct {
@@ -190,6 +267,31 @@ type NamespacedNamesParameters struct {
 }
 
 type RetentionPolicyObservation struct {
+
+	// Minimum age for a Backup created via this BackupPlan (in days).
+	// Must be an integer value between 0-90 (inclusive).
+	// A Backup created under this BackupPlan will not be deletable
+	// until it reaches Backup's (create time + backup_delete_lock_days).
+	// Updating this field of a BackupPlan does not affect existing Backups.
+	// Backups created after a successful update will inherit this new value.
+	BackupDeleteLockDays *float64 `json:"backupDeleteLockDays,omitempty" tf:"backup_delete_lock_days,omitempty"`
+
+	// The default maximum age of a Backup created via this BackupPlan.
+	// This field MUST be an integer value >= 0 and <= 365. If specified,
+	// a Backup created under this BackupPlan will be automatically deleted
+	// after its age reaches (createTime + backupRetainDays).
+	// If not specified, Backups created under this BackupPlan will NOT be
+	// subject to automatic deletion. Updating this field does NOT affect
+	// existing Backups under it. Backups created AFTER a successful update
+	// will automatically pick up the new value.
+	// NOTE: backupRetainDays must be >= backupDeleteLockDays.
+	// If cronSchedule is defined, then this must be <= 360 * the creation interval.]
+	BackupRetainDays *float64 `json:"backupRetainDays,omitempty" tf:"backup_retain_days,omitempty"`
+
+	// This flag denotes whether the retention policy of this BackupPlan is locked.
+	// If set to True, no further update is allowed on this policy, including
+	// the locked field itself.
+	Locked *bool `json:"locked,omitempty" tf:"locked,omitempty"`
 }
 
 type RetentionPolicyParameters struct {
@@ -224,6 +326,10 @@ type RetentionPolicyParameters struct {
 }
 
 type SelectedApplicationsObservation struct {
+
+	// A list of namespaced Kubernetes resources.
+	// Structure is documented below.
+	NamespacedNames []NamespacedNamesObservation `json:"namespacedNames,omitempty" tf:"namespaced_names,omitempty"`
 }
 
 type SelectedApplicationsParameters struct {
@@ -235,6 +341,9 @@ type SelectedApplicationsParameters struct {
 }
 
 type SelectedNamespacesObservation struct {
+
+	// A list of Kubernetes Namespaces.
+	Namespaces []*string `json:"namespaces,omitempty" tf:"namespaces,omitempty"`
 }
 
 type SelectedNamespacesParameters struct {

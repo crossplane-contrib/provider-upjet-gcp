@@ -27,11 +27,35 @@ import (
 
 type AppProfileObservation struct {
 
+	// Long form description of the use case for this app profile.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/instances/{{instance}}/appProfiles/{{app_profile_id}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// If true, ignore safety checks when deleting/updating the app profile.
+	IgnoreWarnings *bool `json:"ignoreWarnings,omitempty" tf:"ignore_warnings,omitempty"`
+
+	// The name of the instance to create the app profile within.
+	Instance *string `json:"instance,omitempty" tf:"instance,omitempty"`
+
+	MultiClusterRoutingClusterIds []*string `json:"multiClusterRoutingClusterIds,omitempty" tf:"multi_cluster_routing_cluster_ids,omitempty"`
+
+	// If true, read/write requests are routed to the nearest cluster in the instance, and will fail over to the nearest cluster that is available
+	// in the event of transient errors or delays. Clusters in a region are considered equidistant. Choosing this option sacrifices read-your-writes
+	// consistency to improve availability.
+	MultiClusterRoutingUseAny *bool `json:"multiClusterRoutingUseAny,omitempty" tf:"multi_cluster_routing_use_any,omitempty"`
+
 	// The unique name of the requested app profile. Values are of the form projects/<project>/instances/<instance>/appProfiles/<appProfileId>.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Use a single-cluster routing policy.
+	// Structure is documented below.
+	SingleClusterRouting []SingleClusterRoutingObservation `json:"singleClusterRouting,omitempty" tf:"single_cluster_routing,omitempty"`
 }
 
 type AppProfileParameters struct {
@@ -78,6 +102,13 @@ type AppProfileParameters struct {
 }
 
 type SingleClusterRoutingObservation struct {
+
+	// If true, CheckAndMutateRow and ReadModifyWriteRow requests are allowed by this app profile.
+	// It is unsafe to send these requests to the same table/row/column in multiple clusters.
+	AllowTransactionalWrites *bool `json:"allowTransactionalWrites,omitempty" tf:"allow_transactional_writes,omitempty"`
+
+	// The cluster to which read/write requests should be routed.
+	ClusterID *string `json:"clusterId,omitempty" tf:"cluster_id,omitempty"`
 }
 
 type SingleClusterRoutingParameters struct {

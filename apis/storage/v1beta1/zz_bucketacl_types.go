@@ -26,7 +26,20 @@ import (
 )
 
 type BucketACLObservation struct {
+
+	// The name of the bucket it applies to.
+	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
+
+	// Configure this ACL to be the default ACL.
+	DefaultACL *string `json:"defaultAcl,omitempty" tf:"default_acl,omitempty"`
+
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The canned GCS ACL to apply. Must be set if role_entity is not.
+	PredefinedACL *string `json:"predefinedAcl,omitempty" tf:"predefined_acl,omitempty"`
+
+	// List of role/entity pairs in the form ROLE:entity. See GCS Bucket ACL documentation  for more details. Must be set if predefined_acl is not.
+	RoleEntity []*string `json:"roleEntity,omitempty" tf:"role_entity,omitempty"`
 }
 
 type BucketACLParameters struct {

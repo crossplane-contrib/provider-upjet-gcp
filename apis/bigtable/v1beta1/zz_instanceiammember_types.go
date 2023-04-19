@@ -26,6 +26,11 @@ import (
 )
 
 type InstanceIAMMemberConditionObservation struct {
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	Expression *string `json:"expression,omitempty" tf:"expression,omitempty"`
+
+	Title *string `json:"title,omitempty" tf:"title,omitempty"`
 }
 
 type InstanceIAMMemberConditionParameters struct {
@@ -41,9 +46,19 @@ type InstanceIAMMemberConditionParameters struct {
 }
 
 type InstanceIAMMemberObservation struct {
+	Condition []InstanceIAMMemberConditionObservation `json:"condition,omitempty" tf:"condition,omitempty"`
+
 	Etag *string `json:"etag,omitempty" tf:"etag,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	Instance *string `json:"instance,omitempty" tf:"instance,omitempty"`
+
+	Member *string `json:"member,omitempty" tf:"member,omitempty"`
+
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 }
 
 type InstanceIAMMemberParameters struct {

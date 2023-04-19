@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.11.1
+    controller-gen.kubebuilder.io/version: v0.11.3
   creationTimestamp: null
   name: projectservices.cloudplatform.gcp.upbound.io
 spec:
@@ -55,9 +55,13 @@ spec:
             properties:
               deletionPolicy:
                 default: Delete
-                description: DeletionPolicy specifies what will happen to the underlying
+                description: 'DeletionPolicy specifies what will happen to the underlying
                   external when this managed resource is deleted - either "Delete"
-                  or "Orphan" the external resource.
+                  or "Orphan" the external resource. This field is planned to be deprecated
+                  in favor of the ManagementPolicy field in a future release. Currently,
+                  both could be set independently and non-default values would be
+                  honored if the feature flag is enabled. See the design doc for more
+                  information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
                 enum:
                 - Orphan
                 - Delete
@@ -156,9 +160,22 @@ spec:
                   service:
                     description: The service to enable.
                     type: string
-                required:
-                - service
                 type: object
+              managementPolicy:
+                default: FullControl
+                description: 'THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice. ManagementPolicy
+                  specifies the level of control Crossplane has over the managed external
+                  resource. This field is planned to replace the DeletionPolicy field
+                  in a future release. Currently, both could be set independently
+                  and non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
+                enum:
+                - FullControl
+                - ObserveOnly
+                - OrphanOnDelete
+                type: string
               providerConfigRef:
                 default:
                   name: default
@@ -330,13 +347,35 @@ spec:
             required:
             - forProvider
             type: object
+            x-kubernetes-validations:
+            - message: service is a required parameter
+              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.service)
           status:
             description: ProjectServiceStatus defines the observed state of ProjectService.
             properties:
               atProvider:
                 properties:
+                  disableDependentServices:
+                    description: If true, services that are enabled and which depend
+                      on this service should also be disabled when this service is
+                      destroyed. If false or unset, an error will be generated if
+                      any enabled services depend on this service when destroying
+                      it.
+                    type: boolean
+                  disableOnDestroy:
+                    description: Defaults to true. May be useful in the event that
+                      a project is long-lived but the infrastructure running in that
+                      project changes frequently.
+                    type: boolean
                   id:
                     description: an identifier for the resource with format {{project}}/{{service}}
+                    type: string
+                  project:
+                    description: The project ID. If not provided, the provider project
+                      is used.
+                    type: string
+                  service:
+                    description: The service to enable.
                     type: string
                 type: object
               conditions:

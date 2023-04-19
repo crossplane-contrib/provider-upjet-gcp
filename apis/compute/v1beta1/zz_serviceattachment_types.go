@@ -39,6 +39,13 @@ type ConnectedEndpointsParameters struct {
 }
 
 type ConsumerAcceptListsObservation struct {
+
+	// The number of consumer forwarding rules the consumer project can
+	// create.
+	ConnectionLimit *float64 `json:"connectionLimit,omitempty" tf:"connection_limit,omitempty"`
+
+	// A project that is allowed to connect to this service attachment.
+	ProjectIDOrNum *string `json:"projectIdOrNum,omitempty" tf:"project_id_or_num,omitempty"`
 }
 
 type ConsumerAcceptListsParameters struct {
@@ -60,6 +67,33 @@ type ServiceAttachmentObservation struct {
 	// Structure is documented below.
 	ConnectedEndpoints []ConnectedEndpointsObservation `json:"connectedEndpoints,omitempty" tf:"connected_endpoints,omitempty"`
 
+	// The connection preference to use for this service attachment. Valid
+	// values include "ACCEPT_AUTOMATIC", "ACCEPT_MANUAL".
+	ConnectionPreference *string `json:"connectionPreference,omitempty" tf:"connection_preference,omitempty"`
+
+	// An array of projects that are allowed to connect to this service
+	// attachment.
+	// Structure is documented below.
+	ConsumerAcceptLists []ConsumerAcceptListsObservation `json:"consumerAcceptLists,omitempty" tf:"consumer_accept_lists,omitempty"`
+
+	// An array of projects that are not allowed to connect to this service
+	// attachment.
+	ConsumerRejectLists []*string `json:"consumerRejectLists,omitempty" tf:"consumer_reject_lists,omitempty"`
+
+	// An optional description of this resource.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// If specified, the domain name will be used during the integration between
+	// the PSC connected endpoints and the Cloud DNS. For example, this is a
+	// valid domain name: "p.mycompany.com.". Current max number of domain names
+	// supported is 1.
+	DomainNames []*string `json:"domainNames,omitempty" tf:"domain_names,omitempty"`
+
+	// If true, enable the proxy protocol which is for supplying client TCP/IP
+	// address data in TCP connections that traverse proxies on their way to
+	// destination servers.
+	EnableProxyProtocol *bool `json:"enableProxyProtocol,omitempty" tf:"enable_proxy_protocol,omitempty"`
+
 	// Fingerprint of this resource. This field is used internally during
 	// updates of this resource.
 	Fingerprint *string `json:"fingerprint,omitempty" tf:"fingerprint,omitempty"`
@@ -67,16 +101,30 @@ type ServiceAttachmentObservation struct {
 	// an identifier for the resource with format projects/{{project}}/regions/{{region}}/serviceAttachments/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// An array of subnets that is provided for NAT in this service attachment.
+	NATSubnets []*string `json:"natSubnets,omitempty" tf:"nat_subnets,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// URL of the region where the resource resides.
+	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+
 	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
+
+	// The URL of a forwarding rule that represents the service identified by
+	// this service attachment.
+	TargetService *string `json:"targetService,omitempty" tf:"target_service,omitempty"`
 }
 
 type ServiceAttachmentParameters struct {
 
 	// The connection preference to use for this service attachment. Valid
 	// values include "ACCEPT_AUTOMATIC", "ACCEPT_MANUAL".
-	// +kubebuilder:validation:Required
-	ConnectionPreference *string `json:"connectionPreference" tf:"connection_preference,omitempty"`
+	// +kubebuilder:validation:Optional
+	ConnectionPreference *string `json:"connectionPreference,omitempty" tf:"connection_preference,omitempty"`
 
 	// An array of projects that are allowed to connect to this service
 	// attachment.
@@ -103,8 +151,8 @@ type ServiceAttachmentParameters struct {
 	// If true, enable the proxy protocol which is for supplying client TCP/IP
 	// address data in TCP connections that traverse proxies on their way to
 	// destination servers.
-	// +kubebuilder:validation:Required
-	EnableProxyProtocol *bool `json:"enableProxyProtocol" tf:"enable_proxy_protocol,omitempty"`
+	// +kubebuilder:validation:Optional
+	EnableProxyProtocol *bool `json:"enableProxyProtocol,omitempty" tf:"enable_proxy_protocol,omitempty"`
 
 	// An array of subnets that is provided for NAT in this service attachment.
 	// +crossplane:generate:reference:type=Subnetwork
@@ -168,8 +216,10 @@ type ServiceAttachmentStatus struct {
 type ServiceAttachment struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              ServiceAttachmentSpec   `json:"spec"`
-	Status            ServiceAttachmentStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.connectionPreference)",message="connectionPreference is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.enableProxyProtocol)",message="enableProxyProtocol is a required parameter"
+	Spec   ServiceAttachmentSpec   `json:"spec"`
+	Status ServiceAttachmentStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

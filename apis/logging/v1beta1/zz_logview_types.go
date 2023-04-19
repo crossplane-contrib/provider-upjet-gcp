@@ -27,11 +27,26 @@ import (
 
 type LogViewObservation struct {
 
+	// The bucket of the resource
+	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
+
 	// Output only. The creation timestamp of the view.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
+	// Describes this view.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Filter that restricts which log entries in a bucket are visible in this view. Filters are restricted to be a logical AND of ==/!= of any of the following: - originating project/folder/organization/billing account. - resource type - log id For example: SOURCE("projects/myproject") AND resource.type = "gce_instance" AND LOG_ID("stdout")
+	Filter *string `json:"filter,omitempty" tf:"filter,omitempty"`
+
 	// an identifier for the resource with format {{parent}}/locations/{{location}}/buckets/{{bucket}}/views/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The location of the resource. The supported locations are: global, us-central1, us-east1, us-west1, asia-east1, europe-west1.
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
+	// The parent of the resource.
+	Parent *string `json:"parent,omitempty" tf:"parent,omitempty"`
 
 	// Output only. The last update timestamp of the view.
 	UpdateTime *string `json:"updateTime,omitempty" tf:"update_time,omitempty"`

@@ -29,14 +29,22 @@ type ProjectDefaultNetworkTierObservation struct {
 
 	// an identifier for the resource with format {{project}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The default network tier to be configured for the project.
+	// This field can take the following values: PREMIUM or STANDARD.
+	NetworkTier *string `json:"networkTier,omitempty" tf:"network_tier,omitempty"`
+
+	// The ID of the project in which the resource belongs. If it
+	// is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 
 type ProjectDefaultNetworkTierParameters struct {
 
 	// The default network tier to be configured for the project.
 	// This field can take the following values: PREMIUM or STANDARD.
-	// +kubebuilder:validation:Required
-	NetworkTier *string `json:"networkTier" tf:"network_tier,omitempty"`
+	// +kubebuilder:validation:Optional
+	NetworkTier *string `json:"networkTier,omitempty" tf:"network_tier,omitempty"`
 
 	// The ID of the project in which the resource belongs. If it
 	// is not provided, the provider project is used.
@@ -68,8 +76,9 @@ type ProjectDefaultNetworkTierStatus struct {
 type ProjectDefaultNetworkTier struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              ProjectDefaultNetworkTierSpec   `json:"spec"`
-	Status            ProjectDefaultNetworkTierStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.networkTier)",message="networkTier is a required parameter"
+	Spec   ProjectDefaultNetworkTierSpec   `json:"spec"`
+	Status ProjectDefaultNetworkTierStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -32,6 +32,12 @@ type RegistryObservation struct {
 
 	// The name of the bucket that supports the Container Registry. In the form of artifacts.{project}.appspot.com or {location}.artifacts.{project}.appspot.com if location is specified.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The location of the registry. One of ASIA, EU, US or not specified. See the official documentation for more information on registry locations.
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
+	// The ID of the project in which the resource belongs. If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 
 type RegistryParameters struct {

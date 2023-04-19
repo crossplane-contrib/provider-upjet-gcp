@@ -93,13 +93,63 @@ func (in *WorkflowObservation) DeepCopyInto(out *WorkflowObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.Description != nil {
+		in, out := &in.Description, &out.Description
+		*out = new(string)
+		**out = **in
+	}
 	if in.ID != nil {
 		in, out := &in.ID, &out.ID
 		*out = new(string)
 		**out = **in
 	}
+	if in.Labels != nil {
+		in, out := &in.Labels, &out.Labels
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				in, out := &val, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
+	if in.Name != nil {
+		in, out := &in.Name, &out.Name
+		*out = new(string)
+		**out = **in
+	}
+	if in.NamePrefix != nil {
+		in, out := &in.NamePrefix, &out.NamePrefix
+		*out = new(string)
+		**out = **in
+	}
+	if in.Project != nil {
+		in, out := &in.Project, &out.Project
+		*out = new(string)
+		**out = **in
+	}
+	if in.Region != nil {
+		in, out := &in.Region, &out.Region
+		*out = new(string)
+		**out = **in
+	}
 	if in.RevisionID != nil {
 		in, out := &in.RevisionID, &out.RevisionID
+		*out = new(string)
+		**out = **in
+	}
+	if in.ServiceAccount != nil {
+		in, out := &in.ServiceAccount, &out.ServiceAccount
+		*out = new(string)
+		**out = **in
+	}
+	if in.SourceContents != nil {
+		in, out := &in.SourceContents, &out.SourceContents
 		*out = new(string)
 		**out = **in
 	}

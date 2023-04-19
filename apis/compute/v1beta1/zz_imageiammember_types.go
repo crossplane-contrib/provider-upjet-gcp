@@ -26,6 +26,11 @@ import (
 )
 
 type ImageIAMMemberConditionObservation struct {
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	Expression *string `json:"expression,omitempty" tf:"expression,omitempty"`
+
+	Title *string `json:"title,omitempty" tf:"title,omitempty"`
 }
 
 type ImageIAMMemberConditionParameters struct {
@@ -41,9 +46,19 @@ type ImageIAMMemberConditionParameters struct {
 }
 
 type ImageIAMMemberObservation struct {
+	Condition []ImageIAMMemberConditionObservation `json:"condition,omitempty" tf:"condition,omitempty"`
+
 	Etag *string `json:"etag,omitempty" tf:"etag,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	Image *string `json:"image,omitempty" tf:"image,omitempty"`
+
+	Member *string `json:"member,omitempty" tf:"member,omitempty"`
+
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 }
 
 type ImageIAMMemberParameters struct {
@@ -63,14 +78,14 @@ type ImageIAMMemberParameters struct {
 	// +kubebuilder:validation:Optional
 	ImageSelector *v1.Selector `json:"imageSelector,omitempty" tf:"-"`
 
-	// +kubebuilder:validation:Required
-	Member *string `json:"member" tf:"member,omitempty"`
+	// +kubebuilder:validation:Optional
+	Member *string `json:"member,omitempty" tf:"member,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
-	// +kubebuilder:validation:Required
-	Role *string `json:"role" tf:"role,omitempty"`
+	// +kubebuilder:validation:Optional
+	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 }
 
 // ImageIAMMemberSpec defines the desired state of ImageIAMMember
@@ -97,8 +112,10 @@ type ImageIAMMemberStatus struct {
 type ImageIAMMember struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              ImageIAMMemberSpec   `json:"spec"`
-	Status            ImageIAMMemberStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.member)",message="member is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.role)",message="role is a required parameter"
+	Spec   ImageIAMMemberSpec   `json:"spec"`
+	Status ImageIAMMemberStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

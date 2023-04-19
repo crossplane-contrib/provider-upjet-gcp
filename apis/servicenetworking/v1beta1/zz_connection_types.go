@@ -28,8 +28,21 @@ import (
 type ConnectionObservation struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// Name of VPC network connected with service producers using VPC peering.
+	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
 	// (Computed) The name of the VPC Network Peering connection that was created by the service producer.
 	Peering *string `json:"peering,omitempty" tf:"peering,omitempty"`
+
+	// Named IP address range(s) of PEERING type reserved for
+	// this service provider. Note that invoking this method with a different range when connection
+	// is already established will not reallocate already provisioned service producer subnetworks.
+	ReservedPeeringRanges []*string `json:"reservedPeeringRanges,omitempty" tf:"reserved_peering_ranges,omitempty"`
+
+	// Provider peering service that is managing peering connectivity for a
+	// service provider organization. For Google services that support this functionality it is
+	// 'servicenetworking.googleapis.com'.
+	Service *string `json:"service,omitempty" tf:"service,omitempty"`
 }
 
 type ConnectionParameters struct {
@@ -66,8 +79,8 @@ type ConnectionParameters struct {
 	// Provider peering service that is managing peering connectivity for a
 	// service provider organization. For Google services that support this functionality it is
 	// 'servicenetworking.googleapis.com'.
-	// +kubebuilder:validation:Required
-	Service *string `json:"service" tf:"service,omitempty"`
+	// +kubebuilder:validation:Optional
+	Service *string `json:"service,omitempty" tf:"service,omitempty"`
 }
 
 // ConnectionSpec defines the desired state of Connection
@@ -94,8 +107,9 @@ type ConnectionStatus struct {
 type Connection struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              ConnectionSpec   `json:"spec"`
-	Status            ConnectionStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.service)",message="service is a required parameter"
+	Spec   ConnectionSpec   `json:"spec"`
+	Status ConnectionStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

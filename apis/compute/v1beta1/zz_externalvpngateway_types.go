@@ -27,8 +27,26 @@ import (
 
 type ExternalVPNGatewayObservation struct {
 
+	// An optional description of this resource.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/global/externalVpnGateways/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// A list of interfaces on this external VPN gateway.
+	// Structure is documented below.
+	Interface []InterfaceObservation `json:"interface,omitempty" tf:"interface,omitempty"`
+
+	// Labels for the external VPN gateway resource.
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Indicates the redundancy type of this external VPN gateway
+	// Possible values are FOUR_IPS_REDUNDANCY, SINGLE_IP_INTERNALLY_REDUNDANT, and TWO_IPS_REDUNDANCY.
+	RedundancyType *string `json:"redundancyType,omitempty" tf:"redundancy_type,omitempty"`
 
 	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
@@ -61,6 +79,16 @@ type ExternalVPNGatewayParameters struct {
 }
 
 type InterfaceObservation struct {
+
+	// The numeric ID for this interface. Allowed values are based on the redundancy type
+	// of this external VPN gateway
+	ID *float64 `json:"id,omitempty" tf:"id,omitempty"`
+
+	// IP address of the interface in the external VPN gateway.
+	// Only IPv4 is supported. This IP address can be either from
+	// your on-premise gateway or another Cloud provider's VPN gateway,
+	// it cannot be an IP address from Google Compute Engine.
+	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
 }
 
 type InterfaceParameters struct {

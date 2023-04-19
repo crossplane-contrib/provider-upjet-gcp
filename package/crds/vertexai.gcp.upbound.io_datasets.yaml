@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.11.1
+    controller-gen.kubebuilder.io/version: v0.11.3
   creationTimestamp: null
   name: datasets.vertexai.gcp.upbound.io
 spec:
@@ -55,9 +55,13 @@ spec:
             properties:
               deletionPolicy:
                 default: Delete
-                description: DeletionPolicy specifies what will happen to the underlying
+                description: 'DeletionPolicy specifies what will happen to the underlying
                   external when this managed resource is deleted - either "Delete"
-                  or "Orphan" the external resource.
+                  or "Orphan" the external resource. This field is planned to be deprecated
+                  in favor of the ManagementPolicy field in a future release. Currently,
+                  both could be set independently and non-default values would be
+                  honored if the feature flag is enabled. See the design doc for more
+                  information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
                 enum:
                 - Orphan
                 - Delete
@@ -103,10 +107,22 @@ spec:
                   region:
                     description: The region of the dataset. eg us-central1
                     type: string
-                required:
-                - displayName
-                - metadataSchemaUri
                 type: object
+              managementPolicy:
+                default: FullControl
+                description: 'THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice. ManagementPolicy
+                  specifies the level of control Crossplane has over the managed external
+                  resource. This field is planned to replace the DeletionPolicy field
+                  in a future release. Currently, both could be set independently
+                  and non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
+                enum:
+                - FullControl
+                - ObserveOnly
+                - OrphanOnDelete
+                type: string
               providerConfigRef:
                 default:
                   name: default
@@ -278,6 +294,11 @@ spec:
             required:
             - forProvider
             type: object
+            x-kubernetes-validations:
+            - message: displayName is a required parameter
+              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.displayName)
+            - message: metadataSchemaUri is a required parameter
+              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.metadataSchemaUri)
           status:
             description: DatasetStatus defines the observed state of Dataset.
             properties:
@@ -288,12 +309,51 @@ spec:
                       RFC3339 UTC "Zulu" format, with nanosecond resolution and up
                       to nine fractional digits.
                     type: string
+                  displayName:
+                    description: The user-defined name of the Dataset. The name can
+                      be up to 128 characters long and can be consist of any UTF-8
+                      characters.
+                    type: string
+                  encryptionSpec:
+                    description: Customer-managed encryption key spec for a Dataset.
+                      If set, this Dataset and all sub-resources of this Dataset will
+                      be secured by this key. Structure is documented below.
+                    items:
+                      properties:
+                        kmsKeyName:
+                          description: 'Required. The Cloud KMS resource identifier
+                            of the customer managed encryption key used to protect
+                            a resource. Has the form: projects/my-project/locations/my-region/keyRings/my-kr/cryptoKeys/my-key.
+                            The key needs to be in the same region as where the resource
+                            is created.'
+                          type: string
+                      type: object
+                    type: array
                   id:
                     description: an identifier for the resource with format {{name}}
+                    type: string
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: A set of key/value label pairs to assign to this
+                      Workflow.
+                    type: object
+                  metadataSchemaUri:
+                    description: Points to a YAML file stored on Google Cloud Storage
+                      describing additional information about the Dataset. The schema
+                      is defined as an OpenAPI 3.0.2 Schema Object. The schema files
+                      that can be used here are found in gs://google-cloud-aiplatform/schema/dataset/metadata/.
                     type: string
                   name:
                     description: The resource name of the Dataset. This value is set
                       by Google.
+                    type: string
+                  project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  region:
+                    description: The region of the dataset. eg us-central1
                     type: string
                   updateTime:
                     description: The timestamp of when the dataset was last updated

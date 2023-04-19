@@ -30,11 +30,31 @@ type OrganizationIAMCustomRoleObservation struct {
 	// The current deleted state of the role.
 	Deleted *bool `json:"deleted,omitempty" tf:"deleted,omitempty"`
 
+	// A human-readable description for the role.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
 	// an identifier for the resource with the format organizations/{{org_id}}/roles/{{role_id}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// The name of the role in the format organizations/{{org_id}}/roles/{{role_id}}. Like id, this field can be used as a reference in other resources such as IAM role bindings.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The numeric ID of the organization in which you want to create a custom role.
+	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
+
+	// The names of the permissions this role grants when bound in an IAM policy. At least one permission must be specified.
+	Permissions []*string `json:"permissions,omitempty" tf:"permissions,omitempty"`
+
+	// The role id to use for this role.
+	RoleID *string `json:"roleId,omitempty" tf:"role_id,omitempty"`
+
+	// The current launch stage of the role.
+	// Defaults to GA.
+	// List of possible stages is here.
+	Stage *string `json:"stage,omitempty" tf:"stage,omitempty"`
+
+	// A human-readable title for the role.
+	Title *string `json:"title,omitempty" tf:"title,omitempty"`
 }
 
 type OrganizationIAMCustomRoleParameters struct {
@@ -44,16 +64,16 @@ type OrganizationIAMCustomRoleParameters struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// The numeric ID of the organization in which you want to create a custom role.
-	// +kubebuilder:validation:Required
-	OrgID *string `json:"orgId" tf:"org_id,omitempty"`
+	// +kubebuilder:validation:Optional
+	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
 
 	// The names of the permissions this role grants when bound in an IAM policy. At least one permission must be specified.
-	// +kubebuilder:validation:Required
-	Permissions []*string `json:"permissions" tf:"permissions,omitempty"`
+	// +kubebuilder:validation:Optional
+	Permissions []*string `json:"permissions,omitempty" tf:"permissions,omitempty"`
 
 	// The role id to use for this role.
-	// +kubebuilder:validation:Required
-	RoleID *string `json:"roleId" tf:"role_id,omitempty"`
+	// +kubebuilder:validation:Optional
+	RoleID *string `json:"roleId,omitempty" tf:"role_id,omitempty"`
 
 	// The current launch stage of the role.
 	// Defaults to GA.
@@ -62,8 +82,8 @@ type OrganizationIAMCustomRoleParameters struct {
 	Stage *string `json:"stage,omitempty" tf:"stage,omitempty"`
 
 	// A human-readable title for the role.
-	// +kubebuilder:validation:Required
-	Title *string `json:"title" tf:"title,omitempty"`
+	// +kubebuilder:validation:Optional
+	Title *string `json:"title,omitempty" tf:"title,omitempty"`
 }
 
 // OrganizationIAMCustomRoleSpec defines the desired state of OrganizationIAMCustomRole
@@ -90,8 +110,12 @@ type OrganizationIAMCustomRoleStatus struct {
 type OrganizationIAMCustomRole struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              OrganizationIAMCustomRoleSpec   `json:"spec"`
-	Status            OrganizationIAMCustomRoleStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.orgId)",message="orgId is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.permissions)",message="permissions is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.roleId)",message="roleId is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.title)",message="title is a required parameter"
+	Spec   OrganizationIAMCustomRoleSpec   `json:"spec"`
+	Status OrganizationIAMCustomRoleStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

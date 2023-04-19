@@ -27,21 +27,34 @@ import (
 
 type TenantDefaultSupportedIdPConfigObservation struct {
 
+	// If this IDP allows the user to sign in
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/tenants/{{tenant}}/defaultSupportedIdpConfigs/{{idp_id}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// ID of the IDP. Possible values include:
+	IdPID *string `json:"idpId,omitempty" tf:"idp_id,omitempty"`
+
 	// The name of the default supported IDP config resource
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The name of the tenant where this DefaultSupportedIdpConfig resource exists
+	Tenant *string `json:"tenant,omitempty" tf:"tenant,omitempty"`
 }
 
 type TenantDefaultSupportedIdPConfigParameters struct {
 
 	// OAuth client ID
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	ClientIDSecretRef v1.SecretKeySelector `json:"clientIdSecretRef" tf:"-"`
 
 	// OAuth client secret
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	ClientSecretSecretRef v1.SecretKeySelector `json:"clientSecretSecretRef" tf:"-"`
 
 	// If this IDP allows the user to sign in
@@ -49,8 +62,8 @@ type TenantDefaultSupportedIdPConfigParameters struct {
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 
 	// ID of the IDP. Possible values include:
-	// +kubebuilder:validation:Required
-	IdPID *string `json:"idpId" tf:"idp_id,omitempty"`
+	// +kubebuilder:validation:Optional
+	IdPID *string `json:"idpId,omitempty" tf:"idp_id,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -96,8 +109,11 @@ type TenantDefaultSupportedIdPConfigStatus struct {
 type TenantDefaultSupportedIdPConfig struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              TenantDefaultSupportedIdPConfigSpec   `json:"spec"`
-	Status            TenantDefaultSupportedIdPConfigStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.clientIdSecretRef)",message="clientIdSecretRef is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.clientSecretSecretRef)",message="clientSecretSecretRef is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.idpId)",message="idpId is a required parameter"
+	Spec   TenantDefaultSupportedIdPConfigSpec   `json:"spec"`
+	Status TenantDefaultSupportedIdPConfigStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

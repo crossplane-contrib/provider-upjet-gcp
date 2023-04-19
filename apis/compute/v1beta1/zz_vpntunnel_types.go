@@ -30,11 +30,56 @@ type VPNTunnelObservation struct {
 	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
 
+	// An optional description of this resource.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
 	// Detailed status message for the VPN tunnel.
 	DetailedStatus *string `json:"detailedStatus,omitempty" tf:"detailed_status,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/regions/{{region}}/vpnTunnels/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// IKE protocol version to use when establishing the VPN tunnel with
+	// peer VPN gateway.
+	// Acceptable IKE versions are 1 or 2. Default version is 2.
+	IkeVersion *float64 `json:"ikeVersion,omitempty" tf:"ike_version,omitempty"`
+
+	// Local traffic selector to use when establishing the VPN tunnel with
+	// peer VPN gateway. The value should be a CIDR formatted string,
+	// for example 192.168.0.0/16. The ranges should be disjoint.
+	// Only IPv4 is supported.
+	LocalTrafficSelector []*string `json:"localTrafficSelector,omitempty" tf:"local_traffic_selector,omitempty"`
+
+	// URL of the peer side external VPN gateway to which this VPN tunnel is connected.
+	PeerExternalGateway *string `json:"peerExternalGateway,omitempty" tf:"peer_external_gateway,omitempty"`
+
+	// The interface ID of the external VPN gateway to which this VPN tunnel is connected.
+	PeerExternalGatewayInterface *float64 `json:"peerExternalGatewayInterface,omitempty" tf:"peer_external_gateway_interface,omitempty"`
+
+	// URL of the peer side HA GCP VPN gateway to which this VPN tunnel is connected.
+	// If provided, the VPN tunnel will automatically use the same vpn_gateway_interface
+	// ID in the peer GCP VPN gateway.
+	// This field must reference a google_compute_ha_vpn_gateway resource.
+	PeerGCPGateway *string `json:"peerGcpGateway,omitempty" tf:"peer_gcp_gateway,omitempty"`
+
+	// IP address of the peer VPN gateway. Only IPv4 is supported.
+	PeerIP *string `json:"peerIp,omitempty" tf:"peer_ip,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The region where the tunnel is located. If unset, is set to the region of target_vpn_gateway.
+	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+
+	// Remote traffic selector to use when establishing the VPN tunnel with
+	// peer VPN gateway. The value should be a CIDR formatted string,
+	// for example 192.168.0.0/16. The ranges should be disjoint.
+	// Only IPv4 is supported.
+	RemoteTrafficSelector []*string `json:"remoteTrafficSelector,omitempty" tf:"remote_traffic_selector,omitempty"`
+
+	// URL of router resource to be used for dynamic routing.
+	Router *string `json:"router,omitempty" tf:"router,omitempty"`
 
 	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
@@ -42,8 +87,20 @@ type VPNTunnelObservation struct {
 	// Hash of the shared secret.
 	SharedSecretHash *string `json:"sharedSecretHash,omitempty" tf:"shared_secret_hash,omitempty"`
 
+	// URL of the Target VPN gateway with which this VPN tunnel is
+	// associated.
+	TargetVPNGateway *string `json:"targetVpnGateway,omitempty" tf:"target_vpn_gateway,omitempty"`
+
 	// The unique identifier for the resource. This identifier is defined by the server.
 	TunnelID *string `json:"tunnelId,omitempty" tf:"tunnel_id,omitempty"`
+
+	// URL of the VPN gateway with which this VPN tunnel is associated.
+	// This must be used if a High Availability VPN gateway resource is created.
+	// This field must reference a google_compute_ha_vpn_gateway resource.
+	VPNGateway *string `json:"vpnGateway,omitempty" tf:"vpn_gateway,omitempty"`
+
+	// The interface ID of the VPN gateway with which this VPN tunnel is associated.
+	VPNGatewayInterface *float64 `json:"vpnGatewayInterface,omitempty" tf:"vpn_gateway_interface,omitempty"`
 }
 
 type VPNTunnelParameters struct {
@@ -125,7 +182,7 @@ type VPNTunnelParameters struct {
 	// Shared secret used to set the secure session between the Cloud VPN
 	// gateway and the peer VPN gateway.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	SharedSecretSecretRef v1.SecretKeySelector `json:"sharedSecretSecretRef" tf:"-"`
 
 	// URL of the Target VPN gateway with which this VPN tunnel is
@@ -187,8 +244,9 @@ type VPNTunnelStatus struct {
 type VPNTunnel struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              VPNTunnelSpec   `json:"spec"`
-	Status            VPNTunnelStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.sharedSecretSecretRef)",message="sharedSecretSecretRef is a required parameter"
+	Spec   VPNTunnelSpec   `json:"spec"`
+	Status VPNTunnelStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

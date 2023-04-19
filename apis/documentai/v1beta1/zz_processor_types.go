@@ -27,26 +27,42 @@ import (
 
 type ProcessorObservation struct {
 
+	// The display name. Must be unique.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/processors/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// The KMS key used for encryption/decryption in CMEK scenarios. See https://cloud.google.com/security-key-management.
+	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
+
+	// The location of the resource.
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
 	// The resource name of the processor.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The type of processor. For possible types see the official list
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type ProcessorParameters struct {
 
 	// The display name. Must be unique.
-	// +kubebuilder:validation:Required
-	DisplayName *string `json:"displayName" tf:"display_name,omitempty"`
+	// +kubebuilder:validation:Optional
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// The KMS key used for encryption/decryption in CMEK scenarios. See https://cloud.google.com/security-key-management.
 	// +kubebuilder:validation:Optional
 	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
 
 	// The location of the resource.
-	// +kubebuilder:validation:Required
-	Location *string `json:"location" tf:"location,omitempty"`
+	// +kubebuilder:validation:Optional
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -54,8 +70,8 @@ type ProcessorParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The type of processor. For possible types see the official list
-	// +kubebuilder:validation:Required
-	Type *string `json:"type" tf:"type,omitempty"`
+	// +kubebuilder:validation:Optional
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 // ProcessorSpec defines the desired state of Processor
@@ -82,8 +98,11 @@ type ProcessorStatus struct {
 type Processor struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              ProcessorSpec   `json:"spec"`
-	Status            ProcessorStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.displayName)",message="displayName is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.location)",message="location is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.type)",message="type is a required parameter"
+	Spec   ProcessorSpec   `json:"spec"`
+	Status ProcessorStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

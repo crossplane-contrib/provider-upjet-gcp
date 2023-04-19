@@ -33,14 +33,26 @@ type ChannelObservation struct {
 	// Output only. The creation time.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
+	// Optional. Resource name of a KMS crypto key (managed by the user) used to encrypt/decrypt their event data. It must match the pattern projects/*/locations/*/keyRings/*/cryptoKeys/*.
+	CryptoKeyName *string `json:"cryptoKeyName,omitempty" tf:"crypto_key_name,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/channels/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The location for the resource
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
+	// The project for the resource
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Output only. The name of the Pub/Sub topic created and managed by Eventarc system as a transport for the event delivery. Format: projects/{project}/topics/{topic_id}.
 	PubsubTopic *string `json:"pubsubTopic,omitempty" tf:"pubsub_topic,omitempty"`
 
 	// Output only. The state of a Channel. Possible values: STATE_UNSPECIFIED, PENDING, ACTIVE, INACTIVE
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
+
+	// The name of the event provider (e.g. Eventarc SaaS partner) associated with the channel. This provider will be granted permissions to publish events to the channel. Format: projects/{project}/locations/{location}/providers/{provider_id}.
+	ThirdPartyProvider *string `json:"thirdPartyProvider,omitempty" tf:"third_party_provider,omitempty"`
 
 	// Output only. Server assigned unique identifier for the channel. The value is a UUID4 string and guaranteed to remain unchanged until the resource is deleted.
 	UID *string `json:"uid,omitempty" tf:"uid,omitempty"`

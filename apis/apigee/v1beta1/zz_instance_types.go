@@ -27,11 +27,47 @@ import (
 
 type InstanceObservation struct {
 
+	// Optional. Customer accept list represents the list of projects (id/number) on customer
+	// side that can privately connect to the service attachment. It is an optional field
+	// which the customers can provide during the instance creation. By default, the customer
+	// project associated with the Apigee organization will be included to the list.
+	ConsumerAcceptList []*string `json:"consumerAcceptList,omitempty" tf:"consumer_accept_list,omitempty"`
+
+	// Description of the instance.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Customer Managed Encryption Key (CMEK) used for disk and volume encryption. Required for Apigee paid subscriptions only.
+	// Use the following format: projects/([^/]+)/locations/([^/]+)/keyRings/([^/]+)/cryptoKeys/([^/]+)
+	DiskEncryptionKeyName *string `json:"diskEncryptionKeyName,omitempty" tf:"disk_encryption_key_name,omitempty"`
+
+	// Display name of the instance.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
 	// Output only. Hostname or IP address of the exposed Apigee endpoint used by clients to connect to the service.
 	Host *string `json:"host,omitempty" tf:"host,omitempty"`
 
 	// an identifier for the resource with format {{org_id}}/instances/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// IP range represents the customer-provided CIDR block of length 22 that will be used for
+	// the Apigee instance creation. This optional range, if provided, should be freely
+	// available as part of larger named range the customer has allocated to the Service
+	// Networking peering. If this is not provided, Apigee will automatically request for any
+	// available /22 CIDR block from Service Networking. The customer should use this CIDR block
+	// for configuring their firewall needs to allow traffic from Apigee.
+	// Input format: "a.b.c.d/22"
+	IPRange *string `json:"ipRange,omitempty" tf:"ip_range,omitempty"`
+
+	// Required. Compute Engine location where the instance resides.
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
+	// The Apigee Organization associated with the Apigee instance,
+	// in the format organizations/{{org_name}}.
+	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
+
+	// The size of the CIDR block range that will be reserved by the instance. For valid values,
+	// see CidrRange on the documentation.
+	PeeringCidrRange *string `json:"peeringCidrRange,omitempty" tf:"peering_cidr_range,omitempty"`
 
 	// Output only. Port number of the exposed Apigee endpoint.
 	Port *string `json:"port,omitempty" tf:"port,omitempty"`
@@ -85,8 +121,8 @@ type InstanceParameters struct {
 	IPRange *string `json:"ipRange,omitempty" tf:"ip_range,omitempty"`
 
 	// Required. Compute Engine location where the instance resides.
-	// +kubebuilder:validation:Required
-	Location *string `json:"location" tf:"location,omitempty"`
+	// +kubebuilder:validation:Optional
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
 	// The Apigee Organization associated with the Apigee instance,
 	// in the format organizations/{{org_name}}.
@@ -133,8 +169,9 @@ type InstanceStatus struct {
 type Instance struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              InstanceSpec   `json:"spec"`
-	Status            InstanceStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.location)",message="location is a required parameter"
+	Spec   InstanceSpec   `json:"spec"`
+	Status InstanceStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.11.1
+    controller-gen.kubebuilder.io/version: v0.11.3
   creationTimestamp: null
   name: tenantinboundsamlconfigs.identityplatform.gcp.upbound.io
 spec:
@@ -56,9 +56,13 @@ spec:
             properties:
               deletionPolicy:
                 default: Delete
-                description: DeletionPolicy specifies what will happen to the underlying
+                description: 'DeletionPolicy specifies what will happen to the underlying
                   external when this managed resource is deleted - either "Delete"
-                  or "Orphan" the external resource.
+                  or "Orphan" the external resource. This field is planned to be deprecated
+                  in favor of the ManagementPolicy field in a future release. Currently,
+                  both could be set independently and non-default values would be
+                  honored if the feature flag is enabled. See the design doc for more
+                  information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
                 enum:
                 - Orphan
                 - Delete
@@ -226,12 +230,22 @@ spec:
                             type: string
                         type: object
                     type: object
-                required:
-                - displayName
-                - idpConfig
-                - name
-                - spConfig
                 type: object
+              managementPolicy:
+                default: FullControl
+                description: 'THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice. ManagementPolicy
+                  specifies the level of control Crossplane has over the managed external
+                  resource. This field is planned to replace the DeletionPolicy field
+                  in a future release. Currently, both could be set independently
+                  and non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
+                enum:
+                - FullControl
+                - ObserveOnly
+                - OrphanOnDelete
+                type: string
               providerConfigRef:
                 default:
                   name: default
@@ -403,14 +417,82 @@ spec:
             required:
             - forProvider
             type: object
+            x-kubernetes-validations:
+            - message: displayName is a required parameter
+              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.displayName)
+            - message: idpConfig is a required parameter
+              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.idpConfig)
+            - message: name is a required parameter
+              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.name)
+            - message: spConfig is a required parameter
+              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.spConfig)
           status:
             description: TenantInboundSAMLConfigStatus defines the observed state
               of TenantInboundSAMLConfig.
             properties:
               atProvider:
                 properties:
+                  displayName:
+                    description: Human friendly display name.
+                    type: string
+                  enabled:
+                    description: If this config allows users to sign in with the provider.
+                    type: boolean
                   id:
                     description: an identifier for the resource with format projects/{{project}}/tenants/{{tenant}}/inboundSamlConfigs/{{name}}
+                    type: string
+                  idpConfig:
+                    description: SAML IdP configuration when the project acts as the
+                      relying party Structure is documented below.
+                    items:
+                      properties:
+                        idpCertificates:
+                          description: The IDP's certificate data to verify the signature
+                            in the SAMLResponse issued by the IDP. Structure is documented
+                            below.
+                          items:
+                            properties:
+                              x509CertificateSecretRef:
+                                description: The x509 certificate
+                                properties:
+                                  key:
+                                    description: The key to select.
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                  namespace:
+                                    description: Namespace of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                - namespace
+                                type: object
+                            type: object
+                          type: array
+                        idpEntityId:
+                          description: Unique identifier for all SAML entities
+                          type: string
+                        signRequest:
+                          description: Indicates if outbounding SAMLRequest should
+                            be signed.
+                          type: boolean
+                        ssoUrl:
+                          description: URL to send Authentication request to.
+                          type: string
+                      type: object
+                    type: array
+                  name:
+                    description: The name of the InboundSamlConfig resource. Must
+                      start with 'saml.' and can only have alphanumeric characters,
+                      hyphens, underscores or periods. The part after 'saml.' must
+                      also start with a lowercase letter, end with an alphanumeric
+                      character, and have at least 2 characters.
+                    type: string
+                  project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
                     type: string
                   spConfig:
                     description: SAML SP (Service Provider) configuration when the
@@ -419,6 +501,10 @@ spec:
                       below.
                     items:
                       properties:
+                        callbackUri:
+                          description: Callback URI where responses from IDP are handled.
+                            Must start with https://.
+                          type: string
                         spCertificates:
                           description: The IDP's certificate data to verify the signature
                             in the SAMLResponse issued by the IDP. Structure is documented
@@ -430,8 +516,15 @@ spec:
                                 type: string
                             type: object
                           type: array
+                        spEntityId:
+                          description: Unique identifier for all SAML entities.
+                          type: string
                       type: object
                     type: array
+                  tenant:
+                    description: The name of the tenant where this inbound SAML config
+                      resource exists
+                    type: string
                 type: object
               conditions:
                 description: Conditions of the resource.

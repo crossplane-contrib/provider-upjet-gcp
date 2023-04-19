@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.11.1
+    controller-gen.kubebuilder.io/version: v0.11.3
   creationTimestamp: null
   name: nodes.tpu.gcp.upbound.io
 spec:
@@ -54,9 +54,13 @@ spec:
             properties:
               deletionPolicy:
                 default: Delete
-                description: DeletionPolicy specifies what will happen to the underlying
+                description: 'DeletionPolicy specifies what will happen to the underlying
                   external when this managed resource is deleted - either "Delete"
-                  or "Orphan" the external resource.
+                  or "Orphan" the external resource. This field is planned to be deprecated
+                  in favor of the ManagementPolicy field in a future release. Currently,
+                  both could be set independently and non-default values would be
+                  honored if the feature flag is enabled. See the design doc for more
+                  information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
                 enum:
                 - Orphan
                 - Delete
@@ -200,10 +204,23 @@ spec:
                       the provider zone is used.
                     type: string
                 required:
-                - acceleratorType
-                - tensorflowVersion
                 - zone
                 type: object
+              managementPolicy:
+                default: FullControl
+                description: 'THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice. ManagementPolicy
+                  specifies the level of control Crossplane has over the managed external
+                  resource. This field is planned to replace the DeletionPolicy field
+                  in a future release. Currently, both could be set independently
+                  and non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
+                enum:
+                - FullControl
+                - ObserveOnly
+                - OrphanOnDelete
+                type: string
               providerConfigRef:
                 default:
                   name: default
@@ -375,13 +392,48 @@ spec:
             required:
             - forProvider
             type: object
+            x-kubernetes-validations:
+            - message: acceleratorType is a required parameter
+              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.acceleratorType)
+            - message: tensorflowVersion is a required parameter
+              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.tensorflowVersion)
           status:
             description: NodeStatus defines the observed state of Node.
             properties:
               atProvider:
                 properties:
+                  acceleratorType:
+                    description: The type of hardware accelerators associated with
+                      this node.
+                    type: string
+                  cidrBlock:
+                    description: The CIDR block that the TPU node will use when selecting
+                      an IP address. This CIDR block must be a /29 block; the Compute
+                      Engine networks API forbids a smaller block, and using a larger
+                      block would be wasteful (a node can only consume one IP address).
+                      Errors will occur if the CIDR block has already been used for
+                      a currently existing TPU node, the CIDR block conflicts with
+                      any subnetworks in the user's provided network, or the provided
+                      network is peered with another network that is using that CIDR
+                      block.
+                    type: string
+                  description:
+                    description: The user-supplied description of the TPU. Maximum
+                      of 512 characters.
+                    type: string
                   id:
                     description: an identifier for the resource with format projects/{{project}}/locations/{{zone}}/nodes/{{name}}
+                    type: string
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: Resource labels to represent user provided metadata.
+                    type: object
+                  network:
+                    description: The name of a network to peer the TPU node to. It
+                      must be a preexisting Compute Engine network inside of the project
+                      on which this API has been activated. If none is provided, "default"
+                      will be used.
                     type: string
                   networkEndpoints:
                     description: The network endpoints where TPU workers can be accessed
@@ -398,11 +450,40 @@ spec:
                           type: number
                       type: object
                     type: array
+                  project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  schedulingConfig:
+                    description: Sets the scheduling options for this TPU instance.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        preemptible:
+                          description: Defines whether the TPU instance is preemptible.
+                          type: boolean
+                      type: object
+                    type: array
                   serviceAccount:
                     description: The service account used to run the tensor flow services
                       within the node. To share resources, including Google Cloud
                       Storage data, with the Tensorflow job running in the Node, this
                       account must have permissions to that data.
+                    type: string
+                  tensorflowVersion:
+                    description: The version of Tensorflow running in the Node.
+                    type: string
+                  useServiceNetworking:
+                    description: Whether the VPC peering for the node is set up through
+                      Service Networking API. The VPC Peering should be set up before
+                      provisioning the node. If this field is set, cidr_block field
+                      should not be specified. If the network that you want to peer
+                      the TPU Node to is a Shared VPC network, the node must be created
+                      with this this field enabled.
+                    type: boolean
+                  zone:
+                    description: The GCP location for the TPU. If it is not provided,
+                      the provider zone is used.
                     type: string
                 type: object
               conditions:

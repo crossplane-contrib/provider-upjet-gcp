@@ -30,11 +30,35 @@ type TargetInstanceObservation struct {
 	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
 
+	// An optional description of this resource.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/zones/{{zone}}/targetInstances/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// The Compute instance VM handling traffic for this target instance.
+	// Accepts the instance self-link, relative path
+	// (e.g. projects/project/zones/zone/instances/instance) or name. If
+	// name is given, the zone will default to the given zone or
+	// the provider-default zone and the project will default to the
+	// provider-level project.
+	Instance *string `json:"instance,omitempty" tf:"instance,omitempty"`
+
+	// NAT option controlling how IPs are NAT'ed to the instance.
+	// Currently only NO_NAT (default value) is supported.
+	// Default value is NO_NAT.
+	// Possible values are NO_NAT.
+	NATPolicy *string `json:"natPolicy,omitempty" tf:"nat_policy,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
 	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
+
+	// URL of the zone where the target instance resides.
+	Zone *string `json:"zone,omitempty" tf:"zone,omitempty"`
 }
 
 type TargetInstanceParameters struct {

@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.11.1
+    controller-gen.kubebuilder.io/version: v0.11.3
   creationTimestamp: null
   name: snapshots.compute.gcp.upbound.io
 spec:
@@ -55,9 +55,13 @@ spec:
             properties:
               deletionPolicy:
                 default: Delete
-                description: DeletionPolicy specifies what will happen to the underlying
+                description: 'DeletionPolicy specifies what will happen to the underlying
                   external when this managed resource is deleted - either "Delete"
-                  or "Orphan" the external resource.
+                  or "Orphan" the external resource. This field is planned to be deprecated
+                  in favor of the ManagementPolicy field in a future release. Currently,
+                  both could be set independently and non-default values would be
+                  honored if the feature flag is enabled. See the design doc for more
+                  information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
                 enum:
                 - Orphan
                 - Delete
@@ -248,6 +252,21 @@ spec:
                     description: A reference to the zone where the disk is hosted.
                     type: string
                 type: object
+              managementPolicy:
+                default: FullControl
+                description: 'THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice. ManagementPolicy
+                  specifies the level of control Crossplane has over the managed external
+                  resource. This field is planned to replace the DeletionPolicy field
+                  in a future release. Currently, both could be set independently
+                  and non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
+                enum:
+                - FullControl
+                - ObserveOnly
+                - OrphanOnDelete
+                type: string
               providerConfigRef:
                 default:
                   name: default
@@ -424,8 +443,20 @@ spec:
             properties:
               atProvider:
                 properties:
+                  chainName:
+                    description: Creates the new snapshot in the snapshot chain labeled
+                      with the specified name. The chain name must be 1-63 characters
+                      long and comply with RFC1035. This is an uncommon option only
+                      for advanced service owners who needs to create separate snapshot
+                      chains, for example, for chargeback tracking.  When you describe
+                      your snapshot resource, this field is visible only if it has
+                      a non-empty value.
+                    type: string
                   creationTimestamp:
                     description: Creation timestamp in RFC3339 text format.
+                    type: string
+                  description:
+                    description: An optional description of this resource.
                     type: string
                   diskSizeGb:
                     description: Size of the snapshot, specified in GB.
@@ -437,6 +468,11 @@ spec:
                     description: The fingerprint used for optimistic locking of this
                       resource. Used internally during updates.
                     type: string
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: Labels to apply to this Snapshot.
+                    type: object
                   licenses:
                     description: A list of public visible licenses that apply to this
                       snapshot. This can be because the original image had licenses
@@ -446,6 +482,10 @@ spec:
                     items:
                       type: string
                     type: array
+                  project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
                   selfLink:
                     description: The URI of the created resource.
                     type: string
@@ -462,6 +502,15 @@ spec:
                       later. Structure is documented below.
                     items:
                       properties:
+                        kmsKeySelfLink:
+                          description: The name of the encryption key that is stored
+                            in Google Cloud KMS.
+                          type: string
+                        kmsKeyServiceAccount:
+                          description: The service account used for the encryption
+                            request for the given KMS key. If absent, the Compute
+                            Engine Service Agent service account is used.
+                          type: string
                         sha256:
                           description: The RFC 4648 base64 encoded SHA-256 hash of
                             the customer-supplied encryption key that protects this
@@ -472,11 +521,36 @@ spec:
                   snapshotId:
                     description: The unique identifier for the resource.
                     type: number
+                  sourceDisk:
+                    description: A reference to the disk used to create this snapshot.
+                    type: string
+                  sourceDiskEncryptionKey:
+                    description: The customer-supplied encryption key of the source
+                      snapshot. Required if the source snapshot is protected by a
+                      customer-supplied encryption key. Structure is documented below.
+                    items:
+                      properties:
+                        kmsKeyServiceAccount:
+                          description: The service account used for the encryption
+                            request for the given KMS key. If absent, the Compute
+                            Engine Service Agent service account is used.
+                          type: string
+                      type: object
+                    type: array
                   storageBytes:
                     description: A size of the storage used by the snapshot. As snapshots
                       share storage, this number is expected to change with snapshot
                       creation/deletion.
                     type: number
+                  storageLocations:
+                    description: Cloud Storage bucket storage location of the snapshot
+                      (regional or multi-regional).
+                    items:
+                      type: string
+                    type: array
+                  zone:
+                    description: A reference to the zone where the disk is hosted.
+                    type: string
                 type: object
               conditions:
                 description: Conditions of the resource.

@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.11.1
+    controller-gen.kubebuilder.io/version: v0.11.3
   creationTimestamp: null
   name: appconnections.beyondcorp.gcp.upbound.io
 spec:
@@ -56,9 +56,13 @@ spec:
             properties:
               deletionPolicy:
                 default: Delete
-                description: DeletionPolicy specifies what will happen to the underlying
+                description: 'DeletionPolicy specifies what will happen to the underlying
                   external when this managed resource is deleted - either "Delete"
-                  or "Orphan" the external resource.
+                  or "Orphan" the external resource. This field is planned to be deprecated
+                  in favor of the ManagementPolicy field in a future release. Currently,
+                  both could be set independently and non-default values would be
+                  honored if the feature flag is enabled. See the design doc for more
+                  information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
                 enum:
                 - Orphan
                 - Delete
@@ -204,11 +208,22 @@ spec:
                       https://cloud.google.com/beyondcorp/docs/reference/rest/v1/projects.locations.appConnections#Type_1
                       for a list of possible values.
                     type: string
-                required:
-                - applicationEndpoint
-                - name
-                - region
                 type: object
+              managementPolicy:
+                default: FullControl
+                description: 'THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice. ManagementPolicy
+                  specifies the level of control Crossplane has over the managed external
+                  resource. This field is planned to replace the DeletionPolicy field
+                  in a future release. Currently, both could be set independently
+                  and non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
+                enum:
+                - FullControl
+                - ObserveOnly
+                - OrphanOnDelete
+                type: string
               providerConfigRef:
                 default:
                   name: default
@@ -380,21 +395,59 @@ spec:
             required:
             - forProvider
             type: object
+            x-kubernetes-validations:
+            - message: applicationEndpoint is a required parameter
+              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.applicationEndpoint)
+            - message: name is a required parameter
+              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.name)
+            - message: region is a required parameter
+              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.region)
           status:
             description: AppConnectionStatus defines the observed state of AppConnection.
             properties:
               atProvider:
                 properties:
+                  applicationEndpoint:
+                    description: Address of the remote application endpoint for the
+                      BeyondCorp AppConnection. Structure is documented below.
+                    items:
+                      properties:
+                        host:
+                          description: Hostname or IP address of the remote application
+                            endpoint.
+                          type: string
+                        port:
+                          description: Port of the remote application endpoint.
+                          type: number
+                      type: object
+                    type: array
+                  connectors:
+                    description: List of AppConnectors that are authorised to be associated
+                      with this AppConnection
+                    items:
+                      type: string
+                    type: array
+                  displayName:
+                    description: An arbitrary user-provided name for the AppConnection.
+                    type: string
                   gateway:
                     description: Gateway used by the AppConnection. Structure is documented
                       below.
                     items:
                       properties:
+                        appGateway:
+                          description: 'AppGateway name in following format: projects/{project_id}/locations/{locationId}/appgateways/{gateway_id}.'
+                          type: string
                         ingressPort:
                           description: Ingress port reserved on the gateways for this
                             AppConnection, if not specified or zero, the default port
                             is 19443.
                           type: number
+                        type:
+                          description: The type of hosting used by the gateway. Refer
+                            to https://cloud.google.com/beyondcorp/docs/reference/rest/v1/projects.locations.appConnections#Type_1
+                            for a list of possible values.
+                          type: string
                         uri:
                           description: Server-defined URI for this resource.
                           type: string
@@ -402,6 +455,26 @@ spec:
                     type: array
                   id:
                     description: an identifier for the resource with format projects/{{project}}/locations/{{region}}/appConnections/{{name}}
+                    type: string
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: Resource labels to represent user provided metadata.
+                    type: object
+                  name:
+                    description: ID of the AppConnection.
+                    type: string
+                  project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  region:
+                    description: The region of the AppConnection.
+                    type: string
+                  type:
+                    description: The type of hosting used by the gateway. Refer to
+                      https://cloud.google.com/beyondcorp/docs/reference/rest/v1/projects.locations.appConnections#Type_1
+                      for a list of possible values.
                     type: string
                 type: object
               conditions:

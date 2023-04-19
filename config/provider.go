@@ -148,7 +148,9 @@ func GetProvider() *tjconfig.Provider {
 		// Comment out the following line to generate all resources.
 		tjconfig.WithIncludeList(resourcesWithExternalNameConfig()),
 		tjconfig.WithReferenceInjectors([]tjconfig.ReferenceInjector{reference.NewInjector(modulePath)}),
-		tjconfig.WithSkipList(skipList))
+		tjconfig.WithSkipList(skipList),
+		tjconfig.WithFeaturesPackage("internal/features"),
+	)
 
 	for _, configure := range []func(provider *tjconfig.Provider){
 		accessapproval.Configure,

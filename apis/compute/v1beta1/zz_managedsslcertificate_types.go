@@ -26,6 +26,10 @@ import (
 )
 
 type ManagedObservation struct {
+
+	// Domains for which a managed SSL certificate will be valid.  Currently,
+	// there can be up to 100 domains in this list.
+	Domains []*string `json:"domains,omitempty" tf:"domains,omitempty"`
 }
 
 type ManagedParameters struct {
@@ -38,8 +42,14 @@ type ManagedParameters struct {
 
 type ManagedSSLCertificateObservation struct {
 
+	// The unique identifier for the resource.
+	CertificateID *float64 `json:"certificateId,omitempty" tf:"certificate_id,omitempty"`
+
 	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
+
+	// An optional description of this resource.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Expire time of the certificate in RFC3339 text format.
 	ExpireTime *string `json:"expireTime,omitempty" tf:"expire_time,omitempty"`
@@ -47,11 +57,26 @@ type ManagedSSLCertificateObservation struct {
 	// an identifier for the resource with format projects/{{project}}/global/sslCertificates/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// Properties relevant to a managed certificate.  These will be used if the
+	// certificate is managed (as indicated by a value of MANAGED in type).
+	// Structure is documented below.
+	Managed []ManagedObservation `json:"managed,omitempty" tf:"managed,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
 	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
 
 	// Domains associated with the certificate via Subject Alternative Name.
 	SubjectAlternativeNames []*string `json:"subjectAlternativeNames,omitempty" tf:"subject_alternative_names,omitempty"`
+
+	// Enum field whose value is always MANAGED - used to signal to the API
+	// which type this is.
+	// Default value is MANAGED.
+	// Possible values are MANAGED.
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type ManagedSSLCertificateParameters struct {

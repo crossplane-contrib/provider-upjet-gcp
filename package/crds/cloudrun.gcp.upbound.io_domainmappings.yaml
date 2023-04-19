@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.11.1
+    controller-gen.kubebuilder.io/version: v0.11.3
   creationTimestamp: null
   name: domainmappings.cloudrun.gcp.upbound.io
 spec:
@@ -55,9 +55,13 @@ spec:
             properties:
               deletionPolicy:
                 default: Delete
-                description: DeletionPolicy specifies what will happen to the underlying
+                description: 'DeletionPolicy specifies what will happen to the underlying
                   external when this managed resource is deleted - either "Delete"
-                  or "Orphan" the external resource.
+                  or "Orphan" the external resource. This field is planned to be deprecated
+                  in favor of the ManagementPolicy field in a future release. Currently,
+                  both could be set independently and non-default values would be
+                  honored if the feature flag is enabled. See the design doc for more
+                  information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
                 enum:
                 - Orphan
                 - Delete
@@ -279,12 +283,22 @@ spec:
                           type: object
                       type: object
                     type: array
-                required:
-                - location
-                - metadata
-                - name
-                - spec
                 type: object
+              managementPolicy:
+                default: FullControl
+                description: 'THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice. ManagementPolicy
+                  specifies the level of control Crossplane has over the managed external
+                  resource. This field is planned to replace the DeletionPolicy field
+                  in a future release. Currently, both could be set independently
+                  and non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
+                enum:
+                - FullControl
+                - ObserveOnly
+                - OrphanOnDelete
+                type: string
               providerConfigRef:
                 default:
                   name: default
@@ -456,6 +470,15 @@ spec:
             required:
             - forProvider
             type: object
+            x-kubernetes-validations:
+            - message: location is a required parameter
+              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.location)
+            - message: metadata is a required parameter
+              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.metadata)
+            - message: name is a required parameter
+              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.name)
+            - message: spec is a required parameter
+              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.spec)
           status:
             description: DomainMappingStatus defines the observed state of DomainMapping.
             properties:
@@ -464,15 +487,40 @@ spec:
                   id:
                     description: an identifier for the resource with format locations/{{location}}/namespaces/{{project}}/domainmappings/{{name}}
                     type: string
+                  location:
+                    description: The location of the cloud run instance. eg us-central1
+                    type: string
                   metadata:
                     description: Metadata associated with this DomainMapping. Structure
                       is documented below.
                     items:
                       properties:
+                        annotations:
+                          additionalProperties:
+                            type: string
+                          description: 'Annotations is a key value map stored with
+                            a resource that may be set by external tools to store
+                            and retrieve arbitrary metadata. More info: http://kubernetes.io/docs/user-guide/annotations
+                            Note: The Cloud Run API may add additional annotations
+                            that were not provided in your config.ignore_changes rule
+                            to the metadata.0.annotations field.'
+                          type: object
                         generation:
                           description: A sequence number representing a specific generation
                             of the desired state.
                           type: number
+                        labels:
+                          additionalProperties:
+                            type: string
+                          description: 'Map of string keys and values that can be
+                            used to organize and categorize (scope and select) objects.
+                            May match selectors of replication controllers and routes.
+                            More info: http://kubernetes.io/docs/user-guide/labels'
+                          type: object
+                        namespace:
+                          description: In Cloud Run the namespace must be equal to
+                            either the project ID or project number.
+                          type: string
                         resourceVersion:
                           description: 'An opaque value that represents the internal
                             version of this object that can be used by clients to
@@ -489,6 +537,35 @@ spec:
                           description: 'UID is a unique id generated by the server
                             on successful creation of a resource and is not allowed
                             to change on PUT operations. More info: http://kubernetes.io/docs/user-guide/identifiers#uids'
+                          type: string
+                      type: object
+                    type: array
+                  name:
+                    description: Name should be a verified domain
+                    type: string
+                  project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  spec:
+                    description: The spec for this DomainMapping. Structure is documented
+                      below.
+                    items:
+                      properties:
+                        certificateMode:
+                          description: The mode of the certificate. Default value
+                            is AUTOMATIC. Possible values are NONE and AUTOMATIC.
+                          type: string
+                        forceOverride:
+                          description: If set, the mapping will override any mapping
+                            set before this spec was set. It is recommended that the
+                            user leaves this empty to receive an error warning about
+                            a potential conflict and only set it once the respective
+                            UI has given such a warning.
+                          type: boolean
+                        routeName:
+                          description: The name of the Cloud Run Service that this
+                            DomainMapping applies to. The route must exist.
                           type: string
                       type: object
                     type: array

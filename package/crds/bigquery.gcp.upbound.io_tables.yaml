@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.11.1
+    controller-gen.kubebuilder.io/version: v0.11.3
   creationTimestamp: null
   name: tables.bigquery.gcp.upbound.io
 spec:
@@ -55,9 +55,13 @@ spec:
             properties:
               deletionPolicy:
                 default: Delete
-                description: DeletionPolicy specifies what will happen to the underlying
+                description: 'DeletionPolicy specifies what will happen to the underlying
                   external when this managed resource is deleted - either "Delete"
-                  or "Orphan" the external resource.
+                  or "Orphan" the external resource. This field is planned to be deprecated
+                  in favor of the ManagementPolicy field in a future release. Currently,
+                  both could be set independently and non-default values would be
+                  honored if the feature flag is enabled. See the design doc for more
+                  information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
                 enum:
                 - Orphan
                 - Delete
@@ -470,6 +474,21 @@ spec:
                       type: object
                     type: array
                 type: object
+              managementPolicy:
+                default: FullControl
+                description: 'THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice. ManagementPolicy
+                  specifies the level of control Crossplane has over the managed external
+                  resource. This field is planned to replace the DeletionPolicy field
+                  in a future release. Currently, both could be set independently
+                  and non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
+                enum:
+                - FullControl
+                - ObserveOnly
+                - OrphanOnDelete
+                type: string
               providerConfigRef:
                 default:
                   name: default
@@ -646,10 +665,26 @@ spec:
             properties:
               atProvider:
                 properties:
+                  clustering:
+                    description: Specifies column names to use for data clustering.
+                      Up to four top-level columns are allowed, and should be specified
+                      in descending priority order.
+                    items:
+                      type: string
+                    type: array
                   creationTime:
                     description: The time when this table was created, in milliseconds
                       since the epoch.
                     type: number
+                  datasetId:
+                    description: The dataset ID to create the table in. Changing this
+                      forces a new resource to be created.
+                    type: string
+                  deletionProtection:
+                    type: boolean
+                  description:
+                    description: The field description.
+                    type: string
                   encryptionConfiguration:
                     description: Specifies how the table should be encrypted. If left
                       blank, the table will be encrypted with a Google-managed key;
@@ -657,6 +692,13 @@ spec:
                       below.
                     items:
                       properties:
+                        kmsKeyName:
+                          description: The self link or full name of a key which should
+                            be used to encrypt this table.  Note that the default
+                            bigquery service account will need to have encrypt/decrypt
+                            permissions on this key - you may want to see the google_bigquery_default_service_account
+                            datasource and the google_kms_crypto_key_iam_binding resource.
+                          type: string
                         kmsKeyVersion:
                           description: The self link or full name of the kms key version
                             used to encrypt this table.
@@ -666,9 +708,190 @@ spec:
                   etag:
                     description: A hash of the resource.
                     type: string
+                  expirationTime:
+                    description: The time when this table expires, in milliseconds
+                      since the epoch. If not present, the table will persist indefinitely.
+                      Expired tables will be deleted and their storage reclaimed.
+                    type: number
+                  externalDataConfiguration:
+                    description: Describes the data format, location, and other properties
+                      of a table stored outside of BigQuery. By defining these properties,
+                      the data source can then be queried as if it were a standard
+                      BigQuery table. Structure is documented below.
+                    items:
+                      properties:
+                        autodetect:
+                          description: '- Let BigQuery try to autodetect the schema
+                            and format of the table.'
+                          type: boolean
+                        avroOptions:
+                          description: Additional options if source_format is set
+                            to "AVRO".  Structure is documented below.
+                          items:
+                            properties:
+                              useAvroLogicalTypes:
+                                description: If is set to true, indicates whether
+                                  to interpret logical types as the corresponding
+                                  BigQuery data type (for example, TIMESTAMP), instead
+                                  of using the raw type (for example, INTEGER).
+                                type: boolean
+                            type: object
+                          type: array
+                        compression:
+                          description: The compression type of the data source. Valid
+                            values are "NONE" or "GZIP".
+                          type: string
+                        connectionId:
+                          description: The connection specifying the credentials to
+                            be used to read external storage, such as Azure Blob,
+                            Cloud Storage, or S3. The connection_id can have the form
+                            {{project}}.{{location}}.{{connection_id}} or projects/{{project}}/locations/{{location}}/connections/{{connection_id}}.
+                          type: string
+                        csvOptions:
+                          description: Additional properties to set if source_format
+                            is set to "CSV". Structure is documented below.
+                          items:
+                            properties:
+                              allowJaggedRows:
+                                description: Indicates if BigQuery should accept rows
+                                  that are missing trailing optional columns.
+                                type: boolean
+                              allowQuotedNewlines:
+                                description: Indicates if BigQuery should allow quoted
+                                  data sections that contain newline characters in
+                                  a CSV file. The default value is false.
+                                type: boolean
+                              encoding:
+                                description: The character encoding of the data. The
+                                  supported values are UTF-8 or ISO-8859-1.
+                                type: string
+                              fieldDelimiter:
+                                description: The separator for fields in a CSV file.
+                                type: string
+                              quote:
+                                description: The value that is used to quote data
+                                  sections in a CSV file. If your data does not contain
+                                  quoted sections, set the property value to an empty
+                                  string. If your data contains quoted newline characters,
+                                  you must also set the allow_quoted_newlines property
+                                  to true.
+                                type: string
+                              skipLeadingRows:
+                                description: The number of rows at the top of the
+                                  sheet that BigQuery will skip when reading the data.
+                                  At least one of range or skip_leading_rows must
+                                  be set.
+                                type: number
+                            type: object
+                          type: array
+                        googleSheetsOptions:
+                          description: Additional options if source_format is set
+                            to "GOOGLE_SHEETS". Structure is documented below.
+                          items:
+                            properties:
+                              range:
+                                description: Information required to partition based
+                                  on ranges. Structure is documented below.
+                                type: string
+                              skipLeadingRows:
+                                description: The number of rows at the top of the
+                                  sheet that BigQuery will skip when reading the data.
+                                  At least one of range or skip_leading_rows must
+                                  be set.
+                                type: number
+                            type: object
+                          type: array
+                        hivePartitioningOptions:
+                          description: When set, configures hive partitioning support.
+                            Not all storage formats support hive partitioning -- requesting
+                            hive partitioning on an unsupported format will lead to
+                            an error, as will providing an invalid specification.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              mode:
+                                description: When set, what mode of hive partitioning
+                                  to use when reading data. The following modes are
+                                  supported.
+                                type: string
+                              requirePartitionFilter:
+                                description: If set to true, queries over this table
+                                  require a partition filter that can be used for
+                                  partition elimination to be specified.
+                                type: boolean
+                              sourceUriPrefix:
+                                description: When hive partition detection is requested,
+                                  a common for all source uris must be required. The
+                                  prefix must end immediately before the partition
+                                  key encoding begins. For example, consider files
+                                  following this data layout. gs://bucket/path_to_table/dt=2019-06-01/country=USA/id=7/file.avro
+                                  gs://bucket/path_to_table/dt=2019-05-31/country=CA/id=3/file.avro
+                                  When hive partitioning is requested with either
+                                  AUTO or STRINGS detection, the common prefix can
+                                  be either of gs://bucket/path_to_table or gs://bucket/path_to_table/.
+                                  Note that when mode is set to CUSTOM, you must encode
+                                  the partition key schema within the source_uri_prefix
+                                  by setting source_uri_prefix to gs://bucket/path_to_table/{key1:TYPE1}/{key2:TYPE2}/{key3:TYPE3}.
+                                type: string
+                            type: object
+                          type: array
+                        ignoreUnknownValues:
+                          description: Indicates if BigQuery should allow extra values
+                            that are not represented in the table schema. If true,
+                            the extra values are ignored. If false, records with extra
+                            columns are treated as bad records, and if there are too
+                            many bad records, an invalid error is returned in the
+                            job result. The default value is false.
+                          type: boolean
+                        maxBadRecords:
+                          description: The maximum number of bad records that BigQuery
+                            can ignore when reading data.
+                          type: number
+                        referenceFileSchemaUri:
+                          description: 'When creating an external table, the user
+                            can provide a reference file with the table schema. This
+                            is enabled for the following formats: AVRO, PARQUET, ORC.'
+                          type: string
+                        schema:
+                          description: 'A JSON schema for the external table. Schema
+                            is required for CSV and JSON formats if autodetect is
+                            not on. Schema is disallowed for Google Cloud Bigtable,
+                            Cloud Datastore backups, Avro, ORC and Parquet formats.
+                            ~>NOTE: Because this field expects a JSON string, any
+                            changes to the string will create a diff, even if the
+                            JSON itself hasn''t changed. Furthermore drift for this
+                            field cannot not be detected because BigQuery only uses
+                            this schema to compute the effective schema for the table,
+                            therefore any changes on the configured value will force
+                            the table to be recreated. This schema is effectively
+                            only applied when creating a table from an external datasource,
+                            after creation the computed schema will be stored in google_bigquery_table.schema'
+                          type: string
+                        sourceFormat:
+                          description: 'The data format. Supported values are: "CSV",
+                            "GOOGLE_SHEETS", "NEWLINE_DELIMITED_JSON", "AVRO", "PARQUET",
+                            "ORC", "DATSTORE_BACKUP", and "BIGTABLE". To use "GOOGLE_SHEETS"
+                            the scopes must include "https://www.googleapis.com/auth/drive.readonly".'
+                          type: string
+                        sourceUris:
+                          description: A list of the fully-qualified URIs that point
+                            to your data in Google Cloud.
+                          items:
+                            type: string
+                          type: array
+                      type: object
+                    type: array
+                  friendlyName:
+                    description: A descriptive name for the table.
+                    type: string
                   id:
                     description: an identifier for the resource with format projects/{{project}}/datasets/{{dataset}}/tables/{{name}}
                     type: string
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: A mapping of labels to assign to the resource.
+                    type: object
                   lastModifiedTime:
                     description: The time when this table was last modified, in milliseconds
                       since the epoch.
@@ -677,6 +900,25 @@ spec:
                     description: The geographic location where the table resides.
                       This value is inherited from the dataset.
                     type: string
+                  materializedView:
+                    description: If specified, configures this table as a materialized
+                      view. Structure is documented below.
+                    items:
+                      properties:
+                        enableRefresh:
+                          description: Specifies whether to use BigQuery's automatic
+                            refresh for this materialized view when the base table
+                            is updated. The default value is true.
+                          type: boolean
+                        query:
+                          description: A query whose result is persisted.
+                          type: string
+                        refreshIntervalMs:
+                          description: The maximum frequency at which this materialized
+                            view will be refreshed. The default value is 1800000
+                          type: number
+                      type: object
+                    type: array
                   numBytes:
                     description: The size of this table in bytes, excluding any data
                       in the streaming buffer.
@@ -689,12 +931,89 @@ spec:
                     description: The number of rows of data in this table, excluding
                       any data in the streaming buffer.
                     type: number
+                  project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  rangePartitioning:
+                    description: If specified, configures range-based partitioning
+                      for this table. Structure is documented below.
+                    items:
+                      properties:
+                        field:
+                          description: The field used to determine how to create a
+                            range-based partition.
+                          type: string
+                        range:
+                          description: Information required to partition based on
+                            ranges. Structure is documented below.
+                          items:
+                            properties:
+                              end:
+                                description: End of the range partitioning, exclusive.
+                                type: number
+                              interval:
+                                description: The width of each range within the partition.
+                                type: number
+                              start:
+                                description: Start of the range partitioning, inclusive.
+                                type: number
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  schema:
+                    description: A JSON schema for the table.
+                    type: string
                   selfLink:
                     description: The URI of the created resource.
                     type: string
+                  timePartitioning:
+                    description: If specified, configures time-based partitioning
+                      for this table. Structure is documented below.
+                    items:
+                      properties:
+                        expirationMs:
+                          description: Number of milliseconds for which to keep the
+                            storage for a partition.
+                          type: number
+                        field:
+                          description: The field used to determine how to create a
+                            time-based partition. If time-based partitioning is enabled
+                            without this value, the table is partitioned based on
+                            the load time.
+                          type: string
+                        requirePartitionFilter:
+                          description: If set to true, queries over this table require
+                            a partition filter that can be used for partition elimination
+                            to be specified.
+                          type: boolean
+                        type:
+                          description: The supported types are DAY, HOUR, MONTH, and
+                            YEAR, which will generate one partition per day, hour,
+                            month, and year, respectively.
+                          type: string
+                      type: object
+                    type: array
                   type:
                     description: Describes the table type.
                     type: string
+                  view:
+                    description: If specified, configures this table as a view. Structure
+                      is documented below.
+                    items:
+                      properties:
+                        query:
+                          description: A query that BigQuery executes when the view
+                            is referenced.
+                          type: string
+                        useLegacySql:
+                          description: Specifies whether to use BigQuery's legacy
+                            SQL for this view. The default value is true. If set to
+                            false, the view will use BigQuery's standard SQL.
+                          type: boolean
+                      type: object
+                    type: array
                 type: object
               conditions:
                 description: Conditions of the resource.

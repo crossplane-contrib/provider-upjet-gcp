@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.11.1
+    controller-gen.kubebuilder.io/version: v0.11.3
   creationTimestamp: null
   name: backupbackupplans.gke.gcp.upbound.io
 spec:
@@ -55,9 +55,13 @@ spec:
             properties:
               deletionPolicy:
                 default: Delete
-                description: DeletionPolicy specifies what will happen to the underlying
+                description: 'DeletionPolicy specifies what will happen to the underlying
                   external when this managed resource is deleted - either "Delete"
-                  or "Orphan" the external resource.
+                  or "Orphan" the external resource. This field is planned to be deprecated
+                  in favor of the ManagementPolicy field in a future release. Currently,
+                  both could be set independently and non-default values would be
+                  honored if the feature flag is enabled. See the design doc for more
+                  information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
                 enum:
                 - Orphan
                 - Delete
@@ -372,6 +376,21 @@ spec:
                 required:
                 - location
                 type: object
+              managementPolicy:
+                default: FullControl
+                description: 'THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice. ManagementPolicy
+                  specifies the level of control Crossplane has over the managed external
+                  resource. This field is planned to replace the DeletionPolicy field
+                  in a future release. Currently, both could be set independently
+                  and non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
+                enum:
+                - FullControl
+                - ObserveOnly
+                - OrphanOnDelete
+                type: string
               providerConfigRef:
                 default:
                   name: default
@@ -548,6 +567,102 @@ spec:
             properties:
               atProvider:
                 properties:
+                  backupConfig:
+                    description: Defines the configuration of Backups created via
+                      this BackupPlan. Structure is documented below.
+                    items:
+                      properties:
+                        allNamespaces:
+                          description: If True, include all namespaced resources.
+                          type: boolean
+                        encryptionKey:
+                          description: This defines a customer managed encryption
+                            key that will be used to encrypt the "config" portion
+                            (the Kubernetes resources) of Backups created via this
+                            plan. Structure is documented below.
+                          items:
+                            properties:
+                              gcpKmsEncryptionKey:
+                                description: 'Google Cloud KMS encryption key. Format:
+                                  projects//locations//keyRings//cryptoKeys/'
+                                type: string
+                            type: object
+                          type: array
+                        includeSecrets:
+                          description: This flag specifies whether Kubernetes Secret
+                            resources should be included when they fall into the scope
+                            of Backups.
+                          type: boolean
+                        includeVolumeData:
+                          description: This flag specifies whether volume data should
+                            be backed up when PVCs are included in the scope of a
+                            Backup.
+                          type: boolean
+                        selectedApplications:
+                          description: A list of namespaced Kubernetes Resources.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              namespacedNames:
+                                description: A list of namespaced Kubernetes resources.
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    name:
+                                      description: The name of a Kubernetes Resource.
+                                      type: string
+                                    namespace:
+                                      description: The namespace of a Kubernetes Resource.
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                        selectedNamespaces:
+                          description: If set, include just the resources in the listed
+                            namespaces. Structure is documented below.
+                          items:
+                            properties:
+                              namespaces:
+                                description: A list of Kubernetes Namespaces.
+                                items:
+                                  type: string
+                                type: array
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  backupSchedule:
+                    description: Defines a schedule for automatic Backup creation
+                      via this BackupPlan. Structure is documented below.
+                    items:
+                      properties:
+                        cronSchedule:
+                          description: A standard cron string that defines a repeating
+                            schedule for creating Backups via this BackupPlan. If
+                            this is defined, then backupRetainDays must also be defined.
+                          type: string
+                        paused:
+                          description: This flag denotes whether automatic Backup
+                            creation is paused for this BackupPlan.
+                          type: boolean
+                      type: object
+                    type: array
+                  cluster:
+                    description: The source cluster from which Backups will be created
+                      via this BackupPlan.
+                    type: string
+                  deactivated:
+                    description: This flag indicates whether this BackupPlan has been
+                      deactivated. Setting this field to True locks the BackupPlan
+                      such that no further updates will be allowed (except deletes),
+                      including the deactivated field itself. It also prevents any
+                      new Backups from being created via this BackupPlan (including
+                      scheduled Backups).
+                    type: boolean
+                  description:
+                    description: User specified descriptive string for this BackupPlan.
+                    type: string
                   etag:
                     description: 'etag is used for optimistic concurrency control
                       as a way to help prevent simultaneous updates of a backup plan
@@ -562,10 +677,59 @@ spec:
                   id:
                     description: an identifier for the resource with format projects/{{project}}/locations/{{location}}/backupPlans/{{name}}
                     type: string
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: 'Description: A set of custom labels supplied by
+                      the user. A list of key->value pairs. Example: { "name": "wrench",
+                      "mass": "1.3kg", "count": "3" }.'
+                    type: object
+                  location:
+                    description: The region of the Backup Plan.
+                    type: string
+                  project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
                   protectedPodCount:
                     description: The number of Kubernetes Pods backed up in the last
                       successful Backup created via this BackupPlan.
                     type: number
+                  retentionPolicy:
+                    description: RetentionPolicy governs lifecycle of Backups created
+                      under this plan. Structure is documented below.
+                    items:
+                      properties:
+                        backupDeleteLockDays:
+                          description: Minimum age for a Backup created via this BackupPlan
+                            (in days). Must be an integer value between 0-90 (inclusive).
+                            A Backup created under this BackupPlan will not be deletable
+                            until it reaches Backup's (create time + backup_delete_lock_days).
+                            Updating this field of a BackupPlan does not affect existing
+                            Backups. Backups created after a successful update will
+                            inherit this new value.
+                          type: number
+                        backupRetainDays:
+                          description: 'The default maximum age of a Backup created
+                            via this BackupPlan. This field MUST be an integer value
+                            >= 0 and <= 365. If specified, a Backup created under
+                            this BackupPlan will be automatically deleted after its
+                            age reaches (createTime + backupRetainDays). If not specified,
+                            Backups created under this BackupPlan will NOT be subject
+                            to automatic deletion. Updating this field does NOT affect
+                            existing Backups under it. Backups created AFTER a successful
+                            update will automatically pick up the new value. NOTE:
+                            backupRetainDays must be >= backupDeleteLockDays. If cronSchedule
+                            is defined, then this must be <= 360 * the creation interval.]'
+                          type: number
+                        locked:
+                          description: This flag denotes whether the retention policy
+                            of this BackupPlan is locked. If set to True, no further
+                            update is allowed on this policy, including the locked
+                            field itself.
+                          type: boolean
+                      type: object
+                    type: array
                   uid:
                     description: Server generated, unique identifier of UUID format.
                     type: string

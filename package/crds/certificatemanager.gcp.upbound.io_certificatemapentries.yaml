@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.11.1
+    controller-gen.kubebuilder.io/version: v0.11.3
   creationTimestamp: null
   name: certificatemapentries.certificatemanager.gcp.upbound.io
 spec:
@@ -56,9 +56,13 @@ spec:
             properties:
               deletionPolicy:
                 default: Delete
-                description: DeletionPolicy specifies what will happen to the underlying
+                description: 'DeletionPolicy specifies what will happen to the underlying
                   external when this managed resource is deleted - either "Delete"
-                  or "Orphan" the external resource.
+                  or "Orphan" the external resource. This field is planned to be deprecated
+                  in favor of the ManagementPolicy field in a future release. Currently,
+                  both could be set independently and non-default values would be
+                  honored if the feature flag is enabled. See the design doc for more
+                  information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
                 enum:
                 - Orphan
                 - Delete
@@ -175,9 +179,22 @@ spec:
                     description: The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
-                required:
-                - certificates
                 type: object
+              managementPolicy:
+                default: FullControl
+                description: 'THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice. ManagementPolicy
+                  specifies the level of control Crossplane has over the managed external
+                  resource. This field is planned to replace the DeletionPolicy field
+                  in a future release. Currently, both could be set independently
+                  and non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
+                enum:
+                - FullControl
+                - ObserveOnly
+                - OrphanOnDelete
+                type: string
               providerConfigRef:
                 default:
                   name: default
@@ -349,19 +366,57 @@ spec:
             required:
             - forProvider
             type: object
+            x-kubernetes-validations:
+            - message: certificates is a required parameter
+              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.certificates)
           status:
             description: CertificateMapEntryStatus defines the observed state of CertificateMapEntry.
             properties:
               atProvider:
                 properties:
+                  certificates:
+                    description: A set of Certificates defines for the given hostname.
+                      There can be defined up to fifteen certificates in each Certificate
+                      Map Entry. Each certificate must match pattern projects//locations//certificates/*.
+                    items:
+                      type: string
+                    type: array
                   createTime:
                     description: 'Creation timestamp of a Certificate Map Entry. Timestamp
                       in RFC3339 UTC "Zulu" format, with nanosecond resolution and
                       up to nine fractional digits. Examples: "2014-10-02T15:01:23Z"
                       and "2014-10-02T15:01:23.045123456Z".'
                     type: string
+                  description:
+                    description: A human-readable description of the resource.
+                    type: string
+                  hostname:
+                    description: A Hostname (FQDN, e.g. example.com) or a wildcard
+                      hostname expression (*.example.com) for a set of hostnames with
+                      common suffix. Used as Server Name Indication (SNI) for selecting
+                      a proper certificate.
+                    type: string
                   id:
                     description: an identifier for the resource with format projects/{{project}}/locations/global/certificateMaps/{{map}}/certificateMapEntries/{{name}}
+                    type: string
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: 'Set of labels associated with a Certificate Map
+                      Entry. An object containing a list of "key": value pairs. Example:
+                      { "name": "wrench", "mass": "1.3kg", "count": "3" }.'
+                    type: object
+                  map:
+                    description: A map entry that is inputted into the cetrificate
+                      map
+                    type: string
+                  matcher:
+                    description: A predefined matcher for particular cases, other
+                      than SNI selection
+                    type: string
+                  project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
                     type: string
                   state:
                     description: A serving state of this Certificate Map Entry.

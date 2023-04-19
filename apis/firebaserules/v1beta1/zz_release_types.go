@@ -36,6 +36,12 @@ type ReleaseObservation struct {
 	// an identifier for the resource with format projects/{{project}}/releases/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// The project for the resource
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Name of the Ruleset referred to by this Release. The Ruleset must exist for the Release to be created.
+	RulesetName *string `json:"rulesetName,omitempty" tf:"ruleset_name,omitempty"`
+
 	// Output only. Time the release was updated.
 	UpdateTime *string `json:"updateTime,omitempty" tf:"update_time,omitempty"`
 }

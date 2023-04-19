@@ -26,6 +26,15 @@ import (
 )
 
 type CertificateTemplateIdentityConstraintsObservation struct {
+
+	// Required. If this is true, the SubjectAltNames extension may be copied from a certificate request into the signed certificate. Otherwise, the requested SubjectAltNames will be discarded.
+	AllowSubjectAltNamesPassthrough *bool `json:"allowSubjectAltNamesPassthrough,omitempty" tf:"allow_subject_alt_names_passthrough,omitempty"`
+
+	// Required. If this is true, the Subject field may be copied from a certificate request into the signed certificate. Otherwise, the requested Subject will be discarded.
+	AllowSubjectPassthrough *bool `json:"allowSubjectPassthrough,omitempty" tf:"allow_subject_passthrough,omitempty"`
+
+	// Optional. A CEL expression that may be used to validate the resolved X.509 Subject and/or Subject Alternative Name before a certificate is signed. To see the full allowed syntax and some examples, see https://cloud.google.com/certificate-authority-service/docs/using-cel
+	CelExpression []IdentityConstraintsCelExpressionObservation `json:"celExpression,omitempty" tf:"cel_expression,omitempty"`
 }
 
 type CertificateTemplateIdentityConstraintsParameters struct {
@@ -48,8 +57,29 @@ type CertificateTemplateObservation struct {
 	// Output only. The time at which this CertificateTemplate was created.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
+	// Optional. A human-readable description of scenarios this template is intended for.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/certificateTemplates/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Optional. Describes constraints on identities that may be appear in Certificates issued using this template. If this is omitted, then this template will not add restrictions on a certificate's identity.
+	IdentityConstraints []CertificateTemplateIdentityConstraintsObservation `json:"identityConstraints,omitempty" tf:"identity_constraints,omitempty"`
+
+	// Optional. Labels with user-defined metadata.
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// The location for the resource
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
+	// Optional. Describes the set of X.509 extensions that may appear in a Certificate issued using this CertificateTemplate. If a certificate request sets extensions that don't appear in the passthrough_extensions, those extensions will be dropped. If the issuing CaPool's IssuancePolicy defines baseline_values that don't appear here, the certificate issuance request will fail. If this is omitted, then this template will not add restrictions on a certificate's X.509 extensions. These constraints do not apply to X.509 extensions set in this CertificateTemplate's predefined_values.
+	PassthroughExtensions []PassthroughExtensionsObservation `json:"passthroughExtensions,omitempty" tf:"passthrough_extensions,omitempty"`
+
+	// Optional. A set of X.509 values that will be applied to all issued certificates that use this template. If the certificate request includes conflicting values for the same properties, they will be overwritten by the values defined here. If the issuing CaPool's IssuancePolicy defines conflicting baseline_values for the same properties, the certificate issuance request will fail.
+	PredefinedValues []PredefinedValuesObservation `json:"predefinedValues,omitempty" tf:"predefined_values,omitempty"`
+
+	// The project for the resource
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Output only. The time at which this CertificateTemplate was updated.
 	UpdateTime *string `json:"updateTime,omitempty" tf:"update_time,omitempty"`
@@ -87,6 +117,18 @@ type CertificateTemplateParameters struct {
 }
 
 type IdentityConstraintsCelExpressionObservation struct {
+
+	// Optional. A human-readable description of scenarios this template is intended for.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Textual representation of an expression in Common Expression Language syntax.
+	Expression *string `json:"expression,omitempty" tf:"expression,omitempty"`
+
+	// The location for the resource
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
+	// Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression.
+	Title *string `json:"title,omitempty" tf:"title,omitempty"`
 }
 
 type IdentityConstraintsCelExpressionParameters struct {
@@ -109,6 +151,9 @@ type IdentityConstraintsCelExpressionParameters struct {
 }
 
 type PassthroughExtensionsAdditionalExtensionsObservation struct {
+
+	// Required. The parts of an OID path. The most significant parts of the path come first.
+	ObjectIDPath []*float64 `json:"objectIdPath,omitempty" tf:"object_id_path,omitempty"`
 }
 
 type PassthroughExtensionsAdditionalExtensionsParameters struct {
@@ -119,6 +164,12 @@ type PassthroughExtensionsAdditionalExtensionsParameters struct {
 }
 
 type PassthroughExtensionsObservation struct {
+
+	// Optional. A set of ObjectIds identifying custom X.509 extensions. Will be combined with known_extensions to determine the full set of X.509 extensions.
+	AdditionalExtensions []PassthroughExtensionsAdditionalExtensionsObservation `json:"additionalExtensions,omitempty" tf:"additional_extensions,omitempty"`
+
+	// Optional. A set of named X.509 extensions. Will be combined with additional_extensions to determine the full set of X.509 extensions.
+	KnownExtensions []*string `json:"knownExtensions,omitempty" tf:"known_extensions,omitempty"`
 }
 
 type PassthroughExtensionsParameters struct {
@@ -133,6 +184,9 @@ type PassthroughExtensionsParameters struct {
 }
 
 type PredefinedValuesAdditionalExtensionsObjectIDObservation struct {
+
+	// Required. The parts of an OID path. The most significant parts of the path come first.
+	ObjectIDPath []*float64 `json:"objectIdPath,omitempty" tf:"object_id_path,omitempty"`
 }
 
 type PredefinedValuesAdditionalExtensionsObjectIDParameters struct {
@@ -143,6 +197,15 @@ type PredefinedValuesAdditionalExtensionsObjectIDParameters struct {
 }
 
 type PredefinedValuesAdditionalExtensionsObservation struct {
+
+	// Optional. Indicates whether or not this extension is critical (i.e., if the client does not know how to handle this extension, the client should consider this to be an error).
+	Critical *bool `json:"critical,omitempty" tf:"critical,omitempty"`
+
+	// Required. The OID for this X.509 extension.
+	ObjectID []PredefinedValuesAdditionalExtensionsObjectIDObservation `json:"objectId,omitempty" tf:"object_id,omitempty"`
+
+	// Required. The value of this X.509 extension.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
 
 type PredefinedValuesAdditionalExtensionsParameters struct {
@@ -161,6 +224,12 @@ type PredefinedValuesAdditionalExtensionsParameters struct {
 }
 
 type PredefinedValuesCAOptionsObservation struct {
+
+	// Optional. Refers to the "CA" X.509 extension, which is a boolean value. When this value is missing, the extension will be omitted from the CA certificate.
+	IsCA *bool `json:"isCa,omitempty" tf:"is_ca,omitempty"`
+
+	// Optional. Refers to the path length restriction X.509 extension. For a CA certificate, this value describes the depth of subordinate CA certificates that are allowed. If this value is less than 0, the request will fail. If this value is missing, the max path length will be omitted from the CA certificate.
+	MaxIssuerPathLength *float64 `json:"maxIssuerPathLength,omitempty" tf:"max_issuer_path_length,omitempty"`
 }
 
 type PredefinedValuesCAOptionsParameters struct {
@@ -175,6 +244,33 @@ type PredefinedValuesCAOptionsParameters struct {
 }
 
 type PredefinedValuesKeyUsageBaseKeyUsageObservation struct {
+
+	// The key may be used to sign certificates.
+	CertSign *bool `json:"certSign,omitempty" tf:"cert_sign,omitempty"`
+
+	// The key may be used for cryptographic commitments. Note that this may also be referred to as "non-repudiation".
+	ContentCommitment *bool `json:"contentCommitment,omitempty" tf:"content_commitment,omitempty"`
+
+	// The key may be used sign certificate revocation lists.
+	CrlSign *bool `json:"crlSign,omitempty" tf:"crl_sign,omitempty"`
+
+	// The key may be used to encipher data.
+	DataEncipherment *bool `json:"dataEncipherment,omitempty" tf:"data_encipherment,omitempty"`
+
+	// The key may be used to decipher only.
+	DecipherOnly *bool `json:"decipherOnly,omitempty" tf:"decipher_only,omitempty"`
+
+	// The key may be used for digital signatures.
+	DigitalSignature *bool `json:"digitalSignature,omitempty" tf:"digital_signature,omitempty"`
+
+	// The key may be used to encipher only.
+	EncipherOnly *bool `json:"encipherOnly,omitempty" tf:"encipher_only,omitempty"`
+
+	// The key may be used in a key agreement protocol.
+	KeyAgreement *bool `json:"keyAgreement,omitempty" tf:"key_agreement,omitempty"`
+
+	// The key may be used to encipher other keys.
+	KeyEncipherment *bool `json:"keyEncipherment,omitempty" tf:"key_encipherment,omitempty"`
 }
 
 type PredefinedValuesKeyUsageBaseKeyUsageParameters struct {
@@ -217,6 +313,24 @@ type PredefinedValuesKeyUsageBaseKeyUsageParameters struct {
 }
 
 type PredefinedValuesKeyUsageExtendedKeyUsageObservation struct {
+
+	// Corresponds to OID 1.3.6.1.5.5.7.3.2. Officially described as "TLS WWW client authentication", though regularly used for non-WWW TLS.
+	ClientAuth *bool `json:"clientAuth,omitempty" tf:"client_auth,omitempty"`
+
+	// Corresponds to OID 1.3.6.1.5.5.7.3.3. Officially described as "Signing of downloadable executable code client authentication".
+	CodeSigning *bool `json:"codeSigning,omitempty" tf:"code_signing,omitempty"`
+
+	// Corresponds to OID 1.3.6.1.5.5.7.3.4. Officially described as "Email protection".
+	EmailProtection *bool `json:"emailProtection,omitempty" tf:"email_protection,omitempty"`
+
+	// Corresponds to OID 1.3.6.1.5.5.7.3.9. Officially described as "Signing OCSP responses".
+	OcspSigning *bool `json:"ocspSigning,omitempty" tf:"ocsp_signing,omitempty"`
+
+	// Corresponds to OID 1.3.6.1.5.5.7.3.1. Officially described as "TLS WWW server authentication", though regularly used for non-WWW TLS.
+	ServerAuth *bool `json:"serverAuth,omitempty" tf:"server_auth,omitempty"`
+
+	// Corresponds to OID 1.3.6.1.5.5.7.3.8. Officially described as "Binding the hash of an object to a time".
+	TimeStamping *bool `json:"timeStamping,omitempty" tf:"time_stamping,omitempty"`
 }
 
 type PredefinedValuesKeyUsageExtendedKeyUsageParameters struct {
@@ -247,6 +361,15 @@ type PredefinedValuesKeyUsageExtendedKeyUsageParameters struct {
 }
 
 type PredefinedValuesKeyUsageObservation struct {
+
+	// Describes high-level ways in which a key may be used.
+	BaseKeyUsage []PredefinedValuesKeyUsageBaseKeyUsageObservation `json:"baseKeyUsage,omitempty" tf:"base_key_usage,omitempty"`
+
+	// Detailed scenarios in which a key may be used.
+	ExtendedKeyUsage []PredefinedValuesKeyUsageExtendedKeyUsageObservation `json:"extendedKeyUsage,omitempty" tf:"extended_key_usage,omitempty"`
+
+	// Used to describe extended key usages that are not listed in the KeyUsage.ExtendedKeyUsageOptions message.
+	UnknownExtendedKeyUsages []PredefinedValuesKeyUsageUnknownExtendedKeyUsagesObservation `json:"unknownExtendedKeyUsages,omitempty" tf:"unknown_extended_key_usages,omitempty"`
 }
 
 type PredefinedValuesKeyUsageParameters struct {
@@ -265,6 +388,9 @@ type PredefinedValuesKeyUsageParameters struct {
 }
 
 type PredefinedValuesKeyUsageUnknownExtendedKeyUsagesObservation struct {
+
+	// Required. The parts of an OID path. The most significant parts of the path come first.
+	ObjectIDPath []*float64 `json:"objectIdPath,omitempty" tf:"object_id_path,omitempty"`
 }
 
 type PredefinedValuesKeyUsageUnknownExtendedKeyUsagesParameters struct {
@@ -275,6 +401,21 @@ type PredefinedValuesKeyUsageUnknownExtendedKeyUsagesParameters struct {
 }
 
 type PredefinedValuesObservation struct {
+
+	// Optional. Describes custom X.509 extensions.
+	AdditionalExtensions []PredefinedValuesAdditionalExtensionsObservation `json:"additionalExtensions,omitempty" tf:"additional_extensions,omitempty"`
+
+	// Optional. Describes Online Certificate Status Protocol (OCSP) endpoint addresses that appear in the "Authority Information Access" extension in the certificate.
+	AiaOcspServers []*string `json:"aiaOcspServers,omitempty" tf:"aia_ocsp_servers,omitempty"`
+
+	// Optional. Describes options in this X509Parameters that are relevant in a CA certificate.
+	CAOptions []PredefinedValuesCAOptionsObservation `json:"caOptions,omitempty" tf:"ca_options,omitempty"`
+
+	// Optional. Indicates the intended use for keys that correspond to a certificate.
+	KeyUsage []PredefinedValuesKeyUsageObservation `json:"keyUsage,omitempty" tf:"key_usage,omitempty"`
+
+	// Optional. Describes the X.509 certificate policy object identifiers, per https://tools.ietf.org/html/rfc5280#section-4.2.1.4.
+	PolicyIds []PredefinedValuesPolicyIdsObservation `json:"policyIds,omitempty" tf:"policy_ids,omitempty"`
 }
 
 type PredefinedValuesParameters struct {
@@ -301,6 +442,9 @@ type PredefinedValuesParameters struct {
 }
 
 type PredefinedValuesPolicyIdsObservation struct {
+
+	// Required. The parts of an OID path. The most significant parts of the path come first.
+	ObjectIDPath []*float64 `json:"objectIdPath,omitempty" tf:"object_id_path,omitempty"`
 }
 
 type PredefinedValuesPolicyIdsParameters struct {

@@ -27,6 +27,18 @@ import (
 
 type DomainObservation struct {
 
+	// The name of delegated administrator account used to perform Active Directory operations.
+	// If not specified, setupadmin will be used.
+	Admin *string `json:"admin,omitempty" tf:"admin,omitempty"`
+
+	// The full names of the Google Compute Engine networks the domain instance is connected to. The domain is only available on networks listed in authorizedNetworks.
+	// If CIDR subnets overlap between networks, domain creation will fail.
+	AuthorizedNetworks []*string `json:"authorizedNetworks,omitempty" tf:"authorized_networks,omitempty"`
+
+	// The fully qualified domain name. e.g. mydomain.myorganization.com, with the restrictions,
+	// https://cloud.google.com/managed-microsoft-ad/reference/rest/v1/projects.locations.global.domains.
+	DomainName *string `json:"domainName,omitempty" tf:"domain_name,omitempty"`
+
 	// The fully-qualified domain name of the exposed domain used by clients to connect to the service.
 	// Similar to what would be chosen for an Active Directory set up on an internal network.
 	Fqdn *string `json:"fqdn,omitempty" tf:"fqdn,omitempty"`
@@ -34,8 +46,23 @@ type DomainObservation struct {
 	// an identifier for the resource with format {{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// Resource labels that can contain user-provided metadata
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// Locations where domain needs to be provisioned. [regions][compute/docs/regions-zones/]
+	// e.g. us-west1 or us-east4 Service supports up to 4 locations at once. Each location will use a /26 block.
+	Locations []*string `json:"locations,omitempty" tf:"locations,omitempty"`
+
 	// The unique name of the domain using the format: projects/{project}/locations/global/domains/{domainName}.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The CIDR range of internal addresses that are reserved for this domain. Reserved networks must be /24 or larger.
+	// Ranges must be unique and non-overlapping with existing subnets in authorizedNetworks
+	ReservedIPRange *string `json:"reservedIpRange,omitempty" tf:"reserved_ip_range,omitempty"`
 }
 
 type DomainParameters struct {
@@ -52,8 +79,8 @@ type DomainParameters struct {
 
 	// The fully qualified domain name. e.g. mydomain.myorganization.com, with the restrictions,
 	// https://cloud.google.com/managed-microsoft-ad/reference/rest/v1/projects.locations.global.domains.
-	// +kubebuilder:validation:Required
-	DomainName *string `json:"domainName" tf:"domain_name,omitempty"`
+	// +kubebuilder:validation:Optional
+	DomainName *string `json:"domainName,omitempty" tf:"domain_name,omitempty"`
 
 	// Resource labels that can contain user-provided metadata
 	// +kubebuilder:validation:Optional
@@ -61,8 +88,8 @@ type DomainParameters struct {
 
 	// Locations where domain needs to be provisioned. [regions][compute/docs/regions-zones/]
 	// e.g. us-west1 or us-east4 Service supports up to 4 locations at once. Each location will use a /26 block.
-	// +kubebuilder:validation:Required
-	Locations []*string `json:"locations" tf:"locations,omitempty"`
+	// +kubebuilder:validation:Optional
+	Locations []*string `json:"locations,omitempty" tf:"locations,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -71,8 +98,8 @@ type DomainParameters struct {
 
 	// The CIDR range of internal addresses that are reserved for this domain. Reserved networks must be /24 or larger.
 	// Ranges must be unique and non-overlapping with existing subnets in authorizedNetworks
-	// +kubebuilder:validation:Required
-	ReservedIPRange *string `json:"reservedIpRange" tf:"reserved_ip_range,omitempty"`
+	// +kubebuilder:validation:Optional
+	ReservedIPRange *string `json:"reservedIpRange,omitempty" tf:"reserved_ip_range,omitempty"`
 }
 
 // DomainSpec defines the desired state of Domain
@@ -99,8 +126,11 @@ type DomainStatus struct {
 type Domain struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DomainSpec   `json:"spec"`
-	Status            DomainStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.domainName)",message="domainName is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.locations)",message="locations is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.reservedIpRange)",message="reservedIpRange is a required parameter"
+	Spec   DomainSpec   `json:"spec"`
+	Status DomainStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

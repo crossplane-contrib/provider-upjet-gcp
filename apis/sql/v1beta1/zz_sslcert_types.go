@@ -33,6 +33,10 @@ type SSLCertObservation struct {
 	// The serial number extracted from the certificate data.
 	CertSerialNumber *string `json:"certSerialNumber,omitempty" tf:"cert_serial_number,omitempty"`
 
+	// The common name to be used in the certificate to identify the
+	// client. Constrained to [a-zA-Z.-_ ]+. Changing this forces a new resource to be created.
+	CommonName *string `json:"commonName,omitempty" tf:"common_name,omitempty"`
+
 	// The time when the certificate was created in RFC 3339 format,
 	// for example 2012-11-15T16:19:00.094Z.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
@@ -42,6 +46,14 @@ type SSLCertObservation struct {
 	ExpirationTime *string `json:"expirationTime,omitempty" tf:"expiration_time,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The name of the Cloud SQL instance. Changing this
+	// forces a new resource to be created.
+	Instance *string `json:"instance,omitempty" tf:"instance,omitempty"`
+
+	// The ID of the project in which the resource belongs. If it
+	// is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The CA cert of the server this client cert was generated from.
 	ServerCACert *string `json:"serverCaCert,omitempty" tf:"server_ca_cert,omitempty"`
@@ -54,8 +66,8 @@ type SSLCertParameters struct {
 
 	// The common name to be used in the certificate to identify the
 	// client. Constrained to [a-zA-Z.-_ ]+. Changing this forces a new resource to be created.
-	// +kubebuilder:validation:Required
-	CommonName *string `json:"commonName" tf:"common_name,omitempty"`
+	// +kubebuilder:validation:Optional
+	CommonName *string `json:"commonName,omitempty" tf:"common_name,omitempty"`
 
 	// The name of the Cloud SQL instance. Changing this
 	// forces a new resource to be created.
@@ -101,8 +113,9 @@ type SSLCertStatus struct {
 type SSLCert struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              SSLCertSpec   `json:"spec"`
-	Status            SSLCertStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.commonName)",message="commonName is a required parameter"
+	Spec   SSLCertSpec   `json:"spec"`
+	Status SSLCertStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

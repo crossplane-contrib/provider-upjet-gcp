@@ -26,6 +26,11 @@ import (
 )
 
 type ConditionObservation struct {
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	Expression *string `json:"expression,omitempty" tf:"expression,omitempty"`
+
+	Title *string `json:"title,omitempty" tf:"title,omitempty"`
 }
 
 type ConditionParameters struct {
@@ -41,9 +46,17 @@ type ConditionParameters struct {
 }
 
 type DatasetIAMMemberObservation struct {
+	Condition []ConditionObservation `json:"condition,omitempty" tf:"condition,omitempty"`
+
+	DatasetID *string `json:"datasetId,omitempty" tf:"dataset_id,omitempty"`
+
 	Etag *string `json:"etag,omitempty" tf:"etag,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	Member *string `json:"member,omitempty" tf:"member,omitempty"`
+
+	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 }
 
 type DatasetIAMMemberParameters struct {
@@ -63,11 +76,11 @@ type DatasetIAMMemberParameters struct {
 	// +kubebuilder:validation:Optional
 	DatasetIDSelector *v1.Selector `json:"datasetIdSelector,omitempty" tf:"-"`
 
-	// +kubebuilder:validation:Required
-	Member *string `json:"member" tf:"member,omitempty"`
+	// +kubebuilder:validation:Optional
+	Member *string `json:"member,omitempty" tf:"member,omitempty"`
 
-	// +kubebuilder:validation:Required
-	Role *string `json:"role" tf:"role,omitempty"`
+	// +kubebuilder:validation:Optional
+	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 }
 
 // DatasetIAMMemberSpec defines the desired state of DatasetIAMMember
@@ -94,8 +107,10 @@ type DatasetIAMMemberStatus struct {
 type DatasetIAMMember struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DatasetIAMMemberSpec   `json:"spec"`
-	Status            DatasetIAMMemberStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.member)",message="member is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.role)",message="role is a required parameter"
+	Spec   DatasetIAMMemberSpec   `json:"spec"`
+	Status DatasetIAMMemberStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

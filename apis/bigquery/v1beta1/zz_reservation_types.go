@@ -27,8 +27,32 @@ import (
 
 type ReservationObservation struct {
 
+	// Maximum number of queries that are allowed to run concurrently in this reservation. This is a soft limit due to asynchronous nature of the system and various optimizations for small queries. Default value is 0 which means that concurrency will be automatically set based on the reservation size.
+	Concurrency *float64 `json:"concurrency,omitempty" tf:"concurrency,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/reservations/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// If false, any query using this reservation will use idle slots from other reservations within
+	// the same admin project. If true, a query using this reservation will execute with the slot
+	// capacity specified above at most.
+	IgnoreIdleSlots *bool `json:"ignoreIdleSlots,omitempty" tf:"ignore_idle_slots,omitempty"`
+
+	// The geographic location where the transfer config should reside.
+	// Examples: US, EU, asia-northeast1. The default value is US.
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
+	// Applicable only for reservations located within one of the BigQuery multi-regions (US or EU).
+	// If set to true, this reservation is placed in the organization's secondary region which is designated for disaster recovery purposes. If false, this reservation is placed in the organization's default region.
+	MultiRegionAuxiliary *bool `json:"multiRegionAuxiliary,omitempty" tf:"multi_region_auxiliary,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Minimum slots available to this reservation. A slot is a unit of computational power in BigQuery, and serves as the
+	// unit of parallelism. Queries using this reservation might use more slots during runtime if ignoreIdleSlots is set to false.
+	SlotCapacity *float64 `json:"slotCapacity,omitempty" tf:"slot_capacity,omitempty"`
 }
 
 type ReservationParameters struct {
@@ -60,8 +84,8 @@ type ReservationParameters struct {
 
 	// Minimum slots available to this reservation. A slot is a unit of computational power in BigQuery, and serves as the
 	// unit of parallelism. Queries using this reservation might use more slots during runtime if ignoreIdleSlots is set to false.
-	// +kubebuilder:validation:Required
-	SlotCapacity *float64 `json:"slotCapacity" tf:"slot_capacity,omitempty"`
+	// +kubebuilder:validation:Optional
+	SlotCapacity *float64 `json:"slotCapacity,omitempty" tf:"slot_capacity,omitempty"`
 }
 
 // ReservationSpec defines the desired state of Reservation
@@ -88,8 +112,9 @@ type ReservationStatus struct {
 type Reservation struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              ReservationSpec   `json:"spec"`
-	Status            ReservationStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.slotCapacity)",message="slotCapacity is a required parameter"
+	Spec   ReservationSpec   `json:"spec"`
+	Status ReservationStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

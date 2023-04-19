@@ -30,6 +30,9 @@ type TargetGRPCProxyObservation struct {
 	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
 
+	// An optional description of this resource.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
 	// Fingerprint of this resource. A hash of the contents stored in
 	// this object. This field is used in optimistic locking. This field
 	// will be ignored when inserting a TargetGrpcProxy. An up-to-date
@@ -42,11 +45,32 @@ type TargetGRPCProxyObservation struct {
 	// an identifier for the resource with format projects/{{project}}/global/targetGrpcProxies/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
 	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
 
 	// Server-defined URL with id for the resource.
 	SelfLinkWithID *string `json:"selfLinkWithId,omitempty" tf:"self_link_with_id,omitempty"`
+
+	// URL to the UrlMap resource that defines the mapping from URL to
+	// the BackendService. The protocol field in the BackendService
+	// must be set to GRPC.
+	URLMap *string `json:"urlMap,omitempty" tf:"url_map,omitempty"`
+
+	// If true, indicates that the BackendServices referenced by
+	// the urlMap may be accessed by gRPC applications without using
+	// a sidecar proxy. This will enable configuration checks on urlMap
+	// and its referenced BackendServices to not allow unsupported features.
+	// A gRPC application must use "xds:///" scheme in the target URI
+	// of the service it is connecting to. If false, indicates that the
+	// BackendServices referenced by the urlMap will be accessed by gRPC
+	// applications via a sidecar proxy. In this case, a gRPC application
+	// must not use "xds:///" scheme in the target URI of the service
+	// it is connecting to
+	ValidateForProxyless *bool `json:"validateForProxyless,omitempty" tf:"validate_for_proxyless,omitempty"`
 }
 
 type TargetGRPCProxyParameters struct {

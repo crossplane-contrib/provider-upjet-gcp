@@ -26,6 +26,19 @@ import (
 )
 
 type FilterLabelsObservation struct {
+
+	// Name of the resource; provided by the client when the resource is
+	// created. The name must be 1-63 characters long, and comply with
+	// RFC1035. Specifically, the name must be 1-63 characters long and match
+	// the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which means the
+	// first character must be a lowercase letter, and all following
+	// characters must be a dash, lowercase letter, or digit, except the last
+	// character, which cannot be a dash.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The value that the label must match. The value has a maximum
+	// length of 1024 characters.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
 
 type FilterLabelsParameters struct {
@@ -48,13 +61,97 @@ type FilterLabelsParameters struct {
 
 type GlobalForwardingRuleObservation struct {
 
+	// An optional description of this resource. Provide this property when
+	// you create the resource.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/global/forwardingRules/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The IP address that this forwarding rule serves. When a client sends
+	// traffic to this IP address, the forwarding rule directs the traffic to
+	// the target that you specify in the forwarding rule. The
+	// loadBalancingScheme and the forwarding rule's target determine the
+	// type of IP address that you can use. For detailed information, refer
+	// to IP address specifications.
+	// An address can be specified either by a literal IP address or a
+	// reference to an existing Address resource. If you don't specify a
+	// reserved IP address, an ephemeral IP address is assigned.
+	// The value must be set to 0.0.0.0 when the target is a targetGrpcProxy
+	// that has validateForProxyless field set to true.
+	// For Private Service Connect forwarding rules that forward traffic to
+	// Google APIs, IP address must be provided.
+	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
+
+	// The IP protocol to which this rule applies. When the load balancing scheme is
+	// INTERNAL_SELF_MANAGED, only TCP is valid. This field must not be set if the
+	// global address is configured as a purpose of PRIVATE_SERVICE_CONNECT
+	// and addressType of INTERNAL
+	// Possible values are TCP, UDP, ESP, AH, SCTP, and ICMP.
+	IPProtocol *string `json:"ipProtocol,omitempty" tf:"ip_protocol,omitempty"`
+
+	// The IP Version that will be used by this global forwarding rule.
+	// Possible values are IPV4 and IPV6.
+	IPVersion *string `json:"ipVersion,omitempty" tf:"ip_version,omitempty"`
 
 	// (Beta)
 	// The fingerprint used for optimistic locking of this resource.  Used
 	// internally during updates.
 	LabelFingerprint *string `json:"labelFingerprint,omitempty" tf:"label_fingerprint,omitempty"`
+
+	// Labels to apply to this forwarding rule.  A list of key->value pairs.
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// This signifies what the GlobalForwardingRule will be used for.
+	// The value of INTERNAL_SELF_MANAGED means that this will be used for
+	// Internal Global HTTP(S) LB. The value of EXTERNAL means that this
+	// will be used for External Global Load Balancing (HTTP(S) LB,
+	// External TCP/UDP LB, SSL Proxy). The value of EXTERNAL_MANAGED means
+	// that this will be used for Global external HTTP(S) load balancers.
+	// (Beta only) Note: This field must be set "" if the global address is
+	// configured as a purpose of PRIVATE_SERVICE_CONNECT and addressType of INTERNAL.
+	// Default value is EXTERNAL.
+	// Possible values are EXTERNAL, EXTERNAL_MANAGED, and INTERNAL_SELF_MANAGED.
+	LoadBalancingScheme *string `json:"loadBalancingScheme,omitempty" tf:"load_balancing_scheme,omitempty"`
+
+	// Opaque filter criteria used by Loadbalancer to restrict routing
+	// configuration to a limited set xDS compliant clients. In their xDS
+	// requests to Loadbalancer, xDS clients present node metadata. If a
+	// match takes place, the relevant routing configuration is made available
+	// to those proxies.
+	// For each metadataFilter in this list, if its filterMatchCriteria is set
+	// to MATCH_ANY, at least one of the filterLabels must match the
+	// corresponding label provided in the metadata. If its filterMatchCriteria
+	// is set to MATCH_ALL, then all of its filterLabels must match with
+	// corresponding labels in the provided metadata.
+	// metadataFilters specified here can be overridden by those specified in
+	// the UrlMap that this ForwardingRule references.
+	// metadataFilters only applies to Loadbalancers that have their
+	// loadBalancingScheme set to INTERNAL_SELF_MANAGED.
+	// Structure is documented below.
+	MetadataFilters []MetadataFiltersObservation `json:"metadataFilters,omitempty" tf:"metadata_filters,omitempty"`
+
+	// This field is not used for external load balancing.
+	// For INTERNAL_SELF_MANAGED load balancing, this field
+	// identifies the network that the load balanced IP should belong to
+	// for this global forwarding rule. If this field is not specified,
+	// the default network will be used.
+	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
+	// This field is used along with the target field for TargetHttpProxy,
+	// TargetHttpsProxy, TargetSslProxy, TargetTcpProxy, TargetVpnGateway,
+	// TargetPool, TargetInstance.
+	// Applicable only when IPProtocol is TCP, UDP, or SCTP, only packets
+	// addressed to ports in the specified range will be forwarded to target.
+	// Forwarding rules with the same [IPAddress, IPProtocol] pair must have
+	// disjoint port ranges.
+	// Some types of forwarding target have constraints on the acceptable
+	// ports:
+	PortRange *string `json:"portRange,omitempty" tf:"port_range,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/global/forwardingRules/{{name}}
 	PscConnectionID *string `json:"pscConnectionId,omitempty" tf:"psc_connection_id,omitempty"`
@@ -63,6 +160,14 @@ type GlobalForwardingRuleObservation struct {
 
 	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
+
+	// The URL of the target resource to receive the matched traffic.
+	// The forwarded traffic must be of a type appropriate to the target object.
+	// For INTERNAL_SELF_MANAGED load balancing, only HTTP and HTTPS targets
+	// are valid.
+	// (Beta only) For global address with a purpose of PRIVATE_SERVICE_CONNECT and
+	// addressType of INTERNAL, only "all-apis" and "vpc-sc" are valid.
+	Target *string `json:"target,omitempty" tf:"target,omitempty"`
 }
 
 type GlobalForwardingRuleParameters struct {
@@ -212,6 +317,21 @@ type GlobalForwardingRuleParameters struct {
 }
 
 type MetadataFiltersObservation struct {
+
+	// The list of label value pairs that must match labels in the
+	// provided metadata based on filterMatchCriteria
+	// This list must not be empty and can have at the most 64 entries.
+	// Structure is documented below.
+	FilterLabels []FilterLabelsObservation `json:"filterLabels,omitempty" tf:"filter_labels,omitempty"`
+
+	// Specifies how individual filterLabel matches within the list of
+	// filterLabels contribute towards the overall metadataFilter match.
+	// MATCH_ANY - At least one of the filterLabels must have a matching
+	// label in the provided metadata.
+	// MATCH_ALL - All filterLabels must have matching labels in the
+	// provided metadata.
+	// Possible values are MATCH_ANY and MATCH_ALL.
+	FilterMatchCriteria *string `json:"filterMatchCriteria,omitempty" tf:"filter_match_criteria,omitempty"`
 }
 
 type MetadataFiltersParameters struct {

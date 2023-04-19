@@ -27,17 +27,56 @@ import (
 
 type TargetHTTPSProxyObservation struct {
 
+	// A reference to the CertificateMap resource uri that identifies a certificate map
+	// associated with the given target proxy. This field can only be set for global target proxies.
+	// Accepted format is //certificatemanager.googleapis.com/projects/{project}/locations/{location}/certificateMaps/{resourceName}.
+	CertificateMap *string `json:"certificateMap,omitempty" tf:"certificate_map,omitempty"`
+
 	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
+
+	// An optional description of this resource.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/global/targetHttpsProxies/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// This field only applies when the forwarding rule that references
+	// this target proxy has a loadBalancingScheme set to INTERNAL_SELF_MANAGED.
+	ProxyBind *bool `json:"proxyBind,omitempty" tf:"proxy_bind,omitempty"`
+
 	// The unique identifier for the resource.
 	ProxyID *float64 `json:"proxyId,omitempty" tf:"proxy_id,omitempty"`
 
+	// Specifies the QUIC override policy for this resource. This determines
+	// whether the load balancer will attempt to negotiate QUIC with clients
+	// or not. Can specify one of NONE, ENABLE, or DISABLE. If NONE is
+	// specified, uses the QUIC policy with no user overrides, which is
+	// equivalent to DISABLE.
+	// Default value is NONE.
+	// Possible values are NONE, ENABLE, and DISABLE.
+	QuicOverride *string `json:"quicOverride,omitempty" tf:"quic_override,omitempty"`
+
+	// A list of SslCertificate resources that are used to authenticate
+	// connections between users and the load balancer. At least one SSL
+	// certificate must be specified.
+	SSLCertificates []*string `json:"sslCertificates,omitempty" tf:"ssl_certificates,omitempty"`
+
+	// A reference to the SslPolicy resource that will be associated with
+	// the TargetHttpsProxy resource. If not set, the TargetHttpsProxy
+	// resource will not have any SSL policy configured.
+	SSLPolicy *string `json:"sslPolicy,omitempty" tf:"ssl_policy,omitempty"`
+
 	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
+
+	// A reference to the UrlMap resource that defines the mapping from URL
+	// to the BackendService.
+	URLMap *string `json:"urlMap,omitempty" tf:"url_map,omitempty"`
 }
 
 type TargetHTTPSProxyParameters struct {

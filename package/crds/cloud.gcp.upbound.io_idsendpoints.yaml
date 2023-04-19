@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.11.1
+    controller-gen.kubebuilder.io/version: v0.11.3
   creationTimestamp: null
   name: idsendpoints.cloud.gcp.upbound.io
 spec:
@@ -56,9 +56,13 @@ spec:
             properties:
               deletionPolicy:
                 default: Delete
-                description: DeletionPolicy specifies what will happen to the underlying
+                description: 'DeletionPolicy specifies what will happen to the underlying
                   external when this managed resource is deleted - either "Delete"
-                  or "Orphan" the external resource.
+                  or "Orphan" the external resource. This field is planned to be deprecated
+                  in favor of the ManagementPolicy field in a future release. Currently,
+                  both could be set independently and non-default values would be
+                  honored if the feature flag is enabled. See the design doc for more
+                  information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
                 enum:
                 - Orphan
                 - Delete
@@ -167,11 +171,22 @@ spec:
                     items:
                       type: string
                     type: array
-                required:
-                - location
-                - name
-                - severity
                 type: object
+              managementPolicy:
+                default: FullControl
+                description: 'THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice. ManagementPolicy
+                  specifies the level of control Crossplane has over the managed external
+                  resource. This field is planned to replace the DeletionPolicy field
+                  in a future release. Currently, both could be set independently
+                  and non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
+                enum:
+                - FullControl
+                - ObserveOnly
+                - OrphanOnDelete
+                type: string
               providerConfigRef:
                 default:
                   name: default
@@ -343,6 +358,13 @@ spec:
             required:
             - forProvider
             type: object
+            x-kubernetes-validations:
+            - message: location is a required parameter
+              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.location)
+            - message: name is a required parameter
+              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.name)
+            - message: severity is a required parameter
+              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.severity)
           status:
             description: IdsEndpointStatus defines the observed state of IdsEndpoint.
             properties:
@@ -350,6 +372,9 @@ spec:
                 properties:
                   createTime:
                     description: Creation timestamp in RFC 3339 text format.
+                    type: string
+                  description:
+                    description: An optional description of the endpoint.
                     type: string
                   endpointForwardingRule:
                     description: URL of the endpoint's network address to which traffic
@@ -362,6 +387,32 @@ spec:
                   id:
                     description: an identifier for the resource with format projects/{{project}}/locations/{{location}}/endpoints/{{name}}
                     type: string
+                  location:
+                    description: The location for the endpoint.
+                    type: string
+                  name:
+                    description: Name of the endpoint in the format projects/{project_id}/locations/{locationId}/endpoints/{endpointId}.
+                    type: string
+                  network:
+                    description: Name of the VPC network that is connected to the
+                      IDS endpoint. This can either contain the VPC network name itself
+                      (like "src-net") or the full URL to the network (like "projects/{project_id}/global/networks/src-net").
+                    type: string
+                  project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  severity:
+                    description: The minimum alert severity level that is reported
+                      by the endpoint. Possible values are INFORMATIONAL, LOW, MEDIUM,
+                      HIGH, and CRITICAL.
+                    type: string
+                  threatExceptions:
+                    description: 'Configuration for threat IDs excluded from generating
+                      alerts. Limit: 99 IDs.'
+                    items:
+                      type: string
+                    type: array
                   updateTime:
                     description: Last update timestamp in RFC 3339 text format.
                     type: string

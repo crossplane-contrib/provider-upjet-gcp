@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.11.1
+    controller-gen.kubebuilder.io/version: v0.11.3
   creationTimestamp: null
   name: assets.dataplex.gcp.upbound.io
 spec:
@@ -54,9 +54,13 @@ spec:
             properties:
               deletionPolicy:
                 default: Delete
-                description: DeletionPolicy specifies what will happen to the underlying
+                description: 'DeletionPolicy specifies what will happen to the underlying
                   external when this managed resource is deleted - either "Delete"
-                  or "Orphan" the external resource.
+                  or "Orphan" the external resource. This field is planned to be deprecated
+                  in favor of the ManagementPolicy field in a future release. Currently,
+                  both could be set independently and non-default values would be
+                  honored if the feature flag is enabled. See the design doc for more
+                  information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
                 enum:
                 - Orphan
                 - Delete
@@ -336,10 +340,23 @@ spec:
                       type: object
                     type: array
                 required:
-                - discoverySpec
                 - location
-                - resourceSpec
                 type: object
+              managementPolicy:
+                default: FullControl
+                description: 'THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice. ManagementPolicy
+                  specifies the level of control Crossplane has over the managed external
+                  resource. This field is planned to replace the DeletionPolicy field
+                  in a future release. Currently, both could be set independently
+                  and non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
+                enum:
+                - FullControl
+                - ObserveOnly
+                - OrphanOnDelete
+                type: string
               providerConfigRef:
                 default:
                   name: default
@@ -511,6 +528,11 @@ spec:
             required:
             - forProvider
             type: object
+            x-kubernetes-validations:
+            - message: discoverySpec is a required parameter
+              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.discoverySpec)
+            - message: resourceSpec is a required parameter
+              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.resourceSpec)
           status:
             description: AssetStatus defines the observed state of Asset.
             properties:
@@ -519,6 +541,94 @@ spec:
                   createTime:
                     description: Output only. The time when the asset was created.
                     type: string
+                  dataplexZone:
+                    description: The zone for the resource
+                    type: string
+                  description:
+                    description: Optional. Description of the asset.
+                    type: string
+                  discoverySpec:
+                    description: Required. Specification of the discovery feature
+                      applied to data referenced by this asset. When this spec is
+                      left unset, the asset will use the spec set on the parent zone.
+                    items:
+                      properties:
+                        csvOptions:
+                          description: Optional. Configuration for CSV data.
+                          items:
+                            properties:
+                              delimiter:
+                                description: Optional. The delimiter being used to
+                                  separate values. This defaults to ','.
+                                type: string
+                              disableTypeInference:
+                                description: Optional. Whether to disable the inference
+                                  of data type for Json data. If true, all columns
+                                  will be registered as their primitive types (strings,
+                                  number or boolean).
+                                type: boolean
+                              encoding:
+                                description: Optional. The character encoding of the
+                                  data. The default is UTF-8.
+                                type: string
+                              headerRows:
+                                description: Optional. The number of rows to interpret
+                                  as header rows that should be skipped when reading
+                                  data rows.
+                                type: number
+                            type: object
+                          type: array
+                        enabled:
+                          description: Required. Whether discovery is enabled.
+                          type: boolean
+                        excludePatterns:
+                          description: Optional. The list of patterns to apply for
+                            selecting data to exclude during discovery. For Cloud
+                            Storage bucket assets, these are interpreted as glob patterns
+                            used to match object names. For BigQuery dataset assets,
+                            these are interpreted as patterns to match table names.
+                          items:
+                            type: string
+                          type: array
+                        includePatterns:
+                          description: Optional. The list of patterns to apply for
+                            selecting data to include during discovery if only a subset
+                            of the data should considered. For Cloud Storage bucket
+                            assets, these are interpreted as glob patterns used to
+                            match object names. For BigQuery dataset assets, these
+                            are interpreted as patterns to match table names.
+                          items:
+                            type: string
+                          type: array
+                        jsonOptions:
+                          description: Optional. Configuration for Json data.
+                          items:
+                            properties:
+                              disableTypeInference:
+                                description: Optional. Whether to disable the inference
+                                  of data type for Json data. If true, all columns
+                                  will be registered as their primitive types (strings,
+                                  number or boolean).
+                                type: boolean
+                              encoding:
+                                description: Optional. The character encoding of the
+                                  data. The default is UTF-8.
+                                type: string
+                            type: object
+                          type: array
+                        schedule:
+                          description: 'Optional. Cron schedule (https://en.wikipedia.org/wiki/Cron)
+                            for running discovery periodically. Successive discovery
+                            runs must be scheduled at least 60 minutes apart. The
+                            default value is to run discovery every 60 minutes. To
+                            explicitly set a timezone to the cron tab, apply a prefix
+                            in the cron tab: "CRON_TZ=${IANA_TIME_ZONE}" or TZ=${IANA_TIME_ZONE}".
+                            The ${IANA_TIME_ZONE} may only be a valid string from
+                            IANA time zone database. For example, "CRON_TZ=America/New_York
+                            1 * * * *", or "TZ=America/New_York 1 * * * *".'
+                          type: string
+                      type: object
+                    type: array
                   discoveryStatus:
                     description: Output only. Status of the discovery feature applied
                       to data referenced by this asset.
@@ -554,9 +664,43 @@ spec:
                           type: string
                       type: object
                     type: array
+                  displayName:
+                    description: Optional. User friendly display name.
+                    type: string
                   id:
                     description: an identifier for the resource with format projects/{{project}}/locations/{{location}}/lakes/{{lake}}/zones/{{dataplex_zone}}/assets/{{name}}
                     type: string
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: Optional. User defined labels for the asset.
+                    type: object
+                  lake:
+                    description: The lake for the resource
+                    type: string
+                  location:
+                    description: The location for the resource
+                    type: string
+                  project:
+                    description: The project for the resource
+                    type: string
+                  resourceSpec:
+                    description: Required. Immutable. Specification of the resource
+                      that is referenced by this asset.
+                    items:
+                      properties:
+                        name:
+                          description: 'Immutable. Relative name of the cloud resource
+                            that contains the data that is being managed within a
+                            lake. For example: projects/{project_number}/buckets/{bucket_id}
+                            projects/{project_number}/datasets/{dataset_id}'
+                          type: string
+                        type:
+                          description: 'Required. Immutable. Type of resource. Possible
+                            values: STORAGE_BUCKET, BIGQUERY_DATASET'
+                          type: string
+                      type: object
+                    type: array
                   resourceStatus:
                     description: Output only. Status of the resource referenced by
                       this asset.

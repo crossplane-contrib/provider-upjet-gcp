@@ -26,6 +26,11 @@ import (
 )
 
 type ConditionObservation struct {
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	Expression *string `json:"expression,omitempty" tf:"expression,omitempty"`
+
+	Title *string `json:"title,omitempty" tf:"title,omitempty"`
 }
 
 type ConditionParameters struct {
@@ -41,9 +46,19 @@ type ConditionParameters struct {
 }
 
 type InstanceIAMBindingObservation struct {
+	Condition []ConditionObservation `json:"condition,omitempty" tf:"condition,omitempty"`
+
 	Etag *string `json:"etag,omitempty" tf:"etag,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	Instance *string `json:"instance,omitempty" tf:"instance,omitempty"`
+
+	Members []*string `json:"members,omitempty" tf:"members,omitempty"`
+
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 }
 
 type InstanceIAMBindingParameters struct {
@@ -54,8 +69,8 @@ type InstanceIAMBindingParameters struct {
 	// +kubebuilder:validation:Required
 	Instance *string `json:"instance" tf:"instance,omitempty"`
 
-	// +kubebuilder:validation:Required
-	Members []*string `json:"members" tf:"members,omitempty"`
+	// +kubebuilder:validation:Optional
+	Members []*string `json:"members,omitempty" tf:"members,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
@@ -88,8 +103,9 @@ type InstanceIAMBindingStatus struct {
 type InstanceIAMBinding struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              InstanceIAMBindingSpec   `json:"spec"`
-	Status            InstanceIAMBindingStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.members)",message="members is a required parameter"
+	Spec   InstanceIAMBindingSpec   `json:"spec"`
+	Status InstanceIAMBindingStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

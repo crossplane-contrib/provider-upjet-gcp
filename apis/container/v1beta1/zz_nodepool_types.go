@@ -26,6 +26,9 @@ import (
 )
 
 type NodeConfigGuestAcceleratorGpuSharingConfigObservation struct {
+	GpuSharingStrategy *string `json:"gpuSharingStrategy,omitempty" tf:"gpu_sharing_strategy,omitempty"`
+
+	MaxSharedClientsPerGpu *float64 `json:"maxSharedClientsPerGpu,omitempty" tf:"max_shared_clients_per_gpu,omitempty"`
 }
 
 type NodeConfigGuestAcceleratorGpuSharingConfigParameters struct {
@@ -38,6 +41,28 @@ type NodeConfigGuestAcceleratorGpuSharingConfigParameters struct {
 }
 
 type NodePoolAutoscalingObservation struct {
+
+	// Location policy specifies the algorithm used when
+	// scaling-up the node pool. Location policy is supported only in 1.24.1+ clusters.
+	LocationPolicy *string `json:"locationPolicy,omitempty" tf:"location_policy,omitempty"`
+
+	// Maximum number of nodes per zone in the NodePool.
+	// Must be >= min_node_count. Cannot be used with total limits.
+	MaxNodeCount *float64 `json:"maxNodeCount,omitempty" tf:"max_node_count,omitempty"`
+
+	// Minimum number of nodes per zone in the NodePool.
+	// Must be >=0 and <= max_node_count. Cannot be used with total limits.
+	MinNodeCount *float64 `json:"minNodeCount,omitempty" tf:"min_node_count,omitempty"`
+
+	// Total maximum number of nodes in the NodePool.
+	// Must be >= total_min_node_count. Cannot be used with per zone limits.
+	// Total size limits are supported only in 1.24.1+ clusters.
+	TotalMaxNodeCount *float64 `json:"totalMaxNodeCount,omitempty" tf:"total_max_node_count,omitempty"`
+
+	// Total minimum number of nodes in the NodePool.
+	// Must be >=0 and <= total_max_node_count. Cannot be used with per zone limits.
+	// Total size limits are supported only in 1.24.1+ clusters.
+	TotalMinNodeCount *float64 `json:"totalMinNodeCount,omitempty" tf:"total_min_node_count,omitempty"`
 }
 
 type NodePoolAutoscalingParameters struct {
@@ -71,6 +96,12 @@ type NodePoolAutoscalingParameters struct {
 }
 
 type NodePoolManagementObservation_2 struct {
+
+	// Whether the nodes will be automatically repaired.
+	AutoRepair *bool `json:"autoRepair,omitempty" tf:"auto_repair,omitempty"`
+
+	// Whether the nodes will be automatically upgraded.
+	AutoUpgrade *bool `json:"autoUpgrade,omitempty" tf:"auto_upgrade,omitempty"`
 }
 
 type NodePoolManagementParameters_2 struct {
@@ -85,6 +116,18 @@ type NodePoolManagementParameters_2 struct {
 }
 
 type NodePoolNetworkConfigObservation struct {
+
+	// Whether to create a new range for pod IPs in this node pool. Defaults are provided for pod_range and pod_ipv4_cidr_block if they are not specified.
+	CreatePodRange *bool `json:"createPodRange,omitempty" tf:"create_pod_range,omitempty"`
+
+	// Whether nodes have internal IP addresses only.
+	EnablePrivateNodes *bool `json:"enablePrivateNodes,omitempty" tf:"enable_private_nodes,omitempty"`
+
+	// The IP address range for pod IPs in this node pool. Only applicable if createPodRange is true. Set to blank to have a range chosen with the default size. Set to /netmask (e.g. /14) to have a range chosen with a specific netmask. Set to a CIDR notation (e.g. 10.96.0.0/14) to pick a specific range to use.
+	PodIPv4CidrBlock *string `json:"podIpv4CidrBlock,omitempty" tf:"pod_ipv4_cidr_block,omitempty"`
+
+	// The ID of the secondary range for pod IPs. If create_pod_range is true, this ID is used for the new range. If create_pod_range is false, uses an existing secondary range with this ID.
+	PodRange *string `json:"podRange,omitempty" tf:"pod_range,omitempty"`
 }
 
 type NodePoolNetworkConfigParameters struct {
@@ -107,6 +150,7 @@ type NodePoolNetworkConfigParameters struct {
 }
 
 type NodePoolNodeConfigGcfsConfigObservation struct {
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 }
 
 type NodePoolNodeConfigGcfsConfigParameters struct {
@@ -116,6 +160,16 @@ type NodePoolNodeConfigGcfsConfigParameters struct {
 }
 
 type NodePoolNodeConfigGuestAcceleratorObservation struct {
+	Count *float64 `json:"count,omitempty" tf:"count,omitempty"`
+
+	GpuPartitionSize *string `json:"gpuPartitionSize,omitempty" tf:"gpu_partition_size,omitempty"`
+
+	GpuSharingConfig []NodeConfigGuestAcceleratorGpuSharingConfigObservation `json:"gpuSharingConfig,omitempty" tf:"gpu_sharing_config,omitempty"`
+
+	// The type of the policy. Supports a single value: COMPACT.
+	// Specifying COMPACT placement policy type places node pool's nodes in a closer
+	// physical proximity in order to reduce network latency between nodes.
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type NodePoolNodeConfigGuestAcceleratorParameters struct {
@@ -137,6 +191,7 @@ type NodePoolNodeConfigGuestAcceleratorParameters struct {
 }
 
 type NodePoolNodeConfigGvnicObservation struct {
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 }
 
 type NodePoolNodeConfigGvnicParameters struct {
@@ -146,6 +201,13 @@ type NodePoolNodeConfigGvnicParameters struct {
 }
 
 type NodePoolNodeConfigKubeletConfigObservation struct {
+	CPUCfsQuota *bool `json:"cpuCfsQuota,omitempty" tf:"cpu_cfs_quota,omitempty"`
+
+	CPUCfsQuotaPeriod *string `json:"cpuCfsQuotaPeriod,omitempty" tf:"cpu_cfs_quota_period,omitempty"`
+
+	CPUManagerPolicy *string `json:"cpuManagerPolicy,omitempty" tf:"cpu_manager_policy,omitempty"`
+
+	PodPidsLimit *float64 `json:"podPidsLimit,omitempty" tf:"pod_pids_limit,omitempty"`
 }
 
 type NodePoolNodeConfigKubeletConfigParameters struct {
@@ -164,6 +226,7 @@ type NodePoolNodeConfigKubeletConfigParameters struct {
 }
 
 type NodePoolNodeConfigLinuxNodeConfigObservation struct {
+	Sysctls map[string]*string `json:"sysctls,omitempty" tf:"sysctls,omitempty"`
 }
 
 type NodePoolNodeConfigLinuxNodeConfigParameters struct {
@@ -173,6 +236,59 @@ type NodePoolNodeConfigLinuxNodeConfigParameters struct {
 }
 
 type NodePoolNodeConfigObservation_2 struct {
+	BootDiskKMSKey *string `json:"bootDiskKmsKey,omitempty" tf:"boot_disk_kms_key,omitempty"`
+
+	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
+
+	DiskType *string `json:"diskType,omitempty" tf:"disk_type,omitempty"`
+
+	GcfsConfig []NodePoolNodeConfigGcfsConfigObservation `json:"gcfsConfig,omitempty" tf:"gcfs_config,omitempty"`
+
+	GuestAccelerator []NodePoolNodeConfigGuestAcceleratorObservation `json:"guestAccelerator,omitempty" tf:"guest_accelerator,omitempty"`
+
+	Gvnic []NodePoolNodeConfigGvnicObservation `json:"gvnic,omitempty" tf:"gvnic,omitempty"`
+
+	ImageType *string `json:"imageType,omitempty" tf:"image_type,omitempty"`
+
+	KubeletConfig []NodePoolNodeConfigKubeletConfigObservation `json:"kubeletConfig,omitempty" tf:"kubelet_config,omitempty"`
+
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// Parameters used in creating the node pool. See
+	// google_container_cluster for schema.
+	LinuxNodeConfig []NodePoolNodeConfigLinuxNodeConfigObservation `json:"linuxNodeConfig,omitempty" tf:"linux_node_config,omitempty"`
+
+	LocalSsdCount *float64 `json:"localSsdCount,omitempty" tf:"local_ssd_count,omitempty"`
+
+	LoggingVariant *string `json:"loggingVariant,omitempty" tf:"logging_variant,omitempty"`
+
+	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
+
+	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
+
+	MinCPUPlatform *string `json:"minCpuPlatform,omitempty" tf:"min_cpu_platform,omitempty"`
+
+	NodeGroup *string `json:"nodeGroup,omitempty" tf:"node_group,omitempty"`
+
+	OAuthScopes []*string `json:"oauthScopes,omitempty" tf:"oauth_scopes,omitempty"`
+
+	Preemptible *bool `json:"preemptible,omitempty" tf:"preemptible,omitempty"`
+
+	ReservationAffinity []NodePoolNodeConfigReservationAffinityObservation `json:"reservationAffinity,omitempty" tf:"reservation_affinity,omitempty"`
+
+	ResourceLabels map[string]*string `json:"resourceLabels,omitempty" tf:"resource_labels,omitempty"`
+
+	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
+
+	ShieldedInstanceConfig []NodePoolNodeConfigShieldedInstanceConfigObservation_2 `json:"shieldedInstanceConfig,omitempty" tf:"shielded_instance_config,omitempty"`
+
+	Spot *bool `json:"spot,omitempty" tf:"spot,omitempty"`
+
+	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
+
+	Taint []NodePoolNodeConfigTaintObservation `json:"taint,omitempty" tf:"taint,omitempty"`
+
+	WorkloadMetadataConfig []NodePoolNodeConfigWorkloadMetadataConfigObservation `json:"workloadMetadataConfig,omitempty" tf:"workload_metadata_config,omitempty"`
 }
 
 type NodePoolNodeConfigParameters_2 struct {
@@ -269,6 +385,11 @@ type NodePoolNodeConfigParameters_2 struct {
 }
 
 type NodePoolNodeConfigReservationAffinityObservation struct {
+	ConsumeReservationType *string `json:"consumeReservationType,omitempty" tf:"consume_reservation_type,omitempty"`
+
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	Values []*string `json:"values,omitempty" tf:"values,omitempty"`
 }
 
 type NodePoolNodeConfigReservationAffinityParameters struct {
@@ -284,6 +405,9 @@ type NodePoolNodeConfigReservationAffinityParameters struct {
 }
 
 type NodePoolNodeConfigShieldedInstanceConfigObservation_2 struct {
+	EnableIntegrityMonitoring *bool `json:"enableIntegrityMonitoring,omitempty" tf:"enable_integrity_monitoring,omitempty"`
+
+	EnableSecureBoot *bool `json:"enableSecureBoot,omitempty" tf:"enable_secure_boot,omitempty"`
 }
 
 type NodePoolNodeConfigShieldedInstanceConfigParameters_2 struct {
@@ -296,6 +420,11 @@ type NodePoolNodeConfigShieldedInstanceConfigParameters_2 struct {
 }
 
 type NodePoolNodeConfigTaintObservation struct {
+	Effect *string `json:"effect,omitempty" tf:"effect,omitempty"`
+
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
 
 type NodePoolNodeConfigTaintParameters struct {
@@ -311,6 +440,7 @@ type NodePoolNodeConfigTaintParameters struct {
 }
 
 type NodePoolNodeConfigWorkloadMetadataConfigObservation struct {
+	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
 }
 
 type NodePoolNodeConfigWorkloadMetadataConfigParameters struct {
@@ -321,16 +451,80 @@ type NodePoolNodeConfigWorkloadMetadataConfigParameters struct {
 
 type NodePoolObservation_2 struct {
 
+	// Configuration required by cluster autoscaler to adjust
+	// the size of the node pool to the current cluster usage. Structure is documented below.
+	Autoscaling []NodePoolAutoscalingObservation `json:"autoscaling,omitempty" tf:"autoscaling,omitempty"`
+
+	// The cluster to create the node pool for. Cluster must be present in location provided for clusters. May be specified in the format projects/{{project}}/locations/{{location}}/clusters/{{cluster}} or as just the name of the cluster.
+	Cluster *string `json:"cluster,omitempty" tf:"cluster,omitempty"`
+
 	// an identifier for the resource with format {{project}}/{{location}}/{{cluster}}/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The initial number of nodes for the pool. In
+	// regional or multi-zonal clusters, this is the number of nodes per zone. Changing
+	// this will force recreation of the resource.  If you don't
+	// need this value, don't set it.  If you do need it, you can use a lifecycle block to
+	// ignore subsequent changes to this field.
+	InitialNodeCount *float64 `json:"initialNodeCount,omitempty" tf:"initial_node_count,omitempty"`
 
 	// The resource URLs of the managed instance groups associated with this node pool.
 	InstanceGroupUrls []*string `json:"instanceGroupUrls,omitempty" tf:"instance_group_urls,omitempty"`
 
+	// The location (region or zone) of the cluster.
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
 	// List of instance group URLs which have been assigned to this node pool.
 	ManagedInstanceGroupUrls []*string `json:"managedInstanceGroupUrls,omitempty" tf:"managed_instance_group_urls,omitempty"`
 
+	// Node management configuration, wherein auto-repair and
+	// auto-upgrade is configured. Structure is documented below.
+	Management []NodePoolManagementObservation_2 `json:"management,omitempty" tf:"management,omitempty"`
+
+	// The maximum number of pods per node in this node pool.
+	// Note that this does not work on node pools which are "route-based" - that is, node
+	// pools belonging to clusters that do not have IP Aliasing enabled.
+	// See the official documentation
+	// for more information.
+	MaxPodsPerNode *float64 `json:"maxPodsPerNode,omitempty" tf:"max_pods_per_node,omitempty"`
+
+	// The network configuration of the pool. Such as
+	// configuration for Adding Pod IP address ranges) to the node pool. Or enabling private nodes. Structure is
+	// documented below
+	NetworkConfig []NodePoolNetworkConfigObservation `json:"networkConfig,omitempty" tf:"network_config,omitempty"`
+
+	// Parameters used in creating the node pool. See
+	// google_container_cluster for schema.
+	NodeConfig []NodePoolNodeConfigObservation_2 `json:"nodeConfig,omitempty" tf:"node_config,omitempty"`
+
+	// The number of nodes per instance group. This field can be used to
+	// update the number of nodes per instance group but should not be used alongside autoscaling.
+	NodeCount *float64 `json:"nodeCount,omitempty" tf:"node_count,omitempty"`
+
+	// The list of zones in which the node pool's nodes should be located. Nodes must
+	// be in the region of their regional cluster or in the same region as their
+	// cluster's zone for zonal clusters. If unspecified, the cluster-level
+	// node_locations will be used.
+	NodeLocations []*string `json:"nodeLocations,omitempty" tf:"node_locations,omitempty"`
+
 	Operation *string `json:"operation,omitempty" tf:"operation,omitempty"`
+
+	// Specifies a custom placement policy for the
+	// nodes.
+	PlacementPolicy []NodePoolPlacementPolicyObservation `json:"placementPolicy,omitempty" tf:"placement_policy,omitempty"`
+
+	// The ID of the project in which to create the node pool. If blank,
+	// the provider-configured project will be used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Specify node upgrade settings to change how GKE upgrades nodes.
+	// The maximum number of nodes upgraded simultaneously is limited to 20. Structure is documented below.
+	UpgradeSettings []NodePoolUpgradeSettingsObservation_2 `json:"upgradeSettings,omitempty" tf:"upgrade_settings,omitempty"`
+
+	// The Kubernetes version for the nodes in this pool. Note that if this field
+	// and auto_upgrade are both specified, they will fight each other for what the node version should
+	// be, so setting both is highly discouraged.
+	Version *string `json:"version,omitempty" tf:"version,omitempty"`
 }
 
 type NodePoolParameters_2 struct {
@@ -425,6 +619,11 @@ type NodePoolParameters_2 struct {
 }
 
 type NodePoolPlacementPolicyObservation struct {
+
+	// The type of the policy. Supports a single value: COMPACT.
+	// Specifying COMPACT placement policy type places node pool's nodes in a closer
+	// physical proximity in order to reduce network latency between nodes.
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type NodePoolPlacementPolicyParameters struct {
@@ -437,6 +636,13 @@ type NodePoolPlacementPolicyParameters struct {
 }
 
 type NodePoolUpgradeSettingsBlueGreenSettingsObservation struct {
+
+	// Time needed after draining the entire blue pool.
+	// After this period, the blue pool will be cleaned up.
+	NodePoolSoakDuration *string `json:"nodePoolSoakDuration,omitempty" tf:"node_pool_soak_duration,omitempty"`
+
+	// Specifies the standard policy settings for blue-green upgrades.
+	StandardRolloutPolicy []UpgradeSettingsBlueGreenSettingsStandardRolloutPolicyObservation `json:"standardRolloutPolicy,omitempty" tf:"standard_rollout_policy,omitempty"`
 }
 
 type NodePoolUpgradeSettingsBlueGreenSettingsParameters struct {
@@ -452,6 +658,23 @@ type NodePoolUpgradeSettingsBlueGreenSettingsParameters struct {
 }
 
 type NodePoolUpgradeSettingsObservation_2 struct {
+
+	// The settings to adjust blue green upgrades.
+	// Structure is documented below
+	BlueGreenSettings []NodePoolUpgradeSettingsBlueGreenSettingsObservation `json:"blueGreenSettings,omitempty" tf:"blue_green_settings,omitempty"`
+
+	// The number of additional nodes that can be added to the node pool during
+	// an upgrade. Increasing max_surge raises the number of nodes that can be upgraded simultaneously.
+	// Can be set to 0 or greater.
+	MaxSurge *float64 `json:"maxSurge,omitempty" tf:"max_surge,omitempty"`
+
+	// The number of nodes that can be simultaneously unavailable during
+	// an upgrade. Increasing max_unavailable raises the number of nodes that can be upgraded in
+	// parallel. Can be set to 0 or greater.
+	MaxUnavailable *float64 `json:"maxUnavailable,omitempty" tf:"max_unavailable,omitempty"`
+
+	// (Default SURGE) The upgrade stragey to be used for upgrading the nodes.
+	Strategy *string `json:"strategy,omitempty" tf:"strategy,omitempty"`
 }
 
 type NodePoolUpgradeSettingsParameters_2 struct {
@@ -479,6 +702,15 @@ type NodePoolUpgradeSettingsParameters_2 struct {
 }
 
 type UpgradeSettingsBlueGreenSettingsStandardRolloutPolicyObservation struct {
+
+	// Number of blue nodes to drain in a batch.
+	BatchNodeCount *float64 `json:"batchNodeCount,omitempty" tf:"batch_node_count,omitempty"`
+
+	// Percentage of the blue pool nodes to drain in a batch.
+	BatchPercentage *float64 `json:"batchPercentage,omitempty" tf:"batch_percentage,omitempty"`
+
+	// (Optionial) Soak time after each batch gets drained.
+	BatchSoakDuration *string `json:"batchSoakDuration,omitempty" tf:"batch_soak_duration,omitempty"`
 }
 
 type UpgradeSettingsBlueGreenSettingsStandardRolloutPolicyParameters struct {

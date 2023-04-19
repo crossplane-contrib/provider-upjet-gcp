@@ -26,6 +26,10 @@ import (
 )
 
 type TensorboardEncryptionSpecObservation struct {
+
+	// The Cloud KMS resource identifier of the customer managed encryption key used to protect a resource.
+	// Has the form: projects/my-project/locations/my-region/keyRings/my-kr/cryptoKeys/my-key. The key needs to be in the same region as where the resource is created.
+	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
 }
 
 type TensorboardEncryptionSpecParameters struct {
@@ -44,11 +48,28 @@ type TensorboardObservation struct {
 	// The timestamp of when the Tensorboard was created in RFC3339 UTC "Zulu" format, with nanosecond resolution and up to nine fractional digits.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
+	// Description of this Tensorboard.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Customer-managed encryption key spec for a Tensorboard. If set, this Tensorboard and all sub-resources of this Tensorboard will be secured by this key.
+	// Structure is documented below.
+	EncryptionSpec []TensorboardEncryptionSpecObservation `json:"encryptionSpec,omitempty" tf:"encryption_spec,omitempty"`
+
 	// an identifier for the resource with format {{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// The labels with user-defined metadata to organize your Tensorboards.
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
 	// Name of the Tensorboard.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The region of the tensorboard. eg us-central1
+	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
 	// The number of Runs stored in this Tensorboard.
 	RunCount *string `json:"runCount,omitempty" tf:"run_count,omitempty"`

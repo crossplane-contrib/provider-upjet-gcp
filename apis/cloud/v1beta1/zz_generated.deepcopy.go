@@ -93,6 +93,11 @@ func (in *IdsEndpointObservation) DeepCopyInto(out *IdsEndpointObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.Description != nil {
+		in, out := &in.Description, &out.Description
+		*out = new(string)
+		**out = **in
+	}
 	if in.EndpointForwardingRule != nil {
 		in, out := &in.EndpointForwardingRule, &out.EndpointForwardingRule
 		*out = new(string)
@@ -107,6 +112,42 @@ func (in *IdsEndpointObservation) DeepCopyInto(out *IdsEndpointObservation) {
 		in, out := &in.ID, &out.ID
 		*out = new(string)
 		**out = **in
+	}
+	if in.Location != nil {
+		in, out := &in.Location, &out.Location
+		*out = new(string)
+		**out = **in
+	}
+	if in.Name != nil {
+		in, out := &in.Name, &out.Name
+		*out = new(string)
+		**out = **in
+	}
+	if in.Network != nil {
+		in, out := &in.Network, &out.Network
+		*out = new(string)
+		**out = **in
+	}
+	if in.Project != nil {
+		in, out := &in.Project, &out.Project
+		*out = new(string)
+		**out = **in
+	}
+	if in.Severity != nil {
+		in, out := &in.Severity, &out.Severity
+		*out = new(string)
+		**out = **in
+	}
+	if in.ThreatExceptions != nil {
+		in, out := &in.ThreatExceptions, &out.ThreatExceptions
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
 	}
 	if in.UpdateTime != nil {
 		in, out := &in.UpdateTime, &out.UpdateTime

@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.11.1
+    controller-gen.kubebuilder.io/version: v0.11.3
   creationTimestamp: null
   name: nodepools.containeraws.gcp.upbound.io
 spec:
@@ -55,9 +55,13 @@ spec:
             properties:
               deletionPolicy:
                 default: Delete
-                description: DeletionPolicy specifies what will happen to the underlying
+                description: 'DeletionPolicy specifies what will happen to the underlying
                   external when this managed resource is deleted - either "Delete"
-                  or "Orphan" the external resource.
+                  or "Orphan" the external resource. This field is planned to be deprecated
+                  in favor of the ManagementPolicy field in a future release. Currently,
+                  both could be set independently and non-default values would be
+                  honored if the feature flag is enabled. See the design doc for more
+                  information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
                 enum:
                 - Orphan
                 - Delete
@@ -358,13 +362,23 @@ spec:
                       given Google Cloud region by calling GetAwsServerConfig.
                     type: string
                 required:
-                - autoscaling
-                - config
                 - location
-                - maxPodsConstraint
-                - subnetId
-                - version
                 type: object
+              managementPolicy:
+                default: FullControl
+                description: 'THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice. ManagementPolicy
+                  specifies the level of control Crossplane has over the managed external
+                  resource. This field is planned to replace the DeletionPolicy field
+                  in a future release. Currently, both could be set independently
+                  and non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
+                enum:
+                - FullControl
+                - ObserveOnly
+                - OrphanOnDelete
+                type: string
               providerConfigRef:
                 default:
                   name: default
@@ -536,11 +550,196 @@ spec:
             required:
             - forProvider
             type: object
+            x-kubernetes-validations:
+            - message: autoscaling is a required parameter
+              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.autoscaling)
+            - message: config is a required parameter
+              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.config)
+            - message: maxPodsConstraint is a required parameter
+              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.maxPodsConstraint)
+            - message: subnetId is a required parameter
+              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.subnetId)
+            - message: version is a required parameter
+              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.version)
           status:
             description: NodePoolStatus defines the observed state of NodePool.
             properties:
               atProvider:
                 properties:
+                  annotations:
+                    additionalProperties:
+                      type: string
+                    description: 'Optional. Annotations on the node pool. This field
+                      has the same restrictions as Kubernetes annotations. The total
+                      size of all keys and values combined is limited to 256k. Key
+                      can have 2 segments: prefix  and name , separated by a slash
+                      (/). Prefix must be a DNS subdomain. Name must be 63 characters
+                      or less, begin and end with alphanumerics, with dashes (-),
+                      underscores (_), dots (.), and alphanumerics between.'
+                    type: object
+                  autoscaling:
+                    description: Autoscaler configuration for this node pool.
+                    items:
+                      properties:
+                        maxNodeCount:
+                          description: Maximum number of nodes in the NodePool. Must
+                            be >= min_node_count.
+                          type: number
+                        minNodeCount:
+                          description: Minimum number of nodes in the NodePool. Must
+                            be >= 1 and <= max_node_count.
+                          type: number
+                      type: object
+                    type: array
+                  cluster:
+                    description: The awsCluster for the resource
+                    type: string
+                  config:
+                    description: The configuration of the node pool.
+                    items:
+                      properties:
+                        autoscalingMetricsCollection:
+                          description: Optional. Configuration related to CloudWatch
+                            metrics collection on the Auto Scaling group of the node
+                            pool. When unspecified, metrics collection is disabled.
+                          items:
+                            properties:
+                              granularity:
+                                description: The frequency at which EC2 Auto Scaling
+                                  sends aggregated data to AWS CloudWatch. The only
+                                  valid value is "1Minute".
+                                type: string
+                              metrics:
+                                description: The metrics to enable. For a list of
+                                  valid metrics, see https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_EnableMetricsCollection.html.
+                                  If you specify granularity and don't specify any
+                                  metrics, all metrics are enabled.
+                                items:
+                                  type: string
+                                type: array
+                            type: object
+                          type: array
+                        configEncryption:
+                          description: The ARN of the AWS KMS key used to encrypt
+                            node pool configuration.
+                          items:
+                            properties:
+                              kmsKeyArn:
+                                description: Optional. The Amazon Resource Name (ARN)
+                                  of the Customer Managed Key (CMK) used to encrypt
+                                  AWS EBS volumes. If not specified, the default Amazon
+                                  managed key associated to the AWS region where this
+                                  cluster runs will be used.
+                                type: string
+                            type: object
+                          type: array
+                        iamInstanceProfile:
+                          description: The name of the AWS IAM role assigned to nodes
+                            in the pool.
+                          type: string
+                        instanceType:
+                          description: Optional. The AWS instance type. When unspecified,
+                            it defaults to m5.large.
+                          type: string
+                        labels:
+                          additionalProperties:
+                            type: string
+                          description: 'Optional. The initial labels assigned to nodes
+                            of this node pool. An object containing a list of "key":
+                            value pairs. Example: { "name": "wrench", "mass": "1.3kg",
+                            "count": "3" }.'
+                          type: object
+                        proxyConfig:
+                          description: Proxy configuration for outbound HTTP(S) traffic.
+                          items:
+                            properties:
+                              secretArn:
+                                description: The ARN of the AWS Secret Manager secret
+                                  that contains the HTTP(S) proxy configuration.
+                                type: string
+                              secretVersion:
+                                description: The version string of the AWS Secret
+                                  Manager secret that contains the HTTP(S) proxy configuration.
+                                type: string
+                            type: object
+                          type: array
+                        rootVolume:
+                          description: Optional. Template for the root volume provisioned
+                            for node pool nodes. Volumes will be provisioned in the
+                            availability zone assigned to the node pool subnet. When
+                            unspecified, it defaults to 32 GiB with the GP2 volume
+                            type.
+                          items:
+                            properties:
+                              iops:
+                                description: Optional. The number of I/O operations
+                                  per second (IOPS) to provision for GP3 volume.
+                                type: number
+                              kmsKeyArn:
+                                description: Optional. The Amazon Resource Name (ARN)
+                                  of the Customer Managed Key (CMK) used to encrypt
+                                  AWS EBS volumes. If not specified, the default Amazon
+                                  managed key associated to the AWS region where this
+                                  cluster runs will be used.
+                                type: string
+                              sizeGib:
+                                description: Optional. The size of the volume, in
+                                  GiBs. When unspecified, a default value is provided.
+                                  See the specific reference in the parent resource.
+                                type: number
+                              volumeType:
+                                description: 'Optional. Type of the EBS volume. When
+                                  unspecified, it defaults to GP2 volume. Possible
+                                  values: VOLUME_TYPE_UNSPECIFIED, GP2, GP3'
+                                type: string
+                            type: object
+                          type: array
+                        securityGroupIds:
+                          description: Optional. The IDs of additional security groups
+                            to add to nodes in this pool. The manager will automatically
+                            create security groups with minimum rules needed for a
+                            functioning cluster.
+                          items:
+                            type: string
+                          type: array
+                        sshConfig:
+                          description: Optional. The SSH configuration.
+                          items:
+                            properties:
+                              ec2KeyPair:
+                                description: The name of the EC2 key pair used to
+                                  login into cluster machines.
+                                type: string
+                            type: object
+                          type: array
+                        tags:
+                          additionalProperties:
+                            type: string
+                          description: Optional. Key/value metadata to assign to each
+                            underlying AWS resource. Specify at most 50 pairs containing
+                            alphanumerics, spaces, and symbols (.+-=_:@/). Keys can
+                            be up to 127 Unicode characters. Values can be up to 255
+                            Unicode characters.
+                          type: object
+                        taints:
+                          description: Optional. The initial taints assigned to nodes
+                            of this node pool.
+                          items:
+                            properties:
+                              effect:
+                                description: 'The taint effect. Possible values: EFFECT_UNSPECIFIED,
+                                  NO_SCHEDULE, PREFER_NO_SCHEDULE, NO_EXECUTE'
+                                type: string
+                              key:
+                                description: Key for the taint.
+                                type: string
+                              value:
+                                description: Value for the taint.
+                                type: string
+                            type: object
+                          type: array
+                      type: object
+                    type: array
                   createTime:
                     description: Output only. The time at which this node pool was
                       created.
@@ -554,6 +753,23 @@ spec:
                   id:
                     description: an identifier for the resource with format projects/{{project}}/locations/{{location}}/awsClusters/{{cluster}}/awsNodePools/{{name}}
                     type: string
+                  location:
+                    description: The location for the resource
+                    type: string
+                  maxPodsConstraint:
+                    description: The constraint on the maximum number of pods that
+                      can be run simultaneously on a node in the node pool.
+                    items:
+                      properties:
+                        maxPodsPerNode:
+                          description: The maximum number of pods to schedule on a
+                            single node.
+                          type: number
+                      type: object
+                    type: array
+                  project:
+                    description: The project for the resource
+                    type: string
                   reconciling:
                     description: Output only. If set, there are currently changes
                       in flight to the node pool.
@@ -563,6 +779,9 @@ spec:
                       Possible values: STATE_UNSPECIFIED, PROVISIONING, RUNNING, RECONCILING,
                       STOPPING, ERROR, DEGRADED'
                     type: string
+                  subnetId:
+                    description: The subnet where the node pool node run.
+                    type: string
                   uid:
                     description: Output only. A globally unique identifier for the
                       node pool.
@@ -570,6 +789,11 @@ spec:
                   updateTime:
                     description: Output only. The time at which this node pool was
                       last updated.
+                    type: string
+                  version:
+                    description: The Kubernetes version to run on this node pool (e.g.
+                      1.19.10-gke.1000). You can list all supported versions on a
+                      given Google Cloud region by calling GetAwsServerConfig.
                     type: string
                 type: object
               conditions:

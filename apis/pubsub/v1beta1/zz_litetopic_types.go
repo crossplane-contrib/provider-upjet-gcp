@@ -26,6 +26,12 @@ import (
 )
 
 type CapacityObservation struct {
+
+	// Subscribe throughput capacity per partition in MiB/s. Must be >= 4 and <= 16.
+	PublishMibPerSec *float64 `json:"publishMibPerSec,omitempty" tf:"publish_mib_per_sec,omitempty"`
+
+	// Publish throughput capacity per partition in MiB/s. Must be >= 4 and <= 16.
+	SubscribeMibPerSec *float64 `json:"subscribeMibPerSec,omitempty" tf:"subscribe_mib_per_sec,omitempty"`
 }
 
 type CapacityParameters struct {
@@ -43,14 +49,36 @@ type LiteTopicObservation struct {
 
 	// an identifier for the resource with format projects/{{project}}/locations/{{zone}}/topics/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The settings for this topic's partitions.
+	// Structure is documented below.
+	PartitionConfig []PartitionConfigObservation `json:"partitionConfig,omitempty" tf:"partition_config,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The region of the pubsub lite topic.
+	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+
+	// The settings for this topic's Reservation usage.
+	// Structure is documented below.
+	ReservationConfig []ReservationConfigObservation `json:"reservationConfig,omitempty" tf:"reservation_config,omitempty"`
+
+	// The settings for a topic's message retention.
+	// Structure is documented below.
+	RetentionConfig []RetentionConfigObservation `json:"retentionConfig,omitempty" tf:"retention_config,omitempty"`
+
+	// The zone of the pubsub lite topic.
+	Zone *string `json:"zone,omitempty" tf:"zone,omitempty"`
 }
 
 type LiteTopicParameters struct {
 
 	// The settings for this topic's partitions.
 	// Structure is documented below.
-	// +kubebuilder:validation:Required
-	PartitionConfig []PartitionConfigParameters `json:"partitionConfig" tf:"partition_config,omitempty"`
+	// +kubebuilder:validation:Optional
+	PartitionConfig []PartitionConfigParameters `json:"partitionConfig,omitempty" tf:"partition_config,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -68,8 +96,8 @@ type LiteTopicParameters struct {
 
 	// The settings for a topic's message retention.
 	// Structure is documented below.
-	// +kubebuilder:validation:Required
-	RetentionConfig []RetentionConfigParameters `json:"retentionConfig" tf:"retention_config,omitempty"`
+	// +kubebuilder:validation:Optional
+	RetentionConfig []RetentionConfigParameters `json:"retentionConfig,omitempty" tf:"retention_config,omitempty"`
 
 	// The zone of the pubsub lite topic.
 	// +kubebuilder:validation:Required
@@ -77,6 +105,13 @@ type LiteTopicParameters struct {
 }
 
 type PartitionConfigObservation struct {
+
+	// The capacity configuration.
+	// Structure is documented below.
+	Capacity []CapacityObservation `json:"capacity,omitempty" tf:"capacity,omitempty"`
+
+	// The number of partitions in the topic. Must be at least 1.
+	Count *float64 `json:"count,omitempty" tf:"count,omitempty"`
 }
 
 type PartitionConfigParameters struct {
@@ -92,6 +127,9 @@ type PartitionConfigParameters struct {
 }
 
 type ReservationConfigObservation struct {
+
+	// The Reservation to use for this topic's throughput capacity.
+	ThroughputReservation *string `json:"throughputReservation,omitempty" tf:"throughput_reservation,omitempty"`
 }
 
 type ReservationConfigParameters struct {
@@ -111,6 +149,17 @@ type ReservationConfigParameters struct {
 }
 
 type RetentionConfigObservation struct {
+
+	// The provisioned storage, in bytes, per partition. If the number of bytes stored
+	// in any of the topic's partitions grows beyond this value, older messages will be
+	// dropped to make room for newer ones, regardless of the value of period.
+	PerPartitionBytes *string `json:"perPartitionBytes,omitempty" tf:"per_partition_bytes,omitempty"`
+
+	// How long a published message is retained. If unset, messages will be retained as
+	// long as the bytes retained for each partition is below perPartitionBytes. A
+	// duration in seconds with up to nine fractional digits, terminated by 's'.
+	// Example: "3.5s".
+	Period *string `json:"period,omitempty" tf:"period,omitempty"`
 }
 
 type RetentionConfigParameters struct {
@@ -153,8 +202,10 @@ type LiteTopicStatus struct {
 type LiteTopic struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              LiteTopicSpec   `json:"spec"`
-	Status            LiteTopicStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.partitionConfig)",message="partitionConfig is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.retentionConfig)",message="retentionConfig is a required parameter"
+	Spec   LiteTopicSpec   `json:"spec"`
+	Status LiteTopicStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

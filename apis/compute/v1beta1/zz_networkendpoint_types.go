@@ -29,6 +29,29 @@ type NetworkEndpointObservation struct {
 
 	// an identifier for the resource with format {{project}}/{{zone}}/{{network_endpoint_group}}/{{instance}}/{{ip_address}}/{{port}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// IPv4 address of network endpoint. The IP address must belong
+	// to a VM in GCE (either the primary IP or as part of an aliased IP
+	// range).
+	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
+
+	// The name for a specific VM instance that the IP address belongs to.
+	// This is required for network endpoints of type GCE_VM_IP_PORT.
+	// The instance must be in the same zone of network endpoint group.
+	Instance *string `json:"instance,omitempty" tf:"instance,omitempty"`
+
+	// The network endpoint group this endpoint is part of.
+	NetworkEndpointGroup *string `json:"networkEndpointGroup,omitempty" tf:"network_endpoint_group,omitempty"`
+
+	// Port number of network endpoint.
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Zone where the containing network endpoint group is located.
+	Zone *string `json:"zone,omitempty" tf:"zone,omitempty"`
 }
 
 type NetworkEndpointParameters struct {
@@ -36,8 +59,8 @@ type NetworkEndpointParameters struct {
 	// IPv4 address of network endpoint. The IP address must belong
 	// to a VM in GCE (either the primary IP or as part of an aliased IP
 	// range).
-	// +kubebuilder:validation:Required
-	IPAddress *string `json:"ipAddress" tf:"ip_address,omitempty"`
+	// +kubebuilder:validation:Optional
+	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
 
 	// The name for a specific VM instance that the IP address belongs to.
 	// This is required for network endpoints of type GCE_VM_IP_PORT.
@@ -105,8 +128,9 @@ type NetworkEndpointStatus struct {
 type NetworkEndpoint struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              NetworkEndpointSpec   `json:"spec"`
-	Status            NetworkEndpointStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.ipAddress)",message="ipAddress is a required parameter"
+	Spec   NetworkEndpointSpec   `json:"spec"`
+	Status NetworkEndpointStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

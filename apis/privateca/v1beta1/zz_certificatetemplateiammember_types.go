@@ -26,6 +26,11 @@ import (
 )
 
 type CertificateTemplateIAMMemberConditionObservation struct {
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	Expression *string `json:"expression,omitempty" tf:"expression,omitempty"`
+
+	Title *string `json:"title,omitempty" tf:"title,omitempty"`
 }
 
 type CertificateTemplateIAMMemberConditionParameters struct {
@@ -41,9 +46,21 @@ type CertificateTemplateIAMMemberConditionParameters struct {
 }
 
 type CertificateTemplateIAMMemberObservation struct {
+	CertificateTemplate *string `json:"certificateTemplate,omitempty" tf:"certificate_template,omitempty"`
+
+	Condition []CertificateTemplateIAMMemberConditionObservation `json:"condition,omitempty" tf:"condition,omitempty"`
+
 	Etag *string `json:"etag,omitempty" tf:"etag,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
+	Member *string `json:"member,omitempty" tf:"member,omitempty"`
+
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 }
 
 type CertificateTemplateIAMMemberParameters struct {
@@ -67,14 +84,14 @@ type CertificateTemplateIAMMemberParameters struct {
 	// +kubebuilder:validation:Optional
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
-	// +kubebuilder:validation:Required
-	Member *string `json:"member" tf:"member,omitempty"`
+	// +kubebuilder:validation:Optional
+	Member *string `json:"member,omitempty" tf:"member,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
-	// +kubebuilder:validation:Required
-	Role *string `json:"role" tf:"role,omitempty"`
+	// +kubebuilder:validation:Optional
+	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 }
 
 // CertificateTemplateIAMMemberSpec defines the desired state of CertificateTemplateIAMMember
@@ -101,8 +118,10 @@ type CertificateTemplateIAMMemberStatus struct {
 type CertificateTemplateIAMMember struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              CertificateTemplateIAMMemberSpec   `json:"spec"`
-	Status            CertificateTemplateIAMMemberStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.member)",message="member is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.role)",message="role is a required parameter"
+	Spec   CertificateTemplateIAMMemberSpec   `json:"spec"`
+	Status CertificateTemplateIAMMemberStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

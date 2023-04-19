@@ -27,11 +27,43 @@ import (
 
 type TargetPoolObservation struct {
 
+	// URL to the backup target pool. Must also set
+	// failover_ratio.
+	BackupPool *string `json:"backupPool,omitempty" tf:"backup_pool,omitempty"`
+
+	// Textual description field.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Ratio (0 to 1) of failed nodes before using the
+	// backup pool (which must also be set).
+	FailoverRatio *float64 `json:"failoverRatio,omitempty" tf:"failover_ratio,omitempty"`
+
+	// List of zero or one health check name or self_link. Only
+	// legacy google_compute_http_health_check is supported.
+	HealthChecks []*string `json:"healthChecks,omitempty" tf:"health_checks,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/regions/{{region}}/targetPools/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// List of instances in the pool. They can be given as
+	// URLs, or in the form of "zone/name".
+	Instances []*string `json:"instances,omitempty" tf:"instances,omitempty"`
+
+	// The ID of the project in which the resource belongs. If it
+	// is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Where the target pool resides. Defaults to project
+	// region.
+	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+
 	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
+
+	// How to distribute load. Options are "NONE" (no
+	// affinity). "CLIENT_IP" (hash of the source/dest addresses / ports), and
+	// "CLIENT_IP_PROTO" also includes the protocol (default "NONE").
+	SessionAffinity *string `json:"sessionAffinity,omitempty" tf:"session_affinity,omitempty"`
 }
 
 type TargetPoolParameters struct {

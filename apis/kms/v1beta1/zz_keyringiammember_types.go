@@ -26,6 +26,11 @@ import (
 )
 
 type KeyRingIAMMemberConditionObservation struct {
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	Expression *string `json:"expression,omitempty" tf:"expression,omitempty"`
+
+	Title *string `json:"title,omitempty" tf:"title,omitempty"`
 }
 
 type KeyRingIAMMemberConditionParameters struct {
@@ -41,9 +46,17 @@ type KeyRingIAMMemberConditionParameters struct {
 }
 
 type KeyRingIAMMemberObservation struct {
+	Condition []KeyRingIAMMemberConditionObservation `json:"condition,omitempty" tf:"condition,omitempty"`
+
 	Etag *string `json:"etag,omitempty" tf:"etag,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	KeyRingID *string `json:"keyRingId,omitempty" tf:"key_ring_id,omitempty"`
+
+	Member *string `json:"member,omitempty" tf:"member,omitempty"`
+
+	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 }
 
 type KeyRingIAMMemberParameters struct {
@@ -64,11 +77,11 @@ type KeyRingIAMMemberParameters struct {
 	// +kubebuilder:validation:Optional
 	KeyRingIDSelector *v1.Selector `json:"keyRingIdSelector,omitempty" tf:"-"`
 
-	// +kubebuilder:validation:Required
-	Member *string `json:"member" tf:"member,omitempty"`
+	// +kubebuilder:validation:Optional
+	Member *string `json:"member,omitempty" tf:"member,omitempty"`
 
-	// +kubebuilder:validation:Required
-	Role *string `json:"role" tf:"role,omitempty"`
+	// +kubebuilder:validation:Optional
+	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 }
 
 // KeyRingIAMMemberSpec defines the desired state of KeyRingIAMMember
@@ -95,8 +108,10 @@ type KeyRingIAMMemberStatus struct {
 type KeyRingIAMMember struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              KeyRingIAMMemberSpec   `json:"spec"`
-	Status            KeyRingIAMMemberStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.member)",message="member is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.role)",message="role is a required parameter"
+	Spec   KeyRingIAMMemberSpec   `json:"spec"`
+	Status KeyRingIAMMemberStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

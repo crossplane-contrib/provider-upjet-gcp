@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.11.1
+    controller-gen.kubebuilder.io/version: v0.11.3
   creationTimestamp: null
   name: jobtriggers.datalossprevention.gcp.upbound.io
 spec:
@@ -55,9 +55,13 @@ spec:
             properties:
               deletionPolicy:
                 default: Delete
-                description: DeletionPolicy specifies what will happen to the underlying
+                description: 'DeletionPolicy specifies what will happen to the underlying
                   external when this managed resource is deleted - either "Delete"
-                  or "Orphan" the external resource.
+                  or "Orphan" the external resource. This field is planned to be deprecated
+                  in favor of the ManagementPolicy field in a future release. Currently,
+                  both could be set independently and non-default values would be
+                  honored if the feature flag is enabled. See the design doc for more
+                  information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
                 enum:
                 - Orphan
                 - Delete
@@ -527,10 +531,22 @@ spec:
                           type: array
                       type: object
                     type: array
-                required:
-                - parent
-                - triggers
                 type: object
+              managementPolicy:
+                default: FullControl
+                description: 'THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice. ManagementPolicy
+                  specifies the level of control Crossplane has over the managed external
+                  resource. This field is planned to replace the DeletionPolicy field
+                  in a future release. Currently, both could be set independently
+                  and non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
+                enum:
+                - FullControl
+                - ObserveOnly
+                - OrphanOnDelete
+                type: string
               providerConfigRef:
                 default:
                   name: default
@@ -702,14 +718,413 @@ spec:
             required:
             - forProvider
             type: object
+            x-kubernetes-validations:
+            - message: parent is a required parameter
+              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.parent)
+            - message: triggers is a required parameter
+              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.triggers)
           status:
             description: JobTriggerStatus defines the observed state of JobTrigger.
             properties:
               atProvider:
                 properties:
+                  description:
+                    description: A description of the job trigger.
+                    type: string
+                  displayName:
+                    description: User set display name of the job trigger.
+                    type: string
                   id:
                     description: an identifier for the resource with format {{parent}}/jobTriggers/{{name}}
                     type: string
+                  inspectJob:
+                    description: Controls what and how to inspect for findings. Structure
+                      is documented below.
+                    items:
+                      properties:
+                        actions:
+                          description: A task to execute on the completion of a job.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              pubSub:
+                                description: Publish a message into a given Pub/Sub
+                                  topic when the job completes. Structure is documented
+                                  below.
+                                items:
+                                  properties:
+                                    topic:
+                                      description: Cloud Pub/Sub topic to send notifications
+                                        to.
+                                      type: string
+                                  type: object
+                                type: array
+                              publishFindingsToCloudDataCatalog:
+                                description: Publish findings of a DlpJob to Data
+                                  Catalog.
+                                items:
+                                  type: object
+                                type: array
+                              publishSummaryToCscc:
+                                description: Publish the result summary of a DlpJob
+                                  to the Cloud Security Command Center.
+                                items:
+                                  type: object
+                                type: array
+                              saveFindings:
+                                description: 'If set, the detailed findings will be
+                                  persisted to the specified OutputStorageConfig.
+                                  Only a single instance of this action can be specified.
+                                  Compatible with: Inspect, Risk Structure is documented
+                                  below.'
+                                items:
+                                  properties:
+                                    outputConfig:
+                                      description: Information on where to store output
+                                        Structure is documented below.
+                                      items:
+                                        properties:
+                                          outputSchema:
+                                            description: Schema used for writing the
+                                              findings for Inspect jobs. This field
+                                              is only used for Inspect and must be
+                                              unspecified for Risk jobs. Columns are
+                                              derived from the Finding object. If
+                                              appending to an existing table, any
+                                              columns from the predefined schema that
+                                              are missing will be added. No columns
+                                              in the existing table will be deleted.
+                                              If unspecified, then all available columns
+                                              will be used for a new table or an (existing)
+                                              table with no schema, and no changes
+                                              will be made to an existing table that
+                                              has a schema. Only for use with external
+                                              storage. Possible values are BASIC_COLUMNS,
+                                              GCS_COLUMNS, DATASTORE_COLUMNS, BIG_QUERY_COLUMNS,
+                                              and ALL_COLUMNS.
+                                            type: string
+                                          table:
+                                            description: Information on the location
+                                              of the target BigQuery Table. Structure
+                                              is documented below.
+                                            items:
+                                              properties:
+                                                datasetId:
+                                                  description: The dataset ID of the
+                                                    table.
+                                                  type: string
+                                                projectId:
+                                                  description: The Google Cloud Platform
+                                                    project ID of the project containing
+                                                    the table.
+                                                  type: string
+                                                tableId:
+                                                  description: The name of the table.
+                                                  type: string
+                                              type: object
+                                            type: array
+                                        type: object
+                                      type: array
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                        inspectTemplateName:
+                          description: The name of the template to run when this job
+                            is triggered.
+                          type: string
+                        storageConfig:
+                          description: Information on where to inspect Structure is
+                            documented below.
+                          items:
+                            properties:
+                              bigQueryOptions:
+                                description: Options defining BigQuery table and row
+                                  identifiers. Structure is documented below.
+                                items:
+                                  properties:
+                                    identifyingFields:
+                                      description: Specifies the BigQuery fields that
+                                        will be returned with findings. If not specified,
+                                        no identifying fields will be returned for
+                                        findings. Structure is documented below.
+                                      items:
+                                        properties:
+                                          name:
+                                            description: 'Specification of the field
+                                              containing the timestamp of scanned
+                                              items. Used for data sources like Datastore
+                                              and BigQuery. For BigQuery: Required
+                                              to filter out rows based on the given
+                                              start and end times. If not specified
+                                              and the table was modified between the
+                                              given start and end times, the entire
+                                              table will be scanned. The valid data
+                                              types of the timestamp field are: INTEGER,
+                                              DATE, TIMESTAMP, or DATETIME BigQuery
+                                              column. For Datastore. Valid data types
+                                              of the timestamp field are: TIMESTAMP.
+                                              Datastore entity will be scanned if
+                                              the timestamp property does not exist
+                                              or its value is empty or invalid.'
+                                            type: string
+                                        type: object
+                                      type: array
+                                    rowsLimit:
+                                      description: Max number of rows to scan. If
+                                        the table has more rows than this value, the
+                                        rest of the rows are omitted. If not set,
+                                        or if set to 0, all rows will be scanned.
+                                        Only one of rowsLimit and rowsLimitPercent
+                                        can be specified. Cannot be used in conjunction
+                                        with TimespanConfig.
+                                      type: number
+                                    rowsLimitPercent:
+                                      description: Max percentage of rows to scan.
+                                        The rest are omitted. The number of rows scanned
+                                        is rounded down. Must be between 0 and 100,
+                                        inclusively. Both 0 and 100 means no limit.
+                                        Defaults to 0. Only one of rowsLimit and rowsLimitPercent
+                                        can be specified. Cannot be used in conjunction
+                                        with TimespanConfig.
+                                      type: number
+                                    sampleMethod:
+                                      description: How to sample bytes if not all
+                                        bytes are scanned. Meaningful only when used
+                                        in conjunction with bytesLimitPerFile. If
+                                        not specified, scanning would start from the
+                                        top. Possible values are TOP and RANDOM_START.
+                                      type: string
+                                    tableReference:
+                                      description: Set of files to scan. Structure
+                                        is documented below.
+                                      items:
+                                        properties:
+                                          datasetId:
+                                            description: The dataset ID of the table.
+                                            type: string
+                                          projectId:
+                                            description: The Google Cloud Platform
+                                              project ID of the project containing
+                                              the table.
+                                            type: string
+                                          tableId:
+                                            description: The name of the table.
+                                            type: string
+                                        type: object
+                                      type: array
+                                  type: object
+                                type: array
+                              cloudStorageOptions:
+                                description: Options defining a file or a set of files
+                                  within a Google Cloud Storage bucket. Structure
+                                  is documented below.
+                                items:
+                                  properties:
+                                    bytesLimitPerFile:
+                                      description: Max number of bytes to scan from
+                                        a file. If a scanned file's size is bigger
+                                        than this value then the rest of the bytes
+                                        are omitted.
+                                      type: number
+                                    bytesLimitPerFilePercent:
+                                      description: Max percentage of bytes to scan
+                                        from a file. The rest are omitted. The number
+                                        of bytes scanned is rounded down. Must be
+                                        between 0 and 100, inclusively. Both 0 and
+                                        100 means no limit.
+                                      type: number
+                                    fileSet:
+                                      description: Set of files to scan. Structure
+                                        is documented below.
+                                      items:
+                                        properties:
+                                          regexFileSet:
+                                            description: The regex-filtered set of
+                                              files to scan. Structure is documented
+                                              below.
+                                            items:
+                                              properties:
+                                                bucketName:
+                                                  description: The name of a Cloud
+                                                    Storage bucket.
+                                                  type: string
+                                                excludeRegex:
+                                                  description: A list of regular expressions
+                                                    matching file paths to exclude.
+                                                    All files in the bucket that match
+                                                    at least one of these regular
+                                                    expressions will be excluded from
+                                                    the scan.
+                                                  items:
+                                                    type: string
+                                                  type: array
+                                                includeRegex:
+                                                  description: A list of regular expressions
+                                                    matching file paths to include.
+                                                    All files in the bucket that match
+                                                    at least one of these regular
+                                                    expressions will be included in
+                                                    the set of files, except for those
+                                                    that also match an item in excludeRegex.
+                                                    Leaving this field empty will
+                                                    match all files by default (this
+                                                    is equivalent to including .*
+                                                    in the list)
+                                                  items:
+                                                    type: string
+                                                  type: array
+                                              type: object
+                                            type: array
+                                          url:
+                                            description: The Cloud Storage url of
+                                              the file(s) to scan, in the format gs://<bucket>/<path>.
+                                              Trailing wildcard in the path is allowed.
+                                              If the url ends in a trailing slash,
+                                              the bucket or directory represented
+                                              by the url will be scanned non-recursively
+                                              (content in sub-directories will not
+                                              be scanned). This means that gs://mybucket/
+                                              is equivalent to gs://mybucket/*, and
+                                              gs://mybucket/directory/ is equivalent
+                                              to gs://mybucket/directory/*.
+                                            type: string
+                                        type: object
+                                      type: array
+                                    fileTypes:
+                                      description: List of file type groups to include
+                                        in the scan. If empty, all files are scanned
+                                        and available data format processors are applied.
+                                        In addition, the binary content of the selected
+                                        files is always scanned as well. Images are
+                                        scanned only as binary if the specified region
+                                        does not support image inspection and no fileTypes
+                                        were specified. Each value may be one of BINARY_FILE,
+                                        TEXT_FILE, IMAGE, WORD, PDF, AVRO, CSV, and
+                                        TSV.
+                                      items:
+                                        type: string
+                                      type: array
+                                    filesLimitPercent:
+                                      description: Limits the number of files to scan
+                                        to this percentage of the input FileSet. Number
+                                        of files scanned is rounded down. Must be
+                                        between 0 and 100, inclusively. Both 0 and
+                                        100 means no limit.
+                                      type: number
+                                    sampleMethod:
+                                      description: How to sample bytes if not all
+                                        bytes are scanned. Meaningful only when used
+                                        in conjunction with bytesLimitPerFile. If
+                                        not specified, scanning would start from the
+                                        top. Possible values are TOP and RANDOM_START.
+                                      type: string
+                                  type: object
+                                type: array
+                              datastoreOptions:
+                                description: Options defining a data set within Google
+                                  Cloud Datastore. Structure is documented below.
+                                items:
+                                  properties:
+                                    kind:
+                                      description: A representation of a Datastore
+                                        kind. Structure is documented below.
+                                      items:
+                                        properties:
+                                          name:
+                                            description: 'Specification of the field
+                                              containing the timestamp of scanned
+                                              items. Used for data sources like Datastore
+                                              and BigQuery. For BigQuery: Required
+                                              to filter out rows based on the given
+                                              start and end times. If not specified
+                                              and the table was modified between the
+                                              given start and end times, the entire
+                                              table will be scanned. The valid data
+                                              types of the timestamp field are: INTEGER,
+                                              DATE, TIMESTAMP, or DATETIME BigQuery
+                                              column. For Datastore. Valid data types
+                                              of the timestamp field are: TIMESTAMP.
+                                              Datastore entity will be scanned if
+                                              the timestamp property does not exist
+                                              or its value is empty or invalid.'
+                                            type: string
+                                        type: object
+                                      type: array
+                                    partitionId:
+                                      description: Datastore partition ID. A partition
+                                        ID identifies a grouping of entities. The
+                                        grouping is always by project and namespace,
+                                        however the namespace ID may be empty. Structure
+                                        is documented below.
+                                      items:
+                                        properties:
+                                          namespaceId:
+                                            description: If not empty, the ID of the
+                                              namespace to which the entities belong.
+                                            type: string
+                                          projectId:
+                                            description: The Google Cloud Platform
+                                              project ID of the project containing
+                                              the table.
+                                            type: string
+                                        type: object
+                                      type: array
+                                  type: object
+                                type: array
+                              timespanConfig:
+                                description: Information on where to inspect Structure
+                                  is documented below.
+                                items:
+                                  properties:
+                                    enableAutoPopulationOfTimespanConfig:
+                                      description: When the job is started by a JobTrigger
+                                        we will automatically figure out a valid startTime
+                                        to avoid scanning files that have not been
+                                        modified since the last time the JobTrigger
+                                        executed. This will be based on the time of
+                                        the execution of the last run of the JobTrigger.
+                                      type: boolean
+                                    endTime:
+                                      description: Exclude files or rows newer than
+                                        this value. If set to zero, no upper time
+                                        limit is applied.
+                                      type: string
+                                    startTime:
+                                      description: Exclude files or rows older than
+                                        this value.
+                                      type: string
+                                    timestampField:
+                                      description: Information on where to inspect
+                                        Structure is documented below.
+                                      items:
+                                        properties:
+                                          name:
+                                            description: 'Specification of the field
+                                              containing the timestamp of scanned
+                                              items. Used for data sources like Datastore
+                                              and BigQuery. For BigQuery: Required
+                                              to filter out rows based on the given
+                                              start and end times. If not specified
+                                              and the table was modified between the
+                                              given start and end times, the entire
+                                              table will be scanned. The valid data
+                                              types of the timestamp field are: INTEGER,
+                                              DATE, TIMESTAMP, or DATETIME BigQuery
+                                              column. For Datastore. Valid data types
+                                              of the timestamp field are: TIMESTAMP.
+                                              Datastore entity will be scanned if
+                                              the timestamp property does not exist
+                                              or its value is empty or invalid.'
+                                            type: string
+                                        type: object
+                                      type: array
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                      type: object
+                    type: array
                   lastRunTime:
                     description: The timestamp of the last time this trigger executed.
                     type: string
@@ -717,6 +1132,39 @@ spec:
                     description: The resource name of the job trigger. Set by the
                       server.
                     type: string
+                  parent:
+                    description: The parent of the trigger, either in the format projects/{{project}}
+                      or projects/{{project}}/locations/{{location}}
+                    type: string
+                  status:
+                    description: Whether the trigger is currently active. Default
+                      value is HEALTHY. Possible values are PAUSED, HEALTHY, and CANCELLED.
+                    type: string
+                  triggers:
+                    description: What event needs to occur for a new job to be started.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        schedule:
+                          description: Schedule for triggered jobs Structure is documented
+                            below.
+                          items:
+                            properties:
+                              recurrencePeriodDuration:
+                                description: 'With this option a job is started a
+                                  regular periodic basis. For example: every day (86400
+                                  seconds). A scheduled start time will be skipped
+                                  if the previous execution has not ended when its
+                                  scheduled time occurs. This value must be set to
+                                  a time duration greater than or equal to 1 day and
+                                  can be no longer than 60 days. A duration in seconds
+                                  with up to nine fractional digits, terminated by
+                                  ''s''. Example: "3.5s".'
+                                type: string
+                            type: object
+                          type: array
+                      type: object
+                    type: array
                 type: object
               conditions:
                 description: Conditions of the resource.

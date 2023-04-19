@@ -27,11 +27,42 @@ import (
 
 type DatabaseObservation struct {
 
+	// The dialect of the Cloud Spanner Database.
+	// If it is not provided, "GOOGLE_STANDARD_SQL" will be used.
+	// Possible values are GOOGLE_STANDARD_SQL and POSTGRESQL.
+	DatabaseDialect *string `json:"databaseDialect,omitempty" tf:"database_dialect,omitempty"`
+
+	// An optional list of DDL statements to run inside the newly created
+	// database. Statements can create tables, indexes, etc. These statements
+	// execute atomically with the creation of the database: if there is an
+	// error in any statement, the database is not created.
+	Ddl []*string `json:"ddl,omitempty" tf:"ddl,omitempty"`
+
+	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
+
+	// Encryption configuration for the database
+	// Structure is documented below.
+	EncryptionConfig []EncryptionConfigObservation `json:"encryptionConfig,omitempty" tf:"encryption_config,omitempty"`
+
 	// an identifier for the resource with format {{instance}}/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// The instance to create the database on.
+	Instance *string `json:"instance,omitempty" tf:"instance,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
 	// An explanation of the status of the database.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
+
+	// The retention period for the database. The retention period must be between 1 hour
+	// and 7 days, and can be specified in days, hours, minutes, or seconds. For example,
+	// the values 1d, 24h, 1440m, and 86400s are equivalent. Default value is 1h.
+	// If this property is used, you must avoid adding new DDL statements to ddl that
+	// update the database's version_retention_period.
+	VersionRetentionPeriod *string `json:"versionRetentionPeriod,omitempty" tf:"version_retention_period,omitempty"`
 }
 
 type DatabaseParameters struct {
@@ -85,6 +116,10 @@ type DatabaseParameters struct {
 }
 
 type EncryptionConfigObservation struct {
+
+	// Fully qualified name of the KMS key to use to encrypt this database. This key must exist
+	// in the same location as the Spanner Database.
+	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
 }
 
 type EncryptionConfigParameters struct {

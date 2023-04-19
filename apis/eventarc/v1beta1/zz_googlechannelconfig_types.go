@@ -27,8 +27,17 @@ import (
 
 type GoogleChannelConfigObservation struct {
 
+	// Optional. Resource name of a KMS crypto key (managed by the user) used to encrypt/decrypt their event data. It must match the pattern projects/*/locations/*/keyRings/*/cryptoKeys/*.
+	CryptoKeyName *string `json:"cryptoKeyName,omitempty" tf:"crypto_key_name,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/googleChannelConfig
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The location for the resource
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
+	// The project for the resource
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Output only. The last-modified time.
 	UpdateTime *string `json:"updateTime,omitempty" tf:"update_time,omitempty"`

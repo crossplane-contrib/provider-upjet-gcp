@@ -27,14 +27,28 @@ import (
 
 type EnvironmentObservation struct {
 
+	// The human-readable description of the environment. The maximum length is 500 characters. If exceeded, the request is rejected.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// The human-readable name of the environment (unique in an agent). Limit of 64 characters.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
 	// an identifier for the resource with format {{parent}}/environments/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// The name of the environment.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// The Agent to create an Environment for.
+	// Format: projects//locations//agents/.
+	Parent *string `json:"parent,omitempty" tf:"parent,omitempty"`
+
 	// Update time of this environment. A timestamp in RFC3339 UTC "Zulu" format, with nanosecond resolution and up to nine fractional digits. Examples: "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z".
 	UpdateTime *string `json:"updateTime,omitempty" tf:"update_time,omitempty"`
+
+	// A list of configurations for flow versions. You should include version configs for all flows that are reachable from [Start Flow][Agent.start_flow] in the agent. Otherwise, an error will be returned.
+	// Structure is documented below.
+	VersionConfigs []VersionConfigsObservation `json:"versionConfigs,omitempty" tf:"version_configs,omitempty"`
 }
 
 type EnvironmentParameters struct {
@@ -44,8 +58,8 @@ type EnvironmentParameters struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// The human-readable name of the environment (unique in an agent). Limit of 64 characters.
-	// +kubebuilder:validation:Required
-	DisplayName *string `json:"displayName" tf:"display_name,omitempty"`
+	// +kubebuilder:validation:Optional
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// The Agent to create an Environment for.
 	// Format: projects//locations//agents/.
@@ -64,11 +78,14 @@ type EnvironmentParameters struct {
 
 	// A list of configurations for flow versions. You should include version configs for all flows that are reachable from [Start Flow][Agent.start_flow] in the agent. Otherwise, an error will be returned.
 	// Structure is documented below.
-	// +kubebuilder:validation:Required
-	VersionConfigs []VersionConfigsParameters `json:"versionConfigs" tf:"version_configs,omitempty"`
+	// +kubebuilder:validation:Optional
+	VersionConfigs []VersionConfigsParameters `json:"versionConfigs,omitempty" tf:"version_configs,omitempty"`
 }
 
 type VersionConfigsObservation struct {
+
+	// Format: projects/{{project}}/locations/{{location}}/agents/{{agent}}/flows/{{flow}}/versions/{{version}}.
+	Version *string `json:"version,omitempty" tf:"version,omitempty"`
 }
 
 type VersionConfigsParameters struct {
@@ -112,8 +129,10 @@ type EnvironmentStatus struct {
 type Environment struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              EnvironmentSpec   `json:"spec"`
-	Status            EnvironmentStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.displayName)",message="displayName is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.versionConfigs)",message="versionConfigs is a required parameter"
+	Spec   EnvironmentSpec   `json:"spec"`
+	Status EnvironmentStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -31,6 +31,10 @@ type FolderObservation struct {
 	// A timestamp in RFC3339 UTC "Zulu" format, accurate to nanoseconds. Example: "2014-10-02T15:01:23.045123456Z".
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
+	// The folder’s display name.
+	// A folder’s display name must be unique amongst its siblings, e.g. no two folders with the same parent can share the same display name. The display name must start and end with a letter or digit, may contain letters, digits, spaces, hyphens and underscores and can be no longer than 30 characters.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
 	FolderID *string `json:"folderId,omitempty" tf:"folder_id,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -40,14 +44,18 @@ type FolderObservation struct {
 
 	// The resource name of the Folder. Its format is folders/{folder_id}.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The resource name of the parent Folder or Organization.
+	// Must be of the form folders/{folder_id} or organizations/{org_id}.
+	Parent *string `json:"parent,omitempty" tf:"parent,omitempty"`
 }
 
 type FolderParameters struct {
 
 	// The folder’s display name.
 	// A folder’s display name must be unique amongst its siblings, e.g. no two folders with the same parent can share the same display name. The display name must start and end with a letter or digit, may contain letters, digits, spaces, hyphens and underscores and can be no longer than 30 characters.
-	// +kubebuilder:validation:Required
-	DisplayName *string `json:"displayName" tf:"display_name,omitempty"`
+	// +kubebuilder:validation:Optional
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// The resource name of the parent Folder or Organization.
 	// Must be of the form folders/{folder_id} or organizations/{org_id}.
@@ -89,8 +97,9 @@ type FolderStatus struct {
 type Folder struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              FolderSpec   `json:"spec"`
-	Status            FolderStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.displayName)",message="displayName is a required parameter"
+	Spec   FolderSpec   `json:"spec"`
+	Status FolderStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

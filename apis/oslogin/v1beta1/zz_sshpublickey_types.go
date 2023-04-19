@@ -27,11 +27,20 @@ import (
 
 type SSHPublicKeyObservation struct {
 
+	// An expiration time in microseconds since epoch.
+	ExpirationTimeUsec *string `json:"expirationTimeUsec,omitempty" tf:"expiration_time_usec,omitempty"`
+
 	// The SHA-256 fingerprint of the SSH public key.
 	Fingerprint *string `json:"fingerprint,omitempty" tf:"fingerprint,omitempty"`
 
 	// an identifier for the resource with format users/{{user}}/sshPublicKeys/{{fingerprint}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The project ID of the Google Cloud Platform project.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The user email.
+	User *string `json:"user,omitempty" tf:"user,omitempty"`
 }
 
 type SSHPublicKeyParameters struct {
@@ -41,7 +50,7 @@ type SSHPublicKeyParameters struct {
 	ExpirationTimeUsec *string `json:"expirationTimeUsec,omitempty" tf:"expiration_time_usec,omitempty"`
 
 	// Public key text in SSH format, defined by RFC4253 section 6.6.
-	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Optional
 	KeySecretRef v1.SecretKeySelector `json:"keySecretRef" tf:"-"`
 
 	// The project ID of the Google Cloud Platform project.
@@ -49,8 +58,8 @@ type SSHPublicKeyParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The user email.
-	// +kubebuilder:validation:Required
-	User *string `json:"user" tf:"user,omitempty"`
+	// +kubebuilder:validation:Optional
+	User *string `json:"user,omitempty" tf:"user,omitempty"`
 }
 
 // SSHPublicKeySpec defines the desired state of SSHPublicKey
@@ -77,8 +86,10 @@ type SSHPublicKeyStatus struct {
 type SSHPublicKey struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              SSHPublicKeySpec   `json:"spec"`
-	Status            SSHPublicKeyStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.keySecretRef)",message="keySecretRef is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.user)",message="user is a required parameter"
+	Spec   SSHPublicKeySpec   `json:"spec"`
+	Status SSHPublicKeyStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

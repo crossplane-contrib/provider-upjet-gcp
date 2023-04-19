@@ -27,29 +27,59 @@ import (
 
 type FirewallPolicyRuleObservation struct {
 
+	// The Action to perform when the client connection triggers the rule. Can currently be either "allow" or "deny()" where valid values for status are 403, 404, and 502.
+	Action *string `json:"action,omitempty" tf:"action,omitempty"`
+
+	// An optional description for this resource.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// The direction in which this rule applies. Possible values: INGRESS, EGRESS
+	Direction *string `json:"direction,omitempty" tf:"direction,omitempty"`
+
+	// Denotes whether the firewall policy rule is disabled. When set to true, the firewall policy rule is not enforced and traffic behaves as if it did not exist. If this is unspecified, the firewall policy rule will be enabled.
+	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
+
+	// Denotes whether to enable logging for a particular rule. If logging is enabled, logs will be exported to the configured export destination in Stackdriver. Logs may be exported to BigQuery or Pub/Sub. Note: you cannot enable logging on "goto_next" rules.
+	EnableLogging *bool `json:"enableLogging,omitempty" tf:"enable_logging,omitempty"`
+
+	// The firewall policy of the resource.
+	FirewallPolicy *string `json:"firewallPolicy,omitempty" tf:"firewall_policy,omitempty"`
+
 	// an identifier for the resource with format locations/global/firewallPolicies/{{firewall_policy}}/rules/{{priority}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// Type of the resource. Always compute#firewallPolicyRule for firewall policy rules
 	Kind *string `json:"kind,omitempty" tf:"kind,omitempty"`
 
+	// A match condition that incoming traffic is evaluated against. If it evaluates to true, the corresponding 'action' is enforced. Structure is documented below.
+	Match []MatchObservation `json:"match,omitempty" tf:"match,omitempty"`
+
+	// An integer indicating the priority of a rule in the list. The priority must be a positive value between 0 and 2147483647. Rules are evaluated from highest to lowest priority where 0 is the highest priority and 2147483647 is the lowest prority.
+	Priority *float64 `json:"priority,omitempty" tf:"priority,omitempty"`
+
 	// Calculation of the complexity of a single firewall policy rule.
 	RuleTupleCount *float64 `json:"ruleTupleCount,omitempty" tf:"rule_tuple_count,omitempty"`
+
+	// A list of network resource URLs to which this rule applies. This field allows you to control which network's VMs get this rule. If this field is left blank, all VMs within the organization will receive the rule.
+	TargetResources []*string `json:"targetResources,omitempty" tf:"target_resources,omitempty"`
+
+	// A list of service accounts indicating the sets of instances that are applied with this rule.
+	TargetServiceAccounts []*string `json:"targetServiceAccounts,omitempty" tf:"target_service_accounts,omitempty"`
 }
 
 type FirewallPolicyRuleParameters struct {
 
 	// The Action to perform when the client connection triggers the rule. Can currently be either "allow" or "deny()" where valid values for status are 403, 404, and 502.
-	// +kubebuilder:validation:Required
-	Action *string `json:"action" tf:"action,omitempty"`
+	// +kubebuilder:validation:Optional
+	Action *string `json:"action,omitempty" tf:"action,omitempty"`
 
 	// An optional description for this resource.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// The direction in which this rule applies. Possible values: INGRESS, EGRESS
-	// +kubebuilder:validation:Required
-	Direction *string `json:"direction" tf:"direction,omitempty"`
+	// +kubebuilder:validation:Optional
+	Direction *string `json:"direction,omitempty" tf:"direction,omitempty"`
 
 	// Denotes whether the firewall policy rule is disabled. When set to true, the firewall policy rule is not enforced and traffic behaves as if it did not exist. If this is unspecified, the firewall policy rule will be enabled.
 	// +kubebuilder:validation:Optional
@@ -74,12 +104,12 @@ type FirewallPolicyRuleParameters struct {
 	FirewallPolicySelector *v1.Selector `json:"firewallPolicySelector,omitempty" tf:"-"`
 
 	// A match condition that incoming traffic is evaluated against. If it evaluates to true, the corresponding 'action' is enforced. Structure is documented below.
-	// +kubebuilder:validation:Required
-	Match []MatchParameters `json:"match" tf:"match,omitempty"`
+	// +kubebuilder:validation:Optional
+	Match []MatchParameters `json:"match,omitempty" tf:"match,omitempty"`
 
 	// An integer indicating the priority of a rule in the list. The priority must be a positive value between 0 and 2147483647. Rules are evaluated from highest to lowest priority where 0 is the highest priority and 2147483647 is the lowest prority.
-	// +kubebuilder:validation:Required
-	Priority *float64 `json:"priority" tf:"priority,omitempty"`
+	// +kubebuilder:validation:Optional
+	Priority *float64 `json:"priority,omitempty" tf:"priority,omitempty"`
 
 	// A list of network resource URLs to which this rule applies. This field allows you to control which network's VMs get this rule. If this field is left blank, all VMs within the organization will receive the rule.
 	// +kubebuilder:validation:Optional
@@ -91,6 +121,12 @@ type FirewallPolicyRuleParameters struct {
 }
 
 type Layer4ConfigsObservation struct {
+
+	// The IP protocol to which this rule applies. The protocol type is required when creating a firewall rule. This value can either be one of the following well known protocol strings (tcp, udp, icmp, esp, ah, ipip, sctp), or the IP protocol number.
+	IPProtocol *string `json:"ipProtocol,omitempty" tf:"ip_protocol,omitempty"`
+
+	// An optional list of ports to which this rule applies. This field is only applicable for UDP or TCP protocol. Each entry must be either an integer or a range. If not specified, this rule applies to connections through any port.
+	Ports []*string `json:"ports,omitempty" tf:"ports,omitempty"`
 }
 
 type Layer4ConfigsParameters struct {
@@ -105,6 +141,15 @@ type Layer4ConfigsParameters struct {
 }
 
 type MatchObservation struct {
+
+	// CIDR IP address range. Maximum number of destination CIDR IP ranges allowed is 256.
+	DestIPRanges []*string `json:"destIpRanges,omitempty" tf:"dest_ip_ranges,omitempty"`
+
+	// Pairs of IP protocols and ports that the rule should match. Structure is documented below.
+	Layer4Configs []Layer4ConfigsObservation `json:"layer4Configs,omitempty" tf:"layer4_configs,omitempty"`
+
+	// CIDR IP address range. Maximum number of source CIDR IP ranges allowed is 256.
+	SrcIPRanges []*string `json:"srcIpRanges,omitempty" tf:"src_ip_ranges,omitempty"`
 }
 
 type MatchParameters struct {
@@ -146,8 +191,12 @@ type FirewallPolicyRuleStatus struct {
 type FirewallPolicyRule struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              FirewallPolicyRuleSpec   `json:"spec"`
-	Status            FirewallPolicyRuleStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.action)",message="action is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.direction)",message="direction is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.match)",message="match is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.priority)",message="priority is a required parameter"
+	Spec   FirewallPolicyRuleSpec   `json:"spec"`
+	Status FirewallPolicyRuleStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true
