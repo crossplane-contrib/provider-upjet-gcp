@@ -11,7 +11,7 @@ spec:
     instance: instance
     role: roles/bigtable.user
     table: table
-    member: serviceAccount:${data.google_iam_member.member}
+    member: serviceAccount:official-provider-testing@official-provider-testing.iam.gserviceaccount.com
 
 ---
 
