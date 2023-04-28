@@ -212,7 +212,7 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 	p.AddResourceConfigurator("google_compute_interconnect_attachment", func(r *config.Resource) {
 		r.References["router"] = config.Reference{
 			Type:      "Router",
-			Extractor: common.ExtractResourceIDFuncPath,
+			Extractor: common.PathSelfLinkExtractor,
 		}
 		config.MarkAsRequired(r.TerraformResource, "region")
 	})
