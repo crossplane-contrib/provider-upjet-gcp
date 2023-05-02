@@ -339,9 +339,9 @@ import (
 	workflow "github.com/upbound/provider-gcp/internal/controller/workflows/workflow"
 )
 
-// Setup creates all controllers with the supplied logger and adds them to
+// Setup_monolith creates all controllers with the supplied logger and adds them to
 // the supplied manager.
-func Setup(mgr ctrl.Manager, o controller.Options) error {
+func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
 		domain.Setup,
 		envgroup.Setup,
