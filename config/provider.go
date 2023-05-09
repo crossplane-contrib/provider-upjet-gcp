@@ -63,6 +63,7 @@ import (
 	"github.com/upbound/provider-gcp/config/tpu"
 	"github.com/upbound/provider-gcp/config/vertexai"
 	"github.com/upbound/provider-gcp/config/vpcaccess"
+	"github.com/upbound/provider-gcp/hack"
 )
 
 const (
@@ -150,7 +151,7 @@ func GetProvider() *tjconfig.Provider {
 		tjconfig.WithReferenceInjectors([]tjconfig.ReferenceInjector{reference.NewInjector(modulePath)}),
 		tjconfig.WithSkipList(skipList),
 		tjconfig.WithFeaturesPackage("internal/features"),
-	)
+		tjconfig.WithMainTemplate(hack.MainTemplate))
 
 	for _, configure := range []func(provider *tjconfig.Provider){
 		accessapproval.Configure,

@@ -1084,7 +1084,7 @@ func (mg *InterconnectAttachment) ResolveReferences(ctx context.Context, c clien
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Router),
-		Extract:      common.ExtractResourceID(),
+		Extract:      common.SelfLinkExtractor(),
 		Reference:    mg.Spec.ForProvider.RouterRef,
 		Selector:     mg.Spec.ForProvider.RouterSelector,
 		To: reference.To{
