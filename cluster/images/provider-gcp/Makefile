@@ -36,10 +36,7 @@ img.build.shared:
 		-t $(IMAGE) \
 		$(IMAGE_TEMP_DIR) || $(FAIL)
 
-img.publish:
-	@$(INFO) Skipping image publish for $(IMAGE)
-	@echo Publish is deferred to xpkg machinery
-	@$(OK) Image publish skipped for $(IMAGE)
+img.publish: ;@:
 
 img.promote:
 	@$(INFO) Skipping image promotion from $(FROM_IMAGE) to $(TO_IMAGE)

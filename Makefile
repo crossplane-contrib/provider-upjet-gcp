@@ -1,7 +1,8 @@
 # ====================================================================================
 # Setup Project
 
-PROJECT_NAME := provider-gcp
+CSP := gcp
+PROJECT_NAME := provider-$(CSP)
 PROJECT_REPO := github.com/upbound/$(PROJECT_NAME)
 
 export TERRAFORM_VERSION := 1.2.1
@@ -57,19 +58,6 @@ export SUBPACKAGES := $(SUBPACKAGES)
 -include build/makelib/golang.mk
 
 # ====================================================================================
-# Setup XPKG
-
-XPKG_REG_ORGS ?= xpkg.upbound.io/upbound
-# NOTE(hasheddan): skip promoting on xpkg.upbound.io as channel tags are
-# inferred.
-XPKG_REG_ORGS_NO_PROMOTE ?= xpkg.upbound.io/upbound
-
-export XPKG_REG_ORGS := $(XPKG_REG_ORGS)
-export XPKG_REG_ORGS_NO_PROMOTE := $(XPKG_REG_ORGS_NO_PROMOTE)
-
--include build/makelib/xpkg.mk
-
-# ====================================================================================
 # Setup Kubernetes tools
 
 KIND_VERSION = v0.15.0
@@ -89,6 +77,46 @@ export UP_CHANNEL := $(UP_CHANNEL)
 REGISTRY_ORGS ?= xpkg.upbound.io/upbound
 IMAGES = provider-gcp
 -include build/makelib/imagelight.mk
+
+# ====================================================================================
+# Setup XPKG
+
+XPKG_REG_ORGS ?= xpkg.upbound.io/upbound
+# NOTE(hasheddan): skip promoting on xpkg.upbound.io as channel tags are
+# inferred.
+XPKG_REG_ORGS_NO_PROMOTE ?= xpkg.upbound.io/upbound
+
+export XPKG_REG_ORGS := $(XPKG_REG_ORGS)
+export XPKG_REG_ORGS_NO_PROMOTE := $(XPKG_REG_ORGS_NO_PROMOTE)
+
+-include build/makelib/xpkg.mk
+
+CONCURRENCY ?= 30
+DEP_CONSTRAINT := >= 0.0.0
+ifeq (-,$(findstring -,$(VERSION)))
+    DEP_CONSTRAINT = >= 0.0.0-0
+endif
+publish.artifacts: batch-process
+batch-process: $(UP)
+	@$(INFO) Batch processing smaller provider packages for: $(SUBPACKAGES)
+	@$(UP) xpkg batch --services $$(echo -n $(SUBPACKAGES) | tr ' ' ',') \
+		--family-base-image $(BUILD_REGISTRY)/$(PROJECT_NAME) \
+		--provider-name $(PROJECT_NAME) \
+		--family-package-url-format $(XPKG_REG_ORGS)/%s:$(VERSION) \
+		--package-repo-override monolith=$(PROJECT_NAME) --package-repo-override config=provider-family-$(CSP) \
+		--provider-bin-root $(OUTPUT_DIR)/bin \
+		--output $(XPKG_OUTPUT_DIR) \
+		--store-package monolith \
+		--examples-root ./examples \
+		--examples-group-override monolith=* --examples-group-override config=providerconfig \
+		--auth-ext ./package/auth.yaml \
+		--crd-root ./package/crds \
+		--crd-group-override monolith=* --crd-group-override config=$(CSP) \
+		--package-metadata-template ./package/crossplane.yaml.tmpl \
+		--template-var XpkgRegOrg=$(XPKG_REG_ORGS) --template-var DepConstraint="$(DEP_CONSTRAINT)" \
+		--concurrency $(CONCURRENCY) \
+		--push-retry 10 || $(FAIL)
+	@$(OK) Done processing smaller provider packages for: $(SUBPACKAGES)
 
 # ====================================================================================
 # Targets
