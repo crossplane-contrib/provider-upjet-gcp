@@ -37,6 +37,9 @@ func Configure(p *config.Provider) { //nolint:gocyclo
 		// NOTE(@tnthornton) most of the connection details that were exported
 		// to the connection details secret are marked as non-sensitive for tf.
 		// We need to manually construct the secret details for those items.
+		r.LateInitializer = config.LateInitializer{
+			IgnoredFields: []string{"maintenance_version"},
+		}
 		r.Sensitive.AdditionalConnectionDetailsFn = func(attr map[string]interface{}) (map[string][]byte, error) {
 			conn := map[string][]byte{}
 			if a, ok := attr["connection_name"].(string); ok {
