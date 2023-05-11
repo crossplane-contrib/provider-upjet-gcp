@@ -26,9 +26,16 @@ import (
 )
 
 type SharedVPCServiceProjectObservation struct {
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
+	// The ID of a host project to associate.
+	HostProject *string `json:"hostProject,omitempty" tf:"host_project,omitempty"`
 
 	// an identifier for the resource with format {{host_project}}/{{service_project}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The ID of the project that will serve as a Shared VPC service project.
+	ServiceProject *string `json:"serviceProject,omitempty" tf:"service_project,omitempty"`
 }
 
 type SharedVPCServiceProjectParameters struct {
