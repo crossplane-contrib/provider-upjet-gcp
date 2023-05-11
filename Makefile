@@ -5,6 +5,7 @@ CSP := gcp
 PROJECT_NAME := provider-$(CSP)
 PROJECT_REPO := github.com/upbound/$(PROJECT_NAME)
 
+export CSP
 export TERRAFORM_VERSION := 1.2.1
 export TERRAFORM_PROVIDER_SOURCE := hashicorp/google
 export TERRAFORM_PROVIDER_VERSION := 4.56.0
@@ -76,6 +77,9 @@ export UP_CHANNEL := $(UP_CHANNEL)
 
 REGISTRY_ORGS ?= xpkg.upbound.io/upbound
 IMAGES = provider-gcp
+BATCH_PLATFORMS ?= linux_amd64,linux_arm64
+export BATCH_PLATFORMS := $(BATCH_PLATFORMS)
+
 -include build/makelib/imagelight.mk
 
 # ====================================================================================
@@ -90,33 +94,6 @@ export XPKG_REG_ORGS := $(XPKG_REG_ORGS)
 export XPKG_REG_ORGS_NO_PROMOTE := $(XPKG_REG_ORGS_NO_PROMOTE)
 
 -include build/makelib/xpkg.mk
-
-CONCURRENCY ?= 30
-DEP_CONSTRAINT := >= 0.0.0
-ifeq (-,$(findstring -,$(VERSION)))
-    DEP_CONSTRAINT = >= 0.0.0-0
-endif
-publish.artifacts: batch-process
-batch-process: $(UP)
-	@$(INFO) Batch processing smaller provider packages for: $(SUBPACKAGES)
-	@$(UP) xpkg batch --services $$(echo -n $(SUBPACKAGES) | tr ' ' ',') \
-		--family-base-image $(BUILD_REGISTRY)/$(PROJECT_NAME) \
-		--provider-name $(PROJECT_NAME) \
-		--family-package-url-format $(XPKG_REG_ORGS)/%s:$(VERSION) \
-		--package-repo-override monolith=$(PROJECT_NAME) --package-repo-override config=provider-family-$(CSP) \
-		--provider-bin-root $(OUTPUT_DIR)/bin \
-		--output $(XPKG_OUTPUT_DIR) \
-		--store-package monolith \
-		--examples-root ./examples \
-		--examples-group-override monolith=* --examples-group-override config=providerconfig \
-		--auth-ext ./package/auth.yaml \
-		--crd-root ./package/crds \
-		--crd-group-override monolith=* --crd-group-override config=$(CSP) \
-		--package-metadata-template ./package/crossplane.yaml.tmpl \
-		--template-var XpkgRegOrg=$(XPKG_REG_ORGS) --template-var DepConstraint="$(DEP_CONSTRAINT)" \
-		--concurrency $(CONCURRENCY) \
-		--push-retry 10 || $(FAIL)
-	@$(OK) Done processing smaller provider packages for: $(SUBPACKAGES)
 
 # ====================================================================================
 # Targets
@@ -208,7 +185,10 @@ uptest: $(UPTEST) $(KUBECTL) $(KUTTL)
 uptest-local:
 	@$(WARN) "this target is deprecated, please use 'make uptest' instead"
 
-local-deploy: build controlplane.up local.xpkg.deploy.provider.$(PROJECT_NAME)-monolith
+build-monolith:
+	@$(MAKE) build SUBPACKAGES=monolith LOAD_MONOLITH=true
+
+local-deploy: build-monolith controlplane.up local.xpkg.deploy.provider.$(PROJECT_NAME)-monolith
 	@$(INFO) running locally built provider
 	@$(KUBECTL) wait provider.pkg $(PROJECT_NAME)-monolith --for condition=Healthy --timeout 5m
 	@$(KUBECTL) -n upbound-system wait --for=condition=Available deployment --all --timeout=5m

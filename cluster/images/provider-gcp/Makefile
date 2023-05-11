@@ -14,13 +14,23 @@ include ../../../build/makelib/imagelight.mk
 -include ../../../build/makelib/k8s_tools.mk
 
 # ====================================================================================
+# Setup xpkg
+
+-include ../../../build/makelib/xpkg.mk
+
+# ====================================================================================
 # Targets
 
 img.build:
 	@$(INFO) Family base image to build: $(IMAGE)
 	@$(INFO) Building image $${IMAGE}; \
 	$(MAKE) BUILD_ARGS="--load" IMAGE=$${IMAGE} XPKG_REG_ORGS=$(XPKG_REG_ORGS) img.build.shared; \
-	$(OK) docker build $${IMAGE};
+	if [[ "$${LOAD_MONOLITH}" == "true" ]]; then \
+	  $(MAKE) batch-process SUBPACKAGES=monolith BATCH_PLATFORMS=$(PLATFORM) BUILD_ONLY=true STORE_PACKAGE=monolith && \
+	  export t=$$(docker load -qi "$(XPKG_OUTPUT_DIR)/$(PLATFORM)/$(PROJECT_NAME)-monolith-$(VERSION).xpkg") && \
+	  docker tag $${t##*:} $(BUILD_REGISTRY)/$(PROJECT_NAME)-monolith-$(ARCH); \
+	fi || $(FAIL)
+	@$(OK) docker build $${IMAGE};
 
 img.build.shared:
 	@cp Dockerfile $(IMAGE_TEMP_DIR) || $(FAIL)
@@ -36,9 +46,40 @@ img.build.shared:
 		-t $(IMAGE) \
 		$(IMAGE_TEMP_DIR) || $(FAIL)
 
-img.publish: ;@:
+img.publish: batch-process
 
 img.promote:
 	@$(INFO) Skipping image promotion from $(FROM_IMAGE) to $(TO_IMAGE)
 	@echo Promote is deferred to xpkg machinery
 	@$(OK) Image promotion skipped for $(FROM_IMAGE) to $(TO_IMAGE)
+
+CONCURRENCY ?= 30
+DEP_CONSTRAINT := >= 0.0.0
+ifeq (-,$(findstring -,$(VERSION)))
+    DEP_CONSTRAINT = >= 0.0.0-0
+endif
+BUILD_ONLY ?= false
+STORE_PACKAGE ?= ""
+batch-process: $(UP)
+	@$(INFO) Batch processing smaller provider packages for: $(SUBPACKAGES)
+	@mkdir -p "$(XPKG_OUTPUT_DIR)/$(PLATFORM)" && \
+	$(UP) xpkg batch --smaller-providers $$(echo -n $(SUBPACKAGES) | tr ' ' ',') \
+		--family-base-image $(BUILD_REGISTRY)/$(PROJECT_NAME) \
+		--platform $(BATCH_PLATFORMS) \
+		--provider-name $(PROJECT_NAME) \
+		--family-package-url-format $(XPKG_REG_ORGS)/%s:$(VERSION) \
+		--package-repo-override monolith=$(PROJECT_NAME) --package-repo-override config=provider-family-$(CSP) \
+		--provider-bin-root $(OUTPUT_DIR)/bin \
+		--output-dir $(XPKG_OUTPUT_DIR) \
+		--store-packages $(STORE_PACKAGE) \
+		--build-only=$(BUILD_ONLY) \
+		--examples-root $(ROOT_DIR)/examples \
+		--examples-group-override monolith=* --examples-group-override config=providerconfig \
+		--auth-ext $(ROOT_DIR)/package/auth.yaml \
+		--crd-root $(ROOT_DIR)/package/crds \
+		--crd-group-override monolith=* --crd-group-override config=$(CSP) \
+		--package-metadata-template $(ROOT_DIR)/package/crossplane.yaml.tmpl \
+		--template-var XpkgRegOrg=$(XPKG_REG_ORGS) --template-var DepConstraint="$(DEP_CONSTRAINT)" \
+		--concurrency $(CONCURRENCY) \
+		--push-retry 10 || $(FAIL)
+	@$(OK) Done processing smaller provider packages for: $(SUBPACKAGES)
