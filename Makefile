@@ -1,11 +1,11 @@
 # ====================================================================================
 # Setup Project
 
-CSP := gcp
-PROJECT_NAME := provider-$(CSP)
+PROVIDER_NAME := gcp
+PROJECT_NAME := provider-$(PROVIDER_NAME)
 PROJECT_REPO := github.com/upbound/$(PROJECT_NAME)
 
-export CSP
+export PROVIDER_NAME
 export TERRAFORM_VERSION := 1.2.1
 export TERRAFORM_PROVIDER_SOURCE := hashicorp/google
 export TERRAFORM_PROVIDER_VERSION := 4.56.0
@@ -64,7 +64,7 @@ export SUBPACKAGES := $(SUBPACKAGES)
 KIND_VERSION = v0.15.0
 UPTEST_VERSION = v0.5.0
 # dependency for up
-UP_VERSION = v0.16.1
+UP_VERSION = v0.17.0
 UP_CHANNEL = stable
 
 export UP_VERSION := $(UP_VERSION)
