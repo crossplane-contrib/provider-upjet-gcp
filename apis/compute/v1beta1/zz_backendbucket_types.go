@@ -35,7 +35,7 @@ type BackendBucketObservation struct {
 	CdnPolicy []CdnPolicyObservation `json:"cdnPolicy,omitempty" tf:"cdn_policy,omitempty"`
 
 	// Compress text responses using Brotli or gzip compression, based on the client's Accept-Encoding header.
-	// Possible values are AUTOMATIC and DISABLED.
+	// Possible values are: AUTOMATIC, DISABLED.
 	CompressionMode *string `json:"compressionMode,omitempty" tf:"compression_mode,omitempty"`
 
 	// Creation timestamp in RFC3339 text format.
@@ -86,7 +86,7 @@ type BackendBucketParameters struct {
 	CdnPolicy []CdnPolicyParameters `json:"cdnPolicy,omitempty" tf:"cdn_policy,omitempty"`
 
 	// Compress text responses using Brotli or gzip compression, based on the client's Accept-Encoding header.
-	// Possible values are AUTOMATIC and DISABLED.
+	// Possible values are: AUTOMATIC, DISABLED.
 	// +kubebuilder:validation:Optional
 	CompressionMode *string `json:"compressionMode,omitempty" tf:"compression_mode,omitempty"`
 
@@ -174,7 +174,7 @@ type CdnPolicyObservation struct {
 
 	// Specifies the cache setting for all responses from this backend.
 	// The possible values are: USE_ORIGIN_HEADERS, FORCE_CACHE_ALL and CACHE_ALL_STATIC
-	// Possible values are USE_ORIGIN_HEADERS, FORCE_CACHE_ALL, and CACHE_ALL_STATIC.
+	// Possible values are: USE_ORIGIN_HEADERS, FORCE_CACHE_ALL, CACHE_ALL_STATIC.
 	CacheMode *string `json:"cacheMode,omitempty" tf:"cache_mode,omitempty"`
 
 	// Specifies the maximum allowed TTL for cached content served by this origin.
@@ -226,7 +226,7 @@ type CdnPolicyParameters struct {
 
 	// Specifies the cache setting for all responses from this backend.
 	// The possible values are: USE_ORIGIN_HEADERS, FORCE_CACHE_ALL and CACHE_ALL_STATIC
-	// Possible values are USE_ORIGIN_HEADERS, FORCE_CACHE_ALL, and CACHE_ALL_STATIC.
+	// Possible values are: USE_ORIGIN_HEADERS, FORCE_CACHE_ALL, CACHE_ALL_STATIC.
 	// +kubebuilder:validation:Optional
 	CacheMode *string `json:"cacheMode,omitempty" tf:"cache_mode,omitempty"`
 

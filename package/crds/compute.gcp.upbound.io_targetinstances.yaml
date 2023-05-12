@@ -154,9 +154,9 @@ spec:
                         type: object
                     type: object
                   natPolicy:
-                    description: NAT option controlling how IPs are NAT'ed to the
+                    description: 'NAT option controlling how IPs are NAT''ed to the
                       instance. Currently only NO_NAT (default value) is supported.
-                      Default value is NO_NAT. Possible values are NO_NAT.
+                      Default value is NO_NAT. Possible values are: NO_NAT.'
                     type: string
                   project:
                     description: The ID of the project in which the resource belongs.
@@ -377,9 +377,9 @@ spec:
                       provider-level project.
                     type: string
                   natPolicy:
-                    description: NAT option controlling how IPs are NAT'ed to the
+                    description: 'NAT option controlling how IPs are NAT''ed to the
                       instance. Currently only NO_NAT (default value) is supported.
-                      Default value is NO_NAT. Possible values are NO_NAT.
+                      Default value is NO_NAT. Possible values are: NO_NAT.'
                     type: string
                   project:
                     description: The ID of the project in which the resource belongs.

@@ -28,14 +28,14 @@ import (
 type GuestOsFeaturesObservation struct {
 
 	// The type of supported feature. Read Enabling guest operating system features to see a list of available options.
-	// Possible values are MULTI_IP_SUBNET, SECURE_BOOT, SEV_CAPABLE, UEFI_COMPATIBLE, VIRTIO_SCSI_MULTIQUEUE, WINDOWS, and GVNIC.
+	// Possible values are: MULTI_IP_SUBNET, SECURE_BOOT, SEV_CAPABLE, UEFI_COMPATIBLE, VIRTIO_SCSI_MULTIQUEUE, WINDOWS, GVNIC, SEV_LIVE_MIGRATABLE.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type GuestOsFeaturesParameters struct {
 
 	// The type of supported feature. Read Enabling guest operating system features to see a list of available options.
-	// Possible values are MULTI_IP_SUBNET, SECURE_BOOT, SEV_CAPABLE, UEFI_COMPATIBLE, VIRTIO_SCSI_MULTIQUEUE, WINDOWS, and GVNIC.
+	// Possible values are: MULTI_IP_SUBNET, SECURE_BOOT, SEV_CAPABLE, UEFI_COMPATIBLE, VIRTIO_SCSI_MULTIQUEUE, WINDOWS, GVNIC, SEV_LIVE_MIGRATABLE.
 	// +kubebuilder:validation:Required
 	Type *string `json:"type" tf:"type,omitempty"`
 }
@@ -214,7 +214,7 @@ type RawDiskObservation struct {
 	// and not a runtime format. Provided by the client when the disk
 	// image is created.
 	// Default value is TAR.
-	// Possible values are TAR.
+	// Possible values are: TAR.
 	ContainerType *string `json:"containerType,omitempty" tf:"container_type,omitempty"`
 
 	// An optional SHA1 checksum of the disk image before unpackaging.
@@ -234,7 +234,7 @@ type RawDiskParameters struct {
 	// and not a runtime format. Provided by the client when the disk
 	// image is created.
 	// Default value is TAR.
-	// Possible values are TAR.
+	// Possible values are: TAR.
 	// +kubebuilder:validation:Optional
 	ContainerType *string `json:"containerType,omitempty" tf:"container_type,omitempty"`
 

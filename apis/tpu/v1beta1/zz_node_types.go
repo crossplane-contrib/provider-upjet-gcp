@@ -27,9 +27,11 @@ import (
 
 type NetworkEndpointsObservation struct {
 
+	// (Output)
 	// The IP address of this network endpoint.
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
 
+	// (Output)
 	// The port of this network endpoint.
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
 }

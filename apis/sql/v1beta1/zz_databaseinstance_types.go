@@ -155,6 +155,9 @@ type CloneObservation struct {
 	// The name of the allocated ip range for the private ip CloudSQL instance. For example: "google-managed-services-default". If set, the cloned instance ip will be created in the allocated range. The range name must comply with RFC 1035. Specifically, the name must be 1-63 characters long and match the regular expression a-z?.
 	AllocatedIPRange *string `json:"allocatedIpRange,omitempty" tf:"allocated_ip_range,omitempty"`
 
+	// (SQL Server only, use with point_in_time) Clone only the specified databases from the source instance. Clone all databases if empty.
+	DatabaseNames []*string `json:"databaseNames,omitempty" tf:"database_names,omitempty"`
+
 	// The timestamp of the point in time that should be restored.
 	PointInTime *string `json:"pointInTime,omitempty" tf:"point_in_time,omitempty"`
 
@@ -167,6 +170,10 @@ type CloneParameters struct {
 	// The name of the allocated ip range for the private ip CloudSQL instance. For example: "google-managed-services-default". If set, the cloned instance ip will be created in the allocated range. The range name must comply with RFC 1035. Specifically, the name must be 1-63 characters long and match the regular expression a-z?.
 	// +kubebuilder:validation:Optional
 	AllocatedIPRange *string `json:"allocatedIpRange,omitempty" tf:"allocated_ip_range,omitempty"`
+
+	// (SQL Server only, use with point_in_time) Clone only the specified databases from the source instance. Clone all databases if empty.
+	// +kubebuilder:validation:Optional
+	DatabaseNames []*string `json:"databaseNames,omitempty" tf:"database_names,omitempty"`
 
 	// The timestamp of the point in time that should be restored.
 	// +kubebuilder:validation:Optional

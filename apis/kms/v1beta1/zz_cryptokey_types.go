@@ -48,7 +48,7 @@ type CryptoKeyObservation struct {
 	// purpose reference
 	// for possible inputs.
 	// Default value is ENCRYPT_DECRYPT.
-	// Possible values are ENCRYPT_DECRYPT, ASYMMETRIC_SIGN, ASYMMETRIC_DECRYPT, and MAC.
+	// Possible values are: ENCRYPT_DECRYPT, ASYMMETRIC_SIGN, ASYMMETRIC_DECRYPT, MAC.
 	Purpose *string `json:"purpose,omitempty" tf:"purpose,omitempty"`
 
 	// Every time this period passes, generate a new CryptoKeyVersion and set it as the primary.
@@ -100,7 +100,7 @@ type CryptoKeyParameters struct {
 	// purpose reference
 	// for possible inputs.
 	// Default value is ENCRYPT_DECRYPT.
-	// Possible values are ENCRYPT_DECRYPT, ASYMMETRIC_SIGN, ASYMMETRIC_DECRYPT, and MAC.
+	// Possible values are: ENCRYPT_DECRYPT, ASYMMETRIC_SIGN, ASYMMETRIC_DECRYPT, MAC.
 	// +kubebuilder:validation:Optional
 	Purpose *string `json:"purpose,omitempty" tf:"purpose,omitempty"`
 

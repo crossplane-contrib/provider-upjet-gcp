@@ -34,7 +34,7 @@ type BackendObservation struct {
 	// See the Backend Services Overview
 	// for an explanation of load balancing modes.
 	// Default value is UTILIZATION.
-	// Possible values are UTILIZATION, RATE, and CONNECTION.
+	// Possible values are: UTILIZATION, RATE, CONNECTION.
 	BalancingMode *string `json:"balancingMode,omitempty" tf:"balancing_mode,omitempty"`
 
 	// A multiplier applied to the group's maximum servicing capacity
@@ -121,7 +121,7 @@ type BackendParameters struct {
 	// See the Backend Services Overview
 	// for an explanation of load balancing modes.
 	// Default value is UTILIZATION.
-	// Possible values are UTILIZATION, RATE, and CONNECTION.
+	// Possible values are: UTILIZATION, RATE, CONNECTION.
 	// +kubebuilder:validation:Optional
 	BalancingMode *string `json:"balancingMode,omitempty" tf:"balancing_mode,omitempty"`
 
@@ -222,13 +222,18 @@ type BackendParameters struct {
 
 type BackendServiceCdnPolicyObservation struct {
 
+	// Bypass the cache when the specified request headers are matched - e.g. Pragma or Authorization headers. Up to 5 headers can be specified.
+	// The cache is bypassed for all cdnPolicy.cacheMode settings.
+	// Structure is documented below.
+	BypassCacheOnRequestHeaders []CdnPolicyBypassCacheOnRequestHeadersObservation `json:"bypassCacheOnRequestHeaders,omitempty" tf:"bypass_cache_on_request_headers,omitempty"`
+
 	// The CacheKeyPolicy for this CdnPolicy.
 	// Structure is documented below.
 	CacheKeyPolicy []CdnPolicyCacheKeyPolicyObservation `json:"cacheKeyPolicy,omitempty" tf:"cache_key_policy,omitempty"`
 
 	// Specifies the cache setting for all responses from this backend.
 	// The possible values are: USE_ORIGIN_HEADERS, FORCE_CACHE_ALL and CACHE_ALL_STATIC
-	// Possible values are USE_ORIGIN_HEADERS, FORCE_CACHE_ALL, and CACHE_ALL_STATIC.
+	// Possible values are: USE_ORIGIN_HEADERS, FORCE_CACHE_ALL, CACHE_ALL_STATIC.
 	CacheMode *string `json:"cacheMode,omitempty" tf:"cache_mode,omitempty"`
 
 	// Specifies the maximum allowed TTL for cached content served by this origin.
@@ -266,6 +271,12 @@ type BackendServiceCdnPolicyObservation struct {
 
 type BackendServiceCdnPolicyParameters struct {
 
+	// Bypass the cache when the specified request headers are matched - e.g. Pragma or Authorization headers. Up to 5 headers can be specified.
+	// The cache is bypassed for all cdnPolicy.cacheMode settings.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	BypassCacheOnRequestHeaders []CdnPolicyBypassCacheOnRequestHeadersParameters `json:"bypassCacheOnRequestHeaders,omitempty" tf:"bypass_cache_on_request_headers,omitempty"`
+
 	// The CacheKeyPolicy for this CdnPolicy.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
@@ -273,7 +284,7 @@ type BackendServiceCdnPolicyParameters struct {
 
 	// Specifies the cache setting for all responses from this backend.
 	// The possible values are: USE_ORIGIN_HEADERS, FORCE_CACHE_ALL and CACHE_ALL_STATIC
-	// Possible values are USE_ORIGIN_HEADERS, FORCE_CACHE_ALL, and CACHE_ALL_STATIC.
+	// Possible values are: USE_ORIGIN_HEADERS, FORCE_CACHE_ALL, CACHE_ALL_STATIC.
 	// +kubebuilder:validation:Optional
 	CacheMode *string `json:"cacheMode,omitempty" tf:"cache_mode,omitempty"`
 
@@ -340,7 +351,7 @@ type BackendServiceObservation struct {
 	CircuitBreakers []CircuitBreakersObservation `json:"circuitBreakers,omitempty" tf:"circuit_breakers,omitempty"`
 
 	// Compress text responses using Brotli or gzip compression, based on the client's Accept-Encoding header.
-	// Possible values are AUTOMATIC and DISABLED.
+	// Possible values are: AUTOMATIC, DISABLED.
 	CompressionMode *string `json:"compressionMode,omitempty" tf:"compression_mode,omitempty"`
 
 	// Time for which instance will be drained (not accept new
@@ -405,7 +416,7 @@ type BackendServiceObservation struct {
 	// load balancing cannot be used with the other. For more information, refer to
 	// Choosing a load balancer.
 	// Default value is EXTERNAL.
-	// Possible values are EXTERNAL, INTERNAL_SELF_MANAGED, and EXTERNAL_MANAGED.
+	// Possible values are: EXTERNAL, INTERNAL_SELF_MANAGED, EXTERNAL_MANAGED.
 	LoadBalancingScheme *string `json:"loadBalancingScheme,omitempty" tf:"load_balancing_scheme,omitempty"`
 
 	// A list of locality load balancing policies to be used in order of
@@ -444,7 +455,7 @@ type BackendServiceObservation struct {
 	// The protocol this BackendService uses to communicate with backends.
 	// The default is HTTP. NOTE: HTTP2 is only valid for beta HTTP/2 load balancer
 	// types and may result in errors if used with the GA API.
-	// Possible values are HTTP, HTTPS, HTTP2, TCP, SSL, and GRPC.
+	// Possible values are: HTTP, HTTPS, HTTP2, TCP, SSL, GRPC.
 	Protocol *string `json:"protocol,omitempty" tf:"protocol,omitempty"`
 
 	// The security policy associated with this backend service.
@@ -462,7 +473,7 @@ type BackendServiceObservation struct {
 
 	// Type of session affinity to use. The default is NONE. Session affinity is
 	// not applicable if the protocol is UDP.
-	// Possible values are NONE, CLIENT_IP, CLIENT_IP_PORT_PROTO, CLIENT_IP_PROTO, GENERATED_COOKIE, HEADER_FIELD, and HTTP_COOKIE.
+	// Possible values are: NONE, CLIENT_IP, CLIENT_IP_PORT_PROTO, CLIENT_IP_PROTO, GENERATED_COOKIE, HEADER_FIELD, HTTP_COOKIE.
 	SessionAffinity *string `json:"sessionAffinity,omitempty" tf:"session_affinity,omitempty"`
 
 	// How many seconds to wait for the backend before considering it a
@@ -497,7 +508,7 @@ type BackendServiceParameters struct {
 	CircuitBreakers []CircuitBreakersParameters `json:"circuitBreakers,omitempty" tf:"circuit_breakers,omitempty"`
 
 	// Compress text responses using Brotli or gzip compression, based on the client's Accept-Encoding header.
-	// Possible values are AUTOMATIC and DISABLED.
+	// Possible values are: AUTOMATIC, DISABLED.
 	// +kubebuilder:validation:Optional
 	CompressionMode *string `json:"compressionMode,omitempty" tf:"compression_mode,omitempty"`
 
@@ -569,7 +580,7 @@ type BackendServiceParameters struct {
 	// load balancing cannot be used with the other. For more information, refer to
 	// Choosing a load balancer.
 	// Default value is EXTERNAL.
-	// Possible values are EXTERNAL, INTERNAL_SELF_MANAGED, and EXTERNAL_MANAGED.
+	// Possible values are: EXTERNAL, INTERNAL_SELF_MANAGED, EXTERNAL_MANAGED.
 	// +kubebuilder:validation:Optional
 	LoadBalancingScheme *string `json:"loadBalancingScheme,omitempty" tf:"load_balancing_scheme,omitempty"`
 
@@ -615,7 +626,7 @@ type BackendServiceParameters struct {
 	// The protocol this BackendService uses to communicate with backends.
 	// The default is HTTP. NOTE: HTTP2 is only valid for beta HTTP/2 load balancer
 	// types and may result in errors if used with the GA API.
-	// Possible values are HTTP, HTTPS, HTTP2, TCP, SSL, and GRPC.
+	// Possible values are: HTTP, HTTPS, HTTP2, TCP, SSL, GRPC.
 	// +kubebuilder:validation:Optional
 	Protocol *string `json:"protocol,omitempty" tf:"protocol,omitempty"`
 
@@ -633,7 +644,7 @@ type BackendServiceParameters struct {
 
 	// Type of session affinity to use. The default is NONE. Session affinity is
 	// not applicable if the protocol is UDP.
-	// Possible values are NONE, CLIENT_IP, CLIENT_IP_PORT_PROTO, CLIENT_IP_PROTO, GENERATED_COOKIE, HEADER_FIELD, and HTTP_COOKIE.
+	// Possible values are: NONE, CLIENT_IP, CLIENT_IP_PORT_PROTO, CLIENT_IP_PROTO, GENERATED_COOKIE, HEADER_FIELD, HTTP_COOKIE.
 	// +kubebuilder:validation:Optional
 	SessionAffinity *string `json:"sessionAffinity,omitempty" tf:"session_affinity,omitempty"`
 
@@ -669,6 +680,19 @@ type BaseEjectionTimeParameters struct {
 	// Must be from 0 to 315,576,000,000 inclusive.
 	// +kubebuilder:validation:Required
 	Seconds *float64 `json:"seconds" tf:"seconds,omitempty"`
+}
+
+type CdnPolicyBypassCacheOnRequestHeadersObservation struct {
+
+	// The header field name to match on when bypassing cache. Values are case-insensitive.
+	HeaderName *string `json:"headerName,omitempty" tf:"header_name,omitempty"`
+}
+
+type CdnPolicyBypassCacheOnRequestHeadersParameters struct {
+
+	// The header field name to match on when bypassing cache. Values are case-insensitive.
+	// +kubebuilder:validation:Required
+	HeaderName *string `json:"headerName" tf:"header_name,omitempty"`
 }
 
 type CdnPolicyCacheKeyPolicyObservation struct {

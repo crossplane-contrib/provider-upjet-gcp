@@ -45,7 +45,7 @@ type InstanceObservation struct {
 
 	// The connection mode of the Redis instance.
 	// Default value is DIRECT_PEERING.
-	// Possible values are DIRECT_PEERING and PRIVATE_SERVICE_ACCESS.
+	// Possible values are: DIRECT_PEERING, PRIVATE_SERVICE_ACCESS.
 	ConnectMode *string `json:"connectMode,omitempty" tf:"connect_mode,omitempty"`
 
 	// The time the instance was created in RFC3339 UTC "Zulu" format,
@@ -194,7 +194,7 @@ type InstanceParameters struct {
 
 	// The connection mode of the Redis instance.
 	// Default value is DIRECT_PEERING.
-	// Possible values are DIRECT_PEERING and PRIVATE_SERVICE_ACCESS.
+	// Possible values are: DIRECT_PEERING, PRIVATE_SERVICE_ACCESS.
 	// +kubebuilder:validation:Optional
 	ConnectMode *string `json:"connectMode,omitempty" tf:"connect_mode,omitempty"`
 
@@ -307,6 +307,7 @@ type InstanceParameters struct {
 
 type MaintenancePolicyObservation struct {
 
+	// (Output)
 	// Output only. The time when the policy was created.
 	// A timestamp in RFC3339 UTC "Zulu" format, with nanosecond
 	// resolution and up to nine fractional digits.
@@ -317,6 +318,7 @@ type MaintenancePolicyObservation struct {
 	// length is greater than 512.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// (Output)
 	// Output only. The time when the policy was last updated.
 	// A timestamp in RFC3339 UTC "Zulu" format, with nanosecond
 	// resolution and up to nine fractional digits.
@@ -347,17 +349,20 @@ type MaintenancePolicyParameters struct {
 
 type MaintenanceScheduleObservation struct {
 
+	// (Output)
 	// Output only. The end time of any upcoming scheduled maintenance for this instance.
 	// A timestamp in RFC3339 UTC "Zulu" format, with nanosecond
 	// resolution and up to nine fractional digits.
 	EndTime *string `json:"endTime,omitempty" tf:"end_time,omitempty"`
 
+	// (Output)
 	// Output only. The deadline that the maintenance schedule start time
 	// can not go beyond, including reschedule.
 	// A timestamp in RFC3339 UTC "Zulu" format, with nanosecond
 	// resolution and up to nine fractional digits.
 	ScheduleDeadlineTime *string `json:"scheduleDeadlineTime,omitempty" tf:"schedule_deadline_time,omitempty"`
 
+	// (Output)
 	// Output only. The start time of any upcoming scheduled maintenance for this instance.
 	// A timestamp in RFC3339 UTC "Zulu" format, with nanosecond
 	// resolution and up to nine fractional digits.
@@ -369,9 +374,11 @@ type MaintenanceScheduleParameters struct {
 
 type NodesObservation struct {
 
+	// (Output)
 	// Node identifying string. e.g. 'node-0', 'node-1'
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// (Output)
 	// Location of the node.
 	Zone *string `json:"zone,omitempty" tf:"zone,omitempty"`
 }
@@ -384,6 +391,7 @@ type PersistenceConfigObservation struct {
 	// Optional. Controls whether Persistence features are enabled. If not provided, the existing value will be used.
 	PersistenceMode *string `json:"persistenceMode,omitempty" tf:"persistence_mode,omitempty"`
 
+	// (Output)
 	// Output only. The next time that a snapshot attempt is scheduled to occur.
 	// A timestamp in RFC3339 UTC "Zulu" format, with nanosecond resolution and up
 	// to nine fractional digits.
@@ -424,18 +432,23 @@ type PersistenceConfigParameters struct {
 
 type ServerCACertsObservation struct {
 
+	// (Output)
 	// The certificate data in PEM format.
 	Cert *string `json:"cert,omitempty" tf:"cert,omitempty"`
 
+	// (Output)
 	// The time when the certificate was created.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
+	// (Output)
 	// The time when the certificate expires.
 	ExpireTime *string `json:"expireTime,omitempty" tf:"expire_time,omitempty"`
 
+	// (Output)
 	// Serial number, as extracted from the certificate.
 	SerialNumber *string `json:"serialNumber,omitempty" tf:"serial_number,omitempty"`
 
+	// (Output)
 	// Sha1 Fingerprint of the certificate.
 	Sha1Fingerprint *string `json:"sha1Fingerprint,omitempty" tf:"sha1_fingerprint,omitempty"`
 }
@@ -486,6 +499,7 @@ type WeeklyMaintenanceWindowObservation struct {
 	// Required. The day of week that maintenance updates occur.
 	Day *string `json:"day,omitempty" tf:"day,omitempty"`
 
+	// (Output)
 	// Output only. Duration of the maintenance window.
 	// The current window is fixed at 1 hour.
 	// A duration in seconds with up to nine fractional digits,

@@ -221,7 +221,7 @@ type ShareSettingsObservation struct {
 	ProjectMap []ProjectMapObservation `json:"projectMap,omitempty" tf:"project_map,omitempty"`
 
 	// Node group sharing type.
-	// Possible values are ORGANIZATION, SPECIFIC_PROJECTS, and LOCAL.
+	// Possible values are: ORGANIZATION, SPECIFIC_PROJECTS, LOCAL.
 	ShareType *string `json:"shareType,omitempty" tf:"share_type,omitempty"`
 }
 
@@ -233,7 +233,7 @@ type ShareSettingsParameters struct {
 	ProjectMap []ProjectMapParameters `json:"projectMap,omitempty" tf:"project_map,omitempty"`
 
 	// Node group sharing type.
-	// Possible values are ORGANIZATION, SPECIFIC_PROJECTS, and LOCAL.
+	// Possible values are: ORGANIZATION, SPECIFIC_PROJECTS, LOCAL.
 	// +kubebuilder:validation:Required
 	ShareType *string `json:"shareType" tf:"share_type,omitempty"`
 }

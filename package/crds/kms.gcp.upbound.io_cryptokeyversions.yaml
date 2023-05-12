@@ -146,9 +146,9 @@ spec:
                         type: object
                     type: object
                   state:
-                    description: The current state of the CryptoKeyVersion. Possible
-                      values are PENDING_GENERATION, ENABLED, DISABLED, DESTROYED,
-                      DESTROY_SCHEDULED, PENDING_IMPORT, and IMPORT_FAILED.
+                    description: 'The current state of the CryptoKeyVersion. Possible
+                      values are: PENDING_GENERATION, ENABLED, DISABLED, DESTROYED,
+                      DESTROY_SCHEDULED, PENDING_IMPORT, IMPORT_FAILED.'
                     type: string
                 type: object
               managementPolicy:
@@ -374,8 +374,8 @@ spec:
                             type: object
                           type: array
                         content:
-                          description: The attestation data provided by the HSM when
-                            the key operation was performed.
+                          description: (Output) The attestation data provided by the
+                            HSM when the key operation was performed.
                           type: string
                         externalProtectionLevelOptions:
                           description: ExternalProtectionLevelOptions stores a group
@@ -398,7 +398,7 @@ spec:
                             type: object
                           type: array
                         format:
-                          description: The format of the attestation data.
+                          description: (Output) The format of the attestation data.
                           type: string
                       type: object
                     type: array
@@ -420,9 +420,9 @@ spec:
                       are performed with this CryptoKeyVersion.
                     type: string
                   state:
-                    description: The current state of the CryptoKeyVersion. Possible
-                      values are PENDING_GENERATION, ENABLED, DISABLED, DESTROYED,
-                      DESTROY_SCHEDULED, PENDING_IMPORT, and IMPORT_FAILED.
+                    description: 'The current state of the CryptoKeyVersion. Possible
+                      values are: PENDING_GENERATION, ENABLED, DISABLED, DESTROYED,
+                      DESTROY_SCHEDULED, PENDING_IMPORT, IMPORT_FAILED.'
                     type: string
                 type: object
               conditions:

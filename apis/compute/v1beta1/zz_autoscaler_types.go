@@ -138,7 +138,7 @@ type AutoscalingPolicyObservation struct {
 
 	// Defines operating mode for this policy.
 	// Default value is ON.
-	// Possible values are OFF, ONLY_UP, and ON.
+	// Possible values are: OFF, ONLY_UP, ON.
 	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
 
 	// Defines scale in controls to reduce the risk of response latency
@@ -198,7 +198,7 @@ type AutoscalingPolicyParameters struct {
 
 	// Defines operating mode for this policy.
 	// Default value is ON.
-	// Possible values are OFF, ONLY_UP, and ON.
+	// Possible values are: OFF, ONLY_UP, ON.
 	// +kubebuilder:validation:Optional
 	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
 
@@ -281,7 +281,7 @@ type MetricObservation struct {
 
 	// Defines how target utilization value is expressed for a
 	// Stackdriver Monitoring metric.
-	// Possible values are GAUGE, DELTA_PER_SECOND, and DELTA_PER_MINUTE.
+	// Possible values are: GAUGE, DELTA_PER_SECOND, DELTA_PER_MINUTE.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
@@ -297,7 +297,7 @@ type MetricParameters struct {
 
 	// Defines how target utilization value is expressed for a
 	// Stackdriver Monitoring metric.
-	// Possible values are GAUGE, DELTA_PER_SECOND, and DELTA_PER_MINUTE.
+	// Possible values are: GAUGE, DELTA_PER_SECOND, DELTA_PER_MINUTE.
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }

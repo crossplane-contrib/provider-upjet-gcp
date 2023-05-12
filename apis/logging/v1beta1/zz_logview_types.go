@@ -99,7 +99,7 @@ type LogViewStatus struct {
 
 // +kubebuilder:object:root=true
 
-// LogView is the Schema for the LogViews API. The Logging LogView resource
+// LogView is the Schema for the LogViews API. Describes a view over log entries in a bucket.
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

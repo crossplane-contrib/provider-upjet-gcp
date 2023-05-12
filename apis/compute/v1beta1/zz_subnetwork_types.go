@@ -64,7 +64,7 @@ type SubnetworkLogConfigObservation struct {
 	// interval time will reduce the amount of generated flow logs for long
 	// lasting connections. Default is an interval of 5 seconds per connection.
 	// Default value is INTERVAL_5_SEC.
-	// Possible values are INTERVAL_5_SEC, INTERVAL_30_SEC, INTERVAL_1_MIN, INTERVAL_5_MIN, INTERVAL_10_MIN, and INTERVAL_15_MIN.
+	// Possible values are: INTERVAL_5_SEC, INTERVAL_30_SEC, INTERVAL_1_MIN, INTERVAL_5_MIN, INTERVAL_10_MIN, INTERVAL_15_MIN.
 	AggregationInterval *string `json:"aggregationInterval,omitempty" tf:"aggregation_interval,omitempty"`
 
 	// Export filter used to define which VPC flow logs should be logged, as as CEL expression. See
@@ -83,7 +83,7 @@ type SubnetworkLogConfigObservation struct {
 	// Configures whether metadata fields should be added to the reported VPC
 	// flow logs.
 	// Default value is INCLUDE_ALL_METADATA.
-	// Possible values are EXCLUDE_ALL_METADATA, INCLUDE_ALL_METADATA, and CUSTOM_METADATA.
+	// Possible values are: EXCLUDE_ALL_METADATA, INCLUDE_ALL_METADATA, CUSTOM_METADATA.
 	Metadata *string `json:"metadata,omitempty" tf:"metadata,omitempty"`
 
 	// List of metadata fields that should be added to reported logs.
@@ -98,7 +98,7 @@ type SubnetworkLogConfigParameters struct {
 	// interval time will reduce the amount of generated flow logs for long
 	// lasting connections. Default is an interval of 5 seconds per connection.
 	// Default value is INTERVAL_5_SEC.
-	// Possible values are INTERVAL_5_SEC, INTERVAL_30_SEC, INTERVAL_1_MIN, INTERVAL_5_MIN, INTERVAL_10_MIN, and INTERVAL_15_MIN.
+	// Possible values are: INTERVAL_5_SEC, INTERVAL_30_SEC, INTERVAL_1_MIN, INTERVAL_5_MIN, INTERVAL_10_MIN, INTERVAL_15_MIN.
 	// +kubebuilder:validation:Optional
 	AggregationInterval *string `json:"aggregationInterval,omitempty" tf:"aggregation_interval,omitempty"`
 
@@ -120,7 +120,7 @@ type SubnetworkLogConfigParameters struct {
 	// Configures whether metadata fields should be added to the reported VPC
 	// flow logs.
 	// Default value is INCLUDE_ALL_METADATA.
-	// Possible values are EXCLUDE_ALL_METADATA, INCLUDE_ALL_METADATA, and CUSTOM_METADATA.
+	// Possible values are: EXCLUDE_ALL_METADATA, INCLUDE_ALL_METADATA, CUSTOM_METADATA.
 	// +kubebuilder:validation:Optional
 	Metadata *string `json:"metadata,omitempty" tf:"metadata,omitempty"`
 
@@ -161,7 +161,7 @@ type SubnetworkObservation_2 struct {
 	// The access type of IPv6 address this subnet holds. It's immutable and can only be specified during creation
 	// or the first time the subnet is updated into IPV4_IPV6 dual stack. If the ipv6_type is EXTERNAL then this subnet
 	// cannot enable direct path.
-	// Possible values are EXTERNAL and INTERNAL.
+	// Possible values are: EXTERNAL, INTERNAL.
 	IPv6AccessType *string `json:"ipv6AccessType,omitempty" tf:"ipv6_access_type,omitempty"`
 
 	// The range of internal IPv6 addresses that are owned by this subnetwork.
@@ -188,21 +188,22 @@ type SubnetworkObservation_2 struct {
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
-	// The purpose of the resource. A subnetwork with purpose set to
-	// INTERNAL_HTTPS_LOAD_BALANCER is a user-created subnetwork that is
-	// reserved for Internal HTTP(S) Load Balancing.
-	// If set to INTERNAL_HTTPS_LOAD_BALANCER you must also set the role field.
+	// The purpose of the resource. This field can be either PRIVATE_RFC_1918, INTERNAL_HTTPS_LOAD_BALANCER or REGIONAL_MANAGED_PROXY.
+	// A subnetwork with purpose set to INTERNAL_HTTPS_LOAD_BALANCER is a user-created subnetwork that is reserved for Internal HTTP(S) Load Balancing.
+	// A subnetwork in a given region with purpose set to REGIONAL_MANAGED_PROXY is a proxy-only subnet and is shared between all the regional Envoy-based load balancers.
+	// If unspecified, the purpose defaults to PRIVATE_RFC_1918.
+	// The enableFlowLogs field isn't supported with the purpose field set to INTERNAL_HTTPS_LOAD_BALANCER.
 	Purpose *string `json:"purpose,omitempty" tf:"purpose,omitempty"`
 
 	// The GCP region for this subnetwork.
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
-	// The role of subnetwork. Currently, this field is only used when
-	// purpose = INTERNAL_HTTPS_LOAD_BALANCER. The value can be set to ACTIVE
-	// or BACKUP. An ACTIVE subnetwork is one that is currently being used
-	// for Internal HTTP(S) Load Balancing. A BACKUP subnetwork is one that
-	// is ready to be promoted to ACTIVE or is currently draining.
-	// Possible values are ACTIVE and BACKUP.
+	// The role of subnetwork.
+	// The value can be set to ACTIVE or BACKUP.
+	// An ACTIVE subnetwork is one that is currently being used.
+	// A BACKUP subnetwork is one that is ready to be promoted to ACTIVE or is currently draining.
+	// Subnetwork role must be specified when purpose is set to INTERNAL_HTTPS_LOAD_BALANCER or REGIONAL_MANAGED_PROXY.
+	// Possible values are: ACTIVE, BACKUP.
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 
 	// An array of configurations for secondary IP ranges for VM instances
@@ -222,7 +223,7 @@ type SubnetworkObservation_2 struct {
 
 	// The stack type for this subnet to identify whether the IPv6 feature is enabled or not.
 	// If not specified IPV4_ONLY will be used.
-	// Possible values are IPV4_ONLY and IPV4_IPV6.
+	// Possible values are: IPV4_ONLY, IPV4_IPV6.
 	StackType *string `json:"stackType,omitempty" tf:"stack_type,omitempty"`
 }
 
@@ -244,7 +245,7 @@ type SubnetworkParameters_2 struct {
 	// The access type of IPv6 address this subnet holds. It's immutable and can only be specified during creation
 	// or the first time the subnet is updated into IPV4_IPV6 dual stack. If the ipv6_type is EXTERNAL then this subnet
 	// cannot enable direct path.
-	// Possible values are EXTERNAL and INTERNAL.
+	// Possible values are: EXTERNAL, INTERNAL.
 	// +kubebuilder:validation:Optional
 	IPv6AccessType *string `json:"ipv6AccessType,omitempty" tf:"ipv6_access_type,omitempty"`
 
@@ -283,10 +284,11 @@ type SubnetworkParameters_2 struct {
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
-	// The purpose of the resource. A subnetwork with purpose set to
-	// INTERNAL_HTTPS_LOAD_BALANCER is a user-created subnetwork that is
-	// reserved for Internal HTTP(S) Load Balancing.
-	// If set to INTERNAL_HTTPS_LOAD_BALANCER you must also set the role field.
+	// The purpose of the resource. This field can be either PRIVATE_RFC_1918, INTERNAL_HTTPS_LOAD_BALANCER or REGIONAL_MANAGED_PROXY.
+	// A subnetwork with purpose set to INTERNAL_HTTPS_LOAD_BALANCER is a user-created subnetwork that is reserved for Internal HTTP(S) Load Balancing.
+	// A subnetwork in a given region with purpose set to REGIONAL_MANAGED_PROXY is a proxy-only subnet and is shared between all the regional Envoy-based load balancers.
+	// If unspecified, the purpose defaults to PRIVATE_RFC_1918.
+	// The enableFlowLogs field isn't supported with the purpose field set to INTERNAL_HTTPS_LOAD_BALANCER.
 	// +kubebuilder:validation:Optional
 	Purpose *string `json:"purpose,omitempty" tf:"purpose,omitempty"`
 
@@ -294,12 +296,12 @@ type SubnetworkParameters_2 struct {
 	// +kubebuilder:validation:Required
 	Region *string `json:"region" tf:"region,omitempty"`
 
-	// The role of subnetwork. Currently, this field is only used when
-	// purpose = INTERNAL_HTTPS_LOAD_BALANCER. The value can be set to ACTIVE
-	// or BACKUP. An ACTIVE subnetwork is one that is currently being used
-	// for Internal HTTP(S) Load Balancing. A BACKUP subnetwork is one that
-	// is ready to be promoted to ACTIVE or is currently draining.
-	// Possible values are ACTIVE and BACKUP.
+	// The role of subnetwork.
+	// The value can be set to ACTIVE or BACKUP.
+	// An ACTIVE subnetwork is one that is currently being used.
+	// A BACKUP subnetwork is one that is ready to be promoted to ACTIVE or is currently draining.
+	// Subnetwork role must be specified when purpose is set to INTERNAL_HTTPS_LOAD_BALANCER or REGIONAL_MANAGED_PROXY.
+	// Possible values are: ACTIVE, BACKUP.
 	// +kubebuilder:validation:Optional
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 
@@ -318,7 +320,7 @@ type SubnetworkParameters_2 struct {
 
 	// The stack type for this subnet to identify whether the IPv6 feature is enabled or not.
 	// If not specified IPV4_ONLY will be used.
-	// Possible values are IPV4_ONLY and IPV4_IPV6.
+	// Possible values are: IPV4_ONLY, IPV4_IPV6.
 	// +kubebuilder:validation:Optional
 	StackType *string `json:"stackType,omitempty" tf:"stack_type,omitempty"`
 }

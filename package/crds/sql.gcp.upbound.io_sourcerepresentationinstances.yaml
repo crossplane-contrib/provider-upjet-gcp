@@ -85,9 +85,10 @@ spec:
                       Include only if SSL/TLS is used on the external server.
                     type: string
                   databaseVersion:
-                    description: The MySQL version running on your source database
-                      server. Possible values are MYSQL_5_5, MYSQL_5_6, MYSQL_5_7,
-                      and MYSQL_8_0.
+                    description: 'The MySQL version running on your source database
+                      server. Possible values are: MYSQL_5_6, MYSQL_5_7, MYSQL_8_0,
+                      POSTGRES_9_6, POSTGRES_10, POSTGRES_11, POSTGRES_12, POSTGRES_13,
+                      POSTGRES_14.'
                     type: string
                   dumpFilePath:
                     description: A file in the bucket that contains the data from
@@ -344,9 +345,10 @@ spec:
                       Include only if SSL/TLS is used on the external server.
                     type: string
                   databaseVersion:
-                    description: The MySQL version running on your source database
-                      server. Possible values are MYSQL_5_5, MYSQL_5_6, MYSQL_5_7,
-                      and MYSQL_8_0.
+                    description: 'The MySQL version running on your source database
+                      server. Possible values are: MYSQL_5_6, MYSQL_5_7, MYSQL_8_0,
+                      POSTGRES_9_6, POSTGRES_10, POSTGRES_11, POSTGRES_12, POSTGRES_13,
+                      POSTGRES_14.'
                     type: string
                   dumpFilePath:
                     description: A file in the bucket that contains the data from

@@ -27,13 +27,17 @@ import (
 
 type FilterLabelsObservation struct {
 
-	// Name of the resource; provided by the client when the resource is
-	// created. The name must be 1-63 characters long, and comply with
-	// RFC1035. Specifically, the name must be 1-63 characters long and match
-	// the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which means the
-	// first character must be a lowercase letter, and all following
-	// characters must be a dash, lowercase letter, or digit, except the last
-	// character, which cannot be a dash.
+	// Name of the resource; provided by the client when the resource is created.
+	// The name must be 1-63 characters long, and comply with
+	// RFC1035.
+	// Specifically, the name must be 1-63 characters long and match the regular
+	// expression [a-z]([-a-z0-9]*[a-z0-9])? which means the first
+	// character must be a lowercase letter, and all following characters must
+	// be a dash, lowercase letter, or digit, except the last character, which
+	// cannot be a dash.
+	// For Private Service Connect forwarding rules that forward traffic to Google
+	// APIs, the forwarding rule name must be a 1-20 characters string with
+	// lowercase letters and numbers and must start with a letter.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// The value that the label must match. The value has a maximum
@@ -43,13 +47,17 @@ type FilterLabelsObservation struct {
 
 type FilterLabelsParameters struct {
 
-	// Name of the resource; provided by the client when the resource is
-	// created. The name must be 1-63 characters long, and comply with
-	// RFC1035. Specifically, the name must be 1-63 characters long and match
-	// the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which means the
-	// first character must be a lowercase letter, and all following
-	// characters must be a dash, lowercase letter, or digit, except the last
-	// character, which cannot be a dash.
+	// Name of the resource; provided by the client when the resource is created.
+	// The name must be 1-63 characters long, and comply with
+	// RFC1035.
+	// Specifically, the name must be 1-63 characters long and match the regular
+	// expression [a-z]([-a-z0-9]*[a-z0-9])? which means the first
+	// character must be a lowercase letter, and all following characters must
+	// be a dash, lowercase letter, or digit, except the last character, which
+	// cannot be a dash.
+	// For Private Service Connect forwarding rules that forward traffic to Google
+	// APIs, the forwarding rule name must be a 1-20 characters string with
+	// lowercase letters and numbers and must start with a letter.
 	// +kubebuilder:validation:Required
 	Name *string `json:"name" tf:"name,omitempty"`
 
@@ -61,6 +69,9 @@ type FilterLabelsParameters struct {
 
 type GlobalForwardingRuleObservation struct {
 
+	// [Output Only] The URL for the corresponding base Forwarding Rule. By base Forwarding Rule, we mean the Forwarding Rule that has the same IP address, protocol, and port settings with the current Forwarding Rule, but without sourceIPRanges specified. Always empty if the current Forwarding Rule does not have sourceIPRanges specified.
+	BaseForwardingRule *string `json:"baseForwardingRule,omitempty" tf:"base_forwarding_rule,omitempty"`
+
 	// An optional description of this resource. Provide this property when
 	// you create the resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -68,33 +79,28 @@ type GlobalForwardingRuleObservation struct {
 	// an identifier for the resource with format projects/{{project}}/global/forwardingRules/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// The IP address that this forwarding rule serves. When a client sends
-	// traffic to this IP address, the forwarding rule directs the traffic to
-	// the target that you specify in the forwarding rule. The
-	// loadBalancingScheme and the forwarding rule's target determine the
-	// type of IP address that you can use. For detailed information, refer
-	// to IP address specifications.
-	// An address can be specified either by a literal IP address or a
-	// reference to an existing Address resource. If you don't specify a
-	// reserved IP address, an ephemeral IP address is assigned.
-	// The value must be set to 0.0.0.0 when the target is a targetGrpcProxy
-	// that has validateForProxyless field set to true.
-	// For Private Service Connect forwarding rules that forward traffic to
-	// Google APIs, IP address must be provided.
+	// IP address for which this forwarding rule accepts traffic. When a client
+	// sends traffic to this IP address, the forwarding rule directs the traffic
+	// to the referenced target.
+	// While creating a forwarding rule, specifying an IPAddress is
+	// required under the following circumstances:
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
 
-	// The IP protocol to which this rule applies. When the load balancing scheme is
-	// INTERNAL_SELF_MANAGED, only TCP is valid. This field must not be set if the
-	// global address is configured as a purpose of PRIVATE_SERVICE_CONNECT
-	// and addressType of INTERNAL
-	// Possible values are TCP, UDP, ESP, AH, SCTP, and ICMP.
+	// The IP protocol to which this rule applies.
+	// For protocol forwarding, valid
+	// options are TCP, UDP, ESP,
+	// AH, SCTP, ICMP and
+	// L3_DEFAULT.
+	// The valid IP protocols are different for different load balancing products
+	// as described in Load balancing
+	// features.
+	// Possible values are: TCP, UDP, ESP, AH, SCTP, ICMP.
 	IPProtocol *string `json:"ipProtocol,omitempty" tf:"ip_protocol,omitempty"`
 
 	// The IP Version that will be used by this global forwarding rule.
-	// Possible values are IPV4 and IPV6.
+	// Possible values are: IPV4, IPV6.
 	IPVersion *string `json:"ipVersion,omitempty" tf:"ip_version,omitempty"`
 
-	// (Beta)
 	// The fingerprint used for optimistic locking of this resource.  Used
 	// internally during updates.
 	LabelFingerprint *string `json:"labelFingerprint,omitempty" tf:"label_fingerprint,omitempty"`
@@ -102,16 +108,11 @@ type GlobalForwardingRuleObservation struct {
 	// Labels to apply to this forwarding rule.  A list of key->value pairs.
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
-	// This signifies what the GlobalForwardingRule will be used for.
-	// The value of INTERNAL_SELF_MANAGED means that this will be used for
-	// Internal Global HTTP(S) LB. The value of EXTERNAL means that this
-	// will be used for External Global Load Balancing (HTTP(S) LB,
-	// External TCP/UDP LB, SSL Proxy). The value of EXTERNAL_MANAGED means
-	// that this will be used for Global external HTTP(S) load balancers.
-	// (Beta only) Note: This field must be set "" if the global address is
-	// configured as a purpose of PRIVATE_SERVICE_CONNECT and addressType of INTERNAL.
+	// Specifies the forwarding rule type.
+	// For more information about forwarding rules, refer to
+	// Forwarding rule concepts.
 	// Default value is EXTERNAL.
-	// Possible values are EXTERNAL, EXTERNAL_MANAGED, and INTERNAL_SELF_MANAGED.
+	// Possible values are: EXTERNAL, EXTERNAL_MANAGED, INTERNAL_SELF_MANAGED.
 	LoadBalancingScheme *string `json:"loadBalancingScheme,omitempty" tf:"load_balancing_scheme,omitempty"`
 
 	// Opaque filter criteria used by Loadbalancer to restrict routing
@@ -132,41 +133,39 @@ type GlobalForwardingRuleObservation struct {
 	MetadataFilters []MetadataFiltersObservation `json:"metadataFilters,omitempty" tf:"metadata_filters,omitempty"`
 
 	// This field is not used for external load balancing.
-	// For INTERNAL_SELF_MANAGED load balancing, this field
-	// identifies the network that the load balanced IP should belong to
-	// for this global forwarding rule. If this field is not specified,
-	// the default network will be used.
+	// For Internal TCP/UDP Load Balancing, this field identifies the network that
+	// the load balanced IP should belong to for this Forwarding Rule.
+	// If the subnetwork is specified, the network of the subnetwork will be used.
+	// If neither subnetwork nor this field is specified, the default network will
+	// be used.
+	// For Private Service Connect forwarding rules that forward traffic to Google
+	// APIs, a network must be provided.
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
-	// This field is used along with the target field for TargetHttpProxy,
-	// TargetHttpsProxy, TargetSslProxy, TargetTcpProxy, TargetVpnGateway,
-	// TargetPool, TargetInstance.
-	// Applicable only when IPProtocol is TCP, UDP, or SCTP, only packets
-	// addressed to ports in the specified range will be forwarded to target.
-	// Forwarding rules with the same [IPAddress, IPProtocol] pair must have
-	// disjoint port ranges.
-	// Some types of forwarding target have constraints on the acceptable
-	// ports:
+	// This field can only be used:
 	PortRange *string `json:"portRange,omitempty" tf:"port_range,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
-	// an identifier for the resource with format projects/{{project}}/global/forwardingRules/{{name}}
+	// The PSC connection id of the PSC Forwarding Rule.
 	PscConnectionID *string `json:"pscConnectionId,omitempty" tf:"psc_connection_id,omitempty"`
 
+	// The PSC connection status of the PSC Forwarding Rule. Possible values: STATUS_UNSPECIFIED, PENDING, ACCEPTED, REJECTED, CLOSED
 	PscConnectionStatus *string `json:"pscConnectionStatus,omitempty" tf:"psc_connection_status,omitempty"`
 
 	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
 
-	// The URL of the target resource to receive the matched traffic.
+	// If not empty, this Forwarding Rule will only forward the traffic when the source IP address matches one of the IP addresses or CIDR ranges set here. Note that a Forwarding Rule can only have up to 64 source IP ranges, and this field can only be used with a regional Forwarding Rule whose scheme is EXTERNAL. Each sourceIpRange entry should be either an IP address (for example, 1.2.3.4) or a CIDR range (for example, 1.2.3.0/24).
+	SourceIPRanges []*string `json:"sourceIpRanges,omitempty" tf:"source_ip_ranges,omitempty"`
+
+	// The URL of the target resource to receive the matched traffic.  For
+	// regional forwarding rules, this target must be in the same region as the
+	// forwarding rule. For global forwarding rules, this target must be a global
+	// load balancing resource.
 	// The forwarded traffic must be of a type appropriate to the target object.
-	// For INTERNAL_SELF_MANAGED load balancing, only HTTP and HTTPS targets
-	// are valid.
-	// (Beta only) For global address with a purpose of PRIVATE_SERVICE_CONNECT and
-	// addressType of INTERNAL, only "all-apis" and "vpc-sc" are valid.
 	Target *string `json:"target,omitempty" tf:"target,omitempty"`
 }
 
@@ -177,19 +176,11 @@ type GlobalForwardingRuleParameters struct {
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// The IP address that this forwarding rule serves. When a client sends
-	// traffic to this IP address, the forwarding rule directs the traffic to
-	// the target that you specify in the forwarding rule. The
-	// loadBalancingScheme and the forwarding rule's target determine the
-	// type of IP address that you can use. For detailed information, refer
-	// to IP address specifications.
-	// An address can be specified either by a literal IP address or a
-	// reference to an existing Address resource. If you don't specify a
-	// reserved IP address, an ephemeral IP address is assigned.
-	// The value must be set to 0.0.0.0 when the target is a targetGrpcProxy
-	// that has validateForProxyless field set to true.
-	// For Private Service Connect forwarding rules that forward traffic to
-	// Google APIs, IP address must be provided.
+	// IP address for which this forwarding rule accepts traffic. When a client
+	// sends traffic to this IP address, the forwarding rule directs the traffic
+	// to the referenced target.
+	// While creating a forwarding rule, specifying an IPAddress is
+	// required under the following circumstances:
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.GlobalAddress
 	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
@@ -203,16 +194,20 @@ type GlobalForwardingRuleParameters struct {
 	// +kubebuilder:validation:Optional
 	IPAddressSelector *v1.Selector `json:"ipAddressSelector,omitempty" tf:"-"`
 
-	// The IP protocol to which this rule applies. When the load balancing scheme is
-	// INTERNAL_SELF_MANAGED, only TCP is valid. This field must not be set if the
-	// global address is configured as a purpose of PRIVATE_SERVICE_CONNECT
-	// and addressType of INTERNAL
-	// Possible values are TCP, UDP, ESP, AH, SCTP, and ICMP.
+	// The IP protocol to which this rule applies.
+	// For protocol forwarding, valid
+	// options are TCP, UDP, ESP,
+	// AH, SCTP, ICMP and
+	// L3_DEFAULT.
+	// The valid IP protocols are different for different load balancing products
+	// as described in Load balancing
+	// features.
+	// Possible values are: TCP, UDP, ESP, AH, SCTP, ICMP.
 	// +kubebuilder:validation:Optional
 	IPProtocol *string `json:"ipProtocol,omitempty" tf:"ip_protocol,omitempty"`
 
 	// The IP Version that will be used by this global forwarding rule.
-	// Possible values are IPV4 and IPV6.
+	// Possible values are: IPV4, IPV6.
 	// +kubebuilder:validation:Optional
 	IPVersion *string `json:"ipVersion,omitempty" tf:"ip_version,omitempty"`
 
@@ -220,16 +215,11 @@ type GlobalForwardingRuleParameters struct {
 	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
-	// This signifies what the GlobalForwardingRule will be used for.
-	// The value of INTERNAL_SELF_MANAGED means that this will be used for
-	// Internal Global HTTP(S) LB. The value of EXTERNAL means that this
-	// will be used for External Global Load Balancing (HTTP(S) LB,
-	// External TCP/UDP LB, SSL Proxy). The value of EXTERNAL_MANAGED means
-	// that this will be used for Global external HTTP(S) load balancers.
-	// (Beta only) Note: This field must be set "" if the global address is
-	// configured as a purpose of PRIVATE_SERVICE_CONNECT and addressType of INTERNAL.
+	// Specifies the forwarding rule type.
+	// For more information about forwarding rules, refer to
+	// Forwarding rule concepts.
 	// Default value is EXTERNAL.
-	// Possible values are EXTERNAL, EXTERNAL_MANAGED, and INTERNAL_SELF_MANAGED.
+	// Possible values are: EXTERNAL, EXTERNAL_MANAGED, INTERNAL_SELF_MANAGED.
 	// +kubebuilder:validation:Optional
 	LoadBalancingScheme *string `json:"loadBalancingScheme,omitempty" tf:"load_balancing_scheme,omitempty"`
 
@@ -252,10 +242,13 @@ type GlobalForwardingRuleParameters struct {
 	MetadataFilters []MetadataFiltersParameters `json:"metadataFilters,omitempty" tf:"metadata_filters,omitempty"`
 
 	// This field is not used for external load balancing.
-	// For INTERNAL_SELF_MANAGED load balancing, this field
-	// identifies the network that the load balanced IP should belong to
-	// for this global forwarding rule. If this field is not specified,
-	// the default network will be used.
+	// For Internal TCP/UDP Load Balancing, this field identifies the network that
+	// the load balanced IP should belong to for this Forwarding Rule.
+	// If the subnetwork is specified, the network of the subnetwork will be used.
+	// If neither subnetwork nor this field is specified, the default network will
+	// be used.
+	// For Private Service Connect forwarding rules that forward traffic to Google
+	// APIs, a network must be provided.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.Network
 	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
@@ -269,15 +262,7 @@ type GlobalForwardingRuleParameters struct {
 	// +kubebuilder:validation:Optional
 	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
 
-	// This field is used along with the target field for TargetHttpProxy,
-	// TargetHttpsProxy, TargetSslProxy, TargetTcpProxy, TargetVpnGateway,
-	// TargetPool, TargetInstance.
-	// Applicable only when IPProtocol is TCP, UDP, or SCTP, only packets
-	// addressed to ports in the specified range will be forwarded to target.
-	// Forwarding rules with the same [IPAddress, IPProtocol] pair must have
-	// disjoint port ranges.
-	// Some types of forwarding target have constraints on the acceptable
-	// ports:
+	// This field can only be used:
 	// +kubebuilder:validation:Optional
 	PortRange *string `json:"portRange,omitempty" tf:"port_range,omitempty"`
 
@@ -296,12 +281,15 @@ type GlobalForwardingRuleParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectSelector *v1.Selector `json:"projectSelector,omitempty" tf:"-"`
 
-	// The URL of the target resource to receive the matched traffic.
+	// If not empty, this Forwarding Rule will only forward the traffic when the source IP address matches one of the IP addresses or CIDR ranges set here. Note that a Forwarding Rule can only have up to 64 source IP ranges, and this field can only be used with a regional Forwarding Rule whose scheme is EXTERNAL. Each sourceIpRange entry should be either an IP address (for example, 1.2.3.4) or a CIDR range (for example, 1.2.3.0/24).
+	// +kubebuilder:validation:Optional
+	SourceIPRanges []*string `json:"sourceIpRanges,omitempty" tf:"source_ip_ranges,omitempty"`
+
+	// The URL of the target resource to receive the matched traffic.  For
+	// regional forwarding rules, this target must be in the same region as the
+	// forwarding rule. For global forwarding rules, this target must be a global
+	// load balancing resource.
 	// The forwarded traffic must be of a type appropriate to the target object.
-	// For INTERNAL_SELF_MANAGED load balancing, only HTTP and HTTPS targets
-	// are valid.
-	// (Beta only) For global address with a purpose of PRIVATE_SERVICE_CONNECT and
-	// addressType of INTERNAL, only "all-apis" and "vpc-sc" are valid.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.TargetSSLProxy
 	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
@@ -330,7 +318,7 @@ type MetadataFiltersObservation struct {
 	// label in the provided metadata.
 	// MATCH_ALL - All filterLabels must have matching labels in the
 	// provided metadata.
-	// Possible values are MATCH_ANY and MATCH_ALL.
+	// Possible values are: MATCH_ANY, MATCH_ALL.
 	FilterMatchCriteria *string `json:"filterMatchCriteria,omitempty" tf:"filter_match_criteria,omitempty"`
 }
 
@@ -349,7 +337,7 @@ type MetadataFiltersParameters struct {
 	// label in the provided metadata.
 	// MATCH_ALL - All filterLabels must have matching labels in the
 	// provided metadata.
-	// Possible values are MATCH_ANY and MATCH_ALL.
+	// Possible values are: MATCH_ANY, MATCH_ALL.
 	// +kubebuilder:validation:Required
 	FilterMatchCriteria *string `json:"filterMatchCriteria" tf:"filter_match_criteria,omitempty"`
 }

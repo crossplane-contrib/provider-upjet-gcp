@@ -30,6 +30,7 @@ type FieldsObservation struct {
 	// Holds the value for a tag field with boolean type.
 	BoolValue *bool `json:"boolValue,omitempty" tf:"bool_value,omitempty"`
 
+	// (Output)
 	// The display name of this field
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
@@ -42,6 +43,7 @@ type FieldsObservation struct {
 	// The identifier for this object. Format specified above.
 	FieldName *string `json:"fieldName,omitempty" tf:"field_name,omitempty"`
 
+	// (Output)
 	// The order of this field with respect to other fields in this tag. For example, a higher value can indicate
 	// a more important field. The value can be negative. Multiple fields can have the same order, and field orders
 	// within a tag do not have to be sequential.

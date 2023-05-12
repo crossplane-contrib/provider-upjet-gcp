@@ -100,14 +100,14 @@ type DenyParameters struct {
 type FirewallLogConfigObservation struct {
 
 	// This field denotes whether to include or exclude metadata for firewall logs.
-	// Possible values are EXCLUDE_ALL_METADATA and INCLUDE_ALL_METADATA.
+	// Possible values are: EXCLUDE_ALL_METADATA, INCLUDE_ALL_METADATA.
 	Metadata *string `json:"metadata,omitempty" tf:"metadata,omitempty"`
 }
 
 type FirewallLogConfigParameters struct {
 
 	// This field denotes whether to include or exclude metadata for firewall logs.
-	// Possible values are EXCLUDE_ALL_METADATA and INCLUDE_ALL_METADATA.
+	// Possible values are: EXCLUDE_ALL_METADATA, INCLUDE_ALL_METADATA.
 	// +kubebuilder:validation:Required
 	Metadata *string `json:"metadata" tf:"metadata,omitempty"`
 }
@@ -134,15 +134,13 @@ type FirewallObservation struct {
 
 	// If destination ranges are specified, the firewall will apply only to
 	// traffic that has destination IP address in these ranges. These ranges
-	// must be expressed in CIDR format. Only IPv4 is supported.
+	// must be expressed in CIDR format. IPv4 or IPv6 ranges are supported.
 	DestinationRanges []*string `json:"destinationRanges,omitempty" tf:"destination_ranges,omitempty"`
 
 	// Direction of traffic to which this firewall applies; default is
-	// INGRESS. Note: For INGRESS traffic, it is NOT supported to specify
-	// destinationRanges; For EGRESS traffic, it is NOT supported to specify
-	// source_ranges OR source_tags. For INGRESS traffic, one of source_ranges,
+	// INGRESS. Note: For INGRESS traffic, one of source_ranges,
 	// source_tags or source_service_accounts is required.
-	// Possible values are INGRESS and EGRESS.
+	// Possible values are: INGRESS, EGRESS.
 	Direction *string `json:"direction,omitempty" tf:"direction,omitempty"`
 
 	// Denotes whether the firewall rule is disabled, i.e not applied to the
@@ -188,8 +186,8 @@ type FirewallObservation struct {
 	// apply to traffic that has source IP address within sourceRanges OR the
 	// source IP that belongs to a tag listed in the sourceTags property. The
 	// connection does not need to match both properties for the firewall to
-	// apply. Only IPv4 is supported. For INGRESS traffic, one of source_ranges,
-	// source_tags or source_service_accounts is required.
+	// apply. IPv4 or IPv6 ranges are supported. For INGRESS traffic, one of
+	// source_ranges, source_tags or source_service_accounts is required.
 	SourceRanges []*string `json:"sourceRanges,omitempty" tf:"source_ranges,omitempty"`
 
 	// If source service accounts are specified, the firewall will apply only
@@ -255,16 +253,14 @@ type FirewallParameters struct {
 
 	// If destination ranges are specified, the firewall will apply only to
 	// traffic that has destination IP address in these ranges. These ranges
-	// must be expressed in CIDR format. Only IPv4 is supported.
+	// must be expressed in CIDR format. IPv4 or IPv6 ranges are supported.
 	// +kubebuilder:validation:Optional
 	DestinationRanges []*string `json:"destinationRanges,omitempty" tf:"destination_ranges,omitempty"`
 
 	// Direction of traffic to which this firewall applies; default is
-	// INGRESS. Note: For INGRESS traffic, it is NOT supported to specify
-	// destinationRanges; For EGRESS traffic, it is NOT supported to specify
-	// source_ranges OR source_tags. For INGRESS traffic, one of source_ranges,
+	// INGRESS. Note: For INGRESS traffic, one of source_ranges,
 	// source_tags or source_service_accounts is required.
-	// Possible values are INGRESS and EGRESS.
+	// Possible values are: INGRESS, EGRESS.
 	// +kubebuilder:validation:Optional
 	Direction *string `json:"direction,omitempty" tf:"direction,omitempty"`
 
@@ -321,8 +317,8 @@ type FirewallParameters struct {
 	// apply to traffic that has source IP address within sourceRanges OR the
 	// source IP that belongs to a tag listed in the sourceTags property. The
 	// connection does not need to match both properties for the firewall to
-	// apply. Only IPv4 is supported. For INGRESS traffic, one of source_ranges,
-	// source_tags or source_service_accounts is required.
+	// apply. IPv4 or IPv6 ranges are supported. For INGRESS traffic, one of
+	// source_ranges, source_tags or source_service_accounts is required.
 	// +kubebuilder:validation:Optional
 	SourceRanges []*string `json:"sourceRanges,omitempty" tf:"source_ranges,omitempty"`
 

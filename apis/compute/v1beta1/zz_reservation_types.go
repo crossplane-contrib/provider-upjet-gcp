@@ -106,7 +106,7 @@ type LocalSsdsObservation struct {
 
 	// The disk interface to use for attaching this disk.
 	// Default value is SCSI.
-	// Possible values are SCSI and NVME.
+	// Possible values are: SCSI, NVME.
 	Interface *string `json:"interface,omitempty" tf:"interface,omitempty"`
 }
 
@@ -118,7 +118,7 @@ type LocalSsdsParameters struct {
 
 	// The disk interface to use for attaching this disk.
 	// Default value is SCSI.
-	// Possible values are SCSI and NVME.
+	// Possible values are: SCSI, NVME.
 	// +kubebuilder:validation:Optional
 	Interface *string `json:"interface,omitempty" tf:"interface,omitempty"`
 }
@@ -204,7 +204,7 @@ type ReservationShareSettingsObservation struct {
 	ProjectMap []ShareSettingsProjectMapObservation `json:"projectMap,omitempty" tf:"project_map,omitempty"`
 
 	// Type of sharing for this shared-reservation
-	// Possible values are LOCAL and SPECIFIC_PROJECTS.
+	// Possible values are: LOCAL, SPECIFIC_PROJECTS.
 	ShareType *string `json:"shareType,omitempty" tf:"share_type,omitempty"`
 }
 
@@ -216,7 +216,7 @@ type ReservationShareSettingsParameters struct {
 	ProjectMap []ShareSettingsProjectMapParameters `json:"projectMap,omitempty" tf:"project_map,omitempty"`
 
 	// Type of sharing for this shared-reservation
-	// Possible values are LOCAL and SPECIFIC_PROJECTS.
+	// Possible values are: LOCAL, SPECIFIC_PROJECTS.
 	// +kubebuilder:validation:Optional
 	ShareType *string `json:"shareType,omitempty" tf:"share_type,omitempty"`
 }
@@ -226,6 +226,7 @@ type ReservationSpecificReservationObservation struct {
 	// The number of resources that are allocated.
 	Count *float64 `json:"count,omitempty" tf:"count,omitempty"`
 
+	// (Output)
 	// How many instances are in use.
 	InUseCount *float64 `json:"inUseCount,omitempty" tf:"in_use_count,omitempty"`
 

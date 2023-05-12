@@ -171,14 +171,15 @@ spec:
                           items:
                             properties:
                               deleteRule:
-                                description: A value that prescribes what should happen
-                                  to the stateful disk when the VM instance is deleted.
-                                  The available options are NEVER and ON_PERMANENT_INSTANCE_DELETION.
-                                  NEVER - detach the disk when the VM is deleted,
-                                  but do not delete the disk. ON_PERMANENT_INSTANCE_DELETION
-                                  will delete the stateful disk when the VM is permanently
-                                  deleted from the instance group. Default value is
-                                  NEVER. Possible values are NEVER and ON_PERMANENT_INSTANCE_DELETION.
+                                description: 'A value that prescribes what should
+                                  happen to the stateful disk when the VM instance
+                                  is deleted. The available options are NEVER and
+                                  ON_PERMANENT_INSTANCE_DELETION. NEVER - detach the
+                                  disk when the VM is deleted, but do not delete the
+                                  disk. ON_PERMANENT_INSTANCE_DELETION will delete
+                                  the stateful disk when the VM is permanently deleted
+                                  from the instance group. Default value is NEVER.
+                                  Possible values are: NEVER, ON_PERMANENT_INSTANCE_DELETION.'
                                 type: string
                               deviceName:
                                 description: A unique device name that is reflected
@@ -186,8 +187,8 @@ spec:
                                   running within the instance.
                                 type: string
                               mode:
-                                description: The mode of the disk. Default value is
-                                  READ_WRITE. Possible values are READ_ONLY and READ_WRITE.
+                                description: 'The mode of the disk. Default value
+                                  is READ_WRITE. Possible values are: READ_ONLY, READ_WRITE.'
                                 type: string
                               source:
                                 description: The URI of an existing persistent disk
@@ -601,14 +602,15 @@ spec:
                           items:
                             properties:
                               deleteRule:
-                                description: A value that prescribes what should happen
-                                  to the stateful disk when the VM instance is deleted.
-                                  The available options are NEVER and ON_PERMANENT_INSTANCE_DELETION.
-                                  NEVER - detach the disk when the VM is deleted,
-                                  but do not delete the disk. ON_PERMANENT_INSTANCE_DELETION
-                                  will delete the stateful disk when the VM is permanently
-                                  deleted from the instance group. Default value is
-                                  NEVER. Possible values are NEVER and ON_PERMANENT_INSTANCE_DELETION.
+                                description: 'A value that prescribes what should
+                                  happen to the stateful disk when the VM instance
+                                  is deleted. The available options are NEVER and
+                                  ON_PERMANENT_INSTANCE_DELETION. NEVER - detach the
+                                  disk when the VM is deleted, but do not delete the
+                                  disk. ON_PERMANENT_INSTANCE_DELETION will delete
+                                  the stateful disk when the VM is permanently deleted
+                                  from the instance group. Default value is NEVER.
+                                  Possible values are: NEVER, ON_PERMANENT_INSTANCE_DELETION.'
                                 type: string
                               deviceName:
                                 description: A unique device name that is reflected
@@ -616,8 +618,8 @@ spec:
                                   running within the instance.
                                 type: string
                               mode:
-                                description: The mode of the disk. Default value is
-                                  READ_WRITE. Possible values are READ_ONLY and READ_WRITE.
+                                description: 'The mode of the disk. Default value
+                                  is READ_WRITE. Possible values are: READ_ONLY, READ_WRITE.'
                                 type: string
                               source:
                                 description: The URI of an existing persistent disk

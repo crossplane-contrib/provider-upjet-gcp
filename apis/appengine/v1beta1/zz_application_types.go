@@ -38,8 +38,10 @@ type ApplicationObservation struct {
 
 	// The type of the Cloud Firestore or Cloud Datastore database associated with this application.
 	// Can be CLOUD_FIRESTORE or CLOUD_DATASTORE_COMPATIBILITY for new
-	// instances.  To support old instances, the value CLOUD_DATASTORE is accepted
-	// by the provider, but will be rejected by the API.
+	// instances.  To support old instances, the value CLOUD_DATASTORE is accepted by the provider, but will be rejected by the API.
+	// To create a Cloud Firestore database without creating an App Engine application, use the
+	// google_firestore_database
+	// resource instead.
 	DatabaseType *string `json:"databaseType,omitempty" tf:"database_type,omitempty"`
 
 	// The GCS bucket content is being stored in for this app.
@@ -87,8 +89,10 @@ type ApplicationParameters struct {
 
 	// The type of the Cloud Firestore or Cloud Datastore database associated with this application.
 	// Can be CLOUD_FIRESTORE or CLOUD_DATASTORE_COMPATIBILITY for new
-	// instances.  To support old instances, the value CLOUD_DATASTORE is accepted
-	// by the provider, but will be rejected by the API.
+	// instances.  To support old instances, the value CLOUD_DATASTORE is accepted by the provider, but will be rejected by the API.
+	// To create a Cloud Firestore database without creating an App Engine application, use the
+	// google_firestore_database
+	// resource instead.
 	// +kubebuilder:validation:Optional
 	DatabaseType *string `json:"databaseType,omitempty" tf:"database_type,omitempty"`
 

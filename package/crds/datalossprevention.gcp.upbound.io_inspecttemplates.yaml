@@ -80,9 +80,9 @@ spec:
                     items:
                       properties:
                         contentOptions:
-                          description: List of options defining data content to scan.
+                          description: 'List of options defining data content to scan.
                             If empty, text, images, and other content will be included.
-                            Each value may be one of CONTENT_TEXT and CONTENT_IMAGE.
+                            Each value may be one of: CONTENT_TEXT, CONTENT_IMAGE.'
                           items:
                             type: string
                           type: array
@@ -132,10 +132,10 @@ spec:
                                   type: object
                                 type: array
                               exclusionType:
-                                description: If set to EXCLUSION_TYPE_EXCLUDE this
+                                description: 'If set to EXCLUSION_TYPE_EXCLUDE this
                                   infoType will not cause a finding to be returned.
                                   It still can be used for rules matching. Possible
-                                  values are EXCLUSION_TYPE_EXCLUDE.
+                                  values are: EXCLUSION_TYPE_EXCLUDE.'
                                 type: string
                               infoType:
                                 description: Type of information the findings limit
@@ -151,17 +151,22 @@ spec:
                                         StoredInfoType, for example organizations/433245324/storedInfoTypes/432452342
                                         or projects/project-id/storedInfoTypes/432452342.
                                       type: string
+                                    version:
+                                      description: Version of the information type
+                                        to use. By default, the version is set to
+                                        stable
+                                      type: string
                                   required:
                                   - name
                                   type: object
                                 type: array
                               likelihood:
-                                description: Likelihood to return for this CustomInfoType.
+                                description: 'Likelihood to return for this CustomInfoType.
                                   This base value can be altered by a detection rule
                                   if the finding meets the criteria specified by the
                                   rule. Default value is VERY_LIKELY. Possible values
-                                  are VERY_UNLIKELY, UNLIKELY, POSSIBLE, LIKELY, and
-                                  VERY_LIKELY.
+                                  are: VERY_UNLIKELY, UNLIKELY, POSSIBLE, LIKELY,
+                                  VERY_LIKELY.'
                                 type: string
                               regex:
                                 description: Regular expression which defines the
@@ -197,6 +202,12 @@ spec:
                                       type: string
                                   required:
                                   - name
+                                  type: object
+                                type: array
+                              surrogateType:
+                                description: Message for detecting output from deidentification
+                                  transformations that support reversing.
+                                items:
                                   type: object
                                 type: array
                             required:
@@ -261,6 +272,11 @@ spec:
                                               StoredInfoType, for example organizations/433245324/storedInfoTypes/432452342
                                               or projects/project-id/storedInfoTypes/432452342.
                                             type: string
+                                          version:
+                                            description: Version of the information
+                                              type to use. By default, the version
+                                              is set to stable
+                                            type: string
                                         required:
                                         - name
                                         type: object
@@ -288,10 +304,10 @@ spec:
                             type: object
                           type: array
                         minLikelihood:
-                          description: Only returns findings equal or above this threshold.
-                            See https://cloud.google.com/dlp/docs/likelihood for more
-                            info Default value is POSSIBLE. Possible values are VERY_UNLIKELY,
-                            UNLIKELY, POSSIBLE, LIKELY, and VERY_LIKELY.
+                          description: 'Only returns findings equal or above this
+                            threshold. See https://cloud.google.com/dlp/docs/likelihood
+                            for more info Default value is POSSIBLE. Possible values
+                            are: VERY_UNLIKELY, UNLIKELY, POSSIBLE, LIKELY, VERY_LIKELY.'
                           type: string
                         ruleSet:
                           description: Set of rules to apply to the findings for this
@@ -310,6 +326,11 @@ spec:
                                       description: Resource name of the requested
                                         StoredInfoType, for example organizations/433245324/storedInfoTypes/432452342
                                         or projects/project-id/storedInfoTypes/432452342.
+                                      type: string
+                                    version:
+                                      description: Version of the information type
+                                        to use. By default, the version is set to
+                                        stable
                                       type: string
                                   required:
                                   - name
@@ -373,6 +394,80 @@ spec:
                                                   type: array
                                               type: object
                                             type: array
+                                          excludeByHotword:
+                                            description: Drop if the hotword rule
+                                              is contained in the proximate context.
+                                              For tabular data, the context includes
+                                              the column name. Structure is documented
+                                              below.
+                                            items:
+                                              properties:
+                                                hotwordRegex:
+                                                  description: Regular expression
+                                                    pattern defining what qualifies
+                                                    as a hotword. Structure is documented
+                                                    below.
+                                                  items:
+                                                    properties:
+                                                      groupIndexes:
+                                                        description: The index of
+                                                          the submatch to extract
+                                                          as findings. When not specified,
+                                                          the entire match is returned.
+                                                          No more than 3 may be included.
+                                                        items:
+                                                          type: number
+                                                        type: array
+                                                      pattern:
+                                                        description: Pattern defining
+                                                          the regular expression.
+                                                          Its syntax (https://github.com/google/re2/wiki/Syntax)
+                                                          can be found under the google/re2
+                                                          repository on GitHub.
+                                                        type: string
+                                                    required:
+                                                    - pattern
+                                                    type: object
+                                                  type: array
+                                                proximity:
+                                                  description: Proximity of the finding
+                                                    within which the entire hotword
+                                                    must reside. The total length
+                                                    of the window cannot exceed 1000
+                                                    characters. Note that the finding
+                                                    itself will be included in the
+                                                    window, so that hotwords may be
+                                                    used to match substrings of the
+                                                    finding itself. For example, the
+                                                    certainty of a phone number regex
+                                                    (\d{3}) \d{3}-\d{4} could be adjusted
+                                                    upwards if the area code is known
+                                                    to be the local area code of a
+                                                    company office using the hotword
+                                                    regex (xxx), where xxx is the
+                                                    area code in question. Structure
+                                                    is documented below.
+                                                  items:
+                                                    properties:
+                                                      windowAfter:
+                                                        description: Number of characters
+                                                          after the finding to consider.
+                                                          Either this or window_before
+                                                          must be specified
+                                                        type: number
+                                                      windowBefore:
+                                                        description: Number of characters
+                                                          before the finding to consider.
+                                                          Either this or window_after
+                                                          must be specified
+                                                        type: number
+                                                    type: object
+                                                  type: array
+                                              required:
+                                              - hotwordRegex
+                                              - proximity
+                                              type: object
+                                            type: array
                                           excludeInfoTypes:
                                             description: When true, excludes type
                                               information of the findings.
@@ -390,6 +485,12 @@ spec:
                                                           for example organizations/433245324/storedInfoTypes/432452342
                                                           or projects/project-id/storedInfoTypes/432452342.
                                                         type: string
+                                                      version:
+                                                        description: Version of the
+                                                          information type to use.
+                                                          By default, the version
+                                                          is set to stable
+                                                        type: string
                                                     required:
                                                     - name
                                                     type: object
@@ -402,8 +503,8 @@ spec:
                                             description: 'How the rule is applied.
                                               See the documentation for more information:
                                               https://cloud.google.com/dlp/docs/reference/rest/v2/InspectConfig#MatchingType
-                                              Possible values are MATCHING_TYPE_FULL_MATCH,
-                                              MATCHING_TYPE_PARTIAL_MATCH, and MATCHING_TYPE_INVERSE_MATCH.'
+                                              Possible values are: MATCHING_TYPE_FULL_MATCH,
+                                              MATCHING_TYPE_PARTIAL_MATCH, MATCHING_TYPE_INVERSE_MATCH.'
                                             type: string
                                           regex:
                                             description: Regular expression which
@@ -473,12 +574,12 @@ spec:
                                             items:
                                               properties:
                                                 fixedLikelihood:
-                                                  description: Set the likelihood
+                                                  description: 'Set the likelihood
                                                     of a finding to a fixed value.
                                                     Either this or relative_likelihood
-                                                    can be set. Possible values are
+                                                    can be set. Possible values are:
                                                     VERY_UNLIKELY, UNLIKELY, POSSIBLE,
-                                                    LIKELY, and VERY_LIKELY.
+                                                    LIKELY, VERY_LIKELY.'
                                                   type: string
                                                 relativeLikelihood:
                                                   description: Increase or decrease
@@ -762,9 +863,9 @@ spec:
                     items:
                       properties:
                         contentOptions:
-                          description: List of options defining data content to scan.
+                          description: 'List of options defining data content to scan.
                             If empty, text, images, and other content will be included.
-                            Each value may be one of CONTENT_TEXT and CONTENT_IMAGE.
+                            Each value may be one of: CONTENT_TEXT, CONTENT_IMAGE.'
                           items:
                             type: string
                           type: array
@@ -810,10 +911,10 @@ spec:
                                   type: object
                                 type: array
                               exclusionType:
-                                description: If set to EXCLUSION_TYPE_EXCLUDE this
+                                description: 'If set to EXCLUSION_TYPE_EXCLUDE this
                                   infoType will not cause a finding to be returned.
                                   It still can be used for rules matching. Possible
-                                  values are EXCLUSION_TYPE_EXCLUDE.
+                                  values are: EXCLUSION_TYPE_EXCLUDE.'
                                 type: string
                               infoType:
                                 description: Type of information the findings limit
@@ -829,15 +930,20 @@ spec:
                                         StoredInfoType, for example organizations/433245324/storedInfoTypes/432452342
                                         or projects/project-id/storedInfoTypes/432452342.
                                       type: string
+                                    version:
+                                      description: Version of the information type
+                                        to use. By default, the version is set to
+                                        stable
+                                      type: string
                                   type: object
                                 type: array
                               likelihood:
-                                description: Likelihood to return for this CustomInfoType.
+                                description: 'Likelihood to return for this CustomInfoType.
                                   This base value can be altered by a detection rule
                                   if the finding meets the criteria specified by the
                                   rule. Default value is VERY_LIKELY. Possible values
-                                  are VERY_UNLIKELY, UNLIKELY, POSSIBLE, LIKELY, and
-                                  VERY_LIKELY.
+                                  are: VERY_UNLIKELY, UNLIKELY, POSSIBLE, LIKELY,
+                                  VERY_LIKELY.'
                                 type: string
                               regex:
                                 description: Regular expression which defines the
@@ -869,6 +975,12 @@ spec:
                                         StoredInfoType, for example organizations/433245324/storedInfoTypes/432452342
                                         or projects/project-id/storedInfoTypes/432452342.
                                       type: string
+                                  type: object
+                                type: array
+                              surrogateType:
+                                description: Message for detecting output from deidentification
+                                  transformations that support reversing.
+                                items:
                                   type: object
                                 type: array
                             type: object
@@ -929,6 +1041,11 @@ spec:
                                               StoredInfoType, for example organizations/433245324/storedInfoTypes/432452342
                                               or projects/project-id/storedInfoTypes/432452342.
                                             type: string
+                                          version:
+                                            description: Version of the information
+                                              type to use. By default, the version
+                                              is set to stable
+                                            type: string
                                         type: object
                                       type: array
                                     maxFindings:
@@ -948,10 +1065,10 @@ spec:
                             type: object
                           type: array
                         minLikelihood:
-                          description: Only returns findings equal or above this threshold.
-                            See https://cloud.google.com/dlp/docs/likelihood for more
-                            info Default value is POSSIBLE. Possible values are VERY_UNLIKELY,
-                            UNLIKELY, POSSIBLE, LIKELY, and VERY_LIKELY.
+                          description: 'Only returns findings equal or above this
+                            threshold. See https://cloud.google.com/dlp/docs/likelihood
+                            for more info Default value is POSSIBLE. Possible values
+                            are: VERY_UNLIKELY, UNLIKELY, POSSIBLE, LIKELY, VERY_LIKELY.'
                           type: string
                         ruleSet:
                           description: Set of rules to apply to the findings for this
@@ -970,6 +1087,11 @@ spec:
                                       description: Resource name of the requested
                                         StoredInfoType, for example organizations/433245324/storedInfoTypes/432452342
                                         or projects/project-id/storedInfoTypes/432452342.
+                                      type: string
+                                    version:
+                                      description: Version of the information type
+                                        to use. By default, the version is set to
+                                        stable
                                       type: string
                                   type: object
                                 type: array
@@ -1027,6 +1149,75 @@ spec:
                                                   type: array
                                               type: object
                                             type: array
+                                          excludeByHotword:
+                                            description: Drop if the hotword rule
+                                              is contained in the proximate context.
+                                              For tabular data, the context includes
+                                              the column name. Structure is documented
+                                              below.
+                                            items:
+                                              properties:
+                                                hotwordRegex:
+                                                  description: Regular expression
+                                                    pattern defining what qualifies
+                                                    as a hotword. Structure is documented
+                                                    below.
+                                                  items:
+                                                    properties:
+                                                      groupIndexes:
+                                                        description: The index of
+                                                          the submatch to extract
+                                                          as findings. When not specified,
+                                                          the entire match is returned.
+                                                          No more than 3 may be included.
+                                                        items:
+                                                          type: number
+                                                        type: array
+                                                      pattern:
+                                                        description: Pattern defining
+                                                          the regular expression.
+                                                          Its syntax (https://github.com/google/re2/wiki/Syntax)
+                                                          can be found under the google/re2
+                                                          repository on GitHub.
+                                                        type: string
+                                                    type: object
+                                                  type: array
+                                                proximity:
+                                                  description: Proximity of the finding
+                                                    within which the entire hotword
+                                                    must reside. The total length
+                                                    of the window cannot exceed 1000
+                                                    characters. Note that the finding
+                                                    itself will be included in the
+                                                    window, so that hotwords may be
+                                                    used to match substrings of the
+                                                    finding itself. For example, the
+                                                    certainty of a phone number regex
+                                                    (\d{3}) \d{3}-\d{4} could be adjusted
+                                                    upwards if the area code is known
+                                                    to be the local area code of a
+                                                    company office using the hotword
+                                                    regex (xxx), where xxx is the
+                                                    area code in question. Structure
+                                                    is documented below.
+                                                  items:
+                                                    properties:
+                                                      windowAfter:
+                                                        description: Number of characters
+                                                          after the finding to consider.
+                                                          Either this or window_before
+                                                          must be specified
+                                                        type: number
+                                                      windowBefore:
+                                                        description: Number of characters
+                                                          before the finding to consider.
+                                                          Either this or window_after
+                                                          must be specified
+                                                        type: number
+                                                    type: object
+                                                  type: array
+                                              type: object
+                                            type: array
                                           excludeInfoTypes:
                                             description: When true, excludes type
                                               information of the findings.
@@ -1044,6 +1235,12 @@ spec:
                                                           for example organizations/433245324/storedInfoTypes/432452342
                                                           or projects/project-id/storedInfoTypes/432452342.
                                                         type: string
+                                                      version:
+                                                        description: Version of the
+                                                          information type to use.
+                                                          By default, the version
+                                                          is set to stable
+                                                        type: string
                                                     type: object
                                                   type: array
                                               type: object
@@ -1052,8 +1249,8 @@ spec:
                                             description: 'How the rule is applied.
                                               See the documentation for more information:
                                               https://cloud.google.com/dlp/docs/reference/rest/v2/InspectConfig#MatchingType
-                                              Possible values are MATCHING_TYPE_FULL_MATCH,
-                                              MATCHING_TYPE_PARTIAL_MATCH, and MATCHING_TYPE_INVERSE_MATCH.'
+                                              Possible values are: MATCHING_TYPE_FULL_MATCH,
+                                              MATCHING_TYPE_PARTIAL_MATCH, MATCHING_TYPE_INVERSE_MATCH.'
                                             type: string
                                           regex:
                                             description: Regular expression which
@@ -1117,12 +1314,12 @@ spec:
                                             items:
                                               properties:
                                                 fixedLikelihood:
-                                                  description: Set the likelihood
+                                                  description: 'Set the likelihood
                                                     of a finding to a fixed value.
                                                     Either this or relative_likelihood
-                                                    can be set. Possible values are
+                                                    can be set. Possible values are:
                                                     VERY_UNLIKELY, UNLIKELY, POSSIBLE,
-                                                    LIKELY, and VERY_LIKELY.
+                                                    LIKELY, VERY_LIKELY.'
                                                   type: string
                                                 relativeLikelihood:
                                                   description: Increase or decrease

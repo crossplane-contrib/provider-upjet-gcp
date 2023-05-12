@@ -75,6 +75,7 @@ type TagTemplateFieldsObservation struct {
 	// Whether this is a required field. Defaults to false.
 	IsRequired *bool `json:"isRequired,omitempty" tf:"is_required,omitempty"`
 
+	// (Output)
 	// The resource name of the tag template field in URL format. Example: projects/{project_id}/locations/{location}/tagTemplates/{tagTemplateId}/fields/{field}
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
@@ -178,7 +179,7 @@ type TypeObservation struct {
 
 	// Represents primitive types - string, bool etc.
 	// Exactly one of primitive_type or enum_type must be set
-	// Possible values are DOUBLE, STRING, BOOL, and TIMESTAMP.
+	// Possible values are: DOUBLE, STRING, BOOL, TIMESTAMP.
 	PrimitiveType *string `json:"primitiveType,omitempty" tf:"primitive_type,omitempty"`
 }
 
@@ -192,7 +193,7 @@ type TypeParameters struct {
 
 	// Represents primitive types - string, bool etc.
 	// Exactly one of primitive_type or enum_type must be set
-	// Possible values are DOUBLE, STRING, BOOL, and TIMESTAMP.
+	// Possible values are: DOUBLE, STRING, BOOL, TIMESTAMP.
 	// +kubebuilder:validation:Optional
 	PrimitiveType *string `json:"primitiveType,omitempty" tf:"primitive_type,omitempty"`
 }

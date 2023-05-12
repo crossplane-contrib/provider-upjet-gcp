@@ -277,7 +277,7 @@ type InitializeParamsObservation struct {
 	// will inherit the size of its base image.
 	Size *float64 `json:"size,omitempty" tf:"size,omitempty"`
 
-	// The type of reservation from which this instance can consume resources.
+	// The accelerator type resource to expose to this instance. E.g. nvidia-tesla-k80.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
@@ -313,7 +313,7 @@ type InitializeParamsParameters struct {
 	// +kubebuilder:validation:Optional
 	Size *float64 `json:"size,omitempty" tf:"size,omitempty"`
 
-	// The type of reservation from which this instance can consume resources.
+	// The accelerator type resource to expose to this instance. E.g. nvidia-tesla-k80.
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
@@ -946,6 +946,10 @@ type ScratchDiskObservation struct {
 
 	// The disk interface to use for attaching this disk; either SCSI or NVME.
 	Interface *string `json:"interface,omitempty" tf:"interface,omitempty"`
+
+	// The size of the image in gigabytes. If not specified, it
+	// will inherit the size of its base image.
+	Size *float64 `json:"size,omitempty" tf:"size,omitempty"`
 }
 
 type ScratchDiskParameters struct {
@@ -953,12 +957,16 @@ type ScratchDiskParameters struct {
 	// The disk interface to use for attaching this disk; either SCSI or NVME.
 	// +kubebuilder:validation:Required
 	Interface *string `json:"interface" tf:"interface,omitempty"`
+
+	// The size of the image in gigabytes. If not specified, it
+	// will inherit the size of its base image.
+	// +kubebuilder:validation:Optional
+	Size *float64 `json:"size,omitempty" tf:"size,omitempty"`
 }
 
 type ServiceAccountObservation struct {
 
-	// The service account e-mail address. If not given, the
-	// default Google Compute Engine service account is used.
+	// The service account e-mail address.
 	// Note: allow_stopping_for_update must be set to true or your instance must have a desired_status of TERMINATED in order to update this field.
 	Email *string `json:"email,omitempty" tf:"email,omitempty"`
 
@@ -971,8 +979,7 @@ type ServiceAccountObservation struct {
 
 type ServiceAccountParameters struct {
 
-	// The service account e-mail address. If not given, the
-	// default Google Compute Engine service account is used.
+	// The service account e-mail address.
 	// Note: allow_stopping_for_update must be set to true or your instance must have a desired_status of TERMINATED in order to update this field.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1.ServiceAccount
 	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractParamPath("email",true)

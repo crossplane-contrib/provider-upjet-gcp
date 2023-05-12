@@ -98,14 +98,14 @@ spec:
                             above.
                           type: string
                         enforcementMode:
-                          description: The action when a pod creation is denied by
-                            the admission rule. Possible values are ENFORCED_BLOCK_AND_AUDIT_LOG
-                            and DRYRUN_AUDIT_LOG_ONLY.
+                          description: 'The action when a pod creation is denied by
+                            the admission rule. Possible values are: ENFORCED_BLOCK_AND_AUDIT_LOG,
+                            DRYRUN_AUDIT_LOG_ONLY.'
                           type: string
                         evaluationMode:
-                          description: How this admission rule will be evaluated.
-                            Possible values are ALWAYS_ALLOW, REQUIRE_ATTESTATION,
-                            and ALWAYS_DENY.
+                          description: 'How this admission rule will be evaluated.
+                            Possible values are: ALWAYS_ALLOW, REQUIRE_ATTESTATION,
+                            ALWAYS_DENY.'
                           type: string
                         requireAttestationsBy:
                           description: 'The resource names of the attestors that must
@@ -132,14 +132,14 @@ spec:
                     items:
                       properties:
                         enforcementMode:
-                          description: The action when a pod creation is denied by
-                            the admission rule. Possible values are ENFORCED_BLOCK_AND_AUDIT_LOG
-                            and DRYRUN_AUDIT_LOG_ONLY.
+                          description: 'The action when a pod creation is denied by
+                            the admission rule. Possible values are: ENFORCED_BLOCK_AND_AUDIT_LOG,
+                            DRYRUN_AUDIT_LOG_ONLY.'
                           type: string
                         evaluationMode:
-                          description: How this admission rule will be evaluated.
-                            Possible values are ALWAYS_ALLOW, REQUIRE_ATTESTATION,
-                            and ALWAYS_DENY.
+                          description: 'How this admission rule will be evaluated.
+                            Possible values are: ALWAYS_ALLOW, REQUIRE_ATTESTATION,
+                            ALWAYS_DENY.'
                           type: string
                         requireAttestationsBy:
                           description: 'The resource names of the attestors that must
@@ -163,10 +163,10 @@ spec:
                     description: A descriptive comment.
                     type: string
                   globalPolicyEvaluationMode:
-                    description: Controls the evaluation of a Google-maintained global
+                    description: 'Controls the evaluation of a Google-maintained global
                       admission policy for common system-level images. Images not
                       covered by the global policy will be subject to the project
-                      admission policy. Possible values are ENABLE and DISABLE.
+                      admission policy. Possible values are: ENABLE, DISABLE.'
                     type: string
                   project:
                     description: The ID of the project in which the resource belongs.
@@ -395,14 +395,14 @@ spec:
                             above.
                           type: string
                         enforcementMode:
-                          description: The action when a pod creation is denied by
-                            the admission rule. Possible values are ENFORCED_BLOCK_AND_AUDIT_LOG
-                            and DRYRUN_AUDIT_LOG_ONLY.
+                          description: 'The action when a pod creation is denied by
+                            the admission rule. Possible values are: ENFORCED_BLOCK_AND_AUDIT_LOG,
+                            DRYRUN_AUDIT_LOG_ONLY.'
                           type: string
                         evaluationMode:
-                          description: How this admission rule will be evaluated.
-                            Possible values are ALWAYS_ALLOW, REQUIRE_ATTESTATION,
-                            and ALWAYS_DENY.
+                          description: 'How this admission rule will be evaluated.
+                            Possible values are: ALWAYS_ALLOW, REQUIRE_ATTESTATION,
+                            ALWAYS_DENY.'
                           type: string
                         requireAttestationsBy:
                           description: 'The resource names of the attestors that must
@@ -425,14 +425,14 @@ spec:
                     items:
                       properties:
                         enforcementMode:
-                          description: The action when a pod creation is denied by
-                            the admission rule. Possible values are ENFORCED_BLOCK_AND_AUDIT_LOG
-                            and DRYRUN_AUDIT_LOG_ONLY.
+                          description: 'The action when a pod creation is denied by
+                            the admission rule. Possible values are: ENFORCED_BLOCK_AND_AUDIT_LOG,
+                            DRYRUN_AUDIT_LOG_ONLY.'
                           type: string
                         evaluationMode:
-                          description: How this admission rule will be evaluated.
-                            Possible values are ALWAYS_ALLOW, REQUIRE_ATTESTATION,
-                            and ALWAYS_DENY.
+                          description: 'How this admission rule will be evaluated.
+                            Possible values are: ALWAYS_ALLOW, REQUIRE_ATTESTATION,
+                            ALWAYS_DENY.'
                           type: string
                         requireAttestationsBy:
                           description: 'The resource names of the attestors that must
@@ -453,10 +453,10 @@ spec:
                     description: A descriptive comment.
                     type: string
                   globalPolicyEvaluationMode:
-                    description: Controls the evaluation of a Google-maintained global
+                    description: 'Controls the evaluation of a Google-maintained global
                       admission policy for common system-level images. Images not
                       covered by the global policy will be subject to the project
-                      admission policy. Possible values are ENABLE and DISABLE.
+                      admission policy. Possible values are: ENABLE, DISABLE.'
                     type: string
                   id:
                     description: an identifier for the resource with format projects/{{project}}

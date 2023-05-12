@@ -100,8 +100,8 @@ spec:
                             type: object
                           type: array
                         shareType:
-                          description: Type of sharing for this shared-reservation
-                            Possible values are LOCAL and SPECIFIC_PROJECTS.
+                          description: 'Type of sharing for this shared-reservation
+                            Possible values are: LOCAL, SPECIFIC_PROJECTS.'
                           type: string
                       type: object
                     type: array
@@ -150,9 +150,9 @@ spec:
                                         GB.
                                       type: number
                                     interface:
-                                      description: The disk interface to use for attaching
-                                        this disk. Default value is SCSI. Possible
-                                        values are SCSI and NVME.
+                                      description: 'The disk interface to use for
+                                        attaching this disk. Default value is SCSI.
+                                        Possible values are: SCSI, NVME.'
                                       type: string
                                   required:
                                   - diskSizeGb
@@ -424,8 +424,8 @@ spec:
                             type: object
                           type: array
                         shareType:
-                          description: Type of sharing for this shared-reservation
-                            Possible values are LOCAL and SPECIFIC_PROJECTS.
+                          description: 'Type of sharing for this shared-reservation
+                            Possible values are: LOCAL, SPECIFIC_PROJECTS.'
                           type: string
                       type: object
                     type: array
@@ -438,7 +438,7 @@ spec:
                           description: The number of resources that are allocated.
                           type: number
                         inUseCount:
-                          description: How many instances are in use.
+                          description: (Output) How many instances are in use.
                           type: number
                         instanceProperties:
                           description: The instance properties for the reservation.
@@ -474,9 +474,9 @@ spec:
                                         GB.
                                       type: number
                                     interface:
-                                      description: The disk interface to use for attaching
-                                        this disk. Default value is SCSI. Possible
-                                        values are SCSI and NVME.
+                                      description: 'The disk interface to use for
+                                        attaching this disk. Default value is SCSI.
+                                        Possible values are: SCSI, NVME.'
                                       type: string
                                   type: object
                                 type: array

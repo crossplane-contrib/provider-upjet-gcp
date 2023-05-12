@@ -165,10 +165,8 @@ spec:
                                 items:
                                   properties:
                                     critical:
-                                      description: Indicates whether or not this extension
-                                        is critical (i.e., if the client does not
-                                        know how to handle this extension, the client
-                                        should consider this to be an error).
+                                      description: Indicates whether or not the name
+                                        constraints are marked critical.
                                       type: boolean
                                     objectId:
                                       description: Describes values that are relevant
@@ -355,6 +353,95 @@ spec:
                                   - extendedKeyUsage
                                   type: object
                                 type: array
+                              nameConstraints:
+                                description: Describes the X.509 name constraints
+                                  extension. Structure is documented below.
+                                items:
+                                  properties:
+                                    critical:
+                                      description: Indicates whether or not the name
+                                        constraints are marked critical.
+                                      type: boolean
+                                    excludedDnsNames:
+                                      description: Contains excluded DNS names. Any
+                                        DNS name that can be constructed by simply
+                                        adding zero or more labels to the left-hand
+                                        side of the name satisfies the name constraint.
+                                        For example, example.com, www.example.com,
+                                        www.sub.example.com would satisfy example.com
+                                        while example1.com does not.
+                                      items:
+                                        type: string
+                                      type: array
+                                    excludedEmailAddresses:
+                                      description: Contains the excluded email addresses.
+                                        The value can be a particular email address,
+                                        a hostname to indicate all email addresses
+                                        on that host or a domain with a leading period
+                                        (e.g. .example.com) to indicate all email
+                                        addresses in that domain.
+                                      items:
+                                        type: string
+                                      type: array
+                                    excludedIpRanges:
+                                      description: Contains the excluded IP ranges.
+                                        For IPv4 addresses, the ranges are expressed
+                                        using CIDR notation as specified in RFC 4632.
+                                        For IPv6 addresses, the ranges are expressed
+                                        in similar encoding as IPv4 addresses.
+                                      items:
+                                        type: string
+                                      type: array
+                                    excludedUris:
+                                      description: Contains the excluded URIs that
+                                        apply to the host part of the name. The value
+                                        can be a hostname or a domain with a leading
+                                        period (like .example.com)
+                                      items:
+                                        type: string
+                                      type: array
+                                    permittedDnsNames:
+                                      description: Contains permitted DNS names. Any
+                                        DNS name that can be constructed by simply
+                                        adding zero or more labels to the left-hand
+                                        side of the name satisfies the name constraint.
+                                        For example, example.com, www.example.com,
+                                        www.sub.example.com would satisfy example.com
+                                        while example1.com does not.
+                                      items:
+                                        type: string
+                                      type: array
+                                    permittedEmailAddresses:
+                                      description: Contains the permitted email addresses.
+                                        The value can be a particular email address,
+                                        a hostname to indicate all email addresses
+                                        on that host or a domain with a leading period
+                                        (e.g. .example.com) to indicate all email
+                                        addresses in that domain.
+                                      items:
+                                        type: string
+                                      type: array
+                                    permittedIpRanges:
+                                      description: Contains the permitted IP ranges.
+                                        For IPv4 addresses, the ranges are expressed
+                                        using CIDR notation as specified in RFC 4632.
+                                        For IPv6 addresses, the ranges are expressed
+                                        in similar encoding as IPv4 addresses.
+                                      items:
+                                        type: string
+                                      type: array
+                                    permittedUris:
+                                      description: Contains the permitted URIs that
+                                        apply to the host part of the name. The value
+                                        can be a hostname or a domain with a leading
+                                        period (like .example.com)
+                                      items:
+                                        type: string
+                                      type: array
+                                  required:
+                                  - critical
+                                  type: object
+                                type: array
                               policyIds:
                                 description: Describes the X.509 certificate policy
                                   object identifiers, per https://tools.ietf.org/html/rfc5280#section-4.2.1.4.
@@ -410,13 +497,13 @@ spec:
                     items:
                       properties:
                         algorithm:
-                          description: The algorithm to use for creating a managed
+                          description: 'The algorithm to use for creating a managed
                             Cloud KMS key for a for a simplified experience. All managed
                             keys will be have their ProtectionLevel as HSM. Possible
-                            values are SIGN_HASH_ALGORITHM_UNSPECIFIED, RSA_PSS_2048_SHA256,
+                            values are: SIGN_HASH_ALGORITHM_UNSPECIFIED, RSA_PSS_2048_SHA256,
                             RSA_PSS_3072_SHA256, RSA_PSS_4096_SHA256, RSA_PKCS1_2048_SHA256,
                             RSA_PKCS1_3072_SHA256, RSA_PKCS1_4096_SHA256, EC_P256_SHA256,
-                            and EC_P384_SHA384.
+                            EC_P384_SHA384.'
                           type: string
                         cloudKmsKeyVersion:
                           description: The resource name for an existing Cloud KMS
@@ -645,7 +732,7 @@ spec:
                     description: 'The Type of this CertificateAuthority. ~> Note:
                       For SUBORDINATE Certificate Authorities, they need to be activated
                       before they can issue certificates. Default value is SELF_SIGNED.
-                      Possible values are SELF_SIGNED and SUBORDINATE.'
+                      Possible values are: SELF_SIGNED, SUBORDINATE.'
                     type: string
                 required:
                 - location
@@ -854,14 +941,14 @@ spec:
                     items:
                       properties:
                         caCertificateAccessUrl:
-                          description: The URL where this CertificateAuthority's CA
-                            certificate is published. This will only be set for CAs
-                            that have been activated.
+                          description: (Output) The URL where this CertificateAuthority's
+                            CA certificate is published. This will only be set for
+                            CAs that have been activated.
                           type: string
                         crlAccessUrls:
-                          description: The URL where this CertificateAuthority's CRLs
-                            are published. This will only be set for CAs that have
-                            been activated.
+                          description: (Output) The URL where this CertificateAuthority's
+                            CRLs are published. This will only be set for CAs that
+                            have been activated.
                           items:
                             type: string
                           type: array
@@ -959,10 +1046,8 @@ spec:
                                 items:
                                   properties:
                                     critical:
-                                      description: Indicates whether or not this extension
-                                        is critical (i.e., if the client does not
-                                        know how to handle this extension, the client
-                                        should consider this to be an error).
+                                      description: Indicates whether or not the name
+                                        constraints are marked critical.
                                       type: boolean
                                     objectId:
                                       description: Describes values that are relevant
@@ -1136,6 +1221,93 @@ spec:
                                       type: array
                                   type: object
                                 type: array
+                              nameConstraints:
+                                description: Describes the X.509 name constraints
+                                  extension. Structure is documented below.
+                                items:
+                                  properties:
+                                    critical:
+                                      description: Indicates whether or not the name
+                                        constraints are marked critical.
+                                      type: boolean
+                                    excludedDnsNames:
+                                      description: Contains excluded DNS names. Any
+                                        DNS name that can be constructed by simply
+                                        adding zero or more labels to the left-hand
+                                        side of the name satisfies the name constraint.
+                                        For example, example.com, www.example.com,
+                                        www.sub.example.com would satisfy example.com
+                                        while example1.com does not.
+                                      items:
+                                        type: string
+                                      type: array
+                                    excludedEmailAddresses:
+                                      description: Contains the excluded email addresses.
+                                        The value can be a particular email address,
+                                        a hostname to indicate all email addresses
+                                        on that host or a domain with a leading period
+                                        (e.g. .example.com) to indicate all email
+                                        addresses in that domain.
+                                      items:
+                                        type: string
+                                      type: array
+                                    excludedIpRanges:
+                                      description: Contains the excluded IP ranges.
+                                        For IPv4 addresses, the ranges are expressed
+                                        using CIDR notation as specified in RFC 4632.
+                                        For IPv6 addresses, the ranges are expressed
+                                        in similar encoding as IPv4 addresses.
+                                      items:
+                                        type: string
+                                      type: array
+                                    excludedUris:
+                                      description: Contains the excluded URIs that
+                                        apply to the host part of the name. The value
+                                        can be a hostname or a domain with a leading
+                                        period (like .example.com)
+                                      items:
+                                        type: string
+                                      type: array
+                                    permittedDnsNames:
+                                      description: Contains permitted DNS names. Any
+                                        DNS name that can be constructed by simply
+                                        adding zero or more labels to the left-hand
+                                        side of the name satisfies the name constraint.
+                                        For example, example.com, www.example.com,
+                                        www.sub.example.com would satisfy example.com
+                                        while example1.com does not.
+                                      items:
+                                        type: string
+                                      type: array
+                                    permittedEmailAddresses:
+                                      description: Contains the permitted email addresses.
+                                        The value can be a particular email address,
+                                        a hostname to indicate all email addresses
+                                        on that host or a domain with a leading period
+                                        (e.g. .example.com) to indicate all email
+                                        addresses in that domain.
+                                      items:
+                                        type: string
+                                      type: array
+                                    permittedIpRanges:
+                                      description: Contains the permitted IP ranges.
+                                        For IPv4 addresses, the ranges are expressed
+                                        using CIDR notation as specified in RFC 4632.
+                                        For IPv6 addresses, the ranges are expressed
+                                        in similar encoding as IPv4 addresses.
+                                      items:
+                                        type: string
+                                      type: array
+                                    permittedUris:
+                                      description: Contains the permitted URIs that
+                                        apply to the host part of the name. The value
+                                        can be a hostname or a domain with a leading
+                                        period (like .example.com)
+                                      items:
+                                        type: string
+                                      type: array
+                                  type: object
+                                type: array
                               policyIds:
                                 description: Describes the X.509 certificate policy
                                   object identifiers, per https://tools.ietf.org/html/rfc5280#section-4.2.1.4.
@@ -1192,13 +1364,13 @@ spec:
                     items:
                       properties:
                         algorithm:
-                          description: The algorithm to use for creating a managed
+                          description: 'The algorithm to use for creating a managed
                             Cloud KMS key for a for a simplified experience. All managed
                             keys will be have their ProtectionLevel as HSM. Possible
-                            values are SIGN_HASH_ALGORITHM_UNSPECIFIED, RSA_PSS_2048_SHA256,
+                            values are: SIGN_HASH_ALGORITHM_UNSPECIFIED, RSA_PSS_2048_SHA256,
                             RSA_PSS_3072_SHA256, RSA_PSS_4096_SHA256, RSA_PKCS1_2048_SHA256,
                             RSA_PKCS1_3072_SHA256, RSA_PKCS1_4096_SHA256, EC_P256_SHA256,
-                            and EC_P384_SHA384.
+                            EC_P384_SHA384.'
                           type: string
                         cloudKmsKeyVersion:
                           description: The resource name for an existing Cloud KMS
@@ -1292,7 +1464,7 @@ spec:
                     description: 'The Type of this CertificateAuthority. ~> Note:
                       For SUBORDINATE Certificate Authorities, they need to be activated
                       before they can issue certificates. Default value is SELF_SIGNED.
-                      Possible values are SELF_SIGNED and SUBORDINATE.'
+                      Possible values are: SELF_SIGNED, SUBORDINATE.'
                     type: string
                   updateTime:
                     description: 'The time at which this CertificateAuthority was

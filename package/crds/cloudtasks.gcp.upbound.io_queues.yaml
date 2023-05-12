@@ -448,7 +448,7 @@ spec:
                     items:
                       properties:
                         host:
-                          description: The host that the task is sent to.
+                          description: (Output) The host that the task is sent to.
                           type: string
                         instance:
                           description: App instance. By default, the task is sent
@@ -482,12 +482,13 @@ spec:
                     items:
                       properties:
                         maxBurstSize:
-                          description: The max burst size. Max burst size limits how
-                            fast tasks in queue are processed when many tasks are
-                            in the queue and the rate is high. This field allows the
-                            queue to have a high rate so processing starts shortly
-                            after a task is enqueued, but still limits resource usage
-                            when many tasks are enqueued in a short period of time.
+                          description: (Output) The max burst size. Max burst size
+                            limits how fast tasks in queue are processed when many
+                            tasks are in the queue and the rate is high. This field
+                            allows the queue to have a high rate so processing starts
+                            shortly after a task is enqueued, but still limits resource
+                            usage when many tasks are enqueued in a short period of
+                            time.
                           type: number
                         maxConcurrentDispatches:
                           description: The maximum number of concurrent tasks that

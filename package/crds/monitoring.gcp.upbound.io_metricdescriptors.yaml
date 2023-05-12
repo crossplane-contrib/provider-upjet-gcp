@@ -95,18 +95,18 @@ spec:
                             match the regular expression [a-zA-Z][a-zA-Z0-9_]*
                           type: string
                         valueType:
-                          description: The type of data that can be assigned to the
-                            label. Default value is STRING. Possible values are STRING,
-                            BOOL, and INT64.
+                          description: 'The type of data that can be assigned to the
+                            label. Default value is STRING. Possible values are: STRING,
+                            BOOL, INT64.'
                           type: string
                       required:
                       - key
                       type: object
                     type: array
                   launchStage:
-                    description: The launch stage of the metric definition. Possible
-                      values are LAUNCH_STAGE_UNSPECIFIED, UNIMPLEMENTED, PRELAUNCH,
-                      EARLY_ACCESS, ALPHA, BETA, GA, and DEPRECATED.
+                    description: 'The launch stage of the metric definition. Possible
+                      values are: LAUNCH_STAGE_UNSPECIFIED, UNIMPLEMENTED, PRELAUNCH,
+                      EARLY_ACCESS, ALPHA, BETA, GA, DEPRECATED.'
                     type: string
                   metadata:
                     description: Metadata which can be used to guide usage of the
@@ -129,10 +129,10 @@ spec:
                       type: object
                     type: array
                   metricKind:
-                    description: Whether the metric records instantaneous values,
+                    description: 'Whether the metric records instantaneous values,
                       changes to a value, etc. Some combinations of metricKind and
-                      valueType might not be supported. Possible values are METRIC_KIND_UNSPECIFIED,
-                      GAUGE, DELTA, and CUMULATIVE.
+                      valueType might not be supported. Possible values are: METRIC_KIND_UNSPECIFIED,
+                      GAUGE, DELTA, CUMULATIVE.'
                     type: string
                   project:
                     description: The ID of the project in which the resource belongs.
@@ -171,10 +171,10 @@ spec:
                       (https://cloud.google.com/monitoring/api/ref_v3/rest/v3/projects.metricDescriptors).
                     type: string
                   valueType:
-                    description: Whether the measurement is an integer, a floating-point
+                    description: 'Whether the measurement is an integer, a floating-point
                       number, etc. Some combinations of metricKind and valueType might
-                      not be supported. Possible values are BOOL, INT64, DOUBLE, STRING,
-                      and DISTRIBUTION.
+                      not be supported. Possible values are: BOOL, INT64, DOUBLE,
+                      STRING, DISTRIBUTION.'
                     type: string
                 type: object
               managementPolicy:
@@ -409,16 +409,16 @@ spec:
                             match the regular expression [a-zA-Z][a-zA-Z0-9_]*
                           type: string
                         valueType:
-                          description: The type of data that can be assigned to the
-                            label. Default value is STRING. Possible values are STRING,
-                            BOOL, and INT64.
+                          description: 'The type of data that can be assigned to the
+                            label. Default value is STRING. Possible values are: STRING,
+                            BOOL, INT64.'
                           type: string
                       type: object
                     type: array
                   launchStage:
-                    description: The launch stage of the metric definition. Possible
-                      values are LAUNCH_STAGE_UNSPECIFIED, UNIMPLEMENTED, PRELAUNCH,
-                      EARLY_ACCESS, ALPHA, BETA, GA, and DEPRECATED.
+                    description: 'The launch stage of the metric definition. Possible
+                      values are: LAUNCH_STAGE_UNSPECIFIED, UNIMPLEMENTED, PRELAUNCH,
+                      EARLY_ACCESS, ALPHA, BETA, GA, DEPRECATED.'
                     type: string
                   metadata:
                     description: Metadata which can be used to guide usage of the
@@ -441,10 +441,10 @@ spec:
                       type: object
                     type: array
                   metricKind:
-                    description: Whether the metric records instantaneous values,
+                    description: 'Whether the metric records instantaneous values,
                       changes to a value, etc. Some combinations of metricKind and
-                      valueType might not be supported. Possible values are METRIC_KIND_UNSPECIFIED,
-                      GAUGE, DELTA, and CUMULATIVE.
+                      valueType might not be supported. Possible values are: METRIC_KIND_UNSPECIFIED,
+                      GAUGE, DELTA, CUMULATIVE.'
                     type: string
                   monitoredResourceTypes:
                     description: If present, then a time series, which is identified
@@ -496,10 +496,10 @@ spec:
                       (https://cloud.google.com/monitoring/api/ref_v3/rest/v3/projects.metricDescriptors).
                     type: string
                   valueType:
-                    description: Whether the measurement is an integer, a floating-point
+                    description: 'Whether the measurement is an integer, a floating-point
                       number, etc. Some combinations of metricKind and valueType might
-                      not be supported. Possible values are BOOL, INT64, DOUBLE, STRING,
-                      and DISTRIBUTION.
+                      not be supported. Possible values are: BOOL, INT64, DOUBLE,
+                      STRING, DISTRIBUTION.'
                     type: string
                 type: object
               conditions:

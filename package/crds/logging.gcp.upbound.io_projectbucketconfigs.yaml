@@ -179,6 +179,11 @@ spec:
                   description:
                     description: Describes this bucket.
                     type: string
+                  enableAnalytics:
+                    description: Whether or not Log Analytics is enabled. Logs for
+                      buckets with Log Analytics enabled can be queried in the Log
+                      Analytics page using SQL queries. Cannot be disabled once enabled.
+                    type: boolean
                   location:
                     description: The location of the bucket.
                     type: string
@@ -516,6 +521,11 @@ spec:
                   description:
                     description: Describes this bucket.
                     type: string
+                  enableAnalytics:
+                    description: Whether or not Log Analytics is enabled. Logs for
+                      buckets with Log Analytics enabled can be queried in the Log
+                      Analytics page using SQL queries. Cannot be disabled once enabled.
+                    type: boolean
                   id:
                     description: an identifier for the resource with format projects/{{project}}/locations/{{location}}/buckets/{{bucket_id}}
                     type: string

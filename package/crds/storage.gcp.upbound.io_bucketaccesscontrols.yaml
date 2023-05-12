@@ -154,8 +154,8 @@ spec:
                       example.com, the entity would be domain-example.com.'
                     type: string
                   role:
-                    description: The access permission for the entity. Possible values
-                      are OWNER, READER, and WRITER.
+                    description: 'The access permission for the entity. Possible values
+                      are: OWNER, READER, WRITER.'
                     type: string
                 type: object
               managementPolicy:
@@ -374,8 +374,8 @@ spec:
                     description: an identifier for the resource with format {{bucket}}/{{entity}}
                     type: string
                   role:
-                    description: The access permission for the entity. Possible values
-                      are OWNER, READER, and WRITER.
+                    description: 'The access permission for the entity. Possible values
+                      are: OWNER, READER, WRITER.'
                     type: string
                 type: object
               conditions:

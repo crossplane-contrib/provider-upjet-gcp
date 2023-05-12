@@ -44,6 +44,8 @@ type NetworkEndpointObservation struct {
 	NetworkEndpointGroup *string `json:"networkEndpointGroup,omitempty" tf:"network_endpoint_group,omitempty"`
 
 	// Port number of network endpoint.
+	// Note port is required unless the Network Endpoint Group is created
+	// with the type of GCE_VM_IP
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
 
 	// The ID of the project in which the resource belongs.
@@ -91,6 +93,8 @@ type NetworkEndpointParameters struct {
 	NetworkEndpointGroupSelector *v1.Selector `json:"networkEndpointGroupSelector,omitempty" tf:"-"`
 
 	// Port number of network endpoint.
+	// Note port is required unless the Network Endpoint Group is created
+	// with the type of GCE_VM_IP
 	// +kubebuilder:validation:Optional
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
 

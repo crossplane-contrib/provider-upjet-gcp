@@ -30,13 +30,16 @@ type ConfigObservation struct {
 	// The device configuration data.
 	BinaryData *string `json:"binaryData,omitempty" tf:"binary_data,omitempty"`
 
+	// (Output)
 	// The time at which this configuration version was updated in Cloud IoT Core.
 	CloudUpdateTime *string `json:"cloudUpdateTime,omitempty" tf:"cloud_update_time,omitempty"`
 
+	// (Output)
 	// The time at which Cloud IoT Core received the acknowledgment from the device,
 	// indicating that the device has received this configuration version.
 	DeviceAckTime *string `json:"deviceAckTime,omitempty" tf:"device_ack_time,omitempty"`
 
+	// (Output)
 	// The version of this update.
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
 }
@@ -109,7 +112,7 @@ type DeviceObservation struct {
 	LastStateTime *string `json:"lastStateTime,omitempty" tf:"last_state_time,omitempty"`
 
 	// The logging verbosity for device activity.
-	// Possible values are NONE, ERROR, INFO, and DEBUG.
+	// Possible values are: NONE, ERROR, INFO, DEBUG.
 	LogLevel *string `json:"logLevel,omitempty" tf:"log_level,omitempty"`
 
 	// The metadata key-value pairs assigned to the device.
@@ -144,7 +147,7 @@ type DeviceParameters struct {
 	GatewayConfig []GatewayConfigParameters `json:"gatewayConfig,omitempty" tf:"gateway_config,omitempty"`
 
 	// The logging verbosity for device activity.
-	// Possible values are NONE, ERROR, INFO, and DEBUG.
+	// Possible values are: NONE, ERROR, INFO, DEBUG.
 	// +kubebuilder:validation:Optional
 	LogLevel *string `json:"logLevel,omitempty" tf:"log_level,omitempty"`
 
@@ -170,17 +173,19 @@ type DeviceParameters struct {
 type GatewayConfigObservation struct {
 
 	// Indicates whether the device is a gateway.
-	// Possible values are ASSOCIATION_ONLY, DEVICE_AUTH_TOKEN_ONLY, and ASSOCIATION_AND_DEVICE_AUTH_TOKEN.
+	// Possible values are: ASSOCIATION_ONLY, DEVICE_AUTH_TOKEN_ONLY, ASSOCIATION_AND_DEVICE_AUTH_TOKEN.
 	GatewayAuthMethod *string `json:"gatewayAuthMethod,omitempty" tf:"gateway_auth_method,omitempty"`
 
 	// Indicates whether the device is a gateway.
 	// Default value is NON_GATEWAY.
-	// Possible values are GATEWAY and NON_GATEWAY.
+	// Possible values are: GATEWAY, NON_GATEWAY.
 	GatewayType *string `json:"gatewayType,omitempty" tf:"gateway_type,omitempty"`
 
+	// (Output)
 	// The ID of the gateway the device accessed most recently.
 	LastAccessedGatewayID *string `json:"lastAccessedGatewayId,omitempty" tf:"last_accessed_gateway_id,omitempty"`
 
+	// (Output)
 	// The most recent time at which the device accessed the gateway specified in last_accessed_gateway.
 	LastAccessedGatewayTime *string `json:"lastAccessedGatewayTime,omitempty" tf:"last_accessed_gateway_time,omitempty"`
 }
@@ -188,13 +193,13 @@ type GatewayConfigObservation struct {
 type GatewayConfigParameters struct {
 
 	// Indicates whether the device is a gateway.
-	// Possible values are ASSOCIATION_ONLY, DEVICE_AUTH_TOKEN_ONLY, and ASSOCIATION_AND_DEVICE_AUTH_TOKEN.
+	// Possible values are: ASSOCIATION_ONLY, DEVICE_AUTH_TOKEN_ONLY, ASSOCIATION_AND_DEVICE_AUTH_TOKEN.
 	// +kubebuilder:validation:Optional
 	GatewayAuthMethod *string `json:"gatewayAuthMethod,omitempty" tf:"gateway_auth_method,omitempty"`
 
 	// Indicates whether the device is a gateway.
 	// Default value is NON_GATEWAY.
-	// Possible values are GATEWAY and NON_GATEWAY.
+	// Possible values are: GATEWAY, NON_GATEWAY.
 	// +kubebuilder:validation:Optional
 	GatewayType *string `json:"gatewayType,omitempty" tf:"gateway_type,omitempty"`
 }
@@ -217,7 +222,7 @@ type LastErrorStatusParameters struct {
 type PublicKeyObservation struct {
 
 	// The format of the key.
-	// Possible values are RSA_PEM, RSA_X509_PEM, ES256_PEM, and ES256_X509_PEM.
+	// Possible values are: RSA_PEM, RSA_X509_PEM, ES256_PEM, ES256_X509_PEM.
 	Format *string `json:"format,omitempty" tf:"format,omitempty"`
 
 	// The key data.
@@ -227,7 +232,7 @@ type PublicKeyObservation struct {
 type PublicKeyParameters struct {
 
 	// The format of the key.
-	// Possible values are RSA_PEM, RSA_X509_PEM, ES256_PEM, and ES256_X509_PEM.
+	// Possible values are: RSA_PEM, RSA_X509_PEM, ES256_PEM, ES256_X509_PEM.
 	// +kubebuilder:validation:Required
 	Format *string `json:"format" tf:"format,omitempty"`
 

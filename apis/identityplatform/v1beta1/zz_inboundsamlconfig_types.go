@@ -30,6 +30,7 @@ type IdPCertificatesObservation struct {
 
 type IdPCertificatesParameters struct {
 
+	// (Output)
 	// The x509 certificate
 	// +kubebuilder:validation:Optional
 	X509CertificateSecretRef *v1.SecretKeySelector `json:"x509CertificateSecretRef,omitempty" tf:"-"`
@@ -136,6 +137,7 @@ type InboundSAMLConfigParameters struct {
 
 type SpCertificatesObservation struct {
 
+	// (Output)
 	// The x509 certificate
 	X509Certificate *string `json:"x509Certificate,omitempty" tf:"x509_certificate,omitempty"`
 }
@@ -148,6 +150,7 @@ type SpConfigObservation struct {
 	// Callback URI where responses from IDP are handled. Must start with https://.
 	CallbackURI *string `json:"callbackUri,omitempty" tf:"callback_uri,omitempty"`
 
+	// (Output)
 	// The IDP's certificate data to verify the signature in the SAMLResponse issued by the IDP.
 	// Structure is documented below.
 	SpCertificates []SpCertificatesObservation `json:"spCertificates,omitempty" tf:"sp_certificates,omitempty"`

@@ -191,6 +191,7 @@ type PartsParameters struct {
 
 type TrainingPhrasesObservation struct {
 
+	// (Output)
 	// The unique identifier of the training phrase.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 

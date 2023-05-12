@@ -381,8 +381,8 @@ spec:
                             type: object
                           type: array
                         shareType:
-                          description: Node group sharing type. Possible values are
-                            ORGANIZATION, SPECIFIC_PROJECTS, and LOCAL.
+                          description: 'Node group sharing type. Possible values are:
+                            ORGANIZATION, SPECIFIC_PROJECTS, LOCAL.'
                           type: string
                       required:
                       - shareType
@@ -674,8 +674,8 @@ spec:
                             type: object
                           type: array
                         shareType:
-                          description: Node group sharing type. Possible values are
-                            ORGANIZATION, SPECIFIC_PROJECTS, and LOCAL.
+                          description: 'Node group sharing type. Possible values are:
+                            ORGANIZATION, SPECIFIC_PROJECTS, LOCAL.'
                           type: string
                       type: object
                     type: array

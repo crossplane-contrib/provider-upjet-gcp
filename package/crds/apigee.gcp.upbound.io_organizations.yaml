@@ -185,14 +185,14 @@ spec:
                       type: object
                     type: array
                   retention:
-                    description: Optional. This setting is applicable only for organizations
+                    description: 'Optional. This setting is applicable only for organizations
                       that are soft-deleted (i.e., BillingType is not EVALUATION).
                       It controls how long Organization data will be retained after
                       the initial delete operation completes. During this period,
                       the Organization may be restored to its last known state. After
                       this period, the Organization will no longer be able to be restored.
                       Default value is DELETION_RETENTION_UNSPECIFIED. Possible values
-                      are DELETION_RETENTION_UNSPECIFIED and MINIMUM.
+                      are: DELETION_RETENTION_UNSPECIFIED, MINIMUM.'
                     type: string
                   runtimeDatabaseEncryptionKeyName:
                     description: 'Cloud KMS key name used for encrypting the data
@@ -275,9 +275,9 @@ spec:
                         type: object
                     type: object
                   runtimeType:
-                    description: Runtime type of the Apigee organization based on
+                    description: 'Runtime type of the Apigee organization based on
                       the Apigee subscription purchased. Default value is CLOUD. Possible
-                      values are CLOUD and HYBRID.
+                      values are: CLOUD, HYBRID.'
                     type: string
                 type: object
               managementPolicy:
@@ -530,14 +530,14 @@ spec:
                       type: object
                     type: array
                   retention:
-                    description: Optional. This setting is applicable only for organizations
+                    description: 'Optional. This setting is applicable only for organizations
                       that are soft-deleted (i.e., BillingType is not EVALUATION).
                       It controls how long Organization data will be retained after
                       the initial delete operation completes. During this period,
                       the Organization may be restored to its last known state. After
                       this period, the Organization will no longer be able to be restored.
                       Default value is DELETION_RETENTION_UNSPECIFIED. Possible values
-                      are DELETION_RETENTION_UNSPECIFIED and MINIMUM.
+                      are: DELETION_RETENTION_UNSPECIFIED, MINIMUM.'
                     type: string
                   runtimeDatabaseEncryptionKeyName:
                     description: 'Cloud KMS key name used for encrypting the data
@@ -547,9 +547,9 @@ spec:
                       RuntimeType is CLOUD. For example: projects/foo/locations/us/keyRings/bar/cryptoKeys/baz.'
                     type: string
                   runtimeType:
-                    description: Runtime type of the Apigee organization based on
+                    description: 'Runtime type of the Apigee organization based on
                       the Apigee subscription purchased. Default value is CLOUD. Possible
-                      values are CLOUD and HYBRID.
+                      values are: CLOUD, HYBRID.'
                     type: string
                   subscriptionType:
                     description: Output only. Subscription type of the Apigee organization.

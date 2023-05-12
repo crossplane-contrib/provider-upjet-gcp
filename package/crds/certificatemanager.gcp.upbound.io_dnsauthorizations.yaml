@@ -292,14 +292,14 @@ spec:
                     items:
                       properties:
                         data:
-                          description: Data of the DNS Resource Record.
+                          description: (Output) Data of the DNS Resource Record.
                           type: string
                         name:
-                          description: Fully qualified name of the DNS Resource Record.
-                            E.g. _acme-challenge.example.com.
+                          description: (Output) Fully qualified name of the DNS Resource
+                            Record. E.g. _acme-challenge.example.com.
                           type: string
                         type:
-                          description: Type of the DNS Resource Record.
+                          description: (Output) Type of the DNS Resource Record.
                           type: string
                       type: object
                     type: array

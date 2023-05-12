@@ -69,8 +69,8 @@ spec:
               forProvider:
                 properties:
                   importMethod:
-                    description: The wrapping method to be used for incoming key material.
-                      Possible values are RSA_OAEP_3072_SHA1_AES_256 and RSA_OAEP_4096_SHA1_AES_256.
+                    description: 'The wrapping method to be used for incoming key
+                      material. Possible values are: RSA_OAEP_3072_SHA1_AES_256, RSA_OAEP_4096_SHA1_AES_256.'
                     type: string
                   keyRing:
                     description: 'The KeyRing that this import job belongs to. Format:
@@ -150,10 +150,10 @@ spec:
                         type: object
                     type: object
                   protectionLevel:
-                    description: The protection level of the ImportJob. This must
+                    description: 'The protection level of the ImportJob. This must
                       match the protectionLevel of the versionTemplate on the CryptoKey
-                      you attempt to import into. Possible values are SOFTWARE, HSM,
-                      and EXTERNAL.
+                      you attempt to import into. Possible values are: SOFTWARE, HSM,
+                      EXTERNAL.'
                     type: string
                 type: object
               managementPolicy:
@@ -362,11 +362,12 @@ spec:
                     items:
                       properties:
                         content:
-                          description: The attestation data provided by the HSM when
-                            the key operation was performed. A base64-encoded string.
+                          description: (Output) The attestation data provided by the
+                            HSM when the key operation was performed. A base64-encoded
+                            string.
                           type: string
                         format:
-                          description: The format of the attestation data.
+                          description: (Output) The format of the attestation data.
                           type: string
                       type: object
                     type: array
@@ -379,8 +380,8 @@ spec:
                     description: an identifier for the resource with format {{name}}
                     type: string
                   importMethod:
-                    description: The wrapping method to be used for incoming key material.
-                      Possible values are RSA_OAEP_3072_SHA1_AES_256 and RSA_OAEP_4096_SHA1_AES_256.
+                    description: 'The wrapping method to be used for incoming key
+                      material. Possible values are: RSA_OAEP_3072_SHA1_AES_256, RSA_OAEP_4096_SHA1_AES_256.'
                     type: string
                   keyRing:
                     description: 'The KeyRing that this import job belongs to. Format:
@@ -391,10 +392,10 @@ spec:
                       projects//locations//keyRings//importJobs/.
                     type: string
                   protectionLevel:
-                    description: The protection level of the ImportJob. This must
+                    description: 'The protection level of the ImportJob. This must
                       match the protectionLevel of the versionTemplate on the CryptoKey
-                      you attempt to import into. Possible values are SOFTWARE, HSM,
-                      and EXTERNAL.
+                      you attempt to import into. Possible values are: SOFTWARE, HSM,
+                      EXTERNAL.'
                     type: string
                   publicKey:
                     description: The public key with which to wrap key material prior
@@ -403,8 +404,8 @@ spec:
                     items:
                       properties:
                         pem:
-                          description: The public key, encoded in PEM format. For
-                            more information, see the RFC 7468 sections for General
+                          description: (Output) The public key, encoded in PEM format.
+                            For more information, see the RFC 7468 sections for General
                             Considerations and Textual Encoding of Subject Public
                             Key Info.
                           type: string

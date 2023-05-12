@@ -67,6 +67,11 @@ type NetworkObservation struct {
 	// with varying MTUs.
 	Mtu *float64 `json:"mtu,omitempty" tf:"mtu,omitempty"`
 
+	// Set the order that Firewall Rules and Firewall Policies are evaluated.
+	// Default value is AFTER_CLASSIC_FIREWALL.
+	// Possible values are: BEFORE_CLASSIC_FIREWALL, AFTER_CLASSIC_FIREWALL.
+	NetworkFirewallPolicyEnforcementOrder *string `json:"networkFirewallPolicyEnforcementOrder,omitempty" tf:"network_firewall_policy_enforcement_order,omitempty"`
+
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
@@ -76,7 +81,7 @@ type NetworkObservation struct {
 	// of this network in the same region as the router. If set to GLOBAL,
 	// this network's cloud routers will advertise routes with all
 	// subnetworks of this network, across regions.
-	// Possible values are REGIONAL and GLOBAL.
+	// Possible values are: REGIONAL, GLOBAL.
 	RoutingMode *string `json:"routingMode,omitempty" tf:"routing_mode,omitempty"`
 
 	// The URI of the created resource.
@@ -124,6 +129,12 @@ type NetworkParameters struct {
 	// +kubebuilder:validation:Optional
 	Mtu *float64 `json:"mtu,omitempty" tf:"mtu,omitempty"`
 
+	// Set the order that Firewall Rules and Firewall Policies are evaluated.
+	// Default value is AFTER_CLASSIC_FIREWALL.
+	// Possible values are: BEFORE_CLASSIC_FIREWALL, AFTER_CLASSIC_FIREWALL.
+	// +kubebuilder:validation:Optional
+	NetworkFirewallPolicyEnforcementOrder *string `json:"networkFirewallPolicyEnforcementOrder,omitempty" tf:"network_firewall_policy_enforcement_order,omitempty"`
+
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
@@ -134,7 +145,7 @@ type NetworkParameters struct {
 	// of this network in the same region as the router. If set to GLOBAL,
 	// this network's cloud routers will advertise routes with all
 	// subnetworks of this network, across regions.
-	// Possible values are REGIONAL and GLOBAL.
+	// Possible values are: REGIONAL, GLOBAL.
 	// +kubebuilder:validation:Optional
 	RoutingMode *string `json:"routingMode,omitempty" tf:"routing_mode,omitempty"`
 }

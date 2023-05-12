@@ -51,7 +51,7 @@ type TargetSSLProxyObservation struct {
 	// Specifies the type of proxy header to append before sending data to
 	// the backend.
 	// Default value is NONE.
-	// Possible values are NONE and PROXY_V1.
+	// Possible values are: NONE, PROXY_V1.
 	ProxyHeader *string `json:"proxyHeader,omitempty" tf:"proxy_header,omitempty"`
 
 	// The unique identifier for the resource.
@@ -105,7 +105,7 @@ type TargetSSLProxyParameters struct {
 	// Specifies the type of proxy header to append before sending data to
 	// the backend.
 	// Default value is NONE.
-	// Possible values are NONE and PROXY_V1.
+	// Possible values are: NONE, PROXY_V1.
 	// +kubebuilder:validation:Optional
 	ProxyHeader *string `json:"proxyHeader,omitempty" tf:"proxy_header,omitempty"`
 

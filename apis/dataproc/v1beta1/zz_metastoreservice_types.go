@@ -27,6 +27,7 @@ import (
 
 type ConsumersObservation struct {
 
+	// (Output)
 	// The URI of the endpoint used to access the metastore service.
 	EndpointURI *string `json:"endpointUri,omitempty" tf:"endpoint_uri,omitempty"`
 
@@ -135,7 +136,7 @@ type KeytabParameters struct {
 type MaintenanceWindowObservation struct {
 
 	// The day of week, when the window starts.
-	// Possible values are MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, and SUNDAY.
+	// Possible values are: MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY.
 	DayOfWeek *string `json:"dayOfWeek,omitempty" tf:"day_of_week,omitempty"`
 
 	// The hour of day (0-23) when the window starts.
@@ -145,7 +146,7 @@ type MaintenanceWindowObservation struct {
 type MaintenanceWindowParameters struct {
 
 	// The day of week, when the window starts.
-	// Possible values are MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, and SUNDAY.
+	// Possible values are: MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY.
 	// +kubebuilder:validation:Required
 	DayOfWeek *string `json:"dayOfWeek" tf:"day_of_week,omitempty"`
 
@@ -186,7 +187,7 @@ type MetastoreServiceObservation struct {
 
 	// The database type that the Metastore service stores its data.
 	// Default value is MYSQL.
-	// Possible values are MYSQL and SPANNER.
+	// Possible values are: MYSQL, SPANNER.
 	DatabaseType *string `json:"databaseType,omitempty" tf:"database_type,omitempty"`
 
 	// Information used to configure the Dataproc Metastore service to encrypt
@@ -237,7 +238,7 @@ type MetastoreServiceObservation struct {
 
 	// The release channel of the service. If unspecified, defaults to STABLE.
 	// Default value is STABLE.
-	// Possible values are CANARY and STABLE.
+	// Possible values are: CANARY, STABLE.
 	ReleaseChannel *string `json:"releaseChannel,omitempty" tf:"release_channel,omitempty"`
 
 	// The current state of the metastore service.
@@ -251,7 +252,7 @@ type MetastoreServiceObservation struct {
 	TelemetryConfig []TelemetryConfigObservation `json:"telemetryConfig,omitempty" tf:"telemetry_config,omitempty"`
 
 	// The tier of the service.
-	// Possible values are DEVELOPER and ENTERPRISE.
+	// Possible values are: DEVELOPER, ENTERPRISE.
 	Tier *string `json:"tier,omitempty" tf:"tier,omitempty"`
 
 	// The globally unique resource identifier of the metastore service.
@@ -262,7 +263,7 @@ type MetastoreServiceParameters struct {
 
 	// The database type that the Metastore service stores its data.
 	// Default value is MYSQL.
-	// Possible values are MYSQL and SPANNER.
+	// Possible values are: MYSQL, SPANNER.
 	// +kubebuilder:validation:Optional
 	DatabaseType *string `json:"databaseType,omitempty" tf:"database_type,omitempty"`
 
@@ -314,7 +315,7 @@ type MetastoreServiceParameters struct {
 
 	// The release channel of the service. If unspecified, defaults to STABLE.
 	// Default value is STABLE.
-	// Possible values are CANARY and STABLE.
+	// Possible values are: CANARY, STABLE.
 	// +kubebuilder:validation:Optional
 	ReleaseChannel *string `json:"releaseChannel,omitempty" tf:"release_channel,omitempty"`
 
@@ -324,7 +325,7 @@ type MetastoreServiceParameters struct {
 	TelemetryConfig []TelemetryConfigParameters `json:"telemetryConfig,omitempty" tf:"telemetry_config,omitempty"`
 
 	// The tier of the service.
-	// Possible values are DEVELOPER and ENTERPRISE.
+	// Possible values are: DEVELOPER, ENTERPRISE.
 	// +kubebuilder:validation:Optional
 	Tier *string `json:"tier,omitempty" tf:"tier,omitempty"`
 }
@@ -348,7 +349,7 @@ type TelemetryConfigObservation struct {
 
 	// The output format of the Dataproc Metastore service's logs.
 	// Default value is JSON.
-	// Possible values are LEGACY and JSON.
+	// Possible values are: LEGACY, JSON.
 	LogFormat *string `json:"logFormat,omitempty" tf:"log_format,omitempty"`
 }
 
@@ -356,7 +357,7 @@ type TelemetryConfigParameters struct {
 
 	// The output format of the Dataproc Metastore service's logs.
 	// Default value is JSON.
-	// Possible values are LEGACY and JSON.
+	// Possible values are: LEGACY, JSON.
 	// +kubebuilder:validation:Optional
 	LogFormat *string `json:"logFormat,omitempty" tf:"log_format,omitempty"`
 }

@@ -185,12 +185,12 @@ spec:
                       below.
                     type: object
                   logLevel:
-                    description: The default logging verbosity for activity from devices
-                      in this registry. Specifies which events should be written to
-                      logs. For example, if the LogLevel is ERROR, only events that
-                      terminate in errors will be logged. LogLevel is inclusive; enabling
-                      INFO logging will also enable ERROR logging. Default value is
-                      NONE. Possible values are NONE, ERROR, INFO, and DEBUG.
+                    description: 'The default logging verbosity for activity from
+                      devices in this registry. Specifies which events should be written
+                      to logs. For example, if the LogLevel is ERROR, only events
+                      that terminate in errors will be logged. LogLevel is inclusive;
+                      enabling INFO logging will also enable ERROR logging. Default
+                      value is NONE. Possible values are: NONE, ERROR, INFO, DEBUG.'
                     type: string
                   mqttConfig:
                     additionalProperties:
@@ -451,12 +451,12 @@ spec:
                     description: an identifier for the resource with format projects/{{project}}/locations/{{region}}/registries/{{name}}
                     type: string
                   logLevel:
-                    description: The default logging verbosity for activity from devices
-                      in this registry. Specifies which events should be written to
-                      logs. For example, if the LogLevel is ERROR, only events that
-                      terminate in errors will be logged. LogLevel is inclusive; enabling
-                      INFO logging will also enable ERROR logging. Default value is
-                      NONE. Possible values are NONE, ERROR, INFO, and DEBUG.
+                    description: 'The default logging verbosity for activity from
+                      devices in this registry. Specifies which events should be written
+                      to logs. For example, if the LogLevel is ERROR, only events
+                      that terminate in errors will be logged. LogLevel is inclusive;
+                      enabling INFO logging will also enable ERROR logging. Default
+                      value is NONE. Possible values are: NONE, ERROR, INFO, DEBUG.'
                     type: string
                   mqttConfig:
                     additionalProperties:

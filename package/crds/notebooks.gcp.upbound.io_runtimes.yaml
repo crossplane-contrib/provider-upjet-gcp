@@ -144,9 +144,9 @@ spec:
                             be a URL or Cloud Storage path (gs://path-to-file/file-name).
                           type: string
                         postStartupScriptBehavior:
-                          description: Behavior for the post startup script. Possible
-                            values are POST_STARTUP_SCRIPT_BEHAVIOR_UNSPECIFIED, RUN_EVERY_START,
-                            and DOWNLOAD_AND_RUN_EVERY_START.
+                          description: 'Behavior for the post startup script. Possible
+                            values are: POST_STARTUP_SCRIPT_BEHAVIOR_UNSPECIFIED,
+                            RUN_EVERY_START, DOWNLOAD_AND_RUN_EVERY_START.'
                           type: string
                       type: object
                     type: array
@@ -334,9 +334,9 @@ spec:
                                   Examples:'
                                 type: string
                               nicType:
-                                description: The type of vNIC to be used on this interface.
-                                  This may be gVNIC or VirtioNet. Possible values
-                                  are UNSPECIFIED_NIC_TYPE, VIRTIO_NET, and GVNIC.
+                                description: 'The type of vNIC to be used on this
+                                  interface. This may be gVNIC or VirtioNet. Possible
+                                  values are: UNSPECIFIED_NIC_TYPE, VIRTIO_NET, GVNIC.'
                                 type: string
                               reservedIpRange:
                                 description: Reserved IP Range name is used for VPC
@@ -598,8 +598,8 @@ spec:
                             rest/v1/projects.locations.runtimes#RuntimeAccessType.
                           type: string
                         proxyUri:
-                          description: The proxy endpoint that is used to access the
-                            runtime.
+                          description: (Output) The proxy endpoint that is used to
+                            access the runtime.
                           type: string
                         runtimeOwner:
                           description: 'The owner of this runtime after creation.
@@ -627,8 +627,8 @@ spec:
                         systemMetrics:
                           additionalProperties:
                             type: string
-                          description: Contains runtime daemon metrics, such as OS
-                            and kernels and sessions stats.
+                          description: (Output) Contains runtime daemon metrics, such
+                            as OS and kernels and sessions stats.
                           type: object
                       type: object
                     type: array
@@ -686,13 +686,13 @@ spec:
                             be a URL or Cloud Storage path (gs://path-to-file/file-name).
                           type: string
                         postStartupScriptBehavior:
-                          description: Behavior for the post startup script. Possible
-                            values are POST_STARTUP_SCRIPT_BEHAVIOR_UNSPECIFIED, RUN_EVERY_START,
-                            and DOWNLOAD_AND_RUN_EVERY_START.
+                          description: 'Behavior for the post startup script. Possible
+                            values are: POST_STARTUP_SCRIPT_BEHAVIOR_UNSPECIFIED,
+                            RUN_EVERY_START, DOWNLOAD_AND_RUN_EVERY_START.'
                           type: string
                         upgradeable:
-                          description: Bool indicating whether an newer image is available
-                            in an image family.
+                          description: (Output) Bool indicating whether an newer image
+                            is available in an image family.
                           type: boolean
                       type: object
                     type: array
@@ -705,12 +705,12 @@ spec:
                     items:
                       properties:
                         instanceId:
-                          description: The unique identifier of the Managed Compute
-                            Engine instance.
+                          description: (Output) The unique identifier of the Managed
+                            Compute Engine instance.
                           type: string
                         instanceName:
-                          description: The user-friendly name of the Managed Compute
-                            Engine instance.
+                          description: (Output) The user-friendly name of the Managed
+                            Compute Engine instance.
                           type: string
                         virtualMachineConfig:
                           description: Virtual Machine configuration settings. Structure
@@ -754,34 +754,34 @@ spec:
                                 items:
                                   properties:
                                     autoDelete:
-                                      description: Optional. Specifies whether the
-                                        disk will be auto-deleted when the instance
+                                      description: (Output) Optional. Specifies whether
+                                        the disk will be auto-deleted when the instance
                                         is deleted (but not when the disk is detached
                                         from the instance).
                                       type: boolean
                                     boot:
-                                      description: Optional. Indicates that this is
-                                        a boot disk. The virtual machine will use
-                                        the first partition of the disk for its root
-                                        filesystem.
+                                      description: (Output) Optional. Indicates that
+                                        this is a boot disk. The virtual machine will
+                                        use the first partition of the disk for its
+                                        root filesystem.
                                       type: boolean
                                     deviceName:
-                                      description: Optional. Specifies a unique device
-                                        name of your choice that is reflected into
-                                        the /dev/disk/by-id/google-* tree of a Linux
-                                        operating system running within the instance.
-                                        This name can be used to reference the device
-                                        for mounting, resizing, and so on, from within
-                                        the instance. If not specified, the server
-                                        chooses a default device name to apply to
-                                        this disk, in the form persistent-disk-x,
+                                      description: (Output) Optional. Specifies a
+                                        unique device name of your choice that is
+                                        reflected into the /dev/disk/by-id/google-*
+                                        tree of a Linux operating system running within
+                                        the instance. This name can be used to reference
+                                        the device for mounting, resizing, and so
+                                        on, from within the instance. If not specified,
+                                        the server chooses a default device name to
+                                        apply to this disk, in the form persistent-disk-x,
                                         where x is a number assigned by Google Compute
                                         Engine. This field is only applicable for
                                         persistent disks.
                                       type: string
                                     guestOsFeatures:
-                                      description: Indicates a list of features to
-                                        enable on the guest operating system. Applicable
+                                      description: (Output) Indicates a list of features
+                                        to enable on the guest operating system. Applicable
                                         only for bootable images. To see a list of
                                         available features, read https://cloud.google.com/compute/docs/
                                         images/create-delete-deprecate-private-images#guest-os-features
@@ -790,9 +790,9 @@ spec:
                                         type: string
                                       type: array
                                     index:
-                                      description: Output only. A zero-based index
-                                        to this disk, where 0 is reserved for the
-                                        boot disk. If you have many disks attached
+                                      description: (Output) Output only. A zero-based
+                                        index to this disk, where 0 is reserved for
+                                        the boot disk. If you have many disks attached
                                         to an instance, each disk would have a unique
                                         index number.
                                       type: number
@@ -860,12 +860,12 @@ spec:
                                         SSD performance. Valid values: * NVME * SCSI".'
                                       type: string
                                     kind:
-                                      description: Type of the resource. Always compute#attachedDisk
-                                        for attached disks.
+                                      description: (Output) Type of the resource.
+                                        Always compute#attachedDisk for attached disks.
                                       type: string
                                     licenses:
-                                      description: Output only. Any valid publicly
-                                        visible licenses.
+                                      description: (Output) Output only. Any valid
+                                        publicly visible licenses.
                                       items:
                                         type: string
                                       type: array
@@ -903,7 +903,7 @@ spec:
                               guestAttributes:
                                 additionalProperties:
                                   type: string
-                                description: The Compute Engine guest attributes.
+                                description: (Output) The Compute Engine guest attributes.
                                   (see [Project and instance guest attributes](https://cloud.google.com/compute/docs/
                                   storing-retrieving-metadata#guest_attributes)).
                                 type: object
@@ -949,9 +949,9 @@ spec:
                                   Examples:'
                                 type: string
                               nicType:
-                                description: The type of vNIC to be used on this interface.
-                                  This may be gVNIC or VirtioNet. Possible values
-                                  are UNSPECIFIED_NIC_TYPE, VIRTIO_NET, and GVNIC.
+                                description: 'The type of vNIC to be used on this
+                                  interface. This may be gVNIC or VirtioNet. Possible
+                                  values are: UNSPECIFIED_NIC_TYPE, VIRTIO_NET, GVNIC.'
                                 type: string
                               reservedIpRange:
                                 description: Reserved IP Range name is used for VPC
@@ -1002,8 +1002,8 @@ spec:
                                   type: string
                                 type: array
                               zone:
-                                description: The zone where the virtual machine is
-                                  located.
+                                description: (Output) The zone where the virtual machine
+                                  is located.
                                 type: string
                             type: object
                           type: array

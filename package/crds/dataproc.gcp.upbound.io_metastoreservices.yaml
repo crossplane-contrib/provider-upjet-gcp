@@ -69,9 +69,9 @@ spec:
               forProvider:
                 properties:
                   databaseType:
-                    description: The database type that the Metastore service stores
-                      its data. Default value is MYSQL. Possible values are MYSQL
-                      and SPANNER.
+                    description: 'The database type that the Metastore service stores
+                      its data. Default value is MYSQL. Possible values are: MYSQL,
+                      SPANNER.'
                     type: string
                   encryptionConfig:
                     description: Information used to configure the Dataproc Metastore
@@ -243,9 +243,9 @@ spec:
                     items:
                       properties:
                         dayOfWeek:
-                          description: The day of week, when the window starts. Possible
-                            values are MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY,
-                            SATURDAY, and SUNDAY.
+                          description: 'The day of week, when the window starts. Possible
+                            values are: MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY,
+                            SATURDAY, SUNDAY.'
                           type: string
                         hourOfDay:
                           description: The hour of day (0-23) when the window starts.
@@ -377,9 +377,9 @@ spec:
                       If it is not provided, the provider project is used.
                     type: string
                   releaseChannel:
-                    description: The release channel of the service. If unspecified,
+                    description: 'The release channel of the service. If unspecified,
                       defaults to STABLE. Default value is STABLE. Possible values
-                      are CANARY and STABLE.
+                      are: CANARY, STABLE.'
                     type: string
                   telemetryConfig:
                     description: The configuration specifying telemetry settings for
@@ -388,15 +388,15 @@ spec:
                     items:
                       properties:
                         logFormat:
-                          description: The output format of the Dataproc Metastore
-                            service's logs. Default value is JSON. Possible values
-                            are LEGACY and JSON.
+                          description: 'The output format of the Dataproc Metastore
+                            service''s logs. Default value is JSON. Possible values
+                            are: LEGACY, JSON.'
                           type: string
                       type: object
                     type: array
                   tier:
-                    description: The tier of the service. Possible values are DEVELOPER
-                      and ENTERPRISE.
+                    description: 'The tier of the service. Possible values are: DEVELOPER,
+                      ENTERPRISE.'
                     type: string
                 type: object
               managementPolicy:
@@ -595,9 +595,9 @@ spec:
                       where artifacts related to the metastore service are stored.
                     type: string
                   databaseType:
-                    description: The database type that the Metastore service stores
-                      its data. Default value is MYSQL. Possible values are MYSQL
-                      and SPANNER.
+                    description: 'The database type that the Metastore service stores
+                      its data. Default value is MYSQL. Possible values are: MYSQL,
+                      SPANNER.'
                     type: string
                   encryptionConfig:
                     description: Information used to configure the Dataproc Metastore
@@ -690,9 +690,9 @@ spec:
                     items:
                       properties:
                         dayOfWeek:
-                          description: The day of week, when the window starts. Possible
-                            values are MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY,
-                            SATURDAY, and SUNDAY.
+                          description: 'The day of week, when the window starts. Possible
+                            values are: MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY,
+                            SATURDAY, SUNDAY.'
                           type: string
                         hourOfDay:
                           description: The hour of day (0-23) when the window starts.
@@ -720,8 +720,8 @@ spec:
                           items:
                             properties:
                               endpointUri:
-                                description: The URI of the endpoint used to access
-                                  the metastore service.
+                                description: (Output) The URI of the endpoint used
+                                  to access the metastore service.
                                 type: string
                               subnetwork:
                                 description: 'The subnetwork of the customer project
@@ -746,9 +746,9 @@ spec:
                       If it is not provided, the provider project is used.
                     type: string
                   releaseChannel:
-                    description: The release channel of the service. If unspecified,
+                    description: 'The release channel of the service. If unspecified,
                       defaults to STABLE. Default value is STABLE. Possible values
-                      are CANARY and STABLE.
+                      are: CANARY, STABLE.'
                     type: string
                   state:
                     description: The current state of the metastore service.
@@ -764,15 +764,15 @@ spec:
                     items:
                       properties:
                         logFormat:
-                          description: The output format of the Dataproc Metastore
-                            service's logs. Default value is JSON. Possible values
-                            are LEGACY and JSON.
+                          description: 'The output format of the Dataproc Metastore
+                            service''s logs. Default value is JSON. Possible values
+                            are: LEGACY, JSON.'
                           type: string
                       type: object
                     type: array
                   tier:
-                    description: The tier of the service. Possible values are DEVELOPER
-                      and ENTERPRISE.
+                    description: 'The tier of the service. Possible values are: DEVELOPER,
+                      ENTERPRISE.'
                     type: string
                   uid:
                     description: The globally unique resource identifier of the metastore

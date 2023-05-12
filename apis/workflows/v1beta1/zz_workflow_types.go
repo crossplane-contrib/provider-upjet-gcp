@@ -30,6 +30,10 @@ type WorkflowObservation struct {
 	// The timestamp of when the workflow was created in RFC3339 UTC "Zulu" format, with nanosecond resolution and up to nine fractional digits.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
+	// The KMS key used to encrypt workflow and execution data.
+	// Format: projects/{project}/locations/{location}/keyRings/{keyRing}/cryptoKeys/{cryptoKey}
+	CryptoKeyName *string `json:"cryptoKeyName,omitempty" tf:"crypto_key_name,omitempty"`
+
 	// Description of the workflow provided by the user. Must be at most 1000 unicode characters long.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -58,7 +62,11 @@ type WorkflowObservation struct {
 
 	// Name of the service account associated with the latest workflow version. This service
 	// account represents the identity of the workflow and determines what permissions the workflow has.
-	// Format: projects/{project}/serviceAccounts/{account}.
+	// Format: projects/{project}/serviceAccounts/{account} or {account}.
+	// Using - as a wildcard for the {project} or not providing one at all will infer the project from the account.
+	// The {account} value can be the email address or the unique_id of the service account.
+	// If not provided, workflow will use the project's default service account.
+	// Modifying this field for an existing workflow results in a new workflow revision.
 	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
 
 	// Workflow code to be executed. The size limit is 32KB.
@@ -72,6 +80,11 @@ type WorkflowObservation struct {
 }
 
 type WorkflowParameters struct {
+
+	// The KMS key used to encrypt workflow and execution data.
+	// Format: projects/{project}/locations/{location}/keyRings/{keyRing}/cryptoKeys/{cryptoKey}
+	// +kubebuilder:validation:Optional
+	CryptoKeyName *string `json:"cryptoKeyName,omitempty" tf:"crypto_key_name,omitempty"`
 
 	// Description of the workflow provided by the user. Must be at most 1000 unicode characters long.
 	// +kubebuilder:validation:Optional
@@ -101,7 +114,11 @@ type WorkflowParameters struct {
 
 	// Name of the service account associated with the latest workflow version. This service
 	// account represents the identity of the workflow and determines what permissions the workflow has.
-	// Format: projects/{project}/serviceAccounts/{account}.
+	// Format: projects/{project}/serviceAccounts/{account} or {account}.
+	// Using - as a wildcard for the {project} or not providing one at all will infer the project from the account.
+	// The {account} value can be the email address or the unique_id of the service account.
+	// If not provided, workflow will use the project's default service account.
+	// Modifying this field for an existing workflow results in a new workflow revision.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cloudplatform/v1beta1.ServiceAccount
 	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional

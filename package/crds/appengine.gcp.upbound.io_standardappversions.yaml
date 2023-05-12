@@ -229,20 +229,19 @@ spec:
                     items:
                       properties:
                         authFailAction:
-                          description: Actions to take when the user is not logged
-                            in. Possible values are AUTH_FAIL_ACTION_REDIRECT and
-                            AUTH_FAIL_ACTION_UNAUTHORIZED.
+                          description: 'Actions to take when the user is not logged
+                            in. Possible values are: AUTH_FAIL_ACTION_REDIRECT, AUTH_FAIL_ACTION_UNAUTHORIZED.'
                           type: string
                         login:
-                          description: Methods to restrict access to a URL based on
-                            login status. Possible values are LOGIN_OPTIONAL, LOGIN_ADMIN,
-                            and LOGIN_REQUIRED.
+                          description: 'Methods to restrict access to a URL based
+                            on login status. Possible values are: LOGIN_OPTIONAL,
+                            LOGIN_ADMIN, LOGIN_REQUIRED.'
                           type: string
                         redirectHttpResponseCode:
-                          description: 30x code to use when performing redirects for
-                            the secure field. Possible values are REDIRECT_HTTP_RESPONSE_CODE_301,
+                          description: '30x code to use when performing redirects
+                            for the secure field. Possible values are: REDIRECT_HTTP_RESPONSE_CODE_301,
                             REDIRECT_HTTP_RESPONSE_CODE_302, REDIRECT_HTTP_RESPONSE_CODE_303,
-                            and REDIRECT_HTTP_RESPONSE_CODE_307.
+                            REDIRECT_HTTP_RESPONSE_CODE_307.'
                           type: string
                         script:
                           description: Executes a script to handle the requests that
@@ -260,9 +259,9 @@ spec:
                             type: object
                           type: array
                         securityLevel:
-                          description: Security (HTTPS) enforcement for this URL.
-                            Possible values are SECURE_DEFAULT, SECURE_NEVER, SECURE_OPTIONAL,
-                            and SECURE_ALWAYS.
+                          description: 'Security (HTTPS) enforcement for this URL.
+                            Possible values are: SECURE_DEFAULT, SECURE_NEVER, SECURE_OPTIONAL,
+                            SECURE_ALWAYS.'
                           type: string
                         staticFiles:
                           description: Files served directly to the user for a given
@@ -329,11 +328,11 @@ spec:
                       type: object
                     type: array
                   inboundServices:
-                    description: A list of the types of messages that this application
-                      is able to receive. Each value may be one of INBOUND_SERVICE_MAIL,
+                    description: 'A list of the types of messages that this application
+                      is able to receive. Each value may be one of: INBOUND_SERVICE_MAIL,
                       INBOUND_SERVICE_MAIL_BOUNCE, INBOUND_SERVICE_XMPP_ERROR, INBOUND_SERVICE_XMPP_MESSAGE,
                       INBOUND_SERVICE_XMPP_SUBSCRIBE, INBOUND_SERVICE_XMPP_PRESENCE,
-                      INBOUND_SERVICE_CHANNEL_PRESENCE, and INBOUND_SERVICE_WARMUP.
+                      INBOUND_SERVICE_CHANNEL_PRESENCE, INBOUND_SERVICE_WARMUP.'
                     items:
                       type: string
                     type: array
@@ -849,20 +848,19 @@ spec:
                     items:
                       properties:
                         authFailAction:
-                          description: Actions to take when the user is not logged
-                            in. Possible values are AUTH_FAIL_ACTION_REDIRECT and
-                            AUTH_FAIL_ACTION_UNAUTHORIZED.
+                          description: 'Actions to take when the user is not logged
+                            in. Possible values are: AUTH_FAIL_ACTION_REDIRECT, AUTH_FAIL_ACTION_UNAUTHORIZED.'
                           type: string
                         login:
-                          description: Methods to restrict access to a URL based on
-                            login status. Possible values are LOGIN_OPTIONAL, LOGIN_ADMIN,
-                            and LOGIN_REQUIRED.
+                          description: 'Methods to restrict access to a URL based
+                            on login status. Possible values are: LOGIN_OPTIONAL,
+                            LOGIN_ADMIN, LOGIN_REQUIRED.'
                           type: string
                         redirectHttpResponseCode:
-                          description: 30x code to use when performing redirects for
-                            the secure field. Possible values are REDIRECT_HTTP_RESPONSE_CODE_301,
+                          description: '30x code to use when performing redirects
+                            for the secure field. Possible values are: REDIRECT_HTTP_RESPONSE_CODE_301,
                             REDIRECT_HTTP_RESPONSE_CODE_302, REDIRECT_HTTP_RESPONSE_CODE_303,
-                            and REDIRECT_HTTP_RESPONSE_CODE_307.
+                            REDIRECT_HTTP_RESPONSE_CODE_307.'
                           type: string
                         script:
                           description: Executes a script to handle the requests that
@@ -878,9 +876,9 @@ spec:
                             type: object
                           type: array
                         securityLevel:
-                          description: Security (HTTPS) enforcement for this URL.
-                            Possible values are SECURE_DEFAULT, SECURE_NEVER, SECURE_OPTIONAL,
-                            and SECURE_ALWAYS.
+                          description: 'Security (HTTPS) enforcement for this URL.
+                            Possible values are: SECURE_DEFAULT, SECURE_NEVER, SECURE_OPTIONAL,
+                            SECURE_ALWAYS.'
                           type: string
                         staticFiles:
                           description: Files served directly to the user for a given
@@ -950,11 +948,11 @@ spec:
                     description: an identifier for the resource with format apps/{{project}}/services/{{service}}/versions/{{version_id}}
                     type: string
                   inboundServices:
-                    description: A list of the types of messages that this application
-                      is able to receive. Each value may be one of INBOUND_SERVICE_MAIL,
+                    description: 'A list of the types of messages that this application
+                      is able to receive. Each value may be one of: INBOUND_SERVICE_MAIL,
                       INBOUND_SERVICE_MAIL_BOUNCE, INBOUND_SERVICE_XMPP_ERROR, INBOUND_SERVICE_XMPP_MESSAGE,
                       INBOUND_SERVICE_XMPP_SUBSCRIBE, INBOUND_SERVICE_XMPP_PRESENCE,
-                      INBOUND_SERVICE_CHANNEL_PRESENCE, and INBOUND_SERVICE_WARMUP.
+                      INBOUND_SERVICE_CHANNEL_PRESENCE, INBOUND_SERVICE_WARMUP.'
                     items:
                       type: string
                     type: array

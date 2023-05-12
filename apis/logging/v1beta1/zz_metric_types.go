@@ -113,7 +113,7 @@ type LabelsObservation struct {
 	// Whether the measurement is an integer, a floating-point number, etc.
 	// Some combinations of metricKind and valueType might not be supported.
 	// For counter metrics, set this to INT64.
-	// Possible values are BOOL, INT64, DOUBLE, STRING, DISTRIBUTION, and MONEY.
+	// Possible values are: BOOL, INT64, DOUBLE, STRING, DISTRIBUTION, MONEY.
 	ValueType *string `json:"valueType,omitempty" tf:"value_type,omitempty"`
 }
 
@@ -130,7 +130,7 @@ type LabelsParameters struct {
 	// Whether the measurement is an integer, a floating-point number, etc.
 	// Some combinations of metricKind and valueType might not be supported.
 	// For counter metrics, set this to INT64.
-	// Possible values are BOOL, INT64, DOUBLE, STRING, DISTRIBUTION, and MONEY.
+	// Possible values are: BOOL, INT64, DOUBLE, STRING, DISTRIBUTION, MONEY.
 	// +kubebuilder:validation:Optional
 	ValueType *string `json:"valueType,omitempty" tf:"value_type,omitempty"`
 }
@@ -179,7 +179,7 @@ type MetricDescriptorObservation struct {
 	// Whether the metric records instantaneous values, changes to a value, etc.
 	// Some combinations of metricKind and valueType might not be supported.
 	// For counter metrics, set this to DELTA.
-	// Possible values are DELTA, GAUGE, and CUMULATIVE.
+	// Possible values are: DELTA, GAUGE, CUMULATIVE.
 	MetricKind *string `json:"metricKind,omitempty" tf:"metric_kind,omitempty"`
 
 	// The unit in which the metric value is reported. It is only applicable if the valueType is
@@ -190,7 +190,7 @@ type MetricDescriptorObservation struct {
 	// Whether the measurement is an integer, a floating-point number, etc.
 	// Some combinations of metricKind and valueType might not be supported.
 	// For counter metrics, set this to INT64.
-	// Possible values are BOOL, INT64, DOUBLE, STRING, DISTRIBUTION, and MONEY.
+	// Possible values are: BOOL, INT64, DOUBLE, STRING, DISTRIBUTION, MONEY.
 	ValueType *string `json:"valueType,omitempty" tf:"value_type,omitempty"`
 }
 
@@ -213,7 +213,7 @@ type MetricDescriptorParameters struct {
 	// Whether the metric records instantaneous values, changes to a value, etc.
 	// Some combinations of metricKind and valueType might not be supported.
 	// For counter metrics, set this to DELTA.
-	// Possible values are DELTA, GAUGE, and CUMULATIVE.
+	// Possible values are: DELTA, GAUGE, CUMULATIVE.
 	// +kubebuilder:validation:Required
 	MetricKind *string `json:"metricKind" tf:"metric_kind,omitempty"`
 
@@ -226,7 +226,7 @@ type MetricDescriptorParameters struct {
 	// Whether the measurement is an integer, a floating-point number, etc.
 	// Some combinations of metricKind and valueType might not be supported.
 	// For counter metrics, set this to INT64.
-	// Possible values are BOOL, INT64, DOUBLE, STRING, DISTRIBUTION, and MONEY.
+	// Possible values are: BOOL, INT64, DOUBLE, STRING, DISTRIBUTION, MONEY.
 	// +kubebuilder:validation:Required
 	ValueType *string `json:"valueType" tf:"value_type,omitempty"`
 }
@@ -245,6 +245,9 @@ type MetricObservation struct {
 	// A description of this metric, which is used in documentation. The maximum length of the
 	// description is 8000 characters.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// If set to True, then this metric is disabled and it does not generate any points.
+	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
 
 	// An advanced logs filter (https://cloud.google.com/logging/docs/view/advanced-filters) which
 	// is used to match log entries.
@@ -307,6 +310,10 @@ type MetricParameters struct {
 	// description is 8000 characters.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// If set to True, then this metric is disabled and it does not generate any points.
+	// +kubebuilder:validation:Optional
+	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
 
 	// An advanced logs filter (https://cloud.google.com/logging/docs/view/advanced-filters) which
 	// is used to match log entries.

@@ -75,8 +75,10 @@ spec:
                       specified subnetwork, if any. Set by the API if undefined.
                     type: string
                   addressType:
-                    description: The type of address to reserve. Default value is
-                      EXTERNAL. Possible values are INTERNAL and EXTERNAL.
+                    description: 'The type of address to reserve. Note: if you set
+                      this argument''s value as INTERNAL you need to leave the network_tier
+                      argument unset in that resource block. Default value is EXTERNAL.
+                      Possible values are: INTERNAL, EXTERNAL.'
                     type: string
                   description:
                     description: An optional description of this resource.
@@ -160,9 +162,11 @@ spec:
                         type: object
                     type: object
                   networkTier:
-                    description: The networking tier used for configuring this address.
+                    description: 'The networking tier used for configuring this address.
                       If this field is not specified, it is assumed to be PREMIUM.
-                      Possible values are PREMIUM and STANDARD.
+                      This argument should not be used when configuring Internal addresses,
+                      because network tier cannot be set for internal traffic; it''s
+                      always Premium. Possible values are: PREMIUM, STANDARD.'
                     type: string
                   prefixLength:
                     description: The prefix length if the resource represents an IP
@@ -173,8 +177,8 @@ spec:
                       If it is not provided, the provider project is used.
                     type: string
                   purpose:
-                    description: 'The purpose of this resource, which can be one of
-                      the following values:'
+                    description: The purpose of this resource, which can be one of
+                      the following values.
                     type: string
                   region:
                     description: The Region in which the created address should reside.
@@ -460,8 +464,10 @@ spec:
                       specified subnetwork, if any. Set by the API if undefined.
                     type: string
                   addressType:
-                    description: The type of address to reserve. Default value is
-                      EXTERNAL. Possible values are INTERNAL and EXTERNAL.
+                    description: 'The type of address to reserve. Note: if you set
+                      this argument''s value as INTERNAL you need to leave the network_tier
+                      argument unset in that resource block. Default value is EXTERNAL.
+                      Possible values are: INTERNAL, EXTERNAL.'
                     type: string
                   creationTimestamp:
                     description: Creation timestamp in RFC3339 text format.
@@ -478,9 +484,11 @@ spec:
                       and IPSEC_INTERCONNECT purposes.
                     type: string
                   networkTier:
-                    description: The networking tier used for configuring this address.
+                    description: 'The networking tier used for configuring this address.
                       If this field is not specified, it is assumed to be PREMIUM.
-                      Possible values are PREMIUM and STANDARD.
+                      This argument should not be used when configuring Internal addresses,
+                      because network tier cannot be set for internal traffic; it''s
+                      always Premium. Possible values are: PREMIUM, STANDARD.'
                     type: string
                   prefixLength:
                     description: The prefix length if the resource represents an IP
@@ -491,8 +499,8 @@ spec:
                       If it is not provided, the provider project is used.
                     type: string
                   purpose:
-                    description: 'The purpose of this resource, which can be one of
-                      the following values:'
+                    description: The purpose of this resource, which can be one of
+                      the following values.
                     type: string
                   region:
                     description: The Region in which the created address should reside.

@@ -86,8 +86,8 @@ spec:
                           items:
                             properties:
                               format:
-                                description: The format of the key. Possible values
-                                  are RSA_PEM, RSA_X509_PEM, ES256_PEM, and ES256_X509_PEM.
+                                description: 'The format of the key. Possible values
+                                  are: RSA_PEM, RSA_X509_PEM, ES256_PEM, ES256_X509_PEM.'
                                 type: string
                               key:
                                 description: The key data.
@@ -107,20 +107,20 @@ spec:
                     items:
                       properties:
                         gatewayAuthMethod:
-                          description: Indicates whether the device is a gateway.
-                            Possible values are ASSOCIATION_ONLY, DEVICE_AUTH_TOKEN_ONLY,
-                            and ASSOCIATION_AND_DEVICE_AUTH_TOKEN.
+                          description: 'Indicates whether the device is a gateway.
+                            Possible values are: ASSOCIATION_ONLY, DEVICE_AUTH_TOKEN_ONLY,
+                            ASSOCIATION_AND_DEVICE_AUTH_TOKEN.'
                           type: string
                         gatewayType:
-                          description: Indicates whether the device is a gateway.
-                            Default value is NON_GATEWAY. Possible values are GATEWAY
-                            and NON_GATEWAY.
+                          description: 'Indicates whether the device is a gateway.
+                            Default value is NON_GATEWAY. Possible values are: GATEWAY,
+                            NON_GATEWAY.'
                           type: string
                       type: object
                     type: array
                   logLevel:
-                    description: The logging verbosity for device activity. Possible
-                      values are NONE, ERROR, INFO, and DEBUG.
+                    description: 'The logging verbosity for device activity. Possible
+                      values are: NONE, ERROR, INFO, DEBUG.'
                     type: string
                   metadata:
                     additionalProperties:
@@ -410,16 +410,16 @@ spec:
                           description: The device configuration data.
                           type: string
                         cloudUpdateTime:
-                          description: The time at which this configuration version
-                            was updated in Cloud IoT Core.
+                          description: (Output) The time at which this configuration
+                            version was updated in Cloud IoT Core.
                           type: string
                         deviceAckTime:
-                          description: The time at which Cloud IoT Core received the
-                            acknowledgment from the device, indicating that the device
-                            has received this configuration version.
+                          description: (Output) The time at which Cloud IoT Core received
+                            the acknowledgment from the device, indicating that the
+                            device has received this configuration version.
                           type: string
                         version:
-                          description: The version of this update.
+                          description: (Output) The version of this update.
                           type: string
                       type: object
                     type: array
@@ -437,8 +437,8 @@ spec:
                           items:
                             properties:
                               format:
-                                description: The format of the key. Possible values
-                                  are RSA_PEM, RSA_X509_PEM, ES256_PEM, and ES256_X509_PEM.
+                                description: 'The format of the key. Possible values
+                                  are: RSA_PEM, RSA_X509_PEM, ES256_PEM, ES256_X509_PEM.'
                                 type: string
                               key:
                                 description: The key data.
@@ -453,22 +453,22 @@ spec:
                     items:
                       properties:
                         gatewayAuthMethod:
-                          description: Indicates whether the device is a gateway.
-                            Possible values are ASSOCIATION_ONLY, DEVICE_AUTH_TOKEN_ONLY,
-                            and ASSOCIATION_AND_DEVICE_AUTH_TOKEN.
+                          description: 'Indicates whether the device is a gateway.
+                            Possible values are: ASSOCIATION_ONLY, DEVICE_AUTH_TOKEN_ONLY,
+                            ASSOCIATION_AND_DEVICE_AUTH_TOKEN.'
                           type: string
                         gatewayType:
-                          description: Indicates whether the device is a gateway.
-                            Default value is NON_GATEWAY. Possible values are GATEWAY
-                            and NON_GATEWAY.
+                          description: 'Indicates whether the device is a gateway.
+                            Default value is NON_GATEWAY. Possible values are: GATEWAY,
+                            NON_GATEWAY.'
                           type: string
                         lastAccessedGatewayId:
-                          description: The ID of the gateway the device accessed most
-                            recently.
+                          description: (Output) The ID of the gateway the device accessed
+                            most recently.
                           type: string
                         lastAccessedGatewayTime:
-                          description: The most recent time at which the device accessed
-                            the gateway specified in last_accessed_gateway.
+                          description: (Output) The most recent time at which the
+                            device accessed the gateway specified in last_accessed_gateway.
                           type: string
                       type: object
                     type: array
@@ -518,8 +518,8 @@ spec:
                     description: The last time a state event was received.
                     type: string
                   logLevel:
-                    description: The logging verbosity for device activity. Possible
-                      values are NONE, ERROR, INFO, and DEBUG.
+                    description: 'The logging verbosity for device activity. Possible
+                      values are: NONE, ERROR, INFO, DEBUG.'
                     type: string
                   metadata:
                     additionalProperties:

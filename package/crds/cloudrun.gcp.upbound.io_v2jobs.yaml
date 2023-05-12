@@ -104,10 +104,15 @@ spec:
                       not be preserved.
                     type: object
                   launchStage:
-                    description: The launch stage as defined by Google Cloud Platform
+                    description: 'The launch stage as defined by Google Cloud Platform
                       Launch Stages. Cloud Run supports ALPHA, BETA, and GA. If no
-                      value is specified, GA is assumed. Possible values are UNIMPLEMENTED,
-                      PRELAUNCH, EARLY_ACCESS, ALPHA, BETA, GA, and DEPRECATED.
+                      value is specified, GA is assumed. Set the launch stage to a
+                      preview stage on input to allow use of preview features in that
+                      stage. On read (or output), describes whether the resource uses
+                      preview features. For example, if ALPHA is provided as input,
+                      but only BETA and GA-level features are used, this field will
+                      be BETA on output. Possible values are: UNIMPLEMENTED, PRELAUNCH,
+                      EARLY_ACCESS, ALPHA, BETA, GA, DEPRECATED.'
                     type: string
                   location:
                     description: The location of the cloud run job
@@ -608,9 +613,9 @@ spec:
                                   For more information, go to https://cloud.google.com/run/docs/securing/using-cmek
                                 type: string
                               executionEnvironment:
-                                description: The execution environment being used
-                                  to host this Task. Possible values are EXECUTION_ENVIRONMENT_GEN1
-                                  and EXECUTION_ENVIRONMENT_GEN2.
+                                description: 'The execution environment being used
+                                  to host this Task. Possible values are: EXECUTION_ENVIRONMENT_GEN1,
+                                  EXECUTION_ENVIRONMENT_GEN2.'
                                 type: string
                               maxRetries:
                                 description: Number of retries allowed per Task, before
@@ -826,8 +831,8 @@ spec:
                                         where {project} can be project id or number.'
                                       type: string
                                     egress:
-                                      description: Traffic VPC egress settings. Possible
-                                        values are ALL_TRAFFIC and PRIVATE_RANGES_ONLY.
+                                      description: 'Traffic VPC egress settings. Possible
+                                        values are: ALL_TRAFFIC, PRIVATE_RANGES_ONLY.'
                                       type: string
                                   type: object
                                 type: array
@@ -1064,34 +1069,36 @@ spec:
                     items:
                       properties:
                         executionReason:
-                          description: A reason for the execution condition.
+                          description: (Output) A reason for the execution condition.
                           type: string
                         lastTransitionTime:
-                          description: 'Last time the condition transitioned from
-                            one status to another. A timestamp in RFC3339 UTC "Zulu"
-                            format, with nanosecond resolution and up to nine fractional
-                            digits. Examples: "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z".'
+                          description: '(Output) Last time the condition transitioned
+                            from one status to another. A timestamp in RFC3339 UTC
+                            "Zulu" format, with nanosecond resolution and up to nine
+                            fractional digits. Examples: "2014-10-02T15:01:23Z" and
+                            "2014-10-02T15:01:23.045123456Z".'
                           type: string
                         message:
-                          description: Human readable message indicating details about
-                            the current status.
+                          description: (Output) Human readable message indicating
+                            details about the current status.
                           type: string
                         reason:
-                          description: A common (service-level) reason for this condition.
+                          description: (Output) A common (service-level) reason for
+                            this condition.
                           type: string
                         revisionReason:
-                          description: A reason for the revision condition.
+                          description: (Output) A reason for the revision condition.
                           type: string
                         severity:
-                          description: How to interpret failures of this condition,
-                            one of Error, Warning, Info
+                          description: (Output) How to interpret failures of this
+                            condition, one of Error, Warning, Info
                           type: string
                         state:
-                          description: State of the condition.
+                          description: (Output) State of the condition.
                           type: string
                         type:
-                          description: 'type is used to communicate the status of
-                            the reconciliation process. See also: https://github.com/knative/serving/blob/main/docs/spec/errors.md#error-conditions-and-reporting
+                          description: '(Output) type is used to communicate the status
+                            of the reconciliation process. See also: https://github.com/knative/serving/blob/main/docs/spec/errors.md#error-conditions-and-reporting
                             Types common to all resources include: * "Ready": True
                             when the Resource is ready.'
                           type: string
@@ -1130,27 +1137,32 @@ spec:
                     items:
                       properties:
                         completionTime:
-                          description: 'Completion timestamp of the execution. A timestamp
-                            in RFC3339 UTC "Zulu" format, with nanosecond resolution
-                            and up to nine fractional digits. Examples: "2014-10-02T15:01:23Z"
-                            and "2014-10-02T15:01:23.045123456Z".'
+                          description: '(Output) Completion timestamp of the execution.
+                            A timestamp in RFC3339 UTC "Zulu" format, with nanosecond
+                            resolution and up to nine fractional digits. Examples:
+                            "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z".'
                           type: string
                         createTime:
-                          description: 'Creation timestamp of the execution. A timestamp
-                            in RFC3339 UTC "Zulu" format, with nanosecond resolution
-                            and up to nine fractional digits. Examples: "2014-10-02T15:01:23Z"
-                            and "2014-10-02T15:01:23.045123456Z".'
+                          description: '(Output) Creation timestamp of the execution.
+                            A timestamp in RFC3339 UTC "Zulu" format, with nanosecond
+                            resolution and up to nine fractional digits. Examples:
+                            "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z".'
                           type: string
                         name:
-                          description: Name of the execution.
+                          description: (Output) Name of the execution.
                           type: string
                       type: object
                     type: array
                   launchStage:
-                    description: The launch stage as defined by Google Cloud Platform
+                    description: 'The launch stage as defined by Google Cloud Platform
                       Launch Stages. Cloud Run supports ALPHA, BETA, and GA. If no
-                      value is specified, GA is assumed. Possible values are UNIMPLEMENTED,
-                      PRELAUNCH, EARLY_ACCESS, ALPHA, BETA, GA, and DEPRECATED.
+                      value is specified, GA is assumed. Set the launch stage to a
+                      preview stage on input to allow use of preview features in that
+                      stage. On read (or output), describes whether the resource uses
+                      preview features. For example, if ALPHA is provided as input,
+                      but only BETA and GA-level features are used, this field will
+                      be BETA on output. Possible values are: UNIMPLEMENTED, PRELAUNCH,
+                      EARLY_ACCESS, ALPHA, BETA, GA, DEPRECATED.'
                     type: string
                   location:
                     description: The location of the cloud run job
@@ -1549,9 +1561,9 @@ spec:
                                   For more information, go to https://cloud.google.com/run/docs/securing/using-cmek
                                 type: string
                               executionEnvironment:
-                                description: The execution environment being used
-                                  to host this Task. Possible values are EXECUTION_ENVIRONMENT_GEN1
-                                  and EXECUTION_ENVIRONMENT_GEN2.
+                                description: 'The execution environment being used
+                                  to host this Task. Possible values are: EXECUTION_ENVIRONMENT_GEN1,
+                                  EXECUTION_ENVIRONMENT_GEN2.'
                                 type: string
                               maxRetries:
                                 description: Number of retries allowed per Task, before
@@ -1671,8 +1683,8 @@ spec:
                                         where {project} can be project id or number.'
                                       type: string
                                     egress:
-                                      description: Traffic VPC egress settings. Possible
-                                        values are ALL_TRAFFIC and PRIVATE_RANGES_ONLY.
+                                      description: 'Traffic VPC egress settings. Possible
+                                        values are: ALL_TRAFFIC, PRIVATE_RANGES_ONLY.'
                                       type: string
                                   type: object
                                 type: array
@@ -1687,34 +1699,36 @@ spec:
                     items:
                       properties:
                         executionReason:
-                          description: A reason for the execution condition.
+                          description: (Output) A reason for the execution condition.
                           type: string
                         lastTransitionTime:
-                          description: 'Last time the condition transitioned from
-                            one status to another. A timestamp in RFC3339 UTC "Zulu"
-                            format, with nanosecond resolution and up to nine fractional
-                            digits. Examples: "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z".'
+                          description: '(Output) Last time the condition transitioned
+                            from one status to another. A timestamp in RFC3339 UTC
+                            "Zulu" format, with nanosecond resolution and up to nine
+                            fractional digits. Examples: "2014-10-02T15:01:23Z" and
+                            "2014-10-02T15:01:23.045123456Z".'
                           type: string
                         message:
-                          description: Human readable message indicating details about
-                            the current status.
+                          description: (Output) Human readable message indicating
+                            details about the current status.
                           type: string
                         reason:
-                          description: A common (service-level) reason for this condition.
+                          description: (Output) A common (service-level) reason for
+                            this condition.
                           type: string
                         revisionReason:
-                          description: A reason for the revision condition.
+                          description: (Output) A reason for the revision condition.
                           type: string
                         severity:
-                          description: How to interpret failures of this condition,
-                            one of Error, Warning, Info
+                          description: (Output) How to interpret failures of this
+                            condition, one of Error, Warning, Info
                           type: string
                         state:
-                          description: State of the condition.
+                          description: (Output) State of the condition.
                           type: string
                         type:
-                          description: 'type is used to communicate the status of
-                            the reconciliation process. See also: https://github.com/knative/serving/blob/main/docs/spec/errors.md#error-conditions-and-reporting
+                          description: '(Output) type is used to communicate the status
+                            of the reconciliation process. See also: https://github.com/knative/serving/blob/main/docs/spec/errors.md#error-conditions-and-reporting
                             Types common to all resources include: * "Ready": True
                             when the Resource is ready.'
                           type: string

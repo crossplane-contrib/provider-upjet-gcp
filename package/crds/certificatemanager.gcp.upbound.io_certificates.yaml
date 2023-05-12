@@ -77,6 +77,10 @@ spec:
                     description: Set of label tags associated with the Certificate
                       resource.
                     type: object
+                  location:
+                    description: The Certificate Manager location. If not specified,
+                      "global" is used.
+                    type: string
                   managed:
                     description: Configuration and state of a Managed Certificate.
                       Certificate Manager provisions and renews Managed Certificates
@@ -379,7 +383,7 @@ spec:
                     description: A human-readable description of the resource.
                     type: string
                   id:
-                    description: an identifier for the resource with format projects/{{project}}/locations/global/certificates/{{name}}
+                    description: an identifier for the resource with format projects/{{project}}/locations/{{location}}/certificates/{{name}}
                     type: string
                   labels:
                     additionalProperties:
@@ -387,6 +391,10 @@ spec:
                     description: Set of label tags associated with the Certificate
                       resource.
                     type: object
+                  location:
+                    description: The Certificate Manager location. If not specified,
+                      "global" is used.
+                    type: string
                   managed:
                     description: Configuration and state of a Managed Certificate.
                       Certificate Manager provisions and renews Managed Certificates
@@ -395,26 +403,27 @@ spec:
                     items:
                       properties:
                         authorizationAttemptInfo:
-                          description: Detailed state of the latest authorization
+                          description: (Output) Detailed state of the latest authorization
                             attempt for each domain specified for this Managed Certificate.
                             Structure is documented below.
                           items:
                             properties:
                               details:
-                                description: Human readable explanation about the
-                                  issue. Provided to help address the configuration
+                                description: (Output) Human readable explanation about
+                                  the issue. Provided to help address the configuration
                                   issues. Not guaranteed to be stable. For programmatic
                                   access use reason field.
                                 type: string
                               domain:
-                                description: Domain name of the authorization attempt.
+                                description: (Output) Domain name of the authorization
+                                  attempt.
                                 type: string
                               failureReason:
-                                description: Reason for failure of the authorization
+                                description: (Output) Reason for failure of the authorization
                                   attempt for the domain.
                                 type: string
                               state:
-                                description: A state of this Managed Certificate.
+                                description: (Output) A state of this Managed Certificate.
                                 type: string
                             type: object
                           type: array
@@ -432,23 +441,23 @@ spec:
                             type: string
                           type: array
                         provisioningIssue:
-                          description: Information about issues with provisioning
+                          description: (Output) Information about issues with provisioning
                             this Managed Certificate. Structure is documented below.
                           items:
                             properties:
                               details:
-                                description: Human readable explanation about the
-                                  issue. Provided to help address the configuration
+                                description: (Output) Human readable explanation about
+                                  the issue. Provided to help address the configuration
                                   issues. Not guaranteed to be stable. For programmatic
                                   access use reason field.
                                 type: string
                               reason:
-                                description: Reason for provisioning failures.
+                                description: (Output) Reason for provisioning failures.
                                 type: string
                             type: object
                           type: array
                         state:
-                          description: A state of this Managed Certificate.
+                          description: (Output) A state of this Managed Certificate.
                           type: string
                       type: object
                     type: array

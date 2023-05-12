@@ -8,9 +8,12 @@ metadata:
   name: reservation
 spec:
   forProvider:
+    autoscale:
+    - maxSlots: 100
     concurrency: 0
-    ignoreIdleSlots: false
-    location: asia-northeast1
+    edition: STANDARD
+    ignoreIdleSlots: true
+    location: us-west2
     slotCapacity: 0
 
 ---

@@ -25,6 +25,18 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type AllInfoTypesObservation struct {
+}
+
+type AllInfoTypesParameters struct {
+}
+
+type AllTextObservation struct {
+}
+
+type AllTextParameters struct {
+}
+
 type BucketingConfigObservation struct {
 
 	// Set of buckets. Ranges must be non-overlapping.
@@ -87,7 +99,7 @@ type CharacterMaskConfigCharactersToIgnoreObservation struct {
 	CharactersToSkip *string `json:"charactersToSkip,omitempty" tf:"characters_to_skip,omitempty"`
 
 	// Common characters to not transform when masking. Useful to avoid removing punctuation.
-	// Possible values are NUMERIC, ALPHA_UPPER_CASE, ALPHA_LOWER_CASE, PUNCTUATION, and WHITESPACE.
+	// Possible values are: NUMERIC, ALPHA_UPPER_CASE, ALPHA_LOWER_CASE, PUNCTUATION, WHITESPACE.
 	CommonCharactersToIgnore *string `json:"commonCharactersToIgnore,omitempty" tf:"common_characters_to_ignore,omitempty"`
 }
 
@@ -98,7 +110,7 @@ type CharacterMaskConfigCharactersToIgnoreParameters struct {
 	CharactersToSkip *string `json:"charactersToSkip,omitempty" tf:"characters_to_skip,omitempty"`
 
 	// Common characters to not transform when masking. Useful to avoid removing punctuation.
-	// Possible values are NUMERIC, ALPHA_UPPER_CASE, ALPHA_LOWER_CASE, PUNCTUATION, and WHITESPACE.
+	// Possible values are: NUMERIC, ALPHA_UPPER_CASE, ALPHA_LOWER_CASE, PUNCTUATION, WHITESPACE.
 	// +kubebuilder:validation:Optional
 	CommonCharactersToIgnore *string `json:"commonCharactersToIgnore,omitempty" tf:"common_characters_to_ignore,omitempty"`
 }
@@ -140,7 +152,7 @@ type CharactersToIgnoreObservation struct {
 	CharactersToSkip *string `json:"charactersToSkip,omitempty" tf:"characters_to_skip,omitempty"`
 
 	// Common characters to not transform when masking. Useful to avoid removing punctuation.
-	// Possible values are NUMERIC, ALPHA_UPPER_CASE, ALPHA_LOWER_CASE, PUNCTUATION, and WHITESPACE.
+	// Possible values are: NUMERIC, ALPHA_UPPER_CASE, ALPHA_LOWER_CASE, PUNCTUATION, WHITESPACE.
 	CommonCharactersToIgnore *string `json:"commonCharactersToIgnore,omitempty" tf:"common_characters_to_ignore,omitempty"`
 }
 
@@ -151,7 +163,7 @@ type CharactersToIgnoreParameters struct {
 	CharactersToSkip *string `json:"charactersToSkip,omitempty" tf:"characters_to_skip,omitempty"`
 
 	// Common characters to not transform when masking. Useful to avoid removing punctuation.
-	// Possible values are NUMERIC, ALPHA_UPPER_CASE, ALPHA_LOWER_CASE, PUNCTUATION, and WHITESPACE.
+	// Possible values are: NUMERIC, ALPHA_UPPER_CASE, ALPHA_LOWER_CASE, PUNCTUATION, WHITESPACE.
 	// +kubebuilder:validation:Optional
 	CommonCharactersToIgnore *string `json:"commonCharactersToIgnore,omitempty" tf:"common_characters_to_ignore,omitempty"`
 }
@@ -164,7 +176,7 @@ type ConditionExpressionsObservation struct {
 
 	// The operator to apply to the result of conditions. Default and currently only supported value is AND.
 	// Default value is AND.
-	// Possible values are AND.
+	// Possible values are: AND.
 	LogicalOperator *string `json:"logicalOperator,omitempty" tf:"logical_operator,omitempty"`
 }
 
@@ -177,7 +189,7 @@ type ConditionExpressionsParameters struct {
 
 	// The operator to apply to the result of conditions. Default and currently only supported value is AND.
 	// Default value is AND.
-	// Possible values are AND.
+	// Possible values are: AND.
 	// +kubebuilder:validation:Optional
 	LogicalOperator *string `json:"logicalOperator,omitempty" tf:"logical_operator,omitempty"`
 }
@@ -204,7 +216,7 @@ type ConditionsConditionsObservation struct {
 	Field []FieldObservation `json:"field,omitempty" tf:"field,omitempty"`
 
 	// Operator used to compare the field or infoType to the value.
-	// Possible values are EQUAL_TO, NOT_EQUAL_TO, GREATER_THAN, LESS_THAN, GREATER_THAN_OR_EQUALS, LESS_THAN_OR_EQUALS, and EXISTS.
+	// Possible values are: EQUAL_TO, NOT_EQUAL_TO, GREATER_THAN, LESS_THAN, GREATER_THAN_OR_EQUALS, LESS_THAN_OR_EQUALS, EXISTS.
 	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
 
 	// Value to compare against.
@@ -222,7 +234,7 @@ type ConditionsConditionsParameters struct {
 	Field []FieldParameters `json:"field" tf:"field,omitempty"`
 
 	// Operator used to compare the field or infoType to the value.
-	// Possible values are EQUAL_TO, NOT_EQUAL_TO, GREATER_THAN, LESS_THAN, GREATER_THAN_OR_EQUALS, LESS_THAN_OR_EQUALS, and EXISTS.
+	// Possible values are: EQUAL_TO, NOT_EQUAL_TO, GREATER_THAN, LESS_THAN, GREATER_THAN_OR_EQUALS, LESS_THAN_OR_EQUALS, EXISTS.
 	// +kubebuilder:validation:Required
 	Operator *string `json:"operator" tf:"operator,omitempty"`
 
@@ -301,7 +313,7 @@ type ConditionsValueObservation struct {
 	DateValue []ConditionsValueDateValueObservation `json:"dateValue,omitempty" tf:"date_value,omitempty"`
 
 	// Represents a day of the week.
-	// Possible values are MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, and SUNDAY.
+	// Possible values are: MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY.
 	DayOfWeekValue *string `json:"dayOfWeekValue,omitempty" tf:"day_of_week_value,omitempty"`
 
 	// A float value.
@@ -333,7 +345,7 @@ type ConditionsValueParameters struct {
 	DateValue []ConditionsValueDateValueParameters `json:"dateValue,omitempty" tf:"date_value,omitempty"`
 
 	// Represents a day of the week.
-	// Possible values are MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, and SUNDAY.
+	// Possible values are: MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY.
 	// +kubebuilder:validation:Optional
 	DayOfWeekValue *string `json:"dayOfWeekValue,omitempty" tf:"day_of_week_value,omitempty"`
 
@@ -867,7 +879,7 @@ type CryptoReplaceFfxFpeConfigCryptoKeyUnwrappedParameters struct {
 type CryptoReplaceFfxFpeConfigObservation struct {
 
 	// Common alphabets.
-	// Possible values are FFX_COMMON_NATIVE_ALPHABET_UNSPECIFIED, NUMERIC, HEXADECIMAL, UPPER_CASE_ALPHA_NUMERIC, and ALPHA_NUMERIC.
+	// Possible values are: FFX_COMMON_NATIVE_ALPHABET_UNSPECIFIED, NUMERIC, HEXADECIMAL, UPPER_CASE_ALPHA_NUMERIC, ALPHA_NUMERIC.
 	CommonAlphabet *string `json:"commonAlphabet,omitempty" tf:"common_alphabet,omitempty"`
 
 	// Points to the field that contains the context, for example, an entity id.
@@ -897,7 +909,7 @@ type CryptoReplaceFfxFpeConfigObservation struct {
 type CryptoReplaceFfxFpeConfigParameters struct {
 
 	// Common alphabets.
-	// Possible values are FFX_COMMON_NATIVE_ALPHABET_UNSPECIFIED, NUMERIC, HEXADECIMAL, UPPER_CASE_ALPHA_NUMERIC, and ALPHA_NUMERIC.
+	// Possible values are: FFX_COMMON_NATIVE_ALPHABET_UNSPECIFIED, NUMERIC, HEXADECIMAL, UPPER_CASE_ALPHA_NUMERIC, ALPHA_NUMERIC.
 	// +kubebuilder:validation:Optional
 	CommonAlphabet *string `json:"commonAlphabet,omitempty" tf:"common_alphabet,omitempty"`
 
@@ -1125,6 +1137,10 @@ type DateValueParameters struct {
 
 type DeidentifyConfigObservation struct {
 
+	// Treat the dataset as an image and redact.
+	// Structure is documented below.
+	ImageTransformations []ImageTransformationsObservation `json:"imageTransformations,omitempty" tf:"image_transformations,omitempty"`
+
 	// Treat the dataset as free-form text and apply the same free text transformation everywhere
 	// Structure is documented below.
 	InfoTypeTransformations []InfoTypeTransformationsObservation `json:"infoTypeTransformations,omitempty" tf:"info_type_transformations,omitempty"`
@@ -1135,6 +1151,11 @@ type DeidentifyConfigObservation struct {
 }
 
 type DeidentifyConfigParameters struct {
+
+	// Treat the dataset as an image and redact.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ImageTransformations []ImageTransformationsParameters `json:"imageTransformations,omitempty" tf:"image_transformations,omitempty"`
 
 	// Treat the dataset as free-form text and apply the same free text transformation everywhere
 	// Structure is documented below.
@@ -1148,6 +1169,9 @@ type DeidentifyConfigParameters struct {
 }
 
 type DeidentifyTemplateObservation struct {
+
+	// The creation timestamp of an deidentifyTemplate. Set by the server.
+	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
 	// Configuration of the deidentify template
 	// Structure is documented below.
@@ -1167,6 +1191,9 @@ type DeidentifyTemplateObservation struct {
 
 	// The parent of the template in any of the following formats:
 	Parent *string `json:"parent,omitempty" tf:"parent,omitempty"`
+
+	// The last update timestamp of an deidentifyTemplate. Set by the server.
+	UpdateTime *string `json:"updateTime,omitempty" tf:"update_time,omitempty"`
 }
 
 type DeidentifyTemplateParameters struct {
@@ -1196,7 +1223,7 @@ type ExpressionsConditionsConditionsObservation struct {
 	Field []ConditionsFieldObservation `json:"field,omitempty" tf:"field,omitempty"`
 
 	// Operator used to compare the field or infoType to the value.
-	// Possible values are EQUAL_TO, NOT_EQUAL_TO, GREATER_THAN, LESS_THAN, GREATER_THAN_OR_EQUALS, LESS_THAN_OR_EQUALS, and EXISTS.
+	// Possible values are: EQUAL_TO, NOT_EQUAL_TO, GREATER_THAN, LESS_THAN, GREATER_THAN_OR_EQUALS, LESS_THAN_OR_EQUALS, EXISTS.
 	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
 
 	// Value to compare against.
@@ -1214,7 +1241,7 @@ type ExpressionsConditionsConditionsParameters struct {
 	Field []ConditionsFieldParameters `json:"field" tf:"field,omitempty"`
 
 	// Operator used to compare the field or infoType to the value.
-	// Possible values are EQUAL_TO, NOT_EQUAL_TO, GREATER_THAN, LESS_THAN, GREATER_THAN_OR_EQUALS, LESS_THAN_OR_EQUALS, and EXISTS.
+	// Possible values are: EQUAL_TO, NOT_EQUAL_TO, GREATER_THAN, LESS_THAN, GREATER_THAN_OR_EQUALS, LESS_THAN_OR_EQUALS, EXISTS.
 	// +kubebuilder:validation:Required
 	Operator *string `json:"operator" tf:"operator,omitempty"`
 
@@ -1249,7 +1276,7 @@ type ExpressionsObservation struct {
 
 	// The operator to apply to the result of conditions. Default and currently only supported value is AND.
 	// Default value is AND.
-	// Possible values are AND.
+	// Possible values are: AND.
 	LogicalOperator *string `json:"logicalOperator,omitempty" tf:"logical_operator,omitempty"`
 }
 
@@ -1262,7 +1289,7 @@ type ExpressionsParameters struct {
 
 	// The operator to apply to the result of conditions. Default and currently only supported value is AND.
 	// Default value is AND.
-	// Possible values are AND.
+	// Possible values are: AND.
 	// +kubebuilder:validation:Optional
 	LogicalOperator *string `json:"logicalOperator,omitempty" tf:"logical_operator,omitempty"`
 }
@@ -1368,7 +1395,7 @@ type FieldTransformationsPrimitiveTransformationObservation struct {
 
 	// Replace with a value randomly drawn (with replacement) from a dictionary.
 	// Structure is documented below.
-	ReplaceDictionaryConfig []ReplaceDictionaryConfigObservation `json:"replaceDictionaryConfig,omitempty" tf:"replace_dictionary_config,omitempty"`
+	ReplaceDictionaryConfig []PrimitiveTransformationReplaceDictionaryConfigObservation `json:"replaceDictionaryConfig,omitempty" tf:"replace_dictionary_config,omitempty"`
 
 	// For use with Date, Timestamp, and TimeOfDay, extract or preserve a portion of the value.
 	// Structure is documented below.
@@ -1436,7 +1463,7 @@ type FieldTransformationsPrimitiveTransformationParameters struct {
 	// Replace with a value randomly drawn (with replacement) from a dictionary.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	ReplaceDictionaryConfig []ReplaceDictionaryConfigParameters `json:"replaceDictionaryConfig,omitempty" tf:"replace_dictionary_config,omitempty"`
+	ReplaceDictionaryConfig []PrimitiveTransformationReplaceDictionaryConfigParameters `json:"replaceDictionaryConfig,omitempty" tf:"replace_dictionary_config,omitempty"`
 
 	// For use with Date, Timestamp, and TimeOfDay, extract or preserve a portion of the value.
 	// Structure is documented below.
@@ -1500,6 +1527,21 @@ type FixedSizeBucketingConfigParameters struct {
 	UpperBound []UpperBoundParameters `json:"upperBound" tf:"upper_bound,omitempty"`
 }
 
+type ImageTransformationsObservation struct {
+
+	// For determination of how redaction of images should occur.
+	// Structure is documented below.
+	Transforms []TransformsObservation `json:"transforms,omitempty" tf:"transforms,omitempty"`
+}
+
+type ImageTransformationsParameters struct {
+
+	// For determination of how redaction of images should occur.
+	// Structure is documented below.
+	// +kubebuilder:validation:Required
+	Transforms []TransformsParameters `json:"transforms" tf:"transforms,omitempty"`
+}
+
 type InfoTypeTransformationsObservation struct {
 
 	// Transformation for each infoType. Cannot specify more than one for a given infoType.
@@ -1519,6 +1561,9 @@ type InfoTypesObservation struct {
 
 	// Name of the key. This is an arbitrary string used to differentiate different keys. A unique key is generated per name: two separate TransientCryptoKey protos share the same generated key if their names are the same. When the data crypto key is generated, this name is not used in any way (repeating the api call will result in a different key being generated).
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Optional version name for this InfoType.
+	Version *string `json:"version,omitempty" tf:"version,omitempty"`
 }
 
 type InfoTypesParameters struct {
@@ -1526,6 +1571,10 @@ type InfoTypesParameters struct {
 	// Name of the key. This is an arbitrary string used to differentiate different keys. A unique key is generated per name: two separate TransientCryptoKey protos share the same generated key if their names are the same. When the data crypto key is generated, this name is not used in any way (repeating the api call will result in a different key being generated).
 	// +kubebuilder:validation:Required
 	Name *string `json:"name" tf:"name,omitempty"`
+
+	// Optional version name for this InfoType.
+	// +kubebuilder:validation:Optional
+	Version *string `json:"version,omitempty" tf:"version,omitempty"`
 }
 
 type KMSWrappedObservation struct {
@@ -1589,7 +1638,7 @@ type LowerBoundObservation struct {
 	DateValue []LowerBoundDateValueObservation `json:"dateValue,omitempty" tf:"date_value,omitempty"`
 
 	// Represents a day of the week.
-	// Possible values are MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, and SUNDAY.
+	// Possible values are: MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY.
 	DayOfWeekValue *string `json:"dayOfWeekValue,omitempty" tf:"day_of_week_value,omitempty"`
 
 	// A float value.
@@ -1621,7 +1670,7 @@ type LowerBoundParameters struct {
 	DateValue []LowerBoundDateValueParameters `json:"dateValue,omitempty" tf:"date_value,omitempty"`
 
 	// Represents a day of the week.
-	// Possible values are MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, and SUNDAY.
+	// Possible values are: MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY.
 	// +kubebuilder:validation:Optional
 	DayOfWeekValue *string `json:"dayOfWeekValue,omitempty" tf:"day_of_week_value,omitempty"`
 
@@ -1720,7 +1769,7 @@ type MaxObservation struct {
 	DateValue []MaxDateValueObservation `json:"dateValue,omitempty" tf:"date_value,omitempty"`
 
 	// Represents a day of the week.
-	// Possible values are MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, and SUNDAY.
+	// Possible values are: MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY.
 	DayOfWeekValue *string `json:"dayOfWeekValue,omitempty" tf:"day_of_week_value,omitempty"`
 
 	// A float value.
@@ -1752,7 +1801,7 @@ type MaxParameters struct {
 	DateValue []MaxDateValueParameters `json:"dateValue,omitempty" tf:"date_value,omitempty"`
 
 	// Represents a day of the week.
-	// Possible values are MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, and SUNDAY.
+	// Possible values are: MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY.
 	// +kubebuilder:validation:Optional
 	DayOfWeekValue *string `json:"dayOfWeekValue,omitempty" tf:"day_of_week_value,omitempty"`
 
@@ -1851,7 +1900,7 @@ type MinObservation struct {
 	DateValue []MinDateValueObservation `json:"dateValue,omitempty" tf:"date_value,omitempty"`
 
 	// Represents a day of the week.
-	// Possible values are MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, and SUNDAY.
+	// Possible values are: MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY.
 	DayOfWeekValue *string `json:"dayOfWeekValue,omitempty" tf:"day_of_week_value,omitempty"`
 
 	// A float value.
@@ -1883,7 +1932,7 @@ type MinParameters struct {
 	DateValue []MinDateValueParameters `json:"dateValue,omitempty" tf:"date_value,omitempty"`
 
 	// Represents a day of the week.
-	// Possible values are MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, and SUNDAY.
+	// Possible values are: MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY.
 	// +kubebuilder:validation:Optional
 	DayOfWeekValue *string `json:"dayOfWeekValue,omitempty" tf:"day_of_week_value,omitempty"`
 
@@ -1982,7 +2031,7 @@ type NewValueObservation struct {
 	DateValue []DateValueObservation `json:"dateValue,omitempty" tf:"date_value,omitempty"`
 
 	// Represents a day of the week.
-	// Possible values are MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, and SUNDAY.
+	// Possible values are: MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY.
 	DayOfWeekValue *string `json:"dayOfWeekValue,omitempty" tf:"day_of_week_value,omitempty"`
 
 	// A float value.
@@ -2014,7 +2063,7 @@ type NewValueParameters struct {
 	DateValue []DateValueParameters `json:"dateValue,omitempty" tf:"date_value,omitempty"`
 
 	// Represents a day of the week.
-	// Possible values are MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, and SUNDAY.
+	// Possible values are: MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY.
 	// +kubebuilder:validation:Optional
 	DayOfWeekValue *string `json:"dayOfWeekValue,omitempty" tf:"day_of_week_value,omitempty"`
 
@@ -2201,7 +2250,7 @@ type PrimitiveTransformationCryptoReplaceFfxFpeConfigCryptoKeyParameters struct 
 type PrimitiveTransformationCryptoReplaceFfxFpeConfigObservation struct {
 
 	// Common alphabets.
-	// Possible values are FFX_COMMON_NATIVE_ALPHABET_UNSPECIFIED, NUMERIC, HEXADECIMAL, UPPER_CASE_ALPHA_NUMERIC, and ALPHA_NUMERIC.
+	// Possible values are: FFX_COMMON_NATIVE_ALPHABET_UNSPECIFIED, NUMERIC, HEXADECIMAL, UPPER_CASE_ALPHA_NUMERIC, ALPHA_NUMERIC.
 	CommonAlphabet *string `json:"commonAlphabet,omitempty" tf:"common_alphabet,omitempty"`
 
 	// Points to the field that contains the context, for example, an entity id.
@@ -2231,7 +2280,7 @@ type PrimitiveTransformationCryptoReplaceFfxFpeConfigObservation struct {
 type PrimitiveTransformationCryptoReplaceFfxFpeConfigParameters struct {
 
 	// Common alphabets.
-	// Possible values are FFX_COMMON_NATIVE_ALPHABET_UNSPECIFIED, NUMERIC, HEXADECIMAL, UPPER_CASE_ALPHA_NUMERIC, and ALPHA_NUMERIC.
+	// Possible values are: FFX_COMMON_NATIVE_ALPHABET_UNSPECIFIED, NUMERIC, HEXADECIMAL, UPPER_CASE_ALPHA_NUMERIC, ALPHA_NUMERIC.
 	// +kubebuilder:validation:Optional
 	CommonAlphabet *string `json:"commonAlphabet,omitempty" tf:"common_alphabet,omitempty"`
 
@@ -2304,6 +2353,10 @@ type PrimitiveTransformationObservation struct {
 	// Structure is documented below.
 	ReplaceConfig []ReplaceConfigObservation `json:"replaceConfig,omitempty" tf:"replace_config,omitempty"`
 
+	// Replace with a value randomly drawn (with replacement) from a dictionary.
+	// Structure is documented below.
+	ReplaceDictionaryConfig []ReplaceDictionaryConfigObservation `json:"replaceDictionaryConfig,omitempty" tf:"replace_dictionary_config,omitempty"`
+
 	// Replace each matching finding with the name of the info type.
 	ReplaceWithInfoTypeConfig *bool `json:"replaceWithInfoTypeConfig,omitempty" tf:"replace_with_info_type_config,omitempty"`
 }
@@ -2332,6 +2385,11 @@ type PrimitiveTransformationParameters struct {
 	// +kubebuilder:validation:Optional
 	ReplaceConfig []ReplaceConfigParameters `json:"replaceConfig,omitempty" tf:"replace_config,omitempty"`
 
+	// Replace with a value randomly drawn (with replacement) from a dictionary.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ReplaceDictionaryConfig []ReplaceDictionaryConfigParameters `json:"replaceDictionaryConfig,omitempty" tf:"replace_dictionary_config,omitempty"`
+
 	// Replace each matching finding with the name of the info type.
 	// +kubebuilder:validation:Optional
 	ReplaceWithInfoTypeConfig *bool `json:"replaceWithInfoTypeConfig,omitempty" tf:"replace_with_info_type_config,omitempty"`
@@ -2352,6 +2410,21 @@ type PrimitiveTransformationReplaceConfigParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Required
 	NewValue []ReplaceConfigNewValueParameters `json:"newValue" tf:"new_value,omitempty"`
+}
+
+type PrimitiveTransformationReplaceDictionaryConfigObservation struct {
+
+	// A list of words to select from for random replacement. The limits page contains details about the size limits of dictionaries.
+	// Structure is documented below.
+	WordList []ReplaceDictionaryConfigWordListObservation `json:"wordList,omitempty" tf:"word_list,omitempty"`
+}
+
+type PrimitiveTransformationReplaceDictionaryConfigParameters struct {
+
+	// A list of words to select from for random replacement. The limits page contains details about the size limits of dictionaries.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	WordList []ReplaceDictionaryConfigWordListParameters `json:"wordList,omitempty" tf:"word_list,omitempty"`
 }
 
 type RecordSuppressionsConditionObservation struct {
@@ -2414,6 +2487,33 @@ type RedactConfigObservation struct {
 type RedactConfigParameters struct {
 }
 
+type RedactionColorObservation struct {
+
+	// The amount of blue in the color as a value in the interval [0, 1].
+	Blue *float64 `json:"blue,omitempty" tf:"blue,omitempty"`
+
+	// The amount of green in the color as a value in the interval [0, 1].
+	Green *float64 `json:"green,omitempty" tf:"green,omitempty"`
+
+	// The amount of red in the color as a value in the interval [0, 1].
+	Red *float64 `json:"red,omitempty" tf:"red,omitempty"`
+}
+
+type RedactionColorParameters struct {
+
+	// The amount of blue in the color as a value in the interval [0, 1].
+	// +kubebuilder:validation:Optional
+	Blue *float64 `json:"blue,omitempty" tf:"blue,omitempty"`
+
+	// The amount of green in the color as a value in the interval [0, 1].
+	// +kubebuilder:validation:Optional
+	Green *float64 `json:"green,omitempty" tf:"green,omitempty"`
+
+	// The amount of red in the color as a value in the interval [0, 1].
+	// +kubebuilder:validation:Optional
+	Red *float64 `json:"red,omitempty" tf:"red,omitempty"`
+}
+
 type ReplaceConfigNewValueObservation struct {
 
 	// A boolean value.
@@ -2424,7 +2524,7 @@ type ReplaceConfigNewValueObservation struct {
 	DateValue []NewValueDateValueObservation `json:"dateValue,omitempty" tf:"date_value,omitempty"`
 
 	// Represents a day of the week.
-	// Possible values are MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, and SUNDAY.
+	// Possible values are: MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY.
 	DayOfWeekValue *string `json:"dayOfWeekValue,omitempty" tf:"day_of_week_value,omitempty"`
 
 	// A float value.
@@ -2456,7 +2556,7 @@ type ReplaceConfigNewValueParameters struct {
 	DateValue []NewValueDateValueParameters `json:"dateValue,omitempty" tf:"date_value,omitempty"`
 
 	// Represents a day of the week.
-	// Possible values are MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, and SUNDAY.
+	// Possible values are: MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY.
 	// +kubebuilder:validation:Optional
 	DayOfWeekValue *string `json:"dayOfWeekValue,omitempty" tf:"day_of_week_value,omitempty"`
 
@@ -2510,8 +2610,21 @@ type ReplaceDictionaryConfigParameters struct {
 
 	// A list of words to select from for random replacement. The limits page contains details about the size limits of dictionaries.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
-	WordList []WordListParameters `json:"wordList,omitempty" tf:"word_list,omitempty"`
+	// +kubebuilder:validation:Required
+	WordList []WordListParameters `json:"wordList" tf:"word_list,omitempty"`
+}
+
+type ReplaceDictionaryConfigWordListObservation struct {
+
+	// Words or phrases defining the dictionary. The dictionary must contain at least one phrase and every phrase must contain at least 2 characters that are letters or digits.
+	Words []*string `json:"words,omitempty" tf:"words,omitempty"`
+}
+
+type ReplaceDictionaryConfigWordListParameters struct {
+
+	// Words or phrases defining the dictionary. The dictionary must contain at least one phrase and every phrase must contain at least 2 characters that are letters or digits.
+	// +kubebuilder:validation:Required
+	Words []*string `json:"words" tf:"words,omitempty"`
 }
 
 type ReplacementValueDateValueObservation struct {
@@ -2553,7 +2666,7 @@ type ReplacementValueObservation struct {
 	DateValue []ReplacementValueDateValueObservation `json:"dateValue,omitempty" tf:"date_value,omitempty"`
 
 	// Represents a day of the week.
-	// Possible values are MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, and SUNDAY.
+	// Possible values are: MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY.
 	DayOfWeekValue *string `json:"dayOfWeekValue,omitempty" tf:"day_of_week_value,omitempty"`
 
 	// A float value.
@@ -2585,7 +2698,7 @@ type ReplacementValueParameters struct {
 	DateValue []ReplacementValueDateValueParameters `json:"dateValue,omitempty" tf:"date_value,omitempty"`
 
 	// Represents a day of the week.
-	// Possible values are MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, and SUNDAY.
+	// Possible values are: MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY.
 	// +kubebuilder:validation:Optional
 	DayOfWeekValue *string `json:"dayOfWeekValue,omitempty" tf:"day_of_week_value,omitempty"`
 
@@ -2645,6 +2758,23 @@ type ReplacementValueTimeValueParameters struct {
 	Seconds *float64 `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
+type SelectedInfoTypesObservation struct {
+
+	// InfoTypes to apply the transformation to. Leaving this empty will apply the transformation to apply to
+	// all findings that correspond to infoTypes that were requested in InspectConfig.
+	// Structure is documented below.
+	InfoTypes []InfoTypesObservation `json:"infoTypes,omitempty" tf:"info_types,omitempty"`
+}
+
+type SelectedInfoTypesParameters struct {
+
+	// InfoTypes to apply the transformation to. Leaving this empty will apply the transformation to apply to
+	// all findings that correspond to infoTypes that were requested in InspectConfig.
+	// Structure is documented below.
+	// +kubebuilder:validation:Required
+	InfoTypes []InfoTypesParameters `json:"infoTypes" tf:"info_types,omitempty"`
+}
+
 type SurrogateInfoTypeObservation struct {
 
 	// Name of the key. This is an arbitrary string used to differentiate different keys. A unique key is generated per name: two separate TransientCryptoKey protos share the same generated key if their names are the same. When the data crypto key is generated, this name is not used in any way (repeating the api call will result in a different key being generated).
@@ -2668,14 +2798,14 @@ type SurrogateInfoTypeParameters struct {
 type TimePartConfigObservation struct {
 
 	// The part of the time to keep.
-	// Possible values are YEAR, MONTH, DAY_OF_MONTH, DAY_OF_WEEK, WEEK_OF_YEAR, and HOUR_OF_DAY.
+	// Possible values are: YEAR, MONTH, DAY_OF_MONTH, DAY_OF_WEEK, WEEK_OF_YEAR, HOUR_OF_DAY.
 	PartToExtract *string `json:"partToExtract,omitempty" tf:"part_to_extract,omitempty"`
 }
 
 type TimePartConfigParameters struct {
 
 	// The part of the time to keep.
-	// Possible values are YEAR, MONTH, DAY_OF_MONTH, DAY_OF_WEEK, WEEK_OF_YEAR, and HOUR_OF_DAY.
+	// Possible values are: YEAR, MONTH, DAY_OF_MONTH, DAY_OF_WEEK, WEEK_OF_YEAR, HOUR_OF_DAY.
 	// +kubebuilder:validation:Optional
 	PartToExtract *string `json:"partToExtract,omitempty" tf:"part_to_extract,omitempty"`
 }
@@ -2714,12 +2844,32 @@ type TimeValueParameters struct {
 	Seconds *float64 `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
+type TransformationsInfoTypesObservation struct {
+
+	// Name of the key. This is an arbitrary string used to differentiate different keys. A unique key is generated per name: two separate TransientCryptoKey protos share the same generated key if their names are the same. When the data crypto key is generated, this name is not used in any way (repeating the api call will result in a different key being generated).
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Optional version name for this InfoType.
+	Version *string `json:"version,omitempty" tf:"version,omitempty"`
+}
+
+type TransformationsInfoTypesParameters struct {
+
+	// Name of the key. This is an arbitrary string used to differentiate different keys. A unique key is generated per name: two separate TransientCryptoKey protos share the same generated key if their names are the same. When the data crypto key is generated, this name is not used in any way (repeating the api call will result in a different key being generated).
+	// +kubebuilder:validation:Required
+	Name *string `json:"name" tf:"name,omitempty"`
+
+	// Optional version name for this InfoType.
+	// +kubebuilder:validation:Optional
+	Version *string `json:"version,omitempty" tf:"version,omitempty"`
+}
+
 type TransformationsObservation struct {
 
 	// InfoTypes to apply the transformation to. Leaving this empty will apply the transformation to apply to
 	// all findings that correspond to infoTypes that were requested in InspectConfig.
 	// Structure is documented below.
-	InfoTypes []InfoTypesObservation `json:"infoTypes,omitempty" tf:"info_types,omitempty"`
+	InfoTypes []TransformationsInfoTypesObservation `json:"infoTypes,omitempty" tf:"info_types,omitempty"`
 
 	// Primitive transformation to apply to the infoType.
 	// The primitive_transformation block must only contain one argument, corresponding to the type of transformation.
@@ -2733,13 +2883,51 @@ type TransformationsParameters struct {
 	// all findings that correspond to infoTypes that were requested in InspectConfig.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	InfoTypes []InfoTypesParameters `json:"infoTypes,omitempty" tf:"info_types,omitempty"`
+	InfoTypes []TransformationsInfoTypesParameters `json:"infoTypes,omitempty" tf:"info_types,omitempty"`
 
 	// Primitive transformation to apply to the infoType.
 	// The primitive_transformation block must only contain one argument, corresponding to the type of transformation.
 	// Structure is documented below.
 	// +kubebuilder:validation:Required
 	PrimitiveTransformation []PrimitiveTransformationParameters `json:"primitiveTransformation" tf:"primitive_transformation,omitempty"`
+}
+
+type TransformsObservation struct {
+
+	// Apply transformation to all findings not specified in other ImageTransformation's selectedInfoTypes.
+	AllInfoTypes []AllInfoTypesParameters `json:"allInfoTypes,omitempty" tf:"all_info_types,omitempty"`
+
+	// Apply transformation to all text that doesn't match an infoType.
+	AllText []AllTextParameters `json:"allText,omitempty" tf:"all_text,omitempty"`
+
+	// The color to use when redacting content from an image. If not specified, the default is black.
+	// Structure is documented below.
+	RedactionColor []RedactionColorObservation `json:"redactionColor,omitempty" tf:"redaction_color,omitempty"`
+
+	// Apply transformation to the selected infoTypes.
+	// Structure is documented below.
+	SelectedInfoTypes []SelectedInfoTypesObservation `json:"selectedInfoTypes,omitempty" tf:"selected_info_types,omitempty"`
+}
+
+type TransformsParameters struct {
+
+	// Apply transformation to all findings not specified in other ImageTransformation's selectedInfoTypes.
+	// +kubebuilder:validation:Optional
+	AllInfoTypes []AllInfoTypesParameters `json:"allInfoTypes,omitempty" tf:"all_info_types,omitempty"`
+
+	// Apply transformation to all text that doesn't match an infoType.
+	// +kubebuilder:validation:Optional
+	AllText []AllTextParameters `json:"allText,omitempty" tf:"all_text,omitempty"`
+
+	// The color to use when redacting content from an image. If not specified, the default is black.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	RedactionColor []RedactionColorParameters `json:"redactionColor,omitempty" tf:"redaction_color,omitempty"`
+
+	// Apply transformation to the selected infoTypes.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	SelectedInfoTypes []SelectedInfoTypesParameters `json:"selectedInfoTypes,omitempty" tf:"selected_info_types,omitempty"`
 }
 
 type TransientObservation struct {
@@ -2809,7 +2997,7 @@ type UpperBoundObservation struct {
 	DateValue []UpperBoundDateValueObservation `json:"dateValue,omitempty" tf:"date_value,omitempty"`
 
 	// Represents a day of the week.
-	// Possible values are MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, and SUNDAY.
+	// Possible values are: MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY.
 	DayOfWeekValue *string `json:"dayOfWeekValue,omitempty" tf:"day_of_week_value,omitempty"`
 
 	// A float value.
@@ -2841,7 +3029,7 @@ type UpperBoundParameters struct {
 	DateValue []UpperBoundDateValueParameters `json:"dateValue,omitempty" tf:"date_value,omitempty"`
 
 	// Represents a day of the week.
-	// Possible values are MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, and SUNDAY.
+	// Possible values are: MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY.
 	// +kubebuilder:validation:Optional
 	DayOfWeekValue *string `json:"dayOfWeekValue,omitempty" tf:"day_of_week_value,omitempty"`
 
@@ -2940,7 +3128,7 @@ type ValueObservation struct {
 	DateValue []ValueDateValueObservation `json:"dateValue,omitempty" tf:"date_value,omitempty"`
 
 	// Represents a day of the week.
-	// Possible values are MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, and SUNDAY.
+	// Possible values are: MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY.
 	DayOfWeekValue *string `json:"dayOfWeekValue,omitempty" tf:"day_of_week_value,omitempty"`
 
 	// A float value.
@@ -2972,7 +3160,7 @@ type ValueParameters struct {
 	DateValue []ValueDateValueParameters `json:"dateValue,omitempty" tf:"date_value,omitempty"`
 
 	// Represents a day of the week.
-	// Possible values are MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, and SUNDAY.
+	// Possible values are: MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY.
 	// +kubebuilder:validation:Optional
 	DayOfWeekValue *string `json:"dayOfWeekValue,omitempty" tf:"day_of_week_value,omitempty"`
 

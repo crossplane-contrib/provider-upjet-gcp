@@ -30,6 +30,7 @@ type AccessRoleObservation struct {
 	// The user’s AWS IAM Role that trusts the Google-owned AWS IAM user Connection.
 	IAMRoleID *string `json:"iamRoleId,omitempty" tf:"iam_role_id,omitempty"`
 
+	// (Output)
 	// A unique Google-owned and Google-generated identity for the Connection. This identity will be used to access the user's AWS IAM Role.
 	Identity *string `json:"identity,omitempty" tf:"identity,omitempty"`
 }
@@ -58,9 +59,11 @@ type AwsParameters struct {
 
 type AzureObservation struct {
 
+	// (Output)
 	// The name of the Azure Active Directory Application.
 	Application *string `json:"application,omitempty" tf:"application,omitempty"`
 
+	// (Output)
 	// The client id of the Azure Active Directory Application.
 	ClientID *string `json:"clientId,omitempty" tf:"client_id,omitempty"`
 
@@ -70,12 +73,15 @@ type AzureObservation struct {
 	// The Azure Application (client) ID where the federated credentials will be hosted.
 	FederatedApplicationClientID *string `json:"federatedApplicationClientId,omitempty" tf:"federated_application_client_id,omitempty"`
 
+	// (Output)
 	// A unique Google-owned and Google-generated identity for the Connection. This identity will be used to access the user's Azure Active Directory Application.
 	Identity *string `json:"identity,omitempty" tf:"identity,omitempty"`
 
+	// (Output)
 	// The object id of the Azure Active Directory Application.
 	ObjectID *string `json:"objectId,omitempty" tf:"object_id,omitempty"`
 
+	// (Output)
 	// The URL user will be redirected to after granting consent during connection setup.
 	RedirectURI *string `json:"redirectUri,omitempty" tf:"redirect_uri,omitempty"`
 }
@@ -93,6 +99,7 @@ type AzureParameters struct {
 
 type CloudResourceObservation struct {
 
+	// (Output)
 	// The account ID of the service created for the purpose of this connection.
 	ServiceAccountID *string `json:"serviceAccountId,omitempty" tf:"service_account_id,omitempty"`
 }
@@ -112,11 +119,12 @@ type CloudSQLObservation struct {
 	// Cloud SQL instance ID in the form project:location:instance.
 	InstanceID *string `json:"instanceId,omitempty" tf:"instance_id,omitempty"`
 
+	// (Output)
 	// When the connection is used in the context of an operation in BigQuery, this service account will serve as the identity being used for connecting to the CloudSQL instance specified in this connection.
 	ServiceAccountID *string `json:"serviceAccountId,omitempty" tf:"service_account_id,omitempty"`
 
 	// Type of the Cloud SQL database.
-	// Possible values are DATABASE_TYPE_UNSPECIFIED, POSTGRES, and MYSQL.
+	// Possible values are: DATABASE_TYPE_UNSPECIFIED, POSTGRES, MYSQL.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
@@ -155,7 +163,7 @@ type CloudSQLParameters struct {
 	InstanceIDSelector *v1.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
 
 	// Type of the Cloud SQL database.
-	// Possible values are DATABASE_TYPE_UNSPECIFIED, POSTGRES, and MYSQL.
+	// Possible values are: DATABASE_TYPE_UNSPECIFIED, POSTGRES, MYSQL.
 	// +kubebuilder:validation:Required
 	Type *string `json:"type" tf:"type,omitempty"`
 }

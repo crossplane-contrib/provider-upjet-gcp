@@ -204,7 +204,7 @@ type RegionNetworkEndpointGroupObservation struct {
 
 	// Type of network endpoints in this network endpoint group. Defaults to SERVERLESS
 	// Default value is SERVERLESS.
-	// Possible values are SERVERLESS and PRIVATE_SERVICE_CONNECT.
+	// Possible values are: SERVERLESS, PRIVATE_SERVICE_CONNECT.
 	NetworkEndpointType *string `json:"networkEndpointType,omitempty" tf:"network_endpoint_type,omitempty"`
 
 	// The ID of the project in which the resource belongs.
@@ -261,7 +261,7 @@ type RegionNetworkEndpointGroupParameters struct {
 
 	// Type of network endpoints in this network endpoint group. Defaults to SERVERLESS
 	// Default value is SERVERLESS.
-	// Possible values are SERVERLESS and PRIVATE_SERVICE_CONNECT.
+	// Possible values are: SERVERLESS, PRIVATE_SERVICE_CONNECT.
 	// +kubebuilder:validation:Optional
 	NetworkEndpointType *string `json:"networkEndpointType,omitempty" tf:"network_endpoint_type,omitempty"`
 

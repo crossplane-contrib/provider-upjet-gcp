@@ -267,7 +267,7 @@ type SourceObservation struct {
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
 	// Type of the network where the endpoint is located.
-	// Possible values are GCP_NETWORK and NON_GCP_NETWORK.
+	// Possible values are: GCP_NETWORK, NON_GCP_NETWORK.
 	NetworkType *string `json:"networkType,omitempty" tf:"network_type,omitempty"`
 
 	// The IP protocol port of the endpoint. Only applicable when
@@ -327,7 +327,7 @@ type SourceParameters struct {
 	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
 
 	// Type of the network where the endpoint is located.
-	// Possible values are GCP_NETWORK and NON_GCP_NETWORK.
+	// Possible values are: GCP_NETWORK, NON_GCP_NETWORK.
 	// +kubebuilder:validation:Optional
 	NetworkType *string `json:"networkType,omitempty" tf:"network_type,omitempty"`
 

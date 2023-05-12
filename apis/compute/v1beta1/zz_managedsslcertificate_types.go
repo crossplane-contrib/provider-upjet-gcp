@@ -75,7 +75,7 @@ type ManagedSSLCertificateObservation struct {
 	// Enum field whose value is always MANAGED - used to signal to the API
 	// which type this is.
 	// Default value is MANAGED.
-	// Possible values are MANAGED.
+	// Possible values are: MANAGED.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
@@ -103,7 +103,7 @@ type ManagedSSLCertificateParameters struct {
 	// Enum field whose value is always MANAGED - used to signal to the API
 	// which type this is.
 	// Default value is MANAGED.
-	// Possible values are MANAGED.
+	// Possible values are: MANAGED.
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }

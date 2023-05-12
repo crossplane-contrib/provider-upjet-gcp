@@ -172,15 +172,15 @@ type FilesParameters struct {
 type HandlersObservation struct {
 
 	// Actions to take when the user is not logged in.
-	// Possible values are AUTH_FAIL_ACTION_REDIRECT and AUTH_FAIL_ACTION_UNAUTHORIZED.
+	// Possible values are: AUTH_FAIL_ACTION_REDIRECT, AUTH_FAIL_ACTION_UNAUTHORIZED.
 	AuthFailAction *string `json:"authFailAction,omitempty" tf:"auth_fail_action,omitempty"`
 
 	// Methods to restrict access to a URL based on login status.
-	// Possible values are LOGIN_OPTIONAL, LOGIN_ADMIN, and LOGIN_REQUIRED.
+	// Possible values are: LOGIN_OPTIONAL, LOGIN_ADMIN, LOGIN_REQUIRED.
 	Login *string `json:"login,omitempty" tf:"login,omitempty"`
 
 	// 30x code to use when performing redirects for the secure field.
-	// Possible values are REDIRECT_HTTP_RESPONSE_CODE_301, REDIRECT_HTTP_RESPONSE_CODE_302, REDIRECT_HTTP_RESPONSE_CODE_303, and REDIRECT_HTTP_RESPONSE_CODE_307.
+	// Possible values are: REDIRECT_HTTP_RESPONSE_CODE_301, REDIRECT_HTTP_RESPONSE_CODE_302, REDIRECT_HTTP_RESPONSE_CODE_303, REDIRECT_HTTP_RESPONSE_CODE_307.
 	RedirectHTTPResponseCode *string `json:"redirectHttpResponseCode,omitempty" tf:"redirect_http_response_code,omitempty"`
 
 	// Executes a script to handle the requests that match this URL pattern.
@@ -189,7 +189,7 @@ type HandlersObservation struct {
 	Script []ScriptObservation `json:"script,omitempty" tf:"script,omitempty"`
 
 	// Security (HTTPS) enforcement for this URL.
-	// Possible values are SECURE_DEFAULT, SECURE_NEVER, SECURE_OPTIONAL, and SECURE_ALWAYS.
+	// Possible values are: SECURE_DEFAULT, SECURE_NEVER, SECURE_OPTIONAL, SECURE_ALWAYS.
 	SecurityLevel *string `json:"securityLevel,omitempty" tf:"security_level,omitempty"`
 
 	// Files served directly to the user for a given URL, such as images, CSS stylesheets, or JavaScript source files. Static file handlers describe which files in the application directory are static files, and which URLs serve them.
@@ -204,17 +204,17 @@ type HandlersObservation struct {
 type HandlersParameters struct {
 
 	// Actions to take when the user is not logged in.
-	// Possible values are AUTH_FAIL_ACTION_REDIRECT and AUTH_FAIL_ACTION_UNAUTHORIZED.
+	// Possible values are: AUTH_FAIL_ACTION_REDIRECT, AUTH_FAIL_ACTION_UNAUTHORIZED.
 	// +kubebuilder:validation:Optional
 	AuthFailAction *string `json:"authFailAction,omitempty" tf:"auth_fail_action,omitempty"`
 
 	// Methods to restrict access to a URL based on login status.
-	// Possible values are LOGIN_OPTIONAL, LOGIN_ADMIN, and LOGIN_REQUIRED.
+	// Possible values are: LOGIN_OPTIONAL, LOGIN_ADMIN, LOGIN_REQUIRED.
 	// +kubebuilder:validation:Optional
 	Login *string `json:"login,omitempty" tf:"login,omitempty"`
 
 	// 30x code to use when performing redirects for the secure field.
-	// Possible values are REDIRECT_HTTP_RESPONSE_CODE_301, REDIRECT_HTTP_RESPONSE_CODE_302, REDIRECT_HTTP_RESPONSE_CODE_303, and REDIRECT_HTTP_RESPONSE_CODE_307.
+	// Possible values are: REDIRECT_HTTP_RESPONSE_CODE_301, REDIRECT_HTTP_RESPONSE_CODE_302, REDIRECT_HTTP_RESPONSE_CODE_303, REDIRECT_HTTP_RESPONSE_CODE_307.
 	// +kubebuilder:validation:Optional
 	RedirectHTTPResponseCode *string `json:"redirectHttpResponseCode,omitempty" tf:"redirect_http_response_code,omitempty"`
 
@@ -225,7 +225,7 @@ type HandlersParameters struct {
 	Script []ScriptParameters `json:"script,omitempty" tf:"script,omitempty"`
 
 	// Security (HTTPS) enforcement for this URL.
-	// Possible values are SECURE_DEFAULT, SECURE_NEVER, SECURE_OPTIONAL, and SECURE_ALWAYS.
+	// Possible values are: SECURE_DEFAULT, SECURE_NEVER, SECURE_OPTIONAL, SECURE_ALWAYS.
 	// +kubebuilder:validation:Optional
 	SecurityLevel *string `json:"securityLevel,omitempty" tf:"security_level,omitempty"`
 
@@ -326,7 +326,7 @@ type StandardAppVersionObservation struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// A list of the types of messages that this application is able to receive.
-	// Each value may be one of INBOUND_SERVICE_MAIL, INBOUND_SERVICE_MAIL_BOUNCE, INBOUND_SERVICE_XMPP_ERROR, INBOUND_SERVICE_XMPP_MESSAGE, INBOUND_SERVICE_XMPP_SUBSCRIBE, INBOUND_SERVICE_XMPP_PRESENCE, INBOUND_SERVICE_CHANNEL_PRESENCE, and INBOUND_SERVICE_WARMUP.
+	// Each value may be one of: INBOUND_SERVICE_MAIL, INBOUND_SERVICE_MAIL_BOUNCE, INBOUND_SERVICE_XMPP_ERROR, INBOUND_SERVICE_XMPP_MESSAGE, INBOUND_SERVICE_XMPP_SUBSCRIBE, INBOUND_SERVICE_XMPP_PRESENCE, INBOUND_SERVICE_CHANNEL_PRESENCE, INBOUND_SERVICE_WARMUP.
 	InboundServices []*string `json:"inboundServices,omitempty" tf:"inbound_services,omitempty"`
 
 	// Instance class that is used to run this version. Valid values are
@@ -416,7 +416,7 @@ type StandardAppVersionParameters struct {
 	Handlers []HandlersParameters `json:"handlers,omitempty" tf:"handlers,omitempty"`
 
 	// A list of the types of messages that this application is able to receive.
-	// Each value may be one of INBOUND_SERVICE_MAIL, INBOUND_SERVICE_MAIL_BOUNCE, INBOUND_SERVICE_XMPP_ERROR, INBOUND_SERVICE_XMPP_MESSAGE, INBOUND_SERVICE_XMPP_SUBSCRIBE, INBOUND_SERVICE_XMPP_PRESENCE, INBOUND_SERVICE_CHANNEL_PRESENCE, and INBOUND_SERVICE_WARMUP.
+	// Each value may be one of: INBOUND_SERVICE_MAIL, INBOUND_SERVICE_MAIL_BOUNCE, INBOUND_SERVICE_XMPP_ERROR, INBOUND_SERVICE_XMPP_MESSAGE, INBOUND_SERVICE_XMPP_SUBSCRIBE, INBOUND_SERVICE_XMPP_PRESENCE, INBOUND_SERVICE_CHANNEL_PRESENCE, INBOUND_SERVICE_WARMUP.
 	// +kubebuilder:validation:Optional
 	InboundServices []*string `json:"inboundServices,omitempty" tf:"inbound_services,omitempty"`
 

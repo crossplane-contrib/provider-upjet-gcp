@@ -29,7 +29,7 @@ type DatabaseObservation struct {
 
 	// The dialect of the Cloud Spanner Database.
 	// If it is not provided, "GOOGLE_STANDARD_SQL" will be used.
-	// Possible values are GOOGLE_STANDARD_SQL and POSTGRESQL.
+	// Possible values are: GOOGLE_STANDARD_SQL, POSTGRESQL.
 	DatabaseDialect *string `json:"databaseDialect,omitempty" tf:"database_dialect,omitempty"`
 
 	// An optional list of DDL statements to run inside the newly created
@@ -69,7 +69,7 @@ type DatabaseParameters struct {
 
 	// The dialect of the Cloud Spanner Database.
 	// If it is not provided, "GOOGLE_STANDARD_SQL" will be used.
-	// Possible values are GOOGLE_STANDARD_SQL and POSTGRESQL.
+	// Possible values are: GOOGLE_STANDARD_SQL, POSTGRESQL.
 	// +kubebuilder:validation:Optional
 	DatabaseDialect *string `json:"databaseDialect,omitempty" tf:"database_dialect,omitempty"`
 

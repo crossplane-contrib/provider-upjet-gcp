@@ -38,6 +38,7 @@ type DiskEncryptionKeyObservation struct {
 	// If absent, the Compute Engine Service Agent service account is used.
 	KMSKeyServiceAccount *string `json:"kmsKeyServiceAccount,omitempty" tf:"kms_key_service_account,omitempty"`
 
+	// (Output)
 	// The RFC 4648 base64 encoded SHA-256 hash of the customer-supplied
 	// encryption key that protects this resource.
 	Sha256 *string `json:"sha256,omitempty" tf:"sha256,omitempty"`
@@ -318,6 +319,7 @@ type SourceImageEncryptionKeyObservation struct {
 	// RFC 4648 base64 to either encrypt or decrypt this resource.
 	RawKey *string `json:"rawKey,omitempty" tf:"raw_key,omitempty"`
 
+	// (Output)
 	// The RFC 4648 base64 encoded SHA-256 hash of the customer-supplied
 	// encryption key that protects this resource.
 	Sha256 *string `json:"sha256,omitempty" tf:"sha256,omitempty"`
@@ -361,6 +363,7 @@ type SourceSnapshotEncryptionKeyObservation struct {
 	// RFC 4648 base64 to either encrypt or decrypt this resource.
 	RawKey *string `json:"rawKey,omitempty" tf:"raw_key,omitempty"`
 
+	// (Output)
 	// The RFC 4648 base64 encoded SHA-256 hash of the customer-supplied
 	// encryption key that protects this resource.
 	Sha256 *string `json:"sha256,omitempty" tf:"sha256,omitempty"`

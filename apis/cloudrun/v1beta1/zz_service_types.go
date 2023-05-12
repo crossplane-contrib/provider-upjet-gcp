@@ -51,24 +51,10 @@ type ContainersObservation struct {
 
 	// Arguments to the entrypoint.
 	// The docker image's CMD is used if this is not provided.
-	// Variable references $(VAR_NAME) are expanded using the container's
-	// environment. If a variable cannot be resolved, the reference in the input
-	// string will be unchanged. The $(VAR_NAME) syntax can be escaped with a
-	// double $$, ie: $$(VAR_NAME). Escaped references will never be expanded,
-	// regardless of whether the variable exists or not.
-	// More info:
-	// https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/#running-a-command-in-a-shell
 	Args []*string `json:"args,omitempty" tf:"args,omitempty"`
 
 	// Entrypoint array. Not executed within a shell.
 	// The docker image's ENTRYPOINT is used if this is not provided.
-	// Variable references $(VAR_NAME) are expanded using the container's
-	// environment. If a variable cannot be resolved, the reference in the input
-	// string will be unchanged. The $(VAR_NAME) syntax can be escaped with a
-	// double $$, ie: $$(VAR_NAME). Escaped references will never be expanded,
-	// regardless of whether the variable exists or not.
-	// More info:
-	// https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/#running-a-command-in-a-shell
 	Command []*string `json:"command,omitempty" tf:"command,omitempty"`
 
 	// List of environment variables to set in the container.
@@ -85,20 +71,25 @@ type ContainersObservation struct {
 
 	// Docker image name. This is most often a reference to a container located
 	// in the container registry, such as gcr.io/cloudrun/hello
-	// More info: https://kubernetes.io/docs/concepts/containers/images
 	Image *string `json:"image,omitempty" tf:"image,omitempty"`
 
+	// Periodic probe of container liveness. Container will be restarted if the probe fails.
+	// Structure is documented below.
+	LivenessProbe []LivenessProbeObservation `json:"livenessProbe,omitempty" tf:"liveness_probe,omitempty"`
+
 	// List of open ports in the container.
-	// More Info:
-	// https://cloud.google.com/run/docs/reference/rest/v1/RevisionSpec#ContainerPort
 	// Structure is documented below.
 	Ports []PortsObservation `json:"ports,omitempty" tf:"ports,omitempty"`
 
 	// Compute Resources required by this container. Used to set values such as max memory
-	// More info:
-	// https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#requests-and-limits
 	// Structure is documented below.
 	Resources []ResourcesObservation `json:"resources,omitempty" tf:"resources,omitempty"`
+
+	// Startup probe of application within the container.
+	// All other probes are disabled if a startup probe is provided, until it
+	// succeeds. Container will not be added to service endpoints if the probe fails.
+	// Structure is documented below.
+	StartupProbe []StartupProbeObservation `json:"startupProbe,omitempty" tf:"startup_probe,omitempty"`
 
 	// Volume to mount into the container's filesystem.
 	// Only supports SecretVolumeSources.
@@ -115,25 +106,11 @@ type ContainersParameters struct {
 
 	// Arguments to the entrypoint.
 	// The docker image's CMD is used if this is not provided.
-	// Variable references $(VAR_NAME) are expanded using the container's
-	// environment. If a variable cannot be resolved, the reference in the input
-	// string will be unchanged. The $(VAR_NAME) syntax can be escaped with a
-	// double $$, ie: $$(VAR_NAME). Escaped references will never be expanded,
-	// regardless of whether the variable exists or not.
-	// More info:
-	// https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/#running-a-command-in-a-shell
 	// +kubebuilder:validation:Optional
 	Args []*string `json:"args,omitempty" tf:"args,omitempty"`
 
 	// Entrypoint array. Not executed within a shell.
 	// The docker image's ENTRYPOINT is used if this is not provided.
-	// Variable references $(VAR_NAME) are expanded using the container's
-	// environment. If a variable cannot be resolved, the reference in the input
-	// string will be unchanged. The $(VAR_NAME) syntax can be escaped with a
-	// double $$, ie: $$(VAR_NAME). Escaped references will never be expanded,
-	// regardless of whether the variable exists or not.
-	// More info:
-	// https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/#running-a-command-in-a-shell
 	// +kubebuilder:validation:Optional
 	Command []*string `json:"command,omitempty" tf:"command,omitempty"`
 
@@ -153,23 +130,30 @@ type ContainersParameters struct {
 
 	// Docker image name. This is most often a reference to a container located
 	// in the container registry, such as gcr.io/cloudrun/hello
-	// More info: https://kubernetes.io/docs/concepts/containers/images
 	// +kubebuilder:validation:Required
 	Image *string `json:"image" tf:"image,omitempty"`
 
+	// Periodic probe of container liveness. Container will be restarted if the probe fails.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	LivenessProbe []LivenessProbeParameters `json:"livenessProbe,omitempty" tf:"liveness_probe,omitempty"`
+
 	// List of open ports in the container.
-	// More Info:
-	// https://cloud.google.com/run/docs/reference/rest/v1/RevisionSpec#ContainerPort
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Ports []PortsParameters `json:"ports,omitempty" tf:"ports,omitempty"`
 
 	// Compute Resources required by this container. Used to set values such as max memory
-	// More info:
-	// https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#requests-and-limits
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Resources []ResourcesParameters `json:"resources,omitempty" tf:"resources,omitempty"`
+
+	// Startup probe of application within the container.
+	// All other probes are disabled if a startup probe is provided, until it
+	// succeeds. Container will not be added to service endpoints if the probe fails.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	StartupProbe []StartupProbeParameters `json:"startupProbe,omitempty" tf:"startup_probe,omitempty"`
 
 	// Volume to mount into the container's filesystem.
 	// Only supports SecretVolumeSources.
@@ -244,6 +228,109 @@ type EnvParameters struct {
 	ValueFrom []ValueFromParameters `json:"valueFrom,omitempty" tf:"value_from,omitempty"`
 }
 
+type GRPCObservation struct {
+
+	// Port number to access on the container. Number must be in the range 1 to 65535.
+	// If not specified, defaults to the same value as container.ports[0].containerPort.
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+
+	// The name of the service to place in the gRPC HealthCheckRequest
+	// (see https://github.com/grpc/grpc/blob/master/doc/health-checking.md).
+	// If this is not specified, the default behavior is defined by gRPC.
+	Service *string `json:"service,omitempty" tf:"service,omitempty"`
+}
+
+type GRPCParameters struct {
+
+	// Port number to access on the container. Number must be in the range 1 to 65535.
+	// If not specified, defaults to the same value as container.ports[0].containerPort.
+	// +kubebuilder:validation:Optional
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+
+	// The name of the service to place in the gRPC HealthCheckRequest
+	// (see https://github.com/grpc/grpc/blob/master/doc/health-checking.md).
+	// If this is not specified, the default behavior is defined by gRPC.
+	// +kubebuilder:validation:Optional
+	Service *string `json:"service,omitempty" tf:"service,omitempty"`
+}
+
+type HTTPGetHTTPHeadersObservation struct {
+
+	// Volume's name.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The header field value.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type HTTPGetHTTPHeadersParameters struct {
+
+	// Volume's name.
+	// +kubebuilder:validation:Required
+	Name *string `json:"name" tf:"name,omitempty"`
+
+	// The header field value.
+	// +kubebuilder:validation:Optional
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type HTTPGetObservation struct {
+
+	// Custom headers to set in the request. HTTP allows repeated headers.
+	// Structure is documented below.
+	HTTPHeaders []HTTPHeadersObservation `json:"httpHeaders,omitempty" tf:"http_headers,omitempty"`
+
+	// The relative path of the file to map the key to.
+	// May not be an absolute path.
+	// May not contain the path element '..'.
+	// May not start with the string '..'.
+	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+
+	// Port number to access on the container. Number must be in the range 1 to 65535.
+	// If not specified, defaults to the same value as container.ports[0].containerPort.
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+}
+
+type HTTPGetParameters struct {
+
+	// Custom headers to set in the request. HTTP allows repeated headers.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	HTTPHeaders []HTTPHeadersParameters `json:"httpHeaders,omitempty" tf:"http_headers,omitempty"`
+
+	// The relative path of the file to map the key to.
+	// May not be an absolute path.
+	// May not contain the path element '..'.
+	// May not start with the string '..'.
+	// +kubebuilder:validation:Optional
+	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+
+	// Port number to access on the container. Number must be in the range 1 to 65535.
+	// If not specified, defaults to the same value as container.ports[0].containerPort.
+	// +kubebuilder:validation:Optional
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+}
+
+type HTTPHeadersObservation struct {
+
+	// Volume's name.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The header field value.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type HTTPHeadersParameters struct {
+
+	// Volume's name.
+	// +kubebuilder:validation:Required
+	Name *string `json:"name" tf:"name,omitempty"`
+
+	// The header field value.
+	// +kubebuilder:validation:Optional
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
 type ItemsObservation struct {
 
 	// A Cloud Secret Manager secret version. Must be 'latest' for the latest
@@ -283,6 +370,70 @@ type ItemsParameters struct {
 	// May not start with the string '..'.
 	// +kubebuilder:validation:Required
 	Path *string `json:"path" tf:"path,omitempty"`
+}
+
+type LivenessProbeObservation struct {
+
+	// Minimum consecutive failures for the probe to be considered failed after
+	// having succeeded. Defaults to 3. Minimum value is 1.
+	FailureThreshold *float64 `json:"failureThreshold,omitempty" tf:"failure_threshold,omitempty"`
+
+	// GRPC specifies an action involving a GRPC port.
+	// Structure is documented below.
+	GRPC []GRPCObservation `json:"grpc,omitempty" tf:"grpc,omitempty"`
+
+	// HttpGet specifies the http request to perform.
+	// Structure is documented below.
+	HTTPGet []HTTPGetObservation `json:"httpGet,omitempty" tf:"http_get,omitempty"`
+
+	// Number of seconds after the container has started before the probe is
+	// initiated.
+	// Defaults to 0 seconds. Minimum value is 0. Maximum value is 240.
+	InitialDelaySeconds *float64 `json:"initialDelaySeconds,omitempty" tf:"initial_delay_seconds,omitempty"`
+
+	// How often (in seconds) to perform the probe.
+	// Default to 10 seconds. Minimum value is 1. Maximum value is 240.
+	PeriodSeconds *float64 `json:"periodSeconds,omitempty" tf:"period_seconds,omitempty"`
+
+	// Number of seconds after which the probe times out.
+	// Defaults to 1 second. Minimum value is 1. Maximum value is 3600.
+	// Must be smaller than periodSeconds.
+	TimeoutSeconds *float64 `json:"timeoutSeconds,omitempty" tf:"timeout_seconds,omitempty"`
+}
+
+type LivenessProbeParameters struct {
+
+	// Minimum consecutive failures for the probe to be considered failed after
+	// having succeeded. Defaults to 3. Minimum value is 1.
+	// +kubebuilder:validation:Optional
+	FailureThreshold *float64 `json:"failureThreshold,omitempty" tf:"failure_threshold,omitempty"`
+
+	// GRPC specifies an action involving a GRPC port.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	GRPC []GRPCParameters `json:"grpc,omitempty" tf:"grpc,omitempty"`
+
+	// HttpGet specifies the http request to perform.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	HTTPGet []HTTPGetParameters `json:"httpGet,omitempty" tf:"http_get,omitempty"`
+
+	// Number of seconds after the container has started before the probe is
+	// initiated.
+	// Defaults to 0 seconds. Minimum value is 0. Maximum value is 240.
+	// +kubebuilder:validation:Optional
+	InitialDelaySeconds *float64 `json:"initialDelaySeconds,omitempty" tf:"initial_delay_seconds,omitempty"`
+
+	// How often (in seconds) to perform the probe.
+	// Default to 10 seconds. Minimum value is 1. Maximum value is 240.
+	// +kubebuilder:validation:Optional
+	PeriodSeconds *float64 `json:"periodSeconds,omitempty" tf:"period_seconds,omitempty"`
+
+	// Number of seconds after which the probe times out.
+	// Defaults to 1 second. Minimum value is 1. Maximum value is 3600.
+	// Must be smaller than periodSeconds.
+	// +kubebuilder:validation:Optional
+	TimeoutSeconds *float64 `json:"timeoutSeconds,omitempty" tf:"timeout_seconds,omitempty"`
 }
 
 type LocalObjectReferenceObservation struct {
@@ -497,36 +648,37 @@ type ServiceMetadataObservation struct {
 	// may be set by external tools to store and retrieve arbitrary metadata. More
 	// info: http://kubernetes.io/docs/user-guide/annotations
 	// Note: The Cloud Run API may add additional annotations that were not provided in your config.ignore_changes rule to the metadata.0.annotations field.
+	// Annotations with run.googleapis.com/ and autoscaling.knative.dev are restricted. Use the following annotation
+	// keys to configure features on a Revision template:
 	Annotations map[string]*string `json:"annotations,omitempty" tf:"annotations,omitempty"`
 
+	// (Output)
 	// A sequence number representing a specific generation of the desired state.
 	Generation *float64 `json:"generation,omitempty" tf:"generation,omitempty"`
 
 	// Map of string keys and values that can be used to organize and categorize
-	// (scope and select) objects. May match selectors of replication controllers
-	// and routes.
-	// More info: http://kubernetes.io/docs/user-guide/labels
+	// (scope and select) objects.
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// In Cloud Run the namespace must be equal to either the
 	// project ID or project number. It will default to the resource's project.
 	Namespace *string `json:"namespace,omitempty" tf:"namespace,omitempty"`
 
+	// (Output)
 	// An opaque value that represents the internal version of this object that
 	// can be used by clients to determine when objects have changed. May be used
 	// for optimistic concurrency, change detection, and the watch operation on a
 	// resource or set of resources. They may only be valid for a
 	// particular resource or set of resources.
-	// More info:
-	// https://git.k8s.io/community/contributors/devel/api-conventions.md#concurrency-control-and-consistency
 	ResourceVersion *string `json:"resourceVersion,omitempty" tf:"resource_version,omitempty"`
 
+	// (Output)
 	// SelfLink is a URL representing this object.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
 
+	// (Output)
 	// UID is a unique id generated by the server on successful creation of a resource and is not
 	// allowed to change on PUT operations.
-	// More info: http://kubernetes.io/docs/user-guide/identifiers#uids
 	UID *string `json:"uid,omitempty" tf:"uid,omitempty"`
 }
 
@@ -536,13 +688,13 @@ type ServiceMetadataParameters struct {
 	// may be set by external tools to store and retrieve arbitrary metadata. More
 	// info: http://kubernetes.io/docs/user-guide/annotations
 	// Note: The Cloud Run API may add additional annotations that were not provided in your config.ignore_changes rule to the metadata.0.annotations field.
+	// Annotations with run.googleapis.com/ and autoscaling.knative.dev are restricted. Use the following annotation
+	// keys to configure features on a Revision template:
 	// +kubebuilder:validation:Optional
 	Annotations map[string]*string `json:"annotations,omitempty" tf:"annotations,omitempty"`
 
 	// Map of string keys and values that can be used to organize and categorize
-	// (scope and select) objects. May match selectors of replication controllers
-	// and routes.
-	// More info: http://kubernetes.io/docs/user-guide/labels
+	// (scope and select) objects.
 	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
@@ -664,26 +816,31 @@ type ServiceParameters struct {
 
 type ServiceStatusObservation struct {
 
+	// (Output)
 	// Array of observed Service Conditions, indicating the current ready state of the service.
 	// Structure is documented below.
 	Conditions []StatusConditionsObservation `json:"conditions,omitempty" tf:"conditions,omitempty"`
 
+	// (Output)
 	// From ConfigurationStatus. LatestCreatedRevisionName is the last revision that was created
 	// from this Service's Configuration. It might not be ready yet, for that use
 	// LatestReadyRevisionName.
 	LatestCreatedRevisionName *string `json:"latestCreatedRevisionName,omitempty" tf:"latest_created_revision_name,omitempty"`
 
+	// (Output)
 	// From ConfigurationStatus. LatestReadyRevisionName holds the name of the latest Revision
 	// stamped out from this Service's Configuration that has had its "Ready" condition become
 	// "True".
 	LatestReadyRevisionName *string `json:"latestReadyRevisionName,omitempty" tf:"latest_ready_revision_name,omitempty"`
 
+	// (Output)
 	// ObservedGeneration is the 'Generation' of the Route that was last processed by the
 	// controller.
 	// Clients polling for completed reconciliation should poll until observedGeneration =
 	// metadata.generation and the Ready condition's status is True or False.
 	ObservedGeneration *float64 `json:"observedGeneration,omitempty" tf:"observed_generation,omitempty"`
 
+	// (Output)
 	// From RouteStatus. URL holds the url that will distribute traffic over the provided traffic
 	// targets. It generally has the form
 	// https://{route-hash}-{project-hash}-{cluster-level-suffix}.a.run.app
@@ -693,11 +850,149 @@ type ServiceStatusObservation struct {
 type ServiceStatusParameters struct {
 }
 
+type StartupProbeGRPCObservation struct {
+
+	// Port number to access on the container. Number must be in the range 1 to 65535.
+	// If not specified, defaults to the same value as container.ports[0].containerPort.
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+
+	// The name of the service to place in the gRPC HealthCheckRequest
+	// (see https://github.com/grpc/grpc/blob/master/doc/health-checking.md).
+	// If this is not specified, the default behavior is defined by gRPC.
+	Service *string `json:"service,omitempty" tf:"service,omitempty"`
+}
+
+type StartupProbeGRPCParameters struct {
+
+	// Port number to access on the container. Number must be in the range 1 to 65535.
+	// If not specified, defaults to the same value as container.ports[0].containerPort.
+	// +kubebuilder:validation:Optional
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+
+	// The name of the service to place in the gRPC HealthCheckRequest
+	// (see https://github.com/grpc/grpc/blob/master/doc/health-checking.md).
+	// If this is not specified, the default behavior is defined by gRPC.
+	// +kubebuilder:validation:Optional
+	Service *string `json:"service,omitempty" tf:"service,omitempty"`
+}
+
+type StartupProbeHTTPGetObservation struct {
+
+	// Custom headers to set in the request. HTTP allows repeated headers.
+	// Structure is documented below.
+	HTTPHeaders []HTTPGetHTTPHeadersObservation `json:"httpHeaders,omitempty" tf:"http_headers,omitempty"`
+
+	// The relative path of the file to map the key to.
+	// May not be an absolute path.
+	// May not contain the path element '..'.
+	// May not start with the string '..'.
+	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+
+	// Port number to access on the container. Number must be in the range 1 to 65535.
+	// If not specified, defaults to the same value as container.ports[0].containerPort.
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+}
+
+type StartupProbeHTTPGetParameters struct {
+
+	// Custom headers to set in the request. HTTP allows repeated headers.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	HTTPHeaders []HTTPGetHTTPHeadersParameters `json:"httpHeaders,omitempty" tf:"http_headers,omitempty"`
+
+	// The relative path of the file to map the key to.
+	// May not be an absolute path.
+	// May not contain the path element '..'.
+	// May not start with the string '..'.
+	// +kubebuilder:validation:Optional
+	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+
+	// Port number to access on the container. Number must be in the range 1 to 65535.
+	// If not specified, defaults to the same value as container.ports[0].containerPort.
+	// +kubebuilder:validation:Optional
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+}
+
+type StartupProbeObservation struct {
+
+	// Minimum consecutive failures for the probe to be considered failed after
+	// having succeeded. Defaults to 3. Minimum value is 1.
+	FailureThreshold *float64 `json:"failureThreshold,omitempty" tf:"failure_threshold,omitempty"`
+
+	// GRPC specifies an action involving a GRPC port.
+	// Structure is documented below.
+	GRPC []StartupProbeGRPCObservation `json:"grpc,omitempty" tf:"grpc,omitempty"`
+
+	// HttpGet specifies the http request to perform.
+	// Structure is documented below.
+	HTTPGet []StartupProbeHTTPGetObservation `json:"httpGet,omitempty" tf:"http_get,omitempty"`
+
+	// Number of seconds after the container has started before the probe is
+	// initiated.
+	// Defaults to 0 seconds. Minimum value is 0. Maximum value is 240.
+	InitialDelaySeconds *float64 `json:"initialDelaySeconds,omitempty" tf:"initial_delay_seconds,omitempty"`
+
+	// How often (in seconds) to perform the probe.
+	// Default to 10 seconds. Minimum value is 1. Maximum value is 240.
+	PeriodSeconds *float64 `json:"periodSeconds,omitempty" tf:"period_seconds,omitempty"`
+
+	// TcpSocket specifies an action involving a TCP port.
+	// Structure is documented below.
+	TCPSocket []TCPSocketObservation `json:"tcpSocket,omitempty" tf:"tcp_socket,omitempty"`
+
+	// Number of seconds after which the probe times out.
+	// Defaults to 1 second. Minimum value is 1. Maximum value is 3600.
+	// Must be smaller than periodSeconds.
+	TimeoutSeconds *float64 `json:"timeoutSeconds,omitempty" tf:"timeout_seconds,omitempty"`
+}
+
+type StartupProbeParameters struct {
+
+	// Minimum consecutive failures for the probe to be considered failed after
+	// having succeeded. Defaults to 3. Minimum value is 1.
+	// +kubebuilder:validation:Optional
+	FailureThreshold *float64 `json:"failureThreshold,omitempty" tf:"failure_threshold,omitempty"`
+
+	// GRPC specifies an action involving a GRPC port.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	GRPC []StartupProbeGRPCParameters `json:"grpc,omitempty" tf:"grpc,omitempty"`
+
+	// HttpGet specifies the http request to perform.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	HTTPGet []StartupProbeHTTPGetParameters `json:"httpGet,omitempty" tf:"http_get,omitempty"`
+
+	// Number of seconds after the container has started before the probe is
+	// initiated.
+	// Defaults to 0 seconds. Minimum value is 0. Maximum value is 240.
+	// +kubebuilder:validation:Optional
+	InitialDelaySeconds *float64 `json:"initialDelaySeconds,omitempty" tf:"initial_delay_seconds,omitempty"`
+
+	// How often (in seconds) to perform the probe.
+	// Default to 10 seconds. Minimum value is 1. Maximum value is 240.
+	// +kubebuilder:validation:Optional
+	PeriodSeconds *float64 `json:"periodSeconds,omitempty" tf:"period_seconds,omitempty"`
+
+	// TcpSocket specifies an action involving a TCP port.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	TCPSocket []TCPSocketParameters `json:"tcpSocket,omitempty" tf:"tcp_socket,omitempty"`
+
+	// Number of seconds after which the probe times out.
+	// Defaults to 1 second. Minimum value is 1. Maximum value is 3600.
+	// Must be smaller than periodSeconds.
+	// +kubebuilder:validation:Optional
+	TimeoutSeconds *float64 `json:"timeoutSeconds,omitempty" tf:"timeout_seconds,omitempty"`
+}
+
 type StatusConditionsObservation struct {
 
+	// (Output)
 	// Human readable message indicating details about the current status.
 	Message *string `json:"message,omitempty" tf:"message,omitempty"`
 
+	// (Output)
 	// One-word CamelCase reason for the condition's current status.
 	Reason *string `json:"reason,omitempty" tf:"reason,omitempty"`
 
@@ -705,11 +1000,27 @@ type StatusConditionsObservation struct {
 	// Structure is documented below.
 	Status *string `json:"status,omitempty" tf:"status,omitempty"`
 
+	// (Output)
 	// Type of domain mapping condition.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type StatusConditionsParameters struct {
+}
+
+type TCPSocketObservation struct {
+
+	// Port number to access on the container. Number must be in the range 1 to 65535.
+	// If not specified, defaults to the same value as container.ports[0].containerPort.
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+}
+
+type TCPSocketParameters struct {
+
+	// Port number to access on the container. Number must be in the range 1 to 65535.
+	// If not specified, defaults to the same value as container.ports[0].containerPort.
+	// +kubebuilder:validation:Optional
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
 }
 
 type TemplateMetadataObservation struct {
@@ -718,15 +1029,16 @@ type TemplateMetadataObservation struct {
 	// may be set by external tools to store and retrieve arbitrary metadata. More
 	// info: http://kubernetes.io/docs/user-guide/annotations
 	// Note: The Cloud Run API may add additional annotations that were not provided in your config.ignore_changes rule to the metadata.0.annotations field.
+	// Annotations with run.googleapis.com/ and autoscaling.knative.dev are restricted. Use the following annotation
+	// keys to configure features on a Revision template:
 	Annotations map[string]*string `json:"annotations,omitempty" tf:"annotations,omitempty"`
 
+	// (Output)
 	// A sequence number representing a specific generation of the desired state.
 	Generation *float64 `json:"generation,omitempty" tf:"generation,omitempty"`
 
 	// Map of string keys and values that can be used to organize and categorize
-	// (scope and select) objects. May match selectors of replication controllers
-	// and routes.
-	// More info: http://kubernetes.io/docs/user-guide/labels
+	// (scope and select) objects.
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Volume's name.
@@ -736,21 +1048,21 @@ type TemplateMetadataObservation struct {
 	// project ID or project number. It will default to the resource's project.
 	Namespace *string `json:"namespace,omitempty" tf:"namespace,omitempty"`
 
+	// (Output)
 	// An opaque value that represents the internal version of this object that
 	// can be used by clients to determine when objects have changed. May be used
 	// for optimistic concurrency, change detection, and the watch operation on a
 	// resource or set of resources. They may only be valid for a
 	// particular resource or set of resources.
-	// More info:
-	// https://git.k8s.io/community/contributors/devel/api-conventions.md#concurrency-control-and-consistency
 	ResourceVersion *string `json:"resourceVersion,omitempty" tf:"resource_version,omitempty"`
 
+	// (Output)
 	// SelfLink is a URL representing this object.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
 
+	// (Output)
 	// UID is a unique id generated by the server on successful creation of a resource and is not
 	// allowed to change on PUT operations.
-	// More info: http://kubernetes.io/docs/user-guide/identifiers#uids
 	UID *string `json:"uid,omitempty" tf:"uid,omitempty"`
 }
 
@@ -760,13 +1072,13 @@ type TemplateMetadataParameters struct {
 	// may be set by external tools to store and retrieve arbitrary metadata. More
 	// info: http://kubernetes.io/docs/user-guide/annotations
 	// Note: The Cloud Run API may add additional annotations that were not provided in your config.ignore_changes rule to the metadata.0.annotations field.
+	// Annotations with run.googleapis.com/ and autoscaling.knative.dev are restricted. Use the following annotation
+	// keys to configure features on a Revision template:
 	// +kubebuilder:validation:Optional
 	Annotations map[string]*string `json:"annotations,omitempty" tf:"annotations,omitempty"`
 
 	// Map of string keys and values that can be used to organize and categorize
-	// (scope and select) objects. May match selectors of replication controllers
-	// and routes.
-	// More info: http://kubernetes.io/docs/user-guide/labels
+	// (scope and select) objects.
 	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
@@ -825,8 +1137,6 @@ type TemplateSpecObservation struct {
 	// Container defines the unit of execution for this Revision.
 	// In the context of a Revision, we disallow a number of the fields of
 	// this Container, including: name, ports, and volumeMounts.
-	// The runtime contract is documented here:
-	// https://github.com/knative/serving/blob/main/docs/runtime-contract.md
 	// Structure is documented below.
 	Containers []ContainersObservation `json:"containers,omitempty" tf:"containers,omitempty"`
 
@@ -836,7 +1146,7 @@ type TemplateSpecObservation struct {
 	// will use the project's default service account.
 	ServiceAccountName *string `json:"serviceAccountName,omitempty" tf:"service_account_name,omitempty"`
 
-	// (Deprecated)
+	// (Output, Deprecated)
 	// ServingState holds a value describing the state the resources
 	// are in for this Revision.
 	// It is expected
@@ -863,8 +1173,6 @@ type TemplateSpecParameters struct {
 	// Container defines the unit of execution for this Revision.
 	// In the context of a Revision, we disallow a number of the fields of
 	// this Container, including: name, ports, and volumeMounts.
-	// The runtime contract is documented here:
-	// https://github.com/knative/serving/blob/main/docs/runtime-contract.md
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Containers []ContainersParameters `json:"containers,omitempty" tf:"containers,omitempty"`
@@ -905,6 +1213,7 @@ type TrafficObservation struct {
 	// Tag is optionally used to expose a dedicated url for referencing this target exclusively.
 	Tag *string `json:"tag,omitempty" tf:"tag,omitempty"`
 
+	// (Output)
 	// URL displays the URL for accessing tagged traffic targets. URL is displayed in status,
 	// and is disallowed on spec. URL must contain a scheme (e.g. http://) and a hostname,
 	// but may not contain anything else (e.g. basic auth, url path, etc.)
@@ -1010,7 +1319,7 @@ type ServiceStatus struct {
 
 // +kubebuilder:object:root=true
 
-// Service is the Schema for the Services API. Service acts as a top-level container that manages a set of Routes and Configurations which implement a network service.
+// Service is the Schema for the Services API. A Cloud Run service has a unique endpoint and autoscales containers.
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

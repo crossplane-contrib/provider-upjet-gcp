@@ -48,7 +48,7 @@ type AppGatewayObservation struct {
 
 	// The type of hosting used by the AppGateway.
 	// Default value is HOST_TYPE_UNSPECIFIED.
-	// Possible values are HOST_TYPE_UNSPECIFIED and GCP_REGIONAL_MIG.
+	// Possible values are: HOST_TYPE_UNSPECIFIED, GCP_REGIONAL_MIG.
 	HostType *string `json:"hostType,omitempty" tf:"host_type,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/locations/{{region}}/appGateways/{{name}}
@@ -69,7 +69,7 @@ type AppGatewayObservation struct {
 
 	// The type of network connectivity used by the AppGateway.
 	// Default value is TYPE_UNSPECIFIED.
-	// Possible values are TYPE_UNSPECIFIED and TCP_PROXY.
+	// Possible values are: TYPE_UNSPECIFIED, TCP_PROXY.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 
 	// Server-defined URI for this resource.
@@ -84,7 +84,7 @@ type AppGatewayParameters struct {
 
 	// The type of hosting used by the AppGateway.
 	// Default value is HOST_TYPE_UNSPECIFIED.
-	// Possible values are HOST_TYPE_UNSPECIFIED and GCP_REGIONAL_MIG.
+	// Possible values are: HOST_TYPE_UNSPECIFIED, GCP_REGIONAL_MIG.
 	// +kubebuilder:validation:Optional
 	HostType *string `json:"hostType,omitempty" tf:"host_type,omitempty"`
 
@@ -103,7 +103,7 @@ type AppGatewayParameters struct {
 
 	// The type of network connectivity used by the AppGateway.
 	// Default value is TYPE_UNSPECIFIED.
-	// Possible values are TYPE_UNSPECIFIED and TCP_PROXY.
+	// Possible values are: TYPE_UNSPECIFIED, TCP_PROXY.
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }

@@ -56,7 +56,7 @@ type FilterObservation struct {
 
 	// Direction of traffic to mirror.
 	// Default value is BOTH.
-	// Possible values are INGRESS, EGRESS, and BOTH.
+	// Possible values are: INGRESS, EGRESS, BOTH.
 	Direction *string `json:"direction,omitempty" tf:"direction,omitempty"`
 
 	// Possible IP protocols including tcp, udp, icmp and esp
@@ -72,7 +72,7 @@ type FilterParameters struct {
 
 	// Direction of traffic to mirror.
 	// Default value is BOTH.
-	// Possible values are INGRESS, EGRESS, and BOTH.
+	// Possible values are: INGRESS, EGRESS, BOTH.
 	// +kubebuilder:validation:Optional
 	Direction *string `json:"direction,omitempty" tf:"direction,omitempty"`
 

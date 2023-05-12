@@ -91,7 +91,7 @@ type HTTPHealthCheckObservation struct {
 	// Specifies the type of proxy header to append before sending data to the
 	// backend.
 	// Default value is NONE.
-	// Possible values are NONE and PROXY_V1.
+	// Possible values are: NONE, PROXY_V1.
 	ProxyHeader *string `json:"proxyHeader,omitempty" tf:"proxy_header,omitempty"`
 
 	// The request path of the HTTP health check request.
@@ -130,7 +130,7 @@ type HTTPHealthCheckParameters struct {
 	// Specifies the type of proxy header to append before sending data to the
 	// backend.
 	// Default value is NONE.
-	// Possible values are NONE and PROXY_V1.
+	// Possible values are: NONE, PROXY_V1.
 	// +kubebuilder:validation:Optional
 	ProxyHeader *string `json:"proxyHeader,omitempty" tf:"proxy_header,omitempty"`
 
@@ -168,7 +168,7 @@ type HTTPSHealthCheckObservation struct {
 	// Specifies the type of proxy header to append before sending data to the
 	// backend.
 	// Default value is NONE.
-	// Possible values are NONE and PROXY_V1.
+	// Possible values are: NONE, PROXY_V1.
 	ProxyHeader *string `json:"proxyHeader,omitempty" tf:"proxy_header,omitempty"`
 
 	// The request path of the HTTPS health check request.
@@ -207,7 +207,7 @@ type HTTPSHealthCheckParameters struct {
 	// Specifies the type of proxy header to append before sending data to the
 	// backend.
 	// Default value is NONE.
-	// Possible values are NONE and PROXY_V1.
+	// Possible values are: NONE, PROXY_V1.
 	// +kubebuilder:validation:Optional
 	ProxyHeader *string `json:"proxyHeader,omitempty" tf:"proxy_header,omitempty"`
 
@@ -397,7 +397,7 @@ type Http2HealthCheckObservation struct {
 	// Specifies the type of proxy header to append before sending data to the
 	// backend.
 	// Default value is NONE.
-	// Possible values are NONE and PROXY_V1.
+	// Possible values are: NONE, PROXY_V1.
 	ProxyHeader *string `json:"proxyHeader,omitempty" tf:"proxy_header,omitempty"`
 
 	// The request path of the HTTP2 health check request.
@@ -436,7 +436,7 @@ type Http2HealthCheckParameters struct {
 	// Specifies the type of proxy header to append before sending data to the
 	// backend.
 	// Default value is NONE.
-	// Possible values are NONE and PROXY_V1.
+	// Possible values are: NONE, PROXY_V1.
 	// +kubebuilder:validation:Optional
 	ProxyHeader *string `json:"proxyHeader,omitempty" tf:"proxy_header,omitempty"`
 
@@ -469,7 +469,7 @@ type SSLHealthCheckObservation struct {
 	// Specifies the type of proxy header to append before sending data to the
 	// backend.
 	// Default value is NONE.
-	// Possible values are NONE and PROXY_V1.
+	// Possible values are: NONE, PROXY_V1.
 	ProxyHeader *string `json:"proxyHeader,omitempty" tf:"proxy_header,omitempty"`
 
 	// The application data to send once the SSL connection has been
@@ -504,7 +504,7 @@ type SSLHealthCheckParameters struct {
 	// Specifies the type of proxy header to append before sending data to the
 	// backend.
 	// Default value is NONE.
-	// Possible values are NONE and PROXY_V1.
+	// Possible values are: NONE, PROXY_V1.
 	// +kubebuilder:validation:Optional
 	ProxyHeader *string `json:"proxyHeader,omitempty" tf:"proxy_header,omitempty"`
 
@@ -539,7 +539,7 @@ type TCPHealthCheckObservation struct {
 	// Specifies the type of proxy header to append before sending data to the
 	// backend.
 	// Default value is NONE.
-	// Possible values are NONE and PROXY_V1.
+	// Possible values are: NONE, PROXY_V1.
 	ProxyHeader *string `json:"proxyHeader,omitempty" tf:"proxy_header,omitempty"`
 
 	// The application data to send once the TCP connection has been
@@ -574,7 +574,7 @@ type TCPHealthCheckParameters struct {
 	// Specifies the type of proxy header to append before sending data to the
 	// backend.
 	// Default value is NONE.
-	// Possible values are NONE and PROXY_V1.
+	// Possible values are: NONE, PROXY_V1.
 	// +kubebuilder:validation:Optional
 	ProxyHeader *string `json:"proxyHeader,omitempty" tf:"proxy_header,omitempty"`
 

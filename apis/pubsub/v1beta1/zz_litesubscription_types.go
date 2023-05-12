@@ -28,14 +28,14 @@ import (
 type DeliveryConfigObservation struct {
 
 	// When this subscription should send messages to subscribers relative to messages persistence in storage.
-	// Possible values are DELIVER_IMMEDIATELY, DELIVER_AFTER_STORED, and DELIVERY_REQUIREMENT_UNSPECIFIED.
+	// Possible values are: DELIVER_IMMEDIATELY, DELIVER_AFTER_STORED, DELIVERY_REQUIREMENT_UNSPECIFIED.
 	DeliveryRequirement *string `json:"deliveryRequirement,omitempty" tf:"delivery_requirement,omitempty"`
 }
 
 type DeliveryConfigParameters struct {
 
 	// When this subscription should send messages to subscribers relative to messages persistence in storage.
-	// Possible values are DELIVER_IMMEDIATELY, DELIVER_AFTER_STORED, and DELIVERY_REQUIREMENT_UNSPECIFIED.
+	// Possible values are: DELIVER_IMMEDIATELY, DELIVER_AFTER_STORED, DELIVERY_REQUIREMENT_UNSPECIFIED.
 	// +kubebuilder:validation:Required
 	DeliveryRequirement *string `json:"deliveryRequirement" tf:"delivery_requirement,omitempty"`
 }

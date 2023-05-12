@@ -69,7 +69,7 @@ type InstanceObservation struct {
 	// Currently the latest supported major version is MEMCACHE_1_5. The minor version will be automatically
 	// determined by our system based on the latest supported minor version.
 	// Default value is MEMCACHE_1_5.
-	// Possible values are MEMCACHE_1_5.
+	// Possible values are: MEMCACHE_1_5.
 	MemcacheVersion *string `json:"memcacheVersion,omitempty" tf:"memcache_version,omitempty"`
 
 	// The resource name of the instance.
@@ -133,7 +133,7 @@ type InstanceParameters struct {
 	// Currently the latest supported major version is MEMCACHE_1_5. The minor version will be automatically
 	// determined by our system based on the latest supported minor version.
 	// Default value is MEMCACHE_1_5.
-	// Possible values are MEMCACHE_1_5.
+	// Possible values are: MEMCACHE_1_5.
 	// +kubebuilder:validation:Optional
 	MemcacheVersion *string `json:"memcacheVersion,omitempty" tf:"memcache_version,omitempty"`
 
@@ -167,6 +167,7 @@ type InstanceParameters struct {
 
 type MaintenancePolicyObservation struct {
 
+	// (Output)
 	// Output only. The time when the policy was created.
 	// A timestamp in RFC3339 UTC "Zulu" format, with nanosecond
 	// resolution and up to nine fractional digits
@@ -177,6 +178,7 @@ type MaintenancePolicyObservation struct {
 	// length is greater than 512.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// (Output)
 	// Output only. The time when the policy was updated.
 	// A timestamp in RFC3339 UTC "Zulu" format, with nanosecond
 	// resolution and up to nine fractional digits.
@@ -207,17 +209,20 @@ type MaintenancePolicyParameters struct {
 
 type MaintenanceScheduleObservation struct {
 
+	// (Output)
 	// Output only. The end time of any upcoming scheduled maintenance for this instance.
 	// A timestamp in RFC3339 UTC "Zulu" format, with nanosecond
 	// resolution and up to nine fractional digits.
 	EndTime *string `json:"endTime,omitempty" tf:"end_time,omitempty"`
 
+	// (Output)
 	// Output only. The deadline that the maintenance schedule start time
 	// can not go beyond, including reschedule.
 	// A timestamp in RFC3339 UTC "Zulu" format, with nanosecond
 	// resolution and up to nine fractional digits.
 	ScheduleDeadlineTime *string `json:"scheduleDeadlineTime,omitempty" tf:"schedule_deadline_time,omitempty"`
 
+	// (Output)
 	// Output only. The start time of any upcoming scheduled maintenance for this instance.
 	// A timestamp in RFC3339 UTC "Zulu" format, with nanosecond
 	// resolution and up to nine fractional digits.
@@ -229,18 +234,23 @@ type MaintenanceScheduleParameters struct {
 
 type MemcacheNodesObservation struct {
 
+	// (Output)
 	// Hostname or IP address of the Memcached node used by the clients to connect to the Memcached server on this node.
 	Host *string `json:"host,omitempty" tf:"host,omitempty"`
 
+	// (Output)
 	// Identifier of the Memcached node. The node id does not include project or location like the Memcached instance name.
 	NodeID *string `json:"nodeId,omitempty" tf:"node_id,omitempty"`
 
+	// (Output)
 	// The port number of the Memcached server on this node.
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
 
+	// (Output)
 	// Current state of the Memcached node.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 
+	// (Output)
 	// Location (GCP Zone) for the Memcached node.
 	Zone *string `json:"zone,omitempty" tf:"zone,omitempty"`
 }
@@ -250,6 +260,7 @@ type MemcacheNodesParameters struct {
 
 type MemcacheParametersObservation struct {
 
+	// (Output)
 	// This is a unique ID associated with this set of parameters.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 

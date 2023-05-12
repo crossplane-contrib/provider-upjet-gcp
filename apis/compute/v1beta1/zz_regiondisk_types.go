@@ -30,6 +30,7 @@ type RegionDiskDiskEncryptionKeyObservation struct {
 	// The name of the encryption key that is stored in Google Cloud KMS.
 	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
 
+	// (Output)
 	// The RFC 4648 base64 encoded SHA-256 hash of the customer-supplied
 	// encryption key that protects this resource.
 	Sha256 *string `json:"sha256,omitempty" tf:"sha256,omitempty"`
@@ -246,6 +247,7 @@ type RegionDiskSourceSnapshotEncryptionKeyObservation struct {
 	// RFC 4648 base64 to either encrypt or decrypt this resource.
 	RawKey *string `json:"rawKey,omitempty" tf:"raw_key,omitempty"`
 
+	// (Output)
 	// The RFC 4648 base64 encoded SHA-256 hash of the customer-supplied
 	// encryption key that protects this resource.
 	Sha256 *string `json:"sha256,omitempty" tf:"sha256,omitempty"`

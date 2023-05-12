@@ -52,7 +52,7 @@ type SchemaSettingsObservation struct {
 
 	// The encoding of messages validated against schema.
 	// Default value is ENCODING_UNSPECIFIED.
-	// Possible values are ENCODING_UNSPECIFIED, JSON, and BINARY.
+	// Possible values are: ENCODING_UNSPECIFIED, JSON, BINARY.
 	Encoding *string `json:"encoding,omitempty" tf:"encoding,omitempty"`
 
 	// The name of the schema that messages published should be
@@ -66,7 +66,7 @@ type SchemaSettingsParameters struct {
 
 	// The encoding of messages validated against schema.
 	// Default value is ENCODING_UNSPECIFIED.
-	// Possible values are ENCODING_UNSPECIFIED, JSON, and BINARY.
+	// Possible values are: ENCODING_UNSPECIFIED, JSON, BINARY.
 	// +kubebuilder:validation:Optional
 	Encoding *string `json:"encoding,omitempty" tf:"encoding,omitempty"`
 

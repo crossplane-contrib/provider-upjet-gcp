@@ -155,6 +155,12 @@ spec:
                   region:
                     description: The region this gateway should sit in.
                     type: string
+                  stackType:
+                    description: 'The stack type for this VPN gateway to identify
+                      the IP protocols that are enabled. If not specified, IPV4_ONLY
+                      will be used. Default value is IPV4_ONLY. Possible values are:
+                      IPV4_ONLY, IPV4_IPV6.'
+                    type: string
                   vpnInterfaces:
                     description: A list of interfaces on this VPN gateway. Structure
                       is documented below.
@@ -465,6 +471,12 @@ spec:
                   selfLink:
                     description: The URI of the created resource.
                     type: string
+                  stackType:
+                    description: 'The stack type for this VPN gateway to identify
+                      the IP protocols that are enabled. If not specified, IPV4_ONLY
+                      will be used. Default value is IPV4_ONLY. Possible values are:
+                      IPV4_ONLY, IPV4_IPV6.'
+                    type: string
                   vpnInterfaces:
                     description: A list of interfaces on this VPN gateway. Structure
                       is documented below.
@@ -482,8 +494,8 @@ spec:
                             resource. Not currently available publicly.
                           type: string
                         ipAddress:
-                          description: The external IP address for this VPN gateway
-                            interface.
+                          description: (Output) The external IP address for this VPN
+                            gateway interface.
                           type: string
                       type: object
                     type: array

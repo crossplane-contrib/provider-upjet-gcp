@@ -443,10 +443,10 @@ spec:
                     items:
                       properties:
                         ipAddress:
-                          description: The IP address of this network endpoint.
+                          description: (Output) The IP address of this network endpoint.
                           type: string
                         port:
-                          description: The port of this network endpoint.
+                          description: (Output) The port of this network endpoint.
                           type: number
                       type: object
                     type: array

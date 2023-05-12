@@ -232,7 +232,9 @@ spec:
                         type: object
                     type: object
                   port:
-                    description: Port number of network endpoint.
+                    description: Port number of network endpoint. Note port is required
+                      unless the Network Endpoint Group is created with the type of
+                      GCE_VM_IP
                     type: number
                   project:
                     description: The ID of the project in which the resource belongs.
@@ -455,7 +457,9 @@ spec:
                       of.
                     type: string
                   port:
-                    description: Port number of network endpoint.
+                    description: Port number of network endpoint. Note port is required
+                      unless the Network Endpoint Group is created with the type of
+                      GCE_VM_IP
                     type: number
                   project:
                     description: The ID of the project in which the resource belongs.

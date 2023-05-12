@@ -60,7 +60,7 @@ type AggregationsObservation struct {
 	// and alignmentPeriod must be
 	// specified; otherwise, an error is
 	// returned.
-	// Possible values are REDUCE_NONE, REDUCE_MEAN, REDUCE_MIN, REDUCE_MAX, REDUCE_SUM, REDUCE_STDDEV, REDUCE_COUNT, REDUCE_COUNT_TRUE, REDUCE_COUNT_FALSE, REDUCE_FRACTION_TRUE, REDUCE_PERCENTILE_99, REDUCE_PERCENTILE_95, REDUCE_PERCENTILE_50, and REDUCE_PERCENTILE_05.
+	// Possible values are: REDUCE_NONE, REDUCE_MEAN, REDUCE_MIN, REDUCE_MAX, REDUCE_SUM, REDUCE_STDDEV, REDUCE_COUNT, REDUCE_COUNT_TRUE, REDUCE_COUNT_FALSE, REDUCE_FRACTION_TRUE, REDUCE_PERCENTILE_99, REDUCE_PERCENTILE_95, REDUCE_PERCENTILE_50, REDUCE_PERCENTILE_05.
 	CrossSeriesReducer *string `json:"crossSeriesReducer,omitempty" tf:"cross_series_reducer,omitempty"`
 
 	// The set of fields to preserve when
@@ -107,7 +107,7 @@ type AggregationsObservation struct {
 	// and alignmentPeriod must be
 	// specified; otherwise, an error is
 	// returned.
-	// Possible values are ALIGN_NONE, ALIGN_DELTA, ALIGN_RATE, ALIGN_INTERPOLATE, ALIGN_NEXT_OLDER, ALIGN_MIN, ALIGN_MAX, ALIGN_MEAN, ALIGN_COUNT, ALIGN_SUM, ALIGN_STDDEV, ALIGN_COUNT_TRUE, ALIGN_COUNT_FALSE, ALIGN_FRACTION_TRUE, ALIGN_PERCENTILE_99, ALIGN_PERCENTILE_95, ALIGN_PERCENTILE_50, ALIGN_PERCENTILE_05, and ALIGN_PERCENT_CHANGE.
+	// Possible values are: ALIGN_NONE, ALIGN_DELTA, ALIGN_RATE, ALIGN_INTERPOLATE, ALIGN_NEXT_OLDER, ALIGN_MIN, ALIGN_MAX, ALIGN_MEAN, ALIGN_COUNT, ALIGN_SUM, ALIGN_STDDEV, ALIGN_COUNT_TRUE, ALIGN_COUNT_FALSE, ALIGN_FRACTION_TRUE, ALIGN_PERCENTILE_99, ALIGN_PERCENTILE_95, ALIGN_PERCENTILE_50, ALIGN_PERCENTILE_05, ALIGN_PERCENT_CHANGE.
 	PerSeriesAligner *string `json:"perSeriesAligner,omitempty" tf:"per_series_aligner,omitempty"`
 }
 
@@ -147,7 +147,7 @@ type AggregationsParameters struct {
 	// and alignmentPeriod must be
 	// specified; otherwise, an error is
 	// returned.
-	// Possible values are REDUCE_NONE, REDUCE_MEAN, REDUCE_MIN, REDUCE_MAX, REDUCE_SUM, REDUCE_STDDEV, REDUCE_COUNT, REDUCE_COUNT_TRUE, REDUCE_COUNT_FALSE, REDUCE_FRACTION_TRUE, REDUCE_PERCENTILE_99, REDUCE_PERCENTILE_95, REDUCE_PERCENTILE_50, and REDUCE_PERCENTILE_05.
+	// Possible values are: REDUCE_NONE, REDUCE_MEAN, REDUCE_MIN, REDUCE_MAX, REDUCE_SUM, REDUCE_STDDEV, REDUCE_COUNT, REDUCE_COUNT_TRUE, REDUCE_COUNT_FALSE, REDUCE_FRACTION_TRUE, REDUCE_PERCENTILE_99, REDUCE_PERCENTILE_95, REDUCE_PERCENTILE_50, REDUCE_PERCENTILE_05.
 	// +kubebuilder:validation:Optional
 	CrossSeriesReducer *string `json:"crossSeriesReducer,omitempty" tf:"cross_series_reducer,omitempty"`
 
@@ -196,7 +196,7 @@ type AggregationsParameters struct {
 	// and alignmentPeriod must be
 	// specified; otherwise, an error is
 	// returned.
-	// Possible values are ALIGN_NONE, ALIGN_DELTA, ALIGN_RATE, ALIGN_INTERPOLATE, ALIGN_NEXT_OLDER, ALIGN_MIN, ALIGN_MAX, ALIGN_MEAN, ALIGN_COUNT, ALIGN_SUM, ALIGN_STDDEV, ALIGN_COUNT_TRUE, ALIGN_COUNT_FALSE, ALIGN_FRACTION_TRUE, ALIGN_PERCENTILE_99, ALIGN_PERCENTILE_95, ALIGN_PERCENTILE_50, ALIGN_PERCENTILE_05, and ALIGN_PERCENT_CHANGE.
+	// Possible values are: ALIGN_NONE, ALIGN_DELTA, ALIGN_RATE, ALIGN_INTERPOLATE, ALIGN_NEXT_OLDER, ALIGN_MIN, ALIGN_MAX, ALIGN_MEAN, ALIGN_COUNT, ALIGN_SUM, ALIGN_STDDEV, ALIGN_COUNT_TRUE, ALIGN_COUNT_FALSE, ALIGN_FRACTION_TRUE, ALIGN_PERCENTILE_99, ALIGN_PERCENTILE_95, ALIGN_PERCENTILE_50, ALIGN_PERCENTILE_05, ALIGN_PERCENT_CHANGE.
 	// +kubebuilder:validation:Optional
 	PerSeriesAligner *string `json:"perSeriesAligner,omitempty" tf:"per_series_aligner,omitempty"`
 }
@@ -209,7 +209,7 @@ type AlertPolicyObservation struct {
 
 	// How to combine the results of multiple conditions to
 	// determine if an incident should be opened.
-	// Possible values are AND, OR, and AND_WITH_MATCHING_RESOURCE.
+	// Possible values are: AND, OR, AND_WITH_MATCHING_RESOURCE.
 	Combiner *string `json:"combiner,omitempty" tf:"combiner,omitempty"`
 
 	// A list of conditions for the policy. The conditions are combined by
@@ -279,7 +279,7 @@ type AlertPolicyParameters struct {
 
 	// How to combine the results of multiple conditions to
 	// determine if an incident should be opened.
-	// Possible values are AND, OR, and AND_WITH_MATCHING_RESOURCE.
+	// Possible values are: AND, OR, AND_WITH_MATCHING_RESOURCE.
 	// +kubebuilder:validation:Optional
 	Combiner *string `json:"combiner,omitempty" tf:"combiner,omitempty"`
 
@@ -561,7 +561,7 @@ type ConditionMonitoringQueryLanguageObservation struct {
 	// A condition control that determines how
 	// metric-threshold conditions are evaluated when
 	// data stops arriving.
-	// Possible values are EVALUATION_MISSING_DATA_INACTIVE, EVALUATION_MISSING_DATA_ACTIVE, and EVALUATION_MISSING_DATA_NO_OP.
+	// Possible values are: EVALUATION_MISSING_DATA_INACTIVE, EVALUATION_MISSING_DATA_ACTIVE, EVALUATION_MISSING_DATA_NO_OP.
 	EvaluationMissingData *string `json:"evaluationMissingData,omitempty" tf:"evaluation_missing_data,omitempty"`
 
 	// Monitoring Query Language query that outputs a boolean stream.
@@ -602,7 +602,7 @@ type ConditionMonitoringQueryLanguageParameters struct {
 	// A condition control that determines how
 	// metric-threshold conditions are evaluated when
 	// data stops arriving.
-	// Possible values are EVALUATION_MISSING_DATA_INACTIVE, EVALUATION_MISSING_DATA_ACTIVE, and EVALUATION_MISSING_DATA_NO_OP.
+	// Possible values are: EVALUATION_MISSING_DATA_INACTIVE, EVALUATION_MISSING_DATA_ACTIVE, EVALUATION_MISSING_DATA_NO_OP.
 	// +kubebuilder:validation:Optional
 	EvaluationMissingData *string `json:"evaluationMissingData,omitempty" tf:"evaluation_missing_data,omitempty"`
 
@@ -686,7 +686,7 @@ type ConditionThresholdAggregationsObservation struct {
 	// and alignmentPeriod must be
 	// specified; otherwise, an error is
 	// returned.
-	// Possible values are REDUCE_NONE, REDUCE_MEAN, REDUCE_MIN, REDUCE_MAX, REDUCE_SUM, REDUCE_STDDEV, REDUCE_COUNT, REDUCE_COUNT_TRUE, REDUCE_COUNT_FALSE, REDUCE_FRACTION_TRUE, REDUCE_PERCENTILE_99, REDUCE_PERCENTILE_95, REDUCE_PERCENTILE_50, and REDUCE_PERCENTILE_05.
+	// Possible values are: REDUCE_NONE, REDUCE_MEAN, REDUCE_MIN, REDUCE_MAX, REDUCE_SUM, REDUCE_STDDEV, REDUCE_COUNT, REDUCE_COUNT_TRUE, REDUCE_COUNT_FALSE, REDUCE_FRACTION_TRUE, REDUCE_PERCENTILE_99, REDUCE_PERCENTILE_95, REDUCE_PERCENTILE_50, REDUCE_PERCENTILE_05.
 	CrossSeriesReducer *string `json:"crossSeriesReducer,omitempty" tf:"cross_series_reducer,omitempty"`
 
 	// The set of fields to preserve when
@@ -733,7 +733,7 @@ type ConditionThresholdAggregationsObservation struct {
 	// and alignmentPeriod must be
 	// specified; otherwise, an error is
 	// returned.
-	// Possible values are ALIGN_NONE, ALIGN_DELTA, ALIGN_RATE, ALIGN_INTERPOLATE, ALIGN_NEXT_OLDER, ALIGN_MIN, ALIGN_MAX, ALIGN_MEAN, ALIGN_COUNT, ALIGN_SUM, ALIGN_STDDEV, ALIGN_COUNT_TRUE, ALIGN_COUNT_FALSE, ALIGN_FRACTION_TRUE, ALIGN_PERCENTILE_99, ALIGN_PERCENTILE_95, ALIGN_PERCENTILE_50, ALIGN_PERCENTILE_05, and ALIGN_PERCENT_CHANGE.
+	// Possible values are: ALIGN_NONE, ALIGN_DELTA, ALIGN_RATE, ALIGN_INTERPOLATE, ALIGN_NEXT_OLDER, ALIGN_MIN, ALIGN_MAX, ALIGN_MEAN, ALIGN_COUNT, ALIGN_SUM, ALIGN_STDDEV, ALIGN_COUNT_TRUE, ALIGN_COUNT_FALSE, ALIGN_FRACTION_TRUE, ALIGN_PERCENTILE_99, ALIGN_PERCENTILE_95, ALIGN_PERCENTILE_50, ALIGN_PERCENTILE_05, ALIGN_PERCENT_CHANGE.
 	PerSeriesAligner *string `json:"perSeriesAligner,omitempty" tf:"per_series_aligner,omitempty"`
 }
 
@@ -773,7 +773,7 @@ type ConditionThresholdAggregationsParameters struct {
 	// and alignmentPeriod must be
 	// specified; otherwise, an error is
 	// returned.
-	// Possible values are REDUCE_NONE, REDUCE_MEAN, REDUCE_MIN, REDUCE_MAX, REDUCE_SUM, REDUCE_STDDEV, REDUCE_COUNT, REDUCE_COUNT_TRUE, REDUCE_COUNT_FALSE, REDUCE_FRACTION_TRUE, REDUCE_PERCENTILE_99, REDUCE_PERCENTILE_95, REDUCE_PERCENTILE_50, and REDUCE_PERCENTILE_05.
+	// Possible values are: REDUCE_NONE, REDUCE_MEAN, REDUCE_MIN, REDUCE_MAX, REDUCE_SUM, REDUCE_STDDEV, REDUCE_COUNT, REDUCE_COUNT_TRUE, REDUCE_COUNT_FALSE, REDUCE_FRACTION_TRUE, REDUCE_PERCENTILE_99, REDUCE_PERCENTILE_95, REDUCE_PERCENTILE_50, REDUCE_PERCENTILE_05.
 	// +kubebuilder:validation:Optional
 	CrossSeriesReducer *string `json:"crossSeriesReducer,omitempty" tf:"cross_series_reducer,omitempty"`
 
@@ -822,7 +822,7 @@ type ConditionThresholdAggregationsParameters struct {
 	// and alignmentPeriod must be
 	// specified; otherwise, an error is
 	// returned.
-	// Possible values are ALIGN_NONE, ALIGN_DELTA, ALIGN_RATE, ALIGN_INTERPOLATE, ALIGN_NEXT_OLDER, ALIGN_MIN, ALIGN_MAX, ALIGN_MEAN, ALIGN_COUNT, ALIGN_SUM, ALIGN_STDDEV, ALIGN_COUNT_TRUE, ALIGN_COUNT_FALSE, ALIGN_FRACTION_TRUE, ALIGN_PERCENTILE_99, ALIGN_PERCENTILE_95, ALIGN_PERCENTILE_50, ALIGN_PERCENTILE_05, and ALIGN_PERCENT_CHANGE.
+	// Possible values are: ALIGN_NONE, ALIGN_DELTA, ALIGN_RATE, ALIGN_INTERPOLATE, ALIGN_NEXT_OLDER, ALIGN_MIN, ALIGN_MAX, ALIGN_MEAN, ALIGN_COUNT, ALIGN_SUM, ALIGN_STDDEV, ALIGN_COUNT_TRUE, ALIGN_COUNT_FALSE, ALIGN_FRACTION_TRUE, ALIGN_PERCENTILE_99, ALIGN_PERCENTILE_95, ALIGN_PERCENTILE_50, ALIGN_PERCENTILE_05, ALIGN_PERCENT_CHANGE.
 	// +kubebuilder:validation:Optional
 	PerSeriesAligner *string `json:"perSeriesAligner,omitempty" tf:"per_series_aligner,omitempty"`
 }
@@ -853,7 +853,7 @@ type ConditionThresholdObservation struct {
 	// the left-hand side and the threshold on the
 	// right-hand side. Only COMPARISON_LT and
 	// COMPARISON_GT are supported currently.
-	// Possible values are COMPARISON_GT, COMPARISON_GE, COMPARISON_LT, COMPARISON_LE, COMPARISON_EQ, and COMPARISON_NE.
+	// Possible values are: COMPARISON_GT, COMPARISON_GE, COMPARISON_LT, COMPARISON_LE, COMPARISON_EQ, COMPARISON_NE.
 	Comparison *string `json:"comparison,omitempty" tf:"comparison,omitempty"`
 
 	// Specifies the alignment of data points in
@@ -912,7 +912,7 @@ type ConditionThresholdObservation struct {
 	// A condition control that determines how
 	// metric-threshold conditions are evaluated when
 	// data stops arriving.
-	// Possible values are EVALUATION_MISSING_DATA_INACTIVE, EVALUATION_MISSING_DATA_ACTIVE, and EVALUATION_MISSING_DATA_NO_OP.
+	// Possible values are: EVALUATION_MISSING_DATA_INACTIVE, EVALUATION_MISSING_DATA_ACTIVE, EVALUATION_MISSING_DATA_NO_OP.
 	EvaluationMissingData *string `json:"evaluationMissingData,omitempty" tf:"evaluation_missing_data,omitempty"`
 
 	// A filter that identifies which time series
@@ -972,7 +972,7 @@ type ConditionThresholdParameters struct {
 	// the left-hand side and the threshold on the
 	// right-hand side. Only COMPARISON_LT and
 	// COMPARISON_GT are supported currently.
-	// Possible values are COMPARISON_GT, COMPARISON_GE, COMPARISON_LT, COMPARISON_LE, COMPARISON_EQ, and COMPARISON_NE.
+	// Possible values are: COMPARISON_GT, COMPARISON_GE, COMPARISON_LT, COMPARISON_LE, COMPARISON_EQ, COMPARISON_NE.
 	// +kubebuilder:validation:Required
 	Comparison *string `json:"comparison" tf:"comparison,omitempty"`
 
@@ -1035,7 +1035,7 @@ type ConditionThresholdParameters struct {
 	// A condition control that determines how
 	// metric-threshold conditions are evaluated when
 	// data stops arriving.
-	// Possible values are EVALUATION_MISSING_DATA_INACTIVE, EVALUATION_MISSING_DATA_ACTIVE, and EVALUATION_MISSING_DATA_NO_OP.
+	// Possible values are: EVALUATION_MISSING_DATA_INACTIVE, EVALUATION_MISSING_DATA_ACTIVE, EVALUATION_MISSING_DATA_NO_OP.
 	// +kubebuilder:validation:Optional
 	EvaluationMissingData *string `json:"evaluationMissingData,omitempty" tf:"evaluation_missing_data,omitempty"`
 
@@ -1128,6 +1128,7 @@ type ConditionsObservation struct {
 	// policy.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
+	// (Output)
 	// The unique resource name for this condition.
 	// Its syntax is:
 	// projects/[PROJECT_ID]/alertPolicies/[POLICY_ID]/conditions/[CONDITION_ID]
@@ -1173,9 +1174,11 @@ type ConditionsParameters struct {
 
 type CreationRecordObservation struct {
 
+	// (Output)
 	// When the change occurred.
 	MutateTime *string `json:"mutateTime,omitempty" tf:"mutate_time,omitempty"`
 
+	// (Output)
 	// The email address of the user making the change.
 	MutatedBy *string `json:"mutatedBy,omitempty" tf:"mutated_by,omitempty"`
 }
@@ -1218,7 +1221,7 @@ type DenominatorAggregationsObservation struct {
 	// and alignmentPeriod must be
 	// specified; otherwise, an error is
 	// returned.
-	// Possible values are REDUCE_NONE, REDUCE_MEAN, REDUCE_MIN, REDUCE_MAX, REDUCE_SUM, REDUCE_STDDEV, REDUCE_COUNT, REDUCE_COUNT_TRUE, REDUCE_COUNT_FALSE, REDUCE_FRACTION_TRUE, REDUCE_PERCENTILE_99, REDUCE_PERCENTILE_95, REDUCE_PERCENTILE_50, and REDUCE_PERCENTILE_05.
+	// Possible values are: REDUCE_NONE, REDUCE_MEAN, REDUCE_MIN, REDUCE_MAX, REDUCE_SUM, REDUCE_STDDEV, REDUCE_COUNT, REDUCE_COUNT_TRUE, REDUCE_COUNT_FALSE, REDUCE_FRACTION_TRUE, REDUCE_PERCENTILE_99, REDUCE_PERCENTILE_95, REDUCE_PERCENTILE_50, REDUCE_PERCENTILE_05.
 	CrossSeriesReducer *string `json:"crossSeriesReducer,omitempty" tf:"cross_series_reducer,omitempty"`
 
 	// The set of fields to preserve when
@@ -1265,7 +1268,7 @@ type DenominatorAggregationsObservation struct {
 	// and alignmentPeriod must be
 	// specified; otherwise, an error is
 	// returned.
-	// Possible values are ALIGN_NONE, ALIGN_DELTA, ALIGN_RATE, ALIGN_INTERPOLATE, ALIGN_NEXT_OLDER, ALIGN_MIN, ALIGN_MAX, ALIGN_MEAN, ALIGN_COUNT, ALIGN_SUM, ALIGN_STDDEV, ALIGN_COUNT_TRUE, ALIGN_COUNT_FALSE, ALIGN_FRACTION_TRUE, ALIGN_PERCENTILE_99, ALIGN_PERCENTILE_95, ALIGN_PERCENTILE_50, ALIGN_PERCENTILE_05, and ALIGN_PERCENT_CHANGE.
+	// Possible values are: ALIGN_NONE, ALIGN_DELTA, ALIGN_RATE, ALIGN_INTERPOLATE, ALIGN_NEXT_OLDER, ALIGN_MIN, ALIGN_MAX, ALIGN_MEAN, ALIGN_COUNT, ALIGN_SUM, ALIGN_STDDEV, ALIGN_COUNT_TRUE, ALIGN_COUNT_FALSE, ALIGN_FRACTION_TRUE, ALIGN_PERCENTILE_99, ALIGN_PERCENTILE_95, ALIGN_PERCENTILE_50, ALIGN_PERCENTILE_05, ALIGN_PERCENT_CHANGE.
 	PerSeriesAligner *string `json:"perSeriesAligner,omitempty" tf:"per_series_aligner,omitempty"`
 }
 
@@ -1305,7 +1308,7 @@ type DenominatorAggregationsParameters struct {
 	// and alignmentPeriod must be
 	// specified; otherwise, an error is
 	// returned.
-	// Possible values are REDUCE_NONE, REDUCE_MEAN, REDUCE_MIN, REDUCE_MAX, REDUCE_SUM, REDUCE_STDDEV, REDUCE_COUNT, REDUCE_COUNT_TRUE, REDUCE_COUNT_FALSE, REDUCE_FRACTION_TRUE, REDUCE_PERCENTILE_99, REDUCE_PERCENTILE_95, REDUCE_PERCENTILE_50, and REDUCE_PERCENTILE_05.
+	// Possible values are: REDUCE_NONE, REDUCE_MEAN, REDUCE_MIN, REDUCE_MAX, REDUCE_SUM, REDUCE_STDDEV, REDUCE_COUNT, REDUCE_COUNT_TRUE, REDUCE_COUNT_FALSE, REDUCE_FRACTION_TRUE, REDUCE_PERCENTILE_99, REDUCE_PERCENTILE_95, REDUCE_PERCENTILE_50, REDUCE_PERCENTILE_05.
 	// +kubebuilder:validation:Optional
 	CrossSeriesReducer *string `json:"crossSeriesReducer,omitempty" tf:"cross_series_reducer,omitempty"`
 
@@ -1354,7 +1357,7 @@ type DenominatorAggregationsParameters struct {
 	// and alignmentPeriod must be
 	// specified; otherwise, an error is
 	// returned.
-	// Possible values are ALIGN_NONE, ALIGN_DELTA, ALIGN_RATE, ALIGN_INTERPOLATE, ALIGN_NEXT_OLDER, ALIGN_MIN, ALIGN_MAX, ALIGN_MEAN, ALIGN_COUNT, ALIGN_SUM, ALIGN_STDDEV, ALIGN_COUNT_TRUE, ALIGN_COUNT_FALSE, ALIGN_FRACTION_TRUE, ALIGN_PERCENTILE_99, ALIGN_PERCENTILE_95, ALIGN_PERCENTILE_50, ALIGN_PERCENTILE_05, and ALIGN_PERCENT_CHANGE.
+	// Possible values are: ALIGN_NONE, ALIGN_DELTA, ALIGN_RATE, ALIGN_INTERPOLATE, ALIGN_NEXT_OLDER, ALIGN_MIN, ALIGN_MAX, ALIGN_MEAN, ALIGN_COUNT, ALIGN_SUM, ALIGN_STDDEV, ALIGN_COUNT_TRUE, ALIGN_COUNT_FALSE, ALIGN_FRACTION_TRUE, ALIGN_PERCENTILE_99, ALIGN_PERCENTILE_95, ALIGN_PERCENTILE_50, ALIGN_PERCENTILE_05, ALIGN_PERCENT_CHANGE.
 	// +kubebuilder:validation:Optional
 	PerSeriesAligner *string `json:"perSeriesAligner,omitempty" tf:"per_series_aligner,omitempty"`
 }

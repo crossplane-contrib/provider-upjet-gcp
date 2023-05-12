@@ -243,9 +243,9 @@ spec:
                           items:
                             properties:
                               format:
-                                description: The format of the public key. Currently,
-                                  only PEM format is supported. Possible values are
-                                  KEY_TYPE_UNSPECIFIED and PEM.
+                                description: 'The format of the public key. Currently,
+                                  only PEM format is supported. Possible values are:
+                                  KEY_TYPE_UNSPECIFIED, PEM.'
                                 type: string
                               keySecretRef:
                                 description: Required. A public key. When this is
@@ -281,9 +281,9 @@ spec:
                           items:
                             properties:
                               subject:
-                                description: Contains distinguished name fields such
-                                  as the location and organization. Structure is documented
-                                  below.
+                                description: (Output) Contains distinguished name
+                                  fields such as the location and organization. Structure
+                                  is documented below.
                                 items:
                                   properties:
                                     commonName:
@@ -319,8 +319,8 @@ spec:
                                   type: object
                                 type: array
                               subjectAltName:
-                                description: The subject alternative name fields.
-                                  Structure is documented below.
+                                description: (Output) The subject alternative name
+                                  fields. Structure is documented below.
                                 items:
                                   properties:
                                     dnsNames:
@@ -359,15 +359,13 @@ spec:
                           items:
                             properties:
                               additionalExtensions:
-                                description: Describes custom X.509 extensions. Structure
-                                  is documented below.
+                                description: (Output) Describes custom X.509 extensions.
+                                  Structure is documented below.
                                 items:
                                   properties:
                                     critical:
-                                      description: Required. Indicates whether or
-                                        not this extension is critical (i.e., if the
-                                        client does not know how to handle this extension,
-                                        the client should consider this to be an error).
+                                      description: Indicates whether or not the name
+                                        constraints are marked critical.
                                       type: boolean
                                     objectId:
                                       description: Describes values that are relevant
@@ -388,7 +386,8 @@ spec:
                                         type: object
                                       type: array
                                     value:
-                                      description: The value of this X.509 extension.
+                                      description: (Output) The value of this X.509
+                                        extension.
                                       type: string
                                   required:
                                   - critical
@@ -397,15 +396,16 @@ spec:
                                   type: object
                                 type: array
                               aiaOcspServers:
-                                description: Describes Online Certificate Status Protocol
-                                  (OCSP) endpoint addresses that appear in the "Authority
-                                  Information Access" extension in the certificate.
+                                description: (Output) Describes Online Certificate
+                                  Status Protocol (OCSP) endpoint addresses that appear
+                                  in the "Authority Information Access" extension
+                                  in the certificate.
                                 items:
                                   type: string
                                 type: array
                               caOptions:
-                                description: Describes values that are relevant in
-                                  a CA certificate. Structure is documented below.
+                                description: (Output) Describes values that are relevant
+                                  in a CA certificate. Structure is documented below.
                                 items:
                                   properties:
                                     isCa:
@@ -435,9 +435,9 @@ spec:
                                   type: object
                                 type: array
                               keyUsage:
-                                description: Indicates the intended use for keys that
-                                  correspond to a certificate. Structure is documented
-                                  below.
+                                description: (Output) Indicates the intended use for
+                                  keys that correspond to a certificate. Structure
+                                  is documented below.
                                 items:
                                   properties:
                                     baseKeyUsage:
@@ -447,41 +447,42 @@ spec:
                                       items:
                                         properties:
                                           certSign:
-                                            description: The key may be used to sign
-                                              certificates.
+                                            description: (Output) The key may be used
+                                              to sign certificates.
                                             type: boolean
                                           contentCommitment:
-                                            description: The key may be used for cryptographic
-                                              commitments. Note that this may also
-                                              be referred to as "non-repudiation".
+                                            description: (Output) The key may be used
+                                              for cryptographic commitments. Note
+                                              that this may also be referred to as
+                                              "non-repudiation".
                                             type: boolean
                                           crlSign:
-                                            description: The key may be used sign
-                                              certificate revocation lists.
+                                            description: (Output) The key may be used
+                                              sign certificate revocation lists.
                                             type: boolean
                                           dataEncipherment:
-                                            description: The key may be used to encipher
-                                              data.
+                                            description: (Output) The key may be used
+                                              to encipher data.
                                             type: boolean
                                           decipherOnly:
-                                            description: The key may be used to decipher
-                                              only.
+                                            description: (Output) The key may be used
+                                              to decipher only.
                                             type: boolean
                                           digitalSignature:
-                                            description: The key may be used for digital
-                                              signatures.
+                                            description: (Output) The key may be used
+                                              for digital signatures.
                                             type: boolean
                                           encipherOnly:
-                                            description: The key may be used to encipher
-                                              only.
+                                            description: (Output) The key may be used
+                                              to encipher only.
                                             type: boolean
                                           keyAgreement:
-                                            description: The key may be used in a
-                                              key agreement protocol.
+                                            description: (Output) The key may be used
+                                              in a key agreement protocol.
                                             type: boolean
                                           keyEncipherment:
-                                            description: The key may be used to encipher
-                                              other keys.
+                                            description: (Output) The key may be used
+                                              to encipher other keys.
                                             type: boolean
                                         type: object
                                       type: array
@@ -549,9 +550,98 @@ spec:
                                   - extendedKeyUsage
                                   type: object
                                 type: array
+                              nameConstraints:
+                                description: (Output) Describes the X.509 name constraints
+                                  extension. Structure is documented below.
+                                items:
+                                  properties:
+                                    critical:
+                                      description: Indicates whether or not the name
+                                        constraints are marked critical.
+                                      type: boolean
+                                    excludedDnsNames:
+                                      description: Contains excluded DNS names. Any
+                                        DNS name that can be constructed by simply
+                                        adding zero or more labels to the left-hand
+                                        side of the name satisfies the name constraint.
+                                        For example, example.com, www.example.com,
+                                        www.sub.example.com would satisfy example.com
+                                        while example1.com does not.
+                                      items:
+                                        type: string
+                                      type: array
+                                    excludedEmailAddresses:
+                                      description: Contains the excluded email addresses.
+                                        The value can be a particular email address,
+                                        a hostname to indicate all email addresses
+                                        on that host or a domain with a leading period
+                                        (e.g. .example.com) to indicate all email
+                                        addresses in that domain.
+                                      items:
+                                        type: string
+                                      type: array
+                                    excludedIpRanges:
+                                      description: Contains the excluded IP ranges.
+                                        For IPv4 addresses, the ranges are expressed
+                                        using CIDR notation as specified in RFC 4632.
+                                        For IPv6 addresses, the ranges are expressed
+                                        in similar encoding as IPv4 addresses.
+                                      items:
+                                        type: string
+                                      type: array
+                                    excludedUris:
+                                      description: Contains the excluded URIs that
+                                        apply to the host part of the name. The value
+                                        can be a hostname or a domain with a leading
+                                        period (like .example.com)
+                                      items:
+                                        type: string
+                                      type: array
+                                    permittedDnsNames:
+                                      description: Contains permitted DNS names. Any
+                                        DNS name that can be constructed by simply
+                                        adding zero or more labels to the left-hand
+                                        side of the name satisfies the name constraint.
+                                        For example, example.com, www.example.com,
+                                        www.sub.example.com would satisfy example.com
+                                        while example1.com does not.
+                                      items:
+                                        type: string
+                                      type: array
+                                    permittedEmailAddresses:
+                                      description: Contains the permitted email addresses.
+                                        The value can be a particular email address,
+                                        a hostname to indicate all email addresses
+                                        on that host or a domain with a leading period
+                                        (e.g. .example.com) to indicate all email
+                                        addresses in that domain.
+                                      items:
+                                        type: string
+                                      type: array
+                                    permittedIpRanges:
+                                      description: Contains the permitted IP ranges.
+                                        For IPv4 addresses, the ranges are expressed
+                                        using CIDR notation as specified in RFC 4632.
+                                        For IPv6 addresses, the ranges are expressed
+                                        in similar encoding as IPv4 addresses.
+                                      items:
+                                        type: string
+                                      type: array
+                                    permittedUris:
+                                      description: Contains the permitted URIs that
+                                        apply to the host part of the name. The value
+                                        can be a hostname or a domain with a leading
+                                        period (like .example.com)
+                                      items:
+                                        type: string
+                                      type: array
+                                  required:
+                                  - critical
+                                  type: object
+                                type: array
                               policyIds:
-                                description: Describes the X.509 certificate policy
-                                  object identifiers, per https://tools.ietf.org/html/rfc5280#section-4.2.1.4.
+                                description: (Output) Describes the X.509 certificate
+                                  policy object identifiers, per https://tools.ietf.org/html/rfc5280#section-4.2.1.4.
                                   Structure is documented below.
                                 items:
                                   properties:
@@ -885,45 +975,47 @@ spec:
                     items:
                       properties:
                         aiaIssuingCertificateUrls:
-                          description: Describes lists of issuer CA certificate URLs
-                            that appear in the "Authority Information Access" extension
-                            in the certificate.
+                          description: (Output) Describes lists of issuer CA certificate
+                            URLs that appear in the "Authority Information Access"
+                            extension in the certificate.
                           items:
                             type: string
                           type: array
                         authorityKeyId:
-                          description: Identifies the subjectKeyId of the parent certificate,
-                            per https://tools.ietf.org/html/rfc5280#section-4.2.1.1
+                          description: (Output) Identifies the subjectKeyId of the
+                            parent certificate, per https://tools.ietf.org/html/rfc5280#section-4.2.1.1
                             Structure is documented below.
                           items:
                             properties:
                               keyId:
-                                description: Optional. The value of this KeyId encoded
-                                  in lowercase hexadecimal. This is most likely the
-                                  160 bit SHA-1 hash of the public key.
+                                description: (Output) Optional. The value of this
+                                  KeyId encoded in lowercase hexadecimal. This is
+                                  most likely the 160 bit SHA-1 hash of the public
+                                  key.
                                 type: string
                             type: object
                           type: array
                         certFingerprint:
-                          description: The hash of the x.509 certificate. Structure
-                            is documented below.
+                          description: (Output) The hash of the x.509 certificate.
+                            Structure is documented below.
                           items:
                             properties:
                               sha256Hash:
-                                description: The SHA 256 hash, encoded in hexadecimal,
-                                  of the DER x509 certificate.
+                                description: (Output) The SHA 256 hash, encoded in
+                                  hexadecimal, of the DER x509 certificate.
                                 type: string
                             type: object
                           type: array
                         configValues:
-                          description: (Deprecated) Describes some of the technical
-                            fields in a certificate. Structure is documented below.
+                          description: (Output, Deprecated) Describes some of the
+                            technical fields in a certificate. Structure is documented
+                            below.
                           items:
                             properties:
                               keyUsage:
-                                description: Indicates the intended use for keys that
-                                  correspond to a certificate. Structure is documented
-                                  below.
+                                description: (Output) Indicates the intended use for
+                                  keys that correspond to a certificate. Structure
+                                  is documented below.
                                 items:
                                   properties:
                                     baseKeyUsage:
@@ -933,48 +1025,49 @@ spec:
                                       items:
                                         properties:
                                           keyUsageOptions:
-                                            description: Describes high-level ways
-                                              in which a key may be used. Structure
+                                            description: (Output) Describes high-level
+                                              ways in which a key may be used. Structure
                                               is documented below.
                                             items:
                                               properties:
                                                 certSign:
-                                                  description: The key may be used
-                                                    to sign certificates.
+                                                  description: (Output) The key may
+                                                    be used to sign certificates.
                                                   type: boolean
                                                 contentCommitment:
-                                                  description: The key may be used
-                                                    for cryptographic commitments.
+                                                  description: (Output) The key may
+                                                    be used for cryptographic commitments.
                                                     Note that this may also be referred
                                                     to as "non-repudiation".
                                                   type: boolean
                                                 crlSign:
-                                                  description: The key may be used
-                                                    sign certificate revocation lists.
+                                                  description: (Output) The key may
+                                                    be used sign certificate revocation
+                                                    lists.
                                                   type: boolean
                                                 dataEncipherment:
-                                                  description: The key may be used
-                                                    to encipher data.
+                                                  description: (Output) The key may
+                                                    be used to encipher data.
                                                   type: boolean
                                                 decipherOnly:
-                                                  description: The key may be used
-                                                    to decipher only.
+                                                  description: (Output) The key may
+                                                    be used to decipher only.
                                                   type: boolean
                                                 digitalSignature:
-                                                  description: The key may be used
-                                                    for digital signatures.
+                                                  description: (Output) The key may
+                                                    be used for digital signatures.
                                                   type: boolean
                                                 encipherOnly:
-                                                  description: The key may be used
-                                                    to encipher only.
+                                                  description: (Output) The key may
+                                                    be used to encipher only.
                                                   type: boolean
                                                 keyAgreement:
-                                                  description: The key may be used
-                                                    in a key agreement protocol.
+                                                  description: (Output) The key may
+                                                    be used in a key agreement protocol.
                                                   type: boolean
                                                 keyEncipherment:
-                                                  description: The key may be used
-                                                    to encipher other keys.
+                                                  description: (Output) The key may
+                                                    be used to encipher other keys.
                                                   type: boolean
                                               type: object
                                             type: array
@@ -1028,10 +1121,10 @@ spec:
                                       items:
                                         properties:
                                           obectId:
-                                            description: Required. Describes how some
-                                              of the technical fields in a certificate
-                                              should be populated. Structure is documented
-                                              below.
+                                            description: (Output) Required. Describes
+                                              how some of the technical fields in
+                                              a certificate should be populated. Structure
+                                              is documented below.
                                             items:
                                               properties:
                                                 objectIdPath:
@@ -1051,21 +1144,21 @@ spec:
                             type: object
                           type: array
                         crlDistributionPoints:
-                          description: Describes a list of locations to obtain CRL
-                            information, i.e. the DistributionPoint.fullName described
+                          description: (Output) Describes a list of locations to obtain
+                            CRL information, i.e. the DistributionPoint.fullName described
                             by https://tools.ietf.org/html/rfc5280#section-4.2.1.13
                           items:
                             type: string
                           type: array
                         publicKey:
-                          description: A PublicKey describes a public key. Structure
-                            is documented below.
+                          description: (Output) A PublicKey describes a public key.
+                            Structure is documented below.
                           items:
                             properties:
                               format:
-                                description: The format of the public key. Currently,
-                                  only PEM format is supported. Possible values are
-                                  KEY_TYPE_UNSPECIFIED and PEM.
+                                description: 'The format of the public key. Currently,
+                                  only PEM format is supported. Possible values are:
+                                  KEY_TYPE_UNSPECIFIED, PEM.'
                                 type: string
                               key:
                                 description: Required. A public key. When this is
@@ -1079,31 +1172,32 @@ spec:
                             type: object
                           type: array
                         subjectDescription:
-                          description: Describes some of the values in a certificate
-                            that are related to the subject and lifetime. Structure
-                            is documented below.
+                          description: (Output) Describes some of the values in a
+                            certificate that are related to the subject and lifetime.
+                            Structure is documented below.
                           items:
                             properties:
                               hexSerialNumber:
-                                description: The serial number encoded in lowercase
-                                  hexadecimal.
+                                description: (Output) The serial number encoded in
+                                  lowercase hexadecimal.
                                 type: string
                               lifetime:
-                                description: For convenience, the actual lifetime
-                                  of an issued certificate. Corresponds to 'notAfterTime'
-                                  - 'notBeforeTime'.
+                                description: (Output) For convenience, the actual
+                                  lifetime of an issued certificate. Corresponds to
+                                  'notAfterTime' - 'notBeforeTime'.
                                 type: string
                               notAfterTime:
-                                description: The time at which the certificate expires.
+                                description: (Output) The time at which the certificate
+                                  expires.
                                 type: string
                               notBeforeTime:
-                                description: The time at which the certificate becomes
-                                  valid.
+                                description: (Output) The time at which the certificate
+                                  becomes valid.
                                 type: string
                               subject:
-                                description: Contains distinguished name fields such
-                                  as the location and organization. Structure is documented
-                                  below.
+                                description: (Output) Contains distinguished name
+                                  fields such as the location and organization. Structure
+                                  is documented below.
                                 items:
                                   properties:
                                     commonName:
@@ -1136,27 +1230,25 @@ spec:
                                   type: object
                                 type: array
                               subjectAltName:
-                                description: The subject alternative name fields.
-                                  Structure is documented below.
+                                description: (Output) The subject alternative name
+                                  fields. Structure is documented below.
                                 items:
                                   properties:
                                     customSans:
-                                      description: Contains additional subject alternative
-                                        name values. Structure is documented below.
+                                      description: (Output) Contains additional subject
+                                        alternative name values. Structure is documented
+                                        below.
                                       items:
                                         properties:
                                           critical:
-                                            description: Required. Indicates whether
-                                              or not this extension is critical (i.e.,
-                                              if the client does not know how to handle
-                                              this extension, the client should consider
-                                              this to be an error).
+                                            description: Indicates whether or not
+                                              the name constraints are marked critical.
                                             type: boolean
                                           obectId:
-                                            description: Required. Describes how some
-                                              of the technical fields in a certificate
-                                              should be populated. Structure is documented
-                                              below.
+                                            description: (Output) Required. Describes
+                                              how some of the technical fields in
+                                              a certificate should be populated. Structure
+                                              is documented below.
                                             items:
                                               properties:
                                                 objectIdPath:
@@ -1170,7 +1262,8 @@ spec:
                                               type: object
                                             type: array
                                           value:
-                                            description: The value of this X.509 extension.
+                                            description: (Output) The value of this
+                                              X.509 extension.
                                             type: string
                                         type: object
                                       type: array
@@ -1202,33 +1295,32 @@ spec:
                             type: object
                           type: array
                         subjectKeyId:
-                          description: Provides a means of identifiying certificates
+                          description: (Output) Provides a means of identifiying certificates
                             that contain a particular public key, per https://tools.ietf.org/html/rfc5280#section-4.2.1.2.
                             Structure is documented below.
                           items:
                             properties:
                               keyId:
-                                description: Optional. The value of this KeyId encoded
-                                  in lowercase hexadecimal. This is most likely the
-                                  160 bit SHA-1 hash of the public key.
+                                description: (Output) Optional. The value of this
+                                  KeyId encoded in lowercase hexadecimal. This is
+                                  most likely the 160 bit SHA-1 hash of the public
+                                  key.
                                 type: string
                             type: object
                           type: array
                         x509Description:
-                          description: A structured description of the issued X.509
-                            certificate. Structure is documented below.
+                          description: (Output) A structured description of the issued
+                            X.509 certificate. Structure is documented below.
                           items:
                             properties:
                               additionalExtensions:
-                                description: Describes custom X.509 extensions. Structure
-                                  is documented below.
+                                description: (Output) Describes custom X.509 extensions.
+                                  Structure is documented below.
                                 items:
                                   properties:
                                     critical:
-                                      description: Required. Indicates whether or
-                                        not this extension is critical (i.e., if the
-                                        client does not know how to handle this extension,
-                                        the client should consider this to be an error).
+                                      description: Indicates whether or not the name
+                                        constraints are marked critical.
                                       type: boolean
                                     objectId:
                                       description: Describes values that are relevant
@@ -1247,20 +1339,22 @@ spec:
                                         type: object
                                       type: array
                                     value:
-                                      description: The value of this X.509 extension.
+                                      description: (Output) The value of this X.509
+                                        extension.
                                       type: string
                                   type: object
                                 type: array
                               aiaOcspServers:
-                                description: Describes Online Certificate Status Protocol
-                                  (OCSP) endpoint addresses that appear in the "Authority
-                                  Information Access" extension in the certificate.
+                                description: (Output) Describes Online Certificate
+                                  Status Protocol (OCSP) endpoint addresses that appear
+                                  in the "Authority Information Access" extension
+                                  in the certificate.
                                 items:
                                   type: string
                                 type: array
                               caOptions:
-                                description: Describes values that are relevant in
-                                  a CA certificate. Structure is documented below.
+                                description: (Output) Describes values that are relevant
+                                  in a CA certificate. Structure is documented below.
                                 items:
                                   properties:
                                     isCa:
@@ -1277,9 +1371,9 @@ spec:
                                   type: object
                                 type: array
                               keyUsage:
-                                description: Indicates the intended use for keys that
-                                  correspond to a certificate. Structure is documented
-                                  below.
+                                description: (Output) Indicates the intended use for
+                                  keys that correspond to a certificate. Structure
+                                  is documented below.
                                 items:
                                   properties:
                                     baseKeyUsage:
@@ -1289,41 +1383,42 @@ spec:
                                       items:
                                         properties:
                                           certSign:
-                                            description: The key may be used to sign
-                                              certificates.
+                                            description: (Output) The key may be used
+                                              to sign certificates.
                                             type: boolean
                                           contentCommitment:
-                                            description: The key may be used for cryptographic
-                                              commitments. Note that this may also
-                                              be referred to as "non-repudiation".
+                                            description: (Output) The key may be used
+                                              for cryptographic commitments. Note
+                                              that this may also be referred to as
+                                              "non-repudiation".
                                             type: boolean
                                           crlSign:
-                                            description: The key may be used sign
-                                              certificate revocation lists.
+                                            description: (Output) The key may be used
+                                              sign certificate revocation lists.
                                             type: boolean
                                           dataEncipherment:
-                                            description: The key may be used to encipher
-                                              data.
+                                            description: (Output) The key may be used
+                                              to encipher data.
                                             type: boolean
                                           decipherOnly:
-                                            description: The key may be used to decipher
-                                              only.
+                                            description: (Output) The key may be used
+                                              to decipher only.
                                             type: boolean
                                           digitalSignature:
-                                            description: The key may be used for digital
-                                              signatures.
+                                            description: (Output) The key may be used
+                                              for digital signatures.
                                             type: boolean
                                           encipherOnly:
-                                            description: The key may be used to encipher
-                                              only.
+                                            description: (Output) The key may be used
+                                              to encipher only.
                                             type: boolean
                                           keyAgreement:
-                                            description: The key may be used in a
-                                              key agreement protocol.
+                                            description: (Output) The key may be used
+                                              in a key agreement protocol.
                                             type: boolean
                                           keyEncipherment:
-                                            description: The key may be used to encipher
-                                              other keys.
+                                            description: (Output) The key may be used
+                                              to encipher other keys.
                                             type: boolean
                                         type: object
                                       type: array
@@ -1386,9 +1481,96 @@ spec:
                                       type: array
                                   type: object
                                 type: array
+                              nameConstraints:
+                                description: (Output) Describes the X.509 name constraints
+                                  extension. Structure is documented below.
+                                items:
+                                  properties:
+                                    critical:
+                                      description: Indicates whether or not the name
+                                        constraints are marked critical.
+                                      type: boolean
+                                    excludedDnsNames:
+                                      description: Contains excluded DNS names. Any
+                                        DNS name that can be constructed by simply
+                                        adding zero or more labels to the left-hand
+                                        side of the name satisfies the name constraint.
+                                        For example, example.com, www.example.com,
+                                        www.sub.example.com would satisfy example.com
+                                        while example1.com does not.
+                                      items:
+                                        type: string
+                                      type: array
+                                    excludedEmailAddresses:
+                                      description: Contains the excluded email addresses.
+                                        The value can be a particular email address,
+                                        a hostname to indicate all email addresses
+                                        on that host or a domain with a leading period
+                                        (e.g. .example.com) to indicate all email
+                                        addresses in that domain.
+                                      items:
+                                        type: string
+                                      type: array
+                                    excludedIpRanges:
+                                      description: Contains the excluded IP ranges.
+                                        For IPv4 addresses, the ranges are expressed
+                                        using CIDR notation as specified in RFC 4632.
+                                        For IPv6 addresses, the ranges are expressed
+                                        in similar encoding as IPv4 addresses.
+                                      items:
+                                        type: string
+                                      type: array
+                                    excludedUris:
+                                      description: Contains the excluded URIs that
+                                        apply to the host part of the name. The value
+                                        can be a hostname or a domain with a leading
+                                        period (like .example.com)
+                                      items:
+                                        type: string
+                                      type: array
+                                    permittedDnsNames:
+                                      description: Contains permitted DNS names. Any
+                                        DNS name that can be constructed by simply
+                                        adding zero or more labels to the left-hand
+                                        side of the name satisfies the name constraint.
+                                        For example, example.com, www.example.com,
+                                        www.sub.example.com would satisfy example.com
+                                        while example1.com does not.
+                                      items:
+                                        type: string
+                                      type: array
+                                    permittedEmailAddresses:
+                                      description: Contains the permitted email addresses.
+                                        The value can be a particular email address,
+                                        a hostname to indicate all email addresses
+                                        on that host or a domain with a leading period
+                                        (e.g. .example.com) to indicate all email
+                                        addresses in that domain.
+                                      items:
+                                        type: string
+                                      type: array
+                                    permittedIpRanges:
+                                      description: Contains the permitted IP ranges.
+                                        For IPv4 addresses, the ranges are expressed
+                                        using CIDR notation as specified in RFC 4632.
+                                        For IPv6 addresses, the ranges are expressed
+                                        in similar encoding as IPv4 addresses.
+                                      items:
+                                        type: string
+                                      type: array
+                                    permittedUris:
+                                      description: Contains the permitted URIs that
+                                        apply to the host part of the name. The value
+                                        can be a hostname or a domain with a leading
+                                        period (like .example.com)
+                                      items:
+                                        type: string
+                                      type: array
+                                  type: object
+                                type: array
                               policyIds:
-                                description: Describes the X.509 certificate policy
-                                  object identifiers, per https://tools.ietf.org/html/rfc5280#section-4.2.1.4.
+                                description: (Output) Describes the X.509 certificate
+                                  policy object identifiers, per https://tools.ietf.org/html/rfc5280#section-4.2.1.4.
                                   Structure is documented below.
                                 items:
                                   properties:
@@ -1423,9 +1605,9 @@ spec:
                           items:
                             properties:
                               format:
-                                description: The format of the public key. Currently,
-                                  only PEM format is supported. Possible values are
-                                  KEY_TYPE_UNSPECIFIED and PEM.
+                                description: 'The format of the public key. Currently,
+                                  only PEM format is supported. Possible values are:
+                                  KEY_TYPE_UNSPECIFIED, PEM.'
                                 type: string
                             type: object
                           type: array
@@ -1436,9 +1618,9 @@ spec:
                           items:
                             properties:
                               subject:
-                                description: Contains distinguished name fields such
-                                  as the location and organization. Structure is documented
-                                  below.
+                                description: (Output) Contains distinguished name
+                                  fields such as the location and organization. Structure
+                                  is documented below.
                                 items:
                                   properties:
                                     commonName:
@@ -1471,8 +1653,8 @@ spec:
                                   type: object
                                 type: array
                               subjectAltName:
-                                description: The subject alternative name fields.
-                                  Structure is documented below.
+                                description: (Output) The subject alternative name
+                                  fields. Structure is documented below.
                                 items:
                                   properties:
                                     dnsNames:
@@ -1509,15 +1691,13 @@ spec:
                           items:
                             properties:
                               additionalExtensions:
-                                description: Describes custom X.509 extensions. Structure
-                                  is documented below.
+                                description: (Output) Describes custom X.509 extensions.
+                                  Structure is documented below.
                                 items:
                                   properties:
                                     critical:
-                                      description: Required. Indicates whether or
-                                        not this extension is critical (i.e., if the
-                                        client does not know how to handle this extension,
-                                        the client should consider this to be an error).
+                                      description: Indicates whether or not the name
+                                        constraints are marked critical.
                                       type: boolean
                                     objectId:
                                       description: Describes values that are relevant
@@ -1536,20 +1716,22 @@ spec:
                                         type: object
                                       type: array
                                     value:
-                                      description: The value of this X.509 extension.
+                                      description: (Output) The value of this X.509
+                                        extension.
                                       type: string
                                   type: object
                                 type: array
                               aiaOcspServers:
-                                description: Describes Online Certificate Status Protocol
-                                  (OCSP) endpoint addresses that appear in the "Authority
-                                  Information Access" extension in the certificate.
+                                description: (Output) Describes Online Certificate
+                                  Status Protocol (OCSP) endpoint addresses that appear
+                                  in the "Authority Information Access" extension
+                                  in the certificate.
                                 items:
                                   type: string
                                 type: array
                               caOptions:
-                                description: Describes values that are relevant in
-                                  a CA certificate. Structure is documented below.
+                                description: (Output) Describes values that are relevant
+                                  in a CA certificate. Structure is documented below.
                                 items:
                                   properties:
                                     isCa:
@@ -1579,9 +1761,9 @@ spec:
                                   type: object
                                 type: array
                               keyUsage:
-                                description: Indicates the intended use for keys that
-                                  correspond to a certificate. Structure is documented
-                                  below.
+                                description: (Output) Indicates the intended use for
+                                  keys that correspond to a certificate. Structure
+                                  is documented below.
                                 items:
                                   properties:
                                     baseKeyUsage:
@@ -1591,41 +1773,42 @@ spec:
                                       items:
                                         properties:
                                           certSign:
-                                            description: The key may be used to sign
-                                              certificates.
+                                            description: (Output) The key may be used
+                                              to sign certificates.
                                             type: boolean
                                           contentCommitment:
-                                            description: The key may be used for cryptographic
-                                              commitments. Note that this may also
-                                              be referred to as "non-repudiation".
+                                            description: (Output) The key may be used
+                                              for cryptographic commitments. Note
+                                              that this may also be referred to as
+                                              "non-repudiation".
                                             type: boolean
                                           crlSign:
-                                            description: The key may be used sign
-                                              certificate revocation lists.
+                                            description: (Output) The key may be used
+                                              sign certificate revocation lists.
                                             type: boolean
                                           dataEncipherment:
-                                            description: The key may be used to encipher
-                                              data.
+                                            description: (Output) The key may be used
+                                              to encipher data.
                                             type: boolean
                                           decipherOnly:
-                                            description: The key may be used to decipher
-                                              only.
+                                            description: (Output) The key may be used
+                                              to decipher only.
                                             type: boolean
                                           digitalSignature:
-                                            description: The key may be used for digital
-                                              signatures.
+                                            description: (Output) The key may be used
+                                              for digital signatures.
                                             type: boolean
                                           encipherOnly:
-                                            description: The key may be used to encipher
-                                              only.
+                                            description: (Output) The key may be used
+                                              to encipher only.
                                             type: boolean
                                           keyAgreement:
-                                            description: The key may be used in a
-                                              key agreement protocol.
+                                            description: (Output) The key may be used
+                                              in a key agreement protocol.
                                             type: boolean
                                           keyEncipherment:
-                                            description: The key may be used to encipher
-                                              other keys.
+                                            description: (Output) The key may be used
+                                              to encipher other keys.
                                             type: boolean
                                         type: object
                                       type: array
@@ -1688,9 +1871,96 @@ spec:
                                       type: array
                                   type: object
                                 type: array
+                              nameConstraints:
+                                description: (Output) Describes the X.509 name constraints
+                                  extension. Structure is documented below.
+                                items:
+                                  properties:
+                                    critical:
+                                      description: Indicates whether or not the name
+                                        constraints are marked critical.
+                                      type: boolean
+                                    excludedDnsNames:
+                                      description: Contains excluded DNS names. Any
+                                        DNS name that can be constructed by simply
+                                        adding zero or more labels to the left-hand
+                                        side of the name satisfies the name constraint.
+                                        For example, example.com, www.example.com,
+                                        www.sub.example.com would satisfy example.com
+                                        while example1.com does not.
+                                      items:
+                                        type: string
+                                      type: array
+                                    excludedEmailAddresses:
+                                      description: Contains the excluded email addresses.
+                                        The value can be a particular email address,
+                                        a hostname to indicate all email addresses
+                                        on that host or a domain with a leading period
+                                        (e.g. .example.com) to indicate all email
+                                        addresses in that domain.
+                                      items:
+                                        type: string
+                                      type: array
+                                    excludedIpRanges:
+                                      description: Contains the excluded IP ranges.
+                                        For IPv4 addresses, the ranges are expressed
+                                        using CIDR notation as specified in RFC 4632.
+                                        For IPv6 addresses, the ranges are expressed
+                                        in similar encoding as IPv4 addresses.
+                                      items:
+                                        type: string
+                                      type: array
+                                    excludedUris:
+                                      description: Contains the excluded URIs that
+                                        apply to the host part of the name. The value
+                                        can be a hostname or a domain with a leading
+                                        period (like .example.com)
+                                      items:
+                                        type: string
+                                      type: array
+                                    permittedDnsNames:
+                                      description: Contains permitted DNS names. Any
+                                        DNS name that can be constructed by simply
+                                        adding zero or more labels to the left-hand
+                                        side of the name satisfies the name constraint.
+                                        For example, example.com, www.example.com,
+                                        www.sub.example.com would satisfy example.com
+                                        while example1.com does not.
+                                      items:
+                                        type: string
+                                      type: array
+                                    permittedEmailAddresses:
+                                      description: Contains the permitted email addresses.
+                                        The value can be a particular email address,
+                                        a hostname to indicate all email addresses
+                                        on that host or a domain with a leading period
+                                        (e.g. .example.com) to indicate all email
+                                        addresses in that domain.
+                                      items:
+                                        type: string
+                                      type: array
+                                    permittedIpRanges:
+                                      description: Contains the permitted IP ranges.
+                                        For IPv4 addresses, the ranges are expressed
+                                        using CIDR notation as specified in RFC 4632.
+                                        For IPv6 addresses, the ranges are expressed
+                                        in similar encoding as IPv4 addresses.
+                                      items:
+                                        type: string
+                                      type: array
+                                    permittedUris:
+                                      description: Contains the permitted URIs that
+                                        apply to the host part of the name. The value
+                                        can be a hostname or a domain with a leading
+                                        period (like .example.com)
+                                      items:
+                                        type: string
+                                      type: array
+                                  type: object
+                                type: array
                               policyIds:
-                                description: Describes the X.509 certificate policy
-                                  object identifiers, per https://tools.ietf.org/html/rfc5280#section-4.2.1.4.
+                                description: (Output) Describes the X.509 certificate
+                                  policy object identifiers, per https://tools.ietf.org/html/rfc5280#section-4.2.1.4.
                                   Structure is documented below.
                                 items:
                                   properties:
@@ -1768,10 +2038,11 @@ spec:
                     items:
                       properties:
                         revocationState:
-                          description: Indicates why a Certificate was revoked.
+                          description: (Output) Indicates why a Certificate was revoked.
                           type: string
                         revocationTime:
-                          description: The time at which this Certificate was revoked.
+                          description: (Output) The time at which this Certificate
+                            was revoked.
                           type: string
                       type: object
                     type: array

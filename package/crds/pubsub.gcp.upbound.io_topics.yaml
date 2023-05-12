@@ -196,9 +196,9 @@ spec:
                     items:
                       properties:
                         encoding:
-                          description: The encoding of messages validated against
+                          description: 'The encoding of messages validated against
                             schema. Default value is ENCODING_UNSPECIFIED. Possible
-                            values are ENCODING_UNSPECIFIED, JSON, and BINARY.
+                            values are: ENCODING_UNSPECIFIED, JSON, BINARY.'
                           type: string
                         schema:
                           description: The name of the schema that messages published
@@ -458,9 +458,9 @@ spec:
                     items:
                       properties:
                         encoding:
-                          description: The encoding of messages validated against
+                          description: 'The encoding of messages validated against
                             schema. Default value is ENCODING_UNSPECIFIED. Possible
-                            values are ENCODING_UNSPECIFIED, JSON, and BINARY.
+                            values are: ENCODING_UNSPECIFIED, JSON, BINARY.'
                           type: string
                         schema:
                           description: The name of the schema that messages published

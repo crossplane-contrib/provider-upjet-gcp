@@ -160,9 +160,9 @@ spec:
                       set to INTERNAL_SELF_MANAGED.
                     type: boolean
                   proxyHeader:
-                    description: Specifies the type of proxy header to append before
+                    description: 'Specifies the type of proxy header to append before
                       sending data to the backend. Default value is NONE. Possible
-                      values are NONE and PROXY_V1.
+                      values are: NONE, PROXY_V1.'
                     type: string
                 type: object
               managementPolicy:
@@ -378,9 +378,9 @@ spec:
                       set to INTERNAL_SELF_MANAGED.
                     type: boolean
                   proxyHeader:
-                    description: Specifies the type of proxy header to append before
+                    description: 'Specifies the type of proxy header to append before
                       sending data to the backend. Default value is NONE. Possible
-                      values are NONE and PROXY_V1.
+                      values are: NONE, PROXY_V1.'
                     type: string
                   proxyId:
                     description: The unique identifier for the resource.

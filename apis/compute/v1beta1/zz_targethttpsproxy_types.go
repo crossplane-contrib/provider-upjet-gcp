@@ -55,10 +55,9 @@ type TargetHTTPSProxyObservation struct {
 	// Specifies the QUIC override policy for this resource. This determines
 	// whether the load balancer will attempt to negotiate QUIC with clients
 	// or not. Can specify one of NONE, ENABLE, or DISABLE. If NONE is
-	// specified, uses the QUIC policy with no user overrides, which is
-	// equivalent to DISABLE.
+	// specified, Google manages whether QUIC is used.
 	// Default value is NONE.
-	// Possible values are NONE, ENABLE, and DISABLE.
+	// Possible values are: NONE, ENABLE, DISABLE.
 	QuicOverride *string `json:"quicOverride,omitempty" tf:"quic_override,omitempty"`
 
 	// A list of SslCertificate resources that are used to authenticate
@@ -104,10 +103,9 @@ type TargetHTTPSProxyParameters struct {
 	// Specifies the QUIC override policy for this resource. This determines
 	// whether the load balancer will attempt to negotiate QUIC with clients
 	// or not. Can specify one of NONE, ENABLE, or DISABLE. If NONE is
-	// specified, uses the QUIC policy with no user overrides, which is
-	// equivalent to DISABLE.
+	// specified, Google manages whether QUIC is used.
 	// Default value is NONE.
-	// Possible values are NONE, ENABLE, and DISABLE.
+	// Possible values are: NONE, ENABLE, DISABLE.
 	// +kubebuilder:validation:Optional
 	QuicOverride *string `json:"quicOverride,omitempty" tf:"quic_override,omitempty"`
 

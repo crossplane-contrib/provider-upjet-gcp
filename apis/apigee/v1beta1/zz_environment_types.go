@@ -29,7 +29,7 @@ type EnvironmentObservation struct {
 
 	// Optional. API Proxy type supported by the environment. The type can be set when creating
 	// the Environment and cannot be changed.
-	// Possible values are API_PROXY_TYPE_UNSPECIFIED, PROGRAMMABLE, and CONFIGURABLE.
+	// Possible values are: API_PROXY_TYPE_UNSPECIFIED, PROGRAMMABLE, CONFIGURABLE.
 	APIProxyType *string `json:"apiProxyType,omitempty" tf:"api_proxy_type,omitempty"`
 
 	// Optional. Deployment type supported by the environment. The deployment type can be
@@ -39,7 +39,7 @@ type EnvironmentObservation struct {
 	// Managing the deployment of API proxy or shared flow revisions;
 	// Creating, updating, or deleting resource files;
 	// Creating, updating, or deleting target servers.
-	// Possible values are DEPLOYMENT_TYPE_UNSPECIFIED, PROXY, and ARCHIVE.
+	// Possible values are: DEPLOYMENT_TYPE_UNSPECIFIED, PROXY, ARCHIVE.
 	DeploymentType *string `json:"deploymentType,omitempty" tf:"deployment_type,omitempty"`
 
 	// Description of the environment.
@@ -64,7 +64,7 @@ type EnvironmentParameters struct {
 
 	// Optional. API Proxy type supported by the environment. The type can be set when creating
 	// the Environment and cannot be changed.
-	// Possible values are API_PROXY_TYPE_UNSPECIFIED, PROGRAMMABLE, and CONFIGURABLE.
+	// Possible values are: API_PROXY_TYPE_UNSPECIFIED, PROGRAMMABLE, CONFIGURABLE.
 	// +kubebuilder:validation:Optional
 	APIProxyType *string `json:"apiProxyType,omitempty" tf:"api_proxy_type,omitempty"`
 
@@ -75,7 +75,7 @@ type EnvironmentParameters struct {
 	// Managing the deployment of API proxy or shared flow revisions;
 	// Creating, updating, or deleting resource files;
 	// Creating, updating, or deleting target servers.
-	// Possible values are DEPLOYMENT_TYPE_UNSPECIFIED, PROXY, and ARCHIVE.
+	// Possible values are: DEPLOYMENT_TYPE_UNSPECIFIED, PROXY, ARCHIVE.
 	// +kubebuilder:validation:Optional
 	DeploymentType *string `json:"deploymentType,omitempty" tf:"deployment_type,omitempty"`
 
@@ -110,6 +110,7 @@ type EnvironmentParameters struct {
 
 type NodeConfigObservation struct {
 
+	// (Output)
 	// The current total number of gateway nodes that each environment currently has across
 	// all instances.
 	CurrentAggregateNodeCount *string `json:"currentAggregateNodeCount,omitempty" tf:"current_aggregate_node_count,omitempty"`

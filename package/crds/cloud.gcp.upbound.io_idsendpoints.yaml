@@ -161,9 +161,9 @@ spec:
                       If it is not provided, the provider project is used.
                     type: string
                   severity:
-                    description: The minimum alert severity level that is reported
-                      by the endpoint. Possible values are INFORMATIONAL, LOW, MEDIUM,
-                      HIGH, and CRITICAL.
+                    description: 'The minimum alert severity level that is reported
+                      by the endpoint. Possible values are: INFORMATIONAL, LOW, MEDIUM,
+                      HIGH, CRITICAL.'
                     type: string
                   threatExceptions:
                     description: 'Configuration for threat IDs excluded from generating
@@ -403,9 +403,9 @@ spec:
                       If it is not provided, the provider project is used.
                     type: string
                   severity:
-                    description: The minimum alert severity level that is reported
-                      by the endpoint. Possible values are INFORMATIONAL, LOW, MEDIUM,
-                      HIGH, and CRITICAL.
+                    description: 'The minimum alert severity level that is reported
+                      by the endpoint. Possible values are: INFORMATIONAL, LOW, MEDIUM,
+                      HIGH, CRITICAL.'
                     type: string
                   threatExceptions:
                     description: 'Configuration for threat IDs excluded from generating

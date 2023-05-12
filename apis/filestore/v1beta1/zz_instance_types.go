@@ -38,6 +38,7 @@ type FileSharesObservation struct {
 	// The name of the fileshare (16 characters or less)
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// (Output)
 	// The resource name of the backup, in the format
 	// projects/{projectId}/locations/{locationId}/backups/{backupId},
 	// that this file share has been restored from.
@@ -167,7 +168,7 @@ type NFSExportOptionsObservation struct {
 	// Either READ_ONLY, for allowing only read requests on the exported directory,
 	// or READ_WRITE, for allowing both read and write requests. The default is READ_WRITE.
 	// Default value is READ_WRITE.
-	// Possible values are READ_ONLY and READ_WRITE.
+	// Possible values are: READ_ONLY, READ_WRITE.
 	AccessMode *string `json:"accessMode,omitempty" tf:"access_mode,omitempty"`
 
 	// An integer representing the anonymous group id with a default value of 65534.
@@ -188,7 +189,7 @@ type NFSExportOptionsObservation struct {
 	// Either NO_ROOT_SQUASH, for allowing root access on the exported directory, or ROOT_SQUASH,
 	// for not allowing root access. The default is NO_ROOT_SQUASH.
 	// Default value is NO_ROOT_SQUASH.
-	// Possible values are NO_ROOT_SQUASH and ROOT_SQUASH.
+	// Possible values are: NO_ROOT_SQUASH, ROOT_SQUASH.
 	SquashMode *string `json:"squashMode,omitempty" tf:"squash_mode,omitempty"`
 }
 
@@ -197,7 +198,7 @@ type NFSExportOptionsParameters struct {
 	// Either READ_ONLY, for allowing only read requests on the exported directory,
 	// or READ_WRITE, for allowing both read and write requests. The default is READ_WRITE.
 	// Default value is READ_WRITE.
-	// Possible values are READ_ONLY and READ_WRITE.
+	// Possible values are: READ_ONLY, READ_WRITE.
 	// +kubebuilder:validation:Optional
 	AccessMode *string `json:"accessMode,omitempty" tf:"access_mode,omitempty"`
 
@@ -222,7 +223,7 @@ type NFSExportOptionsParameters struct {
 	// Either NO_ROOT_SQUASH, for allowing root access on the exported directory, or ROOT_SQUASH,
 	// for not allowing root access. The default is NO_ROOT_SQUASH.
 	// Default value is NO_ROOT_SQUASH.
-	// Possible values are NO_ROOT_SQUASH and ROOT_SQUASH.
+	// Possible values are: NO_ROOT_SQUASH, ROOT_SQUASH.
 	// +kubebuilder:validation:Optional
 	SquashMode *string `json:"squashMode,omitempty" tf:"squash_mode,omitempty"`
 }
@@ -233,15 +234,16 @@ type NetworksObservation struct {
 	// If not provided, the connect mode defaults to
 	// DIRECT_PEERING.
 	// Default value is DIRECT_PEERING.
-	// Possible values are DIRECT_PEERING and PRIVATE_SERVICE_ACCESS.
+	// Possible values are: DIRECT_PEERING, PRIVATE_SERVICE_ACCESS.
 	ConnectMode *string `json:"connectMode,omitempty" tf:"connect_mode,omitempty"`
 
+	// (Output)
 	// A list of IPv4 or IPv6 addresses.
 	IPAddresses []*string `json:"ipAddresses,omitempty" tf:"ip_addresses,omitempty"`
 
 	// IP versions for which the instance has
 	// IP addresses assigned.
-	// Each value may be one of ADDRESS_MODE_UNSPECIFIED, MODE_IPV4, and MODE_IPV6.
+	// Each value may be one of: ADDRESS_MODE_UNSPECIFIED, MODE_IPV4, MODE_IPV6.
 	Modes []*string `json:"modes,omitempty" tf:"modes,omitempty"`
 
 	// The name of the GCE VPC network to which the
@@ -259,13 +261,13 @@ type NetworksParameters struct {
 	// If not provided, the connect mode defaults to
 	// DIRECT_PEERING.
 	// Default value is DIRECT_PEERING.
-	// Possible values are DIRECT_PEERING and PRIVATE_SERVICE_ACCESS.
+	// Possible values are: DIRECT_PEERING, PRIVATE_SERVICE_ACCESS.
 	// +kubebuilder:validation:Optional
 	ConnectMode *string `json:"connectMode,omitempty" tf:"connect_mode,omitempty"`
 
 	// IP versions for which the instance has
 	// IP addresses assigned.
-	// Each value may be one of ADDRESS_MODE_UNSPECIFIED, MODE_IPV4, and MODE_IPV6.
+	// Each value may be one of: ADDRESS_MODE_UNSPECIFIED, MODE_IPV4, MODE_IPV6.
 	// +kubebuilder:validation:Required
 	Modes []*string `json:"modes" tf:"modes,omitempty"`
 

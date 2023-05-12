@@ -938,16 +938,16 @@ spec:
                           items:
                             properties:
                               caCertificateSet:
-                                description: Indicates whether the clientKey field
-                                  is set.
+                                description: (Output) Indicates whether the clientKey
+                                  field is set.
                                 type: boolean
                               clientCertificateSet:
-                                description: Indicates whether the clientCertificate
+                                description: (Output) Indicates whether the clientCertificate
                                   field is set.
                                 type: boolean
                               clientKeySet:
-                                description: Indicates whether the clientKey field
-                                  is set.
+                                description: (Output) Indicates whether the clientKey
+                                  field is set.
                                 type: boolean
                             type: object
                           type: array

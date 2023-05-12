@@ -102,11 +102,11 @@ spec:
                       currently has a 512-character limit.
                     type: string
                   ingress:
-                    description: Provides the ingress settings for this Service. On
-                      output, returns the currently observed ingress settings, or
-                      INGRESS_TRAFFIC_UNSPECIFIED if no revision is active. Possible
-                      values are INGRESS_TRAFFIC_ALL, INGRESS_TRAFFIC_INTERNAL_ONLY,
-                      and INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER.
+                    description: 'Provides the ingress settings for this Service.
+                      On output, returns the currently observed ingress settings,
+                      or INGRESS_TRAFFIC_UNSPECIFIED if no revision is active. Possible
+                      values are: INGRESS_TRAFFIC_ALL, INGRESS_TRAFFIC_INTERNAL_ONLY,
+                      INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER.'
                     type: string
                   labels:
                     additionalProperties:
@@ -114,10 +114,15 @@ spec:
                     description: KRM-style labels for the resource.
                     type: object
                   launchStage:
-                    description: The launch stage as defined by Google Cloud Platform
+                    description: 'The launch stage as defined by Google Cloud Platform
                       Launch Stages. Cloud Run supports ALPHA, BETA, and GA. If no
-                      value is specified, GA is assumed. Possible values are UNIMPLEMENTED,
-                      PRELAUNCH, EARLY_ACCESS, ALPHA, BETA, GA, and DEPRECATED.
+                      value is specified, GA is assumed. Set the launch stage to a
+                      preview stage on input to allow use of preview features in that
+                      stage. On read (or output), describes whether the resource uses
+                      preview features. For example, if ALPHA is provided as input,
+                      but only BETA and GA-level features are used, this field will
+                      be BETA on output. Possible values are: UNIMPLEMENTED, PRELAUNCH,
+                      EARLY_ACCESS, ALPHA, BETA, GA, DEPRECATED.'
                     type: string
                   location:
                     description: The location of the cloud run service
@@ -376,6 +381,12 @@ spec:
                                             description: The relative path of the
                                               secret in the container.
                                             type: string
+                                          port:
+                                            description: Port number to access on
+                                              the container. Must be in the range
+                                              1 to 65535. If not specified, defaults
+                                              to 8080.
+                                            type: number
                                         type: object
                                       type: array
                                     initialDelaySeconds:
@@ -460,6 +471,12 @@ spec:
                                         of the map is string form of the ''quantity''
                                         k8s type: https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/apimachinery/pkg/api/resource/quantity.go'
                                       type: object
+                                    startupCpuBoost:
+                                      description: Determines whether CPU should be
+                                        boosted on startup of a new container instance
+                                        above the requested CPU threshold, this can
+                                        help reduce cold-start latency.
+                                      type: boolean
                                   type: object
                                 type: array
                               startupProbe:
@@ -524,6 +541,12 @@ spec:
                                             description: The relative path of the
                                               secret in the container.
                                             type: string
+                                          port:
+                                            description: Port number to access on
+                                              the container. Must be in the range
+                                              1 to 65535. If not specified, defaults
+                                              to 8080.
+                                            type: number
                                         type: object
                                       type: array
                                     initialDelaySeconds:
@@ -603,8 +626,8 @@ spec:
                             more information, go to https://cloud.google.com/run/docs/securing/using-cmek
                           type: string
                         executionEnvironment:
-                          description: The sandbox environment to host this Revision.
-                            Possible values are EXECUTION_ENVIRONMENT_GEN1 and EXECUTION_ENVIRONMENT_GEN2.
+                          description: 'The sandbox environment to host this Revision.
+                            Possible values are: EXECUTION_ENVIRONMENT_GEN1, EXECUTION_ENVIRONMENT_GEN2.'
                           type: string
                         labels:
                           additionalProperties:
@@ -642,6 +665,10 @@ spec:
                             what permissions the revision has. If not provided, the
                             revision will use the project's default service account.
                           type: string
+                        sessionAffinity:
+                          description: Enables session affinity. For more information,
+                            go to https://cloud.google.com/run/docs/configuring/session-affinity
+                          type: boolean
                         timeout:
                           description: 'Max allowed time for an instance to respond
                             to a request. A duration in seconds with up to nine fractional
@@ -825,8 +852,8 @@ spec:
                                   where {project} can be project id or number.'
                                 type: string
                               egress:
-                                description: Traffic VPC egress settings. Possible
-                                  values are ALL_TRAFFIC and PRIVATE_RANGES_ONLY.
+                                description: 'Traffic VPC egress settings. Possible
+                                  values are: ALL_TRAFFIC, PRIVATE_RANGES_ONLY.'
                                 type: string
                             type: object
                           type: array
@@ -852,9 +879,9 @@ spec:
                             exclusively reference this target.
                           type: string
                         type:
-                          description: The allocation type for this traffic target.
-                            Possible values are TRAFFIC_TARGET_ALLOCATION_TYPE_LATEST
-                            and TRAFFIC_TARGET_ALLOCATION_TYPE_REVISION.
+                          description: 'The allocation type for this traffic target.
+                            Possible values are: TRAFFIC_TARGET_ALLOCATION_TYPE_LATEST,
+                            TRAFFIC_TARGET_ALLOCATION_TYPE_REVISION.'
                           type: string
                       type: object
                     type: array
@@ -1090,34 +1117,36 @@ spec:
                     items:
                       properties:
                         executionReason:
-                          description: A reason for the execution condition.
+                          description: (Output) A reason for the execution condition.
                           type: string
                         lastTransitionTime:
-                          description: 'Last time the condition transitioned from
-                            one status to another. A timestamp in RFC3339 UTC "Zulu"
-                            format, with nanosecond resolution and up to nine fractional
-                            digits. Examples: "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z".'
+                          description: '(Output) Last time the condition transitioned
+                            from one status to another. A timestamp in RFC3339 UTC
+                            "Zulu" format, with nanosecond resolution and up to nine
+                            fractional digits. Examples: "2014-10-02T15:01:23Z" and
+                            "2014-10-02T15:01:23.045123456Z".'
                           type: string
                         message:
-                          description: Human readable message indicating details about
-                            the current status.
+                          description: (Output) Human readable message indicating
+                            details about the current status.
                           type: string
                         reason:
-                          description: A common (service-level) reason for this condition.
+                          description: (Output) A common (service-level) reason for
+                            this condition.
                           type: string
                         revisionReason:
-                          description: A reason for the revision condition.
+                          description: (Output) A reason for the revision condition.
                           type: string
                         severity:
-                          description: How to interpret failures of this condition,
-                            one of Error, Warning, Info
+                          description: (Output) How to interpret failures of this
+                            condition, one of Error, Warning, Info
                           type: string
                         state:
-                          description: State of the condition.
+                          description: (Output) State of the condition.
                           type: string
                         type:
-                          description: 'type is used to communicate the status of
-                            the reconciliation process. See also: https://github.com/knative/serving/blob/main/docs/spec/errors.md#error-conditions-and-reporting
+                          description: '(Output) type is used to communicate the status
+                            of the reconciliation process. See also: https://github.com/knative/serving/blob/main/docs/spec/errors.md#error-conditions-and-reporting
                             Types common to all resources include: * "Ready": True
                             when the Resource is ready.'
                           type: string
@@ -1142,11 +1171,11 @@ spec:
                     description: an identifier for the resource with format projects/{{project}}/locations/{{location}}/services/{{name}}
                     type: string
                   ingress:
-                    description: Provides the ingress settings for this Service. On
-                      output, returns the currently observed ingress settings, or
-                      INGRESS_TRAFFIC_UNSPECIFIED if no revision is active. Possible
-                      values are INGRESS_TRAFFIC_ALL, INGRESS_TRAFFIC_INTERNAL_ONLY,
-                      and INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER.
+                    description: 'Provides the ingress settings for this Service.
+                      On output, returns the currently observed ingress settings,
+                      or INGRESS_TRAFFIC_UNSPECIFIED if no revision is active. Possible
+                      values are: INGRESS_TRAFFIC_ALL, INGRESS_TRAFFIC_INTERNAL_ONLY,
+                      INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER.'
                     type: string
                   labels:
                     additionalProperties:
@@ -1164,10 +1193,15 @@ spec:
                       process in Cloud Run.
                     type: string
                   launchStage:
-                    description: The launch stage as defined by Google Cloud Platform
+                    description: 'The launch stage as defined by Google Cloud Platform
                       Launch Stages. Cloud Run supports ALPHA, BETA, and GA. If no
-                      value is specified, GA is assumed. Possible values are UNIMPLEMENTED,
-                      PRELAUNCH, EARLY_ACCESS, ALPHA, BETA, GA, and DEPRECATED.
+                      value is specified, GA is assumed. Set the launch stage to a
+                      preview stage on input to allow use of preview features in that
+                      stage. On read (or output), describes whether the resource uses
+                      preview features. For example, if ALPHA is provided as input,
+                      but only BETA and GA-level features are used, this field will
+                      be BETA on output. Possible values are: UNIMPLEMENTED, PRELAUNCH,
+                      EARLY_ACCESS, ALPHA, BETA, GA, DEPRECATED.'
                     type: string
                   location:
                     description: The location of the cloud run service
@@ -1349,6 +1383,12 @@ spec:
                                             description: The relative path of the
                                               secret in the container.
                                             type: string
+                                          port:
+                                            description: Port number to access on
+                                              the container. Must be in the range
+                                              1 to 65535. If not specified, defaults
+                                              to 8080.
+                                            type: number
                                         type: object
                                       type: array
                                     initialDelaySeconds:
@@ -1433,6 +1473,12 @@ spec:
                                         of the map is string form of the ''quantity''
                                         k8s type: https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/apimachinery/pkg/api/resource/quantity.go'
                                       type: object
+                                    startupCpuBoost:
+                                      description: Determines whether CPU should be
+                                        boosted on startup of a new container instance
+                                        above the requested CPU threshold, this can
+                                        help reduce cold-start latency.
+                                      type: boolean
                                   type: object
                                 type: array
                               startupProbe:
@@ -1495,6 +1541,12 @@ spec:
                                             description: The relative path of the
                                               secret in the container.
                                             type: string
+                                          port:
+                                            description: Port number to access on
+                                              the container. Must be in the range
+                                              1 to 65535. If not specified, defaults
+                                              to 8080.
+                                            type: number
                                         type: object
                                       type: array
                                     initialDelaySeconds:
@@ -1569,8 +1621,8 @@ spec:
                             more information, go to https://cloud.google.com/run/docs/securing/using-cmek
                           type: string
                         executionEnvironment:
-                          description: The sandbox environment to host this Revision.
-                            Possible values are EXECUTION_ENVIRONMENT_GEN1 and EXECUTION_ENVIRONMENT_GEN2.
+                          description: 'The sandbox environment to host this Revision.
+                            Possible values are: EXECUTION_ENVIRONMENT_GEN1, EXECUTION_ENVIRONMENT_GEN2.'
                           type: string
                         labels:
                           additionalProperties:
@@ -1608,6 +1660,10 @@ spec:
                             what permissions the revision has. If not provided, the
                             revision will use the project's default service account.
                           type: string
+                        sessionAffinity:
+                          description: Enables session affinity. For more information,
+                            go to https://cloud.google.com/run/docs/configuring/session-affinity
+                          type: boolean
                         timeout:
                           description: 'Max allowed time for an instance to respond
                             to a request. A duration in seconds with up to nine fractional
@@ -1702,8 +1758,8 @@ spec:
                                   where {project} can be project id or number.'
                                 type: string
                               egress:
-                                description: Traffic VPC egress settings. Possible
-                                  values are ALL_TRAFFIC and PRIVATE_RANGES_ONLY.
+                                description: 'Traffic VPC egress settings. Possible
+                                  values are: ALL_TRAFFIC, PRIVATE_RANGES_ONLY.'
                                 type: string
                             type: object
                           type: array
@@ -1718,32 +1774,33 @@ spec:
                     items:
                       properties:
                         executionReason:
-                          description: A reason for the execution condition.
+                          description: (Output) A reason for the execution condition.
                           type: string
                         lastTransitionTime:
-                          description: Last time the condition transitioned from one
-                            status to another.
+                          description: (Output) Last time the condition transitioned
+                            from one status to another.
                           type: string
                         message:
-                          description: Human readable message indicating details about
-                            the current status.
+                          description: (Output) Human readable message indicating
+                            details about the current status.
                           type: string
                         reason:
-                          description: A common (service-level) reason for this condition.
+                          description: (Output) A common (service-level) reason for
+                            this condition.
                           type: string
                         revisionReason:
-                          description: A reason for the revision condition.
+                          description: (Output) A reason for the revision condition.
                           type: string
                         severity:
-                          description: How to interpret failures of this condition,
-                            one of Error, Warning, Info
+                          description: (Output) How to interpret failures of this
+                            condition, one of Error, Warning, Info
                           type: string
                         state:
-                          description: State of the condition.
+                          description: (Output) State of the condition.
                           type: string
                         type:
-                          description: 'type is used to communicate the status of
-                            the reconciliation process. See also: https://github.com/knative/serving/blob/main/docs/spec/errors.md#error-conditions-and-reporting
+                          description: '(Output) type is used to communicate the status
+                            of the reconciliation process. See also: https://github.com/knative/serving/blob/main/docs/spec/errors.md#error-conditions-and-reporting
                             Types common to all resources include: * "Ready": True
                             when the Resource is ready.'
                           type: string
@@ -1769,9 +1826,9 @@ spec:
                             exclusively reference this target.
                           type: string
                         type:
-                          description: The allocation type for this traffic target.
-                            Possible values are TRAFFIC_TARGET_ALLOCATION_TYPE_LATEST
-                            and TRAFFIC_TARGET_ALLOCATION_TYPE_REVISION.
+                          description: 'The allocation type for this traffic target.
+                            Possible values are: TRAFFIC_TARGET_ALLOCATION_TYPE_LATEST,
+                            TRAFFIC_TARGET_ALLOCATION_TYPE_REVISION.'
                           type: string
                       type: object
                     type: array
@@ -1783,20 +1840,23 @@ spec:
                     items:
                       properties:
                         percent:
-                          description: Specifies percent of the traffic to this Revision.
+                          description: (Output) Specifies percent of the traffic to
+                            this Revision.
                           type: number
                         revision:
-                          description: Revision to which this traffic is sent.
+                          description: (Output) Revision to which this traffic is
+                            sent.
                           type: string
                         tag:
-                          description: Indicates the string used in the URI to exclusively
-                            reference this target.
+                          description: (Output) Indicates the string used in the URI
+                            to exclusively reference this target.
                           type: string
                         type:
-                          description: The allocation type for this traffic target.
+                          description: (Output) The allocation type for this traffic
+                            target.
                           type: string
                         uri:
-                          description: Displays the target URI.
+                          description: (Output) Displays the target URI.
                           type: string
                       type: object
                     type: array

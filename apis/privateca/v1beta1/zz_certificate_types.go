@@ -36,6 +36,7 @@ type AdditionalExtensionsObjectIDParameters struct {
 
 type AuthorityKeyIDObservation struct {
 
+	// (Output)
 	// Optional. The value of this KeyId encoded in lowercase hexadecimal. This is most likely the 160 bit SHA-1 hash of the public key.
 	KeyID *string `json:"keyId,omitempty" tf:"key_id,omitempty"`
 }
@@ -45,6 +46,7 @@ type AuthorityKeyIDParameters struct {
 
 type CertFingerprintObservation struct {
 
+	// (Output)
 	// The SHA 256 hash, encoded in hexadecimal, of the DER x509 certificate.
 	Sha256Hash *string `json:"sha256Hash,omitempty" tf:"sha256_hash,omitempty"`
 }
@@ -54,37 +56,45 @@ type CertFingerprintParameters struct {
 
 type CertificateDescriptionObservation struct {
 
+	// (Output)
 	// Describes lists of issuer CA certificate URLs that appear in the "Authority Information Access" extension in the certificate.
 	AiaIssuingCertificateUrls []*string `json:"aiaIssuingCertificateUrls,omitempty" tf:"aia_issuing_certificate_urls,omitempty"`
 
+	// (Output)
 	// Identifies the subjectKeyId of the parent certificate, per https://tools.ietf.org/html/rfc5280#section-4.2.1.1
 	// Structure is documented below.
 	AuthorityKeyID []AuthorityKeyIDObservation `json:"authorityKeyId,omitempty" tf:"authority_key_id,omitempty"`
 
+	// (Output)
 	// The hash of the x.509 certificate.
 	// Structure is documented below.
 	CertFingerprint []CertFingerprintObservation `json:"certFingerprint,omitempty" tf:"cert_fingerprint,omitempty"`
 
-	// (Deprecated)
+	// (Output, Deprecated)
 	// Describes some of the technical fields in a certificate.
 	// Structure is documented below.
 	ConfigValues []ConfigValuesObservation `json:"configValues,omitempty" tf:"config_values,omitempty"`
 
+	// (Output)
 	// Describes a list of locations to obtain CRL information, i.e. the DistributionPoint.fullName described by https://tools.ietf.org/html/rfc5280#section-4.2.1.13
 	CrlDistributionPoints []*string `json:"crlDistributionPoints,omitempty" tf:"crl_distribution_points,omitempty"`
 
+	// (Output)
 	// A PublicKey describes a public key.
 	// Structure is documented below.
 	PublicKey []PublicKeyObservation `json:"publicKey,omitempty" tf:"public_key,omitempty"`
 
+	// (Output)
 	// Describes some of the values in a certificate that are related to the subject and lifetime.
 	// Structure is documented below.
 	SubjectDescription []SubjectDescriptionObservation `json:"subjectDescription,omitempty" tf:"subject_description,omitempty"`
 
+	// (Output)
 	// Provides a means of identifiying certificates that contain a particular public key, per https://tools.ietf.org/html/rfc5280#section-4.2.1.2.
 	// Structure is documented below.
 	SubjectKeyID []SubjectKeyIDObservation `json:"subjectKeyId,omitempty" tf:"subject_key_id,omitempty"`
 
+	// (Output)
 	// A structured description of the issued X.509 certificate.
 	// Structure is documented below.
 	X509Description []X509DescriptionObservation `json:"x509Description,omitempty" tf:"x509_description,omitempty"`
@@ -283,14 +293,14 @@ type ConfigParameters struct {
 type ConfigPublicKeyObservation struct {
 
 	// The format of the public key. Currently, only PEM format is supported.
-	// Possible values are KEY_TYPE_UNSPECIFIED and PEM.
+	// Possible values are: KEY_TYPE_UNSPECIFIED, PEM.
 	Format *string `json:"format,omitempty" tf:"format,omitempty"`
 }
 
 type ConfigPublicKeyParameters struct {
 
 	// The format of the public key. Currently, only PEM format is supported.
-	// Possible values are KEY_TYPE_UNSPECIFIED and PEM.
+	// Possible values are: KEY_TYPE_UNSPECIFIED, PEM.
 	// +kubebuilder:validation:Required
 	Format *string `json:"format" tf:"format,omitempty"`
 
@@ -319,6 +329,7 @@ type ConfigValuesKeyUsageParameters struct {
 
 type ConfigValuesObservation struct {
 
+	// (Output)
 	// Indicates the intended use for keys that correspond to a certificate.
 	// Structure is documented below.
 	KeyUsage []ConfigValuesKeyUsageObservation `json:"keyUsage,omitempty" tf:"key_usage,omitempty"`
@@ -338,13 +349,15 @@ type CustomSansObectIDParameters struct {
 
 type CustomSansObservation struct {
 
-	// Required. Indicates whether or not this extension is critical (i.e., if the client does not know how to handle this extension, the client should consider this to be an error).
+	// Indicates whether or not the name constraints are marked critical.
 	Critical *bool `json:"critical,omitempty" tf:"critical,omitempty"`
 
+	// (Output)
 	// Required. Describes how some of the technical fields in a certificate should be populated.
 	// Structure is documented below.
 	ObectID []CustomSansObectIDObservation `json:"obectId,omitempty" tf:"obect_id,omitempty"`
 
+	// (Output)
 	// The value of this X.509 extension.
 	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
@@ -354,6 +367,7 @@ type CustomSansParameters struct {
 
 type KeyUsageBaseKeyUsageObservation struct {
 
+	// (Output)
 	// Describes high-level ways in which a key may be used.
 	// Structure is documented below.
 	KeyUsageOptions []KeyUsageOptionsObservation `json:"keyUsageOptions,omitempty" tf:"key_usage_options,omitempty"`
@@ -388,30 +402,39 @@ type KeyUsageExtendedKeyUsageParameters struct {
 
 type KeyUsageOptionsObservation struct {
 
+	// (Output)
 	// The key may be used to sign certificates.
 	CertSign *bool `json:"certSign,omitempty" tf:"cert_sign,omitempty"`
 
+	// (Output)
 	// The key may be used for cryptographic commitments. Note that this may also be referred to as "non-repudiation".
 	ContentCommitment *bool `json:"contentCommitment,omitempty" tf:"content_commitment,omitempty"`
 
+	// (Output)
 	// The key may be used sign certificate revocation lists.
 	CrlSign *bool `json:"crlSign,omitempty" tf:"crl_sign,omitempty"`
 
+	// (Output)
 	// The key may be used to encipher data.
 	DataEncipherment *bool `json:"dataEncipherment,omitempty" tf:"data_encipherment,omitempty"`
 
+	// (Output)
 	// The key may be used to decipher only.
 	DecipherOnly *bool `json:"decipherOnly,omitempty" tf:"decipher_only,omitempty"`
 
+	// (Output)
 	// The key may be used for digital signatures.
 	DigitalSignature *bool `json:"digitalSignature,omitempty" tf:"digital_signature,omitempty"`
 
+	// (Output)
 	// The key may be used to encipher only.
 	EncipherOnly *bool `json:"encipherOnly,omitempty" tf:"encipher_only,omitempty"`
 
+	// (Output)
 	// The key may be used in a key agreement protocol.
 	KeyAgreement *bool `json:"keyAgreement,omitempty" tf:"key_agreement,omitempty"`
 
+	// (Output)
 	// The key may be used to encipher other keys.
 	KeyEncipherment *bool `json:"keyEncipherment,omitempty" tf:"key_encipherment,omitempty"`
 }
@@ -421,6 +444,7 @@ type KeyUsageOptionsParameters struct {
 
 type KeyUsageUnknownExtendedKeyUsagesObservation struct {
 
+	// (Output)
 	// Required. Describes how some of the technical fields in a certificate should be populated.
 	// Structure is documented below.
 	ObectID []ObectIDObservation `json:"obectId,omitempty" tf:"obect_id,omitempty"`
@@ -441,7 +465,7 @@ type ObectIDParameters struct {
 type PublicKeyObservation struct {
 
 	// The format of the public key. Currently, only PEM format is supported.
-	// Possible values are KEY_TYPE_UNSPECIFIED and PEM.
+	// Possible values are: KEY_TYPE_UNSPECIFIED, PEM.
 	Format *string `json:"format,omitempty" tf:"format,omitempty"`
 
 	// Required. A public key. When this is specified in a request, the padding and encoding can be any of the options described by the respective 'KeyType' value. When this is generated by the service, it will always be an RFC 5280 SubjectPublicKeyInfo structure containing an algorithm identifier and a key. A base64-encoded string.
@@ -453,9 +477,11 @@ type PublicKeyParameters struct {
 
 type RevocationDetailsObservation struct {
 
+	// (Output)
 	// Indicates why a Certificate was revoked.
 	RevocationState *string `json:"revocationState,omitempty" tf:"revocation_state,omitempty"`
 
+	// (Output)
 	// The time at which this Certificate was revoked.
 	RevocationTime *string `json:"revocationTime,omitempty" tf:"revocation_time,omitempty"`
 }
@@ -465,6 +491,7 @@ type RevocationDetailsParameters struct {
 
 type SubjectAltNameObservation struct {
 
+	// (Output)
 	// Contains additional subject alternative name values.
 	// Structure is documented below.
 	CustomSans []CustomSansObservation `json:"customSans,omitempty" tf:"custom_sans,omitempty"`
@@ -487,10 +514,12 @@ type SubjectAltNameParameters struct {
 
 type SubjectConfigObservation struct {
 
+	// (Output)
 	// Contains distinguished name fields such as the location and organization.
 	// Structure is documented below.
 	Subject []SubjectConfigSubjectObservation `json:"subject,omitempty" tf:"subject,omitempty"`
 
+	// (Output)
 	// The subject alternative name fields.
 	// Structure is documented below.
 	SubjectAltName []SubjectConfigSubjectAltNameObservation `json:"subjectAltName,omitempty" tf:"subject_alt_name,omitempty"`
@@ -498,11 +527,13 @@ type SubjectConfigObservation struct {
 
 type SubjectConfigParameters struct {
 
+	// (Output)
 	// Contains distinguished name fields such as the location and organization.
 	// Structure is documented below.
 	// +kubebuilder:validation:Required
 	Subject []SubjectConfigSubjectParameters `json:"subject" tf:"subject,omitempty"`
 
+	// (Output)
 	// The subject alternative name fields.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
@@ -607,22 +638,28 @@ type SubjectConfigSubjectParameters struct {
 
 type SubjectDescriptionObservation struct {
 
+	// (Output)
 	// The serial number encoded in lowercase hexadecimal.
 	HexSerialNumber *string `json:"hexSerialNumber,omitempty" tf:"hex_serial_number,omitempty"`
 
+	// (Output)
 	// For convenience, the actual lifetime of an issued certificate. Corresponds to 'notAfterTime' - 'notBeforeTime'.
 	Lifetime *string `json:"lifetime,omitempty" tf:"lifetime,omitempty"`
 
+	// (Output)
 	// The time at which the certificate expires.
 	NotAfterTime *string `json:"notAfterTime,omitempty" tf:"not_after_time,omitempty"`
 
+	// (Output)
 	// The time at which the certificate becomes valid.
 	NotBeforeTime *string `json:"notBeforeTime,omitempty" tf:"not_before_time,omitempty"`
 
+	// (Output)
 	// Contains distinguished name fields such as the location and organization.
 	// Structure is documented below.
 	Subject []SubjectObservation `json:"subject,omitempty" tf:"subject,omitempty"`
 
+	// (Output)
 	// The subject alternative name fields.
 	// Structure is documented below.
 	SubjectAltName []SubjectAltNameObservation `json:"subjectAltName,omitempty" tf:"subject_alt_name,omitempty"`
@@ -633,6 +670,7 @@ type SubjectDescriptionParameters struct {
 
 type SubjectKeyIDObservation struct {
 
+	// (Output)
 	// Optional. The value of this KeyId encoded in lowercase hexadecimal. This is most likely the 160 bit SHA-1 hash of the public key.
 	KeyID *string `json:"keyId,omitempty" tf:"key_id,omitempty"`
 }
@@ -685,20 +723,21 @@ type X509ConfigAdditionalExtensionsObjectIDParameters struct {
 
 type X509ConfigAdditionalExtensionsObservation struct {
 
-	// Required. Indicates whether or not this extension is critical (i.e., if the client does not know how to handle this extension, the client should consider this to be an error).
+	// Indicates whether or not the name constraints are marked critical.
 	Critical *bool `json:"critical,omitempty" tf:"critical,omitempty"`
 
 	// Describes values that are relevant in a CA certificate.
 	// Structure is documented below.
 	ObjectID []X509ConfigAdditionalExtensionsObjectIDObservation `json:"objectId,omitempty" tf:"object_id,omitempty"`
 
+	// (Output)
 	// The value of this X.509 extension.
 	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
 
 type X509ConfigAdditionalExtensionsParameters struct {
 
-	// Required. Indicates whether or not this extension is critical (i.e., if the client does not know how to handle this extension, the client should consider this to be an error).
+	// Indicates whether or not the name constraints are marked critical.
 	// +kubebuilder:validation:Required
 	Critical *bool `json:"critical" tf:"critical,omitempty"`
 
@@ -707,6 +746,7 @@ type X509ConfigAdditionalExtensionsParameters struct {
 	// +kubebuilder:validation:Required
 	ObjectID []X509ConfigAdditionalExtensionsObjectIDParameters `json:"objectId" tf:"object_id,omitempty"`
 
+	// (Output)
 	// The value of this X.509 extension.
 	// +kubebuilder:validation:Required
 	Value *string `json:"value" tf:"value,omitempty"`
@@ -756,68 +796,86 @@ type X509ConfigCAOptionsParameters struct {
 
 type X509ConfigKeyUsageBaseKeyUsageObservation struct {
 
+	// (Output)
 	// The key may be used to sign certificates.
 	CertSign *bool `json:"certSign,omitempty" tf:"cert_sign,omitempty"`
 
+	// (Output)
 	// The key may be used for cryptographic commitments. Note that this may also be referred to as "non-repudiation".
 	ContentCommitment *bool `json:"contentCommitment,omitempty" tf:"content_commitment,omitempty"`
 
+	// (Output)
 	// The key may be used sign certificate revocation lists.
 	CrlSign *bool `json:"crlSign,omitempty" tf:"crl_sign,omitempty"`
 
+	// (Output)
 	// The key may be used to encipher data.
 	DataEncipherment *bool `json:"dataEncipherment,omitempty" tf:"data_encipherment,omitempty"`
 
+	// (Output)
 	// The key may be used to decipher only.
 	DecipherOnly *bool `json:"decipherOnly,omitempty" tf:"decipher_only,omitempty"`
 
+	// (Output)
 	// The key may be used for digital signatures.
 	DigitalSignature *bool `json:"digitalSignature,omitempty" tf:"digital_signature,omitempty"`
 
+	// (Output)
 	// The key may be used to encipher only.
 	EncipherOnly *bool `json:"encipherOnly,omitempty" tf:"encipher_only,omitempty"`
 
+	// (Output)
 	// The key may be used in a key agreement protocol.
 	KeyAgreement *bool `json:"keyAgreement,omitempty" tf:"key_agreement,omitempty"`
 
+	// (Output)
 	// The key may be used to encipher other keys.
 	KeyEncipherment *bool `json:"keyEncipherment,omitempty" tf:"key_encipherment,omitempty"`
 }
 
 type X509ConfigKeyUsageBaseKeyUsageParameters struct {
 
+	// (Output)
 	// The key may be used to sign certificates.
 	// +kubebuilder:validation:Optional
 	CertSign *bool `json:"certSign,omitempty" tf:"cert_sign,omitempty"`
 
+	// (Output)
 	// The key may be used for cryptographic commitments. Note that this may also be referred to as "non-repudiation".
 	// +kubebuilder:validation:Optional
 	ContentCommitment *bool `json:"contentCommitment,omitempty" tf:"content_commitment,omitempty"`
 
+	// (Output)
 	// The key may be used sign certificate revocation lists.
 	// +kubebuilder:validation:Optional
 	CrlSign *bool `json:"crlSign,omitempty" tf:"crl_sign,omitempty"`
 
+	// (Output)
 	// The key may be used to encipher data.
 	// +kubebuilder:validation:Optional
 	DataEncipherment *bool `json:"dataEncipherment,omitempty" tf:"data_encipherment,omitempty"`
 
+	// (Output)
 	// The key may be used to decipher only.
 	// +kubebuilder:validation:Optional
 	DecipherOnly *bool `json:"decipherOnly,omitempty" tf:"decipher_only,omitempty"`
 
+	// (Output)
 	// The key may be used for digital signatures.
 	// +kubebuilder:validation:Optional
 	DigitalSignature *bool `json:"digitalSignature,omitempty" tf:"digital_signature,omitempty"`
 
+	// (Output)
 	// The key may be used to encipher only.
 	// +kubebuilder:validation:Optional
 	EncipherOnly *bool `json:"encipherOnly,omitempty" tf:"encipher_only,omitempty"`
 
+	// (Output)
 	// The key may be used in a key agreement protocol.
 	// +kubebuilder:validation:Optional
 	KeyAgreement *bool `json:"keyAgreement,omitempty" tf:"key_agreement,omitempty"`
 
+	// (Output)
 	// The key may be used to encipher other keys.
 	// +kubebuilder:validation:Optional
 	KeyEncipherment *bool `json:"keyEncipherment,omitempty" tf:"key_encipherment,omitempty"`
@@ -917,24 +975,151 @@ type X509ConfigKeyUsageUnknownExtendedKeyUsagesParameters struct {
 	ObjectIDPath []*float64 `json:"objectIdPath" tf:"object_id_path,omitempty"`
 }
 
+type X509ConfigNameConstraintsObservation struct {
+
+	// Indicates whether or not the name constraints are marked critical.
+	Critical *bool `json:"critical,omitempty" tf:"critical,omitempty"`
+
+	// Contains excluded DNS names. Any DNS name that can be
+	// constructed by simply adding zero or more labels to
+	// the left-hand side of the name satisfies the name constraint.
+	// For example, example.com, www.example.com, www.sub.example.com
+	// would satisfy example.com while example1.com does not.
+	ExcludedDNSNames []*string `json:"excludedDnsNames,omitempty" tf:"excluded_dns_names,omitempty"`
+
+	// Contains the excluded email addresses. The value can be a particular
+	// email address, a hostname to indicate all email addresses on that host or
+	// a domain with a leading period (e.g. .example.com) to indicate
+	// all email addresses in that domain.
+	ExcludedEmailAddresses []*string `json:"excludedEmailAddresses,omitempty" tf:"excluded_email_addresses,omitempty"`
+
+	// Contains the excluded IP ranges. For IPv4 addresses, the ranges
+	// are expressed using CIDR notation as specified in RFC 4632.
+	// For IPv6 addresses, the ranges are expressed in similar encoding as IPv4
+	// addresses.
+	ExcludedIPRanges []*string `json:"excludedIpRanges,omitempty" tf:"excluded_ip_ranges,omitempty"`
+
+	// Contains the excluded URIs that apply to the host part of the name.
+	// The value can be a hostname or a domain with a
+	// leading period (like .example.com)
+	ExcludedUris []*string `json:"excludedUris,omitempty" tf:"excluded_uris,omitempty"`
+
+	// Contains permitted DNS names. Any DNS name that can be
+	// constructed by simply adding zero or more labels to
+	// the left-hand side of the name satisfies the name constraint.
+	// For example, example.com, www.example.com, www.sub.example.com
+	// would satisfy example.com while example1.com does not.
+	PermittedDNSNames []*string `json:"permittedDnsNames,omitempty" tf:"permitted_dns_names,omitempty"`
+
+	// Contains the permitted email addresses. The value can be a particular
+	// email address, a hostname to indicate all email addresses on that host or
+	// a domain with a leading period (e.g. .example.com) to indicate
+	// all email addresses in that domain.
+	PermittedEmailAddresses []*string `json:"permittedEmailAddresses,omitempty" tf:"permitted_email_addresses,omitempty"`
+
+	// Contains the permitted IP ranges. For IPv4 addresses, the ranges
+	// are expressed using CIDR notation as specified in RFC 4632.
+	// For IPv6 addresses, the ranges are expressed in similar encoding as IPv4
+	// addresses.
+	PermittedIPRanges []*string `json:"permittedIpRanges,omitempty" tf:"permitted_ip_ranges,omitempty"`
+
+	// Contains the permitted URIs that apply to the host part of the name.
+	// The value can be a hostname or a domain with a
+	// leading period (like .example.com)
+	PermittedUris []*string `json:"permittedUris,omitempty" tf:"permitted_uris,omitempty"`
+}
+
+type X509ConfigNameConstraintsParameters struct {
+
+	// Indicates whether or not the name constraints are marked critical.
+	// +kubebuilder:validation:Required
+	Critical *bool `json:"critical" tf:"critical,omitempty"`
+
+	// Contains excluded DNS names. Any DNS name that can be
+	// constructed by simply adding zero or more labels to
+	// the left-hand side of the name satisfies the name constraint.
+	// For example, example.com, www.example.com, www.sub.example.com
+	// would satisfy example.com while example1.com does not.
+	// +kubebuilder:validation:Optional
+	ExcludedDNSNames []*string `json:"excludedDnsNames,omitempty" tf:"excluded_dns_names,omitempty"`
+
+	// Contains the excluded email addresses. The value can be a particular
+	// email address, a hostname to indicate all email addresses on that host or
+	// a domain with a leading period (e.g. .example.com) to indicate
+	// all email addresses in that domain.
+	// +kubebuilder:validation:Optional
+	ExcludedEmailAddresses []*string `json:"excludedEmailAddresses,omitempty" tf:"excluded_email_addresses,omitempty"`
+
+	// Contains the excluded IP ranges. For IPv4 addresses, the ranges
+	// are expressed using CIDR notation as specified in RFC 4632.
+	// For IPv6 addresses, the ranges are expressed in similar encoding as IPv4
+	// addresses.
+	// +kubebuilder:validation:Optional
+	ExcludedIPRanges []*string `json:"excludedIpRanges,omitempty" tf:"excluded_ip_ranges,omitempty"`
+
+	// Contains the excluded URIs that apply to the host part of the name.
+	// The value can be a hostname or a domain with a
+	// leading period (like .example.com)
+	// +kubebuilder:validation:Optional
+	ExcludedUris []*string `json:"excludedUris,omitempty" tf:"excluded_uris,omitempty"`
+
+	// Contains permitted DNS names. Any DNS name that can be
+	// constructed by simply adding zero or more labels to
+	// the left-hand side of the name satisfies the name constraint.
+	// For example, example.com, www.example.com, www.sub.example.com
+	// would satisfy example.com while example1.com does not.
+	// +kubebuilder:validation:Optional
+	PermittedDNSNames []*string `json:"permittedDnsNames,omitempty" tf:"permitted_dns_names,omitempty"`
+
+	// Contains the permitted email addresses. The value can be a particular
+	// email address, a hostname to indicate all email addresses on that host or
+	// a domain with a leading period (e.g. .example.com) to indicate
+	// all email addresses in that domain.
+	// +kubebuilder:validation:Optional
+	PermittedEmailAddresses []*string `json:"permittedEmailAddresses,omitempty" tf:"permitted_email_addresses,omitempty"`
+
+	// Contains the permitted IP ranges. For IPv4 addresses, the ranges
+	// are expressed using CIDR notation as specified in RFC 4632.
+	// For IPv6 addresses, the ranges are expressed in similar encoding as IPv4
+	// addresses.
+	// +kubebuilder:validation:Optional
+	PermittedIPRanges []*string `json:"permittedIpRanges,omitempty" tf:"permitted_ip_ranges,omitempty"`
+
+	// Contains the permitted URIs that apply to the host part of the name.
+	// The value can be a hostname or a domain with a
+	// leading period (like .example.com)
+	// +kubebuilder:validation:Optional
+	PermittedUris []*string `json:"permittedUris,omitempty" tf:"permitted_uris,omitempty"`
+}
+
 type X509ConfigObservation struct {
 
+	// (Output)
 	// Describes custom X.509 extensions.
 	// Structure is documented below.
 	AdditionalExtensions []X509ConfigAdditionalExtensionsObservation `json:"additionalExtensions,omitempty" tf:"additional_extensions,omitempty"`
 
+	// (Output)
 	// Describes Online Certificate Status Protocol (OCSP) endpoint addresses that appear in the
 	// "Authority Information Access" extension in the certificate.
 	AiaOcspServers []*string `json:"aiaOcspServers,omitempty" tf:"aia_ocsp_servers,omitempty"`
 
+	// (Output)
 	// Describes values that are relevant in a CA certificate.
 	// Structure is documented below.
 	CAOptions []X509ConfigCAOptionsObservation `json:"caOptions,omitempty" tf:"ca_options,omitempty"`
 
+	// (Output)
 	// Indicates the intended use for keys that correspond to a certificate.
 	// Structure is documented below.
 	KeyUsage []X509ConfigKeyUsageObservation `json:"keyUsage,omitempty" tf:"key_usage,omitempty"`
 
+	// (Output)
+	// Describes the X.509 name constraints extension.
+	// Structure is documented below.
+	NameConstraints []X509ConfigNameConstraintsObservation `json:"nameConstraints,omitempty" tf:"name_constraints,omitempty"`
+
+	// (Output)
 	// Describes the X.509 certificate policy object identifiers, per https://tools.ietf.org/html/rfc5280#section-4.2.1.4.
 	// Structure is documented below.
 	PolicyIds []X509ConfigPolicyIdsObservation `json:"policyIds,omitempty" tf:"policy_ids,omitempty"`
@@ -942,26 +1127,37 @@ type X509ConfigObservation struct {
 
 type X509ConfigParameters struct {
 
+	// (Output)
 	// Describes custom X.509 extensions.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	AdditionalExtensions []X509ConfigAdditionalExtensionsParameters `json:"additionalExtensions,omitempty" tf:"additional_extensions,omitempty"`
 
+	// (Output)
 	// Describes Online Certificate Status Protocol (OCSP) endpoint addresses that appear in the
 	// "Authority Information Access" extension in the certificate.
 	// +kubebuilder:validation:Optional
 	AiaOcspServers []*string `json:"aiaOcspServers,omitempty" tf:"aia_ocsp_servers,omitempty"`
 
+	// (Output)
 	// Describes values that are relevant in a CA certificate.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	CAOptions []X509ConfigCAOptionsParameters `json:"caOptions,omitempty" tf:"ca_options,omitempty"`
 
+	// (Output)
 	// Indicates the intended use for keys that correspond to a certificate.
 	// Structure is documented below.
 	// +kubebuilder:validation:Required
 	KeyUsage []X509ConfigKeyUsageParameters `json:"keyUsage" tf:"key_usage,omitempty"`
 
+	// (Output)
+	// Describes the X.509 name constraints extension.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	NameConstraints []X509ConfigNameConstraintsParameters `json:"nameConstraints,omitempty" tf:"name_constraints,omitempty"`
+
+	// (Output)
 	// Describes the X.509 certificate policy object identifiers, per https://tools.ietf.org/html/rfc5280#section-4.2.1.4.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
@@ -983,13 +1179,14 @@ type X509ConfigPolicyIdsParameters struct {
 
 type X509DescriptionAdditionalExtensionsObservation struct {
 
-	// Required. Indicates whether or not this extension is critical (i.e., if the client does not know how to handle this extension, the client should consider this to be an error).
+	// Indicates whether or not the name constraints are marked critical.
 	Critical *bool `json:"critical,omitempty" tf:"critical,omitempty"`
 
 	// Describes values that are relevant in a CA certificate.
 	// Structure is documented below.
 	ObjectID []AdditionalExtensionsObjectIDObservation `json:"objectId,omitempty" tf:"object_id,omitempty"`
 
+	// (Output)
 	// The value of this X.509 extension.
 	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
@@ -1012,30 +1209,39 @@ type X509DescriptionCAOptionsParameters struct {
 
 type X509DescriptionKeyUsageBaseKeyUsageObservation struct {
 
+	// (Output)
 	// The key may be used to sign certificates.
 	CertSign *bool `json:"certSign,omitempty" tf:"cert_sign,omitempty"`
 
+	// (Output)
 	// The key may be used for cryptographic commitments. Note that this may also be referred to as "non-repudiation".
 	ContentCommitment *bool `json:"contentCommitment,omitempty" tf:"content_commitment,omitempty"`
 
+	// (Output)
 	// The key may be used sign certificate revocation lists.
 	CrlSign *bool `json:"crlSign,omitempty" tf:"crl_sign,omitempty"`
 
+	// (Output)
 	// The key may be used to encipher data.
 	DataEncipherment *bool `json:"dataEncipherment,omitempty" tf:"data_encipherment,omitempty"`
 
+	// (Output)
 	// The key may be used to decipher only.
 	DecipherOnly *bool `json:"decipherOnly,omitempty" tf:"decipher_only,omitempty"`
 
+	// (Output)
 	// The key may be used for digital signatures.
 	DigitalSignature *bool `json:"digitalSignature,omitempty" tf:"digital_signature,omitempty"`
 
+	// (Output)
 	// The key may be used to encipher only.
 	EncipherOnly *bool `json:"encipherOnly,omitempty" tf:"encipher_only,omitempty"`
 
+	// (Output)
 	// The key may be used in a key agreement protocol.
 	KeyAgreement *bool `json:"keyAgreement,omitempty" tf:"key_agreement,omitempty"`
 
+	// (Output)
 	// The key may be used to encipher other keys.
 	KeyEncipherment *bool `json:"keyEncipherment,omitempty" tf:"key_encipherment,omitempty"`
 }
@@ -1094,24 +1300,91 @@ type X509DescriptionKeyUsageUnknownExtendedKeyUsagesObservation struct {
 type X509DescriptionKeyUsageUnknownExtendedKeyUsagesParameters struct {
 }
 
+type X509DescriptionNameConstraintsObservation struct {
+
+	// Indicates whether or not the name constraints are marked critical.
+	Critical *bool `json:"critical,omitempty" tf:"critical,omitempty"`
+
+	// Contains excluded DNS names. Any DNS name that can be
+	// constructed by simply adding zero or more labels to
+	// the left-hand side of the name satisfies the name constraint.
+	// For example, example.com, www.example.com, www.sub.example.com
+	// would satisfy example.com while example1.com does not.
+	ExcludedDNSNames []*string `json:"excludedDnsNames,omitempty" tf:"excluded_dns_names,omitempty"`
+
+	// Contains the excluded email addresses. The value can be a particular
+	// email address, a hostname to indicate all email addresses on that host or
+	// a domain with a leading period (e.g. .example.com) to indicate
+	// all email addresses in that domain.
+	ExcludedEmailAddresses []*string `json:"excludedEmailAddresses,omitempty" tf:"excluded_email_addresses,omitempty"`
+
+	// Contains the excluded IP ranges. For IPv4 addresses, the ranges
+	// are expressed using CIDR notation as specified in RFC 4632.
+	// For IPv6 addresses, the ranges are expressed in similar encoding as IPv4
+	// addresses.
+	ExcludedIPRanges []*string `json:"excludedIpRanges,omitempty" tf:"excluded_ip_ranges,omitempty"`
+
+	// Contains the excluded URIs that apply to the host part of the name.
+	// The value can be a hostname or a domain with a
+	// leading period (like .example.com)
+	ExcludedUris []*string `json:"excludedUris,omitempty" tf:"excluded_uris,omitempty"`
+
+	// Contains permitted DNS names. Any DNS name that can be
+	// constructed by simply adding zero or more labels to
+	// the left-hand side of the name satisfies the name constraint.
+	// For example, example.com, www.example.com, www.sub.example.com
+	// would satisfy example.com while example1.com does not.
+	PermittedDNSNames []*string `json:"permittedDnsNames,omitempty" tf:"permitted_dns_names,omitempty"`
+
+	// Contains the permitted email addresses. The value can be a particular
+	// email address, a hostname to indicate all email addresses on that host or
+	// a domain with a leading period (e.g. .example.com) to indicate
+	// all email addresses in that domain.
+	PermittedEmailAddresses []*string `json:"permittedEmailAddresses,omitempty" tf:"permitted_email_addresses,omitempty"`
+
+	// Contains the permitted IP ranges. For IPv4 addresses, the ranges
+	// are expressed using CIDR notation as specified in RFC 4632.
+	// For IPv6 addresses, the ranges are expressed in similar encoding as IPv4
+	// addresses.
+	PermittedIPRanges []*string `json:"permittedIpRanges,omitempty" tf:"permitted_ip_ranges,omitempty"`
+
+	// Contains the permitted URIs that apply to the host part of the name.
+	// The value can be a hostname or a domain with a
+	// leading period (like .example.com)
+	PermittedUris []*string `json:"permittedUris,omitempty" tf:"permitted_uris,omitempty"`
+}
+
+type X509DescriptionNameConstraintsParameters struct {
+}
+
 type X509DescriptionObservation struct {
 
+	// (Output)
 	// Describes custom X.509 extensions.
 	// Structure is documented below.
 	AdditionalExtensions []X509DescriptionAdditionalExtensionsObservation `json:"additionalExtensions,omitempty" tf:"additional_extensions,omitempty"`
 
+	// (Output)
 	// Describes Online Certificate Status Protocol (OCSP) endpoint addresses that appear in the
 	// "Authority Information Access" extension in the certificate.
 	AiaOcspServers []*string `json:"aiaOcspServers,omitempty" tf:"aia_ocsp_servers,omitempty"`
 
+	// (Output)
 	// Describes values that are relevant in a CA certificate.
 	// Structure is documented below.
 	CAOptions []X509DescriptionCAOptionsObservation `json:"caOptions,omitempty" tf:"ca_options,omitempty"`
 
+	// (Output)
 	// Indicates the intended use for keys that correspond to a certificate.
 	// Structure is documented below.
 	KeyUsage []X509DescriptionKeyUsageObservation `json:"keyUsage,omitempty" tf:"key_usage,omitempty"`
 
+	// (Output)
+	// Describes the X.509 name constraints extension.
+	// Structure is documented below.
+	NameConstraints []X509DescriptionNameConstraintsObservation `json:"nameConstraints,omitempty" tf:"name_constraints,omitempty"`
+
+	// (Output)
 	// Describes the X.509 certificate policy object identifiers, per https://tools.ietf.org/html/rfc5280#section-4.2.1.4.
 	// Structure is documented below.
 	PolicyIds []X509DescriptionPolicyIdsObservation `json:"policyIds,omitempty" tf:"policy_ids,omitempty"`

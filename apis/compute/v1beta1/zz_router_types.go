@@ -51,7 +51,7 @@ type BGPObservation struct {
 
 	// User-specified flag to indicate which mode to use for advertisement.
 	// Default value is DEFAULT.
-	// Possible values are DEFAULT and CUSTOM.
+	// Possible values are: DEFAULT, CUSTOM.
 	AdvertiseMode *string `json:"advertiseMode,omitempty" tf:"advertise_mode,omitempty"`
 
 	// User-specified list of prefix groups to advertise in custom mode.
@@ -76,11 +76,15 @@ type BGPObservation struct {
 	// will have the same local ASN.
 	Asn *float64 `json:"asn,omitempty" tf:"asn,omitempty"`
 
-	// The interval in seconds between BGP keepalive messages that are sent to the peer.
-	// Hold time is three times the interval at which keepalive messages are sent, and the hold time is the
-	// maximum number of seconds allowed to elapse between successive keepalive messages that BGP receives from a peer.
-	// BGP will use the smaller of either the local hold time value or the peer's hold time value as the hold time for
-	// the BGP connection between the two peers. If set, this value must be between 20 and 60. The default is 20.
+	// The interval in seconds between BGP keepalive messages that are sent
+	// to the peer. Hold time is three times the interval at which keepalive
+	// messages are sent, and the hold time is the maximum number of seconds
+	// allowed to elapse between successive keepalive messages that BGP
+	// receives from a peer.
+	// BGP will use the smaller of either the local hold time value or the
+	// peer's hold time value as the hold time for the BGP connection
+	// between the two peers. If set, this value must be between 20 and 60.
+	// The default is 20.
 	KeepaliveInterval *float64 `json:"keepaliveInterval,omitempty" tf:"keepalive_interval,omitempty"`
 }
 
@@ -88,7 +92,7 @@ type BGPParameters struct {
 
 	// User-specified flag to indicate which mode to use for advertisement.
 	// Default value is DEFAULT.
-	// Possible values are DEFAULT and CUSTOM.
+	// Possible values are: DEFAULT, CUSTOM.
 	// +kubebuilder:validation:Optional
 	AdvertiseMode *string `json:"advertiseMode,omitempty" tf:"advertise_mode,omitempty"`
 
@@ -117,11 +121,15 @@ type BGPParameters struct {
 	// +kubebuilder:validation:Required
 	Asn *float64 `json:"asn" tf:"asn,omitempty"`
 
-	// The interval in seconds between BGP keepalive messages that are sent to the peer.
-	// Hold time is three times the interval at which keepalive messages are sent, and the hold time is the
-	// maximum number of seconds allowed to elapse between successive keepalive messages that BGP receives from a peer.
-	// BGP will use the smaller of either the local hold time value or the peer's hold time value as the hold time for
-	// the BGP connection between the two peers. If set, this value must be between 20 and 60. The default is 20.
+	// The interval in seconds between BGP keepalive messages that are sent
+	// to the peer. Hold time is three times the interval at which keepalive
+	// messages are sent, and the hold time is the maximum number of seconds
+	// allowed to elapse between successive keepalive messages that BGP
+	// receives from a peer.
+	// BGP will use the smaller of either the local hold time value or the
+	// peer's hold time value as the hold time for the BGP connection
+	// between the two peers. If set, this value must be between 20 and 60.
+	// The default is 20.
 	// +kubebuilder:validation:Optional
 	KeepaliveInterval *float64 `json:"keepaliveInterval,omitempty" tf:"keepalive_interval,omitempty"`
 }
@@ -138,9 +146,8 @@ type RouterObservation struct {
 	// An optional description of this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// Field to indicate if a router is dedicated to use with encrypted
-	// Interconnect Attachment (IPsec-encrypted Cloud Interconnect feature).
-	// Not currently available publicly.
+	// Indicates if a router is dedicated for use with encrypted VLAN
+	// attachments (interconnectAttachments).
 	EncryptedInterconnectRouter *bool `json:"encryptedInterconnectRouter,omitempty" tf:"encrypted_interconnect_router,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/regions/{{region}}/routers/{{name}}
@@ -171,9 +178,8 @@ type RouterParameters struct {
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// Field to indicate if a router is dedicated to use with encrypted
-	// Interconnect Attachment (IPsec-encrypted Cloud Interconnect feature).
-	// Not currently available publicly.
+	// Indicates if a router is dedicated for use with encrypted VLAN
+	// attachments (interconnectAttachments).
 	// +kubebuilder:validation:Optional
 	EncryptedInterconnectRouter *bool `json:"encryptedInterconnectRouter,omitempty" tf:"encrypted_interconnect_router,omitempty"`
 

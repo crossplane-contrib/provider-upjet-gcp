@@ -226,6 +226,15 @@ spec:
                         enablePrivateNodes:
                           description: Whether nodes have internal IP addresses only.
                           type: boolean
+                        podCidrOverprovisionConfig:
+                          items:
+                            properties:
+                              disabled:
+                                type: boolean
+                            required:
+                            - disabled
+                            type: object
+                          type: array
                         podIpv4CidrBlock:
                           description: The IP address range for pod IPs in this node
                             pool. Only applicable if createPodRange is true. Set to
@@ -247,12 +256,30 @@ spec:
                       for schema.
                     items:
                       properties:
+                        advancedMachineFeatures:
+                          items:
+                            properties:
+                              threadsPerCore:
+                                type: number
+                            required:
+                            - threadsPerCore
+                            type: object
+                          type: array
                         bootDiskKmsKey:
                           type: string
                         diskSizeGb:
                           type: number
                         diskType:
                           type: string
+                        ephemeralStorageLocalSsdConfig:
+                          items:
+                            properties:
+                              localSsdCount:
+                                type: number
+                            required:
+                            - localSsdCount
+                            type: object
+                          type: array
                         gcfsConfig:
                           items:
                             properties:
@@ -328,6 +355,15 @@ spec:
                                 type: object
                             required:
                             - sysctls
+                            type: object
+                          type: array
+                        localNvmeSsdBlockConfig:
+                          items:
+                            properties:
+                              localSsdCount:
+                                type: number
+                            required:
+                            - localSsdCount
                             type: object
                           type: array
                         localSsdCount:
@@ -873,6 +909,13 @@ spec:
                         enablePrivateNodes:
                           description: Whether nodes have internal IP addresses only.
                           type: boolean
+                        podCidrOverprovisionConfig:
+                          items:
+                            properties:
+                              disabled:
+                                type: boolean
+                            type: object
+                          type: array
                         podIpv4CidrBlock:
                           description: The IP address range for pod IPs in this node
                             pool. Only applicable if createPodRange is true. Set to
@@ -894,12 +937,26 @@ spec:
                       for schema.
                     items:
                       properties:
+                        advancedMachineFeatures:
+                          items:
+                            properties:
+                              threadsPerCore:
+                                type: number
+                            type: object
+                          type: array
                         bootDiskKmsKey:
                           type: string
                         diskSizeGb:
                           type: number
                         diskType:
                           type: string
+                        ephemeralStorageLocalSsdConfig:
+                          items:
+                            properties:
+                              localSsdCount:
+                                type: number
+                            type: object
+                          type: array
                         gcfsConfig:
                           items:
                             properties:
@@ -967,6 +1024,13 @@ spec:
                                 additionalProperties:
                                   type: string
                                 type: object
+                            type: object
+                          type: array
+                        localNvmeSsdBlockConfig:
+                          items:
+                            properties:
+                              localSsdCount:
+                                type: number
                             type: object
                           type: array
                         localSsdCount:
