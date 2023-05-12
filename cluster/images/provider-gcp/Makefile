@@ -68,7 +68,7 @@ batch-process: $(UP)
 		--platform $(BATCH_PLATFORMS) \
 		--provider-name $(PROJECT_NAME) \
 		--family-package-url-format $(XPKG_REG_ORGS)/%s:$(VERSION) \
-		--package-repo-override monolith=$(PROJECT_NAME) --package-repo-override config=provider-family-$(PROVIDER_NAME) \
+		--package-repo-override monolith=$(PROJECT_NAME) --package-repo-override config=provider-$(PROVIDER_NAME)-config \
 		--provider-bin-root $(OUTPUT_DIR)/bin \
 		--output-dir $(XPKG_OUTPUT_DIR) \
 		--store-packages $(STORE_PACKAGE) \
@@ -79,7 +79,7 @@ batch-process: $(UP)
 		--crd-root $(ROOT_DIR)/package/crds \
 		--crd-group-override monolith=* --crd-group-override config=$(PROVIDER_NAME) \
 		--package-metadata-template $(ROOT_DIR)/package/crossplane.yaml.tmpl \
-		--template-var XpkgRegOrg=$(XPKG_REG_ORGS) --template-var DepConstraint="$(DEP_CONSTRAINT)" \
+		--template-var XpkgRegOrg=$(XPKG_REG_ORGS) --template-var DepConstraint="$(DEP_CONSTRAINT)" --template-var ProviderName=$(PROVIDER_NAME) \
 		--concurrency $(CONCURRENCY) \
 		--push-retry 10 || $(FAIL)
 	@$(OK) Done processing smaller provider packages for: $(SUBPACKAGES)
