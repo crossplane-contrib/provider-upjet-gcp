@@ -21,7 +21,7 @@ on:
 
 jobs:
   publish-service-artifacts:
-    uses: upbound/uptest/.github/workflows/provider-publish-service-artifacts.yml@main
+    uses: ulucinar/uptest/.github/workflows/provider-publish-service-artifacts.yml@fix-ssop
     with:
       subpackages: ${{ github.event.inputs.subpackages }}
       version: ${{ github.event.inputs.version }}
