@@ -9,13 +9,14 @@ metadata:
   name: default
 spec:
   forProvider:
+    location: global
     description: The default cert
     scope: DEFAULT
     managed:
     - dnsAuthorizations:
       - projects/official-provider-testing/locations/global/dnsAuthorizations/default
       domains:
-      - hashicorptest.com
+      - subdomain.hashicorptest.com
 
 ---
 
@@ -30,4 +31,4 @@ metadata:
 spec:
   forProvider:
     description: The default dnss
-    domain: hashicorptest.com
+    domain: subdomain.hashicorptest.com
