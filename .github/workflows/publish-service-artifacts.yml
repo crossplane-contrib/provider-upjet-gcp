@@ -12,12 +12,12 @@ on:
         required: true
       size:
         description: "Number of smaller provider packages to build and push with each build job"
+        default: '30'
         required: true
-        default: 30
       concurrency:
         description: "Number of parallel package builds within each build job"
-        optional: true
-        default: 1
+        default: '1'
+        required: false
 
 jobs:
   publish-service-artifacts:
