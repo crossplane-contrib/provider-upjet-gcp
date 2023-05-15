@@ -439,9 +439,9 @@ spec:
                           description: 'AppGateway name in following format: projects/{project_id}/locations/{locationId}/appgateways/{gateway_id}.'
                           type: string
                         ingressPort:
-                          description: Ingress port reserved on the gateways for this
-                            AppConnection, if not specified or zero, the default port
-                            is 19443.
+                          description: (Output) Ingress port reserved on the gateways
+                            for this AppConnection, if not specified or zero, the
+                            default port is 19443.
                           type: number
                         type:
                           description: The type of hosting used by the gateway. Refer
@@ -449,7 +449,7 @@ spec:
                             for a list of possible values.
                           type: string
                         uri:
-                          description: Server-defined URI for this resource.
+                          description: (Output) Server-defined URI for this resource.
                           type: string
                       type: object
                     type: array

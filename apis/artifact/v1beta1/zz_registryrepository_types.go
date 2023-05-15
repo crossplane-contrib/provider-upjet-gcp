@@ -25,6 +25,36 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type DockerConfigObservation struct {
+
+	// The repository which enabled this flag prevents all tags from being modified, moved or deleted. This does not prevent tags from being created.
+	ImmutableTags *bool `json:"immutableTags,omitempty" tf:"immutable_tags,omitempty"`
+}
+
+type DockerConfigParameters struct {
+
+	// The repository which enabled this flag prevents all tags from being modified, moved or deleted. This does not prevent tags from being created.
+	// +kubebuilder:validation:Optional
+	ImmutableTags *bool `json:"immutableTags,omitempty" tf:"immutable_tags,omitempty"`
+}
+
+type DockerRepositoryObservation struct {
+
+	// Address of the remote repository.
+	// Default value is PYPI.
+	// Possible values are: PYPI.
+	PublicRepository *string `json:"publicRepository,omitempty" tf:"public_repository,omitempty"`
+}
+
+type DockerRepositoryParameters struct {
+
+	// Address of the remote repository.
+	// Default value is PYPI.
+	// Possible values are: PYPI.
+	// +kubebuilder:validation:Optional
+	PublicRepository *string `json:"publicRepository,omitempty" tf:"public_repository,omitempty"`
+}
+
 type MavenConfigObservation struct {
 
 	// The repository with this flag will allow publishing the same
@@ -33,7 +63,7 @@ type MavenConfigObservation struct {
 
 	// Version policy defines the versions that the registry will accept.
 	// Default value is VERSION_POLICY_UNSPECIFIED.
-	// Possible values are VERSION_POLICY_UNSPECIFIED, RELEASE, and SNAPSHOT.
+	// Possible values are: VERSION_POLICY_UNSPECIFIED, RELEASE, SNAPSHOT.
 	VersionPolicy *string `json:"versionPolicy,omitempty" tf:"version_policy,omitempty"`
 }
 
@@ -46,9 +76,60 @@ type MavenConfigParameters struct {
 
 	// Version policy defines the versions that the registry will accept.
 	// Default value is VERSION_POLICY_UNSPECIFIED.
-	// Possible values are VERSION_POLICY_UNSPECIFIED, RELEASE, and SNAPSHOT.
+	// Possible values are: VERSION_POLICY_UNSPECIFIED, RELEASE, SNAPSHOT.
 	// +kubebuilder:validation:Optional
 	VersionPolicy *string `json:"versionPolicy,omitempty" tf:"version_policy,omitempty"`
+}
+
+type MavenRepositoryObservation struct {
+
+	// Address of the remote repository.
+	// Default value is PYPI.
+	// Possible values are: PYPI.
+	PublicRepository *string `json:"publicRepository,omitempty" tf:"public_repository,omitempty"`
+}
+
+type MavenRepositoryParameters struct {
+
+	// Address of the remote repository.
+	// Default value is PYPI.
+	// Possible values are: PYPI.
+	// +kubebuilder:validation:Optional
+	PublicRepository *string `json:"publicRepository,omitempty" tf:"public_repository,omitempty"`
+}
+
+type NpmRepositoryObservation struct {
+
+	// Address of the remote repository.
+	// Default value is PYPI.
+	// Possible values are: PYPI.
+	PublicRepository *string `json:"publicRepository,omitempty" tf:"public_repository,omitempty"`
+}
+
+type NpmRepositoryParameters struct {
+
+	// Address of the remote repository.
+	// Default value is PYPI.
+	// Possible values are: PYPI.
+	// +kubebuilder:validation:Optional
+	PublicRepository *string `json:"publicRepository,omitempty" tf:"public_repository,omitempty"`
+}
+
+type PythonRepositoryObservation struct {
+
+	// Address of the remote repository.
+	// Default value is PYPI.
+	// Possible values are: PYPI.
+	PublicRepository *string `json:"publicRepository,omitempty" tf:"public_repository,omitempty"`
+}
+
+type PythonRepositoryParameters struct {
+
+	// Address of the remote repository.
+	// Default value is PYPI.
+	// Possible values are: PYPI.
+	// +kubebuilder:validation:Optional
+	PublicRepository *string `json:"publicRepository,omitempty" tf:"public_repository,omitempty"`
 }
 
 type RegistryRepositoryObservation struct {
@@ -58,6 +139,10 @@ type RegistryRepositoryObservation struct {
 
 	// The user-provided description of the repository.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Docker repository config contains repository level configuration for the repositories of docker type.
+	// Structure is documented below.
+	DockerConfig []DockerConfigObservation `json:"dockerConfig,omitempty" tf:"docker_config,omitempty"`
 
 	// The format of packages that are stored in the repository. Supported formats
 	// can be found here.
@@ -90,16 +175,29 @@ type RegistryRepositoryObservation struct {
 	// Structure is documented below.
 	MavenConfig []MavenConfigObservation `json:"mavenConfig,omitempty" tf:"maven_config,omitempty"`
 
+	// The mode configures the repository to serve artifacts from different sources.
+	// Default value is STANDARD_REPOSITORY.
+	// Possible values are: STANDARD_REPOSITORY, VIRTUAL_REPOSITORY, REMOTE_REPOSITORY.
+	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
+
 	// The name of the repository, for example:
-	// "projects/p1/locations/us-central1/repositories/repo1"
+	// "repo1"
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	// Configuration specific for a Remote Repository.
+	// Structure is documented below.
+	RemoteRepositoryConfig []RemoteRepositoryConfigObservation `json:"remoteRepositoryConfig,omitempty" tf:"remote_repository_config,omitempty"`
+
 	// The time when the repository was last updated.
 	UpdateTime *string `json:"updateTime,omitempty" tf:"update_time,omitempty"`
+
+	// Configuration specific for a Virtual Repository.
+	// Structure is documented below.
+	VirtualRepositoryConfig []VirtualRepositoryConfigObservation `json:"virtualRepositoryConfig,omitempty" tf:"virtual_repository_config,omitempty"`
 }
 
 type RegistryRepositoryParameters struct {
@@ -107,6 +205,11 @@ type RegistryRepositoryParameters struct {
 	// The user-provided description of the repository.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Docker repository config contains repository level configuration for the repositories of docker type.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	DockerConfig []DockerConfigParameters `json:"dockerConfig,omitempty" tf:"docker_config,omitempty"`
 
 	// The format of packages that are stored in the repository. Supported formats
 	// can be found here.
@@ -141,10 +244,131 @@ type RegistryRepositoryParameters struct {
 	// +kubebuilder:validation:Optional
 	MavenConfig []MavenConfigParameters `json:"mavenConfig,omitempty" tf:"maven_config,omitempty"`
 
+	// The mode configures the repository to serve artifacts from different sources.
+	// Default value is STANDARD_REPOSITORY.
+	// Possible values are: STANDARD_REPOSITORY, VIRTUAL_REPOSITORY, REMOTE_REPOSITORY.
+	// +kubebuilder:validation:Optional
+	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
+
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Configuration specific for a Remote Repository.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	RemoteRepositoryConfig []RemoteRepositoryConfigParameters `json:"remoteRepositoryConfig,omitempty" tf:"remote_repository_config,omitempty"`
+
+	// Configuration specific for a Virtual Repository.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	VirtualRepositoryConfig []VirtualRepositoryConfigParameters `json:"virtualRepositoryConfig,omitempty" tf:"virtual_repository_config,omitempty"`
+}
+
+type RemoteRepositoryConfigObservation struct {
+
+	// The description of the remote source.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Specific settings for a Docker remote repository.
+	// Structure is documented below.
+	DockerRepository []DockerRepositoryObservation `json:"dockerRepository,omitempty" tf:"docker_repository,omitempty"`
+
+	// Specific settings for a Maven remote repository.
+	// Structure is documented below.
+	MavenRepository []MavenRepositoryObservation `json:"mavenRepository,omitempty" tf:"maven_repository,omitempty"`
+
+	// Specific settings for an Npm remote repository.
+	// Structure is documented below.
+	NpmRepository []NpmRepositoryObservation `json:"npmRepository,omitempty" tf:"npm_repository,omitempty"`
+
+	// Specific settings for a Python remote repository.
+	// Structure is documented below.
+	PythonRepository []PythonRepositoryObservation `json:"pythonRepository,omitempty" tf:"python_repository,omitempty"`
+}
+
+type RemoteRepositoryConfigParameters struct {
+
+	// The description of the remote source.
+	// +kubebuilder:validation:Optional
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Specific settings for a Docker remote repository.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	DockerRepository []DockerRepositoryParameters `json:"dockerRepository,omitempty" tf:"docker_repository,omitempty"`
+
+	// Specific settings for a Maven remote repository.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	MavenRepository []MavenRepositoryParameters `json:"mavenRepository,omitempty" tf:"maven_repository,omitempty"`
+
+	// Specific settings for an Npm remote repository.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	NpmRepository []NpmRepositoryParameters `json:"npmRepository,omitempty" tf:"npm_repository,omitempty"`
+
+	// Specific settings for a Python remote repository.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	PythonRepository []PythonRepositoryParameters `json:"pythonRepository,omitempty" tf:"python_repository,omitempty"`
+}
+
+type UpstreamPoliciesObservation struct {
+
+	// The user-provided ID of the upstream policy.
+	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Entries with a greater priority value take precedence in the pull order.
+	Priority *float64 `json:"priority,omitempty" tf:"priority,omitempty"`
+
+	// A reference to the repository resource, for example:
+	// "projects/p1/locations/us-central1/repository/repo1".
+	Repository *string `json:"repository,omitempty" tf:"repository,omitempty"`
+}
+
+type UpstreamPoliciesParameters struct {
+
+	// The user-provided ID of the upstream policy.
+	// +kubebuilder:validation:Optional
+	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Entries with a greater priority value take precedence in the pull order.
+	// +kubebuilder:validation:Optional
+	Priority *float64 `json:"priority,omitempty" tf:"priority,omitempty"`
+
+	// A reference to the repository resource, for example:
+	// "projects/p1/locations/us-central1/repository/repo1".
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/artifact/v1beta1.RegistryRepository
+	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
+	// +kubebuilder:validation:Optional
+	Repository *string `json:"repository,omitempty" tf:"repository,omitempty"`
+
+	// Reference to a RegistryRepository in artifact to populate repository.
+	// +kubebuilder:validation:Optional
+	RepositoryRef *v1.Reference `json:"repositoryRef,omitempty" tf:"-"`
+
+	// Selector for a RegistryRepository in artifact to populate repository.
+	// +kubebuilder:validation:Optional
+	RepositorySelector *v1.Selector `json:"repositorySelector,omitempty" tf:"-"`
+}
+
+type VirtualRepositoryConfigObservation struct {
+
+	// Policies that configure the upstream artifacts distributed by the Virtual
+	// Repository. Upstream policies cannot be set on a standard repository.
+	// Structure is documented below.
+	UpstreamPolicies []UpstreamPoliciesObservation `json:"upstreamPolicies,omitempty" tf:"upstream_policies,omitempty"`
+}
+
+type VirtualRepositoryConfigParameters struct {
+
+	// Policies that configure the upstream artifacts distributed by the Virtual
+	// Repository. Upstream policies cannot be set on a standard repository.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	UpstreamPolicies []UpstreamPoliciesParameters `json:"upstreamPolicies,omitempty" tf:"upstream_policies,omitempty"`
 }
 
 // RegistryRepositorySpec defines the desired state of RegistryRepository

@@ -29,7 +29,7 @@ type NodeTemplateObservation struct {
 
 	// CPU overcommit.
 	// Default value is NONE.
-	// Possible values are ENABLED and NONE.
+	// Possible values are: ENABLED, NONE.
 	CPUOvercommitType *string `json:"cpuOvercommitType,omitempty" tf:"cpu_overcommit_type,omitempty"`
 
 	// Creation timestamp in RFC3339 text format.
@@ -77,7 +77,7 @@ type NodeTemplateParameters struct {
 
 	// CPU overcommit.
 	// Default value is NONE.
-	// Possible values are ENABLED and NONE.
+	// Possible values are: ENABLED, NONE.
 	// +kubebuilder:validation:Optional
 	CPUOvercommitType *string `json:"cpuOvercommitType,omitempty" tf:"cpu_overcommit_type,omitempty"`
 
@@ -125,6 +125,7 @@ type NodeTypeFlexibilityObservation struct {
 	// Number of virtual CPUs to use.
 	Cpus *string `json:"cpus,omitempty" tf:"cpus,omitempty"`
 
+	// (Output)
 	// Use local SSD
 	LocalSsd *string `json:"localSsd,omitempty" tf:"local_ssd,omitempty"`
 
@@ -156,7 +157,7 @@ type ServerBindingObservation struct {
 	// such as physical sockets or cores, to avoid the need for
 	// additional licenses when maintenance occurs. However, VMs on such
 	// nodes will experience outages while maintenance is applied.
-	// Possible values are RESTART_NODE_ON_ANY_SERVER and RESTART_NODE_ON_MINIMAL_SERVERS.
+	// Possible values are: RESTART_NODE_ON_ANY_SERVER, RESTART_NODE_ON_MINIMAL_SERVERS.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
@@ -173,7 +174,7 @@ type ServerBindingParameters struct {
 	// such as physical sockets or cores, to avoid the need for
 	// additional licenses when maintenance occurs. However, VMs on such
 	// nodes will experience outages while maintenance is applied.
-	// Possible values are RESTART_NODE_ON_ANY_SERVER and RESTART_NODE_ON_MINIMAL_SERVERS.
+	// Possible values are: RESTART_NODE_ON_ANY_SERVER, RESTART_NODE_ON_MINIMAL_SERVERS.
 	// +kubebuilder:validation:Required
 	Type *string `json:"type" tf:"type,omitempty"`
 }

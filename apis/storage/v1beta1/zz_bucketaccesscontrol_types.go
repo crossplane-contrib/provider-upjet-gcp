@@ -57,7 +57,7 @@ type BucketAccessControlObservation struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// The access permission for the entity.
-	// Possible values are OWNER, READER, and WRITER.
+	// Possible values are: OWNER, READER, WRITER.
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 }
 
@@ -95,7 +95,7 @@ type BucketAccessControlParameters struct {
 	Entity *string `json:"entity,omitempty" tf:"entity,omitempty"`
 
 	// The access permission for the entity.
-	// Possible values are OWNER, READER, and WRITER.
+	// Possible values are: OWNER, READER, WRITER.
 	// +kubebuilder:validation:Optional
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 }

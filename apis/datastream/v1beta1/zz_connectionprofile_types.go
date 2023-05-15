@@ -370,12 +370,15 @@ type PrivateConnectivityParameters struct {
 
 type SSLConfigObservation struct {
 
+	// (Output)
 	// Indicates whether the clientKey field is set.
 	CACertificateSet *bool `json:"caCertificateSet,omitempty" tf:"ca_certificate_set,omitempty"`
 
+	// (Output)
 	// Indicates whether the clientCertificate field is set.
 	ClientCertificateSet *bool `json:"clientCertificateSet,omitempty" tf:"client_certificate_set,omitempty"`
 
+	// (Output)
 	// Indicates whether the clientKey field is set.
 	ClientKeySet *bool `json:"clientKeySet,omitempty" tf:"client_key_set,omitempty"`
 }

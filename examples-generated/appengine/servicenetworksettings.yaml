@@ -4,15 +4,15 @@ metadata:
   annotations:
     meta.upbound.io/example-id: appengine/v1beta1/servicenetworksettings
   labels:
-    testing.upbound.io/example-name: liveapp
-  name: liveapp
+    testing.upbound.io/example-name: internalapp
+  name: internalapp
 spec:
   forProvider:
     networkSettings:
     - ingressTrafficAllowed: INGRESS_TRAFFIC_ALLOWED_INTERNAL_ONLY
     serviceSelector:
       matchLabels:
-        testing.upbound.io/example-name: liveapp_v1
+        testing.upbound.io/example-name: internalapp
 
 ---
 
@@ -22,8 +22,8 @@ metadata:
   annotations:
     meta.upbound.io/example-id: appengine/v1beta1/servicenetworksettings
   labels:
-    testing.upbound.io/example-name: liveapp_v1
-  name: liveapp-v1
+    testing.upbound.io/example-name: internalapp
+  name: internalapp
 spec:
   forProvider:
     deleteServiceOnDestroy: true
@@ -35,7 +35,7 @@ spec:
     envVariables:
       port: "8080"
     runtime: nodejs10
-    service: liveapp
+    service: internalapp
 
 ---
 

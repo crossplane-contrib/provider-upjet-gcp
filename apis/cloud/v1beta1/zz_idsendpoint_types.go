@@ -56,7 +56,7 @@ type IdsEndpointObservation struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The minimum alert severity level that is reported by the endpoint.
-	// Possible values are INFORMATIONAL, LOW, MEDIUM, HIGH, and CRITICAL.
+	// Possible values are: INFORMATIONAL, LOW, MEDIUM, HIGH, CRITICAL.
 	Severity *string `json:"severity,omitempty" tf:"severity,omitempty"`
 
 	// Configuration for threat IDs excluded from generating alerts. Limit: 99 IDs.
@@ -100,7 +100,7 @@ type IdsEndpointParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The minimum alert severity level that is reported by the endpoint.
-	// Possible values are INFORMATIONAL, LOW, MEDIUM, HIGH, and CRITICAL.
+	// Possible values are: INFORMATIONAL, LOW, MEDIUM, HIGH, CRITICAL.
 	// +kubebuilder:validation:Optional
 	Severity *string `json:"severity,omitempty" tf:"severity,omitempty"`
 

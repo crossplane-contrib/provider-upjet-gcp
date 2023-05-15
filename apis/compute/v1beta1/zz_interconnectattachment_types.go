@@ -36,7 +36,7 @@ type InterconnectAttachmentObservation struct {
 	// For attachments of type PARTNER, the Google Partner that is operating the interconnect must set the bandwidth.
 	// Output only for PARTNER type, mutable for PARTNER_PROVIDER and DEDICATED,
 	// Defaults to BPS_10G
-	// Possible values are BPS_50M, BPS_100M, BPS_200M, BPS_300M, BPS_400M, BPS_500M, BPS_1G, BPS_2G, BPS_5G, BPS_10G, BPS_20G, and BPS_50G.
+	// Possible values are: BPS_50M, BPS_100M, BPS_200M, BPS_300M, BPS_400M, BPS_500M, BPS_1G, BPS_2G, BPS_5G, BPS_10G, BPS_20G, BPS_50G.
 	Bandwidth *string `json:"bandwidth,omitempty" tf:"bandwidth,omitempty"`
 
 	// Up to 16 candidate prefixes that can be used to restrict the allocation
@@ -71,18 +71,8 @@ type InterconnectAttachmentObservation struct {
 	EdgeAvailabilityDomain *string `json:"edgeAvailabilityDomain,omitempty" tf:"edge_availability_domain,omitempty"`
 
 	// Indicates the user-supplied encryption option of this interconnect
-	// attachment:
-	// NONE is the default value, which means that the attachment carries
-	// unencrypted traffic. VMs can send traffic to, or receive traffic
-	// from, this type of attachment.
-	// IPSEC indicates that the attachment carries only traffic encrypted by
-	// an IPsec device such as an HA VPN gateway. VMs cannot directly send
-	// traffic to, or receive traffic from, such an attachment. To use
-	// IPsec-encrypted Cloud Interconnect create the attachment using this
-	// option.
-	// Not currently available publicly.
-	// Default value is NONE.
-	// Possible values are NONE and IPSEC.
+	// attachment. Can only be specified at attachment creation for PARTNER or
+	// DEDICATED attachments.
 	Encryption *string `json:"encryption,omitempty" tf:"encryption,omitempty"`
 
 	// Google reference ID, to be used when raising support tickets with
@@ -97,21 +87,20 @@ type InterconnectAttachmentObservation struct {
 	// be set if type is PARTNER.
 	Interconnect *string `json:"interconnect,omitempty" tf:"interconnect,omitempty"`
 
-	// URL of addresses that have been reserved for the interconnect
-	// attachment, Used only for interconnect attachment that has the
-	// encryption option as IPSEC.
-	// The addresses must be RFC 1918 IP address ranges. When creating HA
-	// VPN gateway over the interconnect attachment, if the attachment is
-	// configured to use an RFC 1918 IP address, then the VPN gateway's IP
-	// address will be allocated from the IP address range specified
-	// here.
+	// URL of addresses that have been reserved for the interconnect attachment,
+	// Used only for interconnect attachment that has the encryption option as
+	// IPSEC.
+	// The addresses must be RFC 1918 IP address ranges. When creating HA VPN
+	// gateway over the interconnect attachment, if the attachment is configured
+	// to use an RFC 1918 IP address, then the VPN gateway's IP address will be
+	// allocated from the IP address range specified here.
 	// For example, if the HA VPN gateway's interface 0 is paired to this
-	// interconnect attachment, then an RFC 1918 IP address for the VPN
-	// gateway interface 0 will be allocated from the IP address specified
-	// for this interconnect attachment.
+	// interconnect attachment, then an RFC 1918 IP address for the VPN gateway
+	// interface 0 will be allocated from the IP address specified for this
+	// interconnect attachment.
 	// If this field is not specified for interconnect attachment that has
-	// encryption option as IPSEC, later on when creating HA VPN gateway on
-	// this interconnect attachment, the HA VPN gateway's IP address will be
+	// encryption option as IPSEC, later on when creating HA VPN gateway on this
+	// interconnect attachment, the HA VPN gateway's IP address will be
 	// allocated from regional external IP address pool.
 	IpsecInternalAddresses []*string `json:"ipsecInternalAddresses,omitempty" tf:"ipsec_internal_addresses,omitempty"`
 
@@ -155,7 +144,7 @@ type InterconnectAttachmentObservation struct {
 
 	// The type of InterconnectAttachment you wish to create. Defaults to
 	// DEDICATED.
-	// Possible values are DEDICATED, PARTNER, and PARTNER_PROVIDER.
+	// Possible values are: DEDICATED, PARTNER, PARTNER_PROVIDER.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 
 	// The IEEE 802.1Q VLAN tag for this attachment, in the range 2-4094. When
@@ -175,7 +164,7 @@ type InterconnectAttachmentParameters struct {
 	// For attachments of type PARTNER, the Google Partner that is operating the interconnect must set the bandwidth.
 	// Output only for PARTNER type, mutable for PARTNER_PROVIDER and DEDICATED,
 	// Defaults to BPS_10G
-	// Possible values are BPS_50M, BPS_100M, BPS_200M, BPS_300M, BPS_400M, BPS_500M, BPS_1G, BPS_2G, BPS_5G, BPS_10G, BPS_20G, and BPS_50G.
+	// Possible values are: BPS_50M, BPS_100M, BPS_200M, BPS_300M, BPS_400M, BPS_500M, BPS_1G, BPS_2G, BPS_5G, BPS_10G, BPS_20G, BPS_50G.
 	// +kubebuilder:validation:Optional
 	Bandwidth *string `json:"bandwidth,omitempty" tf:"bandwidth,omitempty"`
 
@@ -203,18 +192,8 @@ type InterconnectAttachmentParameters struct {
 	EdgeAvailabilityDomain *string `json:"edgeAvailabilityDomain,omitempty" tf:"edge_availability_domain,omitempty"`
 
 	// Indicates the user-supplied encryption option of this interconnect
-	// attachment:
-	// NONE is the default value, which means that the attachment carries
-	// unencrypted traffic. VMs can send traffic to, or receive traffic
-	// from, this type of attachment.
-	// IPSEC indicates that the attachment carries only traffic encrypted by
-	// an IPsec device such as an HA VPN gateway. VMs cannot directly send
-	// traffic to, or receive traffic from, such an attachment. To use
-	// IPsec-encrypted Cloud Interconnect create the attachment using this
-	// option.
-	// Not currently available publicly.
-	// Default value is NONE.
-	// Possible values are NONE and IPSEC.
+	// attachment. Can only be specified at attachment creation for PARTNER or
+	// DEDICATED attachments.
 	// +kubebuilder:validation:Optional
 	Encryption *string `json:"encryption,omitempty" tf:"encryption,omitempty"`
 
@@ -224,21 +203,20 @@ type InterconnectAttachmentParameters struct {
 	// +kubebuilder:validation:Optional
 	Interconnect *string `json:"interconnect,omitempty" tf:"interconnect,omitempty"`
 
-	// URL of addresses that have been reserved for the interconnect
-	// attachment, Used only for interconnect attachment that has the
-	// encryption option as IPSEC.
-	// The addresses must be RFC 1918 IP address ranges. When creating HA
-	// VPN gateway over the interconnect attachment, if the attachment is
-	// configured to use an RFC 1918 IP address, then the VPN gateway's IP
-	// address will be allocated from the IP address range specified
-	// here.
+	// URL of addresses that have been reserved for the interconnect attachment,
+	// Used only for interconnect attachment that has the encryption option as
+	// IPSEC.
+	// The addresses must be RFC 1918 IP address ranges. When creating HA VPN
+	// gateway over the interconnect attachment, if the attachment is configured
+	// to use an RFC 1918 IP address, then the VPN gateway's IP address will be
+	// allocated from the IP address range specified here.
 	// For example, if the HA VPN gateway's interface 0 is paired to this
-	// interconnect attachment, then an RFC 1918 IP address for the VPN
-	// gateway interface 0 will be allocated from the IP address specified
-	// for this interconnect attachment.
+	// interconnect attachment, then an RFC 1918 IP address for the VPN gateway
+	// interface 0 will be allocated from the IP address specified for this
+	// interconnect attachment.
 	// If this field is not specified for interconnect attachment that has
-	// encryption option as IPSEC, later on when creating HA VPN gateway on
-	// this interconnect attachment, the HA VPN gateway's IP address will be
+	// encryption option as IPSEC, later on when creating HA VPN gateway on this
+	// interconnect attachment, the HA VPN gateway's IP address will be
 	// allocated from regional external IP address pool.
 	// +kubebuilder:validation:Optional
 	IpsecInternalAddresses []*string `json:"ipsecInternalAddresses,omitempty" tf:"ipsec_internal_addresses,omitempty"`
@@ -276,7 +254,7 @@ type InterconnectAttachmentParameters struct {
 
 	// The type of InterconnectAttachment you wish to create. Defaults to
 	// DEDICATED.
-	// Possible values are DEDICATED, PARTNER, and PARTNER_PROVIDER.
+	// Possible values are: DEDICATED, PARTNER, PARTNER_PROVIDER.
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 
@@ -288,6 +266,7 @@ type InterconnectAttachmentParameters struct {
 
 type PrivateInterconnectInfoObservation struct {
 
+	// (Output)
 	// 802.1q encapsulation tag to be used for traffic between
 	// Google and the customer, going to and from this network and region.
 	Tag8021Q *float64 `json:"tag8021q,omitempty" tf:"tag8021q,omitempty"`

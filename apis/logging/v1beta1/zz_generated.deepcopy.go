@@ -866,6 +866,11 @@ func (in *MetricObservation) DeepCopyInto(out *MetricObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.Disabled != nil {
+		in, out := &in.Disabled, &out.Disabled
+		*out = new(bool)
+		**out = **in
+	}
 	if in.Filter != nil {
 		in, out := &in.Filter, &out.Filter
 		*out = new(string)
@@ -948,6 +953,11 @@ func (in *MetricParameters) DeepCopyInto(out *MetricParameters) {
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
 		*out = new(string)
+		**out = **in
+	}
+	if in.Disabled != nil {
+		in, out := &in.Disabled, &out.Disabled
+		*out = new(bool)
 		**out = **in
 	}
 	if in.Filter != nil {
@@ -1112,6 +1122,11 @@ func (in *ProjectBucketConfigObservation) DeepCopyInto(out *ProjectBucketConfigO
 		*out = new(string)
 		**out = **in
 	}
+	if in.EnableAnalytics != nil {
+		in, out := &in.EnableAnalytics, &out.EnableAnalytics
+		*out = new(bool)
+		**out = **in
+	}
 	if in.ID != nil {
 		in, out := &in.ID, &out.ID
 		*out = new(string)
@@ -1172,6 +1187,11 @@ func (in *ProjectBucketConfigParameters) DeepCopyInto(out *ProjectBucketConfigPa
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
 		*out = new(string)
+		**out = **in
+	}
+	if in.EnableAnalytics != nil {
+		in, out := &in.EnableAnalytics, &out.EnableAnalytics
+		*out = new(bool)
 		**out = **in
 	}
 	if in.Location != nil {

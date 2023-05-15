@@ -46,6 +46,12 @@ type HaVPNGatewayObservation struct {
 	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
 
+	// The stack type for this VPN gateway to identify the IP protocols that are enabled.
+	// If not specified, IPV4_ONLY will be used.
+	// Default value is IPV4_ONLY.
+	// Possible values are: IPV4_ONLY, IPV4_IPV6.
+	StackType *string `json:"stackType,omitempty" tf:"stack_type,omitempty"`
+
 	// A list of interfaces on this VPN gateway.
 	// Structure is documented below.
 	VPNInterfaces []VPNInterfacesObservation `json:"vpnInterfaces,omitempty" tf:"vpn_interfaces,omitempty"`
@@ -80,6 +86,13 @@ type HaVPNGatewayParameters struct {
 	// +kubebuilder:validation:Required
 	Region *string `json:"region" tf:"region,omitempty"`
 
+	// The stack type for this VPN gateway to identify the IP protocols that are enabled.
+	// If not specified, IPV4_ONLY will be used.
+	// Default value is IPV4_ONLY.
+	// Possible values are: IPV4_ONLY, IPV4_IPV6.
+	// +kubebuilder:validation:Optional
+	StackType *string `json:"stackType,omitempty" tf:"stack_type,omitempty"`
+
 	// A list of interfaces on this VPN gateway.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
@@ -91,6 +104,7 @@ type VPNInterfacesObservation struct {
 	// The numeric ID of this VPN gateway interface.
 	ID *float64 `json:"id,omitempty" tf:"id,omitempty"`
 
+	// (Output)
 	// The external IP address for this VPN gateway interface.
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
 

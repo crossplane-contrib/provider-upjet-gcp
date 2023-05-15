@@ -613,6 +613,11 @@ func (in *CertificateObservation) DeepCopyInto(out *CertificateObservation) {
 			(*out)[key] = outVal
 		}
 	}
+	if in.Location != nil {
+		in, out := &in.Location, &out.Location
+		*out = new(string)
+		**out = **in
+	}
 	if in.Managed != nil {
 		in, out := &in.Managed, &out.Managed
 		*out = make([]ManagedObservation, len(*in))
@@ -671,6 +676,11 @@ func (in *CertificateParameters) DeepCopyInto(out *CertificateParameters) {
 			}
 			(*out)[key] = outVal
 		}
+	}
+	if in.Location != nil {
+		in, out := &in.Location, &out.Location
+		*out = new(string)
+		**out = **in
 	}
 	if in.Managed != nil {
 		in, out := &in.Managed, &out.Managed

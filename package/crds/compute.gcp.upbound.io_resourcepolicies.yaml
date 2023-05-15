@@ -85,13 +85,13 @@ spec:
                             low latency network
                           type: number
                         collocation:
-                          description: Collocation specifies whether to place VMs
+                          description: 'Collocation specifies whether to place VMs
                             inside the same availability domain on the same low-latency
                             network. Specify COLLOCATED to enable collocation. Can
                             only be specified with vm_count. If compute instances
                             are created with a COLLOCATED policy, then exactly vm_count
                             instances must be created at the same time with the resource
-                            policy attached. Possible values are COLLOCATED.
+                            policy attached. Possible values are: COLLOCATED.'
                           type: string
                         vmCount:
                           description: Number of VMs in this placement group. Google
@@ -171,10 +171,10 @@ spec:
                                   to be kept.
                                 type: number
                               onSourceDiskDelete:
-                                description: Specifies the behavior to apply to scheduled
+                                description: 'Specifies the behavior to apply to scheduled
                                   snapshots when the source disk is deleted. Default
-                                  value is KEEP_AUTO_SNAPSHOTS. Possible values are
-                                  KEEP_AUTO_SNAPSHOTS and APPLY_RETENTION_POLICY.
+                                  value is KEEP_AUTO_SNAPSHOTS. Possible values are:
+                                  KEEP_AUTO_SNAPSHOTS, APPLY_RETENTION_POLICY.'
                                 type: string
                             required:
                             - maxRetentionDays
@@ -234,10 +234,10 @@ spec:
                                       items:
                                         properties:
                                           day:
-                                            description: The day of the week to create
+                                            description: 'The day of the week to create
                                               the snapshot. e.g. MONDAY Possible values
-                                              are MONDAY, TUESDAY, WEDNESDAY, THURSDAY,
-                                              FRIDAY, SATURDAY, and SUNDAY.
+                                              are: MONDAY, TUESDAY, WEDNESDAY, THURSDAY,
+                                              FRIDAY, SATURDAY, SUNDAY.'
                                             type: string
                                           startTime:
                                             description: 'Time within the window to
@@ -497,13 +497,13 @@ spec:
                             low latency network
                           type: number
                         collocation:
-                          description: Collocation specifies whether to place VMs
+                          description: 'Collocation specifies whether to place VMs
                             inside the same availability domain on the same low-latency
                             network. Specify COLLOCATED to enable collocation. Can
                             only be specified with vm_count. If compute instances
                             are created with a COLLOCATED policy, then exactly vm_count
                             instances must be created at the same time with the resource
-                            policy attached. Possible values are COLLOCATED.
+                            policy attached. Possible values are: COLLOCATED.'
                           type: string
                         vmCount:
                           description: Number of VMs in this placement group. Google
@@ -583,10 +583,10 @@ spec:
                                   to be kept.
                                 type: number
                               onSourceDiskDelete:
-                                description: Specifies the behavior to apply to scheduled
+                                description: 'Specifies the behavior to apply to scheduled
                                   snapshots when the source disk is deleted. Default
-                                  value is KEEP_AUTO_SNAPSHOTS. Possible values are
-                                  KEEP_AUTO_SNAPSHOTS and APPLY_RETENTION_POLICY.
+                                  value is KEEP_AUTO_SNAPSHOTS. Possible values are:
+                                  KEEP_AUTO_SNAPSHOTS, APPLY_RETENTION_POLICY.'
                                 type: string
                             type: object
                           type: array
@@ -638,10 +638,10 @@ spec:
                                       items:
                                         properties:
                                           day:
-                                            description: The day of the week to create
+                                            description: 'The day of the week to create
                                               the snapshot. e.g. MONDAY Possible values
-                                              are MONDAY, TUESDAY, WEDNESDAY, THURSDAY,
-                                              FRIDAY, SATURDAY, and SUNDAY.
+                                              are: MONDAY, TUESDAY, WEDNESDAY, THURSDAY,
+                                              FRIDAY, SATURDAY, SUNDAY.'
                                             type: string
                                           startTime:
                                             description: 'Time within the window to

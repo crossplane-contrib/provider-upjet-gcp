@@ -103,7 +103,7 @@ type LinuxExecStepConfigObservation struct {
 
 	// The script interpreter to use to run the script. If no interpreter is specified the script will
 	// be executed directly, which will likely only succeed for scripts with shebang lines.
-	// Possible values are SHELL and POWERSHELL.
+	// Possible values are: SHELL, POWERSHELL.
 	Interpreter *string `json:"interpreter,omitempty" tf:"interpreter,omitempty"`
 
 	// An absolute path to the executable on the VM.
@@ -123,7 +123,7 @@ type LinuxExecStepConfigParameters struct {
 
 	// The script interpreter to use to run the script. If no interpreter is specified the script will
 	// be executed directly, which will likely only succeed for scripts with shebang lines.
-	// Possible values are SHELL and POWERSHELL.
+	// Possible values are: SHELL, POWERSHELL.
 	// +kubebuilder:validation:Optional
 	Interpreter *string `json:"interpreter,omitempty" tf:"interpreter,omitempty"`
 
@@ -184,7 +184,7 @@ type PatchConfigAptObservation struct {
 	ExclusivePackages []*string `json:"exclusivePackages,omitempty" tf:"exclusive_packages,omitempty"`
 
 	// By changing the type to DIST, the patching is performed using apt-get dist-upgrade instead.
-	// Possible values are DIST and UPGRADE.
+	// Possible values are: DIST, UPGRADE.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
@@ -201,7 +201,7 @@ type PatchConfigAptParameters struct {
 	ExclusivePackages []*string `json:"exclusivePackages,omitempty" tf:"exclusive_packages,omitempty"`
 
 	// By changing the type to DIST, the patching is performed using apt-get dist-upgrade instead.
-	// Possible values are DIST and UPGRADE.
+	// Possible values are: DIST, UPGRADE.
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
@@ -241,7 +241,7 @@ type PatchConfigObservation struct {
 	PreStep []PreStepObservation `json:"preStep,omitempty" tf:"pre_step,omitempty"`
 
 	// Post-patch reboot settings.
-	// Possible values are DEFAULT, ALWAYS, and NEVER.
+	// Possible values are: DEFAULT, ALWAYS, NEVER.
 	RebootConfig *string `json:"rebootConfig,omitempty" tf:"reboot_config,omitempty"`
 
 	// Windows update settings. Use this setting to override the default Windows patch rules.
@@ -284,7 +284,7 @@ type PatchConfigParameters struct {
 	PreStep []PreStepParameters `json:"preStep,omitempty" tf:"pre_step,omitempty"`
 
 	// Post-patch reboot settings.
-	// Possible values are DEFAULT, ALWAYS, and NEVER.
+	// Possible values are: DEFAULT, ALWAYS, NEVER.
 	// +kubebuilder:validation:Optional
 	RebootConfig *string `json:"rebootConfig,omitempty" tf:"reboot_config,omitempty"`
 
@@ -547,7 +547,7 @@ type PatchDeploymentRolloutObservation struct {
 	DisruptionBudget []RolloutDisruptionBudgetObservation `json:"disruptionBudget,omitempty" tf:"disruption_budget,omitempty"`
 
 	// Mode of the patch rollout.
-	// Possible values are ZONE_BY_ZONE and CONCURRENT_ZONES.
+	// Possible values are: ZONE_BY_ZONE, CONCURRENT_ZONES.
 	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
 }
 
@@ -563,7 +563,7 @@ type PatchDeploymentRolloutParameters struct {
 	DisruptionBudget []RolloutDisruptionBudgetParameters `json:"disruptionBudget" tf:"disruption_budget,omitempty"`
 
 	// Mode of the patch rollout.
-	// Possible values are ZONE_BY_ZONE and CONCURRENT_ZONES.
+	// Possible values are: ZONE_BY_ZONE, CONCURRENT_ZONES.
 	// +kubebuilder:validation:Required
 	Mode *string `json:"mode" tf:"mode,omitempty"`
 }
@@ -603,7 +603,7 @@ type PreStepLinuxExecStepConfigObservation struct {
 
 	// The script interpreter to use to run the script. If no interpreter is specified the script will
 	// be executed directly, which will likely only succeed for scripts with shebang lines.
-	// Possible values are SHELL and POWERSHELL.
+	// Possible values are: SHELL, POWERSHELL.
 	Interpreter *string `json:"interpreter,omitempty" tf:"interpreter,omitempty"`
 
 	// An absolute path to the executable on the VM.
@@ -623,7 +623,7 @@ type PreStepLinuxExecStepConfigParameters struct {
 
 	// The script interpreter to use to run the script. If no interpreter is specified the script will
 	// be executed directly, which will likely only succeed for scripts with shebang lines.
-	// Possible values are SHELL and POWERSHELL.
+	// Possible values are: SHELL, POWERSHELL.
 	// +kubebuilder:validation:Optional
 	Interpreter *string `json:"interpreter,omitempty" tf:"interpreter,omitempty"`
 
@@ -694,7 +694,7 @@ type PreStepWindowsExecStepConfigObservation struct {
 
 	// The script interpreter to use to run the script. If no interpreter is specified the script will
 	// be executed directly, which will likely only succeed for scripts with shebang lines.
-	// Possible values are SHELL and POWERSHELL.
+	// Possible values are: SHELL, POWERSHELL.
 	Interpreter *string `json:"interpreter,omitempty" tf:"interpreter,omitempty"`
 
 	// An absolute path to the executable on the VM.
@@ -714,7 +714,7 @@ type PreStepWindowsExecStepConfigParameters struct {
 
 	// The script interpreter to use to run the script. If no interpreter is specified the script will
 	// be executed directly, which will likely only succeed for scripts with shebang lines.
-	// Possible values are SHELL and POWERSHELL.
+	// Possible values are: SHELL, POWERSHELL.
 	// +kubebuilder:validation:Optional
 	Interpreter *string `json:"interpreter,omitempty" tf:"interpreter,omitempty"`
 
@@ -729,6 +729,7 @@ type RecurringScheduleObservation struct {
 	// A timestamp in RFC3339 UTC "Zulu" format, accurate to nanoseconds. Example: "2014-10-02T15:01:23.045123456Z".
 	EndTime *string `json:"endTime,omitempty" tf:"end_time,omitempty"`
 
+	// (Output)
 	// The time the last patch job ran successfully.
 	// A timestamp in RFC3339 UTC "Zulu" format, accurate to nanoseconds. Example: "2014-10-02T15:01:23.045123456Z".
 	LastExecuteTime *string `json:"lastExecuteTime,omitempty" tf:"last_execute_time,omitempty"`
@@ -737,6 +738,7 @@ type RecurringScheduleObservation struct {
 	// Structure is documented below.
 	Monthly []MonthlyObservation `json:"monthly,omitempty" tf:"monthly,omitempty"`
 
+	// (Output)
 	// The time the next patch job is scheduled to run.
 	// A timestamp in RFC3339 UTC "Zulu" format, accurate to nanoseconds. Example: "2014-10-02T15:01:23.045123456Z".
 	NextExecuteTime *string `json:"nextExecuteTime,omitempty" tf:"next_execute_time,omitempty"`
@@ -872,7 +874,7 @@ type TimeZoneParameters struct {
 type WeekDayOfMonthObservation struct {
 
 	// IANA Time Zone Database time zone, e.g. "America/New_York".
-	// Possible values are MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, and SUNDAY.
+	// Possible values are: MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY.
 	DayOfWeek *string `json:"dayOfWeek,omitempty" tf:"day_of_week,omitempty"`
 
 	// Week number in a month. 1-4 indicates the 1st to 4th week of the month. -1 indicates the last week of the month.
@@ -882,7 +884,7 @@ type WeekDayOfMonthObservation struct {
 type WeekDayOfMonthParameters struct {
 
 	// IANA Time Zone Database time zone, e.g. "America/New_York".
-	// Possible values are MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, and SUNDAY.
+	// Possible values are: MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY.
 	// +kubebuilder:validation:Required
 	DayOfWeek *string `json:"dayOfWeek" tf:"day_of_week,omitempty"`
 
@@ -894,14 +896,14 @@ type WeekDayOfMonthParameters struct {
 type WeeklyObservation struct {
 
 	// IANA Time Zone Database time zone, e.g. "America/New_York".
-	// Possible values are MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, and SUNDAY.
+	// Possible values are: MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY.
 	DayOfWeek *string `json:"dayOfWeek,omitempty" tf:"day_of_week,omitempty"`
 }
 
 type WeeklyParameters struct {
 
 	// IANA Time Zone Database time zone, e.g. "America/New_York".
-	// Possible values are MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, and SUNDAY.
+	// Possible values are: MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY.
 	// +kubebuilder:validation:Required
 	DayOfWeek *string `json:"dayOfWeek" tf:"day_of_week,omitempty"`
 }
@@ -944,7 +946,7 @@ type WindowsExecStepConfigObservation struct {
 
 	// The script interpreter to use to run the script. If no interpreter is specified the script will
 	// be executed directly, which will likely only succeed for scripts with shebang lines.
-	// Possible values are SHELL and POWERSHELL.
+	// Possible values are: SHELL, POWERSHELL.
 	Interpreter *string `json:"interpreter,omitempty" tf:"interpreter,omitempty"`
 
 	// An absolute path to the executable on the VM.
@@ -964,7 +966,7 @@ type WindowsExecStepConfigParameters struct {
 
 	// The script interpreter to use to run the script. If no interpreter is specified the script will
 	// be executed directly, which will likely only succeed for scripts with shebang lines.
-	// Possible values are SHELL and POWERSHELL.
+	// Possible values are: SHELL, POWERSHELL.
 	// +kubebuilder:validation:Optional
 	Interpreter *string `json:"interpreter,omitempty" tf:"interpreter,omitempty"`
 
@@ -976,7 +978,7 @@ type WindowsExecStepConfigParameters struct {
 type WindowsUpdateObservation struct {
 
 	// Only apply updates of these windows update classifications. If empty, all updates are applied.
-	// Each value may be one of CRITICAL, SECURITY, DEFINITION, DRIVER, FEATURE_PACK, SERVICE_PACK, TOOL, UPDATE_ROLLUP, and UPDATE.
+	// Each value may be one of: CRITICAL, SECURITY, DEFINITION, DRIVER, FEATURE_PACK, SERVICE_PACK, TOOL, UPDATE_ROLLUP, UPDATE.
 	Classifications []*string `json:"classifications,omitempty" tf:"classifications,omitempty"`
 
 	// List of packages to exclude from update.
@@ -990,7 +992,7 @@ type WindowsUpdateObservation struct {
 type WindowsUpdateParameters struct {
 
 	// Only apply updates of these windows update classifications. If empty, all updates are applied.
-	// Each value may be one of CRITICAL, SECURITY, DEFINITION, DRIVER, FEATURE_PACK, SERVICE_PACK, TOOL, UPDATE_ROLLUP, and UPDATE.
+	// Each value may be one of: CRITICAL, SECURITY, DEFINITION, DRIVER, FEATURE_PACK, SERVICE_PACK, TOOL, UPDATE_ROLLUP, UPDATE.
 	// +kubebuilder:validation:Optional
 	Classifications []*string `json:"classifications,omitempty" tf:"classifications,omitempty"`
 

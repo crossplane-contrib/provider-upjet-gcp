@@ -92,9 +92,9 @@ spec:
                       type: object
                     type: array
                   combiner:
-                    description: How to combine the results of multiple conditions
+                    description: 'How to combine the results of multiple conditions
                       to determine if an incident should be opened. Possible values
-                      are AND, OR, and AND_WITH_MATCHING_RESOURCE.
+                      are: AND, OR, AND_WITH_MATCHING_RESOURCE.'
                     type: string
                   conditions:
                     description: A list of conditions for the policy. The conditions
@@ -137,7 +137,7 @@ spec:
                                         defined; otherwise an error is returned.
                                       type: string
                                     crossSeriesReducer:
-                                      description: The approach to be used to combine
+                                      description: 'The approach to be used to combine
                                         time series. Not all reducer functions may
                                         be applied to all time series, depending on
                                         the metric type and the value type of the
@@ -148,12 +148,12 @@ spec:
                                         If crossSeriesReducer is specified, then perSeriesAligner
                                         must be specified and not equal ALIGN_NONE
                                         and alignmentPeriod must be specified; otherwise,
-                                        an error is returned. Possible values are
+                                        an error is returned. Possible values are:
                                         REDUCE_NONE, REDUCE_MEAN, REDUCE_MIN, REDUCE_MAX,
                                         REDUCE_SUM, REDUCE_STDDEV, REDUCE_COUNT, REDUCE_COUNT_TRUE,
                                         REDUCE_COUNT_FALSE, REDUCE_FRACTION_TRUE,
                                         REDUCE_PERCENTILE_99, REDUCE_PERCENTILE_95,
-                                        REDUCE_PERCENTILE_50, and REDUCE_PERCENTILE_05.
+                                        REDUCE_PERCENTILE_50, REDUCE_PERCENTILE_05.'
                                       type: string
                                     groupByFields:
                                       description: The set of fields to preserve when
@@ -178,7 +178,7 @@ spec:
                                         type: string
                                       type: array
                                     perSeriesAligner:
-                                      description: The approach to be used to align
+                                      description: 'The approach to be used to align
                                         individual time series. Not all alignment
                                         functions may be applied to all time series,
                                         depending on the metric type and value type
@@ -189,13 +189,13 @@ spec:
                                         If crossSeriesReducer is specified, then perSeriesAligner
                                         must be specified and not equal ALIGN_NONE
                                         and alignmentPeriod must be specified; otherwise,
-                                        an error is returned. Possible values are
+                                        an error is returned. Possible values are:
                                         ALIGN_NONE, ALIGN_DELTA, ALIGN_RATE, ALIGN_INTERPOLATE,
                                         ALIGN_NEXT_OLDER, ALIGN_MIN, ALIGN_MAX, ALIGN_MEAN,
                                         ALIGN_COUNT, ALIGN_SUM, ALIGN_STDDEV, ALIGN_COUNT_TRUE,
                                         ALIGN_COUNT_FALSE, ALIGN_FRACTION_TRUE, ALIGN_PERCENTILE_99,
                                         ALIGN_PERCENTILE_95, ALIGN_PERCENTILE_50,
-                                        ALIGN_PERCENTILE_05, and ALIGN_PERCENT_CHANGE.
+                                        ALIGN_PERCENTILE_05, ALIGN_PERCENT_CHANGE.'
                                       type: string
                                   type: object
                                 type: array
@@ -305,10 +305,10 @@ spec:
                                   unhealthy states are detected and alerted on quickly.
                                 type: string
                               evaluationMissingData:
-                                description: A condition control that determines how
-                                  metric-threshold conditions are evaluated when data
-                                  stops arriving. Possible values are EVALUATION_MISSING_DATA_INACTIVE,
-                                  EVALUATION_MISSING_DATA_ACTIVE, and EVALUATION_MISSING_DATA_NO_OP.
+                                description: 'A condition control that determines
+                                  how metric-threshold conditions are evaluated when
+                                  data stops arriving. Possible values are: EVALUATION_MISSING_DATA_INACTIVE,
+                                  EVALUATION_MISSING_DATA_ACTIVE, EVALUATION_MISSING_DATA_NO_OP.'
                                 type: string
                               query:
                                 description: Monitoring Query Language query that
@@ -374,7 +374,7 @@ spec:
                                         defined; otherwise an error is returned.
                                       type: string
                                     crossSeriesReducer:
-                                      description: The approach to be used to combine
+                                      description: 'The approach to be used to combine
                                         time series. Not all reducer functions may
                                         be applied to all time series, depending on
                                         the metric type and the value type of the
@@ -385,12 +385,12 @@ spec:
                                         If crossSeriesReducer is specified, then perSeriesAligner
                                         must be specified and not equal ALIGN_NONE
                                         and alignmentPeriod must be specified; otherwise,
-                                        an error is returned. Possible values are
+                                        an error is returned. Possible values are:
                                         REDUCE_NONE, REDUCE_MEAN, REDUCE_MIN, REDUCE_MAX,
                                         REDUCE_SUM, REDUCE_STDDEV, REDUCE_COUNT, REDUCE_COUNT_TRUE,
                                         REDUCE_COUNT_FALSE, REDUCE_FRACTION_TRUE,
                                         REDUCE_PERCENTILE_99, REDUCE_PERCENTILE_95,
-                                        REDUCE_PERCENTILE_50, and REDUCE_PERCENTILE_05.
+                                        REDUCE_PERCENTILE_50, REDUCE_PERCENTILE_05.'
                                       type: string
                                     groupByFields:
                                       description: The set of fields to preserve when
@@ -415,7 +415,7 @@ spec:
                                         type: string
                                       type: array
                                     perSeriesAligner:
-                                      description: The approach to be used to align
+                                      description: 'The approach to be used to align
                                         individual time series. Not all alignment
                                         functions may be applied to all time series,
                                         depending on the metric type and value type
@@ -426,26 +426,26 @@ spec:
                                         If crossSeriesReducer is specified, then perSeriesAligner
                                         must be specified and not equal ALIGN_NONE
                                         and alignmentPeriod must be specified; otherwise,
-                                        an error is returned. Possible values are
+                                        an error is returned. Possible values are:
                                         ALIGN_NONE, ALIGN_DELTA, ALIGN_RATE, ALIGN_INTERPOLATE,
                                         ALIGN_NEXT_OLDER, ALIGN_MIN, ALIGN_MAX, ALIGN_MEAN,
                                         ALIGN_COUNT, ALIGN_SUM, ALIGN_STDDEV, ALIGN_COUNT_TRUE,
                                         ALIGN_COUNT_FALSE, ALIGN_FRACTION_TRUE, ALIGN_PERCENTILE_99,
                                         ALIGN_PERCENTILE_95, ALIGN_PERCENTILE_50,
-                                        ALIGN_PERCENTILE_05, and ALIGN_PERCENT_CHANGE.
+                                        ALIGN_PERCENTILE_05, ALIGN_PERCENT_CHANGE.'
                                       type: string
                                   type: object
                                 type: array
                               comparison:
-                                description: The comparison to apply between the time
-                                  series (indicated by filter and aggregation) and
-                                  the threshold (indicated by threshold_value). The
-                                  comparison is applied on each time series, with
+                                description: 'The comparison to apply between the
+                                  time series (indicated by filter and aggregation)
+                                  and the threshold (indicated by threshold_value).
+                                  The comparison is applied on each time series, with
                                   the time series on the left-hand side and the threshold
                                   on the right-hand side. Only COMPARISON_LT and COMPARISON_GT
-                                  are supported currently. Possible values are COMPARISON_GT,
+                                  are supported currently. Possible values are: COMPARISON_GT,
                                   COMPARISON_GE, COMPARISON_LT, COMPARISON_LE, COMPARISON_EQ,
-                                  and COMPARISON_NE.
+                                  COMPARISON_NE.'
                                 type: string
                               denominatorAggregations:
                                 description: Specifies the alignment of data points
@@ -477,7 +477,7 @@ spec:
                                         defined; otherwise an error is returned.
                                       type: string
                                     crossSeriesReducer:
-                                      description: The approach to be used to combine
+                                      description: 'The approach to be used to combine
                                         time series. Not all reducer functions may
                                         be applied to all time series, depending on
                                         the metric type and the value type of the
@@ -488,12 +488,12 @@ spec:
                                         If crossSeriesReducer is specified, then perSeriesAligner
                                         must be specified and not equal ALIGN_NONE
                                         and alignmentPeriod must be specified; otherwise,
-                                        an error is returned. Possible values are
+                                        an error is returned. Possible values are:
                                         REDUCE_NONE, REDUCE_MEAN, REDUCE_MIN, REDUCE_MAX,
                                         REDUCE_SUM, REDUCE_STDDEV, REDUCE_COUNT, REDUCE_COUNT_TRUE,
                                         REDUCE_COUNT_FALSE, REDUCE_FRACTION_TRUE,
                                         REDUCE_PERCENTILE_99, REDUCE_PERCENTILE_95,
-                                        REDUCE_PERCENTILE_50, and REDUCE_PERCENTILE_05.
+                                        REDUCE_PERCENTILE_50, REDUCE_PERCENTILE_05.'
                                       type: string
                                     groupByFields:
                                       description: The set of fields to preserve when
@@ -518,7 +518,7 @@ spec:
                                         type: string
                                       type: array
                                     perSeriesAligner:
-                                      description: The approach to be used to align
+                                      description: 'The approach to be used to align
                                         individual time series. Not all alignment
                                         functions may be applied to all time series,
                                         depending on the metric type and value type
@@ -529,13 +529,13 @@ spec:
                                         If crossSeriesReducer is specified, then perSeriesAligner
                                         must be specified and not equal ALIGN_NONE
                                         and alignmentPeriod must be specified; otherwise,
-                                        an error is returned. Possible values are
+                                        an error is returned. Possible values are:
                                         ALIGN_NONE, ALIGN_DELTA, ALIGN_RATE, ALIGN_INTERPOLATE,
                                         ALIGN_NEXT_OLDER, ALIGN_MIN, ALIGN_MAX, ALIGN_MEAN,
                                         ALIGN_COUNT, ALIGN_SUM, ALIGN_STDDEV, ALIGN_COUNT_TRUE,
                                         ALIGN_COUNT_FALSE, ALIGN_FRACTION_TRUE, ALIGN_PERCENTILE_99,
                                         ALIGN_PERCENTILE_95, ALIGN_PERCENTILE_50,
-                                        ALIGN_PERCENTILE_05, and ALIGN_PERCENT_CHANGE.
+                                        ALIGN_PERCENTILE_05, ALIGN_PERCENT_CHANGE.'
                                       type: string
                                   type: object
                                 type: array
@@ -568,10 +568,10 @@ spec:
                                   unhealthy states are detected and alerted on quickly.
                                 type: string
                               evaluationMissingData:
-                                description: A condition control that determines how
-                                  metric-threshold conditions are evaluated when data
-                                  stops arriving. Possible values are EVALUATION_MISSING_DATA_INACTIVE,
-                                  EVALUATION_MISSING_DATA_ACTIVE, and EVALUATION_MISSING_DATA_NO_OP.
+                                description: 'A condition control that determines
+                                  how metric-threshold conditions are evaluated when
+                                  data stops arriving. Possible values are: EVALUATION_MISSING_DATA_INACTIVE,
+                                  EVALUATION_MISSING_DATA_ACTIVE, EVALUATION_MISSING_DATA_NO_OP.'
                                 type: string
                               filter:
                                 description: A filter that identifies which time series
@@ -904,9 +904,9 @@ spec:
                       type: object
                     type: array
                   combiner:
-                    description: How to combine the results of multiple conditions
+                    description: 'How to combine the results of multiple conditions
                       to determine if an incident should be opened. Possible values
-                      are AND, OR, and AND_WITH_MATCHING_RESOURCE.
+                      are: AND, OR, AND_WITH_MATCHING_RESOURCE.'
                     type: string
                   conditions:
                     description: A list of conditions for the policy. The conditions
@@ -949,7 +949,7 @@ spec:
                                         defined; otherwise an error is returned.
                                       type: string
                                     crossSeriesReducer:
-                                      description: The approach to be used to combine
+                                      description: 'The approach to be used to combine
                                         time series. Not all reducer functions may
                                         be applied to all time series, depending on
                                         the metric type and the value type of the
@@ -960,12 +960,12 @@ spec:
                                         If crossSeriesReducer is specified, then perSeriesAligner
                                         must be specified and not equal ALIGN_NONE
                                         and alignmentPeriod must be specified; otherwise,
-                                        an error is returned. Possible values are
+                                        an error is returned. Possible values are:
                                         REDUCE_NONE, REDUCE_MEAN, REDUCE_MIN, REDUCE_MAX,
                                         REDUCE_SUM, REDUCE_STDDEV, REDUCE_COUNT, REDUCE_COUNT_TRUE,
                                         REDUCE_COUNT_FALSE, REDUCE_FRACTION_TRUE,
                                         REDUCE_PERCENTILE_99, REDUCE_PERCENTILE_95,
-                                        REDUCE_PERCENTILE_50, and REDUCE_PERCENTILE_05.
+                                        REDUCE_PERCENTILE_50, REDUCE_PERCENTILE_05.'
                                       type: string
                                     groupByFields:
                                       description: The set of fields to preserve when
@@ -990,7 +990,7 @@ spec:
                                         type: string
                                       type: array
                                     perSeriesAligner:
-                                      description: The approach to be used to align
+                                      description: 'The approach to be used to align
                                         individual time series. Not all alignment
                                         functions may be applied to all time series,
                                         depending on the metric type and value type
@@ -1001,13 +1001,13 @@ spec:
                                         If crossSeriesReducer is specified, then perSeriesAligner
                                         must be specified and not equal ALIGN_NONE
                                         and alignmentPeriod must be specified; otherwise,
-                                        an error is returned. Possible values are
+                                        an error is returned. Possible values are:
                                         ALIGN_NONE, ALIGN_DELTA, ALIGN_RATE, ALIGN_INTERPOLATE,
                                         ALIGN_NEXT_OLDER, ALIGN_MIN, ALIGN_MAX, ALIGN_MEAN,
                                         ALIGN_COUNT, ALIGN_SUM, ALIGN_STDDEV, ALIGN_COUNT_TRUE,
                                         ALIGN_COUNT_FALSE, ALIGN_FRACTION_TRUE, ALIGN_PERCENTILE_99,
                                         ALIGN_PERCENTILE_95, ALIGN_PERCENTILE_50,
-                                        ALIGN_PERCENTILE_05, and ALIGN_PERCENT_CHANGE.
+                                        ALIGN_PERCENTILE_05, ALIGN_PERCENT_CHANGE.'
                                       type: string
                                   type: object
                                 type: array
@@ -1113,10 +1113,10 @@ spec:
                                   unhealthy states are detected and alerted on quickly.
                                 type: string
                               evaluationMissingData:
-                                description: A condition control that determines how
-                                  metric-threshold conditions are evaluated when data
-                                  stops arriving. Possible values are EVALUATION_MISSING_DATA_INACTIVE,
-                                  EVALUATION_MISSING_DATA_ACTIVE, and EVALUATION_MISSING_DATA_NO_OP.
+                                description: 'A condition control that determines
+                                  how metric-threshold conditions are evaluated when
+                                  data stops arriving. Possible values are: EVALUATION_MISSING_DATA_INACTIVE,
+                                  EVALUATION_MISSING_DATA_ACTIVE, EVALUATION_MISSING_DATA_NO_OP.'
                                 type: string
                               query:
                                 description: Monitoring Query Language query that
@@ -1179,7 +1179,7 @@ spec:
                                         defined; otherwise an error is returned.
                                       type: string
                                     crossSeriesReducer:
-                                      description: The approach to be used to combine
+                                      description: 'The approach to be used to combine
                                         time series. Not all reducer functions may
                                         be applied to all time series, depending on
                                         the metric type and the value type of the
@@ -1190,12 +1190,12 @@ spec:
                                         If crossSeriesReducer is specified, then perSeriesAligner
                                         must be specified and not equal ALIGN_NONE
                                         and alignmentPeriod must be specified; otherwise,
-                                        an error is returned. Possible values are
+                                        an error is returned. Possible values are:
                                         REDUCE_NONE, REDUCE_MEAN, REDUCE_MIN, REDUCE_MAX,
                                         REDUCE_SUM, REDUCE_STDDEV, REDUCE_COUNT, REDUCE_COUNT_TRUE,
                                         REDUCE_COUNT_FALSE, REDUCE_FRACTION_TRUE,
                                         REDUCE_PERCENTILE_99, REDUCE_PERCENTILE_95,
-                                        REDUCE_PERCENTILE_50, and REDUCE_PERCENTILE_05.
+                                        REDUCE_PERCENTILE_50, REDUCE_PERCENTILE_05.'
                                       type: string
                                     groupByFields:
                                       description: The set of fields to preserve when
@@ -1220,7 +1220,7 @@ spec:
                                         type: string
                                       type: array
                                     perSeriesAligner:
-                                      description: The approach to be used to align
+                                      description: 'The approach to be used to align
                                         individual time series. Not all alignment
                                         functions may be applied to all time series,
                                         depending on the metric type and value type
@@ -1231,26 +1231,26 @@ spec:
                                         If crossSeriesReducer is specified, then perSeriesAligner
                                         must be specified and not equal ALIGN_NONE
                                         and alignmentPeriod must be specified; otherwise,
-                                        an error is returned. Possible values are
+                                        an error is returned. Possible values are:
                                         ALIGN_NONE, ALIGN_DELTA, ALIGN_RATE, ALIGN_INTERPOLATE,
                                         ALIGN_NEXT_OLDER, ALIGN_MIN, ALIGN_MAX, ALIGN_MEAN,
                                         ALIGN_COUNT, ALIGN_SUM, ALIGN_STDDEV, ALIGN_COUNT_TRUE,
                                         ALIGN_COUNT_FALSE, ALIGN_FRACTION_TRUE, ALIGN_PERCENTILE_99,
                                         ALIGN_PERCENTILE_95, ALIGN_PERCENTILE_50,
-                                        ALIGN_PERCENTILE_05, and ALIGN_PERCENT_CHANGE.
+                                        ALIGN_PERCENTILE_05, ALIGN_PERCENT_CHANGE.'
                                       type: string
                                   type: object
                                 type: array
                               comparison:
-                                description: The comparison to apply between the time
-                                  series (indicated by filter and aggregation) and
-                                  the threshold (indicated by threshold_value). The
-                                  comparison is applied on each time series, with
+                                description: 'The comparison to apply between the
+                                  time series (indicated by filter and aggregation)
+                                  and the threshold (indicated by threshold_value).
+                                  The comparison is applied on each time series, with
                                   the time series on the left-hand side and the threshold
                                   on the right-hand side. Only COMPARISON_LT and COMPARISON_GT
-                                  are supported currently. Possible values are COMPARISON_GT,
+                                  are supported currently. Possible values are: COMPARISON_GT,
                                   COMPARISON_GE, COMPARISON_LT, COMPARISON_LE, COMPARISON_EQ,
-                                  and COMPARISON_NE.
+                                  COMPARISON_NE.'
                                 type: string
                               denominatorAggregations:
                                 description: Specifies the alignment of data points
@@ -1282,7 +1282,7 @@ spec:
                                         defined; otherwise an error is returned.
                                       type: string
                                     crossSeriesReducer:
-                                      description: The approach to be used to combine
+                                      description: 'The approach to be used to combine
                                         time series. Not all reducer functions may
                                         be applied to all time series, depending on
                                         the metric type and the value type of the
@@ -1293,12 +1293,12 @@ spec:
                                         If crossSeriesReducer is specified, then perSeriesAligner
                                         must be specified and not equal ALIGN_NONE
                                         and alignmentPeriod must be specified; otherwise,
-                                        an error is returned. Possible values are
+                                        an error is returned. Possible values are:
                                         REDUCE_NONE, REDUCE_MEAN, REDUCE_MIN, REDUCE_MAX,
                                         REDUCE_SUM, REDUCE_STDDEV, REDUCE_COUNT, REDUCE_COUNT_TRUE,
                                         REDUCE_COUNT_FALSE, REDUCE_FRACTION_TRUE,
                                         REDUCE_PERCENTILE_99, REDUCE_PERCENTILE_95,
-                                        REDUCE_PERCENTILE_50, and REDUCE_PERCENTILE_05.
+                                        REDUCE_PERCENTILE_50, REDUCE_PERCENTILE_05.'
                                       type: string
                                     groupByFields:
                                       description: The set of fields to preserve when
@@ -1323,7 +1323,7 @@ spec:
                                         type: string
                                       type: array
                                     perSeriesAligner:
-                                      description: The approach to be used to align
+                                      description: 'The approach to be used to align
                                         individual time series. Not all alignment
                                         functions may be applied to all time series,
                                         depending on the metric type and value type
@@ -1334,13 +1334,13 @@ spec:
                                         If crossSeriesReducer is specified, then perSeriesAligner
                                         must be specified and not equal ALIGN_NONE
                                         and alignmentPeriod must be specified; otherwise,
-                                        an error is returned. Possible values are
+                                        an error is returned. Possible values are:
                                         ALIGN_NONE, ALIGN_DELTA, ALIGN_RATE, ALIGN_INTERPOLATE,
                                         ALIGN_NEXT_OLDER, ALIGN_MIN, ALIGN_MAX, ALIGN_MEAN,
                                         ALIGN_COUNT, ALIGN_SUM, ALIGN_STDDEV, ALIGN_COUNT_TRUE,
                                         ALIGN_COUNT_FALSE, ALIGN_FRACTION_TRUE, ALIGN_PERCENTILE_99,
                                         ALIGN_PERCENTILE_95, ALIGN_PERCENTILE_50,
-                                        ALIGN_PERCENTILE_05, and ALIGN_PERCENT_CHANGE.
+                                        ALIGN_PERCENTILE_05, ALIGN_PERCENT_CHANGE.'
                                       type: string
                                   type: object
                                 type: array
@@ -1373,10 +1373,10 @@ spec:
                                   unhealthy states are detected and alerted on quickly.
                                 type: string
                               evaluationMissingData:
-                                description: A condition control that determines how
-                                  metric-threshold conditions are evaluated when data
-                                  stops arriving. Possible values are EVALUATION_MISSING_DATA_INACTIVE,
-                                  EVALUATION_MISSING_DATA_ACTIVE, and EVALUATION_MISSING_DATA_NO_OP.
+                                description: 'A condition control that determines
+                                  how metric-threshold conditions are evaluated when
+                                  data stops arriving. Possible values are: EVALUATION_MISSING_DATA_INACTIVE,
+                                  EVALUATION_MISSING_DATA_ACTIVE, EVALUATION_MISSING_DATA_NO_OP.'
                                 type: string
                               filter:
                                 description: A filter that identifies which time series
@@ -1425,8 +1425,8 @@ spec:
                             multiple conditions in the same policy.
                           type: string
                         name:
-                          description: 'The unique resource name for this condition.
-                            Its syntax is: projects/[PROJECT_ID]/alertPolicies/[POLICY_ID]/conditions/[CONDITION_ID]
+                          description: '(Output) The unique resource name for this
+                            condition. Its syntax is: projects/[PROJECT_ID]/alertPolicies/[POLICY_ID]/conditions/[CONDITION_ID]
                             [CONDITION_ID] is assigned by Stackdriver Monitoring when
                             the condition is created as part of a new or updated alerting
                             policy.'
@@ -1440,10 +1440,11 @@ spec:
                     items:
                       properties:
                         mutateTime:
-                          description: When the change occurred.
+                          description: (Output) When the change occurred.
                           type: string
                         mutatedBy:
-                          description: The email address of the user making the change.
+                          description: (Output) The email address of the user making
+                            the change.
                           type: string
                       type: object
                     type: array

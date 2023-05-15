@@ -29,7 +29,7 @@ type ArgumentsObservation struct {
 
 	// Defaults to FIXED_TYPE.
 	// Default value is FIXED_TYPE.
-	// Possible values are FIXED_TYPE and ANY_TYPE.
+	// Possible values are: FIXED_TYPE, ANY_TYPE.
 	ArgumentKind *string `json:"argumentKind,omitempty" tf:"argument_kind,omitempty"`
 
 	// A JSON schema for the data type. Required unless argumentKind = ANY_TYPE.
@@ -42,7 +42,7 @@ type ArgumentsObservation struct {
 	DataType *string `json:"dataType,omitempty" tf:"data_type,omitempty"`
 
 	// Specifies whether the argument is input or output. Can be set for procedures only.
-	// Possible values are IN, OUT, and INOUT.
+	// Possible values are: IN, OUT, INOUT.
 	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
 
 	// The name of this argument. Can be absent for function return argument.
@@ -53,7 +53,7 @@ type ArgumentsParameters struct {
 
 	// Defaults to FIXED_TYPE.
 	// Default value is FIXED_TYPE.
-	// Possible values are FIXED_TYPE and ANY_TYPE.
+	// Possible values are: FIXED_TYPE, ANY_TYPE.
 	// +kubebuilder:validation:Optional
 	ArgumentKind *string `json:"argumentKind,omitempty" tf:"argument_kind,omitempty"`
 
@@ -68,7 +68,7 @@ type ArgumentsParameters struct {
 	DataType *string `json:"dataType,omitempty" tf:"data_type,omitempty"`
 
 	// Specifies whether the argument is input or output. Can be set for procedures only.
-	// Possible values are IN, OUT, and INOUT.
+	// Possible values are: IN, OUT, INOUT.
 	// +kubebuilder:validation:Optional
 	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
 
@@ -98,7 +98,7 @@ type RoutineObservation_2 struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// The determinism level of the JavaScript UDF if defined.
-	// Possible values are DETERMINISM_LEVEL_UNSPECIFIED, DETERMINISTIC, and NOT_DETERMINISTIC.
+	// Possible values are: DETERMINISM_LEVEL_UNSPECIFIED, DETERMINISTIC, NOT_DETERMINISTIC.
 	DeterminismLevel *string `json:"determinismLevel,omitempty" tf:"determinism_level,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/datasets/{{dataset_id}}/routines/{{routine_id}}
@@ -109,7 +109,7 @@ type RoutineObservation_2 struct {
 	ImportedLibraries []*string `json:"importedLibraries,omitempty" tf:"imported_libraries,omitempty"`
 
 	// The language of the routine.
-	// Possible values are SQL and JAVASCRIPT.
+	// Possible values are: SQL, JAVASCRIPT.
 	Language *string `json:"language,omitempty" tf:"language,omitempty"`
 
 	// The time when this routine was modified, in milliseconds since the
@@ -138,7 +138,7 @@ type RoutineObservation_2 struct {
 	ReturnType *string `json:"returnType,omitempty" tf:"return_type,omitempty"`
 
 	// The type of routine.
-	// Possible values are SCALAR_FUNCTION, PROCEDURE, and TABLE_VALUED_FUNCTION.
+	// Possible values are: SCALAR_FUNCTION, PROCEDURE, TABLE_VALUED_FUNCTION.
 	RoutineType *string `json:"routineType,omitempty" tf:"routine_type,omitempty"`
 }
 
@@ -172,7 +172,7 @@ type RoutineParameters_2 struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// The determinism level of the JavaScript UDF if defined.
-	// Possible values are DETERMINISM_LEVEL_UNSPECIFIED, DETERMINISTIC, and NOT_DETERMINISTIC.
+	// Possible values are: DETERMINISM_LEVEL_UNSPECIFIED, DETERMINISTIC, NOT_DETERMINISTIC.
 	// +kubebuilder:validation:Optional
 	DeterminismLevel *string `json:"determinismLevel,omitempty" tf:"determinism_level,omitempty"`
 
@@ -182,7 +182,7 @@ type RoutineParameters_2 struct {
 	ImportedLibraries []*string `json:"importedLibraries,omitempty" tf:"imported_libraries,omitempty"`
 
 	// The language of the routine.
-	// Possible values are SQL and JAVASCRIPT.
+	// Possible values are: SQL, JAVASCRIPT.
 	// +kubebuilder:validation:Optional
 	Language *string `json:"language,omitempty" tf:"language,omitempty"`
 
@@ -211,7 +211,7 @@ type RoutineParameters_2 struct {
 	ReturnType *string `json:"returnType,omitempty" tf:"return_type,omitempty"`
 
 	// The type of routine.
-	// Possible values are SCALAR_FUNCTION, PROCEDURE, and TABLE_VALUED_FUNCTION.
+	// Possible values are: SCALAR_FUNCTION, PROCEDURE, TABLE_VALUED_FUNCTION.
 	// +kubebuilder:validation:Optional
 	RoutineType *string `json:"routineType,omitempty" tf:"routine_type,omitempty"`
 }

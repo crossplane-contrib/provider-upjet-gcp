@@ -470,9 +470,9 @@ spec:
                             in Google Cloud KMS.
                           type: string
                         sha256:
-                          description: The RFC 4648 base64 encoded SHA-256 hash of
-                            the customer-supplied encryption key that protects this
-                            resource.
+                          description: (Output) The RFC 4648 base64 encoded SHA-256
+                            hash of the customer-supplied encryption key that protects
+                            this resource.
                           type: string
                       type: object
                     type: array
@@ -554,9 +554,9 @@ spec:
                             this resource.
                           type: string
                         sha256:
-                          description: The RFC 4648 base64 encoded SHA-256 hash of
-                            the customer-supplied encryption key that protects this
-                            resource.
+                          description: (Output) The RFC 4648 base64 encoded SHA-256
+                            hash of the customer-supplied encryption key that protects
+                            this resource.
                           type: string
                       type: object
                     type: array

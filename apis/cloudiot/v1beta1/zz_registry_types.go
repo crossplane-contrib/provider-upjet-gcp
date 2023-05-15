@@ -100,7 +100,7 @@ type RegistryObservation struct {
 	// errors will be logged. LogLevel is inclusive; enabling INFO logging
 	// will also enable ERROR logging.
 	// Default value is NONE.
-	// Possible values are NONE, ERROR, INFO, and DEBUG.
+	// Possible values are: NONE, ERROR, INFO, DEBUG.
 	LogLevel *string `json:"logLevel,omitempty" tf:"log_level,omitempty"`
 
 	// Activate or deactivate MQTT.
@@ -147,7 +147,7 @@ type RegistryParameters struct {
 	// errors will be logged. LogLevel is inclusive; enabling INFO logging
 	// will also enable ERROR logging.
 	// Default value is NONE.
-	// Possible values are NONE, ERROR, INFO, and DEBUG.
+	// Possible values are: NONE, ERROR, INFO, DEBUG.
 	// +kubebuilder:validation:Optional
 	LogLevel *string `json:"logLevel,omitempty" tf:"log_level,omitempty"`
 

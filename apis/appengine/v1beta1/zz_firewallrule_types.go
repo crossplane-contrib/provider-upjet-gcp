@@ -28,7 +28,7 @@ import (
 type FirewallRuleObservation struct {
 
 	// The action to take if this rule matches.
-	// Possible values are UNSPECIFIED_ACTION, ALLOW, and DENY.
+	// Possible values are: UNSPECIFIED_ACTION, ALLOW, DENY.
 	Action *string `json:"action,omitempty" tf:"action,omitempty"`
 
 	// An optional string description of this rule.
@@ -55,7 +55,7 @@ type FirewallRuleObservation struct {
 type FirewallRuleParameters struct {
 
 	// The action to take if this rule matches.
-	// Possible values are UNSPECIFIED_ACTION, ALLOW, and DENY.
+	// Possible values are: UNSPECIFIED_ACTION, ALLOW, DENY.
 	// +kubebuilder:validation:Optional
 	Action *string `json:"action,omitempty" tf:"action,omitempty"`
 

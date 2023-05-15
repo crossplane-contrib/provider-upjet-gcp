@@ -75,10 +75,10 @@ spec:
                     items:
                       properties:
                         deliveryRequirement:
-                          description: When this subscription should send messages
+                          description: 'When this subscription should send messages
                             to subscribers relative to messages persistence in storage.
-                            Possible values are DELIVER_IMMEDIATELY, DELIVER_AFTER_STORED,
-                            and DELIVERY_REQUIREMENT_UNSPECIFIED.
+                            Possible values are: DELIVER_IMMEDIATELY, DELIVER_AFTER_STORED,
+                            DELIVERY_REQUIREMENT_UNSPECIFIED.'
                           type: string
                       required:
                       - deliveryRequirement
@@ -370,10 +370,10 @@ spec:
                     items:
                       properties:
                         deliveryRequirement:
-                          description: When this subscription should send messages
+                          description: 'When this subscription should send messages
                             to subscribers relative to messages persistence in storage.
-                            Possible values are DELIVER_IMMEDIATELY, DELIVER_AFTER_STORED,
-                            and DELIVERY_REQUIREMENT_UNSPECIFIED.
+                            Possible values are: DELIVER_IMMEDIATELY, DELIVER_AFTER_STORED,
+                            DELIVERY_REQUIREMENT_UNSPECIFIED.'
                           type: string
                       type: object
                     type: array

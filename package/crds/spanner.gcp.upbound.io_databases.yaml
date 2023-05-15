@@ -69,9 +69,9 @@ spec:
               forProvider:
                 properties:
                   databaseDialect:
-                    description: The dialect of the Cloud Spanner Database. If it
+                    description: 'The dialect of the Cloud Spanner Database. If it
                       is not provided, "GOOGLE_STANDARD_SQL" will be used. Possible
-                      values are GOOGLE_STANDARD_SQL and POSTGRESQL.
+                      values are: GOOGLE_STANDARD_SQL, POSTGRESQL.'
                     type: string
                   ddl:
                     description: 'An optional list of DDL statements to run inside
@@ -379,9 +379,9 @@ spec:
               atProvider:
                 properties:
                   databaseDialect:
-                    description: The dialect of the Cloud Spanner Database. If it
+                    description: 'The dialect of the Cloud Spanner Database. If it
                       is not provided, "GOOGLE_STANDARD_SQL" will be used. Possible
-                      values are GOOGLE_STANDARD_SQL and POSTGRESQL.
+                      values are: GOOGLE_STANDARD_SQL, POSTGRESQL.'
                     type: string
                   ddl:
                     description: 'An optional list of DDL statements to run inside

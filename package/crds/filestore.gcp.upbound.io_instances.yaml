@@ -93,11 +93,11 @@ spec:
                           items:
                             properties:
                               accessMode:
-                                description: Either READ_ONLY, for allowing only read
-                                  requests on the exported directory, or READ_WRITE,
+                                description: 'Either READ_ONLY, for allowing only
+                                  read requests on the exported directory, or READ_WRITE,
                                   for allowing both read and write requests. The default
                                   is READ_WRITE. Default value is READ_WRITE. Possible
-                                  values are READ_ONLY and READ_WRITE.
+                                  values are: READ_ONLY, READ_WRITE.'
                                 type: string
                               anonGid:
                                 description: An integer representing the anonymous
@@ -124,11 +124,11 @@ spec:
                                   type: string
                                 type: array
                               squashMode:
-                                description: Either NO_ROOT_SQUASH, for allowing root
-                                  access on the exported directory, or ROOT_SQUASH,
+                                description: 'Either NO_ROOT_SQUASH, for allowing
+                                  root access on the exported directory, or ROOT_SQUASH,
                                   for not allowing root access. The default is NO_ROOT_SQUASH.
                                   Default value is NO_ROOT_SQUASH. Possible values
-                                  are NO_ROOT_SQUASH and ROOT_SQUASH.
+                                  are: NO_ROOT_SQUASH, ROOT_SQUASH.'
                                 type: string
                             type: object
                           type: array
@@ -229,15 +229,15 @@ spec:
                     items:
                       properties:
                         connectMode:
-                          description: The network connect mode of the Filestore instance.
-                            If not provided, the connect mode defaults to DIRECT_PEERING.
-                            Default value is DIRECT_PEERING. Possible values are DIRECT_PEERING
-                            and PRIVATE_SERVICE_ACCESS.
+                          description: 'The network connect mode of the Filestore
+                            instance. If not provided, the connect mode defaults to
+                            DIRECT_PEERING. Default value is DIRECT_PEERING. Possible
+                            values are: DIRECT_PEERING, PRIVATE_SERVICE_ACCESS.'
                           type: string
                         modes:
-                          description: IP versions for which the instance has IP addresses
-                            assigned. Each value may be one of ADDRESS_MODE_UNSPECIFIED,
-                            MODE_IPV4, and MODE_IPV6.
+                          description: 'IP versions for which the instance has IP
+                            addresses assigned. Each value may be one of: ADDRESS_MODE_UNSPECIFIED,
+                            MODE_IPV4, MODE_IPV6.'
                           items:
                             type: string
                           type: array
@@ -497,11 +497,11 @@ spec:
                           items:
                             properties:
                               accessMode:
-                                description: Either READ_ONLY, for allowing only read
-                                  requests on the exported directory, or READ_WRITE,
+                                description: 'Either READ_ONLY, for allowing only
+                                  read requests on the exported directory, or READ_WRITE,
                                   for allowing both read and write requests. The default
                                   is READ_WRITE. Default value is READ_WRITE. Possible
-                                  values are READ_ONLY and READ_WRITE.
+                                  values are: READ_ONLY, READ_WRITE.'
                                 type: string
                               anonGid:
                                 description: An integer representing the anonymous
@@ -528,17 +528,17 @@ spec:
                                   type: string
                                 type: array
                               squashMode:
-                                description: Either NO_ROOT_SQUASH, for allowing root
-                                  access on the exported directory, or ROOT_SQUASH,
+                                description: 'Either NO_ROOT_SQUASH, for allowing
+                                  root access on the exported directory, or ROOT_SQUASH,
                                   for not allowing root access. The default is NO_ROOT_SQUASH.
                                   Default value is NO_ROOT_SQUASH. Possible values
-                                  are NO_ROOT_SQUASH and ROOT_SQUASH.
+                                  are: NO_ROOT_SQUASH, ROOT_SQUASH.'
                                 type: string
                             type: object
                           type: array
                         sourceBackup:
-                          description: The resource name of the backup, in the format
-                            projects/{projectId}/locations/{locationId}/backups/{backupId},
+                          description: (Output) The resource name of the backup, in
+                            the format projects/{projectId}/locations/{locationId}/backups/{backupId},
                             that this file share has been restored from.
                           type: string
                       type: object
@@ -565,20 +565,20 @@ spec:
                     items:
                       properties:
                         connectMode:
-                          description: The network connect mode of the Filestore instance.
-                            If not provided, the connect mode defaults to DIRECT_PEERING.
-                            Default value is DIRECT_PEERING. Possible values are DIRECT_PEERING
-                            and PRIVATE_SERVICE_ACCESS.
+                          description: 'The network connect mode of the Filestore
+                            instance. If not provided, the connect mode defaults to
+                            DIRECT_PEERING. Default value is DIRECT_PEERING. Possible
+                            values are: DIRECT_PEERING, PRIVATE_SERVICE_ACCESS.'
                           type: string
                         ipAddresses:
-                          description: A list of IPv4 or IPv6 addresses.
+                          description: (Output) A list of IPv4 or IPv6 addresses.
                           items:
                             type: string
                           type: array
                         modes:
-                          description: IP versions for which the instance has IP addresses
-                            assigned. Each value may be one of ADDRESS_MODE_UNSPECIFIED,
-                            MODE_IPV4, and MODE_IPV6.
+                          description: 'IP versions for which the instance has IP
+                            addresses assigned. Each value may be one of: ADDRESS_MODE_UNSPECIFIED,
+                            MODE_IPV4, MODE_IPV6.'
                           items:
                             type: string
                           type: array

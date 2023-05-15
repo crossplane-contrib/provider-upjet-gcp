@@ -64,18 +64,23 @@ type EmailParameters struct {
 
 type HashConfigObservation struct {
 
+	// (Output)
 	// Different password hash algorithms used in Identity Toolkit.
 	Algorithm *string `json:"algorithm,omitempty" tf:"algorithm,omitempty"`
 
+	// (Output)
 	// Memory cost for hash calculation. Used by scrypt and other similar password derivation algorithms. See https://tools.ietf.org/html/rfc7914 for explanation of field.
 	MemoryCost *float64 `json:"memoryCost,omitempty" tf:"memory_cost,omitempty"`
 
+	// (Output)
 	// How many rounds for hash calculation. Used by scrypt and other similar password derivation algorithms.
 	Rounds *float64 `json:"rounds,omitempty" tf:"rounds,omitempty"`
 
+	// (Output)
 	// Non-printable character to be inserted between the salt and plain text password in base64.
 	SaltSeparator *string `json:"saltSeparator,omitempty" tf:"salt_separator,omitempty"`
 
+	// (Output)
 	// Signer key in base64.
 	SignerKey *string `json:"signerKey,omitempty" tf:"signer_key,omitempty"`
 }
@@ -146,6 +151,7 @@ type SignInObservation struct {
 	// Structure is documented below.
 	Email []EmailObservation `json:"email,omitempty" tf:"email,omitempty"`
 
+	// (Output)
 	// Output only. Hash config information.
 	// Structure is documented below.
 	HashConfig []HashConfigObservation `json:"hashConfig,omitempty" tf:"hash_config,omitempty"`

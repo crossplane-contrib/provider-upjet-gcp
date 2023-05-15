@@ -41,7 +41,7 @@ type SchemaObservation struct {
 
 	// The type of the schema definition
 	// Default value is TYPE_UNSPECIFIED.
-	// Possible values are TYPE_UNSPECIFIED, PROTOCOL_BUFFER, and AVRO.
+	// Possible values are: TYPE_UNSPECIFIED, PROTOCOL_BUFFER, AVRO.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
@@ -60,7 +60,7 @@ type SchemaParameters struct {
 
 	// The type of the schema definition
 	// Default value is TYPE_UNSPECIFIED.
-	// Possible values are TYPE_UNSPECIFIED, PROTOCOL_BUFFER, and AVRO.
+	// Possible values are: TYPE_UNSPECIFIED, PROTOCOL_BUFFER, AVRO.
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }

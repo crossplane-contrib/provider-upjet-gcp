@@ -25,10 +25,34 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type AutoscaleObservation struct {
+
+	// (Output)
+	// The slot capacity added to this reservation when autoscale happens. Will be between [0, max_slots].
+	CurrentSlots *float64 `json:"currentSlots,omitempty" tf:"current_slots,omitempty"`
+
+	// Number of slots to be scaled when needed.
+	MaxSlots *float64 `json:"maxSlots,omitempty" tf:"max_slots,omitempty"`
+}
+
+type AutoscaleParameters struct {
+
+	// Number of slots to be scaled when needed.
+	// +kubebuilder:validation:Optional
+	MaxSlots *float64 `json:"maxSlots,omitempty" tf:"max_slots,omitempty"`
+}
+
 type ReservationObservation struct {
+
+	// The configuration parameters for the auto scaling feature.
+	// Structure is documented below.
+	Autoscale []AutoscaleObservation `json:"autoscale,omitempty" tf:"autoscale,omitempty"`
 
 	// Maximum number of queries that are allowed to run concurrently in this reservation. This is a soft limit due to asynchronous nature of the system and various optimizations for small queries. Default value is 0 which means that concurrency will be automatically set based on the reservation size.
 	Concurrency *float64 `json:"concurrency,omitempty" tf:"concurrency,omitempty"`
+
+	// The edition type. Valid values are STANDARD, ENTERPRISE, ENTERPRISE_PLUS
+	Edition *string `json:"edition,omitempty" tf:"edition,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/reservations/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -57,9 +81,18 @@ type ReservationObservation struct {
 
 type ReservationParameters struct {
 
+	// The configuration parameters for the auto scaling feature.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Autoscale []AutoscaleParameters `json:"autoscale,omitempty" tf:"autoscale,omitempty"`
+
 	// Maximum number of queries that are allowed to run concurrently in this reservation. This is a soft limit due to asynchronous nature of the system and various optimizations for small queries. Default value is 0 which means that concurrency will be automatically set based on the reservation size.
 	// +kubebuilder:validation:Optional
 	Concurrency *float64 `json:"concurrency,omitempty" tf:"concurrency,omitempty"`
+
+	// The edition type. Valid values are STANDARD, ENTERPRISE, ENTERPRISE_PLUS
+	// +kubebuilder:validation:Optional
+	Edition *string `json:"edition,omitempty" tf:"edition,omitempty"`
 
 	// If false, any query using this reservation will use idle slots from other reservations within
 	// the same admin project. If true, a query using this reservation will execute with the slot

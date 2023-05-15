@@ -87,6 +87,58 @@ type ContainersEnvParameters struct {
 	ValueSource []ValueSourceParameters `json:"valueSource,omitempty" tf:"value_source,omitempty"`
 }
 
+type ContainersLivenessProbeObservation struct {
+
+	// Minimum consecutive failures for the probe to be considered failed after having succeeded. Defaults to 3. Minimum value is 1.
+	FailureThreshold *float64 `json:"failureThreshold,omitempty" tf:"failure_threshold,omitempty"`
+
+	// HTTPGet specifies the http request to perform. Exactly one of HTTPGet or TCPSocket must be specified.
+	// Structure is documented below.
+	HTTPGet []LivenessProbeHTTPGetObservation `json:"httpGet,omitempty" tf:"http_get,omitempty"`
+
+	// Number of seconds after the container has started before the probe is initiated. Defaults to 0 seconds. Minimum value is 0. Maximum value for liveness probe is 3600. Maximum value for startup probe is 240. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
+	InitialDelaySeconds *float64 `json:"initialDelaySeconds,omitempty" tf:"initial_delay_seconds,omitempty"`
+
+	// How often (in seconds) to perform the probe. Default to 10 seconds. Minimum value is 1. Maximum value for liveness probe is 3600. Maximum value for startup probe is 240. Must be greater or equal than timeoutSeconds
+	PeriodSeconds *float64 `json:"periodSeconds,omitempty" tf:"period_seconds,omitempty"`
+
+	// TCPSocket specifies an action involving a TCP port. Exactly one of HTTPGet or TCPSocket must be specified.
+	// Structure is documented below.
+	TCPSocket []LivenessProbeTCPSocketObservation `json:"tcpSocket,omitempty" tf:"tcp_socket,omitempty"`
+
+	// Number of seconds after which the probe times out. Defaults to 1 second. Minimum value is 1. Maximum value is 3600. Must be smaller than periodSeconds. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
+	TimeoutSeconds *float64 `json:"timeoutSeconds,omitempty" tf:"timeout_seconds,omitempty"`
+}
+
+type ContainersLivenessProbeParameters struct {
+
+	// Minimum consecutive failures for the probe to be considered failed after having succeeded. Defaults to 3. Minimum value is 1.
+	// +kubebuilder:validation:Optional
+	FailureThreshold *float64 `json:"failureThreshold,omitempty" tf:"failure_threshold,omitempty"`
+
+	// HTTPGet specifies the http request to perform. Exactly one of HTTPGet or TCPSocket must be specified.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	HTTPGet []LivenessProbeHTTPGetParameters `json:"httpGet,omitempty" tf:"http_get,omitempty"`
+
+	// Number of seconds after the container has started before the probe is initiated. Defaults to 0 seconds. Minimum value is 0. Maximum value for liveness probe is 3600. Maximum value for startup probe is 240. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
+	// +kubebuilder:validation:Optional
+	InitialDelaySeconds *float64 `json:"initialDelaySeconds,omitempty" tf:"initial_delay_seconds,omitempty"`
+
+	// How often (in seconds) to perform the probe. Default to 10 seconds. Minimum value is 1. Maximum value for liveness probe is 3600. Maximum value for startup probe is 240. Must be greater or equal than timeoutSeconds
+	// +kubebuilder:validation:Optional
+	PeriodSeconds *float64 `json:"periodSeconds,omitempty" tf:"period_seconds,omitempty"`
+
+	// TCPSocket specifies an action involving a TCP port. Exactly one of HTTPGet or TCPSocket must be specified.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	TCPSocket []LivenessProbeTCPSocketParameters `json:"tcpSocket,omitempty" tf:"tcp_socket,omitempty"`
+
+	// Number of seconds after which the probe times out. Defaults to 1 second. Minimum value is 1. Maximum value is 3600. Must be smaller than periodSeconds. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
+	// +kubebuilder:validation:Optional
+	TimeoutSeconds *float64 `json:"timeoutSeconds,omitempty" tf:"timeout_seconds,omitempty"`
+}
+
 type ContainersPortsObservation struct {
 
 	// Port number the container listens on. This must be a valid TCP port number, 0 < containerPort < 65536.
@@ -120,6 +172,80 @@ type ContainersResourcesParameters struct {
 	Limits map[string]*string `json:"limits,omitempty" tf:"limits,omitempty"`
 }
 
+type ContainersStartupProbeHTTPGetObservation struct {
+
+	// Custom headers to set in the request. HTTP allows repeated headers.
+	// Structure is documented below.
+	HTTPHeaders []StartupProbeHTTPGetHTTPHeadersObservation `json:"httpHeaders,omitempty" tf:"http_headers,omitempty"`
+
+	// The relative path of the secret in the container.
+	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+}
+
+type ContainersStartupProbeHTTPGetParameters struct {
+
+	// Custom headers to set in the request. HTTP allows repeated headers.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	HTTPHeaders []StartupProbeHTTPGetHTTPHeadersParameters `json:"httpHeaders,omitempty" tf:"http_headers,omitempty"`
+
+	// The relative path of the secret in the container.
+	// +kubebuilder:validation:Optional
+	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+}
+
+type ContainersStartupProbeObservation struct {
+
+	// Minimum consecutive failures for the probe to be considered failed after having succeeded. Defaults to 3. Minimum value is 1.
+	FailureThreshold *float64 `json:"failureThreshold,omitempty" tf:"failure_threshold,omitempty"`
+
+	// HTTPGet specifies the http request to perform. Exactly one of HTTPGet or TCPSocket must be specified.
+	// Structure is documented below.
+	HTTPGet []ContainersStartupProbeHTTPGetObservation `json:"httpGet,omitempty" tf:"http_get,omitempty"`
+
+	// Number of seconds after the container has started before the probe is initiated. Defaults to 0 seconds. Minimum value is 0. Maximum value for liveness probe is 3600. Maximum value for startup probe is 240. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
+	InitialDelaySeconds *float64 `json:"initialDelaySeconds,omitempty" tf:"initial_delay_seconds,omitempty"`
+
+	// How often (in seconds) to perform the probe. Default to 10 seconds. Minimum value is 1. Maximum value for liveness probe is 3600. Maximum value for startup probe is 240. Must be greater or equal than timeoutSeconds
+	PeriodSeconds *float64 `json:"periodSeconds,omitempty" tf:"period_seconds,omitempty"`
+
+	// TCPSocket specifies an action involving a TCP port. Exactly one of HTTPGet or TCPSocket must be specified.
+	// Structure is documented below.
+	TCPSocket []StartupProbeTCPSocketObservation `json:"tcpSocket,omitempty" tf:"tcp_socket,omitempty"`
+
+	// Number of seconds after which the probe times out. Defaults to 1 second. Minimum value is 1. Maximum value is 3600. Must be smaller than periodSeconds. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
+	TimeoutSeconds *float64 `json:"timeoutSeconds,omitempty" tf:"timeout_seconds,omitempty"`
+}
+
+type ContainersStartupProbeParameters struct {
+
+	// Minimum consecutive failures for the probe to be considered failed after having succeeded. Defaults to 3. Minimum value is 1.
+	// +kubebuilder:validation:Optional
+	FailureThreshold *float64 `json:"failureThreshold,omitempty" tf:"failure_threshold,omitempty"`
+
+	// HTTPGet specifies the http request to perform. Exactly one of HTTPGet or TCPSocket must be specified.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	HTTPGet []ContainersStartupProbeHTTPGetParameters `json:"httpGet,omitempty" tf:"http_get,omitempty"`
+
+	// Number of seconds after the container has started before the probe is initiated. Defaults to 0 seconds. Minimum value is 0. Maximum value for liveness probe is 3600. Maximum value for startup probe is 240. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
+	// +kubebuilder:validation:Optional
+	InitialDelaySeconds *float64 `json:"initialDelaySeconds,omitempty" tf:"initial_delay_seconds,omitempty"`
+
+	// How often (in seconds) to perform the probe. Default to 10 seconds. Minimum value is 1. Maximum value for liveness probe is 3600. Maximum value for startup probe is 240. Must be greater or equal than timeoutSeconds
+	// +kubebuilder:validation:Optional
+	PeriodSeconds *float64 `json:"periodSeconds,omitempty" tf:"period_seconds,omitempty"`
+
+	// TCPSocket specifies an action involving a TCP port. Exactly one of HTTPGet or TCPSocket must be specified.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	TCPSocket []StartupProbeTCPSocketParameters `json:"tcpSocket,omitempty" tf:"tcp_socket,omitempty"`
+
+	// Number of seconds after which the probe times out. Defaults to 1 second. Minimum value is 1. Maximum value is 3600. Must be smaller than periodSeconds. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
+	// +kubebuilder:validation:Optional
+	TimeoutSeconds *float64 `json:"timeoutSeconds,omitempty" tf:"timeout_seconds,omitempty"`
+}
+
 type ContainersVolumeMountsObservation struct {
 
 	// Path within the container at which the volume should be mounted. Must not contain ':'. For Cloud SQL volumes, it can be left empty, or must otherwise be /cloudsql. All instances defined in the Volume will be available as /cloudsql/[instance]. For more information on Cloud SQL volumes, visit https://cloud.google.com/sql/docs/mysql/connect-run
@@ -140,78 +266,19 @@ type ContainersVolumeMountsParameters struct {
 	Name *string `json:"name" tf:"name,omitempty"`
 }
 
-type HTTPGetHTTPHeadersObservation struct {
-
-	// Volume's name.
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
-
-	// The header field value
-	Value *string `json:"value,omitempty" tf:"value,omitempty"`
-}
-
-type HTTPGetHTTPHeadersParameters struct {
-
-	// Volume's name.
-	// +kubebuilder:validation:Required
-	Name *string `json:"name" tf:"name,omitempty"`
-
-	// The header field value
-	// +kubebuilder:validation:Optional
-	Value *string `json:"value,omitempty" tf:"value,omitempty"`
-}
-
-type HTTPGetObservation struct {
-
-	// Custom headers to set in the request. HTTP allows repeated headers.
-	// Structure is documented below.
-	HTTPHeaders []HTTPHeadersObservation `json:"httpHeaders,omitempty" tf:"http_headers,omitempty"`
-
-	// The relative path of the secret in the container.
-	Path *string `json:"path,omitempty" tf:"path,omitempty"`
-}
-
-type HTTPGetParameters struct {
-
-	// Custom headers to set in the request. HTTP allows repeated headers.
-	// Structure is documented below.
-	// +kubebuilder:validation:Optional
-	HTTPHeaders []HTTPHeadersParameters `json:"httpHeaders,omitempty" tf:"http_headers,omitempty"`
-
-	// The relative path of the secret in the container.
-	// +kubebuilder:validation:Optional
-	Path *string `json:"path,omitempty" tf:"path,omitempty"`
-}
-
-type HTTPHeadersObservation struct {
-
-	// Volume's name.
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
-
-	// The header field value
-	Value *string `json:"value,omitempty" tf:"value,omitempty"`
-}
-
-type HTTPHeadersParameters struct {
-
-	// Volume's name.
-	// +kubebuilder:validation:Required
-	Name *string `json:"name" tf:"name,omitempty"`
-
-	// The header field value
-	// +kubebuilder:validation:Optional
-	Value *string `json:"value,omitempty" tf:"value,omitempty"`
-}
-
 type LatestCreatedExecutionObservation struct {
 
+	// (Output)
 	// Completion timestamp of the execution.
 	// A timestamp in RFC3339 UTC "Zulu" format, with nanosecond resolution and up to nine fractional digits. Examples: "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z".
 	CompletionTime *string `json:"completionTime,omitempty" tf:"completion_time,omitempty"`
 
+	// (Output)
 	// Creation timestamp of the execution.
 	// A timestamp in RFC3339 UTC "Zulu" format, with nanosecond resolution and up to nine fractional digits. Examples: "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z".
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
+	// (Output)
 	// Name of the execution.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 }
@@ -219,56 +286,59 @@ type LatestCreatedExecutionObservation struct {
 type LatestCreatedExecutionParameters struct {
 }
 
-type LivenessProbeObservation struct {
+type LivenessProbeHTTPGetHTTPHeadersObservation struct {
 
-	// Minimum consecutive failures for the probe to be considered failed after having succeeded. Defaults to 3. Minimum value is 1.
-	FailureThreshold *float64 `json:"failureThreshold,omitempty" tf:"failure_threshold,omitempty"`
+	// Volume's name.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// HTTPGet specifies the http request to perform. Exactly one of HTTPGet or TCPSocket must be specified.
-	// Structure is documented below.
-	HTTPGet []HTTPGetObservation `json:"httpGet,omitempty" tf:"http_get,omitempty"`
-
-	// Number of seconds after the container has started before the probe is initiated. Defaults to 0 seconds. Minimum value is 0. Maximum value for liveness probe is 3600. Maximum value for startup probe is 240. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
-	InitialDelaySeconds *float64 `json:"initialDelaySeconds,omitempty" tf:"initial_delay_seconds,omitempty"`
-
-	// How often (in seconds) to perform the probe. Default to 10 seconds. Minimum value is 1. Maximum value for liveness probe is 3600. Maximum value for startup probe is 240. Must be greater or equal than timeoutSeconds
-	PeriodSeconds *float64 `json:"periodSeconds,omitempty" tf:"period_seconds,omitempty"`
-
-	// TCPSocket specifies an action involving a TCP port. Exactly one of HTTPGet or TCPSocket must be specified.
-	// Structure is documented below.
-	TCPSocket []TCPSocketObservation `json:"tcpSocket,omitempty" tf:"tcp_socket,omitempty"`
-
-	// Number of seconds after which the probe times out. Defaults to 1 second. Minimum value is 1. Maximum value is 3600. Must be smaller than periodSeconds. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
-	TimeoutSeconds *float64 `json:"timeoutSeconds,omitempty" tf:"timeout_seconds,omitempty"`
+	// The header field value
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
 
-type LivenessProbeParameters struct {
+type LivenessProbeHTTPGetHTTPHeadersParameters struct {
 
-	// Minimum consecutive failures for the probe to be considered failed after having succeeded. Defaults to 3. Minimum value is 1.
+	// Volume's name.
+	// +kubebuilder:validation:Required
+	Name *string `json:"name" tf:"name,omitempty"`
+
+	// The header field value
 	// +kubebuilder:validation:Optional
-	FailureThreshold *float64 `json:"failureThreshold,omitempty" tf:"failure_threshold,omitempty"`
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
 
-	// HTTPGet specifies the http request to perform. Exactly one of HTTPGet or TCPSocket must be specified.
+type LivenessProbeHTTPGetObservation struct {
+
+	// Custom headers to set in the request. HTTP allows repeated headers.
+	// Structure is documented below.
+	HTTPHeaders []LivenessProbeHTTPGetHTTPHeadersObservation `json:"httpHeaders,omitempty" tf:"http_headers,omitempty"`
+
+	// The relative path of the secret in the container.
+	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+}
+
+type LivenessProbeHTTPGetParameters struct {
+
+	// Custom headers to set in the request. HTTP allows repeated headers.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	HTTPGet []HTTPGetParameters `json:"httpGet,omitempty" tf:"http_get,omitempty"`
+	HTTPHeaders []LivenessProbeHTTPGetHTTPHeadersParameters `json:"httpHeaders,omitempty" tf:"http_headers,omitempty"`
 
-	// Number of seconds after the container has started before the probe is initiated. Defaults to 0 seconds. Minimum value is 0. Maximum value for liveness probe is 3600. Maximum value for startup probe is 240. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
+	// The relative path of the secret in the container.
 	// +kubebuilder:validation:Optional
-	InitialDelaySeconds *float64 `json:"initialDelaySeconds,omitempty" tf:"initial_delay_seconds,omitempty"`
+	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+}
 
-	// How often (in seconds) to perform the probe. Default to 10 seconds. Minimum value is 1. Maximum value for liveness probe is 3600. Maximum value for startup probe is 240. Must be greater or equal than timeoutSeconds
-	// +kubebuilder:validation:Optional
-	PeriodSeconds *float64 `json:"periodSeconds,omitempty" tf:"period_seconds,omitempty"`
+type LivenessProbeTCPSocketObservation struct {
 
-	// TCPSocket specifies an action involving a TCP port. Exactly one of HTTPGet or TCPSocket must be specified.
-	// Structure is documented below.
-	// +kubebuilder:validation:Optional
-	TCPSocket []TCPSocketParameters `json:"tcpSocket,omitempty" tf:"tcp_socket,omitempty"`
+	// Port number to access on the container. Must be in the range 1 to 65535. If not specified, defaults to 8080.
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+}
 
-	// Number of seconds after which the probe times out. Defaults to 1 second. Minimum value is 1. Maximum value is 3600. Must be smaller than periodSeconds. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
+type LivenessProbeTCPSocketParameters struct {
+
+	// Port number to access on the container. Must be in the range 1 to 65535. If not specified, defaults to 8080.
 	// +kubebuilder:validation:Optional
-	TimeoutSeconds *float64 `json:"timeoutSeconds,omitempty" tf:"timeout_seconds,omitempty"`
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
 }
 
 type SecretItemsObservation struct {
@@ -298,78 +368,24 @@ type SecretItemsParameters struct {
 	Version *string `json:"version" tf:"version,omitempty"`
 }
 
-type StartupProbeHTTPGetObservation struct {
+type StartupProbeHTTPGetHTTPHeadersObservation struct {
 
-	// Custom headers to set in the request. HTTP allows repeated headers.
-	// Structure is documented below.
-	HTTPHeaders []HTTPGetHTTPHeadersObservation `json:"httpHeaders,omitempty" tf:"http_headers,omitempty"`
+	// Volume's name.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// The relative path of the secret in the container.
-	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+	// The header field value
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
 
-type StartupProbeHTTPGetParameters struct {
+type StartupProbeHTTPGetHTTPHeadersParameters struct {
 
-	// Custom headers to set in the request. HTTP allows repeated headers.
-	// Structure is documented below.
+	// Volume's name.
+	// +kubebuilder:validation:Required
+	Name *string `json:"name" tf:"name,omitempty"`
+
+	// The header field value
 	// +kubebuilder:validation:Optional
-	HTTPHeaders []HTTPGetHTTPHeadersParameters `json:"httpHeaders,omitempty" tf:"http_headers,omitempty"`
-
-	// The relative path of the secret in the container.
-	// +kubebuilder:validation:Optional
-	Path *string `json:"path,omitempty" tf:"path,omitempty"`
-}
-
-type StartupProbeObservation struct {
-
-	// Minimum consecutive failures for the probe to be considered failed after having succeeded. Defaults to 3. Minimum value is 1.
-	FailureThreshold *float64 `json:"failureThreshold,omitempty" tf:"failure_threshold,omitempty"`
-
-	// HTTPGet specifies the http request to perform. Exactly one of HTTPGet or TCPSocket must be specified.
-	// Structure is documented below.
-	HTTPGet []StartupProbeHTTPGetObservation `json:"httpGet,omitempty" tf:"http_get,omitempty"`
-
-	// Number of seconds after the container has started before the probe is initiated. Defaults to 0 seconds. Minimum value is 0. Maximum value for liveness probe is 3600. Maximum value for startup probe is 240. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
-	InitialDelaySeconds *float64 `json:"initialDelaySeconds,omitempty" tf:"initial_delay_seconds,omitempty"`
-
-	// How often (in seconds) to perform the probe. Default to 10 seconds. Minimum value is 1. Maximum value for liveness probe is 3600. Maximum value for startup probe is 240. Must be greater or equal than timeoutSeconds
-	PeriodSeconds *float64 `json:"periodSeconds,omitempty" tf:"period_seconds,omitempty"`
-
-	// TCPSocket specifies an action involving a TCP port. Exactly one of HTTPGet or TCPSocket must be specified.
-	// Structure is documented below.
-	TCPSocket []StartupProbeTCPSocketObservation `json:"tcpSocket,omitempty" tf:"tcp_socket,omitempty"`
-
-	// Number of seconds after which the probe times out. Defaults to 1 second. Minimum value is 1. Maximum value is 3600. Must be smaller than periodSeconds. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
-	TimeoutSeconds *float64 `json:"timeoutSeconds,omitempty" tf:"timeout_seconds,omitempty"`
-}
-
-type StartupProbeParameters struct {
-
-	// Minimum consecutive failures for the probe to be considered failed after having succeeded. Defaults to 3. Minimum value is 1.
-	// +kubebuilder:validation:Optional
-	FailureThreshold *float64 `json:"failureThreshold,omitempty" tf:"failure_threshold,omitempty"`
-
-	// HTTPGet specifies the http request to perform. Exactly one of HTTPGet or TCPSocket must be specified.
-	// Structure is documented below.
-	// +kubebuilder:validation:Optional
-	HTTPGet []StartupProbeHTTPGetParameters `json:"httpGet,omitempty" tf:"http_get,omitempty"`
-
-	// Number of seconds after the container has started before the probe is initiated. Defaults to 0 seconds. Minimum value is 0. Maximum value for liveness probe is 3600. Maximum value for startup probe is 240. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
-	// +kubebuilder:validation:Optional
-	InitialDelaySeconds *float64 `json:"initialDelaySeconds,omitempty" tf:"initial_delay_seconds,omitempty"`
-
-	// How often (in seconds) to perform the probe. Default to 10 seconds. Minimum value is 1. Maximum value for liveness probe is 3600. Maximum value for startup probe is 240. Must be greater or equal than timeoutSeconds
-	// +kubebuilder:validation:Optional
-	PeriodSeconds *float64 `json:"periodSeconds,omitempty" tf:"period_seconds,omitempty"`
-
-	// TCPSocket specifies an action involving a TCP port. Exactly one of HTTPGet or TCPSocket must be specified.
-	// Structure is documented below.
-	// +kubebuilder:validation:Optional
-	TCPSocket []StartupProbeTCPSocketParameters `json:"tcpSocket,omitempty" tf:"tcp_socket,omitempty"`
-
-	// Number of seconds after which the probe times out. Defaults to 1 second. Minimum value is 1. Maximum value is 3600. Must be smaller than periodSeconds. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
-	// +kubebuilder:validation:Optional
-	TimeoutSeconds *float64 `json:"timeoutSeconds,omitempty" tf:"timeout_seconds,omitempty"`
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
 
 type StartupProbeTCPSocketObservation struct {
@@ -379,19 +395,6 @@ type StartupProbeTCPSocketObservation struct {
 }
 
 type StartupProbeTCPSocketParameters struct {
-
-	// Port number to access on the container. Must be in the range 1 to 65535. If not specified, defaults to 8080.
-	// +kubebuilder:validation:Optional
-	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
-}
-
-type TCPSocketObservation struct {
-
-	// Port number to access on the container. Must be in the range 1 to 65535. If not specified, defaults to 8080.
-	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
-}
-
-type TCPSocketParameters struct {
 
 	// Port number to access on the container. Must be in the range 1 to 65535. If not specified, defaults to 8080.
 	// +kubebuilder:validation:Optional
@@ -416,7 +419,7 @@ type TemplateContainersObservation struct {
 	// Periodic probe of container liveness. Container will be restarted if the probe fails. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
 	// This field is not supported in Cloud Run Job currently.
 	// Structure is documented below.
-	LivenessProbe []LivenessProbeObservation `json:"livenessProbe,omitempty" tf:"liveness_probe,omitempty"`
+	LivenessProbe []ContainersLivenessProbeObservation `json:"livenessProbe,omitempty" tf:"liveness_probe,omitempty"`
 
 	// Volume's name.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
@@ -433,7 +436,7 @@ type TemplateContainersObservation struct {
 	// Startup probe of application within the container. All other probes are disabled if a startup probe is provided, until it succeeds. Container will not be added to service endpoints if the probe fails. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
 	// This field is not supported in Cloud Run Job currently.
 	// Structure is documented below.
-	StartupProbe []StartupProbeObservation `json:"startupProbe,omitempty" tf:"startup_probe,omitempty"`
+	StartupProbe []ContainersStartupProbeObservation `json:"startupProbe,omitempty" tf:"startup_probe,omitempty"`
 
 	// Volume to mount into the container's filesystem.
 	// Structure is documented below.
@@ -466,7 +469,7 @@ type TemplateContainersParameters struct {
 	// This field is not supported in Cloud Run Job currently.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	LivenessProbe []LivenessProbeParameters `json:"livenessProbe,omitempty" tf:"liveness_probe,omitempty"`
+	LivenessProbe []ContainersLivenessProbeParameters `json:"livenessProbe,omitempty" tf:"liveness_probe,omitempty"`
 
 	// Volume's name.
 	// +kubebuilder:validation:Optional
@@ -487,7 +490,7 @@ type TemplateContainersParameters struct {
 	// This field is not supported in Cloud Run Job currently.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	StartupProbe []StartupProbeParameters `json:"startupProbe,omitempty" tf:"startup_probe,omitempty"`
+	StartupProbe []ContainersStartupProbeParameters `json:"startupProbe,omitempty" tf:"startup_probe,omitempty"`
 
 	// Volume to mount into the container's filesystem.
 	// Structure is documented below.
@@ -509,7 +512,7 @@ type TemplateTemplateObservation struct {
 	EncryptionKey *string `json:"encryptionKey,omitempty" tf:"encryption_key,omitempty"`
 
 	// The execution environment being used to host this Task.
-	// Possible values are EXECUTION_ENVIRONMENT_GEN1 and EXECUTION_ENVIRONMENT_GEN2.
+	// Possible values are: EXECUTION_ENVIRONMENT_GEN1, EXECUTION_ENVIRONMENT_GEN2.
 	ExecutionEnvironment *string `json:"executionEnvironment,omitempty" tf:"execution_environment,omitempty"`
 
 	// Number of retries allowed per Task, before marking this Task failed.
@@ -543,7 +546,7 @@ type TemplateTemplateParameters struct {
 	EncryptionKey *string `json:"encryptionKey,omitempty" tf:"encryption_key,omitempty"`
 
 	// The execution environment being used to host this Task.
-	// Possible values are EXECUTION_ENVIRONMENT_GEN1 and EXECUTION_ENVIRONMENT_GEN2.
+	// Possible values are: EXECUTION_ENVIRONMENT_GEN1, EXECUTION_ENVIRONMENT_GEN2.
 	// +kubebuilder:validation:Optional
 	ExecutionEnvironment *string `json:"executionEnvironment,omitempty" tf:"execution_environment,omitempty"`
 
@@ -604,28 +607,36 @@ type TemplateVolumesParameters struct {
 
 type TerminalConditionObservation struct {
 
+	// (Output)
 	// A reason for the execution condition.
 	ExecutionReason *string `json:"executionReason,omitempty" tf:"execution_reason,omitempty"`
 
+	// (Output)
 	// Last time the condition transitioned from one status to another.
 	// A timestamp in RFC3339 UTC "Zulu" format, with nanosecond resolution and up to nine fractional digits. Examples: "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z".
 	LastTransitionTime *string `json:"lastTransitionTime,omitempty" tf:"last_transition_time,omitempty"`
 
+	// (Output)
 	// Human readable message indicating details about the current status.
 	Message *string `json:"message,omitempty" tf:"message,omitempty"`
 
+	// (Output)
 	// A common (service-level) reason for this condition.
 	Reason *string `json:"reason,omitempty" tf:"reason,omitempty"`
 
+	// (Output)
 	// A reason for the revision condition.
 	RevisionReason *string `json:"revisionReason,omitempty" tf:"revision_reason,omitempty"`
 
+	// (Output)
 	// How to interpret failures of this condition, one of Error, Warning, Info
 	Severity *string `json:"severity,omitempty" tf:"severity,omitempty"`
 
+	// (Output)
 	// State of the condition.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 
+	// (Output)
 	// type is used to communicate the status of the reconciliation process. See also: https://github.com/knative/serving/blob/main/docs/spec/errors.md#error-conditions-and-reporting Types common to all resources include: * "Ready": True when the Resource is ready.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
@@ -635,28 +646,36 @@ type TerminalConditionParameters struct {
 
 type V2JobConditionsObservation struct {
 
+	// (Output)
 	// A reason for the execution condition.
 	ExecutionReason *string `json:"executionReason,omitempty" tf:"execution_reason,omitempty"`
 
+	// (Output)
 	// Last time the condition transitioned from one status to another.
 	// A timestamp in RFC3339 UTC "Zulu" format, with nanosecond resolution and up to nine fractional digits. Examples: "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z".
 	LastTransitionTime *string `json:"lastTransitionTime,omitempty" tf:"last_transition_time,omitempty"`
 
+	// (Output)
 	// Human readable message indicating details about the current status.
 	Message *string `json:"message,omitempty" tf:"message,omitempty"`
 
+	// (Output)
 	// A common (service-level) reason for this condition.
 	Reason *string `json:"reason,omitempty" tf:"reason,omitempty"`
 
+	// (Output)
 	// A reason for the revision condition.
 	RevisionReason *string `json:"revisionReason,omitempty" tf:"revision_reason,omitempty"`
 
+	// (Output)
 	// How to interpret failures of this condition, one of Error, Warning, Info
 	Severity *string `json:"severity,omitempty" tf:"severity,omitempty"`
 
+	// (Output)
 	// State of the condition.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 
+	// (Output)
 	// type is used to communicate the status of the reconciliation process. See also: https://github.com/knative/serving/blob/main/docs/spec/errors.md#error-conditions-and-reporting Types common to all resources include: * "Ready": True when the Resource is ready.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
@@ -699,8 +718,10 @@ type V2JobObservation struct {
 	// Structure is documented below.
 	LatestCreatedExecution []LatestCreatedExecutionObservation `json:"latestCreatedExecution,omitempty" tf:"latest_created_execution,omitempty"`
 
-	// The launch stage as defined by Google Cloud Platform Launch Stages. Cloud Run supports ALPHA, BETA, and GA. If no value is specified, GA is assumed.
-	// Possible values are UNIMPLEMENTED, PRELAUNCH, EARLY_ACCESS, ALPHA, BETA, GA, and DEPRECATED.
+	// The launch stage as defined by Google Cloud Platform Launch Stages. Cloud Run supports ALPHA, BETA, and GA.
+	// If no value is specified, GA is assumed. Set the launch stage to a preview stage on input to allow use of preview features in that stage. On read (or output), describes whether the resource uses preview features.
+	// For example, if ALPHA is provided as input, but only BETA and GA-level features are used, this field will be BETA on output.
+	// Possible values are: UNIMPLEMENTED, PRELAUNCH, EARLY_ACCESS, ALPHA, BETA, GA, DEPRECATED.
 	LaunchStage *string `json:"launchStage,omitempty" tf:"launch_stage,omitempty"`
 
 	// The location of the cloud run job
@@ -750,8 +771,10 @@ type V2JobParameters struct {
 	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
-	// The launch stage as defined by Google Cloud Platform Launch Stages. Cloud Run supports ALPHA, BETA, and GA. If no value is specified, GA is assumed.
-	// Possible values are UNIMPLEMENTED, PRELAUNCH, EARLY_ACCESS, ALPHA, BETA, GA, and DEPRECATED.
+	// The launch stage as defined by Google Cloud Platform Launch Stages. Cloud Run supports ALPHA, BETA, and GA.
+	// If no value is specified, GA is assumed. Set the launch stage to a preview stage on input to allow use of preview features in that stage. On read (or output), describes whether the resource uses preview features.
+	// For example, if ALPHA is provided as input, but only BETA and GA-level features are used, this field will be BETA on output.
+	// Possible values are: UNIMPLEMENTED, PRELAUNCH, EARLY_ACCESS, ALPHA, BETA, GA, DEPRECATED.
 	// +kubebuilder:validation:Optional
 	LaunchStage *string `json:"launchStage,omitempty" tf:"launch_stage,omitempty"`
 
@@ -812,7 +835,7 @@ type VPCAccessObservation struct {
 	Connector *string `json:"connector,omitempty" tf:"connector,omitempty"`
 
 	// Traffic VPC egress settings.
-	// Possible values are ALL_TRAFFIC and PRIVATE_RANGES_ONLY.
+	// Possible values are: ALL_TRAFFIC, PRIVATE_RANGES_ONLY.
 	Egress *string `json:"egress,omitempty" tf:"egress,omitempty"`
 }
 
@@ -823,7 +846,7 @@ type VPCAccessParameters struct {
 	Connector *string `json:"connector,omitempty" tf:"connector,omitempty"`
 
 	// Traffic VPC egress settings.
-	// Possible values are ALL_TRAFFIC and PRIVATE_RANGES_ONLY.
+	// Possible values are: ALL_TRAFFIC, PRIVATE_RANGES_ONLY.
 	// +kubebuilder:validation:Optional
 	Egress *string `json:"egress,omitempty" tf:"egress,omitempty"`
 }

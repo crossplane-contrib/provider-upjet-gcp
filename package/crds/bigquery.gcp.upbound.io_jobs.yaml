@@ -80,7 +80,7 @@ spec:
                             not, a ''notFound'' error is returned in the job result.
                             Creation, truncation and append actions occur as one atomic
                             update upon job completion Default value is CREATE_IF_NEEDED.
-                            Possible values are CREATE_IF_NEEDED and CREATE_NEVER.'
+                            Possible values are: CREATE_IF_NEEDED, CREATE_NEVER.'
                           type: string
                         destinationEncryptionConfiguration:
                           description: Custom encryption configuration (e.g., Cloud
@@ -392,8 +392,8 @@ spec:
                             and only occurs if BigQuery is able to complete the job
                             successfully. Creation, truncation and append actions
                             occur as one atomic update upon job completion. Default
-                            value is WRITE_EMPTY. Possible values are WRITE_TRUNCATE,
-                            WRITE_APPEND, and WRITE_EMPTY.'
+                            value is WRITE_EMPTY. Possible values are: WRITE_TRUNCATE,
+                            WRITE_APPEND, WRITE_EMPTY.'
                           type: string
                       required:
                       - sourceTables
@@ -687,7 +687,7 @@ spec:
                             not, a ''notFound'' error is returned in the job result.
                             Creation, truncation and append actions occur as one atomic
                             update upon job completion Default value is CREATE_IF_NEEDED.
-                            Possible values are CREATE_IF_NEEDED and CREATE_NEVER.'
+                            Possible values are: CREATE_IF_NEEDED, CREATE_NEVER.'
                           type: string
                         destinationEncryptionConfiguration:
                           description: Custom encryption configuration (e.g., Cloud
@@ -1055,8 +1055,8 @@ spec:
                             and only occurs if BigQuery is able to complete the job
                             successfully. Creation, truncation and append actions
                             occur as one atomic update upon job completion. Default
-                            value is WRITE_EMPTY. Possible values are WRITE_TRUNCATE,
-                            WRITE_APPEND, and WRITE_EMPTY.'
+                            value is WRITE_EMPTY. Possible values are: WRITE_TRUNCATE,
+                            WRITE_APPEND, WRITE_EMPTY.'
                           type: string
                       required:
                       - destinationTable
@@ -1092,7 +1092,7 @@ spec:
                             not, a ''notFound'' error is returned in the job result.
                             Creation, truncation and append actions occur as one atomic
                             update upon job completion Default value is CREATE_IF_NEEDED.
-                            Possible values are CREATE_IF_NEEDED and CREATE_NEVER.'
+                            Possible values are: CREATE_IF_NEEDED, CREATE_NEVER.'
                           type: string
                         defaultDataset:
                           description: Specifies the default dataset to use for unqualified
@@ -1416,9 +1416,9 @@ spec:
                             (@myparam) query parameters in this query.
                           type: string
                         priority:
-                          description: Specifies a priority for the query. Default
-                            value is INTERACTIVE. Possible values are INTERACTIVE
-                            and BATCH.
+                          description: 'Specifies a priority for the query. Default
+                            value is INTERACTIVE. Possible values are: INTERACTIVE,
+                            BATCH.'
                           type: string
                         query:
                           description: 'SQL query text to execute. The useLegacySql
@@ -1448,10 +1448,10 @@ spec:
                           items:
                             properties:
                               keyResultStatement:
-                                description: Determines which statement in the script
+                                description: 'Determines which statement in the script
                                   represents the "key result", used to populate the
                                   schema and query results of the script job. Possible
-                                  values are LAST and FIRST_SELECT.
+                                  values are: LAST, FIRST_SELECT.'
                                 type: string
                               statementByteBudget:
                                 description: Limit on the number of bytes billed per
@@ -1506,8 +1506,8 @@ spec:
                             and only occurs if BigQuery is able to complete the job
                             successfully. Creation, truncation and append actions
                             occur as one atomic update upon job completion. Default
-                            value is WRITE_EMPTY. Possible values are WRITE_TRUNCATE,
-                            WRITE_APPEND, and WRITE_EMPTY.'
+                            value is WRITE_EMPTY. Possible values are: WRITE_TRUNCATE,
+                            WRITE_APPEND, WRITE_EMPTY.'
                           type: string
                       required:
                       - query
@@ -1720,7 +1720,7 @@ spec:
                             not, a ''notFound'' error is returned in the job result.
                             Creation, truncation and append actions occur as one atomic
                             update upon job completion Default value is CREATE_IF_NEEDED.
-                            Possible values are CREATE_IF_NEEDED and CREATE_NEVER.'
+                            Possible values are: CREATE_IF_NEEDED, CREATE_NEVER.'
                           type: string
                         destinationEncryptionConfiguration:
                           description: Custom encryption configuration (e.g., Cloud
@@ -1735,8 +1735,9 @@ spec:
                                   key.
                                 type: string
                               kmsKeyVersion:
-                                description: Describes the Cloud KMS encryption key
-                                  version used to protect destination BigQuery table.
+                                description: (Output) Describes the Cloud KMS encryption
+                                  key version used to protect destination BigQuery
+                                  table.
                                 type: string
                             type: object
                           type: array
@@ -1794,8 +1795,8 @@ spec:
                             and only occurs if BigQuery is able to complete the job
                             successfully. Creation, truncation and append actions
                             occur as one atomic update upon job completion. Default
-                            value is WRITE_EMPTY. Possible values are WRITE_TRUNCATE,
-                            WRITE_APPEND, and WRITE_EMPTY.'
+                            value is WRITE_EMPTY. Possible values are: WRITE_TRUNCATE,
+                            WRITE_APPEND, WRITE_EMPTY.'
                           type: string
                       type: object
                     type: array
@@ -1890,7 +1891,7 @@ spec:
                       exceeded, BigQuery may attempt to terminate the job.
                     type: string
                   jobType:
-                    description: The type of the job.
+                    description: (Output) The type of the job.
                     type: string
                   labels:
                     additionalProperties:
@@ -1927,7 +1928,7 @@ spec:
                             not, a ''notFound'' error is returned in the job result.
                             Creation, truncation and append actions occur as one atomic
                             update upon job completion Default value is CREATE_IF_NEEDED.
-                            Possible values are CREATE_IF_NEEDED and CREATE_NEVER.'
+                            Possible values are: CREATE_IF_NEEDED, CREATE_NEVER.'
                           type: string
                         destinationEncryptionConfiguration:
                           description: Custom encryption configuration (e.g., Cloud
@@ -1942,8 +1943,9 @@ spec:
                                   key.
                                 type: string
                               kmsKeyVersion:
-                                description: Describes the Cloud KMS encryption key
-                                  version used to protect destination BigQuery table.
+                                description: (Output) Describes the Cloud KMS encryption
+                                  key version used to protect destination BigQuery
+                                  table.
                                 type: string
                             type: object
                           type: array
@@ -2135,8 +2137,8 @@ spec:
                             and only occurs if BigQuery is able to complete the job
                             successfully. Creation, truncation and append actions
                             occur as one atomic update upon job completion. Default
-                            value is WRITE_EMPTY. Possible values are WRITE_TRUNCATE,
-                            WRITE_APPEND, and WRITE_EMPTY.'
+                            value is WRITE_EMPTY. Possible values are: WRITE_TRUNCATE,
+                            WRITE_APPEND, WRITE_EMPTY.'
                           type: string
                       type: object
                     type: array
@@ -2169,7 +2171,7 @@ spec:
                             not, a ''notFound'' error is returned in the job result.
                             Creation, truncation and append actions occur as one atomic
                             update upon job completion Default value is CREATE_IF_NEEDED.
-                            Possible values are CREATE_IF_NEEDED and CREATE_NEVER.'
+                            Possible values are: CREATE_IF_NEEDED, CREATE_NEVER.'
                           type: string
                         defaultDataset:
                           description: Specifies the default dataset to use for unqualified
@@ -2201,8 +2203,9 @@ spec:
                                   key.
                                 type: string
                               kmsKeyVersion:
-                                description: Describes the Cloud KMS encryption key
-                                  version used to protect destination BigQuery table.
+                                description: (Output) Describes the Cloud KMS encryption
+                                  key version used to protect destination BigQuery
+                                  table.
                                 type: string
                             type: object
                           type: array
@@ -2255,9 +2258,9 @@ spec:
                             (@myparam) query parameters in this query.
                           type: string
                         priority:
-                          description: Specifies a priority for the query. Default
-                            value is INTERACTIVE. Possible values are INTERACTIVE
-                            and BATCH.
+                          description: 'Specifies a priority for the query. Default
+                            value is INTERACTIVE. Possible values are: INTERACTIVE,
+                            BATCH.'
                           type: string
                         query:
                           description: 'SQL query text to execute. The useLegacySql
@@ -2287,10 +2290,10 @@ spec:
                           items:
                             properties:
                               keyResultStatement:
-                                description: Determines which statement in the script
+                                description: 'Determines which statement in the script
                                   represents the "key result", used to populate the
                                   schema and query results of the script job. Possible
-                                  values are LAST and FIRST_SELECT.
+                                  values are: LAST, FIRST_SELECT.'
                                 type: string
                               statementByteBudget:
                                 description: Limit on the number of bytes billed per
@@ -2345,8 +2348,8 @@ spec:
                             and only occurs if BigQuery is able to complete the job
                             successfully. Creation, truncation and append actions
                             occur as one atomic update upon job completion. Default
-                            value is WRITE_EMPTY. Possible values are WRITE_TRUNCATE,
-                            WRITE_APPEND, and WRITE_EMPTY.'
+                            value is WRITE_EMPTY. Possible values are: WRITE_TRUNCATE,
+                            WRITE_APPEND, WRITE_EMPTY.'
                           type: string
                       type: object
                     type: array
@@ -2357,9 +2360,9 @@ spec:
                     items:
                       properties:
                         errorResult:
-                          description: Final error result of the job. If present,
-                            indicates that the job has completed and was unsuccessful.
-                            Structure is documented below.
+                          description: (Output) Final error result of the job. If
+                            present, indicates that the job has completed and was
+                            unsuccessful. Structure is documented below.
                           items:
                             properties:
                               location:
@@ -2376,11 +2379,11 @@ spec:
                             type: object
                           type: array
                         errors:
-                          description: The first errors encountered during the running
-                            of the job. The final message includes the number of errors
-                            that caused the process to stop. Errors here do not necessarily
-                            mean that the job has not completed or was unsuccessful.
-                            Structure is documented below.
+                          description: (Output) The first errors encountered during
+                            the running of the job. The final message includes the
+                            number of errors that caused the process to stop. Errors
+                            here do not necessarily mean that the job has not completed
+                            or was unsuccessful. Structure is documented below.
                           items:
                             properties:
                               location:
@@ -2397,8 +2400,8 @@ spec:
                             type: object
                           type: array
                         state:
-                          description: Running state of the job. Valid states include
-                            'PENDING', 'RUNNING', and 'DONE'.
+                          description: (Output) Running state of the job. Valid states
+                            include 'PENDING', 'RUNNING', and 'DONE'.
                           type: string
                       type: object
                     type: array

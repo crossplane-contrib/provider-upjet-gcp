@@ -66,7 +66,7 @@ type OrganizationObservation struct {
 	// operation completes. During this period, the Organization may be restored to its last known state.
 	// After this period, the Organization will no longer be able to be restored.
 	// Default value is DELETION_RETENTION_UNSPECIFIED.
-	// Possible values are DELETION_RETENTION_UNSPECIFIED and MINIMUM.
+	// Possible values are: DELETION_RETENTION_UNSPECIFIED, MINIMUM.
 	Retention *string `json:"retention,omitempty" tf:"retention,omitempty"`
 
 	// Cloud KMS key name used for encrypting the data that is stored and replicated across runtime instances.
@@ -77,7 +77,7 @@ type OrganizationObservation struct {
 
 	// Runtime type of the Apigee organization based on the Apigee subscription purchased.
 	// Default value is CLOUD.
-	// Possible values are CLOUD and HYBRID.
+	// Possible values are: CLOUD, HYBRID.
 	RuntimeType *string `json:"runtimeType,omitempty" tf:"runtime_type,omitempty"`
 
 	// Output only. Subscription type of the Apigee organization.
@@ -133,7 +133,7 @@ type OrganizationParameters struct {
 	// operation completes. During this period, the Organization may be restored to its last known state.
 	// After this period, the Organization will no longer be able to be restored.
 	// Default value is DELETION_RETENTION_UNSPECIFIED.
-	// Possible values are DELETION_RETENTION_UNSPECIFIED and MINIMUM.
+	// Possible values are: DELETION_RETENTION_UNSPECIFIED, MINIMUM.
 	// +kubebuilder:validation:Optional
 	Retention *string `json:"retention,omitempty" tf:"retention,omitempty"`
 
@@ -156,7 +156,7 @@ type OrganizationParameters struct {
 
 	// Runtime type of the Apigee organization based on the Apigee subscription purchased.
 	// Default value is CLOUD.
-	// Possible values are CLOUD and HYBRID.
+	// Possible values are: CLOUD, HYBRID.
 	// +kubebuilder:validation:Optional
 	RuntimeType *string `json:"runtimeType,omitempty" tf:"runtime_type,omitempty"`
 }

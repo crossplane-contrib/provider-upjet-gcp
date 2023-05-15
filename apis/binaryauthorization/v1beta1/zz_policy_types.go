@@ -50,11 +50,11 @@ type ClusterAdmissionRulesObservation struct {
 	Cluster *string `json:"cluster,omitempty" tf:"cluster,omitempty"`
 
 	// The action when a pod creation is denied by the admission rule.
-	// Possible values are ENFORCED_BLOCK_AND_AUDIT_LOG and DRYRUN_AUDIT_LOG_ONLY.
+	// Possible values are: ENFORCED_BLOCK_AND_AUDIT_LOG, DRYRUN_AUDIT_LOG_ONLY.
 	EnforcementMode *string `json:"enforcementMode,omitempty" tf:"enforcement_mode,omitempty"`
 
 	// How this admission rule will be evaluated.
-	// Possible values are ALWAYS_ALLOW, REQUIRE_ATTESTATION, and ALWAYS_DENY.
+	// Possible values are: ALWAYS_ALLOW, REQUIRE_ATTESTATION, ALWAYS_DENY.
 	EvaluationMode *string `json:"evaluationMode,omitempty" tf:"evaluation_mode,omitempty"`
 
 	// The resource names of the attestors that must attest to a
@@ -75,12 +75,12 @@ type ClusterAdmissionRulesParameters struct {
 	Cluster *string `json:"cluster" tf:"cluster,omitempty"`
 
 	// The action when a pod creation is denied by the admission rule.
-	// Possible values are ENFORCED_BLOCK_AND_AUDIT_LOG and DRYRUN_AUDIT_LOG_ONLY.
+	// Possible values are: ENFORCED_BLOCK_AND_AUDIT_LOG, DRYRUN_AUDIT_LOG_ONLY.
 	// +kubebuilder:validation:Required
 	EnforcementMode *string `json:"enforcementMode" tf:"enforcement_mode,omitempty"`
 
 	// How this admission rule will be evaluated.
-	// Possible values are ALWAYS_ALLOW, REQUIRE_ATTESTATION, and ALWAYS_DENY.
+	// Possible values are: ALWAYS_ALLOW, REQUIRE_ATTESTATION, ALWAYS_DENY.
 	// +kubebuilder:validation:Required
 	EvaluationMode *string `json:"evaluationMode" tf:"evaluation_mode,omitempty"`
 
@@ -99,11 +99,11 @@ type ClusterAdmissionRulesParameters struct {
 type DefaultAdmissionRuleObservation struct {
 
 	// The action when a pod creation is denied by the admission rule.
-	// Possible values are ENFORCED_BLOCK_AND_AUDIT_LOG and DRYRUN_AUDIT_LOG_ONLY.
+	// Possible values are: ENFORCED_BLOCK_AND_AUDIT_LOG, DRYRUN_AUDIT_LOG_ONLY.
 	EnforcementMode *string `json:"enforcementMode,omitempty" tf:"enforcement_mode,omitempty"`
 
 	// How this admission rule will be evaluated.
-	// Possible values are ALWAYS_ALLOW, REQUIRE_ATTESTATION, and ALWAYS_DENY.
+	// Possible values are: ALWAYS_ALLOW, REQUIRE_ATTESTATION, ALWAYS_DENY.
 	EvaluationMode *string `json:"evaluationMode,omitempty" tf:"evaluation_mode,omitempty"`
 
 	// The resource names of the attestors that must attest to a
@@ -120,12 +120,12 @@ type DefaultAdmissionRuleObservation struct {
 type DefaultAdmissionRuleParameters struct {
 
 	// The action when a pod creation is denied by the admission rule.
-	// Possible values are ENFORCED_BLOCK_AND_AUDIT_LOG and DRYRUN_AUDIT_LOG_ONLY.
+	// Possible values are: ENFORCED_BLOCK_AND_AUDIT_LOG, DRYRUN_AUDIT_LOG_ONLY.
 	// +kubebuilder:validation:Required
 	EnforcementMode *string `json:"enforcementMode" tf:"enforcement_mode,omitempty"`
 
 	// How this admission rule will be evaluated.
-	// Possible values are ALWAYS_ALLOW, REQUIRE_ATTESTATION, and ALWAYS_DENY.
+	// Possible values are: ALWAYS_ALLOW, REQUIRE_ATTESTATION, ALWAYS_DENY.
 	// +kubebuilder:validation:Required
 	EvaluationMode *string `json:"evaluationMode" tf:"evaluation_mode,omitempty"`
 
@@ -167,7 +167,7 @@ type PolicyObservation struct {
 	// Controls the evaluation of a Google-maintained global admission policy
 	// for common system-level images. Images not covered by the global
 	// policy will be subject to the project admission policy.
-	// Possible values are ENABLE and DISABLE.
+	// Possible values are: ENABLE, DISABLE.
 	GlobalPolicyEvaluationMode *string `json:"globalPolicyEvaluationMode,omitempty" tf:"global_policy_evaluation_mode,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}
@@ -208,7 +208,7 @@ type PolicyParameters struct {
 	// Controls the evaluation of a Google-maintained global admission policy
 	// for common system-level images. Images not covered by the global
 	// policy will be subject to the project admission policy.
-	// Possible values are ENABLE and DISABLE.
+	// Possible values are: ENABLE, DISABLE.
 	// +kubebuilder:validation:Optional
 	GlobalPolicyEvaluationMode *string `json:"globalPolicyEvaluationMode,omitempty" tf:"global_policy_evaluation_mode,omitempty"`
 

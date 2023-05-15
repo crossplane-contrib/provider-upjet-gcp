@@ -1312,8 +1312,7 @@ type SoftwareConfigObservation struct {
 	// Cloud Dataproc versions
 	ImageVersion *string `json:"imageVersion,omitempty" tf:"image_version,omitempty"`
 
-	// The set of optional components to activate on the cluster.
-	// Accepted values are:
+	// The set of optional components to activate on the cluster. See Available Optional Components.
 	OptionalComponents []*string `json:"optionalComponents,omitempty" tf:"optional_components,omitempty"`
 
 	// A list of override and additional properties (key/value pairs)
@@ -1337,8 +1336,7 @@ type SoftwareConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	ImageVersion *string `json:"imageVersion,omitempty" tf:"image_version,omitempty"`
 
-	// The set of optional components to activate on the cluster.
-	// Accepted values are:
+	// The set of optional components to activate on the cluster. See Available Optional Components.
 	// +kubebuilder:validation:Optional
 	OptionalComponents []*string `json:"optionalComponents,omitempty" tf:"optional_components,omitempty"`
 

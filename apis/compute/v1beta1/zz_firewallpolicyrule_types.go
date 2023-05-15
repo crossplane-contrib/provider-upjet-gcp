@@ -141,30 +141,69 @@ type Layer4ConfigsParameters struct {
 }
 
 type MatchObservation struct {
+	DestAddressGroups []*string `json:"destAddressGroups,omitempty" tf:"dest_address_groups,omitempty"`
+
+	DestFqdns []*string `json:"destFqdns,omitempty" tf:"dest_fqdns,omitempty"`
 
 	// CIDR IP address range. Maximum number of destination CIDR IP ranges allowed is 256.
 	DestIPRanges []*string `json:"destIpRanges,omitempty" tf:"dest_ip_ranges,omitempty"`
+
+	DestRegionCodes []*string `json:"destRegionCodes,omitempty" tf:"dest_region_codes,omitempty"`
+
+	DestThreatIntelligences []*string `json:"destThreatIntelligences,omitempty" tf:"dest_threat_intelligences,omitempty"`
 
 	// Pairs of IP protocols and ports that the rule should match. Structure is documented below.
 	Layer4Configs []Layer4ConfigsObservation `json:"layer4Configs,omitempty" tf:"layer4_configs,omitempty"`
 
+	SrcAddressGroups []*string `json:"srcAddressGroups,omitempty" tf:"src_address_groups,omitempty"`
+
+	SrcFqdns []*string `json:"srcFqdns,omitempty" tf:"src_fqdns,omitempty"`
+
 	// CIDR IP address range. Maximum number of source CIDR IP ranges allowed is 256.
 	SrcIPRanges []*string `json:"srcIpRanges,omitempty" tf:"src_ip_ranges,omitempty"`
+
+	SrcRegionCodes []*string `json:"srcRegionCodes,omitempty" tf:"src_region_codes,omitempty"`
+
+	SrcThreatIntelligences []*string `json:"srcThreatIntelligences,omitempty" tf:"src_threat_intelligences,omitempty"`
 }
 
 type MatchParameters struct {
 
+	// +kubebuilder:validation:Optional
+	DestAddressGroups []*string `json:"destAddressGroups,omitempty" tf:"dest_address_groups,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	DestFqdns []*string `json:"destFqdns,omitempty" tf:"dest_fqdns,omitempty"`
+
 	// CIDR IP address range. Maximum number of destination CIDR IP ranges allowed is 256.
 	// +kubebuilder:validation:Optional
 	DestIPRanges []*string `json:"destIpRanges,omitempty" tf:"dest_ip_ranges,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	DestRegionCodes []*string `json:"destRegionCodes,omitempty" tf:"dest_region_codes,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	DestThreatIntelligences []*string `json:"destThreatIntelligences,omitempty" tf:"dest_threat_intelligences,omitempty"`
 
 	// Pairs of IP protocols and ports that the rule should match. Structure is documented below.
 	// +kubebuilder:validation:Required
 	Layer4Configs []Layer4ConfigsParameters `json:"layer4Configs" tf:"layer4_configs,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	SrcAddressGroups []*string `json:"srcAddressGroups,omitempty" tf:"src_address_groups,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	SrcFqdns []*string `json:"srcFqdns,omitempty" tf:"src_fqdns,omitempty"`
+
 	// CIDR IP address range. Maximum number of source CIDR IP ranges allowed is 256.
 	// +kubebuilder:validation:Optional
 	SrcIPRanges []*string `json:"srcIpRanges,omitempty" tf:"src_ip_ranges,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	SrcRegionCodes []*string `json:"srcRegionCodes,omitempty" tf:"src_region_codes,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	SrcThreatIntelligences []*string `json:"srcThreatIntelligences,omitempty" tf:"src_threat_intelligences,omitempty"`
 }
 
 // FirewallPolicyRuleSpec defines the desired state of FirewallPolicyRule

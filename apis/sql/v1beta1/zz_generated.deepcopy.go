@@ -288,6 +288,17 @@ func (in *CloneObservation) DeepCopyInto(out *CloneObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.DatabaseNames != nil {
+		in, out := &in.DatabaseNames, &out.DatabaseNames
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
+	}
 	if in.PointInTime != nil {
 		in, out := &in.PointInTime, &out.PointInTime
 		*out = new(string)
@@ -317,6 +328,17 @@ func (in *CloneParameters) DeepCopyInto(out *CloneParameters) {
 		in, out := &in.AllocatedIPRange, &out.AllocatedIPRange
 		*out = new(string)
 		**out = **in
+	}
+	if in.DatabaseNames != nil {
+		in, out := &in.DatabaseNames, &out.DatabaseNames
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
 	}
 	if in.PointInTime != nil {
 		in, out := &in.PointInTime, &out.PointInTime

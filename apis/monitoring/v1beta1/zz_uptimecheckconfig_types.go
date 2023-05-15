@@ -28,7 +28,7 @@ import (
 type AcceptedResponseStatusCodesObservation struct {
 
 	// A class of status codes to accept.
-	// Possible values are STATUS_CLASS_1XX, STATUS_CLASS_2XX, STATUS_CLASS_3XX, STATUS_CLASS_4XX, STATUS_CLASS_5XX, and STATUS_CLASS_ANY.
+	// Possible values are: STATUS_CLASS_1XX, STATUS_CLASS_2XX, STATUS_CLASS_3XX, STATUS_CLASS_4XX, STATUS_CLASS_5XX, STATUS_CLASS_ANY.
 	StatusClass *string `json:"statusClass,omitempty" tf:"status_class,omitempty"`
 
 	// A status code to accept.
@@ -38,7 +38,7 @@ type AcceptedResponseStatusCodesObservation struct {
 type AcceptedResponseStatusCodesParameters struct {
 
 	// A class of status codes to accept.
-	// Possible values are STATUS_CLASS_1XX, STATUS_CLASS_2XX, STATUS_CLASS_3XX, STATUS_CLASS_4XX, STATUS_CLASS_5XX, and STATUS_CLASS_ANY.
+	// Possible values are: STATUS_CLASS_1XX, STATUS_CLASS_2XX, STATUS_CLASS_3XX, STATUS_CLASS_4XX, STATUS_CLASS_5XX, STATUS_CLASS_ANY.
 	// +kubebuilder:validation:Optional
 	StatusClass *string `json:"statusClass,omitempty" tf:"status_class,omitempty"`
 
@@ -76,7 +76,7 @@ type ContentMatchersObservation struct {
 
 	// The type of content matcher that will be applied to the server output, compared to the content string when the check is run.
 	// Default value is CONTAINS_STRING.
-	// Possible values are CONTAINS_STRING, NOT_CONTAINS_STRING, MATCHES_REGEX, NOT_MATCHES_REGEX, MATCHES_JSON_PATH, and NOT_MATCHES_JSON_PATH.
+	// Possible values are: CONTAINS_STRING, NOT_CONTAINS_STRING, MATCHES_REGEX, NOT_MATCHES_REGEX, MATCHES_JSON_PATH, NOT_MATCHES_JSON_PATH.
 	Matcher *string `json:"matcher,omitempty" tf:"matcher,omitempty"`
 }
 
@@ -93,7 +93,7 @@ type ContentMatchersParameters struct {
 
 	// The type of content matcher that will be applied to the server output, compared to the content string when the check is run.
 	// Default value is CONTAINS_STRING.
-	// Possible values are CONTAINS_STRING, NOT_CONTAINS_STRING, MATCHES_REGEX, NOT_MATCHES_REGEX, MATCHES_JSON_PATH, and NOT_MATCHES_JSON_PATH.
+	// Possible values are: CONTAINS_STRING, NOT_CONTAINS_STRING, MATCHES_REGEX, NOT_MATCHES_REGEX, MATCHES_JSON_PATH, NOT_MATCHES_JSON_PATH.
 	// +kubebuilder:validation:Optional
 	Matcher *string `json:"matcher,omitempty" tf:"matcher,omitempty"`
 }
@@ -112,7 +112,7 @@ type HTTPCheckObservation struct {
 	Body *string `json:"body,omitempty" tf:"body,omitempty"`
 
 	// The content type to use for the check.
-	// Possible values are TYPE_UNSPECIFIED and URL_ENCODED.
+	// Possible values are: TYPE_UNSPECIFIED, URL_ENCODED.
 	ContentType *string `json:"contentType,omitempty" tf:"content_type,omitempty"`
 
 	// The list of headers to send as part of the uptime check request. If two headers have the same key and different values, they should be entered as a single header, with the value being a comma-separated list of all the desired values as described at https://www.w3.org/Protocols/rfc2616/rfc2616.txt (page 31). Entering two separate headers with the same key in a Create call will cause the first to be overwritten by the second. The maximum number of headers allowed is 100.
@@ -129,7 +129,7 @@ type HTTPCheckObservation struct {
 
 	// The HTTP request method to use for the check. If set to METHOD_UNSPECIFIED then requestMethod defaults to GET.
 	// Default value is GET.
-	// Possible values are METHOD_UNSPECIFIED, GET, and POST.
+	// Possible values are: METHOD_UNSPECIFIED, GET, POST.
 	RequestMethod *string `json:"requestMethod,omitempty" tf:"request_method,omitempty"`
 
 	// If true, use HTTPS instead of HTTP to run the check.
@@ -156,7 +156,7 @@ type HTTPCheckParameters struct {
 	Body *string `json:"body,omitempty" tf:"body,omitempty"`
 
 	// The content type to use for the check.
-	// Possible values are TYPE_UNSPECIFIED and URL_ENCODED.
+	// Possible values are: TYPE_UNSPECIFIED, URL_ENCODED.
 	// +kubebuilder:validation:Optional
 	ContentType *string `json:"contentType,omitempty" tf:"content_type,omitempty"`
 
@@ -178,7 +178,7 @@ type HTTPCheckParameters struct {
 
 	// The HTTP request method to use for the check. If set to METHOD_UNSPECIFIED then requestMethod defaults to GET.
 	// Default value is GET.
-	// Possible values are METHOD_UNSPECIFIED, GET, and POST.
+	// Possible values are: METHOD_UNSPECIFIED, GET, POST.
 	// +kubebuilder:validation:Optional
 	RequestMethod *string `json:"requestMethod,omitempty" tf:"request_method,omitempty"`
 
@@ -195,7 +195,7 @@ type JSONPathMatcherObservation struct {
 
 	// Options to perform JSONPath content matching.
 	// Default value is EXACT_MATCH.
-	// Possible values are EXACT_MATCH and REGEX_MATCH.
+	// Possible values are: EXACT_MATCH, REGEX_MATCH.
 	JSONMatcher *string `json:"jsonMatcher,omitempty" tf:"json_matcher,omitempty"`
 
 	// JSONPath within the response output pointing to the expected ContentMatcher::content to match against.
@@ -206,7 +206,7 @@ type JSONPathMatcherParameters struct {
 
 	// Options to perform JSONPath content matching.
 	// Default value is EXACT_MATCH.
-	// Possible values are EXACT_MATCH and REGEX_MATCH.
+	// Possible values are: EXACT_MATCH, REGEX_MATCH.
 	// +kubebuilder:validation:Optional
 	JSONMatcher *string `json:"jsonMatcher,omitempty" tf:"json_matcher,omitempty"`
 
@@ -241,7 +241,7 @@ type ResourceGroupObservation struct {
 	GroupID *string `json:"groupId,omitempty" tf:"group_id,omitempty"`
 
 	// The resource type of the group members.
-	// Possible values are RESOURCE_TYPE_UNSPECIFIED, INSTANCE, and AWS_ELB_LOAD_BALANCER.
+	// Possible values are: RESOURCE_TYPE_UNSPECIFIED, INSTANCE, AWS_ELB_LOAD_BALANCER.
 	ResourceType *string `json:"resourceType,omitempty" tf:"resource_type,omitempty"`
 }
 
@@ -262,7 +262,7 @@ type ResourceGroupParameters struct {
 	GroupIDSelector *v1.Selector `json:"groupIdSelector,omitempty" tf:"-"`
 
 	// The resource type of the group members.
-	// Possible values are RESOURCE_TYPE_UNSPECIFIED, INSTANCE, and AWS_ELB_LOAD_BALANCER.
+	// Possible values are: RESOURCE_TYPE_UNSPECIFIED, INSTANCE, AWS_ELB_LOAD_BALANCER.
 	// +kubebuilder:validation:Optional
 	ResourceType *string `json:"resourceType,omitempty" tf:"resource_type,omitempty"`
 }
@@ -283,7 +283,7 @@ type TCPCheckParameters struct {
 type UptimeCheckConfigObservation struct {
 
 	// The checker type to use for the check. If the monitored resource type is servicedirectory_service, checkerType must be set to VPC_CHECKERS.
-	// Possible values are STATIC_IP_CHECKERS and VPC_CHECKERS.
+	// Possible values are: STATIC_IP_CHECKERS, VPC_CHECKERS.
 	CheckerType *string `json:"checkerType,omitempty" tf:"checker_type,omitempty"`
 
 	// The expected content on the page the check is run against. Currently, only the first entry in the list is supported, and other entries will be ignored. The server will look for an exact match of the string in the page response's content. This field is optional and should only be specified if a content match is required.
@@ -335,7 +335,7 @@ type UptimeCheckConfigObservation struct {
 type UptimeCheckConfigParameters struct {
 
 	// The checker type to use for the check. If the monitored resource type is servicedirectory_service, checkerType must be set to VPC_CHECKERS.
-	// Possible values are STATIC_IP_CHECKERS and VPC_CHECKERS.
+	// Possible values are: STATIC_IP_CHECKERS, VPC_CHECKERS.
 	// +kubebuilder:validation:Optional
 	CheckerType *string `json:"checkerType,omitempty" tf:"checker_type,omitempty"`
 

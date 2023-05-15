@@ -635,6 +635,10 @@ type InstanceTemplateObservation struct {
 	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
 
+	// A special URI of the created resource that uniquely identifies this instance template with the following format: projects/{{project}}/global/instanceTemplates/{{name}}?uniqueId={{uniqueId}}
+	// Referencing an instance template via this attribute prevents Time of Check to Time of Use attacks when the instance template resides in a shared/untrusted environment.
+	SelfLinkUnique *string `json:"selfLinkUnique,omitempty" tf:"self_link_unique,omitempty"`
+
 	// Service account to attach to the instance. Structure is documented below.
 	ServiceAccount []InstanceTemplateServiceAccountObservation `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
 

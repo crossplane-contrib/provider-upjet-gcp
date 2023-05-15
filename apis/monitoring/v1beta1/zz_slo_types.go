@@ -259,27 +259,23 @@ type DistributionCutParameters struct {
 type DistributionCutRangeObservation struct {
 
 	// max value for the range (inclusive). If not given,
-	// will be set to "infinity", defining an open range
-	// ">= range.min"
+	// will be set to 0
 	Max *float64 `json:"max,omitempty" tf:"max,omitempty"`
 
 	// Min value for the range (inclusive). If not given,
-	// will be set to "-infinity", defining an open range
-	// "< range.max"
+	// will be set to 0
 	Min *float64 `json:"min,omitempty" tf:"min,omitempty"`
 }
 
 type DistributionCutRangeParameters struct {
 
 	// max value for the range (inclusive). If not given,
-	// will be set to "infinity", defining an open range
-	// ">= range.min"
+	// will be set to 0
 	// +kubebuilder:validation:Optional
 	Max *float64 `json:"max,omitempty" tf:"max,omitempty"`
 
 	// Min value for the range (inclusive). If not given,
-	// will be set to "-infinity", defining an open range
-	// "< range.max"
+	// will be set to 0
 	// +kubebuilder:validation:Optional
 	Min *float64 `json:"min,omitempty" tf:"min,omitempty"`
 }
@@ -444,27 +440,23 @@ type MetricMeanInRangeParameters struct {
 type MetricMeanInRangeRangeObservation struct {
 
 	// max value for the range (inclusive). If not given,
-	// will be set to "infinity", defining an open range
-	// ">= range.min"
+	// will be set to 0
 	Max *float64 `json:"max,omitempty" tf:"max,omitempty"`
 
 	// Min value for the range (inclusive). If not given,
-	// will be set to "-infinity", defining an open range
-	// "< range.max"
+	// will be set to 0
 	Min *float64 `json:"min,omitempty" tf:"min,omitempty"`
 }
 
 type MetricMeanInRangeRangeParameters struct {
 
 	// max value for the range (inclusive). If not given,
-	// will be set to "infinity", defining an open range
-	// ">= range.min"
+	// will be set to 0
 	// +kubebuilder:validation:Optional
 	Max *float64 `json:"max,omitempty" tf:"max,omitempty"`
 
 	// Min value for the range (inclusive). If not given,
-	// will be set to "-infinity", defining an open range
-	// "< range.max"
+	// will be set to 0
 	// +kubebuilder:validation:Optional
 	Min *float64 `json:"min,omitempty" tf:"min,omitempty"`
 }
@@ -516,27 +508,23 @@ type MetricSumInRangeParameters struct {
 type MetricSumInRangeRangeObservation struct {
 
 	// max value for the range (inclusive). If not given,
-	// will be set to "infinity", defining an open range
-	// ">= range.min"
+	// will be set to 0
 	Max *float64 `json:"max,omitempty" tf:"max,omitempty"`
 
 	// Min value for the range (inclusive). If not given,
-	// will be set to "-infinity", defining an open range
-	// "< range.max"
+	// will be set to 0
 	Min *float64 `json:"min,omitempty" tf:"min,omitempty"`
 }
 
 type MetricSumInRangeRangeParameters struct {
 
 	// max value for the range (inclusive). If not given,
-	// will be set to "infinity", defining an open range
-	// ">= range.min"
+	// will be set to 0
 	// +kubebuilder:validation:Optional
 	Max *float64 `json:"max,omitempty" tf:"max,omitempty"`
 
 	// Min value for the range (inclusive). If not given,
-	// will be set to "-infinity", defining an open range
-	// "< range.max"
+	// will be set to 0
 	// +kubebuilder:validation:Optional
 	Min *float64 `json:"min,omitempty" tf:"min,omitempty"`
 }
@@ -687,27 +675,23 @@ type PerformanceParameters struct {
 type RangeObservation struct {
 
 	// max value for the range (inclusive). If not given,
-	// will be set to "infinity", defining an open range
-	// ">= range.min"
+	// will be set to 0
 	Max *float64 `json:"max,omitempty" tf:"max,omitempty"`
 
 	// Min value for the range (inclusive). If not given,
-	// will be set to "-infinity", defining an open range
-	// "< range.max"
+	// will be set to 0
 	Min *float64 `json:"min,omitempty" tf:"min,omitempty"`
 }
 
 type RangeParameters struct {
 
 	// max value for the range (inclusive). If not given,
-	// will be set to "infinity", defining an open range
-	// ">= range.min"
+	// will be set to 0
 	// +kubebuilder:validation:Optional
 	Max *float64 `json:"max,omitempty" tf:"max,omitempty"`
 
 	// Min value for the range (inclusive). If not given,
-	// will be set to "-infinity", defining an open range
-	// "< range.max"
+	// will be set to 0
 	// +kubebuilder:validation:Optional
 	Min *float64 `json:"min,omitempty" tf:"min,omitempty"`
 }
@@ -769,7 +753,7 @@ type SLOObservation struct {
 
 	// A calendar period, semantically "since the start of the current
 	// ".
-	// Possible values are DAY, WEEK, FORTNIGHT, and MONTH.
+	// Possible values are: DAY, WEEK, FORTNIGHT, MONTH.
 	CalendarPeriod *string `json:"calendarPeriod,omitempty" tf:"calendar_period,omitempty"`
 
 	// Name used for UI elements listing this SLO.
@@ -843,7 +827,7 @@ type SLOParameters struct {
 
 	// A calendar period, semantically "since the start of the current
 	// ".
-	// Possible values are DAY, WEEK, FORTNIGHT, and MONTH.
+	// Possible values are: DAY, WEEK, FORTNIGHT, MONTH.
 	// +kubebuilder:validation:Optional
 	CalendarPeriod *string `json:"calendarPeriod,omitempty" tf:"calendar_period,omitempty"`
 

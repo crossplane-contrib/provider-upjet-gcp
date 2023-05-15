@@ -317,9 +317,9 @@ spec:
                       project network if unspecified.
                     type: string
                   networkEndpointType:
-                    description: Type of network endpoints in this network endpoint
+                    description: 'Type of network endpoints in this network endpoint
                       group. Defaults to SERVERLESS Default value is SERVERLESS. Possible
-                      values are SERVERLESS and PRIVATE_SERVICE_CONNECT.
+                      values are: SERVERLESS, PRIVATE_SERVICE_CONNECT.'
                     type: string
                   networkRef:
                     description: Reference to a Network in compute to populate network.
@@ -850,9 +850,9 @@ spec:
                       project network if unspecified.
                     type: string
                   networkEndpointType:
-                    description: Type of network endpoints in this network endpoint
+                    description: 'Type of network endpoints in this network endpoint
                       group. Defaults to SERVERLESS Default value is SERVERLESS. Possible
-                      values are SERVERLESS and PRIVATE_SERVICE_CONNECT.
+                      values are: SERVERLESS, PRIVATE_SERVICE_CONNECT.'
                     type: string
                   project:
                     description: The ID of the project in which the resource belongs.

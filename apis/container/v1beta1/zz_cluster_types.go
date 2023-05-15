@@ -130,6 +130,19 @@ type AddonsConfigParameters struct {
 	NetworkPolicyConfig []NetworkPolicyConfigParameters `json:"networkPolicyConfig,omitempty" tf:"network_policy_config,omitempty"`
 }
 
+type AdvancedMachineFeaturesObservation struct {
+
+	// The number of threads per physical core. To disable simultaneous multithreading (SMT) set this to 1. If unset, the maximum number of threads supported per core by the underlying processor is assumed.
+	ThreadsPerCore *float64 `json:"threadsPerCore,omitempty" tf:"threads_per_core,omitempty"`
+}
+
+type AdvancedMachineFeaturesParameters struct {
+
+	// The number of threads per physical core. To disable simultaneous multithreading (SMT) set this to 1. If unset, the maximum number of threads supported per core by the underlying processor is assumed.
+	// +kubebuilder:validation:Required
+	ThreadsPerCore *float64 `json:"threadsPerCore" tf:"threads_per_core,omitempty"`
+}
+
 type AuthenticatorGroupsConfigObservation struct {
 
 	// The name of the RBAC security group for use with Google security groups in Kubernetes RBAC. Group name must be in format gke-security-groups@yourdomain.com.
@@ -1174,6 +1187,21 @@ type DefaultSnatStatusParameters struct {
 	Disabled *bool `json:"disabled" tf:"disabled,omitempty"`
 }
 
+type EphemeralStorageLocalSsdConfigObservation struct {
+
+	// The amount of local SSD disks that will be
+	// attached to each cluster node. Defaults to 0.
+	LocalSsdCount *float64 `json:"localSsdCount,omitempty" tf:"local_ssd_count,omitempty"`
+}
+
+type EphemeralStorageLocalSsdConfigParameters struct {
+
+	// The amount of local SSD disks that will be
+	// attached to each cluster node. Defaults to 0.
+	// +kubebuilder:validation:Required
+	LocalSsdCount *float64 `json:"localSsdCount" tf:"local_ssd_count,omitempty"`
+}
+
 type ExclusionOptionsObservation struct {
 
 	// The scope of automatic upgrades to restrict in the exclusion window. One of: NO_UPGRADES | NO_MINOR_UPGRADES | NO_MINOR_OR_NODE_UPGRADES
@@ -1391,6 +1419,8 @@ type IPAllocationPolicyObservation struct {
 	// cluster_ipv4_cidr_block can be used to automatically create a GKE-managed one.
 	ClusterSecondaryRangeName *string `json:"clusterSecondaryRangeName,omitempty" tf:"cluster_secondary_range_name,omitempty"`
 
+	PodCidrOverprovisionConfig []PodCidrOverprovisionConfigObservation `json:"podCidrOverprovisionConfig,omitempty" tf:"pod_cidr_overprovision_config,omitempty"`
+
 	// The IP address range of the services IPs in this cluster.
 	// Set to blank to have a range chosen with the default size. Set to /netmask (e.g. /14)
 	// to have a range chosen with a specific netmask. Set to a CIDR notation (e.g. 10.96.0.0/14)
@@ -1403,6 +1433,11 @@ type IPAllocationPolicyObservation struct {
 	// Alternatively, services_ipv4_cidr_block can be used to automatically create a
 	// GKE-managed one.
 	ServicesSecondaryRangeName *string `json:"servicesSecondaryRangeName,omitempty" tf:"services_secondary_range_name,omitempty"`
+
+	// The IP Stack Type of the cluster.
+	// Default value is IPV4.
+	// Possible values are IPV4 and IPV4_IPV6.
+	StackType *string `json:"stackType,omitempty" tf:"stack_type,omitempty"`
 }
 
 type IPAllocationPolicyParameters struct {
@@ -1421,6 +1456,9 @@ type IPAllocationPolicyParameters struct {
 	// +kubebuilder:validation:Optional
 	ClusterSecondaryRangeName *string `json:"clusterSecondaryRangeName,omitempty" tf:"cluster_secondary_range_name,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	PodCidrOverprovisionConfig []PodCidrOverprovisionConfigParameters `json:"podCidrOverprovisionConfig,omitempty" tf:"pod_cidr_overprovision_config,omitempty"`
+
 	// The IP address range of the services IPs in this cluster.
 	// Set to blank to have a range chosen with the default size. Set to /netmask (e.g. /14)
 	// to have a range chosen with a specific netmask. Set to a CIDR notation (e.g. 10.96.0.0/14)
@@ -1435,6 +1473,12 @@ type IPAllocationPolicyParameters struct {
 	// GKE-managed one.
 	// +kubebuilder:validation:Optional
 	ServicesSecondaryRangeName *string `json:"servicesSecondaryRangeName,omitempty" tf:"services_secondary_range_name,omitempty"`
+
+	// The IP Stack Type of the cluster.
+	// Default value is IPV4.
+	// Possible values are IPV4 and IPV4_IPV6.
+	// +kubebuilder:validation:Optional
+	StackType *string `json:"stackType,omitempty" tf:"stack_type,omitempty"`
 }
 
 type KubeletConfigObservation struct {
@@ -1498,6 +1542,21 @@ type LinuxNodeConfigParameters struct {
 	// net.core.wmem_max, to a string value.
 	// +kubebuilder:validation:Required
 	Sysctls map[string]*string `json:"sysctls" tf:"sysctls,omitempty"`
+}
+
+type LocalNvmeSsdBlockConfigObservation struct {
+
+	// The amount of local SSD disks that will be
+	// attached to each cluster node. Defaults to 0.
+	LocalSsdCount *float64 `json:"localSsdCount,omitempty" tf:"local_ssd_count,omitempty"`
+}
+
+type LocalNvmeSsdBlockConfigParameters struct {
+
+	// The amount of local SSD disks that will be
+	// attached to each cluster node. Defaults to 0.
+	// +kubebuilder:validation:Required
+	LocalSsdCount *float64 `json:"localSsdCount" tf:"local_ssd_count,omitempty"`
 }
 
 type LoggingConfigObservation struct {
@@ -1711,12 +1770,24 @@ type NetworkConfigObservation struct {
 	// endpoint via private networking.
 	EnablePrivateNodes *bool `json:"enablePrivateNodes,omitempty" tf:"enable_private_nodes,omitempty"`
 
+	PodCidrOverprovisionConfig []NetworkConfigPodCidrOverprovisionConfigObservation `json:"podCidrOverprovisionConfig,omitempty" tf:"pod_cidr_overprovision_config,omitempty"`
+
 	PodIPv4CidrBlock *string `json:"podIpv4CidrBlock,omitempty" tf:"pod_ipv4_cidr_block,omitempty"`
 
 	PodRange *string `json:"podRange,omitempty" tf:"pod_range,omitempty"`
 }
 
 type NetworkConfigParameters struct {
+}
+
+type NetworkConfigPodCidrOverprovisionConfigObservation struct {
+
+	// The status of the Istio addon, which makes it easy to set up Istio for services in a
+	// cluster. It is disabled by default. Set disabled = false to enable.
+	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
+}
+
+type NetworkConfigPodCidrOverprovisionConfigParameters struct {
 }
 
 type NetworkPolicyConfigObservation struct {
@@ -1754,6 +1825,15 @@ type NetworkPolicyParameters struct {
 	Provider *string `json:"provider,omitempty" tf:"provider,omitempty"`
 }
 
+type NodeConfigAdvancedMachineFeaturesObservation struct {
+
+	// The number of threads per physical core. To disable simultaneous multithreading (SMT) set this to 1. If unset, the maximum number of threads supported per core by the underlying processor is assumed.
+	ThreadsPerCore *float64 `json:"threadsPerCore,omitempty" tf:"threads_per_core,omitempty"`
+}
+
+type NodeConfigAdvancedMachineFeaturesParameters struct {
+}
+
 type NodeConfigDefaultsObservation struct {
 
 	// The type of logging agent that is deployed by default for newly created node pools in the cluster. Valid values include DEFAULT and MAX_THROUGHPUT. See Increasing logging agent throughput for more information.
@@ -1765,6 +1845,16 @@ type NodeConfigDefaultsParameters struct {
 	// The type of logging agent that is deployed by default for newly created node pools in the cluster. Valid values include DEFAULT and MAX_THROUGHPUT. See Increasing logging agent throughput for more information.
 	// +kubebuilder:validation:Optional
 	LoggingVariant *string `json:"loggingVariant,omitempty" tf:"logging_variant,omitempty"`
+}
+
+type NodeConfigEphemeralStorageLocalSsdConfigObservation struct {
+
+	// The amount of local SSD disks that will be
+	// attached to each cluster node. Defaults to 0.
+	LocalSsdCount *float64 `json:"localSsdCount,omitempty" tf:"local_ssd_count,omitempty"`
+}
+
+type NodeConfigEphemeralStorageLocalSsdConfigParameters struct {
 }
 
 type NodeConfigGcfsConfigObservation struct {
@@ -1838,7 +1928,21 @@ type NodeConfigLinuxNodeConfigObservation struct {
 type NodeConfigLinuxNodeConfigParameters struct {
 }
 
+type NodeConfigLocalNvmeSsdBlockConfigObservation struct {
+
+	// The amount of local SSD disks that will be
+	// attached to each cluster node. Defaults to 0.
+	LocalSsdCount *float64 `json:"localSsdCount,omitempty" tf:"local_ssd_count,omitempty"`
+}
+
+type NodeConfigLocalNvmeSsdBlockConfigParameters struct {
+}
+
 type NodeConfigObservation struct {
+
+	// Specifies options for controlling
+	// advanced machine features. Structure is documented below.
+	AdvancedMachineFeatures []AdvancedMachineFeaturesObservation `json:"advancedMachineFeatures,omitempty" tf:"advanced_machine_features,omitempty"`
 
 	// The Customer Managed Encryption Key used to encrypt the boot disk attached to each node in the node pool. This should be of the form projects/[KEY_PROJECT_ID]/locations/[LOCATION]/keyRings/[RING_NAME]/cryptoKeys/[KEY_NAME]. For more information about protecting resources with Cloud KMS Keys please see: https://cloud.google.com/compute/docs/disks/customer-managed-encryption
 	BootDiskKMSKey *string `json:"bootDiskKmsKey,omitempty" tf:"boot_disk_kms_key,omitempty"`
@@ -1850,6 +1954,9 @@ type NodeConfigObservation struct {
 	// Type of the disk attached to each node
 	// (e.g. 'pd-standard', 'pd-balanced' or 'pd-ssd'). If unspecified, the default disk type is 'pd-standard'
 	DiskType *string `json:"diskType,omitempty" tf:"disk_type,omitempty"`
+
+	// Parameters for the ephemeral storage filesystem. If unspecified, ephemeral storage is backed by the boot disk. Structure is documented below.
+	EphemeralStorageLocalSsdConfig []EphemeralStorageLocalSsdConfigObservation `json:"ephemeralStorageLocalSsdConfig,omitempty" tf:"ephemeral_storage_local_ssd_config,omitempty"`
 
 	// Parameters for the Google Container Filesystem (GCFS).
 	// If unspecified, GCFS will not be enabled on the node pool. When enabling this feature you must specify image_type = "COS_CONTAINERD" and node_version from GKE versions 1.19 or later to use it.
@@ -1887,6 +1994,9 @@ type NodeConfigObservation struct {
 	// Note that validations happen all server side. All attributes are optional.
 	// Structure is documented below.
 	LinuxNodeConfig []LinuxNodeConfigObservation `json:"linuxNodeConfig,omitempty" tf:"linux_node_config,omitempty"`
+
+	// Parameters for the local NVMe SSDs. Structure is documented below.
+	LocalNvmeSsdBlockConfig []LocalNvmeSsdBlockConfigObservation `json:"localNvmeSsdBlockConfig,omitempty" tf:"local_nvme_ssd_block_config,omitempty"`
 
 	// The amount of local SSD disks that will be
 	// attached to each cluster node. Defaults to 0.
@@ -1964,6 +2074,11 @@ type NodeConfigObservation struct {
 
 type NodeConfigParameters struct {
 
+	// Specifies options for controlling
+	// advanced machine features. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	AdvancedMachineFeatures []AdvancedMachineFeaturesParameters `json:"advancedMachineFeatures,omitempty" tf:"advanced_machine_features,omitempty"`
+
 	// The Customer Managed Encryption Key used to encrypt the boot disk attached to each node in the node pool. This should be of the form projects/[KEY_PROJECT_ID]/locations/[LOCATION]/keyRings/[RING_NAME]/cryptoKeys/[KEY_NAME]. For more information about protecting resources with Cloud KMS Keys please see: https://cloud.google.com/compute/docs/disks/customer-managed-encryption
 	// +kubebuilder:validation:Optional
 	BootDiskKMSKey *string `json:"bootDiskKmsKey,omitempty" tf:"boot_disk_kms_key,omitempty"`
@@ -1977,6 +2092,10 @@ type NodeConfigParameters struct {
 	// (e.g. 'pd-standard', 'pd-balanced' or 'pd-ssd'). If unspecified, the default disk type is 'pd-standard'
 	// +kubebuilder:validation:Optional
 	DiskType *string `json:"diskType,omitempty" tf:"disk_type,omitempty"`
+
+	// Parameters for the ephemeral storage filesystem. If unspecified, ephemeral storage is backed by the boot disk. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	EphemeralStorageLocalSsdConfig []EphemeralStorageLocalSsdConfigParameters `json:"ephemeralStorageLocalSsdConfig,omitempty" tf:"ephemeral_storage_local_ssd_config,omitempty"`
 
 	// Parameters for the Google Container Filesystem (GCFS).
 	// If unspecified, GCFS will not be enabled on the node pool. When enabling this feature you must specify image_type = "COS_CONTAINERD" and node_version from GKE versions 1.19 or later to use it.
@@ -2021,6 +2140,10 @@ type NodeConfigParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	LinuxNodeConfig []LinuxNodeConfigParameters `json:"linuxNodeConfig,omitempty" tf:"linux_node_config,omitempty"`
+
+	// Parameters for the local NVMe SSDs. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	LocalNvmeSsdBlockConfig []LocalNvmeSsdBlockConfigParameters `json:"localNvmeSsdBlockConfig,omitempty" tf:"local_nvme_ssd_block_config,omitempty"`
 
 	// The amount of local SSD disks that will be
 	// attached to each cluster node. Defaults to 0.
@@ -2210,6 +2333,10 @@ type NodePoolManagementParameters struct {
 
 type NodePoolNodeConfigObservation struct {
 
+	// Specifies options for controlling
+	// advanced machine features. Structure is documented below.
+	AdvancedMachineFeatures []NodeConfigAdvancedMachineFeaturesObservation `json:"advancedMachineFeatures,omitempty" tf:"advanced_machine_features,omitempty"`
+
 	// The Customer Managed Encryption Key used to encrypt the boot disk attached to each node in the node pool. This should be of the form projects/[KEY_PROJECT_ID]/locations/[LOCATION]/keyRings/[RING_NAME]/cryptoKeys/[KEY_NAME]. For more information about protecting resources with Cloud KMS Keys please see: https://cloud.google.com/compute/docs/disks/customer-managed-encryption
 	BootDiskKMSKey *string `json:"bootDiskKmsKey,omitempty" tf:"boot_disk_kms_key,omitempty"`
 
@@ -2220,6 +2347,9 @@ type NodePoolNodeConfigObservation struct {
 	// Type of the disk attached to each node
 	// (e.g. 'pd-standard', 'pd-balanced' or 'pd-ssd'). If unspecified, the default disk type is 'pd-standard'
 	DiskType *string `json:"diskType,omitempty" tf:"disk_type,omitempty"`
+
+	// Parameters for the ephemeral storage filesystem. If unspecified, ephemeral storage is backed by the boot disk. Structure is documented below.
+	EphemeralStorageLocalSsdConfig []NodeConfigEphemeralStorageLocalSsdConfigObservation `json:"ephemeralStorageLocalSsdConfig,omitempty" tf:"ephemeral_storage_local_ssd_config,omitempty"`
 
 	// The default Google Container Filesystem (GCFS) configuration at the cluster level. e.g. enable image streaming across all the node pools within the cluster. Structure is documented below.
 	GcfsConfig []NodeConfigGcfsConfigObservation `json:"gcfsConfig,omitempty" tf:"gcfs_config,omitempty"`
@@ -2252,6 +2382,9 @@ type NodePoolNodeConfigObservation struct {
 	// Note that validations happen all server side. All attributes are optional.
 	// Structure is documented below.
 	LinuxNodeConfig []NodeConfigLinuxNodeConfigObservation `json:"linuxNodeConfig,omitempty" tf:"linux_node_config,omitempty"`
+
+	// Parameters for the local NVMe SSDs. Structure is documented below.
+	LocalNvmeSsdBlockConfig []NodeConfigLocalNvmeSsdBlockConfigObservation `json:"localNvmeSsdBlockConfig,omitempty" tf:"local_nvme_ssd_block_config,omitempty"`
 
 	// The amount of local SSD disks that will be
 	// attached to each cluster node. Defaults to 0.
@@ -2428,6 +2561,21 @@ type PlacementPolicyObservation struct {
 }
 
 type PlacementPolicyParameters struct {
+}
+
+type PodCidrOverprovisionConfigObservation struct {
+
+	// The status of the Istio addon, which makes it easy to set up Istio for services in a
+	// cluster. It is disabled by default. Set disabled = false to enable.
+	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
+}
+
+type PodCidrOverprovisionConfigParameters struct {
+
+	// The status of the Istio addon, which makes it easy to set up Istio for services in a
+	// cluster. It is disabled by default. Set disabled = false to enable.
+	// +kubebuilder:validation:Required
+	Disabled *bool `json:"disabled" tf:"disabled,omitempty"`
 }
 
 type PrivateClusterConfigObservation struct {

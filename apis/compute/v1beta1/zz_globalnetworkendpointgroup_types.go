@@ -39,7 +39,7 @@ type GlobalNetworkEndpointGroupObservation struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// Type of network endpoints in this network endpoint group.
-	// Possible values are INTERNET_IP_PORT and INTERNET_FQDN_PORT.
+	// Possible values are: INTERNET_IP_PORT, INTERNET_FQDN_PORT.
 	NetworkEndpointType *string `json:"networkEndpointType,omitempty" tf:"network_endpoint_type,omitempty"`
 
 	// The ID of the project in which the resource belongs.
@@ -63,7 +63,7 @@ type GlobalNetworkEndpointGroupParameters struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Type of network endpoints in this network endpoint group.
-	// Possible values are INTERNET_IP_PORT and INTERNET_FQDN_PORT.
+	// Possible values are: INTERNET_IP_PORT, INTERNET_FQDN_PORT.
 	// +kubebuilder:validation:Optional
 	NetworkEndpointType *string `json:"networkEndpointType,omitempty" tf:"network_endpoint_type,omitempty"`
 

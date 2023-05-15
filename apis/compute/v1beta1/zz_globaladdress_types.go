@@ -45,7 +45,7 @@ type GlobalAddressObservation struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// The IP Version that will be used by this address. The default value is IPV4.
-	// Possible values are IPV4 and IPV6.
+	// Possible values are: IPV4, IPV6.
 	IPVersion *string `json:"ipVersion,omitempty" tf:"ip_version,omitempty"`
 
 	// The URL of the network in which to reserve the IP range. The IP range
@@ -88,7 +88,7 @@ type GlobalAddressParameters struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// The IP Version that will be used by this address. The default value is IPV4.
-	// Possible values are IPV4 and IPV6.
+	// Possible values are: IPV4, IPV6.
 	// +kubebuilder:validation:Optional
 	IPVersion *string `json:"ipVersion,omitempty" tf:"ip_version,omitempty"`
 

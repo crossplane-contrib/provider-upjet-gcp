@@ -232,12 +232,12 @@ spec:
                       type: object
                     type: array
                   memcacheVersion:
-                    description: The major version of Memcached software. If not provided,
-                      latest supported version will be used. Currently the latest
-                      supported major version is MEMCACHE_1_5. The minor version will
-                      be automatically determined by our system based on the latest
-                      supported minor version. Default value is MEMCACHE_1_5. Possible
-                      values are MEMCACHE_1_5.
+                    description: 'The major version of Memcached software. If not
+                      provided, latest supported version will be used. Currently the
+                      latest supported major version is MEMCACHE_1_5. The minor version
+                      will be automatically determined by our system based on the
+                      latest supported minor version. Default value is MEMCACHE_1_5.
+                      Possible values are: MEMCACHE_1_5.'
                     type: string
                   name:
                     description: The resource name of the instance.
@@ -502,9 +502,9 @@ spec:
                     items:
                       properties:
                         createTime:
-                          description: Output only. The time when the policy was created.
-                            A timestamp in RFC3339 UTC "Zulu" format, with nanosecond
-                            resolution and up to nine fractional digits
+                          description: (Output) Output only. The time when the policy
+                            was created. A timestamp in RFC3339 UTC "Zulu" format,
+                            with nanosecond resolution and up to nine fractional digits
                           type: string
                         description:
                           description: Optional. Description of what this policy is
@@ -512,9 +512,9 @@ spec:
                             the length is greater than 512.
                           type: string
                         updateTime:
-                          description: Output only. The time when the policy was updated.
-                            A timestamp in RFC3339 UTC "Zulu" format, with nanosecond
-                            resolution and up to nine fractional digits.
+                          description: (Output) Output only. The time when the policy
+                            was updated. A timestamp in RFC3339 UTC "Zulu" format,
+                            with nanosecond resolution and up to nine fractional digits.
                           type: string
                         weeklyMaintenanceWindow:
                           description: Required. Maintenance window that is applied
@@ -569,21 +569,21 @@ spec:
                     items:
                       properties:
                         endTime:
-                          description: Output only. The end time of any upcoming scheduled
-                            maintenance for this instance. A timestamp in RFC3339
-                            UTC "Zulu" format, with nanosecond resolution and up to
-                            nine fractional digits.
-                          type: string
-                        scheduleDeadlineTime:
-                          description: Output only. The deadline that the maintenance
-                            schedule start time can not go beyond, including reschedule.
-                            A timestamp in RFC3339 UTC "Zulu" format, with nanosecond
-                            resolution and up to nine fractional digits.
-                          type: string
-                        startTime:
-                          description: Output only. The start time of any upcoming
+                          description: (Output) Output only. The end time of any upcoming
                             scheduled maintenance for this instance. A timestamp in
                             RFC3339 UTC "Zulu" format, with nanosecond resolution
+                            and up to nine fractional digits.
+                          type: string
+                        scheduleDeadlineTime:
+                          description: (Output) Output only. The deadline that the
+                            maintenance schedule start time can not go beyond, including
+                            reschedule. A timestamp in RFC3339 UTC "Zulu" format,
+                            with nanosecond resolution and up to nine fractional digits.
+                          type: string
+                        startTime:
+                          description: (Output) Output only. The start time of any
+                            upcoming scheduled maintenance for this instance. A timestamp
+                            in RFC3339 UTC "Zulu" format, with nanosecond resolution
                             and up to nine fractional digits.
                           type: string
                       type: object
@@ -598,24 +598,25 @@ spec:
                     items:
                       properties:
                         host:
-                          description: Hostname or IP address of the Memcached node
-                            used by the clients to connect to the Memcached server
+                          description: (Output) Hostname or IP address of the Memcached
+                            node used by the clients to connect to the Memcached server
                             on this node.
                           type: string
                         nodeId:
-                          description: Identifier of the Memcached node. The node
-                            id does not include project or location like the Memcached
-                            instance name.
+                          description: (Output) Identifier of the Memcached node.
+                            The node id does not include project or location like
+                            the Memcached instance name.
                           type: string
                         port:
-                          description: The port number of the Memcached server on
-                            this node.
+                          description: (Output) The port number of the Memcached server
+                            on this node.
                           type: number
                         state:
-                          description: Current state of the Memcached node.
+                          description: (Output) Current state of the Memcached node.
                           type: string
                         zone:
-                          description: Location (GCP Zone) for the Memcached node.
+                          description: (Output) Location (GCP Zone) for the Memcached
+                            node.
                           type: string
                       type: object
                     type: array
@@ -625,8 +626,8 @@ spec:
                     items:
                       properties:
                         id:
-                          description: This is a unique ID associated with this set
-                            of parameters.
+                          description: (Output) This is a unique ID associated with
+                            this set of parameters.
                           type: string
                         params:
                           additionalProperties:
@@ -637,12 +638,12 @@ spec:
                       type: object
                     type: array
                   memcacheVersion:
-                    description: The major version of Memcached software. If not provided,
-                      latest supported version will be used. Currently the latest
-                      supported major version is MEMCACHE_1_5. The minor version will
-                      be automatically determined by our system based on the latest
-                      supported minor version. Default value is MEMCACHE_1_5. Possible
-                      values are MEMCACHE_1_5.
+                    description: 'The major version of Memcached software. If not
+                      provided, latest supported version will be used. Currently the
+                      latest supported major version is MEMCACHE_1_5. The minor version
+                      will be automatically determined by our system based on the
+                      latest supported minor version. Default value is MEMCACHE_1_5.
+                      Possible values are: MEMCACHE_1_5.'
                     type: string
                   name:
                     description: The resource name of the instance.

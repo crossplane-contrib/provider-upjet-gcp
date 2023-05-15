@@ -27,13 +27,16 @@ import (
 
 type BigqueryDateShardedSpecObservation struct {
 
+	// (Output)
 	// The Data Catalog resource name of the dataset entry the current table belongs to, for example,
 	// projects/{project_id}/locations/{location}/entrygroups/{entryGroupId}/entries/{entryId}
 	Dataset *string `json:"dataset,omitempty" tf:"dataset,omitempty"`
 
+	// (Output)
 	// Total number of shards.
 	ShardCount *float64 `json:"shardCount,omitempty" tf:"shard_count,omitempty"`
 
+	// (Output)
 	// The table name prefix of the shards. The name of any given shard is [tablePrefix]YYYYMMDD,
 	// for example, for shard MyTable20180101, the tablePrefix is MyTable.
 	TablePrefix *string `json:"tablePrefix,omitempty" tf:"table_prefix,omitempty"`
@@ -44,13 +47,16 @@ type BigqueryDateShardedSpecParameters struct {
 
 type BigqueryTableSpecObservation struct {
 
+	// (Output)
 	// The table source type.
 	TableSourceType *string `json:"tableSourceType,omitempty" tf:"table_source_type,omitempty"`
 
+	// (Output)
 	// Spec of a BigQuery table. This field should only be populated if tableSourceType is BIGQUERY_TABLE.
 	// Structure is documented below.
 	TableSpec []TableSpecObservation `json:"tableSpec,omitempty" tf:"table_spec,omitempty"`
 
+	// (Output)
 	// Table view specification. This field should only be populated if tableSourceType is BIGQUERY_VIEW.
 	// Structure is documented below.
 	ViewSpec []ViewSpecObservation `json:"viewSpec,omitempty" tf:"view_spec,omitempty"`
@@ -114,7 +120,7 @@ type EntryObservation struct {
 
 	// The type of the entry. Only used for Entries with types in the EntryType enum.
 	// Currently, only FILESET enum value is allowed. All other entries created through Data Catalog must use userSpecifiedType.
-	// Possible values are FILESET.
+	// Possible values are: FILESET.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 
 	// This field indicates the entry's source system that Data Catalog does not integrate with.
@@ -182,7 +188,7 @@ type EntryParameters struct {
 
 	// The type of the entry. Only used for Entries with types in the EntryType enum.
 	// Currently, only FILESET enum value is allowed. All other entries created through Data Catalog must use userSpecifiedType.
-	// Possible values are FILESET.
+	// Possible values are: FILESET.
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 
@@ -208,6 +214,7 @@ type GcsFilesetSpecObservation struct {
 	// for more information. Note that bucket wildcards are currently not supported. Examples of valid filePatterns:
 	FilePatterns []*string `json:"filePatterns,omitempty" tf:"file_patterns,omitempty"`
 
+	// (Output)
 	// Sample files contained in this fileset, not all files contained in this fileset are represented here.
 	// Structure is documented below.
 	SampleGcsFileSpecs []SampleGcsFileSpecsObservation `json:"sampleGcsFileSpecs,omitempty" tf:"sample_gcs_file_specs,omitempty"`
@@ -224,9 +231,11 @@ type GcsFilesetSpecParameters struct {
 
 type SampleGcsFileSpecsObservation struct {
 
+	// (Output)
 	// The full file path
 	FilePath *string `json:"filePath,omitempty" tf:"file_path,omitempty"`
 
+	// (Output)
 	// The size of the file, in bytes.
 	SizeBytes *float64 `json:"sizeBytes,omitempty" tf:"size_bytes,omitempty"`
 }
@@ -236,6 +245,7 @@ type SampleGcsFileSpecsParameters struct {
 
 type TableSpecObservation struct {
 
+	// (Output)
 	// If the table is a dated shard, i.e., with name pattern [prefix]YYYYMMDD, groupedEntry is the
 	// Data Catalog resource name of the date sharded grouped entry, for example,
 	// projects/{project_id}/locations/{location}/entrygroups/{entryGroupId}/entries/{entryId}.
@@ -248,6 +258,7 @@ type TableSpecParameters struct {
 
 type ViewSpecObservation struct {
 
+	// (Output)
 	// The query that defines the table view.
 	ViewQuery *string `json:"viewQuery,omitempty" tf:"view_query,omitempty"`
 }

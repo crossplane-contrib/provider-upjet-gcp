@@ -81,6 +81,13 @@ spec:
                             Specifically, the name must be 1-63 characters long and
                             match the regular expression a-z?.'
                           type: string
+                        databaseNames:
+                          description: (SQL Server only, use with point_in_time) Clone
+                            only the specified databases from the source instance.
+                            Clone all databases if empty.
+                          items:
+                            type: string
+                          type: array
                         pointInTime:
                           description: The timestamp of the point in time that should
                             be restored.
@@ -868,6 +875,13 @@ spec:
                             Specifically, the name must be 1-63 characters long and
                             match the regular expression a-z?.'
                           type: string
+                        databaseNames:
+                          description: (SQL Server only, use with point_in_time) Clone
+                            only the specified databases from the source instance.
+                            Clone all databases if empty.
+                          items:
+                            type: string
+                          type: array
                         pointInTime:
                           description: The timestamp of the point in time that should
                             be restored.

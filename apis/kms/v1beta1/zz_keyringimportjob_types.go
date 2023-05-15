@@ -27,10 +27,12 @@ import (
 
 type KeyRingImportJobAttestationObservation struct {
 
+	// (Output)
 	// The attestation data provided by the HSM when the key operation was performed.
 	// A base64-encoded string.
 	Content *string `json:"content,omitempty" tf:"content,omitempty"`
 
+	// (Output)
 	// The format of the attestation data.
 	Format *string `json:"format,omitempty" tf:"format,omitempty"`
 }
@@ -54,7 +56,7 @@ type KeyRingImportJobObservation struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// The wrapping method to be used for incoming key material.
-	// Possible values are RSA_OAEP_3072_SHA1_AES_256 and RSA_OAEP_4096_SHA1_AES_256.
+	// Possible values are: RSA_OAEP_3072_SHA1_AES_256, RSA_OAEP_4096_SHA1_AES_256.
 	ImportMethod *string `json:"importMethod,omitempty" tf:"import_method,omitempty"`
 
 	// The KeyRing that this import job belongs to.
@@ -66,7 +68,7 @@ type KeyRingImportJobObservation struct {
 
 	// The protection level of the ImportJob. This must match the protectionLevel of the
 	// versionTemplate on the CryptoKey you attempt to import into.
-	// Possible values are SOFTWARE, HSM, and EXTERNAL.
+	// Possible values are: SOFTWARE, HSM, EXTERNAL.
 	ProtectionLevel *string `json:"protectionLevel,omitempty" tf:"protection_level,omitempty"`
 
 	// The public key with which to wrap key material prior to import. Only returned if state is ACTIVE.
@@ -80,7 +82,7 @@ type KeyRingImportJobObservation struct {
 type KeyRingImportJobParameters struct {
 
 	// The wrapping method to be used for incoming key material.
-	// Possible values are RSA_OAEP_3072_SHA1_AES_256 and RSA_OAEP_4096_SHA1_AES_256.
+	// Possible values are: RSA_OAEP_3072_SHA1_AES_256, RSA_OAEP_4096_SHA1_AES_256.
 	// +kubebuilder:validation:Optional
 	ImportMethod *string `json:"importMethod,omitempty" tf:"import_method,omitempty"`
 
@@ -101,13 +103,14 @@ type KeyRingImportJobParameters struct {
 
 	// The protection level of the ImportJob. This must match the protectionLevel of the
 	// versionTemplate on the CryptoKey you attempt to import into.
-	// Possible values are SOFTWARE, HSM, and EXTERNAL.
+	// Possible values are: SOFTWARE, HSM, EXTERNAL.
 	// +kubebuilder:validation:Optional
 	ProtectionLevel *string `json:"protectionLevel,omitempty" tf:"protection_level,omitempty"`
 }
 
 type PublicKeyObservation struct {
 
+	// (Output)
 	// The public key, encoded in PEM format. For more information, see the RFC 7468 sections
 	// for General Considerations and Textual Encoding of Subject Public Key Info.
 	Pem *string `json:"pem,omitempty" tf:"pem,omitempty"`

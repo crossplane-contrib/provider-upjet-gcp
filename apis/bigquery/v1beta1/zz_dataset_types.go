@@ -194,6 +194,15 @@ type DatasetObservation struct {
 	// epoch.
 	CreationTime *float64 `json:"creationTime,omitempty" tf:"creation_time,omitempty"`
 
+	// Defines the default collation specification of future tables created
+	// in the dataset. If a table is created in this dataset without table-level
+	// default collation, then the table inherits the dataset default collation,
+	// which is applied to the string fields that do not have explicit collation
+	// specified. A change to this field affects only tables created afterwards,
+	// and does not alter the existing tables.
+	// The following values are supported:
+	DefaultCollation *string `json:"defaultCollation,omitempty" tf:"default_collation,omitempty"`
+
 	// The default encryption key for all tables in the dataset. Once this property is set,
 	// all newly-created partitioned tables in the dataset will have encryption key set to
 	// this value, unless table creation request (or query) overrides the key.
@@ -225,6 +234,11 @@ type DatasetObservation struct {
 	// an identifier for the resource with format projects/{{project}}/datasets/{{dataset_id}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// TRUE if the dataset and its table names are case-insensitive, otherwise FALSE.
+	// By default, this is FALSE, which means the dataset and its table names are
+	// case-sensitive. This field does not affect routine references.
+	IsCaseInsensitive *bool `json:"isCaseInsensitive,omitempty" tf:"is_case_insensitive,omitempty"`
+
 	// The labels associated with this dataset. You can use these to
 	// organize and group your datasets
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
@@ -254,6 +268,16 @@ type DatasetParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Access []AccessParameters `json:"access,omitempty" tf:"access,omitempty"`
+
+	// Defines the default collation specification of future tables created
+	// in the dataset. If a table is created in this dataset without table-level
+	// default collation, then the table inherits the dataset default collation,
+	// which is applied to the string fields that do not have explicit collation
+	// specified. A change to this field affects only tables created afterwards,
+	// and does not alter the existing tables.
+	// The following values are supported:
+	// +kubebuilder:validation:Optional
+	DefaultCollation *string `json:"defaultCollation,omitempty" tf:"default_collation,omitempty"`
 
 	// The default encryption key for all tables in the dataset. Once this property is set,
 	// all newly-created partitioned tables in the dataset will have encryption key set to
@@ -285,6 +309,12 @@ type DatasetParameters struct {
 	// A descriptive name for the dataset
 	// +kubebuilder:validation:Optional
 	FriendlyName *string `json:"friendlyName,omitempty" tf:"friendly_name,omitempty"`
+
+	// TRUE if the dataset and its table names are case-insensitive, otherwise FALSE.
+	// By default, this is FALSE, which means the dataset and its table names are
+	// case-sensitive. This field does not affect routine references.
+	// +kubebuilder:validation:Optional
+	IsCaseInsensitive *bool `json:"isCaseInsensitive,omitempty" tf:"is_case_insensitive,omitempty"`
 
 	// The labels associated with this dataset. You can use these to
 	// organize and group your datasets

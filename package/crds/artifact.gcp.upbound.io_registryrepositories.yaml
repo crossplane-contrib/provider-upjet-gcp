@@ -71,6 +71,19 @@ spec:
                   description:
                     description: The user-provided description of the repository.
                     type: string
+                  dockerConfig:
+                    description: Docker repository config contains repository level
+                      configuration for the repositories of docker type. Structure
+                      is documented below.
+                    items:
+                      properties:
+                        immutableTags:
+                          description: The repository which enabled this flag prevents
+                            all tags from being modified, moved or deleted. This does
+                            not prevent tags from being created.
+                          type: boolean
+                      type: object
+                    type: array
                   format:
                     description: The format of packages that are stored in the repository.
                       Supported formats can be found here. You can only create alpha
@@ -107,17 +120,185 @@ spec:
                             the same snapshot versions.
                           type: boolean
                         versionPolicy:
-                          description: Version policy defines the versions that the
+                          description: 'Version policy defines the versions that the
                             registry will accept. Default value is VERSION_POLICY_UNSPECIFIED.
-                            Possible values are VERSION_POLICY_UNSPECIFIED, RELEASE,
-                            and SNAPSHOT.
+                            Possible values are: VERSION_POLICY_UNSPECIFIED, RELEASE,
+                            SNAPSHOT.'
                           type: string
                       type: object
                     type: array
+                  mode:
+                    description: 'The mode configures the repository to serve artifacts
+                      from different sources. Default value is STANDARD_REPOSITORY.
+                      Possible values are: STANDARD_REPOSITORY, VIRTUAL_REPOSITORY,
+                      REMOTE_REPOSITORY.'
+                    type: string
                   project:
                     description: The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
+                  remoteRepositoryConfig:
+                    description: Configuration specific for a Remote Repository. Structure
+                      is documented below.
+                    items:
+                      properties:
+                        description:
+                          description: The description of the remote source.
+                          type: string
+                        dockerRepository:
+                          description: Specific settings for a Docker remote repository.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              publicRepository:
+                                description: 'Address of the remote repository. Default
+                                  value is PYPI. Possible values are: PYPI.'
+                                type: string
+                            type: object
+                          type: array
+                        mavenRepository:
+                          description: Specific settings for a Maven remote repository.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              publicRepository:
+                                description: 'Address of the remote repository. Default
+                                  value is PYPI. Possible values are: PYPI.'
+                                type: string
+                            type: object
+                          type: array
+                        npmRepository:
+                          description: Specific settings for an Npm remote repository.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              publicRepository:
+                                description: 'Address of the remote repository. Default
+                                  value is PYPI. Possible values are: PYPI.'
+                                type: string
+                            type: object
+                          type: array
+                        pythonRepository:
+                          description: Specific settings for a Python remote repository.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              publicRepository:
+                                description: 'Address of the remote repository. Default
+                                  value is PYPI. Possible values are: PYPI.'
+                                type: string
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  virtualRepositoryConfig:
+                    description: Configuration specific for a Virtual Repository.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        upstreamPolicies:
+                          description: Policies that configure the upstream artifacts
+                            distributed by the Virtual Repository. Upstream policies
+                            cannot be set on a standard repository. Structure is documented
+                            below.
+                          items:
+                            properties:
+                              id:
+                                description: The user-provided ID of the upstream
+                                  policy.
+                                type: string
+                              priority:
+                                description: Entries with a greater priority value
+                                  take precedence in the pull order.
+                                type: number
+                              repository:
+                                description: 'A reference to the repository resource,
+                                  for example: "projects/p1/locations/us-central1/repository/repo1".'
+                                type: string
+                              repositoryRef:
+                                description: Reference to a RegistryRepository in
+                                  artifact to populate repository.
+                                properties:
+                                  name:
+                                    description: Name of the referenced object.
+                                    type: string
+                                  policy:
+                                    description: Policies for referencing.
+                                    properties:
+                                      resolution:
+                                        default: Required
+                                        description: Resolution specifies whether
+                                          resolution of this reference is required.
+                                          The default is 'Required', which means the
+                                          reconcile will fail if the reference cannot
+                                          be resolved. 'Optional' means this reference
+                                          will be a no-op if it cannot be resolved.
+                                        enum:
+                                        - Required
+                                        - Optional
+                                        type: string
+                                      resolve:
+                                        description: Resolve specifies when this reference
+                                          should be resolved. The default is 'IfNotPresent',
+                                          which will attempt to resolve the reference
+                                          only when the corresponding field is not
+                                          present. Use 'Always' to resolve the reference
+                                          on every reconcile.
+                                        enum:
+                                        - Always
+                                        - IfNotPresent
+                                        type: string
+                                    type: object
+                                required:
+                                - name
+                                type: object
+                              repositorySelector:
+                                description: Selector for a RegistryRepository in
+                                  artifact to populate repository.
+                                properties:
+                                  matchControllerRef:
+                                    description: MatchControllerRef ensures an object
+                                      with the same controller reference as the selecting
+                                      object is selected.
+                                    type: boolean
+                                  matchLabels:
+                                    additionalProperties:
+                                      type: string
+                                    description: MatchLabels ensures an object with
+                                      matching labels is selected.
+                                    type: object
+                                  policy:
+                                    description: Policies for selection.
+                                    properties:
+                                      resolution:
+                                        default: Required
+                                        description: Resolution specifies whether
+                                          resolution of this reference is required.
+                                          The default is 'Required', which means the
+                                          reconcile will fail if the reference cannot
+                                          be resolved. 'Optional' means this reference
+                                          will be a no-op if it cannot be resolved.
+                                        enum:
+                                        - Required
+                                        - Optional
+                                        type: string
+                                      resolve:
+                                        description: Resolve specifies when this reference
+                                          should be resolved. The default is 'IfNotPresent',
+                                          which will attempt to resolve the reference
+                                          only when the corresponding field is not
+                                          present. Use 'Always' to resolve the reference
+                                          on every reconcile.
+                                        enum:
+                                        - Always
+                                        - IfNotPresent
+                                        type: string
+                                    type: object
+                                type: object
+                            type: object
+                          type: array
+                      type: object
+                    type: array
                 type: object
               managementPolicy:
                 default: FullControl
@@ -319,6 +500,19 @@ spec:
                   description:
                     description: The user-provided description of the repository.
                     type: string
+                  dockerConfig:
+                    description: Docker repository config contains repository level
+                      configuration for the repositories of docker type. Structure
+                      is documented below.
+                    items:
+                      properties:
+                        immutableTags:
+                          description: The repository which enabled this flag prevents
+                            all tags from being modified, moved or deleted. This does
+                            not prevent tags from being created.
+                          type: boolean
+                      type: object
+                    type: array
                   format:
                     description: The format of packages that are stored in the repository.
                       Supported formats can be found here. You can only create alpha
@@ -358,23 +552,111 @@ spec:
                             the same snapshot versions.
                           type: boolean
                         versionPolicy:
-                          description: Version policy defines the versions that the
+                          description: 'Version policy defines the versions that the
                             registry will accept. Default value is VERSION_POLICY_UNSPECIFIED.
-                            Possible values are VERSION_POLICY_UNSPECIFIED, RELEASE,
-                            and SNAPSHOT.
+                            Possible values are: VERSION_POLICY_UNSPECIFIED, RELEASE,
+                            SNAPSHOT.'
                           type: string
                       type: object
                     type: array
+                  mode:
+                    description: 'The mode configures the repository to serve artifacts
+                      from different sources. Default value is STANDARD_REPOSITORY.
+                      Possible values are: STANDARD_REPOSITORY, VIRTUAL_REPOSITORY,
+                      REMOTE_REPOSITORY.'
+                    type: string
                   name:
-                    description: 'The name of the repository, for example: "projects/p1/locations/us-central1/repositories/repo1"'
+                    description: 'The name of the repository, for example: "repo1"'
                     type: string
                   project:
                     description: The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
+                  remoteRepositoryConfig:
+                    description: Configuration specific for a Remote Repository. Structure
+                      is documented below.
+                    items:
+                      properties:
+                        description:
+                          description: The description of the remote source.
+                          type: string
+                        dockerRepository:
+                          description: Specific settings for a Docker remote repository.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              publicRepository:
+                                description: 'Address of the remote repository. Default
+                                  value is PYPI. Possible values are: PYPI.'
+                                type: string
+                            type: object
+                          type: array
+                        mavenRepository:
+                          description: Specific settings for a Maven remote repository.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              publicRepository:
+                                description: 'Address of the remote repository. Default
+                                  value is PYPI. Possible values are: PYPI.'
+                                type: string
+                            type: object
+                          type: array
+                        npmRepository:
+                          description: Specific settings for an Npm remote repository.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              publicRepository:
+                                description: 'Address of the remote repository. Default
+                                  value is PYPI. Possible values are: PYPI.'
+                                type: string
+                            type: object
+                          type: array
+                        pythonRepository:
+                          description: Specific settings for a Python remote repository.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              publicRepository:
+                                description: 'Address of the remote repository. Default
+                                  value is PYPI. Possible values are: PYPI.'
+                                type: string
+                            type: object
+                          type: array
+                      type: object
+                    type: array
                   updateTime:
                     description: The time when the repository was last updated.
                     type: string
+                  virtualRepositoryConfig:
+                    description: Configuration specific for a Virtual Repository.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        upstreamPolicies:
+                          description: Policies that configure the upstream artifacts
+                            distributed by the Virtual Repository. Upstream policies
+                            cannot be set on a standard repository. Structure is documented
+                            below.
+                          items:
+                            properties:
+                              id:
+                                description: The user-provided ID of the upstream
+                                  policy.
+                                type: string
+                              priority:
+                                description: Entries with a greater priority value
+                                  take precedence in the pull order.
+                                type: number
+                              repository:
+                                description: 'A reference to the repository resource,
+                                  for example: "projects/p1/locations/us-central1/repository/repo1".'
+                                type: string
+                            type: object
+                          type: array
+                      type: object
+                    type: array
                 type: object
               conditions:
                 description: Conditions of the resource.

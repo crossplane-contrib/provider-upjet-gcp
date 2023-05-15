@@ -27,6 +27,7 @@ import (
 
 type AppEngineRoutingOverrideObservation struct {
 
+	// (Output)
 	// The host that the task is sent to.
 	Host *string `json:"host,omitempty" tf:"host,omitempty"`
 
@@ -135,6 +136,7 @@ type QueueParameters struct {
 
 type RateLimitsObservation struct {
 
+	// (Output)
 	// The max burst size.
 	// Max burst size limits how fast tasks in queue are processed when many tasks are
 	// in the queue and the rate is high. This field allows the queue to have a high

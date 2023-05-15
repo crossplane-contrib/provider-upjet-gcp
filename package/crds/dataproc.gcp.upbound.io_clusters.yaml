@@ -630,8 +630,8 @@ spec:
                                   Dataproc versions
                                 type: string
                               optionalComponents:
-                                description: 'The set of optional components to activate
-                                  on the cluster. Accepted values are:'
+                                description: The set of optional components to activate
+                                  on the cluster. See Available Optional Components.
                                 items:
                                   type: string
                                 type: array
@@ -1675,8 +1675,8 @@ spec:
                                   Dataproc versions
                                 type: string
                               optionalComponents:
-                                description: 'The set of optional components to activate
-                                  on the cluster. Accepted values are:'
+                                description: The set of optional components to activate
+                                  on the cluster. See Available Optional Components.
                                 items:
                                   type: string
                                 type: array

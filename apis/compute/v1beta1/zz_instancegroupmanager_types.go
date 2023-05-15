@@ -402,7 +402,7 @@ type UpdatePolicyParameters struct {
 
 type VersionObservation struct {
 
-	// - The full URL to an instance template from which all new instances of this version will be created.
+	// - The full URL to an instance template from which all new instances of this version will be created. It is recommended to reference instance templates through their unique id (self_link_unique attribute).
 	InstanceTemplate *string `json:"instanceTemplate,omitempty" tf:"instance_template,omitempty"`
 
 	// - Version name.
@@ -414,7 +414,7 @@ type VersionObservation struct {
 
 type VersionParameters struct {
 
-	// - The full URL to an instance template from which all new instances of this version will be created.
+	// - The full URL to an instance template from which all new instances of this version will be created. It is recommended to reference instance templates through their unique id (self_link_unique attribute).
 	// +crossplane:generate:reference:type=InstanceTemplate
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional

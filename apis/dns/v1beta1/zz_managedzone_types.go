@@ -52,11 +52,11 @@ type DNSSECConfigObservation struct {
 
 	// Specifies the mechanism used to provide authenticated denial-of-existence responses.
 	// non_existence can only be updated when the state is off.
-	// Possible values are nsec and nsec3.
+	// Possible values are: nsec, nsec3.
 	NonExistence *string `json:"nonExistence,omitempty" tf:"non_existence,omitempty"`
 
 	// Specifies whether DNSSEC is enabled, and what mode it is in
-	// Possible values are off, on, and transfer.
+	// Possible values are: off, on, transfer.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 }
 
@@ -76,12 +76,12 @@ type DNSSECConfigParameters struct {
 
 	// Specifies the mechanism used to provide authenticated denial-of-existence responses.
 	// non_existence can only be updated when the state is off.
-	// Possible values are nsec and nsec3.
+	// Possible values are: nsec, nsec3.
 	// +kubebuilder:validation:Optional
 	NonExistence *string `json:"nonExistence,omitempty" tf:"non_existence,omitempty"`
 
 	// Specifies whether DNSSEC is enabled, and what mode it is in
-	// Possible values are off, on, and transfer.
+	// Possible values are: off, on, transfer.
 	// +kubebuilder:validation:Optional
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 }
@@ -89,7 +89,7 @@ type DNSSECConfigParameters struct {
 type DefaultKeySpecsObservation struct {
 
 	// String mnemonic specifying the DNSSEC algorithm of this key
-	// Possible values are ecdsap256sha256, ecdsap384sha384, rsasha1, rsasha256, and rsasha512.
+	// Possible values are: ecdsap256sha256, ecdsap384sha384, rsasha1, rsasha256, rsasha512.
 	Algorithm *string `json:"algorithm,omitempty" tf:"algorithm,omitempty"`
 
 	// Length of the keys in bits
@@ -101,7 +101,7 @@ type DefaultKeySpecsObservation struct {
 	// resource record sets of type DNSKEY. Zone signing keys do
 	// not have the Secure Entry Point flag set and will be used
 	// to sign all other types of resource record sets.
-	// Possible values are keySigning and zoneSigning.
+	// Possible values are: keySigning, zoneSigning.
 	KeyType *string `json:"keyType,omitempty" tf:"key_type,omitempty"`
 
 	// Identifies what kind of resource this is
@@ -111,7 +111,7 @@ type DefaultKeySpecsObservation struct {
 type DefaultKeySpecsParameters struct {
 
 	// String mnemonic specifying the DNSSEC algorithm of this key
-	// Possible values are ecdsap256sha256, ecdsap384sha384, rsasha1, rsasha256, and rsasha512.
+	// Possible values are: ecdsap256sha256, ecdsap384sha384, rsasha1, rsasha256, rsasha512.
 	// +kubebuilder:validation:Optional
 	Algorithm *string `json:"algorithm,omitempty" tf:"algorithm,omitempty"`
 
@@ -125,7 +125,7 @@ type DefaultKeySpecsParameters struct {
 	// resource record sets of type DNSKEY. Zone signing keys do
 	// not have the Secure Entry Point flag set and will be used
 	// to sign all other types of resource record sets.
-	// Possible values are keySigning and zoneSigning.
+	// Possible values are: keySigning, zoneSigning.
 	// +kubebuilder:validation:Optional
 	KeyType *string `json:"keyType,omitempty" tf:"key_type,omitempty"`
 
@@ -239,7 +239,7 @@ type ManagedZoneObservation struct {
 	// The zone's visibility: public zones are exposed to the Internet,
 	// while private zones are visible only to Virtual Private Cloud resources.
 	// Default value is public.
-	// Possible values are private and public.
+	// Possible values are: private, public.
 	Visibility *string `json:"visibility,omitempty" tf:"visibility,omitempty"`
 }
 
@@ -298,7 +298,7 @@ type ManagedZoneParameters struct {
 	// The zone's visibility: public zones are exposed to the Internet,
 	// while private zones are visible only to Virtual Private Cloud resources.
 	// Default value is public.
-	// Possible values are private and public.
+	// Possible values are: private, public.
 	// +kubebuilder:validation:Optional
 	Visibility *string `json:"visibility,omitempty" tf:"visibility,omitempty"`
 }
@@ -378,7 +378,7 @@ type TargetNameServersObservation struct {
 	// Forwarding path for this TargetNameServer. If unset or default Cloud DNS will make forwarding
 	// decision based on address ranges, i.e. RFC1918 addresses go to the VPC, Non-RFC1918 addresses go
 	// to the Internet. When set to private, Cloud DNS will always send queries through VPC for this target
-	// Possible values are default and private.
+	// Possible values are: default, private.
 	ForwardingPath *string `json:"forwardingPath,omitempty" tf:"forwarding_path,omitempty"`
 
 	// IPv4 address of a target name server.
@@ -390,7 +390,7 @@ type TargetNameServersParameters struct {
 	// Forwarding path for this TargetNameServer. If unset or default Cloud DNS will make forwarding
 	// decision based on address ranges, i.e. RFC1918 addresses go to the VPC, Non-RFC1918 addresses go
 	// to the Internet. When set to private, Cloud DNS will always send queries through VPC for this target
-	// Possible values are default and private.
+	// Possible values are: default, private.
 	// +kubebuilder:validation:Optional
 	ForwardingPath *string `json:"forwardingPath,omitempty" tf:"forwarding_path,omitempty"`
 

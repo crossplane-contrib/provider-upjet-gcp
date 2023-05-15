@@ -32,7 +32,7 @@ type CopyObservation struct {
 	// CREATE_NEVER: The table must already exist. If it does not, a 'notFound' error is returned in the job result.
 	// Creation, truncation and append actions occur as one atomic update upon job completion
 	// Default value is CREATE_IF_NEEDED.
-	// Possible values are CREATE_IF_NEEDED and CREATE_NEVER.
+	// Possible values are: CREATE_IF_NEEDED, CREATE_NEVER.
 	CreateDisposition *string `json:"createDisposition,omitempty" tf:"create_disposition,omitempty"`
 
 	// Custom encryption configuration (e.g., Cloud KMS keys)
@@ -54,7 +54,7 @@ type CopyObservation struct {
 	// Each action is atomic and only occurs if BigQuery is able to complete the job successfully.
 	// Creation, truncation and append actions occur as one atomic update upon job completion.
 	// Default value is WRITE_EMPTY.
-	// Possible values are WRITE_TRUNCATE, WRITE_APPEND, and WRITE_EMPTY.
+	// Possible values are: WRITE_TRUNCATE, WRITE_APPEND, WRITE_EMPTY.
 	WriteDisposition *string `json:"writeDisposition,omitempty" tf:"write_disposition,omitempty"`
 }
 
@@ -65,7 +65,7 @@ type CopyParameters struct {
 	// CREATE_NEVER: The table must already exist. If it does not, a 'notFound' error is returned in the job result.
 	// Creation, truncation and append actions occur as one atomic update upon job completion
 	// Default value is CREATE_IF_NEEDED.
-	// Possible values are CREATE_IF_NEEDED and CREATE_NEVER.
+	// Possible values are: CREATE_IF_NEEDED, CREATE_NEVER.
 	// +kubebuilder:validation:Optional
 	CreateDisposition *string `json:"createDisposition,omitempty" tf:"create_disposition,omitempty"`
 
@@ -91,7 +91,7 @@ type CopyParameters struct {
 	// Each action is atomic and only occurs if BigQuery is able to complete the job successfully.
 	// Creation, truncation and append actions occur as one atomic update upon job completion.
 	// Default value is WRITE_EMPTY.
-	// Possible values are WRITE_TRUNCATE, WRITE_APPEND, and WRITE_EMPTY.
+	// Possible values are: WRITE_TRUNCATE, WRITE_APPEND, WRITE_EMPTY.
 	// +kubebuilder:validation:Optional
 	WriteDisposition *string `json:"writeDisposition,omitempty" tf:"write_disposition,omitempty"`
 }
@@ -132,6 +132,7 @@ type DestinationEncryptionConfigurationObservation struct {
 	// The BigQuery Service Account associated with your project requires access to this encryption key.
 	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
 
+	// (Output)
 	// Describes the Cloud KMS encryption key version used to protect destination BigQuery table.
 	KMSKeyVersion *string `json:"kmsKeyVersion,omitempty" tf:"kms_key_version,omitempty"`
 }
@@ -325,6 +326,7 @@ type JobObservation struct {
 	// Job timeout in milliseconds. If this time limit is exceeded, BigQuery may attempt to terminate the job.
 	JobTimeoutMs *string `json:"jobTimeoutMs,omitempty" tf:"job_timeout_ms,omitempty"`
 
+	// (Output)
 	// The type of the job.
 	JobType *string `json:"jobType,omitempty" tf:"job_type,omitempty"`
 
@@ -404,6 +406,7 @@ type LoadDestinationEncryptionConfigurationObservation struct {
 	// The BigQuery Service Account associated with your project requires access to this encryption key.
 	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
 
+	// (Output)
 	// Describes the Cloud KMS encryption key version used to protect destination BigQuery table.
 	KMSKeyVersion *string `json:"kmsKeyVersion,omitempty" tf:"kms_key_version,omitempty"`
 }
@@ -483,7 +486,7 @@ type LoadObservation struct {
 	// CREATE_NEVER: The table must already exist. If it does not, a 'notFound' error is returned in the job result.
 	// Creation, truncation and append actions occur as one atomic update upon job completion
 	// Default value is CREATE_IF_NEEDED.
-	// Possible values are CREATE_IF_NEEDED and CREATE_NEVER.
+	// Possible values are: CREATE_IF_NEEDED, CREATE_NEVER.
 	CreateDisposition *string `json:"createDisposition,omitempty" tf:"create_disposition,omitempty"`
 
 	// Custom encryption configuration (e.g., Cloud KMS keys)
@@ -583,7 +586,7 @@ type LoadObservation struct {
 	// Each action is atomic and only occurs if BigQuery is able to complete the job successfully.
 	// Creation, truncation and append actions occur as one atomic update upon job completion.
 	// Default value is WRITE_EMPTY.
-	// Possible values are WRITE_TRUNCATE, WRITE_APPEND, and WRITE_EMPTY.
+	// Possible values are: WRITE_TRUNCATE, WRITE_APPEND, WRITE_EMPTY.
 	WriteDisposition *string `json:"writeDisposition,omitempty" tf:"write_disposition,omitempty"`
 }
 
@@ -609,7 +612,7 @@ type LoadParameters struct {
 	// CREATE_NEVER: The table must already exist. If it does not, a 'notFound' error is returned in the job result.
 	// Creation, truncation and append actions occur as one atomic update upon job completion
 	// Default value is CREATE_IF_NEEDED.
-	// Possible values are CREATE_IF_NEEDED and CREATE_NEVER.
+	// Possible values are: CREATE_IF_NEEDED, CREATE_NEVER.
 	// +kubebuilder:validation:Optional
 	CreateDisposition *string `json:"createDisposition,omitempty" tf:"create_disposition,omitempty"`
 
@@ -725,7 +728,7 @@ type LoadParameters struct {
 	// Each action is atomic and only occurs if BigQuery is able to complete the job successfully.
 	// Creation, truncation and append actions occur as one atomic update upon job completion.
 	// Default value is WRITE_EMPTY.
-	// Possible values are WRITE_TRUNCATE, WRITE_APPEND, and WRITE_EMPTY.
+	// Possible values are: WRITE_TRUNCATE, WRITE_APPEND, WRITE_EMPTY.
 	// +kubebuilder:validation:Optional
 	WriteDisposition *string `json:"writeDisposition,omitempty" tf:"write_disposition,omitempty"`
 }
@@ -736,6 +739,7 @@ type QueryDestinationEncryptionConfigurationObservation struct {
 	// The BigQuery Service Account associated with your project requires access to this encryption key.
 	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
 
+	// (Output)
 	// Describes the Cloud KMS encryption key version used to protect destination BigQuery table.
 	KMSKeyVersion *string `json:"kmsKeyVersion,omitempty" tf:"kms_key_version,omitempty"`
 }
@@ -808,7 +812,7 @@ type QueryObservation struct {
 	// CREATE_NEVER: The table must already exist. If it does not, a 'notFound' error is returned in the job result.
 	// Creation, truncation and append actions occur as one atomic update upon job completion
 	// Default value is CREATE_IF_NEEDED.
-	// Possible values are CREATE_IF_NEEDED and CREATE_NEVER.
+	// Possible values are: CREATE_IF_NEEDED, CREATE_NEVER.
 	CreateDisposition *string `json:"createDisposition,omitempty" tf:"create_disposition,omitempty"`
 
 	// Specifies the default dataset to use for unqualified table names in the query. Note that this does not alter behavior of unqualified dataset names.
@@ -842,7 +846,7 @@ type QueryObservation struct {
 
 	// Specifies a priority for the query.
 	// Default value is INTERACTIVE.
-	// Possible values are INTERACTIVE and BATCH.
+	// Possible values are: INTERACTIVE, BATCH.
 	Priority *string `json:"priority,omitempty" tf:"priority,omitempty"`
 
 	// SQL query text to execute. The useLegacySql field can be used to indicate whether the query uses legacy SQL or standard SQL.
@@ -883,7 +887,7 @@ type QueryObservation struct {
 	// Each action is atomic and only occurs if BigQuery is able to complete the job successfully.
 	// Creation, truncation and append actions occur as one atomic update upon job completion.
 	// Default value is WRITE_EMPTY.
-	// Possible values are WRITE_TRUNCATE, WRITE_APPEND, and WRITE_EMPTY.
+	// Possible values are: WRITE_TRUNCATE, WRITE_APPEND, WRITE_EMPTY.
 	WriteDisposition *string `json:"writeDisposition,omitempty" tf:"write_disposition,omitempty"`
 }
 
@@ -900,7 +904,7 @@ type QueryParameters struct {
 	// CREATE_NEVER: The table must already exist. If it does not, a 'notFound' error is returned in the job result.
 	// Creation, truncation and append actions occur as one atomic update upon job completion
 	// Default value is CREATE_IF_NEEDED.
-	// Possible values are CREATE_IF_NEEDED and CREATE_NEVER.
+	// Possible values are: CREATE_IF_NEEDED, CREATE_NEVER.
 	// +kubebuilder:validation:Optional
 	CreateDisposition *string `json:"createDisposition,omitempty" tf:"create_disposition,omitempty"`
 
@@ -942,7 +946,7 @@ type QueryParameters struct {
 
 	// Specifies a priority for the query.
 	// Default value is INTERACTIVE.
-	// Possible values are INTERACTIVE and BATCH.
+	// Possible values are: INTERACTIVE, BATCH.
 	// +kubebuilder:validation:Optional
 	Priority *string `json:"priority,omitempty" tf:"priority,omitempty"`
 
@@ -990,7 +994,7 @@ type QueryParameters struct {
 	// Each action is atomic and only occurs if BigQuery is able to complete the job successfully.
 	// Creation, truncation and append actions occur as one atomic update upon job completion.
 	// Default value is WRITE_EMPTY.
-	// Possible values are WRITE_TRUNCATE, WRITE_APPEND, and WRITE_EMPTY.
+	// Possible values are: WRITE_TRUNCATE, WRITE_APPEND, WRITE_EMPTY.
 	// +kubebuilder:validation:Optional
 	WriteDisposition *string `json:"writeDisposition,omitempty" tf:"write_disposition,omitempty"`
 }
@@ -999,7 +1003,7 @@ type ScriptOptionsObservation struct {
 
 	// Determines which statement in the script represents the "key result",
 	// used to populate the schema and query results of the script job.
-	// Possible values are LAST and FIRST_SELECT.
+	// Possible values are: LAST, FIRST_SELECT.
 	KeyResultStatement *string `json:"keyResultStatement,omitempty" tf:"key_result_statement,omitempty"`
 
 	// Limit on the number of bytes billed per statement. Exceeding this budget results in an error.
@@ -1013,7 +1017,7 @@ type ScriptOptionsParameters struct {
 
 	// Determines which statement in the script represents the "key result",
 	// used to populate the schema and query results of the script job.
-	// Possible values are LAST and FIRST_SELECT.
+	// Possible values are: LAST, FIRST_SELECT.
 	// +kubebuilder:validation:Optional
 	KeyResultStatement *string `json:"keyResultStatement,omitempty" tf:"key_result_statement,omitempty"`
 
@@ -1132,16 +1136,19 @@ type SourceTablesParameters struct {
 
 type StatusObservation struct {
 
+	// (Output)
 	// Final error result of the job. If present, indicates that the job has completed and was unsuccessful.
 	// Structure is documented below.
 	ErrorResult []ErrorResultObservation `json:"errorResult,omitempty" tf:"error_result,omitempty"`
 
+	// (Output)
 	// The first errors encountered during the running of the job. The final message
 	// includes the number of errors that caused the process to stop. Errors here do
 	// not necessarily mean that the job has not completed or was unsuccessful.
 	// Structure is documented below.
 	Errors []ErrorsObservation `json:"errors,omitempty" tf:"errors,omitempty"`
 
+	// (Output)
 	// Running state of the job. Valid states include 'PENDING', 'RUNNING', and 'DONE'.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 }

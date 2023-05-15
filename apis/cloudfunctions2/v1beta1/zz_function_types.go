@@ -27,6 +27,7 @@ import (
 
 type BuildConfigObservation struct {
 
+	// (Output)
 	// The Cloud Build name of the latest successful
 	// deployment of the function.
 	Build *string `json:"build,omitempty" tf:"build,omitempty"`
@@ -164,12 +165,13 @@ type EventTriggerObservation struct {
 
 	// Describes the retry policy in case of function's execution failure.
 	// Retried execution is charged as any other execution.
-	// Possible values are RETRY_POLICY_UNSPECIFIED, RETRY_POLICY_DO_NOT_RETRY, and RETRY_POLICY_RETRY.
+	// Possible values are: RETRY_POLICY_UNSPECIFIED, RETRY_POLICY_DO_NOT_RETRY, RETRY_POLICY_RETRY.
 	RetryPolicy *string `json:"retryPolicy,omitempty" tf:"retry_policy,omitempty"`
 
 	// The email of the service account for this function.
 	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty" tf:"service_account_email,omitempty"`
 
+	// (Output)
 	// Output only. The resource name of the Eventarc trigger.
 	Trigger *string `json:"trigger,omitempty" tf:"trigger,omitempty"`
 
@@ -208,7 +210,7 @@ type EventTriggerParameters struct {
 
 	// Describes the retry policy in case of function's execution failure.
 	// Retried execution is charged as any other execution.
-	// Possible values are RETRY_POLICY_UNSPECIFIED, RETRY_POLICY_DO_NOT_RETRY, and RETRY_POLICY_RETRY.
+	// Possible values are: RETRY_POLICY_UNSPECIFIED, RETRY_POLICY_DO_NOT_RETRY, RETRY_POLICY_RETRY.
 	// +kubebuilder:validation:Optional
 	RetryPolicy *string `json:"retryPolicy,omitempty" tf:"retry_policy,omitempty"`
 
@@ -474,12 +476,13 @@ type ServiceConfigObservation struct {
 	// Environment variables that shall be available during function execution.
 	EnvironmentVariables map[string]*string `json:"environmentVariables,omitempty" tf:"environment_variables,omitempty"`
 
+	// (Output)
 	// URIs of the Service deployed
 	GcfURI *string `json:"gcfUri,omitempty" tf:"gcf_uri,omitempty"`
 
 	// Available ingress settings. Defaults to "ALLOW_ALL" if unspecified.
 	// Default value is ALLOW_ALL.
-	// Possible values are ALLOW_ALL, ALLOW_INTERNAL_ONLY, and ALLOW_INTERNAL_AND_GCLB.
+	// Possible values are: ALLOW_ALL, ALLOW_INTERNAL_ONLY, ALLOW_INTERNAL_AND_GCLB.
 	IngressSettings *string `json:"ingressSettings,omitempty" tf:"ingress_settings,omitempty"`
 
 	// The limit on the maximum number of function instances that may coexist at a
@@ -512,6 +515,7 @@ type ServiceConfigObservation struct {
 	// timeout period. Defaults to 60 seconds.
 	TimeoutSeconds *float64 `json:"timeoutSeconds,omitempty" tf:"timeout_seconds,omitempty"`
 
+	// (Output)
 	// URI of the Service deployed.
 	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`
 
@@ -519,7 +523,7 @@ type ServiceConfigObservation struct {
 	VPCConnector *string `json:"vpcConnector,omitempty" tf:"vpc_connector,omitempty"`
 
 	// Available egress settings.
-	// Possible values are VPC_CONNECTOR_EGRESS_SETTINGS_UNSPECIFIED, PRIVATE_RANGES_ONLY, and ALL_TRAFFIC.
+	// Possible values are: VPC_CONNECTOR_EGRESS_SETTINGS_UNSPECIFIED, PRIVATE_RANGES_ONLY, ALL_TRAFFIC.
 	VPCConnectorEgressSettings *string `json:"vpcConnectorEgressSettings,omitempty" tf:"vpc_connector_egress_settings,omitempty"`
 }
 
@@ -545,7 +549,7 @@ type ServiceConfigParameters struct {
 
 	// Available ingress settings. Defaults to "ALLOW_ALL" if unspecified.
 	// Default value is ALLOW_ALL.
-	// Possible values are ALLOW_ALL, ALLOW_INTERNAL_ONLY, and ALLOW_INTERNAL_AND_GCLB.
+	// Possible values are: ALLOW_ALL, ALLOW_INTERNAL_ONLY, ALLOW_INTERNAL_AND_GCLB.
 	// +kubebuilder:validation:Optional
 	IngressSettings *string `json:"ingressSettings,omitempty" tf:"ingress_settings,omitempty"`
 
@@ -602,7 +606,7 @@ type ServiceConfigParameters struct {
 	VPCConnector *string `json:"vpcConnector,omitempty" tf:"vpc_connector,omitempty"`
 
 	// Available egress settings.
-	// Possible values are VPC_CONNECTOR_EGRESS_SETTINGS_UNSPECIFIED, PRIVATE_RANGES_ONLY, and ALL_TRAFFIC.
+	// Possible values are: VPC_CONNECTOR_EGRESS_SETTINGS_UNSPECIFIED, PRIVATE_RANGES_ONLY, ALL_TRAFFIC.
 	// +kubebuilder:validation:Optional
 	VPCConnectorEgressSettings *string `json:"vpcConnectorEgressSettings,omitempty" tf:"vpc_connector_egress_settings,omitempty"`
 }

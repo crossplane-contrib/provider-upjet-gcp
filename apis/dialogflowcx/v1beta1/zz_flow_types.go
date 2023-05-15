@@ -30,6 +30,7 @@ type EventHandlersObservation struct {
 	// The name of the event to handle.
 	Event *string `json:"event,omitempty" tf:"event,omitempty"`
 
+	// (Output)
 	// The unique identifier of this event handler.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
@@ -204,6 +205,7 @@ type MessagesParameters struct {
 
 type MessagesTextObservation struct {
 
+	// (Output)
 	// Whether the playback of this message can be interrupted by the end user's speech and the client can then starts the next Dialogflow request.
 	AllowPlaybackInterruption *bool `json:"allowPlaybackInterruption,omitempty" tf:"allow_playback_interruption,omitempty"`
 
@@ -249,6 +251,7 @@ type NluSettingsParameters struct {
 
 type TextObservation struct {
 
+	// (Output)
 	// Whether the playback of this message can be interrupted by the end user's speech and the client can then starts the next Dialogflow request.
 	AllowPlaybackInterruption *bool `json:"allowPlaybackInterruption,omitempty" tf:"allow_playback_interruption,omitempty"`
 
@@ -273,6 +276,7 @@ type TransitionRoutesObservation struct {
 	// Format: projects//locations//agents//intents/. Indicates that the transition can only happen when the given intent is matched. At least one of intent or condition must be specified. When both intent and condition are specified, the transition can only happen when both are fulfilled.
 	Intent *string `json:"intent,omitempty" tf:"intent,omitempty"`
 
+	// (Output)
 	// The unique identifier of this transition route.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 

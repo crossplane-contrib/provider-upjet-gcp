@@ -27,22 +27,25 @@ import (
 
 type ForwardingRuleObservation struct {
 
-	// This field can be used with internal load balancer or network load balancer
-	// when the forwarding rule references a backend service, or with the target
-	// field when it references a TargetInstance. Set this to true to
-	// allow packets addressed to any ports to be forwarded to the backends configured
-	// with this forwarding rule. This can be used when the protocol is TCP/UDP, and it
-	// must be set to true when the protocol is set to L3_DEFAULT.
-	// Cannot be set if port or portRange are set.
+	// This field can only be used:
 	AllPorts *bool `json:"allPorts,omitempty" tf:"all_ports,omitempty"`
 
-	// If true, clients can access ILB from all regions.
-	// Otherwise only allows from the local region the ILB is located at.
+	// This field is used along with the backend_service field for
+	// internal load balancing or with the target field for internal
+	// TargetInstance.
+	// If the field is set to TRUE, clients can access ILB from all
+	// regions.
+	// Otherwise only allows access from clients in the same region as the
+	// internal load balancer.
 	AllowGlobalAccess *bool `json:"allowGlobalAccess,omitempty" tf:"allow_global_access,omitempty"`
 
-	// A BackendService to receive the matched traffic. This is used only
-	// for INTERNAL load balancing.
+	// Identifies the backend service to which the forwarding rule sends traffic.
+	// Required for Internal TCP/UDP Load Balancing and Network Load Balancing;
+	// must be omitted for all other load balancer types.
 	BackendService *string `json:"backendService,omitempty" tf:"backend_service,omitempty"`
+
+	// [Output Only] The URL for the corresponding base Forwarding Rule. By base Forwarding Rule, we mean the Forwarding Rule that has the same IP address, protocol, and port settings with the current Forwarding Rule, but without sourceIPRanges specified. Always empty if the current Forwarding Rule does not have sourceIPRanges specified.
+	BaseForwardingRule *string `json:"baseForwardingRule,omitempty" tf:"base_forwarding_rule,omitempty"`
 
 	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
@@ -54,36 +57,32 @@ type ForwardingRuleObservation struct {
 	// an identifier for the resource with format projects/{{project}}/regions/{{region}}/forwardingRules/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// The IP address that this forwarding rule serves. When a client sends
-	// traffic to this IP address, the forwarding rule directs the traffic to
-	// the target that you specify in the forwarding rule. The
-	// loadBalancingScheme and the forwarding rule's target determine the
-	// type of IP address that you can use. For detailed information, refer
-	// to IP address specifications.
-	// An address can be specified either by a literal IP address or a
-	// reference to an existing Address resource. If you don't specify a
-	// reserved IP address, an ephemeral IP address is assigned.
-	// The value must be set to 0.0.0.0 when the target is a targetGrpcProxy
-	// that has validateForProxyless field set to true.
-	// For Private Service Connect forwarding rules that forward traffic to
-	// Google APIs, IP address must be provided.
+	// IP address for which this forwarding rule accepts traffic. When a client
+	// sends traffic to this IP address, the forwarding rule directs the traffic
+	// to the referenced target or backendService.
+	// While creating a forwarding rule, specifying an IPAddress is
+	// required under the following circumstances:
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
 
 	// The IP protocol to which this rule applies.
-	// When the load balancing scheme is INTERNAL, only TCP and UDP are
-	// valid.
-	// Possible values are TCP, UDP, ESP, AH, SCTP, ICMP, and L3_DEFAULT.
+	// For protocol forwarding, valid
+	// options are TCP, UDP, ESP,
+	// AH, SCTP, ICMP and
+	// L3_DEFAULT.
+	// The valid IP protocols are different for different load balancing products
+	// as described in Load balancing
+	// features.
+	// Possible values are: TCP, UDP, ESP, AH, SCTP, ICMP, L3_DEFAULT.
 	IPProtocol *string `json:"ipProtocol,omitempty" tf:"ip_protocol,omitempty"`
 
-	// Indicates whether or not this load balancer can be used
-	// as a collector for packet mirroring. To prevent mirroring loops,
-	// instances behind this load balancer will not have their traffic
-	// mirrored even if a PacketMirroring rule applies to them. This
-	// can only be set to true for load balancers that have their
+	// Indicates whether or not this load balancer can be used as a collector for
+	// packet mirroring. To prevent mirroring loops, instances behind this
+	// load balancer will not have their traffic mirrored even if a
+	// PacketMirroring rule applies to them.
+	// This can only be set to true for load balancers that have their
 	// loadBalancingScheme set to INTERNAL.
 	IsMirroringCollector *bool `json:"isMirroringCollector,omitempty" tf:"is_mirroring_collector,omitempty"`
 
-	// (Beta)
 	// The fingerprint used for optimistic locking of this resource.  Used
 	// internally during updates.
 	LabelFingerprint *string `json:"labelFingerprint,omitempty" tf:"label_fingerprint,omitempty"`
@@ -91,51 +90,45 @@ type ForwardingRuleObservation struct {
 	// Labels to apply to this forwarding rule.  A list of key->value pairs.
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
-	// This signifies what the ForwardingRule will be used for and can be
-	// EXTERNAL, EXTERNAL_MANAGED, INTERNAL, or INTERNAL_MANAGED. EXTERNAL is used for Classic
-	// Cloud VPN gateways, protocol forwarding to VMs from an external IP address,
-	// and HTTP(S), SSL Proxy, TCP Proxy, and Network TCP/UDP load balancers.
-	// INTERNAL is used for protocol forwarding to VMs from an internal IP address,
-	// and internal TCP/UDP load balancers.
-	// EXTERNAL_MANAGED is used for regional external HTTP(S) load balancers.
-	// INTERNAL_MANAGED is used for internal HTTP(S) load balancers.
-	// (Beta only) Note: This field must be set to ""
-	// if the target is an URI of a service attachment.
+	// Specifies the forwarding rule type.
+	// For more information about forwarding rules, refer to
+	// Forwarding rule concepts.
 	// Default value is EXTERNAL.
-	// Possible values are EXTERNAL, EXTERNAL_MANAGED, INTERNAL, and INTERNAL_MANAGED.
+	// Possible values are: EXTERNAL, EXTERNAL_MANAGED, INTERNAL, INTERNAL_MANAGED.
 	LoadBalancingScheme *string `json:"loadBalancingScheme,omitempty" tf:"load_balancing_scheme,omitempty"`
 
-	// For internal load balancing, this field identifies the network that
-	// the load balanced IP should belong to for this Forwarding Rule. If
-	// this field is not specified, the default network will be used.
-	// This field is only used for INTERNAL load balancing.
+	// This field is not used for external load balancing.
+	// For Internal TCP/UDP Load Balancing, this field identifies the network that
+	// the load balanced IP should belong to for this Forwarding Rule.
+	// If the subnetwork is specified, the network of the subnetwork will be used.
+	// If neither subnetwork nor this field is specified, the default network will
+	// be used.
+	// For Private Service Connect forwarding rules that forward traffic to Google
+	// APIs, a network must be provided.
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
-	// The networking tier used for configuring this address. If this field is not
-	// specified, it is assumed to be PREMIUM.
-	// Possible values are PREMIUM and STANDARD.
+	// This signifies the networking tier used for configuring
+	// this load balancer and can only take the following values:
+	// PREMIUM, STANDARD.
+	// For regional ForwardingRule, the valid values are PREMIUM and
+	// STANDARD. For GlobalForwardingRule, the valid value is
+	// PREMIUM.
+	// If this field is not specified, it is assumed to be PREMIUM.
+	// If IPAddress is specified, this value must be equal to the
+	// networkTier of the Address.
+	// Possible values are: PREMIUM, STANDARD.
 	NetworkTier *string `json:"networkTier,omitempty" tf:"network_tier,omitempty"`
 
-	// This field is used along with the target field for TargetHttpProxy,
-	// TargetHttpsProxy, TargetSslProxy, TargetTcpProxy, TargetVpnGateway,
-	// TargetPool, TargetInstance.
-	// Applicable only when IPProtocol is TCP, UDP, or SCTP, only packets
-	// addressed to ports in the specified range will be forwarded to target.
-	// Forwarding rules with the same [IPAddress, IPProtocol] pair must have
-	// disjoint port ranges.
-	// Some types of forwarding target have constraints on the acceptable
-	// ports:
+	// This field can only be used:
 	PortRange *string `json:"portRange,omitempty" tf:"port_range,omitempty"`
 
-	// This field is used along with internal load balancing and network
-	// load balancer when the forwarding rule references a backend service
-	// and when protocol is not L3_DEFAULT.
-	// A single port or a comma separated list of ports can be configured.
-	// Only packets addressed to these ports will be forwarded to the backends
-	// configured with this forwarding rule.
-	// You can only use one of ports and portRange, or allPorts.
-	// The three are mutually exclusive.
-	// You may specify a maximum of up to 5 ports, which can be non-contiguous.
+	// and port_range fields are mutually exclusive.
+	// For external forwarding rules, two or more forwarding rules cannot use the
+	// same [IPAddress, IPProtocol] pair, and cannot have
+	// overlapping portRanges.
+	// For internal forwarding rules within the same VPC network, two or more
+	// forwarding rules cannot use the same [IPAddress, IPProtocol]
+	// pair, and cannot have overlapping portRanges.
 	Ports []*string `json:"ports,omitempty" tf:"ports,omitempty"`
 
 	// The ID of the project in which the resource belongs.
@@ -155,8 +148,8 @@ type ForwardingRuleObservation struct {
 	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
 
-	// Service Directory resources to register this forwarding rule with. Currently,
-	// only supports a single Service Directory resource.
+	// Service Directory resources to register this forwarding rule with.
+	// Currently, only supports a single Service Directory resource.
 	// Structure is documented below.
 	ServiceDirectoryRegistrations []ServiceDirectoryRegistrationsObservation `json:"serviceDirectoryRegistrations,omitempty" tf:"service_directory_registrations,omitempty"`
 
@@ -176,39 +169,42 @@ type ForwardingRuleObservation struct {
 	// This field is only used for INTERNAL load balancing.
 	ServiceName *string `json:"serviceName,omitempty" tf:"service_name,omitempty"`
 
-	// The subnetwork that the load balanced IP should belong to for this
-	// Forwarding Rule.  This field is only used for INTERNAL load balancing.
-	// If the network specified is in auto subnet mode, this field is
-	// optional. However, if the network is in custom subnet mode, a
-	// subnetwork must be specified.
+	// If not empty, this Forwarding Rule will only forward the traffic when the source IP address matches one of the IP addresses or CIDR ranges set here. Note that a Forwarding Rule can only have up to 64 source IP ranges, and this field can only be used with a regional Forwarding Rule whose scheme is EXTERNAL. Each sourceIpRange entry should be either an IP address (for example, 1.2.3.4) or a CIDR range (for example, 1.2.3.0/24).
+	SourceIPRanges []*string `json:"sourceIpRanges,omitempty" tf:"source_ip_ranges,omitempty"`
+
+	// This field identifies the subnetwork that the load balanced IP should
+	// belong to for this Forwarding Rule, used in internal load balancing and
+	// network load balancing with IPv6.
+	// If the network specified is in auto subnet mode, this field is optional.
+	// However, a subnetwork must be specified if the network is in custom subnet
+	// mode or when creating external forwarding rule with IPv6.
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 
-	// The URL of the target resource to receive the matched traffic.
-	// The target must live in the same region as the forwarding rule.
-	// The forwarded traffic must be of a type appropriate to the target
-	// object.
+	// is set to targetGrpcProxy and
+	// validateForProxyless is set to true, the
+	// IPAddress should be set to 0.0.0.0.
 	Target *string `json:"target,omitempty" tf:"target,omitempty"`
 }
 
 type ForwardingRuleParameters struct {
 
-	// This field can be used with internal load balancer or network load balancer
-	// when the forwarding rule references a backend service, or with the target
-	// field when it references a TargetInstance. Set this to true to
-	// allow packets addressed to any ports to be forwarded to the backends configured
-	// with this forwarding rule. This can be used when the protocol is TCP/UDP, and it
-	// must be set to true when the protocol is set to L3_DEFAULT.
-	// Cannot be set if port or portRange are set.
+	// This field can only be used:
 	// +kubebuilder:validation:Optional
 	AllPorts *bool `json:"allPorts,omitempty" tf:"all_ports,omitempty"`
 
-	// If true, clients can access ILB from all regions.
-	// Otherwise only allows from the local region the ILB is located at.
+	// This field is used along with the backend_service field for
+	// internal load balancing or with the target field for internal
+	// TargetInstance.
+	// If the field is set to TRUE, clients can access ILB from all
+	// regions.
+	// Otherwise only allows access from clients in the same region as the
+	// internal load balancer.
 	// +kubebuilder:validation:Optional
 	AllowGlobalAccess *bool `json:"allowGlobalAccess,omitempty" tf:"allow_global_access,omitempty"`
 
-	// A BackendService to receive the matched traffic. This is used only
-	// for INTERNAL load balancing.
+	// Identifies the backend service to which the forwarding rule sends traffic.
+	// Required for Internal TCP/UDP Load Balancing and Network Load Balancing;
+	// must be omitted for all other load balancer types.
 	// +crossplane:generate:reference:type=RegionBackendService
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.SelfLinkExtractor()
 	// +kubebuilder:validation:Optional
@@ -227,19 +223,11 @@ type ForwardingRuleParameters struct {
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// The IP address that this forwarding rule serves. When a client sends
-	// traffic to this IP address, the forwarding rule directs the traffic to
-	// the target that you specify in the forwarding rule. The
-	// loadBalancingScheme and the forwarding rule's target determine the
-	// type of IP address that you can use. For detailed information, refer
-	// to IP address specifications.
-	// An address can be specified either by a literal IP address or a
-	// reference to an existing Address resource. If you don't specify a
-	// reserved IP address, an ephemeral IP address is assigned.
-	// The value must be set to 0.0.0.0 when the target is a targetGrpcProxy
-	// that has validateForProxyless field set to true.
-	// For Private Service Connect forwarding rules that forward traffic to
-	// Google APIs, IP address must be provided.
+	// IP address for which this forwarding rule accepts traffic. When a client
+	// sends traffic to this IP address, the forwarding rule directs the traffic
+	// to the referenced target or backendService.
+	// While creating a forwarding rule, specifying an IPAddress is
+	// required under the following circumstances:
 	// +crossplane:generate:reference:type=Address
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.SelfLinkExtractor()
 	// +kubebuilder:validation:Optional
@@ -254,17 +242,22 @@ type ForwardingRuleParameters struct {
 	IPAddressSelector *v1.Selector `json:"ipAddressSelector,omitempty" tf:"-"`
 
 	// The IP protocol to which this rule applies.
-	// When the load balancing scheme is INTERNAL, only TCP and UDP are
-	// valid.
-	// Possible values are TCP, UDP, ESP, AH, SCTP, ICMP, and L3_DEFAULT.
+	// For protocol forwarding, valid
+	// options are TCP, UDP, ESP,
+	// AH, SCTP, ICMP and
+	// L3_DEFAULT.
+	// The valid IP protocols are different for different load balancing products
+	// as described in Load balancing
+	// features.
+	// Possible values are: TCP, UDP, ESP, AH, SCTP, ICMP, L3_DEFAULT.
 	// +kubebuilder:validation:Optional
 	IPProtocol *string `json:"ipProtocol,omitempty" tf:"ip_protocol,omitempty"`
 
-	// Indicates whether or not this load balancer can be used
-	// as a collector for packet mirroring. To prevent mirroring loops,
-	// instances behind this load balancer will not have their traffic
-	// mirrored even if a PacketMirroring rule applies to them. This
-	// can only be set to true for load balancers that have their
+	// Indicates whether or not this load balancer can be used as a collector for
+	// packet mirroring. To prevent mirroring loops, instances behind this
+	// load balancer will not have their traffic mirrored even if a
+	// PacketMirroring rule applies to them.
+	// This can only be set to true for load balancers that have their
 	// loadBalancingScheme set to INTERNAL.
 	// +kubebuilder:validation:Optional
 	IsMirroringCollector *bool `json:"isMirroringCollector,omitempty" tf:"is_mirroring_collector,omitempty"`
@@ -273,25 +266,22 @@ type ForwardingRuleParameters struct {
 	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
-	// This signifies what the ForwardingRule will be used for and can be
-	// EXTERNAL, EXTERNAL_MANAGED, INTERNAL, or INTERNAL_MANAGED. EXTERNAL is used for Classic
-	// Cloud VPN gateways, protocol forwarding to VMs from an external IP address,
-	// and HTTP(S), SSL Proxy, TCP Proxy, and Network TCP/UDP load balancers.
-	// INTERNAL is used for protocol forwarding to VMs from an internal IP address,
-	// and internal TCP/UDP load balancers.
-	// EXTERNAL_MANAGED is used for regional external HTTP(S) load balancers.
-	// INTERNAL_MANAGED is used for internal HTTP(S) load balancers.
-	// (Beta only) Note: This field must be set to ""
-	// if the target is an URI of a service attachment.
+	// Specifies the forwarding rule type.
+	// For more information about forwarding rules, refer to
+	// Forwarding rule concepts.
 	// Default value is EXTERNAL.
-	// Possible values are EXTERNAL, EXTERNAL_MANAGED, INTERNAL, and INTERNAL_MANAGED.
+	// Possible values are: EXTERNAL, EXTERNAL_MANAGED, INTERNAL, INTERNAL_MANAGED.
 	// +kubebuilder:validation:Optional
 	LoadBalancingScheme *string `json:"loadBalancingScheme,omitempty" tf:"load_balancing_scheme,omitempty"`
 
-	// For internal load balancing, this field identifies the network that
-	// the load balanced IP should belong to for this Forwarding Rule. If
-	// this field is not specified, the default network will be used.
-	// This field is only used for INTERNAL load balancing.
+	// This field is not used for external load balancing.
+	// For Internal TCP/UDP Load Balancing, this field identifies the network that
+	// the load balanced IP should belong to for this Forwarding Rule.
+	// If the subnetwork is specified, the network of the subnetwork will be used.
+	// If neither subnetwork nor this field is specified, the default network will
+	// be used.
+	// For Private Service Connect forwarding rules that forward traffic to Google
+	// APIs, a network must be provided.
 	// +crossplane:generate:reference:type=Network
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.SelfLinkExtractor()
 	// +kubebuilder:validation:Optional
@@ -305,33 +295,30 @@ type ForwardingRuleParameters struct {
 	// +kubebuilder:validation:Optional
 	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
 
-	// The networking tier used for configuring this address. If this field is not
-	// specified, it is assumed to be PREMIUM.
-	// Possible values are PREMIUM and STANDARD.
+	// This signifies the networking tier used for configuring
+	// this load balancer and can only take the following values:
+	// PREMIUM, STANDARD.
+	// For regional ForwardingRule, the valid values are PREMIUM and
+	// STANDARD. For GlobalForwardingRule, the valid value is
+	// PREMIUM.
+	// If this field is not specified, it is assumed to be PREMIUM.
+	// If IPAddress is specified, this value must be equal to the
+	// networkTier of the Address.
+	// Possible values are: PREMIUM, STANDARD.
 	// +kubebuilder:validation:Optional
 	NetworkTier *string `json:"networkTier,omitempty" tf:"network_tier,omitempty"`
 
-	// This field is used along with the target field for TargetHttpProxy,
-	// TargetHttpsProxy, TargetSslProxy, TargetTcpProxy, TargetVpnGateway,
-	// TargetPool, TargetInstance.
-	// Applicable only when IPProtocol is TCP, UDP, or SCTP, only packets
-	// addressed to ports in the specified range will be forwarded to target.
-	// Forwarding rules with the same [IPAddress, IPProtocol] pair must have
-	// disjoint port ranges.
-	// Some types of forwarding target have constraints on the acceptable
-	// ports:
+	// This field can only be used:
 	// +kubebuilder:validation:Optional
 	PortRange *string `json:"portRange,omitempty" tf:"port_range,omitempty"`
 
-	// This field is used along with internal load balancing and network
-	// load balancer when the forwarding rule references a backend service
-	// and when protocol is not L3_DEFAULT.
-	// A single port or a comma separated list of ports can be configured.
-	// Only packets addressed to these ports will be forwarded to the backends
-	// configured with this forwarding rule.
-	// You can only use one of ports and portRange, or allPorts.
-	// The three are mutually exclusive.
-	// You may specify a maximum of up to 5 ports, which can be non-contiguous.
+	// and port_range fields are mutually exclusive.
+	// For external forwarding rules, two or more forwarding rules cannot use the
+	// same [IPAddress, IPProtocol] pair, and cannot have
+	// overlapping portRanges.
+	// For internal forwarding rules within the same VPC network, two or more
+	// forwarding rules cannot use the same [IPAddress, IPProtocol]
+	// pair, and cannot have overlapping portRanges.
 	// +kubebuilder:validation:Optional
 	Ports []*string `json:"ports,omitempty" tf:"ports,omitempty"`
 
@@ -345,8 +332,8 @@ type ForwardingRuleParameters struct {
 	// +kubebuilder:validation:Required
 	Region *string `json:"region" tf:"region,omitempty"`
 
-	// Service Directory resources to register this forwarding rule with. Currently,
-	// only supports a single Service Directory resource.
+	// Service Directory resources to register this forwarding rule with.
+	// Currently, only supports a single Service Directory resource.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	ServiceDirectoryRegistrations []ServiceDirectoryRegistrationsParameters `json:"serviceDirectoryRegistrations,omitempty" tf:"service_directory_registrations,omitempty"`
@@ -364,11 +351,16 @@ type ForwardingRuleParameters struct {
 	// +kubebuilder:validation:Optional
 	ServiceLabel *string `json:"serviceLabel,omitempty" tf:"service_label,omitempty"`
 
-	// The subnetwork that the load balanced IP should belong to for this
-	// Forwarding Rule.  This field is only used for INTERNAL load balancing.
-	// If the network specified is in auto subnet mode, this field is
-	// optional. However, if the network is in custom subnet mode, a
-	// subnetwork must be specified.
+	// If not empty, this Forwarding Rule will only forward the traffic when the source IP address matches one of the IP addresses or CIDR ranges set here. Note that a Forwarding Rule can only have up to 64 source IP ranges, and this field can only be used with a regional Forwarding Rule whose scheme is EXTERNAL. Each sourceIpRange entry should be either an IP address (for example, 1.2.3.4) or a CIDR range (for example, 1.2.3.0/24).
+	// +kubebuilder:validation:Optional
+	SourceIPRanges []*string `json:"sourceIpRanges,omitempty" tf:"source_ip_ranges,omitempty"`
+
+	// This field identifies the subnetwork that the load balanced IP should
+	// belong to for this Forwarding Rule, used in internal load balancing and
+	// network load balancing with IPv6.
+	// If the network specified is in auto subnet mode, this field is optional.
+	// However, a subnetwork must be specified if the network is in custom subnet
+	// mode or when creating external forwarding rule with IPv6.
 	// +crossplane:generate:reference:type=Subnetwork
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.SelfLinkExtractor()
 	// +kubebuilder:validation:Optional
@@ -382,10 +374,9 @@ type ForwardingRuleParameters struct {
 	// +kubebuilder:validation:Optional
 	SubnetworkSelector *v1.Selector `json:"subnetworkSelector,omitempty" tf:"-"`
 
-	// The URL of the target resource to receive the matched traffic.
-	// The target must live in the same region as the forwarding rule.
-	// The forwarded traffic must be of a type appropriate to the target
-	// object.
+	// is set to targetGrpcProxy and
+	// validateForProxyless is set to true, the
+	// IPAddress should be set to 0.0.0.0.
 	// +crossplane:generate:reference:type=RegionTargetHTTPProxy
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.SelfLinkExtractor()
 	// +kubebuilder:validation:Optional

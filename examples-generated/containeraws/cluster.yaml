@@ -12,7 +12,7 @@ spec:
       label-one: value-one
     authorization:
     - adminUsers:
-      - username: emailAddress:my@service-account.com
+      - username: my@service-account.com
     awsRegion: my-aws-region
     controlPlane:
     - awsServicesAuthentication:
@@ -44,7 +44,7 @@ spec:
       subnetIds:
       - subnet-00000000000000000
       tags:
-        owner: emailAddress:my@service-account.com
+        owner: my@service-account.com
       version: ${data.google_container_aws_versions.versions.valid_versions[0]}
     description: A sample aws cluster
     fleet:

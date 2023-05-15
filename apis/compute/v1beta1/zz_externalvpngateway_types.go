@@ -45,7 +45,7 @@ type ExternalVPNGatewayObservation struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Indicates the redundancy type of this external VPN gateway
-	// Possible values are FOUR_IPS_REDUNDANCY, SINGLE_IP_INTERNALLY_REDUNDANT, and TWO_IPS_REDUNDANCY.
+	// Possible values are: FOUR_IPS_REDUNDANCY, SINGLE_IP_INTERNALLY_REDUNDANT, TWO_IPS_REDUNDANCY.
 	RedundancyType *string `json:"redundancyType,omitempty" tf:"redundancy_type,omitempty"`
 
 	// The URI of the created resource.
@@ -73,7 +73,7 @@ type ExternalVPNGatewayParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Indicates the redundancy type of this external VPN gateway
-	// Possible values are FOUR_IPS_REDUNDANCY, SINGLE_IP_INTERNALLY_REDUNDANT, and TWO_IPS_REDUNDANCY.
+	// Possible values are: FOUR_IPS_REDUNDANCY, SINGLE_IP_INTERNALLY_REDUNDANT, TWO_IPS_REDUNDANCY.
 	// +kubebuilder:validation:Optional
 	RedundancyType *string `json:"redundancyType,omitempty" tf:"redundancy_type,omitempty"`
 }

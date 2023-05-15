@@ -81,8 +81,8 @@ spec:
                     description: An optional description of this resource.
                     type: string
                   ipVersion:
-                    description: The IP Version that will be used by this address.
-                      The default value is IPV4. Possible values are IPV4 and IPV6.
+                    description: 'The IP Version that will be used by this address.
+                      The default value is IPV4. Possible values are: IPV4, IPV6.'
                     type: string
                   network:
                     description: The URL of the network in which to reserve the IP
@@ -387,8 +387,8 @@ spec:
                     description: an identifier for the resource with format projects/{{project}}/global/addresses/{{name}}
                     type: string
                   ipVersion:
-                    description: The IP Version that will be used by this address.
-                      The default value is IPV4. Possible values are IPV4 and IPV6.
+                    description: 'The IP Version that will be used by this address.
+                      The default value is IPV4. Possible values are: IPV4, IPV6.'
                     type: string
                   network:
                     description: The URL of the network in which to reserve the IP

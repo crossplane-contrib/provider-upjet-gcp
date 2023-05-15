@@ -50,7 +50,7 @@ type DailyScheduleParameters struct {
 type DayOfWeeksObservation struct {
 
 	// The day of the week to create the snapshot. e.g. MONDAY
-	// Possible values are MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, and SUNDAY.
+	// Possible values are: MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY.
 	Day *string `json:"day,omitempty" tf:"day,omitempty"`
 
 	// Time within the window to start the operations.
@@ -61,7 +61,7 @@ type DayOfWeeksObservation struct {
 type DayOfWeeksParameters struct {
 
 	// The day of the week to create the snapshot. e.g. MONDAY
-	// Possible values are MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, and SUNDAY.
+	// Possible values are: MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY.
 	// +kubebuilder:validation:Required
 	Day *string `json:"day" tf:"day,omitempty"`
 
@@ -81,7 +81,7 @@ type GroupPlacementPolicyObservation struct {
 	// Specify COLLOCATED to enable collocation. Can only be specified with vm_count. If compute instances are created
 	// with a COLLOCATED policy, then exactly vm_count instances must be created at the same time with the resource policy
 	// attached.
-	// Possible values are COLLOCATED.
+	// Possible values are: COLLOCATED.
 	Collocation *string `json:"collocation,omitempty" tf:"collocation,omitempty"`
 
 	// Number of VMs in this placement group. Google does not recommend that you use this field
@@ -101,7 +101,7 @@ type GroupPlacementPolicyParameters struct {
 	// Specify COLLOCATED to enable collocation. Can only be specified with vm_count. If compute instances are created
 	// with a COLLOCATED policy, then exactly vm_count instances must be created at the same time with the resource policy
 	// attached.
-	// Possible values are COLLOCATED.
+	// Possible values are: COLLOCATED.
 	// +kubebuilder:validation:Optional
 	Collocation *string `json:"collocation,omitempty" tf:"collocation,omitempty"`
 
@@ -251,7 +251,7 @@ type RetentionPolicyObservation struct {
 	// Specifies the behavior to apply to scheduled snapshots when
 	// the source disk is deleted.
 	// Default value is KEEP_AUTO_SNAPSHOTS.
-	// Possible values are KEEP_AUTO_SNAPSHOTS and APPLY_RETENTION_POLICY.
+	// Possible values are: KEEP_AUTO_SNAPSHOTS, APPLY_RETENTION_POLICY.
 	OnSourceDiskDelete *string `json:"onSourceDiskDelete,omitempty" tf:"on_source_disk_delete,omitempty"`
 }
 
@@ -264,7 +264,7 @@ type RetentionPolicyParameters struct {
 	// Specifies the behavior to apply to scheduled snapshots when
 	// the source disk is deleted.
 	// Default value is KEEP_AUTO_SNAPSHOTS.
-	// Possible values are KEEP_AUTO_SNAPSHOTS and APPLY_RETENTION_POLICY.
+	// Possible values are: KEEP_AUTO_SNAPSHOTS, APPLY_RETENTION_POLICY.
 	// +kubebuilder:validation:Optional
 	OnSourceDiskDelete *string `json:"onSourceDiskDelete,omitempty" tf:"on_source_disk_delete,omitempty"`
 }

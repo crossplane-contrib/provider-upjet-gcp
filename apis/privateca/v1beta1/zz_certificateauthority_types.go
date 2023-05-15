@@ -27,10 +27,12 @@ import (
 
 type AccessUrlsObservation struct {
 
+	// (Output)
 	// The URL where this CertificateAuthority's CA certificate is published. This will only be
 	// set for CAs that have been activated.
 	CACertificateAccessURL *string `json:"caCertificateAccessUrl,omitempty" tf:"ca_certificate_access_url,omitempty"`
 
+	// (Output)
 	// The URL where this CertificateAuthority's CRLs are published. This will only be set for
 	// CAs that have been activated.
 	CrlAccessUrls []*string `json:"crlAccessUrls,omitempty" tf:"crl_access_urls,omitempty"`
@@ -155,7 +157,7 @@ type CertificateAuthorityObservation struct {
 	// ~> Note: For SUBORDINATE Certificate Authorities, they need to
 	// be activated before they can issue certificates.
 	// Default value is SELF_SIGNED.
-	// Possible values are SELF_SIGNED and SUBORDINATE.
+	// Possible values are: SELF_SIGNED, SUBORDINATE.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 
 	// The time at which this CertificateAuthority was updated.
@@ -254,7 +256,7 @@ type CertificateAuthorityParameters struct {
 	// ~> Note: For SUBORDINATE Certificate Authorities, they need to
 	// be activated before they can issue certificates.
 	// Default value is SELF_SIGNED.
-	// Possible values are SELF_SIGNED and SUBORDINATE.
+	// Possible values are: SELF_SIGNED, SUBORDINATE.
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
@@ -394,8 +396,7 @@ type ConfigX509ConfigAdditionalExtensionsObjectIDParameters struct {
 
 type ConfigX509ConfigAdditionalExtensionsObservation struct {
 
-	// Indicates whether or not this extension is critical (i.e., if the client does not know how to
-	// handle this extension, the client should consider this to be an error).
+	// Indicates whether or not the name constraints are marked critical.
 	Critical *bool `json:"critical,omitempty" tf:"critical,omitempty"`
 
 	// Describes values that are relevant in a CA certificate.
@@ -408,8 +409,7 @@ type ConfigX509ConfigAdditionalExtensionsObservation struct {
 
 type ConfigX509ConfigAdditionalExtensionsParameters struct {
 
-	// Indicates whether or not this extension is critical (i.e., if the client does not know how to
-	// handle this extension, the client should consider this to be an error).
+	// Indicates whether or not the name constraints are marked critical.
 	// +kubebuilder:validation:Required
 	Critical *bool `json:"critical" tf:"critical,omitempty"`
 
@@ -630,6 +630,123 @@ type ConfigX509ConfigKeyUsageUnknownExtendedKeyUsagesParameters struct {
 	ObjectIDPath []*float64 `json:"objectIdPath" tf:"object_id_path,omitempty"`
 }
 
+type ConfigX509ConfigNameConstraintsObservation struct {
+
+	// Indicates whether or not the name constraints are marked critical.
+	Critical *bool `json:"critical,omitempty" tf:"critical,omitempty"`
+
+	// Contains excluded DNS names. Any DNS name that can be
+	// constructed by simply adding zero or more labels to
+	// the left-hand side of the name satisfies the name constraint.
+	// For example, example.com, www.example.com, www.sub.example.com
+	// would satisfy example.com while example1.com does not.
+	ExcludedDNSNames []*string `json:"excludedDnsNames,omitempty" tf:"excluded_dns_names,omitempty"`
+
+	// Contains the excluded email addresses. The value can be a particular
+	// email address, a hostname to indicate all email addresses on that host or
+	// a domain with a leading period (e.g. .example.com) to indicate
+	// all email addresses in that domain.
+	ExcludedEmailAddresses []*string `json:"excludedEmailAddresses,omitempty" tf:"excluded_email_addresses,omitempty"`
+
+	// Contains the excluded IP ranges. For IPv4 addresses, the ranges
+	// are expressed using CIDR notation as specified in RFC 4632.
+	// For IPv6 addresses, the ranges are expressed in similar encoding as IPv4
+	// addresses.
+	ExcludedIPRanges []*string `json:"excludedIpRanges,omitempty" tf:"excluded_ip_ranges,omitempty"`
+
+	// Contains the excluded URIs that apply to the host part of the name.
+	// The value can be a hostname or a domain with a
+	// leading period (like .example.com)
+	ExcludedUris []*string `json:"excludedUris,omitempty" tf:"excluded_uris,omitempty"`
+
+	// Contains permitted DNS names. Any DNS name that can be
+	// constructed by simply adding zero or more labels to
+	// the left-hand side of the name satisfies the name constraint.
+	// For example, example.com, www.example.com, www.sub.example.com
+	// would satisfy example.com while example1.com does not.
+	PermittedDNSNames []*string `json:"permittedDnsNames,omitempty" tf:"permitted_dns_names,omitempty"`
+
+	// Contains the permitted email addresses. The value can be a particular
+	// email address, a hostname to indicate all email addresses on that host or
+	// a domain with a leading period (e.g. .example.com) to indicate
+	// all email addresses in that domain.
+	PermittedEmailAddresses []*string `json:"permittedEmailAddresses,omitempty" tf:"permitted_email_addresses,omitempty"`
+
+	// Contains the permitted IP ranges. For IPv4 addresses, the ranges
+	// are expressed using CIDR notation as specified in RFC 4632.
+	// For IPv6 addresses, the ranges are expressed in similar encoding as IPv4
+	// addresses.
+	PermittedIPRanges []*string `json:"permittedIpRanges,omitempty" tf:"permitted_ip_ranges,omitempty"`
+
+	// Contains the permitted URIs that apply to the host part of the name.
+	// The value can be a hostname or a domain with a
+	// leading period (like .example.com)
+	PermittedUris []*string `json:"permittedUris,omitempty" tf:"permitted_uris,omitempty"`
+}
+
+type ConfigX509ConfigNameConstraintsParameters struct {
+
+	// Indicates whether or not the name constraints are marked critical.
+	// +kubebuilder:validation:Required
+	Critical *bool `json:"critical" tf:"critical,omitempty"`
+
+	// Contains excluded DNS names. Any DNS name that can be
+	// constructed by simply adding zero or more labels to
+	// the left-hand side of the name satisfies the name constraint.
+	// For example, example.com, www.example.com, www.sub.example.com
+	// would satisfy example.com while example1.com does not.
+	// +kubebuilder:validation:Optional
+	ExcludedDNSNames []*string `json:"excludedDnsNames,omitempty" tf:"excluded_dns_names,omitempty"`
+
+	// Contains the excluded email addresses. The value can be a particular
+	// email address, a hostname to indicate all email addresses on that host or
+	// a domain with a leading period (e.g. .example.com) to indicate
+	// all email addresses in that domain.
+	// +kubebuilder:validation:Optional
+	ExcludedEmailAddresses []*string `json:"excludedEmailAddresses,omitempty" tf:"excluded_email_addresses,omitempty"`
+
+	// Contains the excluded IP ranges. For IPv4 addresses, the ranges
+	// are expressed using CIDR notation as specified in RFC 4632.
+	// For IPv6 addresses, the ranges are expressed in similar encoding as IPv4
+	// addresses.
+	// +kubebuilder:validation:Optional
+	ExcludedIPRanges []*string `json:"excludedIpRanges,omitempty" tf:"excluded_ip_ranges,omitempty"`
+
+	// Contains the excluded URIs that apply to the host part of the name.
+	// The value can be a hostname or a domain with a
+	// leading period (like .example.com)
+	// +kubebuilder:validation:Optional
+	ExcludedUris []*string `json:"excludedUris,omitempty" tf:"excluded_uris,omitempty"`
+
+	// Contains permitted DNS names. Any DNS name that can be
+	// constructed by simply adding zero or more labels to
+	// the left-hand side of the name satisfies the name constraint.
+	// For example, example.com, www.example.com, www.sub.example.com
+	// would satisfy example.com while example1.com does not.
+	// +kubebuilder:validation:Optional
+	PermittedDNSNames []*string `json:"permittedDnsNames,omitempty" tf:"permitted_dns_names,omitempty"`
+
+	// Contains the permitted email addresses. The value can be a particular
+	// email address, a hostname to indicate all email addresses on that host or
+	// a domain with a leading period (e.g. .example.com) to indicate
+	// all email addresses in that domain.
+	// +kubebuilder:validation:Optional
+	PermittedEmailAddresses []*string `json:"permittedEmailAddresses,omitempty" tf:"permitted_email_addresses,omitempty"`
+
+	// Contains the permitted IP ranges. For IPv4 addresses, the ranges
+	// are expressed using CIDR notation as specified in RFC 4632.
+	// For IPv6 addresses, the ranges are expressed in similar encoding as IPv4
+	// addresses.
+	// +kubebuilder:validation:Optional
+	PermittedIPRanges []*string `json:"permittedIpRanges,omitempty" tf:"permitted_ip_ranges,omitempty"`
+
+	// Contains the permitted URIs that apply to the host part of the name.
+	// The value can be a hostname or a domain with a
+	// leading period (like .example.com)
+	// +kubebuilder:validation:Optional
+	PermittedUris []*string `json:"permittedUris,omitempty" tf:"permitted_uris,omitempty"`
+}
+
 type ConfigX509ConfigObservation struct {
 
 	// Specifies an X.509 extension, which may be used in different parts of X.509 objects like certificates, CSRs, and CRLs.
@@ -647,6 +764,10 @@ type ConfigX509ConfigObservation struct {
 	// Indicates the intended use for keys that correspond to a certificate.
 	// Structure is documented below.
 	KeyUsage []ConfigX509ConfigKeyUsageObservation `json:"keyUsage,omitempty" tf:"key_usage,omitempty"`
+
+	// Describes the X.509 name constraints extension.
+	// Structure is documented below.
+	NameConstraints []ConfigX509ConfigNameConstraintsObservation `json:"nameConstraints,omitempty" tf:"name_constraints,omitempty"`
 
 	// Describes the X.509 certificate policy object identifiers, per https://tools.ietf.org/html/rfc5280#section-4.2.1.4.
 	// Structure is documented below.
@@ -675,6 +796,11 @@ type ConfigX509ConfigParameters struct {
 	// +kubebuilder:validation:Required
 	KeyUsage []ConfigX509ConfigKeyUsageParameters `json:"keyUsage" tf:"key_usage,omitempty"`
 
+	// Describes the X.509 name constraints extension.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	NameConstraints []ConfigX509ConfigNameConstraintsParameters `json:"nameConstraints,omitempty" tf:"name_constraints,omitempty"`
+
 	// Describes the X.509 certificate policy object identifiers, per https://tools.ietf.org/html/rfc5280#section-4.2.1.4.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
@@ -698,7 +824,7 @@ type KeySpecObservation struct {
 
 	// The algorithm to use for creating a managed Cloud KMS key for a for a simplified
 	// experience. All managed keys will be have their ProtectionLevel as HSM.
-	// Possible values are SIGN_HASH_ALGORITHM_UNSPECIFIED, RSA_PSS_2048_SHA256, RSA_PSS_3072_SHA256, RSA_PSS_4096_SHA256, RSA_PKCS1_2048_SHA256, RSA_PKCS1_3072_SHA256, RSA_PKCS1_4096_SHA256, EC_P256_SHA256, and EC_P384_SHA384.
+	// Possible values are: SIGN_HASH_ALGORITHM_UNSPECIFIED, RSA_PSS_2048_SHA256, RSA_PSS_3072_SHA256, RSA_PSS_4096_SHA256, RSA_PKCS1_2048_SHA256, RSA_PKCS1_3072_SHA256, RSA_PKCS1_4096_SHA256, EC_P256_SHA256, EC_P384_SHA384.
 	Algorithm *string `json:"algorithm,omitempty" tf:"algorithm,omitempty"`
 
 	// The resource name for an existing Cloud KMS CryptoKeyVersion in the format
@@ -710,7 +836,7 @@ type KeySpecParameters struct {
 
 	// The algorithm to use for creating a managed Cloud KMS key for a for a simplified
 	// experience. All managed keys will be have their ProtectionLevel as HSM.
-	// Possible values are SIGN_HASH_ALGORITHM_UNSPECIFIED, RSA_PSS_2048_SHA256, RSA_PSS_3072_SHA256, RSA_PSS_4096_SHA256, RSA_PKCS1_2048_SHA256, RSA_PKCS1_3072_SHA256, RSA_PKCS1_4096_SHA256, EC_P256_SHA256, and EC_P384_SHA384.
+	// Possible values are: SIGN_HASH_ALGORITHM_UNSPECIFIED, RSA_PSS_2048_SHA256, RSA_PSS_3072_SHA256, RSA_PSS_4096_SHA256, RSA_PKCS1_2048_SHA256, RSA_PKCS1_3072_SHA256, RSA_PKCS1_4096_SHA256, EC_P256_SHA256, EC_P384_SHA384.
 	// +kubebuilder:validation:Optional
 	Algorithm *string `json:"algorithm,omitempty" tf:"algorithm,omitempty"`
 

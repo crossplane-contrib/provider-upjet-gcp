@@ -334,7 +334,8 @@ type InstanceFromTemplateObservation struct {
 	ShieldedInstanceConfig []InstanceFromTemplateShieldedInstanceConfigObservation `json:"shieldedInstanceConfig,omitempty" tf:"shielded_instance_config,omitempty"`
 
 	// Name or self link of an instance
-	// template to create the instance based on.
+	// template to create the instance based on. It is recommended to reference
+	// instance templates through their unique id (self_link_unique attribute).
 	SourceInstanceTemplate *string `json:"sourceInstanceTemplate,omitempty" tf:"source_instance_template,omitempty"`
 
 	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
@@ -432,7 +433,8 @@ type InstanceFromTemplateParameters struct {
 	ShieldedInstanceConfig []InstanceFromTemplateShieldedInstanceConfigParameters `json:"shieldedInstanceConfig,omitempty" tf:"shielded_instance_config,omitempty"`
 
 	// Name or self link of an instance
-	// template to create the instance based on.
+	// template to create the instance based on. It is recommended to reference
+	// instance templates through their unique id (self_link_unique attribute).
 	// +crossplane:generate:reference:type=InstanceTemplate
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
@@ -512,12 +514,17 @@ type InstanceFromTemplateSchedulingParameters struct {
 
 type InstanceFromTemplateScratchDiskObservation struct {
 	Interface *string `json:"interface,omitempty" tf:"interface,omitempty"`
+
+	Size *float64 `json:"size,omitempty" tf:"size,omitempty"`
 }
 
 type InstanceFromTemplateScratchDiskParameters struct {
 
 	// +kubebuilder:validation:Optional
 	Interface *string `json:"interface,omitempty" tf:"interface"`
+
+	// +kubebuilder:validation:Optional
+	Size *float64 `json:"size,omitempty" tf:"size"`
 }
 
 type InstanceFromTemplateServiceAccountObservation struct {

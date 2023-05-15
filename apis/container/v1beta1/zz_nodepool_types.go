@@ -123,6 +123,8 @@ type NodePoolNetworkConfigObservation struct {
 	// Whether nodes have internal IP addresses only.
 	EnablePrivateNodes *bool `json:"enablePrivateNodes,omitempty" tf:"enable_private_nodes,omitempty"`
 
+	PodCidrOverprovisionConfig []NodePoolNetworkConfigPodCidrOverprovisionConfigObservation `json:"podCidrOverprovisionConfig,omitempty" tf:"pod_cidr_overprovision_config,omitempty"`
+
 	// The IP address range for pod IPs in this node pool. Only applicable if createPodRange is true. Set to blank to have a range chosen with the default size. Set to /netmask (e.g. /14) to have a range chosen with a specific netmask. Set to a CIDR notation (e.g. 10.96.0.0/14) to pick a specific range to use.
 	PodIPv4CidrBlock *string `json:"podIpv4CidrBlock,omitempty" tf:"pod_ipv4_cidr_block,omitempty"`
 
@@ -140,6 +142,9 @@ type NodePoolNetworkConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	EnablePrivateNodes *bool `json:"enablePrivateNodes,omitempty" tf:"enable_private_nodes,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	PodCidrOverprovisionConfig []NodePoolNetworkConfigPodCidrOverprovisionConfigParameters `json:"podCidrOverprovisionConfig,omitempty" tf:"pod_cidr_overprovision_config,omitempty"`
+
 	// The IP address range for pod IPs in this node pool. Only applicable if createPodRange is true. Set to blank to have a range chosen with the default size. Set to /netmask (e.g. /14) to have a range chosen with a specific netmask. Set to a CIDR notation (e.g. 10.96.0.0/14) to pick a specific range to use.
 	// +kubebuilder:validation:Optional
 	PodIPv4CidrBlock *string `json:"podIpv4CidrBlock,omitempty" tf:"pod_ipv4_cidr_block,omitempty"`
@@ -147,6 +152,36 @@ type NodePoolNetworkConfigParameters struct {
 	// The ID of the secondary range for pod IPs. If create_pod_range is true, this ID is used for the new range. If create_pod_range is false, uses an existing secondary range with this ID.
 	// +kubebuilder:validation:Optional
 	PodRange *string `json:"podRange,omitempty" tf:"pod_range,omitempty"`
+}
+
+type NodePoolNetworkConfigPodCidrOverprovisionConfigObservation struct {
+	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
+}
+
+type NodePoolNetworkConfigPodCidrOverprovisionConfigParameters struct {
+
+	// +kubebuilder:validation:Required
+	Disabled *bool `json:"disabled" tf:"disabled,omitempty"`
+}
+
+type NodePoolNodeConfigAdvancedMachineFeaturesObservation struct {
+	ThreadsPerCore *float64 `json:"threadsPerCore,omitempty" tf:"threads_per_core,omitempty"`
+}
+
+type NodePoolNodeConfigAdvancedMachineFeaturesParameters struct {
+
+	// +kubebuilder:validation:Required
+	ThreadsPerCore *float64 `json:"threadsPerCore" tf:"threads_per_core,omitempty"`
+}
+
+type NodePoolNodeConfigEphemeralStorageLocalSsdConfigObservation struct {
+	LocalSsdCount *float64 `json:"localSsdCount,omitempty" tf:"local_ssd_count,omitempty"`
+}
+
+type NodePoolNodeConfigEphemeralStorageLocalSsdConfigParameters struct {
+
+	// +kubebuilder:validation:Required
+	LocalSsdCount *float64 `json:"localSsdCount" tf:"local_ssd_count,omitempty"`
 }
 
 type NodePoolNodeConfigGcfsConfigObservation struct {
@@ -235,12 +270,26 @@ type NodePoolNodeConfigLinuxNodeConfigParameters struct {
 	Sysctls map[string]*string `json:"sysctls" tf:"sysctls,omitempty"`
 }
 
+type NodePoolNodeConfigLocalNvmeSsdBlockConfigObservation struct {
+	LocalSsdCount *float64 `json:"localSsdCount,omitempty" tf:"local_ssd_count,omitempty"`
+}
+
+type NodePoolNodeConfigLocalNvmeSsdBlockConfigParameters struct {
+
+	// +kubebuilder:validation:Required
+	LocalSsdCount *float64 `json:"localSsdCount" tf:"local_ssd_count,omitempty"`
+}
+
 type NodePoolNodeConfigObservation_2 struct {
+	AdvancedMachineFeatures []NodePoolNodeConfigAdvancedMachineFeaturesObservation `json:"advancedMachineFeatures,omitempty" tf:"advanced_machine_features,omitempty"`
+
 	BootDiskKMSKey *string `json:"bootDiskKmsKey,omitempty" tf:"boot_disk_kms_key,omitempty"`
 
 	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
 
 	DiskType *string `json:"diskType,omitempty" tf:"disk_type,omitempty"`
+
+	EphemeralStorageLocalSsdConfig []NodePoolNodeConfigEphemeralStorageLocalSsdConfigObservation `json:"ephemeralStorageLocalSsdConfig,omitempty" tf:"ephemeral_storage_local_ssd_config,omitempty"`
 
 	GcfsConfig []NodePoolNodeConfigGcfsConfigObservation `json:"gcfsConfig,omitempty" tf:"gcfs_config,omitempty"`
 
@@ -257,6 +306,8 @@ type NodePoolNodeConfigObservation_2 struct {
 	// Parameters used in creating the node pool. See
 	// google_container_cluster for schema.
 	LinuxNodeConfig []NodePoolNodeConfigLinuxNodeConfigObservation `json:"linuxNodeConfig,omitempty" tf:"linux_node_config,omitempty"`
+
+	LocalNvmeSsdBlockConfig []NodePoolNodeConfigLocalNvmeSsdBlockConfigObservation `json:"localNvmeSsdBlockConfig,omitempty" tf:"local_nvme_ssd_block_config,omitempty"`
 
 	LocalSsdCount *float64 `json:"localSsdCount,omitempty" tf:"local_ssd_count,omitempty"`
 
@@ -294,6 +345,9 @@ type NodePoolNodeConfigObservation_2 struct {
 type NodePoolNodeConfigParameters_2 struct {
 
 	// +kubebuilder:validation:Optional
+	AdvancedMachineFeatures []NodePoolNodeConfigAdvancedMachineFeaturesParameters `json:"advancedMachineFeatures,omitempty" tf:"advanced_machine_features,omitempty"`
+
+	// +kubebuilder:validation:Optional
 	BootDiskKMSKey *string `json:"bootDiskKmsKey,omitempty" tf:"boot_disk_kms_key,omitempty"`
 
 	// +kubebuilder:validation:Optional
@@ -301,6 +355,9 @@ type NodePoolNodeConfigParameters_2 struct {
 
 	// +kubebuilder:validation:Optional
 	DiskType *string `json:"diskType,omitempty" tf:"disk_type,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	EphemeralStorageLocalSsdConfig []NodePoolNodeConfigEphemeralStorageLocalSsdConfigParameters `json:"ephemeralStorageLocalSsdConfig,omitempty" tf:"ephemeral_storage_local_ssd_config,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	GcfsConfig []NodePoolNodeConfigGcfsConfigParameters `json:"gcfsConfig,omitempty" tf:"gcfs_config,omitempty"`
@@ -324,6 +381,9 @@ type NodePoolNodeConfigParameters_2 struct {
 	// google_container_cluster for schema.
 	// +kubebuilder:validation:Optional
 	LinuxNodeConfig []NodePoolNodeConfigLinuxNodeConfigParameters `json:"linuxNodeConfig,omitempty" tf:"linux_node_config,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	LocalNvmeSsdBlockConfig []NodePoolNodeConfigLocalNvmeSsdBlockConfigParameters `json:"localNvmeSsdBlockConfig,omitempty" tf:"local_nvme_ssd_block_config,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	LocalSsdCount *float64 `json:"localSsdCount,omitempty" tf:"local_ssd_count,omitempty"`

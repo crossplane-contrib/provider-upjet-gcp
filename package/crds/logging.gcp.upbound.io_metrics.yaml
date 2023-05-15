@@ -214,6 +214,10 @@ spec:
                     description: A description of this metric, which is used in documentation.
                       The maximum length of the description is 8000 characters.
                     type: string
+                  disabled:
+                    description: If set to True, then this metric is disabled and
+                      it does not generate any points.
+                    type: boolean
                   filter:
                     description: An advanced logs filter (https://cloud.google.com/logging/docs/view/advanced-filters)
                       which is used to match log entries.
@@ -262,23 +266,23 @@ spec:
                                 description: The label key.
                                 type: string
                               valueType:
-                                description: Whether the measurement is an integer,
+                                description: 'Whether the measurement is an integer,
                                   a floating-point number, etc. Some combinations
                                   of metricKind and valueType might not be supported.
                                   For counter metrics, set this to INT64. Possible
-                                  values are BOOL, INT64, DOUBLE, STRING, DISTRIBUTION,
-                                  and MONEY.
+                                  values are: BOOL, INT64, DOUBLE, STRING, DISTRIBUTION,
+                                  MONEY.'
                                 type: string
                             required:
                             - key
                             type: object
                           type: array
                         metricKind:
-                          description: Whether the metric records instantaneous values,
+                          description: 'Whether the metric records instantaneous values,
                             changes to a value, etc. Some combinations of metricKind
                             and valueType might not be supported. For counter metrics,
-                            set this to DELTA. Possible values are DELTA, GAUGE, and
-                            CUMULATIVE.
+                            set this to DELTA. Possible values are: DELTA, GAUGE,
+                            CUMULATIVE.'
                           type: string
                         unit:
                           description: The unit in which the metric value is reported.
@@ -287,11 +291,11 @@ spec:
                             Unified Code for Units of Measure standard
                           type: string
                         valueType:
-                          description: Whether the measurement is an integer, a floating-point
+                          description: 'Whether the measurement is an integer, a floating-point
                             number, etc. Some combinations of metricKind and valueType
                             might not be supported. For counter metrics, set this
-                            to INT64. Possible values are BOOL, INT64, DOUBLE, STRING,
-                            DISTRIBUTION, and MONEY.
+                            to INT64. Possible values are: BOOL, INT64, DOUBLE, STRING,
+                            DISTRIBUTION, MONEY.'
                           type: string
                       required:
                       - metricKind
@@ -578,6 +582,10 @@ spec:
                     description: A description of this metric, which is used in documentation.
                       The maximum length of the description is 8000 characters.
                     type: string
+                  disabled:
+                    description: If set to True, then this metric is disabled and
+                      it does not generate any points.
+                    type: boolean
                   filter:
                     description: An advanced logs filter (https://cloud.google.com/logging/docs/view/advanced-filters)
                       which is used to match log entries.
@@ -629,21 +637,21 @@ spec:
                                 description: The label key.
                                 type: string
                               valueType:
-                                description: Whether the measurement is an integer,
+                                description: 'Whether the measurement is an integer,
                                   a floating-point number, etc. Some combinations
                                   of metricKind and valueType might not be supported.
                                   For counter metrics, set this to INT64. Possible
-                                  values are BOOL, INT64, DOUBLE, STRING, DISTRIBUTION,
-                                  and MONEY.
+                                  values are: BOOL, INT64, DOUBLE, STRING, DISTRIBUTION,
+                                  MONEY.'
                                 type: string
                             type: object
                           type: array
                         metricKind:
-                          description: Whether the metric records instantaneous values,
+                          description: 'Whether the metric records instantaneous values,
                             changes to a value, etc. Some combinations of metricKind
                             and valueType might not be supported. For counter metrics,
-                            set this to DELTA. Possible values are DELTA, GAUGE, and
-                            CUMULATIVE.
+                            set this to DELTA. Possible values are: DELTA, GAUGE,
+                            CUMULATIVE.'
                           type: string
                         unit:
                           description: The unit in which the metric value is reported.
@@ -652,11 +660,11 @@ spec:
                             Unified Code for Units of Measure standard
                           type: string
                         valueType:
-                          description: Whether the measurement is an integer, a floating-point
+                          description: 'Whether the measurement is an integer, a floating-point
                             number, etc. Some combinations of metricKind and valueType
                             might not be supported. For counter metrics, set this
-                            to INT64. Possible values are BOOL, INT64, DOUBLE, STRING,
-                            DISTRIBUTION, and MONEY.
+                            to INT64. Possible values are: BOOL, INT64, DOUBLE, STRING,
+                            DISTRIBUTION, MONEY.'
                           type: string
                       type: object
                     type: array

@@ -37,7 +37,7 @@ type SourceRepresentationInstanceObservation struct {
 	ClientKey *string `json:"clientKey,omitempty" tf:"client_key,omitempty"`
 
 	// The MySQL version running on your source database server.
-	// Possible values are MYSQL_5_5, MYSQL_5_6, MYSQL_5_7, and MYSQL_8_0.
+	// Possible values are: MYSQL_5_6, MYSQL_5_7, MYSQL_8_0, POSTGRES_9_6, POSTGRES_10, POSTGRES_11, POSTGRES_12, POSTGRES_13, POSTGRES_14.
 	DatabaseVersion *string `json:"databaseVersion,omitempty" tf:"database_version,omitempty"`
 
 	// A file in the bucket that contains the data from the external server.
@@ -80,7 +80,7 @@ type SourceRepresentationInstanceParameters struct {
 	ClientKey *string `json:"clientKey,omitempty" tf:"client_key,omitempty"`
 
 	// The MySQL version running on your source database server.
-	// Possible values are MYSQL_5_5, MYSQL_5_6, MYSQL_5_7, and MYSQL_8_0.
+	// Possible values are: MYSQL_5_6, MYSQL_5_7, MYSQL_8_0, POSTGRES_9_6, POSTGRES_10, POSTGRES_11, POSTGRES_12, POSTGRES_13, POSTGRES_14.
 	// +kubebuilder:validation:Optional
 	DatabaseVersion *string `json:"databaseVersion,omitempty" tf:"database_version,omitempty"`
 

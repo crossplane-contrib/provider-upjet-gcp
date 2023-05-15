@@ -27,17 +27,21 @@ import (
 
 type AuthorizationAttemptInfoObservation struct {
 
+	// (Output)
 	// Human readable explanation about the issue. Provided to help address
 	// the configuration issues.
 	// Not guaranteed to be stable. For programmatic access use reason field.
 	Details *string `json:"details,omitempty" tf:"details,omitempty"`
 
+	// (Output)
 	// Domain name of the authorization attempt.
 	Domain *string `json:"domain,omitempty" tf:"domain,omitempty"`
 
+	// (Output)
 	// Reason for failure of the authorization attempt for the domain.
 	FailureReason *string `json:"failureReason,omitempty" tf:"failure_reason,omitempty"`
 
+	// (Output)
 	// A state of this Managed Certificate.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 }
@@ -50,11 +54,14 @@ type CertificateObservation struct {
 	// A human-readable description of the resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// an identifier for the resource with format projects/{{project}}/locations/global/certificates/{{name}}
+	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/certificates/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// Set of label tags associated with the Certificate resource.
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// The Certificate Manager location. If not specified, "global" is used.
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
 	// Configuration and state of a Managed Certificate.
 	// Certificate Manager provisions and renews Managed Certificates
@@ -91,6 +98,10 @@ type CertificateParameters struct {
 	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
+	// The Certificate Manager location. If not specified, "global" is used.
+	// +kubebuilder:validation:Optional
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
 	// Configuration and state of a Managed Certificate.
 	// Certificate Manager provisions and renews Managed Certificates
 	// automatically, for as long as it's authorized to do so.
@@ -122,6 +133,7 @@ type CertificateParameters struct {
 
 type ManagedObservation struct {
 
+	// (Output)
 	// Detailed state of the latest authorization attempt for each domain
 	// specified for this Managed Certificate.
 	// Structure is documented below.
@@ -134,10 +146,12 @@ type ManagedObservation struct {
 	// Wildcard domains are only supported with DNS challenge resolution
 	Domains []*string `json:"domains,omitempty" tf:"domains,omitempty"`
 
+	// (Output)
 	// Information about issues with provisioning this Managed Certificate.
 	// Structure is documented below.
 	ProvisioningIssue []ProvisioningIssueObservation `json:"provisioningIssue,omitempty" tf:"provisioning_issue,omitempty"`
 
+	// (Output)
 	// A state of this Managed Certificate.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 }
@@ -156,11 +170,13 @@ type ManagedParameters struct {
 
 type ProvisioningIssueObservation struct {
 
+	// (Output)
 	// Human readable explanation about the issue. Provided to help address
 	// the configuration issues.
 	// Not guaranteed to be stable. For programmatic access use reason field.
 	Details *string `json:"details,omitempty" tf:"details,omitempty"`
 
+	// (Output)
 	// Reason for provisioning failures.
 	Reason *string `json:"reason,omitempty" tf:"reason,omitempty"`
 }

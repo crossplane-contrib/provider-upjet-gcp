@@ -625,6 +625,19 @@ spec:
                             Alternatively, cluster_ipv4_cidr_block can be used to
                             automatically create a GKE-managed one.
                           type: string
+                        podCidrOverprovisionConfig:
+                          items:
+                            properties:
+                              disabled:
+                                description: The status of the Istio addon, which
+                                  makes it easy to set up Istio for services in a
+                                  cluster. It is disabled by default. Set disabled
+                                  = false to enable.
+                                type: boolean
+                            required:
+                            - disabled
+                            type: object
+                          type: array
                         servicesIpv4CidrBlock:
                           description: The IP address range of the services IPs in
                             this cluster. Set to blank to have a range chosen with
@@ -639,6 +652,10 @@ spec:
                             the cluster's subnetwork to use for service ClusterIPs.
                             Alternatively, services_ipv4_cidr_block can be used to
                             automatically create a GKE-managed one.
+                          type: string
+                        stackType:
+                          description: The IP Stack Type of the cluster. Default value
+                            is IPV4. Possible values are IPV4 and IPV4_IPV6.
                           type: string
                       type: object
                     type: array
@@ -961,6 +978,22 @@ spec:
                       Structure is documented below.
                     items:
                       properties:
+                        advancedMachineFeatures:
+                          description: Specifies options for controlling advanced
+                            machine features. Structure is documented below.
+                          items:
+                            properties:
+                              threadsPerCore:
+                                description: The number of threads per physical core.
+                                  To disable simultaneous multithreading (SMT) set
+                                  this to 1. If unset, the maximum number of threads
+                                  supported per core by the underlying processor is
+                                  assumed.
+                                type: number
+                            required:
+                            - threadsPerCore
+                            type: object
+                          type: array
                         bootDiskKmsKey:
                           description: 'The Customer Managed Encryption Key used to
                             encrypt the boot disk attached to each node in the node
@@ -978,6 +1011,20 @@ spec:
                             'pd-standard', 'pd-balanced' or 'pd-ssd'). If unspecified,
                             the default disk type is 'pd-standard'
                           type: string
+                        ephemeralStorageLocalSsdConfig:
+                          description: Parameters for the ephemeral storage filesystem.
+                            If unspecified, ephemeral storage is backed by the boot
+                            disk. Structure is documented below.
+                          items:
+                            properties:
+                              localSsdCount:
+                                description: The amount of local SSD disks that will
+                                  be attached to each cluster node. Defaults to 0.
+                                type: number
+                            required:
+                            - localSsdCount
+                            type: object
+                          type: array
                         gcfsConfig:
                           description: Parameters for the Google Container Filesystem
                             (GCFS). If unspecified, GCFS will not be enabled on the
@@ -1115,6 +1162,19 @@ spec:
                                 type: object
                             required:
                             - sysctls
+                            type: object
+                          type: array
+                        localNvmeSsdBlockConfig:
+                          description: Parameters for the local NVMe SSDs. Structure
+                            is documented below.
+                          items:
+                            properties:
+                              localSsdCount:
+                                description: The amount of local SSD disks that will
+                                  be attached to each cluster node. Defaults to 0.
+                                type: number
+                            required:
+                            - localSsdCount
                             type: object
                           type: array
                         localSsdCount:
@@ -2400,6 +2460,17 @@ spec:
                             Alternatively, cluster_ipv4_cidr_block can be used to
                             automatically create a GKE-managed one.
                           type: string
+                        podCidrOverprovisionConfig:
+                          items:
+                            properties:
+                              disabled:
+                                description: The status of the Istio addon, which
+                                  makes it easy to set up Istio for services in a
+                                  cluster. It is disabled by default. Set disabled
+                                  = false to enable.
+                                type: boolean
+                            type: object
+                          type: array
                         servicesIpv4CidrBlock:
                           description: The IP address range of the services IPs in
                             this cluster. Set to blank to have a range chosen with
@@ -2414,6 +2485,10 @@ spec:
                             the cluster's subnetwork to use for service ClusterIPs.
                             Alternatively, services_ipv4_cidr_block can be used to
                             automatically create a GKE-managed one.
+                          type: string
+                        stackType:
+                          description: The IP Stack Type of the cluster. Default value
+                            is IPV4. Possible values are IPV4 and IPV4_IPV6.
                           type: string
                       type: object
                     type: array
@@ -2656,6 +2731,20 @@ spec:
                       Structure is documented below.
                     items:
                       properties:
+                        advancedMachineFeatures:
+                          description: Specifies options for controlling advanced
+                            machine features. Structure is documented below.
+                          items:
+                            properties:
+                              threadsPerCore:
+                                description: The number of threads per physical core.
+                                  To disable simultaneous multithreading (SMT) set
+                                  this to 1. If unset, the maximum number of threads
+                                  supported per core by the underlying processor is
+                                  assumed.
+                                type: number
+                            type: object
+                          type: array
                         bootDiskKmsKey:
                           description: 'The Customer Managed Encryption Key used to
                             encrypt the boot disk attached to each node in the node
@@ -2673,6 +2762,18 @@ spec:
                             'pd-standard', 'pd-balanced' or 'pd-ssd'). If unspecified,
                             the default disk type is 'pd-standard'
                           type: string
+                        ephemeralStorageLocalSsdConfig:
+                          description: Parameters for the ephemeral storage filesystem.
+                            If unspecified, ephemeral storage is backed by the boot
+                            disk. Structure is documented below.
+                          items:
+                            properties:
+                              localSsdCount:
+                                description: The amount of local SSD disks that will
+                                  be attached to each cluster node. Defaults to 0.
+                                type: number
+                            type: object
+                          type: array
                         gcfsConfig:
                           description: Parameters for the Google Container Filesystem
                             (GCFS). If unspecified, GCFS will not be enabled on the
@@ -2802,6 +2903,17 @@ spec:
                                   Specified as a map from the key, such as net.core.wmem_max,
                                   to a string value.
                                 type: object
+                            type: object
+                          type: array
+                        localNvmeSsdBlockConfig:
+                          description: Parameters for the local NVMe SSDs. Structure
+                            is documented below.
+                          items:
+                            properties:
+                              localSsdCount:
+                                description: The amount of local SSD disks that will
+                                  be attached to each cluster node. Defaults to 0.
+                                type: number
                             type: object
                           type: array
                         localSsdCount:
@@ -3039,6 +3151,17 @@ spec:
                                   addresses and communicate with the master's private
                                   endpoint via private networking.
                                 type: boolean
+                              podCidrOverprovisionConfig:
+                                items:
+                                  properties:
+                                    disabled:
+                                      description: The status of the Istio addon,
+                                        which makes it easy to set up Istio for services
+                                        in a cluster. It is disabled by default. Set
+                                        disabled = false to enable.
+                                      type: boolean
+                                  type: object
+                                type: array
                               podIpv4CidrBlock:
                                 type: string
                               podRange:
@@ -3050,6 +3173,20 @@ spec:
                             pool. Structure is documented below.
                           items:
                             properties:
+                              advancedMachineFeatures:
+                                description: Specifies options for controlling advanced
+                                  machine features. Structure is documented below.
+                                items:
+                                  properties:
+                                    threadsPerCore:
+                                      description: The number of threads per physical
+                                        core. To disable simultaneous multithreading
+                                        (SMT) set this to 1. If unset, the maximum
+                                        number of threads supported per core by the
+                                        underlying processor is assumed.
+                                      type: number
+                                  type: object
+                                type: array
                               bootDiskKmsKey:
                                 description: 'The Customer Managed Encryption Key
                                   used to encrypt the boot disk attached to each node
@@ -3067,6 +3204,20 @@ spec:
                                   (e.g. 'pd-standard', 'pd-balanced' or 'pd-ssd').
                                   If unspecified, the default disk type is 'pd-standard'
                                 type: string
+                              ephemeralStorageLocalSsdConfig:
+                                description: Parameters for the ephemeral storage
+                                  filesystem. If unspecified, ephemeral storage is
+                                  backed by the boot disk. Structure is documented
+                                  below.
+                                items:
+                                  properties:
+                                    localSsdCount:
+                                      description: The amount of local SSD disks that
+                                        will be attached to each cluster node. Defaults
+                                        to 0.
+                                      type: number
+                                  type: object
+                                type: array
                               gcfsConfig:
                                 description: The default Google Container Filesystem
                                   (GCFS) configuration at the cluster level. e.g.
@@ -3194,6 +3345,18 @@ spec:
                                         key, such as net.core.wmem_max, to a string
                                         value.
                                       type: object
+                                  type: object
+                                type: array
+                              localNvmeSsdBlockConfig:
+                                description: Parameters for the local NVMe SSDs. Structure
+                                  is documented below.
+                                items:
+                                  properties:
+                                    localSsdCount:
+                                      description: The amount of local SSD disks that
+                                        will be attached to each cluster node. Defaults
+                                        to 0.
+                                      type: number
                                   type: object
                                 type: array
                               localSsdCount:

@@ -31,6 +31,7 @@ type AccessConfigObservation struct {
 	// https://cloud.google.com/vertex-ai/docs/workbench/reference/ rest/v1/projects.locations.runtimes#RuntimeAccessType.
 	AccessType *string `json:"accessType,omitempty" tf:"access_type,omitempty"`
 
+	// (Output)
 	// The proxy endpoint that is used to access the runtime.
 	ProxyURI *string `json:"proxyUri,omitempty" tf:"proxy_uri,omitempty"`
 
@@ -76,16 +77,19 @@ type ContainerImagesParameters struct {
 
 type DataDiskObservation struct {
 
+	// (Output)
 	// Optional. Specifies whether the disk will be auto-deleted
 	// when the instance is deleted (but not when the disk is
 	// detached from the instance).
 	AutoDelete *bool `json:"autoDelete,omitempty" tf:"auto_delete,omitempty"`
 
+	// (Output)
 	// Optional. Indicates that this is a boot disk. The virtual
 	// machine will use the first partition of the disk for its
 	// root filesystem.
 	Boot *bool `json:"boot,omitempty" tf:"boot,omitempty"`
 
+	// (Output)
 	// Optional. Specifies a unique device name of your choice
 	// that is reflected into the /dev/disk/by-id/google-* tree
 	// of a Linux operating system running within the instance.
@@ -97,12 +101,14 @@ type DataDiskObservation struct {
 	// is only applicable for persistent disks.
 	DeviceName *string `json:"deviceName,omitempty" tf:"device_name,omitempty"`
 
+	// (Output)
 	// Indicates a list of features to enable on the guest operating
 	// system. Applicable only for bootable images. To see a list of
 	// available features, read https://cloud.google.com/compute/docs/ images/create-delete-deprecate-private-images#guest-os-features
 	// options.
 	GuestOsFeatures []*string `json:"guestOsFeatures,omitempty" tf:"guest_os_features,omitempty"`
 
+	// (Output)
 	// Output only. A zero-based index to this disk, where 0 is
 	// reserved for the boot disk. If you have many disks attached
 	// to an instance, each disk would have a unique index number.
@@ -125,10 +131,12 @@ type DataDiskObservation struct {
 	// over NVMe, see Local SSD performance. Valid values: * NVME * SCSI".
 	Interface *string `json:"interface,omitempty" tf:"interface,omitempty"`
 
+	// (Output)
 	// Type of the resource. Always compute#attachedDisk for attached
 	// disks.
 	Kind *string `json:"kind,omitempty" tf:"kind,omitempty"`
 
+	// (Output)
 	// Output only. Any valid publicly visible licenses.
 	Licenses []*string `json:"licenses,omitempty" tf:"licenses,omitempty"`
 
@@ -294,6 +302,7 @@ type KernelsParameters struct {
 
 type MetricsObservation struct {
 
+	// (Output)
 	// Contains runtime daemon metrics, such as OS and kernels and
 	// sessions stats.
 	SystemMetrics map[string]*string `json:"systemMetrics,omitempty" tf:"system_metrics,omitempty"`
@@ -400,9 +409,10 @@ type SoftwareConfigObservation struct {
 	PostStartupScript *string `json:"postStartupScript,omitempty" tf:"post_startup_script,omitempty"`
 
 	// Behavior for the post startup script.
-	// Possible values are POST_STARTUP_SCRIPT_BEHAVIOR_UNSPECIFIED, RUN_EVERY_START, and DOWNLOAD_AND_RUN_EVERY_START.
+	// Possible values are: POST_STARTUP_SCRIPT_BEHAVIOR_UNSPECIFIED, RUN_EVERY_START, DOWNLOAD_AND_RUN_EVERY_START.
 	PostStartupScriptBehavior *string `json:"postStartupScriptBehavior,omitempty" tf:"post_startup_script_behavior,omitempty"`
 
+	// (Output)
 	// Bool indicating whether an newer image is available in an image family.
 	Upgradeable *bool `json:"upgradeable,omitempty" tf:"upgradeable,omitempty"`
 }
@@ -449,7 +459,7 @@ type SoftwareConfigParameters struct {
 	PostStartupScript *string `json:"postStartupScript,omitempty" tf:"post_startup_script,omitempty"`
 
 	// Behavior for the post startup script.
-	// Possible values are POST_STARTUP_SCRIPT_BEHAVIOR_UNSPECIFIED, RUN_EVERY_START, and DOWNLOAD_AND_RUN_EVERY_START.
+	// Possible values are: POST_STARTUP_SCRIPT_BEHAVIOR_UNSPECIFIED, RUN_EVERY_START, DOWNLOAD_AND_RUN_EVERY_START.
 	// +kubebuilder:validation:Optional
 	PostStartupScriptBehavior *string `json:"postStartupScriptBehavior,omitempty" tf:"post_startup_script_behavior,omitempty"`
 }
@@ -494,6 +504,7 @@ type VirtualMachineConfigObservation struct {
 	// Structure is documented below.
 	EncryptionConfig []EncryptionConfigObservation `json:"encryptionConfig,omitempty" tf:"encryption_config,omitempty"`
 
+	// (Output)
 	// The Compute Engine guest attributes. (see [Project and instance
 	// guest attributes](https://cloud.google.com/compute/docs/
 	// storing-retrieving-metadata#guest_attributes)).
@@ -532,7 +543,7 @@ type VirtualMachineConfigObservation struct {
 
 	// The type of vNIC to be used on this interface. This may be gVNIC
 	// or VirtioNet.
-	// Possible values are UNSPECIFIED_NIC_TYPE, VIRTIO_NET, and GVNIC.
+	// Possible values are: UNSPECIFIED_NIC_TYPE, VIRTIO_NET, GVNIC.
 	NicType *string `json:"nicType,omitempty" tf:"nic_type,omitempty"`
 
 	// Reserved IP Range name is used for VPC Peering. The
@@ -553,6 +564,7 @@ type VirtualMachineConfigObservation struct {
 	// label-or-tag-resources#tags)).
 	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
+	// (Output)
 	// The zone where the virtual machine is located.
 	Zone *string `json:"zone,omitempty" tf:"zone,omitempty"`
 }
@@ -617,7 +629,7 @@ type VirtualMachineConfigParameters struct {
 
 	// The type of vNIC to be used on this interface. This may be gVNIC
 	// or VirtioNet.
-	// Possible values are UNSPECIFIED_NIC_TYPE, VIRTIO_NET, and GVNIC.
+	// Possible values are: UNSPECIFIED_NIC_TYPE, VIRTIO_NET, GVNIC.
 	// +kubebuilder:validation:Optional
 	NicType *string `json:"nicType,omitempty" tf:"nic_type,omitempty"`
 
@@ -693,9 +705,11 @@ type VirtualMachineConfigShieldedInstanceConfigParameters struct {
 
 type VirtualMachineObservation struct {
 
+	// (Output)
 	// The unique identifier of the Managed Compute Engine instance.
 	InstanceID *string `json:"instanceId,omitempty" tf:"instance_id,omitempty"`
 
+	// (Output)
 	// The user-friendly name of the Managed Compute Engine instance.
 	InstanceName *string `json:"instanceName,omitempty" tf:"instance_name,omitempty"`
 

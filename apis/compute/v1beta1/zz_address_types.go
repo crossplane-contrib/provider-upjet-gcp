@@ -34,8 +34,9 @@ type AddressObservation struct {
 	Address *string `json:"address,omitempty" tf:"address,omitempty"`
 
 	// The type of address to reserve.
+	// Note: if you set this argument's value as INTERNAL you need to leave the network_tier argument unset in that resource block.
 	// Default value is EXTERNAL.
-	// Possible values are INTERNAL and EXTERNAL.
+	// Possible values are: INTERNAL, EXTERNAL.
 	AddressType *string `json:"addressType,omitempty" tf:"address_type,omitempty"`
 
 	// Creation timestamp in RFC3339 text format.
@@ -54,7 +55,8 @@ type AddressObservation struct {
 
 	// The networking tier used for configuring this address. If this field is not
 	// specified, it is assumed to be PREMIUM.
-	// Possible values are PREMIUM and STANDARD.
+	// This argument should not be used when configuring Internal addresses, because network tier cannot be set for internal traffic; it's always Premium.
+	// Possible values are: PREMIUM, STANDARD.
 	NetworkTier *string `json:"networkTier,omitempty" tf:"network_tier,omitempty"`
 
 	// The prefix length if the resource represents an IP range.
@@ -64,7 +66,7 @@ type AddressObservation struct {
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
-	// The purpose of this resource, which can be one of the following values:
+	// The purpose of this resource, which can be one of the following values.
 	Purpose *string `json:"purpose,omitempty" tf:"purpose,omitempty"`
 
 	// The Region in which the created address should reside.
@@ -94,8 +96,9 @@ type AddressParameters struct {
 	Address *string `json:"address,omitempty" tf:"address,omitempty"`
 
 	// The type of address to reserve.
+	// Note: if you set this argument's value as INTERNAL you need to leave the network_tier argument unset in that resource block.
 	// Default value is EXTERNAL.
-	// Possible values are INTERNAL and EXTERNAL.
+	// Possible values are: INTERNAL, EXTERNAL.
 	// +kubebuilder:validation:Optional
 	AddressType *string `json:"addressType,omitempty" tf:"address_type,omitempty"`
 
@@ -121,7 +124,8 @@ type AddressParameters struct {
 
 	// The networking tier used for configuring this address. If this field is not
 	// specified, it is assumed to be PREMIUM.
-	// Possible values are PREMIUM and STANDARD.
+	// This argument should not be used when configuring Internal addresses, because network tier cannot be set for internal traffic; it's always Premium.
+	// Possible values are: PREMIUM, STANDARD.
 	// +kubebuilder:validation:Optional
 	NetworkTier *string `json:"networkTier,omitempty" tf:"network_tier,omitempty"`
 
@@ -134,7 +138,7 @@ type AddressParameters struct {
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
-	// The purpose of this resource, which can be one of the following values:
+	// The purpose of this resource, which can be one of the following values.
 	// +kubebuilder:validation:Optional
 	Purpose *string `json:"purpose,omitempty" tf:"purpose,omitempty"`
 

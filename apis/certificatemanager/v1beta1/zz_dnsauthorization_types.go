@@ -76,13 +76,16 @@ type DNSAuthorizationParameters struct {
 
 type DNSResourceRecordObservation struct {
 
+	// (Output)
 	// Data of the DNS Resource Record.
 	Data *string `json:"data,omitempty" tf:"data,omitempty"`
 
+	// (Output)
 	// Fully qualified name of the DNS Resource Record.
 	// E.g. _acme-challenge.example.com.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// (Output)
 	// Type of the DNS Resource Record.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }

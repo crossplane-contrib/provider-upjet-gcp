@@ -137,10 +137,10 @@ spec:
                                   type: object
                                 type: array
                               primitiveType:
-                                description: Represents primitive types - string,
+                                description: 'Represents primitive types - string,
                                   bool etc. Exactly one of primitive_type or enum_type
-                                  must be set Possible values are DOUBLE, STRING,
-                                  BOOL, and TIMESTAMP.
+                                  must be set Possible values are: DOUBLE, STRING,
+                                  BOOL, TIMESTAMP.'
                                 type: string
                             type: object
                           type: array
@@ -384,8 +384,8 @@ spec:
                             to false.
                           type: boolean
                         name:
-                          description: 'The resource name of the tag template field
-                            in URL format. Example: projects/{project_id}/locations/{location}/tagTemplates/{tagTemplateId}/fields/{field}'
+                          description: '(Output) The resource name of the tag template
+                            field in URL format. Example: projects/{project_id}/locations/{location}/tagTemplates/{tagTemplateId}/fields/{field}'
                           type: string
                         order:
                           description: The order of this field with respect to other
@@ -425,10 +425,10 @@ spec:
                                   type: object
                                 type: array
                               primitiveType:
-                                description: Represents primitive types - string,
+                                description: 'Represents primitive types - string,
                                   bool etc. Exactly one of primitive_type or enum_type
-                                  must be set Possible values are DOUBLE, STRING,
-                                  BOOL, and TIMESTAMP.
+                                  must be set Possible values are: DOUBLE, STRING,
+                                  BOOL, TIMESTAMP.'
                                 type: string
                             type: object
                           type: array

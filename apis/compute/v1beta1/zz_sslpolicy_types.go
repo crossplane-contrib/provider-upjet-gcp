@@ -57,7 +57,7 @@ type SSLPolicyObservation struct {
 	// The minimum version of SSL protocol that can be used by the clients
 	// to establish a connection with the load balancer.
 	// Default value is TLS_1_0.
-	// Possible values are TLS_1_0, TLS_1_1, and TLS_1_2.
+	// Possible values are: TLS_1_0, TLS_1_1, TLS_1_2.
 	MinTLSVersion *string `json:"minTlsVersion,omitempty" tf:"min_tls_version,omitempty"`
 
 	// Profile specifies the set of SSL features that can be used by the
@@ -68,7 +68,7 @@ type SSLPolicyObservation struct {
 	// for information on what cipher suites each profile provides. If
 	// CUSTOM is used, the custom_features attribute must be set.
 	// Default value is COMPATIBLE.
-	// Possible values are COMPATIBLE, MODERN, RESTRICTED, and CUSTOM.
+	// Possible values are: COMPATIBLE, MODERN, RESTRICTED, CUSTOM.
 	Profile *string `json:"profile,omitempty" tf:"profile,omitempty"`
 
 	// The ID of the project in which the resource belongs.
@@ -100,7 +100,7 @@ type SSLPolicyParameters struct {
 	// The minimum version of SSL protocol that can be used by the clients
 	// to establish a connection with the load balancer.
 	// Default value is TLS_1_0.
-	// Possible values are TLS_1_0, TLS_1_1, and TLS_1_2.
+	// Possible values are: TLS_1_0, TLS_1_1, TLS_1_2.
 	// +kubebuilder:validation:Optional
 	MinTLSVersion *string `json:"minTlsVersion,omitempty" tf:"min_tls_version,omitempty"`
 
@@ -112,7 +112,7 @@ type SSLPolicyParameters struct {
 	// for information on what cipher suites each profile provides. If
 	// CUSTOM is used, the custom_features attribute must be set.
 	// Default value is COMPATIBLE.
-	// Possible values are COMPATIBLE, MODERN, RESTRICTED, and CUSTOM.
+	// Possible values are: COMPATIBLE, MODERN, RESTRICTED, CUSTOM.
 	// +kubebuilder:validation:Optional
 	Profile *string `json:"profile,omitempty" tf:"profile,omitempty"`
 

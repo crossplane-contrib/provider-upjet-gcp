@@ -174,8 +174,8 @@ spec:
                             type: string
                           type: array
                         direction:
-                          description: Direction of traffic to mirror. Default value
-                            is BOTH. Possible values are INGRESS, EGRESS, and BOTH.
+                          description: 'Direction of traffic to mirror. Default value
+                            is BOTH. Possible values are: INGRESS, EGRESS, BOTH.'
                           type: string
                         ipProtocols:
                           description: Possible IP protocols including tcp, udp, icmp
@@ -634,8 +634,8 @@ spec:
                             type: string
                           type: array
                         direction:
-                          description: Direction of traffic to mirror. Default value
-                            is BOTH. Possible values are INGRESS, EGRESS, and BOTH.
+                          description: 'Direction of traffic to mirror. Default value
+                            is BOTH. Possible values are: INGRESS, EGRESS, BOTH.'
                           type: string
                         ipProtocols:
                           description: Possible IP protocols including tcp, udp, icmp

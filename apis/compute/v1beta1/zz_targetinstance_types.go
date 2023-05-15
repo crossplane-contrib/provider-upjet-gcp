@@ -47,7 +47,7 @@ type TargetInstanceObservation struct {
 	// NAT option controlling how IPs are NAT'ed to the instance.
 	// Currently only NO_NAT (default value) is supported.
 	// Default value is NO_NAT.
-	// Possible values are NO_NAT.
+	// Possible values are: NO_NAT.
 	NATPolicy *string `json:"natPolicy,omitempty" tf:"nat_policy,omitempty"`
 
 	// The ID of the project in which the resource belongs.
@@ -89,7 +89,7 @@ type TargetInstanceParameters struct {
 	// NAT option controlling how IPs are NAT'ed to the instance.
 	// Currently only NO_NAT (default value) is supported.
 	// Default value is NO_NAT.
-	// Possible values are NO_NAT.
+	// Possible values are: NO_NAT.
 	// +kubebuilder:validation:Optional
 	NATPolicy *string `json:"natPolicy,omitempty" tf:"nat_policy,omitempty"`
 

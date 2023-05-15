@@ -31,7 +31,7 @@ type AcceleratorConfigObservation struct {
 	CoreCount *float64 `json:"coreCount,omitempty" tf:"core_count,omitempty"`
 
 	// Type of this accelerator.
-	// Possible values are ACCELERATOR_TYPE_UNSPECIFIED, NVIDIA_TESLA_K80, NVIDIA_TESLA_P100, NVIDIA_TESLA_V100, NVIDIA_TESLA_P4, NVIDIA_TESLA_T4, NVIDIA_TESLA_T4_VWS, NVIDIA_TESLA_P100_VWS, NVIDIA_TESLA_P4_VWS, NVIDIA_TESLA_A100, TPU_V2, and TPU_V3.
+	// Possible values are: ACCELERATOR_TYPE_UNSPECIFIED, NVIDIA_TESLA_K80, NVIDIA_TESLA_P100, NVIDIA_TESLA_V100, NVIDIA_TESLA_P4, NVIDIA_TESLA_T4, NVIDIA_TESLA_T4_VWS, NVIDIA_TESLA_P100_VWS, NVIDIA_TESLA_P4_VWS, NVIDIA_TESLA_A100, TPU_V2, TPU_V3.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
@@ -42,7 +42,7 @@ type AcceleratorConfigParameters struct {
 	CoreCount *float64 `json:"coreCount" tf:"core_count,omitempty"`
 
 	// Type of this accelerator.
-	// Possible values are ACCELERATOR_TYPE_UNSPECIFIED, NVIDIA_TESLA_K80, NVIDIA_TESLA_P100, NVIDIA_TESLA_V100, NVIDIA_TESLA_P4, NVIDIA_TESLA_T4, NVIDIA_TESLA_T4_VWS, NVIDIA_TESLA_P100_VWS, NVIDIA_TESLA_P4_VWS, NVIDIA_TESLA_A100, TPU_V2, and TPU_V3.
+	// Possible values are: ACCELERATOR_TYPE_UNSPECIFIED, NVIDIA_TESLA_K80, NVIDIA_TESLA_P100, NVIDIA_TESLA_V100, NVIDIA_TESLA_P4, NVIDIA_TESLA_T4, NVIDIA_TESLA_T4_VWS, NVIDIA_TESLA_P100_VWS, NVIDIA_TESLA_P4_VWS, NVIDIA_TESLA_A100, TPU_V2, TPU_V3.
 	// +kubebuilder:validation:Required
 	Type *string `json:"type" tf:"type,omitempty"`
 }
@@ -83,7 +83,7 @@ type InstanceObservation struct {
 	BootDiskSizeGb *float64 `json:"bootDiskSizeGb,omitempty" tf:"boot_disk_size_gb,omitempty"`
 
 	// Possible disk types for notebook instances.
-	// Possible values are DISK_TYPE_UNSPECIFIED, PD_STANDARD, PD_SSD, PD_BALANCED, and PD_EXTREME.
+	// Possible values are: DISK_TYPE_UNSPECIFIED, PD_STANDARD, PD_SSD, PD_BALANCED, PD_EXTREME.
 	BootDiskType *string `json:"bootDiskType,omitempty" tf:"boot_disk_type,omitempty"`
 
 	// Use a container image to start the notebook instance.
@@ -104,11 +104,11 @@ type InstanceObservation struct {
 	DataDiskSizeGb *float64 `json:"dataDiskSizeGb,omitempty" tf:"data_disk_size_gb,omitempty"`
 
 	// Possible disk types for notebook instances.
-	// Possible values are DISK_TYPE_UNSPECIFIED, PD_STANDARD, PD_SSD, PD_BALANCED, and PD_EXTREME.
+	// Possible values are: DISK_TYPE_UNSPECIFIED, PD_STANDARD, PD_SSD, PD_BALANCED, PD_EXTREME.
 	DataDiskType *string `json:"dataDiskType,omitempty" tf:"data_disk_type,omitempty"`
 
 	// Disk encryption method used on the boot and data disks, defaults to GMEK.
-	// Possible values are DISK_ENCRYPTION_UNSPECIFIED, GMEK, and CMEK.
+	// Possible values are: DISK_ENCRYPTION_UNSPECIFIED, GMEK, CMEK.
 	DiskEncryption *string `json:"diskEncryption,omitempty" tf:"disk_encryption,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/instances/{{name}}
@@ -149,7 +149,7 @@ type InstanceObservation struct {
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
 	// The type of vNIC driver.
-	// Possible values are UNSPECIFIED_NIC_TYPE, VIRTIO_NET, and GVNIC.
+	// Possible values are: UNSPECIFIED_NIC_TYPE, VIRTIO_NET, GVNIC.
 	NicType *string `json:"nicType,omitempty" tf:"nic_type,omitempty"`
 
 	// The notebook instance will not register with the proxy..
@@ -171,6 +171,7 @@ type InstanceObservation struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The proxy endpoint that is used to access the Jupyter notebook.
+	// Only returned when the resource is in a PROVISIONED state.
 	ProxyURI *string `json:"proxyUri,omitempty" tf:"proxy_uri,omitempty"`
 
 	// Reservation Affinity for consuming Zonal reservation.
@@ -227,7 +228,7 @@ type InstanceParameters struct {
 	BootDiskSizeGb *float64 `json:"bootDiskSizeGb,omitempty" tf:"boot_disk_size_gb,omitempty"`
 
 	// Possible disk types for notebook instances.
-	// Possible values are DISK_TYPE_UNSPECIFIED, PD_STANDARD, PD_SSD, PD_BALANCED, and PD_EXTREME.
+	// Possible values are: DISK_TYPE_UNSPECIFIED, PD_STANDARD, PD_SSD, PD_BALANCED, PD_EXTREME.
 	// +kubebuilder:validation:Optional
 	BootDiskType *string `json:"bootDiskType,omitempty" tf:"boot_disk_type,omitempty"`
 
@@ -249,12 +250,12 @@ type InstanceParameters struct {
 	DataDiskSizeGb *float64 `json:"dataDiskSizeGb,omitempty" tf:"data_disk_size_gb,omitempty"`
 
 	// Possible disk types for notebook instances.
-	// Possible values are DISK_TYPE_UNSPECIFIED, PD_STANDARD, PD_SSD, PD_BALANCED, and PD_EXTREME.
+	// Possible values are: DISK_TYPE_UNSPECIFIED, PD_STANDARD, PD_SSD, PD_BALANCED, PD_EXTREME.
 	// +kubebuilder:validation:Optional
 	DataDiskType *string `json:"dataDiskType,omitempty" tf:"data_disk_type,omitempty"`
 
 	// Disk encryption method used on the boot and data disks, defaults to GMEK.
-	// Possible values are DISK_ENCRYPTION_UNSPECIFIED, GMEK, and CMEK.
+	// Possible values are: DISK_ENCRYPTION_UNSPECIFIED, GMEK, CMEK.
 	// +kubebuilder:validation:Optional
 	DiskEncryption *string `json:"diskEncryption,omitempty" tf:"disk_encryption,omitempty"`
 
@@ -301,7 +302,7 @@ type InstanceParameters struct {
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
 	// The type of vNIC driver.
-	// Possible values are UNSPECIFIED_NIC_TYPE, VIRTIO_NET, and GVNIC.
+	// Possible values are: UNSPECIFIED_NIC_TYPE, VIRTIO_NET, GVNIC.
 	// +kubebuilder:validation:Optional
 	NicType *string `json:"nicType,omitempty" tf:"nic_type,omitempty"`
 
@@ -399,7 +400,7 @@ type InstanceVMImageParameters struct {
 type ReservationAffinityObservation struct {
 
 	// The type of Compute Reservation.
-	// Possible values are NO_RESERVATION, ANY_RESERVATION, and SPECIFIC_RESERVATION.
+	// Possible values are: NO_RESERVATION, ANY_RESERVATION, SPECIFIC_RESERVATION.
 	ConsumeReservationType *string `json:"consumeReservationType,omitempty" tf:"consume_reservation_type,omitempty"`
 
 	// Corresponds to the label key of reservation resource.
@@ -412,7 +413,7 @@ type ReservationAffinityObservation struct {
 type ReservationAffinityParameters struct {
 
 	// The type of Compute Reservation.
-	// Possible values are NO_RESERVATION, ANY_RESERVATION, and SPECIFIC_RESERVATION.
+	// Possible values are: NO_RESERVATION, ANY_RESERVATION, SPECIFIC_RESERVATION.
 	// +kubebuilder:validation:Required
 	ConsumeReservationType *string `json:"consumeReservationType" tf:"consume_reservation_type,omitempty"`
 

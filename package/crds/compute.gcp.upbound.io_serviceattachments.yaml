@@ -485,11 +485,12 @@ spec:
                     items:
                       properties:
                         endpoint:
-                          description: The URL of the consumer forwarding rule.
+                          description: (Output) The URL of the consumer forwarding
+                            rule.
                           type: string
                         status:
-                          description: The status of the connection from the consumer
-                            forwarding rule to this service attachment.
+                          description: (Output) The status of the connection from
+                            the consumer forwarding rule to this service attachment.
                           type: string
                       type: object
                     type: array

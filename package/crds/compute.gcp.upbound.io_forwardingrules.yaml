@@ -69,23 +69,20 @@ spec:
               forProvider:
                 properties:
                   allPorts:
-                    description: This field can be used with internal load balancer
-                      or network load balancer when the forwarding rule references
-                      a backend service, or with the target field when it references
-                      a TargetInstance. Set this to true to allow packets addressed
-                      to any ports to be forwarded to the backends configured with
-                      this forwarding rule. This can be used when the protocol is
-                      TCP/UDP, and it must be set to true when the protocol is set
-                      to L3_DEFAULT. Cannot be set if port or portRange are set.
+                    description: 'This field can only be used:'
                     type: boolean
                   allowGlobalAccess:
-                    description: If true, clients can access ILB from all regions.
-                      Otherwise only allows from the local region the ILB is located
-                      at.
+                    description: This field is used along with the backend_service
+                      field for internal load balancing or with the target field for
+                      internal TargetInstance. If the field is set to TRUE, clients
+                      can access ILB from all regions. Otherwise only allows access
+                      from clients in the same region as the internal load balancer.
                     type: boolean
                   backendService:
-                    description: A BackendService to receive the matched traffic.
-                      This is used only for INTERNAL load balancing.
+                    description: Identifies the backend service to which the forwarding
+                      rule sends traffic. Required for Internal TCP/UDP Load Balancing
+                      and Network Load Balancing; must be omitted for all other load
+                      balancer types.
                     type: string
                   backendServiceRef:
                     description: Reference to a RegionBackendService to populate backendService.
@@ -165,19 +162,11 @@ spec:
                       this property when you create the resource.
                     type: string
                   ipAddress:
-                    description: The IP address that this forwarding rule serves.
-                      When a client sends traffic to this IP address, the forwarding
-                      rule directs the traffic to the target that you specify in the
-                      forwarding rule. The loadBalancingScheme and the forwarding
-                      rule's target determine the type of IP address that you can
-                      use. For detailed information, refer to IP address specifications.
-                      An address can be specified either by a literal IP address or
-                      a reference to an existing Address resource. If you don't specify
-                      a reserved IP address, an ephemeral IP address is assigned.
-                      The value must be set to 0.0.0.0 when the target is a targetGrpcProxy
-                      that has validateForProxyless field set to true. For Private
-                      Service Connect forwarding rules that forward traffic to Google
-                      APIs, IP address must be provided.
+                    description: 'IP address for which this forwarding rule accepts
+                      traffic. When a client sends traffic to this IP address, the
+                      forwarding rule directs the traffic to the referenced target
+                      or backendService. While creating a forwarding rule, specifying
+                      an IPAddress is required under the following circumstances:'
                     type: string
                   ipAddressRef:
                     description: Reference to a Address to populate ipAddress.
@@ -253,10 +242,12 @@ spec:
                         type: object
                     type: object
                   ipProtocol:
-                    description: The IP protocol to which this rule applies. When
-                      the load balancing scheme is INTERNAL, only TCP and UDP are
-                      valid. Possible values are TCP, UDP, ESP, AH, SCTP, ICMP, and
-                      L3_DEFAULT.
+                    description: 'The IP protocol to which this rule applies. For
+                      protocol forwarding, valid options are TCP, UDP, ESP, AH, SCTP,
+                      ICMP and L3_DEFAULT. The valid IP protocols are different for
+                      different load balancing products as described in Load balancing
+                      features. Possible values are: TCP, UDP, ESP, AH, SCTP, ICMP,
+                      L3_DEFAULT.'
                     type: string
                   isMirroringCollector:
                     description: Indicates whether or not this load balancer can be
@@ -273,25 +264,20 @@ spec:
                       of key->value pairs.
                     type: object
                   loadBalancingScheme:
-                    description: 'This signifies what the ForwardingRule will be used
-                      for and can be EXTERNAL, EXTERNAL_MANAGED, INTERNAL, or INTERNAL_MANAGED.
-                      EXTERNAL is used for Classic Cloud VPN gateways, protocol forwarding
-                      to VMs from an external IP address, and HTTP(S), SSL Proxy,
-                      TCP Proxy, and Network TCP/UDP load balancers. INTERNAL is used
-                      for protocol forwarding to VMs from an internal IP address,
-                      and internal TCP/UDP load balancers. EXTERNAL_MANAGED is used
-                      for regional external HTTP(S) load balancers. INTERNAL_MANAGED
-                      is used for internal HTTP(S) load balancers. (Beta only) Note:
-                      This field must be set to "" if the target is an URI of a service
-                      attachment. Default value is EXTERNAL. Possible values are EXTERNAL,
-                      EXTERNAL_MANAGED, INTERNAL, and INTERNAL_MANAGED.'
+                    description: 'Specifies the forwarding rule type. For more information
+                      about forwarding rules, refer to Forwarding rule concepts. Default
+                      value is EXTERNAL. Possible values are: EXTERNAL, EXTERNAL_MANAGED,
+                      INTERNAL, INTERNAL_MANAGED.'
                     type: string
                   network:
-                    description: For internal load balancing, this field identifies
-                      the network that the load balanced IP should belong to for this
-                      Forwarding Rule. If this field is not specified, the default
-                      network will be used. This field is only used for INTERNAL load
-                      balancing.
+                    description: This field is not used for external load balancing.
+                      For Internal TCP/UDP Load Balancing, this field identifies the
+                      network that the load balanced IP should belong to for this
+                      Forwarding Rule. If the subnetwork is specified, the network
+                      of the subnetwork will be used. If neither subnetwork nor this
+                      field is specified, the default network will be used. For Private
+                      Service Connect forwarding rules that forward traffic to Google
+                      APIs, a network must be provided.
                     type: string
                   networkRef:
                     description: Reference to a Network to populate network.
@@ -367,29 +353,25 @@ spec:
                         type: object
                     type: object
                   networkTier:
-                    description: The networking tier used for configuring this address.
-                      If this field is not specified, it is assumed to be PREMIUM.
-                      Possible values are PREMIUM and STANDARD.
+                    description: 'This signifies the networking tier used for configuring
+                      this load balancer and can only take the following values: PREMIUM,
+                      STANDARD. For regional ForwardingRule, the valid values are
+                      PREMIUM and STANDARD. For GlobalForwardingRule, the valid value
+                      is PREMIUM. If this field is not specified, it is assumed to
+                      be PREMIUM. If IPAddress is specified, this value must be equal
+                      to the networkTier of the Address. Possible values are: PREMIUM,
+                      STANDARD.'
                     type: string
                   portRange:
-                    description: 'This field is used along with the target field for
-                      TargetHttpProxy, TargetHttpsProxy, TargetSslProxy, TargetTcpProxy,
-                      TargetVpnGateway, TargetPool, TargetInstance. Applicable only
-                      when IPProtocol is TCP, UDP, or SCTP, only packets addressed
-                      to ports in the specified range will be forwarded to target.
-                      Forwarding rules with the same [IPAddress, IPProtocol] pair
-                      must have disjoint port ranges. Some types of forwarding target
-                      have constraints on the acceptable ports:'
+                    description: 'This field can only be used:'
                     type: string
                   ports:
-                    description: This field is used along with internal load balancing
-                      and network load balancer when the forwarding rule references
-                      a backend service and when protocol is not L3_DEFAULT. A single
-                      port or a comma separated list of ports can be configured. Only
-                      packets addressed to these ports will be forwarded to the backends
-                      configured with this forwarding rule. You can only use one of
-                      ports and portRange, or allPorts. The three are mutually exclusive.
-                      You may specify a maximum of up to 5 ports, which can be non-contiguous.
+                    description: and port_range fields are mutually exclusive. For
+                      external forwarding rules, two or more forwarding rules cannot
+                      use the same [IPAddress, IPProtocol] pair, and cannot have overlapping
+                      portRanges. For internal forwarding rules within the same VPC
+                      network, two or more forwarding rules cannot use the same [IPAddress,
+                      IPProtocol] pair, and cannot have overlapping portRanges.
                     items:
                       type: string
                     type: array
@@ -429,12 +411,25 @@ spec:
                       or digit, except the last character, which cannot be a dash.
                       This field is only used for INTERNAL load balancing.
                     type: string
+                  sourceIpRanges:
+                    description: If not empty, this Forwarding Rule will only forward
+                      the traffic when the source IP address matches one of the IP
+                      addresses or CIDR ranges set here. Note that a Forwarding Rule
+                      can only have up to 64 source IP ranges, and this field can
+                      only be used with a regional Forwarding Rule whose scheme is
+                      EXTERNAL. Each sourceIpRange entry should be either an IP address
+                      (for example, 1.2.3.4) or a CIDR range (for example, 1.2.3.0/24).
+                    items:
+                      type: string
+                    type: array
                   subnetwork:
-                    description: The subnetwork that the load balanced IP should belong
-                      to for this Forwarding Rule.  This field is only used for INTERNAL
-                      load balancing. If the network specified is in auto subnet mode,
-                      this field is optional. However, if the network is in custom
-                      subnet mode, a subnetwork must be specified.
+                    description: This field identifies the subnetwork that the load
+                      balanced IP should belong to for this Forwarding Rule, used
+                      in internal load balancing and network load balancing with IPv6.
+                      If the network specified is in auto subnet mode, this field
+                      is optional. However, a subnetwork must be specified if the
+                      network is in custom subnet mode or when creating external forwarding
+                      rule with IPv6.
                     type: string
                   subnetworkRef:
                     description: Reference to a Subnetwork to populate subnetwork.
@@ -510,10 +505,8 @@ spec:
                         type: object
                     type: object
                   target:
-                    description: The URL of the target resource to receive the matched
-                      traffic. The target must live in the same region as the forwarding
-                      rule. The forwarded traffic must be of a type appropriate to
-                      the target object.
+                    description: is set to targetGrpcProxy and validateForProxyless
+                      is set to true, the IPAddress should be set to 0.0.0.0.
                     type: string
                   targetRef:
                     description: Reference to a RegionTargetHTTPProxy to populate
@@ -785,23 +778,28 @@ spec:
               atProvider:
                 properties:
                   allPorts:
-                    description: This field can be used with internal load balancer
-                      or network load balancer when the forwarding rule references
-                      a backend service, or with the target field when it references
-                      a TargetInstance. Set this to true to allow packets addressed
-                      to any ports to be forwarded to the backends configured with
-                      this forwarding rule. This can be used when the protocol is
-                      TCP/UDP, and it must be set to true when the protocol is set
-                      to L3_DEFAULT. Cannot be set if port or portRange are set.
+                    description: 'This field can only be used:'
                     type: boolean
                   allowGlobalAccess:
-                    description: If true, clients can access ILB from all regions.
-                      Otherwise only allows from the local region the ILB is located
-                      at.
+                    description: This field is used along with the backend_service
+                      field for internal load balancing or with the target field for
+                      internal TargetInstance. If the field is set to TRUE, clients
+                      can access ILB from all regions. Otherwise only allows access
+                      from clients in the same region as the internal load balancer.
                     type: boolean
                   backendService:
-                    description: A BackendService to receive the matched traffic.
-                      This is used only for INTERNAL load balancing.
+                    description: Identifies the backend service to which the forwarding
+                      rule sends traffic. Required for Internal TCP/UDP Load Balancing
+                      and Network Load Balancing; must be omitted for all other load
+                      balancer types.
+                    type: string
+                  baseForwardingRule:
+                    description: '[Output Only] The URL for the corresponding base
+                      Forwarding Rule. By base Forwarding Rule, we mean the Forwarding
+                      Rule that has the same IP address, protocol, and port settings
+                      with the current Forwarding Rule, but without sourceIPRanges
+                      specified. Always empty if the current Forwarding Rule does
+                      not have sourceIPRanges specified.'
                     type: string
                   creationTimestamp:
                     description: Creation timestamp in RFC3339 text format.
@@ -814,25 +812,19 @@ spec:
                     description: an identifier for the resource with format projects/{{project}}/regions/{{region}}/forwardingRules/{{name}}
                     type: string
                   ipAddress:
-                    description: The IP address that this forwarding rule serves.
-                      When a client sends traffic to this IP address, the forwarding
-                      rule directs the traffic to the target that you specify in the
-                      forwarding rule. The loadBalancingScheme and the forwarding
-                      rule's target determine the type of IP address that you can
-                      use. For detailed information, refer to IP address specifications.
-                      An address can be specified either by a literal IP address or
-                      a reference to an existing Address resource. If you don't specify
-                      a reserved IP address, an ephemeral IP address is assigned.
-                      The value must be set to 0.0.0.0 when the target is a targetGrpcProxy
-                      that has validateForProxyless field set to true. For Private
-                      Service Connect forwarding rules that forward traffic to Google
-                      APIs, IP address must be provided.
+                    description: 'IP address for which this forwarding rule accepts
+                      traffic. When a client sends traffic to this IP address, the
+                      forwarding rule directs the traffic to the referenced target
+                      or backendService. While creating a forwarding rule, specifying
+                      an IPAddress is required under the following circumstances:'
                     type: string
                   ipProtocol:
-                    description: The IP protocol to which this rule applies. When
-                      the load balancing scheme is INTERNAL, only TCP and UDP are
-                      valid. Possible values are TCP, UDP, ESP, AH, SCTP, ICMP, and
-                      L3_DEFAULT.
+                    description: 'The IP protocol to which this rule applies. For
+                      protocol forwarding, valid options are TCP, UDP, ESP, AH, SCTP,
+                      ICMP and L3_DEFAULT. The valid IP protocols are different for
+                      different load balancing products as described in Load balancing
+                      features. Possible values are: TCP, UDP, ESP, AH, SCTP, ICMP,
+                      L3_DEFAULT.'
                     type: string
                   isMirroringCollector:
                     description: Indicates whether or not this load balancer can be
@@ -843,8 +835,8 @@ spec:
                       loadBalancingScheme set to INTERNAL.
                     type: boolean
                   labelFingerprint:
-                    description: (Beta) The fingerprint used for optimistic locking
-                      of this resource.  Used internally during updates.
+                    description: The fingerprint used for optimistic locking of this
+                      resource.  Used internally during updates.
                     type: string
                   labels:
                     additionalProperties:
@@ -853,50 +845,41 @@ spec:
                       of key->value pairs.
                     type: object
                   loadBalancingScheme:
-                    description: 'This signifies what the ForwardingRule will be used
-                      for and can be EXTERNAL, EXTERNAL_MANAGED, INTERNAL, or INTERNAL_MANAGED.
-                      EXTERNAL is used for Classic Cloud VPN gateways, protocol forwarding
-                      to VMs from an external IP address, and HTTP(S), SSL Proxy,
-                      TCP Proxy, and Network TCP/UDP load balancers. INTERNAL is used
-                      for protocol forwarding to VMs from an internal IP address,
-                      and internal TCP/UDP load balancers. EXTERNAL_MANAGED is used
-                      for regional external HTTP(S) load balancers. INTERNAL_MANAGED
-                      is used for internal HTTP(S) load balancers. (Beta only) Note:
-                      This field must be set to "" if the target is an URI of a service
-                      attachment. Default value is EXTERNAL. Possible values are EXTERNAL,
-                      EXTERNAL_MANAGED, INTERNAL, and INTERNAL_MANAGED.'
+                    description: 'Specifies the forwarding rule type. For more information
+                      about forwarding rules, refer to Forwarding rule concepts. Default
+                      value is EXTERNAL. Possible values are: EXTERNAL, EXTERNAL_MANAGED,
+                      INTERNAL, INTERNAL_MANAGED.'
                     type: string
                   network:
-                    description: For internal load balancing, this field identifies
-                      the network that the load balanced IP should belong to for this
-                      Forwarding Rule. If this field is not specified, the default
-                      network will be used. This field is only used for INTERNAL load
-                      balancing.
+                    description: This field is not used for external load balancing.
+                      For Internal TCP/UDP Load Balancing, this field identifies the
+                      network that the load balanced IP should belong to for this
+                      Forwarding Rule. If the subnetwork is specified, the network
+                      of the subnetwork will be used. If neither subnetwork nor this
+                      field is specified, the default network will be used. For Private
+                      Service Connect forwarding rules that forward traffic to Google
+                      APIs, a network must be provided.
                     type: string
                   networkTier:
-                    description: The networking tier used for configuring this address.
-                      If this field is not specified, it is assumed to be PREMIUM.
-                      Possible values are PREMIUM and STANDARD.
+                    description: 'This signifies the networking tier used for configuring
+                      this load balancer and can only take the following values: PREMIUM,
+                      STANDARD. For regional ForwardingRule, the valid values are
+                      PREMIUM and STANDARD. For GlobalForwardingRule, the valid value
+                      is PREMIUM. If this field is not specified, it is assumed to
+                      be PREMIUM. If IPAddress is specified, this value must be equal
+                      to the networkTier of the Address. Possible values are: PREMIUM,
+                      STANDARD.'
                     type: string
                   portRange:
-                    description: 'This field is used along with the target field for
-                      TargetHttpProxy, TargetHttpsProxy, TargetSslProxy, TargetTcpProxy,
-                      TargetVpnGateway, TargetPool, TargetInstance. Applicable only
-                      when IPProtocol is TCP, UDP, or SCTP, only packets addressed
-                      to ports in the specified range will be forwarded to target.
-                      Forwarding rules with the same [IPAddress, IPProtocol] pair
-                      must have disjoint port ranges. Some types of forwarding target
-                      have constraints on the acceptable ports:'
+                    description: 'This field can only be used:'
                     type: string
                   ports:
-                    description: This field is used along with internal load balancing
-                      and network load balancer when the forwarding rule references
-                      a backend service and when protocol is not L3_DEFAULT. A single
-                      port or a comma separated list of ports can be configured. Only
-                      packets addressed to these ports will be forwarded to the backends
-                      configured with this forwarding rule. You can only use one of
-                      ports and portRange, or allPorts. The three are mutually exclusive.
-                      You may specify a maximum of up to 5 ports, which can be non-contiguous.
+                    description: and port_range fields are mutually exclusive. For
+                      external forwarding rules, two or more forwarding rules cannot
+                      use the same [IPAddress, IPProtocol] pair, and cannot have overlapping
+                      portRanges. For internal forwarding rules within the same VPC
+                      network, two or more forwarding rules cannot use the same [IPAddress,
+                      IPProtocol] pair, and cannot have overlapping portRanges.
                     items:
                       type: string
                     type: array
@@ -951,18 +934,29 @@ spec:
                     description: The internal fully qualified service name for this
                       Forwarding Rule. This field is only used for INTERNAL load balancing.
                     type: string
+                  sourceIpRanges:
+                    description: If not empty, this Forwarding Rule will only forward
+                      the traffic when the source IP address matches one of the IP
+                      addresses or CIDR ranges set here. Note that a Forwarding Rule
+                      can only have up to 64 source IP ranges, and this field can
+                      only be used with a regional Forwarding Rule whose scheme is
+                      EXTERNAL. Each sourceIpRange entry should be either an IP address
+                      (for example, 1.2.3.4) or a CIDR range (for example, 1.2.3.0/24).
+                    items:
+                      type: string
+                    type: array
                   subnetwork:
-                    description: The subnetwork that the load balanced IP should belong
-                      to for this Forwarding Rule.  This field is only used for INTERNAL
-                      load balancing. If the network specified is in auto subnet mode,
-                      this field is optional. However, if the network is in custom
-                      subnet mode, a subnetwork must be specified.
+                    description: This field identifies the subnetwork that the load
+                      balanced IP should belong to for this Forwarding Rule, used
+                      in internal load balancing and network load balancing with IPv6.
+                      If the network specified is in auto subnet mode, this field
+                      is optional. However, a subnetwork must be specified if the
+                      network is in custom subnet mode or when creating external forwarding
+                      rule with IPv6.
                     type: string
                   target:
-                    description: The URL of the target resource to receive the matched
-                      traffic. The target must live in the same region as the forwarding
-                      rule. The forwarded traffic must be of a type appropriate to
-                      the target object.
+                    description: is set to targetGrpcProxy and validateForProxyless
+                      is set to true, the IPAddress should be set to 0.0.0.0.
                     type: string
                 type: object
               conditions:

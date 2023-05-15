@@ -25,6 +25,30 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type AcceleratorsObservation struct {
+
+	// The type of an accelator for a CDF instance.
+	// Possible values are: CDC, HEALTHCARE, CCAI_INSIGHTS.
+	AcceleratorType *string `json:"acceleratorType,omitempty" tf:"accelerator_type,omitempty"`
+
+	// The type of an accelator for a CDF instance.
+	// Possible values are: ENABLED, DISABLED.
+	State *string `json:"state,omitempty" tf:"state,omitempty"`
+}
+
+type AcceleratorsParameters struct {
+
+	// The type of an accelator for a CDF instance.
+	// Possible values are: CDC, HEALTHCARE, CCAI_INSIGHTS.
+	// +kubebuilder:validation:Required
+	AcceleratorType *string `json:"acceleratorType" tf:"accelerator_type,omitempty"`
+
+	// The type of an accelator for a CDF instance.
+	// Possible values are: ENABLED, DISABLED.
+	// +kubebuilder:validation:Required
+	State *string `json:"state" tf:"state,omitempty"`
+}
+
 type CryptoKeyConfigObservation struct {
 
 	// The name of the key which is used to encrypt/decrypt customer data. For key in Cloud KMS, the key should be in the format of projects//locations//keyRings//cryptoKeys/.
@@ -82,6 +106,12 @@ type InstanceObservation struct {
 
 	// Endpoint on which the REST APIs is accessible.
 	APIEndpoint *string `json:"apiEndpoint,omitempty" tf:"api_endpoint,omitempty"`
+
+	// List of accelerators enabled for this CDF instance.
+	// If accelerators are enabled it is possible a permadiff will be created with the Options field.
+	// Users will need to either manually update their state file to include these diffed options, or include the field in a lifecycle ignore changes block.
+	// Structure is documented below.
+	Accelerators []AcceleratorsObservation `json:"accelerators,omitempty" tf:"accelerators,omitempty"`
 
 	// The time the instance was created in RFC3339 UTC "Zulu" format, accurate to nanoseconds.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
@@ -171,6 +201,13 @@ type InstanceObservation struct {
 }
 
 type InstanceParameters struct {
+
+	// List of accelerators enabled for this CDF instance.
+	// If accelerators are enabled it is possible a permadiff will be created with the Options field.
+	// Users will need to either manually update their state file to include these diffed options, or include the field in a lifecycle ignore changes block.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Accelerators []AcceleratorsParameters `json:"accelerators,omitempty" tf:"accelerators,omitempty"`
 
 	// The crypto key configuration. This field is used by the Customer-Managed Encryption Keys (CMEK) feature.
 	// Structure is documented below.

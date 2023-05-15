@@ -91,7 +91,7 @@ type RegionHealthCheckHTTPHealthCheckObservation struct {
 	// Specifies the type of proxy header to append before sending data to the
 	// backend.
 	// Default value is NONE.
-	// Possible values are NONE and PROXY_V1.
+	// Possible values are: NONE, PROXY_V1.
 	ProxyHeader *string `json:"proxyHeader,omitempty" tf:"proxy_header,omitempty"`
 
 	// The request path of the HTTP health check request.
@@ -130,7 +130,7 @@ type RegionHealthCheckHTTPHealthCheckParameters struct {
 	// Specifies the type of proxy header to append before sending data to the
 	// backend.
 	// Default value is NONE.
-	// Possible values are NONE and PROXY_V1.
+	// Possible values are: NONE, PROXY_V1.
 	// +kubebuilder:validation:Optional
 	ProxyHeader *string `json:"proxyHeader,omitempty" tf:"proxy_header,omitempty"`
 
@@ -168,7 +168,7 @@ type RegionHealthCheckHTTPSHealthCheckObservation struct {
 	// Specifies the type of proxy header to append before sending data to the
 	// backend.
 	// Default value is NONE.
-	// Possible values are NONE and PROXY_V1.
+	// Possible values are: NONE, PROXY_V1.
 	ProxyHeader *string `json:"proxyHeader,omitempty" tf:"proxy_header,omitempty"`
 
 	// The request path of the HTTPS health check request.
@@ -207,7 +207,7 @@ type RegionHealthCheckHTTPSHealthCheckParameters struct {
 	// Specifies the type of proxy header to append before sending data to the
 	// backend.
 	// Default value is NONE.
-	// Possible values are NONE and PROXY_V1.
+	// Possible values are: NONE, PROXY_V1.
 	// +kubebuilder:validation:Optional
 	ProxyHeader *string `json:"proxyHeader,omitempty" tf:"proxy_header,omitempty"`
 
@@ -245,7 +245,7 @@ type RegionHealthCheckHttp2HealthCheckObservation struct {
 	// Specifies the type of proxy header to append before sending data to the
 	// backend.
 	// Default value is NONE.
-	// Possible values are NONE and PROXY_V1.
+	// Possible values are: NONE, PROXY_V1.
 	ProxyHeader *string `json:"proxyHeader,omitempty" tf:"proxy_header,omitempty"`
 
 	// The request path of the HTTP2 health check request.
@@ -284,7 +284,7 @@ type RegionHealthCheckHttp2HealthCheckParameters struct {
 	// Specifies the type of proxy header to append before sending data to the
 	// backend.
 	// Default value is NONE.
-	// Possible values are NONE and PROXY_V1.
+	// Possible values are: NONE, PROXY_V1.
 	// +kubebuilder:validation:Optional
 	ProxyHeader *string `json:"proxyHeader,omitempty" tf:"proxy_header,omitempty"`
 
@@ -478,7 +478,7 @@ type RegionHealthCheckSSLHealthCheckObservation struct {
 	// Specifies the type of proxy header to append before sending data to the
 	// backend.
 	// Default value is NONE.
-	// Possible values are NONE and PROXY_V1.
+	// Possible values are: NONE, PROXY_V1.
 	ProxyHeader *string `json:"proxyHeader,omitempty" tf:"proxy_header,omitempty"`
 
 	// The application data to send once the SSL connection has been
@@ -513,7 +513,7 @@ type RegionHealthCheckSSLHealthCheckParameters struct {
 	// Specifies the type of proxy header to append before sending data to the
 	// backend.
 	// Default value is NONE.
-	// Possible values are NONE and PROXY_V1.
+	// Possible values are: NONE, PROXY_V1.
 	// +kubebuilder:validation:Optional
 	ProxyHeader *string `json:"proxyHeader,omitempty" tf:"proxy_header,omitempty"`
 
@@ -548,7 +548,7 @@ type RegionHealthCheckTCPHealthCheckObservation struct {
 	// Specifies the type of proxy header to append before sending data to the
 	// backend.
 	// Default value is NONE.
-	// Possible values are NONE and PROXY_V1.
+	// Possible values are: NONE, PROXY_V1.
 	ProxyHeader *string `json:"proxyHeader,omitempty" tf:"proxy_header,omitempty"`
 
 	// The application data to send once the TCP connection has been
@@ -583,7 +583,7 @@ type RegionHealthCheckTCPHealthCheckParameters struct {
 	// Specifies the type of proxy header to append before sending data to the
 	// backend.
 	// Default value is NONE.
-	// Possible values are NONE and PROXY_V1.
+	// Possible values are: NONE, PROXY_V1.
 	// +kubebuilder:validation:Optional
 	ProxyHeader *string `json:"proxyHeader,omitempty" tf:"proxy_header,omitempty"`
 

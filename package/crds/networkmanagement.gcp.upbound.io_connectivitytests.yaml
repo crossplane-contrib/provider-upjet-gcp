@@ -715,8 +715,8 @@ spec:
                               type: object
                           type: object
                         networkType:
-                          description: Type of the network where the endpoint is located.
-                            Possible values are GCP_NETWORK and NON_GCP_NETWORK.
+                          description: 'Type of the network where the endpoint is
+                            located. Possible values are: GCP_NETWORK, NON_GCP_NETWORK.'
                           type: string
                         port:
                           description: The IP protocol port of the endpoint. Only
@@ -1109,8 +1109,8 @@ spec:
                           description: A Compute Engine network URI.
                           type: string
                         networkType:
-                          description: Type of the network where the endpoint is located.
-                            Possible values are GCP_NETWORK and NON_GCP_NETWORK.
+                          description: 'Type of the network where the endpoint is
+                            located. Possible values are: GCP_NETWORK, NON_GCP_NETWORK.'
                           type: string
                         port:
                           description: The IP protocol port of the endpoint. Only

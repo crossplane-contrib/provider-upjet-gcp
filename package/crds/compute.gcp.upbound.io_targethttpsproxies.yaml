@@ -88,12 +88,12 @@ spec:
                       set to INTERNAL_SELF_MANAGED.
                     type: boolean
                   quicOverride:
-                    description: Specifies the QUIC override policy for this resource.
+                    description: 'Specifies the QUIC override policy for this resource.
                       This determines whether the load balancer will attempt to negotiate
                       QUIC with clients or not. Can specify one of NONE, ENABLE, or
-                      DISABLE. If NONE is specified, uses the QUIC policy with no
-                      user overrides, which is equivalent to DISABLE. Default value
-                      is NONE. Possible values are NONE, ENABLE, and DISABLE.
+                      DISABLE. If NONE is specified, Google manages whether QUIC is
+                      used. Default value is NONE. Possible values are: NONE, ENABLE,
+                      DISABLE.'
                     type: string
                   sslCertificates:
                     description: A list of SslCertificate resources that are used
@@ -481,12 +481,12 @@ spec:
                     description: The unique identifier for the resource.
                     type: number
                   quicOverride:
-                    description: Specifies the QUIC override policy for this resource.
+                    description: 'Specifies the QUIC override policy for this resource.
                       This determines whether the load balancer will attempt to negotiate
                       QUIC with clients or not. Can specify one of NONE, ENABLE, or
-                      DISABLE. If NONE is specified, uses the QUIC policy with no
-                      user overrides, which is equivalent to DISABLE. Default value
-                      is NONE. Possible values are NONE, ENABLE, and DISABLE.
+                      DISABLE. If NONE is specified, Google manages whether QUIC is
+                      used. Default value is NONE. Possible values are: NONE, ENABLE,
+                      DISABLE.'
                     type: string
                   selfLink:
                     description: The URI of the created resource.

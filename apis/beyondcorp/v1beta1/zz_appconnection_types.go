@@ -132,6 +132,7 @@ type GatewayObservation struct {
 	// AppGateway name in following format: projects/{project_id}/locations/{locationId}/appgateways/{gateway_id}.
 	AppGateway *string `json:"appGateway,omitempty" tf:"app_gateway,omitempty"`
 
+	// (Output)
 	// Ingress port reserved on the gateways for this AppConnection, if not specified or zero, the default port is 19443.
 	IngressPort *float64 `json:"ingressPort,omitempty" tf:"ingress_port,omitempty"`
 
@@ -140,6 +141,7 @@ type GatewayObservation struct {
 	// for a list of possible values.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 
+	// (Output)
 	// Server-defined URI for this resource.
 	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`
 }

@@ -217,7 +217,7 @@ type RegionBackendServiceBackendObservation struct {
 	// See the Backend Services Overview
 	// for an explanation of load balancing modes.
 	// Default value is CONNECTION.
-	// Possible values are UTILIZATION, RATE, and CONNECTION.
+	// Possible values are: UTILIZATION, RATE, CONNECTION.
 	BalancingMode *string `json:"balancingMode,omitempty" tf:"balancing_mode,omitempty"`
 
 	// A multiplier applied to the group's maximum servicing capacity
@@ -316,7 +316,7 @@ type RegionBackendServiceBackendParameters struct {
 	// See the Backend Services Overview
 	// for an explanation of load balancing modes.
 	// Default value is CONNECTION.
-	// Possible values are UTILIZATION, RATE, and CONNECTION.
+	// Possible values are: UTILIZATION, RATE, CONNECTION.
 	// +kubebuilder:validation:Optional
 	BalancingMode *string `json:"balancingMode,omitempty" tf:"balancing_mode,omitempty"`
 
@@ -528,7 +528,7 @@ type RegionBackendServiceCdnPolicyObservation struct {
 
 	// Specifies the cache setting for all responses from this backend.
 	// The possible values are: USE_ORIGIN_HEADERS, FORCE_CACHE_ALL and CACHE_ALL_STATIC
-	// Possible values are USE_ORIGIN_HEADERS, FORCE_CACHE_ALL, and CACHE_ALL_STATIC.
+	// Possible values are: USE_ORIGIN_HEADERS, FORCE_CACHE_ALL, CACHE_ALL_STATIC.
 	CacheMode *string `json:"cacheMode,omitempty" tf:"cache_mode,omitempty"`
 
 	// Specifies the maximum allowed TTL for cached content served by this origin.
@@ -573,7 +573,7 @@ type RegionBackendServiceCdnPolicyParameters struct {
 
 	// Specifies the cache setting for all responses from this backend.
 	// The possible values are: USE_ORIGIN_HEADERS, FORCE_CACHE_ALL and CACHE_ALL_STATIC
-	// Possible values are USE_ORIGIN_HEADERS, FORCE_CACHE_ALL, and CACHE_ALL_STATIC.
+	// Possible values are: USE_ORIGIN_HEADERS, FORCE_CACHE_ALL, CACHE_ALL_STATIC.
 	// +kubebuilder:validation:Optional
 	CacheMode *string `json:"cacheMode,omitempty" tf:"cache_mode,omitempty"`
 
@@ -877,7 +877,7 @@ type RegionBackendServiceObservation struct {
 
 	// Type of session affinity to use. The default is NONE. Session affinity is
 	// not applicable if the protocol is UDP.
-	// Possible values are NONE, CLIENT_IP, CLIENT_IP_PORT_PROTO, CLIENT_IP_PROTO, GENERATED_COOKIE, HEADER_FIELD, HTTP_COOKIE, and CLIENT_IP_NO_DESTINATION.
+	// Possible values are: NONE, CLIENT_IP, CLIENT_IP_PORT_PROTO, CLIENT_IP_PROTO, GENERATED_COOKIE, HEADER_FIELD, HTTP_COOKIE, CLIENT_IP_NO_DESTINATION.
 	SessionAffinity *string `json:"sessionAffinity,omitempty" tf:"session_affinity,omitempty"`
 
 	// How many seconds to wait for the backend before considering it a
@@ -1155,7 +1155,7 @@ type RegionBackendServiceParameters struct {
 
 	// Type of session affinity to use. The default is NONE. Session affinity is
 	// not applicable if the protocol is UDP.
-	// Possible values are NONE, CLIENT_IP, CLIENT_IP_PORT_PROTO, CLIENT_IP_PROTO, GENERATED_COOKIE, HEADER_FIELD, HTTP_COOKIE, and CLIENT_IP_NO_DESTINATION.
+	// Possible values are: NONE, CLIENT_IP, CLIENT_IP_PORT_PROTO, CLIENT_IP_PROTO, GENERATED_COOKIE, HEADER_FIELD, HTTP_COOKIE, CLIENT_IP_NO_DESTINATION.
 	// +kubebuilder:validation:Optional
 	SessionAffinity *string `json:"sessionAffinity,omitempty" tf:"session_affinity,omitempty"`
 

@@ -10,7 +10,7 @@ spec:
   forProvider:
     certificateAuthoritySelector:
       matchLabels:
-        testing.upbound.io/example-name: test-ca
+        testing.upbound.io/example-name: default
     config:
     - publicKey:
       - format: PEM
@@ -36,18 +36,51 @@ spec:
           - http://www.ietf.org/rfc/rfc3986.txt
       x509Config:
       - caOptions:
-        - isCa: false
+        - isCa: true
         keyUsage:
         - baseKeyUsage:
           - crlSign: false
             decipherOnly: false
           extendedKeyUsage:
           - serverAuth: false
-    lifetime: 860s
+        nameConstraints:
+        - critical: true
+          excludedDnsNames:
+          - '*.deny.example.com'
+          excludedEmailAddresses:
+          - .deny.example.com
+          excludedIpRanges:
+          - 10.1.1.0/24
+          excludedUris:
+          - .deny.example.com
+          permittedDnsNames:
+          - '*.example.com'
+          permittedEmailAddresses:
+          - .example.com
+          permittedIpRanges:
+          - 10.0.0.0/8
+          permittedUris:
+          - .example.com
+    lifetime: 86000s
     location: us-central1
     poolSelector:
       matchLabels:
-        testing.upbound.io/example-name: example
+        testing.upbound.io/example-name: default
+
+---
+
+apiVersion: privateca.gcp.upbound.io/v1beta1
+kind: CAPool
+metadata:
+  annotations:
+    meta.upbound.io/example-id: privateca/v1beta1/certificate
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    location: us-central1
+    tier: ENTERPRISE
 
 ---
 
@@ -57,8 +90,8 @@ metadata:
   annotations:
     meta.upbound.io/example-id: privateca/v1beta1/certificate
   labels:
-    testing.upbound.io/example-name: test-ca
-  name: test-ca
+    testing.upbound.io/example-name: default
+  name: default
 spec:
   forProvider:
     config:

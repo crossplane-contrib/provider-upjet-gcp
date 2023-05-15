@@ -56,7 +56,7 @@ type DefaultObjectAccessControlObservation struct {
 	ProjectTeam []ProjectTeamObservation `json:"projectTeam,omitempty" tf:"project_team,omitempty"`
 
 	// The access permission for the entity.
-	// Possible values are OWNER and READER.
+	// Possible values are: OWNER, READER.
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 }
 
@@ -84,7 +84,7 @@ type DefaultObjectAccessControlParameters struct {
 	Object *string `json:"object,omitempty" tf:"object,omitempty"`
 
 	// The access permission for the entity.
-	// Possible values are OWNER and READER.
+	// Possible values are: OWNER, READER.
 	// +kubebuilder:validation:Optional
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 }
@@ -95,7 +95,7 @@ type ProjectTeamObservation struct {
 	ProjectNumber *string `json:"projectNumber,omitempty" tf:"project_number,omitempty"`
 
 	// The team.
-	// Possible values are editors, owners, and viewers.
+	// Possible values are: editors, owners, viewers.
 	Team *string `json:"team,omitempty" tf:"team,omitempty"`
 }
 

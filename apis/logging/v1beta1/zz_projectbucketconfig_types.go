@@ -85,6 +85,9 @@ type ProjectBucketConfigObservation struct {
 	// Describes this bucket.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// Whether or not Log Analytics is enabled. Logs for buckets with Log Analytics enabled can be queried in the Log Analytics page using SQL queries. Cannot be disabled once enabled.
+	EnableAnalytics *bool `json:"enableAnalytics,omitempty" tf:"enable_analytics,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/buckets/{{bucket_id}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
@@ -117,6 +120,10 @@ type ProjectBucketConfigParameters struct {
 	// Describes this bucket.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Whether or not Log Analytics is enabled. Logs for buckets with Log Analytics enabled can be queried in the Log Analytics page using SQL queries. Cannot be disabled once enabled.
+	// +kubebuilder:validation:Optional
+	EnableAnalytics *bool `json:"enableAnalytics,omitempty" tf:"enable_analytics,omitempty"`
 
 	// The location of the bucket.
 	// +kubebuilder:validation:Required

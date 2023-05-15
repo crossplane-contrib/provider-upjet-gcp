@@ -85,9 +85,9 @@ spec:
                       default network will be used.
                     type: string
                   connectMode:
-                    description: The connection mode of the Redis instance. Default
-                      value is DIRECT_PEERING. Possible values are DIRECT_PEERING
-                      and PRIVATE_SERVICE_ACCESS.
+                    description: 'The connection mode of the Redis instance. Default
+                      value is DIRECT_PEERING. Possible values are: DIRECT_PEERING,
+                      PRIVATE_SERVICE_ACCESS.'
                     type: string
                   customerManagedKey:
                     description: Optional. The KMS key reference that you want to
@@ -538,9 +538,9 @@ spec:
                       default network will be used.
                     type: string
                   connectMode:
-                    description: The connection mode of the Redis instance. Default
-                      value is DIRECT_PEERING. Possible values are DIRECT_PEERING
-                      and PRIVATE_SERVICE_ACCESS.
+                    description: 'The connection mode of the Redis instance. Default
+                      value is DIRECT_PEERING. Possible values are: DIRECT_PEERING,
+                      PRIVATE_SERVICE_ACCESS.'
                     type: string
                   createTime:
                     description: The time the instance was created in RFC3339 UTC
@@ -587,9 +587,9 @@ spec:
                     items:
                       properties:
                         createTime:
-                          description: Output only. The time when the policy was created.
-                            A timestamp in RFC3339 UTC "Zulu" format, with nanosecond
-                            resolution and up to nine fractional digits.
+                          description: (Output) Output only. The time when the policy
+                            was created. A timestamp in RFC3339 UTC "Zulu" format,
+                            with nanosecond resolution and up to nine fractional digits.
                           type: string
                         description:
                           description: Optional. Description of what this policy is
@@ -597,9 +597,9 @@ spec:
                             the length is greater than 512.
                           type: string
                         updateTime:
-                          description: Output only. The time when the policy was last
-                            updated. A timestamp in RFC3339 UTC "Zulu" format, with
-                            nanosecond resolution and up to nine fractional digits.
+                          description: (Output) Output only. The time when the policy
+                            was last updated. A timestamp in RFC3339 UTC "Zulu" format,
+                            with nanosecond resolution and up to nine fractional digits.
                           type: string
                         weeklyMaintenanceWindow:
                           description: Optional. Maintenance window that is applied
@@ -613,10 +613,11 @@ spec:
                                   updates occur.
                                 type: string
                               duration:
-                                description: 'Output only. Duration of the maintenance
-                                  window. The current window is fixed at 1 hour. A
-                                  duration in seconds with up to nine fractional digits,
-                                  terminated by ''s''. Example: "3.5s".'
+                                description: '(Output) Output only. Duration of the
+                                  maintenance window. The current window is fixed
+                                  at 1 hour. A duration in seconds with up to nine
+                                  fractional digits, terminated by ''s''. Example:
+                                  "3.5s".'
                                 type: string
                               startTime:
                                 description: Required. Start time of the window in
@@ -654,21 +655,21 @@ spec:
                     items:
                       properties:
                         endTime:
-                          description: Output only. The end time of any upcoming scheduled
-                            maintenance for this instance. A timestamp in RFC3339
-                            UTC "Zulu" format, with nanosecond resolution and up to
-                            nine fractional digits.
-                          type: string
-                        scheduleDeadlineTime:
-                          description: Output only. The deadline that the maintenance
-                            schedule start time can not go beyond, including reschedule.
-                            A timestamp in RFC3339 UTC "Zulu" format, with nanosecond
-                            resolution and up to nine fractional digits.
-                          type: string
-                        startTime:
-                          description: Output only. The start time of any upcoming
+                          description: (Output) Output only. The end time of any upcoming
                             scheduled maintenance for this instance. A timestamp in
                             RFC3339 UTC "Zulu" format, with nanosecond resolution
+                            and up to nine fractional digits.
+                          type: string
+                        scheduleDeadlineTime:
+                          description: (Output) Output only. The deadline that the
+                            maintenance schedule start time can not go beyond, including
+                            reschedule. A timestamp in RFC3339 UTC "Zulu" format,
+                            with nanosecond resolution and up to nine fractional digits.
+                          type: string
+                        startTime:
+                          description: (Output) Output only. The start time of any
+                            upcoming scheduled maintenance for this instance. A timestamp
+                            in RFC3339 UTC "Zulu" format, with nanosecond resolution
                             and up to nine fractional digits.
                           type: string
                       type: object
@@ -682,10 +683,11 @@ spec:
                     items:
                       properties:
                         id:
-                          description: Node identifying string. e.g. 'node-0', 'node-1'
+                          description: (Output) Node identifying string. e.g. 'node-0',
+                            'node-1'
                           type: string
                         zone:
-                          description: Location of the node.
+                          description: (Output) Location of the node.
                           type: string
                       type: object
                     type: array
@@ -700,10 +702,10 @@ spec:
                             be used.
                           type: string
                         rdbNextSnapshotTime:
-                          description: 'Output only. The next time that a snapshot
-                            attempt is scheduled to occur. A timestamp in RFC3339
-                            UTC "Zulu" format, with nanosecond resolution and up to
-                            nine fractional digits. Examples: "2014-10-02T15:01:23Z"
+                          description: '(Output) Output only. The next time that a
+                            snapshot attempt is scheduled to occur. A timestamp in
+                            RFC3339 UTC "Zulu" format, with nanosecond resolution
+                            and up to nine fractional digits. Examples: "2014-10-02T15:01:23Z"
                             and "2014-10-02T15:01:23.045123456Z".'
                           type: string
                         rdbSnapshotPeriod:
@@ -793,19 +795,21 @@ spec:
                     items:
                       properties:
                         cert:
-                          description: The certificate data in PEM format.
+                          description: (Output) The certificate data in PEM format.
                           type: string
                         createTime:
-                          description: The time when the certificate was created.
+                          description: (Output) The time when the certificate was
+                            created.
                           type: string
                         expireTime:
-                          description: The time when the certificate expires.
+                          description: (Output) The time when the certificate expires.
                           type: string
                         serialNumber:
-                          description: Serial number, as extracted from the certificate.
+                          description: (Output) Serial number, as extracted from the
+                            certificate.
                           type: string
                         sha1Fingerprint:
-                          description: Sha1 Fingerprint of the certificate.
+                          description: (Output) Sha1 Fingerprint of the certificate.
                           type: string
                       type: object
                     type: array

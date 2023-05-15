@@ -229,8 +229,8 @@ spec:
                         type: object
                     type: object
                   role:
-                    description: The access permission for the entity. Possible values
-                      are OWNER and READER.
+                    description: 'The access permission for the entity. Possible values
+                      are: OWNER, READER.'
                     type: string
                 type: object
               managementPolicy:
@@ -465,14 +465,14 @@ spec:
                           description: The project team associated with the entity
                           type: string
                         team:
-                          description: The team. Possible values are editors, owners,
-                            and viewers.
+                          description: 'The team. Possible values are: editors, owners,
+                            viewers.'
                           type: string
                       type: object
                     type: array
                   role:
-                    description: The access permission for the entity. Possible values
-                      are OWNER and READER.
+                    description: 'The access permission for the entity. Possible values
+                      are: OWNER, READER.'
                     type: string
                 type: object
               conditions:

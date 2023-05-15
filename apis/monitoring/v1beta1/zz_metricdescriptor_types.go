@@ -35,7 +35,7 @@ type LabelsObservation struct {
 
 	// The type of data that can be assigned to the label.
 	// Default value is STRING.
-	// Possible values are STRING, BOOL, and INT64.
+	// Possible values are: STRING, BOOL, INT64.
 	ValueType *string `json:"valueType,omitempty" tf:"value_type,omitempty"`
 }
 
@@ -51,7 +51,7 @@ type LabelsParameters struct {
 
 	// The type of data that can be assigned to the label.
 	// Default value is STRING.
-	// Possible values are STRING, BOOL, and INT64.
+	// Possible values are: STRING, BOOL, INT64.
 	// +kubebuilder:validation:Optional
 	ValueType *string `json:"valueType,omitempty" tf:"value_type,omitempty"`
 }
@@ -92,7 +92,7 @@ type MetricDescriptorObservation struct {
 	Labels []LabelsObservation `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The launch stage of the metric definition.
-	// Possible values are LAUNCH_STAGE_UNSPECIFIED, UNIMPLEMENTED, PRELAUNCH, EARLY_ACCESS, ALPHA, BETA, GA, and DEPRECATED.
+	// Possible values are: LAUNCH_STAGE_UNSPECIFIED, UNIMPLEMENTED, PRELAUNCH, EARLY_ACCESS, ALPHA, BETA, GA, DEPRECATED.
 	LaunchStage *string `json:"launchStage,omitempty" tf:"launch_stage,omitempty"`
 
 	// Metadata which can be used to guide usage of the metric.
@@ -100,7 +100,7 @@ type MetricDescriptorObservation struct {
 	Metadata []MetadataObservation `json:"metadata,omitempty" tf:"metadata,omitempty"`
 
 	// Whether the metric records instantaneous values, changes to a value, etc. Some combinations of metricKind and valueType might not be supported.
-	// Possible values are METRIC_KIND_UNSPECIFIED, GAUGE, DELTA, and CUMULATIVE.
+	// Possible values are: METRIC_KIND_UNSPECIFIED, GAUGE, DELTA, CUMULATIVE.
 	MetricKind *string `json:"metricKind,omitempty" tf:"metric_kind,omitempty"`
 
 	// If present, then a time series, which is identified partially by a metric type and a MonitoredResourceDescriptor, that is associated with this metric type can only be associated with one of the monitored resource types listed here. This field allows time series to be associated with the intersection of this metric type and the monitored resource types in this list.
@@ -136,7 +136,7 @@ type MetricDescriptorObservation struct {
 	Unit *string `json:"unit,omitempty" tf:"unit,omitempty"`
 
 	// Whether the measurement is an integer, a floating-point number, etc. Some combinations of metricKind and valueType might not be supported.
-	// Possible values are BOOL, INT64, DOUBLE, STRING, and DISTRIBUTION.
+	// Possible values are: BOOL, INT64, DOUBLE, STRING, DISTRIBUTION.
 	ValueType *string `json:"valueType,omitempty" tf:"value_type,omitempty"`
 }
 
@@ -156,7 +156,7 @@ type MetricDescriptorParameters struct {
 	Labels []LabelsParameters `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The launch stage of the metric definition.
-	// Possible values are LAUNCH_STAGE_UNSPECIFIED, UNIMPLEMENTED, PRELAUNCH, EARLY_ACCESS, ALPHA, BETA, GA, and DEPRECATED.
+	// Possible values are: LAUNCH_STAGE_UNSPECIFIED, UNIMPLEMENTED, PRELAUNCH, EARLY_ACCESS, ALPHA, BETA, GA, DEPRECATED.
 	// +kubebuilder:validation:Optional
 	LaunchStage *string `json:"launchStage,omitempty" tf:"launch_stage,omitempty"`
 
@@ -166,7 +166,7 @@ type MetricDescriptorParameters struct {
 	Metadata []MetadataParameters `json:"metadata,omitempty" tf:"metadata,omitempty"`
 
 	// Whether the metric records instantaneous values, changes to a value, etc. Some combinations of metricKind and valueType might not be supported.
-	// Possible values are METRIC_KIND_UNSPECIFIED, GAUGE, DELTA, and CUMULATIVE.
+	// Possible values are: METRIC_KIND_UNSPECIFIED, GAUGE, DELTA, CUMULATIVE.
 	// +kubebuilder:validation:Optional
 	MetricKind *string `json:"metricKind,omitempty" tf:"metric_kind,omitempty"`
 
@@ -200,7 +200,7 @@ type MetricDescriptorParameters struct {
 	Unit *string `json:"unit,omitempty" tf:"unit,omitempty"`
 
 	// Whether the measurement is an integer, a floating-point number, etc. Some combinations of metricKind and valueType might not be supported.
-	// Possible values are BOOL, INT64, DOUBLE, STRING, and DISTRIBUTION.
+	// Possible values are: BOOL, INT64, DOUBLE, STRING, DISTRIBUTION.
 	// +kubebuilder:validation:Optional
 	ValueType *string `json:"valueType,omitempty" tf:"value_type,omitempty"`
 }

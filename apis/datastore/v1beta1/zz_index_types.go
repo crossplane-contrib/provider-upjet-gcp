@@ -29,7 +29,7 @@ type IndexObservation struct {
 
 	// Policy for including ancestors in the index.
 	// Default value is NONE.
-	// Possible values are NONE and ALL_ANCESTORS.
+	// Possible values are: NONE, ALL_ANCESTORS.
 	Ancestor *string `json:"ancestor,omitempty" tf:"ancestor,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/indexes/{{index_id}}
@@ -54,7 +54,7 @@ type IndexParameters struct {
 
 	// Policy for including ancestors in the index.
 	// Default value is NONE.
-	// Possible values are NONE and ALL_ANCESTORS.
+	// Possible values are: NONE, ALL_ANCESTORS.
 	// +kubebuilder:validation:Optional
 	Ancestor *string `json:"ancestor,omitempty" tf:"ancestor,omitempty"`
 
@@ -76,7 +76,7 @@ type IndexParameters struct {
 type PropertiesObservation struct {
 
 	// The direction the index should optimize for sorting.
-	// Possible values are ASCENDING and DESCENDING.
+	// Possible values are: ASCENDING, DESCENDING.
 	Direction *string `json:"direction,omitempty" tf:"direction,omitempty"`
 
 	// The property name to index.
@@ -86,7 +86,7 @@ type PropertiesObservation struct {
 type PropertiesParameters struct {
 
 	// The direction the index should optimize for sorting.
-	// Possible values are ASCENDING and DESCENDING.
+	// Possible values are: ASCENDING, DESCENDING.
 	// +kubebuilder:validation:Required
 	Direction *string `json:"direction" tf:"direction,omitempty"`
 

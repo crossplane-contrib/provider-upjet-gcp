@@ -161,9 +161,9 @@ spec:
                       If it is not provided, the provider project is used.
                     type: string
                   proxyHeader:
-                    description: Specifies the type of proxy header to append before
+                    description: 'Specifies the type of proxy header to append before
                       sending data to the backend. Default value is NONE. Possible
-                      values are NONE and PROXY_V1.
+                      values are: NONE, PROXY_V1.'
                     type: string
                   sslCertificates:
                     description: A list of SslCertificate resources that are used
@@ -469,9 +469,9 @@ spec:
                       If it is not provided, the provider project is used.
                     type: string
                   proxyHeader:
-                    description: Specifies the type of proxy header to append before
+                    description: 'Specifies the type of proxy header to append before
                       sending data to the backend. Default value is NONE. Possible
-                      values are NONE and PROXY_V1.
+                      values are: NONE, PROXY_V1.'
                     type: string
                   proxyId:
                     description: The unique identifier for the resource.

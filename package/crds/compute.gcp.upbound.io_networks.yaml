@@ -106,17 +106,22 @@ spec:
                       message if the packets are routed to the Internet or other VPCs
                       with varying MTUs.
                     type: number
+                  networkFirewallPolicyEnforcementOrder:
+                    description: 'Set the order that Firewall Rules and Firewall Policies
+                      are evaluated. Default value is AFTER_CLASSIC_FIREWALL. Possible
+                      values are: BEFORE_CLASSIC_FIREWALL, AFTER_CLASSIC_FIREWALL.'
+                    type: string
                   project:
                     description: The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
                   routingMode:
-                    description: The network-wide routing mode to use. If set to REGIONAL,
-                      this network's cloud routers will only advertise routes with
-                      subnetworks of this network in the same region as the router.
-                      If set to GLOBAL, this network's cloud routers will advertise
-                      routes with all subnetworks of this network, across regions.
-                      Possible values are REGIONAL and GLOBAL.
+                    description: 'The network-wide routing mode to use. If set to
+                      REGIONAL, this network''s cloud routers will only advertise
+                      routes with subnetworks of this network in the same region as
+                      the router. If set to GLOBAL, this network''s cloud routers
+                      will advertise routes with all subnetworks of this network,
+                      across regions. Possible values are: REGIONAL, GLOBAL.'
                     type: string
                 type: object
               managementPolicy:
@@ -355,17 +360,22 @@ spec:
                       message if the packets are routed to the Internet or other VPCs
                       with varying MTUs.
                     type: number
+                  networkFirewallPolicyEnforcementOrder:
+                    description: 'Set the order that Firewall Rules and Firewall Policies
+                      are evaluated. Default value is AFTER_CLASSIC_FIREWALL. Possible
+                      values are: BEFORE_CLASSIC_FIREWALL, AFTER_CLASSIC_FIREWALL.'
+                    type: string
                   project:
                     description: The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
                   routingMode:
-                    description: The network-wide routing mode to use. If set to REGIONAL,
-                      this network's cloud routers will only advertise routes with
-                      subnetworks of this network in the same region as the router.
-                      If set to GLOBAL, this network's cloud routers will advertise
-                      routes with all subnetworks of this network, across regions.
-                      Possible values are REGIONAL and GLOBAL.
+                    description: 'The network-wide routing mode to use. If set to
+                      REGIONAL, this network''s cloud routers will only advertise
+                      routes with subnetworks of this network in the same region as
+                      the router. If set to GLOBAL, this network''s cloud routers
+                      will advertise routes with all subnetworks of this network,
+                      across regions. Possible values are: REGIONAL, GLOBAL.'
                     type: string
                   selfLink:
                     description: The URI of the created resource.

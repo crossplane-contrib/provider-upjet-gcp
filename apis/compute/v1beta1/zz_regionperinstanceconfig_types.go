@@ -130,7 +130,7 @@ type RegionPerInstanceConfigPreservedStateDiskObservation struct {
 	// ON_PERMANENT_INSTANCE_DELETION will delete the stateful disk when the VM is permanently
 	// deleted from the instance group.
 	// Default value is NEVER.
-	// Possible values are NEVER and ON_PERMANENT_INSTANCE_DELETION.
+	// Possible values are: NEVER, ON_PERMANENT_INSTANCE_DELETION.
 	DeleteRule *string `json:"deleteRule,omitempty" tf:"delete_rule,omitempty"`
 
 	// A unique device name that is reflected into the /dev/ tree of a Linux operating system running within the instance.
@@ -138,7 +138,7 @@ type RegionPerInstanceConfigPreservedStateDiskObservation struct {
 
 	// The mode of the disk.
 	// Default value is READ_WRITE.
-	// Possible values are READ_ONLY and READ_WRITE.
+	// Possible values are: READ_ONLY, READ_WRITE.
 	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
 
 	// The URI of an existing persistent disk to attach under the specified device-name in the format
@@ -154,7 +154,7 @@ type RegionPerInstanceConfigPreservedStateDiskParameters struct {
 	// ON_PERMANENT_INSTANCE_DELETION will delete the stateful disk when the VM is permanently
 	// deleted from the instance group.
 	// Default value is NEVER.
-	// Possible values are NEVER and ON_PERMANENT_INSTANCE_DELETION.
+	// Possible values are: NEVER, ON_PERMANENT_INSTANCE_DELETION.
 	// +kubebuilder:validation:Optional
 	DeleteRule *string `json:"deleteRule,omitempty" tf:"delete_rule,omitempty"`
 
@@ -164,7 +164,7 @@ type RegionPerInstanceConfigPreservedStateDiskParameters struct {
 
 	// The mode of the disk.
 	// Default value is READ_WRITE.
-	// Possible values are READ_ONLY and READ_WRITE.
+	// Possible values are: READ_ONLY, READ_WRITE.
 	// +kubebuilder:validation:Optional
 	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
 

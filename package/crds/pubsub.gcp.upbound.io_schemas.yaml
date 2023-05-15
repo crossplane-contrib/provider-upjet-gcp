@@ -79,9 +79,9 @@ spec:
                       If it is not provided, the provider project is used.
                     type: string
                   type:
-                    description: The type of the schema definition Default value is
-                      TYPE_UNSPECIFIED. Possible values are TYPE_UNSPECIFIED, PROTOCOL_BUFFER,
-                      and AVRO.
+                    description: 'The type of the schema definition Default value
+                      is TYPE_UNSPECIFIED. Possible values are: TYPE_UNSPECIFIED,
+                      PROTOCOL_BUFFER, AVRO.'
                     type: string
                 type: object
               managementPolicy:
@@ -288,9 +288,9 @@ spec:
                       If it is not provided, the provider project is used.
                     type: string
                   type:
-                    description: The type of the schema definition Default value is
-                      TYPE_UNSPECIFIED. Possible values are TYPE_UNSPECIFIED, PROTOCOL_BUFFER,
-                      and AVRO.
+                    description: 'The type of the schema definition Default value
+                      is TYPE_UNSPECIFIED. Possible values are: TYPE_UNSPECIFIED,
+                      PROTOCOL_BUFFER, AVRO.'
                     type: string
                 type: object
               conditions:

@@ -68,6 +68,28 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  accelerators:
+                    description: List of accelerators enabled for this CDF instance.
+                      If accelerators are enabled it is possible a permadiff will
+                      be created with the Options field. Users will need to either
+                      manually update their state file to include these diffed options,
+                      or include the field in a lifecycle ignore changes block. Structure
+                      is documented below.
+                    items:
+                      properties:
+                        acceleratorType:
+                          description: 'The type of an accelator for a CDF instance.
+                            Possible values are: CDC, HEALTHCARE, CCAI_INSIGHTS.'
+                          type: string
+                        state:
+                          description: 'The type of an accelator for a CDF instance.
+                            Possible values are: ENABLED, DISABLED.'
+                          type: string
+                      required:
+                      - acceleratorType
+                      - state
+                      type: object
+                    type: array
                   cryptoKeyConfig:
                     description: The crypto key configuration. This field is used
                       by the Customer-Managed Encryption Keys (CMEK) feature. Structure
@@ -528,6 +550,25 @@ spec:
             properties:
               atProvider:
                 properties:
+                  accelerators:
+                    description: List of accelerators enabled for this CDF instance.
+                      If accelerators are enabled it is possible a permadiff will
+                      be created with the Options field. Users will need to either
+                      manually update their state file to include these diffed options,
+                      or include the field in a lifecycle ignore changes block. Structure
+                      is documented below.
+                    items:
+                      properties:
+                        acceleratorType:
+                          description: 'The type of an accelator for a CDF instance.
+                            Possible values are: CDC, HEALTHCARE, CCAI_INSIGHTS.'
+                          type: string
+                        state:
+                          description: 'The type of an accelator for a CDF instance.
+                            Possible values are: ENABLED, DISABLED.'
+                          type: string
+                      type: object
+                    type: array
                   apiEndpoint:
                     description: Endpoint on which the REST APIs is accessible.
                     type: string

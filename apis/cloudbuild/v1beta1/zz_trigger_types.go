@@ -275,7 +275,7 @@ type GitFileSourceObservation struct {
 
 	// The type of the repo, since it may not be explicit from the repo field (e.g from a URL).
 	// Values can be UNKNOWN, CLOUD_SOURCE_REPOSITORIES, GITHUB, BITBUCKET_SERVER
-	// Possible values are UNKNOWN, CLOUD_SOURCE_REPOSITORIES, GITHUB, and BITBUCKET_SERVER.
+	// Possible values are: UNKNOWN, CLOUD_SOURCE_REPOSITORIES, GITHUB, BITBUCKET_SERVER.
 	RepoType *string `json:"repoType,omitempty" tf:"repo_type,omitempty"`
 
 	// The branch, tag, arbitrary ref, or SHA version of the repo to use when resolving the
@@ -301,7 +301,7 @@ type GitFileSourceParameters struct {
 
 	// The type of the repo, since it may not be explicit from the repo field (e.g from a URL).
 	// Values can be UNKNOWN, CLOUD_SOURCE_REPOSITORIES, GITHUB, BITBUCKET_SERVER
-	// Possible values are UNKNOWN, CLOUD_SOURCE_REPOSITORIES, GITHUB, and BITBUCKET_SERVER.
+	// Possible values are: UNKNOWN, CLOUD_SOURCE_REPOSITORIES, GITHUB, BITBUCKET_SERVER.
 	// +kubebuilder:validation:Required
 	RepoType *string `json:"repoType" tf:"repo_type,omitempty"`
 
@@ -376,7 +376,7 @@ type GithubPullRequestObservation struct {
 	Branch *string `json:"branch,omitempty" tf:"branch,omitempty"`
 
 	// Configure builds to run whether a repository owner or collaborator need to comment /gcbrun.
-	// Possible values are COMMENTS_DISABLED, COMMENTS_ENABLED, and COMMENTS_ENABLED_FOR_EXTERNAL_CONTRIBUTORS_ONLY.
+	// Possible values are: COMMENTS_DISABLED, COMMENTS_ENABLED, COMMENTS_ENABLED_FOR_EXTERNAL_CONTRIBUTORS_ONLY.
 	CommentControl *string `json:"commentControl,omitempty" tf:"comment_control,omitempty"`
 
 	// Only trigger a build if the revision regex does NOT match the revision regex.
@@ -392,7 +392,7 @@ type GithubPullRequestParameters struct {
 	Branch *string `json:"branch" tf:"branch,omitempty"`
 
 	// Configure builds to run whether a repository owner or collaborator need to comment /gcbrun.
-	// Possible values are COMMENTS_DISABLED, COMMENTS_ENABLED, and COMMENTS_ENABLED_FOR_EXTERNAL_CONTRIBUTORS_ONLY.
+	// Possible values are: COMMENTS_DISABLED, COMMENTS_ENABLED, COMMENTS_ENABLED_FOR_EXTERNAL_CONTRIBUTORS_ONLY.
 	// +kubebuilder:validation:Optional
 	CommentControl *string `json:"commentControl,omitempty" tf:"comment_control,omitempty"`
 
@@ -484,19 +484,19 @@ type OptionsObservation struct {
 	Env []*string `json:"env,omitempty" tf:"env,omitempty"`
 
 	// Option to define build log streaming behavior to Google Cloud Storage.
-	// Possible values are STREAM_DEFAULT, STREAM_ON, and STREAM_OFF.
+	// Possible values are: STREAM_DEFAULT, STREAM_ON, STREAM_OFF.
 	LogStreamingOption *string `json:"logStreamingOption,omitempty" tf:"log_streaming_option,omitempty"`
 
 	// Option to specify the logging mode, which determines if and where build logs are stored.
-	// Possible values are LOGGING_UNSPECIFIED, LEGACY, GCS_ONLY, STACKDRIVER_ONLY, CLOUD_LOGGING_ONLY, and NONE.
+	// Possible values are: LOGGING_UNSPECIFIED, LEGACY, GCS_ONLY, STACKDRIVER_ONLY, CLOUD_LOGGING_ONLY, NONE.
 	Logging *string `json:"logging,omitempty" tf:"logging,omitempty"`
 
 	// Compute Engine machine type on which to run the build.
-	// Possible values are UNSPECIFIED, N1_HIGHCPU_8, N1_HIGHCPU_32, E2_HIGHCPU_8, and E2_HIGHCPU_32.
+	// Possible values are: UNSPECIFIED, N1_HIGHCPU_8, N1_HIGHCPU_32, E2_HIGHCPU_8, E2_HIGHCPU_32.
 	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
 
 	// Requested verifiability options.
-	// Possible values are NOT_VERIFIED and VERIFIED.
+	// Possible values are: NOT_VERIFIED, VERIFIED.
 	RequestedVerifyOption *string `json:"requestedVerifyOption,omitempty" tf:"requested_verify_option,omitempty"`
 
 	// A list of environment variables which are encrypted using
@@ -506,13 +506,13 @@ type OptionsObservation struct {
 	SecretEnv []*string `json:"secretEnv,omitempty" tf:"secret_env,omitempty"`
 
 	// Requested hash for SourceProvenance.
-	// Each value may be one of NONE, SHA256, and MD5.
+	// Each value may be one of: NONE, SHA256, MD5.
 	SourceProvenanceHash []*string `json:"sourceProvenanceHash,omitempty" tf:"source_provenance_hash,omitempty"`
 
 	// Option to specify behavior when there is an error in the substitution checks.
 	// NOTE this is always set to ALLOW_LOOSE for triggered builds and cannot be overridden
 	// in the build configuration file.
-	// Possible values are MUST_MATCH and ALLOW_LOOSE.
+	// Possible values are: MUST_MATCH, ALLOW_LOOSE.
 	SubstitutionOption *string `json:"substitutionOption,omitempty" tf:"substitution_option,omitempty"`
 
 	// List of volumes to mount into the build step.
@@ -552,22 +552,22 @@ type OptionsParameters struct {
 	Env []*string `json:"env,omitempty" tf:"env,omitempty"`
 
 	// Option to define build log streaming behavior to Google Cloud Storage.
-	// Possible values are STREAM_DEFAULT, STREAM_ON, and STREAM_OFF.
+	// Possible values are: STREAM_DEFAULT, STREAM_ON, STREAM_OFF.
 	// +kubebuilder:validation:Optional
 	LogStreamingOption *string `json:"logStreamingOption,omitempty" tf:"log_streaming_option,omitempty"`
 
 	// Option to specify the logging mode, which determines if and where build logs are stored.
-	// Possible values are LOGGING_UNSPECIFIED, LEGACY, GCS_ONLY, STACKDRIVER_ONLY, CLOUD_LOGGING_ONLY, and NONE.
+	// Possible values are: LOGGING_UNSPECIFIED, LEGACY, GCS_ONLY, STACKDRIVER_ONLY, CLOUD_LOGGING_ONLY, NONE.
 	// +kubebuilder:validation:Optional
 	Logging *string `json:"logging,omitempty" tf:"logging,omitempty"`
 
 	// Compute Engine machine type on which to run the build.
-	// Possible values are UNSPECIFIED, N1_HIGHCPU_8, N1_HIGHCPU_32, E2_HIGHCPU_8, and E2_HIGHCPU_32.
+	// Possible values are: UNSPECIFIED, N1_HIGHCPU_8, N1_HIGHCPU_32, E2_HIGHCPU_8, E2_HIGHCPU_32.
 	// +kubebuilder:validation:Optional
 	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
 
 	// Requested verifiability options.
-	// Possible values are NOT_VERIFIED and VERIFIED.
+	// Possible values are: NOT_VERIFIED, VERIFIED.
 	// +kubebuilder:validation:Optional
 	RequestedVerifyOption *string `json:"requestedVerifyOption,omitempty" tf:"requested_verify_option,omitempty"`
 
@@ -579,14 +579,14 @@ type OptionsParameters struct {
 	SecretEnv []*string `json:"secretEnv,omitempty" tf:"secret_env,omitempty"`
 
 	// Requested hash for SourceProvenance.
-	// Each value may be one of NONE, SHA256, and MD5.
+	// Each value may be one of: NONE, SHA256, MD5.
 	// +kubebuilder:validation:Optional
 	SourceProvenanceHash []*string `json:"sourceProvenanceHash,omitempty" tf:"source_provenance_hash,omitempty"`
 
 	// Option to specify behavior when there is an error in the substitution checks.
 	// NOTE this is always set to ALLOW_LOOSE for triggered builds and cannot be overridden
 	// in the build configuration file.
-	// Possible values are MUST_MATCH and ALLOW_LOOSE.
+	// Possible values are: MUST_MATCH, ALLOW_LOOSE.
 	// +kubebuilder:validation:Optional
 	SubstitutionOption *string `json:"substitutionOption,omitempty" tf:"substitution_option,omitempty"`
 
@@ -611,10 +611,12 @@ type PubsubConfigObservation struct {
 	// Service account that will make the push request.
 	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty" tf:"service_account_email,omitempty"`
 
+	// (Output)
 	// Potential issues with the underlying Pub/Sub subscription configuration.
 	// Only populated on get requests.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 
+	// (Output)
 	// Output only. Name of the subscription.
 	Subscription *string `json:"subscription,omitempty" tf:"subscription,omitempty"`
 
@@ -651,7 +653,7 @@ type PullRequestObservation struct {
 	Branch *string `json:"branch,omitempty" tf:"branch,omitempty"`
 
 	// Configure builds to run whether a repository owner or collaborator need to comment /gcbrun.
-	// Possible values are COMMENTS_DISABLED, COMMENTS_ENABLED, and COMMENTS_ENABLED_FOR_EXTERNAL_CONTRIBUTORS_ONLY.
+	// Possible values are: COMMENTS_DISABLED, COMMENTS_ENABLED, COMMENTS_ENABLED_FOR_EXTERNAL_CONTRIBUTORS_ONLY.
 	CommentControl *string `json:"commentControl,omitempty" tf:"comment_control,omitempty"`
 
 	// Only trigger a build if the revision regex does NOT match the revision regex.
@@ -667,7 +669,7 @@ type PullRequestParameters struct {
 	Branch *string `json:"branch" tf:"branch,omitempty"`
 
 	// Configure builds to run whether a repository owner or collaborator need to comment /gcbrun.
-	// Possible values are COMMENTS_DISABLED, COMMENTS_ENABLED, and COMMENTS_ENABLED_FOR_EXTERNAL_CONTRIBUTORS_ONLY.
+	// Possible values are: COMMENTS_DISABLED, COMMENTS_ENABLED, COMMENTS_ENABLED_FOR_EXTERNAL_CONTRIBUTORS_ONLY.
 	// +kubebuilder:validation:Optional
 	CommentControl *string `json:"commentControl,omitempty" tf:"comment_control,omitempty"`
 
@@ -872,7 +874,7 @@ type SourceToBuildObservation struct {
 
 	// The type of the repo, since it may not be explicit from the repo field (e.g from a URL).
 	// Values can be UNKNOWN, CLOUD_SOURCE_REPOSITORIES, GITHUB, BITBUCKET_SERVER
-	// Possible values are UNKNOWN, CLOUD_SOURCE_REPOSITORIES, GITHUB, and BITBUCKET_SERVER.
+	// Possible values are: UNKNOWN, CLOUD_SOURCE_REPOSITORIES, GITHUB, BITBUCKET_SERVER.
 	RepoType *string `json:"repoType,omitempty" tf:"repo_type,omitempty"`
 
 	// The URI of the repo .
@@ -892,7 +894,7 @@ type SourceToBuildParameters struct {
 
 	// The type of the repo, since it may not be explicit from the repo field (e.g from a URL).
 	// Values can be UNKNOWN, CLOUD_SOURCE_REPOSITORIES, GITHUB, BITBUCKET_SERVER
-	// Possible values are UNKNOWN, CLOUD_SOURCE_REPOSITORIES, GITHUB, and BITBUCKET_SERVER.
+	// Possible values are: UNKNOWN, CLOUD_SOURCE_REPOSITORIES, GITHUB, BITBUCKET_SERVER.
 	// +kubebuilder:validation:Required
 	RepoType *string `json:"repoType" tf:"repo_type,omitempty"`
 
@@ -1189,7 +1191,7 @@ type TriggerObservation struct {
 	// Build logs will be sent back to GitHub as part of the checkrun
 	// result.  Values can be INCLUDE_BUILD_LOGS_UNSPECIFIED or
 	// INCLUDE_BUILD_LOGS_WITH_STATUS
-	// Possible values are INCLUDE_BUILD_LOGS_UNSPECIFIED and INCLUDE_BUILD_LOGS_WITH_STATUS.
+	// Possible values are: INCLUDE_BUILD_LOGS_UNSPECIFIED, INCLUDE_BUILD_LOGS_WITH_STATUS.
 	IncludeBuildLogs *string `json:"includeBuildLogs,omitempty" tf:"include_build_logs,omitempty"`
 
 	// ignoredFiles and includedFiles are file glob matches using https://golang.org/pkg/path/filepath/#Match
@@ -1320,7 +1322,7 @@ type TriggerParameters struct {
 	// Build logs will be sent back to GitHub as part of the checkrun
 	// result.  Values can be INCLUDE_BUILD_LOGS_UNSPECIFIED or
 	// INCLUDE_BUILD_LOGS_WITH_STATUS
-	// Possible values are INCLUDE_BUILD_LOGS_UNSPECIFIED and INCLUDE_BUILD_LOGS_WITH_STATUS.
+	// Possible values are: INCLUDE_BUILD_LOGS_UNSPECIFIED, INCLUDE_BUILD_LOGS_WITH_STATUS.
 	// +kubebuilder:validation:Optional
 	IncludeBuildLogs *string `json:"includeBuildLogs,omitempty" tf:"include_build_logs,omitempty"`
 
@@ -1509,6 +1511,7 @@ type WebhookConfigObservation struct {
 	// Resource name for the secret required as a URL parameter.
 	Secret *string `json:"secret,omitempty" tf:"secret,omitempty"`
 
+	// (Output)
 	// Potential issues with the underlying Pub/Sub subscription configuration.
 	// Only populated on get requests.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`

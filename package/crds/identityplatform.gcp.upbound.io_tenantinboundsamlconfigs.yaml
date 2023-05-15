@@ -87,7 +87,7 @@ spec:
                           items:
                             properties:
                               x509CertificateSecretRef:
-                                description: The x509 certificate
+                                description: (Output) The x509 certificate
                                 properties:
                                   key:
                                     description: The key to select.
@@ -453,7 +453,7 @@ spec:
                           items:
                             properties:
                               x509CertificateSecretRef:
-                                description: The x509 certificate
+                                description: (Output) The x509 certificate
                                 properties:
                                   key:
                                     description: The key to select.
@@ -506,13 +506,13 @@ spec:
                             Must start with https://.
                           type: string
                         spCertificates:
-                          description: The IDP's certificate data to verify the signature
-                            in the SAMLResponse issued by the IDP. Structure is documented
-                            below.
+                          description: (Output) The IDP's certificate data to verify
+                            the signature in the SAMLResponse issued by the IDP. Structure
+                            is documented below.
                           items:
                             properties:
                               x509Certificate:
-                                description: The x509 certificate
+                                description: (Output) The x509 certificate
                                 type: string
                             type: object
                           type: array

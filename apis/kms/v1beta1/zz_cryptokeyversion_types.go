@@ -31,6 +31,7 @@ type AttestationObservation struct {
 	// Structure is documented below.
 	CertChains []CertChainsObservation `json:"certChains,omitempty" tf:"cert_chains,omitempty"`
 
+	// (Output)
 	// The attestation data provided by the HSM when the key operation was performed.
 	Content *string `json:"content,omitempty" tf:"content,omitempty"`
 
@@ -38,6 +39,7 @@ type AttestationObservation struct {
 	// Structure is documented below.
 	ExternalProtectionLevelOptions []ExternalProtectionLevelOptionsObservation `json:"externalProtectionLevelOptions,omitempty" tf:"external_protection_level_options,omitempty"`
 
+	// (Output)
 	// The format of the attestation data.
 	Format *string `json:"format,omitempty" tf:"format,omitempty"`
 }
@@ -87,7 +89,7 @@ type CryptoKeyVersionObservation struct {
 	ProtectionLevel *string `json:"protectionLevel,omitempty" tf:"protection_level,omitempty"`
 
 	// The current state of the CryptoKeyVersion.
-	// Possible values are PENDING_GENERATION, ENABLED, DISABLED, DESTROYED, DESTROY_SCHEDULED, PENDING_IMPORT, and IMPORT_FAILED.
+	// Possible values are: PENDING_GENERATION, ENABLED, DISABLED, DESTROYED, DESTROY_SCHEDULED, PENDING_IMPORT, IMPORT_FAILED.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 }
 
@@ -109,7 +111,7 @@ type CryptoKeyVersionParameters struct {
 	CryptoKeySelector *v1.Selector `json:"cryptoKeySelector,omitempty" tf:"-"`
 
 	// The current state of the CryptoKeyVersion.
-	// Possible values are PENDING_GENERATION, ENABLED, DISABLED, DESTROYED, DESTROY_SCHEDULED, PENDING_IMPORT, and IMPORT_FAILED.
+	// Possible values are: PENDING_GENERATION, ENABLED, DISABLED, DESTROYED, DESTROY_SCHEDULED, PENDING_IMPORT, IMPORT_FAILED.
 	// +kubebuilder:validation:Optional
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 }

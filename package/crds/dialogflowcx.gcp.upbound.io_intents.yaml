@@ -556,7 +556,8 @@ spec:
                     items:
                       properties:
                         id:
-                          description: The unique identifier of the training phrase.
+                          description: (Output) The unique identifier of the training
+                            phrase.
                           type: string
                         parts:
                           description: 'The ordered list of training phrase parts.

@@ -74,8 +74,8 @@ spec:
                     items:
                       properties:
                         argumentKind:
-                          description: Defaults to FIXED_TYPE. Default value is FIXED_TYPE.
-                            Possible values are FIXED_TYPE and ANY_TYPE.
+                          description: 'Defaults to FIXED_TYPE. Default value is FIXED_TYPE.
+                            Possible values are: FIXED_TYPE, ANY_TYPE.'
                           type: string
                         dataType:
                           description: 'A JSON schema for the data type. Required
@@ -89,9 +89,9 @@ spec:
                             we recommend using the schema as returned by the API.'
                           type: string
                         mode:
-                          description: Specifies whether the argument is input or
+                          description: 'Specifies whether the argument is input or
                             output. Can be set for procedures only. Possible values
-                            are IN, OUT, and INOUT.
+                            are: IN, OUT, INOUT.'
                           type: string
                         name:
                           description: The name of this argument. Can be absent for
@@ -184,9 +184,9 @@ spec:
                     description: The description of the routine if defined.
                     type: string
                   determinismLevel:
-                    description: The determinism level of the JavaScript UDF if defined.
-                      Possible values are DETERMINISM_LEVEL_UNSPECIFIED, DETERMINISTIC,
-                      and NOT_DETERMINISTIC.
+                    description: 'The determinism level of the JavaScript UDF if defined.
+                      Possible values are: DETERMINISM_LEVEL_UNSPECIFIED, DETERMINISTIC,
+                      NOT_DETERMINISTIC.'
                     type: string
                   importedLibraries:
                     description: Optional. If language = "JAVASCRIPT", this field
@@ -195,8 +195,8 @@ spec:
                       type: string
                     type: array
                   language:
-                    description: The language of the routine. Possible values are
-                      SQL and JAVASCRIPT.
+                    description: 'The language of the routine. Possible values are:
+                      SQL, JAVASCRIPT.'
                     type: string
                   project:
                     description: The ID of the project in which the resource belongs.
@@ -225,8 +225,8 @@ spec:
                       as returned by the API.'
                     type: string
                   routineType:
-                    description: The type of routine. Possible values are SCALAR_FUNCTION,
-                      PROCEDURE, and TABLE_VALUED_FUNCTION.
+                    description: 'The type of routine. Possible values are: SCALAR_FUNCTION,
+                      PROCEDURE, TABLE_VALUED_FUNCTION.'
                     type: string
                 type: object
               managementPolicy:
@@ -429,8 +429,8 @@ spec:
                     items:
                       properties:
                         argumentKind:
-                          description: Defaults to FIXED_TYPE. Default value is FIXED_TYPE.
-                            Possible values are FIXED_TYPE and ANY_TYPE.
+                          description: 'Defaults to FIXED_TYPE. Default value is FIXED_TYPE.
+                            Possible values are: FIXED_TYPE, ANY_TYPE.'
                           type: string
                         dataType:
                           description: 'A JSON schema for the data type. Required
@@ -444,9 +444,9 @@ spec:
                             we recommend using the schema as returned by the API.'
                           type: string
                         mode:
-                          description: Specifies whether the argument is input or
+                          description: 'Specifies whether the argument is input or
                             output. Can be set for procedures only. Possible values
-                            are IN, OUT, and INOUT.
+                            are: IN, OUT, INOUT.'
                           type: string
                         name:
                           description: The name of this argument. Can be absent for
@@ -470,9 +470,9 @@ spec:
                     description: The description of the routine if defined.
                     type: string
                   determinismLevel:
-                    description: The determinism level of the JavaScript UDF if defined.
-                      Possible values are DETERMINISM_LEVEL_UNSPECIFIED, DETERMINISTIC,
-                      and NOT_DETERMINISTIC.
+                    description: 'The determinism level of the JavaScript UDF if defined.
+                      Possible values are: DETERMINISM_LEVEL_UNSPECIFIED, DETERMINISTIC,
+                      NOT_DETERMINISTIC.'
                     type: string
                   id:
                     description: an identifier for the resource with format projects/{{project}}/datasets/{{dataset_id}}/routines/{{routine_id}}
@@ -484,8 +484,8 @@ spec:
                       type: string
                     type: array
                   language:
-                    description: The language of the routine. Possible values are
-                      SQL and JAVASCRIPT.
+                    description: 'The language of the routine. Possible values are:
+                      SQL, JAVASCRIPT.'
                     type: string
                   lastModifiedTime:
                     description: The time when this routine was modified, in milliseconds
@@ -518,8 +518,8 @@ spec:
                       as returned by the API.'
                     type: string
                   routineType:
-                    description: The type of routine. Possible values are SCALAR_FUNCTION,
-                      PROCEDURE, and TABLE_VALUED_FUNCTION.
+                    description: 'The type of routine. Possible values are: SCALAR_FUNCTION,
+                      PROCEDURE, TABLE_VALUED_FUNCTION.'
                     type: string
                 type: object
               conditions:

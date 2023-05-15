@@ -19,7 +19,7 @@ spec:
     location: us-west1
     project: my-project-name
     resourceSpec:
-    - name: projects/my-project-name/buckets/dataplex-bucket-
+    - name: projects/my-project-name/buckets/bucket
       type: STORAGE_BUCKET
 
 ---

@@ -89,11 +89,11 @@ spec:
                     items:
                       properties:
                         type:
-                          description: The type of supported feature. Read Enabling
+                          description: 'The type of supported feature. Read Enabling
                             guest operating system features to see a list of available
-                            options. Possible values are MULTI_IP_SUBNET, SECURE_BOOT,
+                            options. Possible values are: MULTI_IP_SUBNET, SECURE_BOOT,
                             SEV_CAPABLE, UEFI_COMPATIBLE, VIRTIO_SCSI_MULTIQUEUE,
-                            WINDOWS, and GVNIC.
+                            WINDOWS, GVNIC, SEV_LIVE_MIGRATABLE.'
                           type: string
                       required:
                       - type
@@ -137,11 +137,11 @@ spec:
                     items:
                       properties:
                         containerType:
-                          description: The format used to encode and transmit the
+                          description: 'The format used to encode and transmit the
                             block device, which should be TAR. This is just a container
                             and transmission format and not a runtime format. Provided
                             by the client when the disk image is created. Default
-                            value is TAR. Possible values are TAR.
+                            value is TAR. Possible values are: TAR.'
                           type: string
                         sha1:
                           description: An optional SHA1 checksum of the disk image
@@ -393,11 +393,11 @@ spec:
                     items:
                       properties:
                         type:
-                          description: The type of supported feature. Read Enabling
+                          description: 'The type of supported feature. Read Enabling
                             guest operating system features to see a list of available
-                            options. Possible values are MULTI_IP_SUBNET, SECURE_BOOT,
+                            options. Possible values are: MULTI_IP_SUBNET, SECURE_BOOT,
                             SEV_CAPABLE, UEFI_COMPATIBLE, VIRTIO_SCSI_MULTIQUEUE,
-                            WINDOWS, and GVNIC.
+                            WINDOWS, GVNIC, SEV_LIVE_MIGRATABLE.'
                           type: string
                       type: object
                     type: array
@@ -446,11 +446,11 @@ spec:
                     items:
                       properties:
                         containerType:
-                          description: The format used to encode and transmit the
+                          description: 'The format used to encode and transmit the
                             block device, which should be TAR. This is just a container
                             and transmission format and not a runtime format. Provided
                             by the client when the disk image is created. Default
-                            value is TAR. Possible values are TAR.
+                            value is TAR. Possible values are: TAR.'
                           type: string
                         sha1:
                           description: An optional SHA1 checksum of the disk image

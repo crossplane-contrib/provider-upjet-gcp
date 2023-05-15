@@ -73,6 +73,98 @@ spec:
                       is documented below.
                     items:
                       properties:
+                        imageTransformations:
+                          description: Treat the dataset as an image and redact. Structure
+                            is documented below.
+                          items:
+                            properties:
+                              transforms:
+                                description: For determination of how redaction of
+                                  images should occur. Structure is documented below.
+                                items:
+                                  properties:
+                                    allInfoTypes:
+                                      description: Apply transformation to all findings
+                                        not specified in other ImageTransformation's
+                                        selectedInfoTypes.
+                                      items:
+                                        type: object
+                                      type: array
+                                    allText:
+                                      description: Apply transformation to all text
+                                        that doesn't match an infoType.
+                                      items:
+                                        type: object
+                                      type: array
+                                    redactionColor:
+                                      description: The color to use when redacting
+                                        content from an image. If not specified, the
+                                        default is black. Structure is documented
+                                        below.
+                                      items:
+                                        properties:
+                                          blue:
+                                            description: The amount of blue in the
+                                              color as a value in the interval [0,
+                                              1].
+                                            type: number
+                                          green:
+                                            description: The amount of green in the
+                                              color as a value in the interval [0,
+                                              1].
+                                            type: number
+                                          red:
+                                            description: The amount of red in the
+                                              color as a value in the interval [0,
+                                              1].
+                                            type: number
+                                        type: object
+                                      type: array
+                                    selectedInfoTypes:
+                                      description: Apply transformation to the selected
+                                        infoTypes. Structure is documented below.
+                                      items:
+                                        properties:
+                                          infoTypes:
+                                            description: InfoTypes to apply the transformation
+                                              to. Leaving this empty will apply the
+                                              transformation to apply to all findings
+                                              that correspond to infoTypes that were
+                                              requested in InspectConfig. Structure
+                                              is documented below.
+                                            items:
+                                              properties:
+                                                name:
+                                                  description: 'Name of the key. This
+                                                    is an arbitrary string used to
+                                                    differentiate different keys.
+                                                    A unique key is generated per
+                                                    name: two separate TransientCryptoKey
+                                                    protos share the same generated
+                                                    key if their names are the same.
+                                                    When the data crypto key is generated,
+                                                    this name is not used in any way
+                                                    (repeating the api call will result
+                                                    in a different key being generated).'
+                                                  type: string
+                                                version:
+                                                  description: Optional version name
+                                                    for this InfoType.
+                                                  type: string
+                                              required:
+                                              - name
+                                              type: object
+                                            type: array
+                                        required:
+                                        - infoTypes
+                                        type: object
+                                      type: array
+                                  type: object
+                                type: array
+                            required:
+                            - transforms
+                            type: object
+                          type: array
                         infoTypeTransformations:
                           description: Treat the dataset as free-form text and apply
                             the same free text transformation everywhere Structure
@@ -105,6 +197,10 @@ spec:
                                               api call will result in a different
                                               key being generated).'
                                             type: string
+                                          version:
+                                            description: Optional version name for
+                                              this InfoType.
+                                            type: string
                                         required:
                                         - name
                                         type: object
@@ -133,13 +229,13 @@ spec:
                                                           not transform when masking.
                                                         type: string
                                                       commonCharactersToIgnore:
-                                                        description: Common characters
+                                                        description: 'Common characters
                                                           to not transform when masking.
                                                           Useful to avoid removing
                                                           punctuation. Possible values
-                                                          are NUMERIC, ALPHA_UPPER_CASE,
+                                                          are: NUMERIC, ALPHA_UPPER_CASE,
                                                           ALPHA_LOWER_CASE, PUNCTUATION,
-                                                          and WHITESPACE.
+                                                          WHITESPACE.'
                                                         type: string
                                                     type: object
                                                   type: array
@@ -381,10 +477,10 @@ spec:
                                             items:
                                               properties:
                                                 commonAlphabet:
-                                                  description: Common alphabets. Possible
-                                                    values are FFX_COMMON_NATIVE_ALPHABET_UNSPECIFIED,
+                                                  description: 'Common alphabets.
+                                                    Possible values are: FFX_COMMON_NATIVE_ALPHABET_UNSPECIFIED,
                                                     NUMERIC, HEXADECIMAL, UPPER_CASE_ALPHA_NUMERIC,
-                                                    and ALPHA_NUMERIC.
+                                                    ALPHA_NUMERIC.'
                                                   type: string
                                                 context:
                                                   description: Points to the field
@@ -653,11 +749,11 @@ spec:
                                                           type: object
                                                         type: array
                                                       dayOfWeekValue:
-                                                        description: Represents a
+                                                        description: 'Represents a
                                                           day of the week. Possible
-                                                          values are MONDAY, TUESDAY,
+                                                          values are: MONDAY, TUESDAY,
                                                           WEDNESDAY, THURSDAY, FRIDAY,
-                                                          SATURDAY, and SUNDAY.
+                                                          SATURDAY, SUNDAY.'
                                                         type: string
                                                       floatValue:
                                                         description: A float value.
@@ -712,6 +808,39 @@ spec:
                                                   type: array
                                               required:
                                               - newValue
+                                              type: object
+                                            type: array
+                                          replaceDictionaryConfig:
+                                            description: Replace with a value randomly
+                                              drawn (with replacement) from a dictionary.
+                                              Structure is documented below.
+                                            items:
+                                              properties:
+                                                wordList:
+                                                  description: A list of words to
+                                                    select from for random replacement.
+                                                    The limits page contains details
+                                                    about the size limits of dictionaries.
+                                                    Structure is documented below.
+                                                  items:
+                                                    properties:
+                                                      words:
+                                                        description: Words or phrases
+                                                          defining the dictionary.
+                                                          The dictionary must contain
+                                                          at least one phrase and
+                                                          every phrase must contain
+                                                          at least 2 characters that
+                                                          are letters or digits.
+                                                        items:
+                                                          type: string
+                                                        type: array
+                                                    required:
+                                                    - words
+                                                    type: object
+                                                  type: array
+                                              required:
+                                              - wordList
                                               type: object
                                             type: array
                                           replaceWithInfoTypeConfig:
@@ -803,15 +932,15 @@ spec:
                                                                 type: object
                                                               type: array
                                                             operator:
-                                                              description: Operator
+                                                              description: 'Operator
                                                                 used to compare the
                                                                 field or infoType
                                                                 to the value. Possible
-                                                                values are EQUAL_TO,
+                                                                values are: EQUAL_TO,
                                                                 NOT_EQUAL_TO, GREATER_THAN,
                                                                 LESS_THAN, GREATER_THAN_OR_EQUALS,
                                                                 LESS_THAN_OR_EQUALS,
-                                                                and EXISTS.
+                                                                EXISTS.'
                                                               type: string
                                                             value:
                                                               description: Value to
@@ -891,14 +1020,14 @@ spec:
                                                                       type: object
                                                                     type: array
                                                                   dayOfWeekValue:
-                                                                    description: Represents
+                                                                    description: 'Represents
                                                                       a day of the
                                                                       week. Possible
-                                                                      values are MONDAY,
-                                                                      TUESDAY, WEDNESDAY,
-                                                                      THURSDAY, FRIDAY,
-                                                                      SATURDAY, and
-                                                                      SUNDAY.
+                                                                      values are:
+                                                                      MONDAY, TUESDAY,
+                                                                      WEDNESDAY, THURSDAY,
+                                                                      FRIDAY, SATURDAY,
+                                                                      SUNDAY.'
                                                                     type: string
                                                                   floatValue:
                                                                     description: A
@@ -978,11 +1107,11 @@ spec:
                                                     type: object
                                                   type: array
                                                 logicalOperator:
-                                                  description: The operator to apply
+                                                  description: 'The operator to apply
                                                     to the result of conditions. Default
                                                     and currently only supported value
                                                     is AND. Default value is AND.
-                                                    Possible values are AND.
+                                                    Possible values are: AND.'
                                                   type: string
                                               type: object
                                             type: array
@@ -1105,12 +1234,12 @@ spec:
                                                                 type: object
                                                               type: array
                                                             dayOfWeekValue:
-                                                              description: Represents
+                                                              description: 'Represents
                                                                 a day of the week.
-                                                                Possible values are
+                                                                Possible values are:
                                                                 MONDAY, TUESDAY, WEDNESDAY,
                                                                 THURSDAY, FRIDAY,
-                                                                SATURDAY, and SUNDAY.
+                                                                SATURDAY, SUNDAY.'
                                                               type: string
                                                             floatValue:
                                                               description: A float
@@ -1231,12 +1360,12 @@ spec:
                                                                 type: object
                                                               type: array
                                                             dayOfWeekValue:
-                                                              description: Represents
+                                                              description: 'Represents
                                                                 a day of the week.
-                                                                Possible values are
+                                                                Possible values are:
                                                                 MONDAY, TUESDAY, WEDNESDAY,
                                                                 THURSDAY, FRIDAY,
-                                                                SATURDAY, and SUNDAY.
+                                                                SATURDAY, SUNDAY.'
                                                               type: string
                                                             floatValue:
                                                               description: A float
@@ -1352,12 +1481,12 @@ spec:
                                                                 type: object
                                                               type: array
                                                             dayOfWeekValue:
-                                                              description: Represents
+                                                              description: 'Represents
                                                                 a day of the week.
-                                                                Possible values are
+                                                                Possible values are:
                                                                 MONDAY, TUESDAY, WEDNESDAY,
                                                                 THURSDAY, FRIDAY,
-                                                                SATURDAY, and SUNDAY.
+                                                                SATURDAY, SUNDAY.'
                                                               type: string
                                                             floatValue:
                                                               description: A float
@@ -1440,13 +1569,13 @@ spec:
                                                           not transform when masking.
                                                         type: string
                                                       commonCharactersToIgnore:
-                                                        description: Common characters
+                                                        description: 'Common characters
                                                           to not transform when masking.
                                                           Useful to avoid removing
                                                           punctuation. Possible values
-                                                          are NUMERIC, ALPHA_UPPER_CASE,
+                                                          are: NUMERIC, ALPHA_UPPER_CASE,
                                                           ALPHA_LOWER_CASE, PUNCTUATION,
-                                                          and WHITESPACE.
+                                                          WHITESPACE.'
                                                         type: string
                                                     type: object
                                                   type: array
@@ -1802,10 +1931,10 @@ spec:
                                             items:
                                               properties:
                                                 commonAlphabet:
-                                                  description: Common alphabets. Possible
-                                                    values are FFX_COMMON_NATIVE_ALPHABET_UNSPECIFIED,
+                                                  description: 'Common alphabets.
+                                                    Possible values are: FFX_COMMON_NATIVE_ALPHABET_UNSPECIFIED,
                                                     NUMERIC, HEXADECIMAL, UPPER_CASE_ALPHA_NUMERIC,
-                                                    and ALPHA_NUMERIC.
+                                                    ALPHA_NUMERIC.'
                                                   type: string
                                                 context:
                                                   description: Points to the field
@@ -2262,11 +2391,11 @@ spec:
                                                           type: object
                                                         type: array
                                                       dayOfWeekValue:
-                                                        description: Represents a
+                                                        description: 'Represents a
                                                           day of the week. Possible
-                                                          values are MONDAY, TUESDAY,
+                                                          values are: MONDAY, TUESDAY,
                                                           WEDNESDAY, THURSDAY, FRIDAY,
-                                                          SATURDAY, and SUNDAY.
+                                                          SATURDAY, SUNDAY.'
                                                         type: string
                                                       floatValue:
                                                         description: A float value.
@@ -2371,11 +2500,11 @@ spec:
                                                           type: object
                                                         type: array
                                                       dayOfWeekValue:
-                                                        description: Represents a
+                                                        description: 'Represents a
                                                           day of the week. Possible
-                                                          values are MONDAY, TUESDAY,
+                                                          values are: MONDAY, TUESDAY,
                                                           WEDNESDAY, THURSDAY, FRIDAY,
-                                                          SATURDAY, and SUNDAY.
+                                                          SATURDAY, SUNDAY.'
                                                         type: string
                                                       floatValue:
                                                         description: A float value.
@@ -2498,11 +2627,11 @@ spec:
                                                           type: object
                                                         type: array
                                                       dayOfWeekValue:
-                                                        description: Represents a
+                                                        description: 'Represents a
                                                           day of the week. Possible
-                                                          values are MONDAY, TUESDAY,
+                                                          values are: MONDAY, TUESDAY,
                                                           WEDNESDAY, THURSDAY, FRIDAY,
-                                                          SATURDAY, and SUNDAY.
+                                                          SATURDAY, SUNDAY.'
                                                         type: string
                                                       floatValue:
                                                         description: A float value.
@@ -2598,10 +2727,10 @@ spec:
                                             items:
                                               properties:
                                                 partToExtract:
-                                                  description: The part of the time
-                                                    to keep. Possible values are YEAR,
-                                                    MONTH, DAY_OF_MONTH, DAY_OF_WEEK,
-                                                    WEEK_OF_YEAR, and HOUR_OF_DAY.
+                                                  description: 'The part of the time
+                                                    to keep. Possible values are:
+                                                    YEAR, MONTH, DAY_OF_MONTH, DAY_OF_WEEK,
+                                                    WEEK_OF_YEAR, HOUR_OF_DAY.'
                                                   type: string
                                               type: object
                                             type: array
@@ -2682,15 +2811,15 @@ spec:
                                                                 type: object
                                                               type: array
                                                             operator:
-                                                              description: Operator
+                                                              description: 'Operator
                                                                 used to compare the
                                                                 field or infoType
                                                                 to the value. Possible
-                                                                values are EQUAL_TO,
+                                                                values are: EQUAL_TO,
                                                                 NOT_EQUAL_TO, GREATER_THAN,
                                                                 LESS_THAN, GREATER_THAN_OR_EQUALS,
                                                                 LESS_THAN_OR_EQUALS,
-                                                                and EXISTS.
+                                                                EXISTS.'
                                                               type: string
                                                             value:
                                                               description: Value to
@@ -2770,14 +2899,14 @@ spec:
                                                                       type: object
                                                                     type: array
                                                                   dayOfWeekValue:
-                                                                    description: Represents
+                                                                    description: 'Represents
                                                                       a day of the
                                                                       week. Possible
-                                                                      values are MONDAY,
-                                                                      TUESDAY, WEDNESDAY,
-                                                                      THURSDAY, FRIDAY,
-                                                                      SATURDAY, and
-                                                                      SUNDAY.
+                                                                      values are:
+                                                                      MONDAY, TUESDAY,
+                                                                      WEDNESDAY, THURSDAY,
+                                                                      FRIDAY, SATURDAY,
+                                                                      SUNDAY.'
                                                                     type: string
                                                                   floatValue:
                                                                     description: A
@@ -2857,11 +2986,11 @@ spec:
                                                     type: object
                                                   type: array
                                                 logicalOperator:
-                                                  description: The operator to apply
+                                                  description: 'The operator to apply
                                                     to the result of conditions. Default
                                                     and currently only supported value
                                                     is AND. Default value is AND.
-                                                    Possible values are AND.
+                                                    Possible values are: AND.'
                                                   type: string
                                               type: object
                                             type: array
@@ -3080,11 +3209,101 @@ spec:
             properties:
               atProvider:
                 properties:
+                  createTime:
+                    description: The creation timestamp of an deidentifyTemplate.
+                      Set by the server.
+                    type: string
                   deidentifyConfig:
                     description: Configuration of the deidentify template Structure
                       is documented below.
                     items:
                       properties:
+                        imageTransformations:
+                          description: Treat the dataset as an image and redact. Structure
+                            is documented below.
+                          items:
+                            properties:
+                              transforms:
+                                description: For determination of how redaction of
+                                  images should occur. Structure is documented below.
+                                items:
+                                  properties:
+                                    allInfoTypes:
+                                      description: Apply transformation to all findings
+                                        not specified in other ImageTransformation's
+                                        selectedInfoTypes.
+                                      items:
+                                        type: object
+                                      type: array
+                                    allText:
+                                      description: Apply transformation to all text
+                                        that doesn't match an infoType.
+                                      items:
+                                        type: object
+                                      type: array
+                                    redactionColor:
+                                      description: The color to use when redacting
+                                        content from an image. If not specified, the
+                                        default is black. Structure is documented
+                                        below.
+                                      items:
+                                        properties:
+                                          blue:
+                                            description: The amount of blue in the
+                                              color as a value in the interval [0,
+                                              1].
+                                            type: number
+                                          green:
+                                            description: The amount of green in the
+                                              color as a value in the interval [0,
+                                              1].
+                                            type: number
+                                          red:
+                                            description: The amount of red in the
+                                              color as a value in the interval [0,
+                                              1].
+                                            type: number
+                                        type: object
+                                      type: array
+                                    selectedInfoTypes:
+                                      description: Apply transformation to the selected
+                                        infoTypes. Structure is documented below.
+                                      items:
+                                        properties:
+                                          infoTypes:
+                                            description: InfoTypes to apply the transformation
+                                              to. Leaving this empty will apply the
+                                              transformation to apply to all findings
+                                              that correspond to infoTypes that were
+                                              requested in InspectConfig. Structure
+                                              is documented below.
+                                            items:
+                                              properties:
+                                                name:
+                                                  description: 'Name of the key. This
+                                                    is an arbitrary string used to
+                                                    differentiate different keys.
+                                                    A unique key is generated per
+                                                    name: two separate TransientCryptoKey
+                                                    protos share the same generated
+                                                    key if their names are the same.
+                                                    When the data crypto key is generated,
+                                                    this name is not used in any way
+                                                    (repeating the api call will result
+                                                    in a different key being generated).'
+                                                  type: string
+                                                version:
+                                                  description: Optional version name
+                                                    for this InfoType.
+                                                  type: string
+                                              type: object
+                                            type: array
+                                        type: object
+                                      type: array
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
                         infoTypeTransformations:
                           description: Treat the dataset as free-form text and apply
                             the same free text transformation everywhere Structure
@@ -3117,6 +3336,10 @@ spec:
                                               api call will result in a different
                                               key being generated).'
                                             type: string
+                                          version:
+                                            description: Optional version name for
+                                              this InfoType.
+                                            type: string
                                         type: object
                                       type: array
                                     primitiveTransformation:
@@ -3143,13 +3366,13 @@ spec:
                                                           not transform when masking.
                                                         type: string
                                                       commonCharactersToIgnore:
-                                                        description: Common characters
+                                                        description: 'Common characters
                                                           to not transform when masking.
                                                           Useful to avoid removing
                                                           punctuation. Possible values
-                                                          are NUMERIC, ALPHA_UPPER_CASE,
+                                                          are: NUMERIC, ALPHA_UPPER_CASE,
                                                           ALPHA_LOWER_CASE, PUNCTUATION,
-                                                          and WHITESPACE.
+                                                          WHITESPACE.'
                                                         type: string
                                                     type: object
                                                   type: array
@@ -3384,10 +3607,10 @@ spec:
                                             items:
                                               properties:
                                                 commonAlphabet:
-                                                  description: Common alphabets. Possible
-                                                    values are FFX_COMMON_NATIVE_ALPHABET_UNSPECIFIED,
+                                                  description: 'Common alphabets.
+                                                    Possible values are: FFX_COMMON_NATIVE_ALPHABET_UNSPECIFIED,
                                                     NUMERIC, HEXADECIMAL, UPPER_CASE_ALPHA_NUMERIC,
-                                                    and ALPHA_NUMERIC.
+                                                    ALPHA_NUMERIC.'
                                                   type: string
                                                 context:
                                                   description: Points to the field
@@ -3649,11 +3872,11 @@ spec:
                                                           type: object
                                                         type: array
                                                       dayOfWeekValue:
-                                                        description: Represents a
+                                                        description: 'Represents a
                                                           day of the week. Possible
-                                                          values are MONDAY, TUESDAY,
+                                                          values are: MONDAY, TUESDAY,
                                                           WEDNESDAY, THURSDAY, FRIDAY,
-                                                          SATURDAY, and SUNDAY.
+                                                          SATURDAY, SUNDAY.'
                                                         type: string
                                                       floatValue:
                                                         description: A float value.
@@ -3704,6 +3927,35 @@ spec:
                                                           digits. Examples: "2014-10-02T15:01:23Z"
                                                           and "2014-10-02T15:01:23.045123456Z".'
                                                         type: string
+                                                    type: object
+                                                  type: array
+                                              type: object
+                                            type: array
+                                          replaceDictionaryConfig:
+                                            description: Replace with a value randomly
+                                              drawn (with replacement) from a dictionary.
+                                              Structure is documented below.
+                                            items:
+                                              properties:
+                                                wordList:
+                                                  description: A list of words to
+                                                    select from for random replacement.
+                                                    The limits page contains details
+                                                    about the size limits of dictionaries.
+                                                    Structure is documented below.
+                                                  items:
+                                                    properties:
+                                                      words:
+                                                        description: Words or phrases
+                                                          defining the dictionary.
+                                                          The dictionary must contain
+                                                          at least one phrase and
+                                                          every phrase must contain
+                                                          at least 2 characters that
+                                                          are letters or digits.
+                                                        items:
+                                                          type: string
+                                                        type: array
                                                     type: object
                                                   type: array
                                               type: object
@@ -3793,15 +4045,15 @@ spec:
                                                                 type: object
                                                               type: array
                                                             operator:
-                                                              description: Operator
+                                                              description: 'Operator
                                                                 used to compare the
                                                                 field or infoType
                                                                 to the value. Possible
-                                                                values are EQUAL_TO,
+                                                                values are: EQUAL_TO,
                                                                 NOT_EQUAL_TO, GREATER_THAN,
                                                                 LESS_THAN, GREATER_THAN_OR_EQUALS,
                                                                 LESS_THAN_OR_EQUALS,
-                                                                and EXISTS.
+                                                                EXISTS.'
                                                               type: string
                                                             value:
                                                               description: Value to
@@ -3881,14 +4133,14 @@ spec:
                                                                       type: object
                                                                     type: array
                                                                   dayOfWeekValue:
-                                                                    description: Represents
+                                                                    description: 'Represents
                                                                       a day of the
                                                                       week. Possible
-                                                                      values are MONDAY,
-                                                                      TUESDAY, WEDNESDAY,
-                                                                      THURSDAY, FRIDAY,
-                                                                      SATURDAY, and
-                                                                      SUNDAY.
+                                                                      values are:
+                                                                      MONDAY, TUESDAY,
+                                                                      WEDNESDAY, THURSDAY,
+                                                                      FRIDAY, SATURDAY,
+                                                                      SUNDAY.'
                                                                     type: string
                                                                   floatValue:
                                                                     description: A
@@ -3965,11 +4217,11 @@ spec:
                                                     type: object
                                                   type: array
                                                 logicalOperator:
-                                                  description: The operator to apply
+                                                  description: 'The operator to apply
                                                     to the result of conditions. Default
                                                     and currently only supported value
                                                     is AND. Default value is AND.
-                                                    Possible values are AND.
+                                                    Possible values are: AND.'
                                                   type: string
                                               type: object
                                             type: array
@@ -4092,12 +4344,12 @@ spec:
                                                                 type: object
                                                               type: array
                                                             dayOfWeekValue:
-                                                              description: Represents
+                                                              description: 'Represents
                                                                 a day of the week.
-                                                                Possible values are
+                                                                Possible values are:
                                                                 MONDAY, TUESDAY, WEDNESDAY,
                                                                 THURSDAY, FRIDAY,
-                                                                SATURDAY, and SUNDAY.
+                                                                SATURDAY, SUNDAY.'
                                                               type: string
                                                             floatValue:
                                                               description: A float
@@ -4218,12 +4470,12 @@ spec:
                                                                 type: object
                                                               type: array
                                                             dayOfWeekValue:
-                                                              description: Represents
+                                                              description: 'Represents
                                                                 a day of the week.
-                                                                Possible values are
+                                                                Possible values are:
                                                                 MONDAY, TUESDAY, WEDNESDAY,
                                                                 THURSDAY, FRIDAY,
-                                                                SATURDAY, and SUNDAY.
+                                                                SATURDAY, SUNDAY.'
                                                               type: string
                                                             floatValue:
                                                               description: A float
@@ -4339,12 +4591,12 @@ spec:
                                                                 type: object
                                                               type: array
                                                             dayOfWeekValue:
-                                                              description: Represents
+                                                              description: 'Represents
                                                                 a day of the week.
-                                                                Possible values are
+                                                                Possible values are:
                                                                 MONDAY, TUESDAY, WEDNESDAY,
                                                                 THURSDAY, FRIDAY,
-                                                                SATURDAY, and SUNDAY.
+                                                                SATURDAY, SUNDAY.'
                                                               type: string
                                                             floatValue:
                                                               description: A float
@@ -4425,13 +4677,13 @@ spec:
                                                           not transform when masking.
                                                         type: string
                                                       commonCharactersToIgnore:
-                                                        description: Common characters
+                                                        description: 'Common characters
                                                           to not transform when masking.
                                                           Useful to avoid removing
                                                           punctuation. Possible values
-                                                          are NUMERIC, ALPHA_UPPER_CASE,
+                                                          are: NUMERIC, ALPHA_UPPER_CASE,
                                                           ALPHA_LOWER_CASE, PUNCTUATION,
-                                                          and WHITESPACE.
+                                                          WHITESPACE.'
                                                         type: string
                                                     type: object
                                                   type: array
@@ -4773,10 +5025,10 @@ spec:
                                             items:
                                               properties:
                                                 commonAlphabet:
-                                                  description: Common alphabets. Possible
-                                                    values are FFX_COMMON_NATIVE_ALPHABET_UNSPECIFIED,
+                                                  description: 'Common alphabets.
+                                                    Possible values are: FFX_COMMON_NATIVE_ALPHABET_UNSPECIFIED,
                                                     NUMERIC, HEXADECIMAL, UPPER_CASE_ALPHA_NUMERIC,
-                                                    and ALPHA_NUMERIC.
+                                                    ALPHA_NUMERIC.'
                                                   type: string
                                                 context:
                                                   description: Points to the field
@@ -5216,11 +5468,11 @@ spec:
                                                           type: object
                                                         type: array
                                                       dayOfWeekValue:
-                                                        description: Represents a
+                                                        description: 'Represents a
                                                           day of the week. Possible
-                                                          values are MONDAY, TUESDAY,
+                                                          values are: MONDAY, TUESDAY,
                                                           WEDNESDAY, THURSDAY, FRIDAY,
-                                                          SATURDAY, and SUNDAY.
+                                                          SATURDAY, SUNDAY.'
                                                         type: string
                                                       floatValue:
                                                         description: A float value.
@@ -5325,11 +5577,11 @@ spec:
                                                           type: object
                                                         type: array
                                                       dayOfWeekValue:
-                                                        description: Represents a
+                                                        description: 'Represents a
                                                           day of the week. Possible
-                                                          values are MONDAY, TUESDAY,
+                                                          values are: MONDAY, TUESDAY,
                                                           WEDNESDAY, THURSDAY, FRIDAY,
-                                                          SATURDAY, and SUNDAY.
+                                                          SATURDAY, SUNDAY.'
                                                         type: string
                                                       floatValue:
                                                         description: A float value.
@@ -5448,11 +5700,11 @@ spec:
                                                           type: object
                                                         type: array
                                                       dayOfWeekValue:
-                                                        description: Represents a
+                                                        description: 'Represents a
                                                           day of the week. Possible
-                                                          values are MONDAY, TUESDAY,
+                                                          values are: MONDAY, TUESDAY,
                                                           WEDNESDAY, THURSDAY, FRIDAY,
-                                                          SATURDAY, and SUNDAY.
+                                                          SATURDAY, SUNDAY.'
                                                         type: string
                                                       floatValue:
                                                         description: A float value.
@@ -5544,10 +5796,10 @@ spec:
                                             items:
                                               properties:
                                                 partToExtract:
-                                                  description: The part of the time
-                                                    to keep. Possible values are YEAR,
-                                                    MONTH, DAY_OF_MONTH, DAY_OF_WEEK,
-                                                    WEEK_OF_YEAR, and HOUR_OF_DAY.
+                                                  description: 'The part of the time
+                                                    to keep. Possible values are:
+                                                    YEAR, MONTH, DAY_OF_MONTH, DAY_OF_WEEK,
+                                                    WEEK_OF_YEAR, HOUR_OF_DAY.'
                                                   type: string
                                               type: object
                                             type: array
@@ -5625,15 +5877,15 @@ spec:
                                                                 type: object
                                                               type: array
                                                             operator:
-                                                              description: Operator
+                                                              description: 'Operator
                                                                 used to compare the
                                                                 field or infoType
                                                                 to the value. Possible
-                                                                values are EQUAL_TO,
+                                                                values are: EQUAL_TO,
                                                                 NOT_EQUAL_TO, GREATER_THAN,
                                                                 LESS_THAN, GREATER_THAN_OR_EQUALS,
                                                                 LESS_THAN_OR_EQUALS,
-                                                                and EXISTS.
+                                                                EXISTS.'
                                                               type: string
                                                             value:
                                                               description: Value to
@@ -5713,14 +5965,14 @@ spec:
                                                                       type: object
                                                                     type: array
                                                                   dayOfWeekValue:
-                                                                    description: Represents
+                                                                    description: 'Represents
                                                                       a day of the
                                                                       week. Possible
-                                                                      values are MONDAY,
-                                                                      TUESDAY, WEDNESDAY,
-                                                                      THURSDAY, FRIDAY,
-                                                                      SATURDAY, and
-                                                                      SUNDAY.
+                                                                      values are:
+                                                                      MONDAY, TUESDAY,
+                                                                      WEDNESDAY, THURSDAY,
+                                                                      FRIDAY, SATURDAY,
+                                                                      SUNDAY.'
                                                                     type: string
                                                                   floatValue:
                                                                     description: A
@@ -5797,11 +6049,11 @@ spec:
                                                     type: object
                                                   type: array
                                                 logicalOperator:
-                                                  description: The operator to apply
+                                                  description: 'The operator to apply
                                                     to the result of conditions. Default
                                                     and currently only supported value
                                                     is AND. Default value is AND.
-                                                    Possible values are AND.
+                                                    Possible values are: AND.'
                                                   type: string
                                               type: object
                                             type: array
@@ -5828,6 +6080,10 @@ spec:
                   parent:
                     description: 'The parent of the template in any of the following
                       formats:'
+                    type: string
+                  updateTime:
+                    description: The last update timestamp of an deidentifyTemplate.
+                      Set by the server.
                     type: string
                 type: object
               conditions:

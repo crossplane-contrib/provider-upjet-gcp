@@ -61,7 +61,7 @@ type RouterNATLogConfigObservation struct {
 	Enable *bool `json:"enable,omitempty" tf:"enable,omitempty"`
 
 	// Specifies the desired filtering of logs on this NAT.
-	// Possible values are ERRORS_ONLY, TRANSLATIONS_ONLY, and ALL.
+	// Possible values are: ERRORS_ONLY, TRANSLATIONS_ONLY, ALL.
 	Filter *string `json:"filter,omitempty" tf:"filter,omitempty"`
 }
 
@@ -72,7 +72,7 @@ type RouterNATLogConfigParameters struct {
 	Enable *bool `json:"enable" tf:"enable,omitempty"`
 
 	// Specifies the desired filtering of logs on this NAT.
-	// Possible values are ERRORS_ONLY, TRANSLATIONS_ONLY, and ALL.
+	// Possible values are: ERRORS_ONLY, TRANSLATIONS_ONLY, ALL.
 	// +kubebuilder:validation:Required
 	Filter *string `json:"filter" tf:"filter,omitempty"`
 }
@@ -115,7 +115,7 @@ type RouterNATObservation struct {
 	// How external IPs should be allocated for this NAT. Valid values are
 	// AUTO_ONLY for only allowing NAT IPs allocated by Google Cloud
 	// Platform, or MANUAL_ONLY for only user-allocated NAT IP addresses.
-	// Possible values are MANUAL_ONLY and AUTO_ONLY.
+	// Possible values are: MANUAL_ONLY, AUTO_ONLY.
 	NATIPAllocateOption *string `json:"natIpAllocateOption,omitempty" tf:"nat_ip_allocate_option,omitempty"`
 
 	// Self-links of NAT IPs. Only valid if natIpAllocateOption
@@ -146,7 +146,7 @@ type RouterNATObservation struct {
 	// contains ALL_SUBNETWORKS_ALL_IP_RANGES or
 	// ALL_SUBNETWORKS_ALL_PRIMARY_IP_RANGES, then there should not be any
 	// other RouterNat section in any Router for this network in this region.
-	// Possible values are ALL_SUBNETWORKS_ALL_IP_RANGES, ALL_SUBNETWORKS_ALL_PRIMARY_IP_RANGES, and LIST_OF_SUBNETWORKS.
+	// Possible values are: ALL_SUBNETWORKS_ALL_IP_RANGES, ALL_SUBNETWORKS_ALL_PRIMARY_IP_RANGES, LIST_OF_SUBNETWORKS.
 	SourceSubnetworkIPRangesToNAT *string `json:"sourceSubnetworkIpRangesToNat,omitempty" tf:"source_subnetwork_ip_ranges_to_nat,omitempty"`
 
 	// One or more subnetwork NAT configurations. Only used if
@@ -212,7 +212,7 @@ type RouterNATParameters struct {
 	// How external IPs should be allocated for this NAT. Valid values are
 	// AUTO_ONLY for only allowing NAT IPs allocated by Google Cloud
 	// Platform, or MANUAL_ONLY for only user-allocated NAT IP addresses.
-	// Possible values are MANUAL_ONLY and AUTO_ONLY.
+	// Possible values are: MANUAL_ONLY, AUTO_ONLY.
 	// +kubebuilder:validation:Optional
 	NATIPAllocateOption *string `json:"natIpAllocateOption,omitempty" tf:"nat_ip_allocate_option,omitempty"`
 
@@ -258,7 +258,7 @@ type RouterNATParameters struct {
 	// contains ALL_SUBNETWORKS_ALL_IP_RANGES or
 	// ALL_SUBNETWORKS_ALL_PRIMARY_IP_RANGES, then there should not be any
 	// other RouterNat section in any Router for this network in this region.
-	// Possible values are ALL_SUBNETWORKS_ALL_IP_RANGES, ALL_SUBNETWORKS_ALL_PRIMARY_IP_RANGES, and LIST_OF_SUBNETWORKS.
+	// Possible values are: ALL_SUBNETWORKS_ALL_IP_RANGES, ALL_SUBNETWORKS_ALL_PRIMARY_IP_RANGES, LIST_OF_SUBNETWORKS.
 	// +kubebuilder:validation:Optional
 	SourceSubnetworkIPRangesToNAT *string `json:"sourceSubnetworkIpRangesToNat,omitempty" tf:"source_subnetwork_ip_ranges_to_nat,omitempty"`
 
