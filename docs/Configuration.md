@@ -21,10 +21,7 @@ documentation](https://docs.upbound.io/cli/).
 
 #### Upbound Universal Crossplane
 UXP is the Upbound official enterprise-grade distribution of Crossplane for
-self-hosted control planes. Only Upbound Universal Crossplane (UXP) supports
-official providers.
-
-Official providers aren't supported with open source Crossplane.
+self-hosted control planes.
 
 Install UXP into your Kubernetes cluster using the Up command-line.
 
