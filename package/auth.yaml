@@ -1,0 +1,77 @@
+version: '2023-01-30'
+discriminant: spec.credentials.source
+sources:
+  - name: Secret
+    docs: |
+      # Storing Credentials as a Kubernetes Secret
+      
+      GCP credentials may be supplied as a Kubernetes `Secret`. Credentials will
+      be stored in this control plane and will only be accessible to installed
+      providers.
+      
+      Credentials should be provided in the following format as a GCP Service Account keyfile:
+      ```
+      {
+        "type": "service_account",
+        "project_id": "PROJECT_ID",
+        "private_key_id": "KEY_ID",
+        "private_key": "-----BEGIN PRIVATE KEY-----\nPRIVATE_KEY\n-----END PRIVATE KEY-----\n",
+        "client_email": "SERVICE_ACCOUNT_EMAIL",
+        "client_id": "CLIENT_ID",
+        "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+        "token_uri": "https://accounts.google.com/o/oauth2/token",
+        "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+        "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/SERVICE_ACCOUNT_EMAIL"
+      }
+      ```
+      
+      See the [GCP
+      documentation](https://cloud.google.com/iam/docs/keys-create-delete)
+      for more information on how to generate credentials.
+    additionalResources:
+      - type: Secret
+        ref: spec.credentials.secretRef
+    showFields:
+      - spec.credentials.secretRef
+  - name: Upbound
+    docs: |
+      # OpenID Connect (OIDC)
+      
+      Using OIDC to authenticate to GCP eliminates the need to store credentials
+      in this control plane. Instead, you will need to add Upbound as an identity
+      provider in your GCP account, and then add it to an enabled identity pool. Go 
+      through the following steps to add the identity provider.
+      
+      ## Creating an Identity Pool
+      
+      1. Open the IAM console at [https://console.cloud.google.com/iam-admin/iam](https://console.cloud.google.com/iam-admin/iam).
+      2. Select [Workload Identity Federation](https://console.cloud.google.com/iam-admin/workload-identity-pools)
+      3. Select **Create Pool** and name it, for example `upbound-oidc-pool`.
+      4. **Enable** the pool.
+      
+      ## Add Upbound IdP to the pool
+      
+      1. Select **Add a provider to pool** and then select **OpenID Connect (OIDC)** with the following details.
+      ```
+      Provider Name: upbound-oidc-provider
+      Provider ID: upbound-oidc-provider-id
+      Issuer (URL): https://proidc.upbound.io
+      ```
+      2. Select **Allowed audiences** and add `sts.googleapis.com` for **Audience 1**.
+      
+      ## Optional: Configure provider attributes and conditions
+      
+      When Upbound authenticates to GCP it provides an OIDC subject (`sub`) of a managed control plane:
+      `mcp:<account>/<mcp-name>:provider:<provider-name>`. GCP allows specifying conditions via CEL for
+      more fine-grained control of your access scopes.
+      
+      1. In **Attribute Mapping**, configure `google.subject` to `assertion.sub`.
+      2. Select **Attribute Conditions** > **Add Condition**. For example, to authenticate any control plane in the organization:
+      ```
+      google.subject.contains("mcp:<ORGANIZATION_NAME>")
+      ```
+      
+      See the [Upbound documentation](https://docs.upbound.io/quickstart/gcp-deploy/#connect-to-gcp-with-oidc)
+      for more information on configuring OIDC with Upbound and GCP.
+    showFields:
+      - spec.credentials.upbound
