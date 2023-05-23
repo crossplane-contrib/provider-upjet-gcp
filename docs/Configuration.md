@@ -423,7 +423,7 @@ spec:
                 - |-
                   kubectl create secret generic $SECRET_NAME \
                     --dry-run=client \
-                    --from-literal=$SECRET_KEY=\$(gcloud auth print-access-token) \
+                    --from-literal=$SECRET_KEY=$(gcloud auth print-access-token) \
                     -o yaml | kubectl apply -f -
               resources:
                 requests:
