@@ -340,6 +340,11 @@ type AlertStrategyObservation struct {
 	// If an alert policy that was active has no data for this long, any open incidents will close.
 	AutoClose *string `json:"autoClose,omitempty" tf:"auto_close,omitempty"`
 
+	// Control over how the notification channels in notification_channels
+	// are notified when this alert fires, on a per-channel basis.
+	// Structure is documented below.
+	NotificationChannelStrategy []NotificationChannelStrategyObservation `json:"notificationChannelStrategy,omitempty" tf:"notification_channel_strategy,omitempty"`
+
 	// Required for alert policies with a LogMatch condition.
 	// This limit is not implemented for alert policies that are not log-based.
 	// Structure is documented below.
@@ -351,6 +356,12 @@ type AlertStrategyParameters struct {
 	// If an alert policy that was active has no data for this long, any open incidents will close.
 	// +kubebuilder:validation:Optional
 	AutoClose *string `json:"autoClose,omitempty" tf:"auto_close,omitempty"`
+
+	// Control over how the notification channels in notification_channels
+	// are notified when this alert fires, on a per-channel basis.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	NotificationChannelStrategy []NotificationChannelStrategyParameters `json:"notificationChannelStrategy,omitempty" tf:"notification_channel_strategy,omitempty"`
 
 	// Required for alert policies with a LogMatch condition.
 	// This limit is not implemented for alert policies that are not log-based.
@@ -929,6 +940,15 @@ type ConditionThresholdObservation struct {
 	// in length.
 	Filter *string `json:"filter,omitempty" tf:"filter,omitempty"`
 
+	// When this field is present, the MetricThreshold
+	// condition forecasts whether the time series is
+	// predicted to violate the threshold within the
+	// forecastHorizon. When this field is not set, the
+	// MetricThreshold tests the current value of the
+	// timeseries against the threshold.
+	// Structure is documented below.
+	ForecastOptions []ForecastOptionsObservation `json:"forecastOptions,omitempty" tf:"forecast_options,omitempty"`
+
 	// A value against which to compare the time
 	// series.
 	ThresholdValue *float64 `json:"thresholdValue,omitempty" tf:"threshold_value,omitempty"`
@@ -1053,6 +1073,16 @@ type ConditionThresholdParameters struct {
 	// in length.
 	// +kubebuilder:validation:Optional
 	Filter *string `json:"filter,omitempty" tf:"filter,omitempty"`
+
+	// When this field is present, the MetricThreshold
+	// condition forecasts whether the time series is
+	// predicted to violate the threshold within the
+	// forecastHorizon. When this field is not set, the
+	// MetricThreshold tests the current value of the
+	// timeseries against the threshold.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ForecastOptions []ForecastOptionsParameters `json:"forecastOptions,omitempty" tf:"forecast_options,omitempty"`
 
 	// A value against which to compare the time
 	// series.
@@ -1388,6 +1418,55 @@ type DocumentationParameters struct {
 	// "text/markdown" is supported.
 	// +kubebuilder:validation:Optional
 	MimeType *string `json:"mimeType,omitempty" tf:"mime_type,omitempty"`
+}
+
+type ForecastOptionsObservation struct {
+
+	// The length of time into the future to forecast
+	// whether a timeseries will violate the threshold.
+	// If the predicted value is found to violate the
+	// threshold, and the violation is observed in all
+	// forecasts made for the Configured duration,
+	// then the timeseries is considered to be failing.
+	ForecastHorizon *string `json:"forecastHorizon,omitempty" tf:"forecast_horizon,omitempty"`
+}
+
+type ForecastOptionsParameters struct {
+
+	// The length of time into the future to forecast
+	// whether a timeseries will violate the threshold.
+	// If the predicted value is found to violate the
+	// threshold, and the violation is observed in all
+	// forecasts made for the Configured duration,
+	// then the timeseries is considered to be failing.
+	// +kubebuilder:validation:Required
+	ForecastHorizon *string `json:"forecastHorizon" tf:"forecast_horizon,omitempty"`
+}
+
+type NotificationChannelStrategyObservation struct {
+
+	// The notification channels that these settings apply to. Each of these
+	// correspond to the name field in one of the NotificationChannel objects
+	// referenced in the notification_channels field of this AlertPolicy. The format is
+	// projects/[PROJECT_ID_OR_NUMBER]/notificationChannels/[CHANNEL_ID]
+	NotificationChannelNames []*string `json:"notificationChannelNames,omitempty" tf:"notification_channel_names,omitempty"`
+
+	// The frequency at which to send reminder notifications for open incidents.
+	RenotifyInterval *string `json:"renotifyInterval,omitempty" tf:"renotify_interval,omitempty"`
+}
+
+type NotificationChannelStrategyParameters struct {
+
+	// The notification channels that these settings apply to. Each of these
+	// correspond to the name field in one of the NotificationChannel objects
+	// referenced in the notification_channels field of this AlertPolicy. The format is
+	// projects/[PROJECT_ID_OR_NUMBER]/notificationChannels/[CHANNEL_ID]
+	// +kubebuilder:validation:Optional
+	NotificationChannelNames []*string `json:"notificationChannelNames,omitempty" tf:"notification_channel_names,omitempty"`
+
+	// The frequency at which to send reminder notifications for open incidents.
+	// +kubebuilder:validation:Optional
+	RenotifyInterval *string `json:"renotifyInterval,omitempty" tf:"renotify_interval,omitempty"`
 }
 
 type NotificationRateLimitObservation struct {

@@ -184,7 +184,7 @@ type ExternalDataConfigurationObservation struct {
 
 	// A JSON schema for the external table. Schema is required
 	// for CSV and JSON formats if autodetect is not on. Schema is disallowed
-	// for Google Cloud Bigtable, Cloud Datastore backups, Avro, ORC and Parquet formats.
+	// for Google Cloud Bigtable, Cloud Datastore backups, Avro, Iceberg, ORC and Parquet formats.
 	// ~>NOTE: Because this field expects a JSON string, any changes to the
 	// string will create a diff, even if the JSON itself hasn't changed.
 	// Furthermore drift for this field cannot not be detected because BigQuery
@@ -195,11 +195,10 @@ type ExternalDataConfigurationObservation struct {
 	// google_bigquery_table.schema
 	Schema *string `json:"schema,omitempty" tf:"schema,omitempty"`
 
-	// The data format. Supported values are:
-	// "CSV", "GOOGLE_SHEETS", "NEWLINE_DELIMITED_JSON", "AVRO", "PARQUET", "ORC",
-	// "DATSTORE_BACKUP", and "BIGTABLE". To use "GOOGLE_SHEETS"
-	// the scopes must include
-	// "https://www.googleapis.com/auth/drive.readonly".
+	// The data format. Please see sourceFormat under
+	// ExternalDataConfiguration
+	// in Bigquery's public API documentation for supported formats. To use "GOOGLE_SHEETS"
+	// the scopes must include "https://www.googleapis.com/auth/drive.readonly".
 	SourceFormat *string `json:"sourceFormat,omitempty" tf:"source_format,omitempty"`
 
 	// A list of the fully-qualified URIs that point to
@@ -269,7 +268,7 @@ type ExternalDataConfigurationParameters struct {
 
 	// A JSON schema for the external table. Schema is required
 	// for CSV and JSON formats if autodetect is not on. Schema is disallowed
-	// for Google Cloud Bigtable, Cloud Datastore backups, Avro, ORC and Parquet formats.
+	// for Google Cloud Bigtable, Cloud Datastore backups, Avro, Iceberg, ORC and Parquet formats.
 	// ~>NOTE: Because this field expects a JSON string, any changes to the
 	// string will create a diff, even if the JSON itself hasn't changed.
 	// Furthermore drift for this field cannot not be detected because BigQuery
@@ -281,11 +280,10 @@ type ExternalDataConfigurationParameters struct {
 	// +kubebuilder:validation:Optional
 	Schema *string `json:"schema,omitempty" tf:"schema,omitempty"`
 
-	// The data format. Supported values are:
-	// "CSV", "GOOGLE_SHEETS", "NEWLINE_DELIMITED_JSON", "AVRO", "PARQUET", "ORC",
-	// "DATSTORE_BACKUP", and "BIGTABLE". To use "GOOGLE_SHEETS"
-	// the scopes must include
-	// "https://www.googleapis.com/auth/drive.readonly".
+	// The data format. Please see sourceFormat under
+	// ExternalDataConfiguration
+	// in Bigquery's public API documentation for supported formats. To use "GOOGLE_SHEETS"
+	// the scopes must include "https://www.googleapis.com/auth/drive.readonly".
 	// +kubebuilder:validation:Required
 	SourceFormat *string `json:"sourceFormat" tf:"source_format,omitempty"`
 

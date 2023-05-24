@@ -878,7 +878,7 @@ type V2ServiceTemplateObservation struct {
 	// KRM-style annotations for the resource.
 	Annotations map[string]*string `json:"annotations,omitempty" tf:"annotations,omitempty"`
 
-	// Holds the single container that defines the unit of execution for this task.
+	// Holds the containers that define the unit of execution for this Service.
 	// Structure is documented below.
 	Containers []V2ServiceTemplateContainersObservation `json:"containers,omitempty" tf:"containers,omitempty"`
 
@@ -927,7 +927,7 @@ type V2ServiceTemplateParameters struct {
 	// +kubebuilder:validation:Optional
 	Annotations map[string]*string `json:"annotations,omitempty" tf:"annotations,omitempty"`
 
-	// Holds the single container that defines the unit of execution for this task.
+	// Holds the containers that define the unit of execution for this Service.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Containers []V2ServiceTemplateContainersParameters `json:"containers,omitempty" tf:"containers,omitempty"`

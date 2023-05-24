@@ -40,16 +40,31 @@ type ActiveDirectoryConfigParameters struct {
 	Domain *string `json:"domain" tf:"domain,omitempty"`
 }
 
+type AdvancedMachineFeaturesObservation struct {
+
+	// The number of threads per core. The value of this flag can be 1 or 2. To disable SMT, set this flag to 1. Only available in Cloud SQL for SQL Server instances. See smt for more details.
+	ThreadsPerCore *float64 `json:"threadsPerCore,omitempty" tf:"threads_per_core,omitempty"`
+}
+
+type AdvancedMachineFeaturesParameters struct {
+
+	// The number of threads per core. The value of this flag can be 1 or 2. To disable SMT, set this flag to 1. Only available in Cloud SQL for SQL Server instances. See smt for more details.
+	// +kubebuilder:validation:Optional
+	ThreadsPerCore *float64 `json:"threadsPerCore,omitempty" tf:"threads_per_core,omitempty"`
+}
+
 type AuthorizedNetworksObservation struct {
 
 	// The RFC 3339
 	// formatted date time string indicating when this whitelist expires.
 	ExpirationTime *string `json:"expirationTime,omitempty" tf:"expiration_time,omitempty"`
 
-	// Name of the flag.
+	// A name for this whitelist entry.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// Value of the flag.
+	// A CIDR notation IPv4 or IPv6 address that is allowed to
+	// access this instance. Must be set even if other two attributes are not for
+	// the whitelist to become active.
 	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
 
@@ -60,11 +75,13 @@ type AuthorizedNetworksParameters struct {
 	// +kubebuilder:validation:Optional
 	ExpirationTime *string `json:"expirationTime,omitempty" tf:"expiration_time,omitempty"`
 
-	// Name of the flag.
+	// A name for this whitelist entry.
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// Value of the flag.
+	// A CIDR notation IPv4 or IPv6 address that is allowed to
+	// access this instance. Must be set even if other two attributes are not for
+	// the whitelist to become active.
 	// +kubebuilder:validation:Required
 	Value *string `json:"value" tf:"value,omitempty"`
 }
@@ -186,20 +203,24 @@ type CloneParameters struct {
 
 type DatabaseFlagsObservation struct {
 
-	// Name of the flag.
+	// A name for this whitelist entry.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// Value of the flag.
+	// A CIDR notation IPv4 or IPv6 address that is allowed to
+	// access this instance. Must be set even if other two attributes are not for
+	// the whitelist to become active.
 	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
 
 type DatabaseFlagsParameters struct {
 
-	// Name of the flag.
+	// A name for this whitelist entry.
 	// +kubebuilder:validation:Required
 	Name *string `json:"name" tf:"name,omitempty"`
 
-	// Value of the flag.
+	// A CIDR notation IPv4 or IPv6 address that is allowed to
+	// access this instance. Must be set even if other two attributes are not for
+	// the whitelist to become active.
 	// +kubebuilder:validation:Required
 	Value *string `json:"value" tf:"value,omitempty"`
 }
@@ -812,6 +833,8 @@ type SettingsObservation struct {
 
 	ActiveDirectoryConfig []ActiveDirectoryConfigObservation `json:"activeDirectoryConfig,omitempty" tf:"active_directory_config,omitempty"`
 
+	AdvancedMachineFeatures []AdvancedMachineFeaturesObservation `json:"advancedMachineFeatures,omitempty" tf:"advanced_machine_features,omitempty"`
+
 	// The availability type of the Cloud SQL
 	// instance, high availability (REGIONAL) or single zone (ZONAL).' For all instances, ensure that
 	// settings.backup_configuration.enabled is set to true.
@@ -887,6 +910,9 @@ type SettingsParameters struct {
 
 	// +kubebuilder:validation:Optional
 	ActiveDirectoryConfig []ActiveDirectoryConfigParameters `json:"activeDirectoryConfig,omitempty" tf:"active_directory_config,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	AdvancedMachineFeatures []AdvancedMachineFeaturesParameters `json:"advancedMachineFeatures,omitempty" tf:"advanced_machine_features,omitempty"`
 
 	// The availability type of the Cloud SQL
 	// instance, high availability (REGIONAL) or single zone (ZONAL).' For all instances, ensure that

@@ -1243,13 +1243,13 @@ type GCPFilestoreCsiDriverConfigParameters struct {
 
 type GatewayAPIConfigObservation struct {
 
-	// Which Gateway Api channel should be used. CHANNEL_DISABLED or CHANNEL_STANDARD.
+	// Which Gateway Api channel should be used. CHANNEL_DISABLED, CHANNEL_EXPERIMENTAL or CHANNEL_STANDARD.
 	Channel *string `json:"channel,omitempty" tf:"channel,omitempty"`
 }
 
 type GatewayAPIConfigParameters struct {
 
-	// Which Gateway Api channel should be used. CHANNEL_DISABLED or CHANNEL_STANDARD.
+	// Which Gateway Api channel should be used. CHANNEL_DISABLED, CHANNEL_EXPERIMENTAL or CHANNEL_STANDARD.
 	// +kubebuilder:validation:Required
 	Channel *string `json:"channel" tf:"channel,omitempty"`
 }

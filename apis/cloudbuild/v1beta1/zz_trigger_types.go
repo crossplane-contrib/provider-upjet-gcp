@@ -877,7 +877,7 @@ type SourceToBuildObservation struct {
 	// Possible values are: UNKNOWN, CLOUD_SOURCE_REPOSITORIES, GITHUB, BITBUCKET_SERVER.
 	RepoType *string `json:"repoType,omitempty" tf:"repo_type,omitempty"`
 
-	// The URI of the repo .
+	// The URI of the repo.
 	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`
 }
 
@@ -898,12 +898,24 @@ type SourceToBuildParameters struct {
 	// +kubebuilder:validation:Required
 	RepoType *string `json:"repoType" tf:"repo_type,omitempty"`
 
-	// The URI of the repo .
-	// +kubebuilder:validation:Required
-	URI *string `json:"uri" tf:"uri,omitempty"`
+	// The URI of the repo.
+	// +kubebuilder:validation:Optional
+	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`
 }
 
 type StepObservation struct {
+
+	// Allow this build step to fail without failing the entire build if and
+	// only if the exit code is one of the specified codes.
+	// If allowFailure is also specified, this field will take precedence.
+	AllowExitCodes []*float64 `json:"allowExitCodes,omitempty" tf:"allow_exit_codes,omitempty"`
+
+	// Allow this build step to fail without failing the entire build.
+	// If false, the entire build will fail if this step fails. Otherwise, the
+	// build will succeed, but this step will still have a failure status.
+	// Error information will be reported in the failureDetail field.
+	// allowExitCodes takes precedence over this field.
+	AllowFailure *bool `json:"allowFailure,omitempty" tf:"allow_failure,omitempty"`
 
 	// A list of arguments that will be presented to the step when it is started.
 	// If the image used to run the step's container has an entrypoint, the args
@@ -976,6 +988,20 @@ type StepObservation struct {
 }
 
 type StepParameters struct {
+
+	// Allow this build step to fail without failing the entire build if and
+	// only if the exit code is one of the specified codes.
+	// If allowFailure is also specified, this field will take precedence.
+	// +kubebuilder:validation:Optional
+	AllowExitCodes []*float64 `json:"allowExitCodes,omitempty" tf:"allow_exit_codes,omitempty"`
+
+	// Allow this build step to fail without failing the entire build.
+	// If false, the entire build will fail if this step fails. Otherwise, the
+	// build will succeed, but this step will still have a failure status.
+	// Error information will be reported in the failureDetail field.
+	// allowExitCodes takes precedence over this field.
+	// +kubebuilder:validation:Optional
+	AllowFailure *bool `json:"allowFailure,omitempty" tf:"allow_failure,omitempty"`
 
 	// A list of arguments that will be presented to the step when it is started.
 	// If the image used to run the step's container has an entrypoint, the args

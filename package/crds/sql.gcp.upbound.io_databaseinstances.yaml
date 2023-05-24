@@ -265,6 +265,17 @@ spec:
                             - domain
                             type: object
                           type: array
+                        advancedMachineFeatures:
+                          items:
+                            properties:
+                              threadsPerCore:
+                                description: The number of threads per core. The value
+                                  of this flag can be 1 or 2. To disable SMT, set
+                                  this flag to 1. Only available in Cloud SQL for
+                                  SQL Server instances. See smt for more details.
+                                type: number
+                            type: object
+                          type: array
                         availabilityType:
                           description: The availability type of the Cloud SQL instance,
                             high availability (REGIONAL) or single zone (ZONAL).'
@@ -333,10 +344,13 @@ spec:
                           items:
                             properties:
                               name:
-                                description: Name of the flag.
+                                description: A name for this whitelist entry.
                                 type: string
                               value:
-                                description: Value of the flag.
+                                description: A CIDR notation IPv4 or IPv6 address
+                                  that is allowed to access this instance. Must be
+                                  set even if other two attributes are not for the
+                                  whitelist to become active.
                                 type: string
                             required:
                             - name
@@ -438,10 +452,13 @@ spec:
                                         string indicating when this whitelist expires.
                                       type: string
                                     name:
-                                      description: Name of the flag.
+                                      description: A name for this whitelist entry.
                                       type: string
                                     value:
-                                      description: Value of the flag.
+                                      description: A CIDR notation IPv4 or IPv6 address
+                                        that is allowed to access this instance. Must
+                                        be set even if other two attributes are not
+                                        for the whitelist to become active.
                                       type: string
                                   required:
                                   - value
@@ -1084,6 +1101,17 @@ spec:
                                 type: string
                             type: object
                           type: array
+                        advancedMachineFeatures:
+                          items:
+                            properties:
+                              threadsPerCore:
+                                description: The number of threads per core. The value
+                                  of this flag can be 1 or 2. To disable SMT, set
+                                  this flag to 1. Only available in Cloud SQL for
+                                  SQL Server instances. See smt for more details.
+                                type: number
+                            type: object
+                          type: array
                         availabilityType:
                           description: The availability type of the Cloud SQL instance,
                             high availability (REGIONAL) or single zone (ZONAL).'
@@ -1150,10 +1178,13 @@ spec:
                           items:
                             properties:
                               name:
-                                description: Name of the flag.
+                                description: A name for this whitelist entry.
                                 type: string
                               value:
-                                description: Value of the flag.
+                                description: A CIDR notation IPv4 or IPv6 address
+                                  that is allowed to access this instance. Must be
+                                  set even if other two attributes are not for the
+                                  whitelist to become active.
                                 type: string
                             type: object
                           type: array
@@ -1248,10 +1279,13 @@ spec:
                                         string indicating when this whitelist expires.
                                       type: string
                                     name:
-                                      description: Name of the flag.
+                                      description: A name for this whitelist entry.
                                       type: string
                                     value:
-                                      description: Value of the flag.
+                                      description: A CIDR notation IPv4 or IPv6 address
+                                        that is allowed to access this instance. Must
+                                        be set even if other two attributes are not
+                                        for the whitelist to become active.
                                       type: string
                                   type: object
                                 type: array

@@ -938,6 +938,23 @@ spec:
                             STRING and BYTE. For STRING and BYTE columns, BigQuery
                             interprets the empty string as an empty value.
                           type: string
+                        parquetOptions:
+                          description: Parquet Options for load and make external
+                            tables. Structure is documented below.
+                          items:
+                            properties:
+                              enableListInference:
+                                description: If sourceFormat is set to PARQUET, indicates
+                                  whether to use schema inference specifically for
+                                  Parquet LIST logical type.
+                                type: boolean
+                              enumAsString:
+                                description: If sourceFormat is set to PARQUET, indicates
+                                  whether to infer Parquet ENUM logical type as STRING
+                                  instead of BYTES by default.
+                                type: boolean
+                            type: object
+                          type: array
                         projectionFields:
                           description: If sourceFormat is set to "DATASTORE_BACKUP",
                             indicates which entity properties to load into BigQuery
@@ -2022,6 +2039,23 @@ spec:
                             STRING and BYTE. For STRING and BYTE columns, BigQuery
                             interprets the empty string as an empty value.
                           type: string
+                        parquetOptions:
+                          description: Parquet Options for load and make external
+                            tables. Structure is documented below.
+                          items:
+                            properties:
+                              enableListInference:
+                                description: If sourceFormat is set to PARQUET, indicates
+                                  whether to use schema inference specifically for
+                                  Parquet LIST logical type.
+                                type: boolean
+                              enumAsString:
+                                description: If sourceFormat is set to PARQUET, indicates
+                                  whether to infer Parquet ENUM logical type as STRING
+                                  instead of BYTES by default.
+                                type: boolean
+                            type: object
+                          type: array
                         projectionFields:
                           description: If sourceFormat is set to "DATASTORE_BACKUP",
                             indicates which entity properties to load into BigQuery

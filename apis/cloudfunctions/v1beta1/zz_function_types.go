@@ -153,6 +153,8 @@ type FunctionObservation struct {
 	// Cannot be set alongside source_archive_bucket or source_archive_object. Structure is documented below. It must match the pattern projects/{project}/locations/{location}/repositories/{repository}.*
 	SourceRepository []SourceRepositoryObservation `json:"sourceRepository,omitempty" tf:"source_repository,omitempty"`
 
+	Status *string `json:"status,omitempty" tf:"status,omitempty"`
+
 	// Timeout (in seconds) for the function. Default value is 60 seconds. Cannot be more than 540 seconds.
 	Timeout *float64 `json:"timeout,omitempty" tf:"timeout,omitempty"`
 

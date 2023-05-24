@@ -402,6 +402,7 @@ type InstanceObservation struct {
 	// Enable Confidential Mode on this VM. Structure is documented below
 	ConfidentialInstanceConfig []ConfidentialInstanceConfigObservation `json:"confidentialInstanceConfig,omitempty" tf:"confidential_instance_config,omitempty"`
 
+	// The current status of the instance. This could be one of the following values: PROVISIONING, STAGING, RUNNING, STOPPING, SUSPENDING, SUSPENDED, REPAIRING, and TERMINATED. For more information about the status of the instance, see Instance life cycle.`,
 	CurrentStatus *string `json:"currentStatus,omitempty" tf:"current_status,omitempty"`
 
 	// Enable deletion protection on this instance. Defaults to false.

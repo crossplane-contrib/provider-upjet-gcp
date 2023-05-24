@@ -901,6 +901,8 @@ spec:
                           type: string
                       type: object
                     type: array
+                  status:
+                    type: string
                   timeout:
                     description: Timeout (in seconds) for the function. Default value
                       is 60 seconds. Cannot be more than 540 seconds.

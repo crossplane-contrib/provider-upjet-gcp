@@ -475,6 +475,23 @@ spec:
                             Structure is documented below.
                           items:
                             properties:
+                              allowExitCodes:
+                                description: Allow this build step to fail without
+                                  failing the entire build if and only if the exit
+                                  code is one of the specified codes. If allowFailure
+                                  is also specified, this field will take precedence.
+                                items:
+                                  type: number
+                                type: array
+                              allowFailure:
+                                description: Allow this build step to fail without
+                                  failing the entire build. If false, the entire build
+                                  will fail if this step fails. Otherwise, the build
+                                  will succeed, but this step will still have a failure
+                                  status. Error information will be reported in the
+                                  failureDetail field. allowExitCodes takes precedence
+                                  over this field.
+                                type: boolean
                               args:
                                 description: A list of arguments that will be presented
                                   to the step when it is started. If the image used
@@ -981,12 +998,11 @@ spec:
                             GITHUB, BITBUCKET_SERVER.'
                           type: string
                         uri:
-                          description: The URI of the repo .
+                          description: The URI of the repo.
                           type: string
                       required:
                       - ref
                       - repoType
-                      - uri
                       type: object
                     type: array
                   substitutions:
@@ -1737,6 +1753,23 @@ spec:
                             Structure is documented below.
                           items:
                             properties:
+                              allowExitCodes:
+                                description: Allow this build step to fail without
+                                  failing the entire build if and only if the exit
+                                  code is one of the specified codes. If allowFailure
+                                  is also specified, this field will take precedence.
+                                items:
+                                  type: number
+                                type: array
+                              allowFailure:
+                                description: Allow this build step to fail without
+                                  failing the entire build. If false, the entire build
+                                  will fail if this step fails. Otherwise, the build
+                                  will succeed, but this step will still have a failure
+                                  status. Error information will be reported in the
+                                  failureDetail field. allowExitCodes takes precedence
+                                  over this field.
+                                type: boolean
                               args:
                                 description: A list of arguments that will be presented
                                   to the step when it is started. If the image used
@@ -2092,7 +2125,7 @@ spec:
                             GITHUB, BITBUCKET_SERVER.'
                           type: string
                         uri:
-                          description: The URI of the repo .
+                          description: The URI of the repo.
                           type: string
                       type: object
                     type: array
