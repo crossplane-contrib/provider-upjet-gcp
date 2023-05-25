@@ -603,6 +603,11 @@ func (in *FunctionObservation) DeepCopyInto(out *FunctionObservation) {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
+	if in.Status != nil {
+		in, out := &in.Status, &out.Status
+		*out = new(string)
+		**out = **in
+	}
 	if in.Timeout != nil {
 		in, out := &in.Timeout, &out.Timeout
 		*out = new(float64)

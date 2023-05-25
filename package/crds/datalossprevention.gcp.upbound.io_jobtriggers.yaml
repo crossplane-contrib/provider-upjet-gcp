@@ -407,6 +407,11 @@ spec:
                                 items:
                                   type: object
                                 type: array
+                              publishToStackdriver:
+                                description: Enable Stackdriver metric dlp.googleapis.com/findingCount.
+                                items:
+                                  type: object
+                                type: array
                               saveFindings:
                                 description: 'If set, the detailed findings will be
                                   persisted to the specified OutputStorageConfig.
@@ -1925,6 +1930,11 @@ spec:
                               publishSummaryToCscc:
                                 description: Publish the result summary of a DlpJob
                                   to the Cloud Security Command Center.
+                                items:
+                                  type: object
+                                type: array
+                              publishToStackdriver:
+                                description: Enable Stackdriver metric dlp.googleapis.com/findingCount.
                                 items:
                                   type: object
                                 type: array

@@ -1324,6 +1324,11 @@ spec:
                     description: The CPU platform used by this instance.
                     type: string
                   currentStatus:
+                    description: 'The current status of the instance. This could be
+                      one of the following values: PROVISIONING, STAGING, RUNNING,
+                      STOPPING, SUSPENDING, SUSPENDED, REPAIRING, and TERMINATED.
+                      For more information about the status of the instance, see Instance
+                      life cycle.`,'
                     type: string
                   deletionProtection:
                     description: 'Enable deletion protection on this instance. Defaults

@@ -44,6 +44,9 @@ type ActionsObservation struct {
 	// Publish the result summary of a DlpJob to the Cloud Security Command Center.
 	PublishSummaryToCscc []PublishSummaryToCsccParameters `json:"publishSummaryToCscc,omitempty" tf:"publish_summary_to_cscc,omitempty"`
 
+	// Enable Stackdriver metric dlp.googleapis.com/findingCount.
+	PublishToStackdriver []PublishToStackdriverParameters `json:"publishToStackdriver,omitempty" tf:"publish_to_stackdriver,omitempty"`
+
 	// If set, the detailed findings will be persisted to the specified OutputStorageConfig. Only a single instance of this action can be specified. Compatible with: Inspect, Risk
 	// Structure is documented below.
 	SaveFindings []SaveFindingsObservation `json:"saveFindings,omitempty" tf:"save_findings,omitempty"`
@@ -72,6 +75,10 @@ type ActionsParameters struct {
 	// Publish the result summary of a DlpJob to the Cloud Security Command Center.
 	// +kubebuilder:validation:Optional
 	PublishSummaryToCscc []PublishSummaryToCsccParameters `json:"publishSummaryToCscc,omitempty" tf:"publish_summary_to_cscc,omitempty"`
+
+	// Enable Stackdriver metric dlp.googleapis.com/findingCount.
+	// +kubebuilder:validation:Optional
+	PublishToStackdriver []PublishToStackdriverParameters `json:"publishToStackdriver,omitempty" tf:"publish_to_stackdriver,omitempty"`
 
 	// If set, the detailed findings will be persisted to the specified OutputStorageConfig. Only a single instance of this action can be specified. Compatible with: Inspect, Risk
 	// Structure is documented below.
@@ -1259,6 +1266,12 @@ type PublishSummaryToCsccObservation struct {
 }
 
 type PublishSummaryToCsccParameters struct {
+}
+
+type PublishToStackdriverObservation struct {
+}
+
+type PublishToStackdriverParameters struct {
 }
 
 type RegexFileSetObservation struct {

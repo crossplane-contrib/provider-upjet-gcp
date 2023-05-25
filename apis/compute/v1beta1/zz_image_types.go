@@ -28,14 +28,14 @@ import (
 type GuestOsFeaturesObservation struct {
 
 	// The type of supported feature. Read Enabling guest operating system features to see a list of available options.
-	// Possible values are: MULTI_IP_SUBNET, SECURE_BOOT, SEV_CAPABLE, UEFI_COMPATIBLE, VIRTIO_SCSI_MULTIQUEUE, WINDOWS, GVNIC, SEV_LIVE_MIGRATABLE.
+	// Possible values are: MULTI_IP_SUBNET, SECURE_BOOT, SEV_CAPABLE, UEFI_COMPATIBLE, VIRTIO_SCSI_MULTIQUEUE, WINDOWS, GVNIC, SEV_LIVE_MIGRATABLE, SEV_SNP_CAPABLE, SUSPEND_RESUME_COMPATIBLE, TDX_CAPABLE.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type GuestOsFeaturesParameters struct {
 
 	// The type of supported feature. Read Enabling guest operating system features to see a list of available options.
-	// Possible values are: MULTI_IP_SUBNET, SECURE_BOOT, SEV_CAPABLE, UEFI_COMPATIBLE, VIRTIO_SCSI_MULTIQUEUE, WINDOWS, GVNIC, SEV_LIVE_MIGRATABLE.
+	// Possible values are: MULTI_IP_SUBNET, SECURE_BOOT, SEV_CAPABLE, UEFI_COMPATIBLE, VIRTIO_SCSI_MULTIQUEUE, WINDOWS, GVNIC, SEV_LIVE_MIGRATABLE, SEV_SNP_CAPABLE, SUSPEND_RESUME_COMPATIBLE, TDX_CAPABLE.
 	// +kubebuilder:validation:Required
 	Type *string `json:"type" tf:"type,omitempty"`
 }
@@ -137,6 +137,11 @@ type ImageObservation struct {
 	// URL of the source snapshot used to create this image.
 	// In order to create an image, you must provide the full or partial URL of one of the following:
 	SourceSnapshot *string `json:"sourceSnapshot,omitempty" tf:"source_snapshot,omitempty"`
+
+	// Cloud Storage bucket storage location of the image
+	// (regional or multi-regional).
+	// Reference link: https://cloud.google.com/compute/docs/reference/rest/v1/images
+	StorageLocations []*string `json:"storageLocations,omitempty" tf:"storage_locations,omitempty"`
 }
 
 type ImageParameters struct {
@@ -205,6 +210,12 @@ type ImageParameters struct {
 	// In order to create an image, you must provide the full or partial URL of one of the following:
 	// +kubebuilder:validation:Optional
 	SourceSnapshot *string `json:"sourceSnapshot,omitempty" tf:"source_snapshot,omitempty"`
+
+	// Cloud Storage bucket storage location of the image
+	// (regional or multi-regional).
+	// Reference link: https://cloud.google.com/compute/docs/reference/rest/v1/images
+	// +kubebuilder:validation:Optional
+	StorageLocations []*string `json:"storageLocations,omitempty" tf:"storage_locations,omitempty"`
 }
 
 type RawDiskObservation struct {

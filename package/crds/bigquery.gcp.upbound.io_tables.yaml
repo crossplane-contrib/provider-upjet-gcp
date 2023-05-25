@@ -327,22 +327,22 @@ spec:
                           description: 'A JSON schema for the external table. Schema
                             is required for CSV and JSON formats if autodetect is
                             not on. Schema is disallowed for Google Cloud Bigtable,
-                            Cloud Datastore backups, Avro, ORC and Parquet formats.
-                            ~>NOTE: Because this field expects a JSON string, any
-                            changes to the string will create a diff, even if the
-                            JSON itself hasn''t changed. Furthermore drift for this
-                            field cannot not be detected because BigQuery only uses
-                            this schema to compute the effective schema for the table,
-                            therefore any changes on the configured value will force
-                            the table to be recreated. This schema is effectively
+                            Cloud Datastore backups, Avro, Iceberg, ORC and Parquet
+                            formats. ~>NOTE: Because this field expects a JSON string,
+                            any changes to the string will create a diff, even if
+                            the JSON itself hasn''t changed. Furthermore drift for
+                            this field cannot not be detected because BigQuery only
+                            uses this schema to compute the effective schema for the
+                            table, therefore any changes on the configured value will
+                            force the table to be recreated. This schema is effectively
                             only applied when creating a table from an external datasource,
                             after creation the computed schema will be stored in google_bigquery_table.schema'
                           type: string
                         sourceFormat:
-                          description: 'The data format. Supported values are: "CSV",
-                            "GOOGLE_SHEETS", "NEWLINE_DELIMITED_JSON", "AVRO", "PARQUET",
-                            "ORC", "DATSTORE_BACKUP", and "BIGTABLE". To use "GOOGLE_SHEETS"
-                            the scopes must include "https://www.googleapis.com/auth/drive.readonly".'
+                          description: The data format. Please see sourceFormat under
+                            ExternalDataConfiguration in Bigquery's public API documentation
+                            for supported formats. To use "GOOGLE_SHEETS" the scopes
+                            must include "https://www.googleapis.com/auth/drive.readonly".
                           type: string
                         sourceUris:
                           description: A list of the fully-qualified URIs that point
@@ -856,22 +856,22 @@ spec:
                           description: 'A JSON schema for the external table. Schema
                             is required for CSV and JSON formats if autodetect is
                             not on. Schema is disallowed for Google Cloud Bigtable,
-                            Cloud Datastore backups, Avro, ORC and Parquet formats.
-                            ~>NOTE: Because this field expects a JSON string, any
-                            changes to the string will create a diff, even if the
-                            JSON itself hasn''t changed. Furthermore drift for this
-                            field cannot not be detected because BigQuery only uses
-                            this schema to compute the effective schema for the table,
-                            therefore any changes on the configured value will force
-                            the table to be recreated. This schema is effectively
+                            Cloud Datastore backups, Avro, Iceberg, ORC and Parquet
+                            formats. ~>NOTE: Because this field expects a JSON string,
+                            any changes to the string will create a diff, even if
+                            the JSON itself hasn''t changed. Furthermore drift for
+                            this field cannot not be detected because BigQuery only
+                            uses this schema to compute the effective schema for the
+                            table, therefore any changes on the configured value will
+                            force the table to be recreated. This schema is effectively
                             only applied when creating a table from an external datasource,
                             after creation the computed schema will be stored in google_bigquery_table.schema'
                           type: string
                         sourceFormat:
-                          description: 'The data format. Supported values are: "CSV",
-                            "GOOGLE_SHEETS", "NEWLINE_DELIMITED_JSON", "AVRO", "PARQUET",
-                            "ORC", "DATSTORE_BACKUP", and "BIGTABLE". To use "GOOGLE_SHEETS"
-                            the scopes must include "https://www.googleapis.com/auth/drive.readonly".'
+                          description: The data format. Please see sourceFormat under
+                            ExternalDataConfiguration in Bigquery's public API documentation
+                            for supported formats. To use "GOOGLE_SHEETS" the scopes
+                            must include "https://www.googleapis.com/auth/drive.readonly".
                           type: string
                         sourceUris:
                           description: A list of the fully-qualified URIs that point

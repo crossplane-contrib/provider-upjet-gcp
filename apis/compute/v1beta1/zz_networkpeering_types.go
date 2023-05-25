@@ -49,6 +49,9 @@ type NetworkPeeringObservation struct {
 	// may belong to a different project.
 	PeerNetwork *string `json:"peerNetwork,omitempty" tf:"peer_network,omitempty"`
 
+	// Which IP version(s) of traffic and routes are allowed to be imported or exported between peer networks. The default value is IPV4_ONLY. Possible values: ["IPV4_ONLY", "IPV4_IPV6"].
+	StackType *string `json:"stackType,omitempty" tf:"stack_type,omitempty"`
+
 	// State for the peering, either ACTIVE or INACTIVE. The peering is
 	// ACTIVE when there's a matching configuration in the peer network.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
@@ -103,6 +106,10 @@ type NetworkPeeringParameters struct {
 	// Selector for a Network in compute to populate peerNetwork.
 	// +kubebuilder:validation:Optional
 	PeerNetworkSelector *v1.Selector `json:"peerNetworkSelector,omitempty" tf:"-"`
+
+	// Which IP version(s) of traffic and routes are allowed to be imported or exported between peer networks. The default value is IPV4_ONLY. Possible values: ["IPV4_ONLY", "IPV4_IPV6"].
+	// +kubebuilder:validation:Optional
+	StackType *string `json:"stackType,omitempty" tf:"stack_type,omitempty"`
 }
 
 // NetworkPeeringSpec defines the desired state of NetworkPeering

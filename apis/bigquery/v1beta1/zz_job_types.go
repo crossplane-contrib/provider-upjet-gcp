@@ -532,6 +532,10 @@ type LoadObservation struct {
 	// an empty value.
 	NullMarker *string `json:"nullMarker,omitempty" tf:"null_marker,omitempty"`
 
+	// Parquet Options for load and make external tables.
+	// Structure is documented below.
+	ParquetOptions []ParquetOptionsObservation `json:"parquetOptions,omitempty" tf:"parquet_options,omitempty"`
+
 	// If sourceFormat is set to "DATASTORE_BACKUP", indicates which entity properties to load into BigQuery from a Cloud Datastore backup.
 	// Property names are case sensitive and must be top-level properties. If no properties are specified, BigQuery loads all properties.
 	// If any named property isn't found in the Cloud Datastore backup, an invalid error is returned in the job result.
@@ -667,6 +671,11 @@ type LoadParameters struct {
 	// +kubebuilder:validation:Optional
 	NullMarker *string `json:"nullMarker,omitempty" tf:"null_marker,omitempty"`
 
+	// Parquet Options for load and make external tables.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ParquetOptions []ParquetOptionsParameters `json:"parquetOptions,omitempty" tf:"parquet_options,omitempty"`
+
 	// If sourceFormat is set to "DATASTORE_BACKUP", indicates which entity properties to load into BigQuery from a Cloud Datastore backup.
 	// Property names are case sensitive and must be top-level properties. If no properties are specified, BigQuery loads all properties.
 	// If any named property isn't found in the Cloud Datastore backup, an invalid error is returned in the job result.
@@ -731,6 +740,26 @@ type LoadParameters struct {
 	// Possible values are: WRITE_TRUNCATE, WRITE_APPEND, WRITE_EMPTY.
 	// +kubebuilder:validation:Optional
 	WriteDisposition *string `json:"writeDisposition,omitempty" tf:"write_disposition,omitempty"`
+}
+
+type ParquetOptionsObservation struct {
+
+	// If sourceFormat is set to PARQUET, indicates whether to use schema inference specifically for Parquet LIST logical type.
+	EnableListInference *bool `json:"enableListInference,omitempty" tf:"enable_list_inference,omitempty"`
+
+	// If sourceFormat is set to PARQUET, indicates whether to infer Parquet ENUM logical type as STRING instead of BYTES by default.
+	EnumAsString *bool `json:"enumAsString,omitempty" tf:"enum_as_string,omitempty"`
+}
+
+type ParquetOptionsParameters struct {
+
+	// If sourceFormat is set to PARQUET, indicates whether to use schema inference specifically for Parquet LIST logical type.
+	// +kubebuilder:validation:Optional
+	EnableListInference *bool `json:"enableListInference,omitempty" tf:"enable_list_inference,omitempty"`
+
+	// If sourceFormat is set to PARQUET, indicates whether to infer Parquet ENUM logical type as STRING instead of BYTES by default.
+	// +kubebuilder:validation:Optional
+	EnumAsString *bool `json:"enumAsString,omitempty" tf:"enum_as_string,omitempty"`
 }
 
 type QueryDestinationEncryptionConfigurationObservation struct {
