@@ -262,7 +262,7 @@ $ CLIENT_GCP_SERVICE_ACCOUNT=<YOUR_CLIENT_GCP_SERVICE_ACCOUNT>                  
 
 #### 1. Setup Provider with Workload Identity
 
-Follow directions [here](#authenticating-with-workload-identity)
+Follow steps 1 and 2 [here](#authenticating-with-workload-identity)
 
 #### 2. Create Client Service Account
 
@@ -308,7 +308,7 @@ EOF
 
 ### 4. Next steps
 
-Now that you have configured `provider-gcp` with Workload Identity supported.
+Now you have configured `provider-gcp` with Impersonated Service Account support.
 
 ## Authenticating with Access Tokens
 
