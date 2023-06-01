@@ -262,7 +262,7 @@ $ CLIENT_GCP_SERVICE_ACCOUNT=<YOUR_CLIENT_GCP_SERVICE_ACCOUNT>                  
 
 #### 1. Setup Provider with Workload Identity
 
-Follow steps 1 and 2 [here](#authenticating-with-workload-identity)
+Please follow steps 0, 1, and 2 in [Authenticating with Workload Identity](#authenticating-with-workload-identity)
 
 #### 2. Create Client Service Account
 
