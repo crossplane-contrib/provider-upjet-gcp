@@ -61,6 +61,9 @@ func Configure(p *config.Provider) {
 		// Therefore, writing it as a connection Secret results in the Secret value being double encoded,
 		// so decode it and add to the connection details as private_key
 		r.Sensitive.AdditionalConnectionDetailsFn = func(attr map[string]interface{}) (map[string][]byte, error) {
+			if attr["private_key"] == nil {
+				return nil, nil
+			}
 			privateKeyEncoded, err := common.GetField(attr, "private_key")
 			if err != nil {
 				return nil, err
