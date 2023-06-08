@@ -40,6 +40,8 @@ const (
 	keyAccessToken               = "access_token"
 
 	upboundProviderIdentityTokenFile = "/var/run/secrets/upbound.io/provider/token"
+	impersonateServiceAccount        = "ImpersonateServiceAccount"
+	keyImpersonateServiceAccount     = "impersonate_service_account"
 )
 
 const (
@@ -122,6 +124,10 @@ func TerraformSetupBuilder(version, providerSource, providerVersion string, sche
 		switch pc.Spec.Credentials.Source { //nolint:exhaustive
 		case xpv1.CredentialsSourceInjectedIdentity:
 			// We don't need to do anything here, as the TF Provider will take care of workloadIdentity etc.
+		case impersonateServiceAccount:
+			if pc.Spec.Credentials.ImpersonateServiceAccountSpec.Name != "" {
+				ps.Configuration[keyImpersonateServiceAccount] = pc.Spec.Credentials.ImpersonateServiceAccountSpec.Name
+			}
 		case credentialsSourceAccessToken:
 			data, err := resource.CommonCredentialExtractor(ctx, xpv1.CredentialsSourceSecret, client, pc.Spec.Credentials.CommonCredentialSelectors)
 			if err != nil {

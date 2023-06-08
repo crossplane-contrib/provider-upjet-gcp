@@ -70,6 +70,15 @@ spec:
                     required:
                     - path
                     type: object
+                  impersonateServiceAccount:
+                    description: Use GCP service account impersonation for authentication.
+                    properties:
+                      name:
+                        description: GCP service account email address
+                        type: string
+                    required:
+                    - name
+                    type: object
                   secretRef:
                     description: A SecretRef is a reference to a secret key that contains
                       the credentials that must be used to connect to the provider.
@@ -94,6 +103,7 @@ spec:
                     - None
                     - Secret
                     - AccessToken
+                    - ImpersonateServiceAccount
                     - InjectedIdentity
                     - Environment
                     - Filesystem
