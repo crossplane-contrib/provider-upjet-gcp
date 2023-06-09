@@ -2408,6 +2408,74 @@ func (mg *ServiceAttachment) ResolveReferences(ctx context.Context, c client.Rea
 	return nil
 }
 
+// ResolveReferences of this SharedVPCHostProject.
+func (mg *SharedVPCHostProject) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Project),
+		Extract:      common.ExtractProjectID(),
+		Reference:    mg.Spec.ForProvider.ProjectRef,
+		Selector:     mg.Spec.ForProvider.ProjectSelector,
+		To: reference.To{
+			List:    &v1beta11.ProjectList{},
+			Managed: &v1beta11.Project{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.Project")
+	}
+	mg.Spec.ForProvider.Project = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.ProjectRef = rsp.ResolvedReference
+
+	return nil
+}
+
+// ResolveReferences of this SharedVPCServiceProject.
+func (mg *SharedVPCServiceProject) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.HostProject),
+		Extract:      common.ExtractProjectID(),
+		Reference:    mg.Spec.ForProvider.HostProjectRef,
+		Selector:     mg.Spec.ForProvider.HostProjectSelector,
+		To: reference.To{
+			List:    &v1beta11.ProjectList{},
+			Managed: &v1beta11.Project{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.HostProject")
+	}
+	mg.Spec.ForProvider.HostProject = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.HostProjectRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ServiceProject),
+		Extract:      common.ExtractProjectID(),
+		Reference:    mg.Spec.ForProvider.ServiceProjectRef,
+		Selector:     mg.Spec.ForProvider.ServiceProjectSelector,
+		To: reference.To{
+			List:    &v1beta11.ProjectList{},
+			Managed: &v1beta11.Project{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.ServiceProject")
+	}
+	mg.Spec.ForProvider.ServiceProject = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.ServiceProjectRef = rsp.ResolvedReference
+
+	return nil
+}
+
 // ResolveReferences of this Snapshot.
 func (mg *Snapshot) ResolveReferences(ctx context.Context, c client.Reader) error {
 	r := reference.NewAPIResolver(c, mg)

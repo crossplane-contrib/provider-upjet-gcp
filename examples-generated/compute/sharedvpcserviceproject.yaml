@@ -8,8 +8,12 @@ metadata:
   name: service1
 spec:
   forProvider:
-    hostProject: host-project-id
-    serviceProject: service-project-id-1
+    hostProjectSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    serviceProjectSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
 
 ---
 

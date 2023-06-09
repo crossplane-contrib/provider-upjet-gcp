@@ -8,7 +8,9 @@ metadata:
   name: host
 spec:
   forProvider:
-    project: host-project-id
+    projectSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
 
 ---
 
@@ -22,8 +24,12 @@ metadata:
   name: service1
 spec:
   forProvider:
-    hostProject: host-project-id
-    serviceProject: service-project-id-1
+    hostProjectSelector:
+      matchLabels:
+        testing.upbound.io/example-name: host
+    serviceProjectSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
 
 ---
 
@@ -37,8 +43,12 @@ metadata:
   name: service2
 spec:
   forProvider:
-    hostProject: host-project-id
-    serviceProject: service-project-id-2
+    hostProjectSelector:
+      matchLabels:
+        testing.upbound.io/example-name: host
+    serviceProjectSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
 
 ---
 

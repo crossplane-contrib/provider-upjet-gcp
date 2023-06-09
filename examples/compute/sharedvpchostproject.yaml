@@ -3,13 +3,12 @@ kind: SharedVPCHostProject
 metadata:
   annotations:
     meta.upbound.io/example-id: compute/v1beta1/sharedvpchostproject
-    upjet.upbound.io/manual-intervention: "Required organizational level permissions"
   labels:
     testing.upbound.io/example-name: host
   name: host
 spec:
   forProvider:
-    project: host-project-id
+    project: ${data.cloudplatform_project.projectId}
 
 ---
 
