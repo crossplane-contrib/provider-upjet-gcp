@@ -291,6 +291,7 @@ type BackendParameters struct {
 	MaxUtilization *float64 `json:"maxUtilization,omitempty" tf:"max_utilization,omitempty"`
 }
 
+<<<<<<< HEAD
 type BackendServiceCdnPolicyInitParameters struct {
 
 	// Bypass the cache when the specified request headers are matched - e.g. Pragma or Authorization headers. Up to 5 headers can be specified.
@@ -577,6 +578,8 @@ type BackendServiceInitParameters struct {
 	TimeoutSec *float64 `json:"timeoutSec,omitempty" tf:"timeout_sec,omitempty"`
 }
 
+=======
+>>>>>>> a3be7bc6 (Remove unneeded resources)
 type BackendServiceObservation struct {
 
 	// Lifetime of cookies in seconds if session_affinity is
@@ -592,7 +595,7 @@ type BackendServiceObservation struct {
 
 	// Cloud CDN configuration for this BackendService.
 	// Structure is documented below.
-	CdnPolicy []BackendServiceCdnPolicyObservation `json:"cdnPolicy,omitempty" tf:"cdn_policy,omitempty"`
+	CdnPolicy []CdnPolicyObservation `json:"cdnPolicy,omitempty" tf:"cdn_policy,omitempty"`
 
 	// Settings controlling the volume of connections to a backend service. This field
 	// is applicable only when the load_balancing_scheme is set to INTERNAL_SELF_MANAGED.
@@ -748,7 +751,7 @@ type BackendServiceParameters struct {
 	// Cloud CDN configuration for this BackendService.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	CdnPolicy []BackendServiceCdnPolicyParameters `json:"cdnPolicy,omitempty" tf:"cdn_policy,omitempty"`
+	CdnPolicy []CdnPolicyParameters `json:"cdnPolicy,omitempty" tf:"cdn_policy,omitempty"`
 
 	// Settings controlling the volume of connections to a backend service. This field
 	// is applicable only when the load_balancing_scheme is set to INTERNAL_SELF_MANAGED.
@@ -950,13 +953,13 @@ type CdnPolicyBypassCacheOnRequestHeadersInitParameters struct {
 	HeaderName *string `json:"headerName,omitempty" tf:"header_name,omitempty"`
 }
 
-type CdnPolicyBypassCacheOnRequestHeadersObservation struct {
+type BypassCacheOnRequestHeadersObservation struct {
 
 	// The header field name to match on when bypassing cache. Values are case-insensitive.
 	HeaderName *string `json:"headerName,omitempty" tf:"header_name,omitempty"`
 }
 
-type CdnPolicyBypassCacheOnRequestHeadersParameters struct {
+type BypassCacheOnRequestHeadersParameters struct {
 
 	// The header field name to match on when bypassing cache. Values are case-insensitive.
 	// +kubebuilder:validation:Optional
@@ -1001,7 +1004,7 @@ type CdnPolicyCacheKeyPolicyInitParameters struct {
 	QueryStringWhitelist []*string `json:"queryStringWhitelist,omitempty" tf:"query_string_whitelist,omitempty"`
 }
 
-type CdnPolicyCacheKeyPolicyObservation struct {
+type CacheKeyPolicyObservation struct {
 
 	// Allows HTTP request headers (by name) to be used in the
 	// cache key.
@@ -1039,7 +1042,7 @@ type CdnPolicyCacheKeyPolicyObservation struct {
 	QueryStringWhitelist []*string `json:"queryStringWhitelist,omitempty" tf:"query_string_whitelist,omitempty"`
 }
 
-type CdnPolicyCacheKeyPolicyParameters struct {
+type CacheKeyPolicyParameters struct {
 
 	// Allows HTTP request headers (by name) to be used in the
 	// cache key.
@@ -1084,6 +1087,7 @@ type CdnPolicyCacheKeyPolicyParameters struct {
 	QueryStringWhitelist []*string `json:"queryStringWhitelist,omitempty" tf:"query_string_whitelist,omitempty"`
 }
 
+<<<<<<< HEAD
 type CdnPolicyNegativeCachingPolicyInitParameters struct {
 
 	// The HTTP status code to define a TTL against. Only HTTP status codes 300, 301, 308, 404, 405, 410, 421, 451 and 501
@@ -1096,27 +1100,114 @@ type CdnPolicyNegativeCachingPolicyInitParameters struct {
 }
 
 type CdnPolicyNegativeCachingPolicyObservation struct {
+=======
+type CdnPolicyObservation struct {
+>>>>>>> a3be7bc6 (Remove unneeded resources)
 
-	// The HTTP status code to define a TTL against. Only HTTP status codes 300, 301, 308, 404, 405, 410, 421, 451 and 501
-	// can be specified as values, and you cannot specify a status code more than once.
-	Code *float64 `json:"code,omitempty" tf:"code,omitempty"`
+	// Bypass the cache when the specified request headers are matched - e.g. Pragma or Authorization headers. Up to 5 headers can be specified.
+	// The cache is bypassed for all cdnPolicy.cacheMode settings.
+	// Structure is documented below.
+	BypassCacheOnRequestHeaders []BypassCacheOnRequestHeadersObservation `json:"bypassCacheOnRequestHeaders,omitempty" tf:"bypass_cache_on_request_headers,omitempty"`
 
-	// The TTL (in seconds) for which to cache responses with the corresponding status code. The maximum allowed value is 1800s
-	// (30 minutes), noting that infrequently accessed objects may be evicted from the cache before the defined TTL.
-	TTL *float64 `json:"ttl,omitempty" tf:"ttl,omitempty"`
+	// The CacheKeyPolicy for this CdnPolicy.
+	// Structure is documented below.
+	CacheKeyPolicy []CacheKeyPolicyObservation `json:"cacheKeyPolicy,omitempty" tf:"cache_key_policy,omitempty"`
+
+	// Specifies the cache setting for all responses from this backend.
+	// The possible values are: USE_ORIGIN_HEADERS, FORCE_CACHE_ALL and CACHE_ALL_STATIC
+	// Possible values are: USE_ORIGIN_HEADERS, FORCE_CACHE_ALL, CACHE_ALL_STATIC.
+	CacheMode *string `json:"cacheMode,omitempty" tf:"cache_mode,omitempty"`
+
+	// Specifies the maximum allowed TTL for cached content served by this origin.
+	ClientTTL *float64 `json:"clientTtl,omitempty" tf:"client_ttl,omitempty"`
+
+	// Specifies the default TTL for cached content served by this origin for responses
+	// that do not have an existing valid TTL (max-age or s-max-age).
+	DefaultTTL *float64 `json:"defaultTtl,omitempty" tf:"default_ttl,omitempty"`
+
+	// Specifies the maximum allowed TTL for cached content served by this origin.
+	MaxTTL *float64 `json:"maxTtl,omitempty" tf:"max_ttl,omitempty"`
+
+	// Negative caching allows per-status code TTLs to be set, in order to apply fine-grained caching for common errors or redirects.
+	NegativeCaching *bool `json:"negativeCaching,omitempty" tf:"negative_caching,omitempty"`
+
+	// Sets a cache TTL for the specified HTTP status code. negativeCaching must be enabled to configure negativeCachingPolicy.
+	// Omitting the policy and leaving negativeCaching enabled will use Cloud CDN's default cache TTLs.
+	// Structure is documented below.
+	NegativeCachingPolicy []NegativeCachingPolicyObservation `json:"negativeCachingPolicy,omitempty" tf:"negative_caching_policy,omitempty"`
+
+	// Serve existing content from the cache (if available) when revalidating content with the origin, or when an error is encountered when refreshing the cache.
+	ServeWhileStale *float64 `json:"serveWhileStale,omitempty" tf:"serve_while_stale,omitempty"`
+
+	// Maximum number of seconds the response to a signed URL request
+	// will be considered fresh, defaults to 1hr (3600s). After this
+	// time period, the response will be revalidated before
+	// being served.
+	// When serving responses to signed URL requests, Cloud CDN will
+	// internally behave as though all responses from this backend had a
+	// "Cache-Control: public, max-age=[TTL]" header, regardless of any
+	// existing Cache-Control header. The actual headers served in
+	// responses will not be altered.
+	SignedURLCacheMaxAgeSec *float64 `json:"signedUrlCacheMaxAgeSec,omitempty" tf:"signed_url_cache_max_age_sec,omitempty"`
 }
 
-type CdnPolicyNegativeCachingPolicyParameters struct {
+type CdnPolicyParameters struct {
 
-	// The HTTP status code to define a TTL against. Only HTTP status codes 300, 301, 308, 404, 405, 410, 421, 451 and 501
-	// can be specified as values, and you cannot specify a status code more than once.
+	// Bypass the cache when the specified request headers are matched - e.g. Pragma or Authorization headers. Up to 5 headers can be specified.
+	// The cache is bypassed for all cdnPolicy.cacheMode settings.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	Code *float64 `json:"code,omitempty" tf:"code,omitempty"`
+	BypassCacheOnRequestHeaders []BypassCacheOnRequestHeadersParameters `json:"bypassCacheOnRequestHeaders,omitempty" tf:"bypass_cache_on_request_headers,omitempty"`
 
-	// The TTL (in seconds) for which to cache responses with the corresponding status code. The maximum allowed value is 1800s
-	// (30 minutes), noting that infrequently accessed objects may be evicted from the cache before the defined TTL.
+	// The CacheKeyPolicy for this CdnPolicy.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	TTL *float64 `json:"ttl,omitempty" tf:"ttl,omitempty"`
+	CacheKeyPolicy []CacheKeyPolicyParameters `json:"cacheKeyPolicy,omitempty" tf:"cache_key_policy,omitempty"`
+
+	// Specifies the cache setting for all responses from this backend.
+	// The possible values are: USE_ORIGIN_HEADERS, FORCE_CACHE_ALL and CACHE_ALL_STATIC
+	// Possible values are: USE_ORIGIN_HEADERS, FORCE_CACHE_ALL, CACHE_ALL_STATIC.
+	// +kubebuilder:validation:Optional
+	CacheMode *string `json:"cacheMode,omitempty" tf:"cache_mode,omitempty"`
+
+	// Specifies the maximum allowed TTL for cached content served by this origin.
+	// +kubebuilder:validation:Optional
+	ClientTTL *float64 `json:"clientTtl,omitempty" tf:"client_ttl,omitempty"`
+
+	// Specifies the default TTL for cached content served by this origin for responses
+	// that do not have an existing valid TTL (max-age or s-max-age).
+	// +kubebuilder:validation:Optional
+	DefaultTTL *float64 `json:"defaultTtl,omitempty" tf:"default_ttl,omitempty"`
+
+	// Specifies the maximum allowed TTL for cached content served by this origin.
+	// +kubebuilder:validation:Optional
+	MaxTTL *float64 `json:"maxTtl,omitempty" tf:"max_ttl,omitempty"`
+
+	// Negative caching allows per-status code TTLs to be set, in order to apply fine-grained caching for common errors or redirects.
+	// +kubebuilder:validation:Optional
+	NegativeCaching *bool `json:"negativeCaching,omitempty" tf:"negative_caching,omitempty"`
+
+	// Sets a cache TTL for the specified HTTP status code. negativeCaching must be enabled to configure negativeCachingPolicy.
+	// Omitting the policy and leaving negativeCaching enabled will use Cloud CDN's default cache TTLs.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	NegativeCachingPolicy []NegativeCachingPolicyParameters `json:"negativeCachingPolicy,omitempty" tf:"negative_caching_policy,omitempty"`
+
+	// Serve existing content from the cache (if available) when revalidating content with the origin, or when an error is encountered when refreshing the cache.
+	// +kubebuilder:validation:Optional
+	ServeWhileStale *float64 `json:"serveWhileStale,omitempty" tf:"serve_while_stale,omitempty"`
+
+	// Maximum number of seconds the response to a signed URL request
+	// will be considered fresh, defaults to 1hr (3600s). After this
+	// time period, the response will be revalidated before
+	// being served.
+	// When serving responses to signed URL requests, Cloud CDN will
+	// internally behave as though all responses from this backend had a
+	// "Cache-Control: public, max-age=[TTL]" header, regardless of any
+	// existing Cache-Control header. The actual headers served in
+	// responses will not be altered.
+	// +kubebuilder:validation:Optional
+	SignedURLCacheMaxAgeSec *float64 `json:"signedUrlCacheMaxAgeSec,omitempty" tf:"signed_url_cache_max_age_sec,omitempty"`
 }
 
 type CircuitBreakersInitParameters struct {
@@ -1525,6 +1616,7 @@ type LogConfigParameters struct {
 	SampleRate *float64 `json:"sampleRate,omitempty" tf:"sample_rate,omitempty"`
 }
 
+<<<<<<< HEAD
 type OutlierDetectionInitParameters struct {
 
 	// The base time that a host is ejected for. The real time is equal to the base
@@ -1587,6 +1679,30 @@ type OutlierDetectionInitParameters struct {
 	// by a thousand to get a double. That is, if the desired factor is 1.9, the
 	// runtime value should be 1900. Defaults to 1900.
 	SuccessRateStdevFactor *float64 `json:"successRateStdevFactor,omitempty" tf:"success_rate_stdev_factor,omitempty"`
+=======
+type NegativeCachingPolicyObservation struct {
+
+	// The HTTP status code to define a TTL against. Only HTTP status codes 300, 301, 308, 404, 405, 410, 421, 451 and 501
+	// can be specified as values, and you cannot specify a status code more than once.
+	Code *float64 `json:"code,omitempty" tf:"code,omitempty"`
+
+	// The TTL (in seconds) for which to cache responses with the corresponding status code. The maximum allowed value is 1800s
+	// (30 minutes), noting that infrequently accessed objects may be evicted from the cache before the defined TTL.
+	TTL *float64 `json:"ttl,omitempty" tf:"ttl,omitempty"`
+}
+
+type NegativeCachingPolicyParameters struct {
+
+	// The HTTP status code to define a TTL against. Only HTTP status codes 300, 301, 308, 404, 405, 410, 421, 451 and 501
+	// can be specified as values, and you cannot specify a status code more than once.
+	// +kubebuilder:validation:Optional
+	Code *float64 `json:"code,omitempty" tf:"code,omitempty"`
+
+	// The TTL (in seconds) for which to cache responses with the corresponding status code. The maximum allowed value is 1800s
+	// (30 minutes), noting that infrequently accessed objects may be evicted from the cache before the defined TTL.
+	// +kubebuilder:validation:Optional
+	TTL *float64 `json:"ttl,omitempty" tf:"ttl,omitempty"`
+>>>>>>> a3be7bc6 (Remove unneeded resources)
 }
 
 type OutlierDetectionObservation struct {

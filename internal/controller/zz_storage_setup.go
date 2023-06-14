@@ -16,9 +16,6 @@ import (
 	bucketobject "github.com/upbound/provider-gcp/internal/controller/storage/bucketobject"
 	defaultobjectaccesscontrol "github.com/upbound/provider-gcp/internal/controller/storage/defaultobjectaccesscontrol"
 	defaultobjectacl "github.com/upbound/provider-gcp/internal/controller/storage/defaultobjectacl"
-	notification "github.com/upbound/provider-gcp/internal/controller/storage/notification"
-	objectaccesscontrol "github.com/upbound/provider-gcp/internal/controller/storage/objectaccesscontrol"
-	objectacl "github.com/upbound/provider-gcp/internal/controller/storage/objectacl"
 )
 
 // Setup_storage creates all controllers with the supplied logger and adds them to
@@ -32,9 +29,6 @@ func Setup_storage(mgr ctrl.Manager, o controller.Options) error {
 		bucketobject.Setup,
 		defaultobjectaccesscontrol.Setup,
 		defaultobjectacl.Setup,
-		notification.Setup,
-		objectaccesscontrol.Setup,
-		objectacl.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {
 			return err

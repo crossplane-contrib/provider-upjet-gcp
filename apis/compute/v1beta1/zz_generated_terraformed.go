@@ -25,6 +25,7 @@ import (
 	"github.com/upbound/upjet/pkg/resource/json"
 )
 
+<<<<<<< HEAD
 // GetTerraformResourceType returns Terraform resource type for this Address
 func (mg *Address) GetTerraformResourceType() string {
 	return "google_compute_address"
@@ -445,6 +446,8 @@ func (tr *BackendBucketSignedURLKey) GetTerraformSchemaVersion() int {
 	return 0
 }
 
+=======
+>>>>>>> a3be7bc6 (Remove unneeded resources)
 // GetTerraformResourceType returns Terraform resource type for this BackendService
 func (mg *BackendService) GetTerraformResourceType() string {
 	return "google_compute_backend_service"
@@ -529,6 +532,7 @@ func (tr *BackendService) GetTerraformSchemaVersion() int {
 	return 1
 }
 
+<<<<<<< HEAD
 // GetTerraformResourceType returns Terraform resource type for this BackendServiceSignedURLKey
 func (mg *BackendServiceSignedURLKey) GetTerraformResourceType() string {
 	return "google_compute_backend_service_signed_url_key"
@@ -1369,6 +1373,8 @@ func (tr *ForwardingRule) GetTerraformSchemaVersion() int {
 	return 0
 }
 
+=======
+>>>>>>> a3be7bc6 (Remove unneeded resources)
 // GetTerraformResourceType returns Terraform resource type for this GlobalAddress
 func (mg *GlobalAddress) GetTerraformResourceType() string {
 	return "google_compute_global_address"
@@ -1537,6 +1543,7 @@ func (tr *GlobalForwardingRule) GetTerraformSchemaVersion() int {
 	return 0
 }
 
+<<<<<<< HEAD
 // GetTerraformResourceType returns Terraform resource type for this GlobalNetworkEndpoint
 func (mg *GlobalNetworkEndpoint) GetTerraformResourceType() string {
 	return "google_compute_global_network_endpoint"
@@ -1789,6 +1796,8 @@ func (tr *HaVPNGateway) GetTerraformSchemaVersion() int {
 	return 0
 }
 
+=======
+>>>>>>> a3be7bc6 (Remove unneeded resources)
 // GetTerraformResourceType returns Terraform resource type for this HealthCheck
 func (mg *HealthCheck) GetTerraformResourceType() string {
 	return "google_compute_health_check"
@@ -2041,6 +2050,7 @@ func (tr *HTTPSHealthCheck) GetTerraformSchemaVersion() int {
 	return 0
 }
 
+<<<<<<< HEAD
 // GetTerraformResourceType returns Terraform resource type for this Image
 func (mg *Image) GetTerraformResourceType() string {
 	return "google_compute_image"
@@ -2461,6 +2471,8 @@ func (tr *InstanceGroup) GetTerraformSchemaVersion() int {
 	return 2
 }
 
+=======
+>>>>>>> a3be7bc6 (Remove unneeded resources)
 // GetTerraformResourceType returns Terraform resource type for this InstanceGroupManager
 func (mg *InstanceGroupManager) GetTerraformResourceType() string {
 	return "google_compute_instance_group_manager"
@@ -2545,6 +2557,7 @@ func (tr *InstanceGroupManager) GetTerraformSchemaVersion() int {
 	return 0
 }
 
+<<<<<<< HEAD
 // GetTerraformResourceType returns Terraform resource type for this InstanceGroupNamedPort
 func (mg *InstanceGroupNamedPort) GetTerraformResourceType() string {
 	return "google_compute_instance_group_named_port"
@@ -2713,6 +2726,8 @@ func (tr *InstanceIAMMember) GetTerraformSchemaVersion() int {
 	return 0
 }
 
+=======
+>>>>>>> a3be7bc6 (Remove unneeded resources)
 // GetTerraformResourceType returns Terraform resource type for this InstanceTemplate
 func (mg *InstanceTemplate) GetTerraformResourceType() string {
 	return "google_compute_instance_template"
@@ -2797,6 +2812,7 @@ func (tr *InstanceTemplate) GetTerraformSchemaVersion() int {
 	return 1
 }
 
+<<<<<<< HEAD
 // GetTerraformResourceType returns Terraform resource type for this InterconnectAttachment
 func (mg *InterconnectAttachment) GetTerraformResourceType() string {
 	return "google_compute_interconnect_attachment"
@@ -2965,6 +2981,8 @@ func (tr *ManagedSSLCertificate) GetTerraformSchemaVersion() int {
 	return 0
 }
 
+=======
+>>>>>>> a3be7bc6 (Remove unneeded resources)
 // GetTerraformResourceType returns Terraform resource type for this Network
 func (mg *Network) GetTerraformResourceType() string {
 	return "google_compute_network"
@@ -3049,6 +3067,7 @@ func (tr *Network) GetTerraformSchemaVersion() int {
 	return 0
 }
 
+<<<<<<< HEAD
 // GetTerraformResourceType returns Terraform resource type for this NetworkEndpoint
 func (mg *NetworkEndpoint) GetTerraformResourceType() string {
 	return "google_compute_network_endpoint"
@@ -4225,6 +4244,8 @@ func (tr *RegionAutoscaler) GetTerraformSchemaVersion() int {
 	return 0
 }
 
+=======
+>>>>>>> a3be7bc6 (Remove unneeded resources)
 // GetTerraformResourceType returns Terraform resource type for this RegionBackendService
 func (mg *RegionBackendService) GetTerraformResourceType() string {
 	return "google_compute_region_backend_service"
@@ -4309,6 +4330,7 @@ func (tr *RegionBackendService) GetTerraformSchemaVersion() int {
 	return 1
 }
 
+<<<<<<< HEAD
 // GetTerraformResourceType returns Terraform resource type for this RegionDisk
 func (mg *RegionDisk) GetTerraformResourceType() string {
 	return "google_compute_region_disk"
@@ -4561,6 +4583,8 @@ func (tr *RegionDiskResourcePolicyAttachment) GetTerraformSchemaVersion() int {
 	return 0
 }
 
+=======
+>>>>>>> a3be7bc6 (Remove unneeded resources)
 // GetTerraformResourceType returns Terraform resource type for this RegionHealthCheck
 func (mg *RegionHealthCheck) GetTerraformResourceType() string {
 	return "google_compute_region_health_check"
@@ -4729,6 +4753,7 @@ func (tr *RegionInstanceGroupManager) GetTerraformSchemaVersion() int {
 	return 0
 }
 
+<<<<<<< HEAD
 // GetTerraformResourceType returns Terraform resource type for this RegionNetworkEndpointGroup
 func (mg *RegionNetworkEndpointGroup) GetTerraformResourceType() string {
 	return "google_compute_region_network_endpoint_group"
@@ -5065,6 +5090,8 @@ func (tr *RegionPerInstanceConfig) GetTerraformSchemaVersion() int {
 	return 0
 }
 
+=======
+>>>>>>> a3be7bc6 (Remove unneeded resources)
 // GetTerraformResourceType returns Terraform resource type for this RegionSSLCertificate
 func (mg *RegionSSLCertificate) GetTerraformResourceType() string {
 	return "google_compute_region_ssl_certificate"
@@ -5401,6 +5428,7 @@ func (tr *RegionURLMap) GetTerraformSchemaVersion() int {
 	return 0
 }
 
+<<<<<<< HEAD
 // GetTerraformResourceType returns Terraform resource type for this Reservation
 func (mg *Reservation) GetTerraformResourceType() string {
 	return "google_compute_reservation"
@@ -6493,6 +6521,8 @@ func (tr *SnapshotIAMMember) GetTerraformSchemaVersion() int {
 	return 0
 }
 
+=======
+>>>>>>> a3be7bc6 (Remove unneeded resources)
 // GetTerraformResourceType returns Terraform resource type for this SSLCertificate
 func (mg *SSLCertificate) GetTerraformResourceType() string {
 	return "google_compute_ssl_certificate"
@@ -6577,6 +6607,7 @@ func (tr *SSLCertificate) GetTerraformSchemaVersion() int {
 	return 0
 }
 
+<<<<<<< HEAD
 // GetTerraformResourceType returns Terraform resource type for this SSLPolicy
 func (mg *SSLPolicy) GetTerraformResourceType() string {
 	return "google_compute_ssl_policy"
@@ -6661,6 +6692,8 @@ func (tr *SSLPolicy) GetTerraformSchemaVersion() int {
 	return 0
 }
 
+=======
+>>>>>>> a3be7bc6 (Remove unneeded resources)
 // GetTerraformResourceType returns Terraform resource type for this Subnetwork
 func (mg *Subnetwork) GetTerraformResourceType() string {
 	return "google_compute_subnetwork"
@@ -6730,7 +6763,7 @@ func (tr *Subnetwork) GetInitParameters() (map[string]any, error) {
 // LateInitialize this Subnetwork using its observed tfState.
 // returns True if there are any spec changes for the resource.
 func (tr *Subnetwork) LateInitialize(attrs []byte) (bool, error) {
-	params := &SubnetworkParameters_2{}
+	params := &SubnetworkParameters{}
 	if err := json.TFParser.Unmarshal(attrs, params); err != nil {
 		return false, errors.Wrap(err, "failed to unmarshal Terraform state parameters for late-initialization")
 	}
@@ -6745,6 +6778,7 @@ func (tr *Subnetwork) GetTerraformSchemaVersion() int {
 	return 0
 }
 
+<<<<<<< HEAD
 // GetTerraformResourceType returns Terraform resource type for this SubnetworkIAMMember
 func (mg *SubnetworkIAMMember) GetTerraformResourceType() string {
 	return "google_compute_subnetwork_iam_member"
@@ -6913,6 +6947,8 @@ func (tr *TargetGRPCProxy) GetTerraformSchemaVersion() int {
 	return 0
 }
 
+=======
+>>>>>>> a3be7bc6 (Remove unneeded resources)
 // GetTerraformResourceType returns Terraform resource type for this TargetHTTPProxy
 func (mg *TargetHTTPProxy) GetTerraformResourceType() string {
 	return "google_compute_target_http_proxy"
@@ -7081,6 +7117,7 @@ func (tr *TargetHTTPSProxy) GetTerraformSchemaVersion() int {
 	return 0
 }
 
+<<<<<<< HEAD
 // GetTerraformResourceType returns Terraform resource type for this TargetInstance
 func (mg *TargetInstance) GetTerraformResourceType() string {
 	return "google_compute_target_instance"
@@ -7165,6 +7202,8 @@ func (tr *TargetInstance) GetTerraformSchemaVersion() int {
 	return 0
 }
 
+=======
+>>>>>>> a3be7bc6 (Remove unneeded resources)
 // GetTerraformResourceType returns Terraform resource type for this TargetPool
 func (mg *TargetPool) GetTerraformResourceType() string {
 	return "google_compute_target_pool"
@@ -7248,6 +7287,7 @@ func (tr *TargetPool) LateInitialize(attrs []byte) (bool, error) {
 func (tr *TargetPool) GetTerraformSchemaVersion() int {
 	return 0
 }
+<<<<<<< HEAD
 
 // GetTerraformResourceType returns Terraform resource type for this TargetSSLProxy
 func (mg *TargetSSLProxy) GetTerraformResourceType() string {
@@ -7668,3 +7708,5 @@ func (tr *VPNTunnel) LateInitialize(attrs []byte) (bool, error) {
 func (tr *VPNTunnel) GetTerraformSchemaVersion() int {
 	return 0
 }
+=======
+>>>>>>> a3be7bc6 (Remove unneeded resources)

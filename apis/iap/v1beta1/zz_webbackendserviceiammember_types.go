@@ -25,6 +25,7 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+<<<<<<< HEAD
 type WebBackendServiceIAMMemberConditionInitParameters struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -34,6 +35,9 @@ type WebBackendServiceIAMMemberConditionInitParameters struct {
 }
 
 type WebBackendServiceIAMMemberConditionObservation struct {
+=======
+type ConditionObservation struct {
+>>>>>>> a3be7bc6 (Remove unneeded resources)
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	Expression *string `json:"expression,omitempty" tf:"expression,omitempty"`
@@ -41,7 +45,7 @@ type WebBackendServiceIAMMemberConditionObservation struct {
 	Title *string `json:"title,omitempty" tf:"title,omitempty"`
 }
 
-type WebBackendServiceIAMMemberConditionParameters struct {
+type ConditionParameters struct {
 
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -64,7 +68,7 @@ type WebBackendServiceIAMMemberInitParameters struct {
 }
 
 type WebBackendServiceIAMMemberObservation struct {
-	Condition []WebBackendServiceIAMMemberConditionObservation `json:"condition,omitempty" tf:"condition,omitempty"`
+	Condition []ConditionObservation `json:"condition,omitempty" tf:"condition,omitempty"`
 
 	Etag *string `json:"etag,omitempty" tf:"etag,omitempty"`
 
@@ -82,7 +86,7 @@ type WebBackendServiceIAMMemberObservation struct {
 type WebBackendServiceIAMMemberParameters struct {
 
 	// +kubebuilder:validation:Optional
-	Condition []WebBackendServiceIAMMemberConditionParameters `json:"condition,omitempty" tf:"condition,omitempty"`
+	Condition []ConditionParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	Member *string `json:"member,omitempty" tf:"member,omitempty"`

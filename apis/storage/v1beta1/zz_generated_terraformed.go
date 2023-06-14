@@ -612,6 +612,7 @@ func (tr *DefaultObjectACL) LateInitialize(attrs []byte) (bool, error) {
 func (tr *DefaultObjectACL) GetTerraformSchemaVersion() int {
 	return 0
 }
+<<<<<<< HEAD
 
 // GetTerraformResourceType returns Terraform resource type for this Notification
 func (mg *Notification) GetTerraformResourceType() string {
@@ -864,3 +865,5 @@ func (tr *ObjectACL) LateInitialize(attrs []byte) (bool, error) {
 func (tr *ObjectACL) GetTerraformSchemaVersion() int {
 	return 0
 }
+=======
+>>>>>>> a3be7bc6 (Remove unneeded resources)

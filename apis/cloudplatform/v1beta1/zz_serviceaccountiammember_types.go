@@ -25,6 +25,7 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+<<<<<<< HEAD
 type ServiceAccountIAMMemberConditionInitParameters struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -34,6 +35,9 @@ type ServiceAccountIAMMemberConditionInitParameters struct {
 }
 
 type ServiceAccountIAMMemberConditionObservation struct {
+=======
+type ConditionObservation struct {
+>>>>>>> a3be7bc6 (Remove unneeded resources)
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	Expression *string `json:"expression,omitempty" tf:"expression,omitempty"`
@@ -41,7 +45,7 @@ type ServiceAccountIAMMemberConditionObservation struct {
 	Title *string `json:"title,omitempty" tf:"title,omitempty"`
 }
 
-type ServiceAccountIAMMemberConditionParameters struct {
+type ConditionParameters struct {
 
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -62,7 +66,7 @@ type ServiceAccountIAMMemberInitParameters struct {
 }
 
 type ServiceAccountIAMMemberObservation struct {
-	Condition []ServiceAccountIAMMemberConditionObservation `json:"condition,omitempty" tf:"condition,omitempty"`
+	Condition []ConditionObservation `json:"condition,omitempty" tf:"condition,omitempty"`
 
 	Etag *string `json:"etag,omitempty" tf:"etag,omitempty"`
 
@@ -78,7 +82,7 @@ type ServiceAccountIAMMemberObservation struct {
 type ServiceAccountIAMMemberParameters struct {
 
 	// +kubebuilder:validation:Optional
-	Condition []ServiceAccountIAMMemberConditionParameters `json:"condition,omitempty" tf:"condition,omitempty"`
+	Condition []ConditionParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	Member *string `json:"member,omitempty" tf:"member,omitempty"`

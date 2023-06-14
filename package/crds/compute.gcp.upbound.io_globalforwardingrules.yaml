@@ -415,7 +415,7 @@ spec:
                       object.
                     type: string
                   targetRef:
-                    description: Reference to a TargetSSLProxy in compute to populate
+                    description: Reference to a TargetHTTPProxy in compute to populate
                       target.
                     properties:
                       name:
@@ -450,7 +450,7 @@ spec:
                     - name
                     type: object
                   targetSelector:
-                    description: Selector for a TargetSSLProxy in compute to populate
+                    description: Selector for a TargetHTTPProxy in compute to populate
                       target.
                     properties:
                       matchControllerRef:

@@ -25,6 +25,7 @@ import (
 	"github.com/upbound/upjet/pkg/resource/json"
 )
 
+<<<<<<< HEAD
 // GetTerraformResourceType returns Terraform resource type for this ManagedZone
 func (mg *ManagedZone) GetTerraformResourceType() string {
 	return "google_dns_managed_zone"
@@ -277,6 +278,8 @@ func (tr *Policy) GetTerraformSchemaVersion() int {
 	return 0
 }
 
+=======
+>>>>>>> a3be7bc6 (Remove unneeded resources)
 // GetTerraformResourceType returns Terraform resource type for this RecordSet
 func (mg *RecordSet) GetTerraformResourceType() string {
 	return "google_dns_record_set"

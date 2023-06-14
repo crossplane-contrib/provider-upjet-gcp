@@ -25,6 +25,7 @@ import (
 	"github.com/upbound/upjet/pkg/resource/json"
 )
 
+<<<<<<< HEAD
 // GetTerraformResourceType returns Terraform resource type for this Folder
 func (mg *Folder) GetTerraformResourceType() string {
 	return "google_folder"
@@ -1033,6 +1034,8 @@ func (tr *ProjectUsageExportBucket) GetTerraformSchemaVersion() int {
 	return 0
 }
 
+=======
+>>>>>>> a3be7bc6 (Remove unneeded resources)
 // GetTerraformResourceType returns Terraform resource type for this ServiceAccount
 func (mg *ServiceAccount) GetTerraformResourceType() string {
 	return "google_service_account"

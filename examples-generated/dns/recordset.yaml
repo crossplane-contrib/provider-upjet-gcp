@@ -8,9 +8,7 @@ metadata:
   name: frontend
 spec:
   forProvider:
-    managedZoneSelector:
-      matchLabels:
-        testing.upbound.io/example-name: prod
+    managedZone: ${google_dns_managed_zone.prod.name}
     name: frontend.${google_dns_managed_zone.prod.dns_name}
     rrdatas:
     - ${google_compute_instance.frontend.network_interface[0].access_config[0].nat_ip}
@@ -19,6 +17,7 @@ spec:
 
 ---
 
+<<<<<<< HEAD
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: Instance
 metadata:
@@ -56,3 +55,5 @@ metadata:
 spec:
   forProvider:
     dnsName: prod.mydomain.com.
+=======
+>>>>>>> a3be7bc6 (Remove unneeded resources)

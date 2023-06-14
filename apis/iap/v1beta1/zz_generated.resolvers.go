@@ -21,7 +21,6 @@ import (
 	"context"
 	reference "github.com/crossplane/crossplane-runtime/pkg/reference"
 	errors "github.com/pkg/errors"
-	v1beta11 "github.com/upbound/provider-gcp/apis/appengine/v1beta1"
 	v1beta1 "github.com/upbound/provider-gcp/apis/compute/v1beta1"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
@@ -48,32 +47,6 @@ func (mg *WebBackendServiceIAMMember) ResolveReferences(ctx context.Context, c c
 	}
 	mg.Spec.ForProvider.WebBackendService = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.WebBackendServiceRef = rsp.ResolvedReference
-
-	return nil
-}
-
-// ResolveReferences of this WebTypeAppEngineIAMMember.
-func (mg *WebTypeAppEngineIAMMember) ResolveReferences(ctx context.Context, c client.Reader) error {
-	r := reference.NewAPIResolver(c, mg)
-
-	var rsp reference.ResolutionResponse
-	var err error
-
-	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.AppID),
-		Extract:      reference.ExternalName(),
-		Reference:    mg.Spec.ForProvider.AppIDRef,
-		Selector:     mg.Spec.ForProvider.AppIDSelector,
-		To: reference.To{
-			List:    &v1beta11.ApplicationList{},
-			Managed: &v1beta11.Application{},
-		},
-	})
-	if err != nil {
-		return errors.Wrap(err, "mg.Spec.ForProvider.AppID")
-	}
-	mg.Spec.ForProvider.AppID = reference.ToPtrValue(rsp.ResolvedValue)
-	mg.Spec.ForProvider.AppIDRef = rsp.ResolvedReference
 
 	return nil
 }

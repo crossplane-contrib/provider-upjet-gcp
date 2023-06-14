@@ -984,3 +984,55 @@ func externalNameConfigurations() config.ResourceOption {
 		}
 	}
 }
+
+func init() {
+	acceptedKeys := map[string]struct{}{
+		"google_bigquery_dataset":                      {},
+		"google_bigquery_table":                        {},
+		"google_compute_backend_service":               {},
+		"google_compute_global_address":                {},
+		"google_compute_global_forwarding_rule":        {},
+		"google_compute_health_check":                  {},
+		"google_compute_http_health_check":             {},
+		"google_compute_https_health_check":            {},
+		"google_compute_instance_group_manager":        {},
+		"google_compute_instance_template":             {},
+		"google_compute_network":                       {},
+		"google_compute_region_backend_service":        {},
+		"google_compute_region_health_check":           {},
+		"google_compute_region_instance_group_manager": {},
+		"google_compute_region_ssl_certificate":        {},
+		"google_compute_region_target_http_proxy":      {},
+		"google_compute_region_target_https_proxy":     {},
+		"google_compute_region_url_map":                {},
+		"google_compute_ssl_certificate":               {},
+		"google_compute_subnetwork":                    {},
+		"google_compute_target_http_proxy":             {},
+		"google_compute_target_https_proxy":            {},
+		"google_compute_target_pool":                   {},
+		"google_dns_record_set":                        {},
+		"google_iap_web_backend_service_iam_member":    {},
+		"google_service_account_iam_member":            {},
+		"google_service_account_key":                   {},
+		"google_service_account":                       {},
+		"google_service_networking_peered_dns_domain":  {},
+		"google_sql_database_instance":                 {},
+		"google_sql_database":                          {},
+		"google_sql_source_representation_instance":    {},
+		"google_sql_ssl_cert":                          {},
+		"google_sql_user":                              {},
+		"google_storage_bucket_access_control":         {},
+		"google_storage_bucket_acl":                    {},
+		"google_storage_bucket_iam_member":             {},
+		"google_storage_bucket_object":                 {},
+		"google_storage_bucket":                        {},
+		"google_storage_default_object_access_control": {},
+		"google_storage_default_object_acl":            {},
+	}
+
+	for k := range externalNameConfigs {
+		if _, ok := acceptedKeys[k]; !ok {
+			delete(externalNameConfigs, k)
+		}
+	}
+}

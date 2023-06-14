@@ -365,16 +365,16 @@ type GlobalForwardingRuleParameters struct {
 	// forwarding rule. For global forwarding rules, this target must be a global
 	// load balancing resource.
 	// The forwarded traffic must be of a type appropriate to the target object.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.TargetSSLProxy
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.TargetHTTPProxy
 	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Target *string `json:"target,omitempty" tf:"target,omitempty"`
 
-	// Reference to a TargetSSLProxy in compute to populate target.
+	// Reference to a TargetHTTPProxy in compute to populate target.
 	// +kubebuilder:validation:Optional
 	TargetRef *v1.Reference `json:"targetRef,omitempty" tf:"-"`
 
-	// Selector for a TargetSSLProxy in compute to populate target.
+	// Selector for a TargetHTTPProxy in compute to populate target.
 	// +kubebuilder:validation:Optional
 	TargetSelector *v1.Selector `json:"targetSelector,omitempty" tf:"-"`
 }

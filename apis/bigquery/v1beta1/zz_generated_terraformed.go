@@ -25,6 +25,7 @@ import (
 	"github.com/upbound/upjet/pkg/resource/json"
 )
 
+<<<<<<< HEAD
 // GetTerraformResourceType returns Terraform resource type for this AnalyticsHubDataExchange
 func (mg *AnalyticsHubDataExchange) GetTerraformResourceType() string {
 	return "google_bigquery_analytics_hub_data_exchange"
@@ -445,6 +446,8 @@ func (tr *DataTransferConfig) GetTerraformSchemaVersion() int {
 	return 0
 }
 
+=======
+>>>>>>> a3be7bc6 (Remove unneeded resources)
 // GetTerraformResourceType returns Terraform resource type for this Dataset
 func (mg *Dataset) GetTerraformResourceType() string {
 	return "google_bigquery_dataset"
@@ -529,6 +532,7 @@ func (tr *Dataset) GetTerraformSchemaVersion() int {
 	return 0
 }
 
+<<<<<<< HEAD
 // GetTerraformResourceType returns Terraform resource type for this DatasetAccess
 func (mg *DatasetAccess) GetTerraformResourceType() string {
 	return "google_bigquery_dataset_access"
@@ -1201,6 +1205,8 @@ func (tr *Routine) GetTerraformSchemaVersion() int {
 	return 0
 }
 
+=======
+>>>>>>> a3be7bc6 (Remove unneeded resources)
 // GetTerraformResourceType returns Terraform resource type for this Table
 func (mg *Table) GetTerraformResourceType() string {
 	return "google_bigquery_table"
@@ -1284,6 +1290,7 @@ func (tr *Table) LateInitialize(attrs []byte) (bool, error) {
 func (tr *Table) GetTerraformSchemaVersion() int {
 	return 0
 }
+<<<<<<< HEAD
 
 // GetTerraformResourceType returns Terraform resource type for this TableIAMBinding
 func (mg *TableIAMBinding) GetTerraformResourceType() string {
@@ -1536,3 +1543,5 @@ func (tr *TableIAMPolicy) LateInitialize(attrs []byte) (bool, error) {
 func (tr *TableIAMPolicy) GetTerraformSchemaVersion() int {
 	return 0
 }
+=======
+>>>>>>> a3be7bc6 (Remove unneeded resources)

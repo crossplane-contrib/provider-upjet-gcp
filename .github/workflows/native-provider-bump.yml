@@ -5,7 +5,7 @@ on:
 
 jobs:
   open-bump-pr:
-    uses: upbound/uptest/.github/workflows/native-provider-bump.yml@main
+    uses: upbound/uptest/.github/workflows/native-provider-bump.yml@e68d4a22389cf0f27545621a1ee0af705c7a5847
     with:
       provider-source: hashicorp/google
       go-version: 1.19

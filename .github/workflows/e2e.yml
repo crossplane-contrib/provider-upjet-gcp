@@ -6,7 +6,7 @@ on:
 
 jobs:
   e2e:
-    uses: upbound/uptest/.github/workflows/pr-comment-trigger.yml@main
+    uses: upbound/uptest/.github/workflows/pr-comment-trigger.yml@e68d4a22389cf0f27545621a1ee0af705c7a5847
     secrets:
       UPTEST_CLOUD_CREDENTIALS: ${{ secrets.UPTEST_CLOUD_CREDENTIALS }}
       UPTEST_DATASOURCE: ${{ secrets.UPTEST_DATASOURCE }}

@@ -134,6 +134,7 @@ type InstanceGroupManagerNamedPortInitParameters struct {
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
 }
 
+<<<<<<< HEAD
 type InstanceGroupManagerNamedPortObservation struct {
 
 	// The name of the port.
@@ -154,6 +155,8 @@ type InstanceGroupManagerNamedPortParameters struct {
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
 }
 
+=======
+>>>>>>> a3be7bc6 (Remove unneeded resources)
 type InstanceGroupManagerObservation struct {
 
 	// The autohealing policies for this managed instance
@@ -191,7 +194,7 @@ type InstanceGroupManagerObservation struct {
 
 	// The named port configuration. See the section below
 	// for details on configuration.
-	NamedPort []InstanceGroupManagerNamedPortObservation `json:"namedPort,omitempty" tf:"named_port,omitempty"`
+	NamedPort []NamedPortObservation `json:"namedPort,omitempty" tf:"named_port,omitempty"`
 
 	Operation *string `json:"operation,omitempty" tf:"operation,omitempty"`
 
@@ -274,7 +277,7 @@ type InstanceGroupManagerParameters struct {
 	// The named port configuration. See the section below
 	// for details on configuration.
 	// +kubebuilder:validation:Optional
-	NamedPort []InstanceGroupManagerNamedPortParameters `json:"namedPort,omitempty" tf:"named_port,omitempty"`
+	NamedPort []NamedPortParameters `json:"namedPort,omitempty" tf:"named_port,omitempty"`
 
 	// The ID of the project in which the resource belongs. If it
 	// is not provided, the provider project is used.
@@ -335,7 +338,28 @@ type InstanceGroupManagerParameters struct {
 	Zone *string `json:"zone" tf:"zone,omitempty"`
 }
 
+<<<<<<< HEAD
 type PerInstanceConfigsInitParameters struct {
+=======
+type NamedPortObservation struct {
+
+	// The name of the port.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The port number.
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+}
+
+type NamedPortParameters struct {
+
+	// The name of the port.
+	// +kubebuilder:validation:Required
+	Name *string `json:"name" tf:"name,omitempty"`
+
+	// The port number.
+	// +kubebuilder:validation:Required
+	Port *float64 `json:"port" tf:"port,omitempty"`
+>>>>>>> a3be7bc6 (Remove unneeded resources)
 }
 
 type PerInstanceConfigsObservation struct {

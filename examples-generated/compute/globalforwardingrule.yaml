@@ -48,31 +48,6 @@ spec:
 ---
 
 apiVersion: compute.gcp.upbound.io/v1beta1
-kind: Firewall
-metadata:
-  annotations:
-    meta.upbound.io/example-id: compute/v1beta1/globalforwardingrule
-  labels:
-    testing.upbound.io/example-name: default
-  name: default
-spec:
-  forProvider:
-    allow:
-    - protocol: tcp
-    direction: INGRESS
-    networkSelector:
-      matchLabels:
-        testing.upbound.io/example-name: default
-    provider: ${google}
-    sourceRanges:
-    - 130.211.0.0/22
-    - 35.191.0.0/16
-    targetTags:
-    - allow-health-check
-
----
-
-apiVersion: compute.gcp.upbound.io/v1beta1
 kind: GlobalAddress
 metadata:
   annotations:
@@ -234,6 +209,7 @@ spec:
 
 ---
 
+<<<<<<< HEAD
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: TargetSSLProxy
 metadata:
@@ -249,3 +225,5 @@ spec:
         testing.upbound.io/example-name: default
     sslCertificatesRefs:
     - name: default
+=======
+>>>>>>> a3be7bc6 (Remove unneeded resources)

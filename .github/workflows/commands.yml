@@ -4,4 +4,4 @@ on: issue_comment
 
 jobs:
   comment-commands:
-    uses: upbound/uptest/.github/workflows/provider-commands.yml@main
+    uses: upbound/uptest/.github/workflows/provider-commands.yml@e68d4a22389cf0f27545621a1ee0af705c7a5847

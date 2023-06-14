@@ -8,9 +8,7 @@ metadata:
   name: default
 spec:
   forProvider:
-    urlMapSelector:
-      matchLabels:
-        testing.upbound.io/example-name: default
+    urlMap: ${google_compute_url_map.default.id}
 
 ---
 
@@ -48,6 +46,7 @@ spec:
 
 ---
 
+<<<<<<< HEAD
 apiVersion: compute.gcp.upbound.io/v1beta1
 kind: URLMap
 metadata:
@@ -76,3 +75,5 @@ spec:
         serviceSelector:
           matchLabels:
             testing.upbound.io/example-name: default
+=======
+>>>>>>> a3be7bc6 (Remove unneeded resources)

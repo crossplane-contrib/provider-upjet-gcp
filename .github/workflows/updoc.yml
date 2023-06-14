@@ -5,6 +5,6 @@ on:
 
 jobs:
   publish-docs:
-    uses: upbound/uptest/.github/workflows/provider-updoc.yml@main
+    uses: upbound/uptest/.github/workflows/provider-updoc.yml@e68d4a22389cf0f27545621a1ee0af705c7a5847
     secrets:
       UPBOUND_CI_PROD_BUCKET_SA: ${{ secrets.UPBOUND_CI_PROD_BUCKET_SA }}

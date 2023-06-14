@@ -164,18 +164,8 @@ type TargetHTTPSProxyParameters struct {
 
 	// A reference to the UrlMap resource that defines the mapping from URL
 	// to the BackendService.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.URLMap
-	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	URLMap *string `json:"urlMap,omitempty" tf:"url_map,omitempty"`
-
-	// Reference to a URLMap in compute to populate urlMap.
-	// +kubebuilder:validation:Optional
-	URLMapRef *v1.Reference `json:"urlMapRef,omitempty" tf:"-"`
-
-	// Selector for a URLMap in compute to populate urlMap.
-	// +kubebuilder:validation:Optional
-	URLMapSelector *v1.Selector `json:"urlMapSelector,omitempty" tf:"-"`
 }
 
 // TargetHTTPSProxySpec defines the desired state of TargetHTTPSProxy
@@ -214,8 +204,9 @@ type TargetHTTPSProxyStatus struct {
 type TargetHTTPSProxy struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              TargetHTTPSProxySpec   `json:"spec"`
-	Status            TargetHTTPSProxyStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.urlMap)",message="urlMap is a required parameter"
+	Spec   TargetHTTPSProxySpec   `json:"spec"`
+	Status TargetHTTPSProxyStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

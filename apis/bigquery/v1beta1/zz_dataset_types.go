@@ -466,18 +466,8 @@ type DefaultEncryptionConfigurationParameters struct {
 	// Describes the Cloud KMS encryption key that will be used to protect destination
 	// BigQuery table. The BigQuery Service Account associated with your project requires
 	// access to this encryption key.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/kms/v1beta1.CryptoKey
-	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractResourceID()
-	// +kubebuilder:validation:Optional
-	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
-
-	// Reference to a CryptoKey in kms to populate kmsKeyName.
-	// +kubebuilder:validation:Optional
-	KMSKeyNameRef *v1.Reference `json:"kmsKeyNameRef,omitempty" tf:"-"`
-
-	// Selector for a CryptoKey in kms to populate kmsKeyName.
-	// +kubebuilder:validation:Optional
-	KMSKeyNameSelector *v1.Selector `json:"kmsKeyNameSelector,omitempty" tf:"-"`
+	// +kubebuilder:validation:Required
+	KMSKeyName *string `json:"kmsKeyName" tf:"kms_key_name,omitempty"`
 }
 
 type RoutineInitParameters struct {
@@ -500,47 +490,18 @@ type RoutineObservation struct {
 type RoutineParameters struct {
 
 	// The ID of the dataset containing this table.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/bigquery/v1beta1.Routine
-	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractParamPath("dataset_id",false)
-	// +kubebuilder:validation:Optional
-	DatasetID *string `json:"datasetId,omitempty" tf:"dataset_id,omitempty"`
-
-	// Reference to a Routine in bigquery to populate datasetId.
-	// +kubebuilder:validation:Optional
-	DatasetIDRef *v1.Reference `json:"datasetIdRef,omitempty" tf:"-"`
-
-	// Selector for a Routine in bigquery to populate datasetId.
-	// +kubebuilder:validation:Optional
-	DatasetIDSelector *v1.Selector `json:"datasetIdSelector,omitempty" tf:"-"`
+	// +kubebuilder:validation:Required
+	DatasetID *string `json:"datasetId" tf:"dataset_id,omitempty"`
 
 	// The ID of the project containing this table.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/bigquery/v1beta1.Routine
-	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractParamPath("project",false)
-	// +kubebuilder:validation:Optional
-	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
-
-	// Reference to a Routine in bigquery to populate projectId.
-	// +kubebuilder:validation:Optional
-	ProjectIDRef *v1.Reference `json:"projectIdRef,omitempty" tf:"-"`
-
-	// Selector for a Routine in bigquery to populate projectId.
-	// +kubebuilder:validation:Optional
-	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
+	// +kubebuilder:validation:Required
+	ProjectID *string `json:"projectId" tf:"project_id,omitempty"`
 
 	// The ID of the routine. The ID must contain only letters (a-z,
 	// A-Z), numbers (0-9), or underscores (_). The maximum length
 	// is 256 characters.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/bigquery/v1beta1.Routine
-	// +kubebuilder:validation:Optional
-	RoutineID *string `json:"routineId,omitempty" tf:"routine_id,omitempty"`
-
-	// Reference to a Routine in bigquery to populate routineId.
-	// +kubebuilder:validation:Optional
-	RoutineIDRef *v1.Reference `json:"routineIdRef,omitempty" tf:"-"`
-
-	// Selector for a Routine in bigquery to populate routineId.
-	// +kubebuilder:validation:Optional
-	RoutineIDSelector *v1.Selector `json:"routineIdSelector,omitempty" tf:"-"`
+	// +kubebuilder:validation:Required
+	RoutineID *string `json:"routineId" tf:"routine_id,omitempty"`
 }
 
 type ViewInitParameters struct {

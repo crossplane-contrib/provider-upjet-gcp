@@ -550,6 +550,7 @@ func (mg *DefaultObjectAccessControl) SetPublishConnectionDetailsTo(r *xpv1.Publ
 func (mg *DefaultObjectAccessControl) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }
+<<<<<<< HEAD
 
 // GetCondition of this Notification.
 func (mg *Notification) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
@@ -778,3 +779,5 @@ func (mg *ObjectAccessControl) SetPublishConnectionDetailsTo(r *xpv1.PublishConn
 func (mg *ObjectAccessControl) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }
+=======
+>>>>>>> a3be7bc6 (Remove unneeded resources)

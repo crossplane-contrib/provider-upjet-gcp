@@ -419,18 +419,8 @@ type PrimaryInternalLoadBalancersObservation struct {
 type PrimaryInternalLoadBalancersParameters struct {
 
 	// The frontend IP address of the load balancer.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.ForwardingRule
-	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractParamPath("ip_address",false)
-	// +kubebuilder:validation:Optional
-	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
-
-	// Reference to a ForwardingRule in compute to populate ipAddress.
-	// +kubebuilder:validation:Optional
-	IPAddressRef *v1.Reference `json:"ipAddressRef,omitempty" tf:"-"`
-
-	// Selector for a ForwardingRule in compute to populate ipAddress.
-	// +kubebuilder:validation:Optional
-	IPAddressSelector *v1.Selector `json:"ipAddressSelector,omitempty" tf:"-"`
+	// +kubebuilder:validation:Required
+	IPAddress *string `json:"ipAddress" tf:"ip_address,omitempty"`
 
 	// The configured IP protocol of the load balancer. This value is case-sensitive. Possible values: ["tcp", "udp"]
 	// +kubebuilder:validation:Optional
@@ -460,32 +450,12 @@ type PrimaryInternalLoadBalancersParameters struct {
 
 	// The ID of the project in which the resource belongs. If it
 	// is not provided, the provider project is used.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.ForwardingRule
-	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractParamPath("project",false)
-	// +kubebuilder:validation:Optional
-	Project *string `json:"project,omitempty" tf:"project,omitempty"`
-
-	// Reference to a ForwardingRule in compute to populate project.
-	// +kubebuilder:validation:Optional
-	ProjectRef *v1.Reference `json:"projectRef,omitempty" tf:"-"`
-
-	// Selector for a ForwardingRule in compute to populate project.
-	// +kubebuilder:validation:Optional
-	ProjectSelector *v1.Selector `json:"projectSelector,omitempty" tf:"-"`
+	// +kubebuilder:validation:Required
+	Project *string `json:"project" tf:"project,omitempty"`
 
 	// The region of the load balancer. Only needed for regional load balancers.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/compute/v1beta1.ForwardingRule
-	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractParamPath("region",false)
 	// +kubebuilder:validation:Optional
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
-
-	// Reference to a ForwardingRule in compute to populate region.
-	// +kubebuilder:validation:Optional
-	RegionRef *v1.Reference `json:"regionRef,omitempty" tf:"-"`
-
-	// Selector for a ForwardingRule in compute to populate region.
-	// +kubebuilder:validation:Optional
-	RegionSelector *v1.Selector `json:"regionSelector,omitempty" tf:"-"`
 }
 
 type PrimaryObservation struct {
@@ -564,17 +534,8 @@ type RecordSetParameters struct {
 
 	// The name of the zone in which this record set will
 	// reside.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/dns/v1beta1.ManagedZone
 	// +kubebuilder:validation:Optional
 	ManagedZone *string `json:"managedZone,omitempty" tf:"managed_zone,omitempty"`
-
-	// Reference to a ManagedZone in dns to populate managedZone.
-	// +kubebuilder:validation:Optional
-	ManagedZoneRef *v1.Reference `json:"managedZoneRef,omitempty" tf:"-"`
-
-	// Selector for a ManagedZone in dns to populate managedZone.
-	// +kubebuilder:validation:Optional
-	ManagedZoneSelector *v1.Selector `json:"managedZoneSelector,omitempty" tf:"-"`
 
 	// The DNS name this record set will apply to.
 	// +kubebuilder:validation:Optional
@@ -845,8 +806,14 @@ type RecordSetStatus struct {
 type RecordSet struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+<<<<<<< HEAD
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.name) || has(self.initProvider.name)",message="name is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.type) || has(self.initProvider.type)",message="type is a required parameter"
+=======
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.managedZone)",message="managedZone is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.name)",message="name is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.type)",message="type is a required parameter"
+>>>>>>> a3be7bc6 (Remove unneeded resources)
 	Spec   RecordSetSpec   `json:"spec"`
 	Status RecordSetStatus `json:"status,omitempty"`
 }

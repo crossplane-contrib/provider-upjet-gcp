@@ -19,6 +19,7 @@ package v1beta1
 
 import xpv1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 
+<<<<<<< HEAD
 // GetCondition of this AppEngineServiceIAMMember.
 func (mg *AppEngineServiceIAMMember) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
 	return mg.Status.GetCondition(ct)
@@ -247,6 +248,8 @@ func (mg *TunnelIAMMember) SetWriteConnectionSecretToReference(r *xpv1.SecretRef
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
+=======
+>>>>>>> a3be7bc6 (Remove unneeded resources)
 // GetCondition of this WebBackendServiceIAMMember.
 func (mg *WebBackendServiceIAMMember) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
 	return mg.Status.GetCondition(ct)
@@ -322,6 +325,7 @@ func (mg *WebBackendServiceIAMMember) SetPublishConnectionDetailsTo(r *xpv1.Publ
 func (mg *WebBackendServiceIAMMember) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }
+<<<<<<< HEAD
 
 // GetCondition of this WebIAMMember.
 func (mg *WebIAMMember) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
@@ -550,3 +554,5 @@ func (mg *WebTypeComputeIAMMember) SetPublishConnectionDetailsTo(r *xpv1.Publish
 func (mg *WebTypeComputeIAMMember) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }
+=======
+>>>>>>> a3be7bc6 (Remove unneeded resources)

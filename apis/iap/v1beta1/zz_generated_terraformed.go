@@ -25,6 +25,7 @@ import (
 	"github.com/upbound/upjet/pkg/resource/json"
 )
 
+<<<<<<< HEAD
 // GetTerraformResourceType returns Terraform resource type for this AppEngineServiceIAMMember
 func (mg *AppEngineServiceIAMMember) GetTerraformResourceType() string {
 	return "google_iap_app_engine_service_iam_member"
@@ -277,6 +278,8 @@ func (tr *TunnelIAMMember) GetTerraformSchemaVersion() int {
 	return 0
 }
 
+=======
+>>>>>>> a3be7bc6 (Remove unneeded resources)
 // GetTerraformResourceType returns Terraform resource type for this WebBackendServiceIAMMember
 func (mg *WebBackendServiceIAMMember) GetTerraformResourceType() string {
 	return "google_iap_web_backend_service_iam_member"
@@ -360,6 +363,7 @@ func (tr *WebBackendServiceIAMMember) LateInitialize(attrs []byte) (bool, error)
 func (tr *WebBackendServiceIAMMember) GetTerraformSchemaVersion() int {
 	return 0
 }
+<<<<<<< HEAD
 
 // GetTerraformResourceType returns Terraform resource type for this WebIAMMember
 func (mg *WebIAMMember) GetTerraformResourceType() string {
@@ -612,3 +616,5 @@ func (tr *WebTypeComputeIAMMember) LateInitialize(attrs []byte) (bool, error) {
 func (tr *WebTypeComputeIAMMember) GetTerraformSchemaVersion() int {
 	return 0
 }
+=======
+>>>>>>> a3be7bc6 (Remove unneeded resources)

@@ -19,6 +19,7 @@ package v1beta1
 
 import xpv1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 
+<<<<<<< HEAD
 // GetCondition of this AnalyticsHubDataExchange.
 func (mg *AnalyticsHubDataExchange) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
 	return mg.Status.GetCondition(ct)
@@ -399,6 +400,8 @@ func (mg *DataTransferConfig) SetWriteConnectionSecretToReference(r *xpv1.Secret
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
+=======
+>>>>>>> a3be7bc6 (Remove unneeded resources)
 // GetCondition of this Dataset.
 func (mg *Dataset) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
 	return mg.Status.GetCondition(ct)
@@ -475,6 +478,7 @@ func (mg *Dataset) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) 
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
+<<<<<<< HEAD
 // GetCondition of this DatasetAccess.
 func (mg *DatasetAccess) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
 	return mg.Status.GetCondition(ct)
@@ -1083,6 +1087,8 @@ func (mg *Routine) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) 
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
+=======
+>>>>>>> a3be7bc6 (Remove unneeded resources)
 // GetCondition of this Table.
 func (mg *Table) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
 	return mg.Status.GetCondition(ct)
@@ -1158,6 +1164,7 @@ func (mg *Table) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsT
 func (mg *Table) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }
+<<<<<<< HEAD
 
 // GetCondition of this TableIAMBinding.
 func (mg *TableIAMBinding) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
@@ -1386,3 +1393,5 @@ func (mg *TableIAMPolicy) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectio
 func (mg *TableIAMPolicy) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }
+=======
+>>>>>>> a3be7bc6 (Remove unneeded resources)

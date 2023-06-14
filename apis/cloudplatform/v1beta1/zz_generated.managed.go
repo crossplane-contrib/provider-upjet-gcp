@@ -19,6 +19,7 @@ package v1beta1
 
 import xpv1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 
+<<<<<<< HEAD
 // GetCondition of this Folder.
 func (mg *Folder) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
 	return mg.Status.GetCondition(ct)
@@ -931,6 +932,8 @@ func (mg *ProjectUsageExportBucket) SetWriteConnectionSecretToReference(r *xpv1.
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
+=======
+>>>>>>> a3be7bc6 (Remove unneeded resources)
 // GetCondition of this ServiceAccount.
 func (mg *ServiceAccount) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
 	return mg.Status.GetCondition(ct)

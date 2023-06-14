@@ -25,6 +25,7 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+<<<<<<< HEAD
 type ConsistentHashHTTPCookieInitParameters struct {
 
 	// Name of the resource. Provided by the client when the resource is
@@ -42,6 +43,95 @@ type ConsistentHashHTTPCookieInitParameters struct {
 	// The TTL (in seconds) for which to cache responses with the corresponding status code. The maximum allowed value is 1800s
 	// (30 minutes), noting that infrequently accessed objects may be evicted from the cache before the defined TTL.
 	TTL []HTTPCookieTTLInitParameters `json:"ttl,omitempty" tf:"ttl,omitempty"`
+=======
+type CdnPolicyCacheKeyPolicyObservation struct {
+
+	// If true requests to different hosts will be cached separately.
+	IncludeHost *bool `json:"includeHost,omitempty" tf:"include_host,omitempty"`
+
+	// Names of cookies to include in cache keys.
+	IncludeNamedCookies []*string `json:"includeNamedCookies,omitempty" tf:"include_named_cookies,omitempty"`
+
+	// If true, http and https requests will be cached separately.
+	IncludeProtocol *bool `json:"includeProtocol,omitempty" tf:"include_protocol,omitempty"`
+
+	// If true, include query string parameters in the cache key
+	// according to query_string_whitelist and
+	// query_string_blacklist. If neither is set, the entire query
+	// string will be included.
+	// If false, the query string will be excluded from the cache
+	// key entirely.
+	IncludeQueryString *bool `json:"includeQueryString,omitempty" tf:"include_query_string,omitempty"`
+
+	// Names of query string parameters to exclude in cache keys.
+	// All other parameters will be included. Either specify
+	// query_string_whitelist or query_string_blacklist, not both.
+	// '&' and '=' will be percent encoded and not treated as
+	// delimiters.
+	QueryStringBlacklist []*string `json:"queryStringBlacklist,omitempty" tf:"query_string_blacklist,omitempty"`
+
+	// Names of query string parameters to include in cache keys.
+	// All other parameters will be excluded. Either specify
+	// query_string_whitelist or query_string_blacklist, not both.
+	// '&' and '=' will be percent encoded and not treated as
+	// delimiters.
+	QueryStringWhitelist []*string `json:"queryStringWhitelist,omitempty" tf:"query_string_whitelist,omitempty"`
+}
+
+type CdnPolicyCacheKeyPolicyParameters struct {
+
+	// If true requests to different hosts will be cached separately.
+	// +kubebuilder:validation:Optional
+	IncludeHost *bool `json:"includeHost,omitempty" tf:"include_host,omitempty"`
+
+	// Names of cookies to include in cache keys.
+	// +kubebuilder:validation:Optional
+	IncludeNamedCookies []*string `json:"includeNamedCookies,omitempty" tf:"include_named_cookies,omitempty"`
+
+	// If true, http and https requests will be cached separately.
+	// +kubebuilder:validation:Optional
+	IncludeProtocol *bool `json:"includeProtocol,omitempty" tf:"include_protocol,omitempty"`
+
+	// If true, include query string parameters in the cache key
+	// according to query_string_whitelist and
+	// query_string_blacklist. If neither is set, the entire query
+	// string will be included.
+	// If false, the query string will be excluded from the cache
+	// key entirely.
+	// +kubebuilder:validation:Optional
+	IncludeQueryString *bool `json:"includeQueryString,omitempty" tf:"include_query_string,omitempty"`
+
+	// Names of query string parameters to exclude in cache keys.
+	// All other parameters will be included. Either specify
+	// query_string_whitelist or query_string_blacklist, not both.
+	// '&' and '=' will be percent encoded and not treated as
+	// delimiters.
+	// +kubebuilder:validation:Optional
+	QueryStringBlacklist []*string `json:"queryStringBlacklist,omitempty" tf:"query_string_blacklist,omitempty"`
+
+	// Names of query string parameters to include in cache keys.
+	// All other parameters will be excluded. Either specify
+	// query_string_whitelist or query_string_blacklist, not both.
+	// '&' and '=' will be percent encoded and not treated as
+	// delimiters.
+	// +kubebuilder:validation:Optional
+	QueryStringWhitelist []*string `json:"queryStringWhitelist,omitempty" tf:"query_string_whitelist,omitempty"`
+}
+
+type CdnPolicyNegativeCachingPolicyObservation struct {
+
+	// The HTTP status code to define a TTL against. Only HTTP status codes 300, 301, 308, 404, 405, 410, 421, 451 and 501
+	// can be specified as values, and you cannot specify a status code more than once.
+	Code *float64 `json:"code,omitempty" tf:"code,omitempty"`
+}
+
+type CdnPolicyNegativeCachingPolicyParameters struct {
+
+	// The HTTP status code to define a TTL against. Only HTTP status codes 300, 301, 308, 404, 405, 410, 421, 451 and 501
+	// can be specified as values, and you cannot specify a status code more than once.
+	// +kubebuilder:validation:Optional
+	Code *float64 `json:"code,omitempty" tf:"code,omitempty"`
+>>>>>>> a3be7bc6 (Remove unneeded resources)
 }
 
 type ConsistentHashHTTPCookieObservation struct {
@@ -599,6 +689,7 @@ type RegionBackendServiceBackendParameters struct {
 	MaxUtilization *float64 `json:"maxUtilization,omitempty" tf:"max_utilization,omitempty"`
 }
 
+<<<<<<< HEAD
 type RegionBackendServiceCdnPolicyCacheKeyPolicyInitParameters struct {
 
 	// If true requests to different hosts will be cached separately.
@@ -773,11 +864,13 @@ type RegionBackendServiceCdnPolicyNegativeCachingPolicyParameters struct {
 	Code *float64 `json:"code,omitempty" tf:"code,omitempty"`
 }
 
+=======
+>>>>>>> a3be7bc6 (Remove unneeded resources)
 type RegionBackendServiceCdnPolicyObservation struct {
 
 	// The CacheKeyPolicy for this CdnPolicy.
 	// Structure is documented below.
-	CacheKeyPolicy []RegionBackendServiceCdnPolicyCacheKeyPolicyObservation `json:"cacheKeyPolicy,omitempty" tf:"cache_key_policy,omitempty"`
+	CacheKeyPolicy []CdnPolicyCacheKeyPolicyObservation `json:"cacheKeyPolicy,omitempty" tf:"cache_key_policy,omitempty"`
 
 	// Specifies the cache setting for all responses from this backend.
 	// The possible values are: USE_ORIGIN_HEADERS, FORCE_CACHE_ALL and CACHE_ALL_STATIC
@@ -800,7 +893,7 @@ type RegionBackendServiceCdnPolicyObservation struct {
 	// Sets a cache TTL for the specified HTTP status code. negativeCaching must be enabled to configure negativeCachingPolicy.
 	// Omitting the policy and leaving negativeCaching enabled will use Cloud CDN's default cache TTLs.
 	// Structure is documented below.
-	NegativeCachingPolicy []RegionBackendServiceCdnPolicyNegativeCachingPolicyObservation `json:"negativeCachingPolicy,omitempty" tf:"negative_caching_policy,omitempty"`
+	NegativeCachingPolicy []CdnPolicyNegativeCachingPolicyObservation `json:"negativeCachingPolicy,omitempty" tf:"negative_caching_policy,omitempty"`
 
 	// Serve existing content from the cache (if available) when revalidating content with the origin, or when an error is encountered when refreshing the cache.
 	ServeWhileStale *float64 `json:"serveWhileStale,omitempty" tf:"serve_while_stale,omitempty"`
@@ -822,7 +915,7 @@ type RegionBackendServiceCdnPolicyParameters struct {
 	// The CacheKeyPolicy for this CdnPolicy.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	CacheKeyPolicy []RegionBackendServiceCdnPolicyCacheKeyPolicyParameters `json:"cacheKeyPolicy,omitempty" tf:"cache_key_policy,omitempty"`
+	CacheKeyPolicy []CdnPolicyCacheKeyPolicyParameters `json:"cacheKeyPolicy,omitempty" tf:"cache_key_policy,omitempty"`
 
 	// Specifies the cache setting for all responses from this backend.
 	// The possible values are: USE_ORIGIN_HEADERS, FORCE_CACHE_ALL and CACHE_ALL_STATIC
@@ -851,7 +944,7 @@ type RegionBackendServiceCdnPolicyParameters struct {
 	// Omitting the policy and leaving negativeCaching enabled will use Cloud CDN's default cache TTLs.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	NegativeCachingPolicy []RegionBackendServiceCdnPolicyNegativeCachingPolicyParameters `json:"negativeCachingPolicy,omitempty" tf:"negative_caching_policy,omitempty"`
+	NegativeCachingPolicy []CdnPolicyNegativeCachingPolicyParameters `json:"negativeCachingPolicy,omitempty" tf:"negative_caching_policy,omitempty"`
 
 	// Serve existing content from the cache (if available) when revalidating content with the origin, or when an error is encountered when refreshing the cache.
 	// +kubebuilder:validation:Optional

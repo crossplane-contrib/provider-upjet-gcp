@@ -10,7 +10,7 @@ on:
 
 jobs:
   ci:
-    uses: upbound/uptest/.github/workflows/provider-ci.yml@main
+    uses: upbound/uptest/.github/workflows/provider-ci.yml@e68d4a22389cf0f27545621a1ee0af705c7a5847
     secrets:
       UPBOUND_MARKETPLACE_PUSH_ROBOT_USR: ${{ secrets.UPBOUND_MARKETPLACE_PUSH_ROBOT_USR }}
       UPBOUND_MARKETPLACE_PUSH_ROBOT_PSW: ${{ secrets.UPBOUND_MARKETPLACE_PUSH_ROBOT_PSW }}

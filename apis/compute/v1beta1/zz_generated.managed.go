@@ -19,6 +19,7 @@ package v1beta1
 
 import xpv1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 
+<<<<<<< HEAD
 // GetCondition of this Address.
 func (mg *Address) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
 	return mg.Status.GetCondition(ct)
@@ -399,6 +400,8 @@ func (mg *BackendBucketSignedURLKey) SetWriteConnectionSecretToReference(r *xpv1
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
+=======
+>>>>>>> a3be7bc6 (Remove unneeded resources)
 // GetCondition of this BackendService.
 func (mg *BackendService) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
 	return mg.Status.GetCondition(ct)
@@ -475,6 +478,7 @@ func (mg *BackendService) SetWriteConnectionSecretToReference(r *xpv1.SecretRefe
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
+<<<<<<< HEAD
 // GetCondition of this BackendServiceSignedURLKey.
 func (mg *BackendServiceSignedURLKey) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
 	return mg.Status.GetCondition(ct)
@@ -1235,6 +1239,8 @@ func (mg *ForwardingRule) SetWriteConnectionSecretToReference(r *xpv1.SecretRefe
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
+=======
+>>>>>>> a3be7bc6 (Remove unneeded resources)
 // GetCondition of this GlobalAddress.
 func (mg *GlobalAddress) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
 	return mg.Status.GetCondition(ct)
@@ -1387,6 +1393,7 @@ func (mg *GlobalForwardingRule) SetWriteConnectionSecretToReference(r *xpv1.Secr
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
+<<<<<<< HEAD
 // GetCondition of this GlobalNetworkEndpoint.
 func (mg *GlobalNetworkEndpoint) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
 	return mg.Status.GetCondition(ct)
@@ -1539,6 +1546,8 @@ func (mg *GlobalNetworkEndpointGroup) SetWriteConnectionSecretToReference(r *xpv
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
+=======
+>>>>>>> a3be7bc6 (Remove unneeded resources)
 // GetCondition of this HTTPHealthCheck.
 func (mg *HTTPHealthCheck) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
 	return mg.Status.GetCondition(ct)
@@ -1691,6 +1700,7 @@ func (mg *HTTPSHealthCheck) SetWriteConnectionSecretToReference(r *xpv1.SecretRe
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
+<<<<<<< HEAD
 // GetCondition of this HaVPNGateway.
 func (mg *HaVPNGateway) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
 	return mg.Status.GetCondition(ct)
@@ -1767,6 +1777,8 @@ func (mg *HaVPNGateway) SetWriteConnectionSecretToReference(r *xpv1.SecretRefere
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
+=======
+>>>>>>> a3be7bc6 (Remove unneeded resources)
 // GetCondition of this HealthCheck.
 func (mg *HealthCheck) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
 	return mg.Status.GetCondition(ct)
@@ -1843,6 +1855,7 @@ func (mg *HealthCheck) SetWriteConnectionSecretToReference(r *xpv1.SecretReferen
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
+<<<<<<< HEAD
 // GetCondition of this Image.
 func (mg *Image) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
 	return mg.Status.GetCondition(ct)
@@ -2223,6 +2236,8 @@ func (mg *InstanceGroup) SetWriteConnectionSecretToReference(r *xpv1.SecretRefer
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
+=======
+>>>>>>> a3be7bc6 (Remove unneeded resources)
 // GetCondition of this InstanceGroupManager.
 func (mg *InstanceGroupManager) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
 	return mg.Status.GetCondition(ct)
@@ -2299,6 +2314,7 @@ func (mg *InstanceGroupManager) SetWriteConnectionSecretToReference(r *xpv1.Secr
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
+<<<<<<< HEAD
 // GetCondition of this InstanceGroupNamedPort.
 func (mg *InstanceGroupNamedPort) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
 	return mg.Status.GetCondition(ct)
@@ -2451,6 +2467,8 @@ func (mg *InstanceIAMMember) SetWriteConnectionSecretToReference(r *xpv1.SecretR
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
+=======
+>>>>>>> a3be7bc6 (Remove unneeded resources)
 // GetCondition of this InstanceTemplate.
 func (mg *InstanceTemplate) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
 	return mg.Status.GetCondition(ct)
@@ -2527,6 +2545,7 @@ func (mg *InstanceTemplate) SetWriteConnectionSecretToReference(r *xpv1.SecretRe
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
+<<<<<<< HEAD
 // GetCondition of this InterconnectAttachment.
 func (mg *InterconnectAttachment) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
 	return mg.Status.GetCondition(ct)
@@ -2679,6 +2698,8 @@ func (mg *ManagedSSLCertificate) SetWriteConnectionSecretToReference(r *xpv1.Sec
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
+=======
+>>>>>>> a3be7bc6 (Remove unneeded resources)
 // GetCondition of this Network.
 func (mg *Network) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
 	return mg.Status.GetCondition(ct)
@@ -2755,6 +2776,7 @@ func (mg *Network) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) 
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
+<<<<<<< HEAD
 // GetCondition of this NetworkEndpoint.
 func (mg *NetworkEndpoint) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
 	return mg.Status.GetCondition(ct)
@@ -3819,6 +3841,8 @@ func (mg *RegionAutoscaler) SetWriteConnectionSecretToReference(r *xpv1.SecretRe
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
+=======
+>>>>>>> a3be7bc6 (Remove unneeded resources)
 // GetCondition of this RegionBackendService.
 func (mg *RegionBackendService) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
 	return mg.Status.GetCondition(ct)
@@ -3895,6 +3919,7 @@ func (mg *RegionBackendService) SetWriteConnectionSecretToReference(r *xpv1.Secr
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
+<<<<<<< HEAD
 // GetCondition of this RegionDisk.
 func (mg *RegionDisk) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
 	return mg.Status.GetCondition(ct)
@@ -4123,6 +4148,8 @@ func (mg *RegionDiskResourcePolicyAttachment) SetWriteConnectionSecretToReferenc
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
+=======
+>>>>>>> a3be7bc6 (Remove unneeded resources)
 // GetCondition of this RegionHealthCheck.
 func (mg *RegionHealthCheck) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
 	return mg.Status.GetCondition(ct)
@@ -4275,6 +4302,7 @@ func (mg *RegionInstanceGroupManager) SetWriteConnectionSecretToReference(r *xpv
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
+<<<<<<< HEAD
 // GetCondition of this RegionNetworkEndpointGroup.
 func (mg *RegionNetworkEndpointGroup) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
 	return mg.Status.GetCondition(ct)
@@ -4579,6 +4607,8 @@ func (mg *RegionPerInstanceConfig) SetWriteConnectionSecretToReference(r *xpv1.S
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
+=======
+>>>>>>> a3be7bc6 (Remove unneeded resources)
 // GetCondition of this RegionSSLCertificate.
 func (mg *RegionSSLCertificate) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
 	return mg.Status.GetCondition(ct)
@@ -4883,6 +4913,7 @@ func (mg *RegionURLMap) SetWriteConnectionSecretToReference(r *xpv1.SecretRefere
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
+<<<<<<< HEAD
 // GetCondition of this Reservation.
 func (mg *Reservation) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
 	return mg.Status.GetCondition(ct)
@@ -5415,6 +5446,8 @@ func (mg *RouterPeer) SetWriteConnectionSecretToReference(r *xpv1.SecretReferenc
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
+=======
+>>>>>>> a3be7bc6 (Remove unneeded resources)
 // GetCondition of this SSLCertificate.
 func (mg *SSLCertificate) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
 	return mg.Status.GetCondition(ct)
@@ -5491,6 +5524,7 @@ func (mg *SSLCertificate) SetWriteConnectionSecretToReference(r *xpv1.SecretRefe
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
+<<<<<<< HEAD
 // GetCondition of this SSLPolicy.
 func (mg *SSLPolicy) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
 	return mg.Status.GetCondition(ct)
@@ -6023,6 +6057,8 @@ func (mg *SnapshotIAMMember) SetWriteConnectionSecretToReference(r *xpv1.SecretR
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
+=======
+>>>>>>> a3be7bc6 (Remove unneeded resources)
 // GetCondition of this Subnetwork.
 func (mg *Subnetwork) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
 	return mg.Status.GetCondition(ct)
@@ -6099,6 +6135,7 @@ func (mg *Subnetwork) SetWriteConnectionSecretToReference(r *xpv1.SecretReferenc
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
+<<<<<<< HEAD
 // GetCondition of this SubnetworkIAMMember.
 func (mg *SubnetworkIAMMember) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
 	return mg.Status.GetCondition(ct)
@@ -6251,6 +6288,8 @@ func (mg *TargetGRPCProxy) SetWriteConnectionSecretToReference(r *xpv1.SecretRef
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
+=======
+>>>>>>> a3be7bc6 (Remove unneeded resources)
 // GetCondition of this TargetHTTPProxy.
 func (mg *TargetHTTPProxy) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
 	return mg.Status.GetCondition(ct)
@@ -6403,6 +6442,7 @@ func (mg *TargetHTTPSProxy) SetWriteConnectionSecretToReference(r *xpv1.SecretRe
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
+<<<<<<< HEAD
 // GetCondition of this TargetInstance.
 func (mg *TargetInstance) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
 	return mg.Status.GetCondition(ct)
@@ -6479,6 +6519,8 @@ func (mg *TargetInstance) SetWriteConnectionSecretToReference(r *xpv1.SecretRefe
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
+=======
+>>>>>>> a3be7bc6 (Remove unneeded resources)
 // GetCondition of this TargetPool.
 func (mg *TargetPool) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
 	return mg.Status.GetCondition(ct)
@@ -6554,6 +6596,7 @@ func (mg *TargetPool) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDet
 func (mg *TargetPool) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }
+<<<<<<< HEAD
 
 // GetCondition of this TargetSSLProxy.
 func (mg *TargetSSLProxy) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
@@ -6934,3 +6977,5 @@ func (mg *VPNTunnel) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDeta
 func (mg *VPNTunnel) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }
+=======
+>>>>>>> a3be7bc6 (Remove unneeded resources)
