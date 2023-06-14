@@ -33,6 +33,7 @@ sources:
         ref: spec.credentials.secretRef
     showFields:
       - spec.credentials.secretRef
+      - spec.projectID
   - name: Upbound
     docs: |
       # OpenID Connect (OIDC)
@@ -75,3 +76,4 @@ sources:
       for more information on configuring OIDC with Upbound and GCP.
     showFields:
       - spec.credentials.upbound
+      - spec.projectID
