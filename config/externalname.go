@@ -350,6 +350,11 @@ var externalNameConfigs = map[string]config.ExternalName{
 	// {{name}}: projects/{project_id}/locations/{location}/tagTemplates/{tagTemplateId}
 	"google_data_catalog_tag_template": config.TemplatedStringAsIdentifier("tag_template_id", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.region }}/tagTemplates/{{ .external_name }}"),
 
+	// accesscontextmanager
+	//
+	//
+	"google_access_context_manager_service_perimeter_resource": config.TemplatedStringAsIdentifier("", "{{ .parameters.perimeter_name }}/{{ .parameters.resource }}"),
+
 	// datastore
 	//
 	// Imported by using the following format: projects/{{project}}/indexes/{{index_id}}

@@ -19,8 +19,9 @@ const (
 	SelfPackagePath = "github.com/upbound/provider-gcp/config/common"
 
 	// ExtractResourceIDFuncPath holds the GCP resource ID extractor func name
-	ExtractResourceIDFuncPath = "github.com/upbound/provider-gcp/config/common.ExtractResourceID()"
-	ExtractProjectIDFuncPath  = "github.com/upbound/provider-gcp/config/common.ExtractProjectID()"
+	ExtractResourceIDFuncPath    = "github.com/upbound/provider-gcp/config/common.ExtractResourceID()"
+	ExtractProjectIDFuncPath     = "github.com/upbound/provider-gcp/config/common.ExtractProjectID()"
+	ExtractProjectNumberFuncPath = "github.com/upbound/provider-gcp/config/common.ExtractProjectNumber()"
 )
 
 var (
@@ -77,6 +78,16 @@ func ExtractResourceID() reference.ExtractValueFn {
 }
 
 func ExtractProjectID() reference.ExtractValueFn {
+	return func(mr resource.Managed) string {
+		tr, ok := mr.(jresource.Terraformed)
+		if !ok {
+			return ""
+		}
+		return strings.TrimPrefix(tr.GetID(), "projects/")
+	}
+}
+
+func ExtractProjectNumber() reference.ExtractValueFn {
 	return func(mr resource.Managed) string {
 		tr, ok := mr.(jresource.Terraformed)
 		if !ok {

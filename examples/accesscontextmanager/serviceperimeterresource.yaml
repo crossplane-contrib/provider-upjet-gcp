@@ -1,0 +1,45 @@
+---
+apiVersion: cloudplatform.gcp.upbound.io/v1beta1
+kind: Project
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cloudplatform/v1beta1/project
+    upjet.upbound.io/manual-intervention: "Requires organization level IAM permissions"
+  labels:
+    testing.upbound.io/example-name: project
+  name: project
+spec:
+  forProvider:
+    projectId: project
+    name: project
+
+---
+apiVersion: cloudplatform.gcp.upbound.io/v1beta1
+kind: ProjectService
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cloudplatform/v1beta1/projectservice
+  labels:
+    testing.upbound.io/example-name: project-service
+  name: project-service-accesscontextmanager
+spec:
+  forProvider:
+    disableDependentServices: false
+    project: ${data.cloudplatform_project.projectId}
+    service: accesscontextmanager.googleapis.com
+
+---
+apiVersion: accesscontextmanager.gcp.upbound.io/v1beta1
+kind: ServicePerimeterResource
+metadata:
+  annotations:
+    meta.upbound.io/example-id: accesscontextmanager/v1beta1/serviceperimeterresource
+  labels:
+    testing.upbound.io/example-name: service-perimeter-resource
+  name: service-perimeter-resource
+spec:
+  forProvider:
+    perimeterName: ${google_access_context_manager_service_perimeter.service-perimeter-resource.name}
+
+---
+
