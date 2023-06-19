@@ -353,7 +353,7 @@ var externalNameConfigs = map[string]config.ExternalName{
 	// accesscontextmanager
 	//
 	// Imported by using the following format: {{name}}: accessPolicies/{policy_id}/accessLevels/{short_name}
-	// "google_access_context_manager_access_level": config.IdentifierFromProvider,
+	"google_access_context_manager_access_level": config.IdentifierFromProvider,
 	// No import
 	// "google_access_context_manager_access_level_condition": config.IdentifierFromProvider,
 	// Imported by using {{name}}, but name doesn't exist in parameters. Try using IdentifierFromProvider

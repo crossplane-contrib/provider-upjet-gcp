@@ -9,6 +9,7 @@ import (
 
 	"github.com/upbound/upjet/pkg/controller"
 
+	accesslevel "github.com/upbound/provider-gcp/internal/controller/accesscontextmanager/accesslevel"
 	accesspolicy "github.com/upbound/provider-gcp/internal/controller/accesscontextmanager/accesspolicy"
 )
 
@@ -16,6 +17,7 @@ import (
 // the supplied manager.
 func Setup_accesscontextmanager(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		accesslevel.Setup,
 		accesspolicy.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {

@@ -23,6 +23,7 @@ import (
 	"github.com/upbound/upjet/pkg/types/name"
 
 	"github.com/upbound/provider-gcp/config/accessapproval"
+	"github.com/upbound/provider-gcp/config/accesscontextmanager"
 	"github.com/upbound/provider-gcp/config/beyondcorp"
 	"github.com/upbound/provider-gcp/config/bigquery"
 	"github.com/upbound/provider-gcp/config/bigtable"
@@ -155,6 +156,7 @@ func GetProvider() *tjconfig.Provider {
 
 	for _, configure := range []func(provider *tjconfig.Provider){
 		accessapproval.Configure,
+		accesscontextmanager.Configure,
 		bigtable.Configure,
 		composer.Configure,
 		cloudfunctions.Configure,
