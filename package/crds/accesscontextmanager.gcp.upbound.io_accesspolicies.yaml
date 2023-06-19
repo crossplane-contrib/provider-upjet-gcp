@@ -5,7 +5,7 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.11.3
   creationTimestamp: null
-  name: serviceperimeterresources.accesscontextmanager.gcp.upbound.io
+  name: accesspolicies.accesscontextmanager.gcp.upbound.io
 spec:
   group: accesscontextmanager.gcp.upbound.io
   names:
@@ -13,10 +13,10 @@ spec:
     - crossplane
     - managed
     - gcp
-    kind: ServicePerimeterResource
-    listKind: ServicePerimeterResourceList
-    plural: serviceperimeterresources
-    singular: serviceperimeterresource
+    kind: AccessPolicy
+    listKind: AccessPolicyList
+    plural: accesspolicies
+    singular: accesspolicy
   scope: Cluster
   versions:
   - additionalPrinterColumns:
@@ -35,9 +35,10 @@ spec:
     name: v1beta1
     schema:
       openAPIV3Schema:
-        description: ServicePerimeterResource is the Schema for the ServicePerimeterResources
-          API. Allows configuring a single GCP resource that should be inside of a
-          service perimeter.
+        description: AccessPolicy is the Schema for the AccessPolicys API. AccessPolicy
+          is a container for AccessLevels (which define the necessary attributes to
+          use GCP services) and ServicePerimeters (which define regions of services
+          able to freely pass data within a perimeter).
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -52,8 +53,7 @@ spec:
           metadata:
             type: object
           spec:
-            description: ServicePerimeterResourceSpec defines the desired state of
-              ServicePerimeterResource
+            description: AccessPolicySpec defines the desired state of AccessPolicy
             properties:
               deletionPolicy:
                 default: Delete
@@ -70,17 +70,19 @@ spec:
                 type: string
               forProvider:
                 properties:
-                  perimeterName:
-                    description: The name of the Service Perimeter to add this resource
-                      to.
+                  parent:
+                    description: 'The parent of this AccessPolicy in the Cloud Resource
+                      Hierarchy. Format: organizations/{organization_id}'
                     type: string
-                  resource:
-                    description: 'A GCP resource that is inside of the service perimeter.
-                      Currently only projects are allowed. Format: projects/{project_number}'
+                  scopes:
+                    description: 'Folder or project on which this policy is applicable.
+                      Format: folders/{{folder_id}} or projects/{{project_id}}'
+                    items:
+                      type: string
+                    type: array
+                  title:
+                    description: Human readable title. Does not affect behavior.
                     type: string
-                required:
-                - perimeterName
-                - resource
                 type: object
               managementPolicy:
                 default: FullControl
@@ -268,22 +270,40 @@ spec:
             required:
             - forProvider
             type: object
+            x-kubernetes-validations:
+            - message: parent is a required parameter
+              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.parent)
+            - message: title is a required parameter
+              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.title)
           status:
-            description: ServicePerimeterResourceStatus defines the observed state
-              of ServicePerimeterResource.
+            description: AccessPolicyStatus defines the observed state of AccessPolicy.
             properties:
               atProvider:
                 properties:
+                  createTime:
+                    description: Time the AccessPolicy was created in UTC.
+                    type: string
                   id:
-                    description: an identifier for the resource with format {{perimeter_name}}/{{resource}}
+                    description: an identifier for the resource with format {{name}}
                     type: string
-                  perimeterName:
-                    description: The name of the Service Perimeter to add this resource
-                      to.
+                  name:
+                    description: 'Resource name of the AccessPolicy. Format: {policy_id}'
                     type: string
-                  resource:
-                    description: 'A GCP resource that is inside of the service perimeter.
-                      Currently only projects are allowed. Format: projects/{project_number}'
+                  parent:
+                    description: 'The parent of this AccessPolicy in the Cloud Resource
+                      Hierarchy. Format: organizations/{organization_id}'
+                    type: string
+                  scopes:
+                    description: 'Folder or project on which this policy is applicable.
+                      Format: folders/{{folder_id}} or projects/{{project_id}}'
+                    items:
+                      type: string
+                    type: array
+                  title:
+                    description: Human readable title. Does not affect behavior.
+                    type: string
+                  updateTime:
+                    description: Time the AccessPolicy was updated in UTC.
                     type: string
                 type: object
               conditions:

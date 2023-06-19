@@ -19,78 +19,78 @@ package v1beta1
 
 import xpv1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 
-// GetCondition of this ServicePerimeterResource.
-func (mg *ServicePerimeterResource) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+// GetCondition of this AccessPolicy.
+func (mg *AccessPolicy) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
 	return mg.Status.GetCondition(ct)
 }
 
-// GetDeletionPolicy of this ServicePerimeterResource.
-func (mg *ServicePerimeterResource) GetDeletionPolicy() xpv1.DeletionPolicy {
+// GetDeletionPolicy of this AccessPolicy.
+func (mg *AccessPolicy) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
-// GetManagementPolicy of this ServicePerimeterResource.
-func (mg *ServicePerimeterResource) GetManagementPolicy() xpv1.ManagementPolicy {
+// GetManagementPolicy of this AccessPolicy.
+func (mg *AccessPolicy) GetManagementPolicy() xpv1.ManagementPolicy {
 	return mg.Spec.ManagementPolicy
 }
 
-// GetProviderConfigReference of this ServicePerimeterResource.
-func (mg *ServicePerimeterResource) GetProviderConfigReference() *xpv1.Reference {
+// GetProviderConfigReference of this AccessPolicy.
+func (mg *AccessPolicy) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
 /*
-GetProviderReference of this ServicePerimeterResource.
+GetProviderReference of this AccessPolicy.
 Deprecated: Use GetProviderConfigReference.
 */
-func (mg *ServicePerimeterResource) GetProviderReference() *xpv1.Reference {
+func (mg *AccessPolicy) GetProviderReference() *xpv1.Reference {
 	return mg.Spec.ProviderReference
 }
 
-// GetPublishConnectionDetailsTo of this ServicePerimeterResource.
-func (mg *ServicePerimeterResource) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
+// GetPublishConnectionDetailsTo of this AccessPolicy.
+func (mg *AccessPolicy) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
 	return mg.Spec.PublishConnectionDetailsTo
 }
 
-// GetWriteConnectionSecretToReference of this ServicePerimeterResource.
-func (mg *ServicePerimeterResource) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
+// GetWriteConnectionSecretToReference of this AccessPolicy.
+func (mg *AccessPolicy) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
 }
 
-// SetConditions of this ServicePerimeterResource.
-func (mg *ServicePerimeterResource) SetConditions(c ...xpv1.Condition) {
+// SetConditions of this AccessPolicy.
+func (mg *AccessPolicy) SetConditions(c ...xpv1.Condition) {
 	mg.Status.SetConditions(c...)
 }
 
-// SetDeletionPolicy of this ServicePerimeterResource.
-func (mg *ServicePerimeterResource) SetDeletionPolicy(r xpv1.DeletionPolicy) {
+// SetDeletionPolicy of this AccessPolicy.
+func (mg *AccessPolicy) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
-// SetManagementPolicy of this ServicePerimeterResource.
-func (mg *ServicePerimeterResource) SetManagementPolicy(r xpv1.ManagementPolicy) {
+// SetManagementPolicy of this AccessPolicy.
+func (mg *AccessPolicy) SetManagementPolicy(r xpv1.ManagementPolicy) {
 	mg.Spec.ManagementPolicy = r
 }
 
-// SetProviderConfigReference of this ServicePerimeterResource.
-func (mg *ServicePerimeterResource) SetProviderConfigReference(r *xpv1.Reference) {
+// SetProviderConfigReference of this AccessPolicy.
+func (mg *AccessPolicy) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
 /*
-SetProviderReference of this ServicePerimeterResource.
+SetProviderReference of this AccessPolicy.
 Deprecated: Use SetProviderConfigReference.
 */
-func (mg *ServicePerimeterResource) SetProviderReference(r *xpv1.Reference) {
+func (mg *AccessPolicy) SetProviderReference(r *xpv1.Reference) {
 	mg.Spec.ProviderReference = r
 }
 
-// SetPublishConnectionDetailsTo of this ServicePerimeterResource.
-func (mg *ServicePerimeterResource) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
+// SetPublishConnectionDetailsTo of this AccessPolicy.
+func (mg *AccessPolicy) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
 	mg.Spec.PublishConnectionDetailsTo = r
 }
 
-// SetWriteConnectionSecretToReference of this ServicePerimeterResource.
-func (mg *ServicePerimeterResource) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
+// SetWriteConnectionSecretToReference of this AccessPolicy.
+func (mg *AccessPolicy) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }

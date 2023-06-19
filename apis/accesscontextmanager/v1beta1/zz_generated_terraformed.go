@@ -25,18 +25,18 @@ import (
 	"github.com/upbound/upjet/pkg/resource/json"
 )
 
-// GetTerraformResourceType returns Terraform resource type for this ServicePerimeterResource
-func (mg *ServicePerimeterResource) GetTerraformResourceType() string {
-	return "google_access_context_manager_service_perimeter_resource"
+// GetTerraformResourceType returns Terraform resource type for this AccessPolicy
+func (mg *AccessPolicy) GetTerraformResourceType() string {
+	return "google_access_context_manager_access_policy"
 }
 
-// GetConnectionDetailsMapping for this ServicePerimeterResource
-func (tr *ServicePerimeterResource) GetConnectionDetailsMapping() map[string]string {
+// GetConnectionDetailsMapping for this AccessPolicy
+func (tr *AccessPolicy) GetConnectionDetailsMapping() map[string]string {
 	return nil
 }
 
-// GetObservation of this ServicePerimeterResource
-func (tr *ServicePerimeterResource) GetObservation() (map[string]any, error) {
+// GetObservation of this AccessPolicy
+func (tr *AccessPolicy) GetObservation() (map[string]any, error) {
 	o, err := json.TFParser.Marshal(tr.Status.AtProvider)
 	if err != nil {
 		return nil, err
@@ -45,8 +45,8 @@ func (tr *ServicePerimeterResource) GetObservation() (map[string]any, error) {
 	return base, json.TFParser.Unmarshal(o, &base)
 }
 
-// SetObservation for this ServicePerimeterResource
-func (tr *ServicePerimeterResource) SetObservation(obs map[string]any) error {
+// SetObservation for this AccessPolicy
+func (tr *AccessPolicy) SetObservation(obs map[string]any) error {
 	p, err := json.TFParser.Marshal(obs)
 	if err != nil {
 		return err
@@ -54,16 +54,16 @@ func (tr *ServicePerimeterResource) SetObservation(obs map[string]any) error {
 	return json.TFParser.Unmarshal(p, &tr.Status.AtProvider)
 }
 
-// GetID returns ID of underlying Terraform resource of this ServicePerimeterResource
-func (tr *ServicePerimeterResource) GetID() string {
+// GetID returns ID of underlying Terraform resource of this AccessPolicy
+func (tr *AccessPolicy) GetID() string {
 	if tr.Status.AtProvider.ID == nil {
 		return ""
 	}
 	return *tr.Status.AtProvider.ID
 }
 
-// GetParameters of this ServicePerimeterResource
-func (tr *ServicePerimeterResource) GetParameters() (map[string]any, error) {
+// GetParameters of this AccessPolicy
+func (tr *AccessPolicy) GetParameters() (map[string]any, error) {
 	p, err := json.TFParser.Marshal(tr.Spec.ForProvider)
 	if err != nil {
 		return nil, err
@@ -72,8 +72,8 @@ func (tr *ServicePerimeterResource) GetParameters() (map[string]any, error) {
 	return base, json.TFParser.Unmarshal(p, &base)
 }
 
-// SetParameters for this ServicePerimeterResource
-func (tr *ServicePerimeterResource) SetParameters(params map[string]any) error {
+// SetParameters for this AccessPolicy
+func (tr *AccessPolicy) SetParameters(params map[string]any) error {
 	p, err := json.TFParser.Marshal(params)
 	if err != nil {
 		return err
@@ -81,10 +81,10 @@ func (tr *ServicePerimeterResource) SetParameters(params map[string]any) error {
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
 }
 
-// LateInitialize this ServicePerimeterResource using its observed tfState.
+// LateInitialize this AccessPolicy using its observed tfState.
 // returns True if there are any spec changes for the resource.
-func (tr *ServicePerimeterResource) LateInitialize(attrs []byte) (bool, error) {
-	params := &ServicePerimeterResourceParameters{}
+func (tr *AccessPolicy) LateInitialize(attrs []byte) (bool, error) {
+	params := &AccessPolicyParameters{}
 	if err := json.TFParser.Unmarshal(attrs, params); err != nil {
 		return false, errors.Wrap(err, "failed to unmarshal Terraform state parameters for late-initialization")
 	}
@@ -95,6 +95,6 @@ func (tr *ServicePerimeterResource) LateInitialize(attrs []byte) (bool, error) {
 }
 
 // GetTerraformSchemaVersion returns the associated Terraform schema version
-func (tr *ServicePerimeterResource) GetTerraformSchemaVersion() int {
+func (tr *AccessPolicy) GetTerraformSchemaVersion() int {
 	return 0
 }
