@@ -49,3 +49,29 @@ func (mg *AccessLevel) ResolveReferences(ctx context.Context, c client.Reader) e
 
 	return nil
 }
+
+// ResolveReferences of this AccessLevelCondition.
+func (mg *AccessLevelCondition) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.AccessLevel),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.ForProvider.AccessLevelRef,
+		Selector:     mg.Spec.ForProvider.AccessLevelSelector,
+		To: reference.To{
+			List:    &AccessLevelList{},
+			Managed: &AccessLevel{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.AccessLevel")
+	}
+	mg.Spec.ForProvider.AccessLevel = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.AccessLevelRef = rsp.ResolvedReference
+
+	return nil
+}

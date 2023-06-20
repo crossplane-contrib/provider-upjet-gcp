@@ -10,6 +10,7 @@ import (
 	"github.com/upbound/upjet/pkg/controller"
 
 	accesslevel "github.com/upbound/provider-gcp/internal/controller/accesscontextmanager/accesslevel"
+	accesslevelcondition "github.com/upbound/provider-gcp/internal/controller/accesscontextmanager/accesslevelcondition"
 	accesspolicy "github.com/upbound/provider-gcp/internal/controller/accesscontextmanager/accesspolicy"
 	domain "github.com/upbound/provider-gcp/internal/controller/activedirectory/domain"
 	envgroup "github.com/upbound/provider-gcp/internal/controller/apigee/envgroup"
@@ -348,6 +349,7 @@ import (
 func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
 		accesslevel.Setup,
+		accesslevelcondition.Setup,
 		accesspolicy.Setup,
 		domain.Setup,
 		envgroup.Setup,

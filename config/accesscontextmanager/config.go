@@ -13,10 +13,10 @@ func Configure(p *config.Provider) {
 			Type: "AccessPolicy",
 		}
 	})
-	// p.AddResourceConfigurator("google_access_context_manager_access_level_condition", func(r *config.Resource) {
-	// 	r.References["access_level"] = config.Reference{
-	// 		Type: "AccessLevel",
-	// 	}
-	// })
+	p.AddResourceConfigurator("google_access_context_manager_access_level_condition", func(r *config.Resource) {
+		r.References["access_level"] = config.Reference{
+			Type: "AccessLevel",
+		}
+	})
 	// p.AddResourceConfigurator("google_access_context_manager_service_perimeter_resource", func(r *config.Resource) {})
 }
