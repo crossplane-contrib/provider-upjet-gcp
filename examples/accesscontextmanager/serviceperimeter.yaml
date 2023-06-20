@@ -1,18 +1,22 @@
 apiVersion: accesscontextmanager.gcp.upbound.io/v1beta1
-kind: GCPUserAccessBinding
+kind: ServicePerimeter
 metadata:
   annotations:
-    meta.upbound.io/example-id: accesscontextmanager/v1beta1/gcpuseraccessbinding
+    meta.upbound.io/example-id: accesscontextmanager/v1beta1/serviceperimeter
     upjet.upbound.io/manual-intervention: "Requires organization level IAM permissions"
   labels:
-    testing.upbound.io/example-name: gcp_user_access_binding
-  name: gcp-user-access-binding
+    testing.upbound.io/example-name: service-perimeter
+  name: service-perimeter
 spec:
   forProvider:
-    accessLevels:
-    - ${google_access_context_manager_access_level.access_level_id_for_user_access_binding.name}
-    groupKey: ${trimprefix(google_cloud_identity_group.group.id, "groups/")}
-    organizationId: "123456789"
+    name: accessPolicies/${google_access_context_manager_access_policy.access-policy.name}/servicePerimeters/restrict_storage
+    parentSelector:
+      matchLabels:
+        testing.upbound.io/example-name: access-policy
+    status:
+    - restrictedServices:
+      - storage.googleapis.com
+    title: restrict_storage
 
 ---
 
@@ -20,11 +24,11 @@ apiVersion: accesscontextmanager.gcp.upbound.io/v1beta1
 kind: AccessLevel
 metadata:
   annotations:
-    meta.upbound.io/example-id: accesscontextmanager/v1beta1/gcpuseraccessbinding
+    meta.upbound.io/example-id: accesscontextmanager/v1beta1/serviceperimeter
     upjet.upbound.io/manual-intervention: "Requires organization level IAM permissions"
   labels:
-    testing.upbound.io/example-name: access_level_id_for_user_access_binding
-  name: access-level-id-for-user-access-binding
+    testing.upbound.io/example-name: access-level
+  name: access-level
 spec:
   forProvider:
     basic:
@@ -32,8 +36,10 @@ spec:
       - devicePolicy:
         - osConstraints:
           - osType: DESKTOP_CHROME_OS
-          requireScreenLock: true
+          requireScreenLock: false
         regions:
+        - CH
+        - IT
         - US
     name: accessPolicies/${google_access_context_manager_access_policy.access-policy.name}/accessLevels/chromeos_no_lock
     parentSelector:
@@ -47,7 +53,7 @@ apiVersion: accesscontextmanager.gcp.upbound.io/v1beta1
 kind: AccessPolicy
 metadata:
   annotations:
-    meta.upbound.io/example-id: accesscontextmanager/v1beta1/gcpuseraccessbinding
+    meta.upbound.io/example-id: accesscontextmanager/v1beta1/serviceperimeter
     upjet.upbound.io/manual-intervention: "Requires organization level IAM permissions"
   labels:
     testing.upbound.io/example-name: access-policy

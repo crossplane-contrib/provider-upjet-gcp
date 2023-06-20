@@ -23,5 +23,10 @@ func Configure(p *config.Provider) {
 			Type: "AccessPolicy",
 		}
 	})
+	p.AddResourceConfigurator("google_access_context_manager_service_perimeter", func(r *config.Resource) {
+		r.References["parent"] = config.Reference{
+			Type: "AccessPolicy",
+		}
+	})
 	// p.AddResourceConfigurator("google_access_context_manager_service_perimeter_resource", func(r *config.Resource) {})
 }

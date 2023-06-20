@@ -14,6 +14,7 @@ import (
 	accesspolicy "github.com/upbound/provider-gcp/internal/controller/accesscontextmanager/accesspolicy"
 	accesspolicyiammember "github.com/upbound/provider-gcp/internal/controller/accesscontextmanager/accesspolicyiammember"
 	gcpuseraccessbinding "github.com/upbound/provider-gcp/internal/controller/accesscontextmanager/gcpuseraccessbinding"
+	serviceperimeter "github.com/upbound/provider-gcp/internal/controller/accesscontextmanager/serviceperimeter"
 )
 
 // Setup_accesscontextmanager creates all controllers with the supplied logger and adds them to
@@ -25,6 +26,7 @@ func Setup_accesscontextmanager(mgr ctrl.Manager, o controller.Options) error {
 		accesspolicy.Setup,
 		accesspolicyiammember.Setup,
 		gcpuseraccessbinding.Setup,
+		serviceperimeter.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {
 			return err

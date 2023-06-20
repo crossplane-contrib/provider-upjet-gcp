@@ -367,7 +367,7 @@ var externalNameConfigs = map[string]config.ExternalName{
 	// Imported by using the following format: {{name}}
 	"google_access_context_manager_gcp_user_access_binding": config.IdentifierFromProvider,
 	// Imported by using the following format: {{name}}
-	// "google_access_context_manager_service_perimeter": config.IdentifierFromProvider,
+	"google_access_context_manager_service_perimeter": config.IdentifierFromProvider,
 	// Imported by using the following format: {{perimeter_name}}/{{resource}}
 	// "google_access_context_manager_service_perimeter_resource": config.IdentifierFromProvider,
 

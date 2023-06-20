@@ -21,6 +21,7 @@ import (
 	"context"
 	reference "github.com/crossplane/crossplane-runtime/pkg/reference"
 	errors "github.com/pkg/errors"
+	resource "github.com/upbound/upjet/pkg/resource"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
@@ -98,6 +99,57 @@ func (mg *AccessPolicyIAMMember) ResolveReferences(ctx context.Context, c client
 	}
 	mg.Spec.ForProvider.Name = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.NameRef = rsp.ResolvedReference
+
+	return nil
+}
+
+// ResolveReferences of this ServicePerimeter.
+func (mg *ServicePerimeter) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Parent),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.ForProvider.ParentRef,
+		Selector:     mg.Spec.ForProvider.ParentSelector,
+		To: reference.To{
+			List:    &AccessPolicyList{},
+			Managed: &AccessPolicy{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.Parent")
+	}
+	mg.Spec.ForProvider.Parent = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.ParentRef = rsp.ResolvedReference
+
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.Status); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.ForProvider.Status[i3].IngressPolicies); i4++ {
+			for i5 := 0; i5 < len(mg.Spec.ForProvider.Status[i3].IngressPolicies[i4].IngressFrom); i5++ {
+				for i6 := 0; i6 < len(mg.Spec.ForProvider.Status[i3].IngressPolicies[i4].IngressFrom[i5].Sources); i6++ {
+					rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+						CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Status[i3].IngressPolicies[i4].IngressFrom[i5].Sources[i6].AccessLevel),
+						Extract:      resource.ExtractParamPath("name", false),
+						Reference:    mg.Spec.ForProvider.Status[i3].IngressPolicies[i4].IngressFrom[i5].Sources[i6].AccessLevelRef,
+						Selector:     mg.Spec.ForProvider.Status[i3].IngressPolicies[i4].IngressFrom[i5].Sources[i6].AccessLevelSelector,
+						To: reference.To{
+							List:    &AccessLevelList{},
+							Managed: &AccessLevel{},
+						},
+					})
+					if err != nil {
+						return errors.Wrap(err, "mg.Spec.ForProvider.Status[i3].IngressPolicies[i4].IngressFrom[i5].Sources[i6].AccessLevel")
+					}
+					mg.Spec.ForProvider.Status[i3].IngressPolicies[i4].IngressFrom[i5].Sources[i6].AccessLevel = reference.ToPtrValue(rsp.ResolvedValue)
+					mg.Spec.ForProvider.Status[i3].IngressPolicies[i4].IngressFrom[i5].Sources[i6].AccessLevelRef = rsp.ResolvedReference
+
+				}
+			}
+		}
+	}
 
 	return nil
 }
