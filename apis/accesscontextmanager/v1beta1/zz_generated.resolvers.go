@@ -75,3 +75,29 @@ func (mg *AccessLevelCondition) ResolveReferences(ctx context.Context, c client.
 
 	return nil
 }
+
+// ResolveReferences of this AccessPolicyIAMMember.
+func (mg *AccessPolicyIAMMember) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Name),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.ForProvider.NameRef,
+		Selector:     mg.Spec.ForProvider.NameSelector,
+		To: reference.To{
+			List:    &AccessPolicyList{},
+			Managed: &AccessPolicy{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.Name")
+	}
+	mg.Spec.ForProvider.Name = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.NameRef = rsp.ResolvedReference
+
+	return nil
+}

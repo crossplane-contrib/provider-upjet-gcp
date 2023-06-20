@@ -12,6 +12,8 @@ import (
 	accesslevel "github.com/upbound/provider-gcp/internal/controller/accesscontextmanager/accesslevel"
 	accesslevelcondition "github.com/upbound/provider-gcp/internal/controller/accesscontextmanager/accesslevelcondition"
 	accesspolicy "github.com/upbound/provider-gcp/internal/controller/accesscontextmanager/accesspolicy"
+	accesspolicyiammember "github.com/upbound/provider-gcp/internal/controller/accesscontextmanager/accesspolicyiammember"
+	gcpuseraccessbinding "github.com/upbound/provider-gcp/internal/controller/accesscontextmanager/gcpuseraccessbinding"
 	domain "github.com/upbound/provider-gcp/internal/controller/activedirectory/domain"
 	envgroup "github.com/upbound/provider-gcp/internal/controller/apigee/envgroup"
 	environment "github.com/upbound/provider-gcp/internal/controller/apigee/environment"
@@ -351,6 +353,8 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		accesslevel.Setup,
 		accesslevelcondition.Setup,
 		accesspolicy.Setup,
+		accesspolicyiammember.Setup,
+		gcpuseraccessbinding.Setup,
 		domain.Setup,
 		envgroup.Setup,
 		environment.Setup,

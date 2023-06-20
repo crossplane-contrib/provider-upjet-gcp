@@ -246,3 +246,151 @@ func (tr *AccessPolicy) LateInitialize(attrs []byte) (bool, error) {
 func (tr *AccessPolicy) GetTerraformSchemaVersion() int {
 	return 0
 }
+
+// GetTerraformResourceType returns Terraform resource type for this AccessPolicyIAMMember
+func (mg *AccessPolicyIAMMember) GetTerraformResourceType() string {
+	return "google_access_context_manager_access_policy_iam_member"
+}
+
+// GetConnectionDetailsMapping for this AccessPolicyIAMMember
+func (tr *AccessPolicyIAMMember) GetConnectionDetailsMapping() map[string]string {
+	return nil
+}
+
+// GetObservation of this AccessPolicyIAMMember
+func (tr *AccessPolicyIAMMember) GetObservation() (map[string]any, error) {
+	o, err := json.TFParser.Marshal(tr.Status.AtProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(o, &base)
+}
+
+// SetObservation for this AccessPolicyIAMMember
+func (tr *AccessPolicyIAMMember) SetObservation(obs map[string]any) error {
+	p, err := json.TFParser.Marshal(obs)
+	if err != nil {
+		return err
+	}
+	return json.TFParser.Unmarshal(p, &tr.Status.AtProvider)
+}
+
+// GetID returns ID of underlying Terraform resource of this AccessPolicyIAMMember
+func (tr *AccessPolicyIAMMember) GetID() string {
+	if tr.Status.AtProvider.ID == nil {
+		return ""
+	}
+	return *tr.Status.AtProvider.ID
+}
+
+// GetParameters of this AccessPolicyIAMMember
+func (tr *AccessPolicyIAMMember) GetParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.ForProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
+}
+
+// SetParameters for this AccessPolicyIAMMember
+func (tr *AccessPolicyIAMMember) SetParameters(params map[string]any) error {
+	p, err := json.TFParser.Marshal(params)
+	if err != nil {
+		return err
+	}
+	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
+}
+
+// LateInitialize this AccessPolicyIAMMember using its observed tfState.
+// returns True if there are any spec changes for the resource.
+func (tr *AccessPolicyIAMMember) LateInitialize(attrs []byte) (bool, error) {
+	params := &AccessPolicyIAMMemberParameters{}
+	if err := json.TFParser.Unmarshal(attrs, params); err != nil {
+		return false, errors.Wrap(err, "failed to unmarshal Terraform state parameters for late-initialization")
+	}
+	opts := []resource.GenericLateInitializerOption{resource.WithZeroValueJSONOmitEmptyFilter(resource.CNameWildcard)}
+
+	li := resource.NewGenericLateInitializer(opts...)
+	return li.LateInitialize(&tr.Spec.ForProvider, params)
+}
+
+// GetTerraformSchemaVersion returns the associated Terraform schema version
+func (tr *AccessPolicyIAMMember) GetTerraformSchemaVersion() int {
+	return 0
+}
+
+// GetTerraformResourceType returns Terraform resource type for this GCPUserAccessBinding
+func (mg *GCPUserAccessBinding) GetTerraformResourceType() string {
+	return "google_access_context_manager_gcp_user_access_binding"
+}
+
+// GetConnectionDetailsMapping for this GCPUserAccessBinding
+func (tr *GCPUserAccessBinding) GetConnectionDetailsMapping() map[string]string {
+	return nil
+}
+
+// GetObservation of this GCPUserAccessBinding
+func (tr *GCPUserAccessBinding) GetObservation() (map[string]any, error) {
+	o, err := json.TFParser.Marshal(tr.Status.AtProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(o, &base)
+}
+
+// SetObservation for this GCPUserAccessBinding
+func (tr *GCPUserAccessBinding) SetObservation(obs map[string]any) error {
+	p, err := json.TFParser.Marshal(obs)
+	if err != nil {
+		return err
+	}
+	return json.TFParser.Unmarshal(p, &tr.Status.AtProvider)
+}
+
+// GetID returns ID of underlying Terraform resource of this GCPUserAccessBinding
+func (tr *GCPUserAccessBinding) GetID() string {
+	if tr.Status.AtProvider.ID == nil {
+		return ""
+	}
+	return *tr.Status.AtProvider.ID
+}
+
+// GetParameters of this GCPUserAccessBinding
+func (tr *GCPUserAccessBinding) GetParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.ForProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
+}
+
+// SetParameters for this GCPUserAccessBinding
+func (tr *GCPUserAccessBinding) SetParameters(params map[string]any) error {
+	p, err := json.TFParser.Marshal(params)
+	if err != nil {
+		return err
+	}
+	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
+}
+
+// LateInitialize this GCPUserAccessBinding using its observed tfState.
+// returns True if there are any spec changes for the resource.
+func (tr *GCPUserAccessBinding) LateInitialize(attrs []byte) (bool, error) {
+	params := &GCPUserAccessBindingParameters{}
+	if err := json.TFParser.Unmarshal(attrs, params); err != nil {
+		return false, errors.Wrap(err, "failed to unmarshal Terraform state parameters for late-initialization")
+	}
+	opts := []resource.GenericLateInitializerOption{resource.WithZeroValueJSONOmitEmptyFilter(resource.CNameWildcard)}
+
+	li := resource.NewGenericLateInitializer(opts...)
+	return li.LateInitialize(&tr.Spec.ForProvider, params)
+}
+
+// GetTerraformSchemaVersion returns the associated Terraform schema version
+func (tr *GCPUserAccessBinding) GetTerraformSchemaVersion() int {
+	return 0
+}

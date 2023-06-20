@@ -12,6 +12,8 @@ import (
 	accesslevel "github.com/upbound/provider-gcp/internal/controller/accesscontextmanager/accesslevel"
 	accesslevelcondition "github.com/upbound/provider-gcp/internal/controller/accesscontextmanager/accesslevelcondition"
 	accesspolicy "github.com/upbound/provider-gcp/internal/controller/accesscontextmanager/accesspolicy"
+	accesspolicyiammember "github.com/upbound/provider-gcp/internal/controller/accesscontextmanager/accesspolicyiammember"
+	gcpuseraccessbinding "github.com/upbound/provider-gcp/internal/controller/accesscontextmanager/gcpuseraccessbinding"
 )
 
 // Setup_accesscontextmanager creates all controllers with the supplied logger and adds them to
@@ -21,6 +23,8 @@ func Setup_accesscontextmanager(mgr ctrl.Manager, o controller.Options) error {
 		accesslevel.Setup,
 		accesslevelcondition.Setup,
 		accesspolicy.Setup,
+		accesspolicyiammember.Setup,
+		gcpuseraccessbinding.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {
 			return err
