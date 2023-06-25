@@ -153,3 +153,29 @@ func (mg *ServicePerimeter) ResolveReferences(ctx context.Context, c client.Read
 
 	return nil
 }
+
+// ResolveReferences of this ServicePerimeterResource.
+func (mg *ServicePerimeterResource) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.PerimeterName),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.ForProvider.PerimeterNameRef,
+		Selector:     mg.Spec.ForProvider.PerimeterNameSelector,
+		To: reference.To{
+			List:    &ServicePerimeterList{},
+			Managed: &ServicePerimeter{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.PerimeterName")
+	}
+	mg.Spec.ForProvider.PerimeterName = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.PerimeterNameRef = rsp.ResolvedReference
+
+	return nil
+}

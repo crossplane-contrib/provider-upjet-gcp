@@ -15,6 +15,7 @@ import (
 	accesspolicyiammember "github.com/upbound/provider-gcp/internal/controller/accesscontextmanager/accesspolicyiammember"
 	gcpuseraccessbinding "github.com/upbound/provider-gcp/internal/controller/accesscontextmanager/gcpuseraccessbinding"
 	serviceperimeter "github.com/upbound/provider-gcp/internal/controller/accesscontextmanager/serviceperimeter"
+	serviceperimeterresource "github.com/upbound/provider-gcp/internal/controller/accesscontextmanager/serviceperimeterresource"
 	domain "github.com/upbound/provider-gcp/internal/controller/activedirectory/domain"
 	envgroup "github.com/upbound/provider-gcp/internal/controller/apigee/envgroup"
 	environment "github.com/upbound/provider-gcp/internal/controller/apigee/environment"
@@ -357,6 +358,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		accesspolicyiammember.Setup,
 		gcpuseraccessbinding.Setup,
 		serviceperimeter.Setup,
+		serviceperimeterresource.Setup,
 		domain.Setup,
 		envgroup.Setup,
 		environment.Setup,

@@ -28,5 +28,13 @@ func Configure(p *config.Provider) {
 			Type: "AccessPolicy",
 		}
 	})
-	// p.AddResourceConfigurator("google_access_context_manager_service_perimeter_resource", func(r *config.Resource) {})
+	p.AddResourceConfigurator("google_access_context_manager_service_perimeter_resource", func(r *config.Resource) {
+		r.References["perimeter_name"] = config.Reference{
+			Type: "ServicePerimeter",
+		}
+		if s, ok := r.TerraformResource.Schema["resource"]; ok {
+			s.Optional = false
+			s.Computed = false
+		}
+	})
 }
