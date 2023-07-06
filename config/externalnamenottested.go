@@ -89,25 +89,12 @@ var ExternalNameNotTestedConfigs = map[string]config.ExternalName{
 
 	// accesscontextmanager
 	//
-	//
-	// Imported by using the following format: {{name}}: accessPolicies/{policy_id}/accessLevels/{short_name}
-	"google_access_context_manager_access_level": config.IdentifierFromProvider,
-	// No import
-	"google_access_context_manager_access_level_condition": config.IdentifierFromProvider,
-	// Imported by using {{name}}, but name doesn't exist in parameters. Try using IdentifierFromProvider
-	"google_access_context_manager_access_policy": config.IdentifierFromProvider,
 	// Imported by using the following format: accessPolicies/{{access_policy}} roles/accesscontextmanager.policyAdmin
 	"google_access_context_manager_access_policy_iam_binding": config.IdentifierFromProvider,
-	// Imported by using the following format: "accessPolicies/{{access_policy}} roles/accesscontextmanager.policyAdmin user:jane@example.com"
-	"google_access_context_manager_access_policy_iam_member": config.IdentifierFromProvider,
 	// Imported by using the following format: accessPolicies/{{access_policy}}
 	"google_access_context_manager_access_policy_iam_policy": config.TemplatedStringAsIdentifier("name", "accessPolicies/{{ .external_name }}"),
 	// Imported by using the following format: {{name}}
 	"google_access_context_manager_gcp_user_access_binding": config.IdentifierFromProvider,
-	// Imported by using the following format: {{name}}
-	"google_access_context_manager_service_perimeter": config.IdentifierFromProvider,
-	// Imported by using the following format: {{perimeter_name}}/{{resource}}
-	"google_access_context_manager_service_perimeter_resource": config.TemplatedStringAsIdentifier("resource", "{{ .parameters.perimeter_name }}/{{ .external_name }}"),
 
 	// activedirectory
 	//

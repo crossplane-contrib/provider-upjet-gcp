@@ -885,8 +885,17 @@ type SpecParameters struct {
 	// origins within the perimeter. For Service Perimeter Bridge, must
 	// be empty.
 	// Format: accessPolicies/{policy_id}/accessLevels/{access_level_name}
+	// +crossplane:generate:reference:type=AccessLevel
 	// +kubebuilder:validation:Optional
 	AccessLevels []*string `json:"accessLevels,omitempty" tf:"access_levels,omitempty"`
+
+	// References to AccessLevel to populate accessLevels.
+	// +kubebuilder:validation:Optional
+	AccessLevelsRefs []v1.Reference `json:"accessLevelsRefs,omitempty" tf:"-"`
+
+	// Selector for a list of AccessLevel to populate accessLevels.
+	// +kubebuilder:validation:Optional
+	AccessLevelsSelector *v1.Selector `json:"accessLevelsSelector,omitempty" tf:"-"`
 
 	// List of EgressPolicies to apply to the perimeter. A perimeter may
 	// have multiple EgressPolicies, each of which is evaluated separately.
@@ -1035,8 +1044,17 @@ type StatusParameters struct {
 	// origins within the perimeter. For Service Perimeter Bridge, must
 	// be empty.
 	// Format: accessPolicies/{policy_id}/accessLevels/{access_level_name}
+	// +crossplane:generate:reference:type=AccessLevel
 	// +kubebuilder:validation:Optional
 	AccessLevels []*string `json:"accessLevels,omitempty" tf:"access_levels,omitempty"`
+
+	// References to AccessLevel to populate accessLevels.
+	// +kubebuilder:validation:Optional
+	AccessLevelsRefs []v1.Reference `json:"accessLevelsRefs,omitempty" tf:"-"`
+
+	// Selector for a list of AccessLevel to populate accessLevels.
+	// +kubebuilder:validation:Optional
+	AccessLevelsSelector *v1.Selector `json:"accessLevelsSelector,omitempty" tf:"-"`
 
 	// List of EgressPolicies to apply to the perimeter. A perimeter may
 	// have multiple EgressPolicies, each of which is evaluated separately.

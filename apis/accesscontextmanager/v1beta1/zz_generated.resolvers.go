@@ -108,6 +108,7 @@ func (mg *ServicePerimeter) ResolveReferences(ctx context.Context, c client.Read
 	r := reference.NewAPIResolver(c, mg)
 
 	var rsp reference.ResolutionResponse
+	var mrsp reference.MultiResolutionResponse
 	var err error
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
@@ -126,6 +127,42 @@ func (mg *ServicePerimeter) ResolveReferences(ctx context.Context, c client.Read
 	mg.Spec.ForProvider.Parent = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.ParentRef = rsp.ResolvedReference
 
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.Spec); i3++ {
+		mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
+			CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.Spec[i3].AccessLevels),
+			Extract:       reference.ExternalName(),
+			References:    mg.Spec.ForProvider.Spec[i3].AccessLevelsRefs,
+			Selector:      mg.Spec.ForProvider.Spec[i3].AccessLevelsSelector,
+			To: reference.To{
+				List:    &AccessLevelList{},
+				Managed: &AccessLevel{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.Spec[i3].AccessLevels")
+		}
+		mg.Spec.ForProvider.Spec[i3].AccessLevels = reference.ToPtrValues(mrsp.ResolvedValues)
+		mg.Spec.ForProvider.Spec[i3].AccessLevelsRefs = mrsp.ResolvedReferences
+
+	}
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.Status); i3++ {
+		mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
+			CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.Status[i3].AccessLevels),
+			Extract:       reference.ExternalName(),
+			References:    mg.Spec.ForProvider.Status[i3].AccessLevelsRefs,
+			Selector:      mg.Spec.ForProvider.Status[i3].AccessLevelsSelector,
+			To: reference.To{
+				List:    &AccessLevelList{},
+				Managed: &AccessLevel{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.Status[i3].AccessLevels")
+		}
+		mg.Spec.ForProvider.Status[i3].AccessLevels = reference.ToPtrValues(mrsp.ResolvedValues)
+		mg.Spec.ForProvider.Status[i3].AccessLevelsRefs = mrsp.ResolvedReferences
+
+	}
 	for i3 := 0; i3 < len(mg.Spec.ForProvider.Status); i3++ {
 		for i4 := 0; i4 < len(mg.Spec.ForProvider.Status[i3].IngressPolicies); i4++ {
 			for i5 := 0; i5 < len(mg.Spec.ForProvider.Status[i3].IngressPolicies[i4].IngressFrom); i5++ {

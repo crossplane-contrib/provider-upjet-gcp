@@ -13,7 +13,6 @@ import (
 	accesslevelcondition "github.com/upbound/provider-gcp/internal/controller/accesscontextmanager/accesslevelcondition"
 	accesspolicy "github.com/upbound/provider-gcp/internal/controller/accesscontextmanager/accesspolicy"
 	accesspolicyiammember "github.com/upbound/provider-gcp/internal/controller/accesscontextmanager/accesspolicyiammember"
-	gcpuseraccessbinding "github.com/upbound/provider-gcp/internal/controller/accesscontextmanager/gcpuseraccessbinding"
 	serviceperimeter "github.com/upbound/provider-gcp/internal/controller/accesscontextmanager/serviceperimeter"
 	serviceperimeterresource "github.com/upbound/provider-gcp/internal/controller/accesscontextmanager/serviceperimeterresource"
 	domain "github.com/upbound/provider-gcp/internal/controller/activedirectory/domain"
@@ -356,7 +355,6 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		accesslevelcondition.Setup,
 		accesspolicy.Setup,
 		accesspolicyiammember.Setup,
-		gcpuseraccessbinding.Setup,
 		serviceperimeter.Setup,
 		serviceperimeterresource.Setup,
 		domain.Setup,
