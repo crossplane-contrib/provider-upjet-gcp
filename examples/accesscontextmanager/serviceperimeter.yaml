@@ -1,3 +1,4 @@
+---
 apiVersion: accesscontextmanager.gcp.upbound.io/v1beta1
 kind: ServicePerimeter
 metadata:
@@ -62,6 +63,3 @@ spec:
   forProvider:
     parent: organizations/123456789
     title: my policy
-
----
-

@@ -1,3 +1,4 @@
+---
 apiVersion: accesscontextmanager.gcp.upbound.io/v1beta1
 kind: AccessLevel
 metadata:
@@ -40,6 +41,3 @@ spec:
   forProvider:
     parent: organizations/123456789
     title: my policy
-
----
-

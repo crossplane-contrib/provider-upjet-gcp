@@ -1,3 +1,4 @@
+---
 apiVersion: accesscontextmanager.gcp.upbound.io/v1beta1
 kind: AccessLevelCondition
 metadata:
@@ -86,6 +87,3 @@ metadata:
   name: created-later
 spec:
   forProvider: {}
-
----
-
