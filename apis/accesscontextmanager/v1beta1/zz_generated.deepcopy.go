@@ -549,16 +549,6 @@ func (in *AccessLevelParameters) DeepCopyInto(out *AccessLevelParameters) {
 		*out = new(string)
 		**out = **in
 	}
-	if in.ParentRef != nil {
-		in, out := &in.ParentRef, &out.ParentRef
-		*out = new(v1.Reference)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.ParentSelector != nil {
-		in, out := &in.ParentSelector, &out.ParentSelector
-		*out = new(v1.Selector)
-		(*in).DeepCopyInto(*out)
-	}
 	if in.Title != nil {
 		in, out := &in.Title, &out.Title
 		*out = new(string)

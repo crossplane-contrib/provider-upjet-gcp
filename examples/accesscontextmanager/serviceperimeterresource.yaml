@@ -34,6 +34,7 @@ kind: ServicePerimeterResource
 metadata:
   annotations:
     meta.upbound.io/example-id: accesscontextmanager/v1beta1/serviceperimeterresource
+    upjet.upbound.io/manual-intervention: "Requires organization level IAM permissions"
   labels:
     testing.upbound.io/example-name: service-perimeter-resource
   name: service-perimeter-resource

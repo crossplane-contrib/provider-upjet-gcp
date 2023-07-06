@@ -3,6 +3,7 @@ kind: AccessPolicy
 metadata:
   annotations:
     meta.upbound.io/example-id: accesscontextmanager/v1beta1/accesspolicy
+    upjet.upbound.io/manual-intervention: "Requires organization level IAM permissions"
   labels:
     testing.upbound.io/example-name: access-policy
   name: access-policy

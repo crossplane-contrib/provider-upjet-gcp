@@ -25,32 +25,6 @@ import (
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
-// ResolveReferences of this AccessLevel.
-func (mg *AccessLevel) ResolveReferences(ctx context.Context, c client.Reader) error {
-	r := reference.NewAPIResolver(c, mg)
-
-	var rsp reference.ResolutionResponse
-	var err error
-
-	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Parent),
-		Extract:      reference.ExternalName(),
-		Reference:    mg.Spec.ForProvider.ParentRef,
-		Selector:     mg.Spec.ForProvider.ParentSelector,
-		To: reference.To{
-			List:    &AccessPolicyList{},
-			Managed: &AccessPolicy{},
-		},
-	})
-	if err != nil {
-		return errors.Wrap(err, "mg.Spec.ForProvider.Parent")
-	}
-	mg.Spec.ForProvider.Parent = reference.ToPtrValue(rsp.ResolvedValue)
-	mg.Spec.ForProvider.ParentRef = rsp.ResolvedReference
-
-	return nil
-}
-
 // ResolveReferences of this AccessLevelCondition.
 func (mg *AccessLevelCondition) ResolveReferences(ctx context.Context, c client.Reader) error {
 	r := reference.NewAPIResolver(c, mg)

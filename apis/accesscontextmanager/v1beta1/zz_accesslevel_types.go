@@ -80,17 +80,8 @@ type AccessLevelParameters struct {
 
 	// The AccessPolicy this AccessLevel lives in.
 	// Format: accessPolicies/{policy_id}
-	// +crossplane:generate:reference:type=AccessPolicy
 	// +kubebuilder:validation:Optional
 	Parent *string `json:"parent,omitempty" tf:"parent,omitempty"`
-
-	// Reference to a AccessPolicy to populate parent.
-	// +kubebuilder:validation:Optional
-	ParentRef *v1.Reference `json:"parentRef,omitempty" tf:"-"`
-
-	// Selector for a AccessPolicy to populate parent.
-	// +kubebuilder:validation:Optional
-	ParentSelector *v1.Selector `json:"parentSelector,omitempty" tf:"-"`
 
 	// Human readable title. Must be unique within the Policy.
 	// +kubebuilder:validation:Optional
@@ -404,6 +395,7 @@ type AccessLevel struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.name)",message="name is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.parent)",message="parent is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.title)",message="title is a required parameter"
 	Spec   AccessLevelSpec   `json:"spec"`
 	Status AccessLevelStatus `json:"status,omitempty"`
