@@ -34,7 +34,7 @@ func (mg *AccessLevelCondition) ResolveReferences(ctx context.Context, c client.
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.AccessLevel),
-		Extract:      reference.ExternalName(),
+		Extract:      resource.ExtractParamPath("name", false),
 		Reference:    mg.Spec.ForProvider.AccessLevelRef,
 		Selector:     mg.Spec.ForProvider.AccessLevelSelector,
 		To: reference.To{
@@ -174,7 +174,7 @@ func (mg *ServicePerimeterResource) ResolveReferences(ctx context.Context, c cli
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.PerimeterName),
-		Extract:      reference.ExternalName(),
+		Extract:      resource.ExtractParamPath("name", false),
 		Reference:    mg.Spec.ForProvider.PerimeterNameRef,
 		Selector:     mg.Spec.ForProvider.PerimeterNameSelector,
 		To: reference.To{

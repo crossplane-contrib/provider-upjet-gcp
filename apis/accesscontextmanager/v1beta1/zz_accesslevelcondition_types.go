@@ -143,15 +143,16 @@ type AccessLevelConditionObservation struct {
 type AccessLevelConditionParameters struct {
 
 	// The name of the Access Level to add this condition to.
-	// +crossplane:generate:reference:type=AccessLevel
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/accesscontextmanager/v1beta1.AccessLevel
+	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractParamPath("name",false)
 	// +kubebuilder:validation:Optional
 	AccessLevel *string `json:"accessLevel,omitempty" tf:"access_level,omitempty"`
 
-	// Reference to a AccessLevel to populate accessLevel.
+	// Reference to a AccessLevel in accesscontextmanager to populate accessLevel.
 	// +kubebuilder:validation:Optional
 	AccessLevelRef *v1.Reference `json:"accessLevelRef,omitempty" tf:"-"`
 
-	// Selector for a AccessLevel to populate accessLevel.
+	// Selector for a AccessLevel in accesscontextmanager to populate accessLevel.
 	// +kubebuilder:validation:Optional
 	AccessLevelSelector *v1.Selector `json:"accessLevelSelector,omitempty" tf:"-"`
 

@@ -42,15 +42,16 @@ type ServicePerimeterResourceObservation struct {
 type ServicePerimeterResourceParameters struct {
 
 	// The name of the Service Perimeter to add this resource to.
-	// +crossplane:generate:reference:type=ServicePerimeter
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/accesscontextmanager/v1beta1.ServicePerimeter
+	// +crossplane:generate:reference:extractor=github.com/upbound/upjet/pkg/resource.ExtractParamPath("name",false)
 	// +kubebuilder:validation:Optional
 	PerimeterName *string `json:"perimeterName,omitempty" tf:"perimeter_name,omitempty"`
 
-	// Reference to a ServicePerimeter to populate perimeterName.
+	// Reference to a ServicePerimeter in accesscontextmanager to populate perimeterName.
 	// +kubebuilder:validation:Optional
 	PerimeterNameRef *v1.Reference `json:"perimeterNameRef,omitempty" tf:"-"`
 
-	// Selector for a ServicePerimeter to populate perimeterName.
+	// Selector for a ServicePerimeter in accesscontextmanager to populate perimeterName.
 	// +kubebuilder:validation:Optional
 	PerimeterNameSelector *v1.Selector `json:"perimeterNameSelector,omitempty" tf:"-"`
 

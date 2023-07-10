@@ -75,7 +75,8 @@ spec:
                       to.
                     type: string
                   perimeterNameRef:
-                    description: Reference to a ServicePerimeter to populate perimeterName.
+                    description: Reference to a ServicePerimeter in accesscontextmanager
+                      to populate perimeterName.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -109,7 +110,8 @@ spec:
                     - name
                     type: object
                   perimeterNameSelector:
-                    description: Selector for a ServicePerimeter to populate perimeterName.
+                    description: Selector for a ServicePerimeter in accesscontextmanager
+                      to populate perimeterName.
                     properties:
                       matchControllerRef:
                         description: MatchControllerRef ensures an object with the

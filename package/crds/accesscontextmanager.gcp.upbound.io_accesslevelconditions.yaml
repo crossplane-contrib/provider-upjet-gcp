@@ -74,7 +74,8 @@ spec:
                       to.
                     type: string
                   accessLevelRef:
-                    description: Reference to a AccessLevel to populate accessLevel.
+                    description: Reference to a AccessLevel in accesscontextmanager
+                      to populate accessLevel.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -108,7 +109,8 @@ spec:
                     - name
                     type: object
                   accessLevelSelector:
-                    description: Selector for a AccessLevel to populate accessLevel.
+                    description: Selector for a AccessLevel in accesscontextmanager
+                      to populate accessLevel.
                     properties:
                       matchControllerRef:
                         description: MatchControllerRef ensures an object with the

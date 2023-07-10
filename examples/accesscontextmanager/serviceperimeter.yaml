@@ -16,6 +16,9 @@ spec:
     status:
     - restrictedServices:
       - storage.googleapis.com
+      accessLevelsSelector:
+        matchLabels:
+          testing.upbound.io/example-name: access-level
     title: restrict_storage
 
 ---
