@@ -179,6 +179,7 @@ func GetProvider() *tjconfig.Provider {
 		iap.Configure,
 		identityplatform.Configure,
 		kms.Configure,
+		monitoring.Configure,
 		notebooks.Configure,
 		privateca.Configure,
 		oslogin.Configure,

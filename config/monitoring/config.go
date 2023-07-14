@@ -18,7 +18,8 @@ import (
 	"github.com/upbound/upjet/pkg/config"
 )
 
-// Configure adds configurations for monitoring group.
+// Configure configures individual resources by adding custom
+// ResourceConfigurators.
 func Configure(p *config.Provider) {
 	p.AddResourceConfigurator("google_monitoring_slo", func(r *config.Resource) {
 		r.Path = "sloes"
