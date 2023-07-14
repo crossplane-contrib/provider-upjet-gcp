@@ -25,20 +25,6 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
-type ActionInitParameters struct {
-
-	// A list of URLs of the IP resources used for this NAT rule.
-	// These IP addresses must be valid static external IP addresses assigned to the project.
-	// This field is used for public NAT.
-	SourceNATActiveIps []*string `json:"sourceNatActiveIps,omitempty" tf:"source_nat_active_ips,omitempty"`
-
-	// A list of URLs of the IP resources to be drained.
-	// These IPs must be valid static external IPs that have been assigned to the NAT.
-	// These IPs should be used for updating/patching a NAT rule only.
-	// This field is used for public NAT.
-	SourceNATDrainIps []*string `json:"sourceNatDrainIps,omitempty" tf:"source_nat_drain_ips,omitempty"`
-}
-
 type ActionObservation struct {
 
 	// A list of URLs of the IP resources used for this NAT rule.
@@ -69,100 +55,6 @@ type ActionParameters struct {
 	SourceNATDrainIps []*string `json:"sourceNatDrainIps,omitempty" tf:"source_nat_drain_ips,omitempty"`
 }
 
-type RouterNATInitParameters struct {
-
-	// A list of URLs of the IP resources to be drained. These IPs must be
-	// valid static external IPs that have been assigned to the NAT.
-	DrainNATIps []*string `json:"drainNatIps,omitempty" tf:"drain_nat_ips,omitempty"`
-
-	// Enable Dynamic Port Allocation.
-	// If minPortsPerVm is set, minPortsPerVm must be set to a power of two greater than or equal to 32.
-	// If minPortsPerVm is not set, a minimum of 32 ports will be allocated to a VM from this NAT config.
-	// If maxPortsPerVm is set, maxPortsPerVm must be set to a power of two greater than minPortsPerVm.
-	// If maxPortsPerVm is not set, a maximum of 65536 ports will be allocated to a VM from this NAT config.
-	// Mutually exclusive with enableEndpointIndependentMapping.
-	EnableDynamicPortAllocation *bool `json:"enableDynamicPortAllocation,omitempty" tf:"enable_dynamic_port_allocation,omitempty"`
-
-	// Specifies if endpoint independent mapping is enabled. This is enabled by default. For more information
-	// see the official documentation.
-	EnableEndpointIndependentMapping *bool `json:"enableEndpointIndependentMapping,omitempty" tf:"enable_endpoint_independent_mapping,omitempty"`
-
-	// Timeout (in seconds) for ICMP connections. Defaults to 30s if not set.
-	IcmpIdleTimeoutSec *float64 `json:"icmpIdleTimeoutSec,omitempty" tf:"icmp_idle_timeout_sec,omitempty"`
-
-	// Configuration for logging on NAT
-	// Structure is documented below.
-	LogConfig []RouterNATLogConfigInitParameters `json:"logConfig,omitempty" tf:"log_config,omitempty"`
-
-	// Maximum number of ports allocated to a VM from this NAT.
-	// This field can only be set when enableDynamicPortAllocation is enabled.
-	MaxPortsPerVM *float64 `json:"maxPortsPerVm,omitempty" tf:"max_ports_per_vm,omitempty"`
-
-	// Minimum number of ports allocated to a VM from this NAT.
-	MinPortsPerVM *float64 `json:"minPortsPerVm,omitempty" tf:"min_ports_per_vm,omitempty"`
-
-	// How external IPs should be allocated for this NAT. Valid values are
-	// AUTO_ONLY for only allowing NAT IPs allocated by Google Cloud
-	// Platform, or MANUAL_ONLY for only user-allocated NAT IP addresses.
-	// Possible values are: MANUAL_ONLY, AUTO_ONLY.
-	NATIPAllocateOption *string `json:"natIpAllocateOption,omitempty" tf:"nat_ip_allocate_option,omitempty"`
-
-	// Self-links of NAT IPs. Only valid if natIpAllocateOption
-	// is set to MANUAL_ONLY.
-	NATIps []*string `json:"natIps,omitempty" tf:"nat_ips,omitempty"`
-
-	// The ID of the project in which the resource belongs.
-	// If it is not provided, the provider project is used.
-	Project *string `json:"project,omitempty" tf:"project,omitempty"`
-
-	// A list of rules associated with this NAT.
-	// Structure is documented below.
-	Rules []RulesInitParameters `json:"rules,omitempty" tf:"rules,omitempty"`
-
-	// How NAT should be configured per Subnetwork.
-	// If ALL_SUBNETWORKS_ALL_IP_RANGES, all of the
-	// IP ranges in every Subnetwork are allowed to Nat.
-	// If ALL_SUBNETWORKS_ALL_PRIMARY_IP_RANGES, all of the primary IP
-	// ranges in every Subnetwork are allowed to Nat.
-	// LIST_OF_SUBNETWORKS: A list of Subnetworks are allowed to Nat
-	// (specified in the field subnetwork below). Note that if this field
-	// contains ALL_SUBNETWORKS_ALL_IP_RANGES or
-	// ALL_SUBNETWORKS_ALL_PRIMARY_IP_RANGES, then there should not be any
-	// other RouterNat section in any Router for this network in this region.
-	// Possible values are: ALL_SUBNETWORKS_ALL_IP_RANGES, ALL_SUBNETWORKS_ALL_PRIMARY_IP_RANGES, LIST_OF_SUBNETWORKS.
-	SourceSubnetworkIPRangesToNAT *string `json:"sourceSubnetworkIpRangesToNat,omitempty" tf:"source_subnetwork_ip_ranges_to_nat,omitempty"`
-
-	// One or more subnetwork NAT configurations. Only used if
-	// source_subnetwork_ip_ranges_to_nat is set to LIST_OF_SUBNETWORKS
-	// Structure is documented below.
-	Subnetwork []SubnetworkInitParameters `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
-
-	// Timeout (in seconds) for TCP established connections.
-	// Defaults to 1200s if not set.
-	TCPEstablishedIdleTimeoutSec *float64 `json:"tcpEstablishedIdleTimeoutSec,omitempty" tf:"tcp_established_idle_timeout_sec,omitempty"`
-
-	// Timeout (in seconds) for TCP connections that are in TIME_WAIT state.
-	// Defaults to 120s if not set.
-	TCPTimeWaitTimeoutSec *float64 `json:"tcpTimeWaitTimeoutSec,omitempty" tf:"tcp_time_wait_timeout_sec,omitempty"`
-
-	// Timeout (in seconds) for TCP transitory connections.
-	// Defaults to 30s if not set.
-	TCPTransitoryIdleTimeoutSec *float64 `json:"tcpTransitoryIdleTimeoutSec,omitempty" tf:"tcp_transitory_idle_timeout_sec,omitempty"`
-
-	// Timeout (in seconds) for UDP connections. Defaults to 30s if not set.
-	UDPIdleTimeoutSec *float64 `json:"udpIdleTimeoutSec,omitempty" tf:"udp_idle_timeout_sec,omitempty"`
-}
-
-type RouterNATLogConfigInitParameters struct {
-
-	// Indicates whether or not to export logs.
-	Enable *bool `json:"enable,omitempty" tf:"enable,omitempty"`
-
-	// Specifies the desired filtering of logs on this NAT.
-	// Possible values are: ERRORS_ONLY, TRANSLATIONS_ONLY, ALL.
-	Filter *string `json:"filter,omitempty" tf:"filter,omitempty"`
-}
-
 type RouterNATLogConfigObservation struct {
 
 	// Indicates whether or not to export logs.
@@ -176,13 +68,13 @@ type RouterNATLogConfigObservation struct {
 type RouterNATLogConfigParameters struct {
 
 	// Indicates whether or not to export logs.
-	// +kubebuilder:validation:Optional
-	Enable *bool `json:"enable,omitempty" tf:"enable,omitempty"`
+	// +kubebuilder:validation:Required
+	Enable *bool `json:"enable" tf:"enable,omitempty"`
 
 	// Specifies the desired filtering of logs on this NAT.
 	// Possible values are: ERRORS_ONLY, TRANSLATIONS_ONLY, ALL.
-	// +kubebuilder:validation:Optional
-	Filter *string `json:"filter,omitempty" tf:"filter,omitempty"`
+	// +kubebuilder:validation:Required
+	Filter *string `json:"filter" tf:"filter,omitempty"`
 }
 
 type RouterNATObservation struct {
@@ -396,29 +288,6 @@ type RouterNATParameters struct {
 	UDPIdleTimeoutSec *float64 `json:"udpIdleTimeoutSec,omitempty" tf:"udp_idle_timeout_sec,omitempty"`
 }
 
-type RulesInitParameters struct {
-
-	// The action to be enforced for traffic that matches this rule.
-	// Structure is documented below.
-	Action []ActionInitParameters `json:"action,omitempty" tf:"action,omitempty"`
-
-	// An optional description of this rule.
-	Description *string `json:"description,omitempty" tf:"description,omitempty"`
-
-	// CEL expression that specifies the match condition that egress traffic from a VM is evaluated against.
-	// If it evaluates to true, the corresponding action is enforced.
-	// The following examples are valid match expressions for public NAT:
-	// "inIpRange(destination.ip, '1.1.0.0/16') || inIpRange(destination.ip, '2.2.0.0/16')"
-	// "destination.ip == '1.1.0.1' || destination.ip == '8.8.8.8'"
-	// The following example is a valid match expression for private NAT:
-	// "nexthop.hub == 'https://networkconnectivity.googleapis.com/v1alpha1/projects/my-project/global/hub/hub-1'"
-	Match *string `json:"match,omitempty" tf:"match,omitempty"`
-
-	// An integer uniquely identifying a rule in the list.
-	// The rule number must be a positive value between 0 and 65000, and must be unique among rules within a NAT.
-	RuleNumber *float64 `json:"ruleNumber,omitempty" tf:"rule_number,omitempty"`
-}
-
 type RulesObservation struct {
 
 	// The action to be enforced for traffic that matches this rule.
@@ -460,28 +329,13 @@ type RulesParameters struct {
 	// "destination.ip == '1.1.0.1' || destination.ip == '8.8.8.8'"
 	// The following example is a valid match expression for private NAT:
 	// "nexthop.hub == 'https://networkconnectivity.googleapis.com/v1alpha1/projects/my-project/global/hub/hub-1'"
-	// +kubebuilder:validation:Optional
-	Match *string `json:"match,omitempty" tf:"match,omitempty"`
+	// +kubebuilder:validation:Required
+	Match *string `json:"match" tf:"match,omitempty"`
 
 	// An integer uniquely identifying a rule in the list.
 	// The rule number must be a positive value between 0 and 65000, and must be unique among rules within a NAT.
-	// +kubebuilder:validation:Optional
-	RuleNumber *float64 `json:"ruleNumber,omitempty" tf:"rule_number,omitempty"`
-}
-
-type SubnetworkInitParameters struct {
-
-	// List of the secondary ranges of the subnetwork that are allowed
-	// to use NAT. This can be populated only if
-	// LIST_OF_SECONDARY_IP_RANGES is one of the values in
-	// sourceIpRangesToNat
-	SecondaryIPRangeNames []*string `json:"secondaryIpRangeNames,omitempty" tf:"secondary_ip_range_names,omitempty"`
-
-	// List of options for which source IPs in the subnetwork
-	// should have NAT enabled. Supported values include:
-	// ALL_IP_RANGES, LIST_OF_SECONDARY_IP_RANGES,
-	// PRIMARY_IP_RANGE.
-	SourceIPRangesToNAT []*string `json:"sourceIpRangesToNat,omitempty" tf:"source_ip_ranges_to_nat,omitempty"`
+	// +kubebuilder:validation:Required
+	RuleNumber *float64 `json:"ruleNumber" tf:"rule_number,omitempty"`
 }
 
 type SubnetworkObservation struct {
@@ -528,26 +382,14 @@ type SubnetworkParameters struct {
 	// should have NAT enabled. Supported values include:
 	// ALL_IP_RANGES, LIST_OF_SECONDARY_IP_RANGES,
 	// PRIMARY_IP_RANGE.
-	// +kubebuilder:validation:Optional
-	SourceIPRangesToNAT []*string `json:"sourceIpRangesToNat,omitempty" tf:"source_ip_ranges_to_nat,omitempty"`
+	// +kubebuilder:validation:Required
+	SourceIPRangesToNAT []*string `json:"sourceIpRangesToNat" tf:"source_ip_ranges_to_nat,omitempty"`
 }
 
 // RouterNATSpec defines the desired state of RouterNAT
 type RouterNATSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     RouterNATParameters `json:"forProvider"`
-	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
-	// unless the relevant Crossplane feature flag is enabled, and may be
-	// changed or removed without notice.
-	// InitProvider holds the same fields as ForProvider, with the exception
-	// of Identifier and other resource reference fields. The fields that are
-	// in InitProvider are merged into ForProvider when the resource is created.
-	// The same fields are also added to the terraform ignore_changes hook, to
-	// avoid updating them after creation. This is useful for fields that are
-	// required on creation, but we do not desire to update them after creation,
-	// for example because of an external controller is managing them, like an
-	// autoscaler.
-	InitProvider RouterNATInitParameters `json:"initProvider,omitempty"`
 }
 
 // RouterNATStatus defines the observed state of RouterNAT.
@@ -568,8 +410,8 @@ type RouterNATStatus struct {
 type RouterNAT struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.natIpAllocateOption) || has(self.initProvider.natIpAllocateOption)",message="natIpAllocateOption is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.sourceSubnetworkIpRangesToNat) || has(self.initProvider.sourceSubnetworkIpRangesToNat)",message="sourceSubnetworkIpRangesToNat is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.natIpAllocateOption)",message="natIpAllocateOption is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.sourceSubnetworkIpRangesToNat)",message="sourceSubnetworkIpRangesToNat is a required parameter"
 	Spec   RouterNATSpec   `json:"spec"`
 	Status RouterNATStatus `json:"status,omitempty"`
 }

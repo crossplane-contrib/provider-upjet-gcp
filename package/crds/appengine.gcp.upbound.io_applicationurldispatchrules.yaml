@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.1
+    controller-gen.kubebuilder.io/version: v0.12.0
   name: applicationurldispatchrules.appengine.gcp.upbound.io
 spec:
   group: appengine.gcp.upbound.io
@@ -168,42 +168,8 @@ spec:
                                   type: string
                               type: object
                           type: object
-                      type: object
-                    type: array
-                  project:
-                    description: The ID of the project in which the resource belongs.
-                      If it is not provided, the provider project is used.
-                    type: string
-                type: object
-              initProvider:
-                description: THIS IS AN ALPHA FIELD. Do not use it in production.
-                  It is not honored unless the relevant Crossplane feature flag is
-                  enabled, and may be changed or removed without notice. InitProvider
-                  holds the same fields as ForProvider, with the exception of Identifier
-                  and other resource reference fields. The fields that are in InitProvider
-                  are merged into ForProvider when the resource is created. The same
-                  fields are also added to the terraform ignore_changes hook, to avoid
-                  updating them after creation. This is useful for fields that are
-                  required on creation, but we do not desire to update them after
-                  creation, for example because of an external controller is managing
-                  them, like an autoscaler.
-                properties:
-                  dispatchRules:
-                    description: Rules to match an HTTP request and dispatch that
-                      request to a service. Structure is documented below.
-                    items:
-                      properties:
-                        domain:
-                          description: 'Domain name to match against. The wildcard
-                            "" is supported if specified before a period: ".". Defaults
-                            to matching all domains: "*".'
-                          type: string
-                        path:
-                          description: Pathname within the host. Must start with a
-                            "/". A single "*" can be included at the end of the path.
-                            The sum of the lengths of the domain and path may not
-                            exceed 100 characters.
-                          type: string
+                      required:
+                      - path
                       type: object
                     type: array
                   project:
@@ -411,8 +377,7 @@ spec:
             x-kubernetes-validations:
             - message: dispatchRules is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.dispatchRules)
-                || has(self.initProvider.dispatchRules)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.dispatchRules)'
           status:
             description: ApplicationURLDispatchRulesStatus defines the observed state
               of ApplicationURLDispatchRules.

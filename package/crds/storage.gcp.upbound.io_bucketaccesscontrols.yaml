@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.1
+    controller-gen.kubebuilder.io/version: v0.12.0
   name: bucketaccesscontrols.storage.gcp.upbound.io
 spec:
   group: storage.gcp.upbound.io
@@ -143,33 +143,6 @@ spec:
                             type: string
                         type: object
                     type: object
-                  entity:
-                    description: 'The entity holding the permission, in one of the
-                      following forms: user-userId user-email group-groupId group-email
-                      domain-domain project-team-projectId allUsers allAuthenticatedUsers
-                      Examples: The user liz@example.com would be user-liz@example.com.
-                      The group example@googlegroups.com would be group-example@googlegroups.com.
-                      To refer to all members of the Google Apps for Business domain
-                      example.com, the entity would be domain-example.com.'
-                    type: string
-                  role:
-                    description: 'The access permission for the entity. Possible values
-                      are: OWNER, READER, WRITER.'
-                    type: string
-                type: object
-              initProvider:
-                description: THIS IS AN ALPHA FIELD. Do not use it in production.
-                  It is not honored unless the relevant Crossplane feature flag is
-                  enabled, and may be changed or removed without notice. InitProvider
-                  holds the same fields as ForProvider, with the exception of Identifier
-                  and other resource reference fields. The fields that are in InitProvider
-                  are merged into ForProvider when the resource is created. The same
-                  fields are also added to the terraform ignore_changes hook, to avoid
-                  updating them after creation. This is useful for fields that are
-                  required on creation, but we do not desire to update them after
-                  creation, for example because of an external controller is managing
-                  them, like an autoscaler.
-                properties:
                   entity:
                     description: 'The entity holding the permission, in one of the
                       following forms: user-userId user-email group-groupId group-email
@@ -384,8 +357,7 @@ spec:
             x-kubernetes-validations:
             - message: entity is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.entity)
-                || has(self.initProvider.entity)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.entity)'
           status:
             description: BucketAccessControlStatus defines the observed state of BucketAccessControl.
             properties:

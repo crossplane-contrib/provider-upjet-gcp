@@ -25,26 +25,6 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
-type InstanceGroupNamedPortInitParameters struct {
-
-	// The name of the instance group.
-	Group *string `json:"group,omitempty" tf:"group,omitempty"`
-
-	// The name for this named port. The name must be 1-63 characters
-	// long, and comply with RFC1035.
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
-
-	// The port number, which can be a value between 1 and 65535.
-	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
-
-	// The ID of the project in which the resource belongs.
-	// If it is not provided, the provider project is used.
-	Project *string `json:"project,omitempty" tf:"project,omitempty"`
-
-	// The zone of the instance group.
-	Zone *string `json:"zone,omitempty" tf:"zone,omitempty"`
-}
-
 type InstanceGroupNamedPortObservation struct {
 
 	// The name of the instance group.
@@ -97,18 +77,6 @@ type InstanceGroupNamedPortParameters struct {
 type InstanceGroupNamedPortSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     InstanceGroupNamedPortParameters `json:"forProvider"`
-	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
-	// unless the relevant Crossplane feature flag is enabled, and may be
-	// changed or removed without notice.
-	// InitProvider holds the same fields as ForProvider, with the exception
-	// of Identifier and other resource reference fields. The fields that are
-	// in InitProvider are merged into ForProvider when the resource is created.
-	// The same fields are also added to the terraform ignore_changes hook, to
-	// avoid updating them after creation. This is useful for fields that are
-	// required on creation, but we do not desire to update them after creation,
-	// for example because of an external controller is managing them, like an
-	// autoscaler.
-	InitProvider InstanceGroupNamedPortInitParameters `json:"initProvider,omitempty"`
 }
 
 // InstanceGroupNamedPortStatus defines the observed state of InstanceGroupNamedPort.
@@ -129,9 +97,9 @@ type InstanceGroupNamedPortStatus struct {
 type InstanceGroupNamedPort struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.group) || has(self.initProvider.group)",message="group is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.name) || has(self.initProvider.name)",message="name is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.port) || has(self.initProvider.port)",message="port is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.group)",message="group is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.name)",message="name is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.port)",message="port is a required parameter"
 	Spec   InstanceGroupNamedPortSpec   `json:"spec"`
 	Status InstanceGroupNamedPortStatus `json:"status,omitempty"`
 }

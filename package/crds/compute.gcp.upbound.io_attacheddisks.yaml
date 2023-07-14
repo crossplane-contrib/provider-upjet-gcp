@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.1
+    controller-gen.kubebuilder.io/version: v0.12.0
   name: attacheddisks.compute.gcp.upbound.io
 spec:
   group: compute.gcp.upbound.io
@@ -230,42 +230,6 @@ spec:
                             type: string
                         type: object
                     type: object
-                  mode:
-                    description: The mode in which to attach this disk, either READ_WRITE
-                      or READ_ONLY. If not specified, the default is to attach the
-                      disk in READ_WRITE mode.
-                    type: string
-                  project:
-                    description: The project that the referenced compute instance
-                      is a part of. If instance is referenced by its self_link the
-                      project defined in the link will take precedence.
-                    type: string
-                  zone:
-                    description: The zone that the referenced compute instance is
-                      located within. If instance is referenced by its self_link the
-                      zone defined in the link will take precedence.
-                    type: string
-                type: object
-              initProvider:
-                description: THIS IS AN ALPHA FIELD. Do not use it in production.
-                  It is not honored unless the relevant Crossplane feature flag is
-                  enabled, and may be changed or removed without notice. InitProvider
-                  holds the same fields as ForProvider, with the exception of Identifier
-                  and other resource reference fields. The fields that are in InitProvider
-                  are merged into ForProvider when the resource is created. The same
-                  fields are also added to the terraform ignore_changes hook, to avoid
-                  updating them after creation. This is useful for fields that are
-                  required on creation, but we do not desire to update them after
-                  creation, for example because of an external controller is managing
-                  them, like an autoscaler.
-                properties:
-                  deviceName:
-                    description: Specifies a unique device name of your choice that
-                      is reflected into the /dev/disk/by-id/google-* tree of a Linux
-                      operating system running within the instance. This name can
-                      be used to reference the device for mounting, resizing, and
-                      so on, from within the instance.
-                    type: string
                   mode:
                     description: The mode in which to attach this disk, either READ_WRITE
                       or READ_ONLY. If not specified, the default is to attach the

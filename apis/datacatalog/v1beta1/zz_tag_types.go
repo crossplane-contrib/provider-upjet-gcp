@@ -25,27 +25,6 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
-type FieldsInitParameters struct {
-
-	// Holds the value for a tag field with boolean type.
-	BoolValue *bool `json:"boolValue,omitempty" tf:"bool_value,omitempty"`
-
-	// Holds the value for a tag field with double type.
-	DoubleValue *float64 `json:"doubleValue,omitempty" tf:"double_value,omitempty"`
-
-	// Holds the value for a tag field with enum type. This value must be one of the allowed values in the definition of this enum.
-	EnumValue *string `json:"enumValue,omitempty" tf:"enum_value,omitempty"`
-
-	// The identifier for this object. Format specified above.
-	FieldName *string `json:"fieldName,omitempty" tf:"field_name,omitempty"`
-
-	// Holds the value for a tag field with string type.
-	StringValue *string `json:"stringValue,omitempty" tf:"string_value,omitempty"`
-
-	// Holds the value for a tag field with timestamp type.
-	TimestampValue *string `json:"timestampValue,omitempty" tf:"timestamp_value,omitempty"`
-}
-
 type FieldsObservation struct {
 
 	// Holds the value for a tag field with boolean type.
@@ -92,8 +71,8 @@ type FieldsParameters struct {
 	EnumValue *string `json:"enumValue,omitempty" tf:"enum_value,omitempty"`
 
 	// The identifier for this object. Format specified above.
-	// +kubebuilder:validation:Optional
-	FieldName *string `json:"fieldName,omitempty" tf:"field_name,omitempty"`
+	// +kubebuilder:validation:Required
+	FieldName *string `json:"fieldName" tf:"field_name,omitempty"`
 
 	// Holds the value for a tag field with string type.
 	// +kubebuilder:validation:Optional
@@ -102,20 +81,6 @@ type FieldsParameters struct {
 	// Holds the value for a tag field with timestamp type.
 	// +kubebuilder:validation:Optional
 	TimestampValue *string `json:"timestampValue,omitempty" tf:"timestamp_value,omitempty"`
-}
-
-type TagInitParameters struct {
-
-	// Resources like Entry can have schemas associated with them. This scope allows users to attach tags to an
-	// individual column based on that schema.
-	// For attaching a tag to a nested column, use . to separate the column names. Example:
-	// outer_column.inner_column
-	Column *string `json:"column,omitempty" tf:"column,omitempty"`
-
-	// This maps the ID of a tag field to the value of and additional information about that field.
-	// Valid field IDs are defined by the tag's template. A tag must have at least 1 field and at most 500 fields.
-	// Structure is documented below.
-	Fields []FieldsInitParameters `json:"fields,omitempty" tf:"fields,omitempty"`
 }
 
 type TagObservation struct {
@@ -204,18 +169,6 @@ type TagParameters struct {
 type TagSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     TagParameters `json:"forProvider"`
-	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
-	// unless the relevant Crossplane feature flag is enabled, and may be
-	// changed or removed without notice.
-	// InitProvider holds the same fields as ForProvider, with the exception
-	// of Identifier and other resource reference fields. The fields that are
-	// in InitProvider are merged into ForProvider when the resource is created.
-	// The same fields are also added to the terraform ignore_changes hook, to
-	// avoid updating them after creation. This is useful for fields that are
-	// required on creation, but we do not desire to update them after creation,
-	// for example because of an external controller is managing them, like an
-	// autoscaler.
-	InitProvider TagInitParameters `json:"initProvider,omitempty"`
 }
 
 // TagStatus defines the observed state of Tag.
@@ -236,7 +189,7 @@ type TagStatus struct {
 type Tag struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.fields) || has(self.initProvider.fields)",message="fields is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.fields)",message="fields is a required parameter"
 	Spec   TagSpec   `json:"spec"`
 	Status TagStatus `json:"status,omitempty"`
 }

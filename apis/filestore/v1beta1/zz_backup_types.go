@@ -25,22 +25,6 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
-type BackupInitParameters struct {
-
-	// A description of the backup with 2048 characters or less. Requests with longer descriptions will be rejected.
-	Description *string `json:"description,omitempty" tf:"description,omitempty"`
-
-	// Resource labels to represent user-provided metadata.
-	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
-
-	// The ID of the project in which the resource belongs.
-	// If it is not provided, the provider project is used.
-	Project *string `json:"project,omitempty" tf:"project,omitempty"`
-
-	// Name of the file share in the source Cloud Filestore instance that the backup is created from.
-	SourceFileShare *string `json:"sourceFileShare,omitempty" tf:"source_file_share,omitempty"`
-}
-
 type BackupObservation struct {
 
 	// The amount of bytes needed to allocate a full copy of the snapshot content.
@@ -129,18 +113,6 @@ type BackupParameters struct {
 type BackupSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     BackupParameters `json:"forProvider"`
-	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
-	// unless the relevant Crossplane feature flag is enabled, and may be
-	// changed or removed without notice.
-	// InitProvider holds the same fields as ForProvider, with the exception
-	// of Identifier and other resource reference fields. The fields that are
-	// in InitProvider are merged into ForProvider when the resource is created.
-	// The same fields are also added to the terraform ignore_changes hook, to
-	// avoid updating them after creation. This is useful for fields that are
-	// required on creation, but we do not desire to update them after creation,
-	// for example because of an external controller is managing them, like an
-	// autoscaler.
-	InitProvider BackupInitParameters `json:"initProvider,omitempty"`
 }
 
 // BackupStatus defines the observed state of Backup.
@@ -161,7 +133,7 @@ type BackupStatus struct {
 type Backup struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.sourceFileShare) || has(self.initProvider.sourceFileShare)",message="sourceFileShare is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.sourceFileShare)",message="sourceFileShare is a required parameter"
 	Spec   BackupSpec   `json:"spec"`
 	Status BackupStatus `json:"status,omitempty"`
 }

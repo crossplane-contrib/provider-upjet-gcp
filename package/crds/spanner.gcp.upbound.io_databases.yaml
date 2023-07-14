@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.1
+    controller-gen.kubebuilder.io/version: v0.12.0
   name: databases.spanner.gcp.upbound.io
 spec:
   group: spanner.gcp.upbound.io
@@ -93,6 +93,8 @@ spec:
                             to encrypt this database. This key must exist in the same
                             location as the Spanner Database.
                           type: string
+                      required:
+                      - kmsKeyName
                       type: object
                     type: array
                   instance:
@@ -171,60 +173,6 @@ spec:
                             type: string
                         type: object
                     type: object
-                  project:
-                    description: The ID of the project in which the resource belongs.
-                      If it is not provided, the provider project is used.
-                    type: string
-                  versionRetentionPeriod:
-                    description: The retention period for the database. The retention
-                      period must be between 1 hour and 7 days, and can be specified
-                      in days, hours, minutes, or seconds. For example, the values
-                      1d, 24h, 1440m, and 86400s are equivalent. Default value is
-                      1h. If this property is used, you must avoid adding new DDL
-                      statements to ddl that update the database's version_retention_period.
-                    type: string
-                type: object
-              initProvider:
-                description: THIS IS AN ALPHA FIELD. Do not use it in production.
-                  It is not honored unless the relevant Crossplane feature flag is
-                  enabled, and may be changed or removed without notice. InitProvider
-                  holds the same fields as ForProvider, with the exception of Identifier
-                  and other resource reference fields. The fields that are in InitProvider
-                  are merged into ForProvider when the resource is created. The same
-                  fields are also added to the terraform ignore_changes hook, to avoid
-                  updating them after creation. This is useful for fields that are
-                  required on creation, but we do not desire to update them after
-                  creation, for example because of an external controller is managing
-                  them, like an autoscaler.
-                properties:
-                  databaseDialect:
-                    description: 'The dialect of the Cloud Spanner Database. If it
-                      is not provided, "GOOGLE_STANDARD_SQL" will be used. Possible
-                      values are: GOOGLE_STANDARD_SQL, POSTGRESQL.'
-                    type: string
-                  ddl:
-                    description: 'An optional list of DDL statements to run inside
-                      the newly created database. Statements can create tables, indexes,
-                      etc. These statements execute atomically with the creation of
-                      the database: if there is an error in any statement, the database
-                      is not created.'
-                    items:
-                      type: string
-                    type: array
-                  deletionProtection:
-                    type: boolean
-                  encryptionConfig:
-                    description: Encryption configuration for the database Structure
-                      is documented below.
-                    items:
-                      properties:
-                        kmsKeyName:
-                          description: Fully qualified name of the KMS key to use
-                            to encrypt this database. This key must exist in the same
-                            location as the Spanner Database.
-                          type: string
-                      type: object
-                    type: array
                   project:
                     description: The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.

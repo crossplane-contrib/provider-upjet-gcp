@@ -25,30 +25,6 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
-type ConsentStoreInitParameters struct {
-
-	// Default time to live for consents in this store. Must be at least 24 hours. Updating this field will not affect the expiration time of existing consents.
-	// A duration in seconds with up to nine fractional digits, terminated by 's'. Example: "3.5s".
-	DefaultConsentTTL *string `json:"defaultConsentTtl,omitempty" tf:"default_consent_ttl,omitempty"`
-
-	// If true, [consents.patch] [google.cloud.healthcare.v1.consent.UpdateConsent] creates the consent if it does not already exist.
-	EnableConsentCreateOnUpdate *bool `json:"enableConsentCreateOnUpdate,omitempty" tf:"enable_consent_create_on_update,omitempty"`
-
-	// User-supplied key-value pairs used to organize Consent stores.
-	// Label keys must be between 1 and 63 characters long, have a UTF-8 encoding of maximum 128 bytes, and must
-	// conform to the following PCRE regular expression: [\p{Ll}\p{Lo}][\p{Ll}\p{Lo}\p{N}_-]{0,62}
-	// Label values are optional, must be between 1 and 63 characters long, have a UTF-8 encoding of maximum 128
-	// bytes, and must conform to the following PCRE regular expression: [\p{Ll}\p{Lo}\p{N}_-]{0,63}
-	// No more than 64 labels can be associated with a given store.
-	// An object containing a list of "key": value pairs.
-	// Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }.
-	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
-
-	// The name of this ConsentStore, for example:
-	// "consent1"
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
-}
-
 type ConsentStoreObservation struct {
 
 	// Identifies the dataset addressed by this request. Must be in the format
@@ -127,18 +103,6 @@ type ConsentStoreParameters struct {
 type ConsentStoreSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     ConsentStoreParameters `json:"forProvider"`
-	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
-	// unless the relevant Crossplane feature flag is enabled, and may be
-	// changed or removed without notice.
-	// InitProvider holds the same fields as ForProvider, with the exception
-	// of Identifier and other resource reference fields. The fields that are
-	// in InitProvider are merged into ForProvider when the resource is created.
-	// The same fields are also added to the terraform ignore_changes hook, to
-	// avoid updating them after creation. This is useful for fields that are
-	// required on creation, but we do not desire to update them after creation,
-	// for example because of an external controller is managing them, like an
-	// autoscaler.
-	InitProvider ConsentStoreInitParameters `json:"initProvider,omitempty"`
 }
 
 // ConsentStoreStatus defines the observed state of ConsentStore.
@@ -159,7 +123,7 @@ type ConsentStoreStatus struct {
 type ConsentStore struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.name) || has(self.initProvider.name)",message="name is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.name)",message="name is a required parameter"
 	Spec   ConsentStoreSpec   `json:"spec"`
 	Status ConsentStoreStatus `json:"status,omitempty"`
 }

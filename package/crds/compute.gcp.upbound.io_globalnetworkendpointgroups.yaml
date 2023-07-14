@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.1
+    controller-gen.kubebuilder.io/version: v0.12.0
   name: globalnetworkendpointgroups.compute.gcp.upbound.io
 spec:
   group: compute.gcp.upbound.io
@@ -68,36 +68,6 @@ spec:
                 - Delete
                 type: string
               forProvider:
-                properties:
-                  defaultPort:
-                    description: The default port used if the port number is not specified
-                      in the network endpoint.
-                    type: number
-                  description:
-                    description: An optional description of this resource. Provide
-                      this property when you create the resource.
-                    type: string
-                  networkEndpointType:
-                    description: 'Type of network endpoints in this network endpoint
-                      group. Possible values are: INTERNET_IP_PORT, INTERNET_FQDN_PORT.'
-                    type: string
-                  project:
-                    description: The ID of the project in which the resource belongs.
-                      If it is not provided, the provider project is used.
-                    type: string
-                type: object
-              initProvider:
-                description: THIS IS AN ALPHA FIELD. Do not use it in production.
-                  It is not honored unless the relevant Crossplane feature flag is
-                  enabled, and may be changed or removed without notice. InitProvider
-                  holds the same fields as ForProvider, with the exception of Identifier
-                  and other resource reference fields. The fields that are in InitProvider
-                  are merged into ForProvider when the resource is created. The same
-                  fields are also added to the terraform ignore_changes hook, to avoid
-                  updating them after creation. This is useful for fields that are
-                  required on creation, but we do not desire to update them after
-                  creation, for example because of an external controller is managing
-                  them, like an autoscaler.
                 properties:
                   defaultPort:
                     description: The default port used if the port number is not specified
@@ -316,8 +286,7 @@ spec:
             x-kubernetes-validations:
             - message: networkEndpointType is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.networkEndpointType)
-                || has(self.initProvider.networkEndpointType)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.networkEndpointType)'
           status:
             description: GlobalNetworkEndpointGroupStatus defines the observed state
               of GlobalNetworkEndpointGroup.

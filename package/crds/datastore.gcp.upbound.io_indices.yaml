@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.1
+    controller-gen.kubebuilder.io/version: v0.12.0
   name: indices.datastore.gcp.upbound.io
 spec:
   group: datastore.gcp.upbound.io
@@ -90,45 +90,9 @@ spec:
                         name:
                           description: The property name to index.
                           type: string
-                      type: object
-                    type: array
-                type: object
-              initProvider:
-                description: THIS IS AN ALPHA FIELD. Do not use it in production.
-                  It is not honored unless the relevant Crossplane feature flag is
-                  enabled, and may be changed or removed without notice. InitProvider
-                  holds the same fields as ForProvider, with the exception of Identifier
-                  and other resource reference fields. The fields that are in InitProvider
-                  are merged into ForProvider when the resource is created. The same
-                  fields are also added to the terraform ignore_changes hook, to avoid
-                  updating them after creation. This is useful for fields that are
-                  required on creation, but we do not desire to update them after
-                  creation, for example because of an external controller is managing
-                  them, like an autoscaler.
-                properties:
-                  ancestor:
-                    description: 'Policy for including ancestors in the index. Default
-                      value is NONE. Possible values are: NONE, ALL_ANCESTORS.'
-                    type: string
-                  kind:
-                    description: The entity kind which the index applies to.
-                    type: string
-                  project:
-                    description: The ID of the project in which the resource belongs.
-                      If it is not provided, the provider project is used.
-                    type: string
-                  properties:
-                    description: An ordered list of properties to index on. Structure
-                      is documented below.
-                    items:
-                      properties:
-                        direction:
-                          description: 'The direction the index should optimize for
-                            sorting. Possible values are: ASCENDING, DESCENDING.'
-                          type: string
-                        name:
-                          description: The property name to index.
-                          type: string
+                      required:
+                      - direction
+                      - name
                       type: object
                     type: array
                 type: object
@@ -332,8 +296,7 @@ spec:
             x-kubernetes-validations:
             - message: kind is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.kind)
-                || has(self.initProvider.kind)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.kind)'
           status:
             description: IndexStatus defines the observed state of Index.
             properties:

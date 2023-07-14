@@ -25,9 +25,6 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
-type ErrorInitParameters struct {
-}
-
 type ErrorObservation struct {
 
 	// A list of messages that carry the error details.
@@ -38,24 +35,6 @@ type ErrorObservation struct {
 }
 
 type ErrorParameters struct {
-}
-
-type PrivateConnectionInitParameters struct {
-
-	// Display name.
-	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
-
-	// Labels.
-	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
-
-	// The ID of the project in which the resource belongs.
-	// If it is not provided, the provider project is used.
-	Project *string `json:"project,omitempty" tf:"project,omitempty"`
-
-	// The VPC Peering configuration is used to create VPC peering
-	// between Datastream and the consumer's VPC.
-	// Structure is documented below.
-	VPCPeeringConfig []VPCPeeringConfigInitParameters `json:"vpcPeeringConfig,omitempty" tf:"vpc_peering_config,omitempty"`
 }
 
 type PrivateConnectionObservation struct {
@@ -118,12 +97,6 @@ type PrivateConnectionParameters struct {
 	VPCPeeringConfig []VPCPeeringConfigParameters `json:"vpcPeeringConfig,omitempty" tf:"vpc_peering_config,omitempty"`
 }
 
-type VPCPeeringConfigInitParameters struct {
-
-	// A free subnet for peering. (CIDR of /29)
-	Subnet *string `json:"subnet,omitempty" tf:"subnet,omitempty"`
-}
-
 type VPCPeeringConfigObservation struct {
 
 	// A free subnet for peering. (CIDR of /29)
@@ -137,8 +110,8 @@ type VPCPeeringConfigObservation struct {
 type VPCPeeringConfigParameters struct {
 
 	// A free subnet for peering. (CIDR of /29)
-	// +kubebuilder:validation:Optional
-	Subnet *string `json:"subnet,omitempty" tf:"subnet,omitempty"`
+	// +kubebuilder:validation:Required
+	Subnet *string `json:"subnet" tf:"subnet,omitempty"`
 
 	// Fully qualified name of the VPC that Datastream will peer to.
 	// Format: projects/{project}/global/{networks}/{name}
@@ -160,18 +133,6 @@ type VPCPeeringConfigParameters struct {
 type PrivateConnectionSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     PrivateConnectionParameters `json:"forProvider"`
-	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
-	// unless the relevant Crossplane feature flag is enabled, and may be
-	// changed or removed without notice.
-	// InitProvider holds the same fields as ForProvider, with the exception
-	// of Identifier and other resource reference fields. The fields that are
-	// in InitProvider are merged into ForProvider when the resource is created.
-	// The same fields are also added to the terraform ignore_changes hook, to
-	// avoid updating them after creation. This is useful for fields that are
-	// required on creation, but we do not desire to update them after creation,
-	// for example because of an external controller is managing them, like an
-	// autoscaler.
-	InitProvider PrivateConnectionInitParameters `json:"initProvider,omitempty"`
 }
 
 // PrivateConnectionStatus defines the observed state of PrivateConnection.
@@ -192,8 +153,8 @@ type PrivateConnectionStatus struct {
 type PrivateConnection struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.displayName) || has(self.initProvider.displayName)",message="displayName is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.vpcPeeringConfig) || has(self.initProvider.vpcPeeringConfig)",message="vpcPeeringConfig is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.displayName)",message="displayName is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.vpcPeeringConfig)",message="vpcPeeringConfig is a required parameter"
 	Spec   PrivateConnectionSpec   `json:"spec"`
 	Status PrivateConnectionStatus `json:"status,omitempty"`
 }

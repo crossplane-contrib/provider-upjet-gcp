@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.1
+    controller-gen.kubebuilder.io/version: v0.12.0
   name: organizationiamcustomroles.cloudplatform.gcp.upbound.io
 spec:
   group: cloudplatform.gcp.upbound.io
@@ -67,43 +67,6 @@ spec:
                 - Delete
                 type: string
               forProvider:
-                properties:
-                  description:
-                    description: A human-readable description for the role.
-                    type: string
-                  orgId:
-                    description: The numeric ID of the organization in which you want
-                      to create a custom role.
-                    type: string
-                  permissions:
-                    description: The names of the permissions this role grants when
-                      bound in an IAM policy. At least one permission must be specified.
-                    items:
-                      type: string
-                    type: array
-                  roleId:
-                    description: The role id to use for this role.
-                    type: string
-                  stage:
-                    description: The current launch stage of the role. Defaults to
-                      GA. List of possible stages is here.
-                    type: string
-                  title:
-                    description: A human-readable title for the role.
-                    type: string
-                type: object
-              initProvider:
-                description: THIS IS AN ALPHA FIELD. Do not use it in production.
-                  It is not honored unless the relevant Crossplane feature flag is
-                  enabled, and may be changed or removed without notice. InitProvider
-                  holds the same fields as ForProvider, with the exception of Identifier
-                  and other resource reference fields. The fields that are in InitProvider
-                  are merged into ForProvider when the resource is created. The same
-                  fields are also added to the terraform ignore_changes hook, to avoid
-                  updating them after creation. This is useful for fields that are
-                  required on creation, but we do not desire to update them after
-                  creation, for example because of an external controller is managing
-                  them, like an autoscaler.
                 properties:
                   description:
                     description: A human-readable description for the role.
@@ -329,20 +292,16 @@ spec:
             x-kubernetes-validations:
             - message: orgId is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.orgId)
-                || has(self.initProvider.orgId)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.orgId)'
             - message: permissions is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.permissions)
-                || has(self.initProvider.permissions)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.permissions)'
             - message: roleId is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.roleId)
-                || has(self.initProvider.roleId)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.roleId)'
             - message: title is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.title)
-                || has(self.initProvider.title)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.title)'
           status:
             description: OrganizationIAMCustomRoleStatus defines the observed state
               of OrganizationIAMCustomRole.

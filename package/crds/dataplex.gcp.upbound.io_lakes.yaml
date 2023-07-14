@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.1
+    controller-gen.kubebuilder.io/version: v0.12.0
   name: lakes.dataplex.gcp.upbound.io
 spec:
   group: dataplex.gcp.upbound.io
@@ -97,46 +97,6 @@ spec:
                     type: string
                 required:
                 - location
-                type: object
-              initProvider:
-                description: THIS IS AN ALPHA FIELD. Do not use it in production.
-                  It is not honored unless the relevant Crossplane feature flag is
-                  enabled, and may be changed or removed without notice. InitProvider
-                  holds the same fields as ForProvider, with the exception of Identifier
-                  and other resource reference fields. The fields that are in InitProvider
-                  are merged into ForProvider when the resource is created. The same
-                  fields are also added to the terraform ignore_changes hook, to avoid
-                  updating them after creation. This is useful for fields that are
-                  required on creation, but we do not desire to update them after
-                  creation, for example because of an external controller is managing
-                  them, like an autoscaler.
-                properties:
-                  description:
-                    description: Optional. Description of the lake.
-                    type: string
-                  displayName:
-                    description: Optional. User friendly display name.
-                    type: string
-                  labels:
-                    additionalProperties:
-                      type: string
-                    description: Optional. User-defined labels for the lake.
-                    type: object
-                  metastore:
-                    description: Optional. Settings to manage lake and Dataproc Metastore
-                      service instance association.
-                    items:
-                      properties:
-                        service:
-                          description: 'Optional. A relative reference to the Dataproc
-                            Metastore (https://cloud.google.com/dataproc-metastore/docs)
-                            service associated with the lake: projects/{project_id}/locations/{location_id}/services/{service_id}'
-                          type: string
-                      type: object
-                    type: array
-                  project:
-                    description: The project for the resource
-                    type: string
                 type: object
               managementPolicies:
                 default:

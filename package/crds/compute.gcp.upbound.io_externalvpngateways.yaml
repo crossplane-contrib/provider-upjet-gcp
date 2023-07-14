@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.1
+    controller-gen.kubebuilder.io/version: v0.12.0
   name: externalvpngateways.compute.gcp.upbound.io
 spec:
   group: compute.gcp.upbound.io
@@ -66,56 +66,6 @@ spec:
                 - Delete
                 type: string
               forProvider:
-                properties:
-                  description:
-                    description: An optional description of this resource.
-                    type: string
-                  interface:
-                    description: A list of interfaces on this external VPN gateway.
-                      Structure is documented below.
-                    items:
-                      properties:
-                        id:
-                          description: The numeric ID for this interface. Allowed
-                            values are based on the redundancy type of this external
-                            VPN gateway
-                          type: number
-                        ipAddress:
-                          description: IP address of the interface in the external
-                            VPN gateway. Only IPv4 is supported. This IP address can
-                            be either from your on-premise gateway or another Cloud
-                            provider's VPN gateway, it cannot be an IP address from
-                            Google Compute Engine.
-                          type: string
-                      type: object
-                    type: array
-                  labels:
-                    additionalProperties:
-                      type: string
-                    description: Labels for the external VPN gateway resource.
-                    type: object
-                  project:
-                    description: The ID of the project in which the resource belongs.
-                      If it is not provided, the provider project is used.
-                    type: string
-                  redundancyType:
-                    description: 'Indicates the redundancy type of this external VPN
-                      gateway Possible values are: FOUR_IPS_REDUNDANCY, SINGLE_IP_INTERNALLY_REDUNDANT,
-                      TWO_IPS_REDUNDANCY.'
-                    type: string
-                type: object
-              initProvider:
-                description: THIS IS AN ALPHA FIELD. Do not use it in production.
-                  It is not honored unless the relevant Crossplane feature flag is
-                  enabled, and may be changed or removed without notice. InitProvider
-                  holds the same fields as ForProvider, with the exception of Identifier
-                  and other resource reference fields. The fields that are in InitProvider
-                  are merged into ForProvider when the resource is created. The same
-                  fields are also added to the terraform ignore_changes hook, to avoid
-                  updating them after creation. This is useful for fields that are
-                  required on creation, but we do not desire to update them after
-                  creation, for example because of an external controller is managing
-                  them, like an autoscaler.
                 properties:
                   description:
                     description: An optional description of this resource.

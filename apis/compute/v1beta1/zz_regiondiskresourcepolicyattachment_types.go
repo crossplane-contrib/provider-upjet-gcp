@@ -25,16 +25,6 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
-type RegionDiskResourcePolicyAttachmentInitParameters struct {
-
-	// The ID of the project in which the resource belongs.
-	// If it is not provided, the provider project is used.
-	Project *string `json:"project,omitempty" tf:"project,omitempty"`
-
-	// A reference to the region where the disk resides.
-	Region *string `json:"region,omitempty" tf:"region,omitempty"`
-}
-
 type RegionDiskResourcePolicyAttachmentObservation struct {
 
 	// The name of the regional disk in which the resource policies are attached to.
@@ -98,18 +88,6 @@ type RegionDiskResourcePolicyAttachmentParameters struct {
 type RegionDiskResourcePolicyAttachmentSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     RegionDiskResourcePolicyAttachmentParameters `json:"forProvider"`
-	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
-	// unless the relevant Crossplane feature flag is enabled, and may be
-	// changed or removed without notice.
-	// InitProvider holds the same fields as ForProvider, with the exception
-	// of Identifier and other resource reference fields. The fields that are
-	// in InitProvider are merged into ForProvider when the resource is created.
-	// The same fields are also added to the terraform ignore_changes hook, to
-	// avoid updating them after creation. This is useful for fields that are
-	// required on creation, but we do not desire to update them after creation,
-	// for example because of an external controller is managing them, like an
-	// autoscaler.
-	InitProvider RegionDiskResourcePolicyAttachmentInitParameters `json:"initProvider,omitempty"`
 }
 
 // RegionDiskResourcePolicyAttachmentStatus defines the observed state of RegionDiskResourcePolicyAttachment.
@@ -130,7 +108,7 @@ type RegionDiskResourcePolicyAttachmentStatus struct {
 type RegionDiskResourcePolicyAttachment struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.region) || has(self.initProvider.region)",message="region is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.region)",message="region is a required parameter"
 	Spec   RegionDiskResourcePolicyAttachmentSpec   `json:"spec"`
 	Status RegionDiskResourcePolicyAttachmentStatus `json:"status,omitempty"`
 }

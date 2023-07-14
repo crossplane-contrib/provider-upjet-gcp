@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.1
+    controller-gen.kubebuilder.io/version: v0.12.0
   name: garbagecollectionpolicies.bigtable.gcp.upbound.io
 spec:
   group: bigtable.gcp.upbound.io
@@ -180,6 +180,8 @@ spec:
                         number:
                           description: Number of version before applying the GC policy.
                           type: number
+                      required:
+                      - number
                       type: object
                     type: array
                   mode:
@@ -266,66 +268,6 @@ spec:
                             type: string
                         type: object
                     type: object
-                type: object
-              initProvider:
-                description: THIS IS AN ALPHA FIELD. Do not use it in production.
-                  It is not honored unless the relevant Crossplane feature flag is
-                  enabled, and may be changed or removed without notice. InitProvider
-                  holds the same fields as ForProvider, with the exception of Identifier
-                  and other resource reference fields. The fields that are in InitProvider
-                  are merged into ForProvider when the resource is created. The same
-                  fields are also added to the terraform ignore_changes hook, to avoid
-                  updating them after creation. This is useful for fields that are
-                  required on creation, but we do not desire to update them after
-                  creation, for example because of an external controller is managing
-                  them, like an autoscaler.
-                properties:
-                  columnFamily:
-                    description: The name of the column family.
-                    type: string
-                  deletionPolicy:
-                    description: The deletion policy for the GC policy. Setting ABANDON
-                      allows the resource to be abandoned rather than deleted. This
-                      is useful for GC policy as it cannot be deleted in a replicated
-                      instance.
-                    type: string
-                  gcRules:
-                    description: Serialized JSON object to represent a more complex
-                      GC policy. Conflicts with mode, max_age and max_version. Conflicts
-                      with mode, max_age and max_version.
-                    type: string
-                  maxAge:
-                    description: GC policy that applies to all cells older than the
-                      given age.
-                    items:
-                      properties:
-                        days:
-                          description: Number of days before applying GC policy.
-                          type: number
-                        duration:
-                          description: Duration before applying GC policy (ex. "8h").
-                            This is required when days isn't set
-                          type: string
-                      type: object
-                    type: array
-                  maxVersion:
-                    description: GC policy that applies to all versions of a cell
-                      except for the most recent.
-                    items:
-                      properties:
-                        number:
-                          description: Number of version before applying the GC policy.
-                          type: number
-                      type: object
-                    type: array
-                  mode:
-                    description: If multiple policies are set, you should choose between
-                      UNION OR INTERSECTION.
-                    type: string
-                  project:
-                    description: The ID of the project in which the resource belongs.
-                      If it is not provided, the provider project is used.
-                    type: string
                 type: object
               managementPolicies:
                 default:
@@ -527,8 +469,7 @@ spec:
             x-kubernetes-validations:
             - message: columnFamily is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.columnFamily)
-                || has(self.initProvider.columnFamily)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.columnFamily)'
           status:
             description: GarbageCollectionPolicyStatus defines the observed state
               of GarbageCollectionPolicy.

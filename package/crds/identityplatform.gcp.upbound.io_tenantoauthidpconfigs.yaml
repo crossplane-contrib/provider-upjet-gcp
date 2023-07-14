@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.1
+    controller-gen.kubebuilder.io/version: v0.12.0
   name: tenantoauthidpconfigs.identityplatform.gcp.upbound.io
 spec:
   group: identityplatform.gcp.upbound.io
@@ -197,36 +197,6 @@ spec:
                             type: string
                         type: object
                     type: object
-                type: object
-              initProvider:
-                description: THIS IS AN ALPHA FIELD. Do not use it in production.
-                  It is not honored unless the relevant Crossplane feature flag is
-                  enabled, and may be changed or removed without notice. InitProvider
-                  holds the same fields as ForProvider, with the exception of Identifier
-                  and other resource reference fields. The fields that are in InitProvider
-                  are merged into ForProvider when the resource is created. The same
-                  fields are also added to the terraform ignore_changes hook, to avoid
-                  updating them after creation. This is useful for fields that are
-                  required on creation, but we do not desire to update them after
-                  creation, for example because of an external controller is managing
-                  them, like an autoscaler.
-                properties:
-                  displayName:
-                    description: Human friendly display name.
-                    type: string
-                  enabled:
-                    description: If this config allows users to sign in with the provider.
-                    type: boolean
-                  issuer:
-                    description: For OIDC Idps, the issuer identifier.
-                    type: string
-                  name:
-                    description: The name of the OauthIdpConfig. Must start with oidc..
-                    type: string
-                  project:
-                    description: The ID of the project in which the resource belongs.
-                      If it is not provided, the provider project is used.
-                    type: string
                 type: object
               managementPolicies:
                 default:
@@ -431,16 +401,13 @@ spec:
                 || ''Update'' in self.managementPolicies) || has(self.forProvider.clientIdSecretRef)'
             - message: displayName is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.displayName)
-                || has(self.initProvider.displayName)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.displayName)'
             - message: issuer is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.issuer)
-                || has(self.initProvider.issuer)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.issuer)'
             - message: name is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.name)
-                || has(self.initProvider.name)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.name)'
           status:
             description: TenantOAuthIdPConfigStatus defines the observed state of
               TenantOAuthIdPConfig.

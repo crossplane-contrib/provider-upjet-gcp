@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.1
+    controller-gen.kubebuilder.io/version: v0.12.0
   name: dnsauthorizations.certificatemanager.gcp.upbound.io
 spec:
   group: certificatemanager.gcp.upbound.io
@@ -66,39 +66,6 @@ spec:
                 - Delete
                 type: string
               forProvider:
-                properties:
-                  description:
-                    description: A human-readable description of the resource.
-                    type: string
-                  domain:
-                    description: A domain which is being authorized. A DnsAuthorization
-                      resource covers a single domain and its wildcard, e.g. authorization
-                      for "example.com" can be used to issue certificates for "example.com"
-                      and "*.example.com".
-                    type: string
-                  labels:
-                    additionalProperties:
-                      type: string
-                    description: Set of label tags associated with the DNS Authorization
-                      resource.
-                    type: object
-                  project:
-                    description: The ID of the project in which the resource belongs.
-                      If it is not provided, the provider project is used.
-                    type: string
-                type: object
-              initProvider:
-                description: THIS IS AN ALPHA FIELD. Do not use it in production.
-                  It is not honored unless the relevant Crossplane feature flag is
-                  enabled, and may be changed or removed without notice. InitProvider
-                  holds the same fields as ForProvider, with the exception of Identifier
-                  and other resource reference fields. The fields that are in InitProvider
-                  are merged into ForProvider when the resource is created. The same
-                  fields are also added to the terraform ignore_changes hook, to avoid
-                  updating them after creation. This is useful for fields that are
-                  required on creation, but we do not desire to update them after
-                  creation, for example because of an external controller is managing
-                  them, like an autoscaler.
                 properties:
                   description:
                     description: A human-readable description of the resource.
@@ -320,8 +287,7 @@ spec:
             x-kubernetes-validations:
             - message: domain is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.domain)
-                || has(self.initProvider.domain)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.domain)'
           status:
             description: DNSAuthorizationStatus defines the observed state of DNSAuthorization.
             properties:

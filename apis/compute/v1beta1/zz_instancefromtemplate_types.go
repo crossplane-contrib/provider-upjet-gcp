@@ -25,16 +25,6 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
-type BootDiskInitializeParamsInitParameters struct {
-	Image *string `json:"image,omitempty" tf:"image,omitempty"`
-
-	Labels map[string]string `json:"labels,omitempty" tf:"labels,omitempty"`
-
-	Size *float64 `json:"size,omitempty" tf:"size,omitempty"`
-
-	Type *string `json:"type,omitempty" tf:"type,omitempty"`
-}
-
 type BootDiskInitializeParamsObservation struct {
 	Image *string `json:"image,omitempty" tf:"image,omitempty"`
 
@@ -60,14 +50,6 @@ type BootDiskInitializeParamsParameters struct {
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
-type InstanceFromTemplateAdvancedMachineFeaturesInitParameters struct {
-	EnableNestedVirtualization *bool `json:"enableNestedVirtualization,omitempty" tf:"enable_nested_virtualization,omitempty"`
-
-	ThreadsPerCore *float64 `json:"threadsPerCore,omitempty" tf:"threads_per_core,omitempty"`
-
-	VisibleCoreCount *float64 `json:"visibleCoreCount,omitempty" tf:"visible_core_count,omitempty"`
-}
-
 type InstanceFromTemplateAdvancedMachineFeaturesObservation struct {
 	EnableNestedVirtualization *bool `json:"enableNestedVirtualization,omitempty" tf:"enable_nested_virtualization,omitempty"`
 
@@ -86,23 +68,6 @@ type InstanceFromTemplateAdvancedMachineFeaturesParameters struct {
 
 	// +kubebuilder:validation:Optional
 	VisibleCoreCount *float64 `json:"visibleCoreCount,omitempty" tf:"visible_core_count,omitempty"`
-}
-
-type InstanceFromTemplateAttachedDiskInitParameters struct {
-
-	// A unique name for the resource, required by GCE.
-	// Changing this forces a new resource to be created.
-	DeviceName *string `json:"deviceName,omitempty" tf:"device_name"`
-
-	DiskEncryptionKeyRaw *string `json:"diskEncryptionKeyRaw,omitempty" tf:"disk_encryption_key_raw"`
-
-	DiskEncryptionKeySha256 *string `json:"diskEncryptionKeySha256,omitempty" tf:"disk_encryption_key_sha256"`
-
-	KMSKeySelfLink *string `json:"kmsKeySelfLink,omitempty" tf:"kms_key_self_link"`
-
-	Mode *string `json:"mode,omitempty" tf:"mode"`
-
-	Source *string `json:"source,omitempty" tf:"source"`
 }
 
 type InstanceFromTemplateAttachedDiskObservation struct {
@@ -143,24 +108,6 @@ type InstanceFromTemplateAttachedDiskParameters struct {
 
 	// +kubebuilder:validation:Optional
 	Source *string `json:"source,omitempty" tf:"source"`
-}
-
-type InstanceFromTemplateBootDiskInitParameters struct {
-
-	// Default is 6 minutes.
-	AutoDelete *bool `json:"autoDelete,omitempty" tf:"auto_delete,omitempty"`
-
-	// A unique name for the resource, required by GCE.
-	// Changing this forces a new resource to be created.
-	DeviceName *string `json:"deviceName,omitempty" tf:"device_name,omitempty"`
-
-	InitializeParams []BootDiskInitializeParamsInitParameters `json:"initializeParams,omitempty" tf:"initialize_params,omitempty"`
-
-	KMSKeySelfLink *string `json:"kmsKeySelfLink,omitempty" tf:"kms_key_self_link,omitempty"`
-
-	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
-
-	Source *string `json:"source,omitempty" tf:"source,omitempty"`
 }
 
 type InstanceFromTemplateBootDiskObservation struct {
@@ -210,24 +157,14 @@ type InstanceFromTemplateBootDiskParameters struct {
 	Source *string `json:"source,omitempty" tf:"source,omitempty"`
 }
 
-type InstanceFromTemplateConfidentialInstanceConfigInitParameters struct {
-	EnableConfidentialCompute *bool `json:"enableConfidentialCompute,omitempty" tf:"enable_confidential_compute,omitempty"`
-}
-
 type InstanceFromTemplateConfidentialInstanceConfigObservation struct {
 	EnableConfidentialCompute *bool `json:"enableConfidentialCompute,omitempty" tf:"enable_confidential_compute,omitempty"`
 }
 
 type InstanceFromTemplateConfidentialInstanceConfigParameters struct {
 
-	// +kubebuilder:validation:Optional
-	EnableConfidentialCompute *bool `json:"enableConfidentialCompute,omitempty" tf:"enable_confidential_compute,omitempty"`
-}
-
-type InstanceFromTemplateGuestAcceleratorInitParameters struct {
-	Count *float64 `json:"count,omitempty" tf:"count"`
-
-	Type *string `json:"type,omitempty" tf:"type"`
+	// +kubebuilder:validation:Required
+	EnableConfidentialCompute *bool `json:"enableConfidentialCompute" tf:"enable_confidential_compute,omitempty"`
 }
 
 type InstanceFromTemplateGuestAcceleratorObservation struct {
@@ -243,89 +180,6 @@ type InstanceFromTemplateGuestAcceleratorParameters struct {
 
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type,omitempty" tf:"type"`
-}
-
-type InstanceFromTemplateInitParameters struct {
-	AdvancedMachineFeatures []InstanceFromTemplateAdvancedMachineFeaturesInitParameters `json:"advancedMachineFeatures,omitempty" tf:"advanced_machine_features,omitempty"`
-
-	// Default is 6 minutes.
-	AllowStoppingForUpdate *bool `json:"allowStoppingForUpdate,omitempty" tf:"allow_stopping_for_update,omitempty"`
-
-	AttachedDisk []InstanceFromTemplateAttachedDiskInitParameters `json:"attachedDisk,omitempty" tf:"attached_disk,omitempty"`
-
-	BootDisk []InstanceFromTemplateBootDiskInitParameters `json:"bootDisk,omitempty" tf:"boot_disk,omitempty"`
-
-	CanIPForward *bool `json:"canIpForward,omitempty" tf:"can_ip_forward,omitempty"`
-
-	ConfidentialInstanceConfig []InstanceFromTemplateConfidentialInstanceConfigInitParameters `json:"confidentialInstanceConfig,omitempty" tf:"confidential_instance_config,omitempty"`
-
-	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
-
-	Description *string `json:"description,omitempty" tf:"description,omitempty"`
-
-	DesiredStatus *string `json:"desiredStatus,omitempty" tf:"desired_status,omitempty"`
-
-	EnableDisplay *bool `json:"enableDisplay,omitempty" tf:"enable_display,omitempty"`
-
-	GuestAccelerator []InstanceFromTemplateGuestAcceleratorInitParameters `json:"guestAccelerator,omitempty" tf:"guest_accelerator,omitempty"`
-
-	// A unique name for the resource, required by GCE.
-	// Changing this forces a new resource to be created.
-	Hostname *string `json:"hostname,omitempty" tf:"hostname,omitempty"`
-
-	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
-
-	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
-
-	Metadata map[string]string `json:"metadata,omitempty" tf:"metadata,omitempty"`
-
-	MetadataStartupScript *string `json:"metadataStartupScript,omitempty" tf:"metadata_startup_script,omitempty"`
-
-	MinCPUPlatform *string `json:"minCpuPlatform,omitempty" tf:"min_cpu_platform,omitempty"`
-
-	// A unique name for the resource, required by GCE.
-	// Changing this forces a new resource to be created.
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
-
-	NetworkInterface []InstanceFromTemplateNetworkInterfaceInitParameters `json:"networkInterface,omitempty" tf:"network_interface,omitempty"`
-
-	Project *string `json:"project,omitempty" tf:"project,omitempty"`
-
-	ReservationAffinity []InstanceFromTemplateReservationAffinityInitParameters `json:"reservationAffinity,omitempty" tf:"reservation_affinity,omitempty"`
-
-	ResourcePolicies []*string `json:"resourcePolicies,omitempty" tf:"resource_policies,omitempty"`
-
-	Scheduling []InstanceFromTemplateSchedulingInitParameters `json:"scheduling,omitempty" tf:"scheduling,omitempty"`
-
-	ScratchDisk []InstanceFromTemplateScratchDiskInitParameters `json:"scratchDisk,omitempty" tf:"scratch_disk,omitempty"`
-
-	ServiceAccount []InstanceFromTemplateServiceAccountInitParameters `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
-
-	ShieldedInstanceConfig []InstanceFromTemplateShieldedInstanceConfigInitParameters `json:"shieldedInstanceConfig,omitempty" tf:"shielded_instance_config,omitempty"`
-
-	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
-
-	// The zone that the machine should be created in. If not
-	// set, the provider zone is used.
-	Zone *string `json:"zone,omitempty" tf:"zone,omitempty"`
-}
-
-type InstanceFromTemplateNetworkInterfaceInitParameters struct {
-	AccessConfig []NetworkInterfaceAccessConfigInitParameters `json:"accessConfig,omitempty" tf:"access_config,omitempty"`
-
-	AliasIPRange []NetworkInterfaceAliasIPRangeInitParameters `json:"aliasIpRange,omitempty" tf:"alias_ip_range,omitempty"`
-
-	IPv6AccessConfig []NetworkInterfaceIPv6AccessConfigInitParameters `json:"ipv6AccessConfig,omitempty" tf:"ipv6_access_config,omitempty"`
-
-	NetworkIP *string `json:"networkIp,omitempty" tf:"network_ip,omitempty"`
-
-	NicType *string `json:"nicType,omitempty" tf:"nic_type,omitempty"`
-
-	QueueCount *float64 `json:"queueCount,omitempty" tf:"queue_count,omitempty"`
-
-	StackType *string `json:"stackType,omitempty" tf:"stack_type,omitempty"`
-
-	SubnetworkProject *string `json:"subnetworkProject,omitempty" tf:"subnetwork_project,omitempty"`
 }
 
 type InstanceFromTemplateNetworkInterfaceObservation struct {
@@ -603,12 +457,6 @@ type InstanceFromTemplateParameters struct {
 	Zone *string `json:"zone,omitempty" tf:"zone,omitempty"`
 }
 
-type InstanceFromTemplateReservationAffinityInitParameters struct {
-	SpecificReservation []ReservationAffinitySpecificReservationInitParameters `json:"specificReservation,omitempty" tf:"specific_reservation,omitempty"`
-
-	Type *string `json:"type,omitempty" tf:"type,omitempty"`
-}
-
 type InstanceFromTemplateReservationAffinityObservation struct {
 	SpecificReservation []ReservationAffinitySpecificReservationObservation `json:"specificReservation,omitempty" tf:"specific_reservation,omitempty"`
 
@@ -620,24 +468,8 @@ type InstanceFromTemplateReservationAffinityParameters struct {
 	// +kubebuilder:validation:Optional
 	SpecificReservation []ReservationAffinitySpecificReservationParameters `json:"specificReservation,omitempty" tf:"specific_reservation,omitempty"`
 
-	// +kubebuilder:validation:Optional
-	Type *string `json:"type,omitempty" tf:"type,omitempty"`
-}
-
-type InstanceFromTemplateSchedulingInitParameters struct {
-	AutomaticRestart *bool `json:"automaticRestart,omitempty" tf:"automatic_restart,omitempty"`
-
-	InstanceTerminationAction *string `json:"instanceTerminationAction,omitempty" tf:"instance_termination_action,omitempty"`
-
-	MinNodeCpus *float64 `json:"minNodeCpus,omitempty" tf:"min_node_cpus,omitempty"`
-
-	NodeAffinities []SchedulingNodeAffinitiesInitParameters `json:"nodeAffinities,omitempty" tf:"node_affinities,omitempty"`
-
-	OnHostMaintenance *string `json:"onHostMaintenance,omitempty" tf:"on_host_maintenance,omitempty"`
-
-	Preemptible *bool `json:"preemptible,omitempty" tf:"preemptible,omitempty"`
-
-	ProvisioningModel *string `json:"provisioningModel,omitempty" tf:"provisioning_model,omitempty"`
+	// +kubebuilder:validation:Required
+	Type *string `json:"type" tf:"type,omitempty"`
 }
 
 type InstanceFromTemplateSchedulingObservation struct {
@@ -680,12 +512,6 @@ type InstanceFromTemplateSchedulingParameters struct {
 	ProvisioningModel *string `json:"provisioningModel,omitempty" tf:"provisioning_model,omitempty"`
 }
 
-type InstanceFromTemplateScratchDiskInitParameters struct {
-	Interface *string `json:"interface,omitempty" tf:"interface"`
-
-	Size *float64 `json:"size,omitempty" tf:"size"`
-}
-
 type InstanceFromTemplateScratchDiskObservation struct {
 	Interface *string `json:"interface,omitempty" tf:"interface,omitempty"`
 
@@ -701,12 +527,6 @@ type InstanceFromTemplateScratchDiskParameters struct {
 	Size *float64 `json:"size,omitempty" tf:"size"`
 }
 
-type InstanceFromTemplateServiceAccountInitParameters struct {
-	Email *string `json:"email,omitempty" tf:"email"`
-
-	Scopes []*string `json:"scopes,omitempty" tf:"scopes"`
-}
-
 type InstanceFromTemplateServiceAccountObservation struct {
 	Email *string `json:"email,omitempty" tf:"email,omitempty"`
 
@@ -720,14 +540,6 @@ type InstanceFromTemplateServiceAccountParameters struct {
 
 	// +kubebuilder:validation:Optional
 	Scopes []*string `json:"scopes,omitempty" tf:"scopes"`
-}
-
-type InstanceFromTemplateShieldedInstanceConfigInitParameters struct {
-	EnableIntegrityMonitoring *bool `json:"enableIntegrityMonitoring,omitempty" tf:"enable_integrity_monitoring,omitempty"`
-
-	EnableSecureBoot *bool `json:"enableSecureBoot,omitempty" tf:"enable_secure_boot,omitempty"`
-
-	EnableVtpm *bool `json:"enableVtpm,omitempty" tf:"enable_vtpm,omitempty"`
 }
 
 type InstanceFromTemplateShieldedInstanceConfigObservation struct {
@@ -748,16 +560,6 @@ type InstanceFromTemplateShieldedInstanceConfigParameters struct {
 
 	// +kubebuilder:validation:Optional
 	EnableVtpm *bool `json:"enableVtpm,omitempty" tf:"enable_vtpm,omitempty"`
-}
-
-type NetworkInterfaceAccessConfigInitParameters struct {
-	NATIP *string `json:"natIp,omitempty" tf:"nat_ip"`
-
-	NetworkTier *string `json:"networkTier,omitempty" tf:"network_tier"`
-
-	// A unique name for the resource, required by GCE.
-	// Changing this forces a new resource to be created.
-	PublicPtrDomainName *string `json:"publicPtrDomainName,omitempty" tf:"public_ptr_domain_name"`
 }
 
 type NetworkInterfaceAccessConfigObservation struct {
@@ -784,14 +586,6 @@ type NetworkInterfaceAccessConfigParameters struct {
 	PublicPtrDomainName *string `json:"publicPtrDomainName,omitempty" tf:"public_ptr_domain_name"`
 }
 
-type NetworkInterfaceAliasIPRangeInitParameters struct {
-	IPCidrRange *string `json:"ipCidrRange,omitempty" tf:"ip_cidr_range"`
-
-	// A unique name for the resource, required by GCE.
-	// Changing this forces a new resource to be created.
-	SubnetworkRangeName *string `json:"subnetworkRangeName,omitempty" tf:"subnetwork_range_name"`
-}
-
 type NetworkInterfaceAliasIPRangeObservation struct {
 	IPCidrRange *string `json:"ipCidrRange,omitempty" tf:"ip_cidr_range,omitempty"`
 
@@ -811,14 +605,6 @@ type NetworkInterfaceAliasIPRangeParameters struct {
 	SubnetworkRangeName *string `json:"subnetworkRangeName,omitempty" tf:"subnetwork_range_name"`
 }
 
-type NetworkInterfaceIPv6AccessConfigInitParameters struct {
-	NetworkTier *string `json:"networkTier,omitempty" tf:"network_tier,omitempty"`
-
-	// A unique name for the resource, required by GCE.
-	// Changing this forces a new resource to be created.
-	PublicPtrDomainName *string `json:"publicPtrDomainName,omitempty" tf:"public_ptr_domain_name,omitempty"`
-}
-
 type NetworkInterfaceIPv6AccessConfigObservation struct {
 	ExternalIPv6 *string `json:"externalIpv6,omitempty" tf:"external_ipv6,omitempty"`
 
@@ -833,19 +619,13 @@ type NetworkInterfaceIPv6AccessConfigObservation struct {
 
 type NetworkInterfaceIPv6AccessConfigParameters struct {
 
-	// +kubebuilder:validation:Optional
-	NetworkTier *string `json:"networkTier,omitempty" tf:"network_tier,omitempty"`
+	// +kubebuilder:validation:Required
+	NetworkTier *string `json:"networkTier" tf:"network_tier,omitempty"`
 
 	// A unique name for the resource, required by GCE.
 	// Changing this forces a new resource to be created.
 	// +kubebuilder:validation:Optional
 	PublicPtrDomainName *string `json:"publicPtrDomainName,omitempty" tf:"public_ptr_domain_name,omitempty"`
-}
-
-type ReservationAffinitySpecificReservationInitParameters struct {
-	Key *string `json:"key,omitempty" tf:"key,omitempty"`
-
-	Values []*string `json:"values,omitempty" tf:"values,omitempty"`
 }
 
 type ReservationAffinitySpecificReservationObservation struct {
@@ -856,19 +636,11 @@ type ReservationAffinitySpecificReservationObservation struct {
 
 type ReservationAffinitySpecificReservationParameters struct {
 
-	// +kubebuilder:validation:Optional
-	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+	// +kubebuilder:validation:Required
+	Key *string `json:"key" tf:"key,omitempty"`
 
-	// +kubebuilder:validation:Optional
-	Values []*string `json:"values,omitempty" tf:"values,omitempty"`
-}
-
-type SchedulingNodeAffinitiesInitParameters struct {
-	Key *string `json:"key,omitempty" tf:"key,omitempty"`
-
-	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
-
-	Values []*string `json:"values,omitempty" tf:"values,omitempty"`
+	// +kubebuilder:validation:Required
+	Values []*string `json:"values" tf:"values,omitempty"`
 }
 
 type SchedulingNodeAffinitiesObservation struct {
@@ -881,32 +653,20 @@ type SchedulingNodeAffinitiesObservation struct {
 
 type SchedulingNodeAffinitiesParameters struct {
 
-	// +kubebuilder:validation:Optional
-	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+	// +kubebuilder:validation:Required
+	Key *string `json:"key" tf:"key,omitempty"`
 
-	// +kubebuilder:validation:Optional
-	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
+	// +kubebuilder:validation:Required
+	Operator *string `json:"operator" tf:"operator,omitempty"`
 
-	// +kubebuilder:validation:Optional
-	Values []*string `json:"values,omitempty" tf:"values,omitempty"`
+	// +kubebuilder:validation:Required
+	Values []*string `json:"values" tf:"values,omitempty"`
 }
 
 // InstanceFromTemplateSpec defines the desired state of InstanceFromTemplate
 type InstanceFromTemplateSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     InstanceFromTemplateParameters `json:"forProvider"`
-	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
-	// unless the relevant Crossplane feature flag is enabled, and may be
-	// changed or removed without notice.
-	// InitProvider holds the same fields as ForProvider, with the exception
-	// of Identifier and other resource reference fields. The fields that are
-	// in InitProvider are merged into ForProvider when the resource is created.
-	// The same fields are also added to the terraform ignore_changes hook, to
-	// avoid updating them after creation. This is useful for fields that are
-	// required on creation, but we do not desire to update them after creation,
-	// for example because of an external controller is managing them, like an
-	// autoscaler.
-	InitProvider InstanceFromTemplateInitParameters `json:"initProvider,omitempty"`
 }
 
 // InstanceFromTemplateStatus defines the observed state of InstanceFromTemplate.
@@ -927,7 +687,7 @@ type InstanceFromTemplateStatus struct {
 type InstanceFromTemplate struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.name) || has(self.initProvider.name)",message="name is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.name)",message="name is a required parameter"
 	Spec   InstanceFromTemplateSpec   `json:"spec"`
 	Status InstanceFromTemplateStatus `json:"status,omitempty"`
 }

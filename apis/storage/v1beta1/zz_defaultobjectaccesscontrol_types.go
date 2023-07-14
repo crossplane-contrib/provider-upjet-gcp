@@ -25,19 +25,6 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
-type DefaultObjectAccessControlInitParameters struct {
-
-	// The entity holding the permission, in one of the following forms:
-	Entity *string `json:"entity,omitempty" tf:"entity,omitempty"`
-
-	// The name of the object, if applied to an object.
-	Object *string `json:"object,omitempty" tf:"object,omitempty"`
-
-	// The access permission for the entity.
-	// Possible values are: OWNER, READER.
-	Role *string `json:"role,omitempty" tf:"role,omitempty"`
-}
-
 type DefaultObjectAccessControlObservation struct {
 
 	// The name of the bucket.
@@ -102,9 +89,6 @@ type DefaultObjectAccessControlParameters struct {
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 }
 
-type ProjectTeamInitParameters struct {
-}
-
 type ProjectTeamObservation struct {
 
 	// The project team associated with the entity
@@ -122,18 +106,6 @@ type ProjectTeamParameters struct {
 type DefaultObjectAccessControlSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     DefaultObjectAccessControlParameters `json:"forProvider"`
-	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
-	// unless the relevant Crossplane feature flag is enabled, and may be
-	// changed or removed without notice.
-	// InitProvider holds the same fields as ForProvider, with the exception
-	// of Identifier and other resource reference fields. The fields that are
-	// in InitProvider are merged into ForProvider when the resource is created.
-	// The same fields are also added to the terraform ignore_changes hook, to
-	// avoid updating them after creation. This is useful for fields that are
-	// required on creation, but we do not desire to update them after creation,
-	// for example because of an external controller is managing them, like an
-	// autoscaler.
-	InitProvider DefaultObjectAccessControlInitParameters `json:"initProvider,omitempty"`
 }
 
 // DefaultObjectAccessControlStatus defines the observed state of DefaultObjectAccessControl.
@@ -154,8 +126,8 @@ type DefaultObjectAccessControlStatus struct {
 type DefaultObjectAccessControl struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.entity) || has(self.initProvider.entity)",message="entity is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.role) || has(self.initProvider.role)",message="role is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.entity)",message="entity is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.role)",message="role is a required parameter"
 	Spec   DefaultObjectAccessControlSpec   `json:"spec"`
 	Status DefaultObjectAccessControlStatus `json:"status,omitempty"`
 }

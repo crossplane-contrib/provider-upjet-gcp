@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.1
+    controller-gen.kubebuilder.io/version: v0.12.0
   name: webhooks.dialogflowcx.gcp.upbound.io
 spec:
   group: dialogflowcx.gcp.upbound.io
@@ -103,6 +103,8 @@ spec:
                           description: Whether to use speech adaptation for speech
                             recognition.
                           type: string
+                      required:
+                      - uri
                       type: object
                     type: array
                   parent:
@@ -213,103 +215,16 @@ spec:
                                 description: Whether to use speech adaptation for
                                   speech recognition.
                                 type: string
+                            required:
+                            - uri
                             type: object
                           type: array
                         service:
                           description: The name of Service Directory service.
                           type: string
-                      type: object
-                    type: array
-                  timeout:
-                    description: Webhook execution timeout.
-                    type: string
-                type: object
-              initProvider:
-                description: THIS IS AN ALPHA FIELD. Do not use it in production.
-                  It is not honored unless the relevant Crossplane feature flag is
-                  enabled, and may be changed or removed without notice. InitProvider
-                  holds the same fields as ForProvider, with the exception of Identifier
-                  and other resource reference fields. The fields that are in InitProvider
-                  are merged into ForProvider when the resource is created. The same
-                  fields are also added to the terraform ignore_changes hook, to avoid
-                  updating them after creation. This is useful for fields that are
-                  required on creation, but we do not desire to update them after
-                  creation, for example because of an external controller is managing
-                  them, like an autoscaler.
-                properties:
-                  disabled:
-                    description: Indicates whether the webhook is disabled.
-                    type: boolean
-                  displayName:
-                    description: The human-readable name of the webhook, unique within
-                      the agent.
-                    type: string
-                  enableSpellCorrection:
-                    description: Indicates if automatic spell correction is enabled
-                      in detect intent requests.
-                    type: boolean
-                  enableStackdriverLogging:
-                    description: Determines whether this agent should log conversation
-                      queries.
-                    type: boolean
-                  genericWebService:
-                    description: Configuration for a generic web service. Structure
-                      is documented below.
-                    items:
-                      properties:
-                        allowedCaCerts:
-                          description: Specifies a list of allowed custom CA certificates
-                            (in DER format) for HTTPS verification.
-                          items:
-                            type: string
-                          type: array
-                        requestHeaders:
-                          additionalProperties:
-                            type: string
-                          description: The HTTP request headers to send together with
-                            webhook requests.
-                          type: object
-                        uri:
-                          description: Whether to use speech adaptation for speech
-                            recognition.
-                          type: string
-                      type: object
-                    type: array
-                  securitySettings:
-                    description: 'Name of the SecuritySettings reference for the agent.
-                      Format: projects//locations//securitySettings/.'
-                    type: string
-                  serviceDirectory:
-                    description: Configuration for a Service Directory service. Structure
-                      is documented below.
-                    items:
-                      properties:
-                        genericWebService:
-                          description: The name of Service Directory service. Structure
-                            is documented below.
-                          items:
-                            properties:
-                              allowedCaCerts:
-                                description: Specifies a list of allowed custom CA
-                                  certificates (in DER format) for HTTPS verification.
-                                items:
-                                  type: string
-                                type: array
-                              requestHeaders:
-                                additionalProperties:
-                                  type: string
-                                description: The HTTP request headers to send together
-                                  with webhook requests.
-                                type: object
-                              uri:
-                                description: Whether to use speech adaptation for
-                                  speech recognition.
-                                type: string
-                            type: object
-                          type: array
-                        service:
-                          description: The name of Service Directory service.
-                          type: string
+                      required:
+                      - genericWebService
+                      - service
                       type: object
                     type: array
                   timeout:
@@ -516,8 +431,7 @@ spec:
             x-kubernetes-validations:
             - message: displayName is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.displayName)
-                || has(self.initProvider.displayName)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.displayName)'
           status:
             description: WebhookStatus defines the observed state of Webhook.
             properties:

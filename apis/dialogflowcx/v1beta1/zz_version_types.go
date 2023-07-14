@@ -25,18 +25,6 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
-type VersionInitParameters struct {
-
-	// The description of the version. The maximum length is 500 characters. If exceeded, the request is rejected.
-	Description *string `json:"description,omitempty" tf:"description,omitempty"`
-
-	// The human-readable name of the version. Limit of 64 characters.
-	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
-}
-
-type VersionNluSettingsInitParameters struct {
-}
-
 type VersionNluSettingsObservation struct {
 
 	// To filter out false positive results and still get variety in matched natural language inputs for your agent, you can tune the machine learning classification threshold. If the returned score value is less than the threshold value, then a no-match event will be triggered.
@@ -112,18 +100,6 @@ type VersionParameters struct {
 type VersionSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     VersionParameters `json:"forProvider"`
-	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
-	// unless the relevant Crossplane feature flag is enabled, and may be
-	// changed or removed without notice.
-	// InitProvider holds the same fields as ForProvider, with the exception
-	// of Identifier and other resource reference fields. The fields that are
-	// in InitProvider are merged into ForProvider when the resource is created.
-	// The same fields are also added to the terraform ignore_changes hook, to
-	// avoid updating them after creation. This is useful for fields that are
-	// required on creation, but we do not desire to update them after creation,
-	// for example because of an external controller is managing them, like an
-	// autoscaler.
-	InitProvider VersionInitParameters `json:"initProvider,omitempty"`
 }
 
 // VersionStatus defines the observed state of Version.
@@ -144,7 +120,7 @@ type VersionStatus struct {
 type Version struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.displayName) || has(self.initProvider.displayName)",message="displayName is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.displayName)",message="displayName is a required parameter"
 	Spec   VersionSpec   `json:"spec"`
 	Status VersionStatus `json:"status,omitempty"`
 }

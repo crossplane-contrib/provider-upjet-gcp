@@ -25,19 +25,6 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
-type TenantDefaultSupportedIdPConfigInitParameters struct {
-
-	// If this IDP allows the user to sign in
-	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
-
-	// ID of the IDP. Possible values include:
-	IdPID *string `json:"idpId,omitempty" tf:"idp_id,omitempty"`
-
-	// The ID of the project in which the resource belongs.
-	// If it is not provided, the provider project is used.
-	Project *string `json:"project,omitempty" tf:"project,omitempty"`
-}
-
 type TenantDefaultSupportedIdPConfigObservation struct {
 
 	// If this IDP allows the user to sign in
@@ -102,18 +89,6 @@ type TenantDefaultSupportedIdPConfigParameters struct {
 type TenantDefaultSupportedIdPConfigSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     TenantDefaultSupportedIdPConfigParameters `json:"forProvider"`
-	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
-	// unless the relevant Crossplane feature flag is enabled, and may be
-	// changed or removed without notice.
-	// InitProvider holds the same fields as ForProvider, with the exception
-	// of Identifier and other resource reference fields. The fields that are
-	// in InitProvider are merged into ForProvider when the resource is created.
-	// The same fields are also added to the terraform ignore_changes hook, to
-	// avoid updating them after creation. This is useful for fields that are
-	// required on creation, but we do not desire to update them after creation,
-	// for example because of an external controller is managing them, like an
-	// autoscaler.
-	InitProvider TenantDefaultSupportedIdPConfigInitParameters `json:"initProvider,omitempty"`
 }
 
 // TenantDefaultSupportedIdPConfigStatus defines the observed state of TenantDefaultSupportedIdPConfig.
@@ -136,7 +111,7 @@ type TenantDefaultSupportedIdPConfig struct {
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.clientIdSecretRef)",message="clientIdSecretRef is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.clientSecretSecretRef)",message="clientSecretSecretRef is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.idpId) || has(self.initProvider.idpId)",message="idpId is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.idpId)",message="idpId is a required parameter"
 	Spec   TenantDefaultSupportedIdPConfigSpec   `json:"spec"`
 	Status TenantDefaultSupportedIdPConfigStatus `json:"status,omitempty"`
 }

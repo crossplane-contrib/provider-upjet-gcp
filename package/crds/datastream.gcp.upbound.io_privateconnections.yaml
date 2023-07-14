@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.1
+    controller-gen.kubebuilder.io/version: v0.12.0
   name: privateconnections.datastream.gcp.upbound.io
 spec:
   group: datastream.gcp.upbound.io
@@ -175,47 +175,12 @@ spec:
                                   type: string
                               type: object
                           type: object
+                      required:
+                      - subnet
                       type: object
                     type: array
                 required:
                 - location
-                type: object
-              initProvider:
-                description: THIS IS AN ALPHA FIELD. Do not use it in production.
-                  It is not honored unless the relevant Crossplane feature flag is
-                  enabled, and may be changed or removed without notice. InitProvider
-                  holds the same fields as ForProvider, with the exception of Identifier
-                  and other resource reference fields. The fields that are in InitProvider
-                  are merged into ForProvider when the resource is created. The same
-                  fields are also added to the terraform ignore_changes hook, to avoid
-                  updating them after creation. This is useful for fields that are
-                  required on creation, but we do not desire to update them after
-                  creation, for example because of an external controller is managing
-                  them, like an autoscaler.
-                properties:
-                  displayName:
-                    description: Display name.
-                    type: string
-                  labels:
-                    additionalProperties:
-                      type: string
-                    description: Labels.
-                    type: object
-                  project:
-                    description: The ID of the project in which the resource belongs.
-                      If it is not provided, the provider project is used.
-                    type: string
-                  vpcPeeringConfig:
-                    description: The VPC Peering configuration is used to create VPC
-                      peering between Datastream and the consumer's VPC. Structure
-                      is documented below.
-                    items:
-                      properties:
-                        subnet:
-                          description: A free subnet for peering. (CIDR of /29)
-                          type: string
-                      type: object
-                    type: array
                 type: object
               managementPolicies:
                 default:
@@ -417,12 +382,10 @@ spec:
             x-kubernetes-validations:
             - message: displayName is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.displayName)
-                || has(self.initProvider.displayName)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.displayName)'
             - message: vpcPeeringConfig is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.vpcPeeringConfig)
-                || has(self.initProvider.vpcPeeringConfig)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.vpcPeeringConfig)'
           status:
             description: PrivateConnectionStatus defines the observed state of PrivateConnection.
             properties:

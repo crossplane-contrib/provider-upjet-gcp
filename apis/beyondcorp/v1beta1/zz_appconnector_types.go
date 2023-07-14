@@ -25,23 +25,6 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
-type AppConnectorInitParameters struct {
-
-	// An arbitrary user-provided name for the AppConnector.
-	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
-
-	// Resource labels to represent user provided metadata.
-	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
-
-	// Principal information about the Identity of the AppConnector.
-	// Structure is documented below.
-	PrincipalInfo []PrincipalInfoInitParameters `json:"principalInfo,omitempty" tf:"principal_info,omitempty"`
-
-	// The ID of the project in which the resource belongs.
-	// If it is not provided, the provider project is used.
-	Project *string `json:"project,omitempty" tf:"project,omitempty"`
-}
-
 type AppConnectorObservation struct {
 
 	// An arbitrary user-provided name for the AppConnector.
@@ -93,13 +76,6 @@ type AppConnectorParameters struct {
 	Region *string `json:"region" tf:"region,omitempty"`
 }
 
-type PrincipalInfoInitParameters struct {
-
-	// ServiceAccount represents a GCP service account.
-	// Structure is documented below.
-	ServiceAccount []ServiceAccountInitParameters `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
-}
-
 type PrincipalInfoObservation struct {
 
 	// ServiceAccount represents a GCP service account.
@@ -111,11 +87,8 @@ type PrincipalInfoParameters struct {
 
 	// ServiceAccount represents a GCP service account.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
-	ServiceAccount []ServiceAccountParameters `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
-}
-
-type ServiceAccountInitParameters struct {
+	// +kubebuilder:validation:Required
+	ServiceAccount []ServiceAccountParameters `json:"serviceAccount" tf:"service_account,omitempty"`
 }
 
 type ServiceAccountObservation struct {
@@ -145,18 +118,6 @@ type ServiceAccountParameters struct {
 type AppConnectorSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     AppConnectorParameters `json:"forProvider"`
-	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
-	// unless the relevant Crossplane feature flag is enabled, and may be
-	// changed or removed without notice.
-	// InitProvider holds the same fields as ForProvider, with the exception
-	// of Identifier and other resource reference fields. The fields that are
-	// in InitProvider are merged into ForProvider when the resource is created.
-	// The same fields are also added to the terraform ignore_changes hook, to
-	// avoid updating them after creation. This is useful for fields that are
-	// required on creation, but we do not desire to update them after creation,
-	// for example because of an external controller is managing them, like an
-	// autoscaler.
-	InitProvider AppConnectorInitParameters `json:"initProvider,omitempty"`
 }
 
 // AppConnectorStatus defines the observed state of AppConnector.
@@ -177,7 +138,7 @@ type AppConnectorStatus struct {
 type AppConnector struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.principalInfo) || has(self.initProvider.principalInfo)",message="principalInfo is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.principalInfo)",message="principalInfo is a required parameter"
 	Spec   AppConnectorSpec   `json:"spec"`
 	Status AppConnectorStatus `json:"status,omitempty"`
 }

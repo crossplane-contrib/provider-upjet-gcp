@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.1
+    controller-gen.kubebuilder.io/version: v0.12.0
   name: nodepools.containerazure.gcp.upbound.io
 spec:
   group: containerazure.gcp.upbound.io
@@ -90,6 +90,9 @@ spec:
                           description: Minimum number of nodes in the node pool. Must
                             be >= 1 and <= max_node_count.
                           type: number
+                      required:
+                      - maxNodeCount
+                      - minNodeCount
                       type: object
                     type: array
                   azureAvailabilityZone:
@@ -189,6 +192,9 @@ spec:
                                 description: The URL the of the proxy setting secret
                                   with its version. Secret ids are formatted as https:<key-vault-name>.vault.azure.net/secrets/<secret-name>/<secret-version>.
                                 type: string
+                            required:
+                            - resourceGroupId
+                            - secretId
                             type: object
                           type: array
                         rootVolume:
@@ -215,6 +221,8 @@ spec:
                                   format used in OpenSSH according to the sshd(8)
                                   manual page.
                                 type: string
+                            required:
+                            - authorizedKey
                             type: object
                           type: array
                         tags:
@@ -232,6 +240,8 @@ spec:
                             Standard_DS2_v2. See (/anthos/clusters/docs/azure/reference/supported-vms)
                             for options. When unspecified, it defaults to Standard_DS2_v2.'
                           type: string
+                      required:
+                      - sshConfig
                       type: object
                     type: array
                   location:
@@ -246,6 +256,8 @@ spec:
                           description: The maximum number of pods to schedule on a
                             single node.
                           type: number
+                      required:
+                      - maxPodsPerNode
                       type: object
                     type: array
                   project:
@@ -262,134 +274,6 @@ spec:
                     type: string
                 required:
                 - location
-                type: object
-              initProvider:
-                description: THIS IS AN ALPHA FIELD. Do not use it in production.
-                  It is not honored unless the relevant Crossplane feature flag is
-                  enabled, and may be changed or removed without notice. InitProvider
-                  holds the same fields as ForProvider, with the exception of Identifier
-                  and other resource reference fields. The fields that are in InitProvider
-                  are merged into ForProvider when the resource is created. The same
-                  fields are also added to the terraform ignore_changes hook, to avoid
-                  updating them after creation. This is useful for fields that are
-                  required on creation, but we do not desire to update them after
-                  creation, for example because of an external controller is managing
-                  them, like an autoscaler.
-                properties:
-                  annotations:
-                    additionalProperties:
-                      type: string
-                    description: 'Optional. Annotations on the node pool. This field
-                      has the same restrictions as Kubernetes annotations. The total
-                      size of all keys and values combined is limited to 256k. Keys
-                      can have 2 segments: prefix  and name , separated by a slash
-                      (/). Prefix must be a DNS subdomain. Name must be 63 characters
-                      or less, begin and end with alphanumerics, with dashes (-),
-                      underscores (_), dots (.), and alphanumerics between.'
-                    type: object
-                  autoscaling:
-                    description: Autoscaler configuration for this node pool.
-                    items:
-                      properties:
-                        maxNodeCount:
-                          description: Maximum number of nodes in the node pool. Must
-                            be >= min_node_count.
-                          type: number
-                        minNodeCount:
-                          description: Minimum number of nodes in the node pool. Must
-                            be >= 1 and <= max_node_count.
-                          type: number
-                      type: object
-                    type: array
-                  azureAvailabilityZone:
-                    description: Optional. The Azure availability zone of the nodes
-                      in this nodepool. When unspecified, it defaults to 1.
-                    type: string
-                  config:
-                    description: The node configuration of the node pool.
-                    items:
-                      properties:
-                        proxyConfig:
-                          description: Proxy configuration for outbound HTTP(S) traffic.
-                          items:
-                            properties:
-                              resourceGroupId:
-                                description: The ARM ID the of the resource group
-                                  containing proxy keyvault. Resource group ids are
-                                  formatted as /subscriptions/<subscription-id>/resourceGroups/<resource-group-name>
-                                type: string
-                              secretId:
-                                description: The URL the of the proxy setting secret
-                                  with its version. Secret ids are formatted as https:<key-vault-name>.vault.azure.net/secrets/<secret-name>/<secret-version>.
-                                type: string
-                            type: object
-                          type: array
-                        rootVolume:
-                          description: Optional. Configuration related to the root
-                            volume provisioned for each node pool machine. When unspecified,
-                            it defaults to a 32-GiB Azure Disk.
-                          items:
-                            properties:
-                              sizeGib:
-                                description: Optional. The size of the disk, in GiBs.
-                                  When unspecified, a default value is provided. See
-                                  the specific reference in the parent resource.
-                                type: number
-                            type: object
-                          type: array
-                        sshConfig:
-                          description: SSH configuration for how to access the node
-                            pool machines.
-                          items:
-                            properties:
-                              authorizedKey:
-                                description: The SSH public key data for VMs managed
-                                  by Anthos. This accepts the authorized_keys file
-                                  format used in OpenSSH according to the sshd(8)
-                                  manual page.
-                                type: string
-                            type: object
-                          type: array
-                        tags:
-                          additionalProperties:
-                            type: string
-                          description: Optional. A set of tags to apply to all underlying
-                            Azure resources for this node pool. This currently only
-                            includes Virtual Machine Scale Sets. Specify at most 50
-                            pairs containing alphanumerics, spaces, and symbols (.+-=_:@/).
-                            Keys can be up to 127 Unicode characters. Values can be
-                            up to 255 Unicode characters.
-                          type: object
-                        vmSize:
-                          description: 'Optional. The Azure VM size name. Example:
-                            Standard_DS2_v2. See (/anthos/clusters/docs/azure/reference/supported-vms)
-                            for options. When unspecified, it defaults to Standard_DS2_v2.'
-                          type: string
-                      type: object
-                    type: array
-                  maxPodsConstraint:
-                    description: The constraint on the maximum number of pods that
-                      can be run simultaneously on a node in the node pool.
-                    items:
-                      properties:
-                        maxPodsPerNode:
-                          description: The maximum number of pods to schedule on a
-                            single node.
-                          type: number
-                      type: object
-                    type: array
-                  project:
-                    description: The project for the resource
-                    type: string
-                  subnetId:
-                    description: The ARM ID of the subnet where the node pool VMs
-                      run. Make sure it's a subnet under the virtual network in the
-                      cluster configuration.
-                    type: string
-                  version:
-                    description: The Kubernetes version (e.g. 1.19.10-gke.1000) running
-                      on this node pool.
-                    type: string
                 type: object
               managementPolicies:
                 default:
@@ -591,24 +475,19 @@ spec:
             x-kubernetes-validations:
             - message: autoscaling is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.autoscaling)
-                || has(self.initProvider.autoscaling)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.autoscaling)'
             - message: config is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.config)
-                || has(self.initProvider.config)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.config)'
             - message: maxPodsConstraint is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.maxPodsConstraint)
-                || has(self.initProvider.maxPodsConstraint)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.maxPodsConstraint)'
             - message: subnetId is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.subnetId)
-                || has(self.initProvider.subnetId)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.subnetId)'
             - message: version is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.version)
-                || has(self.initProvider.version)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.version)'
           status:
             description: NodePoolStatus defines the observed state of NodePool.
             properties:

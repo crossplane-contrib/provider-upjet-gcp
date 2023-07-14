@@ -25,9 +25,6 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
-type KeyRingImportJobAttestationInitParameters struct {
-}
-
 type KeyRingImportJobAttestationObservation struct {
 
 	// (Output)
@@ -41,18 +38,6 @@ type KeyRingImportJobAttestationObservation struct {
 }
 
 type KeyRingImportJobAttestationParameters struct {
-}
-
-type KeyRingImportJobInitParameters struct {
-
-	// The wrapping method to be used for incoming key material.
-	// Possible values are: RSA_OAEP_3072_SHA1_AES_256, RSA_OAEP_4096_SHA1_AES_256.
-	ImportMethod *string `json:"importMethod,omitempty" tf:"import_method,omitempty"`
-
-	// The protection level of the ImportJob. This must match the protectionLevel of the
-	// versionTemplate on the CryptoKey you attempt to import into.
-	// Possible values are: SOFTWARE, HSM, EXTERNAL.
-	ProtectionLevel *string `json:"protectionLevel,omitempty" tf:"protection_level,omitempty"`
 }
 
 type KeyRingImportJobObservation struct {
@@ -123,9 +108,6 @@ type KeyRingImportJobParameters struct {
 	ProtectionLevel *string `json:"protectionLevel,omitempty" tf:"protection_level,omitempty"`
 }
 
-type PublicKeyInitParameters struct {
-}
-
 type PublicKeyObservation struct {
 
 	// (Output)
@@ -141,18 +123,6 @@ type PublicKeyParameters struct {
 type KeyRingImportJobSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     KeyRingImportJobParameters `json:"forProvider"`
-	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
-	// unless the relevant Crossplane feature flag is enabled, and may be
-	// changed or removed without notice.
-	// InitProvider holds the same fields as ForProvider, with the exception
-	// of Identifier and other resource reference fields. The fields that are
-	// in InitProvider are merged into ForProvider when the resource is created.
-	// The same fields are also added to the terraform ignore_changes hook, to
-	// avoid updating them after creation. This is useful for fields that are
-	// required on creation, but we do not desire to update them after creation,
-	// for example because of an external controller is managing them, like an
-	// autoscaler.
-	InitProvider KeyRingImportJobInitParameters `json:"initProvider,omitempty"`
 }
 
 // KeyRingImportJobStatus defines the observed state of KeyRingImportJob.
@@ -173,8 +143,8 @@ type KeyRingImportJobStatus struct {
 type KeyRingImportJob struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.importMethod) || has(self.initProvider.importMethod)",message="importMethod is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.protectionLevel) || has(self.initProvider.protectionLevel)",message="protectionLevel is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.importMethod)",message="importMethod is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.protectionLevel)",message="protectionLevel is a required parameter"
 	Spec   KeyRingImportJobSpec   `json:"spec"`
 	Status KeyRingImportJobStatus `json:"status,omitempty"`
 }

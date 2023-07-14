@@ -25,24 +25,6 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
-type EventHandlersInitParameters struct {
-
-	// The name of the event to handle.
-	Event *string `json:"event,omitempty" tf:"event,omitempty"`
-
-	// The target flow to transition to.
-	// Format: projects//locations//agents//flows/.
-	TargetFlow *string `json:"targetFlow,omitempty" tf:"target_flow,omitempty"`
-
-	// The target page to transition to.
-	// Format: projects//locations//agents//flows//pages/.
-	TargetPage *string `json:"targetPage,omitempty" tf:"target_page,omitempty"`
-
-	// The fulfillment to call when the event occurs. Handling webhook errors with a fulfillment enabled with webhook could cause infinite loop. It is invalid to specify such fulfillment for a handler handling webhooks.
-	// Structure is documented below.
-	TriggerFulfillment []TriggerFulfillmentInitParameters `json:"triggerFulfillment,omitempty" tf:"trigger_fulfillment,omitempty"`
-}
-
 type EventHandlersObservation struct {
 
 	// The name of the event to handle.
@@ -85,50 +67,6 @@ type EventHandlersParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	TriggerFulfillment []TriggerFulfillmentParameters `json:"triggerFulfillment,omitempty" tf:"trigger_fulfillment,omitempty"`
-}
-
-type FlowInitParameters struct {
-
-	// The description of the flow. The maximum length is 500 characters. If exceeded, the request is rejected.
-	Description *string `json:"description,omitempty" tf:"description,omitempty"`
-
-	// The human-readable name of the flow.
-	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
-
-	// A flow's event handlers serve two purposes:
-	// They are responsible for handling events (e.g. no match, webhook errors) in the flow.
-	// They are inherited by every page's [event handlers][Page.event_handlers], which can be used to handle common events regardless of the current page. Event handlers defined in the page have higher priority than those defined in the flow.
-	// Unlike transitionRoutes, these handlers are evaluated on a first-match basis. The first one that matches the event get executed, with the rest being ignored.
-	// Structure is documented below.
-	EventHandlers []EventHandlersInitParameters `json:"eventHandlers,omitempty" tf:"event_handlers,omitempty"`
-
-	// The language of the following fields in flow:
-	// Flow.event_handlers.trigger_fulfillment.messages
-	// Flow.event_handlers.trigger_fulfillment.conditional_cases
-	// Flow.transition_routes.trigger_fulfillment.messages
-	// Flow.transition_routes.trigger_fulfillment.conditional_cases
-	// If not specified, the agent's default language is used. Many languages are supported. Note: languages must be enabled in the agent before they can be used.
-	LanguageCode *string `json:"languageCode,omitempty" tf:"language_code,omitempty"`
-
-	// NLU related settings of the flow.
-	// Structure is documented below.
-	NluSettings []NluSettingsInitParameters `json:"nluSettings,omitempty" tf:"nlu_settings,omitempty"`
-
-	// A flow's transition route group serve two purposes:
-	// They are responsible for matching the user's first utterances in the flow.
-	// They are inherited by every page's [transition route groups][Page.transition_route_groups]. Transition route groups defined in the page have higher priority than those defined in the flow.
-	// Format:projects//locations//agents//flows//transitionRouteGroups/.
-	TransitionRouteGroups []*string `json:"transitionRouteGroups,omitempty" tf:"transition_route_groups,omitempty"`
-
-	// A flow's transition routes serve two purposes:
-	// They are responsible for matching the user's first utterances in the flow.
-	// They are inherited by every page's [transition routes][Page.transition_routes] and can support use cases such as the user saying "help" or "can I talk to a human?", which can be handled in a common way regardless of the current page. Transition routes defined in the page have higher priority than those defined in the flow.
-	// TransitionRoutes are evalauted in the following order:
-	// TransitionRoutes with intent specified.
-	// TransitionRoutes with only condition specified.
-	// TransitionRoutes with intent specified are inherited by pages in the flow.
-	// Structure is documented below.
-	TransitionRoutes []TransitionRoutesInitParameters `json:"transitionRoutes,omitempty" tf:"transition_routes,omitempty"`
 }
 
 type FlowObservation struct {
@@ -252,12 +190,6 @@ type FlowParameters struct {
 	TransitionRoutes []TransitionRoutesParameters `json:"transitionRoutes,omitempty" tf:"transition_routes,omitempty"`
 }
 
-type MessagesInitParameters struct {
-
-	// A collection of text responses.
-	Text []TextInitParameters `json:"text,omitempty" tf:"text,omitempty"`
-}
-
 type MessagesObservation struct {
 
 	// A collection of text responses.
@@ -269,12 +201,6 @@ type MessagesParameters struct {
 	// A collection of text responses.
 	// +kubebuilder:validation:Optional
 	Text []TextParameters `json:"text,omitempty" tf:"text,omitempty"`
-}
-
-type MessagesTextInitParameters struct {
-
-	// A collection of text responses.
-	Text []*string `json:"text,omitempty" tf:"text,omitempty"`
 }
 
 type MessagesTextObservation struct {
@@ -292,19 +218,6 @@ type MessagesTextParameters struct {
 	// A collection of text responses.
 	// +kubebuilder:validation:Optional
 	Text []*string `json:"text,omitempty" tf:"text,omitempty"`
-}
-
-type NluSettingsInitParameters struct {
-
-	// To filter out false positive results and still get variety in matched natural language inputs for your agent, you can tune the machine learning classification threshold.
-	// If the returned score value is less than the threshold value, then a no-match event will be triggered. The score values range from 0.0 (completely uncertain) to 1.0 (completely certain). If set to 0.0, the default of 0.3 is used.
-	ClassificationThreshold *float64 `json:"classificationThreshold,omitempty" tf:"classification_threshold,omitempty"`
-
-	// Indicates NLU model training mode.
-	ModelTrainingMode *string `json:"modelTrainingMode,omitempty" tf:"model_training_mode,omitempty"`
-
-	// Indicates the type of NLU model.
-	ModelType *string `json:"modelType,omitempty" tf:"model_type,omitempty"`
 }
 
 type NluSettingsObservation struct {
@@ -336,12 +249,6 @@ type NluSettingsParameters struct {
 	ModelType *string `json:"modelType,omitempty" tf:"model_type,omitempty"`
 }
 
-type TextInitParameters struct {
-
-	// A collection of text responses.
-	Text []*string `json:"text,omitempty" tf:"text,omitempty"`
-}
-
 type TextObservation struct {
 
 	// (Output)
@@ -357,29 +264,6 @@ type TextParameters struct {
 	// A collection of text responses.
 	// +kubebuilder:validation:Optional
 	Text []*string `json:"text,omitempty" tf:"text,omitempty"`
-}
-
-type TransitionRoutesInitParameters struct {
-
-	// The condition to evaluate against form parameters or session parameters.
-	// At least one of intent or condition must be specified. When both intent and condition are specified, the transition can only happen when both are fulfilled.
-	Condition *string `json:"condition,omitempty" tf:"condition,omitempty"`
-
-	// The unique identifier of an Intent.
-	// Format: projects//locations//agents//intents/. Indicates that the transition can only happen when the given intent is matched. At least one of intent or condition must be specified. When both intent and condition are specified, the transition can only happen when both are fulfilled.
-	Intent *string `json:"intent,omitempty" tf:"intent,omitempty"`
-
-	// The target flow to transition to.
-	// Format: projects//locations//agents//flows/.
-	TargetFlow *string `json:"targetFlow,omitempty" tf:"target_flow,omitempty"`
-
-	// The target page to transition to.
-	// Format: projects//locations//agents//flows//pages/.
-	TargetPage *string `json:"targetPage,omitempty" tf:"target_page,omitempty"`
-
-	// The fulfillment to call when the condition is satisfied. At least one of triggerFulfillment and target must be specified. When both are defined, triggerFulfillment is executed first.
-	// Structure is documented below.
-	TriggerFulfillment []TransitionRoutesTriggerFulfillmentInitParameters `json:"triggerFulfillment,omitempty" tf:"trigger_fulfillment,omitempty"`
 }
 
 type TransitionRoutesObservation struct {
@@ -437,22 +321,6 @@ type TransitionRoutesParameters struct {
 	TriggerFulfillment []TransitionRoutesTriggerFulfillmentParameters `json:"triggerFulfillment,omitempty" tf:"trigger_fulfillment,omitempty"`
 }
 
-type TransitionRoutesTriggerFulfillmentInitParameters struct {
-
-	// The list of rich message responses to present to the user.
-	// Structure is documented below.
-	Messages []TriggerFulfillmentMessagesInitParameters `json:"messages,omitempty" tf:"messages,omitempty"`
-
-	// Whether Dialogflow should return currently queued fulfillment response messages in streaming APIs. If a webhook is specified, it happens before Dialogflow invokes webhook. Warning: 1) This flag only affects streaming API. Responses are still queued and returned once in non-streaming API. 2) The flag can be enabled in any fulfillment but only the first 3 partial responses will be returned. You may only want to apply it to fulfillments that have slow webhooks.
-	ReturnPartialResponses *bool `json:"returnPartialResponses,omitempty" tf:"return_partial_responses,omitempty"`
-
-	// The tag used by the webhook to identify which fulfillment is being called. This field is required if webhook is specified.
-	Tag *string `json:"tag,omitempty" tf:"tag,omitempty"`
-
-	// The webhook to call. Format: projects//locations//agents//webhooks/.
-	Webhook *string `json:"webhook,omitempty" tf:"webhook,omitempty"`
-}
-
 type TransitionRoutesTriggerFulfillmentObservation struct {
 
 	// The list of rich message responses to present to the user.
@@ -487,28 +355,6 @@ type TransitionRoutesTriggerFulfillmentParameters struct {
 	// The webhook to call. Format: projects//locations//agents//webhooks/.
 	// +kubebuilder:validation:Optional
 	Webhook *string `json:"webhook,omitempty" tf:"webhook,omitempty"`
-}
-
-type TriggerFulfillmentInitParameters struct {
-
-	// The list of rich message responses to present to the user.
-	// Structure is documented below.
-	Messages []MessagesInitParameters `json:"messages,omitempty" tf:"messages,omitempty"`
-
-	// Whether Dialogflow should return currently queued fulfillment response messages in streaming APIs. If a webhook is specified, it happens before Dialogflow invokes webhook. Warning: 1) This flag only affects streaming API. Responses are still queued and returned once in non-streaming API. 2) The flag can be enabled in any fulfillment but only the first 3 partial responses will be returned. You may only want to apply it to fulfillments that have slow webhooks.
-	ReturnPartialResponses *bool `json:"returnPartialResponses,omitempty" tf:"return_partial_responses,omitempty"`
-
-	// The tag used by the webhook to identify which fulfillment is being called. This field is required if webhook is specified.
-	Tag *string `json:"tag,omitempty" tf:"tag,omitempty"`
-
-	// The webhook to call. Format: projects//locations//agents//webhooks/.
-	Webhook *string `json:"webhook,omitempty" tf:"webhook,omitempty"`
-}
-
-type TriggerFulfillmentMessagesInitParameters struct {
-
-	// A collection of text responses.
-	Text []MessagesTextInitParameters `json:"text,omitempty" tf:"text,omitempty"`
 }
 
 type TriggerFulfillmentMessagesObservation struct {
@@ -564,18 +410,6 @@ type TriggerFulfillmentParameters struct {
 type FlowSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     FlowParameters `json:"forProvider"`
-	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
-	// unless the relevant Crossplane feature flag is enabled, and may be
-	// changed or removed without notice.
-	// InitProvider holds the same fields as ForProvider, with the exception
-	// of Identifier and other resource reference fields. The fields that are
-	// in InitProvider are merged into ForProvider when the resource is created.
-	// The same fields are also added to the terraform ignore_changes hook, to
-	// avoid updating them after creation. This is useful for fields that are
-	// required on creation, but we do not desire to update them after creation,
-	// for example because of an external controller is managing them, like an
-	// autoscaler.
-	InitProvider FlowInitParameters `json:"initProvider,omitempty"`
 }
 
 // FlowStatus defines the observed state of Flow.
@@ -596,7 +430,7 @@ type FlowStatus struct {
 type Flow struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.displayName) || has(self.initProvider.displayName)",message="displayName is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.displayName)",message="displayName is a required parameter"
 	Spec   FlowSpec   `json:"spec"`
 	Status FlowStatus `json:"status,omitempty"`
 }

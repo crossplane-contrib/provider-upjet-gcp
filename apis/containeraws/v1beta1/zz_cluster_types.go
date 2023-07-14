@@ -25,12 +25,6 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
-type AdminUsersInitParameters struct {
-
-	// The name of the user, e.g. my-gcp-id@gmail.com.
-	Username *string `json:"username,omitempty" tf:"username,omitempty"`
-}
-
 type AdminUsersObservation struct {
 
 	// The name of the user, e.g. my-gcp-id@gmail.com.
@@ -40,14 +34,8 @@ type AdminUsersObservation struct {
 type AdminUsersParameters struct {
 
 	// The name of the user, e.g. my-gcp-id@gmail.com.
-	// +kubebuilder:validation:Optional
-	Username *string `json:"username,omitempty" tf:"username,omitempty"`
-}
-
-type AuthorizationInitParameters struct {
-
-	// Users to perform operations as a cluster admin. A managed ClusterRoleBinding will be created to grant the cluster-admin ClusterRole to the users. Up to ten admin users can be provided. For more info on RBAC, see https://kubernetes.io/docs/reference/access-authn-authz/rbac/#user-facing-roles
-	AdminUsers []AdminUsersInitParameters `json:"adminUsers,omitempty" tf:"admin_users,omitempty"`
+	// +kubebuilder:validation:Required
+	Username *string `json:"username" tf:"username,omitempty"`
 }
 
 type AuthorizationObservation struct {
@@ -59,17 +47,8 @@ type AuthorizationObservation struct {
 type AuthorizationParameters struct {
 
 	// Users to perform operations as a cluster admin. A managed ClusterRoleBinding will be created to grant the cluster-admin ClusterRole to the users. Up to ten admin users can be provided. For more info on RBAC, see https://kubernetes.io/docs/reference/access-authn-authz/rbac/#user-facing-roles
-	// +kubebuilder:validation:Optional
-	AdminUsers []AdminUsersParameters `json:"adminUsers,omitempty" tf:"admin_users,omitempty"`
-}
-
-type AwsServicesAuthenticationInitParameters struct {
-
-	// The Amazon Resource Name (ARN) of the role that the Anthos Multi-Cloud API will assume when managing AWS resources on your account.
-	RoleArn *string `json:"roleArn,omitempty" tf:"role_arn,omitempty"`
-
-	// Optional. An identifier for the assumed role session. When unspecified, it defaults to multicloud-service-agent.
-	RoleSessionName *string `json:"roleSessionName,omitempty" tf:"role_session_name,omitempty"`
+	// +kubebuilder:validation:Required
+	AdminUsers []AdminUsersParameters `json:"adminUsers" tf:"admin_users,omitempty"`
 }
 
 type AwsServicesAuthenticationObservation struct {
@@ -84,39 +63,12 @@ type AwsServicesAuthenticationObservation struct {
 type AwsServicesAuthenticationParameters struct {
 
 	// The Amazon Resource Name (ARN) of the role that the Anthos Multi-Cloud API will assume when managing AWS resources on your account.
-	// +kubebuilder:validation:Optional
-	RoleArn *string `json:"roleArn,omitempty" tf:"role_arn,omitempty"`
+	// +kubebuilder:validation:Required
+	RoleArn *string `json:"roleArn" tf:"role_arn,omitempty"`
 
 	// Optional. An identifier for the assumed role session. When unspecified, it defaults to multicloud-service-agent.
 	// +kubebuilder:validation:Optional
 	RoleSessionName *string `json:"roleSessionName,omitempty" tf:"role_session_name,omitempty"`
-}
-
-type ClusterInitParameters struct {
-
-	// Optional. Annotations on the cluster. This field has the same restrictions as Kubernetes annotations. The total size of all keys and values combined is limited to 256k. Key can have 2 segments: prefix  and name , separated by a slash (/). Prefix must be a DNS subdomain. Name must be 63 characters or less, begin and end with alphanumerics, with dashes (-), underscores (_), dots (.), and alphanumerics between.
-	Annotations map[string]*string `json:"annotations,omitempty" tf:"annotations,omitempty"`
-
-	// Configuration related to the cluster RBAC settings.
-	Authorization []AuthorizationInitParameters `json:"authorization,omitempty" tf:"authorization,omitempty"`
-
-	// The AWS region where the cluster runs. Each Google Cloud region supports a subset of nearby AWS regions. You can call to list all supported AWS regions within a given Google Cloud region.
-	AwsRegion *string `json:"awsRegion,omitempty" tf:"aws_region,omitempty"`
-
-	// Configuration related to the cluster control plane.
-	ControlPlane []ControlPlaneInitParameters `json:"controlPlane,omitempty" tf:"control_plane,omitempty"`
-
-	// Optional. A human readable description of this cluster. Cannot be longer than 255 UTF-8 encoded bytes.
-	Description *string `json:"description,omitempty" tf:"description,omitempty"`
-
-	// Fleet configuration.
-	Fleet []FleetInitParameters `json:"fleet,omitempty" tf:"fleet,omitempty"`
-
-	// Cluster-wide networking configuration.
-	Networking []NetworkingInitParameters `json:"networking,omitempty" tf:"networking,omitempty"`
-
-	// The project for the resource
-	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 
 type ClusterObservation struct {
@@ -215,12 +167,6 @@ type ClusterParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 
-type ConfigEncryptionInitParameters struct {
-
-	// Optional. The Amazon Resource Name (ARN) of the Customer Managed Key (CMK) used to encrypt AWS EBS volumes. If not specified, the default Amazon managed key associated to the AWS region where this cluster runs will be used.
-	KMSKeyArn *string `json:"kmsKeyArn,omitempty" tf:"kms_key_arn,omitempty"`
-}
-
 type ConfigEncryptionObservation struct {
 
 	// Optional. The Amazon Resource Name (ARN) of the Customer Managed Key (CMK) used to encrypt AWS EBS volumes. If not specified, the default Amazon managed key associated to the AWS region where this cluster runs will be used.
@@ -230,50 +176,8 @@ type ConfigEncryptionObservation struct {
 type ConfigEncryptionParameters struct {
 
 	// Optional. The Amazon Resource Name (ARN) of the Customer Managed Key (CMK) used to encrypt AWS EBS volumes. If not specified, the default Amazon managed key associated to the AWS region where this cluster runs will be used.
-	// +kubebuilder:validation:Optional
-	KMSKeyArn *string `json:"kmsKeyArn,omitempty" tf:"kms_key_arn,omitempty"`
-}
-
-type ControlPlaneInitParameters struct {
-
-	// Authentication configuration for management of AWS resources.
-	AwsServicesAuthentication []AwsServicesAuthenticationInitParameters `json:"awsServicesAuthentication,omitempty" tf:"aws_services_authentication,omitempty"`
-
-	// The ARN of the AWS KMS key used to encrypt cluster configuration.
-	ConfigEncryption []ConfigEncryptionInitParameters `json:"configEncryption,omitempty" tf:"config_encryption,omitempty"`
-
-	// The ARN of the AWS KMS key used to encrypt cluster secrets.
-	DatabaseEncryption []DatabaseEncryptionInitParameters `json:"databaseEncryption,omitempty" tf:"database_encryption,omitempty"`
-
-	// The name of the AWS IAM instance pofile to assign to each control plane replica.
-	IAMInstanceProfile *string `json:"iamInstanceProfile,omitempty" tf:"iam_instance_profile,omitempty"`
-
-	// Optional. The AWS instance type. When unspecified, it defaults to m5.large.
-	InstanceType *string `json:"instanceType,omitempty" tf:"instance_type,omitempty"`
-
-	// Optional. Configuration related to the main volume provisioned for each control plane replica. The main volume is in charge of storing all of the cluster's etcd state. Volumes will be provisioned in the availability zone associated with the corresponding subnet. When unspecified, it defaults to 8 GiB with the GP2 volume type.
-	MainVolume []MainVolumeInitParameters `json:"mainVolume,omitempty" tf:"main_volume,omitempty"`
-
-	// Proxy configuration for outbound HTTP(S) traffic.
-	ProxyConfig []ProxyConfigInitParameters `json:"proxyConfig,omitempty" tf:"proxy_config,omitempty"`
-
-	// Optional. Configuration related to the root volume provisioned for each control plane replica. Volumes will be provisioned in the availability zone associated with the corresponding subnet. When unspecified, it defaults to 32 GiB with the GP2 volume type.
-	RootVolume []RootVolumeInitParameters `json:"rootVolume,omitempty" tf:"root_volume,omitempty"`
-
-	// Optional. SSH configuration for how to access the underlying control plane machines.
-	SSHConfig []SSHConfigInitParameters `json:"sshConfig,omitempty" tf:"ssh_config,omitempty"`
-
-	// Optional. The IDs of additional security groups to add to control plane replicas. The Anthos Multi-Cloud API will automatically create and manage security groups with the minimum rules needed for a functioning cluster.
-	SecurityGroupIds []*string `json:"securityGroupIds,omitempty" tf:"security_group_ids,omitempty"`
-
-	// The list of subnets where control plane replicas will run. A replica will be provisioned on each subnet and up to three values can be provided. Each subnet must be in a different AWS Availability Zone (AZ).
-	SubnetIds []*string `json:"subnetIds,omitempty" tf:"subnet_ids,omitempty"`
-
-	// Optional. A set of AWS resource tags to propagate to all underlying managed AWS resources. Specify at most 50 pairs containing alphanumerics, spaces, and symbols (.+-=_:@/). Keys can be up to 127 Unicode characters. Values can be up to 255 Unicode characters.
-	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
-
-	// The Kubernetes version to run on control plane replicas (e.g. 1.19.10-gke.1000). You can list all supported versions on a given Google Cloud region by calling .
-	Version *string `json:"version,omitempty" tf:"version,omitempty"`
+	// +kubebuilder:validation:Required
+	KMSKeyArn *string `json:"kmsKeyArn" tf:"kms_key_arn,omitempty"`
 }
 
 type ControlPlaneObservation struct {
@@ -321,20 +225,20 @@ type ControlPlaneObservation struct {
 type ControlPlaneParameters struct {
 
 	// Authentication configuration for management of AWS resources.
-	// +kubebuilder:validation:Optional
-	AwsServicesAuthentication []AwsServicesAuthenticationParameters `json:"awsServicesAuthentication,omitempty" tf:"aws_services_authentication,omitempty"`
+	// +kubebuilder:validation:Required
+	AwsServicesAuthentication []AwsServicesAuthenticationParameters `json:"awsServicesAuthentication" tf:"aws_services_authentication,omitempty"`
 
 	// The ARN of the AWS KMS key used to encrypt cluster configuration.
-	// +kubebuilder:validation:Optional
-	ConfigEncryption []ConfigEncryptionParameters `json:"configEncryption,omitempty" tf:"config_encryption,omitempty"`
+	// +kubebuilder:validation:Required
+	ConfigEncryption []ConfigEncryptionParameters `json:"configEncryption" tf:"config_encryption,omitempty"`
 
 	// The ARN of the AWS KMS key used to encrypt cluster secrets.
-	// +kubebuilder:validation:Optional
-	DatabaseEncryption []DatabaseEncryptionParameters `json:"databaseEncryption,omitempty" tf:"database_encryption,omitempty"`
+	// +kubebuilder:validation:Required
+	DatabaseEncryption []DatabaseEncryptionParameters `json:"databaseEncryption" tf:"database_encryption,omitempty"`
 
 	// The name of the AWS IAM instance pofile to assign to each control plane replica.
-	// +kubebuilder:validation:Optional
-	IAMInstanceProfile *string `json:"iamInstanceProfile,omitempty" tf:"iam_instance_profile,omitempty"`
+	// +kubebuilder:validation:Required
+	IAMInstanceProfile *string `json:"iamInstanceProfile" tf:"iam_instance_profile,omitempty"`
 
 	// Optional. The AWS instance type. When unspecified, it defaults to m5.large.
 	// +kubebuilder:validation:Optional
@@ -361,22 +265,16 @@ type ControlPlaneParameters struct {
 	SecurityGroupIds []*string `json:"securityGroupIds,omitempty" tf:"security_group_ids,omitempty"`
 
 	// The list of subnets where control plane replicas will run. A replica will be provisioned on each subnet and up to three values can be provided. Each subnet must be in a different AWS Availability Zone (AZ).
-	// +kubebuilder:validation:Optional
-	SubnetIds []*string `json:"subnetIds,omitempty" tf:"subnet_ids,omitempty"`
+	// +kubebuilder:validation:Required
+	SubnetIds []*string `json:"subnetIds" tf:"subnet_ids,omitempty"`
 
 	// Optional. A set of AWS resource tags to propagate to all underlying managed AWS resources. Specify at most 50 pairs containing alphanumerics, spaces, and symbols (.+-=_:@/). Keys can be up to 127 Unicode characters. Values can be up to 255 Unicode characters.
 	// +kubebuilder:validation:Optional
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
 	// The Kubernetes version to run on control plane replicas (e.g. 1.19.10-gke.1000). You can list all supported versions on a given Google Cloud region by calling .
-	// +kubebuilder:validation:Optional
-	Version *string `json:"version,omitempty" tf:"version,omitempty"`
-}
-
-type DatabaseEncryptionInitParameters struct {
-
-	// Optional. The Amazon Resource Name (ARN) of the Customer Managed Key (CMK) used to encrypt AWS EBS volumes. If not specified, the default Amazon managed key associated to the AWS region where this cluster runs will be used.
-	KMSKeyArn *string `json:"kmsKeyArn,omitempty" tf:"kms_key_arn,omitempty"`
+	// +kubebuilder:validation:Required
+	Version *string `json:"version" tf:"version,omitempty"`
 }
 
 type DatabaseEncryptionObservation struct {
@@ -388,14 +286,8 @@ type DatabaseEncryptionObservation struct {
 type DatabaseEncryptionParameters struct {
 
 	// Optional. The Amazon Resource Name (ARN) of the Customer Managed Key (CMK) used to encrypt AWS EBS volumes. If not specified, the default Amazon managed key associated to the AWS region where this cluster runs will be used.
-	// +kubebuilder:validation:Optional
-	KMSKeyArn *string `json:"kmsKeyArn,omitempty" tf:"kms_key_arn,omitempty"`
-}
-
-type FleetInitParameters struct {
-
-	// The number of the Fleet host project where this cluster will be registered.
-	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+	// +kubebuilder:validation:Required
+	KMSKeyArn *string `json:"kmsKeyArn" tf:"kms_key_arn,omitempty"`
 }
 
 type FleetObservation struct {
@@ -412,21 +304,6 @@ type FleetParameters struct {
 	// The number of the Fleet host project where this cluster will be registered.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
-}
-
-type MainVolumeInitParameters struct {
-
-	// Optional. The number of I/O operations per second (IOPS) to provision for GP3 volume.
-	Iops *float64 `json:"iops,omitempty" tf:"iops,omitempty"`
-
-	// Optional. The Amazon Resource Name (ARN) of the Customer Managed Key (CMK) used to encrypt AWS EBS volumes. If not specified, the default Amazon managed key associated to the AWS region where this cluster runs will be used.
-	KMSKeyArn *string `json:"kmsKeyArn,omitempty" tf:"kms_key_arn,omitempty"`
-
-	// Optional. The size of the volume, in GiBs. When unspecified, a default value is provided. See the specific reference in the parent resource.
-	SizeGib *float64 `json:"sizeGib,omitempty" tf:"size_gib,omitempty"`
-
-	// Optional. Type of the EBS volume. When unspecified, it defaults to GP2 volume. Possible values: VOLUME_TYPE_UNSPECIFIED, GP2, GP3
-	VolumeType *string `json:"volumeType,omitempty" tf:"volume_type,omitempty"`
 }
 
 type MainVolumeObservation struct {
@@ -463,18 +340,6 @@ type MainVolumeParameters struct {
 	VolumeType *string `json:"volumeType,omitempty" tf:"volume_type,omitempty"`
 }
 
-type NetworkingInitParameters struct {
-
-	// All pods in the cluster are assigned an RFC1918 IPv4 address from these ranges. Only a single range is supported. This field cannot be changed after creation.
-	PodAddressCidrBlocks []*string `json:"podAddressCidrBlocks,omitempty" tf:"pod_address_cidr_blocks,omitempty"`
-
-	// All services in the cluster are assigned an RFC1918 IPv4 address from these ranges. Only a single range is supported. This field cannot be changed after creation.
-	ServiceAddressCidrBlocks []*string `json:"serviceAddressCidrBlocks,omitempty" tf:"service_address_cidr_blocks,omitempty"`
-
-	// The VPC associated with the cluster. All component clusters (i.e. control plane and node pools) run on a single VPC. This field cannot be changed after creation.
-	VPCID *string `json:"vpcId,omitempty" tf:"vpc_id,omitempty"`
-}
-
 type NetworkingObservation struct {
 
 	// All pods in the cluster are assigned an RFC1918 IPv4 address from these ranges. Only a single range is supported. This field cannot be changed after creation.
@@ -490,25 +355,16 @@ type NetworkingObservation struct {
 type NetworkingParameters struct {
 
 	// All pods in the cluster are assigned an RFC1918 IPv4 address from these ranges. Only a single range is supported. This field cannot be changed after creation.
-	// +kubebuilder:validation:Optional
-	PodAddressCidrBlocks []*string `json:"podAddressCidrBlocks,omitempty" tf:"pod_address_cidr_blocks,omitempty"`
+	// +kubebuilder:validation:Required
+	PodAddressCidrBlocks []*string `json:"podAddressCidrBlocks" tf:"pod_address_cidr_blocks,omitempty"`
 
 	// All services in the cluster are assigned an RFC1918 IPv4 address from these ranges. Only a single range is supported. This field cannot be changed after creation.
-	// +kubebuilder:validation:Optional
-	ServiceAddressCidrBlocks []*string `json:"serviceAddressCidrBlocks,omitempty" tf:"service_address_cidr_blocks,omitempty"`
+	// +kubebuilder:validation:Required
+	ServiceAddressCidrBlocks []*string `json:"serviceAddressCidrBlocks" tf:"service_address_cidr_blocks,omitempty"`
 
 	// The VPC associated with the cluster. All component clusters (i.e. control plane and node pools) run on a single VPC. This field cannot be changed after creation.
-	// +kubebuilder:validation:Optional
-	VPCID *string `json:"vpcId,omitempty" tf:"vpc_id,omitempty"`
-}
-
-type ProxyConfigInitParameters struct {
-
-	// The ARN of the AWS Secret Manager secret that contains the HTTP(S) proxy configuration.
-	SecretArn *string `json:"secretArn,omitempty" tf:"secret_arn,omitempty"`
-
-	// The version string of the AWS Secret Manager secret that contains the HTTP(S) proxy configuration.
-	SecretVersion *string `json:"secretVersion,omitempty" tf:"secret_version,omitempty"`
+	// +kubebuilder:validation:Required
+	VPCID *string `json:"vpcId" tf:"vpc_id,omitempty"`
 }
 
 type ProxyConfigObservation struct {
@@ -523,27 +379,12 @@ type ProxyConfigObservation struct {
 type ProxyConfigParameters struct {
 
 	// The ARN of the AWS Secret Manager secret that contains the HTTP(S) proxy configuration.
-	// +kubebuilder:validation:Optional
-	SecretArn *string `json:"secretArn,omitempty" tf:"secret_arn,omitempty"`
+	// +kubebuilder:validation:Required
+	SecretArn *string `json:"secretArn" tf:"secret_arn,omitempty"`
 
 	// The version string of the AWS Secret Manager secret that contains the HTTP(S) proxy configuration.
-	// +kubebuilder:validation:Optional
-	SecretVersion *string `json:"secretVersion,omitempty" tf:"secret_version,omitempty"`
-}
-
-type RootVolumeInitParameters struct {
-
-	// Optional. The number of I/O operations per second (IOPS) to provision for GP3 volume.
-	Iops *float64 `json:"iops,omitempty" tf:"iops,omitempty"`
-
-	// Optional. The Amazon Resource Name (ARN) of the Customer Managed Key (CMK) used to encrypt AWS EBS volumes. If not specified, the default Amazon managed key associated to the AWS region where this cluster runs will be used.
-	KMSKeyArn *string `json:"kmsKeyArn,omitempty" tf:"kms_key_arn,omitempty"`
-
-	// Optional. The size of the volume, in GiBs. When unspecified, a default value is provided. See the specific reference in the parent resource.
-	SizeGib *float64 `json:"sizeGib,omitempty" tf:"size_gib,omitempty"`
-
-	// Optional. Type of the EBS volume. When unspecified, it defaults to GP2 volume. Possible values: VOLUME_TYPE_UNSPECIFIED, GP2, GP3
-	VolumeType *string `json:"volumeType,omitempty" tf:"volume_type,omitempty"`
+	// +kubebuilder:validation:Required
+	SecretVersion *string `json:"secretVersion" tf:"secret_version,omitempty"`
 }
 
 type RootVolumeObservation struct {
@@ -580,12 +421,6 @@ type RootVolumeParameters struct {
 	VolumeType *string `json:"volumeType,omitempty" tf:"volume_type,omitempty"`
 }
 
-type SSHConfigInitParameters struct {
-
-	// The name of the EC2 key pair used to login into cluster machines.
-	EC2KeyPair *string `json:"ec2KeyPair,omitempty" tf:"ec2_key_pair,omitempty"`
-}
-
 type SSHConfigObservation struct {
 
 	// The name of the EC2 key pair used to login into cluster machines.
@@ -595,11 +430,8 @@ type SSHConfigObservation struct {
 type SSHConfigParameters struct {
 
 	// The name of the EC2 key pair used to login into cluster machines.
-	// +kubebuilder:validation:Optional
-	EC2KeyPair *string `json:"ec2KeyPair,omitempty" tf:"ec2_key_pair,omitempty"`
-}
-
-type WorkloadIdentityConfigInitParameters struct {
+	// +kubebuilder:validation:Required
+	EC2KeyPair *string `json:"ec2KeyPair" tf:"ec2_key_pair,omitempty"`
 }
 
 type WorkloadIdentityConfigObservation struct {
@@ -617,18 +449,6 @@ type WorkloadIdentityConfigParameters struct {
 type ClusterSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     ClusterParameters `json:"forProvider"`
-	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
-	// unless the relevant Crossplane feature flag is enabled, and may be
-	// changed or removed without notice.
-	// InitProvider holds the same fields as ForProvider, with the exception
-	// of Identifier and other resource reference fields. The fields that are
-	// in InitProvider are merged into ForProvider when the resource is created.
-	// The same fields are also added to the terraform ignore_changes hook, to
-	// avoid updating them after creation. This is useful for fields that are
-	// required on creation, but we do not desire to update them after creation,
-	// for example because of an external controller is managing them, like an
-	// autoscaler.
-	InitProvider ClusterInitParameters `json:"initProvider,omitempty"`
 }
 
 // ClusterStatus defines the observed state of Cluster.
@@ -649,11 +469,11 @@ type ClusterStatus struct {
 type Cluster struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.authorization) || has(self.initProvider.authorization)",message="authorization is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.awsRegion) || has(self.initProvider.awsRegion)",message="awsRegion is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.controlPlane) || has(self.initProvider.controlPlane)",message="controlPlane is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.fleet) || has(self.initProvider.fleet)",message="fleet is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.networking) || has(self.initProvider.networking)",message="networking is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.authorization)",message="authorization is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.awsRegion)",message="awsRegion is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.controlPlane)",message="controlPlane is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.fleet)",message="fleet is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.networking)",message="networking is a required parameter"
 	Spec   ClusterSpec   `json:"spec"`
 	Status ClusterStatus `json:"status,omitempty"`
 }

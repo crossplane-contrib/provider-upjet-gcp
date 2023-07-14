@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.1
+    controller-gen.kubebuilder.io/version: v0.12.0
   name: entries.datacatalog.gcp.upbound.io
 spec:
   group: datacatalog.gcp.upbound.io
@@ -170,86 +170,8 @@ spec:
                           items:
                             type: string
                           type: array
-                      type: object
-                    type: array
-                  linkedResource:
-                    description: 'The resource this metadata entry refers to. For
-                      Google Cloud Platform resources, linkedResource is the full
-                      name of the resource. For example, the linkedResource for a
-                      table resource from BigQuery is: //bigquery.googleapis.com/projects/projectId/datasets/datasetId/tables/tableId
-                      Output only when Entry is of type in the EntryType enum. For
-                      entries with userSpecifiedType, this field is optional and defaults
-                      to an empty string.'
-                    type: string
-                  schema:
-                    description: Schema of the entry (e.g. BigQuery, GoogleSQL, Avro
-                      schema), as a json string. An entry might not have any schema
-                      attached to it. See https://cloud.google.com/data-catalog/docs/reference/rest/v1/projects.locations.entryGroups.entries#schema
-                      for what fields this schema can contain.
-                    type: string
-                  type:
-                    description: 'The type of the entry. Only used for Entries with
-                      types in the EntryType enum. Currently, only FILESET enum value
-                      is allowed. All other entries created through Data Catalog must
-                      use userSpecifiedType. Possible values are: FILESET.'
-                    type: string
-                  userSpecifiedSystem:
-                    description: This field indicates the entry's source system that
-                      Data Catalog does not integrate with. userSpecifiedSystem strings
-                      must begin with a letter or underscore and can only contain
-                      letters, numbers, and underscores; are case insensitive; must
-                      be at least 1 character and at most 64 characters long.
-                    type: string
-                  userSpecifiedType:
-                    description: Entry type if it does not fit any of the input-allowed
-                      values listed in EntryType enum above. When creating an entry,
-                      users should check the enum values first, if nothing matches
-                      the entry to be created, then provide a custom value, for example
-                      "my_special_type". userSpecifiedType strings must begin with
-                      a letter or underscore and can only contain letters, numbers,
-                      and underscores; are case insensitive; must be at least 1 character
-                      and at most 64 characters long.
-                    type: string
-                type: object
-              initProvider:
-                description: THIS IS AN ALPHA FIELD. Do not use it in production.
-                  It is not honored unless the relevant Crossplane feature flag is
-                  enabled, and may be changed or removed without notice. InitProvider
-                  holds the same fields as ForProvider, with the exception of Identifier
-                  and other resource reference fields. The fields that are in InitProvider
-                  are merged into ForProvider when the resource is created. The same
-                  fields are also added to the terraform ignore_changes hook, to avoid
-                  updating them after creation. This is useful for fields that are
-                  required on creation, but we do not desire to update them after
-                  creation, for example because of an external controller is managing
-                  them, like an autoscaler.
-                properties:
-                  description:
-                    description: Entry description, which can consist of several sentences
-                      or paragraphs that describe entry contents.
-                    type: string
-                  displayName:
-                    description: Display information such as title and description.
-                      A short name to identify the entry, for example, "Analytics
-                      Data - Jan 2011".
-                    type: string
-                  entryId:
-                    description: The id of the entry to create.
-                    type: string
-                  gcsFilesetSpec:
-                    description: Specification that applies to a Cloud Storage fileset.
-                      This is only valid on entries of type FILESET. Structure is
-                      documented below.
-                    items:
-                      properties:
-                        filePatterns:
-                          description: 'Patterns to identify a set of files in Google
-                            Cloud Storage. See Cloud Storage documentation for more
-                            information. Note that bucket wildcards are currently
-                            not supported. Examples of valid filePatterns:'
-                          items:
-                            type: string
-                          type: array
+                      required:
+                      - filePatterns
                       type: object
                     type: array
                   linkedResource:
@@ -491,8 +413,7 @@ spec:
             x-kubernetes-validations:
             - message: entryId is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.entryId)
-                || has(self.initProvider.entryId)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.entryId)'
           status:
             description: EntryStatus defines the observed state of Entry.
             properties:

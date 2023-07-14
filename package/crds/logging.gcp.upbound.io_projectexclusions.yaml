@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.1
+    controller-gen.kubebuilder.io/version: v0.12.0
   name: projectexclusions.logging.gcp.upbound.io
 spec:
   group: logging.gcp.upbound.io
@@ -66,36 +66,6 @@ spec:
                 - Delete
                 type: string
               forProvider:
-                properties:
-                  description:
-                    description: A human-readable description.
-                    type: string
-                  disabled:
-                    description: Whether this exclusion rule should be disabled or
-                      not. This defaults to false.
-                    type: boolean
-                  filter:
-                    description: The filter to apply when excluding logs. Only log
-                      entries that match the filter are excluded. See Advanced Log
-                      Filters for information on how to write a filter.
-                    type: string
-                  project:
-                    description: The project to create the exclusion in. If omitted,
-                      the project associated with the provider is used.
-                    type: string
-                type: object
-              initProvider:
-                description: THIS IS AN ALPHA FIELD. Do not use it in production.
-                  It is not honored unless the relevant Crossplane feature flag is
-                  enabled, and may be changed or removed without notice. InitProvider
-                  holds the same fields as ForProvider, with the exception of Identifier
-                  and other resource reference fields. The fields that are in InitProvider
-                  are merged into ForProvider when the resource is created. The same
-                  fields are also added to the terraform ignore_changes hook, to avoid
-                  updating them after creation. This is useful for fields that are
-                  required on creation, but we do not desire to update them after
-                  creation, for example because of an external controller is managing
-                  them, like an autoscaler.
                 properties:
                   description:
                     description: A human-readable description.
@@ -314,8 +284,7 @@ spec:
             x-kubernetes-validations:
             - message: filter is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.filter)
-                || has(self.initProvider.filter)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.filter)'
           status:
             description: ProjectExclusionStatus defines the observed state of ProjectExclusion.
             properties:

@@ -25,25 +25,6 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
-type OAuthIdPConfigInitParameters struct {
-
-	// Human friendly display name.
-	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
-
-	// If this config allows users to sign in with the provider.
-	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
-
-	// For OIDC Idps, the issuer identifier.
-	Issuer *string `json:"issuer,omitempty" tf:"issuer,omitempty"`
-
-	// The name of the OauthIdpConfig. Must start with oidc..
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
-
-	// The ID of the project in which the resource belongs.
-	// If it is not provided, the provider project is used.
-	Project *string `json:"project,omitempty" tf:"project,omitempty"`
-}
-
 type OAuthIdPConfigObservation struct {
 
 	// Human friendly display name.
@@ -102,18 +83,6 @@ type OAuthIdPConfigParameters struct {
 type OAuthIdPConfigSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     OAuthIdPConfigParameters `json:"forProvider"`
-	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
-	// unless the relevant Crossplane feature flag is enabled, and may be
-	// changed or removed without notice.
-	// InitProvider holds the same fields as ForProvider, with the exception
-	// of Identifier and other resource reference fields. The fields that are
-	// in InitProvider are merged into ForProvider when the resource is created.
-	// The same fields are also added to the terraform ignore_changes hook, to
-	// avoid updating them after creation. This is useful for fields that are
-	// required on creation, but we do not desire to update them after creation,
-	// for example because of an external controller is managing them, like an
-	// autoscaler.
-	InitProvider OAuthIdPConfigInitParameters `json:"initProvider,omitempty"`
 }
 
 // OAuthIdPConfigStatus defines the observed state of OAuthIdPConfig.
@@ -135,8 +104,8 @@ type OAuthIdPConfig struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.clientIdSecretRef)",message="clientIdSecretRef is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.issuer) || has(self.initProvider.issuer)",message="issuer is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.name) || has(self.initProvider.name)",message="name is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.issuer)",message="issuer is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.name)",message="name is a required parameter"
 	Spec   OAuthIdPConfigSpec   `json:"spec"`
 	Status OAuthIdPConfigStatus `json:"status,omitempty"`
 }

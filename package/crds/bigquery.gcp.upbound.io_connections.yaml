@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.1
+    controller-gen.kubebuilder.io/version: v0.12.0
   name: connections.bigquery.gcp.upbound.io
 spec:
   group: bigquery.gcp.upbound.io
@@ -82,8 +82,12 @@ spec:
                                 description: The user’s AWS IAM Role that trusts the
                                   Google-owned AWS IAM user Connection.
                                 type: string
+                            required:
+                            - iamRoleId
                             type: object
                           type: array
+                      required:
+                      - accessRole
                       type: object
                     type: array
                   azure:
@@ -99,6 +103,8 @@ spec:
                           description: The Azure Application (client) ID where the
                             federated credentials will be hosted.
                           type: string
+                      required:
+                      - customerTenantId
                       type: object
                     type: array
                   cloudResource:
@@ -124,6 +130,8 @@ spec:
                             be used to read data from Cloud Spanner. useParallelism
                             must be set when using serverless analytics
                           type: boolean
+                      required:
+                      - database
                       type: object
                     type: array
                   cloudSql:
@@ -407,119 +415,9 @@ spec:
                           description: 'Type of the Cloud SQL database. Possible values
                             are: DATABASE_TYPE_UNSPECIFIED, POSTGRES, MYSQL.'
                           type: string
-                      type: object
-                    type: array
-                  connectionId:
-                    description: Optional connection id that should be assigned to
-                      the created connection.
-                    type: string
-                  description:
-                    description: A descriptive description for the connection
-                    type: string
-                  friendlyName:
-                    description: A descriptive name for the connection
-                    type: string
-                  location:
-                    description: 'The geographic location where the connection should
-                      reside. Cloud SQL instance must be in the same location as the
-                      connection with following exceptions: Cloud SQL us-central1
-                      maps to BigQuery US, Cloud SQL europe-west1 maps to BigQuery
-                      EU. Examples: US, EU, asia-northeast1, us-central1, europe-west1.
-                      Spanner Connections same as spanner region AWS allowed regions
-                      are aws-us-east-1 Azure allowed regions are azure-eastus2'
-                    type: string
-                  project:
-                    description: The ID of the project in which the resource belongs.
-                      If it is not provided, the provider project is used.
-                    type: string
-                type: object
-              initProvider:
-                description: THIS IS AN ALPHA FIELD. Do not use it in production.
-                  It is not honored unless the relevant Crossplane feature flag is
-                  enabled, and may be changed or removed without notice. InitProvider
-                  holds the same fields as ForProvider, with the exception of Identifier
-                  and other resource reference fields. The fields that are in InitProvider
-                  are merged into ForProvider when the resource is created. The same
-                  fields are also added to the terraform ignore_changes hook, to avoid
-                  updating them after creation. This is useful for fields that are
-                  required on creation, but we do not desire to update them after
-                  creation, for example because of an external controller is managing
-                  them, like an autoscaler.
-                properties:
-                  aws:
-                    description: Connection properties specific to Amazon Web Services.
-                      Structure is documented below.
-                    items:
-                      properties:
-                        accessRole:
-                          description: Authentication using Google owned service account
-                            to assume into customer's AWS IAM Role. Structure is documented
-                            below.
-                          items:
-                            properties:
-                              iamRoleId:
-                                description: The user’s AWS IAM Role that trusts the
-                                  Google-owned AWS IAM user Connection.
-                                type: string
-                            type: object
-                          type: array
-                      type: object
-                    type: array
-                  azure:
-                    description: Container for connection properties specific to Azure.
-                      Structure is documented below.
-                    items:
-                      properties:
-                        customerTenantId:
-                          description: The id of customer's directory that host the
-                            data.
-                          type: string
-                        federatedApplicationClientId:
-                          description: The Azure Application (client) ID where the
-                            federated credentials will be hosted.
-                          type: string
-                      type: object
-                    type: array
-                  cloudResource:
-                    description: Container for connection properties for delegation
-                      of access to GCP resources. Structure is documented below.
-                    items:
-                      type: object
-                    type: array
-                  cloudSpanner:
-                    description: Connection properties specific to Cloud Spanner Structure
-                      is documented below.
-                    items:
-                      properties:
-                        database:
-                          description: Cloud Spanner database in the form `project/instance/database'
-                          type: string
-                        useParallelism:
-                          description: If parallelism should be used when reading
-                            from Cloud Spanner
-                          type: boolean
-                        useServerlessAnalytics:
-                          description: If the serverless analytics service should
-                            be used to read data from Cloud Spanner. useParallelism
-                            must be set when using serverless analytics
-                          type: boolean
-                      type: object
-                    type: array
-                  cloudSql:
-                    description: Connection properties specific to the Cloud SQL.
-                      Structure is documented below.
-                    items:
-                      properties:
-                        credential:
-                          description: Cloud SQL properties. Structure is documented
-                            below.
-                          items:
-                            type: object
-                          type: array
-                        type:
-                          description: 'Type of the Cloud SQL database. Possible values
-                            are: DATABASE_TYPE_UNSPECIFIED, POSTGRES, MYSQL.'
-                          type: string
+                      required:
+                      - credential
+                      - type
                       type: object
                     type: array
                   connectionId:

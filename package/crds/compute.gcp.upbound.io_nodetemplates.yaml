@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.1
+    controller-gen.kubebuilder.io/version: v0.12.0
   name: nodetemplates.compute.gcp.upbound.io
 spec:
   group: compute.gcp.upbound.io
@@ -129,84 +129,12 @@ spec:
                             nodes will experience outages while maintenance is applied.
                             Possible values are: RESTART_NODE_ON_ANY_SERVER, RESTART_NODE_ON_MINIMAL_SERVERS.'
                           type: string
+                      required:
+                      - type
                       type: object
                     type: array
                 required:
                 - region
-                type: object
-              initProvider:
-                description: THIS IS AN ALPHA FIELD. Do not use it in production.
-                  It is not honored unless the relevant Crossplane feature flag is
-                  enabled, and may be changed or removed without notice. InitProvider
-                  holds the same fields as ForProvider, with the exception of Identifier
-                  and other resource reference fields. The fields that are in InitProvider
-                  are merged into ForProvider when the resource is created. The same
-                  fields are also added to the terraform ignore_changes hook, to avoid
-                  updating them after creation. This is useful for fields that are
-                  required on creation, but we do not desire to update them after
-                  creation, for example because of an external controller is managing
-                  them, like an autoscaler.
-                properties:
-                  cpuOvercommitType:
-                    description: 'CPU overcommit. Default value is NONE. Possible
-                      values are: ENABLED, NONE.'
-                    type: string
-                  description:
-                    description: An optional textual description of the resource.
-                    type: string
-                  nodeAffinityLabels:
-                    additionalProperties:
-                      type: string
-                    description: Labels to use for node affinity, which will be used
-                      in instance scheduling.
-                    type: object
-                  nodeType:
-                    description: Node type to use for nodes group that are created
-                      from this template. Only one of nodeTypeFlexibility and nodeType
-                      can be specified.
-                    type: string
-                  nodeTypeFlexibility:
-                    description: Flexible properties for the desired node type. Node
-                      groups that use this node template will create nodes of a type
-                      that matches these properties. Only one of nodeTypeFlexibility
-                      and nodeType can be specified. Structure is documented below.
-                    items:
-                      properties:
-                        cpus:
-                          description: Number of virtual CPUs to use.
-                          type: string
-                        memory:
-                          description: Physical memory available to the node, defined
-                            in MB.
-                          type: string
-                      type: object
-                    type: array
-                  project:
-                    description: The ID of the project in which the resource belongs.
-                      If it is not provided, the provider project is used.
-                    type: string
-                  serverBinding:
-                    description: The server binding policy for nodes using this template.
-                      Determines where the nodes should restart following a maintenance
-                      event. Structure is documented below.
-                    items:
-                      properties:
-                        type:
-                          description: 'Type of server binding policy. If RESTART_NODE_ON_ANY_SERVER,
-                            nodes using this template will restart on any physical
-                            server following a maintenance event. If RESTART_NODE_ON_MINIMAL_SERVER,
-                            nodes using this template will restart on the same physical
-                            server following a maintenance event, instead of being
-                            live migrated to or restarted on a new physical server.
-                            This option may be useful if you are using software licenses
-                            tied to the underlying server characteristics such as
-                            physical sockets or cores, to avoid the need for additional
-                            licenses when maintenance occurs. However, VMs on such
-                            nodes will experience outages while maintenance is applied.
-                            Possible values are: RESTART_NODE_ON_ANY_SERVER, RESTART_NODE_ON_MINIMAL_SERVERS.'
-                          type: string
-                      type: object
-                    type: array
                 type: object
               managementPolicies:
                 default:

@@ -25,24 +25,6 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
-type DNSAuthorizationInitParameters struct {
-
-	// A human-readable description of the resource.
-	Description *string `json:"description,omitempty" tf:"description,omitempty"`
-
-	// A domain which is being authorized. A DnsAuthorization resource covers a
-	// single domain and its wildcard, e.g. authorization for "example.com" can
-	// be used to issue certificates for "example.com" and "*.example.com".
-	Domain *string `json:"domain,omitempty" tf:"domain,omitempty"`
-
-	// Set of label tags associated with the DNS Authorization resource.
-	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
-
-	// The ID of the project in which the resource belongs.
-	// If it is not provided, the provider project is used.
-	Project *string `json:"project,omitempty" tf:"project,omitempty"`
-}
-
 type DNSAuthorizationObservation struct {
 
 	// The structure describing the DNS Resource Record that needs to be added
@@ -92,9 +74,6 @@ type DNSAuthorizationParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 
-type DNSResourceRecordInitParameters struct {
-}
-
 type DNSResourceRecordObservation struct {
 
 	// (Output)
@@ -118,18 +97,6 @@ type DNSResourceRecordParameters struct {
 type DNSAuthorizationSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     DNSAuthorizationParameters `json:"forProvider"`
-	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
-	// unless the relevant Crossplane feature flag is enabled, and may be
-	// changed or removed without notice.
-	// InitProvider holds the same fields as ForProvider, with the exception
-	// of Identifier and other resource reference fields. The fields that are
-	// in InitProvider are merged into ForProvider when the resource is created.
-	// The same fields are also added to the terraform ignore_changes hook, to
-	// avoid updating them after creation. This is useful for fields that are
-	// required on creation, but we do not desire to update them after creation,
-	// for example because of an external controller is managing them, like an
-	// autoscaler.
-	InitProvider DNSAuthorizationInitParameters `json:"initProvider,omitempty"`
 }
 
 // DNSAuthorizationStatus defines the observed state of DNSAuthorization.
@@ -150,7 +117,7 @@ type DNSAuthorizationStatus struct {
 type DNSAuthorization struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.domain) || has(self.initProvider.domain)",message="domain is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.domain)",message="domain is a required parameter"
 	Spec   DNSAuthorizationSpec   `json:"spec"`
 	Status DNSAuthorizationStatus `json:"status,omitempty"`
 }

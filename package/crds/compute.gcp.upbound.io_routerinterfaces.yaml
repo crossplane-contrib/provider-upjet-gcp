@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.1
+    controller-gen.kubebuilder.io/version: v0.12.0
   name: routerinterfaces.compute.gcp.upbound.io
 spec:
   group: compute.gcp.upbound.io
@@ -268,64 +268,6 @@ spec:
                         type: object
                     type: object
                 type: object
-              initProvider:
-                description: THIS IS AN ALPHA FIELD. Do not use it in production.
-                  It is not honored unless the relevant Crossplane feature flag is
-                  enabled, and may be changed or removed without notice. InitProvider
-                  holds the same fields as ForProvider, with the exception of Identifier
-                  and other resource reference fields. The fields that are in InitProvider
-                  are merged into ForProvider when the resource is created. The same
-                  fields are also added to the terraform ignore_changes hook, to avoid
-                  updating them after creation. This is useful for fields that are
-                  required on creation, but we do not desire to update them after
-                  creation, for example because of an external controller is managing
-                  them, like an autoscaler.
-                properties:
-                  interconnectAttachment:
-                    description: The name or resource link to the VLAN interconnect
-                      for this interface. Changing this forces a new interface to
-                      be created. Only one of vpn_tunnel, interconnect_attachment
-                      or subnetwork can be specified.
-                    type: string
-                  ipRange:
-                    description: IP address and range of the interface. The IP range
-                      must be in the RFC3927 link-local IP space. Changing this forces
-                      a new interface to be created.
-                    type: string
-                  name:
-                    description: A unique name for the interface, required by GCE.
-                      Changing this forces a new interface to be created.
-                    type: string
-                  privateIpAddress:
-                    description: The regional private internal IP address that is
-                      used to establish BGP sessions to a VM instance acting as a
-                      third-party Router Appliance. Changing this forces a new interface
-                      to be created.
-                    type: string
-                  project:
-                    description: The ID of the project in which this interface's router
-                      belongs. If it is not provided, the provider project is used.
-                      Changing this forces a new interface to be created.
-                    type: string
-                  redundantInterface:
-                    description: The name of the interface that is redundant to this
-                      interface. Changing this forces a new interface to be created.
-                    type: string
-                  region:
-                    description: The region this interface's router sits in. If not
-                      specified, the project region will be used. Changing this forces
-                      a new interface to be created.
-                    type: string
-                  subnetwork:
-                    description: The URI of the subnetwork resource that this interface
-                      belongs to, which must be in the same region as the Cloud Router.
-                      When you establish a BGP session to a VM instance using this
-                      interface, the VM instance must belong to the same subnetwork
-                      as the subnetwork specified here. Changing this forces a new
-                      interface to be created. Only one of vpn_tunnel, interconnect_attachment
-                      or subnetwork can be specified.
-                    type: string
-                type: object
               managementPolicies:
                 default:
                 - '*'
@@ -526,8 +468,7 @@ spec:
             x-kubernetes-validations:
             - message: name is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.name)
-                || has(self.initProvider.name)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.name)'
           status:
             description: RouterInterfaceStatus defines the observed state of RouterInterface.
             properties:

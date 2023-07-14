@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.1
+    controller-gen.kubebuilder.io/version: v0.12.0
   name: tagtemplates.datacatalog.gcp.upbound.io
 spec:
   group: datacatalog.gcp.upbound.io
@@ -127,8 +127,12 @@ spec:
                                             description: The display name for this
                                               field.
                                             type: string
+                                        required:
+                                        - displayName
                                         type: object
                                       type: array
+                                  required:
+                                  - allowedValues
                                   type: object
                                 type: array
                               primitiveType:
@@ -139,6 +143,9 @@ spec:
                                 type: string
                             type: object
                           type: array
+                      required:
+                      - fieldId
+                      - type
                       type: object
                     type: array
                   forceDelete:
@@ -152,103 +159,6 @@ spec:
                     type: string
                   region:
                     description: Template location region.
-                    type: string
-                type: object
-              initProvider:
-                description: THIS IS AN ALPHA FIELD. Do not use it in production.
-                  It is not honored unless the relevant Crossplane feature flag is
-                  enabled, and may be changed or removed without notice. InitProvider
-                  holds the same fields as ForProvider, with the exception of Identifier
-                  and other resource reference fields. The fields that are in InitProvider
-                  are merged into ForProvider when the resource is created. The same
-                  fields are also added to the terraform ignore_changes hook, to avoid
-                  updating them after creation. This is useful for fields that are
-                  required on creation, but we do not desire to update them after
-                  creation, for example because of an external controller is managing
-                  them, like an autoscaler.
-                properties:
-                  displayName:
-                    description: The display name for this field.
-                    type: string
-                  fields:
-                    description: Set of tag template field IDs and the settings for
-                      the field. This set is an exhaustive list of the allowed fields.
-                      This set must contain at least one field and at most 500 fields.
-                      The change of field_id will be resulting in re-creating of field.
-                      The change of primitive_type will be resulting in re-creating
-                      of field, however if the field is a required, you cannot update
-                      it. Structure is documented below.
-                    items:
-                      properties:
-                        description:
-                          description: A description for this field.
-                          type: string
-                        displayName:
-                          description: The display name for this field.
-                          type: string
-                        fieldId:
-                          description: The identifier for this object. Format specified
-                            above.
-                          type: string
-                        isRequired:
-                          description: Whether this is a required field. Defaults
-                            to false.
-                          type: boolean
-                        order:
-                          description: The order of this field with respect to other
-                            fields in this tag template. A higher value indicates
-                            a more important field. The value can be negative. Multiple
-                            fields can have the same order, and field orders within
-                            a tag do not have to be sequential.
-                          type: number
-                        type:
-                          description: The type of value this tag field can contain.
-                            Structure is documented below.
-                          items:
-                            properties:
-                              enumType:
-                                description: Represents an enum type. Exactly one
-                                  of primitive_type or enum_type must be set Structure
-                                  is documented below.
-                                items:
-                                  properties:
-                                    allowedValues:
-                                      description: The set of allowed values for this
-                                        enum. The display names of the values must
-                                        be case-insensitively unique within this set.
-                                        Currently, enum values can only be added to
-                                        the list of allowed values. Deletion and renaming
-                                        of enum values are not supported. Can have
-                                        up to 500 allowed values. Structure is documented
-                                        below.
-                                      items:
-                                        properties:
-                                          displayName:
-                                            description: The display name for this
-                                              field.
-                                            type: string
-                                        type: object
-                                      type: array
-                                  type: object
-                                type: array
-                              primitiveType:
-                                description: 'Represents primitive types - string,
-                                  bool etc. Exactly one of primitive_type or enum_type
-                                  must be set Possible values are: DOUBLE, STRING,
-                                  BOOL, TIMESTAMP.'
-                                type: string
-                            type: object
-                          type: array
-                      type: object
-                    type: array
-                  forceDelete:
-                    description: This confirms the deletion of any possible tags using
-                      this template. Must be set to true in order to delete the tag
-                      template.
-                    type: boolean
-                  project:
-                    description: The ID of the project in which the resource belongs.
-                      If it is not provided, the provider project is used.
                     type: string
                 type: object
               managementPolicies:
@@ -451,8 +361,7 @@ spec:
             x-kubernetes-validations:
             - message: fields is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.fields)
-                || has(self.initProvider.fields)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.fields)'
           status:
             description: TagTemplateStatus defines the observed state of TagTemplate.
             properties:

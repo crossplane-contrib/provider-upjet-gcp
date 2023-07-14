@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.1
+    controller-gen.kubebuilder.io/version: v0.12.0
   name: targethttpsproxies.compute.gcp.upbound.io
 spec:
   group: compute.gcp.upbound.io
@@ -260,51 +260,6 @@ spec:
                             type: string
                         type: object
                     type: object
-                type: object
-              initProvider:
-                description: THIS IS AN ALPHA FIELD. Do not use it in production.
-                  It is not honored unless the relevant Crossplane feature flag is
-                  enabled, and may be changed or removed without notice. InitProvider
-                  holds the same fields as ForProvider, with the exception of Identifier
-                  and other resource reference fields. The fields that are in InitProvider
-                  are merged into ForProvider when the resource is created. The same
-                  fields are also added to the terraform ignore_changes hook, to avoid
-                  updating them after creation. This is useful for fields that are
-                  required on creation, but we do not desire to update them after
-                  creation, for example because of an external controller is managing
-                  them, like an autoscaler.
-                properties:
-                  certificateMap:
-                    description: A reference to the CertificateMap resource uri that
-                      identifies a certificate map associated with the given target
-                      proxy. This field can only be set for global target proxies.
-                      Accepted format is //certificatemanager.googleapis.com/projects/{project}/locations/{location}/certificateMaps/{resourceName}.
-                    type: string
-                  description:
-                    description: An optional description of this resource.
-                    type: string
-                  project:
-                    description: The ID of the project in which the resource belongs.
-                      If it is not provided, the provider project is used.
-                    type: string
-                  proxyBind:
-                    description: This field only applies when the forwarding rule
-                      that references this target proxy has a loadBalancingScheme
-                      set to INTERNAL_SELF_MANAGED.
-                    type: boolean
-                  quicOverride:
-                    description: 'Specifies the QUIC override policy for this resource.
-                      This determines whether the load balancer will attempt to negotiate
-                      QUIC with clients or not. Can specify one of NONE, ENABLE, or
-                      DISABLE. If NONE is specified, Google manages whether QUIC is
-                      used. Default value is NONE. Possible values are: NONE, ENABLE,
-                      DISABLE.'
-                    type: string
-                  sslPolicy:
-                    description: A reference to the SslPolicy resource that will be
-                      associated with the TargetHttpsProxy resource. If not set, the
-                      TargetHttpsProxy resource will not have any SSL policy configured.
-                    type: string
                 type: object
               managementPolicies:
                 default:

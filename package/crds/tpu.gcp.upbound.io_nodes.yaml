@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.1
+    controller-gen.kubebuilder.io/version: v0.12.0
   name: nodes.tpu.gcp.upbound.io
 spec:
   group: tpu.gcp.upbound.io
@@ -183,6 +183,8 @@ spec:
                         preemptible:
                           description: Defines whether the TPU instance is preemptible.
                           type: boolean
+                      required:
+                      - preemptible
                       type: object
                     type: array
                   tensorflowVersion:
@@ -202,69 +204,6 @@ spec:
                     type: string
                 required:
                 - zone
-                type: object
-              initProvider:
-                description: THIS IS AN ALPHA FIELD. Do not use it in production.
-                  It is not honored unless the relevant Crossplane feature flag is
-                  enabled, and may be changed or removed without notice. InitProvider
-                  holds the same fields as ForProvider, with the exception of Identifier
-                  and other resource reference fields. The fields that are in InitProvider
-                  are merged into ForProvider when the resource is created. The same
-                  fields are also added to the terraform ignore_changes hook, to avoid
-                  updating them after creation. This is useful for fields that are
-                  required on creation, but we do not desire to update them after
-                  creation, for example because of an external controller is managing
-                  them, like an autoscaler.
-                properties:
-                  acceleratorType:
-                    description: The type of hardware accelerators associated with
-                      this node.
-                    type: string
-                  cidrBlock:
-                    description: The CIDR block that the TPU node will use when selecting
-                      an IP address. This CIDR block must be a /29 block; the Compute
-                      Engine networks API forbids a smaller block, and using a larger
-                      block would be wasteful (a node can only consume one IP address).
-                      Errors will occur if the CIDR block has already been used for
-                      a currently existing TPU node, the CIDR block conflicts with
-                      any subnetworks in the user's provided network, or the provided
-                      network is peered with another network that is using that CIDR
-                      block.
-                    type: string
-                  description:
-                    description: The user-supplied description of the TPU. Maximum
-                      of 512 characters.
-                    type: string
-                  labels:
-                    additionalProperties:
-                      type: string
-                    description: Resource labels to represent user provided metadata.
-                    type: object
-                  project:
-                    description: The ID of the project in which the resource belongs.
-                      If it is not provided, the provider project is used.
-                    type: string
-                  schedulingConfig:
-                    description: Sets the scheduling options for this TPU instance.
-                      Structure is documented below.
-                    items:
-                      properties:
-                        preemptible:
-                          description: Defines whether the TPU instance is preemptible.
-                          type: boolean
-                      type: object
-                    type: array
-                  tensorflowVersion:
-                    description: The version of Tensorflow running in the Node.
-                    type: string
-                  useServiceNetworking:
-                    description: Whether the VPC peering for the node is set up through
-                      Service Networking API. The VPC Peering should be set up before
-                      provisioning the node. If this field is set, cidr_block field
-                      should not be specified. If the network that you want to peer
-                      the TPU Node to is a Shared VPC network, the node must be created
-                      with this this field enabled.
-                    type: boolean
                 type: object
               managementPolicies:
                 default:
@@ -466,12 +405,10 @@ spec:
             x-kubernetes-validations:
             - message: acceleratorType is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.acceleratorType)
-                || has(self.initProvider.acceleratorType)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.acceleratorType)'
             - message: tensorflowVersion is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.tensorflowVersion)
-                || has(self.initProvider.tensorflowVersion)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.tensorflowVersion)'
           status:
             description: NodeStatus defines the observed state of Node.
             properties:

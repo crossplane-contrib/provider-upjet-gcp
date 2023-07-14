@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.1
+    controller-gen.kubebuilder.io/version: v0.12.0
   name: tenantinboundsamlconfigs.identityplatform.gcp.upbound.io
 spec:
   group: identityplatform.gcp.upbound.io
@@ -114,6 +114,10 @@ spec:
                         ssoUrl:
                           description: URL to send Authentication request to.
                           type: string
+                      required:
+                      - idpCertificates
+                      - idpEntityId
+                      - ssoUrl
                       type: object
                     type: array
                   name:
@@ -141,6 +145,9 @@ spec:
                         spEntityId:
                           description: Unique identifier for all SAML entities.
                           type: string
+                      required:
+                      - callbackUri
+                      - spEntityId
                       type: object
                     type: array
                   tenant:
@@ -222,77 +229,6 @@ spec:
                             type: string
                         type: object
                     type: object
-                type: object
-              initProvider:
-                description: THIS IS AN ALPHA FIELD. Do not use it in production.
-                  It is not honored unless the relevant Crossplane feature flag is
-                  enabled, and may be changed or removed without notice. InitProvider
-                  holds the same fields as ForProvider, with the exception of Identifier
-                  and other resource reference fields. The fields that are in InitProvider
-                  are merged into ForProvider when the resource is created. The same
-                  fields are also added to the terraform ignore_changes hook, to avoid
-                  updating them after creation. This is useful for fields that are
-                  required on creation, but we do not desire to update them after
-                  creation, for example because of an external controller is managing
-                  them, like an autoscaler.
-                properties:
-                  displayName:
-                    description: Human friendly display name.
-                    type: string
-                  enabled:
-                    description: If this config allows users to sign in with the provider.
-                    type: boolean
-                  idpConfig:
-                    description: SAML IdP configuration when the project acts as the
-                      relying party Structure is documented below.
-                    items:
-                      properties:
-                        idpCertificates:
-                          description: The IDP's certificate data to verify the signature
-                            in the SAMLResponse issued by the IDP. Structure is documented
-                            below.
-                          items:
-                            type: object
-                          type: array
-                        idpEntityId:
-                          description: Unique identifier for all SAML entities
-                          type: string
-                        signRequest:
-                          description: Indicates if outbounding SAMLRequest should
-                            be signed.
-                          type: boolean
-                        ssoUrl:
-                          description: URL to send Authentication request to.
-                          type: string
-                      type: object
-                    type: array
-                  name:
-                    description: The name of the InboundSamlConfig resource. Must
-                      start with 'saml.' and can only have alphanumeric characters,
-                      hyphens, underscores or periods. The part after 'saml.' must
-                      also start with a lowercase letter, end with an alphanumeric
-                      character, and have at least 2 characters.
-                    type: string
-                  project:
-                    description: The ID of the project in which the resource belongs.
-                      If it is not provided, the provider project is used.
-                    type: string
-                  spConfig:
-                    description: SAML SP (Service Provider) configuration when the
-                      project acts as the relying party to receive and accept an authentication
-                      assertion issued by a SAML identity provider. Structure is documented
-                      below.
-                    items:
-                      properties:
-                        callbackUri:
-                          description: Callback URI where responses from IDP are handled.
-                            Must start with https://.
-                          type: string
-                        spEntityId:
-                          description: Unique identifier for all SAML entities.
-                          type: string
-                      type: object
-                    type: array
                 type: object
               managementPolicies:
                 default:
@@ -494,20 +430,16 @@ spec:
             x-kubernetes-validations:
             - message: displayName is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.displayName)
-                || has(self.initProvider.displayName)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.displayName)'
             - message: idpConfig is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.idpConfig)
-                || has(self.initProvider.idpConfig)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.idpConfig)'
             - message: name is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.name)
-                || has(self.initProvider.name)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.name)'
             - message: spConfig is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.spConfig)
-                || has(self.initProvider.spConfig)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.spConfig)'
           status:
             description: TenantInboundSAMLConfigStatus defines the observed state
               of TenantInboundSAMLConfig.

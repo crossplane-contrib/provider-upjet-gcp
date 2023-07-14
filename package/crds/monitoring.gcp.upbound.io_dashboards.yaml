@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.1
+    controller-gen.kubebuilder.io/version: v0.12.0
   name: dashboards.monitoring.gcp.upbound.io
 spec:
   group: monitoring.gcp.upbound.io
@@ -66,30 +66,6 @@ spec:
                 - Delete
                 type: string
               forProvider:
-                properties:
-                  dashboardJson:
-                    description: The JSON representation of a dashboard, following
-                      the format at https://cloud.google.com/monitoring/api/ref_v3/rest/v1/projects.dashboards.
-                      The representation of an existing dashboard can be found by
-                      using the API Explorer
-                    type: string
-                  project:
-                    description: The ID of the project in which the resource belongs.
-                      If it is not provided, the provider project is used.
-                    type: string
-                type: object
-              initProvider:
-                description: THIS IS AN ALPHA FIELD. Do not use it in production.
-                  It is not honored unless the relevant Crossplane feature flag is
-                  enabled, and may be changed or removed without notice. InitProvider
-                  holds the same fields as ForProvider, with the exception of Identifier
-                  and other resource reference fields. The fields that are in InitProvider
-                  are merged into ForProvider when the resource is created. The same
-                  fields are also added to the terraform ignore_changes hook, to avoid
-                  updating them after creation. This is useful for fields that are
-                  required on creation, but we do not desire to update them after
-                  creation, for example because of an external controller is managing
-                  them, like an autoscaler.
                 properties:
                   dashboardJson:
                     description: The JSON representation of a dashboard, following
@@ -302,8 +278,7 @@ spec:
             x-kubernetes-validations:
             - message: dashboardJson is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.dashboardJson)
-                || has(self.initProvider.dashboardJson)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.dashboardJson)'
           status:
             description: DashboardStatus defines the observed state of Dashboard.
             properties:

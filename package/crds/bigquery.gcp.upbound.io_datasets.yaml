@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.1
+    controller-gen.kubebuilder.io/version: v0.12.0
   name: datasets.bigquery.gcp.upbound.io
 spec:
   group: bigquery.gcp.upbound.io
@@ -175,6 +175,8 @@ spec:
                                       description: The ID of the project containing
                                         this table.
                                       type: string
+                                  required:
+                                  - projectId
                                   type: object
                                 type: array
                               targetTypes:
@@ -185,6 +187,9 @@ spec:
                                 items:
                                   type: string
                                 type: array
+                            required:
+                            - dataset
+                            - targetTypes
                             type: object
                           type: array
                         domain:
@@ -576,6 +581,10 @@ spec:
                                   only letters (a-z, A-Z), numbers (0-9), or underscores
                                   (_). The maximum length is 1,024 characters.
                                 type: string
+                            required:
+                            - datasetId
+                            - projectId
+                            - tableId
                             type: object
                           type: array
                       type: object
@@ -727,168 +736,6 @@ spec:
                   project:
                     description: The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
-                    type: string
-                type: object
-              initProvider:
-                description: THIS IS AN ALPHA FIELD. Do not use it in production.
-                  It is not honored unless the relevant Crossplane feature flag is
-                  enabled, and may be changed or removed without notice. InitProvider
-                  holds the same fields as ForProvider, with the exception of Identifier
-                  and other resource reference fields. The fields that are in InitProvider
-                  are merged into ForProvider when the resource is created. The same
-                  fields are also added to the terraform ignore_changes hook, to avoid
-                  updating them after creation. This is useful for fields that are
-                  required on creation, but we do not desire to update them after
-                  creation, for example because of an external controller is managing
-                  them, like an autoscaler.
-                properties:
-                  access:
-                    description: An array of objects that define dataset access for
-                      one or more entities. Structure is documented below.
-                    items:
-                      properties:
-                        dataset:
-                          description: Grants all resources of particular types in
-                            a particular dataset read access to the current dataset.
-                            Structure is documented below.
-                          items:
-                            properties:
-                              dataset:
-                                description: The dataset this entry applies to Structure
-                                  is documented below.
-                                items:
-                                  properties:
-                                    projectId:
-                                      description: The ID of the project containing
-                                        this table.
-                                      type: string
-                                  type: object
-                                type: array
-                              targetTypes:
-                                description: 'Which resources in the dataset this
-                                  entry applies to. Currently, only views are supported,
-                                  but additional target types may be added in the
-                                  future. Possible values: VIEWS'
-                                items:
-                                  type: string
-                                type: array
-                            type: object
-                          type: array
-                        domain:
-                          description: A domain to grant access to. Any users signed
-                            in with the domain specified will be granted the specified
-                            access
-                          type: string
-                        groupByEmail:
-                          description: An email address of a Google Group to grant
-                            access to.
-                          type: string
-                        role:
-                          description: Describes the rights granted to the user specified
-                            by the other member of the access object. Basic, predefined,
-                            and custom roles are supported. Predefined roles that
-                            have equivalent basic roles are swapped by the API to
-                            their basic counterparts. See official docs.
-                          type: string
-                        routine:
-                          description: A routine from a different dataset to grant
-                            access to. Queries executed against that routine will
-                            have read access to tables in this dataset. The role field
-                            is not required when this field is set. If that routine
-                            is updated by any user, access to the routine needs to
-                            be granted again via an update operation. Structure is
-                            documented below.
-                          items:
-                            type: object
-                          type: array
-                        specialGroup:
-                          description: 'A special group to grant access to. Possible
-                            values include:'
-                          type: string
-                        view:
-                          description: A view from a different dataset to grant access
-                            to. Queries executed against that view will have read
-                            access to tables in this dataset. The role field is not
-                            required when this field is set. If that view is updated
-                            by any user, access to the view needs to be granted again
-                            via an update operation. Structure is documented below.
-                          items:
-                            properties:
-                              datasetId:
-                                description: The ID of the dataset containing this
-                                  table.
-                                type: string
-                              projectId:
-                                description: The ID of the project containing this
-                                  table.
-                                type: string
-                              tableId:
-                                description: The ID of the table. The ID must contain
-                                  only letters (a-z, A-Z), numbers (0-9), or underscores
-                                  (_). The maximum length is 1,024 characters.
-                                type: string
-                            type: object
-                          type: array
-                      type: object
-                    type: array
-                  defaultCollation:
-                    description: 'Defines the default collation specification of future
-                      tables created in the dataset. If a table is created in this
-                      dataset without table-level default collation, then the table
-                      inherits the dataset default collation, which is applied to
-                      the string fields that do not have explicit collation specified.
-                      A change to this field affects only tables created afterwards,
-                      and does not alter the existing tables. The following values
-                      are supported:'
-                    type: string
-                  defaultEncryptionConfiguration:
-                    description: The default encryption key for all tables in the
-                      dataset. Once this property is set, all newly-created partitioned
-                      tables in the dataset will have encryption key set to this value,
-                      unless table creation request (or query) overrides the key.
-                      Structure is documented below.
-                    items:
-                      type: object
-                    type: array
-                  defaultPartitionExpirationMs:
-                    description: The default partition expiration for all partitioned
-                      tables in the dataset, in milliseconds.
-                    type: number
-                  defaultTableExpirationMs:
-                    description: The default lifetime of all tables in the dataset,
-                      in milliseconds. The minimum value is 3600000 milliseconds (one
-                      hour).
-                    type: number
-                  deleteContentsOnDestroy:
-                    description: If set to true, delete all the tables in the dataset
-                      when destroying the resource; otherwise, destroying the resource
-                      will fail if tables are present.
-                    type: boolean
-                  description:
-                    description: A user-friendly description of the dataset
-                    type: string
-                  friendlyName:
-                    description: A descriptive name for the dataset
-                    type: string
-                  isCaseInsensitive:
-                    description: TRUE if the dataset and its table names are case-insensitive,
-                      otherwise FALSE. By default, this is FALSE, which means the
-                      dataset and its table names are case-sensitive. This field does
-                      not affect routine references.
-                    type: boolean
-                  labels:
-                    additionalProperties:
-                      type: string
-                    description: The labels associated with this dataset. You can
-                      use these to organize and group your datasets
-                    type: object
-                  location:
-                    description: The geographic location where the dataset should
-                      reside. See official docs.
-                    type: string
-                  maxTimeTravelHours:
-                    description: Defines the time travel window in hours. The value
-                      can be from 48 to 168 hours (2 to 7 days).
                     type: string
                 type: object
               managementPolicies:

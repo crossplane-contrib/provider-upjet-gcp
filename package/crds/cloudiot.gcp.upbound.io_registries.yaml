@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.1
+    controller-gen.kubebuilder.io/version: v0.12.0
   name: registries.cloudiot.gcp.upbound.io
 spec:
   group: cloudiot.gcp.upbound.io
@@ -77,6 +77,8 @@ spec:
                             type: string
                           description: A public key certificate format and data.
                           type: object
+                      required:
+                      - publicKeyCertificate
                       type: object
                     type: array
                   eventNotificationConfigs:
@@ -166,85 +168,6 @@ spec:
                                   type: string
                               type: object
                           type: object
-                        subfolderMatches:
-                          description: If the subfolder name matches this string exactly,
-                            this configuration will be used. The string must not include
-                            the leading '/' character. If empty, all strings are matched.
-                            Empty value can only be used for the last event_notification_configs
-                            item.
-                          type: string
-                      type: object
-                    type: array
-                  httpConfig:
-                    additionalProperties:
-                      type: string
-                    description: Activate or deactivate HTTP. The structure is documented
-                      below.
-                    type: object
-                  logLevel:
-                    description: 'The default logging verbosity for activity from
-                      devices in this registry. Specifies which events should be written
-                      to logs. For example, if the LogLevel is ERROR, only events
-                      that terminate in errors will be logged. LogLevel is inclusive;
-                      enabling INFO logging will also enable ERROR logging. Default
-                      value is NONE. Possible values are: NONE, ERROR, INFO, DEBUG.'
-                    type: string
-                  mqttConfig:
-                    additionalProperties:
-                      type: string
-                    description: Activate or deactivate MQTT. The structure is documented
-                      below.
-                    type: object
-                  name:
-                    description: A unique name for the resource, required by device
-                      registry.
-                    type: string
-                  project:
-                    description: The ID of the project in which the resource belongs.
-                      If it is not provided, the provider project is used.
-                    type: string
-                  region:
-                    description: The region in which the created registry should reside.
-                      If it is not provided, the provider region is used.
-                    type: string
-                  stateNotificationConfig:
-                    additionalProperties:
-                      type: string
-                    description: A PubSub topic to publish device state updates. The
-                      structure is documented below.
-                    type: object
-                type: object
-              initProvider:
-                description: THIS IS AN ALPHA FIELD. Do not use it in production.
-                  It is not honored unless the relevant Crossplane feature flag is
-                  enabled, and may be changed or removed without notice. InitProvider
-                  holds the same fields as ForProvider, with the exception of Identifier
-                  and other resource reference fields. The fields that are in InitProvider
-                  are merged into ForProvider when the resource is created. The same
-                  fields are also added to the terraform ignore_changes hook, to avoid
-                  updating them after creation. This is useful for fields that are
-                  required on creation, but we do not desire to update them after
-                  creation, for example because of an external controller is managing
-                  them, like an autoscaler.
-                properties:
-                  credentials:
-                    description: List of public key certificates to authenticate devices.
-                      The structure is documented below.
-                    items:
-                      properties:
-                        publicKeyCertificate:
-                          additionalProperties:
-                            type: string
-                          description: A public key certificate format and data.
-                          type: object
-                      type: object
-                    type: array
-                  eventNotificationConfigs:
-                    description: List of configurations for event notifications, such
-                      as PubSub topics to publish device events to. Structure is documented
-                      below.
-                    items:
-                      properties:
                         subfolderMatches:
                           description: If the subfolder name matches this string exactly,
                             this configuration will be used. The string must not include
@@ -493,8 +416,7 @@ spec:
             x-kubernetes-validations:
             - message: name is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.name)
-                || has(self.initProvider.name)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.name)'
           status:
             description: RegistryStatus defines the observed state of Registry.
             properties:

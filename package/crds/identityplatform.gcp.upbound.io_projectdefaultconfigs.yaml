@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.1
+    controller-gen.kubebuilder.io/version: v0.12.0
   name: projectdefaultconfigs.identityplatform.gcp.upbound.io
 spec:
   group: identityplatform.gcp.upbound.io
@@ -89,82 +89,8 @@ spec:
                                 description: Whether phone number auth is enabled
                                   for the project or not.
                                 type: boolean
-                            type: object
-                          type: array
-                        email:
-                          description: Configuration options related to authenticating
-                            a user by their email address. Structure is documented
-                            below.
-                          items:
-                            properties:
-                              enabled:
-                                description: Whether phone number auth is enabled
-                                  for the project or not.
-                                type: boolean
-                              passwordRequired:
-                                description: Whether a password is required for email
-                                  auth or not. If true, both an email and password
-                                  must be provided to sign in. If false, a user may
-                                  sign in via either email/password or email link.
-                                type: boolean
-                            type: object
-                          type: array
-                        phoneNumber:
-                          description: Configuration options related to authenticated
-                            a user by their phone number. Structure is documented
-                            below.
-                          items:
-                            properties:
-                              enabled:
-                                description: Whether phone number auth is enabled
-                                  for the project or not.
-                                type: boolean
-                              testPhoneNumbers:
-                                additionalProperties:
-                                  type: string
-                                description: A map of <test phone number, fake code>
-                                  that can be used for phone auth testing.
-                                type: object
-                            type: object
-                          type: array
-                      type: object
-                    type: array
-                type: object
-              initProvider:
-                description: THIS IS AN ALPHA FIELD. Do not use it in production.
-                  It is not honored unless the relevant Crossplane feature flag is
-                  enabled, and may be changed or removed without notice. InitProvider
-                  holds the same fields as ForProvider, with the exception of Identifier
-                  and other resource reference fields. The fields that are in InitProvider
-                  are merged into ForProvider when the resource is created. The same
-                  fields are also added to the terraform ignore_changes hook, to avoid
-                  updating them after creation. This is useful for fields that are
-                  required on creation, but we do not desire to update them after
-                  creation, for example because of an external controller is managing
-                  them, like an autoscaler.
-                properties:
-                  project:
-                    description: The ID of the project in which the resource belongs.
-                      If it is not provided, the provider project is used.
-                    type: string
-                  signIn:
-                    description: Configuration related to local sign in methods. Structure
-                      is documented below.
-                    items:
-                      properties:
-                        allowDuplicateEmails:
-                          description: Whether to allow more than one account to have
-                            the same email.
-                          type: boolean
-                        anonymous:
-                          description: Configuration options related to authenticating
-                            an anonymous user. Structure is documented below.
-                          items:
-                            properties:
-                              enabled:
-                                description: Whether phone number auth is enabled
-                                  for the project or not.
-                                type: boolean
+                            required:
+                            - enabled
                             type: object
                           type: array
                         email:

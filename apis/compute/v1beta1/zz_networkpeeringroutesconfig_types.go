@@ -25,19 +25,6 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
-type NetworkPeeringRoutesConfigInitParameters struct {
-
-	// Whether to export the custom routes to the peer network.
-	ExportCustomRoutes *bool `json:"exportCustomRoutes,omitempty" tf:"export_custom_routes,omitempty"`
-
-	// Whether to import the custom routes to the peer network.
-	ImportCustomRoutes *bool `json:"importCustomRoutes,omitempty" tf:"import_custom_routes,omitempty"`
-
-	// The ID of the project in which the resource belongs.
-	// If it is not provided, the provider project is used.
-	Project *string `json:"project,omitempty" tf:"project,omitempty"`
-}
-
 type NetworkPeeringRoutesConfigObservation struct {
 
 	// Whether to export the custom routes to the peer network.
@@ -106,18 +93,6 @@ type NetworkPeeringRoutesConfigParameters struct {
 type NetworkPeeringRoutesConfigSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     NetworkPeeringRoutesConfigParameters `json:"forProvider"`
-	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
-	// unless the relevant Crossplane feature flag is enabled, and may be
-	// changed or removed without notice.
-	// InitProvider holds the same fields as ForProvider, with the exception
-	// of Identifier and other resource reference fields. The fields that are
-	// in InitProvider are merged into ForProvider when the resource is created.
-	// The same fields are also added to the terraform ignore_changes hook, to
-	// avoid updating them after creation. This is useful for fields that are
-	// required on creation, but we do not desire to update them after creation,
-	// for example because of an external controller is managing them, like an
-	// autoscaler.
-	InitProvider NetworkPeeringRoutesConfigInitParameters `json:"initProvider,omitempty"`
 }
 
 // NetworkPeeringRoutesConfigStatus defines the observed state of NetworkPeeringRoutesConfig.
@@ -138,8 +113,8 @@ type NetworkPeeringRoutesConfigStatus struct {
 type NetworkPeeringRoutesConfig struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.exportCustomRoutes) || has(self.initProvider.exportCustomRoutes)",message="exportCustomRoutes is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.importCustomRoutes) || has(self.initProvider.importCustomRoutes)",message="importCustomRoutes is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.exportCustomRoutes)",message="exportCustomRoutes is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.importCustomRoutes)",message="importCustomRoutes is a required parameter"
 	Spec   NetworkPeeringRoutesConfigSpec   `json:"spec"`
 	Status NetworkPeeringRoutesConfigStatus `json:"status,omitempty"`
 }

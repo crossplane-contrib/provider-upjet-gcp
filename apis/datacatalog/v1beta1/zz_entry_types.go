@@ -25,9 +25,6 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
-type BigqueryDateShardedSpecInitParameters struct {
-}
-
 type BigqueryDateShardedSpecObservation struct {
 
 	// (Output)
@@ -48,9 +45,6 @@ type BigqueryDateShardedSpecObservation struct {
 type BigqueryDateShardedSpecParameters struct {
 }
 
-type BigqueryTableSpecInitParameters struct {
-}
-
 type BigqueryTableSpecObservation struct {
 
 	// (Output)
@@ -69,54 +63,6 @@ type BigqueryTableSpecObservation struct {
 }
 
 type BigqueryTableSpecParameters struct {
-}
-
-type EntryInitParameters struct {
-
-	// Entry description, which can consist of several sentences or paragraphs that describe entry contents.
-	Description *string `json:"description,omitempty" tf:"description,omitempty"`
-
-	// Display information such as title and description. A short name to identify the entry,
-	// for example, "Analytics Data - Jan 2011".
-	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
-
-	// The id of the entry to create.
-	EntryID *string `json:"entryId,omitempty" tf:"entry_id,omitempty"`
-
-	// Specification that applies to a Cloud Storage fileset. This is only valid on entries of type FILESET.
-	// Structure is documented below.
-	GcsFilesetSpec []GcsFilesetSpecInitParameters `json:"gcsFilesetSpec,omitempty" tf:"gcs_fileset_spec,omitempty"`
-
-	// The resource this metadata entry refers to.
-	// For Google Cloud Platform resources, linkedResource is the full name of the resource.
-	// For example, the linkedResource for a table resource from BigQuery is:
-	// //bigquery.googleapis.com/projects/projectId/datasets/datasetId/tables/tableId
-	// Output only when Entry is of type in the EntryType enum. For entries with userSpecifiedType,
-	// this field is optional and defaults to an empty string.
-	LinkedResource *string `json:"linkedResource,omitempty" tf:"linked_resource,omitempty"`
-
-	// Schema of the entry (e.g. BigQuery, GoogleSQL, Avro schema), as a json string. An entry might not have any schema
-	// attached to it. See
-	// https://cloud.google.com/data-catalog/docs/reference/rest/v1/projects.locations.entryGroups.entries#schema
-	// for what fields this schema can contain.
-	Schema *string `json:"schema,omitempty" tf:"schema,omitempty"`
-
-	// The type of the entry. Only used for Entries with types in the EntryType enum.
-	// Currently, only FILESET enum value is allowed. All other entries created through Data Catalog must use userSpecifiedType.
-	// Possible values are: FILESET.
-	Type *string `json:"type,omitempty" tf:"type,omitempty"`
-
-	// This field indicates the entry's source system that Data Catalog does not integrate with.
-	// userSpecifiedSystem strings must begin with a letter or underscore and can only contain letters, numbers,
-	// and underscores; are case insensitive; must be at least 1 character and at most 64 characters long.
-	UserSpecifiedSystem *string `json:"userSpecifiedSystem,omitempty" tf:"user_specified_system,omitempty"`
-
-	// Entry type if it does not fit any of the input-allowed values listed in EntryType enum above.
-	// When creating an entry, users should check the enum values first, if nothing matches the entry
-	// to be created, then provide a custom value, for example "my_special_type".
-	// userSpecifiedType strings must begin with a letter or underscore and can only contain letters,
-	// numbers, and underscores; are case insensitive; must be at least 1 character and at most 64 characters long.
-	UserSpecifiedType *string `json:"userSpecifiedType,omitempty" tf:"user_specified_type,omitempty"`
 }
 
 type EntryObservation struct {
@@ -261,14 +207,6 @@ type EntryParameters struct {
 	UserSpecifiedType *string `json:"userSpecifiedType,omitempty" tf:"user_specified_type,omitempty"`
 }
 
-type GcsFilesetSpecInitParameters struct {
-
-	// Patterns to identify a set of files in Google Cloud Storage.
-	// See Cloud Storage documentation
-	// for more information. Note that bucket wildcards are currently not supported. Examples of valid filePatterns:
-	FilePatterns []*string `json:"filePatterns,omitempty" tf:"file_patterns,omitempty"`
-}
-
 type GcsFilesetSpecObservation struct {
 
 	// Patterns to identify a set of files in Google Cloud Storage.
@@ -287,11 +225,8 @@ type GcsFilesetSpecParameters struct {
 	// Patterns to identify a set of files in Google Cloud Storage.
 	// See Cloud Storage documentation
 	// for more information. Note that bucket wildcards are currently not supported. Examples of valid filePatterns:
-	// +kubebuilder:validation:Optional
-	FilePatterns []*string `json:"filePatterns,omitempty" tf:"file_patterns,omitempty"`
-}
-
-type SampleGcsFileSpecsInitParameters struct {
+	// +kubebuilder:validation:Required
+	FilePatterns []*string `json:"filePatterns" tf:"file_patterns,omitempty"`
 }
 
 type SampleGcsFileSpecsObservation struct {
@@ -308,9 +243,6 @@ type SampleGcsFileSpecsObservation struct {
 type SampleGcsFileSpecsParameters struct {
 }
 
-type TableSpecInitParameters struct {
-}
-
 type TableSpecObservation struct {
 
 	// (Output)
@@ -322,9 +254,6 @@ type TableSpecObservation struct {
 }
 
 type TableSpecParameters struct {
-}
-
-type ViewSpecInitParameters struct {
 }
 
 type ViewSpecObservation struct {
@@ -341,18 +270,6 @@ type ViewSpecParameters struct {
 type EntrySpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     EntryParameters `json:"forProvider"`
-	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
-	// unless the relevant Crossplane feature flag is enabled, and may be
-	// changed or removed without notice.
-	// InitProvider holds the same fields as ForProvider, with the exception
-	// of Identifier and other resource reference fields. The fields that are
-	// in InitProvider are merged into ForProvider when the resource is created.
-	// The same fields are also added to the terraform ignore_changes hook, to
-	// avoid updating them after creation. This is useful for fields that are
-	// required on creation, but we do not desire to update them after creation,
-	// for example because of an external controller is managing them, like an
-	// autoscaler.
-	InitProvider EntryInitParameters `json:"initProvider,omitempty"`
 }
 
 // EntryStatus defines the observed state of Entry.
@@ -373,7 +290,7 @@ type EntryStatus struct {
 type Entry struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.entryId) || has(self.initProvider.entryId)",message="entryId is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.entryId)",message="entryId is a required parameter"
 	Spec   EntrySpec   `json:"spec"`
 	Status EntryStatus `json:"status,omitempty"`
 }

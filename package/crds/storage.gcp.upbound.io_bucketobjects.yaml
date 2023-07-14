@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.1
+    controller-gen.kubebuilder.io/version: v0.12.0
   name: bucketobjects.storage.gcp.upbound.io
 spec:
   group: storage.gcp.upbound.io
@@ -195,94 +195,6 @@ spec:
                           type: object
                       required:
                       - encryptionKeySecretRef
-                      type: object
-                    type: array
-                  detectMd5Hash:
-                    description: 'MD5 hash of the data, encoded using base64. This
-                      field is not present for composite objects. For more information
-                      about using the MD5 hash, see Hashes and ETags: Best Practices.'
-                    type: string
-                  eventBasedHold:
-                    description: Whether an object is under event-based hold. Event-based
-                      hold is a way to retain objects until an event occurs, which
-                      is signified by the hold's release (i.e. this value is set to
-                      false). After being released (set to false), such objects will
-                      be subject to bucket-level retention (if any).
-                    type: boolean
-                  kmsKeyName:
-                    description: The resource name of the Cloud KMS key that will
-                      be used to encrypt the object.
-                    type: string
-                  metadata:
-                    additionalProperties:
-                      type: string
-                    description: User-provided metadata, in key/value pairs.
-                    type: object
-                  name:
-                    description: The name of the object. If you're interpolating the
-                      name of this object, see output_name instead.
-                    type: string
-                  source:
-                    description: A path to the data you want to upload. Must be defined
-                      if content is not.
-                    type: string
-                  storageClass:
-                    description: 'The StorageClass of the new bucket object. Supported
-                      values include: MULTI_REGIONAL, REGIONAL, NEARLINE, COLDLINE,
-                      ARCHIVE. If not provided, this defaults to the bucket''s default
-                      storage class or to a standard class.'
-                    type: string
-                  temporaryHold:
-                    description: Whether an object is under temporary hold. While
-                      this flag is set to true, the object is protected against deletion
-                      and overwrites.
-                    type: boolean
-                type: object
-              initProvider:
-                description: THIS IS AN ALPHA FIELD. Do not use it in production.
-                  It is not honored unless the relevant Crossplane feature flag is
-                  enabled, and may be changed or removed without notice. InitProvider
-                  holds the same fields as ForProvider, with the exception of Identifier
-                  and other resource reference fields. The fields that are in InitProvider
-                  are merged into ForProvider when the resource is created. The same
-                  fields are also added to the terraform ignore_changes hook, to avoid
-                  updating them after creation. This is useful for fields that are
-                  required on creation, but we do not desire to update them after
-                  creation, for example because of an external controller is managing
-                  them, like an autoscaler.
-                properties:
-                  cacheControl:
-                    description: Cache-Control directive to specify caching behavior
-                      of object data. If omitted and object is accessible to all anonymous
-                      users, the default will be public, max-age=3600
-                    type: string
-                  content:
-                    description: 'Data as string to be uploaded. Must be defined if
-                      source is not. Note: The content field is marked as sensitive.
-                      To view the raw contents of the object, please define an output.'
-                    type: string
-                  contentDisposition:
-                    description: Content-Disposition of the object data.
-                    type: string
-                  contentEncoding:
-                    description: Content-Encoding of the object data.
-                    type: string
-                  contentLanguage:
-                    description: Content-Language of the object data.
-                    type: string
-                  contentType:
-                    description: Content-Type of the object data. Defaults to "application/octet-stream"
-                      or "text/plain; charset=utf-8".
-                    type: string
-                  customerEncryption:
-                    description: Enables object encryption with Customer-Supplied
-                      Encryption Key (CSEK). [Google documentation about CSEK.](https://cloud.google.com/storage/docs/encryption/customer-supplied-keys)
-                      Structure is documented below.
-                    items:
-                      properties:
-                        encryptionAlgorithm:
-                          description: 'Encryption algorithm. Default: AES256'
-                          type: string
                       type: object
                     type: array
                   detectMd5Hash:
@@ -526,8 +438,7 @@ spec:
             x-kubernetes-validations:
             - message: name is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.name)
-                || has(self.initProvider.name)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.name)'
           status:
             description: BucketObjectStatus defines the observed state of BucketObject.
             properties:

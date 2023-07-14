@@ -25,42 +25,6 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
-type RouterInterfaceInitParameters struct {
-
-	// IP address and range of the interface. The IP range must be
-	// in the RFC3927 link-local IP space. Changing this forces a new interface to be created.
-	IPRange *string `json:"ipRange,omitempty" tf:"ip_range,omitempty"`
-
-	// The name or resource link to the
-	// VLAN interconnect for this interface. Changing this forces a new interface to
-	// be created. Only one of vpn_tunnel, interconnect_attachment or subnetwork can be specified.
-	InterconnectAttachment *string `json:"interconnectAttachment,omitempty" tf:"interconnect_attachment,omitempty"`
-
-	// A unique name for the interface, required by GCE. Changing
-	// this forces a new interface to be created.
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
-
-	// The regional private internal IP address that is used
-	// to establish BGP sessions to a VM instance acting as a third-party Router Appliance. Changing this forces a new interface to be created.
-	PrivateIPAddress *string `json:"privateIpAddress,omitempty" tf:"private_ip_address,omitempty"`
-
-	// The ID of the project in which this interface's router belongs.
-	// If it is not provided, the provider project is used. Changing this forces a new interface to be created.
-	Project *string `json:"project,omitempty" tf:"project,omitempty"`
-
-	// The name of the interface that is redundant to
-	// this interface. Changing this forces a new interface to be created.
-	RedundantInterface *string `json:"redundantInterface,omitempty" tf:"redundant_interface,omitempty"`
-
-	// The region this interface's router sits in.
-	// If not specified, the project region will be used. Changing this forces a new interface to be created.
-	Region *string `json:"region,omitempty" tf:"region,omitempty"`
-
-	// The URI of the subnetwork resource that this interface
-	// belongs to, which must be in the same region as the Cloud Router. When you establish a BGP session to a VM instance using this interface, the VM instance must belong to the same subnetwork as the subnetwork specified here. Changing this forces a new interface to be created. Only one of vpn_tunnel, interconnect_attachment or subnetwork can be specified.
-	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
-}
-
 type RouterInterfaceObservation struct {
 
 	// an identifier for the resource with format {{region}}/{{router}}/{{name}}
@@ -186,18 +150,6 @@ type RouterInterfaceParameters struct {
 type RouterInterfaceSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     RouterInterfaceParameters `json:"forProvider"`
-	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
-	// unless the relevant Crossplane feature flag is enabled, and may be
-	// changed or removed without notice.
-	// InitProvider holds the same fields as ForProvider, with the exception
-	// of Identifier and other resource reference fields. The fields that are
-	// in InitProvider are merged into ForProvider when the resource is created.
-	// The same fields are also added to the terraform ignore_changes hook, to
-	// avoid updating them after creation. This is useful for fields that are
-	// required on creation, but we do not desire to update them after creation,
-	// for example because of an external controller is managing them, like an
-	// autoscaler.
-	InitProvider RouterInterfaceInitParameters `json:"initProvider,omitempty"`
 }
 
 // RouterInterfaceStatus defines the observed state of RouterInterface.
@@ -218,7 +170,7 @@ type RouterInterfaceStatus struct {
 type RouterInterface struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.name) || has(self.initProvider.name)",message="name is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.name)",message="name is a required parameter"
 	Spec   RouterInterfaceSpec   `json:"spec"`
 	Status RouterInterfaceStatus `json:"status,omitempty"`
 }

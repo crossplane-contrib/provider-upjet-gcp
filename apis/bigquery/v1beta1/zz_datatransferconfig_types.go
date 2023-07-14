@@ -25,76 +25,6 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
-type DataTransferConfigInitParameters struct {
-
-	// The number of days to look back to automatically refresh the data.
-	// For example, if dataRefreshWindowDays = 10, then every day BigQuery
-	// reingests data for [today-10, today-1], rather than ingesting data for
-	// just [today-1]. Only valid if the data source supports the feature.
-	// Set the value to 0 to use the default value.
-	DataRefreshWindowDays *float64 `json:"dataRefreshWindowDays,omitempty" tf:"data_refresh_window_days,omitempty"`
-
-	// The data source id. Cannot be changed once the transfer config is created.
-	DataSourceID *string `json:"dataSourceId,omitempty" tf:"data_source_id,omitempty"`
-
-	// When set to true, no runs are scheduled for a given transfer.
-	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
-
-	// The user specified display name for the transfer config.
-	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
-
-	// Email notifications will be sent according to these preferences to the
-	// email address of the user who owns this transfer config.
-	// Structure is documented below.
-	EmailPreferences []EmailPreferencesInitParameters `json:"emailPreferences,omitempty" tf:"email_preferences,omitempty"`
-
-	// The geographic location where the transfer config should reside.
-	// Examples: US, EU, asia-northeast1. The default value is US.
-	Location *string `json:"location,omitempty" tf:"location,omitempty"`
-
-	// Pub/Sub topic where notifications will be sent after transfer runs
-	// associated with this transfer config finish.
-	NotificationPubsubTopic *string `json:"notificationPubsubTopic,omitempty" tf:"notification_pubsub_topic,omitempty"`
-
-	// Parameters specific to each data source. For more information see the bq tab in the 'Setting up a data transfer'
-	// section for each data source. For example the parameters for Cloud Storage transfers are listed here:
-	// https://cloud.google.com/bigquery-transfer/docs/cloud-storage-transfer#bq
-	// NOTE : If you are attempting to update a parameter that cannot be updated (due to api limitations) please force recreation of the resource.
-	Params map[string]*string `json:"params,omitempty" tf:"params,omitempty"`
-
-	// The ID of the project in which the resource belongs.
-	// If it is not provided, the provider project is used.
-	Project *string `json:"project,omitempty" tf:"project,omitempty"`
-
-	// Data transfer schedule. If the data source does not support a custom
-	// schedule, this should be empty. If it is empty, the default value for
-	// the data source will be used. The specified times are in UTC. Examples
-	// of valid format: 1st,3rd monday of month 15:30, every wed,fri of jan,
-	// jun 13:15, and first sunday of quarter 00:00. See more explanation
-	// about the format here:
-	// https://cloud.google.com/appengine/docs/flexible/python/scheduling-jobs-with-cron-yaml#the_schedule_format
-	// NOTE: the granularity should be at least 8 hours, or less frequent.
-	Schedule *string `json:"schedule,omitempty" tf:"schedule,omitempty"`
-
-	// Options customizing the data transfer schedule.
-	// Structure is documented below.
-	ScheduleOptions []ScheduleOptionsInitParameters `json:"scheduleOptions,omitempty" tf:"schedule_options,omitempty"`
-
-	// Different parameters are configured primarily using the the params field on this
-	// resource. This block contains the parameters which contain secrets or passwords so that they can be marked
-	// sensitive and hidden from plan output. The name of the field, eg: secret_access_key, will be the key
-	// in the params map in the api request.
-	// Credentials may not be specified in both locations and will cause an error. Changing from one location
-	// to a different credential configuration in the config will require an apply to update state.
-	// Structure is documented below.
-	SensitiveParams []SensitiveParamsInitParameters `json:"sensitiveParams,omitempty" tf:"sensitive_params,omitempty"`
-
-	// Service account email. If this field is set, transfer config will
-	// be created with this service account credentials. It requires that
-	// requesting user calling this API has permissions to act as this service account.
-	ServiceAccountName *string `json:"serviceAccountName,omitempty" tf:"service_account_name,omitempty"`
-}
-
 type DataTransferConfigObservation struct {
 
 	// The number of days to look back to automatically refresh the data.
@@ -273,12 +203,6 @@ type DataTransferConfigParameters struct {
 	ServiceAccountName *string `json:"serviceAccountName,omitempty" tf:"service_account_name,omitempty"`
 }
 
-type EmailPreferencesInitParameters struct {
-
-	// If true, email notifications will be sent on transfer run failures.
-	EnableFailureEmail *bool `json:"enableFailureEmail,omitempty" tf:"enable_failure_email,omitempty"`
-}
-
 type EmailPreferencesObservation struct {
 
 	// If true, email notifications will be sent on transfer run failures.
@@ -288,31 +212,8 @@ type EmailPreferencesObservation struct {
 type EmailPreferencesParameters struct {
 
 	// If true, email notifications will be sent on transfer run failures.
-	// +kubebuilder:validation:Optional
-	EnableFailureEmail *bool `json:"enableFailureEmail,omitempty" tf:"enable_failure_email,omitempty"`
-}
-
-type ScheduleOptionsInitParameters struct {
-
-	// If true, automatic scheduling of data transfer runs for this
-	// configuration will be disabled. The runs can be started on ad-hoc
-	// basis using transferConfigs.startManualRuns API. When automatic
-	// scheduling is disabled, the TransferConfig.schedule field will
-	// be ignored.
-	DisableAutoScheduling *bool `json:"disableAutoScheduling,omitempty" tf:"disable_auto_scheduling,omitempty"`
-
-	// Defines time to stop scheduling transfer runs. A transfer run cannot be
-	// scheduled at or after the end time. The end time can be changed at any
-	// moment. The time when a data transfer can be triggered manually is not
-	// limited by this option.
-	EndTime *string `json:"endTime,omitempty" tf:"end_time,omitempty"`
-
-	// Specifies time to start scheduling transfer runs. The first run will be
-	// scheduled at or after the start time according to a recurrence pattern
-	// defined in the schedule string. The start time can be changed at any
-	// moment. The time when a data transfer can be triggered manually is not
-	// limited by this option.
-	StartTime *string `json:"startTime,omitempty" tf:"start_time,omitempty"`
+	// +kubebuilder:validation:Required
+	EnableFailureEmail *bool `json:"enableFailureEmail" tf:"enable_failure_email,omitempty"`
 }
 
 type ScheduleOptionsObservation struct {
@@ -364,9 +265,6 @@ type ScheduleOptionsParameters struct {
 	StartTime *string `json:"startTime,omitempty" tf:"start_time,omitempty"`
 }
 
-type SensitiveParamsInitParameters struct {
-}
-
 type SensitiveParamsObservation struct {
 }
 
@@ -382,18 +280,6 @@ type SensitiveParamsParameters struct {
 type DataTransferConfigSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     DataTransferConfigParameters `json:"forProvider"`
-	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
-	// unless the relevant Crossplane feature flag is enabled, and may be
-	// changed or removed without notice.
-	// InitProvider holds the same fields as ForProvider, with the exception
-	// of Identifier and other resource reference fields. The fields that are
-	// in InitProvider are merged into ForProvider when the resource is created.
-	// The same fields are also added to the terraform ignore_changes hook, to
-	// avoid updating them after creation. This is useful for fields that are
-	// required on creation, but we do not desire to update them after creation,
-	// for example because of an external controller is managing them, like an
-	// autoscaler.
-	InitProvider DataTransferConfigInitParameters `json:"initProvider,omitempty"`
 }
 
 // DataTransferConfigStatus defines the observed state of DataTransferConfig.
@@ -414,9 +300,9 @@ type DataTransferConfigStatus struct {
 type DataTransferConfig struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.dataSourceId) || has(self.initProvider.dataSourceId)",message="dataSourceId is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.displayName) || has(self.initProvider.displayName)",message="displayName is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.params) || has(self.initProvider.params)",message="params is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.dataSourceId)",message="dataSourceId is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.displayName)",message="displayName is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.params)",message="params is a required parameter"
 	Spec   DataTransferConfigSpec   `json:"spec"`
 	Status DataTransferConfigStatus `json:"status,omitempty"`
 }

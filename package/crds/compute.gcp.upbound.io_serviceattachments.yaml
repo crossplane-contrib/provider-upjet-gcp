@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.1
+    controller-gen.kubebuilder.io/version: v0.12.0
   name: serviceattachments.compute.gcp.upbound.io
 spec:
   group: compute.gcp.upbound.io
@@ -84,6 +84,9 @@ spec:
                           description: A project that is allowed to connect to this
                             service attachment.
                           type: string
+                      required:
+                      - connectionLimit
+                      - projectIdOrNum
                       type: object
                     type: array
                   consumerRejectLists:
@@ -278,65 +281,6 @@ spec:
                     type: object
                 required:
                 - region
-                type: object
-              initProvider:
-                description: THIS IS AN ALPHA FIELD. Do not use it in production.
-                  It is not honored unless the relevant Crossplane feature flag is
-                  enabled, and may be changed or removed without notice. InitProvider
-                  holds the same fields as ForProvider, with the exception of Identifier
-                  and other resource reference fields. The fields that are in InitProvider
-                  are merged into ForProvider when the resource is created. The same
-                  fields are also added to the terraform ignore_changes hook, to avoid
-                  updating them after creation. This is useful for fields that are
-                  required on creation, but we do not desire to update them after
-                  creation, for example because of an external controller is managing
-                  them, like an autoscaler.
-                properties:
-                  connectionPreference:
-                    description: The connection preference to use for this service
-                      attachment. Valid values include "ACCEPT_AUTOMATIC", "ACCEPT_MANUAL".
-                    type: string
-                  consumerAcceptLists:
-                    description: An array of projects that are allowed to connect
-                      to this service attachment. Structure is documented below.
-                    items:
-                      properties:
-                        connectionLimit:
-                          description: The number of consumer forwarding rules the
-                            consumer project can create.
-                          type: number
-                        projectIdOrNum:
-                          description: A project that is allowed to connect to this
-                            service attachment.
-                          type: string
-                      type: object
-                    type: array
-                  consumerRejectLists:
-                    description: An array of projects that are not allowed to connect
-                      to this service attachment.
-                    items:
-                      type: string
-                    type: array
-                  description:
-                    description: An optional description of this resource.
-                    type: string
-                  domainNames:
-                    description: 'If specified, the domain name will be used during
-                      the integration between the PSC connected endpoints and the
-                      Cloud DNS. For example, this is a valid domain name: "p.mycompany.com.".
-                      Current max number of domain names supported is 1.'
-                    items:
-                      type: string
-                    type: array
-                  enableProxyProtocol:
-                    description: If true, enable the proxy protocol which is for supplying
-                      client TCP/IP address data in TCP connections that traverse
-                      proxies on their way to destination servers.
-                    type: boolean
-                  project:
-                    description: The ID of the project in which the resource belongs.
-                      If it is not provided, the provider project is used.
-                    type: string
                 type: object
               managementPolicies:
                 default:
@@ -538,12 +482,10 @@ spec:
             x-kubernetes-validations:
             - message: connectionPreference is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.connectionPreference)
-                || has(self.initProvider.connectionPreference)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.connectionPreference)'
             - message: enableProxyProtocol is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.enableProxyProtocol)
-                || has(self.initProvider.enableProxyProtocol)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.enableProxyProtocol)'
           status:
             description: ServiceAttachmentStatus defines the observed state of ServiceAttachment.
             properties:

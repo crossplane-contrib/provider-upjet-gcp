@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.1
+    controller-gen.kubebuilder.io/version: v0.12.0
   name: connectivitytests.networkmanagement.gcp.upbound.io
 spec:
   group: networkmanagement.gcp.upbound.io
@@ -808,98 +808,6 @@ spec:
                       type: object
                     type: array
                 type: object
-              initProvider:
-                description: THIS IS AN ALPHA FIELD. Do not use it in production.
-                  It is not honored unless the relevant Crossplane feature flag is
-                  enabled, and may be changed or removed without notice. InitProvider
-                  holds the same fields as ForProvider, with the exception of Identifier
-                  and other resource reference fields. The fields that are in InitProvider
-                  are merged into ForProvider when the resource is created. The same
-                  fields are also added to the terraform ignore_changes hook, to avoid
-                  updating them after creation. This is useful for fields that are
-                  required on creation, but we do not desire to update them after
-                  creation, for example because of an external controller is managing
-                  them, like an autoscaler.
-                properties:
-                  description:
-                    description: The user-supplied description of the Connectivity
-                      Test. Maximum of 512 characters.
-                    type: string
-                  destination:
-                    description: Required. Destination specification of the Connectivity
-                      Test. You can use a combination of destination IP address, Compute
-                      Engine VM instance, or VPC network to uniquely identify the
-                      destination location. Even if the destination IP address is
-                      not unique, the source IP location is unique. Usually, the analysis
-                      can infer the destination endpoint from route information. If
-                      the destination you specify is a VM instance and the instance
-                      has multiple network interfaces, then you must also specify
-                      either a destination IP address or VPC network to identify the
-                      destination interface. A reachability analysis proceeds even
-                      if the destination location is ambiguous. However, the result
-                      can include endpoints that you don't intend to test. Structure
-                      is documented below.
-                    items:
-                      properties:
-                        port:
-                          description: The IP protocol port of the endpoint. Only
-                            applicable when protocol is TCP or UDP.
-                          type: number
-                      type: object
-                    type: array
-                  labels:
-                    additionalProperties:
-                      type: string
-                    description: Resource labels to represent user-provided metadata.
-                    type: object
-                  name:
-                    description: Unique name for the connectivity test.
-                    type: string
-                  project:
-                    description: The ID of the project in which the resource belongs.
-                      If it is not provided, the provider project is used.
-                    type: string
-                  protocol:
-                    description: IP Protocol of the test. When not provided, "TCP"
-                      is assumed.
-                    type: string
-                  relatedProjects:
-                    description: Other projects that may be relevant for reachability
-                      analysis. This is applicable to scenarios where a test can cross
-                      project boundaries.
-                    items:
-                      type: string
-                    type: array
-                  source:
-                    description: 'Required. Source specification of the Connectivity
-                      Test. You can use a combination of source IP address, virtual
-                      machine (VM) instance, or Compute Engine network to uniquely
-                      identify the source location. Examples: If the source IP address
-                      is an internal IP address within a Google Cloud Virtual Private
-                      Cloud (VPC) network, then you must also specify the VPC network.
-                      Otherwise, specify the VM instance, which already contains its
-                      internal IP address and VPC network information. If the source
-                      of the test is within an on-premises network, then you must
-                      provide the destination VPC network. If the source endpoint
-                      is a Compute Engine VM instance with multiple network interfaces,
-                      the instance itself is not sufficient to identify the endpoint.
-                      So, you must also specify the source IP address or VPC network.
-                      A reachability analysis proceeds even if the source location
-                      is ambiguous. However, the test result may include endpoints
-                      that you don''t intend to test. Structure is documented below.'
-                    items:
-                      properties:
-                        networkType:
-                          description: 'Type of the network where the endpoint is
-                            located. Possible values are: GCP_NETWORK, NON_GCP_NETWORK.'
-                          type: string
-                        port:
-                          description: The IP protocol port of the endpoint. Only
-                            applicable when protocol is TCP or UDP.
-                          type: number
-                      type: object
-                    type: array
-                type: object
               managementPolicies:
                 default:
                 - '*'
@@ -1100,16 +1008,13 @@ spec:
             x-kubernetes-validations:
             - message: destination is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.destination)
-                || has(self.initProvider.destination)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.destination)'
             - message: name is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.name)
-                || has(self.initProvider.name)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.name)'
             - message: source is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.source)
-                || has(self.initProvider.source)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.source)'
           status:
             description: ConnectivityTestStatus defines the observed state of ConnectivityTest.
             properties:

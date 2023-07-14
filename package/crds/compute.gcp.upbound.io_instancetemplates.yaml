@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.1
+    controller-gen.kubebuilder.io/version: v0.12.0
   name: instancetemplates.compute.gcp.upbound.io
 spec:
   group: compute.gcp.upbound.io
@@ -102,6 +102,8 @@ spec:
                             compute enabled. on_host_maintenance has to be set to
                             TERMINATE or this will fail to create the VM.
                           type: boolean
+                      required:
+                      - enableConfidentialCompute
                       type: object
                     type: array
                   description:
@@ -135,6 +137,8 @@ spec:
                                 description: The self link of the encryption key that
                                   is stored in Google Cloud KMS.
                                 type: string
+                            required:
+                            - kmsKeySelfLink
                             type: object
                           type: array
                         diskName:
@@ -208,6 +212,8 @@ spec:
                                   encryption request for the given KMS key. If absent,
                                   the Compute Engine default service account is used.
                                 type: string
+                            required:
+                            - kmsKeySelfLink
                             type: object
                           type: array
                         sourceRef:
@@ -308,6 +314,8 @@ spec:
                                   encryption request for the given KMS key. If absent,
                                   the Compute Engine default service account is used.
                                 type: string
+                            required:
+                            - kmsKeySelfLink
                             type: object
                           type: array
                         type:
@@ -329,6 +337,9 @@ spec:
                           description: The accelerator type resource to expose to
                             this instance. E.g. nvidia-tesla-k80.
                           type: string
+                      required:
+                      - count
+                      - type
                       type: object
                     type: array
                   instanceDescription:
@@ -415,6 +426,8 @@ spec:
                                   CIDR range for this alias IP range. If left unspecified,
                                   the primary range of the subnetwork will be used.
                                 type: string
+                            required:
+                            - ipCidrRange
                             type: object
                           type: array
                         ipv6AccessConfig:
@@ -430,6 +443,8 @@ spec:
                                   IPv6 traffic when the subnet has an external subnet.
                                   Only PREMIUM and STANDARD tier is valid for IPv6.
                                 type: string
+                            required:
+                            - networkTier
                             type: object
                           type: array
                         network:
@@ -658,12 +673,17 @@ spec:
                                 items:
                                   type: string
                                 type: array
+                            required:
+                            - key
+                            - values
                             type: object
                           type: array
                         type:
                           description: The type of reservation from which this instance
                             can consume resources.
                           type: string
+                      required:
+                      - type
                       type: object
                     type: array
                   resourcePolicies:
@@ -714,6 +734,10 @@ spec:
                                 items:
                                   type: string
                                 type: array
+                            required:
+                            - key
+                            - operator
+                            - values
                             type: object
                           type: array
                         onHostMaintenance:
@@ -828,482 +852,8 @@ spec:
                           items:
                             type: string
                           type: array
-                      type: object
-                    type: array
-                  shieldedInstanceConfig:
-                    description: 'Enable Shielded VM on this instance. Shielded VM
-                      provides verifiable integrity to prevent against malware and
-                      rootkits. Defaults to disabled. Structure is documented below.
-                      Note: shielded_instance_config can only be used with boot images
-                      with shielded vm support. See the complete list here.'
-                    items:
-                      properties:
-                        enableIntegrityMonitoring:
-                          description: '- Compare the most recent boot measurements
-                            to the integrity policy baseline and return a pair of
-                            pass/fail results depending on whether they match or not.
-                            Defaults to true.'
-                          type: boolean
-                        enableSecureBoot:
-                          description: '- Verify the digital signature of all boot
-                            components, and halt the boot process if signature verification
-                            fails. Defaults to false.'
-                          type: boolean
-                        enableVtpm:
-                          description: '- Use a virtualized trusted platform module,
-                            which is a specialized computer chip you can use to encrypt
-                            objects like keys and certificates. Defaults to true.'
-                          type: boolean
-                      type: object
-                    type: array
-                  tags:
-                    description: Tags to attach to the instance.
-                    items:
-                      type: string
-                    type: array
-                type: object
-              initProvider:
-                description: THIS IS AN ALPHA FIELD. Do not use it in production.
-                  It is not honored unless the relevant Crossplane feature flag is
-                  enabled, and may be changed or removed without notice. InitProvider
-                  holds the same fields as ForProvider, with the exception of Identifier
-                  and other resource reference fields. The fields that are in InitProvider
-                  are merged into ForProvider when the resource is created. The same
-                  fields are also added to the terraform ignore_changes hook, to avoid
-                  updating them after creation. This is useful for fields that are
-                  required on creation, but we do not desire to update them after
-                  creation, for example because of an external controller is managing
-                  them, like an autoscaler.
-                properties:
-                  advancedMachineFeatures:
-                    description: Configure Nested Virtualisation and Simultaneous
-                      Hyper Threading on this VM. Structure is documented below
-                    items:
-                      properties:
-                        enableNestedVirtualization:
-                          description: Defines whether the instance should have nested
-                            virtualization enabled. Defaults to false.
-                          type: boolean
-                        threadsPerCore:
-                          description: The number of threads per physical core. To
-                            disable simultaneous multithreading (SMT) set this to
-                            1.
-                          type: number
-                        visibleCoreCount:
-                          description: The number of physical cores to expose to an
-                            instance. visible cores info (VC).
-                          type: number
-                      type: object
-                    type: array
-                  canIpForward:
-                    description: Whether to allow sending and receiving of packets
-                      with non-matching source or destination IPs. This defaults to
-                      false.
-                    type: boolean
-                  confidentialInstanceConfig:
-                    description: Enable Confidential Mode on this VM. Structure is
-                      documented below
-                    items:
-                      properties:
-                        enableConfidentialCompute:
-                          description: Defines whether the instance should have confidential
-                            compute enabled. on_host_maintenance has to be set to
-                            TERMINATE or this will fail to create the VM.
-                          type: boolean
-                      type: object
-                    type: array
-                  description:
-                    description: A brief description of this resource.
-                    type: string
-                  disk:
-                    description: Disks to attach to instances created from this template.
-                      This can be specified multiple times for multiple disks. Structure
-                      is documented below.
-                    items:
-                      properties:
-                        autoDelete:
-                          description: Whether or not the disk should be auto-deleted.
-                            This defaults to true.
-                          type: boolean
-                        boot:
-                          description: Indicates that this is a boot disk.
-                          type: boolean
-                        deviceName:
-                          description: A unique device name that is reflected into
-                            the /dev/  tree of a Linux operating system running within
-                            the instance. If not specified, the server chooses a default
-                            device name to apply to this disk.
-                          type: string
-                        diskEncryptionKey:
-                          description: Encrypts or decrypts a disk using a customer-supplied
-                            encryption key.
-                          items:
-                            properties:
-                              kmsKeySelfLink:
-                                description: The self link of the encryption key that
-                                  is stored in Google Cloud KMS.
-                                type: string
-                            type: object
-                          type: array
-                        diskName:
-                          description: Name of the disk. When not provided, this defaults
-                            to the name of the instance.
-                          type: string
-                        diskSizeGb:
-                          description: The size of the image in gigabytes. If not
-                            specified, it will inherit the size of its base image.
-                            For SCRATCH disks, the size must be exactly 375GB.
-                          type: number
-                        diskType:
-                          description: The GCE disk type. Such as "pd-ssd", "local-ssd",
-                            "pd-balanced" or "pd-standard".
-                          type: string
-                        interface:
-                          description: Specifies the disk interface to use for attaching
-                            this disk, which is either SCSI or NVME. The default is
-                            SCSI. Persistent disks must always use SCSI and the request
-                            will fail if you attempt to attach a persistent disk in
-                            any other format than SCSI. Local SSDs can use either
-                            NVME or SCSI.
-                          type: string
-                        labels:
-                          additionalProperties:
-                            type: string
-                          description: A set of ket/value label pairs to assign to
-                            disk created from this template
-                          type: object
-                        mode:
-                          description: The mode in which to attach this disk, either
-                            READ_WRITE or READ_ONLY. If you are attaching or creating
-                            a boot disk, this must read-write mode.
-                          type: string
-                        resourcePolicies:
-                          description: '- A list (short name or id) of resource policies
-                            to attach to this disk for automatic snapshot creations.
-                            Currently a max of 1 resource policy is supported.'
-                          items:
-                            type: string
-                          type: array
-                        sourceImage:
-                          description: 'The image from which to initialize this disk.
-                            This can be one of: the image''s self_link, projects/{project}/global/images/{image},
-                            projects/{project}/global/images/family/{family}, global/images/{image},
-                            global/images/family/{family}, family/{family}, {project}/{family},
-                            {project}/{image}, {family}, or {image}. ~> Note: Either
-                            source, source_image, or source_snapshot is required in
-                            a disk block unless the disk type is local-ssd. Check
-                            the API docs for details.'
-                          type: string
-                        sourceImageEncryptionKey:
-                          description: The customer-supplied encryption key of the
-                            source image. Required if the source image is protected
-                            by a customer-supplied encryption key.
-                          items:
-                            properties:
-                              kmsKeySelfLink:
-                                description: The self link of the encryption key that
-                                  is stored in Google Cloud KMS.
-                                type: string
-                              kmsKeyServiceAccount:
-                                description: The service account being used for the
-                                  encryption request for the given KMS key. If absent,
-                                  the Compute Engine default service account is used.
-                                type: string
-                            type: object
-                          type: array
-                        sourceSnapshot:
-                          description: 'The source snapshot to create this disk. ~>
-                            Note: Either source, source_image, or source_snapshot
-                            is required in a disk block unless the disk type is local-ssd.
-                            Check the API docs for details.'
-                          type: string
-                        sourceSnapshotEncryptionKey:
-                          description: The customer-supplied encryption key of the
-                            source snapshot. Structure documented below.
-                          items:
-                            properties:
-                              kmsKeySelfLink:
-                                description: The self link of the encryption key that
-                                  is stored in Google Cloud KMS.
-                                type: string
-                              kmsKeyServiceAccount:
-                                description: The service account being used for the
-                                  encryption request for the given KMS key. If absent,
-                                  the Compute Engine default service account is used.
-                                type: string
-                            type: object
-                          type: array
-                        type:
-                          description: The type of GCE disk, can be either "SCRATCH"
-                            or "PERSISTENT".
-                          type: string
-                      type: object
-                    type: array
-                  guestAccelerator:
-                    description: List of the type and count of accelerator cards attached
-                      to the instance. Structure documented below.
-                    items:
-                      properties:
-                        count:
-                          description: The number of the guest accelerator cards exposed
-                            to this instance.
-                          type: number
-                        type:
-                          description: The accelerator type resource to expose to
-                            this instance. E.g. nvidia-tesla-k80.
-                          type: string
-                      type: object
-                    type: array
-                  instanceDescription:
-                    description: A brief description to use for instances created
-                      from this template.
-                    type: string
-                  labels:
-                    additionalProperties:
-                      type: string
-                    description: A set of key/value label pairs to assign to instances
-                      created from this template.
-                    type: object
-                  machineType:
-                    description: The machine type to create.
-                    type: string
-                  metadata:
-                    additionalProperties:
-                      type: string
-                    description: Metadata key/value pairs to make available from within
-                      instances created from this template.
-                    type: object
-                  metadataStartupScript:
-                    description: An alternative to using the startup-script metadata
-                      key, mostly to match the compute_instance resource. This replaces
-                      the startup-script metadata key on the created instance and
-                      thus the two mechanisms are not allowed to be used simultaneously.
-                    type: string
-                  minCpuPlatform:
-                    description: Specifies a minimum CPU platform. Applicable values
-                      are the friendly names of CPU platforms, such as Intel Haswell
-                      or Intel Skylake. See the complete list here.
-                    type: string
-                  name:
-                    description: The name of the instance template.
-                    type: string
-                  namePrefix:
-                    description: Creates a unique name beginning with the specified
-                      prefix. Conflicts with name.
-                    type: string
-                  networkInterface:
-                    description: Networks to attach to instances created from this
-                      template. This can be specified multiple times for multiple
-                      networks. Structure is documented below.
-                    items:
-                      properties:
-                        accessConfig:
-                          description: Access configurations, i.e. IPs via which this
-                            instance can be accessed via the Internet.g. via tunnel
-                            or because it is running on another cloud instance on
-                            that network). This block can be repeated multiple times.
-                            Structure documented below.
-                          items:
-                            properties:
-                              natIp:
-                                description: The IP address that will be 1:1 mapped
-                                  to the instance's network ip. If not given, one
-                                  will be generated.
-                                type: string
-                              networkTier:
-                                description: The service-level to be provided for
-                                  IPv6 traffic when the subnet has an external subnet.
-                                  Only PREMIUM and STANDARD tier is valid for IPv6.
-                                type: string
-                            type: object
-                          type: array
-                        aliasIpRange:
-                          description: An array of alias IP ranges for this network
-                            interface. Can only be specified for network interfaces
-                            on subnet-mode networks. Structure documented below.
-                          items:
-                            properties:
-                              ipCidrRange:
-                                description: The IP CIDR range represented by this
-                                  alias IP range. This IP CIDR range must belong to
-                                  the specified subnetwork and cannot contain IP addresses
-                                  reserved by system or used by other network interfaces.
-                                  At the time of writing only a netmask (e.g. /24)
-                                  may be supplied, with a CIDR format resulting in
-                                  an API error.
-                                type: string
-                              subnetworkRangeName:
-                                description: The subnetwork secondary range name specifying
-                                  the secondary range from which to allocate the IP
-                                  CIDR range for this alias IP range. If left unspecified,
-                                  the primary range of the subnetwork will be used.
-                                type: string
-                            type: object
-                          type: array
-                        ipv6AccessConfig:
-                          description: An array of IPv6 access configurations for
-                            this interface. Currently, only one IPv6 access config,
-                            DIRECT_IPV6, is supported. If there is no ipv6AccessConfig
-                            specified, then this instance will have no external IPv6
-                            Internet access. Structure documented below.
-                          items:
-                            properties:
-                              networkTier:
-                                description: The service-level to be provided for
-                                  IPv6 traffic when the subnet has an external subnet.
-                                  Only PREMIUM and STANDARD tier is valid for IPv6.
-                                type: string
-                            type: object
-                          type: array
-                        networkIp:
-                          description: The private IP address to assign to the instance.
-                            If empty, the address will be automatically assigned.
-                          type: string
-                        nicType:
-                          description: 'The type of vNIC to be used on this interface.
-                            Possible values: GVNIC, VIRTIO_NET.'
-                          type: string
-                        queueCount:
-                          description: The networking queue count that's specified
-                            by users for the network interface. Both Rx and Tx queues
-                            will be set to this number. It will be empty if not specified.
-                          type: number
-                        stackType:
-                          description: The stack type for this network interface to
-                            identify whether the IPv6 feature is enabled or not. Values
-                            are IPV4_IPV6 or IPV4_ONLY. If not specified, IPV4_ONLY
-                            will be used.
-                          type: string
-                        subnetworkProject:
-                          description: The ID of the project in which the subnetwork
-                            belongs. If it is not provided, the provider project is
-                            used.
-                          type: string
-                      type: object
-                    type: array
-                  project:
-                    description: The ID of the project in which the resource belongs.
-                      If it is not provided, the provider project is used.
-                    type: string
-                  region:
-                    description: An instance template is a global resource that is
-                      not bound to a zone or a region. However, you can still specify
-                      some regional resources in an instance template, which restricts
-                      the template to the region where that resource resides. For
-                      example, a custom subnetwork resource is tied to a specific
-                      region. Defaults to the region of the Provider if no value is
-                      given.
-                    type: string
-                  reservationAffinity:
-                    description: Specifies the reservations that this instance can
-                      consume from. Structure is documented below.
-                    items:
-                      properties:
-                        specificReservation:
-                          description: Specifies the label selector for the reservation
-                            to use.. Structure is documented below.
-                          items:
-                            properties:
-                              key:
-                                description: Corresponds to the label key of a reservation
-                                  resource. To target a SPECIFIC_RESERVATION by name,
-                                  specify compute.googleapis.com/reservation-name
-                                  as the key and specify the name of your reservation
-                                  as the only value.
-                                type: string
-                              values:
-                                description: Corresponds to the label values of a
-                                  reservation resource.
-                                items:
-                                  type: string
-                                type: array
-                            type: object
-                          type: array
-                        type:
-                          description: The type of reservation from which this instance
-                            can consume resources.
-                          type: string
-                      type: object
-                    type: array
-                  resourcePolicies:
-                    description: '- A list of self_links of resource policies to attach
-                      to the instance. Modifying this list will cause the instance
-                      to recreate. Currently a max of 1 resource policy is supported.'
-                    items:
-                      type: string
-                    type: array
-                  scheduling:
-                    description: The scheduling strategy to use. More details about
-                      this configuration option are detailed below.
-                    items:
-                      properties:
-                        automaticRestart:
-                          description: Specifies whether the instance should be automatically
-                            restarted if it is terminated by Compute Engine (not terminated
-                            by a user). This defaults to true.
-                          type: boolean
-                        instanceTerminationAction:
-                          description: Describe the type of termination action for
-                            SPOT VM. Can be STOP or DELETE.  Read more on here
-                          type: string
-                        minNodeCpus:
-                          type: number
-                        nodeAffinities:
-                          description: Specifies node affinities or anti-affinities
-                            to determine which sole-tenant nodes your instances and
-                            managed instance groups will use as host systems. Read
-                            more on sole-tenant node creation here. Structure documented
-                            below.
-                          items:
-                            properties:
-                              key:
-                                description: Corresponds to the label key of a reservation
-                                  resource. To target a SPECIFIC_RESERVATION by name,
-                                  specify compute.googleapis.com/reservation-name
-                                  as the key and specify the name of your reservation
-                                  as the only value.
-                                type: string
-                              operator:
-                                description: The operator. Can be IN for node-affinities
-                                  or NOT_IN for anti-affinities.
-                                type: string
-                              values:
-                                description: Corresponds to the label values of a
-                                  reservation resource.
-                                items:
-                                  type: string
-                                type: array
-                            type: object
-                          type: array
-                        onHostMaintenance:
-                          description: Defines the maintenance behavior for this instance.
-                          type: string
-                        preemptible:
-                          description: Allows instance to be preempted. This defaults
-                            to false. Read more on this here.
-                          type: boolean
-                        provisioningModel:
-                          description: Describe the type of preemptible VM. This field
-                            accepts the value STANDARD or SPOT. If the value is STANDARD,
-                            there will be no discount. If this   is set to SPOT, preemptible
-                            should be true and auto_restart should be false. For more
-                            info about SPOT, read here
-                          type: string
-                      type: object
-                    type: array
-                  serviceAccount:
-                    description: Service account to attach to the instance. Structure
-                      is documented below.
-                    items:
-                      properties:
-                        scopes:
-                          description: A list of service scopes. Both OAuth2 URLs
-                            and gcloud short names are supported. To allow full access
-                            to all Cloud APIs, use the cloud-platform scope. See a
-                            complete list of scopes here.
-                          items:
-                            type: string
-                          type: array
+                      required:
+                      - scopes
                       type: object
                     type: array
                   shieldedInstanceConfig:
@@ -1538,12 +1088,10 @@ spec:
             x-kubernetes-validations:
             - message: disk is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.disk)
-                || has(self.initProvider.disk)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.disk)'
             - message: machineType is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.machineType)
-                || has(self.initProvider.machineType)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.machineType)'
           status:
             description: InstanceTemplateStatus defines the observed state of InstanceTemplate.
             properties:

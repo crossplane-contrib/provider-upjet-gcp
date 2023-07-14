@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.1
+    controller-gen.kubebuilder.io/version: v0.12.0
   name: certificatemapentries.certificatemanager.gcp.upbound.io
 spec:
   group: certificatemanager.gcp.upbound.io
@@ -169,51 +169,6 @@ spec:
                             - IfNotPresent
                             type: string
                         type: object
-                    type: object
-                  matcher:
-                    description: A predefined matcher for particular cases, other
-                      than SNI selection
-                    type: string
-                  project:
-                    description: The ID of the project in which the resource belongs.
-                      If it is not provided, the provider project is used.
-                    type: string
-                type: object
-              initProvider:
-                description: THIS IS AN ALPHA FIELD. Do not use it in production.
-                  It is not honored unless the relevant Crossplane feature flag is
-                  enabled, and may be changed or removed without notice. InitProvider
-                  holds the same fields as ForProvider, with the exception of Identifier
-                  and other resource reference fields. The fields that are in InitProvider
-                  are merged into ForProvider when the resource is created. The same
-                  fields are also added to the terraform ignore_changes hook, to avoid
-                  updating them after creation. This is useful for fields that are
-                  required on creation, but we do not desire to update them after
-                  creation, for example because of an external controller is managing
-                  them, like an autoscaler.
-                properties:
-                  certificates:
-                    description: A set of Certificates defines for the given hostname.
-                      There can be defined up to fifteen certificates in each Certificate
-                      Map Entry. Each certificate must match pattern projects//locations//certificates/*.
-                    items:
-                      type: string
-                    type: array
-                  description:
-                    description: A human-readable description of the resource.
-                    type: string
-                  hostname:
-                    description: A Hostname (FQDN, e.g. example.com) or a wildcard
-                      hostname expression (*.example.com) for a set of hostnames with
-                      common suffix. Used as Server Name Indication (SNI) for selecting
-                      a proper certificate.
-                    type: string
-                  labels:
-                    additionalProperties:
-                      type: string
-                    description: 'Set of labels associated with a Certificate Map
-                      Entry. An object containing a list of "key": value pairs. Example:
-                      { "name": "wrench", "mass": "1.3kg", "count": "3" }.'
                     type: object
                   matcher:
                     description: A predefined matcher for particular cases, other
@@ -424,8 +379,7 @@ spec:
             x-kubernetes-validations:
             - message: certificates is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.certificates)
-                || has(self.initProvider.certificates)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.certificates)'
           status:
             description: CertificateMapEntryStatus defines the observed state of CertificateMapEntry.
             properties:

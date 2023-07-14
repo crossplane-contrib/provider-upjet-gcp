@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.1
+    controller-gen.kubebuilder.io/version: v0.12.0
   name: triggers.cloudbuild.gcp.upbound.io
 spec:
   group: cloudbuild.gcp.upbound.io
@@ -117,6 +117,8 @@ spec:
                                 description: Only trigger a build if the revision
                                   regex does NOT match the revision regex.
                                 type: boolean
+                            required:
+                            - branch
                             type: object
                           type: array
                         push:
@@ -147,6 +149,10 @@ spec:
                             if the repository name is 'test repo', in the URL it would
                             become 'test-repo' as in https://mybitbucket.server/projects/TEST/repos/test-repo.
                           type: string
+                      required:
+                      - bitbucketServerConfigResource
+                      - projectKey
+                      - repoSlug
                       type: object
                     type: array
                   build:
@@ -223,8 +229,13 @@ spec:
                                       description: 'Resource name of the SecretVersion.
                                         In format: projects//secrets//versions/*'
                                       type: string
+                                  required:
+                                  - env
+                                  - versionName
                                   type: object
                                 type: array
+                            required:
+                            - secretManager
                             type: object
                           type: array
                         images:
@@ -371,6 +382,8 @@ spec:
                                   crypto key. These values must be specified in the
                                   build's Secret.
                                 type: object
+                            required:
+                            - kmsKeyName
                             type: object
                           type: array
                         source:
@@ -424,6 +437,8 @@ spec:
                                         one of a branch name, tag, or commit SHA must
                                         be provided. This field is a regular expression.
                                       type: string
+                                  required:
+                                  - repoName
                                   type: object
                                 type: array
                               storageSource:
@@ -447,6 +462,9 @@ spec:
                                         archive file (.tar.gz) containing source to
                                         build.
                                       type: string
+                                  required:
+                                  - bucket
+                                  - object
                                   type: object
                                 type: array
                             type: object
@@ -560,6 +578,9 @@ spec:
                                         with other volume paths on the same build
                                         step or with certain reserved volume paths.
                                       type: string
+                                  required:
+                                  - name
+                                  - path
                                   type: object
                                 type: array
                               waitFor:
@@ -572,6 +593,8 @@ spec:
                                 items:
                                   type: string
                                 type: array
+                            required:
+                            - name
                             type: object
                           type: array
                         substitutions:
@@ -594,6 +617,8 @@ spec:
                             build. The expected format is the number of seconds followed
                             by s. Default time is ten minutes (600s).
                           type: string
+                      required:
+                      - step
                       type: object
                     type: array
                   description:
@@ -649,6 +674,9 @@ spec:
                             from which the trigger invocation originated is assumed
                             to be the repo from which to read the specified path.
                           type: string
+                      required:
+                      - path
+                      - repoType
                       type: object
                     type: array
                   github:
@@ -694,6 +722,8 @@ spec:
                                 description: Only trigger a build if the revision
                                   regex does NOT match the revision regex.
                                 type: boolean
+                            required:
+                            - branch
                             type: object
                           type: array
                         push:
@@ -969,6 +999,9 @@ spec:
                         uri:
                           description: The URI of the repo.
                           type: string
+                      required:
+                      - ref
+                      - repoType
                       type: object
                     type: array
                   substitutions:
@@ -1115,823 +1148,6 @@ spec:
                                   type: string
                               type: object
                           type: object
-                      type: object
-                    type: array
-                type: object
-              initProvider:
-                description: THIS IS AN ALPHA FIELD. Do not use it in production.
-                  It is not honored unless the relevant Crossplane feature flag is
-                  enabled, and may be changed or removed without notice. InitProvider
-                  holds the same fields as ForProvider, with the exception of Identifier
-                  and other resource reference fields. The fields that are in InitProvider
-                  are merged into ForProvider when the resource is created. The same
-                  fields are also added to the terraform ignore_changes hook, to avoid
-                  updating them after creation. This is useful for fields that are
-                  required on creation, but we do not desire to update them after
-                  creation, for example because of an external controller is managing
-                  them, like an autoscaler.
-                properties:
-                  approvalConfig:
-                    description: Configuration for manual approval to start a build
-                      invocation of this BuildTrigger. Builds created by this trigger
-                      will require approval before they execute. Any user with a Cloud
-                      Build Approver role for the project can approve a build. Structure
-                      is documented below.
-                    items:
-                      properties:
-                        approvalRequired:
-                          description: Whether or not approval is needed. If this
-                            is set on a build, it will become pending when run, and
-                            will need to be explicitly approved to start.
-                          type: boolean
-                      type: object
-                    type: array
-                  bitbucketServerTriggerConfig:
-                    description: BitbucketServerTriggerConfig describes the configuration
-                      of a trigger that creates a build whenever a Bitbucket Server
-                      event is received. Structure is documented below.
-                    items:
-                      properties:
-                        bitbucketServerConfigResource:
-                          description: The Bitbucket server config resource that this
-                            trigger config maps to.
-                          type: string
-                        projectKey:
-                          description: 'Key of the project that the repo is in. For
-                            example: The key for https://mybitbucket.server/projects/TEST/repos/test-repo
-                            is "TEST".'
-                          type: string
-                        pullRequest:
-                          description: Filter to match changes in pull requests. Structure
-                            is documented below.
-                          items:
-                            properties:
-                              branch:
-                                description: Regex of branches to match. The syntax
-                                  of the regular expressions accepted is the syntax
-                                  accepted by RE2 and described at https://github.com/google/re2/wiki/Syntax
-                                type: string
-                              commentControl:
-                                description: 'Configure builds to run whether a repository
-                                  owner or collaborator need to comment /gcbrun. Possible
-                                  values are: COMMENTS_DISABLED, COMMENTS_ENABLED,
-                                  COMMENTS_ENABLED_FOR_EXTERNAL_CONTRIBUTORS_ONLY.'
-                                type: string
-                              invertRegex:
-                                description: Only trigger a build if the revision
-                                  regex does NOT match the revision regex.
-                                type: boolean
-                            type: object
-                          type: array
-                        push:
-                          description: Filter to match changes in refs like branches,
-                            tags. Structure is documented below.
-                          items:
-                            properties:
-                              branch:
-                                description: Regex of branches to match. The syntax
-                                  of the regular expressions accepted is the syntax
-                                  accepted by RE2 and described at https://github.com/google/re2/wiki/Syntax
-                                type: string
-                              invertRegex:
-                                description: Only trigger a build if the revision
-                                  regex does NOT match the revision regex.
-                                type: boolean
-                              tag:
-                                description: Regex of tags to match. The syntax of
-                                  the regular expressions accepted is the syntax accepted
-                                  by RE2 and described at https://github.com/google/re2/wiki/Syntax
-                                type: string
-                            type: object
-                          type: array
-                        repoSlug:
-                          description: Slug of the repository. A repository slug is
-                            a URL-friendly version of a repository name, automatically
-                            generated by Bitbucket for use in the URL. For example,
-                            if the repository name is 'test repo', in the URL it would
-                            become 'test-repo' as in https://mybitbucket.server/projects/TEST/repos/test-repo.
-                          type: string
-                      type: object
-                    type: array
-                  build:
-                    description: Contents of the build template. Either a filename
-                      or build template must be provided. Structure is documented
-                      below.
-                    items:
-                      properties:
-                        artifacts:
-                          description: Artifacts produced by the build that should
-                            be uploaded upon successful completion of all build steps.
-                            Structure is documented below.
-                          items:
-                            properties:
-                              images:
-                                description: A list of images to be pushed upon the
-                                  successful completion of all build steps. The images
-                                  are pushed using the builder service account's credentials.
-                                  The digests of the pushed images will be stored
-                                  in the Build resource's results field. If any of
-                                  the images fail to be pushed, the build status is
-                                  marked FAILURE.
-                                items:
-                                  type: string
-                                type: array
-                              objects:
-                                description: A list of objects to be uploaded to Cloud
-                                  Storage upon successful completion of all build
-                                  steps. Files in the workspace matching specified
-                                  paths globs will be uploaded to the Cloud Storage
-                                  location using the builder service account's credentials.
-                                  The location and generation of the uploaded objects
-                                  will be stored in the Build resource's results field.
-                                  If any objects fail to be pushed, the build is marked
-                                  FAILURE. Structure is documented below.
-                                items:
-                                  properties:
-                                    location:
-                                      description: Cloud Storage bucket and optional
-                                        object path, in the form "gs://bucket/path/to/somewhere/".
-                                        Files in the workspace matching any path pattern
-                                        will be uploaded to Cloud Storage with this
-                                        location as a prefix.
-                                      type: string
-                                    paths:
-                                      description: Path globs used to match files
-                                        in the build's workspace.
-                                      items:
-                                        type: string
-                                      type: array
-                                  type: object
-                                type: array
-                            type: object
-                          type: array
-                        availableSecrets:
-                          description: Secrets and secret environment variables. Structure
-                            is documented below.
-                          items:
-                            properties:
-                              secretManager:
-                                description: Pairs a secret environment variable with
-                                  a SecretVersion in Secret Manager. Structure is
-                                  documented below.
-                                items:
-                                  properties:
-                                    env:
-                                      description: A list of environment variable
-                                        definitions to be used when running a step.
-                                        The elements are of the form "KEY=VALUE" for
-                                        the environment variable "KEY" being given
-                                        the value "VALUE".
-                                      type: string
-                                    versionName:
-                                      description: 'Resource name of the SecretVersion.
-                                        In format: projects//secrets//versions/*'
-                                      type: string
-                                  type: object
-                                type: array
-                            type: object
-                          type: array
-                        images:
-                          description: A list of images to be pushed upon the successful
-                            completion of all build steps. The images are pushed using
-                            the builder service account's credentials. The digests
-                            of the pushed images will be stored in the Build resource's
-                            results field. If any of the images fail to be pushed,
-                            the build status is marked FAILURE.
-                          items:
-                            type: string
-                          type: array
-                        logsBucket:
-                          description: Google Cloud Storage bucket where logs should
-                            be written. Logs file names will be of the format ${logsBucket}/log-${build_id}.txt.
-                          type: string
-                        options:
-                          description: Special options for this build. Structure is
-                            documented below.
-                          items:
-                            properties:
-                              diskSizeGb:
-                                description: Requested disk size for the VM that runs
-                                  the build. Note that this is NOT "disk free"; some
-                                  of the space will be used by the operating system
-                                  and build utilities. Also note that this is the
-                                  minimum disk size that will be allocated for the
-                                  build -- the build may run with a larger disk than
-                                  requested. At present, the maximum disk size is
-                                  1000GB; builds that request more than the maximum
-                                  are rejected with an error.
-                                type: number
-                              dynamicSubstitutions:
-                                description: Option to specify whether or not to apply
-                                  bash style string operations to the substitutions.
-                                  NOTE this is always enabled for triggered builds
-                                  and cannot be overridden in the build configuration
-                                  file.
-                                type: boolean
-                              env:
-                                description: A list of environment variable definitions
-                                  to be used when running a step. The elements are
-                                  of the form "KEY=VALUE" for the environment variable
-                                  "KEY" being given the value "VALUE".
-                                items:
-                                  type: string
-                                type: array
-                              logStreamingOption:
-                                description: 'Option to define build log streaming
-                                  behavior to Google Cloud Storage. Possible values
-                                  are: STREAM_DEFAULT, STREAM_ON, STREAM_OFF.'
-                                type: string
-                              logging:
-                                description: 'Option to specify the logging mode,
-                                  which determines if and where build logs are stored.
-                                  Possible values are: LOGGING_UNSPECIFIED, LEGACY,
-                                  GCS_ONLY, STACKDRIVER_ONLY, CLOUD_LOGGING_ONLY,
-                                  NONE.'
-                                type: string
-                              machineType:
-                                description: 'Compute Engine machine type on which
-                                  to run the build. Possible values are: UNSPECIFIED,
-                                  N1_HIGHCPU_8, N1_HIGHCPU_32, E2_HIGHCPU_8, E2_HIGHCPU_32.'
-                                type: string
-                              requestedVerifyOption:
-                                description: 'Requested verifiability options. Possible
-                                  values are: NOT_VERIFIED, VERIFIED.'
-                                type: string
-                              secretEnv:
-                                description: A list of environment variables which
-                                  are encrypted using a Cloud Key Management Service
-                                  crypto key. These values must be specified in the
-                                  build's Secret.
-                                items:
-                                  type: string
-                                type: array
-                              sourceProvenanceHash:
-                                description: 'Requested hash for SourceProvenance.
-                                  Each value may be one of: NONE, SHA256, MD5.'
-                                items:
-                                  type: string
-                                type: array
-                              substitutionOption:
-                                description: 'Option to specify behavior when there
-                                  is an error in the substitution checks. NOTE this
-                                  is always set to ALLOW_LOOSE for triggered builds
-                                  and cannot be overridden in the build configuration
-                                  file. Possible values are: MUST_MATCH, ALLOW_LOOSE.'
-                                type: string
-                              volumes:
-                                description: List of volumes to mount into the build
-                                  step. Each volume is created as an empty volume
-                                  prior to execution of the build step. Upon completion
-                                  of the build, volumes and their contents are discarded.
-                                  Using a named volume in only one step is not valid
-                                  as it is indicative of a build request with an incorrect
-                                  configuration. Structure is documented below.
-                                items:
-                                  properties:
-                                    name:
-                                      description: Name of the volume to mount. Volume
-                                        names must be unique per build step and must
-                                        be valid names for Docker volumes. Each named
-                                        volume must be used by at least two build
-                                        steps.
-                                      type: string
-                                    path:
-                                      description: Path at which to mount the volume.
-                                        Paths must be absolute and cannot conflict
-                                        with other volume paths on the same build
-                                        step or with certain reserved volume paths.
-                                      type: string
-                                  type: object
-                                type: array
-                              workerPool:
-                                description: Option to specify a WorkerPool for the
-                                  build. Format projects/{project}/workerPools/{workerPool}
-                                  This field is experimental.
-                                type: string
-                            type: object
-                          type: array
-                        queueTtl:
-                          description: 'TTL in queue for this build. If provided and
-                            the build is enqueued longer than this value, the build
-                            will expire and the build status will be EXPIRED. The
-                            TTL starts ticking from createTime. A duration in seconds
-                            with up to nine fractional digits, terminated by ''s''.
-                            Example: "3.5s".'
-                          type: string
-                        secret:
-                          description: Secrets to decrypt using Cloud Key Management
-                            Service. Structure is documented below.
-                          items:
-                            properties:
-                              kmsKeyName:
-                                description: Cloud KMS key name to use to decrypt
-                                  these envs.
-                                type: string
-                              secretEnv:
-                                additionalProperties:
-                                  type: string
-                                description: A list of environment variables which
-                                  are encrypted using a Cloud Key Management Service
-                                  crypto key. These values must be specified in the
-                                  build's Secret.
-                                type: object
-                            type: object
-                          type: array
-                        source:
-                          description: The location of the source files to build.
-                            One of storageSource or repoSource must be provided. Structure
-                            is documented below.
-                          items:
-                            properties:
-                              repoSource:
-                                description: Location of the source in a Google Cloud
-                                  Source Repository. Structure is documented below.
-                                items:
-                                  properties:
-                                    branchName:
-                                      description: Name of the branch to build. Exactly
-                                        one a of branch name, tag, or commit SHA must
-                                        be provided. This field is a regular expression.
-                                      type: string
-                                    commitSha:
-                                      description: Explicit commit SHA to build. Exactly
-                                        one of a branch name, tag, or commit SHA must
-                                        be provided.
-                                      type: string
-                                    dir:
-                                      description: Directory, relative to the source
-                                        root, in which to run the build. This must
-                                        be a relative path. If a step's dir is specified
-                                        and is an absolute path, this value is ignored
-                                        for that step's execution.
-                                      type: string
-                                    invertRegex:
-                                      description: Only trigger a build if the revision
-                                        regex does NOT match the revision regex.
-                                      type: boolean
-                                    projectId:
-                                      description: ID of the project that owns the
-                                        Cloud Source Repository. If omitted, the project
-                                        ID requesting the build is assumed.
-                                      type: string
-                                    repoName:
-                                      description: Name of the Cloud Source Repository.
-                                        If omitted, the name "default" is assumed.
-                                      type: string
-                                    substitutions:
-                                      additionalProperties:
-                                        type: string
-                                      description: Substitutions data for Build resource.
-                                      type: object
-                                    tagName:
-                                      description: Name of the tag to build. Exactly
-                                        one of a branch name, tag, or commit SHA must
-                                        be provided. This field is a regular expression.
-                                      type: string
-                                  type: object
-                                type: array
-                              storageSource:
-                                description: Location of the source in an archive
-                                  file in Google Cloud Storage. Structure is documented
-                                  below.
-                                items:
-                                  properties:
-                                    bucket:
-                                      description: Google Cloud Storage bucket containing
-                                        the source.
-                                      type: string
-                                    generation:
-                                      description: Google Cloud Storage generation
-                                        for the object. If the generation is omitted,
-                                        the latest generation will be used
-                                      type: string
-                                    object:
-                                      description: Google Cloud Storage object containing
-                                        the source. This object must be a gzipped
-                                        archive file (.tar.gz) containing source to
-                                        build.
-                                      type: string
-                                  type: object
-                                type: array
-                            type: object
-                          type: array
-                        step:
-                          description: The operations to be performed on the workspace.
-                            Structure is documented below.
-                          items:
-                            properties:
-                              allowExitCodes:
-                                description: Allow this build step to fail without
-                                  failing the entire build if and only if the exit
-                                  code is one of the specified codes. If allowFailure
-                                  is also specified, this field will take precedence.
-                                items:
-                                  type: number
-                                type: array
-                              allowFailure:
-                                description: Allow this build step to fail without
-                                  failing the entire build. If false, the entire build
-                                  will fail if this step fails. Otherwise, the build
-                                  will succeed, but this step will still have a failure
-                                  status. Error information will be reported in the
-                                  failureDetail field. allowExitCodes takes precedence
-                                  over this field.
-                                type: boolean
-                              args:
-                                description: A list of arguments that will be presented
-                                  to the step when it is started. If the image used
-                                  to run the step's container has an entrypoint, the
-                                  args are used as arguments to that entrypoint. If
-                                  the image does not define an entrypoint, the first
-                                  element in args is used as the entrypoint, and the
-                                  remainder will be used as arguments.
-                                items:
-                                  type: string
-                                type: array
-                              dir:
-                                description: Directory, relative to the source root,
-                                  in which to run the build. This must be a relative
-                                  path. If a step's dir is specified and is an absolute
-                                  path, this value is ignored for that step's execution.
-                                type: string
-                              entrypoint:
-                                description: Entrypoint to be used instead of the
-                                  build step image's default entrypoint. If unset,
-                                  the image's default entrypoint is used
-                                type: string
-                              env:
-                                description: A list of environment variable definitions
-                                  to be used when running a step. The elements are
-                                  of the form "KEY=VALUE" for the environment variable
-                                  "KEY" being given the value "VALUE".
-                                items:
-                                  type: string
-                                type: array
-                              id:
-                                description: Unique identifier for this build step,
-                                  used in wait_for to reference this build step as
-                                  a dependency.
-                                type: string
-                              name:
-                                description: Name of the volume to mount. Volume names
-                                  must be unique per build step and must be valid
-                                  names for Docker volumes. Each named volume must
-                                  be used by at least two build steps.
-                                type: string
-                              script:
-                                description: A shell script to be executed in the
-                                  step. When script is provided, the user cannot specify
-                                  the entrypoint or args.
-                                type: string
-                              secretEnv:
-                                description: A list of environment variables which
-                                  are encrypted using a Cloud Key Management Service
-                                  crypto key. These values must be specified in the
-                                  build's Secret.
-                                items:
-                                  type: string
-                                type: array
-                              timeout:
-                                description: Time limit for executing this build step.
-                                  If not defined, the step has no time limit and will
-                                  be allowed to continue to run until either it completes
-                                  or the build itself times out.
-                                type: string
-                              timing:
-                                description: Output only. Stores timing information
-                                  for executing this build step.
-                                type: string
-                              volumes:
-                                description: List of volumes to mount into the build
-                                  step. Each volume is created as an empty volume
-                                  prior to execution of the build step. Upon completion
-                                  of the build, volumes and their contents are discarded.
-                                  Using a named volume in only one step is not valid
-                                  as it is indicative of a build request with an incorrect
-                                  configuration. Structure is documented below.
-                                items:
-                                  properties:
-                                    name:
-                                      description: Name of the volume to mount. Volume
-                                        names must be unique per build step and must
-                                        be valid names for Docker volumes. Each named
-                                        volume must be used by at least two build
-                                        steps.
-                                      type: string
-                                    path:
-                                      description: Path at which to mount the volume.
-                                        Paths must be absolute and cannot conflict
-                                        with other volume paths on the same build
-                                        step or with certain reserved volume paths.
-                                      type: string
-                                  type: object
-                                type: array
-                              waitFor:
-                                description: The ID(s) of the step(s) that this build
-                                  step depends on. This build step will not start
-                                  until all the build steps in wait_for have completed
-                                  successfully. If wait_for is empty, this build step
-                                  will start when all previous build steps in the
-                                  Build.Steps list have completed successfully.
-                                items:
-                                  type: string
-                                type: array
-                            type: object
-                          type: array
-                        substitutions:
-                          additionalProperties:
-                            type: string
-                          description: Substitutions data for Build resource.
-                          type: object
-                        tags:
-                          description: Tags for annotation of a Build. These are not
-                            docker tags.
-                          items:
-                            type: string
-                          type: array
-                        timeout:
-                          description: Amount of time that this build should be allowed
-                            to run, to second granularity. If this amount of time
-                            elapses, work on the build will cease and the build status
-                            will be TIMEOUT. This timeout must be equal to or greater
-                            than the sum of the timeouts for build steps within the
-                            build. The expected format is the number of seconds followed
-                            by s. Default time is ten minutes (600s).
-                          type: string
-                      type: object
-                    type: array
-                  description:
-                    description: Human-readable description of the trigger.
-                    type: string
-                  disabled:
-                    description: Whether the trigger is disabled or not. If true,
-                      the trigger will never result in a build.
-                    type: boolean
-                  filename:
-                    description: Path, from the source root, to a file whose contents
-                      is used for the template. Either a filename or build template
-                      must be provided. Set this only when using trigger_template
-                      or github. When using Pub/Sub, Webhook or Manual set the file
-                      name using git_file_source instead.
-                    type: string
-                  filter:
-                    description: A Common Expression Language string. Used only with
-                      Pub/Sub and Webhook.
-                    type: string
-                  gitFileSource:
-                    description: The file source describing the local or remote Build
-                      template. Structure is documented below.
-                    items:
-                      properties:
-                        githubEnterpriseConfig:
-                          description: 'The full resource name of the github enterprise
-                            config. Format: projects/{project}/locations/{location}/githubEnterpriseConfigs/{id}.
-                            projects/{project}/githubEnterpriseConfigs/{id}.'
-                          type: string
-                        path:
-                          description: The path of the file, with the repo root as
-                            the root of the path.
-                          type: string
-                        repoType:
-                          description: 'The type of the repo, since it may not be
-                            explicit from the repo field (e.g from a URL). Values
-                            can be UNKNOWN, CLOUD_SOURCE_REPOSITORIES, GITHUB, BITBUCKET_SERVER
-                            Possible values are: UNKNOWN, CLOUD_SOURCE_REPOSITORIES,
-                            GITHUB, BITBUCKET_SERVER.'
-                          type: string
-                        revision:
-                          description: 'The branch, tag, arbitrary ref, or SHA version
-                            of the repo to use when resolving the filename . This
-                            field respects the same syntax/resolution as described
-                            here: https://git-scm.com/docs/gitrevisions If unspecified,
-                            the revision from which the trigger invocation originated
-                            is assumed to be the revision from which to read the specified
-                            path.'
-                          type: string
-                        uri:
-                          description: The URI of the repo . If unspecified, the repo
-                            from which the trigger invocation originated is assumed
-                            to be the repo from which to read the specified path.
-                          type: string
-                      type: object
-                    type: array
-                  github:
-                    description: Describes the configuration of a trigger that creates
-                      a build whenever a GitHub event is received. One of trigger_template,
-                      github, pubsub_config or webhook_config must be provided. Structure
-                      is documented below.
-                    items:
-                      properties:
-                        enterpriseConfigResourceName:
-                          description: 'The resource name of the github enterprise
-                            config that should be applied to this installation. For
-                            example: "projects/{$projectId}/locations/{$locationId}/githubEnterpriseConfigs/{$configId}"'
-                          type: string
-                        name:
-                          description: 'Name of the repository. For example: The name
-                            for https://github.com/googlecloudplatform/cloud-builders
-                            is "cloud-builders".'
-                          type: string
-                        owner:
-                          description: 'Owner of the repository. For example: The
-                            owner for https://github.com/googlecloudplatform/cloud-builders
-                            is "googlecloudplatform".'
-                          type: string
-                        pullRequest:
-                          description: filter to match changes in pull requests. Specify
-                            only one of pull_request or push. Structure is documented
-                            below.
-                          items:
-                            properties:
-                              branch:
-                                description: Regex of branches to match. The syntax
-                                  of the regular expressions accepted is the syntax
-                                  accepted by RE2 and described at https://github.com/google/re2/wiki/Syntax
-                                type: string
-                              commentControl:
-                                description: 'Configure builds to run whether a repository
-                                  owner or collaborator need to comment /gcbrun. Possible
-                                  values are: COMMENTS_DISABLED, COMMENTS_ENABLED,
-                                  COMMENTS_ENABLED_FOR_EXTERNAL_CONTRIBUTORS_ONLY.'
-                                type: string
-                              invertRegex:
-                                description: Only trigger a build if the revision
-                                  regex does NOT match the revision regex.
-                                type: boolean
-                            type: object
-                          type: array
-                        push:
-                          description: filter to match changes in refs, like branches
-                            or tags. Specify only one of pull_request or push. Structure
-                            is documented below.
-                          items:
-                            properties:
-                              branch:
-                                description: Regex of branches to match. The syntax
-                                  of the regular expressions accepted is the syntax
-                                  accepted by RE2 and described at https://github.com/google/re2/wiki/Syntax
-                                type: string
-                              invertRegex:
-                                description: Only trigger a build if the revision
-                                  regex does NOT match the revision regex.
-                                type: boolean
-                              tag:
-                                description: Regex of tags to match. The syntax of
-                                  the regular expressions accepted is the syntax accepted
-                                  by RE2 and described at https://github.com/google/re2/wiki/Syntax
-                                type: string
-                            type: object
-                          type: array
-                      type: object
-                    type: array
-                  ignoredFiles:
-                    description: ignoredFiles and includedFiles are file glob matches
-                      using https://golang.org/pkg/path/filepath/#Match extended with
-                      support for **. If ignoredFiles and changed files are both empty,
-                      then they are not used to determine whether or not to trigger
-                      a build. If ignoredFiles is not empty, then we ignore any files
-                      that match any of the ignored_file globs. If the change has
-                      no files that are outside of the ignoredFiles globs, then we
-                      do not trigger a build.
-                    items:
-                      type: string
-                    type: array
-                  includeBuildLogs:
-                    description: 'Build logs will be sent back to GitHub as part of
-                      the checkrun result.  Values can be INCLUDE_BUILD_LOGS_UNSPECIFIED
-                      or INCLUDE_BUILD_LOGS_WITH_STATUS Possible values are: INCLUDE_BUILD_LOGS_UNSPECIFIED,
-                      INCLUDE_BUILD_LOGS_WITH_STATUS.'
-                    type: string
-                  includedFiles:
-                    description: ignoredFiles and includedFiles are file glob matches
-                      using https://golang.org/pkg/path/filepath/#Match extended with
-                      support for **. If any of the files altered in the commit pass
-                      the ignoredFiles filter and includedFiles is empty, then as
-                      far as this filter is concerned, we should trigger the build.
-                      If any of the files altered in the commit pass the ignoredFiles
-                      filter and includedFiles is not empty, then we make sure that
-                      at least one of those files matches a includedFiles glob. If
-                      not, then we do not trigger a build.
-                    items:
-                      type: string
-                    type: array
-                  location:
-                    description: The Cloud Build location for the trigger. If not
-                      specified, "global" is used.
-                    type: string
-                  name:
-                    description: Name of the trigger. Must be unique within the project.
-                    type: string
-                  project:
-                    description: The ID of the project in which the resource belongs.
-                      If it is not provided, the provider project is used.
-                    type: string
-                  pubsubConfig:
-                    description: PubsubConfig describes the configuration of a trigger
-                      that creates a build whenever a Pub/Sub message is published.
-                      One of trigger_template, github, pubsub_config webhook_config
-                      or source_to_build must be provided. Structure is documented
-                      below.
-                    items:
-                      properties:
-                        serviceAccountEmail:
-                          description: Service account that will make the push request.
-                          type: string
-                      type: object
-                    type: array
-                  sourceToBuild:
-                    description: The repo and ref of the repository from which to
-                      build. This field is used only for those triggers that do not
-                      respond to SCM events. Triggers that respond to such events
-                      build source at whatever commit caused the event. This field
-                      is currently only used by Webhook, Pub/Sub, Manual, and Cron
-                      triggers. One of trigger_template, github, pubsub_config webhook_config
-                      or source_to_build must be provided. Structure is documented
-                      below.
-                    items:
-                      properties:
-                        githubEnterpriseConfig:
-                          description: 'The full resource name of the github enterprise
-                            config. Format: projects/{project}/locations/{location}/githubEnterpriseConfigs/{id}.
-                            projects/{project}/githubEnterpriseConfigs/{id}.'
-                          type: string
-                        ref:
-                          description: The branch or tag to use. Must start with "refs/"
-                            .
-                          type: string
-                        repoType:
-                          description: 'The type of the repo, since it may not be
-                            explicit from the repo field (e.g from a URL). Values
-                            can be UNKNOWN, CLOUD_SOURCE_REPOSITORIES, GITHUB, BITBUCKET_SERVER
-                            Possible values are: UNKNOWN, CLOUD_SOURCE_REPOSITORIES,
-                            GITHUB, BITBUCKET_SERVER.'
-                          type: string
-                        uri:
-                          description: The URI of the repo.
-                          type: string
-                      type: object
-                    type: array
-                  substitutions:
-                    additionalProperties:
-                      type: string
-                    description: Substitutions data for Build resource.
-                    type: object
-                  tags:
-                    description: Tags for annotation of a BuildTrigger
-                    items:
-                      type: string
-                    type: array
-                  triggerTemplate:
-                    description: Template describing the types of source changes to
-                      trigger a build. Branch and tag names in trigger templates are
-                      interpreted as regular expressions. Any branch or tag change
-                      that matches that regular expression will trigger a build. One
-                      of trigger_template, github, pubsub_config, webhook_config or
-                      source_to_build must be provided. Structure is documented below.
-                    items:
-                      properties:
-                        branchName:
-                          description: Name of the branch to build. Exactly one a
-                            of branch name, tag, or commit SHA must be provided. This
-                            field is a regular expression.
-                          type: string
-                        commitSha:
-                          description: Explicit commit SHA to build. Exactly one of
-                            a branch name, tag, or commit SHA must be provided.
-                          type: string
-                        dir:
-                          description: Directory, relative to the source root, in
-                            which to run the build. This must be a relative path.
-                            If a step's dir is specified and is an absolute path,
-                            this value is ignored for that step's execution.
-                          type: string
-                        invertRegex:
-                          description: Only trigger a build if the revision regex
-                            does NOT match the revision regex.
-                          type: boolean
-                        projectId:
-                          description: ID of the project that owns the Cloud Source
-                            Repository. If omitted, the project ID requesting the
-                            build is assumed.
-                          type: string
-                        repoName:
-                          description: Name of the Cloud Source Repository. If omitted,
-                            the name "default" is assumed.
-                          type: string
-                        tagName:
-                          description: Name of the tag to build. Exactly one of a
-                            branch name, tag, or commit SHA must be provided. This
-                            field is a regular expression.
-                          type: string
-                      type: object
-                    type: array
-                  webhookConfig:
-                    description: WebhookConfig describes the configuration of a trigger
-                      that creates a build whenever a webhook is sent to a trigger's
-                      webhook URL. One of trigger_template, github, pubsub_config
-                      webhook_config or source_to_build must be provided. Structure
-                      is documented below.
-                    items:
                       type: object
                     type: array
                 type: object

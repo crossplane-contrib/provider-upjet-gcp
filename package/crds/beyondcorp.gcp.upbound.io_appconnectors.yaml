@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.1
+    controller-gen.kubebuilder.io/version: v0.12.0
   name: appconnectors.beyondcorp.gcp.upbound.io
 spec:
   group: beyondcorp.gcp.upbound.io
@@ -171,6 +171,8 @@ spec:
                                 type: object
                             type: object
                           type: array
+                      required:
+                      - serviceAccount
                       type: object
                     type: array
                   project:
@@ -182,45 +184,6 @@ spec:
                     type: string
                 required:
                 - region
-                type: object
-              initProvider:
-                description: THIS IS AN ALPHA FIELD. Do not use it in production.
-                  It is not honored unless the relevant Crossplane feature flag is
-                  enabled, and may be changed or removed without notice. InitProvider
-                  holds the same fields as ForProvider, with the exception of Identifier
-                  and other resource reference fields. The fields that are in InitProvider
-                  are merged into ForProvider when the resource is created. The same
-                  fields are also added to the terraform ignore_changes hook, to avoid
-                  updating them after creation. This is useful for fields that are
-                  required on creation, but we do not desire to update them after
-                  creation, for example because of an external controller is managing
-                  them, like an autoscaler.
-                properties:
-                  displayName:
-                    description: An arbitrary user-provided name for the AppConnector.
-                    type: string
-                  labels:
-                    additionalProperties:
-                      type: string
-                    description: Resource labels to represent user provided metadata.
-                    type: object
-                  principalInfo:
-                    description: Principal information about the Identity of the AppConnector.
-                      Structure is documented below.
-                    items:
-                      properties:
-                        serviceAccount:
-                          description: ServiceAccount represents a GCP service account.
-                            Structure is documented below.
-                          items:
-                            type: object
-                          type: array
-                      type: object
-                    type: array
-                  project:
-                    description: The ID of the project in which the resource belongs.
-                      If it is not provided, the provider project is used.
-                    type: string
                 type: object
               managementPolicies:
                 default:
@@ -422,8 +385,7 @@ spec:
             x-kubernetes-validations:
             - message: principalInfo is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.principalInfo)
-                || has(self.initProvider.principalInfo)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.principalInfo)'
           status:
             description: AppConnectorStatus defines the observed state of AppConnector.
             properties:

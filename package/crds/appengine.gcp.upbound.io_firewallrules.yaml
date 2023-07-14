@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.1
+    controller-gen.kubebuilder.io/version: v0.12.0
   name: firewallrules.appengine.gcp.upbound.io
 spec:
   group: appengine.gcp.upbound.io
@@ -161,38 +161,6 @@ spec:
                             type: string
                         type: object
                     type: object
-                  sourceRange:
-                    description: IP address or range, defined using CIDR notation,
-                      of requests that this rule applies to.
-                    type: string
-                type: object
-              initProvider:
-                description: THIS IS AN ALPHA FIELD. Do not use it in production.
-                  It is not honored unless the relevant Crossplane feature flag is
-                  enabled, and may be changed or removed without notice. InitProvider
-                  holds the same fields as ForProvider, with the exception of Identifier
-                  and other resource reference fields. The fields that are in InitProvider
-                  are merged into ForProvider when the resource is created. The same
-                  fields are also added to the terraform ignore_changes hook, to avoid
-                  updating them after creation. This is useful for fields that are
-                  required on creation, but we do not desire to update them after
-                  creation, for example because of an external controller is managing
-                  them, like an autoscaler.
-                properties:
-                  action:
-                    description: 'The action to take if this rule matches. Possible
-                      values are: UNSPECIFIED_ACTION, ALLOW, DENY.'
-                    type: string
-                  description:
-                    description: An optional string description of this rule.
-                    type: string
-                  priority:
-                    description: A positive integer that defines the order of rule
-                      evaluation. Rules with the lowest priority are evaluated first.
-                      A default rule at priority Int32.MaxValue matches all IPv4 and
-                      IPv6 traffic when no previous rule matches. Only the action
-                      of this rule can be modified by the user.
-                    type: number
                   sourceRange:
                     description: IP address or range, defined using CIDR notation,
                       of requests that this rule applies to.
@@ -398,12 +366,10 @@ spec:
             x-kubernetes-validations:
             - message: action is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.action)
-                || has(self.initProvider.action)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.action)'
             - message: sourceRange is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.sourceRange)
-                || has(self.initProvider.sourceRange)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.sourceRange)'
           status:
             description: FirewallRuleStatus defines the observed state of FirewallRule.
             properties:

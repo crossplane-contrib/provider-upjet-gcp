@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.1
+    controller-gen.kubebuilder.io/version: v0.12.0
   name: projectservices.cloudplatform.gcp.upbound.io
 spec:
   group: cloudplatform.gcp.upbound.io
@@ -156,35 +156,6 @@ spec:
                             type: string
                         type: object
                     type: object
-                  service:
-                    description: The service to enable.
-                    type: string
-                type: object
-              initProvider:
-                description: THIS IS AN ALPHA FIELD. Do not use it in production.
-                  It is not honored unless the relevant Crossplane feature flag is
-                  enabled, and may be changed or removed without notice. InitProvider
-                  holds the same fields as ForProvider, with the exception of Identifier
-                  and other resource reference fields. The fields that are in InitProvider
-                  are merged into ForProvider when the resource is created. The same
-                  fields are also added to the terraform ignore_changes hook, to avoid
-                  updating them after creation. This is useful for fields that are
-                  required on creation, but we do not desire to update them after
-                  creation, for example because of an external controller is managing
-                  them, like an autoscaler.
-                properties:
-                  disableDependentServices:
-                    description: If true, services that are enabled and which depend
-                      on this service should also be disabled when this service is
-                      destroyed. If false or unset, an error will be generated if
-                      any enabled services depend on this service when destroying
-                      it.
-                    type: boolean
-                  disableOnDestroy:
-                    description: Defaults to true. May be useful in the event that
-                      a project is long-lived but the infrastructure running in that
-                      project changes frequently.
-                    type: boolean
                   service:
                     description: The service to enable.
                     type: string
@@ -389,8 +360,7 @@ spec:
             x-kubernetes-validations:
             - message: service is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.service)
-                || has(self.initProvider.service)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.service)'
           status:
             description: ProjectServiceStatus defines the observed state of ProjectService.
             properties:

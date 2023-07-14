@@ -25,53 +25,10 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
-type BigqueryProfileInitParameters struct {
-}
-
 type BigqueryProfileObservation struct {
 }
 
 type BigqueryProfileParameters struct {
-}
-
-type ConnectionProfileInitParameters struct {
-
-	// BigQuery warehouse profile.
-	BigqueryProfile []BigqueryProfileInitParameters `json:"bigqueryProfile,omitempty" tf:"bigquery_profile,omitempty"`
-
-	// Display name.
-	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
-
-	// Forward SSH tunnel connectivity.
-	// Structure is documented below.
-	ForwardSSHConnectivity []ForwardSSHConnectivityInitParameters `json:"forwardSshConnectivity,omitempty" tf:"forward_ssh_connectivity,omitempty"`
-
-	// Cloud Storage bucket profile.
-	// Structure is documented below.
-	GcsProfile []GcsProfileInitParameters `json:"gcsProfile,omitempty" tf:"gcs_profile,omitempty"`
-
-	// Labels.
-	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
-
-	// MySQL database profile.
-	// Structure is documented below.
-	MySQLProfile []MySQLProfileInitParameters `json:"mysqlProfile,omitempty" tf:"mysql_profile,omitempty"`
-
-	// Oracle database profile.
-	// Structure is documented below.
-	OracleProfile []OracleProfileInitParameters `json:"oracleProfile,omitempty" tf:"oracle_profile,omitempty"`
-
-	// PostgreSQL database profile.
-	// Structure is documented below.
-	PostgresqlProfile []PostgresqlProfileInitParameters `json:"postgresqlProfile,omitempty" tf:"postgresql_profile,omitempty"`
-
-	// Private connectivity.
-	// Structure is documented below.
-	PrivateConnectivity []PrivateConnectivityInitParameters `json:"privateConnectivity,omitempty" tf:"private_connectivity,omitempty"`
-
-	// The ID of the project in which the resource belongs.
-	// If it is not provided, the provider project is used.
-	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 
 type ConnectionProfileObservation struct {
@@ -177,18 +134,6 @@ type ConnectionProfileParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 
-type ForwardSSHConnectivityInitParameters struct {
-
-	// Hostname for the SSH tunnel.
-	Hostname *string `json:"hostname,omitempty" tf:"hostname,omitempty"`
-
-	// Port for the SSH tunnel.
-	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
-
-	// Username for the SSH tunnel.
-	Username *string `json:"username,omitempty" tf:"username,omitempty"`
-}
-
 type ForwardSSHConnectivityObservation struct {
 
 	// Hostname for the SSH tunnel.
@@ -204,8 +149,8 @@ type ForwardSSHConnectivityObservation struct {
 type ForwardSSHConnectivityParameters struct {
 
 	// Hostname for the SSH tunnel.
-	// +kubebuilder:validation:Optional
-	Hostname *string `json:"hostname,omitempty" tf:"hostname,omitempty"`
+	// +kubebuilder:validation:Required
+	Hostname *string `json:"hostname" tf:"hostname,omitempty"`
 
 	// SSH password.
 	// Note: This property is sensitive and will not be displayed in the plan.
@@ -222,17 +167,8 @@ type ForwardSSHConnectivityParameters struct {
 	PrivateKeySecretRef *v1.SecretKeySelector `json:"privateKeySecretRef,omitempty" tf:"-"`
 
 	// Username for the SSH tunnel.
-	// +kubebuilder:validation:Optional
-	Username *string `json:"username,omitempty" tf:"username,omitempty"`
-}
-
-type GcsProfileInitParameters struct {
-
-	// The Cloud Storage bucket name.
-	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
-
-	// The root path inside the Cloud Storage bucket.
-	RootPath *string `json:"rootPath,omitempty" tf:"root_path,omitempty"`
+	// +kubebuilder:validation:Required
+	Username *string `json:"username" tf:"username,omitempty"`
 }
 
 type GcsProfileObservation struct {
@@ -247,28 +183,12 @@ type GcsProfileObservation struct {
 type GcsProfileParameters struct {
 
 	// The Cloud Storage bucket name.
-	// +kubebuilder:validation:Optional
-	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
+	// +kubebuilder:validation:Required
+	Bucket *string `json:"bucket" tf:"bucket,omitempty"`
 
 	// The root path inside the Cloud Storage bucket.
 	// +kubebuilder:validation:Optional
 	RootPath *string `json:"rootPath,omitempty" tf:"root_path,omitempty"`
-}
-
-type MySQLProfileInitParameters struct {
-
-	// Hostname for the MySQL connection.
-	Hostname *string `json:"hostname,omitempty" tf:"hostname,omitempty"`
-
-	// Port for the MySQL connection.
-	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
-
-	// SSL configuration for the MySQL connection.
-	// Structure is documented below.
-	SSLConfig []SSLConfigInitParameters `json:"sslConfig,omitempty" tf:"ssl_config,omitempty"`
-
-	// Username for the MySQL connection.
-	Username *string `json:"username,omitempty" tf:"username,omitempty"`
 }
 
 type MySQLProfileObservation struct {
@@ -290,8 +210,8 @@ type MySQLProfileObservation struct {
 type MySQLProfileParameters struct {
 
 	// Hostname for the MySQL connection.
-	// +kubebuilder:validation:Optional
-	Hostname *string `json:"hostname,omitempty" tf:"hostname,omitempty"`
+	// +kubebuilder:validation:Required
+	Hostname *string `json:"hostname" tf:"hostname,omitempty"`
 
 	// Password for the MySQL connection.
 	// Note: This property is sensitive and will not be displayed in the plan.
@@ -308,26 +228,8 @@ type MySQLProfileParameters struct {
 	SSLConfig []SSLConfigParameters `json:"sslConfig,omitempty" tf:"ssl_config,omitempty"`
 
 	// Username for the MySQL connection.
-	// +kubebuilder:validation:Optional
-	Username *string `json:"username,omitempty" tf:"username,omitempty"`
-}
-
-type OracleProfileInitParameters struct {
-
-	// Connection string attributes
-	ConnectionAttributes map[string]*string `json:"connectionAttributes,omitempty" tf:"connection_attributes,omitempty"`
-
-	// Database for the Oracle connection.
-	DatabaseService *string `json:"databaseService,omitempty" tf:"database_service,omitempty"`
-
-	// Hostname for the Oracle connection.
-	Hostname *string `json:"hostname,omitempty" tf:"hostname,omitempty"`
-
-	// Port for the Oracle connection.
-	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
-
-	// Username for the Oracle connection.
-	Username *string `json:"username,omitempty" tf:"username,omitempty"`
+	// +kubebuilder:validation:Required
+	Username *string `json:"username" tf:"username,omitempty"`
 }
 
 type OracleProfileObservation struct {
@@ -355,12 +257,12 @@ type OracleProfileParameters struct {
 	ConnectionAttributes map[string]*string `json:"connectionAttributes,omitempty" tf:"connection_attributes,omitempty"`
 
 	// Database for the Oracle connection.
-	// +kubebuilder:validation:Optional
-	DatabaseService *string `json:"databaseService,omitempty" tf:"database_service,omitempty"`
+	// +kubebuilder:validation:Required
+	DatabaseService *string `json:"databaseService" tf:"database_service,omitempty"`
 
 	// Hostname for the Oracle connection.
-	// +kubebuilder:validation:Optional
-	Hostname *string `json:"hostname,omitempty" tf:"hostname,omitempty"`
+	// +kubebuilder:validation:Required
+	Hostname *string `json:"hostname" tf:"hostname,omitempty"`
 
 	// Password for the Oracle connection.
 	// Note: This property is sensitive and will not be displayed in the plan.
@@ -372,14 +274,8 @@ type OracleProfileParameters struct {
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
 
 	// Username for the Oracle connection.
-	// +kubebuilder:validation:Optional
-	Username *string `json:"username,omitempty" tf:"username,omitempty"`
-}
-
-type PostgresqlProfileInitParameters struct {
-
-	// Port for the PostgreSQL connection.
-	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+	// +kubebuilder:validation:Required
+	Username *string `json:"username" tf:"username,omitempty"`
 }
 
 type PostgresqlProfileObservation struct {
@@ -449,9 +345,6 @@ type PostgresqlProfileParameters struct {
 	UsernameSelector *v1.Selector `json:"usernameSelector,omitempty" tf:"-"`
 }
 
-type PrivateConnectivityInitParameters struct {
-}
-
 type PrivateConnectivityObservation struct {
 
 	// A reference to a private connection resource. Format: projects/{project}/locations/{location}/privateConnections/{name}
@@ -473,9 +366,6 @@ type PrivateConnectivityParameters struct {
 	// Selector for a PrivateConnection in datastream to populate privateConnection.
 	// +kubebuilder:validation:Optional
 	PrivateConnectionSelector *v1.Selector `json:"privateConnectionSelector,omitempty" tf:"-"`
-}
-
-type SSLConfigInitParameters struct {
 }
 
 type SSLConfigObservation struct {
@@ -521,18 +411,6 @@ type SSLConfigParameters struct {
 type ConnectionProfileSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     ConnectionProfileParameters `json:"forProvider"`
-	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
-	// unless the relevant Crossplane feature flag is enabled, and may be
-	// changed or removed without notice.
-	// InitProvider holds the same fields as ForProvider, with the exception
-	// of Identifier and other resource reference fields. The fields that are
-	// in InitProvider are merged into ForProvider when the resource is created.
-	// The same fields are also added to the terraform ignore_changes hook, to
-	// avoid updating them after creation. This is useful for fields that are
-	// required on creation, but we do not desire to update them after creation,
-	// for example because of an external controller is managing them, like an
-	// autoscaler.
-	InitProvider ConnectionProfileInitParameters `json:"initProvider,omitempty"`
 }
 
 // ConnectionProfileStatus defines the observed state of ConnectionProfile.
@@ -553,7 +431,7 @@ type ConnectionProfileStatus struct {
 type ConnectionProfile struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.displayName) || has(self.initProvider.displayName)",message="displayName is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.displayName)",message="displayName is a required parameter"
 	Spec   ConnectionProfileSpec   `json:"spec"`
 	Status ConnectionProfileStatus `json:"status,omitempty"`
 }

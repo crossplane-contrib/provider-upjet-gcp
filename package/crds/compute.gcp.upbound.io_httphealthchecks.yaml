@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.1
+    controller-gen.kubebuilder.io/version: v0.12.0
   name: httphealthchecks.compute.gcp.upbound.io
 spec:
   group: compute.gcp.upbound.io
@@ -66,59 +66,6 @@ spec:
                 - Delete
                 type: string
               forProvider:
-                properties:
-                  checkIntervalSec:
-                    description: How often (in seconds) to send a health check. The
-                      default value is 5 seconds.
-                    type: number
-                  description:
-                    description: An optional description of this resource. Provide
-                      this property when you create the resource.
-                    type: string
-                  healthyThreshold:
-                    description: A so-far unhealthy instance will be marked healthy
-                      after this many consecutive successes. The default value is
-                      2.
-                    type: number
-                  host:
-                    description: The value of the host header in the HTTP health check
-                      request. If left empty (default value), the public IP on behalf
-                      of which this health check is performed will be used.
-                    type: string
-                  port:
-                    description: The TCP port number for the HTTP health check request.
-                      The default value is 80.
-                    type: number
-                  project:
-                    description: The ID of the project in which the resource belongs.
-                      If it is not provided, the provider project is used.
-                    type: string
-                  requestPath:
-                    description: The request path of the HTTP health check request.
-                      The default value is /.
-                    type: string
-                  timeoutSec:
-                    description: How long (in seconds) to wait before claiming failure.
-                      The default value is 5 seconds.  It is invalid for timeoutSec
-                      to have greater value than checkIntervalSec.
-                    type: number
-                  unhealthyThreshold:
-                    description: A so-far healthy instance will be marked unhealthy
-                      after this many consecutive failures. The default value is 2.
-                    type: number
-                type: object
-              initProvider:
-                description: THIS IS AN ALPHA FIELD. Do not use it in production.
-                  It is not honored unless the relevant Crossplane feature flag is
-                  enabled, and may be changed or removed without notice. InitProvider
-                  holds the same fields as ForProvider, with the exception of Identifier
-                  and other resource reference fields. The fields that are in InitProvider
-                  are merged into ForProvider when the resource is created. The same
-                  fields are also added to the terraform ignore_changes hook, to avoid
-                  updating them after creation. This is useful for fields that are
-                  required on creation, but we do not desire to update them after
-                  creation, for example because of an external controller is managing
-                  them, like an autoscaler.
                 properties:
                   checkIntervalSec:
                     description: How often (in seconds) to send a health check. The

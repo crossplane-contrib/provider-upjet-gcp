@@ -25,27 +25,6 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
-type AssetInitParameters struct {
-
-	// Optional. Description of the asset.
-	Description *string `json:"description,omitempty" tf:"description,omitempty"`
-
-	// Required. Specification of the discovery feature applied to data referenced by this asset. When this spec is left unset, the asset will use the spec set on the parent zone.
-	DiscoverySpec []DiscoverySpecInitParameters `json:"discoverySpec,omitempty" tf:"discovery_spec,omitempty"`
-
-	// Optional. User friendly display name.
-	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
-
-	// Optional. User defined labels for the asset.
-	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
-
-	// The project for the resource
-	Project *string `json:"project,omitempty" tf:"project,omitempty"`
-
-	// Required. Immutable. Specification of the resource that is referenced by this asset.
-	ResourceSpec []ResourceSpecInitParameters `json:"resourceSpec,omitempty" tf:"resource_spec,omitempty"`
-}
-
 type AssetObservation struct {
 
 	// Output only. The time when the asset was created.
@@ -157,21 +136,6 @@ type AssetParameters struct {
 	ResourceSpec []ResourceSpecParameters `json:"resourceSpec,omitempty" tf:"resource_spec,omitempty"`
 }
 
-type CsvOptionsInitParameters struct {
-
-	// Optional. The delimiter being used to separate values. This defaults to ','.
-	Delimiter *string `json:"delimiter,omitempty" tf:"delimiter,omitempty"`
-
-	// Optional. Whether to disable the inference of data type for Json data. If true, all columns will be registered as their primitive types (strings, number or boolean).
-	DisableTypeInference *bool `json:"disableTypeInference,omitempty" tf:"disable_type_inference,omitempty"`
-
-	// Optional. The character encoding of the data. The default is UTF-8.
-	Encoding *string `json:"encoding,omitempty" tf:"encoding,omitempty"`
-
-	// Optional. The number of rows to interpret as header rows that should be skipped when reading data rows.
-	HeaderRows *float64 `json:"headerRows,omitempty" tf:"header_rows,omitempty"`
-}
-
 type CsvOptionsObservation struct {
 
 	// Optional. The delimiter being used to separate values. This defaults to ','.
@@ -206,27 +170,6 @@ type CsvOptionsParameters struct {
 	HeaderRows *float64 `json:"headerRows,omitempty" tf:"header_rows,omitempty"`
 }
 
-type DiscoverySpecInitParameters struct {
-
-	// Optional. Configuration for CSV data.
-	CsvOptions []CsvOptionsInitParameters `json:"csvOptions,omitempty" tf:"csv_options,omitempty"`
-
-	// Required. Whether discovery is enabled.
-	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
-
-	// Optional. The list of patterns to apply for selecting data to exclude during discovery. For Cloud Storage bucket assets, these are interpreted as glob patterns used to match object names. For BigQuery dataset assets, these are interpreted as patterns to match table names.
-	ExcludePatterns []*string `json:"excludePatterns,omitempty" tf:"exclude_patterns,omitempty"`
-
-	// Optional. The list of patterns to apply for selecting data to include during discovery if only a subset of the data should considered. For Cloud Storage bucket assets, these are interpreted as glob patterns used to match object names. For BigQuery dataset assets, these are interpreted as patterns to match table names.
-	IncludePatterns []*string `json:"includePatterns,omitempty" tf:"include_patterns,omitempty"`
-
-	// Optional. Configuration for Json data.
-	JSONOptions []JSONOptionsInitParameters `json:"jsonOptions,omitempty" tf:"json_options,omitempty"`
-
-	// Optional. Cron schedule (https://en.wikipedia.org/wiki/Cron) for running discovery periodically. Successive discovery runs must be scheduled at least 60 minutes apart. The default value is to run discovery every 60 minutes. To explicitly set a timezone to the cron tab, apply a prefix in the cron tab: "CRON_TZ=${IANA_TIME_ZONE}" or TZ=${IANA_TIME_ZONE}". The ${IANA_TIME_ZONE} may only be a valid string from IANA time zone database. For example, "CRON_TZ=America/New_York 1 * * * *", or "TZ=America/New_York 1 * * * *".
-	Schedule *string `json:"schedule,omitempty" tf:"schedule,omitempty"`
-}
-
 type DiscoverySpecObservation struct {
 
 	// Optional. Configuration for CSV data.
@@ -255,8 +198,8 @@ type DiscoverySpecParameters struct {
 	CsvOptions []CsvOptionsParameters `json:"csvOptions,omitempty" tf:"csv_options,omitempty"`
 
 	// Required. Whether discovery is enabled.
-	// +kubebuilder:validation:Optional
-	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+	// +kubebuilder:validation:Required
+	Enabled *bool `json:"enabled" tf:"enabled,omitempty"`
 
 	// Optional. The list of patterns to apply for selecting data to exclude during discovery. For Cloud Storage bucket assets, these are interpreted as glob patterns used to match object names. For BigQuery dataset assets, these are interpreted as patterns to match table names.
 	// +kubebuilder:validation:Optional
@@ -273,9 +216,6 @@ type DiscoverySpecParameters struct {
 	// Optional. Cron schedule (https://en.wikipedia.org/wiki/Cron) for running discovery periodically. Successive discovery runs must be scheduled at least 60 minutes apart. The default value is to run discovery every 60 minutes. To explicitly set a timezone to the cron tab, apply a prefix in the cron tab: "CRON_TZ=${IANA_TIME_ZONE}" or TZ=${IANA_TIME_ZONE}". The ${IANA_TIME_ZONE} may only be a valid string from IANA time zone database. For example, "CRON_TZ=America/New_York 1 * * * *", or "TZ=America/New_York 1 * * * *".
 	// +kubebuilder:validation:Optional
 	Schedule *string `json:"schedule,omitempty" tf:"schedule,omitempty"`
-}
-
-type DiscoveryStatusInitParameters struct {
 }
 
 type DiscoveryStatusObservation struct {
@@ -295,15 +235,6 @@ type DiscoveryStatusObservation struct {
 }
 
 type DiscoveryStatusParameters struct {
-}
-
-type JSONOptionsInitParameters struct {
-
-	// Optional. Whether to disable the inference of data type for Json data. If true, all columns will be registered as their primitive types (strings, number or boolean).
-	DisableTypeInference *bool `json:"disableTypeInference,omitempty" tf:"disable_type_inference,omitempty"`
-
-	// Optional. The character encoding of the data. The default is UTF-8.
-	Encoding *string `json:"encoding,omitempty" tf:"encoding,omitempty"`
 }
 
 type JSONOptionsObservation struct {
@@ -326,15 +257,6 @@ type JSONOptionsParameters struct {
 	Encoding *string `json:"encoding,omitempty" tf:"encoding,omitempty"`
 }
 
-type ResourceSpecInitParameters struct {
-
-	// Immutable. Relative name of the cloud resource that contains the data that is being managed within a lake. For example: projects/{project_number}/buckets/{bucket_id} projects/{project_number}/datasets/{dataset_id}
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
-
-	// Required. Immutable. Type of resource. Possible values: STORAGE_BUCKET, BIGQUERY_DATASET
-	Type *string `json:"type,omitempty" tf:"type,omitempty"`
-}
-
 type ResourceSpecObservation struct {
 
 	// Immutable. Relative name of the cloud resource that contains the data that is being managed within a lake. For example: projects/{project_number}/buckets/{bucket_id} projects/{project_number}/datasets/{dataset_id}
@@ -351,11 +273,8 @@ type ResourceSpecParameters struct {
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// Required. Immutable. Type of resource. Possible values: STORAGE_BUCKET, BIGQUERY_DATASET
-	// +kubebuilder:validation:Optional
-	Type *string `json:"type,omitempty" tf:"type,omitempty"`
-}
-
-type ResourceStatusInitParameters struct {
+	// +kubebuilder:validation:Required
+	Type *string `json:"type" tf:"type,omitempty"`
 }
 
 type ResourceStatusObservation struct {
@@ -371,9 +290,6 @@ type ResourceStatusObservation struct {
 type ResourceStatusParameters struct {
 }
 
-type SecurityStatusInitParameters struct {
-}
-
 type SecurityStatusObservation struct {
 	Message *string `json:"message,omitempty" tf:"message,omitempty"`
 
@@ -385,9 +301,6 @@ type SecurityStatusObservation struct {
 }
 
 type SecurityStatusParameters struct {
-}
-
-type StatsInitParameters struct {
 }
 
 type StatsObservation struct {
@@ -407,18 +320,6 @@ type StatsParameters struct {
 type AssetSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     AssetParameters `json:"forProvider"`
-	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
-	// unless the relevant Crossplane feature flag is enabled, and may be
-	// changed or removed without notice.
-	// InitProvider holds the same fields as ForProvider, with the exception
-	// of Identifier and other resource reference fields. The fields that are
-	// in InitProvider are merged into ForProvider when the resource is created.
-	// The same fields are also added to the terraform ignore_changes hook, to
-	// avoid updating them after creation. This is useful for fields that are
-	// required on creation, but we do not desire to update them after creation,
-	// for example because of an external controller is managing them, like an
-	// autoscaler.
-	InitProvider AssetInitParameters `json:"initProvider,omitempty"`
 }
 
 // AssetStatus defines the observed state of Asset.
@@ -439,8 +340,8 @@ type AssetStatus struct {
 type Asset struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.discoverySpec) || has(self.initProvider.discoverySpec)",message="discoverySpec is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.resourceSpec) || has(self.initProvider.resourceSpec)",message="resourceSpec is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.discoverySpec)",message="discoverySpec is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.resourceSpec)",message="resourceSpec is a required parameter"
 	Spec   AssetSpec   `json:"spec"`
 	Status AssetStatus `json:"status,omitempty"`
 }

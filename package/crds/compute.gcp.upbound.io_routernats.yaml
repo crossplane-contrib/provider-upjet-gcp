@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.1
+    controller-gen.kubebuilder.io/version: v0.12.0
   name: routernats.compute.gcp.upbound.io
 spec:
   group: compute.gcp.upbound.io
@@ -106,6 +106,9 @@ spec:
                             this NAT. Possible values are: ERRORS_ONLY, TRANSLATIONS_ONLY,
                             ALL.'
                           type: string
+                      required:
+                      - enable
+                      - filter
                       type: object
                     type: array
                   maxPortsPerVm:
@@ -261,6 +264,9 @@ spec:
                             list. The rule number must be a positive value between
                             0 and 65000, and must be unique among rules within a NAT.
                           type: number
+                      required:
+                      - match
+                      - ruleNumber
                       type: object
                     type: array
                   sourceSubnetworkIpRangesToNat:
@@ -376,6 +382,8 @@ spec:
                           items:
                             type: string
                           type: array
+                      required:
+                      - sourceIpRangesToNat
                       type: object
                     type: array
                   tcpEstablishedIdleTimeoutSec:
@@ -396,188 +404,6 @@ spec:
                     type: number
                 required:
                 - region
-                type: object
-              initProvider:
-                description: THIS IS AN ALPHA FIELD. Do not use it in production.
-                  It is not honored unless the relevant Crossplane feature flag is
-                  enabled, and may be changed or removed without notice. InitProvider
-                  holds the same fields as ForProvider, with the exception of Identifier
-                  and other resource reference fields. The fields that are in InitProvider
-                  are merged into ForProvider when the resource is created. The same
-                  fields are also added to the terraform ignore_changes hook, to avoid
-                  updating them after creation. This is useful for fields that are
-                  required on creation, but we do not desire to update them after
-                  creation, for example because of an external controller is managing
-                  them, like an autoscaler.
-                properties:
-                  drainNatIps:
-                    description: A list of URLs of the IP resources to be drained.
-                      These IPs must be valid static external IPs that have been assigned
-                      to the NAT.
-                    items:
-                      type: string
-                    type: array
-                  enableDynamicPortAllocation:
-                    description: Enable Dynamic Port Allocation. If minPortsPerVm
-                      is set, minPortsPerVm must be set to a power of two greater
-                      than or equal to 32. If minPortsPerVm is not set, a minimum
-                      of 32 ports will be allocated to a VM from this NAT config.
-                      If maxPortsPerVm is set, maxPortsPerVm must be set to a power
-                      of two greater than minPortsPerVm. If maxPortsPerVm is not set,
-                      a maximum of 65536 ports will be allocated to a VM from this
-                      NAT config. Mutually exclusive with enableEndpointIndependentMapping.
-                    type: boolean
-                  enableEndpointIndependentMapping:
-                    description: Specifies if endpoint independent mapping is enabled.
-                      This is enabled by default. For more information see the official
-                      documentation.
-                    type: boolean
-                  icmpIdleTimeoutSec:
-                    description: Timeout (in seconds) for ICMP connections. Defaults
-                      to 30s if not set.
-                    type: number
-                  logConfig:
-                    description: Configuration for logging on NAT Structure is documented
-                      below.
-                    items:
-                      properties:
-                        enable:
-                          description: Indicates whether or not to export logs.
-                          type: boolean
-                        filter:
-                          description: 'Specifies the desired filtering of logs on
-                            this NAT. Possible values are: ERRORS_ONLY, TRANSLATIONS_ONLY,
-                            ALL.'
-                          type: string
-                      type: object
-                    type: array
-                  maxPortsPerVm:
-                    description: Maximum number of ports allocated to a VM from this
-                      NAT. This field can only be set when enableDynamicPortAllocation
-                      is enabled.
-                    type: number
-                  minPortsPerVm:
-                    description: Minimum number of ports allocated to a VM from this
-                      NAT.
-                    type: number
-                  natIpAllocateOption:
-                    description: 'How external IPs should be allocated for this NAT.
-                      Valid values are AUTO_ONLY for only allowing NAT IPs allocated
-                      by Google Cloud Platform, or MANUAL_ONLY for only user-allocated
-                      NAT IP addresses. Possible values are: MANUAL_ONLY, AUTO_ONLY.'
-                    type: string
-                  natIps:
-                    description: Self-links of NAT IPs. Only valid if natIpAllocateOption
-                      is set to MANUAL_ONLY.
-                    items:
-                      type: string
-                    type: array
-                  project:
-                    description: The ID of the project in which the resource belongs.
-                      If it is not provided, the provider project is used.
-                    type: string
-                  rules:
-                    description: A list of rules associated with this NAT. Structure
-                      is documented below.
-                    items:
-                      properties:
-                        action:
-                          description: The action to be enforced for traffic that
-                            matches this rule. Structure is documented below.
-                          items:
-                            properties:
-                              sourceNatActiveIps:
-                                description: A list of URLs of the IP resources used
-                                  for this NAT rule. These IP addresses must be valid
-                                  static external IP addresses assigned to the project.
-                                  This field is used for public NAT.
-                                items:
-                                  type: string
-                                type: array
-                              sourceNatDrainIps:
-                                description: A list of URLs of the IP resources to
-                                  be drained. These IPs must be valid static external
-                                  IPs that have been assigned to the NAT. These IPs
-                                  should be used for updating/patching a NAT rule
-                                  only. This field is used for public NAT.
-                                items:
-                                  type: string
-                                type: array
-                            type: object
-                          type: array
-                        description:
-                          description: An optional description of this rule.
-                          type: string
-                        match:
-                          description: 'CEL expression that specifies the match condition
-                            that egress traffic from a VM is evaluated against. If
-                            it evaluates to true, the corresponding action is enforced.
-                            The following examples are valid match expressions for
-                            public NAT: "inIpRange(destination.ip, ''1.1.0.0/16'')
-                            || inIpRange(destination.ip, ''2.2.0.0/16'')" "destination.ip
-                            == ''1.1.0.1'' || destination.ip == ''8.8.8.8''" The following
-                            example is a valid match expression for private NAT: "nexthop.hub
-                            == ''https://networkconnectivity.googleapis.com/v1alpha1/projects/my-project/global/hub/hub-1''"'
-                          type: string
-                        ruleNumber:
-                          description: An integer uniquely identifying a rule in the
-                            list. The rule number must be a positive value between
-                            0 and 65000, and must be unique among rules within a NAT.
-                          type: number
-                      type: object
-                    type: array
-                  sourceSubnetworkIpRangesToNat:
-                    description: 'How NAT should be configured per Subnetwork. If
-                      ALL_SUBNETWORKS_ALL_IP_RANGES, all of the IP ranges in every
-                      Subnetwork are allowed to Nat. If ALL_SUBNETWORKS_ALL_PRIMARY_IP_RANGES,
-                      all of the primary IP ranges in every Subnetwork are allowed
-                      to Nat. LIST_OF_SUBNETWORKS: A list of Subnetworks are allowed
-                      to Nat (specified in the field subnetwork below). Note that
-                      if this field contains ALL_SUBNETWORKS_ALL_IP_RANGES or ALL_SUBNETWORKS_ALL_PRIMARY_IP_RANGES,
-                      then there should not be any other RouterNat section in any
-                      Router for this network in this region. Possible values are:
-                      ALL_SUBNETWORKS_ALL_IP_RANGES, ALL_SUBNETWORKS_ALL_PRIMARY_IP_RANGES,
-                      LIST_OF_SUBNETWORKS.'
-                    type: string
-                  subnetwork:
-                    description: One or more subnetwork NAT configurations. Only used
-                      if source_subnetwork_ip_ranges_to_nat is set to LIST_OF_SUBNETWORKS
-                      Structure is documented below.
-                    items:
-                      properties:
-                        secondaryIpRangeNames:
-                          description: List of the secondary ranges of the subnetwork
-                            that are allowed to use NAT. This can be populated only
-                            if LIST_OF_SECONDARY_IP_RANGES is one of the values in
-                            sourceIpRangesToNat
-                          items:
-                            type: string
-                          type: array
-                        sourceIpRangesToNat:
-                          description: 'List of options for which source IPs in the
-                            subnetwork should have NAT enabled. Supported values include:
-                            ALL_IP_RANGES, LIST_OF_SECONDARY_IP_RANGES, PRIMARY_IP_RANGE.'
-                          items:
-                            type: string
-                          type: array
-                      type: object
-                    type: array
-                  tcpEstablishedIdleTimeoutSec:
-                    description: Timeout (in seconds) for TCP established connections.
-                      Defaults to 1200s if not set.
-                    type: number
-                  tcpTimeWaitTimeoutSec:
-                    description: Timeout (in seconds) for TCP connections that are
-                      in TIME_WAIT state. Defaults to 120s if not set.
-                    type: number
-                  tcpTransitoryIdleTimeoutSec:
-                    description: Timeout (in seconds) for TCP transitory connections.
-                      Defaults to 30s if not set.
-                    type: number
-                  udpIdleTimeoutSec:
-                    description: Timeout (in seconds) for UDP connections. Defaults
-                      to 30s if not set.
-                    type: number
                 type: object
               managementPolicies:
                 default:
@@ -779,12 +605,10 @@ spec:
             x-kubernetes-validations:
             - message: natIpAllocateOption is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.natIpAllocateOption)
-                || has(self.initProvider.natIpAllocateOption)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.natIpAllocateOption)'
             - message: sourceSubnetworkIpRangesToNat is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.sourceSubnetworkIpRangesToNat)
-                || has(self.initProvider.sourceSubnetworkIpRangesToNat)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.sourceSubnetworkIpRangesToNat)'
           status:
             description: RouterNATStatus defines the observed state of RouterNAT.
             properties:

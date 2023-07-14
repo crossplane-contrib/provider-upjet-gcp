@@ -25,14 +25,6 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
-type SubnetworkIAMMemberConditionInitParameters struct {
-	Description *string `json:"description,omitempty" tf:"description,omitempty"`
-
-	Expression *string `json:"expression,omitempty" tf:"expression,omitempty"`
-
-	Title *string `json:"title,omitempty" tf:"title,omitempty"`
-}
-
 type SubnetworkIAMMemberConditionObservation struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -46,23 +38,11 @@ type SubnetworkIAMMemberConditionParameters struct {
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// +kubebuilder:validation:Optional
-	Expression *string `json:"expression,omitempty" tf:"expression,omitempty"`
+	// +kubebuilder:validation:Required
+	Expression *string `json:"expression" tf:"expression,omitempty"`
 
-	// +kubebuilder:validation:Optional
-	Title *string `json:"title,omitempty" tf:"title,omitempty"`
-}
-
-type SubnetworkIAMMemberInitParameters struct {
-	Condition []SubnetworkIAMMemberConditionInitParameters `json:"condition,omitempty" tf:"condition,omitempty"`
-
-	Member *string `json:"member,omitempty" tf:"member,omitempty"`
-
-	Project *string `json:"project,omitempty" tf:"project,omitempty"`
-
-	Region *string `json:"region,omitempty" tf:"region,omitempty"`
-
-	Role *string `json:"role,omitempty" tf:"role,omitempty"`
+	// +kubebuilder:validation:Required
+	Title *string `json:"title" tf:"title,omitempty"`
 }
 
 type SubnetworkIAMMemberObservation struct {
@@ -117,18 +97,6 @@ type SubnetworkIAMMemberParameters struct {
 type SubnetworkIAMMemberSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     SubnetworkIAMMemberParameters `json:"forProvider"`
-	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
-	// unless the relevant Crossplane feature flag is enabled, and may be
-	// changed or removed without notice.
-	// InitProvider holds the same fields as ForProvider, with the exception
-	// of Identifier and other resource reference fields. The fields that are
-	// in InitProvider are merged into ForProvider when the resource is created.
-	// The same fields are also added to the terraform ignore_changes hook, to
-	// avoid updating them after creation. This is useful for fields that are
-	// required on creation, but we do not desire to update them after creation,
-	// for example because of an external controller is managing them, like an
-	// autoscaler.
-	InitProvider SubnetworkIAMMemberInitParameters `json:"initProvider,omitempty"`
 }
 
 // SubnetworkIAMMemberStatus defines the observed state of SubnetworkIAMMember.
@@ -149,9 +117,9 @@ type SubnetworkIAMMemberStatus struct {
 type SubnetworkIAMMember struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.member) || has(self.initProvider.member)",message="member is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.region) || has(self.initProvider.region)",message="region is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.role) || has(self.initProvider.role)",message="role is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.member)",message="member is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.region)",message="region is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.role)",message="role is a required parameter"
 	Spec   SubnetworkIAMMemberSpec   `json:"spec"`
 	Status SubnetworkIAMMemberStatus `json:"status,omitempty"`
 }

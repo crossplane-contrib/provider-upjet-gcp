@@ -25,21 +25,6 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
-type HubInitParameters struct {
-
-	// An optional description of the hub.
-	Description *string `json:"description,omitempty" tf:"description,omitempty"`
-
-	// Optional labels in key:value format. For more information about labels, see Requirements for labels.
-	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
-
-	// Immutable. The name of the hub. Hub names must be unique. They use the following form: projects/{project_number}/locations/global/hubs/{hub_id}
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
-
-	// The project for the resource
-	Project *string `json:"project,omitempty" tf:"project,omitempty"`
-}
-
 type HubObservation struct {
 
 	// Output only. The time the hub was created.
@@ -92,9 +77,6 @@ type HubParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 
-type RoutingVpcsInitParameters struct {
-}
-
 type RoutingVpcsObservation struct {
 	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`
 }
@@ -106,18 +88,6 @@ type RoutingVpcsParameters struct {
 type HubSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     HubParameters `json:"forProvider"`
-	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
-	// unless the relevant Crossplane feature flag is enabled, and may be
-	// changed or removed without notice.
-	// InitProvider holds the same fields as ForProvider, with the exception
-	// of Identifier and other resource reference fields. The fields that are
-	// in InitProvider are merged into ForProvider when the resource is created.
-	// The same fields are also added to the terraform ignore_changes hook, to
-	// avoid updating them after creation. This is useful for fields that are
-	// required on creation, but we do not desire to update them after creation,
-	// for example because of an external controller is managing them, like an
-	// autoscaler.
-	InitProvider HubInitParameters `json:"initProvider,omitempty"`
 }
 
 // HubStatus defines the observed state of Hub.
@@ -138,7 +108,7 @@ type HubStatus struct {
 type Hub struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.name) || has(self.initProvider.name)",message="name is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.name)",message="name is a required parameter"
 	Spec   HubSpec   `json:"spec"`
 	Status HubStatus `json:"status,omitempty"`
 }

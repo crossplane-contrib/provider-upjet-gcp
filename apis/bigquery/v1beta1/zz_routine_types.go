@@ -25,30 +25,6 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
-type ArgumentsInitParameters struct {
-
-	// Defaults to FIXED_TYPE.
-	// Default value is FIXED_TYPE.
-	// Possible values are: FIXED_TYPE, ANY_TYPE.
-	ArgumentKind *string `json:"argumentKind,omitempty" tf:"argument_kind,omitempty"`
-
-	// A JSON schema for the data type. Required unless argumentKind = ANY_TYPE.
-	// ~>NOTE: Because this field expects a JSON string, any changes to the string
-	// will create a diff, even if the JSON itself hasn't changed. If the API returns
-	// a different value for the same schema, e.g. it switched the order of values
-	// or replaced STRUCT field type with RECORD field type, we currently cannot
-	// suppress the recurring diff this causes. As a workaround, we recommend using
-	// the schema as returned by the API.
-	DataType *string `json:"dataType,omitempty" tf:"data_type,omitempty"`
-
-	// Specifies whether the argument is input or output. Can be set for procedures only.
-	// Possible values are: IN, OUT, INOUT.
-	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
-
-	// The name of this argument. Can be absent for function return argument.
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
-}
-
 type ArgumentsObservation struct {
 
 	// Defaults to FIXED_TYPE.
@@ -99,57 +75,6 @@ type ArgumentsParameters struct {
 	// The name of this argument. Can be absent for function return argument.
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
-}
-
-type RoutineInitParameters_2 struct {
-
-	// Input/output argument of a function or a stored procedure.
-	// Structure is documented below.
-	Arguments []ArgumentsInitParameters `json:"arguments,omitempty" tf:"arguments,omitempty"`
-
-	// The body of the routine. For functions, this is the expression in the AS clause.
-	// If language=SQL, it is the substring inside (but excluding) the parentheses.
-	DefinitionBody *string `json:"definitionBody,omitempty" tf:"definition_body,omitempty"`
-
-	// The description of the routine if defined.
-	Description *string `json:"description,omitempty" tf:"description,omitempty"`
-
-	// The determinism level of the JavaScript UDF if defined.
-	// Possible values are: DETERMINISM_LEVEL_UNSPECIFIED, DETERMINISTIC, NOT_DETERMINISTIC.
-	DeterminismLevel *string `json:"determinismLevel,omitempty" tf:"determinism_level,omitempty"`
-
-	// Optional. If language = "JAVASCRIPT", this field stores the path of the
-	// imported JAVASCRIPT libraries.
-	ImportedLibraries []*string `json:"importedLibraries,omitempty" tf:"imported_libraries,omitempty"`
-
-	// The language of the routine.
-	// Possible values are: SQL, JAVASCRIPT.
-	Language *string `json:"language,omitempty" tf:"language,omitempty"`
-
-	// The ID of the project in which the resource belongs.
-	// If it is not provided, the provider project is used.
-	Project *string `json:"project,omitempty" tf:"project,omitempty"`
-
-	// Optional. Can be set only if routineType = "TABLE_VALUED_FUNCTION".
-	// If absent, the return table type is inferred from definitionBody at query time in each query
-	// that references this routine. If present, then the columns in the evaluated table result will
-	// be cast to match the column types specificed in return table type, at query time.
-	ReturnTableType *string `json:"returnTableType,omitempty" tf:"return_table_type,omitempty"`
-
-	// A JSON schema for the return type. Optional if language = "SQL"; required otherwise.
-	// If absent, the return type is inferred from definitionBody at query time in each query
-	// that references this routine. If present, then the evaluated result will be cast to
-	// the specified returned type at query time. ~>NOTE: Because this field expects a JSON
-	// string, any changes to the string will create a diff, even if the JSON itself hasn't
-	// changed. If the API returns a different value for the same schema, e.g. it switche
-	// d the order of values or replaced STRUCT field type with RECORD field type, we currently
-	// cannot suppress the recurring diff this causes. As a workaround, we recommend using
-	// the schema as returned by the API.
-	ReturnType *string `json:"returnType,omitempty" tf:"return_type,omitempty"`
-
-	// The type of routine.
-	// Possible values are: SCALAR_FUNCTION, PROCEDURE, TABLE_VALUED_FUNCTION.
-	RoutineType *string `json:"routineType,omitempty" tf:"routine_type,omitempty"`
 }
 
 type RoutineObservation_2 struct {
@@ -295,18 +220,6 @@ type RoutineParameters_2 struct {
 type RoutineSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     RoutineParameters_2 `json:"forProvider"`
-	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
-	// unless the relevant Crossplane feature flag is enabled, and may be
-	// changed or removed without notice.
-	// InitProvider holds the same fields as ForProvider, with the exception
-	// of Identifier and other resource reference fields. The fields that are
-	// in InitProvider are merged into ForProvider when the resource is created.
-	// The same fields are also added to the terraform ignore_changes hook, to
-	// avoid updating them after creation. This is useful for fields that are
-	// required on creation, but we do not desire to update them after creation,
-	// for example because of an external controller is managing them, like an
-	// autoscaler.
-	InitProvider RoutineInitParameters_2 `json:"initProvider,omitempty"`
 }
 
 // RoutineStatus defines the observed state of Routine.
@@ -327,7 +240,7 @@ type RoutineStatus struct {
 type Routine struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.definitionBody) || has(self.initProvider.definitionBody)",message="definitionBody is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.definitionBody)",message="definitionBody is a required parameter"
 	Spec   RoutineSpec   `json:"spec"`
 	Status RoutineStatus `json:"status,omitempty"`
 }

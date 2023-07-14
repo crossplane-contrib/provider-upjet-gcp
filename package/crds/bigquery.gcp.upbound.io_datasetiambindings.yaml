@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.1
+    controller-gen.kubebuilder.io/version: v0.12.0
   name: datasetiambindings.bigquery.gcp.upbound.io
 spec:
   group: bigquery.gcp.upbound.io
@@ -76,6 +76,9 @@ spec:
                           type: string
                         title:
                           type: string
+                      required:
+                      - expression
+                      - title
                       type: object
                     type: array
                   datasetId:
@@ -163,37 +166,6 @@ spec:
                     type: string
                 required:
                 - role
-                type: object
-              initProvider:
-                description: THIS IS AN ALPHA FIELD. Do not use it in production.
-                  It is not honored unless the relevant Crossplane feature flag is
-                  enabled, and may be changed or removed without notice. InitProvider
-                  holds the same fields as ForProvider, with the exception of Identifier
-                  and other resource reference fields. The fields that are in InitProvider
-                  are merged into ForProvider when the resource is created. The same
-                  fields are also added to the terraform ignore_changes hook, to avoid
-                  updating them after creation. This is useful for fields that are
-                  required on creation, but we do not desire to update them after
-                  creation, for example because of an external controller is managing
-                  them, like an autoscaler.
-                properties:
-                  condition:
-                    items:
-                      properties:
-                        description:
-                          type: string
-                        expression:
-                          type: string
-                        title:
-                          type: string
-                      type: object
-                    type: array
-                  members:
-                    items:
-                      type: string
-                    type: array
-                  project:
-                    type: string
                 type: object
               managementPolicies:
                 default:
@@ -395,8 +367,7 @@ spec:
             x-kubernetes-validations:
             - message: members is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.members)
-                || has(self.initProvider.members)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.members)'
           status:
             description: DatasetIAMBindingStatus defines the observed state of DatasetIAMBinding.
             properties:

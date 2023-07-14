@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.1
+    controller-gen.kubebuilder.io/version: v0.12.0
   name: runtimes.notebooks.gcp.upbound.io
 spec:
   group: notebooks.gcp.upbound.io
@@ -129,6 +129,8 @@ spec:
                                 description: The tag of the container image. If not
                                   specified, this defaults to the latest tag.
                                 type: string
+                            required:
+                            - repository
                             type: object
                           type: array
                         notebookUpgradeSchedule:
@@ -186,6 +188,8 @@ spec:
                                         If not specified, this defaults to the latest
                                         tag.
                                       type: string
+                                  required:
+                                  - repository
                                   type: object
                                 type: array
                               dataDisk:
@@ -381,341 +385,15 @@ spec:
                                 items:
                                   type: string
                                 type: array
+                            required:
+                            - dataDisk
+                            - machineType
                             type: object
                           type: array
                       type: object
                     type: array
                 required:
                 - location
-                type: object
-              initProvider:
-                description: THIS IS AN ALPHA FIELD. Do not use it in production.
-                  It is not honored unless the relevant Crossplane feature flag is
-                  enabled, and may be changed or removed without notice. InitProvider
-                  holds the same fields as ForProvider, with the exception of Identifier
-                  and other resource reference fields. The fields that are in InitProvider
-                  are merged into ForProvider when the resource is created. The same
-                  fields are also added to the terraform ignore_changes hook, to avoid
-                  updating them after creation. This is useful for fields that are
-                  required on creation, but we do not desire to update them after
-                  creation, for example because of an external controller is managing
-                  them, like an autoscaler.
-                properties:
-                  accessConfig:
-                    description: The config settings for accessing runtime. Structure
-                      is documented below.
-                    items:
-                      properties:
-                        accessType:
-                          description: The type of access mode this instance. For
-                            valid values, see https://cloud.google.com/vertex-ai/docs/workbench/reference/
-                            rest/v1/projects.locations.runtimes#RuntimeAccessType.
-                          type: string
-                        runtimeOwner:
-                          description: 'The owner of this runtime after creation.
-                            Format: alias@example.com. Currently supports one owner
-                            only.'
-                          type: string
-                      type: object
-                    type: array
-                  project:
-                    description: The ID of the project in which the resource belongs.
-                      If it is not provided, the provider project is used.
-                    type: string
-                  softwareConfig:
-                    description: The config settings for software inside the runtime.
-                      Structure is documented below.
-                    items:
-                      properties:
-                        customGpuDriverPath:
-                          description: Specify a custom Cloud Storage path where the
-                            GPU driver is stored. If not specified, we'll automatically
-                            choose from official GPU drivers.
-                          type: string
-                        enableHealthMonitoring:
-                          description: 'Verifies core internal services are running.
-                            Default: True.'
-                          type: boolean
-                        idleShutdown:
-                          description: 'Runtime will automatically shutdown after
-                            idle_shutdown_time. Default: True'
-                          type: boolean
-                        idleShutdownTimeout:
-                          description: 'Time in minutes to wait before shuting down
-                            runtime. Default: 180 minutes'
-                          type: number
-                        installGpuDriver:
-                          description: Install Nvidia Driver automatically.
-                          type: boolean
-                        kernels:
-                          description: Use a list of container images to use as Kernels
-                            in the notebook instance. Structure is documented below.
-                          items:
-                            properties:
-                              repository:
-                                description: 'The path to the container image repository.
-                                  For example: gcr.io/{project_id}/{imageName}'
-                                type: string
-                              tag:
-                                description: The tag of the container image. If not
-                                  specified, this defaults to the latest tag.
-                                type: string
-                            type: object
-                          type: array
-                        notebookUpgradeSchedule:
-                          description: Cron expression in UTC timezone for schedule
-                            instance auto upgrade. Please follow the cron format.
-                          type: string
-                        postStartupScript:
-                          description: Path to a Bash script that automatically runs
-                            after a notebook instance fully boots up. The path must
-                            be a URL or Cloud Storage path (gs://path-to-file/file-name).
-                          type: string
-                        postStartupScriptBehavior:
-                          description: 'Behavior for the post startup script. Possible
-                            values are: POST_STARTUP_SCRIPT_BEHAVIOR_UNSPECIFIED,
-                            RUN_EVERY_START, DOWNLOAD_AND_RUN_EVERY_START.'
-                          type: string
-                      type: object
-                    type: array
-                  virtualMachine:
-                    description: Use a Compute Engine VM image to start the managed
-                      notebook instance. Structure is documented below.
-                    items:
-                      properties:
-                        virtualMachineConfig:
-                          description: Virtual Machine configuration settings. Structure
-                            is documented below.
-                          items:
-                            properties:
-                              acceleratorConfig:
-                                description: The Compute Engine accelerator configuration
-                                  for this runtime. Structure is documented below.
-                                items:
-                                  properties:
-                                    coreCount:
-                                      description: Count of cores of this accelerator.
-                                      type: number
-                                    type:
-                                      description: Specifies the type of the disk,
-                                        either SCRATCH or PERSISTENT. If not specified,
-                                        the default is PERSISTENT.
-                                      type: string
-                                  type: object
-                                type: array
-                              containerImages:
-                                description: Use a list of container images to start
-                                  the notebook instance. Structure is documented below.
-                                items:
-                                  properties:
-                                    repository:
-                                      description: 'The path to the container image
-                                        repository. For example: gcr.io/{project_id}/{imageName}'
-                                      type: string
-                                    tag:
-                                      description: The tag of the container image.
-                                        If not specified, this defaults to the latest
-                                        tag.
-                                      type: string
-                                  type: object
-                                type: array
-                              dataDisk:
-                                description: Data disk option configuration settings.
-                                  Structure is documented below.
-                                items:
-                                  properties:
-                                    initializeParams:
-                                      description: Input only. Specifies the parameters
-                                        for a new disk that will be created alongside
-                                        the new instance. Use initialization parameters
-                                        to create boot disks or local SSDs attached
-                                        to the new instance. This property is mutually
-                                        exclusive with the source property; you can
-                                        only define one or the other, but not both.
-                                        Structure is documented below.
-                                      items:
-                                        properties:
-                                          description:
-                                            description: Provide this property when
-                                              creating the disk.
-                                            type: string
-                                          diskName:
-                                            description: Specifies the disk name.
-                                              If not specified, the default is to
-                                              use the name of the instance. If the
-                                              disk with the instance name exists already
-                                              in the given zone/region, a new name
-                                              will be automatically generated.
-                                            type: string
-                                          diskSizeGb:
-                                            description: Specifies the size of the
-                                              disk in base-2 GB. If not specified,
-                                              the disk will be the same size as the
-                                              image (usually 10GB). If specified,
-                                              the size must be equal to or larger
-                                              than 10GB. Default 100 GB.
-                                            type: number
-                                          diskType:
-                                            description: The type of the boot disk
-                                              attached to this runtime, defaults to
-                                              standard persistent disk. For valid
-                                              values, see https://cloud.google.com/vertex-ai/docs/workbench/
-                                              reference/rest/v1/projects.locations.runtimes#disktype
-                                            type: string
-                                          labels:
-                                            additionalProperties:
-                                              type: string
-                                            description: The labels to associate with
-                                              this runtime. Label keys must contain
-                                              1 to 63 characters, and must conform
-                                              to [RFC 1035] (https://www.ietf.org/rfc/rfc1035.txt).
-                                              Label values may be empty, but, if present,
-                                              must contain 1 to 63 characters, and
-                                              must conform to RFC 1035. No more than
-                                              32 labels can be associated with a cluster.
-                                            type: object
-                                        type: object
-                                      type: array
-                                    interface:
-                                      description: '"Specifies the disk interface
-                                        to use for attaching this disk, which is either
-                                        SCSI or NVME. The default is SCSI. Persistent
-                                        disks must always use SCSI and the request
-                                        will fail if you attempt to attach a persistent
-                                        disk in any other format than SCSI. Local
-                                        SSDs can use either NVME or SCSI. For performance
-                                        characteristics of SCSI over NVMe, see Local
-                                        SSD performance. Valid values: * NVME * SCSI".'
-                                      type: string
-                                    mode:
-                                      description: The mode in which to attach this
-                                        disk, either READ_WRITE or READ_ONLY. If not
-                                        specified, the default is to attach the disk
-                                        in READ_WRITE mode.
-                                      type: string
-                                    source:
-                                      description: Specifies a valid partial or full
-                                        URL to an existing Persistent Disk resource.
-                                      type: string
-                                    type:
-                                      description: Specifies the type of the disk,
-                                        either SCRATCH or PERSISTENT. If not specified,
-                                        the default is PERSISTENT.
-                                      type: string
-                                  type: object
-                                type: array
-                              encryptionConfig:
-                                description: Encryption settings for virtual machine
-                                  data disk. Structure is documented below.
-                                items:
-                                  properties:
-                                    kmsKey:
-                                      description: 'The Cloud KMS resource identifier
-                                        of the customer-managed encryption key used
-                                        to protect a resource, such as a disks. It
-                                        has the following format: projects/{PROJECT_ID}/locations/{REGION}/keyRings/
-                                        {KEY_RING_NAME}/cryptoKeys/{KEY_NAME}'
-                                      type: string
-                                  type: object
-                                type: array
-                              internalIpOnly:
-                                description: If true, runtime will only have internal
-                                  IP addresses. By default, runtimes are not restricted
-                                  to internal IP addresses, and will have ephemeral
-                                  external IP addresses assigned to each vm. This
-                                  internal_ip_only restriction can only be enabled
-                                  for subnetwork enabled networks, and all dependencies
-                                  must be configured to be accessible without external
-                                  IP addresses.
-                                type: boolean
-                              labels:
-                                additionalProperties:
-                                  type: string
-                                description: The labels to associate with this runtime.
-                                  Label keys must contain 1 to 63 characters, and
-                                  must conform to [RFC 1035] (https://www.ietf.org/rfc/rfc1035.txt).
-                                  Label values may be empty, but, if present, must
-                                  contain 1 to 63 characters, and must conform to
-                                  RFC 1035. No more than 32 labels can be associated
-                                  with a cluster.
-                                type: object
-                              machineType:
-                                description: The Compute Engine machine type used
-                                  for runtimes.
-                                type: string
-                              metadata:
-                                additionalProperties:
-                                  type: string
-                                description: The Compute Engine metadata entries to
-                                  add to virtual machine. (see [Project and instance
-                                  metadata](https://cloud.google.com /compute/docs/storing-retrieving-metadata#project_and_instance
-                                  _metadata)).
-                                type: object
-                              network:
-                                description: 'The Compute Engine network to be used
-                                  for machine communications. Cannot be specified
-                                  with subnetwork. If neither network nor subnet is
-                                  specified, the "default" network of the project
-                                  is used, if it exists. A full URL or partial URI.
-                                  Examples:'
-                                type: string
-                              nicType:
-                                description: 'The type of vNIC to be used on this
-                                  interface. This may be gVNIC or VirtioNet. Possible
-                                  values are: UNSPECIFIED_NIC_TYPE, VIRTIO_NET, GVNIC.'
-                                type: string
-                              reservedIpRange:
-                                description: Reserved IP Range name is used for VPC
-                                  Peering. The subnetwork allocation will use the
-                                  range name if it's assigned.
-                                type: string
-                              shieldedInstanceConfig:
-                                description: Shielded VM Instance configuration settings.
-                                  Structure is documented below.
-                                items:
-                                  properties:
-                                    enableIntegrityMonitoring:
-                                      description: Defines whether the instance has
-                                        integrity monitoring enabled. Enables monitoring
-                                        and attestation of the boot integrity of the
-                                        instance. The attestation is performed against
-                                        the integrity policy baseline. This baseline
-                                        is initially derived from the implicitly trusted
-                                        boot image when the instance is created. Enabled
-                                        by default.
-                                      type: boolean
-                                    enableSecureBoot:
-                                      description: Defines whether the instance has
-                                        Secure Boot enabled.Secure Boot helps ensure
-                                        that the system only runs authentic software
-                                        by verifying the digital signature of all
-                                        boot components, and halting the boot process
-                                        if signature verification fails. Disabled
-                                        by default.
-                                      type: boolean
-                                    enableVtpm:
-                                      description: Defines whether the instance has
-                                        the vTPM enabled. Enabled by default.
-                                      type: boolean
-                                  type: object
-                                type: array
-                              subnet:
-                                description: 'The Compute Engine subnetwork to be
-                                  used for machine communications. Cannot be specified
-                                  with network. A full URL or partial URI are valid.
-                                  Examples:'
-                                type: string
-                              tags:
-                                description: The Compute Engine tags to add to runtime
-                                  (see [Tagging instances] (https://cloud.google.com/compute/docs/
-                                  label-or-tag-resources#tags)).
-                                items:
-                                  type: string
-                                type: array
-                            type: object
-                          type: array
-                      type: object
-                    type: array
                 type: object
               managementPolicies:
                 default:

@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.1
+    controller-gen.kubebuilder.io/version: v0.12.0
   name: policies.binaryauthorization.gcp.upbound.io
 spec:
   group: binaryauthorization.gcp.upbound.io
@@ -80,6 +80,8 @@ spec:
                             * as a wildcard, but this is allowed only in text after
                             the registry/ part.
                           type: string
+                      required:
+                      - namePattern
                       type: object
                     type: array
                   clusterAdmissionRules:
@@ -117,6 +119,10 @@ spec:
                           items:
                             type: string
                           type: array
+                      required:
+                      - cluster
+                      - enforcementMode
+                      - evaluationMode
                       type: object
                     type: array
                   defaultAdmissionRule:
@@ -147,115 +153,9 @@ spec:
                           items:
                             type: string
                           type: array
-                      type: object
-                    type: array
-                  description:
-                    description: A descriptive comment.
-                    type: string
-                  globalPolicyEvaluationMode:
-                    description: 'Controls the evaluation of a Google-maintained global
-                      admission policy for common system-level images. Images not
-                      covered by the global policy will be subject to the project
-                      admission policy. Possible values are: ENABLE, DISABLE.'
-                    type: string
-                  project:
-                    description: The ID of the project in which the resource belongs.
-                      If it is not provided, the provider project is used.
-                    type: string
-                type: object
-              initProvider:
-                description: THIS IS AN ALPHA FIELD. Do not use it in production.
-                  It is not honored unless the relevant Crossplane feature flag is
-                  enabled, and may be changed or removed without notice. InitProvider
-                  holds the same fields as ForProvider, with the exception of Identifier
-                  and other resource reference fields. The fields that are in InitProvider
-                  are merged into ForProvider when the resource is created. The same
-                  fields are also added to the terraform ignore_changes hook, to avoid
-                  updating them after creation. This is useful for fields that are
-                  required on creation, but we do not desire to update them after
-                  creation, for example because of an external controller is managing
-                  them, like an autoscaler.
-                properties:
-                  admissionWhitelistPatterns:
-                    description: A whitelist of image patterns to exclude from admission
-                      rules. If an image's name matches a whitelist pattern, the image's
-                      admission requests will always be permitted regardless of your
-                      admission rules. Structure is documented below.
-                    items:
-                      properties:
-                        namePattern:
-                          description: An image name pattern to whitelist, in the
-                            form registry/path/to/image. This supports a trailing
-                            * as a wildcard, but this is allowed only in text after
-                            the registry/ part.
-                          type: string
-                      type: object
-                    type: array
-                  clusterAdmissionRules:
-                    description: Per-cluster admission rules. An admission rule specifies
-                      either that all container images used in a pod creation request
-                      must be attested to by one or more attestors, that all pod creations
-                      will be allowed, or that all pod creations will be denied. There
-                      can be at most one admission rule per cluster spec.
-                    items:
-                      properties:
-                        cluster:
-                          description: The identifier for this object. Format specified
-                            above.
-                          type: string
-                        enforcementMode:
-                          description: 'The action when a pod creation is denied by
-                            the admission rule. Possible values are: ENFORCED_BLOCK_AND_AUDIT_LOG,
-                            DRYRUN_AUDIT_LOG_ONLY.'
-                          type: string
-                        evaluationMode:
-                          description: 'How this admission rule will be evaluated.
-                            Possible values are: ALWAYS_ALLOW, REQUIRE_ATTESTATION,
-                            ALWAYS_DENY.'
-                          type: string
-                        requireAttestationsBy:
-                          description: 'The resource names of the attestors that must
-                            attest to a container image. If the attestor is in a different
-                            project from the policy, it should be specified in the
-                            format projects/*/attestors/*. Each attestor must exist
-                            before a policy can reference it. To add an attestor to
-                            a policy the principal issuing the policy change request
-                            must be able to read the attestor resource. Note: this
-                            field must be non-empty when the evaluation_mode field
-                            specifies REQUIRE_ATTESTATION, otherwise it must be empty.'
-                          items:
-                            type: string
-                          type: array
-                      type: object
-                    type: array
-                  defaultAdmissionRule:
-                    description: Default admission rule for a cluster without a per-cluster
-                      admission rule. Structure is documented below.
-                    items:
-                      properties:
-                        enforcementMode:
-                          description: 'The action when a pod creation is denied by
-                            the admission rule. Possible values are: ENFORCED_BLOCK_AND_AUDIT_LOG,
-                            DRYRUN_AUDIT_LOG_ONLY.'
-                          type: string
-                        evaluationMode:
-                          description: 'How this admission rule will be evaluated.
-                            Possible values are: ALWAYS_ALLOW, REQUIRE_ATTESTATION,
-                            ALWAYS_DENY.'
-                          type: string
-                        requireAttestationsBy:
-                          description: 'The resource names of the attestors that must
-                            attest to a container image. If the attestor is in a different
-                            project from the policy, it should be specified in the
-                            format projects/*/attestors/*. Each attestor must exist
-                            before a policy can reference it. To add an attestor to
-                            a policy the principal issuing the policy change request
-                            must be able to read the attestor resource. Note: this
-                            field must be non-empty when the evaluation_mode field
-                            specifies REQUIRE_ATTESTATION, otherwise it must be empty.'
-                          items:
-                            type: string
-                          type: array
+                      required:
+                      - enforcementMode
+                      - evaluationMode
                       type: object
                     type: array
                   description:
@@ -472,8 +372,7 @@ spec:
             x-kubernetes-validations:
             - message: defaultAdmissionRule is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.defaultAdmissionRule)
-                || has(self.initProvider.defaultAdmissionRule)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.defaultAdmissionRule)'
           status:
             description: PolicyStatus defines the observed state of Policy.
             properties:

@@ -25,12 +25,6 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
-type AptInitParameters struct {
-
-	// Required. Package name.
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
-}
-
 type AptObservation struct {
 
 	// Required. Package name.
@@ -40,17 +34,8 @@ type AptObservation struct {
 type AptParameters struct {
 
 	// Required. Package name.
-	// +kubebuilder:validation:Optional
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
-}
-
-type DebInitParameters struct {
-
-	// Whether dependencies should also be installed. - install when false: rpm --upgrade --replacepkgs package.rpm - install when true: yum -y install package.rpm or zypper -y install package.rpm
-	PullDeps *bool `json:"pullDeps,omitempty" tf:"pull_deps,omitempty"`
-
-	// Required. An rpm package.
-	Source []SourceInitParameters `json:"source,omitempty" tf:"source,omitempty"`
+	// +kubebuilder:validation:Required
+	Name *string `json:"name" tf:"name,omitempty"`
 }
 
 type DebObservation struct {
@@ -69,17 +54,8 @@ type DebParameters struct {
 	PullDeps *bool `json:"pullDeps,omitempty" tf:"pull_deps,omitempty"`
 
 	// Required. An rpm package.
-	// +kubebuilder:validation:Optional
-	Source []SourceParameters `json:"source,omitempty" tf:"source,omitempty"`
-}
-
-type DisruptionBudgetInitParameters struct {
-
-	// Specifies a fixed value.
-	Fixed *float64 `json:"fixed,omitempty" tf:"fixed,omitempty"`
-
-	// Specifies the relative value defined as a percentage, which will be multiplied by a reference value.
-	Percent *float64 `json:"percent,omitempty" tf:"percent,omitempty"`
+	// +kubebuilder:validation:Required
+	Source []SourceParameters `json:"source" tf:"source,omitempty"`
 }
 
 type DisruptionBudgetObservation struct {
@@ -100,24 +76,6 @@ type DisruptionBudgetParameters struct {
 	// Specifies the relative value defined as a percentage, which will be multiplied by a reference value.
 	// +kubebuilder:validation:Optional
 	Percent *float64 `json:"percent,omitempty" tf:"percent,omitempty"`
-}
-
-type EnforceInitParameters struct {
-
-	// Optional arguments to pass to the source during execution.
-	Args []*string `json:"args,omitempty" tf:"args,omitempty"`
-
-	// A remote or local file.
-	File []FileInitParameters `json:"file,omitempty" tf:"file,omitempty"`
-
-	// Required. The script interpreter to use. Possible values: INTERPRETER_UNSPECIFIED, NONE, SHELL, POWERSHELL
-	Interpreter *string `json:"interpreter,omitempty" tf:"interpreter,omitempty"`
-
-	// Only recorded for enforce Exec. Path to an output file (that is created by this Exec) whose content will be recorded in OSPolicyResourceCompliance after a successful run. Absence or failure to read this file will result in this ExecResource being non-compliant. Output file size is limited to 100K bytes.
-	OutputFilePath *string `json:"outputFilePath,omitempty" tf:"output_file_path,omitempty"`
-
-	// An inline script. The size of the script is limited to 1024 characters.
-	Script *string `json:"script,omitempty" tf:"script,omitempty"`
 }
 
 type EnforceObservation struct {
@@ -149,8 +107,8 @@ type EnforceParameters struct {
 	File []FileParameters `json:"file,omitempty" tf:"file,omitempty"`
 
 	// Required. The script interpreter to use. Possible values: INTERPRETER_UNSPECIFIED, NONE, SHELL, POWERSHELL
-	// +kubebuilder:validation:Optional
-	Interpreter *string `json:"interpreter,omitempty" tf:"interpreter,omitempty"`
+	// +kubebuilder:validation:Required
+	Interpreter *string `json:"interpreter" tf:"interpreter,omitempty"`
 
 	// Only recorded for enforce Exec. Path to an output file (that is created by this Exec) whose content will be recorded in OSPolicyResourceCompliance after a successful run. Absence or failure to read this file will result in this ExecResource being non-compliant. Output file size is limited to 100K bytes.
 	// +kubebuilder:validation:Optional
@@ -159,12 +117,6 @@ type EnforceParameters struct {
 	// An inline script. The size of the script is limited to 1024 characters.
 	// +kubebuilder:validation:Optional
 	Script *string `json:"script,omitempty" tf:"script,omitempty"`
-}
-
-type ExclusionLabelsInitParameters struct {
-
-	// Labels are identified by key/value pairs in this map. A VM should contain all the key/value pairs specified in this map to be selected.
-	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 }
 
 type ExclusionLabelsObservation struct {
@@ -178,15 +130,6 @@ type ExclusionLabelsParameters struct {
 	// Labels are identified by key/value pairs in this map. A VM should contain all the key/value pairs specified in this map to be selected.
 	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
-}
-
-type ExecInitParameters struct {
-
-	// What to run to bring this resource into the desired state. An exit code of 100 indicates "success", any other exit code indicates a failure running enforce.
-	Enforce []EnforceInitParameters `json:"enforce,omitempty" tf:"enforce,omitempty"`
-
-	// Required. What to run to validate this resource is in the desired state. An exit code of 100 indicates "in desired state", and exit code of 101 indicates "not in desired state". Any other exit code indicates a failure running validate.
-	Validate []ValidateInitParameters `json:"validate,omitempty" tf:"validate,omitempty"`
 }
 
 type ExecObservation struct {
@@ -205,20 +148,8 @@ type ExecParameters struct {
 	Enforce []EnforceParameters `json:"enforce,omitempty" tf:"enforce,omitempty"`
 
 	// Required. What to run to validate this resource is in the desired state. An exit code of 100 indicates "in desired state", and exit code of 101 indicates "not in desired state". Any other exit code indicates a failure running validate.
-	// +kubebuilder:validation:Optional
-	Validate []ValidateParameters `json:"validate,omitempty" tf:"validate,omitempty"`
-}
-
-type FileFileGcsInitParameters struct {
-
-	// Required. Bucket of the Cloud Storage object.
-	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
-
-	// Generation number of the Cloud Storage object.
-	Generation *float64 `json:"generation,omitempty" tf:"generation,omitempty"`
-
-	// Required. Name of the Cloud Storage object.
-	Object *string `json:"object,omitempty" tf:"object,omitempty"`
+	// +kubebuilder:validation:Required
+	Validate []ValidateParameters `json:"validate" tf:"validate,omitempty"`
 }
 
 type FileFileGcsObservation struct {
@@ -236,31 +167,16 @@ type FileFileGcsObservation struct {
 type FileFileGcsParameters struct {
 
 	// Required. Bucket of the Cloud Storage object.
-	// +kubebuilder:validation:Optional
-	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
+	// +kubebuilder:validation:Required
+	Bucket *string `json:"bucket" tf:"bucket,omitempty"`
 
 	// Generation number of the Cloud Storage object.
 	// +kubebuilder:validation:Optional
 	Generation *float64 `json:"generation,omitempty" tf:"generation,omitempty"`
 
 	// Required. Name of the Cloud Storage object.
-	// +kubebuilder:validation:Optional
-	Object *string `json:"object,omitempty" tf:"object,omitempty"`
-}
-
-type FileFileInitParameters struct {
-
-	// Defaults to false. When false, files are subject to validations based on the file type: Remote: A checksum must be specified. Cloud Storage: An object generation number must be specified.
-	AllowInsecure *bool `json:"allowInsecure,omitempty" tf:"allow_insecure,omitempty"`
-
-	// A Cloud Storage object.
-	Gcs []FileFileGcsInitParameters `json:"gcs,omitempty" tf:"gcs,omitempty"`
-
-	// A local path within the VM to use.
-	LocalPath *string `json:"localPath,omitempty" tf:"local_path,omitempty"`
-
-	// A generic remote file.
-	Remote []FileFileRemoteInitParameters `json:"remote,omitempty" tf:"remote,omitempty"`
+	// +kubebuilder:validation:Required
+	Object *string `json:"object" tf:"object,omitempty"`
 }
 
 type FileFileObservation struct {
@@ -297,15 +213,6 @@ type FileFileParameters struct {
 	Remote []FileFileRemoteParameters `json:"remote,omitempty" tf:"remote,omitempty"`
 }
 
-type FileFileRemoteInitParameters struct {
-
-	// SHA256 checksum of the remote file.
-	Sha256Checksum *string `json:"sha256Checksum,omitempty" tf:"sha256_checksum,omitempty"`
-
-	// Required. URI from which to fetch the object. It should contain both the protocol and path following the format {protocol}://{location}.
-	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`
-}
-
 type FileFileRemoteObservation struct {
 
 	// SHA256 checksum of the remote file.
@@ -322,20 +229,8 @@ type FileFileRemoteParameters struct {
 	Sha256Checksum *string `json:"sha256Checksum,omitempty" tf:"sha256_checksum,omitempty"`
 
 	// Required. URI from which to fetch the object. It should contain both the protocol and path following the format {protocol}://{location}.
-	// +kubebuilder:validation:Optional
-	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`
-}
-
-type FileGcsInitParameters struct {
-
-	// Required. Bucket of the Cloud Storage object.
-	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
-
-	// Generation number of the Cloud Storage object.
-	Generation *float64 `json:"generation,omitempty" tf:"generation,omitempty"`
-
-	// Required. Name of the Cloud Storage object.
-	Object *string `json:"object,omitempty" tf:"object,omitempty"`
+	// +kubebuilder:validation:Required
+	URI *string `json:"uri" tf:"uri,omitempty"`
 }
 
 type FileGcsObservation struct {
@@ -353,31 +248,16 @@ type FileGcsObservation struct {
 type FileGcsParameters struct {
 
 	// Required. Bucket of the Cloud Storage object.
-	// +kubebuilder:validation:Optional
-	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
+	// +kubebuilder:validation:Required
+	Bucket *string `json:"bucket" tf:"bucket,omitempty"`
 
 	// Generation number of the Cloud Storage object.
 	// +kubebuilder:validation:Optional
 	Generation *float64 `json:"generation,omitempty" tf:"generation,omitempty"`
 
 	// Required. Name of the Cloud Storage object.
-	// +kubebuilder:validation:Optional
-	Object *string `json:"object,omitempty" tf:"object,omitempty"`
-}
-
-type FileInitParameters struct {
-
-	// Defaults to false. When false, files are subject to validations based on the file type: Remote: A checksum must be specified. Cloud Storage: An object generation number must be specified.
-	AllowInsecure *bool `json:"allowInsecure,omitempty" tf:"allow_insecure,omitempty"`
-
-	// A Cloud Storage object.
-	Gcs []GcsInitParameters `json:"gcs,omitempty" tf:"gcs,omitempty"`
-
-	// A local path within the VM to use.
-	LocalPath *string `json:"localPath,omitempty" tf:"local_path,omitempty"`
-
-	// A generic remote file.
-	Remote []RemoteInitParameters `json:"remote,omitempty" tf:"remote,omitempty"`
+	// +kubebuilder:validation:Required
+	Object *string `json:"object" tf:"object,omitempty"`
 }
 
 type FileObservation struct {
@@ -414,15 +294,6 @@ type FileParameters struct {
 	Remote []RemoteParameters `json:"remote,omitempty" tf:"remote,omitempty"`
 }
 
-type FileRemoteInitParameters struct {
-
-	// SHA256 checksum of the remote file.
-	Sha256Checksum *string `json:"sha256Checksum,omitempty" tf:"sha256_checksum,omitempty"`
-
-	// Required. URI from which to fetch the object. It should contain both the protocol and path following the format {protocol}://{location}.
-	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`
-}
-
 type FileRemoteObservation struct {
 
 	// SHA256 checksum of the remote file.
@@ -439,20 +310,8 @@ type FileRemoteParameters struct {
 	Sha256Checksum *string `json:"sha256Checksum,omitempty" tf:"sha256_checksum,omitempty"`
 
 	// Required. URI from which to fetch the object. It should contain both the protocol and path following the format {protocol}://{location}.
-	// +kubebuilder:validation:Optional
-	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`
-}
-
-type GcsInitParameters struct {
-
-	// Required. Bucket of the Cloud Storage object.
-	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
-
-	// Generation number of the Cloud Storage object.
-	Generation *float64 `json:"generation,omitempty" tf:"generation,omitempty"`
-
-	// Required. Name of the Cloud Storage object.
-	Object *string `json:"object,omitempty" tf:"object,omitempty"`
+	// +kubebuilder:validation:Required
+	URI *string `json:"uri" tf:"uri,omitempty"`
 }
 
 type GcsObservation struct {
@@ -470,25 +329,16 @@ type GcsObservation struct {
 type GcsParameters struct {
 
 	// Required. Bucket of the Cloud Storage object.
-	// +kubebuilder:validation:Optional
-	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
+	// +kubebuilder:validation:Required
+	Bucket *string `json:"bucket" tf:"bucket,omitempty"`
 
 	// Generation number of the Cloud Storage object.
 	// +kubebuilder:validation:Optional
 	Generation *float64 `json:"generation,omitempty" tf:"generation,omitempty"`
 
 	// Required. Name of the Cloud Storage object.
-	// +kubebuilder:validation:Optional
-	Object *string `json:"object,omitempty" tf:"object,omitempty"`
-}
-
-type GooInitParameters struct {
-
-	// Required. Package name.
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
-
-	// Required. The url of the repository.
-	URL *string `json:"url,omitempty" tf:"url,omitempty"`
+	// +kubebuilder:validation:Required
+	Object *string `json:"object" tf:"object,omitempty"`
 }
 
 type GooObservation struct {
@@ -503,18 +353,12 @@ type GooObservation struct {
 type GooParameters struct {
 
 	// Required. Package name.
-	// +kubebuilder:validation:Optional
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+	// +kubebuilder:validation:Required
+	Name *string `json:"name" tf:"name,omitempty"`
 
 	// Required. The url of the repository.
-	// +kubebuilder:validation:Optional
-	URL *string `json:"url,omitempty" tf:"url,omitempty"`
-}
-
-type GoogetInitParameters struct {
-
-	// Required. Package name.
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+	// +kubebuilder:validation:Required
+	URL *string `json:"url" tf:"url,omitempty"`
 }
 
 type GoogetObservation struct {
@@ -526,14 +370,8 @@ type GoogetObservation struct {
 type GoogetParameters struct {
 
 	// Required. Package name.
-	// +kubebuilder:validation:Optional
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
-}
-
-type InclusionLabelsInitParameters struct {
-
-	// Labels are identified by key/value pairs in this map. A VM should contain all the key/value pairs specified in this map to be selected.
-	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+	// +kubebuilder:validation:Required
+	Name *string `json:"name" tf:"name,omitempty"`
 }
 
 type InclusionLabelsObservation struct {
@@ -547,21 +385,6 @@ type InclusionLabelsParameters struct {
 	// Labels are identified by key/value pairs in this map. A VM should contain all the key/value pairs specified in this map to be selected.
 	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
-}
-
-type InstanceFilterInitParameters struct {
-
-	// Target all VMs in the project. If true, no other criteria is permitted.
-	All *bool `json:"all,omitempty" tf:"all,omitempty"`
-
-	// List of label sets used for VM exclusion. If the list has more than one label set, the VM is excluded if any of the label sets are applicable for the VM.
-	ExclusionLabels []ExclusionLabelsInitParameters `json:"exclusionLabels,omitempty" tf:"exclusion_labels,omitempty"`
-
-	// List of label sets used for VM inclusion. If the list has more than one LabelSet, the VM is included if any of the label sets are applicable for the VM.
-	InclusionLabels []InclusionLabelsInitParameters `json:"inclusionLabels,omitempty" tf:"inclusion_labels,omitempty"`
-
-	// List of inventories to select VMs. A VM is selected if its inventory data matches at least one of the following inventories.
-	Inventories []InventoriesInitParameters `json:"inventories,omitempty" tf:"inventories,omitempty"`
 }
 
 type InstanceFilterObservation struct {
@@ -598,15 +421,6 @@ type InstanceFilterParameters struct {
 	Inventories []InventoriesParameters `json:"inventories,omitempty" tf:"inventories,omitempty"`
 }
 
-type InventoriesInitParameters struct {
-
-	// Required. The OS short name
-	OsShortName *string `json:"osShortName,omitempty" tf:"os_short_name,omitempty"`
-
-	// The OS version Prefix matches are supported if asterisk(*) is provided as the last character. For example, to match all versions with a major version of 7, specify the following value for this field 7.* An empty string matches all OS versions.
-	OsVersion *string `json:"osVersion,omitempty" tf:"os_version,omitempty"`
-}
-
 type InventoriesObservation struct {
 
 	// Required. The OS short name
@@ -619,20 +433,11 @@ type InventoriesObservation struct {
 type InventoriesParameters struct {
 
 	// Required. The OS short name
-	// +kubebuilder:validation:Optional
-	OsShortName *string `json:"osShortName,omitempty" tf:"os_short_name,omitempty"`
+	// +kubebuilder:validation:Required
+	OsShortName *string `json:"osShortName" tf:"os_short_name,omitempty"`
 
 	// The OS version Prefix matches are supported if asterisk(*) is provided as the last character. For example, to match all versions with a major version of 7, specify the following value for this field 7.* An empty string matches all OS versions.
 	// +kubebuilder:validation:Optional
-	OsVersion *string `json:"osVersion,omitempty" tf:"os_version,omitempty"`
-}
-
-type InventoryFiltersInitParameters struct {
-
-	// Required. The OS short name
-	OsShortName *string `json:"osShortName,omitempty" tf:"os_short_name,omitempty"`
-
-	// The OS version Prefix matches are supported if asterisk(*) is provided as the last character. For example, to match all versions with a major version of 7, specify the following value for this field 7.* An empty string matches all OS versions.
 	OsVersion *string `json:"osVersion,omitempty" tf:"os_version,omitempty"`
 }
 
@@ -648,21 +453,12 @@ type InventoryFiltersObservation struct {
 type InventoryFiltersParameters struct {
 
 	// Required. The OS short name
-	// +kubebuilder:validation:Optional
-	OsShortName *string `json:"osShortName,omitempty" tf:"os_short_name,omitempty"`
+	// +kubebuilder:validation:Required
+	OsShortName *string `json:"osShortName" tf:"os_short_name,omitempty"`
 
 	// The OS version Prefix matches are supported if asterisk(*) is provided as the last character. For example, to match all versions with a major version of 7, specify the following value for this field 7.* An empty string matches all OS versions.
 	// +kubebuilder:validation:Optional
 	OsVersion *string `json:"osVersion,omitempty" tf:"os_version,omitempty"`
-}
-
-type MsiInitParameters struct {
-
-	// Additional properties to use during installation. This should be in the format of Property=Setting. Appended to the defaults of ACTION=INSTALL REBOOT=ReallySuppress.
-	Properties []*string `json:"properties,omitempty" tf:"properties,omitempty"`
-
-	// Required. An rpm package.
-	Source []MsiSourceInitParameters `json:"source,omitempty" tf:"source,omitempty"`
 }
 
 type MsiObservation struct {
@@ -681,20 +477,8 @@ type MsiParameters struct {
 	Properties []*string `json:"properties,omitempty" tf:"properties,omitempty"`
 
 	// Required. An rpm package.
-	// +kubebuilder:validation:Optional
-	Source []MsiSourceParameters `json:"source,omitempty" tf:"source,omitempty"`
-}
-
-type MsiSourceGcsInitParameters struct {
-
-	// Required. Bucket of the Cloud Storage object.
-	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
-
-	// Generation number of the Cloud Storage object.
-	Generation *float64 `json:"generation,omitempty" tf:"generation,omitempty"`
-
-	// Required. Name of the Cloud Storage object.
-	Object *string `json:"object,omitempty" tf:"object,omitempty"`
+	// +kubebuilder:validation:Required
+	Source []MsiSourceParameters `json:"source" tf:"source,omitempty"`
 }
 
 type MsiSourceGcsObservation struct {
@@ -712,31 +496,16 @@ type MsiSourceGcsObservation struct {
 type MsiSourceGcsParameters struct {
 
 	// Required. Bucket of the Cloud Storage object.
-	// +kubebuilder:validation:Optional
-	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
+	// +kubebuilder:validation:Required
+	Bucket *string `json:"bucket" tf:"bucket,omitempty"`
 
 	// Generation number of the Cloud Storage object.
 	// +kubebuilder:validation:Optional
 	Generation *float64 `json:"generation,omitempty" tf:"generation,omitempty"`
 
 	// Required. Name of the Cloud Storage object.
-	// +kubebuilder:validation:Optional
-	Object *string `json:"object,omitempty" tf:"object,omitempty"`
-}
-
-type MsiSourceInitParameters struct {
-
-	// Defaults to false. When false, files are subject to validations based on the file type: Remote: A checksum must be specified. Cloud Storage: An object generation number must be specified.
-	AllowInsecure *bool `json:"allowInsecure,omitempty" tf:"allow_insecure,omitempty"`
-
-	// A Cloud Storage object.
-	Gcs []MsiSourceGcsInitParameters `json:"gcs,omitempty" tf:"gcs,omitempty"`
-
-	// A local path within the VM to use.
-	LocalPath *string `json:"localPath,omitempty" tf:"local_path,omitempty"`
-
-	// A generic remote file.
-	Remote []MsiSourceRemoteInitParameters `json:"remote,omitempty" tf:"remote,omitempty"`
+	// +kubebuilder:validation:Required
+	Object *string `json:"object" tf:"object,omitempty"`
 }
 
 type MsiSourceObservation struct {
@@ -773,15 +542,6 @@ type MsiSourceParameters struct {
 	Remote []MsiSourceRemoteParameters `json:"remote,omitempty" tf:"remote,omitempty"`
 }
 
-type MsiSourceRemoteInitParameters struct {
-
-	// SHA256 checksum of the remote file.
-	Sha256Checksum *string `json:"sha256Checksum,omitempty" tf:"sha256_checksum,omitempty"`
-
-	// Required. URI from which to fetch the object. It should contain both the protocol and path following the format {protocol}://{location}.
-	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`
-}
-
 type MsiSourceRemoteObservation struct {
 
 	// SHA256 checksum of the remote file.
@@ -798,26 +558,8 @@ type MsiSourceRemoteParameters struct {
 	Sha256Checksum *string `json:"sha256Checksum,omitempty" tf:"sha256_checksum,omitempty"`
 
 	// Required. URI from which to fetch the object. It should contain both the protocol and path following the format {protocol}://{location}.
-	// +kubebuilder:validation:Optional
-	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`
-}
-
-type OsPoliciesInitParameters struct {
-
-	// This flag determines the OS policy compliance status when none of the resource groups within the policy are applicable for a VM. Set this value to true if the policy needs to be reported as compliant even if the policy has nothing to validate or enforce.
-	AllowNoResourceGroupMatch *bool `json:"allowNoResourceGroupMatch,omitempty" tf:"allow_no_resource_group_match,omitempty"`
-
-	// Policy description. Length of the description is limited to 1024 characters.
-	Description *string `json:"description,omitempty" tf:"description,omitempty"`
-
-	// Required. The id of the OS policy with the following restrictions: * Must contain only lowercase letters, numbers, and hyphens. * Must start with a letter. * Must be between 1-63 characters. * Must end with a number or a letter. * Must be unique within the assignment.
-	ID *string `json:"id,omitempty" tf:"id,omitempty"`
-
-	// Required. Policy mode Possible values: MODE_UNSPECIFIED, VALIDATION, ENFORCEMENT
-	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
-
-	// Required. List of resource groups for the policy. For a particular VM, resource groups are evaluated in the order specified and the first resource group that is applicable is selected and the rest are ignored. If none of the resource groups are applicable for a VM, the VM is considered to be non-compliant w.r.t this policy. This behavior can be toggled by the flag allow_no_resource_group_match
-	ResourceGroups []ResourceGroupsInitParameters `json:"resourceGroups,omitempty" tf:"resource_groups,omitempty"`
+	// +kubebuilder:validation:Required
+	URI *string `json:"uri" tf:"uri,omitempty"`
 }
 
 type OsPoliciesObservation struct {
@@ -849,37 +591,16 @@ type OsPoliciesParameters struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Required. The id of the OS policy with the following restrictions: * Must contain only lowercase letters, numbers, and hyphens. * Must start with a letter. * Must be between 1-63 characters. * Must end with a number or a letter. * Must be unique within the assignment.
-	// +kubebuilder:validation:Optional
-	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+	// +kubebuilder:validation:Required
+	ID *string `json:"id" tf:"id,omitempty"`
 
 	// Required. Policy mode Possible values: MODE_UNSPECIFIED, VALIDATION, ENFORCEMENT
-	// +kubebuilder:validation:Optional
-	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
+	// +kubebuilder:validation:Required
+	Mode *string `json:"mode" tf:"mode,omitempty"`
 
 	// Required. List of resource groups for the policy. For a particular VM, resource groups are evaluated in the order specified and the first resource group that is applicable is selected and the rest are ignored. If none of the resource groups are applicable for a VM, the VM is considered to be non-compliant w.r.t this policy. This behavior can be toggled by the flag allow_no_resource_group_match
-	// +kubebuilder:validation:Optional
-	ResourceGroups []ResourceGroupsParameters `json:"resourceGroups,omitempty" tf:"resource_groups,omitempty"`
-}
-
-type OsPolicyAssignmentInitParameters struct {
-
-	// Policy description. Length of the description is limited to 1024 characters.
-	Description *string `json:"description,omitempty" tf:"description,omitempty"`
-
-	// Required. Filter to select VMs.
-	InstanceFilter []InstanceFilterInitParameters `json:"instanceFilter,omitempty" tf:"instance_filter,omitempty"`
-
-	// Required. List of OS policies to be applied to the VMs.
-	OsPolicies []OsPoliciesInitParameters `json:"osPolicies,omitempty" tf:"os_policies,omitempty"`
-
-	// The project for the resource
-	Project *string `json:"project,omitempty" tf:"project,omitempty"`
-
-	// Required. Rollout to deploy the OS policy assignment. A rollout is triggered in the following situations: 1) OSPolicyAssignment is created. 2) OSPolicyAssignment is updated and the update contains changes to one of the following fields: - instance_filter - os_policies 3) OSPolicyAssignment is deleted.
-	Rollout []RolloutInitParameters `json:"rollout,omitempty" tf:"rollout,omitempty"`
-
-	// Set to true to skip awaiting rollout during resource creation and update.
-	SkipAwaitRollout *bool `json:"skipAwaitRollout,omitempty" tf:"skip_await_rollout,omitempty"`
+	// +kubebuilder:validation:Required
+	ResourceGroups []ResourceGroupsParameters `json:"resourceGroups" tf:"resource_groups,omitempty"`
 }
 
 type OsPolicyAssignmentObservation struct {
@@ -964,33 +685,6 @@ type OsPolicyAssignmentParameters struct {
 	SkipAwaitRollout *bool `json:"skipAwaitRollout,omitempty" tf:"skip_await_rollout,omitempty"`
 }
 
-type PkgInitParameters struct {
-
-	// An Apt Repository.
-	Apt []AptInitParameters `json:"apt,omitempty" tf:"apt,omitempty"`
-
-	// A deb package file.
-	Deb []DebInitParameters `json:"deb,omitempty" tf:"deb,omitempty"`
-
-	// Required. The desired state the agent should maintain for this package. Possible values: DESIRED_STATE_UNSPECIFIED, INSTALLED, REMOVED
-	DesiredState *string `json:"desiredState,omitempty" tf:"desired_state,omitempty"`
-
-	// A package managed by GooGet.
-	Googet []GoogetInitParameters `json:"googet,omitempty" tf:"googet,omitempty"`
-
-	// An MSI package.
-	Msi []MsiInitParameters `json:"msi,omitempty" tf:"msi,omitempty"`
-
-	// An rpm package file.
-	Rpm []RpmInitParameters `json:"rpm,omitempty" tf:"rpm,omitempty"`
-
-	// A Yum Repository.
-	Yum []YumInitParameters `json:"yum,omitempty" tf:"yum,omitempty"`
-
-	// A Zypper Repository.
-	Zypper []ZypperInitParameters `json:"zypper,omitempty" tf:"zypper,omitempty"`
-}
-
 type PkgObservation struct {
 
 	// An Apt Repository.
@@ -1029,8 +723,8 @@ type PkgParameters struct {
 	Deb []DebParameters `json:"deb,omitempty" tf:"deb,omitempty"`
 
 	// Required. The desired state the agent should maintain for this package. Possible values: DESIRED_STATE_UNSPECIFIED, INSTALLED, REMOVED
-	// +kubebuilder:validation:Optional
-	DesiredState *string `json:"desiredState,omitempty" tf:"desired_state,omitempty"`
+	// +kubebuilder:validation:Required
+	DesiredState *string `json:"desiredState" tf:"desired_state,omitempty"`
 
 	// A package managed by GooGet.
 	// +kubebuilder:validation:Optional
@@ -1053,15 +747,6 @@ type PkgParameters struct {
 	Zypper []ZypperParameters `json:"zypper,omitempty" tf:"zypper,omitempty"`
 }
 
-type RemoteInitParameters struct {
-
-	// SHA256 checksum of the remote file.
-	Sha256Checksum *string `json:"sha256Checksum,omitempty" tf:"sha256_checksum,omitempty"`
-
-	// Required. URI from which to fetch the object. It should contain both the protocol and path following the format {protocol}://{location}.
-	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`
-}
-
 type RemoteObservation struct {
 
 	// SHA256 checksum of the remote file.
@@ -1078,26 +763,8 @@ type RemoteParameters struct {
 	Sha256Checksum *string `json:"sha256Checksum,omitempty" tf:"sha256_checksum,omitempty"`
 
 	// Required. URI from which to fetch the object. It should contain both the protocol and path following the format {protocol}://{location}.
-	// +kubebuilder:validation:Optional
-	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`
-}
-
-type RepositoryAptInitParameters struct {
-
-	// Required. Type of archive files in this repository. Possible values: ARCHIVE_TYPE_UNSPECIFIED, DEB, DEB_SRC
-	ArchiveType *string `json:"archiveType,omitempty" tf:"archive_type,omitempty"`
-
-	// Required. List of components for this repository. Must contain at least one item.
-	Components []*string `json:"components,omitempty" tf:"components,omitempty"`
-
-	// Required. Distribution of this repository.
-	Distribution *string `json:"distribution,omitempty" tf:"distribution,omitempty"`
-
-	// URI of the key file for this repository. The agent maintains a keyring at /etc/apt/trusted.gpg.d/osconfig_agent_managed.gpg.
-	GpgKey *string `json:"gpgKey,omitempty" tf:"gpg_key,omitempty"`
-
-	// Required. URI from which to fetch the object. It should contain both the protocol and path following the format {protocol}://{location}.
-	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`
+	// +kubebuilder:validation:Required
+	URI *string `json:"uri" tf:"uri,omitempty"`
 }
 
 type RepositoryAptObservation struct {
@@ -1121,39 +788,24 @@ type RepositoryAptObservation struct {
 type RepositoryAptParameters struct {
 
 	// Required. Type of archive files in this repository. Possible values: ARCHIVE_TYPE_UNSPECIFIED, DEB, DEB_SRC
-	// +kubebuilder:validation:Optional
-	ArchiveType *string `json:"archiveType,omitempty" tf:"archive_type,omitempty"`
+	// +kubebuilder:validation:Required
+	ArchiveType *string `json:"archiveType" tf:"archive_type,omitempty"`
 
 	// Required. List of components for this repository. Must contain at least one item.
-	// +kubebuilder:validation:Optional
-	Components []*string `json:"components,omitempty" tf:"components,omitempty"`
+	// +kubebuilder:validation:Required
+	Components []*string `json:"components" tf:"components,omitempty"`
 
 	// Required. Distribution of this repository.
-	// +kubebuilder:validation:Optional
-	Distribution *string `json:"distribution,omitempty" tf:"distribution,omitempty"`
+	// +kubebuilder:validation:Required
+	Distribution *string `json:"distribution" tf:"distribution,omitempty"`
 
 	// URI of the key file for this repository. The agent maintains a keyring at /etc/apt/trusted.gpg.d/osconfig_agent_managed.gpg.
 	// +kubebuilder:validation:Optional
 	GpgKey *string `json:"gpgKey,omitempty" tf:"gpg_key,omitempty"`
 
 	// Required. URI from which to fetch the object. It should contain both the protocol and path following the format {protocol}://{location}.
-	// +kubebuilder:validation:Optional
-	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`
-}
-
-type RepositoryInitParameters struct {
-
-	// An Apt Repository.
-	Apt []RepositoryAptInitParameters `json:"apt,omitempty" tf:"apt,omitempty"`
-
-	// A Goo Repository.
-	Goo []GooInitParameters `json:"goo,omitempty" tf:"goo,omitempty"`
-
-	// A Yum Repository.
-	Yum []RepositoryYumInitParameters `json:"yum,omitempty" tf:"yum,omitempty"`
-
-	// A Zypper Repository.
-	Zypper []RepositoryZypperInitParameters `json:"zypper,omitempty" tf:"zypper,omitempty"`
+	// +kubebuilder:validation:Required
+	URI *string `json:"uri" tf:"uri,omitempty"`
 }
 
 type RepositoryObservation struct {
@@ -1190,21 +842,6 @@ type RepositoryParameters struct {
 	Zypper []RepositoryZypperParameters `json:"zypper,omitempty" tf:"zypper,omitempty"`
 }
 
-type RepositoryYumInitParameters struct {
-
-	// Required. The location of the repository directory.
-	BaseURL *string `json:"baseUrl,omitempty" tf:"base_url,omitempty"`
-
-	// The display name of the repository.
-	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
-
-	// URIs of GPG keys.
-	GpgKeys []*string `json:"gpgKeys,omitempty" tf:"gpg_keys,omitempty"`
-
-	// Required. A one word, unique name for this repository. This is the repo id in the zypper config file and also the display_name if display_name is omitted. This id is also used as the unique identifier when checking for GuestPolicy conflicts.
-	ID *string `json:"id,omitempty" tf:"id,omitempty"`
-}
-
 type RepositoryYumObservation struct {
 
 	// Required. The location of the repository directory.
@@ -1223,8 +860,8 @@ type RepositoryYumObservation struct {
 type RepositoryYumParameters struct {
 
 	// Required. The location of the repository directory.
-	// +kubebuilder:validation:Optional
-	BaseURL *string `json:"baseUrl,omitempty" tf:"base_url,omitempty"`
+	// +kubebuilder:validation:Required
+	BaseURL *string `json:"baseUrl" tf:"base_url,omitempty"`
 
 	// The display name of the repository.
 	// +kubebuilder:validation:Optional
@@ -1235,23 +872,8 @@ type RepositoryYumParameters struct {
 	GpgKeys []*string `json:"gpgKeys,omitempty" tf:"gpg_keys,omitempty"`
 
 	// Required. A one word, unique name for this repository. This is the repo id in the zypper config file and also the display_name if display_name is omitted. This id is also used as the unique identifier when checking for GuestPolicy conflicts.
-	// +kubebuilder:validation:Optional
-	ID *string `json:"id,omitempty" tf:"id,omitempty"`
-}
-
-type RepositoryZypperInitParameters struct {
-
-	// Required. The location of the repository directory.
-	BaseURL *string `json:"baseUrl,omitempty" tf:"base_url,omitempty"`
-
-	// The display name of the repository.
-	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
-
-	// URIs of GPG keys.
-	GpgKeys []*string `json:"gpgKeys,omitempty" tf:"gpg_keys,omitempty"`
-
-	// Required. A one word, unique name for this repository. This is the repo id in the zypper config file and also the display_name if display_name is omitted. This id is also used as the unique identifier when checking for GuestPolicy conflicts.
-	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+	// +kubebuilder:validation:Required
+	ID *string `json:"id" tf:"id,omitempty"`
 }
 
 type RepositoryZypperObservation struct {
@@ -1272,8 +894,8 @@ type RepositoryZypperObservation struct {
 type RepositoryZypperParameters struct {
 
 	// Required. The location of the repository directory.
-	// +kubebuilder:validation:Optional
-	BaseURL *string `json:"baseUrl,omitempty" tf:"base_url,omitempty"`
+	// +kubebuilder:validation:Required
+	BaseURL *string `json:"baseUrl" tf:"base_url,omitempty"`
 
 	// The display name of the repository.
 	// +kubebuilder:validation:Optional
@@ -1284,17 +906,8 @@ type RepositoryZypperParameters struct {
 	GpgKeys []*string `json:"gpgKeys,omitempty" tf:"gpg_keys,omitempty"`
 
 	// Required. A one word, unique name for this repository. This is the repo id in the zypper config file and also the display_name if display_name is omitted. This id is also used as the unique identifier when checking for GuestPolicy conflicts.
-	// +kubebuilder:validation:Optional
-	ID *string `json:"id,omitempty" tf:"id,omitempty"`
-}
-
-type ResourceGroupsInitParameters struct {
-
-	// List of inventory filters for the resource group. The resources in this resource group are applied to the target VM if it satisfies at least one of the following inventory filters. For example, to apply this resource group to VMs running either RHEL or CentOS operating systems, specify 2 items for the list with following values: inventory_filters[0].os_short_name='rhel' and inventory_filters[1].os_short_name='centos' If the list is empty, this resource group will be applied to the target VM unconditionally.
-	InventoryFilters []InventoryFiltersInitParameters `json:"inventoryFilters,omitempty" tf:"inventory_filters,omitempty"`
-
-	// Required. List of resources configured for this resource group. The resources are executed in the exact order specified here.
-	Resources []ResourcesInitParameters `json:"resources,omitempty" tf:"resources,omitempty"`
+	// +kubebuilder:validation:Required
+	ID *string `json:"id" tf:"id,omitempty"`
 }
 
 type ResourceGroupsObservation struct {
@@ -1313,23 +926,8 @@ type ResourceGroupsParameters struct {
 	InventoryFilters []InventoryFiltersParameters `json:"inventoryFilters,omitempty" tf:"inventory_filters,omitempty"`
 
 	// Required. List of resources configured for this resource group. The resources are executed in the exact order specified here.
-	// +kubebuilder:validation:Optional
-	Resources []ResourcesParameters `json:"resources,omitempty" tf:"resources,omitempty"`
-}
-
-type ResourcesFileInitParameters struct {
-
-	// A a file with this content. The size of the content is limited to 1024 characters.
-	Content *string `json:"content,omitempty" tf:"content,omitempty"`
-
-	// A remote or local file.
-	File []FileFileInitParameters `json:"file,omitempty" tf:"file,omitempty"`
-
-	// Required. The absolute path of the file within the VM.
-	Path *string `json:"path,omitempty" tf:"path,omitempty"`
-
-	// Required. Desired state of the file. Possible values: OS_POLICY_COMPLIANCE_STATE_UNSPECIFIED, COMPLIANT, NON_COMPLIANT, UNKNOWN, NO_OS_POLICIES_APPLICABLE
-	State *string `json:"state,omitempty" tf:"state,omitempty"`
+	// +kubebuilder:validation:Required
+	Resources []ResourcesParameters `json:"resources" tf:"resources,omitempty"`
 }
 
 type ResourcesFileObservation struct {
@@ -1361,30 +959,12 @@ type ResourcesFileParameters struct {
 	File []FileFileParameters `json:"file,omitempty" tf:"file,omitempty"`
 
 	// Required. The absolute path of the file within the VM.
-	// +kubebuilder:validation:Optional
-	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+	// +kubebuilder:validation:Required
+	Path *string `json:"path" tf:"path,omitempty"`
 
 	// Required. Desired state of the file. Possible values: OS_POLICY_COMPLIANCE_STATE_UNSPECIFIED, COMPLIANT, NON_COMPLIANT, UNKNOWN, NO_OS_POLICIES_APPLICABLE
-	// +kubebuilder:validation:Optional
-	State *string `json:"state,omitempty" tf:"state,omitempty"`
-}
-
-type ResourcesInitParameters struct {
-
-	// Exec resource
-	Exec []ExecInitParameters `json:"exec,omitempty" tf:"exec,omitempty"`
-
-	// A remote or local file.
-	File []ResourcesFileInitParameters `json:"file,omitempty" tf:"file,omitempty"`
-
-	// Required. A one word, unique name for this repository. This is the repo id in the zypper config file and also the display_name if display_name is omitted. This id is also used as the unique identifier when checking for GuestPolicy conflicts.
-	ID *string `json:"id,omitempty" tf:"id,omitempty"`
-
-	// Package resource
-	Pkg []PkgInitParameters `json:"pkg,omitempty" tf:"pkg,omitempty"`
-
-	// Package repository resource
-	Repository []RepositoryInitParameters `json:"repository,omitempty" tf:"repository,omitempty"`
+	// +kubebuilder:validation:Required
+	State *string `json:"state" tf:"state,omitempty"`
 }
 
 type ResourcesObservation struct {
@@ -1416,8 +996,8 @@ type ResourcesParameters struct {
 	File []ResourcesFileParameters `json:"file,omitempty" tf:"file,omitempty"`
 
 	// Required. A one word, unique name for this repository. This is the repo id in the zypper config file and also the display_name if display_name is omitted. This id is also used as the unique identifier when checking for GuestPolicy conflicts.
-	// +kubebuilder:validation:Optional
-	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+	// +kubebuilder:validation:Required
+	ID *string `json:"id" tf:"id,omitempty"`
 
 	// Package resource
 	// +kubebuilder:validation:Optional
@@ -1426,15 +1006,6 @@ type ResourcesParameters struct {
 	// Package repository resource
 	// +kubebuilder:validation:Optional
 	Repository []RepositoryParameters `json:"repository,omitempty" tf:"repository,omitempty"`
-}
-
-type RolloutInitParameters struct {
-
-	// Required. The maximum number (or percentage) of VMs per zone to disrupt at any given moment.
-	DisruptionBudget []DisruptionBudgetInitParameters `json:"disruptionBudget,omitempty" tf:"disruption_budget,omitempty"`
-
-	// Required. This determines the minimum duration of time to wait after the configuration changes are applied through the current rollout. A VM continues to count towards the disruption_budget at least until this duration of time has passed after configuration changes are applied.
-	MinWaitDuration *string `json:"minWaitDuration,omitempty" tf:"min_wait_duration,omitempty"`
 }
 
 type RolloutObservation struct {
@@ -1449,21 +1020,12 @@ type RolloutObservation struct {
 type RolloutParameters struct {
 
 	// Required. The maximum number (or percentage) of VMs per zone to disrupt at any given moment.
-	// +kubebuilder:validation:Optional
-	DisruptionBudget []DisruptionBudgetParameters `json:"disruptionBudget,omitempty" tf:"disruption_budget,omitempty"`
+	// +kubebuilder:validation:Required
+	DisruptionBudget []DisruptionBudgetParameters `json:"disruptionBudget" tf:"disruption_budget,omitempty"`
 
 	// Required. This determines the minimum duration of time to wait after the configuration changes are applied through the current rollout. A VM continues to count towards the disruption_budget at least until this duration of time has passed after configuration changes are applied.
-	// +kubebuilder:validation:Optional
-	MinWaitDuration *string `json:"minWaitDuration,omitempty" tf:"min_wait_duration,omitempty"`
-}
-
-type RpmInitParameters struct {
-
-	// Whether dependencies should also be installed. - install when false: rpm --upgrade --replacepkgs package.rpm - install when true: yum -y install package.rpm or zypper -y install package.rpm
-	PullDeps *bool `json:"pullDeps,omitempty" tf:"pull_deps,omitempty"`
-
-	// Required. An rpm package.
-	Source []RpmSourceInitParameters `json:"source,omitempty" tf:"source,omitempty"`
+	// +kubebuilder:validation:Required
+	MinWaitDuration *string `json:"minWaitDuration" tf:"min_wait_duration,omitempty"`
 }
 
 type RpmObservation struct {
@@ -1482,20 +1044,8 @@ type RpmParameters struct {
 	PullDeps *bool `json:"pullDeps,omitempty" tf:"pull_deps,omitempty"`
 
 	// Required. An rpm package.
-	// +kubebuilder:validation:Optional
-	Source []RpmSourceParameters `json:"source,omitempty" tf:"source,omitempty"`
-}
-
-type RpmSourceGcsInitParameters struct {
-
-	// Required. Bucket of the Cloud Storage object.
-	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
-
-	// Generation number of the Cloud Storage object.
-	Generation *float64 `json:"generation,omitempty" tf:"generation,omitempty"`
-
-	// Required. Name of the Cloud Storage object.
-	Object *string `json:"object,omitempty" tf:"object,omitempty"`
+	// +kubebuilder:validation:Required
+	Source []RpmSourceParameters `json:"source" tf:"source,omitempty"`
 }
 
 type RpmSourceGcsObservation struct {
@@ -1513,31 +1063,16 @@ type RpmSourceGcsObservation struct {
 type RpmSourceGcsParameters struct {
 
 	// Required. Bucket of the Cloud Storage object.
-	// +kubebuilder:validation:Optional
-	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
+	// +kubebuilder:validation:Required
+	Bucket *string `json:"bucket" tf:"bucket,omitempty"`
 
 	// Generation number of the Cloud Storage object.
 	// +kubebuilder:validation:Optional
 	Generation *float64 `json:"generation,omitempty" tf:"generation,omitempty"`
 
 	// Required. Name of the Cloud Storage object.
-	// +kubebuilder:validation:Optional
-	Object *string `json:"object,omitempty" tf:"object,omitempty"`
-}
-
-type RpmSourceInitParameters struct {
-
-	// Defaults to false. When false, files are subject to validations based on the file type: Remote: A checksum must be specified. Cloud Storage: An object generation number must be specified.
-	AllowInsecure *bool `json:"allowInsecure,omitempty" tf:"allow_insecure,omitempty"`
-
-	// A Cloud Storage object.
-	Gcs []RpmSourceGcsInitParameters `json:"gcs,omitempty" tf:"gcs,omitempty"`
-
-	// A local path within the VM to use.
-	LocalPath *string `json:"localPath,omitempty" tf:"local_path,omitempty"`
-
-	// A generic remote file.
-	Remote []RpmSourceRemoteInitParameters `json:"remote,omitempty" tf:"remote,omitempty"`
+	// +kubebuilder:validation:Required
+	Object *string `json:"object" tf:"object,omitempty"`
 }
 
 type RpmSourceObservation struct {
@@ -1574,15 +1109,6 @@ type RpmSourceParameters struct {
 	Remote []RpmSourceRemoteParameters `json:"remote,omitempty" tf:"remote,omitempty"`
 }
 
-type RpmSourceRemoteInitParameters struct {
-
-	// SHA256 checksum of the remote file.
-	Sha256Checksum *string `json:"sha256Checksum,omitempty" tf:"sha256_checksum,omitempty"`
-
-	// Required. URI from which to fetch the object. It should contain both the protocol and path following the format {protocol}://{location}.
-	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`
-}
-
 type RpmSourceRemoteObservation struct {
 
 	// SHA256 checksum of the remote file.
@@ -1599,20 +1125,8 @@ type RpmSourceRemoteParameters struct {
 	Sha256Checksum *string `json:"sha256Checksum,omitempty" tf:"sha256_checksum,omitempty"`
 
 	// Required. URI from which to fetch the object. It should contain both the protocol and path following the format {protocol}://{location}.
-	// +kubebuilder:validation:Optional
-	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`
-}
-
-type SourceGcsInitParameters struct {
-
-	// Required. Bucket of the Cloud Storage object.
-	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
-
-	// Generation number of the Cloud Storage object.
-	Generation *float64 `json:"generation,omitempty" tf:"generation,omitempty"`
-
-	// Required. Name of the Cloud Storage object.
-	Object *string `json:"object,omitempty" tf:"object,omitempty"`
+	// +kubebuilder:validation:Required
+	URI *string `json:"uri" tf:"uri,omitempty"`
 }
 
 type SourceGcsObservation struct {
@@ -1630,31 +1144,16 @@ type SourceGcsObservation struct {
 type SourceGcsParameters struct {
 
 	// Required. Bucket of the Cloud Storage object.
-	// +kubebuilder:validation:Optional
-	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
+	// +kubebuilder:validation:Required
+	Bucket *string `json:"bucket" tf:"bucket,omitempty"`
 
 	// Generation number of the Cloud Storage object.
 	// +kubebuilder:validation:Optional
 	Generation *float64 `json:"generation,omitempty" tf:"generation,omitempty"`
 
 	// Required. Name of the Cloud Storage object.
-	// +kubebuilder:validation:Optional
-	Object *string `json:"object,omitempty" tf:"object,omitempty"`
-}
-
-type SourceInitParameters struct {
-
-	// Defaults to false. When false, files are subject to validations based on the file type: Remote: A checksum must be specified. Cloud Storage: An object generation number must be specified.
-	AllowInsecure *bool `json:"allowInsecure,omitempty" tf:"allow_insecure,omitempty"`
-
-	// A Cloud Storage object.
-	Gcs []SourceGcsInitParameters `json:"gcs,omitempty" tf:"gcs,omitempty"`
-
-	// A local path within the VM to use.
-	LocalPath *string `json:"localPath,omitempty" tf:"local_path,omitempty"`
-
-	// A generic remote file.
-	Remote []SourceRemoteInitParameters `json:"remote,omitempty" tf:"remote,omitempty"`
+	// +kubebuilder:validation:Required
+	Object *string `json:"object" tf:"object,omitempty"`
 }
 
 type SourceObservation struct {
@@ -1691,15 +1190,6 @@ type SourceParameters struct {
 	Remote []SourceRemoteParameters `json:"remote,omitempty" tf:"remote,omitempty"`
 }
 
-type SourceRemoteInitParameters struct {
-
-	// SHA256 checksum of the remote file.
-	Sha256Checksum *string `json:"sha256Checksum,omitempty" tf:"sha256_checksum,omitempty"`
-
-	// Required. URI from which to fetch the object. It should contain both the protocol and path following the format {protocol}://{location}.
-	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`
-}
-
 type SourceRemoteObservation struct {
 
 	// SHA256 checksum of the remote file.
@@ -1716,23 +1206,8 @@ type SourceRemoteParameters struct {
 	Sha256Checksum *string `json:"sha256Checksum,omitempty" tf:"sha256_checksum,omitempty"`
 
 	// Required. URI from which to fetch the object. It should contain both the protocol and path following the format {protocol}://{location}.
-	// +kubebuilder:validation:Optional
-	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`
-}
-
-type ValidateFileInitParameters struct {
-
-	// Defaults to false. When false, files are subject to validations based on the file type: Remote: A checksum must be specified. Cloud Storage: An object generation number must be specified.
-	AllowInsecure *bool `json:"allowInsecure,omitempty" tf:"allow_insecure,omitempty"`
-
-	// A Cloud Storage object.
-	Gcs []FileGcsInitParameters `json:"gcs,omitempty" tf:"gcs,omitempty"`
-
-	// A local path within the VM to use.
-	LocalPath *string `json:"localPath,omitempty" tf:"local_path,omitempty"`
-
-	// A generic remote file.
-	Remote []FileRemoteInitParameters `json:"remote,omitempty" tf:"remote,omitempty"`
+	// +kubebuilder:validation:Required
+	URI *string `json:"uri" tf:"uri,omitempty"`
 }
 
 type ValidateFileObservation struct {
@@ -1769,24 +1244,6 @@ type ValidateFileParameters struct {
 	Remote []FileRemoteParameters `json:"remote,omitempty" tf:"remote,omitempty"`
 }
 
-type ValidateInitParameters struct {
-
-	// Optional arguments to pass to the source during execution.
-	Args []*string `json:"args,omitempty" tf:"args,omitempty"`
-
-	// A remote or local file.
-	File []ValidateFileInitParameters `json:"file,omitempty" tf:"file,omitempty"`
-
-	// Required. The script interpreter to use. Possible values: INTERPRETER_UNSPECIFIED, NONE, SHELL, POWERSHELL
-	Interpreter *string `json:"interpreter,omitempty" tf:"interpreter,omitempty"`
-
-	// Only recorded for enforce Exec. Path to an output file (that is created by this Exec) whose content will be recorded in OSPolicyResourceCompliance after a successful run. Absence or failure to read this file will result in this ExecResource being non-compliant. Output file size is limited to 100K bytes.
-	OutputFilePath *string `json:"outputFilePath,omitempty" tf:"output_file_path,omitempty"`
-
-	// An inline script. The size of the script is limited to 1024 characters.
-	Script *string `json:"script,omitempty" tf:"script,omitempty"`
-}
-
 type ValidateObservation struct {
 
 	// Optional arguments to pass to the source during execution.
@@ -1816,8 +1273,8 @@ type ValidateParameters struct {
 	File []ValidateFileParameters `json:"file,omitempty" tf:"file,omitempty"`
 
 	// Required. The script interpreter to use. Possible values: INTERPRETER_UNSPECIFIED, NONE, SHELL, POWERSHELL
-	// +kubebuilder:validation:Optional
-	Interpreter *string `json:"interpreter,omitempty" tf:"interpreter,omitempty"`
+	// +kubebuilder:validation:Required
+	Interpreter *string `json:"interpreter" tf:"interpreter,omitempty"`
 
 	// Only recorded for enforce Exec. Path to an output file (that is created by this Exec) whose content will be recorded in OSPolicyResourceCompliance after a successful run. Absence or failure to read this file will result in this ExecResource being non-compliant. Output file size is limited to 100K bytes.
 	// +kubebuilder:validation:Optional
@@ -1826,12 +1283,6 @@ type ValidateParameters struct {
 	// An inline script. The size of the script is limited to 1024 characters.
 	// +kubebuilder:validation:Optional
 	Script *string `json:"script,omitempty" tf:"script,omitempty"`
-}
-
-type YumInitParameters struct {
-
-	// Required. Package name.
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 }
 
 type YumObservation struct {
@@ -1843,14 +1294,8 @@ type YumObservation struct {
 type YumParameters struct {
 
 	// Required. Package name.
-	// +kubebuilder:validation:Optional
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
-}
-
-type ZypperInitParameters struct {
-
-	// Required. Package name.
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+	// +kubebuilder:validation:Required
+	Name *string `json:"name" tf:"name,omitempty"`
 }
 
 type ZypperObservation struct {
@@ -1862,26 +1307,14 @@ type ZypperObservation struct {
 type ZypperParameters struct {
 
 	// Required. Package name.
-	// +kubebuilder:validation:Optional
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+	// +kubebuilder:validation:Required
+	Name *string `json:"name" tf:"name,omitempty"`
 }
 
 // OsPolicyAssignmentSpec defines the desired state of OsPolicyAssignment
 type OsPolicyAssignmentSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     OsPolicyAssignmentParameters `json:"forProvider"`
-	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
-	// unless the relevant Crossplane feature flag is enabled, and may be
-	// changed or removed without notice.
-	// InitProvider holds the same fields as ForProvider, with the exception
-	// of Identifier and other resource reference fields. The fields that are
-	// in InitProvider are merged into ForProvider when the resource is created.
-	// The same fields are also added to the terraform ignore_changes hook, to
-	// avoid updating them after creation. This is useful for fields that are
-	// required on creation, but we do not desire to update them after creation,
-	// for example because of an external controller is managing them, like an
-	// autoscaler.
-	InitProvider OsPolicyAssignmentInitParameters `json:"initProvider,omitempty"`
 }
 
 // OsPolicyAssignmentStatus defines the observed state of OsPolicyAssignment.
@@ -1902,9 +1335,9 @@ type OsPolicyAssignmentStatus struct {
 type OsPolicyAssignment struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.instanceFilter) || has(self.initProvider.instanceFilter)",message="instanceFilter is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.osPolicies) || has(self.initProvider.osPolicies)",message="osPolicies is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.rollout) || has(self.initProvider.rollout)",message="rollout is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.instanceFilter)",message="instanceFilter is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.osPolicies)",message="osPolicies is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.rollout)",message="rollout is a required parameter"
 	Spec   OsPolicyAssignmentSpec   `json:"spec"`
 	Status OsPolicyAssignmentStatus `json:"status,omitempty"`
 }

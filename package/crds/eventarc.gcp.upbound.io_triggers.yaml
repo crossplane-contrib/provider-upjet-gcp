@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.1
+    controller-gen.kubebuilder.io/version: v0.12.0
   name: triggers.eventarc.gcp.upbound.io
 spec:
   group: eventarc.gcp.upbound.io
@@ -214,7 +214,10 @@ spec:
                                 description: Required. Name of the GKE service.
                                 type: string
                             required:
+                            - cluster
                             - location
+                            - namespace
+                            - service
                             type: object
                           type: array
                         workflow:
@@ -257,6 +260,9 @@ spec:
                             https://cloud.google.com/eventarc/docs/creating-triggers#trigger-gcloud
                             for available values.
                           type: string
+                      required:
+                      - attribute
+                      - value
                       type: object
                     type: array
                   project:
@@ -301,161 +307,6 @@ spec:
                     type: array
                 required:
                 - location
-                type: object
-              initProvider:
-                description: THIS IS AN ALPHA FIELD. Do not use it in production.
-                  It is not honored unless the relevant Crossplane feature flag is
-                  enabled, and may be changed or removed without notice. InitProvider
-                  holds the same fields as ForProvider, with the exception of Identifier
-                  and other resource reference fields. The fields that are in InitProvider
-                  are merged into ForProvider when the resource is created. The same
-                  fields are also added to the terraform ignore_changes hook, to avoid
-                  updating them after creation. This is useful for fields that are
-                  required on creation, but we do not desire to update them after
-                  creation, for example because of an external controller is managing
-                  them, like an autoscaler.
-                properties:
-                  channel:
-                    description: Optional. The name of the channel associated with
-                      the trigger in projects/{project}/locations/{location}/channels/{channel}
-                      format. You must provide a channel to receive events from Eventarc
-                      SaaS partners.
-                    type: string
-                  destination:
-                    description: Required. Destination specifies where the events
-                      should be sent to.
-                    items:
-                      properties:
-                        cloudFunction:
-                          description: '[WARNING] Configuring a Cloud Function in
-                            Trigger is not supported as of today. The Cloud Function
-                            resource name. Format: projects/{project}/locations/{location}/functions/{function}'
-                          type: string
-                        cloudRunService:
-                          description: Cloud Run fully-managed service that receives
-                            the events. The service should be running in the same
-                            project of the trigger.
-                          items:
-                            properties:
-                              path:
-                                description: 'Optional. The relative path on the GKE
-                                  service the events should be sent to. The value
-                                  must conform to the definition of a URI path segment
-                                  (section 3.3 of RFC2396). Examples: "/route", "route",
-                                  "route/subroute".'
-                                type: string
-                              region:
-                                description: Required. The region the Cloud Run service
-                                  is deployed in.
-                                type: string
-                            type: object
-                          type: array
-                        gke:
-                          description: A GKE service capable of receiving events.
-                            The service should be running in the same project as the
-                            trigger.
-                          items:
-                            properties:
-                              cluster:
-                                description: Required. The name of the cluster the
-                                  GKE service is running in. The cluster must be running
-                                  in the same project as the trigger being created.
-                                type: string
-                              namespace:
-                                description: Required. The namespace the GKE service
-                                  is running in.
-                                type: string
-                              path:
-                                description: 'Optional. The relative path on the GKE
-                                  service the events should be sent to. The value
-                                  must conform to the definition of a URI path segment
-                                  (section 3.3 of RFC2396). Examples: "/route", "route",
-                                  "route/subroute".'
-                                type: string
-                              service:
-                                description: Required. Name of the GKE service.
-                                type: string
-                            type: object
-                          type: array
-                        workflow:
-                          description: 'The resource name of the Workflow whose Executions
-                            are triggered by the events. The Workflow resource should
-                            be deployed in the same project as the trigger. Format:
-                            projects/{project}/locations/{location}/workflows/{workflow}'
-                          type: string
-                      type: object
-                    type: array
-                  labels:
-                    additionalProperties:
-                      type: string
-                    description: Optional. User labels attached to the triggers that
-                      can be used to group resources.
-                    type: object
-                  matchingCriteria:
-                    description: Required. null The list of filters that applies to
-                      event attributes. Only events that match all the provided filters
-                      will be sent to the destination.
-                    items:
-                      properties:
-                        attribute:
-                          description: Required. The name of a CloudEvents attribute.
-                            Currently, only a subset of attributes are supported for
-                            filtering. All triggers MUST provide a filter for the
-                            'type' attribute.
-                          type: string
-                        operator:
-                          description: Optional. The operator used for matching the
-                            events with the value of the filter. If not specified,
-                            only events that have an exact key-value pair specified
-                            in the filter are matched. The only allowed value is match-path-pattern.
-                          type: string
-                        value:
-                          description: Required. The value for the attribute. See
-                            https://cloud.google.com/eventarc/docs/creating-triggers#trigger-gcloud
-                            for available values.
-                          type: string
-                      type: object
-                    type: array
-                  project:
-                    description: The project for the resource
-                    type: string
-                  serviceAccount:
-                    description: Optional. The IAM service account email associated
-                      with the trigger. The service account represents the identity
-                      of the trigger. The principal who calls this API must have iam.serviceAccounts.actAs
-                      permission in the service account. See https://cloud.google.com/iam/docs/understanding-service-accounts#sa_common
-                      for more information. For Cloud Run destinations, this service
-                      account is used to generate identity tokens when invoking the
-                      service. See https://cloud.google.com/run/docs/triggering/pubsub-push#create-service-account
-                      for information on how to invoke authenticated Cloud Run services.
-                      In order to create Audit Log triggers, the service account should
-                      also have roles/eventarc.eventReceiver IAM role.
-                    type: string
-                  transport:
-                    description: Optional. In order to deliver messages, Eventarc
-                      may use other GCP products as transport intermediary. This field
-                      contains a reference to that transport intermediary. This information
-                      can be used for debugging purposes.
-                    items:
-                      properties:
-                        pubsub:
-                          description: The Pub/Sub topic and subscription used by
-                            Eventarc as delivery intermediary.
-                          items:
-                            properties:
-                              topic:
-                                description: 'Optional. The name of the Pub/Sub topic
-                                  created and managed by Eventarc system as a transport
-                                  for the event delivery. Format: projects/{PROJECT_ID}/topics/{TOPIC_NAME}.
-                                  You may set an existing topic for triggers of the
-                                  type google.cloud.pubsub.topic.v1.messagePublished
-                                  only. The topic you provide here will not be deleted
-                                  by Eventarc at trigger deletion.'
-                                type: string
-                            type: object
-                          type: array
-                      type: object
-                    type: array
                 type: object
               managementPolicies:
                 default:
@@ -657,12 +508,10 @@ spec:
             x-kubernetes-validations:
             - message: destination is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.destination)
-                || has(self.initProvider.destination)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.destination)'
             - message: matchingCriteria is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.matchingCriteria)
-                || has(self.initProvider.matchingCriteria)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.matchingCriteria)'
           status:
             description: TriggerStatus defines the observed state of Trigger.
             properties:

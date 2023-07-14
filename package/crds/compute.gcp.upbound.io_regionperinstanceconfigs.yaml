@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.1
+    controller-gen.kubebuilder.io/version: v0.12.0
   name: regionperinstanceconfigs.compute.gcp.upbound.io
 spec:
   group: compute.gcp.upbound.io
@@ -196,6 +196,8 @@ spec:
                                         type: string
                                     type: object
                                 type: object
+                            required:
+                            - deviceName
                             type: object
                           type: array
                         metadata:
@@ -368,83 +370,6 @@ spec:
                             type: string
                         type: object
                     type: object
-                  removeInstanceStateOnDestroy:
-                    description: When true, deleting this config will immediately
-                      remove any specified state from the underlying instance. When
-                      false, deleting this config will not immediately remove any
-                      state from the underlying instance. State will be removed on
-                      the next instance recreation or update.
-                    type: boolean
-                type: object
-              initProvider:
-                description: THIS IS AN ALPHA FIELD. Do not use it in production.
-                  It is not honored unless the relevant Crossplane feature flag is
-                  enabled, and may be changed or removed without notice. InitProvider
-                  holds the same fields as ForProvider, with the exception of Identifier
-                  and other resource reference fields. The fields that are in InitProvider
-                  are merged into ForProvider when the resource is created. The same
-                  fields are also added to the terraform ignore_changes hook, to avoid
-                  updating them after creation. This is useful for fields that are
-                  required on creation, but we do not desire to update them after
-                  creation, for example because of an external controller is managing
-                  them, like an autoscaler.
-                properties:
-                  minimalAction:
-                    description: 'The minimal action to perform on the instance during
-                      an update. Default is NONE. Possible values are:'
-                    type: string
-                  mostDisruptiveAllowedAction:
-                    description: 'The most disruptive action to perform on the instance
-                      during an update. Default is REPLACE. Possible values are:'
-                    type: string
-                  name:
-                    description: The name for this per-instance config and its corresponding
-                      instance.
-                    type: string
-                  preservedState:
-                    description: The preserved state for this instance. Structure
-                      is documented below.
-                    items:
-                      properties:
-                        disk:
-                          description: Stateful disks for the instance. Structure
-                            is documented below.
-                          items:
-                            properties:
-                              deleteRule:
-                                description: 'A value that prescribes what should
-                                  happen to the stateful disk when the VM instance
-                                  is deleted. The available options are NEVER and
-                                  ON_PERMANENT_INSTANCE_DELETION. NEVER - detach the
-                                  disk when the VM is deleted, but do not delete the
-                                  disk. ON_PERMANENT_INSTANCE_DELETION will delete
-                                  the stateful disk when the VM is permanently deleted
-                                  from the instance group. Default value is NEVER.
-                                  Possible values are: NEVER, ON_PERMANENT_INSTANCE_DELETION.'
-                                type: string
-                              deviceName:
-                                description: A unique device name that is reflected
-                                  into the /dev/ tree of a Linux operating system
-                                  running within the instance.
-                                type: string
-                              mode:
-                                description: 'The mode of the disk. Default value
-                                  is READ_WRITE. Possible values are: READ_ONLY, READ_WRITE.'
-                                type: string
-                            type: object
-                          type: array
-                        metadata:
-                          additionalProperties:
-                            type: string
-                          description: Preserved metadata defined for this instance.
-                            This is a list of key->value pairs.
-                          type: object
-                      type: object
-                    type: array
-                  project:
-                    description: The ID of the project in which the resource belongs.
-                      If it is not provided, the provider project is used.
-                    type: string
                   removeInstanceStateOnDestroy:
                     description: When true, deleting this config will immediately
                       remove any specified state from the underlying instance. When
@@ -653,8 +578,7 @@ spec:
             x-kubernetes-validations:
             - message: name is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.name)
-                || has(self.initProvider.name)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.name)'
           status:
             description: RegionPerInstanceConfigStatus defines the observed state
               of RegionPerInstanceConfig.

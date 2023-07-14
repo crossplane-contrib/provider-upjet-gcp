@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.1
+    controller-gen.kubebuilder.io/version: v0.12.0
   name: projectsinks.logging.gcp.upbound.io
 spec:
   group: logging.gcp.upbound.io
@@ -80,6 +80,8 @@ spec:
                             query syntax has to be used instead. In both cases, tables
                             are sharded based on UTC timezone.
                           type: boolean
+                      required:
+                      - usePartitionedTables
                       type: object
                     type: array
                   description:
@@ -124,96 +126,9 @@ spec:
                             only letters, digits, underscores, hyphens, and periods.
                             First character has to be alphanumeric.
                           type: string
-                      type: object
-                    type: array
-                  filter:
-                    description: The filter to apply when exporting logs. Only log
-                      entries that match the filter are exported. See Advanced Log
-                      Filters for information on how to write a filter.
-                    type: string
-                  project:
-                    description: The ID of the project to create the sink in. If omitted,
-                      the project associated with the provider is used.
-                    type: string
-                  uniqueWriterIdentity:
-                    description: Whether or not to create a unique identity associated
-                      with this sink. If false (the default), then the writer_identity
-                      used is serviceAccount:cloud-logs@system.gserviceaccount.com.
-                      If true, then a unique service account is created and used for
-                      this sink. If you wish to publish logs across projects or utilize
-                      bigquery_options, you must set unique_writer_identity to true.
-                    type: boolean
-                type: object
-              initProvider:
-                description: THIS IS AN ALPHA FIELD. Do not use it in production.
-                  It is not honored unless the relevant Crossplane feature flag is
-                  enabled, and may be changed or removed without notice. InitProvider
-                  holds the same fields as ForProvider, with the exception of Identifier
-                  and other resource reference fields. The fields that are in InitProvider
-                  are merged into ForProvider when the resource is created. The same
-                  fields are also added to the terraform ignore_changes hook, to avoid
-                  updating them after creation. This is useful for fields that are
-                  required on creation, but we do not desire to update them after
-                  creation, for example because of an external controller is managing
-                  them, like an autoscaler.
-                properties:
-                  bigqueryOptions:
-                    description: Options that affect sinks exporting data to BigQuery.
-                      Structure documented below.
-                    items:
-                      properties:
-                        usePartitionedTables:
-                          description: Whether to use BigQuery's partition tables.
-                            By default, Logging creates dated tables based on the
-                            log entries' timestamps, e.g. syslog_20170523. With partitioned
-                            tables the date suffix is no longer present and special
-                            query syntax has to be used instead. In both cases, tables
-                            are sharded based on UTC timezone.
-                          type: boolean
-                      type: object
-                    type: array
-                  description:
-                    description: A description of this sink. The maximum length of
-                      the description is 8000 characters.
-                    type: string
-                  destination:
-                    description: 'The destination of the sink (or, in other words,
-                      where logs are written to). Can be a Cloud Storage bucket, a
-                      PubSub topic, a BigQuery dataset or a Cloud Logging bucket .
-                      Examples:'
-                    type: string
-                  disabled:
-                    description: If set to True, then this sink is disabled and it
-                      does not export any log entries.
-                    type: boolean
-                  exclusions:
-                    description: Log entries that match any of the exclusion filters
-                      will not be exported. If a log entry is matched by both filter
-                      and one of exclusions.filter, it will not be exported.  Can
-                      be repeated multiple times for multiple exclusions. Structure
-                      is documented below.
-                    items:
-                      properties:
-                        description:
-                          description: A description of this exclusion.
-                          type: string
-                        disabled:
-                          description: If set to True, then this exclusion is disabled
-                            and it does not exclude any log entries.
-                          type: boolean
-                        filter:
-                          description: An advanced logs filter that matches the log
-                            entries to be excluded. By using the sample function,
-                            you can exclude less than 100% of the matching log entries.
-                            See Advanced Log Filters for information on how to write
-                            a filter.
-                          type: string
-                        name:
-                          description: A client-assigned identifier, such as load-balancer-exclusion.
-                            Identifiers are limited to 100 characters and can include
-                            only letters, digits, underscores, hyphens, and periods.
-                            First character has to be alphanumeric.
-                          type: string
+                      required:
+                      - filter
+                      - name
                       type: object
                     type: array
                   filter:
@@ -434,8 +349,7 @@ spec:
             x-kubernetes-validations:
             - message: destination is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.destination)
-                || has(self.initProvider.destination)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.destination)'
           status:
             description: ProjectSinkStatus defines the observed state of ProjectSink.
             properties:

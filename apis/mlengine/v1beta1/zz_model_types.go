@@ -25,12 +25,6 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
-type DefaultVersionInitParameters struct {
-
-	// The name specified for the version when it was created.
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
-}
-
 type DefaultVersionObservation struct {
 
 	// The name specified for the version when it was created.
@@ -40,39 +34,8 @@ type DefaultVersionObservation struct {
 type DefaultVersionParameters struct {
 
 	// The name specified for the version when it was created.
-	// +kubebuilder:validation:Optional
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
-}
-
-type ModelInitParameters struct {
-
-	// The default version of the model. This version will be used to handle
-	// prediction requests that do not specify a version.
-	// Structure is documented below.
-	DefaultVersion []DefaultVersionInitParameters `json:"defaultVersion,omitempty" tf:"default_version,omitempty"`
-
-	// The description specified for the model when it was created.
-	Description *string `json:"description,omitempty" tf:"description,omitempty"`
-
-	// One or more labels that you can add, to organize your models.
-	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
-
-	// The name specified for the model.
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
-
-	// If true, online prediction nodes send stderr and stdout streams to Stackdriver Logging
-	OnlinePredictionConsoleLogging *bool `json:"onlinePredictionConsoleLogging,omitempty" tf:"online_prediction_console_logging,omitempty"`
-
-	// If true, online prediction access logs are sent to StackDriver Logging.
-	OnlinePredictionLogging *bool `json:"onlinePredictionLogging,omitempty" tf:"online_prediction_logging,omitempty"`
-
-	// The ID of the project in which the resource belongs.
-	// If it is not provided, the provider project is used.
-	Project *string `json:"project,omitempty" tf:"project,omitempty"`
-
-	// The list of regions where the model is going to be deployed.
-	// Currently only one region per model is supported
-	Regions []*string `json:"regions,omitempty" tf:"regions,omitempty"`
+	// +kubebuilder:validation:Required
+	Name *string `json:"name" tf:"name,omitempty"`
 }
 
 type ModelObservation struct {
@@ -152,18 +115,6 @@ type ModelParameters struct {
 type ModelSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     ModelParameters `json:"forProvider"`
-	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
-	// unless the relevant Crossplane feature flag is enabled, and may be
-	// changed or removed without notice.
-	// InitProvider holds the same fields as ForProvider, with the exception
-	// of Identifier and other resource reference fields. The fields that are
-	// in InitProvider are merged into ForProvider when the resource is created.
-	// The same fields are also added to the terraform ignore_changes hook, to
-	// avoid updating them after creation. This is useful for fields that are
-	// required on creation, but we do not desire to update them after creation,
-	// for example because of an external controller is managing them, like an
-	// autoscaler.
-	InitProvider ModelInitParameters `json:"initProvider,omitempty"`
 }
 
 // ModelStatus defines the observed state of Model.
@@ -184,7 +135,7 @@ type ModelStatus struct {
 type Model struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.name) || has(self.initProvider.name)",message="name is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.name)",message="name is a required parameter"
 	Spec   ModelSpec   `json:"spec"`
 	Status ModelStatus `json:"status,omitempty"`
 }
