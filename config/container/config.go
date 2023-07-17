@@ -21,6 +21,7 @@ func Configure(p *config.Provider) { //nolint:gocyclo
 			IgnoredFields: []string{
 				"cluster_ipv4_cidr",
 				"ip_allocation_policy",
+				"node_config",
 				"node_version",
 				"enable_autopilot",
 				"workload_identity_config",
