@@ -101,6 +101,7 @@ func (tr *Cluster) LateInitialize(attrs []byte) (bool, error) {
 	opts = append(opts, resource.WithNameFilter("EnableShieldedNodes"))
 	opts = append(opts, resource.WithNameFilter("IPAllocationPolicy"))
 	opts = append(opts, resource.WithNameFilter("NetworkPolicy"))
+	opts = append(opts, resource.WithNameFilter("NodeConfig"))
 	opts = append(opts, resource.WithNameFilter("NodeVersion"))
 	opts = append(opts, resource.WithNameFilter("WorkloadIdentityConfig"))
 
