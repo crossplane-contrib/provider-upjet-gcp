@@ -45,9 +45,7 @@ spec:
         - IT
         - US
     name: accessPolicies/${google_access_context_manager_access_policy.access-policy.name}/accessLevels/chromeos_no_lock
-    parentSelector:
-      matchLabels:
-        testing.upbound.io/example-name: access-policy
+    parent: accessPolicies/${google_access_context_manager_access_policy.access-policy.name}
     title: chromeos_no_lock
 
 ---
