@@ -350,6 +350,21 @@ var externalNameConfigs = map[string]config.ExternalName{
 	// {{name}}: projects/{project_id}/locations/{location}/tagTemplates/{tagTemplateId}
 	"google_data_catalog_tag_template": config.TemplatedStringAsIdentifier("tag_template_id", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.region }}/tagTemplates/{{ .external_name }}"),
 
+	// accesscontextmanager
+	//
+	// Imported by using the following format: {{name}}: accessPolicies/{policy_id}/accessLevels/{short_name}
+	"google_access_context_manager_access_level": config.IdentifierFromProvider,
+	// No import
+	"google_access_context_manager_access_level_condition": config.IdentifierFromProvider,
+	// Imported by using {{name}}, but name doesn't exist in parameters. Try using IdentifierFromProvider
+	"google_access_context_manager_access_policy": config.IdentifierFromProvider,
+	// Imported by using the following format: "accessPolicies/{{access_policy}} roles/accesscontextmanager.policyAdmin user:jane@example.com"
+	"google_access_context_manager_access_policy_iam_member": config.IdentifierFromProvider,
+	// Imported by using the following format: {{name}}
+	"google_access_context_manager_service_perimeter": config.IdentifierFromProvider,
+	// Imported by using the following format: {{perimeter_name}}/{{resource}}
+	"google_access_context_manager_service_perimeter_resource": config.IdentifierFromProvider,
+
 	// datastore
 	//
 	// Imported by using the following format: projects/{{project}}/indexes/{{index_id}}

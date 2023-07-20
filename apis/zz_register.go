@@ -22,7 +22,8 @@ package apis
 import (
 	"k8s.io/apimachinery/pkg/runtime"
 
-	v1beta1 "github.com/upbound/provider-gcp/apis/activedirectory/v1beta1"
+	v1beta1 "github.com/upbound/provider-gcp/apis/accesscontextmanager/v1beta1"
+	v1beta1activedirectory "github.com/upbound/provider-gcp/apis/activedirectory/v1beta1"
 	v1beta1apigee "github.com/upbound/provider-gcp/apis/apigee/v1beta1"
 	v1beta1appengine "github.com/upbound/provider-gcp/apis/appengine/v1beta1"
 	v1beta1artifact "github.com/upbound/provider-gcp/apis/artifact/v1beta1"
@@ -98,6 +99,7 @@ func init() {
 	// Register the types with the Scheme so the components can map objects to GroupVersionKinds and back
 	AddToSchemes = append(AddToSchemes,
 		v1beta1.SchemeBuilder.AddToScheme,
+		v1beta1activedirectory.SchemeBuilder.AddToScheme,
 		v1beta1apigee.SchemeBuilder.AddToScheme,
 		v1beta1appengine.SchemeBuilder.AddToScheme,
 		v1beta1artifact.SchemeBuilder.AddToScheme,

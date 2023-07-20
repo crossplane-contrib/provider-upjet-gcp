@@ -9,6 +9,12 @@ import (
 
 	"github.com/upbound/upjet/pkg/controller"
 
+	accesslevel "github.com/upbound/provider-gcp/internal/controller/accesscontextmanager/accesslevel"
+	accesslevelcondition "github.com/upbound/provider-gcp/internal/controller/accesscontextmanager/accesslevelcondition"
+	accesspolicy "github.com/upbound/provider-gcp/internal/controller/accesscontextmanager/accesspolicy"
+	accesspolicyiammember "github.com/upbound/provider-gcp/internal/controller/accesscontextmanager/accesspolicyiammember"
+	serviceperimeter "github.com/upbound/provider-gcp/internal/controller/accesscontextmanager/serviceperimeter"
+	serviceperimeterresource "github.com/upbound/provider-gcp/internal/controller/accesscontextmanager/serviceperimeterresource"
 	domain "github.com/upbound/provider-gcp/internal/controller/activedirectory/domain"
 	envgroup "github.com/upbound/provider-gcp/internal/controller/apigee/envgroup"
 	environment "github.com/upbound/provider-gcp/internal/controller/apigee/environment"
@@ -345,6 +351,12 @@ import (
 // the supplied manager.
 func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		accesslevel.Setup,
+		accesslevelcondition.Setup,
+		accesspolicy.Setup,
+		accesspolicyiammember.Setup,
+		serviceperimeter.Setup,
+		serviceperimeterresource.Setup,
 		domain.Setup,
 		envgroup.Setup,
 		environment.Setup,
