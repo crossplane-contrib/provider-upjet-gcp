@@ -49,6 +49,3 @@ spec:
     - restrictedServices:
       - storage.googleapis.com
     title: restrict_all
-
----
-

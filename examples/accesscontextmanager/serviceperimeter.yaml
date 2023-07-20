@@ -61,6 +61,3 @@ spec:
   forProvider:
     parent: organizations/123456789
     title: my policy
-
----
-
