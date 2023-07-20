@@ -1,33 +1,3 @@
-apiVersion: cloudplatform.gcp.upbound.io/v1beta1
-kind: Project
-metadata:
-  annotations:
-    meta.upbound.io/example-id: accesscontextmanager/v1beta1/serviceperimeterresource
-    upjet.upbound.io/manual-intervention: "Requires organization level IAM permissions"
-  labels:
-    testing.upbound.io/example-name: project
-  name: project
-spec:
-  forProvider:
-    projectId: project
-    name: project
-
----
-apiVersion: cloudplatform.gcp.upbound.io/v1beta1
-kind: ProjectService
-metadata:
-  annotations:
-    meta.upbound.io/example-id: accesscontextmanager/v1beta1/serviceperimeterresource
-  labels:
-    testing.upbound.io/example-name: project-service
-  name: project-service-accesscontextmanager
-spec:
-  forProvider:
-    disableDependentServices: false
-    project: ${data.cloudplatform_project.projectId}
-    service: accesscontextmanager.googleapis.com
-
----
 apiVersion: accesscontextmanager.gcp.upbound.io/v1beta1
 kind: ServicePerimeterResource
 metadata:
@@ -39,5 +9,46 @@ metadata:
   name: service-perimeter-resource
 spec:
   forProvider:
-    perimeterName: ${google_access_context_manager_service_perimeter.service-perimeter-resource.name}
-    resource: ${data.google_project.project.number}
+    perimeterNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: service-perimeter-resource
+    resource: projects/987654321
+
+---
+
+apiVersion: accesscontextmanager.gcp.upbound.io/v1beta1
+kind: AccessPolicy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: accesscontextmanager/v1beta1/serviceperimeterresource
+    upjet.upbound.io/manual-intervention: "Requires organization level IAM permissions"
+  labels:
+    testing.upbound.io/example-name: access-policy
+  name: access-policy
+spec:
+  forProvider:
+    parent: organizations/123456789
+    title: my policy
+
+---
+
+apiVersion: accesscontextmanager.gcp.upbound.io/v1beta1
+kind: ServicePerimeter
+metadata:
+  annotations:
+    meta.upbound.io/example-id: accesscontextmanager/v1beta1/serviceperimeterresource
+    upjet.upbound.io/manual-intervention: "Requires organization level IAM permissions"
+  labels:
+    testing.upbound.io/example-name: service-perimeter-resource
+  name: service-perimeter-resource
+spec:
+  forProvider:
+    name: accessPolicies/${google_access_context_manager_access_policy.access-policy.name}/servicePerimeters/restrict_all
+    parent: accessPolicies/${google_access_context_manager_access_policy.access-policy.name}
+    status:
+    - restrictedServices:
+      - storage.googleapis.com
+    title: restrict_all
+
+---
+

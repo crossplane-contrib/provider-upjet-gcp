@@ -7,15 +7,7 @@ import (
 // Configure configures individual resources by adding custom
 // ResourceConfigurators.
 func Configure(p *config.Provider) {
-	p.AddResourceConfigurator("google_access_context_manager_access_policy_iam_member", func(r *config.Resource) {
-		r.References["name"] = config.Reference{
-			Type: "AccessPolicy",
-		}
-	})
 	p.AddResourceConfigurator("google_access_context_manager_service_perimeter", func(r *config.Resource) {
-		r.References["parent"] = config.Reference{
-			Type: "AccessPolicy",
-		}
 		r.References["status.access_levels"] = config.Reference{
 			Type: "AccessLevel",
 		}

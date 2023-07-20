@@ -41,9 +41,7 @@ metadata:
 spec:
   forProvider:
     name: accessPolicies/${google_access_context_manager_access_policy.access-policy.name}/servicePerimeters/restrict_all
-    parentSelector:
-      matchLabels:
-        testing.upbound.io/example-name: access-policy
+    parent: accessPolicies/${google_access_context_manager_access_policy.access-policy.name}
     status:
     - restrictedServices:
       - storage.googleapis.com

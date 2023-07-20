@@ -753,16 +753,6 @@ func (in *AccessPolicyIAMMemberParameters) DeepCopyInto(out *AccessPolicyIAMMemb
 		*out = new(string)
 		**out = **in
 	}
-	if in.NameRef != nil {
-		in, out := &in.NameRef, &out.NameRef
-		*out = new(v1.Reference)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.NameSelector != nil {
-		in, out := &in.NameSelector, &out.NameSelector
-		*out = new(v1.Selector)
-		(*in).DeepCopyInto(*out)
-	}
 	if in.Role != nil {
 		in, out := &in.Role, &out.Role
 		*out = new(string)
@@ -2896,16 +2886,6 @@ func (in *ServicePerimeterParameters) DeepCopyInto(out *ServicePerimeterParamete
 		in, out := &in.Parent, &out.Parent
 		*out = new(string)
 		**out = **in
-	}
-	if in.ParentRef != nil {
-		in, out := &in.ParentRef, &out.ParentRef
-		*out = new(v1.Reference)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.ParentSelector != nil {
-		in, out := &in.ParentSelector, &out.ParentSelector
-		*out = new(v1.Selector)
-		(*in).DeepCopyInto(*out)
 	}
 	if in.PerimeterType != nil {
 		in, out := &in.PerimeterType, &out.PerimeterType
