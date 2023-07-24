@@ -53,6 +53,32 @@ func (mg *Folder) ResolveReferences(ctx context.Context, c client.Reader) error 
 	return nil
 }
 
+// ResolveReferences of this FolderIAMBinding.
+func (mg *FolderIAMBinding) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Folder),
+		Extract:      common.ExtractResourceID(),
+		Reference:    mg.Spec.ForProvider.FolderRef,
+		Selector:     mg.Spec.ForProvider.FolderSelector,
+		To: reference.To{
+			List:    &FolderList{},
+			Managed: &Folder{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.Folder")
+	}
+	mg.Spec.ForProvider.Folder = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.FolderRef = rsp.ResolvedReference
+
+	return nil
+}
+
 // ResolveReferences of this FolderIAMMember.
 func (mg *FolderIAMMember) ResolveReferences(ctx context.Context, c client.Reader) error {
 	r := reference.NewAPIResolver(c, mg)
@@ -133,6 +159,32 @@ func (mg *ProjectDefaultServiceAccounts) ResolveReferences(ctx context.Context, 
 
 // ResolveReferences of this ProjectIAMAuditConfig.
 func (mg *ProjectIAMAuditConfig) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Project),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.ForProvider.ProjectRef,
+		Selector:     mg.Spec.ForProvider.ProjectSelector,
+		To: reference.To{
+			List:    &ProjectList{},
+			Managed: &Project{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.Project")
+	}
+	mg.Spec.ForProvider.Project = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.ProjectRef = rsp.ResolvedReference
+
+	return nil
+}
+
+// ResolveReferences of this ProjectIAMBinding.
+func (mg *ProjectIAMBinding) ResolveReferences(ctx context.Context, c client.Reader) error {
 	r := reference.NewAPIResolver(c, mg)
 
 	var rsp reference.ResolutionResponse

@@ -19,6 +19,12 @@ func Configure(p *config.Provider) {
 			Extractor: common.ExtractResourceIDFuncPath,
 		}
 	})
+	p.AddResourceConfigurator("google_folder_iam_binding", func(r *config.Resource) {
+		r.References["folder"] = config.Reference{
+			Type:      "Folder",
+			Extractor: common.ExtractResourceIDFuncPath,
+		}
+	})
 	p.AddResourceConfigurator("google_project", func(r *config.Resource) {
 		r.TerraformResource.Schema["org_id"].Description =
 			"The numeric ID of the organization this project belongs to."
@@ -29,6 +35,11 @@ func Configure(p *config.Provider) {
 		}
 	})
 	p.AddResourceConfigurator("google_project_iam_member", func(r *config.Resource) {
+		r.References["project"] = config.Reference{
+			Type: "Project",
+		}
+	})
+	p.AddResourceConfigurator("google_project_iam_binding", func(r *config.Resource) {
 		r.References["project"] = config.Reference{
 			Type: "Project",
 		}

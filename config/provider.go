@@ -99,7 +99,6 @@ var skipList = []string{
 	// Note(donovamuller): Following resources are potentially dangerous to implement
 	// details in: https://github.com/upbound/official-providers/issues/521
 	"google_project_iam_policy",
-	"google_project_iam_binding",
 	"google_organization_iam_binding",
 	"google_service_account_iam_policy",
 	"google_service_account_iam_binding",

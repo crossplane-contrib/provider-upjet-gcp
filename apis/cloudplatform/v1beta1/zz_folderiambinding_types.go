@@ -25,7 +25,7 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
-type FolderIAMMemberConditionObservation struct {
+type ConditionObservation struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	Expression *string `json:"expression,omitempty" tf:"expression,omitempty"`
@@ -33,7 +33,7 @@ type FolderIAMMemberConditionObservation struct {
 	Title *string `json:"title,omitempty" tf:"title,omitempty"`
 }
 
-type FolderIAMMemberConditionParameters struct {
+type ConditionParameters struct {
 
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -45,8 +45,8 @@ type FolderIAMMemberConditionParameters struct {
 	Title *string `json:"title" tf:"title,omitempty"`
 }
 
-type FolderIAMMemberObservation struct {
-	Condition []FolderIAMMemberConditionObservation `json:"condition,omitempty" tf:"condition,omitempty"`
+type FolderIAMBindingObservation struct {
+	Condition []ConditionObservation `json:"condition,omitempty" tf:"condition,omitempty"`
 
 	Etag *string `json:"etag,omitempty" tf:"etag,omitempty"`
 
@@ -54,15 +54,15 @@ type FolderIAMMemberObservation struct {
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	Member *string `json:"member,omitempty" tf:"member,omitempty"`
+	Members []*string `json:"members,omitempty" tf:"members,omitempty"`
 
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 }
 
-type FolderIAMMemberParameters struct {
+type FolderIAMBindingParameters struct {
 
 	// +kubebuilder:validation:Optional
-	Condition []FolderIAMMemberConditionParameters `json:"condition,omitempty" tf:"condition,omitempty"`
+	Condition []ConditionParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
 	// +crossplane:generate:reference:type=Folder
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.ExtractResourceID()
@@ -78,59 +78,59 @@ type FolderIAMMemberParameters struct {
 	FolderSelector *v1.Selector `json:"folderSelector,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Optional
-	Member *string `json:"member,omitempty" tf:"member,omitempty"`
+	Members []*string `json:"members,omitempty" tf:"members,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 }
 
-// FolderIAMMemberSpec defines the desired state of FolderIAMMember
-type FolderIAMMemberSpec struct {
+// FolderIAMBindingSpec defines the desired state of FolderIAMBinding
+type FolderIAMBindingSpec struct {
 	v1.ResourceSpec `json:",inline"`
-	ForProvider     FolderIAMMemberParameters `json:"forProvider"`
+	ForProvider     FolderIAMBindingParameters `json:"forProvider"`
 }
 
-// FolderIAMMemberStatus defines the observed state of FolderIAMMember.
-type FolderIAMMemberStatus struct {
+// FolderIAMBindingStatus defines the observed state of FolderIAMBinding.
+type FolderIAMBindingStatus struct {
 	v1.ResourceStatus `json:",inline"`
-	AtProvider        FolderIAMMemberObservation `json:"atProvider,omitempty"`
+	AtProvider        FolderIAMBindingObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 
-// FolderIAMMember is the Schema for the FolderIAMMembers API. <no value>
+// FolderIAMBinding is the Schema for the FolderIAMBindings API. <no value>
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
 // +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,gcp}
-type FolderIAMMember struct {
+type FolderIAMBinding struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.member)",message="member is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.members)",message="members is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.role)",message="role is a required parameter"
-	Spec   FolderIAMMemberSpec   `json:"spec"`
-	Status FolderIAMMemberStatus `json:"status,omitempty"`
+	Spec   FolderIAMBindingSpec   `json:"spec"`
+	Status FolderIAMBindingStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 
-// FolderIAMMemberList contains a list of FolderIAMMembers
-type FolderIAMMemberList struct {
+// FolderIAMBindingList contains a list of FolderIAMBindings
+type FolderIAMBindingList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []FolderIAMMember `json:"items"`
+	Items           []FolderIAMBinding `json:"items"`
 }
 
 // Repository type metadata.
 var (
-	FolderIAMMember_Kind             = "FolderIAMMember"
-	FolderIAMMember_GroupKind        = schema.GroupKind{Group: CRDGroup, Kind: FolderIAMMember_Kind}.String()
-	FolderIAMMember_KindAPIVersion   = FolderIAMMember_Kind + "." + CRDGroupVersion.String()
-	FolderIAMMember_GroupVersionKind = CRDGroupVersion.WithKind(FolderIAMMember_Kind)
+	FolderIAMBinding_Kind             = "FolderIAMBinding"
+	FolderIAMBinding_GroupKind        = schema.GroupKind{Group: CRDGroup, Kind: FolderIAMBinding_Kind}.String()
+	FolderIAMBinding_KindAPIVersion   = FolderIAMBinding_Kind + "." + CRDGroupVersion.String()
+	FolderIAMBinding_GroupVersionKind = CRDGroupVersion.WithKind(FolderIAMBinding_Kind)
 )
 
 func init() {
-	SchemeBuilder.Register(&FolderIAMMember{}, &FolderIAMMemberList{})
+	SchemeBuilder.Register(&FolderIAMBinding{}, &FolderIAMBindingList{})
 }

@@ -10,6 +10,7 @@ import (
 	"github.com/upbound/upjet/pkg/controller"
 
 	folder "github.com/upbound/provider-gcp/internal/controller/cloudplatform/folder"
+	folderiambinding "github.com/upbound/provider-gcp/internal/controller/cloudplatform/folderiambinding"
 	folderiammember "github.com/upbound/provider-gcp/internal/controller/cloudplatform/folderiammember"
 	organizationiamauditconfig "github.com/upbound/provider-gcp/internal/controller/cloudplatform/organizationiamauditconfig"
 	organizationiamcustomrole "github.com/upbound/provider-gcp/internal/controller/cloudplatform/organizationiamcustomrole"
@@ -17,6 +18,7 @@ import (
 	project "github.com/upbound/provider-gcp/internal/controller/cloudplatform/project"
 	projectdefaultserviceaccounts "github.com/upbound/provider-gcp/internal/controller/cloudplatform/projectdefaultserviceaccounts"
 	projectiamauditconfig "github.com/upbound/provider-gcp/internal/controller/cloudplatform/projectiamauditconfig"
+	projectiambinding "github.com/upbound/provider-gcp/internal/controller/cloudplatform/projectiambinding"
 	projectiamcustomrole "github.com/upbound/provider-gcp/internal/controller/cloudplatform/projectiamcustomrole"
 	projectiammember "github.com/upbound/provider-gcp/internal/controller/cloudplatform/projectiammember"
 	projectservice "github.com/upbound/provider-gcp/internal/controller/cloudplatform/projectservice"
@@ -32,6 +34,7 @@ import (
 func Setup_cloudplatform(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
 		folder.Setup,
+		folderiambinding.Setup,
 		folderiammember.Setup,
 		organizationiamauditconfig.Setup,
 		organizationiamcustomrole.Setup,
@@ -39,6 +42,7 @@ func Setup_cloudplatform(mgr ctrl.Manager, o controller.Options) error {
 		project.Setup,
 		projectdefaultserviceaccounts.Setup,
 		projectiamauditconfig.Setup,
+		projectiambinding.Setup,
 		projectiamcustomrole.Setup,
 		projectiammember.Setup,
 		projectservice.Setup,

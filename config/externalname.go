@@ -50,6 +50,8 @@ var externalNameConfigs = map[string]config.ExternalName{
 	"google_folder": config.IdentifierFromProvider,
 	// Imported by using the following format: folders/your-folder-id roles/viewer user:foo@example.com
 	"google_folder_iam_member": config.IdentifierFromProvider,
+	// Imported by using the following format: folders/your-folder-id/roles/viewer
+	"google_folder_iam_binding": config.IdentifierFromProvider,
 	// Imported by using the following format: organizations/{{org_id}}/roles/{{role_id}}
 	"google_organization_iam_custom_role": config.IdentifierFromProvider,
 	// Imported by using the following format: your-orgid roles/viewer user:foo@example.com
@@ -66,6 +68,8 @@ var externalNameConfigs = map[string]config.ExternalName{
 	"google_project_default_service_accounts": TemplatedStringAsIdentifierWithNoName("projects/{{ .external_name }}"),
 	// Imported by using the following format: your-project-id roles/viewer user:foo@example.com
 	"google_project_iam_member": config.IdentifierFromProvider,
+	// Imported by using the following format: projects/your-project-id/roles/viewer
+	"google_project_iam_binding": config.IdentifierFromProvider,
 	// Imported by using the following format: your-project-id foo.googleapis.com
 	"google_project_iam_audit_config": config.IdentifierFromProvider,
 	// Imported by using the following format: your-project-id/iam.googleapis.com

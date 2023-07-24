@@ -75,6 +75,7 @@ import (
 	device "github.com/upbound/provider-gcp/internal/controller/cloudiot/device"
 	registry "github.com/upbound/provider-gcp/internal/controller/cloudiot/registry"
 	folder "github.com/upbound/provider-gcp/internal/controller/cloudplatform/folder"
+	folderiambinding "github.com/upbound/provider-gcp/internal/controller/cloudplatform/folderiambinding"
 	folderiammember "github.com/upbound/provider-gcp/internal/controller/cloudplatform/folderiammember"
 	organizationiamauditconfig "github.com/upbound/provider-gcp/internal/controller/cloudplatform/organizationiamauditconfig"
 	organizationiamcustomrole "github.com/upbound/provider-gcp/internal/controller/cloudplatform/organizationiamcustomrole"
@@ -82,6 +83,7 @@ import (
 	project "github.com/upbound/provider-gcp/internal/controller/cloudplatform/project"
 	projectdefaultserviceaccounts "github.com/upbound/provider-gcp/internal/controller/cloudplatform/projectdefaultserviceaccounts"
 	projectiamauditconfig "github.com/upbound/provider-gcp/internal/controller/cloudplatform/projectiamauditconfig"
+	projectiambinding "github.com/upbound/provider-gcp/internal/controller/cloudplatform/projectiambinding"
 	projectiamcustomrole "github.com/upbound/provider-gcp/internal/controller/cloudplatform/projectiamcustomrole"
 	projectiammember "github.com/upbound/provider-gcp/internal/controller/cloudplatform/projectiammember"
 	projectservice "github.com/upbound/provider-gcp/internal/controller/cloudplatform/projectservice"
@@ -417,6 +419,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		device.Setup,
 		registry.Setup,
 		folder.Setup,
+		folderiambinding.Setup,
 		folderiammember.Setup,
 		organizationiamauditconfig.Setup,
 		organizationiamcustomrole.Setup,
@@ -424,6 +427,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		project.Setup,
 		projectdefaultserviceaccounts.Setup,
 		projectiamauditconfig.Setup,
+		projectiambinding.Setup,
 		projectiamcustomrole.Setup,
 		projectiammember.Setup,
 		projectservice.Setup,
