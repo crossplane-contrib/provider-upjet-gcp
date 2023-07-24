@@ -41,7 +41,7 @@ type ConditionObservation struct {
 	Title *string `json:"title,omitempty" tf:"title,omitempty"`
 }
 
-type ConditionParameters struct {
+type FolderIAMMemberConditionParameters struct {
 
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -62,7 +62,7 @@ type FolderIAMMemberInitParameters struct {
 }
 
 type FolderIAMMemberObservation struct {
-	Condition []ConditionObservation `json:"condition,omitempty" tf:"condition,omitempty"`
+	Condition []FolderIAMMemberConditionObservation `json:"condition,omitempty" tf:"condition,omitempty"`
 
 	Etag *string `json:"etag,omitempty" tf:"etag,omitempty"`
 
@@ -78,7 +78,7 @@ type FolderIAMMemberObservation struct {
 type FolderIAMMemberParameters struct {
 
 	// +kubebuilder:validation:Optional
-	Condition []ConditionParameters `json:"condition,omitempty" tf:"condition,omitempty"`
+	Condition []FolderIAMMemberConditionParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
 	// +crossplane:generate:reference:type=Folder
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/common.ExtractResourceID()
