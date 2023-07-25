@@ -2302,6 +2302,22 @@ func (mg *RouterInterface) ResolveReferences(ctx context.Context, c client.Reade
 	mg.Spec.ForProvider.RouterRef = rsp.ResolvedReference
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Subnetwork),
+		Extract:      common.SelfLinkExtractor(),
+		Reference:    mg.Spec.ForProvider.SubnetworkRef,
+		Selector:     mg.Spec.ForProvider.SubnetworkSelector,
+		To: reference.To{
+			List:    &SubnetworkList{},
+			Managed: &Subnetwork{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.Subnetwork")
+	}
+	mg.Spec.ForProvider.Subnetwork = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.SubnetworkRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.VPNTunnel),
 		Extract:      reference.ExternalName(),
 		Reference:    mg.Spec.ForProvider.VPNTunnelRef,
@@ -2361,6 +2377,96 @@ func (mg *RouterNAT) ResolveReferences(ctx context.Context, c client.Reader) err
 		mg.Spec.ForProvider.Subnetwork[i3].NameRef = rsp.ResolvedReference
 
 	}
+
+	return nil
+}
+
+// ResolveReferences of this RouterPeer.
+func (mg *RouterPeer) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Interface),
+		Extract:      resource.ExtractParamPath("name", false),
+		Reference:    mg.Spec.ForProvider.InterfaceRef,
+		Selector:     mg.Spec.ForProvider.InterfaceSelector,
+		To: reference.To{
+			List:    &RouterInterfaceList{},
+			Managed: &RouterInterface{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.Interface")
+	}
+	mg.Spec.ForProvider.Interface = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.InterfaceRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.PeerIPAddress),
+		Extract:      resource.ExtractParamPath("address", false),
+		Reference:    mg.Spec.ForProvider.PeerIPAddressRef,
+		Selector:     mg.Spec.ForProvider.PeerIPAddressSelector,
+		To: reference.To{
+			List:    &AddressList{},
+			Managed: &Address{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.PeerIPAddress")
+	}
+	mg.Spec.ForProvider.PeerIPAddress = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.PeerIPAddressRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Region),
+		Extract:      resource.ExtractParamPath("region", false),
+		Reference:    mg.Spec.ForProvider.RegionRef,
+		Selector:     mg.Spec.ForProvider.RegionSelector,
+		To: reference.To{
+			List:    &RouterList{},
+			Managed: &Router{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.Region")
+	}
+	mg.Spec.ForProvider.Region = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.RegionRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Router),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.ForProvider.RouterRef,
+		Selector:     mg.Spec.ForProvider.RouterSelector,
+		To: reference.To{
+			List:    &RouterList{},
+			Managed: &Router{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.Router")
+	}
+	mg.Spec.ForProvider.Router = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.RouterRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.RouterApplianceInstance),
+		Extract:      resource.ExtractParamPath("self_link", true),
+		Reference:    mg.Spec.ForProvider.RouterApplianceInstanceRef,
+		Selector:     mg.Spec.ForProvider.RouterApplianceInstanceSelector,
+		To: reference.To{
+			List:    &InstanceList{},
+			Managed: &Instance{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.RouterApplianceInstance")
+	}
+	mg.Spec.ForProvider.RouterApplianceInstance = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.RouterApplianceInstanceRef = rsp.ResolvedReference
 
 	return nil
 }

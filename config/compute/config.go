@@ -446,6 +446,10 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 		r.References["router"] = config.Reference{
 			Type: "Router",
 		}
+		r.References["subnetwork"] = config.Reference{
+			Type:      "Subnetwork",
+			Extractor: common.PathSelfLinkExtractor,
+		}
 		r.References["vpn_tunnel"] = config.Reference{
 			Type: "VPNTunnel",
 		}
