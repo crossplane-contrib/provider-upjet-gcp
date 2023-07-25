@@ -80,6 +80,8 @@ var externalNameConfigs = map[string]config.ExternalName{
 	"google_service_account": config.TemplatedStringAsIdentifier("account_id", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/serviceAccounts/{{ .external_name }}@{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}.iam.gserviceaccount.com"),
 	// Imported by using the following format: projects/{your-project-id}/serviceAccounts/{your-service-account-email} roles/iam.serviceAccountUser user:foo@example.com expires_after_2019_12_31
 	"google_service_account_iam_member": config.IdentifierFromProvider,
+	// Imported by using the following format: projects/{your-project-id}/serviceAccounts/{your-service-account-email}/roles/iam.serviceAccountUser
+	"google_service_account_iam_binding": config.IdentifierFromProvider,
 	// No import
 	"google_service_account_key": config.IdentifierFromProvider,
 	// Imported by using the following format: services/{service}/projects/{project}/global/networks/{network}/peeredDnsDomains/{name}

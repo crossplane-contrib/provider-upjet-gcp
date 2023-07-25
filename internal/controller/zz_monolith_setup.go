@@ -89,6 +89,7 @@ import (
 	projectservice "github.com/upbound/provider-gcp/internal/controller/cloudplatform/projectservice"
 	projectusageexportbucket "github.com/upbound/provider-gcp/internal/controller/cloudplatform/projectusageexportbucket"
 	serviceaccount "github.com/upbound/provider-gcp/internal/controller/cloudplatform/serviceaccount"
+	serviceaccountiambinding "github.com/upbound/provider-gcp/internal/controller/cloudplatform/serviceaccountiambinding"
 	serviceaccountiammember "github.com/upbound/provider-gcp/internal/controller/cloudplatform/serviceaccountiammember"
 	serviceaccountkey "github.com/upbound/provider-gcp/internal/controller/cloudplatform/serviceaccountkey"
 	servicenetworkingpeereddnsdomain "github.com/upbound/provider-gcp/internal/controller/cloudplatform/servicenetworkingpeereddnsdomain"
@@ -433,6 +434,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		projectservice.Setup,
 		projectusageexportbucket.Setup,
 		serviceaccount.Setup,
+		serviceaccountiambinding.Setup,
 		serviceaccountiammember.Setup,
 		serviceaccountkey.Setup,
 		servicenetworkingpeereddnsdomain.Setup,

@@ -101,7 +101,6 @@ var skipList = []string{
 	"google_project_iam_policy",
 	"google_organization_iam_binding",
 	"google_service_account_iam_policy",
-	"google_service_account_iam_binding",
 	"google_cloud_run_service_iam_policy",
 	"google_cloud_run_service_iam_binding",
 	"google_pubsub_topic_iam_policy",

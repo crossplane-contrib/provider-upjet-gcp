@@ -1135,6 +1135,80 @@ func (tr *ServiceAccount) GetTerraformSchemaVersion() int {
 	return 0
 }
 
+// GetTerraformResourceType returns Terraform resource type for this ServiceAccountIAMBinding
+func (mg *ServiceAccountIAMBinding) GetTerraformResourceType() string {
+	return "google_service_account_iam_binding"
+}
+
+// GetConnectionDetailsMapping for this ServiceAccountIAMBinding
+func (tr *ServiceAccountIAMBinding) GetConnectionDetailsMapping() map[string]string {
+	return nil
+}
+
+// GetObservation of this ServiceAccountIAMBinding
+func (tr *ServiceAccountIAMBinding) GetObservation() (map[string]any, error) {
+	o, err := json.TFParser.Marshal(tr.Status.AtProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(o, &base)
+}
+
+// SetObservation for this ServiceAccountIAMBinding
+func (tr *ServiceAccountIAMBinding) SetObservation(obs map[string]any) error {
+	p, err := json.TFParser.Marshal(obs)
+	if err != nil {
+		return err
+	}
+	return json.TFParser.Unmarshal(p, &tr.Status.AtProvider)
+}
+
+// GetID returns ID of underlying Terraform resource of this ServiceAccountIAMBinding
+func (tr *ServiceAccountIAMBinding) GetID() string {
+	if tr.Status.AtProvider.ID == nil {
+		return ""
+	}
+	return *tr.Status.AtProvider.ID
+}
+
+// GetParameters of this ServiceAccountIAMBinding
+func (tr *ServiceAccountIAMBinding) GetParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.ForProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
+}
+
+// SetParameters for this ServiceAccountIAMBinding
+func (tr *ServiceAccountIAMBinding) SetParameters(params map[string]any) error {
+	p, err := json.TFParser.Marshal(params)
+	if err != nil {
+		return err
+	}
+	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
+}
+
+// LateInitialize this ServiceAccountIAMBinding using its observed tfState.
+// returns True if there are any spec changes for the resource.
+func (tr *ServiceAccountIAMBinding) LateInitialize(attrs []byte) (bool, error) {
+	params := &ServiceAccountIAMBindingParameters{}
+	if err := json.TFParser.Unmarshal(attrs, params); err != nil {
+		return false, errors.Wrap(err, "failed to unmarshal Terraform state parameters for late-initialization")
+	}
+	opts := []resource.GenericLateInitializerOption{resource.WithZeroValueJSONOmitEmptyFilter(resource.CNameWildcard)}
+
+	li := resource.NewGenericLateInitializer(opts...)
+	return li.LateInitialize(&tr.Spec.ForProvider, params)
+}
+
+// GetTerraformSchemaVersion returns the associated Terraform schema version
+func (tr *ServiceAccountIAMBinding) GetTerraformSchemaVersion() int {
+	return 0
+}
+
 // GetTerraformResourceType returns Terraform resource type for this ServiceAccountIAMMember
 func (mg *ServiceAccountIAMMember) GetTerraformResourceType() string {
 	return "google_service_account_iam_member"
