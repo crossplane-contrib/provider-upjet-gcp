@@ -1159,6 +1159,82 @@ func (mg *ServiceAccount) SetWriteConnectionSecretToReference(r *xpv1.SecretRefe
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
+// GetCondition of this ServiceAccountIAMBinding.
+func (mg *ServiceAccountIAMBinding) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+	return mg.Status.GetCondition(ct)
+}
+
+// GetDeletionPolicy of this ServiceAccountIAMBinding.
+func (mg *ServiceAccountIAMBinding) GetDeletionPolicy() xpv1.DeletionPolicy {
+	return mg.Spec.DeletionPolicy
+}
+
+// GetManagementPolicy of this ServiceAccountIAMBinding.
+func (mg *ServiceAccountIAMBinding) GetManagementPolicy() xpv1.ManagementPolicy {
+	return mg.Spec.ManagementPolicy
+}
+
+// GetProviderConfigReference of this ServiceAccountIAMBinding.
+func (mg *ServiceAccountIAMBinding) GetProviderConfigReference() *xpv1.Reference {
+	return mg.Spec.ProviderConfigReference
+}
+
+/*
+GetProviderReference of this ServiceAccountIAMBinding.
+Deprecated: Use GetProviderConfigReference.
+*/
+func (mg *ServiceAccountIAMBinding) GetProviderReference() *xpv1.Reference {
+	return mg.Spec.ProviderReference
+}
+
+// GetPublishConnectionDetailsTo of this ServiceAccountIAMBinding.
+func (mg *ServiceAccountIAMBinding) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
+	return mg.Spec.PublishConnectionDetailsTo
+}
+
+// GetWriteConnectionSecretToReference of this ServiceAccountIAMBinding.
+func (mg *ServiceAccountIAMBinding) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
+	return mg.Spec.WriteConnectionSecretToReference
+}
+
+// SetConditions of this ServiceAccountIAMBinding.
+func (mg *ServiceAccountIAMBinding) SetConditions(c ...xpv1.Condition) {
+	mg.Status.SetConditions(c...)
+}
+
+// SetDeletionPolicy of this ServiceAccountIAMBinding.
+func (mg *ServiceAccountIAMBinding) SetDeletionPolicy(r xpv1.DeletionPolicy) {
+	mg.Spec.DeletionPolicy = r
+}
+
+// SetManagementPolicy of this ServiceAccountIAMBinding.
+func (mg *ServiceAccountIAMBinding) SetManagementPolicy(r xpv1.ManagementPolicy) {
+	mg.Spec.ManagementPolicy = r
+}
+
+// SetProviderConfigReference of this ServiceAccountIAMBinding.
+func (mg *ServiceAccountIAMBinding) SetProviderConfigReference(r *xpv1.Reference) {
+	mg.Spec.ProviderConfigReference = r
+}
+
+/*
+SetProviderReference of this ServiceAccountIAMBinding.
+Deprecated: Use SetProviderConfigReference.
+*/
+func (mg *ServiceAccountIAMBinding) SetProviderReference(r *xpv1.Reference) {
+	mg.Spec.ProviderReference = r
+}
+
+// SetPublishConnectionDetailsTo of this ServiceAccountIAMBinding.
+func (mg *ServiceAccountIAMBinding) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
+	mg.Spec.PublishConnectionDetailsTo = r
+}
+
+// SetWriteConnectionSecretToReference of this ServiceAccountIAMBinding.
+func (mg *ServiceAccountIAMBinding) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
+	mg.Spec.WriteConnectionSecretToReference = r
+}
+
 // GetCondition of this ServiceAccountIAMMember.
 func (mg *ServiceAccountIAMMember) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
 	return mg.Status.GetCondition(ct)
