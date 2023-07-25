@@ -25,6 +25,12 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type CloudStoragePathInitParameters struct {
+
+	// A url representing a file or path (no wildcards) in Cloud Storage. Example: gs://[BUCKET_NAME]/dictionary.txt
+	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+}
+
 type CloudStoragePathObservation struct {
 
 	// A url representing a file or path (no wildcards) in Cloud Storage. Example: gs://[BUCKET_NAME]/dictionary.txt
@@ -34,8 +40,41 @@ type CloudStoragePathObservation struct {
 type CloudStoragePathParameters struct {
 
 	// A url representing a file or path (no wildcards) in Cloud Storage. Example: gs://[BUCKET_NAME]/dictionary.txt
-	// +kubebuilder:validation:Required
-	Path *string `json:"path" tf:"path,omitempty"`
+	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+}
+
+type CustomInfoTypesInitParameters struct {
+
+	// Dictionary which defines the rule.
+	// Structure is documented below.
+	Dictionary []DictionaryInitParameters `json:"dictionary,omitempty" tf:"dictionary,omitempty"`
+
+	// If set to EXCLUSION_TYPE_EXCLUDE this infoType will not cause a finding to be returned. It still can be used for rules matching.
+	// Possible values are: EXCLUSION_TYPE_EXCLUDE.
+	ExclusionType *string `json:"exclusionType,omitempty" tf:"exclusion_type,omitempty"`
+
+	// Type of information the findings limit applies to. Only one limit per infoType should be provided. If InfoTypeLimit does
+	// not have an infoType, the DLP API applies the limit against all infoTypes that are found but not
+	// specified in another InfoTypeLimit.
+	// Structure is documented below.
+	InfoType []InfoTypeInitParameters `json:"infoType,omitempty" tf:"info_type,omitempty"`
+
+	// Likelihood to return for this CustomInfoType. This base value can be altered by a detection rule if the finding meets the criteria
+	// specified by the rule.
+	// Default value is VERY_LIKELY.
+	// Possible values are: VERY_UNLIKELY, UNLIKELY, POSSIBLE, LIKELY, VERY_LIKELY.
+	Likelihood *string `json:"likelihood,omitempty" tf:"likelihood,omitempty"`
+
+	// Regular expression which defines the rule.
+	// Structure is documented below.
+	Regex []RegexInitParameters `json:"regex,omitempty" tf:"regex,omitempty"`
+
+	// A reference to a StoredInfoType to use with scanning.
+	// Structure is documented below.
+	StoredType []StoredTypeInitParameters `json:"storedType,omitempty" tf:"stored_type,omitempty"`
+
+	// Message for detecting output from deidentification transformations that support reversing.
+	SurrogateType []SurrogateTypeInitParameters `json:"surrogateType,omitempty" tf:"surrogate_type,omitempty"`
 }
 
 type CustomInfoTypesObservation struct {
@@ -76,41 +115,40 @@ type CustomInfoTypesParameters struct {
 
 	// Dictionary which defines the rule.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	Dictionary []DictionaryParameters `json:"dictionary,omitempty" tf:"dictionary,omitempty"`
 
 	// If set to EXCLUSION_TYPE_EXCLUDE this infoType will not cause a finding to be returned. It still can be used for rules matching.
 	// Possible values are: EXCLUSION_TYPE_EXCLUDE.
-	// +kubebuilder:validation:Optional
 	ExclusionType *string `json:"exclusionType,omitempty" tf:"exclusion_type,omitempty"`
 
 	// Type of information the findings limit applies to. Only one limit per infoType should be provided. If InfoTypeLimit does
 	// not have an infoType, the DLP API applies the limit against all infoTypes that are found but not
 	// specified in another InfoTypeLimit.
 	// Structure is documented below.
-	// +kubebuilder:validation:Required
-	InfoType []InfoTypeParameters `json:"infoType" tf:"info_type,omitempty"`
+	InfoType []InfoTypeParameters `json:"infoType,omitempty" tf:"info_type,omitempty"`
 
 	// Likelihood to return for this CustomInfoType. This base value can be altered by a detection rule if the finding meets the criteria
 	// specified by the rule.
 	// Default value is VERY_LIKELY.
 	// Possible values are: VERY_UNLIKELY, UNLIKELY, POSSIBLE, LIKELY, VERY_LIKELY.
-	// +kubebuilder:validation:Optional
 	Likelihood *string `json:"likelihood,omitempty" tf:"likelihood,omitempty"`
 
 	// Regular expression which defines the rule.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	Regex []RegexParameters `json:"regex,omitempty" tf:"regex,omitempty"`
 
 	// A reference to a StoredInfoType to use with scanning.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	StoredType []StoredTypeParameters `json:"storedType,omitempty" tf:"stored_type,omitempty"`
 
 	// Message for detecting output from deidentification transformations that support reversing.
-	// +kubebuilder:validation:Optional
 	SurrogateType []SurrogateTypeParameters `json:"surrogateType,omitempty" tf:"surrogate_type,omitempty"`
+}
+
+type DictionaryCloudStoragePathInitParameters struct {
+
+	// A url representing a file or path (no wildcards) in Cloud Storage. Example: gs://[BUCKET_NAME]/dictionary.txt
+	Path *string `json:"path,omitempty" tf:"path,omitempty"`
 }
 
 type DictionaryCloudStoragePathObservation struct {
@@ -122,8 +160,18 @@ type DictionaryCloudStoragePathObservation struct {
 type DictionaryCloudStoragePathParameters struct {
 
 	// A url representing a file or path (no wildcards) in Cloud Storage. Example: gs://[BUCKET_NAME]/dictionary.txt
-	// +kubebuilder:validation:Required
-	Path *string `json:"path" tf:"path,omitempty"`
+	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+}
+
+type DictionaryInitParameters struct {
+
+	// Newline-delimited file of words in Cloud Storage. Only a single file is accepted.
+	// Structure is documented below.
+	CloudStoragePath []CloudStoragePathInitParameters `json:"cloudStoragePath,omitempty" tf:"cloud_storage_path,omitempty"`
+
+	// List of words or phrases to search for.
+	// Structure is documented below.
+	WordList []DictionaryWordListInitParameters `json:"wordList,omitempty" tf:"word_list,omitempty"`
 }
 
 type DictionaryObservation struct {
@@ -141,13 +189,18 @@ type DictionaryParameters struct {
 
 	// Newline-delimited file of words in Cloud Storage. Only a single file is accepted.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	CloudStoragePath []CloudStoragePathParameters `json:"cloudStoragePath,omitempty" tf:"cloud_storage_path,omitempty"`
 
 	// List of words or phrases to search for.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	WordList []DictionaryWordListParameters `json:"wordList,omitempty" tf:"word_list,omitempty"`
+}
+
+type DictionaryWordListInitParameters struct {
+
+	// Words or phrases defining the dictionary. The dictionary must contain at least one
+	// phrase and every phrase must contain at least 2 characters that are letters or digits.
+	Words []*string `json:"words,omitempty" tf:"words,omitempty"`
 }
 
 type DictionaryWordListObservation struct {
@@ -161,8 +214,22 @@ type DictionaryWordListParameters struct {
 
 	// Words or phrases defining the dictionary. The dictionary must contain at least one
 	// phrase and every phrase must contain at least 2 characters that are letters or digits.
-	// +kubebuilder:validation:Required
-	Words []*string `json:"words" tf:"words,omitempty"`
+	Words []*string `json:"words,omitempty" tf:"words,omitempty"`
+}
+
+type ExcludeByHotwordInitParameters struct {
+
+	// Regular expression pattern defining what qualifies as a hotword.
+	// Structure is documented below.
+	HotwordRegex []HotwordRegexInitParameters `json:"hotwordRegex,omitempty" tf:"hotword_regex,omitempty"`
+
+	// Proximity of the finding within which the entire hotword must reside. The total length of the window cannot
+	// exceed 1000 characters. Note that the finding itself will be included in the window, so that hotwords may be
+	// used to match substrings of the finding itself. For example, the certainty of a phone number regex
+	// (\d{3}) \d{3}-\d{4} could be adjusted upwards if the area code is known to be the local area code of a company
+	// office using the hotword regex (xxx), where xxx is the area code in question.
+	// Structure is documented below.
+	Proximity []ProximityInitParameters `json:"proximity,omitempty" tf:"proximity,omitempty"`
 }
 
 type ExcludeByHotwordObservation struct {
@@ -184,8 +251,7 @@ type ExcludeByHotwordParameters struct {
 
 	// Regular expression pattern defining what qualifies as a hotword.
 	// Structure is documented below.
-	// +kubebuilder:validation:Required
-	HotwordRegex []HotwordRegexParameters `json:"hotwordRegex" tf:"hotword_regex,omitempty"`
+	HotwordRegex []HotwordRegexParameters `json:"hotwordRegex,omitempty" tf:"hotword_regex,omitempty"`
 
 	// Proximity of the finding within which the entire hotword must reside. The total length of the window cannot
 	// exceed 1000 characters. Note that the finding itself will be included in the window, so that hotwords may be
@@ -193,8 +259,17 @@ type ExcludeByHotwordParameters struct {
 	// (\d{3}) \d{3}-\d{4} could be adjusted upwards if the area code is known to be the local area code of a company
 	// office using the hotword regex (xxx), where xxx is the area code in question.
 	// Structure is documented below.
-	// +kubebuilder:validation:Required
-	Proximity []ProximityParameters `json:"proximity" tf:"proximity,omitempty"`
+	Proximity []ProximityParameters `json:"proximity,omitempty" tf:"proximity,omitempty"`
+}
+
+type ExcludeInfoTypesInfoTypesInitParameters struct {
+
+	// Resource name of the requested StoredInfoType, for example organizations/433245324/storedInfoTypes/432452342
+	// or projects/project-id/storedInfoTypes/432452342.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Version of the information type to use. By default, the version is set to stable
+	Version *string `json:"version,omitempty" tf:"version,omitempty"`
 }
 
 type ExcludeInfoTypesInfoTypesObservation struct {
@@ -211,12 +286,17 @@ type ExcludeInfoTypesInfoTypesParameters struct {
 
 	// Resource name of the requested StoredInfoType, for example organizations/433245324/storedInfoTypes/432452342
 	// or projects/project-id/storedInfoTypes/432452342.
-	// +kubebuilder:validation:Required
-	Name *string `json:"name" tf:"name,omitempty"`
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// Version of the information type to use. By default, the version is set to stable
-	// +kubebuilder:validation:Optional
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
+}
+
+type ExcludeInfoTypesInitParameters struct {
+
+	// List of infoTypes this rule set is applied to.
+	// Structure is documented below.
+	InfoTypes []ExcludeInfoTypesInfoTypesInitParameters `json:"infoTypes,omitempty" tf:"info_types,omitempty"`
 }
 
 type ExcludeInfoTypesObservation struct {
@@ -230,8 +310,18 @@ type ExcludeInfoTypesParameters struct {
 
 	// List of infoTypes this rule set is applied to.
 	// Structure is documented below.
-	// +kubebuilder:validation:Required
-	InfoTypes []ExcludeInfoTypesInfoTypesParameters `json:"infoTypes" tf:"info_types,omitempty"`
+	InfoTypes []ExcludeInfoTypesInfoTypesParameters `json:"infoTypes,omitempty" tf:"info_types,omitempty"`
+}
+
+type ExclusionRuleDictionaryInitParameters struct {
+
+	// Newline-delimited file of words in Cloud Storage. Only a single file is accepted.
+	// Structure is documented below.
+	CloudStoragePath []DictionaryCloudStoragePathInitParameters `json:"cloudStoragePath,omitempty" tf:"cloud_storage_path,omitempty"`
+
+	// List of words or phrases to search for.
+	// Structure is documented below.
+	WordList []ExclusionRuleDictionaryWordListInitParameters `json:"wordList,omitempty" tf:"word_list,omitempty"`
 }
 
 type ExclusionRuleDictionaryObservation struct {
@@ -249,13 +339,18 @@ type ExclusionRuleDictionaryParameters struct {
 
 	// Newline-delimited file of words in Cloud Storage. Only a single file is accepted.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	CloudStoragePath []DictionaryCloudStoragePathParameters `json:"cloudStoragePath,omitempty" tf:"cloud_storage_path,omitempty"`
 
 	// List of words or phrases to search for.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	WordList []ExclusionRuleDictionaryWordListParameters `json:"wordList,omitempty" tf:"word_list,omitempty"`
+}
+
+type ExclusionRuleDictionaryWordListInitParameters struct {
+
+	// Words or phrases defining the dictionary. The dictionary must contain at least one
+	// phrase and every phrase must contain at least 2 characters that are letters or digits.
+	Words []*string `json:"words,omitempty" tf:"words,omitempty"`
 }
 
 type ExclusionRuleDictionaryWordListObservation struct {
@@ -269,8 +364,30 @@ type ExclusionRuleDictionaryWordListParameters struct {
 
 	// Words or phrases defining the dictionary. The dictionary must contain at least one
 	// phrase and every phrase must contain at least 2 characters that are letters or digits.
-	// +kubebuilder:validation:Required
-	Words []*string `json:"words" tf:"words,omitempty"`
+	Words []*string `json:"words,omitempty" tf:"words,omitempty"`
+}
+
+type ExclusionRuleInitParameters struct {
+
+	// Dictionary which defines the rule.
+	// Structure is documented below.
+	Dictionary []ExclusionRuleDictionaryInitParameters `json:"dictionary,omitempty" tf:"dictionary,omitempty"`
+
+	// Drop if the hotword rule is contained in the proximate context.
+	// For tabular data, the context includes the column name.
+	// Structure is documented below.
+	ExcludeByHotword []ExcludeByHotwordInitParameters `json:"excludeByHotword,omitempty" tf:"exclude_by_hotword,omitempty"`
+
+	// When true, excludes type information of the findings.
+	ExcludeInfoTypes []ExcludeInfoTypesInitParameters `json:"excludeInfoTypes,omitempty" tf:"exclude_info_types,omitempty"`
+
+	// How the rule is applied. See the documentation for more information: https://cloud.google.com/dlp/docs/reference/rest/v2/InspectConfig#MatchingType
+	// Possible values are: MATCHING_TYPE_FULL_MATCH, MATCHING_TYPE_PARTIAL_MATCH, MATCHING_TYPE_INVERSE_MATCH.
+	MatchingType *string `json:"matchingType,omitempty" tf:"matching_type,omitempty"`
+
+	// Regular expression which defines the rule.
+	// Structure is documented below.
+	Regex []ExclusionRuleRegexInitParameters `json:"regex,omitempty" tf:"regex,omitempty"`
 }
 
 type ExclusionRuleObservation struct {
@@ -300,28 +417,33 @@ type ExclusionRuleParameters struct {
 
 	// Dictionary which defines the rule.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	Dictionary []ExclusionRuleDictionaryParameters `json:"dictionary,omitempty" tf:"dictionary,omitempty"`
 
 	// Drop if the hotword rule is contained in the proximate context.
 	// For tabular data, the context includes the column name.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	ExcludeByHotword []ExcludeByHotwordParameters `json:"excludeByHotword,omitempty" tf:"exclude_by_hotword,omitempty"`
 
 	// When true, excludes type information of the findings.
-	// +kubebuilder:validation:Optional
 	ExcludeInfoTypes []ExcludeInfoTypesParameters `json:"excludeInfoTypes,omitempty" tf:"exclude_info_types,omitempty"`
 
 	// How the rule is applied. See the documentation for more information: https://cloud.google.com/dlp/docs/reference/rest/v2/InspectConfig#MatchingType
 	// Possible values are: MATCHING_TYPE_FULL_MATCH, MATCHING_TYPE_PARTIAL_MATCH, MATCHING_TYPE_INVERSE_MATCH.
-	// +kubebuilder:validation:Required
-	MatchingType *string `json:"matchingType" tf:"matching_type,omitempty"`
+	MatchingType *string `json:"matchingType,omitempty" tf:"matching_type,omitempty"`
 
 	// Regular expression which defines the rule.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	Regex []ExclusionRuleRegexParameters `json:"regex,omitempty" tf:"regex,omitempty"`
+}
+
+type ExclusionRuleRegexInitParameters struct {
+
+	// The index of the submatch to extract as findings. When not specified, the entire match is returned. No more than 3 may be included.
+	GroupIndexes []*float64 `json:"groupIndexes,omitempty" tf:"group_indexes,omitempty"`
+
+	// Pattern defining the regular expression.
+	// Its syntax (https://github.com/google/re2/wiki/Syntax) can be found under the google/re2 repository on GitHub.
+	Pattern *string `json:"pattern,omitempty" tf:"pattern,omitempty"`
 }
 
 type ExclusionRuleRegexObservation struct {
@@ -337,13 +459,21 @@ type ExclusionRuleRegexObservation struct {
 type ExclusionRuleRegexParameters struct {
 
 	// The index of the submatch to extract as findings. When not specified, the entire match is returned. No more than 3 may be included.
-	// +kubebuilder:validation:Optional
 	GroupIndexes []*float64 `json:"groupIndexes,omitempty" tf:"group_indexes,omitempty"`
 
 	// Pattern defining the regular expression.
 	// Its syntax (https://github.com/google/re2/wiki/Syntax) can be found under the google/re2 repository on GitHub.
-	// +kubebuilder:validation:Required
-	Pattern *string `json:"pattern" tf:"pattern,omitempty"`
+	Pattern *string `json:"pattern,omitempty" tf:"pattern,omitempty"`
+}
+
+type HotwordRegexInitParameters struct {
+
+	// The index of the submatch to extract as findings. When not specified, the entire match is returned. No more than 3 may be included.
+	GroupIndexes []*float64 `json:"groupIndexes,omitempty" tf:"group_indexes,omitempty"`
+
+	// Pattern defining the regular expression.
+	// Its syntax (https://github.com/google/re2/wiki/Syntax) can be found under the google/re2 repository on GitHub.
+	Pattern *string `json:"pattern,omitempty" tf:"pattern,omitempty"`
 }
 
 type HotwordRegexObservation struct {
@@ -359,13 +489,21 @@ type HotwordRegexObservation struct {
 type HotwordRegexParameters struct {
 
 	// The index of the submatch to extract as findings. When not specified, the entire match is returned. No more than 3 may be included.
-	// +kubebuilder:validation:Optional
 	GroupIndexes []*float64 `json:"groupIndexes,omitempty" tf:"group_indexes,omitempty"`
 
 	// Pattern defining the regular expression.
 	// Its syntax (https://github.com/google/re2/wiki/Syntax) can be found under the google/re2 repository on GitHub.
-	// +kubebuilder:validation:Required
-	Pattern *string `json:"pattern" tf:"pattern,omitempty"`
+	Pattern *string `json:"pattern,omitempty" tf:"pattern,omitempty"`
+}
+
+type HotwordRuleHotwordRegexInitParameters struct {
+
+	// The index of the submatch to extract as findings. When not specified, the entire match is returned. No more than 3 may be included.
+	GroupIndexes []*float64 `json:"groupIndexes,omitempty" tf:"group_indexes,omitempty"`
+
+	// Pattern defining the regular expression.
+	// Its syntax (https://github.com/google/re2/wiki/Syntax) can be found under the google/re2 repository on GitHub.
+	Pattern *string `json:"pattern,omitempty" tf:"pattern,omitempty"`
 }
 
 type HotwordRuleHotwordRegexObservation struct {
@@ -381,13 +519,30 @@ type HotwordRuleHotwordRegexObservation struct {
 type HotwordRuleHotwordRegexParameters struct {
 
 	// The index of the submatch to extract as findings. When not specified, the entire match is returned. No more than 3 may be included.
-	// +kubebuilder:validation:Optional
 	GroupIndexes []*float64 `json:"groupIndexes,omitempty" tf:"group_indexes,omitempty"`
 
 	// Pattern defining the regular expression.
 	// Its syntax (https://github.com/google/re2/wiki/Syntax) can be found under the google/re2 repository on GitHub.
-	// +kubebuilder:validation:Required
-	Pattern *string `json:"pattern" tf:"pattern,omitempty"`
+	Pattern *string `json:"pattern,omitempty" tf:"pattern,omitempty"`
+}
+
+type HotwordRuleInitParameters struct {
+
+	// Regular expression pattern defining what qualifies as a hotword.
+	// Structure is documented below.
+	HotwordRegex []HotwordRuleHotwordRegexInitParameters `json:"hotwordRegex,omitempty" tf:"hotword_regex,omitempty"`
+
+	// Likelihood adjustment to apply to all matching findings.
+	// Structure is documented below.
+	LikelihoodAdjustment []LikelihoodAdjustmentInitParameters `json:"likelihoodAdjustment,omitempty" tf:"likelihood_adjustment,omitempty"`
+
+	// Proximity of the finding within which the entire hotword must reside. The total length of the window cannot
+	// exceed 1000 characters. Note that the finding itself will be included in the window, so that hotwords may be
+	// used to match substrings of the finding itself. For example, the certainty of a phone number regex
+	// (\d{3}) \d{3}-\d{4} could be adjusted upwards if the area code is known to be the local area code of a company
+	// office using the hotword regex (xxx), where xxx is the area code in question.
+	// Structure is documented below.
+	Proximity []HotwordRuleProximityInitParameters `json:"proximity,omitempty" tf:"proximity,omitempty"`
 }
 
 type HotwordRuleObservation struct {
@@ -413,13 +568,11 @@ type HotwordRuleParameters struct {
 
 	// Regular expression pattern defining what qualifies as a hotword.
 	// Structure is documented below.
-	// +kubebuilder:validation:Required
-	HotwordRegex []HotwordRuleHotwordRegexParameters `json:"hotwordRegex" tf:"hotword_regex,omitempty"`
+	HotwordRegex []HotwordRuleHotwordRegexParameters `json:"hotwordRegex,omitempty" tf:"hotword_regex,omitempty"`
 
 	// Likelihood adjustment to apply to all matching findings.
 	// Structure is documented below.
-	// +kubebuilder:validation:Required
-	LikelihoodAdjustment []LikelihoodAdjustmentParameters `json:"likelihoodAdjustment" tf:"likelihood_adjustment,omitempty"`
+	LikelihoodAdjustment []LikelihoodAdjustmentParameters `json:"likelihoodAdjustment,omitempty" tf:"likelihood_adjustment,omitempty"`
 
 	// Proximity of the finding within which the entire hotword must reside. The total length of the window cannot
 	// exceed 1000 characters. Note that the finding itself will be included in the window, so that hotwords may be
@@ -427,8 +580,16 @@ type HotwordRuleParameters struct {
 	// (\d{3}) \d{3}-\d{4} could be adjusted upwards if the area code is known to be the local area code of a company
 	// office using the hotword regex (xxx), where xxx is the area code in question.
 	// Structure is documented below.
-	// +kubebuilder:validation:Required
-	Proximity []HotwordRuleProximityParameters `json:"proximity" tf:"proximity,omitempty"`
+	Proximity []HotwordRuleProximityParameters `json:"proximity,omitempty" tf:"proximity,omitempty"`
+}
+
+type HotwordRuleProximityInitParameters struct {
+
+	// Number of characters after the finding to consider. Either this or window_before must be specified
+	WindowAfter *float64 `json:"windowAfter,omitempty" tf:"window_after,omitempty"`
+
+	// Number of characters before the finding to consider. Either this or window_after must be specified
+	WindowBefore *float64 `json:"windowBefore,omitempty" tf:"window_before,omitempty"`
 }
 
 type HotwordRuleProximityObservation struct {
@@ -443,12 +604,20 @@ type HotwordRuleProximityObservation struct {
 type HotwordRuleProximityParameters struct {
 
 	// Number of characters after the finding to consider. Either this or window_before must be specified
-	// +kubebuilder:validation:Optional
 	WindowAfter *float64 `json:"windowAfter,omitempty" tf:"window_after,omitempty"`
 
 	// Number of characters before the finding to consider. Either this or window_after must be specified
-	// +kubebuilder:validation:Optional
 	WindowBefore *float64 `json:"windowBefore,omitempty" tf:"window_before,omitempty"`
+}
+
+type InfoTypeInitParameters struct {
+
+	// Resource name of the requested StoredInfoType, for example organizations/433245324/storedInfoTypes/432452342
+	// or projects/project-id/storedInfoTypes/432452342.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Version of the information type to use. By default, the version is set to stable
+	Version *string `json:"version,omitempty" tf:"version,omitempty"`
 }
 
 type InfoTypeObservation struct {
@@ -465,11 +634,19 @@ type InfoTypeParameters struct {
 
 	// Resource name of the requested StoredInfoType, for example organizations/433245324/storedInfoTypes/432452342
 	// or projects/project-id/storedInfoTypes/432452342.
-	// +kubebuilder:validation:Required
-	Name *string `json:"name" tf:"name,omitempty"`
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// Version of the information type to use. By default, the version is set to stable
-	// +kubebuilder:validation:Optional
+	Version *string `json:"version,omitempty" tf:"version,omitempty"`
+}
+
+type InspectConfigInfoTypesInitParameters struct {
+
+	// Resource name of the requested StoredInfoType, for example organizations/433245324/storedInfoTypes/432452342
+	// or projects/project-id/storedInfoTypes/432452342.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Version of the information type to use. By default, the version is set to stable
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
 }
 
@@ -487,12 +664,48 @@ type InspectConfigInfoTypesParameters struct {
 
 	// Resource name of the requested StoredInfoType, for example organizations/433245324/storedInfoTypes/432452342
 	// or projects/project-id/storedInfoTypes/432452342.
-	// +kubebuilder:validation:Required
-	Name *string `json:"name" tf:"name,omitempty"`
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// Version of the information type to use. By default, the version is set to stable
-	// +kubebuilder:validation:Optional
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
+}
+
+type InspectConfigInitParameters struct {
+
+	// List of options defining data content to scan. If empty, text, images, and other content will be included.
+	// Each value may be one of: CONTENT_TEXT, CONTENT_IMAGE.
+	ContentOptions []*string `json:"contentOptions,omitempty" tf:"content_options,omitempty"`
+
+	// Custom info types to be used. See https://cloud.google.com/dlp/docs/creating-custom-infotypes to learn more.
+	// Structure is documented below.
+	CustomInfoTypes []CustomInfoTypesInitParameters `json:"customInfoTypes,omitempty" tf:"custom_info_types,omitempty"`
+
+	// When true, excludes type information of the findings.
+	ExcludeInfoTypes *bool `json:"excludeInfoTypes,omitempty" tf:"exclude_info_types,omitempty"`
+
+	// When true, a contextual quote from the data that triggered a finding is included in the response.
+	IncludeQuote *bool `json:"includeQuote,omitempty" tf:"include_quote,omitempty"`
+
+	// Restricts what infoTypes to look for. The values must correspond to InfoType values returned by infoTypes.list
+	// or listed at https://cloud.google.com/dlp/docs/infotypes-reference.
+	// When no InfoTypes or CustomInfoTypes are specified in a request, the system may automatically choose what detectors to run.
+	// By default this may be all types, but may change over time as detectors are updated.
+	// Structure is documented below.
+	InfoTypes []InspectConfigInfoTypesInitParameters `json:"infoTypes,omitempty" tf:"info_types,omitempty"`
+
+	// Configuration to control the number of findings returned.
+	// Structure is documented below.
+	Limits []LimitsInitParameters `json:"limits,omitempty" tf:"limits,omitempty"`
+
+	// Only returns findings equal or above this threshold. See https://cloud.google.com/dlp/docs/likelihood for more info
+	// Default value is POSSIBLE.
+	// Possible values are: VERY_UNLIKELY, UNLIKELY, POSSIBLE, LIKELY, VERY_LIKELY.
+	MinLikelihood *string `json:"minLikelihood,omitempty" tf:"min_likelihood,omitempty"`
+
+	// Set of rules to apply to the findings for this InspectConfig. Exclusion rules, contained in the set are executed in the end,
+	// other rules are executed in the order they are specified for each info type.
+	// Structure is documented below.
+	RuleSet []RuleSetInitParameters `json:"ruleSet,omitempty" tf:"rule_set,omitempty"`
 }
 
 type InspectConfigObservation struct {
@@ -537,20 +750,16 @@ type InspectConfigParameters struct {
 
 	// List of options defining data content to scan. If empty, text, images, and other content will be included.
 	// Each value may be one of: CONTENT_TEXT, CONTENT_IMAGE.
-	// +kubebuilder:validation:Optional
 	ContentOptions []*string `json:"contentOptions,omitempty" tf:"content_options,omitempty"`
 
 	// Custom info types to be used. See https://cloud.google.com/dlp/docs/creating-custom-infotypes to learn more.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	CustomInfoTypes []CustomInfoTypesParameters `json:"customInfoTypes,omitempty" tf:"custom_info_types,omitempty"`
 
 	// When true, excludes type information of the findings.
-	// +kubebuilder:validation:Optional
 	ExcludeInfoTypes *bool `json:"excludeInfoTypes,omitempty" tf:"exclude_info_types,omitempty"`
 
 	// When true, a contextual quote from the data that triggered a finding is included in the response.
-	// +kubebuilder:validation:Optional
 	IncludeQuote *bool `json:"includeQuote,omitempty" tf:"include_quote,omitempty"`
 
 	// Restricts what infoTypes to look for. The values must correspond to InfoType values returned by infoTypes.list
@@ -558,25 +767,37 @@ type InspectConfigParameters struct {
 	// When no InfoTypes or CustomInfoTypes are specified in a request, the system may automatically choose what detectors to run.
 	// By default this may be all types, but may change over time as detectors are updated.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	InfoTypes []InspectConfigInfoTypesParameters `json:"infoTypes,omitempty" tf:"info_types,omitempty"`
 
 	// Configuration to control the number of findings returned.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	Limits []LimitsParameters `json:"limits,omitempty" tf:"limits,omitempty"`
 
 	// Only returns findings equal or above this threshold. See https://cloud.google.com/dlp/docs/likelihood for more info
 	// Default value is POSSIBLE.
 	// Possible values are: VERY_UNLIKELY, UNLIKELY, POSSIBLE, LIKELY, VERY_LIKELY.
-	// +kubebuilder:validation:Optional
 	MinLikelihood *string `json:"minLikelihood,omitempty" tf:"min_likelihood,omitempty"`
 
 	// Set of rules to apply to the findings for this InspectConfig. Exclusion rules, contained in the set are executed in the end,
 	// other rules are executed in the order they are specified for each info type.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	RuleSet []RuleSetParameters `json:"ruleSet,omitempty" tf:"rule_set,omitempty"`
+}
+
+type InspectTemplateInitParameters struct {
+
+	// A description of the inspect template.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// User set display name of the inspect template.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// The core content of the template.
+	// Structure is documented below.
+	InspectConfig []InspectConfigInitParameters `json:"inspectConfig,omitempty" tf:"inspect_config,omitempty"`
+
+	// The parent of the inspect template in any of the following formats:
+	Parent *string `json:"parent,omitempty" tf:"parent,omitempty"`
 }
 
 type InspectTemplateObservation struct {
@@ -604,21 +825,32 @@ type InspectTemplateObservation struct {
 type InspectTemplateParameters struct {
 
 	// A description of the inspect template.
-	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// User set display name of the inspect template.
-	// +kubebuilder:validation:Optional
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// The core content of the template.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	InspectConfig []InspectConfigParameters `json:"inspectConfig,omitempty" tf:"inspect_config,omitempty"`
 
 	// The parent of the inspect template in any of the following formats:
-	// +kubebuilder:validation:Optional
 	Parent *string `json:"parent,omitempty" tf:"parent,omitempty"`
+}
+
+type LikelihoodAdjustmentInitParameters struct {
+
+	// Set the likelihood of a finding to a fixed value. Either this or relative_likelihood can be set.
+	// Possible values are: VERY_UNLIKELY, UNLIKELY, POSSIBLE, LIKELY, VERY_LIKELY.
+	FixedLikelihood *string `json:"fixedLikelihood,omitempty" tf:"fixed_likelihood,omitempty"`
+
+	// Increase or decrease the likelihood by the specified number of levels. For example,
+	// if a finding would be POSSIBLE without the detection rule and relativeLikelihood is 1,
+	// then it is upgraded to LIKELY, while a value of -1 would downgrade it to UNLIKELY.
+	// Likelihood may never drop below VERY_UNLIKELY or exceed VERY_LIKELY, so applying an
+	// adjustment of 1 followed by an adjustment of -1 when base likelihood is VERY_LIKELY
+	// will result in a final likelihood of LIKELY. Either this or fixed_likelihood can be set.
+	RelativeLikelihood *float64 `json:"relativeLikelihood,omitempty" tf:"relative_likelihood,omitempty"`
 }
 
 type LikelihoodAdjustmentObservation struct {
@@ -640,7 +872,6 @@ type LikelihoodAdjustmentParameters struct {
 
 	// Set the likelihood of a finding to a fixed value. Either this or relative_likelihood can be set.
 	// Possible values are: VERY_UNLIKELY, UNLIKELY, POSSIBLE, LIKELY, VERY_LIKELY.
-	// +kubebuilder:validation:Optional
 	FixedLikelihood *string `json:"fixedLikelihood,omitempty" tf:"fixed_likelihood,omitempty"`
 
 	// Increase or decrease the likelihood by the specified number of levels. For example,
@@ -649,8 +880,20 @@ type LikelihoodAdjustmentParameters struct {
 	// Likelihood may never drop below VERY_UNLIKELY or exceed VERY_LIKELY, so applying an
 	// adjustment of 1 followed by an adjustment of -1 when base likelihood is VERY_LIKELY
 	// will result in a final likelihood of LIKELY. Either this or fixed_likelihood can be set.
-	// +kubebuilder:validation:Optional
 	RelativeLikelihood *float64 `json:"relativeLikelihood,omitempty" tf:"relative_likelihood,omitempty"`
+}
+
+type LimitsInitParameters struct {
+
+	// Configuration of findings limit given for specified infoTypes.
+	// Structure is documented below.
+	MaxFindingsPerInfoType []MaxFindingsPerInfoTypeInitParameters `json:"maxFindingsPerInfoType,omitempty" tf:"max_findings_per_info_type,omitempty"`
+
+	// Max number of findings that will be returned for each item scanned. The maximum returned is 2000.
+	MaxFindingsPerItem *float64 `json:"maxFindingsPerItem,omitempty" tf:"max_findings_per_item,omitempty"`
+
+	// Max number of findings that will be returned per request/job. The maximum returned is 2000.
+	MaxFindingsPerRequest *float64 `json:"maxFindingsPerRequest,omitempty" tf:"max_findings_per_request,omitempty"`
 }
 
 type LimitsObservation struct {
@@ -670,16 +913,23 @@ type LimitsParameters struct {
 
 	// Configuration of findings limit given for specified infoTypes.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	MaxFindingsPerInfoType []MaxFindingsPerInfoTypeParameters `json:"maxFindingsPerInfoType,omitempty" tf:"max_findings_per_info_type,omitempty"`
 
 	// Max number of findings that will be returned for each item scanned. The maximum returned is 2000.
-	// +kubebuilder:validation:Required
-	MaxFindingsPerItem *float64 `json:"maxFindingsPerItem" tf:"max_findings_per_item,omitempty"`
+	MaxFindingsPerItem *float64 `json:"maxFindingsPerItem,omitempty" tf:"max_findings_per_item,omitempty"`
 
 	// Max number of findings that will be returned per request/job. The maximum returned is 2000.
-	// +kubebuilder:validation:Required
-	MaxFindingsPerRequest *float64 `json:"maxFindingsPerRequest" tf:"max_findings_per_request,omitempty"`
+	MaxFindingsPerRequest *float64 `json:"maxFindingsPerRequest,omitempty" tf:"max_findings_per_request,omitempty"`
+}
+
+type MaxFindingsPerInfoTypeInfoTypeInitParameters struct {
+
+	// Resource name of the requested StoredInfoType, for example organizations/433245324/storedInfoTypes/432452342
+	// or projects/project-id/storedInfoTypes/432452342.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Version of the information type to use. By default, the version is set to stable
+	Version *string `json:"version,omitempty" tf:"version,omitempty"`
 }
 
 type MaxFindingsPerInfoTypeInfoTypeObservation struct {
@@ -696,12 +946,22 @@ type MaxFindingsPerInfoTypeInfoTypeParameters struct {
 
 	// Resource name of the requested StoredInfoType, for example organizations/433245324/storedInfoTypes/432452342
 	// or projects/project-id/storedInfoTypes/432452342.
-	// +kubebuilder:validation:Required
-	Name *string `json:"name" tf:"name,omitempty"`
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// Version of the information type to use. By default, the version is set to stable
-	// +kubebuilder:validation:Optional
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
+}
+
+type MaxFindingsPerInfoTypeInitParameters struct {
+
+	// Type of information the findings limit applies to. Only one limit per infoType should be provided. If InfoTypeLimit does
+	// not have an infoType, the DLP API applies the limit against all infoTypes that are found but not
+	// specified in another InfoTypeLimit.
+	// Structure is documented below.
+	InfoType []MaxFindingsPerInfoTypeInfoTypeInitParameters `json:"infoType,omitempty" tf:"info_type,omitempty"`
+
+	// Max findings limit for the given infoType.
+	MaxFindings *float64 `json:"maxFindings,omitempty" tf:"max_findings,omitempty"`
 }
 
 type MaxFindingsPerInfoTypeObservation struct {
@@ -722,12 +982,19 @@ type MaxFindingsPerInfoTypeParameters struct {
 	// not have an infoType, the DLP API applies the limit against all infoTypes that are found but not
 	// specified in another InfoTypeLimit.
 	// Structure is documented below.
-	// +kubebuilder:validation:Required
-	InfoType []MaxFindingsPerInfoTypeInfoTypeParameters `json:"infoType" tf:"info_type,omitempty"`
+	InfoType []MaxFindingsPerInfoTypeInfoTypeParameters `json:"infoType,omitempty" tf:"info_type,omitempty"`
 
 	// Max findings limit for the given infoType.
-	// +kubebuilder:validation:Required
-	MaxFindings *float64 `json:"maxFindings" tf:"max_findings,omitempty"`
+	MaxFindings *float64 `json:"maxFindings,omitempty" tf:"max_findings,omitempty"`
+}
+
+type ProximityInitParameters struct {
+
+	// Number of characters after the finding to consider. Either this or window_before must be specified
+	WindowAfter *float64 `json:"windowAfter,omitempty" tf:"window_after,omitempty"`
+
+	// Number of characters before the finding to consider. Either this or window_after must be specified
+	WindowBefore *float64 `json:"windowBefore,omitempty" tf:"window_before,omitempty"`
 }
 
 type ProximityObservation struct {
@@ -742,12 +1009,20 @@ type ProximityObservation struct {
 type ProximityParameters struct {
 
 	// Number of characters after the finding to consider. Either this or window_before must be specified
-	// +kubebuilder:validation:Optional
 	WindowAfter *float64 `json:"windowAfter,omitempty" tf:"window_after,omitempty"`
 
 	// Number of characters before the finding to consider. Either this or window_after must be specified
-	// +kubebuilder:validation:Optional
 	WindowBefore *float64 `json:"windowBefore,omitempty" tf:"window_before,omitempty"`
+}
+
+type RegexInitParameters struct {
+
+	// The index of the submatch to extract as findings. When not specified, the entire match is returned. No more than 3 may be included.
+	GroupIndexes []*float64 `json:"groupIndexes,omitempty" tf:"group_indexes,omitempty"`
+
+	// Pattern defining the regular expression.
+	// Its syntax (https://github.com/google/re2/wiki/Syntax) can be found under the google/re2 repository on GitHub.
+	Pattern *string `json:"pattern,omitempty" tf:"pattern,omitempty"`
 }
 
 type RegexObservation struct {
@@ -763,13 +1038,21 @@ type RegexObservation struct {
 type RegexParameters struct {
 
 	// The index of the submatch to extract as findings. When not specified, the entire match is returned. No more than 3 may be included.
-	// +kubebuilder:validation:Optional
 	GroupIndexes []*float64 `json:"groupIndexes,omitempty" tf:"group_indexes,omitempty"`
 
 	// Pattern defining the regular expression.
 	// Its syntax (https://github.com/google/re2/wiki/Syntax) can be found under the google/re2 repository on GitHub.
-	// +kubebuilder:validation:Required
-	Pattern *string `json:"pattern" tf:"pattern,omitempty"`
+	Pattern *string `json:"pattern,omitempty" tf:"pattern,omitempty"`
+}
+
+type RuleSetInfoTypesInitParameters struct {
+
+	// Resource name of the requested StoredInfoType, for example organizations/433245324/storedInfoTypes/432452342
+	// or projects/project-id/storedInfoTypes/432452342.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Version of the information type to use. By default, the version is set to stable
+	Version *string `json:"version,omitempty" tf:"version,omitempty"`
 }
 
 type RuleSetInfoTypesObservation struct {
@@ -786,12 +1069,21 @@ type RuleSetInfoTypesParameters struct {
 
 	// Resource name of the requested StoredInfoType, for example organizations/433245324/storedInfoTypes/432452342
 	// or projects/project-id/storedInfoTypes/432452342.
-	// +kubebuilder:validation:Required
-	Name *string `json:"name" tf:"name,omitempty"`
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// Version of the information type to use. By default, the version is set to stable
-	// +kubebuilder:validation:Optional
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
+}
+
+type RuleSetInitParameters struct {
+
+	// List of infoTypes this rule set is applied to.
+	// Structure is documented below.
+	InfoTypes []RuleSetInfoTypesInitParameters `json:"infoTypes,omitempty" tf:"info_types,omitempty"`
+
+	// Set of rules to be applied to infoTypes. The rules are applied in order.
+	// Structure is documented below.
+	Rules []RulesInitParameters `json:"rules,omitempty" tf:"rules,omitempty"`
 }
 
 type RuleSetObservation struct {
@@ -809,13 +1101,22 @@ type RuleSetParameters struct {
 
 	// List of infoTypes this rule set is applied to.
 	// Structure is documented below.
-	// +kubebuilder:validation:Required
-	InfoTypes []RuleSetInfoTypesParameters `json:"infoTypes" tf:"info_types,omitempty"`
+	InfoTypes []RuleSetInfoTypesParameters `json:"infoTypes,omitempty" tf:"info_types,omitempty"`
 
 	// Set of rules to be applied to infoTypes. The rules are applied in order.
 	// Structure is documented below.
-	// +kubebuilder:validation:Required
-	Rules []RulesParameters `json:"rules" tf:"rules,omitempty"`
+	Rules []RulesParameters `json:"rules,omitempty" tf:"rules,omitempty"`
+}
+
+type RulesInitParameters struct {
+
+	// The rule that specifies conditions when findings of infoTypes specified in InspectionRuleSet are removed from results.
+	// Structure is documented below.
+	ExclusionRule []ExclusionRuleInitParameters `json:"exclusionRule,omitempty" tf:"exclusion_rule,omitempty"`
+
+	// Hotword-based detection rule.
+	// Structure is documented below.
+	HotwordRule []HotwordRuleInitParameters `json:"hotwordRule,omitempty" tf:"hotword_rule,omitempty"`
 }
 
 type RulesObservation struct {
@@ -833,13 +1134,18 @@ type RulesParameters struct {
 
 	// The rule that specifies conditions when findings of infoTypes specified in InspectionRuleSet are removed from results.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	ExclusionRule []ExclusionRuleParameters `json:"exclusionRule,omitempty" tf:"exclusion_rule,omitempty"`
 
 	// Hotword-based detection rule.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	HotwordRule []HotwordRuleParameters `json:"hotwordRule,omitempty" tf:"hotword_rule,omitempty"`
+}
+
+type StoredTypeInitParameters struct {
+
+	// Resource name of the requested StoredInfoType, for example organizations/433245324/storedInfoTypes/432452342
+	// or projects/project-id/storedInfoTypes/432452342.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 }
 
 type StoredTypeObservation struct {
@@ -853,8 +1159,10 @@ type StoredTypeParameters struct {
 
 	// Resource name of the requested StoredInfoType, for example organizations/433245324/storedInfoTypes/432452342
 	// or projects/project-id/storedInfoTypes/432452342.
-	// +kubebuilder:validation:Required
-	Name *string `json:"name" tf:"name,omitempty"`
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+}
+
+type SurrogateTypeInitParameters struct {
 }
 
 type SurrogateTypeObservation struct {
@@ -867,6 +1175,10 @@ type SurrogateTypeParameters struct {
 type InspectTemplateSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     InspectTemplateParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	InitProvider InspectTemplateInitParameters `json:"initProvider,omitempty"`
 }
 
 // InspectTemplateStatus defines the observed state of InspectTemplate.
@@ -887,7 +1199,7 @@ type InspectTemplateStatus struct {
 type InspectTemplate struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.parent)",message="parent is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.parent) || has(self.initProvider.parent)",message="parent is a required parameter"
 	Spec   InspectTemplateSpec   `json:"spec"`
 	Status InspectTemplateStatus `json:"status,omitempty"`
 }

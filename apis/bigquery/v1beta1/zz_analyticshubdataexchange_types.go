@@ -25,6 +25,34 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type AnalyticsHubDataExchangeInitParameters struct {
+
+	// The ID of the data exchange. Must contain only Unicode letters, numbers (0-9), underscores (_). Should not use characters that require URL-escaping, or characters outside of ASCII, spaces.
+	DataExchangeID *string `json:"dataExchangeId,omitempty" tf:"data_exchange_id,omitempty"`
+
+	// Description of the data exchange.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Human-readable display name of the data exchange. The display name must contain only Unicode letters, numbers (0-9), underscores (_), dashes (-), spaces ( ), and must not start or end with spaces.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// Documentation describing the data exchange.
+	Documentation *string `json:"documentation,omitempty" tf:"documentation,omitempty"`
+
+	// Base64 encoded image representing the data exchange.
+	Icon *string `json:"icon,omitempty" tf:"icon,omitempty"`
+
+	// The name of the location this data exchange.
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
+	// Email or URL of the primary point of contact of the data exchange.
+	PrimaryContact *string `json:"primaryContact,omitempty" tf:"primary_contact,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+}
+
 type AnalyticsHubDataExchangeObservation struct {
 
 	// The ID of the data exchange. Must contain only Unicode letters, numbers (0-9), underscores (_). Should not use characters that require URL-escaping, or characters outside of ASCII, spaces.
@@ -66,36 +94,28 @@ type AnalyticsHubDataExchangeObservation struct {
 type AnalyticsHubDataExchangeParameters struct {
 
 	// The ID of the data exchange. Must contain only Unicode letters, numbers (0-9), underscores (_). Should not use characters that require URL-escaping, or characters outside of ASCII, spaces.
-	// +kubebuilder:validation:Optional
 	DataExchangeID *string `json:"dataExchangeId,omitempty" tf:"data_exchange_id,omitempty"`
 
 	// Description of the data exchange.
-	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Human-readable display name of the data exchange. The display name must contain only Unicode letters, numbers (0-9), underscores (_), dashes (-), spaces ( ), and must not start or end with spaces.
-	// +kubebuilder:validation:Optional
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// Documentation describing the data exchange.
-	// +kubebuilder:validation:Optional
 	Documentation *string `json:"documentation,omitempty" tf:"documentation,omitempty"`
 
 	// Base64 encoded image representing the data exchange.
-	// +kubebuilder:validation:Optional
 	Icon *string `json:"icon,omitempty" tf:"icon,omitempty"`
 
 	// The name of the location this data exchange.
-	// +kubebuilder:validation:Optional
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
 	// Email or URL of the primary point of contact of the data exchange.
-	// +kubebuilder:validation:Optional
 	PrimaryContact *string `json:"primaryContact,omitempty" tf:"primary_contact,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
-	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 
@@ -103,6 +123,10 @@ type AnalyticsHubDataExchangeParameters struct {
 type AnalyticsHubDataExchangeSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     AnalyticsHubDataExchangeParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	InitProvider AnalyticsHubDataExchangeInitParameters `json:"initProvider,omitempty"`
 }
 
 // AnalyticsHubDataExchangeStatus defines the observed state of AnalyticsHubDataExchange.
@@ -123,9 +147,9 @@ type AnalyticsHubDataExchangeStatus struct {
 type AnalyticsHubDataExchange struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.dataExchangeId)",message="dataExchangeId is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.displayName)",message="displayName is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.location)",message="location is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.dataExchangeId) || has(self.initProvider.dataExchangeId)",message="dataExchangeId is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.displayName) || has(self.initProvider.displayName)",message="displayName is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.location) || has(self.initProvider.location)",message="location is a required parameter"
 	Spec   AnalyticsHubDataExchangeSpec   `json:"spec"`
 	Status AnalyticsHubDataExchangeStatus `json:"status,omitempty"`
 }

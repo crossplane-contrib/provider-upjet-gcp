@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.0
+    controller-gen.kubebuilder.io/version: v0.12.1
   name: projectbucketconfigs.logging.gcp.upbound.io
 spec:
   group: logging.gcp.upbound.io
@@ -274,6 +274,37 @@ spec:
                 required:
                 - bucketId
                 - location
+                type: object
+              initProvider:
+                description: THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice.
+                properties:
+                  cmekSettings:
+                    description: The CMEK settings of the log bucket. If present,
+                      new log entries written to this log bucket are encrypted using
+                      the CMEK key provided in this configuration. If a log bucket
+                      has CMEK settings, the CMEK settings cannot be disabled later
+                      by updating the log bucket. Changing the KMS key is allowed.
+                      Structure is documented below.
+                    items:
+                      type: object
+                    type: array
+                  description:
+                    description: Describes this bucket.
+                    type: string
+                  enableAnalytics:
+                    description: Whether or not Log Analytics is enabled. Logs for
+                      buckets with Log Analytics enabled can be queried in the Log
+                      Analytics page using SQL queries. Cannot be disabled once enabled.
+                    type: boolean
+                  retentionDays:
+                    description: Logs will be retained by default for this amount
+                      of time, after which they will automatically be deleted. The
+                      minimum retention period is 1 day. If this value is set to zero
+                      at bucket creation time, the default time of 30 days will be
+                      used.
+                    type: number
                 type: object
               managementPolicies:
                 default:

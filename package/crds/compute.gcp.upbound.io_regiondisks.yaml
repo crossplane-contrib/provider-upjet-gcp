@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.0
+    controller-gen.kubebuilder.io/version: v0.12.1
   name: regiondisks.compute.gcp.upbound.io
 spec:
   group: compute.gcp.upbound.io
@@ -250,6 +250,90 @@ spec:
                 required:
                 - region
                 type: object
+              initProvider:
+                description: THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice.
+                properties:
+                  description:
+                    description: An optional description of this resource. Provide
+                      this property when you create the resource.
+                    type: string
+                  diskEncryptionKey:
+                    description: Encrypts the disk using a customer-supplied encryption
+                      key. After you encrypt a disk with a customer-supplied key,
+                      you must provide the same key if you use the disk later (e.g.
+                      to create a disk snapshot or an image, or to attach the disk
+                      to a virtual machine). Customer-supplied encryption keys do
+                      not protect access to metadata of the disk. If you do not provide
+                      an encryption key when creating the disk, then the disk will
+                      be encrypted using an automatically generated key and you do
+                      not need to provide a key to use the disk later. Structure is
+                      documented below.
+                    items:
+                      properties:
+                        kmsKeyName:
+                          description: The name of the encryption key that is stored
+                            in Google Cloud KMS.
+                          type: string
+                      type: object
+                    type: array
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: Labels to apply to this disk.  A list of key->value
+                      pairs.
+                    type: object
+                  physicalBlockSizeBytes:
+                    description: Physical block size of the persistent disk, in bytes.
+                      If not present in a request, a default value is used. Currently
+                      supported sizes are 4096 and 16384, other sizes may be added
+                      in the future. If an unsupported value is requested, the error
+                      message will list the supported values for the caller's project.
+                    type: number
+                  project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  replicaZones:
+                    description: URLs of the zones where the disk should be replicated
+                      to.
+                    items:
+                      type: string
+                    type: array
+                  size:
+                    description: Size of the persistent disk, specified in GB. You
+                      can specify this field when creating a persistent disk using
+                      the sourceImage or sourceSnapshot parameter, or specify it alone
+                      to create an empty persistent disk. If you specify this field
+                      along with sourceImage or sourceSnapshot, the value of sizeGb
+                      must not be less than the size of the sourceImage or the size
+                      of the snapshot.
+                    type: number
+                  sourceDisk:
+                    description: 'The source disk used to create this disk. You can
+                      provide this as a partial or full URL to the resource. For example,
+                      the following are valid values:'
+                    type: string
+                  sourceSnapshotEncryptionKey:
+                    description: The customer-supplied encryption key of the source
+                      snapshot. Required if the source snapshot is protected by a
+                      customer-supplied encryption key. Structure is documented below.
+                    items:
+                      properties:
+                        rawKey:
+                          description: Specifies a 256-bit customer-supplied encryption
+                            key, encoded in RFC 4648 base64 to either encrypt or decrypt
+                            this resource.
+                          type: string
+                      type: object
+                    type: array
+                  type:
+                    description: URL of the disk type resource describing which disk
+                      type to use to create the disk. Provide this when creating the
+                      disk.
+                    type: string
+                type: object
               managementPolicies:
                 default:
                 - '*'
@@ -450,7 +534,8 @@ spec:
             x-kubernetes-validations:
             - message: replicaZones is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.replicaZones)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.replicaZones)
+                || has(self.initProvider.replicaZones)'
           status:
             description: RegionDiskStatus defines the observed state of RegionDisk.
             properties:

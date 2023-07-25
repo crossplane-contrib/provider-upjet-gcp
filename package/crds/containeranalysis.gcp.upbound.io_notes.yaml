@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.0
+    controller-gen.kubebuilder.io/version: v0.12.1
   name: notes.containeranalysis.gcp.upbound.io
 spec:
   group: containeranalysis.gcp.upbound.io
@@ -97,12 +97,8 @@ spec:
                                 description: The human readable name of this Attestation
                                   Authority, for example "qa".
                                 type: string
-                            required:
-                            - humanReadableName
                             type: object
                           type: array
-                      required:
-                      - hint
                       type: object
                     type: array
                   expirationTime:
@@ -132,8 +128,77 @@ spec:
                         url:
                           description: Specific URL associated with the resource.
                           type: string
-                      required:
-                      - url
+                      type: object
+                    type: array
+                  shortDescription:
+                    description: A one sentence description of the note.
+                    type: string
+                type: object
+              initProvider:
+                description: THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice.
+                properties:
+                  attestationAuthority:
+                    description: Note kind that represents a logical attestation "role"
+                      or "authority". For example, an organization might have one
+                      AttestationAuthority for "QA" and one for "build". This Note
+                      is intended to act strictly as a grouping mechanism for the
+                      attached Occurrences (Attestations). This grouping mechanism
+                      also provides a security boundary, since IAM ACLs gate the ability
+                      for a principle to attach an Occurrence to a given Note. It
+                      also provides a single point of lookup to find all attached
+                      Attestation Occurrences, even if they don't all live in the
+                      same project. Structure is documented below.
+                    items:
+                      properties:
+                        hint:
+                          description: This submessage provides human-readable hints
+                            about the purpose of the AttestationAuthority. Because
+                            the name of a Note acts as its resource reference, it
+                            is important to disambiguate the canonical name of the
+                            Note (which might be a UUID for security purposes) from
+                            "readable" names more suitable for debug output. Note
+                            that these hints should NOT be used to look up AttestationAuthorities
+                            in security sensitive contexts, such as when looking up
+                            Attestations to verify. Structure is documented below.
+                          items:
+                            properties:
+                              humanReadableName:
+                                description: The human readable name of this Attestation
+                                  Authority, for example "qa".
+                                type: string
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  expirationTime:
+                    description: Time of expiration for this note. Leave empty if
+                      note does not expire.
+                    type: string
+                  longDescription:
+                    description: A detailed description of the note
+                    type: string
+                  project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  relatedNoteNames:
+                    description: Names of other notes related to this note.
+                    items:
+                      type: string
+                    type: array
+                  relatedUrl:
+                    description: URLs associated with this note and related metadata.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        label:
+                          description: Label to describe usage of the URL
+                          type: string
+                        url:
+                          description: Specific URL associated with the resource.
+                          type: string
                       type: object
                     type: array
                   shortDescription:
@@ -340,7 +405,8 @@ spec:
             x-kubernetes-validations:
             - message: attestationAuthority is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.attestationAuthority)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.attestationAuthority)
+                || has(self.initProvider.attestationAuthority)'
           status:
             description: NoteStatus defines the observed state of Note.
             properties:

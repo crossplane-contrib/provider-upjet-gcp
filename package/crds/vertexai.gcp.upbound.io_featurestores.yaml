@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.0
+    controller-gen.kubebuilder.io/version: v0.12.1
   name: featurestores.vertexai.gcp.upbound.io
 spec:
   group: vertexai.gcp.upbound.io
@@ -79,8 +79,6 @@ spec:
                             The key needs to be in the same region as where the compute
                             resource is created.'
                           type: string
-                      required:
-                      - kmsKeyName
                       type: object
                     type: array
                   forceDestroy:
@@ -123,9 +121,77 @@ spec:
                                 description: The minimum number of nodes to scale
                                   down to. Must be greater than or equal to 1.
                                 type: number
-                            required:
-                            - maxNodeCount
-                            - minNodeCount
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  region:
+                    description: The region of the dataset. eg us-central1
+                    type: string
+                type: object
+              initProvider:
+                description: THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice.
+                properties:
+                  encryptionSpec:
+                    description: If set, both of the online and offline data storage
+                      will be secured by this key. Structure is documented below.
+                    items:
+                      properties:
+                        kmsKeyName:
+                          description: 'The Cloud KMS resource identifier of the customer
+                            managed encryption key used to protect a resource. Has
+                            the form: projects/my-project/locations/my-region/keyRings/my-kr/cryptoKeys/my-key.
+                            The key needs to be in the same region as where the compute
+                            resource is created.'
+                          type: string
+                      type: object
+                    type: array
+                  forceDestroy:
+                    description: If set to true, any EntityTypes and Features for
+                      this Featurestore will also be deleted
+                    type: boolean
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: A set of key/value label pairs to assign to this
+                      Featurestore.
+                    type: object
+                  name:
+                    description: The name of the Featurestore. This value may be up
+                      to 60 characters, and valid characters are [a-z0-9_]. The first
+                      character cannot be a number.
+                    type: string
+                  onlineServingConfig:
+                    description: Config for online serving resources. Structure is
+                      documented below.
+                    items:
+                      properties:
+                        fixedNodeCount:
+                          description: The number of nodes for each cluster. The number
+                            of nodes will not scale automatically but can be scaled
+                            manually by providing different values when updating.
+                          type: number
+                        scaling:
+                          description: Online serving scaling configuration. Only
+                            one of fixedNodeCount and scaling can be set. Setting
+                            one will reset the other. Structure is documented below.
+                          items:
+                            properties:
+                              maxNodeCount:
+                                description: The maximum number of nodes to scale
+                                  up to. Must be greater than minNodeCount, and less
+                                  than or equal to 10 times of 'minNodeCount'.
+                                type: number
+                              minNodeCount:
+                                description: The minimum number of nodes to scale
+                                  down to. Must be greater than or equal to 1.
+                                type: number
                             type: object
                           type: array
                       type: object

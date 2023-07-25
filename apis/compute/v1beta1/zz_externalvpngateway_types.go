@@ -76,26 +76,21 @@ type ExternalVPNGatewayObservation struct {
 type ExternalVPNGatewayParameters struct {
 
 	// An optional description of this resource.
-	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// A list of interfaces on this external VPN gateway.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	Interface []InterfaceParameters `json:"interface,omitempty" tf:"interface,omitempty"`
 
 	// Labels for the external VPN gateway resource.
-	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
-	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Indicates the redundancy type of this external VPN gateway
 	// Possible values are: FOUR_IPS_REDUNDANCY, SINGLE_IP_INTERNALLY_REDUNDANT, TWO_IPS_REDUNDANCY.
-	// +kubebuilder:validation:Optional
 	RedundancyType *string `json:"redundancyType,omitempty" tf:"redundancy_type,omitempty"`
 }
 
@@ -129,14 +124,12 @@ type InterfaceParameters struct {
 
 	// The numeric ID for this interface. Allowed values are based on the redundancy type
 	// of this external VPN gateway
-	// +kubebuilder:validation:Optional
 	ID *float64 `json:"id,omitempty" tf:"id,omitempty"`
 
 	// IP address of the interface in the external VPN gateway.
 	// Only IPv4 is supported. This IP address can be either from
 	// your on-premise gateway or another Cloud provider's VPN gateway,
 	// it cannot be an IP address from Google Compute Engine.
-	// +kubebuilder:validation:Optional
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
 }
 
@@ -147,14 +140,6 @@ type ExternalVPNGatewaySpec struct {
 	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
 	// unless the relevant Crossplane feature flag is enabled, and may be
 	// changed or removed without notice.
-	// InitProvider holds the same fields as ForProvider, with the exception
-	// of Identifier and other resource reference fields. The fields that are
-	// in InitProvider are merged into ForProvider when the resource is created.
-	// The same fields are also added to the terraform ignore_changes hook, to
-	// avoid updating them after creation. This is useful for fields that are
-	// required on creation, but we do not desire to update them after creation,
-	// for example because of an external controller is managing them, like an
-	// autoscaler.
 	InitProvider ExternalVPNGatewayInitParameters `json:"initProvider,omitempty"`
 }
 

@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.0
+    controller-gen.kubebuilder.io/version: v0.12.1
   name: firewallpolicyrules.compute.gcp.upbound.io
 spec:
   group: compute.gcp.upbound.io
@@ -218,8 +218,6 @@ spec:
                                 items:
                                   type: string
                                 type: array
-                            required:
-                            - ipProtocol
                             type: object
                           type: array
                         srcAddressGroups:
@@ -244,8 +242,131 @@ spec:
                           items:
                             type: string
                           type: array
-                      required:
-                      - layer4Configs
+                      type: object
+                    type: array
+                  priority:
+                    description: An integer indicating the priority of a rule in the
+                      list. The priority must be a positive value between 0 and 2147483647.
+                      Rules are evaluated from highest to lowest priority where 0
+                      is the highest priority and 2147483647 is the lowest prority.
+                    type: number
+                  targetResources:
+                    description: A list of network resource URLs to which this rule
+                      applies. This field allows you to control which network's VMs
+                      get this rule. If this field is left blank, all VMs within the
+                      organization will receive the rule.
+                    items:
+                      type: string
+                    type: array
+                  targetServiceAccounts:
+                    description: A list of service accounts indicating the sets of
+                      instances that are applied with this rule.
+                    items:
+                      type: string
+                    type: array
+                type: object
+              initProvider:
+                description: THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice.
+                properties:
+                  action:
+                    description: The Action to perform when the client connection
+                      triggers the rule. Can currently be either "allow" or "deny()"
+                      where valid values for status are 403, 404, and 502.
+                    type: string
+                  description:
+                    description: An optional description for this resource.
+                    type: string
+                  direction:
+                    description: 'The direction in which this rule applies. Possible
+                      values: INGRESS, EGRESS'
+                    type: string
+                  disabled:
+                    description: Denotes whether the firewall policy rule is disabled.
+                      When set to true, the firewall policy rule is not enforced and
+                      traffic behaves as if it did not exist. If this is unspecified,
+                      the firewall policy rule will be enabled.
+                    type: boolean
+                  enableLogging:
+                    description: 'Denotes whether to enable logging for a particular
+                      rule. If logging is enabled, logs will be exported to the configured
+                      export destination in Stackdriver. Logs may be exported to BigQuery
+                      or Pub/Sub. Note: you cannot enable logging on "goto_next" rules.'
+                    type: boolean
+                  match:
+                    description: A match condition that incoming traffic is evaluated
+                      against. If it evaluates to true, the corresponding 'action'
+                      is enforced. Structure is documented below.
+                    items:
+                      properties:
+                        destAddressGroups:
+                          items:
+                            type: string
+                          type: array
+                        destFqdns:
+                          items:
+                            type: string
+                          type: array
+                        destIpRanges:
+                          description: CIDR IP address range. Maximum number of destination
+                            CIDR IP ranges allowed is 256.
+                          items:
+                            type: string
+                          type: array
+                        destRegionCodes:
+                          items:
+                            type: string
+                          type: array
+                        destThreatIntelligences:
+                          items:
+                            type: string
+                          type: array
+                        layer4Configs:
+                          description: Pairs of IP protocols and ports that the rule
+                            should match. Structure is documented below.
+                          items:
+                            properties:
+                              ipProtocol:
+                                description: The IP protocol to which this rule applies.
+                                  The protocol type is required when creating a firewall
+                                  rule. This value can either be one of the following
+                                  well known protocol strings (tcp, udp, icmp, esp,
+                                  ah, ipip, sctp), or the IP protocol number.
+                                type: string
+                              ports:
+                                description: An optional list of ports to which this
+                                  rule applies. This field is only applicable for
+                                  UDP or TCP protocol. Each entry must be either an
+                                  integer or a range. If not specified, this rule
+                                  applies to connections through any port.
+                                items:
+                                  type: string
+                                type: array
+                            type: object
+                          type: array
+                        srcAddressGroups:
+                          items:
+                            type: string
+                          type: array
+                        srcFqdns:
+                          items:
+                            type: string
+                          type: array
+                        srcIpRanges:
+                          description: CIDR IP address range. Maximum number of source
+                            CIDR IP ranges allowed is 256.
+                          items:
+                            type: string
+                          type: array
+                        srcRegionCodes:
+                          items:
+                            type: string
+                          type: array
+                        srcThreatIntelligences:
+                          items:
+                            type: string
+                          type: array
                       type: object
                     type: array
                   priority:
@@ -469,16 +590,20 @@ spec:
             x-kubernetes-validations:
             - message: action is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.action)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.action)
+                || has(self.initProvider.action)'
             - message: direction is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.direction)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.direction)
+                || has(self.initProvider.direction)'
             - message: match is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.match)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.match)
+                || has(self.initProvider.match)'
             - message: priority is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.priority)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.priority)
+                || has(self.initProvider.priority)'
           status:
             description: FirewallPolicyRuleStatus defines the observed state of FirewallPolicyRule.
             properties:

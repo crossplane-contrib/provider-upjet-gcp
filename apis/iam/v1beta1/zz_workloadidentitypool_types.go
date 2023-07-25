@@ -74,22 +74,18 @@ type WorkloadIdentityPoolObservation struct {
 type WorkloadIdentityPoolParameters struct {
 
 	// A description of the pool. Cannot exceed 256 characters.
-	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Whether the pool is disabled. You cannot use a disabled pool to exchange tokens, or use
 	// existing tokens to access resources. If the pool is re-enabled, existing tokens grant
 	// access again.
-	// +kubebuilder:validation:Optional
 	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
 
 	// A display name for the pool. Cannot exceed 32 characters.
-	// +kubebuilder:validation:Optional
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
-	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 
@@ -100,14 +96,6 @@ type WorkloadIdentityPoolSpec struct {
 	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
 	// unless the relevant Crossplane feature flag is enabled, and may be
 	// changed or removed without notice.
-	// InitProvider holds the same fields as ForProvider, with the exception
-	// of Identifier and other resource reference fields. The fields that are
-	// in InitProvider are merged into ForProvider when the resource is created.
-	// The same fields are also added to the terraform ignore_changes hook, to
-	// avoid updating them after creation. This is useful for fields that are
-	// required on creation, but we do not desire to update them after creation,
-	// for example because of an external controller is managing them, like an
-	// autoscaler.
 	InitProvider WorkloadIdentityPoolInitParameters `json:"initProvider,omitempty"`
 }
 

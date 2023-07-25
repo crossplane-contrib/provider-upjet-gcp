@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.0
+    controller-gen.kubebuilder.io/version: v0.12.1
   name: clients.containerazure.gcp.upbound.io
 spec:
   group: containerazure.gcp.upbound.io
@@ -87,6 +87,21 @@ spec:
                     type: string
                 required:
                 - location
+                type: object
+              initProvider:
+                description: THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice.
+                properties:
+                  applicationId:
+                    description: The Azure Active Directory Application ID.
+                    type: string
+                  project:
+                    description: The project for the resource
+                    type: string
+                  tenantId:
+                    description: The Azure Active Directory Tenant ID.
+                    type: string
                 type: object
               managementPolicies:
                 default:
@@ -288,10 +303,12 @@ spec:
             x-kubernetes-validations:
             - message: applicationId is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.applicationId)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.applicationId)
+                || has(self.initProvider.applicationId)'
             - message: tenantId is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.tenantId)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.tenantId)
+                || has(self.initProvider.tenantId)'
           status:
             description: ClientStatus defines the observed state of Client.
             properties:

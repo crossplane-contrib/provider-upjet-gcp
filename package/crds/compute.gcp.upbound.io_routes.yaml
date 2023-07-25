@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.0
+    controller-gen.kubebuilder.io/version: v0.12.1
   name: routes.compute.gcp.upbound.io
 spec:
   group: compute.gcp.upbound.io
@@ -341,6 +341,52 @@ spec:
                       type: string
                     type: array
                 type: object
+              initProvider:
+                description: THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice.
+                properties:
+                  description:
+                    description: An optional description of this resource. Provide
+                      this property when you create the resource.
+                    type: string
+                  destRange:
+                    description: The destination range of outgoing packets that this
+                      route applies to. Only IPv4 is supported.
+                    type: string
+                  nextHopGateway:
+                    description: 'URL to a gateway that should handle matching packets.
+                      Currently, you can only specify the internet gateway, using
+                      a full or partial valid URL:'
+                    type: string
+                  nextHopInstance:
+                    description: 'URL to an instance that should handle matching packets.
+                      You can specify this as a full or partial URL. For example:'
+                    type: string
+                  nextHopInstanceZone:
+                    description: .
+                    type: string
+                  nextHopIp:
+                    description: Network IP address of an instance that should handle
+                      matching packets.
+                    type: string
+                  priority:
+                    description: The priority of this route. Priority is used to break
+                      ties in cases where there is more than one matching route of
+                      equal prefix length. In the case of two routes with equal prefix
+                      length, the one with the lowest-numbered priority value wins.
+                      Default value is 1000. Valid range is 0 through 65535.
+                    type: number
+                  project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  tags:
+                    description: A list of instance tags to which this route applies.
+                    items:
+                      type: string
+                    type: array
+                type: object
               managementPolicies:
                 default:
                 - '*'
@@ -541,7 +587,8 @@ spec:
             x-kubernetes-validations:
             - message: destRange is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.destRange)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.destRange)
+                || has(self.initProvider.destRange)'
           status:
             description: RouteStatus defines the observed state of Route.
             properties:

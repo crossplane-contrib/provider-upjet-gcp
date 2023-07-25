@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.0
+    controller-gen.kubebuilder.io/version: v0.12.1
   name: repositories.sourcerepo.gcp.upbound.io
 spec:
   group: sourcerepo.gcp.upbound.io
@@ -248,8 +248,27 @@ spec:
                                   type: string
                               type: object
                           type: object
-                      required:
-                      - messageFormat
+                      type: object
+                    type: array
+                type: object
+              initProvider:
+                description: THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice.
+                properties:
+                  project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  pubsubConfigs:
+                    description: How this repository publishes a change in the repository
+                      through Cloud Pub/Sub. Keyed by the topic names. Structure is
+                      documented below.
+                    items:
+                      properties:
+                        messageFormat:
+                          description: The format of the Cloud Pub/Sub messages.
+                          type: string
                       type: object
                     type: array
                 type: object

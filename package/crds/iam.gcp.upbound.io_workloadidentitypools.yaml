@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.0
+    controller-gen.kubebuilder.io/version: v0.12.1
   name: workloadidentitypools.iam.gcp.upbound.io
 spec:
   group: iam.gcp.upbound.io
@@ -66,6 +66,27 @@ spec:
                 - Delete
                 type: string
               forProvider:
+                properties:
+                  description:
+                    description: A description of the pool. Cannot exceed 256 characters.
+                    type: string
+                  disabled:
+                    description: Whether the pool is disabled. You cannot use a disabled
+                      pool to exchange tokens, or use existing tokens to access resources.
+                      If the pool is re-enabled, existing tokens grant access again.
+                    type: boolean
+                  displayName:
+                    description: A display name for the pool. Cannot exceed 32 characters.
+                    type: string
+                  project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                type: object
+              initProvider:
+                description: THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice.
                 properties:
                   description:
                     description: A description of the pool. Cannot exceed 256 characters.

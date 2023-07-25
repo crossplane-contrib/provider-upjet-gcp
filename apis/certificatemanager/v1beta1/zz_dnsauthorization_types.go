@@ -25,6 +25,24 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type DNSAuthorizationInitParameters struct {
+
+	// A human-readable description of the resource.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// A domain which is being authorized. A DnsAuthorization resource covers a
+	// single domain and its wildcard, e.g. authorization for "example.com" can
+	// be used to issue certificates for "example.com" and "*.example.com".
+	Domain *string `json:"domain,omitempty" tf:"domain,omitempty"`
+
+	// Set of label tags associated with the DNS Authorization resource.
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+}
+
 type DNSAuthorizationObservation struct {
 
 	// The structure describing the DNS Resource Record that needs to be added
@@ -55,23 +73,22 @@ type DNSAuthorizationObservation struct {
 type DNSAuthorizationParameters struct {
 
 	// A human-readable description of the resource.
-	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// A domain which is being authorized. A DnsAuthorization resource covers a
 	// single domain and its wildcard, e.g. authorization for "example.com" can
 	// be used to issue certificates for "example.com" and "*.example.com".
-	// +kubebuilder:validation:Optional
 	Domain *string `json:"domain,omitempty" tf:"domain,omitempty"`
 
 	// Set of label tags associated with the DNS Authorization resource.
-	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
-	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+}
+
+type DNSResourceRecordInitParameters struct {
 }
 
 type DNSResourceRecordObservation struct {
@@ -97,6 +114,10 @@ type DNSResourceRecordParameters struct {
 type DNSAuthorizationSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     DNSAuthorizationParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	InitProvider DNSAuthorizationInitParameters `json:"initProvider,omitempty"`
 }
 
 // DNSAuthorizationStatus defines the observed state of DNSAuthorization.
@@ -117,7 +138,7 @@ type DNSAuthorizationStatus struct {
 type DNSAuthorization struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.domain)",message="domain is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.domain) || has(self.initProvider.domain)",message="domain is a required parameter"
 	Spec   DNSAuthorizationSpec   `json:"spec"`
 	Status DNSAuthorizationStatus `json:"status,omitempty"`
 }

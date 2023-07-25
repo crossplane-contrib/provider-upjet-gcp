@@ -25,6 +25,12 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type InstancesInitParameters struct {
+
+	// The IP address on the VM to use for peering.
+	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
+}
+
 type InstancesObservation struct {
 
 	// The IP address on the VM to use for peering.
@@ -37,7 +43,6 @@ type InstancesObservation struct {
 type InstancesParameters struct {
 
 	// The IP address on the VM to use for peering.
-	// +kubebuilder:validation:Optional
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
 
 	// The URI of the virtual machine resource
@@ -55,6 +60,15 @@ type InstancesParameters struct {
 	VirtualMachineSelector *v1.Selector `json:"virtualMachineSelector,omitempty" tf:"-"`
 }
 
+type LinkedInterconnectAttachmentsInitParameters struct {
+
+	// A value that controls whether site-to-site data transfer is enabled for these resources. Note that data transfer is available only in supported locations.
+	SiteToSiteDataTransfer *bool `json:"siteToSiteDataTransfer,omitempty" tf:"site_to_site_data_transfer,omitempty"`
+
+	// The URIs of linked interconnect attachment resources
+	Uris []*string `json:"uris,omitempty" tf:"uris,omitempty"`
+}
+
 type LinkedInterconnectAttachmentsObservation struct {
 
 	// A value that controls whether site-to-site data transfer is enabled for these resources. Note that data transfer is available only in supported locations.
@@ -67,12 +81,19 @@ type LinkedInterconnectAttachmentsObservation struct {
 type LinkedInterconnectAttachmentsParameters struct {
 
 	// A value that controls whether site-to-site data transfer is enabled for these resources. Note that data transfer is available only in supported locations.
-	// +kubebuilder:validation:Required
-	SiteToSiteDataTransfer *bool `json:"siteToSiteDataTransfer" tf:"site_to_site_data_transfer,omitempty"`
+	SiteToSiteDataTransfer *bool `json:"siteToSiteDataTransfer,omitempty" tf:"site_to_site_data_transfer,omitempty"`
 
 	// The URIs of linked interconnect attachment resources
-	// +kubebuilder:validation:Required
-	Uris []*string `json:"uris" tf:"uris,omitempty"`
+	Uris []*string `json:"uris,omitempty" tf:"uris,omitempty"`
+}
+
+type LinkedRouterApplianceInstancesInitParameters struct {
+
+	// The list of router appliance instances
+	Instances []InstancesInitParameters `json:"instances,omitempty" tf:"instances,omitempty"`
+
+	// A value that controls whether site-to-site data transfer is enabled for these resources. Note that data transfer is available only in supported locations.
+	SiteToSiteDataTransfer *bool `json:"siteToSiteDataTransfer,omitempty" tf:"site_to_site_data_transfer,omitempty"`
 }
 
 type LinkedRouterApplianceInstancesObservation struct {
@@ -87,12 +108,19 @@ type LinkedRouterApplianceInstancesObservation struct {
 type LinkedRouterApplianceInstancesParameters struct {
 
 	// The list of router appliance instances
-	// +kubebuilder:validation:Required
-	Instances []InstancesParameters `json:"instances" tf:"instances,omitempty"`
+	Instances []InstancesParameters `json:"instances,omitempty" tf:"instances,omitempty"`
 
 	// A value that controls whether site-to-site data transfer is enabled for these resources. Note that data transfer is available only in supported locations.
-	// +kubebuilder:validation:Required
-	SiteToSiteDataTransfer *bool `json:"siteToSiteDataTransfer" tf:"site_to_site_data_transfer,omitempty"`
+	SiteToSiteDataTransfer *bool `json:"siteToSiteDataTransfer,omitempty" tf:"site_to_site_data_transfer,omitempty"`
+}
+
+type LinkedVPNTunnelsInitParameters struct {
+
+	// A value that controls whether site-to-site data transfer is enabled for these resources. Note that data transfer is available only in supported locations.
+	SiteToSiteDataTransfer *bool `json:"siteToSiteDataTransfer,omitempty" tf:"site_to_site_data_transfer,omitempty"`
+
+	// The URIs of linked VPN tunnel resources.
+	Uris []*string `json:"uris,omitempty" tf:"uris,omitempty"`
 }
 
 type LinkedVPNTunnelsObservation struct {
@@ -107,12 +135,37 @@ type LinkedVPNTunnelsObservation struct {
 type LinkedVPNTunnelsParameters struct {
 
 	// A value that controls whether site-to-site data transfer is enabled for these resources. Note that data transfer is available only in supported locations.
-	// +kubebuilder:validation:Required
-	SiteToSiteDataTransfer *bool `json:"siteToSiteDataTransfer" tf:"site_to_site_data_transfer,omitempty"`
+	SiteToSiteDataTransfer *bool `json:"siteToSiteDataTransfer,omitempty" tf:"site_to_site_data_transfer,omitempty"`
 
 	// The URIs of linked VPN tunnel resources.
-	// +kubebuilder:validation:Required
-	Uris []*string `json:"uris" tf:"uris,omitempty"`
+	Uris []*string `json:"uris,omitempty" tf:"uris,omitempty"`
+}
+
+type SpokeInitParameters struct {
+
+	// An optional description of the spoke.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Optional labels in key:value format. For more information about labels, see Requirements for labels.
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// A collection of VLAN attachment resources. These resources should be redundant attachments that all advertise the same prefixes to Google Cloud. Alternatively, in active/passive configurations, all attachments should be capable of advertising the same prefixes.
+	LinkedInterconnectAttachments []LinkedInterconnectAttachmentsInitParameters `json:"linkedInterconnectAttachments,omitempty" tf:"linked_interconnect_attachments,omitempty"`
+
+	// The URIs of linked Router appliance resources
+	LinkedRouterApplianceInstances []LinkedRouterApplianceInstancesInitParameters `json:"linkedRouterApplianceInstances,omitempty" tf:"linked_router_appliance_instances,omitempty"`
+
+	// The URIs of linked VPN tunnel resources
+	LinkedVPNTunnels []LinkedVPNTunnelsInitParameters `json:"linkedVpnTunnels,omitempty" tf:"linked_vpn_tunnels,omitempty"`
+
+	// The location for the resource
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
+	// Immutable. The name of the spoke. Spoke names must be unique.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The project for the resource
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 
 type SpokeObservation struct {
@@ -163,7 +216,6 @@ type SpokeObservation struct {
 type SpokeParameters struct {
 
 	// An optional description of the spoke.
-	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Immutable. The URI of the hub that this spoke is attached to.
@@ -181,31 +233,24 @@ type SpokeParameters struct {
 	HubSelector *v1.Selector `json:"hubSelector,omitempty" tf:"-"`
 
 	// Optional labels in key:value format. For more information about labels, see Requirements for labels.
-	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// A collection of VLAN attachment resources. These resources should be redundant attachments that all advertise the same prefixes to Google Cloud. Alternatively, in active/passive configurations, all attachments should be capable of advertising the same prefixes.
-	// +kubebuilder:validation:Optional
 	LinkedInterconnectAttachments []LinkedInterconnectAttachmentsParameters `json:"linkedInterconnectAttachments,omitempty" tf:"linked_interconnect_attachments,omitempty"`
 
 	// The URIs of linked Router appliance resources
-	// +kubebuilder:validation:Optional
 	LinkedRouterApplianceInstances []LinkedRouterApplianceInstancesParameters `json:"linkedRouterApplianceInstances,omitempty" tf:"linked_router_appliance_instances,omitempty"`
 
 	// The URIs of linked VPN tunnel resources
-	// +kubebuilder:validation:Optional
 	LinkedVPNTunnels []LinkedVPNTunnelsParameters `json:"linkedVpnTunnels,omitempty" tf:"linked_vpn_tunnels,omitempty"`
 
 	// The location for the resource
-	// +kubebuilder:validation:Optional
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
 	// Immutable. The name of the spoke. Spoke names must be unique.
-	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// The project for the resource
-	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 
@@ -213,6 +258,10 @@ type SpokeParameters struct {
 type SpokeSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     SpokeParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	InitProvider SpokeInitParameters `json:"initProvider,omitempty"`
 }
 
 // SpokeStatus defines the observed state of Spoke.
@@ -233,8 +282,8 @@ type SpokeStatus struct {
 type Spoke struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.location)",message="location is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.name)",message="name is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.location) || has(self.initProvider.location)",message="location is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.name) || has(self.initProvider.name)",message="name is a required parameter"
 	Spec   SpokeSpec   `json:"spec"`
 	Status SpokeStatus `json:"status,omitempty"`
 }

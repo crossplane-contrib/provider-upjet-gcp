@@ -91,6 +91,15 @@ func (tr *Secret) GetInitParameters() (map[string]any, error) {
 	return base, json.TFParser.Unmarshal(p, &base)
 }
 
+// SetInitParameters for this Secret
+func (tr *Secret) SetInitParameters(params map[string]any) error {
+	p, err := json.TFParser.Marshal(params)
+	if err != nil {
+		return err
+	}
+	return json.TFParser.Unmarshal(p, &tr.Spec.InitProvider)
+}
+
 // LateInitialize this Secret using its observed tfState.
 // returns True if there are any spec changes for the resource.
 func (tr *Secret) LateInitialize(attrs []byte) (bool, error) {
@@ -175,6 +184,15 @@ func (tr *SecretIAMMember) GetInitParameters() (map[string]any, error) {
 	return base, json.TFParser.Unmarshal(p, &base)
 }
 
+// SetInitParameters for this SecretIAMMember
+func (tr *SecretIAMMember) SetInitParameters(params map[string]any) error {
+	p, err := json.TFParser.Marshal(params)
+	if err != nil {
+		return err
+	}
+	return json.TFParser.Unmarshal(p, &tr.Spec.InitProvider)
+}
+
 // LateInitialize this SecretIAMMember using its observed tfState.
 // returns True if there are any spec changes for the resource.
 func (tr *SecretIAMMember) LateInitialize(attrs []byte) (bool, error) {
@@ -257,6 +275,15 @@ func (tr *SecretVersion) GetInitParameters() (map[string]any, error) {
 	}
 	base := map[string]any{}
 	return base, json.TFParser.Unmarshal(p, &base)
+}
+
+// SetInitParameters for this SecretVersion
+func (tr *SecretVersion) SetInitParameters(params map[string]any) error {
+	p, err := json.TFParser.Marshal(params)
+	if err != nil {
+		return err
+	}
+	return json.TFParser.Unmarshal(p, &tr.Spec.InitProvider)
 }
 
 // LateInitialize this SecretVersion using its observed tfState.

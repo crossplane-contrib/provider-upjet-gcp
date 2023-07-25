@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.0
+    controller-gen.kubebuilder.io/version: v0.12.1
   name: tenants.identityplatform.gcp.upbound.io
 spec:
   group: identityplatform.gcp.upbound.io
@@ -66,6 +66,31 @@ spec:
                 - Delete
                 type: string
               forProvider:
+                properties:
+                  allowPasswordSignup:
+                    description: Whether to allow email/password user authentication.
+                    type: boolean
+                  disableAuth:
+                    description: Whether authentication is disabled for the tenant.
+                      If true, the users under the disabled tenant are not allowed
+                      to sign-in. Admins of the disabled tenant are not able to manage
+                      its users.
+                    type: boolean
+                  displayName:
+                    description: Human friendly display name of the tenant.
+                    type: string
+                  enableEmailLinkSignin:
+                    description: Whether to enable email link user authentication.
+                    type: boolean
+                  project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                type: object
+              initProvider:
+                description: THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice.
                 properties:
                   allowPasswordSignup:
                     description: Whether to allow email/password user authentication.
@@ -287,7 +312,8 @@ spec:
             x-kubernetes-validations:
             - message: displayName is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.displayName)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.displayName)
+                || has(self.initProvider.displayName)'
           status:
             description: TenantStatus defines the observed state of Tenant.
             properties:

@@ -25,6 +25,37 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type InstanceInitParameters struct {
+
+	// Optional. Customer accept list represents the list of projects (id/number) on customer
+	// side that can privately connect to the service attachment. It is an optional field
+	// which the customers can provide during the instance creation. By default, the customer
+	// project associated with the Apigee organization will be included to the list.
+	ConsumerAcceptList []*string `json:"consumerAcceptList,omitempty" tf:"consumer_accept_list,omitempty"`
+
+	// Description of the instance.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Display name of the instance.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// IP range represents the customer-provided CIDR block of length 22 that will be used for
+	// the Apigee instance creation. This optional range, if provided, should be freely
+	// available as part of larger named range the customer has allocated to the Service
+	// Networking peering. If this is not provided, Apigee will automatically request for any
+	// available /22 CIDR block from Service Networking. The customer should use this CIDR block
+	// for configuring their firewall needs to allow traffic from Apigee.
+	// Input format: "a.b.c.d/22"
+	IPRange *string `json:"ipRange,omitempty" tf:"ip_range,omitempty"`
+
+	// Required. Compute Engine location where the instance resides.
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
+	// The size of the CIDR block range that will be reserved by the instance. For valid values,
+	// see CidrRange on the documentation.
+	PeeringCidrRange *string `json:"peeringCidrRange,omitempty" tf:"peering_cidr_range,omitempty"`
+}
+
 type InstanceObservation struct {
 
 	// Optional. Customer accept list represents the list of projects (id/number) on customer
@@ -84,11 +115,9 @@ type InstanceParameters struct {
 	// side that can privately connect to the service attachment. It is an optional field
 	// which the customers can provide during the instance creation. By default, the customer
 	// project associated with the Apigee organization will be included to the list.
-	// +kubebuilder:validation:Optional
 	ConsumerAcceptList []*string `json:"consumerAcceptList,omitempty" tf:"consumer_accept_list,omitempty"`
 
 	// Description of the instance.
-	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Customer Managed Encryption Key (CMEK) used for disk and volume encryption. Required for Apigee paid subscriptions only.
@@ -107,7 +136,6 @@ type InstanceParameters struct {
 	DiskEncryptionKeyNameSelector *v1.Selector `json:"diskEncryptionKeyNameSelector,omitempty" tf:"-"`
 
 	// Display name of the instance.
-	// +kubebuilder:validation:Optional
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// IP range represents the customer-provided CIDR block of length 22 that will be used for
@@ -117,11 +145,9 @@ type InstanceParameters struct {
 	// available /22 CIDR block from Service Networking. The customer should use this CIDR block
 	// for configuring their firewall needs to allow traffic from Apigee.
 	// Input format: "a.b.c.d/22"
-	// +kubebuilder:validation:Optional
 	IPRange *string `json:"ipRange,omitempty" tf:"ip_range,omitempty"`
 
 	// Required. Compute Engine location where the instance resides.
-	// +kubebuilder:validation:Optional
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
 	// The Apigee Organization associated with the Apigee instance,
@@ -141,7 +167,6 @@ type InstanceParameters struct {
 
 	// The size of the CIDR block range that will be reserved by the instance. For valid values,
 	// see CidrRange on the documentation.
-	// +kubebuilder:validation:Optional
 	PeeringCidrRange *string `json:"peeringCidrRange,omitempty" tf:"peering_cidr_range,omitempty"`
 }
 
@@ -149,6 +174,10 @@ type InstanceParameters struct {
 type InstanceSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     InstanceParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	InitProvider InstanceInitParameters `json:"initProvider,omitempty"`
 }
 
 // InstanceStatus defines the observed state of Instance.
@@ -169,7 +198,7 @@ type InstanceStatus struct {
 type Instance struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.location)",message="location is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.location) || has(self.initProvider.location)",message="location is a required parameter"
 	Spec   InstanceSpec   `json:"spec"`
 	Status InstanceStatus `json:"status,omitempty"`
 }

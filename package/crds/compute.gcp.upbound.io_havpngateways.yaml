@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.0
+    controller-gen.kubebuilder.io/version: v0.12.1
   name: havpngateways.compute.gcp.upbound.io
 spec:
   group: compute.gcp.upbound.io
@@ -258,6 +258,35 @@ spec:
                     type: array
                 required:
                 - region
+                type: object
+              initProvider:
+                description: THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice.
+                properties:
+                  description:
+                    description: An optional description of this resource.
+                    type: string
+                  project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  stackType:
+                    description: 'The stack type for this VPN gateway to identify
+                      the IP protocols that are enabled. If not specified, IPV4_ONLY
+                      will be used. Default value is IPV4_ONLY. Possible values are:
+                      IPV4_ONLY, IPV4_IPV6.'
+                    type: string
+                  vpnInterfaces:
+                    description: A list of interfaces on this VPN gateway. Structure
+                      is documented below.
+                    items:
+                      properties:
+                        id:
+                          description: The numeric ID of this VPN gateway interface.
+                          type: number
+                      type: object
+                    type: array
                 type: object
               managementPolicies:
                 default:

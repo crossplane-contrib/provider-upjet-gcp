@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.0
+    controller-gen.kubebuilder.io/version: v0.12.1
   name: memberships.gkehub.gcp.upbound.io
 spec:
   group: gkehub.gcp.upbound.io
@@ -80,8 +80,6 @@ spec:
                             <2000 characters. For example: https://container.googleapis.com/v1/projects/my-project/locations/us-west1/clusters/my-cluster
                             (must be locations rather than zones).googleapis.com/v1/${google_container_cluster.my-cluster.id}".'
                           type: string
-                      required:
-                      - issuer
                       type: object
                     type: array
                   endpoint:
@@ -182,6 +180,51 @@ spec:
                                         type: string
                                     type: object
                                 type: object
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: Labels to apply to this membership.
+                    type: object
+                  project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                type: object
+              initProvider:
+                description: THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice.
+                properties:
+                  authority:
+                    description: 'Authority encodes how Google will recognize identities
+                      from this Membership. See the workload identity documentation
+                      for more details: https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity
+                      Structure is documented below.'
+                    items:
+                      properties:
+                        issuer:
+                          description: 'A JSON Web Token (JWT) issuer URI. issuer
+                            must start with https:// and // be a valid with length
+                            <2000 characters. For example: https://container.googleapis.com/v1/projects/my-project/locations/us-west1/clusters/my-cluster
+                            (must be locations rather than zones).googleapis.com/v1/${google_container_cluster.my-cluster.id}".'
+                          type: string
+                      type: object
+                    type: array
+                  endpoint:
+                    description: If this Membership is a Kubernetes API server hosted
+                      on GKE, this is a self link to its GCP resource. Structure is
+                      documented below.
+                    items:
+                      properties:
+                        gkeCluster:
+                          description: If this Membership is a Kubernetes API server
+                            hosted on GKE, this is a self link to its GCP resource.
+                            Structure is documented below.
+                          items:
                             type: object
                           type: array
                       type: object

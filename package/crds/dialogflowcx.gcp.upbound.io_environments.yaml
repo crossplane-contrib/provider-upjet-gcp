@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.0
+    controller-gen.kubebuilder.io/version: v0.12.1
   name: environments.dialogflowcx.gcp.upbound.io
 spec:
   group: dialogflowcx.gcp.upbound.io
@@ -246,6 +246,29 @@ spec:
                       type: object
                     type: array
                 type: object
+              initProvider:
+                description: THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice.
+                properties:
+                  description:
+                    description: The human-readable description of the environment.
+                      The maximum length is 500 characters. If exceeded, the request
+                      is rejected.
+                    type: string
+                  displayName:
+                    description: The human-readable name of the environment (unique
+                      in an agent). Limit of 64 characters.
+                    type: string
+                  versionConfigs:
+                    description: A list of configurations for flow versions. You should
+                      include version configs for all flows that are reachable from
+                      [Start Flow][Agent.start_flow] in the agent. Otherwise, an error
+                      will be returned. Structure is documented below.
+                    items:
+                      type: object
+                    type: array
+                type: object
               managementPolicies:
                 default:
                 - '*'
@@ -446,10 +469,12 @@ spec:
             x-kubernetes-validations:
             - message: displayName is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.displayName)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.displayName)
+                || has(self.initProvider.displayName)'
             - message: versionConfigs is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.versionConfigs)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.versionConfigs)
+                || has(self.initProvider.versionConfigs)'
           status:
             description: EnvironmentStatus defines the observed state of Environment.
             properties:

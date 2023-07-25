@@ -25,6 +25,33 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type PerInstanceConfigInitParameters struct {
+
+	// The minimal action to perform on the instance during an update.
+	// Default is NONE. Possible values are:
+	MinimalAction *string `json:"minimalAction,omitempty" tf:"minimal_action,omitempty"`
+
+	// The most disruptive action to perform on the instance during an update.
+	// Default is REPLACE. Possible values are:
+	MostDisruptiveAllowedAction *string `json:"mostDisruptiveAllowedAction,omitempty" tf:"most_disruptive_allowed_action,omitempty"`
+
+	// The name for this per-instance config and its corresponding instance.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The preserved state for this instance.
+	// Structure is documented below.
+	PreservedState []PreservedStateInitParameters `json:"preservedState,omitempty" tf:"preserved_state,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// When true, deleting this config will immediately remove any specified state from the underlying instance.
+	// When false, deleting this config will not immediately remove any state from the underlying instance.
+	// State will be removed on the next instance recreation or update.
+	RemoveInstanceStateOnDestroy *bool `json:"removeInstanceStateOnDestroy,omitempty" tf:"remove_instance_state_on_destroy,omitempty"`
+}
+
 type PerInstanceConfigObservation struct {
 
 	// an identifier for the resource with format {{project}}/{{zone}}/{{instance_group_manager}}/{{name}}
@@ -78,32 +105,26 @@ type PerInstanceConfigParameters struct {
 
 	// The minimal action to perform on the instance during an update.
 	// Default is NONE. Possible values are:
-	// +kubebuilder:validation:Optional
 	MinimalAction *string `json:"minimalAction,omitempty" tf:"minimal_action,omitempty"`
 
 	// The most disruptive action to perform on the instance during an update.
 	// Default is REPLACE. Possible values are:
-	// +kubebuilder:validation:Optional
 	MostDisruptiveAllowedAction *string `json:"mostDisruptiveAllowedAction,omitempty" tf:"most_disruptive_allowed_action,omitempty"`
 
 	// The name for this per-instance config and its corresponding instance.
-	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// The preserved state for this instance.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	PreservedState []PreservedStateParameters `json:"preservedState,omitempty" tf:"preserved_state,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
-	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// When true, deleting this config will immediately remove any specified state from the underlying instance.
 	// When false, deleting this config will not immediately remove any state from the underlying instance.
 	// State will be removed on the next instance recreation or update.
-	// +kubebuilder:validation:Optional
 	RemoveInstanceStateOnDestroy *bool `json:"removeInstanceStateOnDestroy,omitempty" tf:"remove_instance_state_on_destroy,omitempty"`
 
 	// Zone where the containing instance group manager is located
@@ -119,6 +140,26 @@ type PerInstanceConfigParameters struct {
 	// Selector for a InstanceGroupManager in compute to populate zone.
 	// +kubebuilder:validation:Optional
 	ZoneSelector *v1.Selector `json:"zoneSelector,omitempty" tf:"-"`
+}
+
+type PreservedStateDiskInitParameters struct {
+
+	// A value that prescribes what should happen to the stateful disk when the VM instance is deleted.
+	// The available options are NEVER and ON_PERMANENT_INSTANCE_DELETION.
+	// NEVER - detach the disk when the VM is deleted, but do not delete the disk.
+	// ON_PERMANENT_INSTANCE_DELETION will delete the stateful disk when the VM is permanently
+	// deleted from the instance group.
+	// Default value is NEVER.
+	// Possible values are: NEVER, ON_PERMANENT_INSTANCE_DELETION.
+	DeleteRule *string `json:"deleteRule,omitempty" tf:"delete_rule,omitempty"`
+
+	// A unique device name that is reflected into the /dev/ tree of a Linux operating system running within the instance.
+	DeviceName *string `json:"deviceName,omitempty" tf:"device_name,omitempty"`
+
+	// The mode of the disk.
+	// Default value is READ_WRITE.
+	// Possible values are: READ_ONLY, READ_WRITE.
+	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
 }
 
 type PreservedStateDiskObservation struct {
@@ -154,17 +195,14 @@ type PreservedStateDiskParameters struct {
 	// deleted from the instance group.
 	// Default value is NEVER.
 	// Possible values are: NEVER, ON_PERMANENT_INSTANCE_DELETION.
-	// +kubebuilder:validation:Optional
 	DeleteRule *string `json:"deleteRule,omitempty" tf:"delete_rule,omitempty"`
 
 	// A unique device name that is reflected into the /dev/ tree of a Linux operating system running within the instance.
-	// +kubebuilder:validation:Required
-	DeviceName *string `json:"deviceName" tf:"device_name,omitempty"`
+	DeviceName *string `json:"deviceName,omitempty" tf:"device_name,omitempty"`
 
 	// The mode of the disk.
 	// Default value is READ_WRITE.
 	// Possible values are: READ_ONLY, READ_WRITE.
-	// +kubebuilder:validation:Optional
 	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
 
 	// The URI of an existing persistent disk to attach under the specified device-name in the format
@@ -183,6 +221,16 @@ type PreservedStateDiskParameters struct {
 	SourceSelector *v1.Selector `json:"sourceSelector,omitempty" tf:"-"`
 }
 
+type PreservedStateInitParameters struct {
+
+	// Stateful disks for the instance.
+	// Structure is documented below.
+	Disk []PreservedStateDiskInitParameters `json:"disk,omitempty" tf:"disk,omitempty"`
+
+	// Preserved metadata defined for this instance. This is a list of key->value pairs.
+	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
+}
+
 type PreservedStateObservation struct {
 
 	// Stateful disks for the instance.
@@ -197,11 +245,9 @@ type PreservedStateParameters struct {
 
 	// Stateful disks for the instance.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	Disk []PreservedStateDiskParameters `json:"disk,omitempty" tf:"disk,omitempty"`
 
 	// Preserved metadata defined for this instance. This is a list of key->value pairs.
-	// +kubebuilder:validation:Optional
 	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
 }
 
@@ -209,6 +255,10 @@ type PreservedStateParameters struct {
 type PerInstanceConfigSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     PerInstanceConfigParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	InitProvider PerInstanceConfigInitParameters `json:"initProvider,omitempty"`
 }
 
 // PerInstanceConfigStatus defines the observed state of PerInstanceConfig.
@@ -229,7 +279,7 @@ type PerInstanceConfigStatus struct {
 type PerInstanceConfig struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.name)",message="name is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.name) || has(self.initProvider.name)",message="name is a required parameter"
 	Spec   PerInstanceConfigSpec   `json:"spec"`
 	Status PerInstanceConfigStatus `json:"status,omitempty"`
 }

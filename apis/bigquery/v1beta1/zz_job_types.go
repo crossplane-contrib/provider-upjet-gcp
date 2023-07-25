@@ -25,6 +25,39 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type CopyInitParameters struct {
+
+	// Specifies whether the job is allowed to create new tables. The following values are supported:
+	// CREATE_IF_NEEDED: If the table does not exist, BigQuery creates the table.
+	// CREATE_NEVER: The table must already exist. If it does not, a 'notFound' error is returned in the job result.
+	// Creation, truncation and append actions occur as one atomic update upon job completion
+	// Default value is CREATE_IF_NEEDED.
+	// Possible values are: CREATE_IF_NEEDED, CREATE_NEVER.
+	CreateDisposition *string `json:"createDisposition,omitempty" tf:"create_disposition,omitempty"`
+
+	// Custom encryption configuration (e.g., Cloud KMS keys)
+	// Structure is documented below.
+	DestinationEncryptionConfiguration []DestinationEncryptionConfigurationInitParameters `json:"destinationEncryptionConfiguration,omitempty" tf:"destination_encryption_configuration,omitempty"`
+
+	// The destination table.
+	// Structure is documented below.
+	DestinationTable []DestinationTableInitParameters `json:"destinationTable,omitempty" tf:"destination_table,omitempty"`
+
+	// Source tables to copy.
+	// Structure is documented below.
+	SourceTables []SourceTablesInitParameters `json:"sourceTables,omitempty" tf:"source_tables,omitempty"`
+
+	// Specifies the action that occurs if the destination table already exists. The following values are supported:
+	// WRITE_TRUNCATE: If the table already exists, BigQuery overwrites the table data and uses the schema from the query result.
+	// WRITE_APPEND: If the table already exists, BigQuery appends the data to the table.
+	// WRITE_EMPTY: If the table already exists and contains data, a 'duplicate' error is returned in the job result.
+	// Each action is atomic and only occurs if BigQuery is able to complete the job successfully.
+	// Creation, truncation and append actions occur as one atomic update upon job completion.
+	// Default value is WRITE_EMPTY.
+	// Possible values are: WRITE_TRUNCATE, WRITE_APPEND, WRITE_EMPTY.
+	WriteDisposition *string `json:"writeDisposition,omitempty" tf:"write_disposition,omitempty"`
+}
+
 type CopyObservation struct {
 
 	// Specifies whether the job is allowed to create new tables. The following values are supported:
@@ -66,23 +99,19 @@ type CopyParameters struct {
 	// Creation, truncation and append actions occur as one atomic update upon job completion
 	// Default value is CREATE_IF_NEEDED.
 	// Possible values are: CREATE_IF_NEEDED, CREATE_NEVER.
-	// +kubebuilder:validation:Optional
 	CreateDisposition *string `json:"createDisposition,omitempty" tf:"create_disposition,omitempty"`
 
 	// Custom encryption configuration (e.g., Cloud KMS keys)
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	DestinationEncryptionConfiguration []DestinationEncryptionConfigurationParameters `json:"destinationEncryptionConfiguration,omitempty" tf:"destination_encryption_configuration,omitempty"`
 
 	// The destination table.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	DestinationTable []DestinationTableParameters `json:"destinationTable,omitempty" tf:"destination_table,omitempty"`
 
 	// Source tables to copy.
 	// Structure is documented below.
-	// +kubebuilder:validation:Required
-	SourceTables []SourceTablesParameters `json:"sourceTables" tf:"source_tables,omitempty"`
+	SourceTables []SourceTablesParameters `json:"sourceTables,omitempty" tf:"source_tables,omitempty"`
 
 	// Specifies the action that occurs if the destination table already exists. The following values are supported:
 	// WRITE_TRUNCATE: If the table already exists, BigQuery overwrites the table data and uses the schema from the query result.
@@ -92,8 +121,13 @@ type CopyParameters struct {
 	// Creation, truncation and append actions occur as one atomic update upon job completion.
 	// Default value is WRITE_EMPTY.
 	// Possible values are: WRITE_TRUNCATE, WRITE_APPEND, WRITE_EMPTY.
-	// +kubebuilder:validation:Optional
 	WriteDisposition *string `json:"writeDisposition,omitempty" tf:"write_disposition,omitempty"`
+}
+
+type DefaultDatasetInitParameters struct {
+
+	// The ID of the project containing this table.
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 }
 
 type DefaultDatasetObservation struct {
@@ -122,8 +156,10 @@ type DefaultDatasetParameters struct {
 	DatasetIDSelector *v1.Selector `json:"datasetIdSelector,omitempty" tf:"-"`
 
 	// The ID of the project containing this table.
-	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+}
+
+type DestinationEncryptionConfigurationInitParameters struct {
 }
 
 type DestinationEncryptionConfigurationObservation struct {
@@ -155,6 +191,12 @@ type DestinationEncryptionConfigurationParameters struct {
 	KMSKeyNameSelector *v1.Selector `json:"kmsKeyNameSelector,omitempty" tf:"-"`
 }
 
+type DestinationTableInitParameters struct {
+
+	// The ID of the project containing this table.
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+}
+
 type DestinationTableObservation struct {
 
 	// The ID of the dataset containing this table.
@@ -184,7 +226,6 @@ type DestinationTableParameters struct {
 	DatasetIDSelector *v1.Selector `json:"datasetIdSelector,omitempty" tf:"-"`
 
 	// The ID of the project containing this table.
-	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// The table. Can be specified {{table_id}} if project_id and dataset_id are also set,
@@ -203,6 +244,9 @@ type DestinationTableParameters struct {
 	TableIDSelector *v1.Selector `json:"tableIdSelector,omitempty" tf:"-"`
 }
 
+type ErrorResultInitParameters struct {
+}
+
 type ErrorResultObservation struct {
 
 	// The geographic location of the job. The default value is US.
@@ -218,6 +262,9 @@ type ErrorResultObservation struct {
 type ErrorResultParameters struct {
 }
 
+type ErrorsInitParameters struct {
+}
+
 type ErrorsObservation struct {
 
 	// The geographic location of the job. The default value is US.
@@ -231,6 +278,39 @@ type ErrorsObservation struct {
 }
 
 type ErrorsParameters struct {
+}
+
+type ExtractInitParameters struct {
+
+	// The compression type to use for exported files. Possible values include GZIP, DEFLATE, SNAPPY, and NONE.
+	// The default value is NONE. DEFLATE and SNAPPY are only supported for Avro.
+	Compression *string `json:"compression,omitempty" tf:"compression,omitempty"`
+
+	// The exported file format. Possible values include CSV, NEWLINE_DELIMITED_JSON and AVRO for tables and SAVED_MODEL for models.
+	// The default value for tables is CSV. Tables with nested or repeated fields cannot be exported as CSV.
+	// The default value for models is SAVED_MODEL.
+	DestinationFormat *string `json:"destinationFormat,omitempty" tf:"destination_format,omitempty"`
+
+	// A list of fully-qualified Google Cloud Storage URIs where the extracted table should be written.
+	DestinationUris []*string `json:"destinationUris,omitempty" tf:"destination_uris,omitempty"`
+
+	// When extracting data in CSV format, this defines the delimiter to use between fields in the exported data.
+	// Default is ','
+	FieldDelimiter *string `json:"fieldDelimiter,omitempty" tf:"field_delimiter,omitempty"`
+
+	// Whether to print out a header row in the results. Default is true.
+	PrintHeader *bool `json:"printHeader,omitempty" tf:"print_header,omitempty"`
+
+	// A reference to the model being exported.
+	// Structure is documented below.
+	SourceModel []SourceModelInitParameters `json:"sourceModel,omitempty" tf:"source_model,omitempty"`
+
+	// A reference to the table being exported.
+	// Structure is documented below.
+	SourceTable []SourceTableInitParameters `json:"sourceTable,omitempty" tf:"source_table,omitempty"`
+
+	// Whether to use logical types when extracting to AVRO format.
+	UseAvroLogicalTypes *bool `json:"useAvroLogicalTypes,omitempty" tf:"use_avro_logical_types,omitempty"`
 }
 
 type ExtractObservation struct {
@@ -270,41 +350,68 @@ type ExtractParameters struct {
 
 	// The compression type to use for exported files. Possible values include GZIP, DEFLATE, SNAPPY, and NONE.
 	// The default value is NONE. DEFLATE and SNAPPY are only supported for Avro.
-	// +kubebuilder:validation:Optional
 	Compression *string `json:"compression,omitempty" tf:"compression,omitempty"`
 
 	// The exported file format. Possible values include CSV, NEWLINE_DELIMITED_JSON and AVRO for tables and SAVED_MODEL for models.
 	// The default value for tables is CSV. Tables with nested or repeated fields cannot be exported as CSV.
 	// The default value for models is SAVED_MODEL.
-	// +kubebuilder:validation:Optional
 	DestinationFormat *string `json:"destinationFormat,omitempty" tf:"destination_format,omitempty"`
 
 	// A list of fully-qualified Google Cloud Storage URIs where the extracted table should be written.
-	// +kubebuilder:validation:Required
-	DestinationUris []*string `json:"destinationUris" tf:"destination_uris,omitempty"`
+	DestinationUris []*string `json:"destinationUris,omitempty" tf:"destination_uris,omitempty"`
 
 	// When extracting data in CSV format, this defines the delimiter to use between fields in the exported data.
 	// Default is ','
-	// +kubebuilder:validation:Optional
 	FieldDelimiter *string `json:"fieldDelimiter,omitempty" tf:"field_delimiter,omitempty"`
 
 	// Whether to print out a header row in the results. Default is true.
-	// +kubebuilder:validation:Optional
 	PrintHeader *bool `json:"printHeader,omitempty" tf:"print_header,omitempty"`
 
 	// A reference to the model being exported.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	SourceModel []SourceModelParameters `json:"sourceModel,omitempty" tf:"source_model,omitempty"`
 
 	// A reference to the table being exported.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	SourceTable []SourceTableParameters `json:"sourceTable,omitempty" tf:"source_table,omitempty"`
 
 	// Whether to use logical types when extracting to AVRO format.
-	// +kubebuilder:validation:Optional
 	UseAvroLogicalTypes *bool `json:"useAvroLogicalTypes,omitempty" tf:"use_avro_logical_types,omitempty"`
+}
+
+type JobInitParameters struct {
+
+	// Copies a table.
+	// Structure is documented below.
+	Copy []CopyInitParameters `json:"copy,omitempty" tf:"copy,omitempty"`
+
+	// Configures an extract job.
+	// Structure is documented below.
+	Extract []ExtractInitParameters `json:"extract,omitempty" tf:"extract,omitempty"`
+
+	// The ID of the job. The ID must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-). The maximum length is 1,024 characters.
+	JobID *string `json:"jobId,omitempty" tf:"job_id,omitempty"`
+
+	// Job timeout in milliseconds. If this time limit is exceeded, BigQuery may attempt to terminate the job.
+	JobTimeoutMs *string `json:"jobTimeoutMs,omitempty" tf:"job_timeout_ms,omitempty"`
+
+	// The labels associated with this job. You can use these to organize and group your jobs.
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// Configures a load job.
+	// Structure is documented below.
+	Load []LoadInitParameters `json:"load,omitempty" tf:"load,omitempty"`
+
+	// The geographic location of the job. The default value is US.
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Configures a query job.
+	// Structure is documented below.
+	Query []QueryInitParameters `json:"query,omitempty" tf:"query,omitempty"`
 }
 
 type JobObservation struct {
@@ -360,44 +467,42 @@ type JobParameters struct {
 
 	// Copies a table.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	Copy []CopyParameters `json:"copy,omitempty" tf:"copy,omitempty"`
 
 	// Configures an extract job.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	Extract []ExtractParameters `json:"extract,omitempty" tf:"extract,omitempty"`
 
 	// The ID of the job. The ID must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-). The maximum length is 1,024 characters.
-	// +kubebuilder:validation:Optional
 	JobID *string `json:"jobId,omitempty" tf:"job_id,omitempty"`
 
 	// Job timeout in milliseconds. If this time limit is exceeded, BigQuery may attempt to terminate the job.
-	// +kubebuilder:validation:Optional
 	JobTimeoutMs *string `json:"jobTimeoutMs,omitempty" tf:"job_timeout_ms,omitempty"`
 
 	// The labels associated with this job. You can use these to organize and group your jobs.
-	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Configures a load job.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	Load []LoadParameters `json:"load,omitempty" tf:"load,omitempty"`
 
 	// The geographic location of the job. The default value is US.
-	// +kubebuilder:validation:Optional
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
-	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Configures a query job.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	Query []QueryParameters `json:"query,omitempty" tf:"query,omitempty"`
+}
+
+type LoadDestinationEncryptionConfigurationInitParameters struct {
+
+	// Describes the Cloud KMS encryption key that will be used to protect destination BigQuery table.
+	// The BigQuery Service Account associated with your project requires access to this encryption key.
+	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
 }
 
 type LoadDestinationEncryptionConfigurationObservation struct {
@@ -415,8 +520,13 @@ type LoadDestinationEncryptionConfigurationParameters struct {
 
 	// Describes the Cloud KMS encryption key that will be used to protect destination BigQuery table.
 	// The BigQuery Service Account associated with your project requires access to this encryption key.
-	// +kubebuilder:validation:Required
-	KMSKeyName *string `json:"kmsKeyName" tf:"kms_key_name,omitempty"`
+	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
+}
+
+type LoadDestinationTableInitParameters struct {
+
+	// The ID of the project containing this table.
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 }
 
 type LoadDestinationTableObservation struct {
@@ -448,7 +558,6 @@ type LoadDestinationTableParameters struct {
 	DatasetIDSelector *v1.Selector `json:"datasetIdSelector,omitempty" tf:"-"`
 
 	// The ID of the project containing this table.
-	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// The table. Can be specified {{table_id}} if project_id and dataset_id are also set,
@@ -465,6 +574,133 @@ type LoadDestinationTableParameters struct {
 	// Selector for a Table in bigquery to populate tableId.
 	// +kubebuilder:validation:Optional
 	TableIDSelector *v1.Selector `json:"tableIdSelector,omitempty" tf:"-"`
+}
+
+type LoadInitParameters struct {
+
+	// Accept rows that are missing trailing optional columns. The missing values are treated as nulls.
+	// If false, records with missing trailing columns are treated as bad records, and if there are too many bad records,
+	// an invalid error is returned in the job result. The default value is false. Only applicable to CSV, ignored for other formats.
+	AllowJaggedRows *bool `json:"allowJaggedRows,omitempty" tf:"allow_jagged_rows,omitempty"`
+
+	// Indicates if BigQuery should allow quoted data sections that contain newline characters in a CSV file.
+	// The default value is false.
+	AllowQuotedNewlines *bool `json:"allowQuotedNewlines,omitempty" tf:"allow_quoted_newlines,omitempty"`
+
+	// Indicates if we should automatically infer the options and schema for CSV and JSON sources.
+	Autodetect *bool `json:"autodetect,omitempty" tf:"autodetect,omitempty"`
+
+	// Specifies whether the job is allowed to create new tables. The following values are supported:
+	// CREATE_IF_NEEDED: If the table does not exist, BigQuery creates the table.
+	// CREATE_NEVER: The table must already exist. If it does not, a 'notFound' error is returned in the job result.
+	// Creation, truncation and append actions occur as one atomic update upon job completion
+	// Default value is CREATE_IF_NEEDED.
+	// Possible values are: CREATE_IF_NEEDED, CREATE_NEVER.
+	CreateDisposition *string `json:"createDisposition,omitempty" tf:"create_disposition,omitempty"`
+
+	// Custom encryption configuration (e.g., Cloud KMS keys)
+	// Structure is documented below.
+	DestinationEncryptionConfiguration []LoadDestinationEncryptionConfigurationInitParameters `json:"destinationEncryptionConfiguration,omitempty" tf:"destination_encryption_configuration,omitempty"`
+
+	// The destination table to load the data into.
+	// Structure is documented below.
+	DestinationTable []LoadDestinationTableInitParameters `json:"destinationTable,omitempty" tf:"destination_table,omitempty"`
+
+	// The character encoding of the data. The supported values are UTF-8 or ISO-8859-1.
+	// The default value is UTF-8. BigQuery decodes the data after the raw, binary data
+	// has been split using the values of the quote and fieldDelimiter properties.
+	Encoding *string `json:"encoding,omitempty" tf:"encoding,omitempty"`
+
+	// The separator for fields in a CSV file. The separator can be any ISO-8859-1 single-byte character.
+	// To use a character in the range 128-255, you must encode the character as UTF8. BigQuery converts
+	// the string to ISO-8859-1 encoding, and then uses the first byte of the encoded string to split the
+	// data in its raw, binary state. BigQuery also supports the escape sequence "\t" to specify a tab separator.
+	// The default value is a comma (',').
+	FieldDelimiter *string `json:"fieldDelimiter,omitempty" tf:"field_delimiter,omitempty"`
+
+	// Indicates if BigQuery should allow extra values that are not represented in the table schema.
+	// If true, the extra values are ignored. If false, records with extra columns are treated as bad records,
+	// and if there are too many bad records, an invalid error is returned in the job result.
+	// The default value is false. The sourceFormat property determines what BigQuery treats as an extra value:
+	// CSV: Trailing columns
+	// JSON: Named values that don't match any column names
+	IgnoreUnknownValues *bool `json:"ignoreUnknownValues,omitempty" tf:"ignore_unknown_values,omitempty"`
+
+	// If sourceFormat is set to newline-delimited JSON, indicates whether it should be processed as a JSON variant such as GeoJSON.
+	// For a sourceFormat other than JSON, omit this field. If the sourceFormat is newline-delimited JSON: - for newline-delimited
+	// GeoJSON: set to GEOJSON.
+	JSONExtension *string `json:"jsonExtension,omitempty" tf:"json_extension,omitempty"`
+
+	// The maximum number of bad records that BigQuery can ignore when running the job. If the number of bad records exceeds this value,
+	// an invalid error is returned in the job result. The default value is 0, which requires that all records are valid.
+	MaxBadRecords *float64 `json:"maxBadRecords,omitempty" tf:"max_bad_records,omitempty"`
+
+	// Specifies a string that represents a null value in a CSV file. For example, if you specify "\N", BigQuery interprets "\N" as a null value
+	// when loading a CSV file. The default value is the empty string. If you set this property to a custom value, BigQuery throws an error if an
+	// empty string is present for all data types except for STRING and BYTE. For STRING and BYTE columns, BigQuery interprets the empty string as
+	// an empty value.
+	NullMarker *string `json:"nullMarker,omitempty" tf:"null_marker,omitempty"`
+
+	// Parquet Options for load and make external tables.
+	// Structure is documented below.
+	ParquetOptions []ParquetOptionsInitParameters `json:"parquetOptions,omitempty" tf:"parquet_options,omitempty"`
+
+	// If sourceFormat is set to "DATASTORE_BACKUP", indicates which entity properties to load into BigQuery from a Cloud Datastore backup.
+	// Property names are case sensitive and must be top-level properties. If no properties are specified, BigQuery loads all properties.
+	// If any named property isn't found in the Cloud Datastore backup, an invalid error is returned in the job result.
+	ProjectionFields []*string `json:"projectionFields,omitempty" tf:"projection_fields,omitempty"`
+
+	// The value that is used to quote data sections in a CSV file. BigQuery converts the string to ISO-8859-1 encoding,
+	// and then uses the first byte of the encoded string to split the data in its raw, binary state.
+	// The default value is a double-quote ('"'). If your data does not contain quoted sections, set the property value to an empty string.
+	// If your data contains quoted newline characters, you must also set the allowQuotedNewlines property to true.
+	Quote *string `json:"quote,omitempty" tf:"quote,omitempty"`
+
+	// Allows the schema of the destination table to be updated as a side effect of the load job if a schema is autodetected or
+	// supplied in the job configuration. Schema update options are supported in two cases: when writeDisposition is WRITE_APPEND;
+	// when writeDisposition is WRITE_TRUNCATE and the destination table is a partition of a table, specified by partition decorators.
+	// For normal tables, WRITE_TRUNCATE will always overwrite the schema. One or more of the following values are specified:
+	// ALLOW_FIELD_ADDITION: allow adding a nullable field to the schema.
+	// ALLOW_FIELD_RELAXATION: allow relaxing a required field in the original schema to nullable.
+	SchemaUpdateOptions []*string `json:"schemaUpdateOptions,omitempty" tf:"schema_update_options,omitempty"`
+
+	// The number of rows at the top of a CSV file that BigQuery will skip when loading the data.
+	// The default value is 0. This property is useful if you have header rows in the file that should be skipped.
+	// When autodetect is on, the behavior is the following:
+	// skipLeadingRows unspecified - Autodetect tries to detect headers in the first row. If they are not detected,
+	// the row is read as data. Otherwise data is read starting from the second row.
+	// skipLeadingRows is 0 - Instructs autodetect that there are no headers and data should be read starting from the first row.
+	// skipLeadingRows = N > 0 - Autodetect skips N-1 rows and tries to detect headers in row N. If headers are not detected,
+	// row N is just skipped. Otherwise row N is used to extract column names for the detected schema.
+	SkipLeadingRows *float64 `json:"skipLeadingRows,omitempty" tf:"skip_leading_rows,omitempty"`
+
+	// The format of the data files. For CSV files, specify "CSV". For datastore backups, specify "DATASTORE_BACKUP".
+	// For newline-delimited JSON, specify "NEWLINE_DELIMITED_JSON". For Avro, specify "AVRO". For parquet, specify "PARQUET".
+	// For orc, specify "ORC". [Beta] For Bigtable, specify "BIGTABLE".
+	// The default value is CSV.
+	SourceFormat *string `json:"sourceFormat,omitempty" tf:"source_format,omitempty"`
+
+	// The fully-qualified URIs that point to your data in Google Cloud.
+	// For Google Cloud Storage URIs: Each URI can contain one '*' wildcard character
+	// and it must come after the 'bucket' name. Size limits related to load jobs apply
+	// to external data sources. For Google Cloud Bigtable URIs: Exactly one URI can be
+	// specified and it has be a fully specified and valid HTTPS URL for a Google Cloud Bigtable table.
+	// For Google Cloud Datastore backups: Exactly one URI can be specified. Also, the '*' wildcard character is not allowed.
+	SourceUris []*string `json:"sourceUris,omitempty" tf:"source_uris,omitempty"`
+
+	// Time-based partitioning specification for the destination table.
+	// Structure is documented below.
+	TimePartitioning []TimePartitioningInitParameters `json:"timePartitioning,omitempty" tf:"time_partitioning,omitempty"`
+
+	// Specifies the action that occurs if the destination table already exists. The following values are supported:
+	// WRITE_TRUNCATE: If the table already exists, BigQuery overwrites the table data and uses the schema from the query result.
+	// WRITE_APPEND: If the table already exists, BigQuery appends the data to the table.
+	// WRITE_EMPTY: If the table already exists and contains data, a 'duplicate' error is returned in the job result.
+	// Each action is atomic and only occurs if BigQuery is able to complete the job successfully.
+	// Creation, truncation and append actions occur as one atomic update upon job completion.
+	// Default value is WRITE_EMPTY.
+	// Possible values are: WRITE_TRUNCATE, WRITE_APPEND, WRITE_EMPTY.
+	WriteDisposition *string `json:"writeDisposition,omitempty" tf:"write_disposition,omitempty"`
 }
 
 type LoadObservation struct {
@@ -599,16 +835,13 @@ type LoadParameters struct {
 	// Accept rows that are missing trailing optional columns. The missing values are treated as nulls.
 	// If false, records with missing trailing columns are treated as bad records, and if there are too many bad records,
 	// an invalid error is returned in the job result. The default value is false. Only applicable to CSV, ignored for other formats.
-	// +kubebuilder:validation:Optional
 	AllowJaggedRows *bool `json:"allowJaggedRows,omitempty" tf:"allow_jagged_rows,omitempty"`
 
 	// Indicates if BigQuery should allow quoted data sections that contain newline characters in a CSV file.
 	// The default value is false.
-	// +kubebuilder:validation:Optional
 	AllowQuotedNewlines *bool `json:"allowQuotedNewlines,omitempty" tf:"allow_quoted_newlines,omitempty"`
 
 	// Indicates if we should automatically infer the options and schema for CSV and JSON sources.
-	// +kubebuilder:validation:Optional
 	Autodetect *bool `json:"autodetect,omitempty" tf:"autodetect,omitempty"`
 
 	// Specifies whether the job is allowed to create new tables. The following values are supported:
@@ -617,23 +850,19 @@ type LoadParameters struct {
 	// Creation, truncation and append actions occur as one atomic update upon job completion
 	// Default value is CREATE_IF_NEEDED.
 	// Possible values are: CREATE_IF_NEEDED, CREATE_NEVER.
-	// +kubebuilder:validation:Optional
 	CreateDisposition *string `json:"createDisposition,omitempty" tf:"create_disposition,omitempty"`
 
 	// Custom encryption configuration (e.g., Cloud KMS keys)
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	DestinationEncryptionConfiguration []LoadDestinationEncryptionConfigurationParameters `json:"destinationEncryptionConfiguration,omitempty" tf:"destination_encryption_configuration,omitempty"`
 
 	// The destination table to load the data into.
 	// Structure is documented below.
-	// +kubebuilder:validation:Required
-	DestinationTable []LoadDestinationTableParameters `json:"destinationTable" tf:"destination_table,omitempty"`
+	DestinationTable []LoadDestinationTableParameters `json:"destinationTable,omitempty" tf:"destination_table,omitempty"`
 
 	// The character encoding of the data. The supported values are UTF-8 or ISO-8859-1.
 	// The default value is UTF-8. BigQuery decodes the data after the raw, binary data
 	// has been split using the values of the quote and fieldDelimiter properties.
-	// +kubebuilder:validation:Optional
 	Encoding *string `json:"encoding,omitempty" tf:"encoding,omitempty"`
 
 	// The separator for fields in a CSV file. The separator can be any ISO-8859-1 single-byte character.
@@ -641,7 +870,6 @@ type LoadParameters struct {
 	// the string to ISO-8859-1 encoding, and then uses the first byte of the encoded string to split the
 	// data in its raw, binary state. BigQuery also supports the escape sequence "\t" to specify a tab separator.
 	// The default value is a comma (',').
-	// +kubebuilder:validation:Optional
 	FieldDelimiter *string `json:"fieldDelimiter,omitempty" tf:"field_delimiter,omitempty"`
 
 	// Indicates if BigQuery should allow extra values that are not represented in the table schema.
@@ -650,43 +878,36 @@ type LoadParameters struct {
 	// The default value is false. The sourceFormat property determines what BigQuery treats as an extra value:
 	// CSV: Trailing columns
 	// JSON: Named values that don't match any column names
-	// +kubebuilder:validation:Optional
 	IgnoreUnknownValues *bool `json:"ignoreUnknownValues,omitempty" tf:"ignore_unknown_values,omitempty"`
 
 	// If sourceFormat is set to newline-delimited JSON, indicates whether it should be processed as a JSON variant such as GeoJSON.
 	// For a sourceFormat other than JSON, omit this field. If the sourceFormat is newline-delimited JSON: - for newline-delimited
 	// GeoJSON: set to GEOJSON.
-	// +kubebuilder:validation:Optional
 	JSONExtension *string `json:"jsonExtension,omitempty" tf:"json_extension,omitempty"`
 
 	// The maximum number of bad records that BigQuery can ignore when running the job. If the number of bad records exceeds this value,
 	// an invalid error is returned in the job result. The default value is 0, which requires that all records are valid.
-	// +kubebuilder:validation:Optional
 	MaxBadRecords *float64 `json:"maxBadRecords,omitempty" tf:"max_bad_records,omitempty"`
 
 	// Specifies a string that represents a null value in a CSV file. For example, if you specify "\N", BigQuery interprets "\N" as a null value
 	// when loading a CSV file. The default value is the empty string. If you set this property to a custom value, BigQuery throws an error if an
 	// empty string is present for all data types except for STRING and BYTE. For STRING and BYTE columns, BigQuery interprets the empty string as
 	// an empty value.
-	// +kubebuilder:validation:Optional
 	NullMarker *string `json:"nullMarker,omitempty" tf:"null_marker,omitempty"`
 
 	// Parquet Options for load and make external tables.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	ParquetOptions []ParquetOptionsParameters `json:"parquetOptions,omitempty" tf:"parquet_options,omitempty"`
 
 	// If sourceFormat is set to "DATASTORE_BACKUP", indicates which entity properties to load into BigQuery from a Cloud Datastore backup.
 	// Property names are case sensitive and must be top-level properties. If no properties are specified, BigQuery loads all properties.
 	// If any named property isn't found in the Cloud Datastore backup, an invalid error is returned in the job result.
-	// +kubebuilder:validation:Optional
 	ProjectionFields []*string `json:"projectionFields,omitempty" tf:"projection_fields,omitempty"`
 
 	// The value that is used to quote data sections in a CSV file. BigQuery converts the string to ISO-8859-1 encoding,
 	// and then uses the first byte of the encoded string to split the data in its raw, binary state.
 	// The default value is a double-quote ('"'). If your data does not contain quoted sections, set the property value to an empty string.
 	// If your data contains quoted newline characters, you must also set the allowQuotedNewlines property to true.
-	// +kubebuilder:validation:Optional
 	Quote *string `json:"quote,omitempty" tf:"quote,omitempty"`
 
 	// Allows the schema of the destination table to be updated as a side effect of the load job if a schema is autodetected or
@@ -695,7 +916,6 @@ type LoadParameters struct {
 	// For normal tables, WRITE_TRUNCATE will always overwrite the schema. One or more of the following values are specified:
 	// ALLOW_FIELD_ADDITION: allow adding a nullable field to the schema.
 	// ALLOW_FIELD_RELAXATION: allow relaxing a required field in the original schema to nullable.
-	// +kubebuilder:validation:Optional
 	SchemaUpdateOptions []*string `json:"schemaUpdateOptions,omitempty" tf:"schema_update_options,omitempty"`
 
 	// The number of rows at the top of a CSV file that BigQuery will skip when loading the data.
@@ -706,14 +926,12 @@ type LoadParameters struct {
 	// skipLeadingRows is 0 - Instructs autodetect that there are no headers and data should be read starting from the first row.
 	// skipLeadingRows = N > 0 - Autodetect skips N-1 rows and tries to detect headers in row N. If headers are not detected,
 	// row N is just skipped. Otherwise row N is used to extract column names for the detected schema.
-	// +kubebuilder:validation:Optional
 	SkipLeadingRows *float64 `json:"skipLeadingRows,omitempty" tf:"skip_leading_rows,omitempty"`
 
 	// The format of the data files. For CSV files, specify "CSV". For datastore backups, specify "DATASTORE_BACKUP".
 	// For newline-delimited JSON, specify "NEWLINE_DELIMITED_JSON". For Avro, specify "AVRO". For parquet, specify "PARQUET".
 	// For orc, specify "ORC". [Beta] For Bigtable, specify "BIGTABLE".
 	// The default value is CSV.
-	// +kubebuilder:validation:Optional
 	SourceFormat *string `json:"sourceFormat,omitempty" tf:"source_format,omitempty"`
 
 	// The fully-qualified URIs that point to your data in Google Cloud.
@@ -722,12 +940,10 @@ type LoadParameters struct {
 	// to external data sources. For Google Cloud Bigtable URIs: Exactly one URI can be
 	// specified and it has be a fully specified and valid HTTPS URL for a Google Cloud Bigtable table.
 	// For Google Cloud Datastore backups: Exactly one URI can be specified. Also, the '*' wildcard character is not allowed.
-	// +kubebuilder:validation:Required
-	SourceUris []*string `json:"sourceUris" tf:"source_uris,omitempty"`
+	SourceUris []*string `json:"sourceUris,omitempty" tf:"source_uris,omitempty"`
 
 	// Time-based partitioning specification for the destination table.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	TimePartitioning []TimePartitioningParameters `json:"timePartitioning,omitempty" tf:"time_partitioning,omitempty"`
 
 	// Specifies the action that occurs if the destination table already exists. The following values are supported:
@@ -738,8 +954,16 @@ type LoadParameters struct {
 	// Creation, truncation and append actions occur as one atomic update upon job completion.
 	// Default value is WRITE_EMPTY.
 	// Possible values are: WRITE_TRUNCATE, WRITE_APPEND, WRITE_EMPTY.
-	// +kubebuilder:validation:Optional
 	WriteDisposition *string `json:"writeDisposition,omitempty" tf:"write_disposition,omitempty"`
+}
+
+type ParquetOptionsInitParameters struct {
+
+	// If sourceFormat is set to PARQUET, indicates whether to use schema inference specifically for Parquet LIST logical type.
+	EnableListInference *bool `json:"enableListInference,omitempty" tf:"enable_list_inference,omitempty"`
+
+	// If sourceFormat is set to PARQUET, indicates whether to infer Parquet ENUM logical type as STRING instead of BYTES by default.
+	EnumAsString *bool `json:"enumAsString,omitempty" tf:"enum_as_string,omitempty"`
 }
 
 type ParquetOptionsObservation struct {
@@ -754,12 +978,17 @@ type ParquetOptionsObservation struct {
 type ParquetOptionsParameters struct {
 
 	// If sourceFormat is set to PARQUET, indicates whether to use schema inference specifically for Parquet LIST logical type.
-	// +kubebuilder:validation:Optional
 	EnableListInference *bool `json:"enableListInference,omitempty" tf:"enable_list_inference,omitempty"`
 
 	// If sourceFormat is set to PARQUET, indicates whether to infer Parquet ENUM logical type as STRING instead of BYTES by default.
-	// +kubebuilder:validation:Optional
 	EnumAsString *bool `json:"enumAsString,omitempty" tf:"enum_as_string,omitempty"`
+}
+
+type QueryDestinationEncryptionConfigurationInitParameters struct {
+
+	// Describes the Cloud KMS encryption key that will be used to protect destination BigQuery table.
+	// The BigQuery Service Account associated with your project requires access to this encryption key.
+	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
 }
 
 type QueryDestinationEncryptionConfigurationObservation struct {
@@ -777,8 +1006,13 @@ type QueryDestinationEncryptionConfigurationParameters struct {
 
 	// Describes the Cloud KMS encryption key that will be used to protect destination BigQuery table.
 	// The BigQuery Service Account associated with your project requires access to this encryption key.
-	// +kubebuilder:validation:Required
-	KMSKeyName *string `json:"kmsKeyName" tf:"kms_key_name,omitempty"`
+	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
+}
+
+type QueryDestinationTableInitParameters struct {
+
+	// The ID of the project containing this table.
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 }
 
 type QueryDestinationTableObservation struct {
@@ -810,7 +1044,6 @@ type QueryDestinationTableParameters struct {
 	DatasetIDSelector *v1.Selector `json:"datasetIdSelector,omitempty" tf:"-"`
 
 	// The ID of the project containing this table.
-	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// The table. Can be specified {{table_id}} if project_id and dataset_id are also set,
@@ -827,6 +1060,97 @@ type QueryDestinationTableParameters struct {
 	// Selector for a Table in bigquery to populate tableId.
 	// +kubebuilder:validation:Optional
 	TableIDSelector *v1.Selector `json:"tableIdSelector,omitempty" tf:"-"`
+}
+
+type QueryInitParameters struct {
+
+	// If true and query uses legacy SQL dialect, allows the query to produce arbitrarily large result tables at a slight cost in performance.
+	// Requires destinationTable to be set. For standard SQL queries, this flag is ignored and large results are always allowed.
+	// However, you must still set destinationTable when result size exceeds the allowed maximum response size.
+	AllowLargeResults *bool `json:"allowLargeResults,omitempty" tf:"allow_large_results,omitempty"`
+
+	// Specifies whether the job is allowed to create new tables. The following values are supported:
+	// CREATE_IF_NEEDED: If the table does not exist, BigQuery creates the table.
+	// CREATE_NEVER: The table must already exist. If it does not, a 'notFound' error is returned in the job result.
+	// Creation, truncation and append actions occur as one atomic update upon job completion
+	// Default value is CREATE_IF_NEEDED.
+	// Possible values are: CREATE_IF_NEEDED, CREATE_NEVER.
+	CreateDisposition *string `json:"createDisposition,omitempty" tf:"create_disposition,omitempty"`
+
+	// Specifies the default dataset to use for unqualified table names in the query. Note that this does not alter behavior of unqualified dataset names.
+	// Structure is documented below.
+	DefaultDataset []DefaultDatasetInitParameters `json:"defaultDataset,omitempty" tf:"default_dataset,omitempty"`
+
+	// Custom encryption configuration (e.g., Cloud KMS keys)
+	// Structure is documented below.
+	DestinationEncryptionConfiguration []QueryDestinationEncryptionConfigurationInitParameters `json:"destinationEncryptionConfiguration,omitempty" tf:"destination_encryption_configuration,omitempty"`
+
+	// Describes the table where the query results should be stored.
+	// This property must be set for large results that exceed the maximum response size.
+	// For queries that produce anonymous (cached) results, this field will be populated by BigQuery.
+	// Structure is documented below.
+	DestinationTable []QueryDestinationTableInitParameters `json:"destinationTable,omitempty" tf:"destination_table,omitempty"`
+
+	// If true and query uses legacy SQL dialect, flattens all nested and repeated fields in the query results.
+	// allowLargeResults must be true if this is set to false. For standard SQL queries, this flag is ignored and results are never flattened.
+	FlattenResults *bool `json:"flattenResults,omitempty" tf:"flatten_results,omitempty"`
+
+	// Limits the billing tier for this job. Queries that have resource usage beyond this tier will fail (without incurring a charge).
+	// If unspecified, this will be set to your project default.
+	MaximumBillingTier *float64 `json:"maximumBillingTier,omitempty" tf:"maximum_billing_tier,omitempty"`
+
+	// Limits the bytes billed for this job. Queries that will have bytes billed beyond this limit will fail (without incurring a charge).
+	// If unspecified, this will be set to your project default.
+	MaximumBytesBilled *string `json:"maximumBytesBilled,omitempty" tf:"maximum_bytes_billed,omitempty"`
+
+	// Standard SQL only. Set to POSITIONAL to use positional (?) query parameters or to NAMED to use named (@myparam) query parameters in this query.
+	ParameterMode *string `json:"parameterMode,omitempty" tf:"parameter_mode,omitempty"`
+
+	// Specifies a priority for the query.
+	// Default value is INTERACTIVE.
+	// Possible values are: INTERACTIVE, BATCH.
+	Priority *string `json:"priority,omitempty" tf:"priority,omitempty"`
+
+	// SQL query text to execute. The useLegacySql field can be used to indicate whether the query uses legacy SQL or standard SQL.
+	// NOTE: queries containing DML language
+	// (DELETE, UPDATE, MERGE, INSERT) must specify create_disposition = "" and write_disposition = "".
+	Query *string `json:"query,omitempty" tf:"query,omitempty"`
+
+	// Allows the schema of the destination table to be updated as a side effect of the query job.
+	// Schema update options are supported in two cases: when writeDisposition is WRITE_APPEND;
+	// when writeDisposition is WRITE_TRUNCATE and the destination table is a partition of a table,
+	// specified by partition decorators. For normal tables, WRITE_TRUNCATE will always overwrite the schema.
+	// One or more of the following values are specified:
+	// ALLOW_FIELD_ADDITION: allow adding a nullable field to the schema.
+	// ALLOW_FIELD_RELAXATION: allow relaxing a required field in the original schema to nullable.
+	SchemaUpdateOptions []*string `json:"schemaUpdateOptions,omitempty" tf:"schema_update_options,omitempty"`
+
+	// Options controlling the execution of scripts.
+	// Structure is documented below.
+	ScriptOptions []ScriptOptionsInitParameters `json:"scriptOptions,omitempty" tf:"script_options,omitempty"`
+
+	// Specifies whether to use BigQuery's legacy SQL dialect for this query. The default value is true.
+	// If set to false, the query will use BigQuery's standard SQL.
+	UseLegacySQL *bool `json:"useLegacySql,omitempty" tf:"use_legacy_sql,omitempty"`
+
+	// Whether to look for the result in the query cache. The query cache is a best-effort cache that will be flushed whenever
+	// tables in the query are modified. Moreover, the query cache is only available when a query does not have a destination table specified.
+	// The default value is true.
+	UseQueryCache *bool `json:"useQueryCache,omitempty" tf:"use_query_cache,omitempty"`
+
+	// Describes user-defined function resources used in the query.
+	// Structure is documented below.
+	UserDefinedFunctionResources []UserDefinedFunctionResourcesInitParameters `json:"userDefinedFunctionResources,omitempty" tf:"user_defined_function_resources,omitempty"`
+
+	// Specifies the action that occurs if the destination table already exists. The following values are supported:
+	// WRITE_TRUNCATE: If the table already exists, BigQuery overwrites the table data and uses the schema from the query result.
+	// WRITE_APPEND: If the table already exists, BigQuery appends the data to the table.
+	// WRITE_EMPTY: If the table already exists and contains data, a 'duplicate' error is returned in the job result.
+	// Each action is atomic and only occurs if BigQuery is able to complete the job successfully.
+	// Creation, truncation and append actions occur as one atomic update upon job completion.
+	// Default value is WRITE_EMPTY.
+	// Possible values are: WRITE_TRUNCATE, WRITE_APPEND, WRITE_EMPTY.
+	WriteDisposition *string `json:"writeDisposition,omitempty" tf:"write_disposition,omitempty"`
 }
 
 type QueryObservation struct {
@@ -925,7 +1249,6 @@ type QueryParameters struct {
 	// If true and query uses legacy SQL dialect, allows the query to produce arbitrarily large result tables at a slight cost in performance.
 	// Requires destinationTable to be set. For standard SQL queries, this flag is ignored and large results are always allowed.
 	// However, you must still set destinationTable when result size exceeds the allowed maximum response size.
-	// +kubebuilder:validation:Optional
 	AllowLargeResults *bool `json:"allowLargeResults,omitempty" tf:"allow_large_results,omitempty"`
 
 	// Specifies whether the job is allowed to create new tables. The following values are supported:
@@ -934,56 +1257,46 @@ type QueryParameters struct {
 	// Creation, truncation and append actions occur as one atomic update upon job completion
 	// Default value is CREATE_IF_NEEDED.
 	// Possible values are: CREATE_IF_NEEDED, CREATE_NEVER.
-	// +kubebuilder:validation:Optional
 	CreateDisposition *string `json:"createDisposition,omitempty" tf:"create_disposition,omitempty"`
 
 	// Specifies the default dataset to use for unqualified table names in the query. Note that this does not alter behavior of unqualified dataset names.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	DefaultDataset []DefaultDatasetParameters `json:"defaultDataset,omitempty" tf:"default_dataset,omitempty"`
 
 	// Custom encryption configuration (e.g., Cloud KMS keys)
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	DestinationEncryptionConfiguration []QueryDestinationEncryptionConfigurationParameters `json:"destinationEncryptionConfiguration,omitempty" tf:"destination_encryption_configuration,omitempty"`
 
 	// Describes the table where the query results should be stored.
 	// This property must be set for large results that exceed the maximum response size.
 	// For queries that produce anonymous (cached) results, this field will be populated by BigQuery.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	DestinationTable []QueryDestinationTableParameters `json:"destinationTable,omitempty" tf:"destination_table,omitempty"`
 
 	// If true and query uses legacy SQL dialect, flattens all nested and repeated fields in the query results.
 	// allowLargeResults must be true if this is set to false. For standard SQL queries, this flag is ignored and results are never flattened.
-	// +kubebuilder:validation:Optional
 	FlattenResults *bool `json:"flattenResults,omitempty" tf:"flatten_results,omitempty"`
 
 	// Limits the billing tier for this job. Queries that have resource usage beyond this tier will fail (without incurring a charge).
 	// If unspecified, this will be set to your project default.
-	// +kubebuilder:validation:Optional
 	MaximumBillingTier *float64 `json:"maximumBillingTier,omitempty" tf:"maximum_billing_tier,omitempty"`
 
 	// Limits the bytes billed for this job. Queries that will have bytes billed beyond this limit will fail (without incurring a charge).
 	// If unspecified, this will be set to your project default.
-	// +kubebuilder:validation:Optional
 	MaximumBytesBilled *string `json:"maximumBytesBilled,omitempty" tf:"maximum_bytes_billed,omitempty"`
 
 	// Standard SQL only. Set to POSITIONAL to use positional (?) query parameters or to NAMED to use named (@myparam) query parameters in this query.
-	// +kubebuilder:validation:Optional
 	ParameterMode *string `json:"parameterMode,omitempty" tf:"parameter_mode,omitempty"`
 
 	// Specifies a priority for the query.
 	// Default value is INTERACTIVE.
 	// Possible values are: INTERACTIVE, BATCH.
-	// +kubebuilder:validation:Optional
 	Priority *string `json:"priority,omitempty" tf:"priority,omitempty"`
 
 	// SQL query text to execute. The useLegacySql field can be used to indicate whether the query uses legacy SQL or standard SQL.
 	// NOTE: queries containing DML language
 	// (DELETE, UPDATE, MERGE, INSERT) must specify create_disposition = "" and write_disposition = "".
-	// +kubebuilder:validation:Required
-	Query *string `json:"query" tf:"query,omitempty"`
+	Query *string `json:"query,omitempty" tf:"query,omitempty"`
 
 	// Allows the schema of the destination table to be updated as a side effect of the query job.
 	// Schema update options are supported in two cases: when writeDisposition is WRITE_APPEND;
@@ -992,28 +1305,23 @@ type QueryParameters struct {
 	// One or more of the following values are specified:
 	// ALLOW_FIELD_ADDITION: allow adding a nullable field to the schema.
 	// ALLOW_FIELD_RELAXATION: allow relaxing a required field in the original schema to nullable.
-	// +kubebuilder:validation:Optional
 	SchemaUpdateOptions []*string `json:"schemaUpdateOptions,omitempty" tf:"schema_update_options,omitempty"`
 
 	// Options controlling the execution of scripts.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	ScriptOptions []ScriptOptionsParameters `json:"scriptOptions,omitempty" tf:"script_options,omitempty"`
 
 	// Specifies whether to use BigQuery's legacy SQL dialect for this query. The default value is true.
 	// If set to false, the query will use BigQuery's standard SQL.
-	// +kubebuilder:validation:Optional
 	UseLegacySQL *bool `json:"useLegacySql,omitempty" tf:"use_legacy_sql,omitempty"`
 
 	// Whether to look for the result in the query cache. The query cache is a best-effort cache that will be flushed whenever
 	// tables in the query are modified. Moreover, the query cache is only available when a query does not have a destination table specified.
 	// The default value is true.
-	// +kubebuilder:validation:Optional
 	UseQueryCache *bool `json:"useQueryCache,omitempty" tf:"use_query_cache,omitempty"`
 
 	// Describes user-defined function resources used in the query.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	UserDefinedFunctionResources []UserDefinedFunctionResourcesParameters `json:"userDefinedFunctionResources,omitempty" tf:"user_defined_function_resources,omitempty"`
 
 	// Specifies the action that occurs if the destination table already exists. The following values are supported:
@@ -1024,8 +1332,21 @@ type QueryParameters struct {
 	// Creation, truncation and append actions occur as one atomic update upon job completion.
 	// Default value is WRITE_EMPTY.
 	// Possible values are: WRITE_TRUNCATE, WRITE_APPEND, WRITE_EMPTY.
-	// +kubebuilder:validation:Optional
 	WriteDisposition *string `json:"writeDisposition,omitempty" tf:"write_disposition,omitempty"`
+}
+
+type ScriptOptionsInitParameters struct {
+
+	// Determines which statement in the script represents the "key result",
+	// used to populate the schema and query results of the script job.
+	// Possible values are: LAST, FIRST_SELECT.
+	KeyResultStatement *string `json:"keyResultStatement,omitempty" tf:"key_result_statement,omitempty"`
+
+	// Limit on the number of bytes billed per statement. Exceeding this budget results in an error.
+	StatementByteBudget *string `json:"statementByteBudget,omitempty" tf:"statement_byte_budget,omitempty"`
+
+	// Timeout period for each statement in a script.
+	StatementTimeoutMs *string `json:"statementTimeoutMs,omitempty" tf:"statement_timeout_ms,omitempty"`
 }
 
 type ScriptOptionsObservation struct {
@@ -1047,16 +1368,25 @@ type ScriptOptionsParameters struct {
 	// Determines which statement in the script represents the "key result",
 	// used to populate the schema and query results of the script job.
 	// Possible values are: LAST, FIRST_SELECT.
-	// +kubebuilder:validation:Optional
 	KeyResultStatement *string `json:"keyResultStatement,omitempty" tf:"key_result_statement,omitempty"`
 
 	// Limit on the number of bytes billed per statement. Exceeding this budget results in an error.
-	// +kubebuilder:validation:Optional
 	StatementByteBudget *string `json:"statementByteBudget,omitempty" tf:"statement_byte_budget,omitempty"`
 
 	// Timeout period for each statement in a script.
-	// +kubebuilder:validation:Optional
 	StatementTimeoutMs *string `json:"statementTimeoutMs,omitempty" tf:"statement_timeout_ms,omitempty"`
+}
+
+type SourceModelInitParameters struct {
+
+	// The ID of the dataset containing this table.
+	DatasetID *string `json:"datasetId,omitempty" tf:"dataset_id,omitempty"`
+
+	// The ID of the model.
+	ModelID *string `json:"modelId,omitempty" tf:"model_id,omitempty"`
+
+	// The ID of the project containing this table.
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 }
 
 type SourceModelObservation struct {
@@ -1074,16 +1404,19 @@ type SourceModelObservation struct {
 type SourceModelParameters struct {
 
 	// The ID of the dataset containing this table.
-	// +kubebuilder:validation:Required
-	DatasetID *string `json:"datasetId" tf:"dataset_id,omitempty"`
+	DatasetID *string `json:"datasetId,omitempty" tf:"dataset_id,omitempty"`
 
 	// The ID of the model.
-	// +kubebuilder:validation:Required
-	ModelID *string `json:"modelId" tf:"model_id,omitempty"`
+	ModelID *string `json:"modelId,omitempty" tf:"model_id,omitempty"`
 
 	// The ID of the project containing this table.
-	// +kubebuilder:validation:Required
-	ProjectID *string `json:"projectId" tf:"project_id,omitempty"`
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+}
+
+type SourceTableInitParameters struct {
+
+	// The ID of the project containing this table.
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 }
 
 type SourceTableObservation struct {
@@ -1115,7 +1448,6 @@ type SourceTableParameters struct {
 	DatasetIDSelector *v1.Selector `json:"datasetIdSelector,omitempty" tf:"-"`
 
 	// The ID of the project containing this table.
-	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// The table. Can be specified {{table_id}} if project_id and dataset_id are also set,
@@ -1134,6 +1466,19 @@ type SourceTableParameters struct {
 	TableIDSelector *v1.Selector `json:"tableIdSelector,omitempty" tf:"-"`
 }
 
+type SourceTablesInitParameters struct {
+
+	// The ID of the dataset containing this table.
+	DatasetID *string `json:"datasetId,omitempty" tf:"dataset_id,omitempty"`
+
+	// The ID of the project containing this table.
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	// The table. Can be specified {{table_id}} if project_id and dataset_id are also set,
+	// or of the form projects/{{project}}/datasets/{{dataset_id}}/tables/{{table_id}} if not.
+	TableID *string `json:"tableId,omitempty" tf:"table_id,omitempty"`
+}
+
 type SourceTablesObservation struct {
 
 	// The ID of the dataset containing this table.
@@ -1150,17 +1495,17 @@ type SourceTablesObservation struct {
 type SourceTablesParameters struct {
 
 	// The ID of the dataset containing this table.
-	// +kubebuilder:validation:Optional
 	DatasetID *string `json:"datasetId,omitempty" tf:"dataset_id,omitempty"`
 
 	// The ID of the project containing this table.
-	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// The table. Can be specified {{table_id}} if project_id and dataset_id are also set,
 	// or of the form projects/{{project}}/datasets/{{dataset_id}}/tables/{{table_id}} if not.
-	// +kubebuilder:validation:Required
-	TableID *string `json:"tableId" tf:"table_id,omitempty"`
+	TableID *string `json:"tableId,omitempty" tf:"table_id,omitempty"`
+}
+
+type StatusInitParameters struct {
 }
 
 type StatusObservation struct {
@@ -1185,6 +1530,21 @@ type StatusObservation struct {
 type StatusParameters struct {
 }
 
+type TimePartitioningInitParameters struct {
+
+	// Number of milliseconds for which to keep the storage for a partition. A wrapper is used here because 0 is an invalid value.
+	ExpirationMs *string `json:"expirationMs,omitempty" tf:"expiration_ms,omitempty"`
+
+	// If not set, the table is partitioned by pseudo column '_PARTITIONTIME'; if set, the table is partitioned by this field.
+	// The field must be a top-level TIMESTAMP or DATE field. Its mode must be NULLABLE or REQUIRED.
+	// A wrapper is used here because an empty string is an invalid value.
+	Field *string `json:"field,omitempty" tf:"field,omitempty"`
+
+	// The only type supported is DAY, which will generate one partition per day. Providing an empty string used to cause an error,
+	// but in OnePlatform the field will be treated as unset.
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+}
+
 type TimePartitioningObservation struct {
 
 	// Number of milliseconds for which to keep the storage for a partition. A wrapper is used here because 0 is an invalid value.
@@ -1203,19 +1563,26 @@ type TimePartitioningObservation struct {
 type TimePartitioningParameters struct {
 
 	// Number of milliseconds for which to keep the storage for a partition. A wrapper is used here because 0 is an invalid value.
-	// +kubebuilder:validation:Optional
 	ExpirationMs *string `json:"expirationMs,omitempty" tf:"expiration_ms,omitempty"`
 
 	// If not set, the table is partitioned by pseudo column '_PARTITIONTIME'; if set, the table is partitioned by this field.
 	// The field must be a top-level TIMESTAMP or DATE field. Its mode must be NULLABLE or REQUIRED.
 	// A wrapper is used here because an empty string is an invalid value.
-	// +kubebuilder:validation:Optional
 	Field *string `json:"field,omitempty" tf:"field,omitempty"`
 
 	// The only type supported is DAY, which will generate one partition per day. Providing an empty string used to cause an error,
 	// but in OnePlatform the field will be treated as unset.
-	// +kubebuilder:validation:Required
-	Type *string `json:"type" tf:"type,omitempty"`
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+}
+
+type UserDefinedFunctionResourcesInitParameters struct {
+
+	// An inline resource that contains code for a user-defined function (UDF).
+	// Providing a inline code resource is equivalent to providing a URI for a file containing the same code.
+	InlineCode *string `json:"inlineCode,omitempty" tf:"inline_code,omitempty"`
+
+	// A code resource to load from a Google Cloud Storage URI (gs://bucket/path).
+	ResourceURI *string `json:"resourceUri,omitempty" tf:"resource_uri,omitempty"`
 }
 
 type UserDefinedFunctionResourcesObservation struct {
@@ -1232,11 +1599,9 @@ type UserDefinedFunctionResourcesParameters struct {
 
 	// An inline resource that contains code for a user-defined function (UDF).
 	// Providing a inline code resource is equivalent to providing a URI for a file containing the same code.
-	// +kubebuilder:validation:Optional
 	InlineCode *string `json:"inlineCode,omitempty" tf:"inline_code,omitempty"`
 
 	// A code resource to load from a Google Cloud Storage URI (gs://bucket/path).
-	// +kubebuilder:validation:Optional
 	ResourceURI *string `json:"resourceUri,omitempty" tf:"resource_uri,omitempty"`
 }
 
@@ -1244,6 +1609,10 @@ type UserDefinedFunctionResourcesParameters struct {
 type JobSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     JobParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	InitProvider JobInitParameters `json:"initProvider,omitempty"`
 }
 
 // JobStatus defines the observed state of Job.
@@ -1264,7 +1633,7 @@ type JobStatus struct {
 type Job struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.jobId)",message="jobId is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.jobId) || has(self.initProvider.jobId)",message="jobId is a required parameter"
 	Spec   JobSpec   `json:"spec"`
 	Status JobStatus `json:"status,omitempty"`
 }

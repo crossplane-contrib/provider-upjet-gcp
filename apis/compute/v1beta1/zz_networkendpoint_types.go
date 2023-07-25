@@ -25,6 +25,26 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type NetworkEndpointInitParameters struct {
+
+	// IPv4 address of network endpoint. The IP address must belong
+	// to a VM in GCE (either the primary IP or as part of an aliased IP
+	// range).
+	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
+
+	// Port number of network endpoint.
+	// Note port is required unless the Network Endpoint Group is created
+	// with the type of GCE_VM_IP
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Zone where the containing network endpoint group is located.
+	Zone *string `json:"zone,omitempty" tf:"zone,omitempty"`
+}
+
 type NetworkEndpointObservation struct {
 
 	// an identifier for the resource with format {{project}}/{{zone}}/{{network_endpoint_group}}/{{instance}}/{{ip_address}}/{{port}}
@@ -61,7 +81,6 @@ type NetworkEndpointParameters struct {
 	// IPv4 address of network endpoint. The IP address must belong
 	// to a VM in GCE (either the primary IP or as part of an aliased IP
 	// range).
-	// +kubebuilder:validation:Optional
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
 
 	// The name for a specific VM instance that the IP address belongs to.
@@ -95,16 +114,13 @@ type NetworkEndpointParameters struct {
 	// Port number of network endpoint.
 	// Note port is required unless the Network Endpoint Group is created
 	// with the type of GCE_VM_IP
-	// +kubebuilder:validation:Optional
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
-	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Zone where the containing network endpoint group is located.
-	// +kubebuilder:validation:Optional
 	Zone *string `json:"zone,omitempty" tf:"zone,omitempty"`
 }
 
@@ -112,6 +128,10 @@ type NetworkEndpointParameters struct {
 type NetworkEndpointSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     NetworkEndpointParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	InitProvider NetworkEndpointInitParameters `json:"initProvider,omitempty"`
 }
 
 // NetworkEndpointStatus defines the observed state of NetworkEndpoint.
@@ -132,7 +152,7 @@ type NetworkEndpointStatus struct {
 type NetworkEndpoint struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.ipAddress)",message="ipAddress is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.ipAddress) || has(self.initProvider.ipAddress)",message="ipAddress is a required parameter"
 	Spec   NetworkEndpointSpec   `json:"spec"`
 	Status NetworkEndpointStatus `json:"status,omitempty"`
 }

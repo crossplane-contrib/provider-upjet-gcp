@@ -25,6 +25,14 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type CertificateTemplateIAMMemberConditionInitParameters struct {
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	Expression *string `json:"expression,omitempty" tf:"expression,omitempty"`
+
+	Title *string `json:"title,omitempty" tf:"title,omitempty"`
+}
+
 type CertificateTemplateIAMMemberConditionObservation struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -34,15 +42,23 @@ type CertificateTemplateIAMMemberConditionObservation struct {
 }
 
 type CertificateTemplateIAMMemberConditionParameters struct {
-
-	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// +kubebuilder:validation:Required
-	Expression *string `json:"expression" tf:"expression,omitempty"`
+	Expression *string `json:"expression,omitempty" tf:"expression,omitempty"`
 
-	// +kubebuilder:validation:Required
-	Title *string `json:"title" tf:"title,omitempty"`
+	Title *string `json:"title,omitempty" tf:"title,omitempty"`
+}
+
+type CertificateTemplateIAMMemberInitParameters struct {
+	Condition []CertificateTemplateIAMMemberConditionInitParameters `json:"condition,omitempty" tf:"condition,omitempty"`
+
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
+	Member *string `json:"member,omitempty" tf:"member,omitempty"`
+
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 }
 
 type CertificateTemplateIAMMemberObservation struct {
@@ -78,19 +94,14 @@ type CertificateTemplateIAMMemberParameters struct {
 	// +kubebuilder:validation:Optional
 	CertificateTemplateSelector *v1.Selector `json:"certificateTemplateSelector,omitempty" tf:"-"`
 
-	// +kubebuilder:validation:Optional
 	Condition []CertificateTemplateIAMMemberConditionParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
-	// +kubebuilder:validation:Optional
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
-	// +kubebuilder:validation:Optional
 	Member *string `json:"member,omitempty" tf:"member,omitempty"`
 
-	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
-	// +kubebuilder:validation:Optional
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 }
 
@@ -98,6 +109,10 @@ type CertificateTemplateIAMMemberParameters struct {
 type CertificateTemplateIAMMemberSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     CertificateTemplateIAMMemberParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	InitProvider CertificateTemplateIAMMemberInitParameters `json:"initProvider,omitempty"`
 }
 
 // CertificateTemplateIAMMemberStatus defines the observed state of CertificateTemplateIAMMember.
@@ -118,8 +133,8 @@ type CertificateTemplateIAMMemberStatus struct {
 type CertificateTemplateIAMMember struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.member)",message="member is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.role)",message="role is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.member) || has(self.initProvider.member)",message="member is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.role) || has(self.initProvider.role)",message="role is a required parameter"
 	Spec   CertificateTemplateIAMMemberSpec   `json:"spec"`
 	Status CertificateTemplateIAMMemberStatus `json:"status,omitempty"`
 }

@@ -25,6 +25,26 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type FirewallRuleInitParameters struct {
+
+	// The action to take if this rule matches.
+	// Possible values are: UNSPECIFIED_ACTION, ALLOW, DENY.
+	Action *string `json:"action,omitempty" tf:"action,omitempty"`
+
+	// An optional string description of this rule.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// A positive integer that defines the order of rule evaluation.
+	// Rules with the lowest priority are evaluated first.
+	// A default rule at priority Int32.MaxValue matches all IPv4 and
+	// IPv6 traffic when no previous rule matches. Only the action of
+	// this rule can be modified by the user.
+	Priority *float64 `json:"priority,omitempty" tf:"priority,omitempty"`
+
+	// IP address or range, defined using CIDR notation, of requests that this rule applies to.
+	SourceRange *string `json:"sourceRange,omitempty" tf:"source_range,omitempty"`
+}
+
 type FirewallRuleObservation struct {
 
 	// The action to take if this rule matches.
@@ -56,11 +76,9 @@ type FirewallRuleParameters struct {
 
 	// The action to take if this rule matches.
 	// Possible values are: UNSPECIFIED_ACTION, ALLOW, DENY.
-	// +kubebuilder:validation:Optional
 	Action *string `json:"action,omitempty" tf:"action,omitempty"`
 
 	// An optional string description of this rule.
-	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// A positive integer that defines the order of rule evaluation.
@@ -68,7 +86,6 @@ type FirewallRuleParameters struct {
 	// A default rule at priority Int32.MaxValue matches all IPv4 and
 	// IPv6 traffic when no previous rule matches. Only the action of
 	// this rule can be modified by the user.
-	// +kubebuilder:validation:Optional
 	Priority *float64 `json:"priority,omitempty" tf:"priority,omitempty"`
 
 	// The ID of the project in which the resource belongs.
@@ -87,7 +104,6 @@ type FirewallRuleParameters struct {
 	ProjectSelector *v1.Selector `json:"projectSelector,omitempty" tf:"-"`
 
 	// IP address or range, defined using CIDR notation, of requests that this rule applies to.
-	// +kubebuilder:validation:Optional
 	SourceRange *string `json:"sourceRange,omitempty" tf:"source_range,omitempty"`
 }
 
@@ -95,6 +111,10 @@ type FirewallRuleParameters struct {
 type FirewallRuleSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     FirewallRuleParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	InitProvider FirewallRuleInitParameters `json:"initProvider,omitempty"`
 }
 
 // FirewallRuleStatus defines the observed state of FirewallRule.
@@ -115,8 +135,8 @@ type FirewallRuleStatus struct {
 type FirewallRule struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.action)",message="action is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.sourceRange)",message="sourceRange is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.action) || has(self.initProvider.action)",message="action is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.sourceRange) || has(self.initProvider.sourceRange)",message="sourceRange is a required parameter"
 	Spec   FirewallRuleSpec   `json:"spec"`
 	Status FirewallRuleStatus `json:"status,omitempty"`
 }

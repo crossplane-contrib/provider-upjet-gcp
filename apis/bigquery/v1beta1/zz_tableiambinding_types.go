@@ -25,6 +25,14 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type TableIAMBindingConditionInitParameters struct {
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	Expression *string `json:"expression,omitempty" tf:"expression,omitempty"`
+
+	Title *string `json:"title,omitempty" tf:"title,omitempty"`
+}
+
 type TableIAMBindingConditionObservation struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -34,15 +42,21 @@ type TableIAMBindingConditionObservation struct {
 }
 
 type TableIAMBindingConditionParameters struct {
-
-	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// +kubebuilder:validation:Required
-	Expression *string `json:"expression" tf:"expression,omitempty"`
+	Expression *string `json:"expression,omitempty" tf:"expression,omitempty"`
 
-	// +kubebuilder:validation:Required
-	Title *string `json:"title" tf:"title,omitempty"`
+	Title *string `json:"title,omitempty" tf:"title,omitempty"`
+}
+
+type TableIAMBindingInitParameters struct {
+	Condition []TableIAMBindingConditionInitParameters `json:"condition,omitempty" tf:"condition,omitempty"`
+
+	Members []*string `json:"members,omitempty" tf:"members,omitempty"`
+
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 }
 
 type TableIAMBindingObservation struct {
@@ -64,8 +78,6 @@ type TableIAMBindingObservation struct {
 }
 
 type TableIAMBindingParameters struct {
-
-	// +kubebuilder:validation:Optional
 	Condition []TableIAMBindingConditionParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/bigquery/v1beta1.Dataset
@@ -80,13 +92,10 @@ type TableIAMBindingParameters struct {
 	// +kubebuilder:validation:Optional
 	DatasetIDSelector *v1.Selector `json:"datasetIdSelector,omitempty" tf:"-"`
 
-	// +kubebuilder:validation:Optional
 	Members []*string `json:"members,omitempty" tf:"members,omitempty"`
 
-	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
-	// +kubebuilder:validation:Optional
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/bigquery/v1beta1.Table
@@ -106,6 +115,10 @@ type TableIAMBindingParameters struct {
 type TableIAMBindingSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     TableIAMBindingParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	InitProvider TableIAMBindingInitParameters `json:"initProvider,omitempty"`
 }
 
 // TableIAMBindingStatus defines the observed state of TableIAMBinding.
@@ -126,8 +139,8 @@ type TableIAMBindingStatus struct {
 type TableIAMBinding struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.members)",message="members is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.role)",message="role is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.members) || has(self.initProvider.members)",message="members is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.role) || has(self.initProvider.role)",message="role is a required parameter"
 	Spec   TableIAMBindingSpec   `json:"spec"`
 	Status TableIAMBindingStatus `json:"status,omitempty"`
 }

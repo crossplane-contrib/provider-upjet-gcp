@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.0
+    controller-gen.kubebuilder.io/version: v0.12.1
   name: clusters.dataproc.gcp.upbound.io
 spec:
   group: dataproc.gcp.upbound.io
@@ -83,8 +83,6 @@ spec:
                               policyUri:
                                 description: The autoscaling policy used by the cluster.
                                 type: string
-                            required:
-                            - policyUri
                             type: object
                           type: array
                         dataprocMetricConfig:
@@ -108,12 +106,8 @@ spec:
                                       description: A source for the collection of
                                         Dataproc OSS metrics (see available OSS metrics).
                                       type: string
-                                  required:
-                                  - metricSource
                                   type: object
                                 type: array
-                            required:
-                            - metrics
                             type: object
                           type: array
                         encryptionConfig:
@@ -125,8 +119,6 @@ spec:
                                 description: The Cloud KMS key name to use for PD
                                   disk encryption for all instances in the cluster.
                                 type: string
-                            required:
-                            - kmsKeyName
                             type: object
                           type: array
                         endpointConfig:
@@ -139,8 +131,6 @@ spec:
                                   ports on the cluster from external sources (aka
                                   Component Gateway). Defaults to false.
                                 type: boolean
-                            required:
-                            - enableHttpPortAccess
                             type: object
                           type: array
                         gceClusterConfig:
@@ -181,8 +171,6 @@ spec:
                                         resource that the cluster will be created
                                         on.
                                       type: string
-                                  required:
-                                  - nodeGroupUri
                                   type: object
                                 type: array
                               reservationAffinity:
@@ -362,8 +350,6 @@ spec:
                                   GCP will default to a predetermined computed value
                                   if not set (currently 300).
                                 type: number
-                            required:
-                            - script
                             type: object
                           type: array
                         lifecycleConfig:
@@ -405,9 +391,6 @@ spec:
                                         type to expose to this instance. For example,
                                         nvidia-tesla-k80.
                                       type: string
-                                  required:
-                                  - acceleratorCount
-                                  - acceleratorType
                                   type: object
                                 type: array
                               diskConfig:
@@ -470,8 +453,6 @@ spec:
                                 description: Resource name of an existing Dataproc
                                   Metastore service.
                                 type: string
-                            required:
-                            - dataprocMetastoreService
                             type: object
                           type: array
                         preemptibleWorkerConfig:
@@ -606,13 +587,8 @@ spec:
                                         file used for SSL encryption. If not provided,
                                         Dataproc will provide a self-signed certificate.
                                       type: string
-                                  required:
-                                  - kmsKeyUri
-                                  - rootPrincipalPasswordUri
                                   type: object
                                 type: array
-                            required:
-                            - kerberosConfig
                             type: object
                           type: array
                         softwareConfig:
@@ -682,9 +658,6 @@ spec:
                                         type to expose to this instance. For example,
                                         nvidia-tesla-k80.
                                       type: string
-                                  required:
-                                  - acceleratorCount
-                                  - acceleratorType
                                   type: object
                                 type: array
                               diskConfig:
@@ -923,8 +896,6 @@ spec:
                                                   items:
                                                     type: string
                                                   type: array
-                                              required:
-                                              - locations
                                               type: object
                                             type: array
                                           roles:
@@ -934,9 +905,6 @@ spec:
                                             items:
                                               type: string
                                             type: array
-                                        required:
-                                        - nodePool
-                                        - roles
                                         type: object
                                       type: array
                                   type: object
@@ -970,13 +938,816 @@ spec:
                                         config files. Property keys are specified
                                         in prefix:property format, for example spark:spark.kubernetes.container.image.
                                       type: object
-                                  required:
-                                  - componentVersion
                                   type: object
                                 type: array
-                            required:
-                            - gkeClusterConfig
-                            - kubernetesSoftwareConfig
+                            type: object
+                          type: array
+                        stagingBucket:
+                          description: 'The Cloud Storage staging bucket used to stage
+                            files, such as Hadoop jars, between client machines and
+                            the cluster. Note: If you don''t explicitly specify a
+                            staging_bucket then GCP will auto create / assign one
+                            for you. However, you are not guaranteed an auto generated
+                            bucket which is solely dedicated to your cluster; it may
+                            be shared with other clusters in the same region/zone
+                            also choosing to use the auto generation option.'
+                          type: string
+                      type: object
+                    type: array
+                type: object
+              initProvider:
+                description: THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice.
+                properties:
+                  clusterConfig:
+                    description: Allows you to configure various aspects of the cluster.
+                      Structure defined below.
+                    items:
+                      properties:
+                        autoscalingConfig:
+                          description: The autoscaling policy config associated with
+                            the cluster. Note that once set, if autoscaling_config
+                            is the only field set in cluster_config, it can only be
+                            removed by setting policy_uri = "", rather than removing
+                            the whole block. Structure defined below.
+                          items:
+                            properties:
+                              policyUri:
+                                description: The autoscaling policy used by the cluster.
+                                type: string
+                            type: object
+                          type: array
+                        dataprocMetricConfig:
+                          description: The Compute Engine accelerator (GPU) configuration
+                            for these instances. Can be specified multiple times.
+                            Structure defined below.
+                          items:
+                            properties:
+                              metrics:
+                                description: Metrics sources to enable.
+                                items:
+                                  properties:
+                                    metricOverrides:
+                                      description: One or more [available OSS metrics]
+                                        (https://cloud.google.com/dataproc/docs/guides/monitoring#available_oss_metrics)
+                                        to collect for the metric course.
+                                      items:
+                                        type: string
+                                      type: array
+                                    metricSource:
+                                      description: A source for the collection of
+                                        Dataproc OSS metrics (see available OSS metrics).
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                        encryptionConfig:
+                          description: The Customer managed encryption keys settings
+                            for the cluster. Structure defined below.
+                          items:
+                            properties:
+                              kmsKeyName:
+                                description: The Cloud KMS key name to use for PD
+                                  disk encryption for all instances in the cluster.
+                                type: string
+                            type: object
+                          type: array
+                        endpointConfig:
+                          description: The config settings for port access on the
+                            cluster. Structure defined below.
+                          items:
+                            properties:
+                              enableHttpPortAccess:
+                                description: The flag to enable http access to specific
+                                  ports on the cluster from external sources (aka
+                                  Component Gateway). Defaults to false.
+                                type: boolean
+                            type: object
+                          type: array
+                        gceClusterConfig:
+                          description: Common config settings for resources of Google
+                            Compute Engine cluster instances, applicable to all instances
+                            in the cluster. Structure defined below.
+                          items:
+                            properties:
+                              internalIpOnly:
+                                description: 'By default, clusters are not restricted
+                                  to internal IP addresses, and will have ephemeral
+                                  external IP addresses assigned to each instance.
+                                  If set to true, all instances in the cluster will
+                                  only have internal IP addresses. Note: Private Google
+                                  Access (also known as privateIpGoogleAccess) must
+                                  be enabled on the subnetwork that the cluster will
+                                  be launched in.'
+                                type: boolean
+                              metadata:
+                                additionalProperties:
+                                  type: string
+                                description: A map of the Compute Engine metadata
+                                  entries to add to all instances (see Project and
+                                  instance metadata).
+                                type: object
+                              network:
+                                description: The name or self_link of the Google Compute
+                                  Engine network to the cluster will be part of. Conflicts
+                                  with subnetwork. If neither is specified, this defaults
+                                  to the "default" network.
+                                type: string
+                              nodeGroupAffinity:
+                                description: Node Group Affinity for sole-tenant clusters.
+                                items:
+                                  properties:
+                                    nodeGroupUri:
+                                      description: The URI of a sole-tenant node group
+                                        resource that the cluster will be created
+                                        on.
+                                      type: string
+                                  type: object
+                                type: array
+                              reservationAffinity:
+                                description: Reservation Affinity for consuming zonal
+                                  reservation.
+                                items:
+                                  properties:
+                                    consumeReservationType:
+                                      description: Corresponds to the type of reservation
+                                        consumption.
+                                      type: string
+                                    key:
+                                      description: Corresponds to the label key of
+                                        reservation resource.
+                                      type: string
+                                    values:
+                                      description: Corresponds to the label values
+                                        of reservation resource.
+                                      items:
+                                        type: string
+                                      type: array
+                                  type: object
+                                type: array
+                              serviceAccountScopes:
+                                description: The set of Google API scopes to be made
+                                  available on all of the node VMs under the service_account
+                                  specified. Both OAuth2 URLs and gcloud short names
+                                  are supported. To allow full access to all Cloud
+                                  APIs, use the cloud-platform scope. See a complete
+                                  list of scopes here.
+                                items:
+                                  type: string
+                                type: array
+                              shieldedInstanceConfig:
+                                description: Shielded Instance Config for clusters
+                                  using Compute Engine Shielded VMs.
+                                items:
+                                  properties:
+                                    enableIntegrityMonitoring:
+                                      description: Defines whether instances have
+                                        integrity monitoring enabled.
+                                      type: boolean
+                                    enableSecureBoot:
+                                      description: Defines whether instances have
+                                        Secure Boot enabled.
+                                      type: boolean
+                                    enableVtpm:
+                                      description: Defines whether instances have
+                                        the vTPM enabled.
+                                      type: boolean
+                                  type: object
+                                type: array
+                              subnetwork:
+                                description: The name or self_link of the Google Compute
+                                  Engine subnetwork the cluster will be part of. Conflicts
+                                  with network.
+                                type: string
+                              tags:
+                                description: The list of instance tags applied to
+                                  instances in the cluster. Tags are used to identify
+                                  valid sources or targets for network firewalls.
+                                items:
+                                  type: string
+                                type: array
+                              zone:
+                                description: 'The GCP zone where your data is stored
+                                  and used (i.e. where the master and the worker nodes
+                                  will be created in). If region is set to ''global''
+                                  (default) then zone is mandatory, otherwise GCP
+                                  is able to make use of Auto Zone Placement to determine
+                                  this automatically for you. Note: This setting additionally
+                                  determines and restricts which computing resources
+                                  are available for use with other configs such as
+                                  cluster_config.master_config.machine_type and cluster_config.worker_config.machine_type.'
+                                type: string
+                            type: object
+                          type: array
+                        initializationAction:
+                          description: Commands to execute on each node after config
+                            is completed. You can specify multiple versions of these.
+                            Structure defined below.
+                          items:
+                            properties:
+                              script:
+                                description: The script to be executed during initialization
+                                  of the cluster. The script must be a GCS file with
+                                  a gs:// prefix.
+                                type: string
+                              timeoutSec:
+                                description: The maximum duration (in seconds) which
+                                  script is allowed to take to execute its action.
+                                  GCP will default to a predetermined computed value
+                                  if not set (currently 300).
+                                type: number
+                            type: object
+                          type: array
+                        lifecycleConfig:
+                          description: The settings for auto deletion cluster schedule.
+                            Structure defined below.
+                          items:
+                            properties:
+                              autoDeleteTime:
+                                description: 'The time when cluster will be auto-deleted.
+                                  A timestamp in RFC3339 UTC "Zulu" format, accurate
+                                  to nanoseconds. Example: "2014-10-02T15:01:23.045123456Z".'
+                                type: string
+                              idleDeleteTtl:
+                                description: 'The duration to keep the cluster alive
+                                  while idling (no jobs running). After this TTL,
+                                  the cluster will be deleted. Valid range: [10m,
+                                  14d].'
+                                type: string
+                            type: object
+                          type: array
+                        masterConfig:
+                          description: The Google Compute Engine config settings for
+                            the master instances in a cluster. Structure defined below.
+                          items:
+                            properties:
+                              accelerators:
+                                description: The Compute Engine accelerator (GPU)
+                                  configuration for these instances. Can be specified
+                                  multiple times.
+                                items:
+                                  properties:
+                                    acceleratorCount:
+                                      description: The number of the accelerator cards
+                                        of this type exposed to this instance. Often
+                                        restricted to one of 1, 2, 4, or 8.
+                                      type: number
+                                    acceleratorType:
+                                      description: The short name of the accelerator
+                                        type to expose to this instance. For example,
+                                        nvidia-tesla-k80.
+                                      type: string
+                                  type: object
+                                type: array
+                              diskConfig:
+                                description: Disk Config
+                                items:
+                                  properties:
+                                    bootDiskSizeGb:
+                                      description: 'Size of the primary disk attached
+                                        to each node, specified in GB. The primary
+                                        disk contains the boot volume and system libraries,
+                                        and the smallest allowed disk size is 10GB.
+                                        GCP will default to a predetermined computed
+                                        value if not set (currently 500GB). Note:
+                                        If SSDs are not attached, it also contains
+                                        the HDFS data blocks and Hadoop working directories.'
+                                      type: number
+                                    bootDiskType:
+                                      description: The disk type of the primary disk
+                                        attached to each node. One of "pd-ssd" or
+                                        "pd-standard". Defaults to "pd-standard".
+                                      type: string
+                                    numLocalSsds:
+                                      description: The amount of local SSD disks that
+                                        will be attached to each master cluster node.
+                                        Defaults to 0.
+                                      type: number
+                                  type: object
+                                type: array
+                              imageUri:
+                                description: The URI for the image to use for this
+                                  worker.  See the guide for more information.
+                                type: string
+                              machineType:
+                                description: The name of a Google Compute Engine machine
+                                  type to create for the master. If not specified,
+                                  GCP will default to a predetermined computed value
+                                  (currently n1-standard-4).
+                                type: string
+                              minCpuPlatform:
+                                description: The name of a minimum generation of CPU
+                                  family for the master. If not specified, GCP will
+                                  default to a predetermined computed value for each
+                                  zone. See the guide for details about which CPU
+                                  families are available (and defaulted) for each
+                                  zone.
+                                type: string
+                              numInstances:
+                                description: Specifies the number of master nodes
+                                  to create. If not specified, GCP will default to
+                                  a predetermined computed value (currently 1).
+                                type: number
+                            type: object
+                          type: array
+                        metastoreConfig:
+                          description: The config setting for metastore service with
+                            the cluster. Structure defined below.
+                          items:
+                            properties:
+                              dataprocMetastoreService:
+                                description: Resource name of an existing Dataproc
+                                  Metastore service.
+                                type: string
+                            type: object
+                          type: array
+                        preemptibleWorkerConfig:
+                          description: The Google Compute Engine config settings for
+                            the additional instances in a cluster. Structure defined
+                            below.
+                          items:
+                            properties:
+                              diskConfig:
+                                description: Disk Config
+                                items:
+                                  properties:
+                                    bootDiskSizeGb:
+                                      description: 'Size of the primary disk attached
+                                        to each node, specified in GB. The primary
+                                        disk contains the boot volume and system libraries,
+                                        and the smallest allowed disk size is 10GB.
+                                        GCP will default to a predetermined computed
+                                        value if not set (currently 500GB). Note:
+                                        If SSDs are not attached, it also contains
+                                        the HDFS data blocks and Hadoop working directories.'
+                                      type: number
+                                    bootDiskType:
+                                      description: The disk type of the primary disk
+                                        attached to each node. One of "pd-ssd" or
+                                        "pd-standard". Defaults to "pd-standard".
+                                      type: string
+                                    numLocalSsds:
+                                      description: The amount of local SSD disks that
+                                        will be attached to each master cluster node.
+                                        Defaults to 0.
+                                      type: number
+                                  type: object
+                                type: array
+                              numInstances:
+                                description: Specifies the number of preemptible nodes
+                                  to create. Defaults to 0.
+                                type: number
+                              preemptibility:
+                                description: 'Specifies the preemptibility of the
+                                  secondary workers. The default value is PREEMPTIBLE
+                                  Accepted values are:'
+                                type: string
+                            type: object
+                          type: array
+                        securityConfig:
+                          description: Security related configuration. Structure defined
+                            below.
+                          items:
+                            properties:
+                              kerberosConfig:
+                                description: Kerberos Configuration
+                                items:
+                                  properties:
+                                    crossRealmTrustAdminServer:
+                                      description: The admin server (IP or hostname)
+                                        for the remote trusted realm in a cross realm
+                                        trust relationship.
+                                      type: string
+                                    crossRealmTrustKdc:
+                                      description: The KDC (IP or hostname) for the
+                                        remote trusted realm in a cross realm trust
+                                        relationship.
+                                      type: string
+                                    crossRealmTrustRealm:
+                                      description: The remote realm the Dataproc on-cluster
+                                        KDC will trust, should the user enable cross
+                                        realm trust.
+                                      type: string
+                                    crossRealmTrustSharedPasswordUri:
+                                      description: The Cloud Storage URI of a KMS
+                                        encrypted file containing the shared password
+                                        between the on-cluster Kerberos realm and
+                                        the remote trusted realm, in a cross realm
+                                        trust relationship.
+                                      type: string
+                                    enableKerberos:
+                                      description: Flag to indicate whether to Kerberize
+                                        the cluster.
+                                      type: boolean
+                                    kdcDbKeyUri:
+                                      description: The Cloud Storage URI of a KMS
+                                        encrypted file containing the master key of
+                                        the KDC database.
+                                      type: string
+                                    keyPasswordUri:
+                                      description: The Cloud Storage URI of a KMS
+                                        encrypted file containing the password to
+                                        the user provided key. For the self-signed
+                                        certificate, this password is generated by
+                                        Dataproc.
+                                      type: string
+                                    keystorePasswordUri:
+                                      description: The Cloud Storage URI of a KMS
+                                        encrypted file containing the password to
+                                        the user provided keystore. For the self-signed
+                                        certificated, the password is generated by
+                                        Dataproc.
+                                      type: string
+                                    keystoreUri:
+                                      description: The Cloud Storage URI of the keystore
+                                        file used for SSL encryption. If not provided,
+                                        Dataproc will provide a self-signed certificate.
+                                      type: string
+                                    kmsKeyUri:
+                                      description: The URI of the KMS key used to
+                                        encrypt various sensitive files.
+                                      type: string
+                                    realm:
+                                      description: The name of the on-cluster Kerberos
+                                        realm. If not specified, the uppercased domain
+                                        of hostnames will be the realm.
+                                      type: string
+                                    rootPrincipalPasswordUri:
+                                      description: The Cloud Storage URI of a KMS
+                                        encrypted file containing the root principal
+                                        password.
+                                      type: string
+                                    tgtLifetimeHours:
+                                      description: The lifetime of the ticket granting
+                                        ticket, in hours.
+                                      type: number
+                                    truststorePasswordUri:
+                                      description: The Cloud Storage URI of a KMS
+                                        encrypted file containing the password to
+                                        the user provided truststore. For the self-signed
+                                        certificate, this password is generated by
+                                        Dataproc.
+                                      type: string
+                                    truststoreUri:
+                                      description: The Cloud Storage URI of the truststore
+                                        file used for SSL encryption. If not provided,
+                                        Dataproc will provide a self-signed certificate.
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                        softwareConfig:
+                          description: The config settings for software inside the
+                            cluster. Structure defined below.
+                          items:
+                            properties:
+                              imageVersion:
+                                description: The Cloud Dataproc image version to use
+                                  for the cluster - this controls the sets of software
+                                  versions installed onto the nodes when you create
+                                  clusters. If not specified, defaults to the latest
+                                  version. For a list of valid versions see Cloud
+                                  Dataproc versions
+                                type: string
+                              optionalComponents:
+                                description: The set of optional components to activate
+                                  on the cluster. See Available Optional Components.
+                                items:
+                                  type: string
+                                type: array
+                              overrideProperties:
+                                additionalProperties:
+                                  type: string
+                                description: A list of override and additional properties
+                                  (key/value pairs) used to modify various aspects
+                                  of the common configuration files used when creating
+                                  a cluster. For a list of valid properties please
+                                  see Cluster properties
+                                type: object
+                            type: object
+                          type: array
+                        stagingBucket:
+                          description: 'The Cloud Storage staging bucket used to stage
+                            files, such as Hadoop jars, between client machines and
+                            the cluster. Note: If you don''t explicitly specify a
+                            staging_bucket then GCP will auto create / assign one
+                            for you. However, you are not guaranteed an auto generated
+                            bucket which is solely dedicated to your cluster; it may
+                            be shared with other clusters in the same region/zone
+                            also choosing to use the auto generation option.'
+                          type: string
+                        tempBucket:
+                          description: 'The Cloud Storage temp bucket used to store
+                            ephemeral cluster and jobs data, such as Spark and MapReduce
+                            history files. Note: If you don''t explicitly specify
+                            a temp_bucket then GCP will auto create / assign one for
+                            you.'
+                          type: string
+                        workerConfig:
+                          description: The Google Compute Engine config settings for
+                            the worker instances in a cluster. Structure defined below.
+                          items:
+                            properties:
+                              accelerators:
+                                description: The Compute Engine accelerator configuration
+                                  for these instances. Can be specified multiple times.
+                                items:
+                                  properties:
+                                    acceleratorCount:
+                                      description: The number of the accelerator cards
+                                        of this type exposed to this instance. Often
+                                        restricted to one of 1, 2, 4, or 8.
+                                      type: number
+                                    acceleratorType:
+                                      description: The short name of the accelerator
+                                        type to expose to this instance. For example,
+                                        nvidia-tesla-k80.
+                                      type: string
+                                  type: object
+                                type: array
+                              diskConfig:
+                                description: Disk Config
+                                items:
+                                  properties:
+                                    bootDiskSizeGb:
+                                      description: 'Size of the primary disk attached
+                                        to each node, specified in GB. The primary
+                                        disk contains the boot volume and system libraries,
+                                        and the smallest allowed disk size is 10GB.
+                                        GCP will default to a predetermined computed
+                                        value if not set (currently 500GB). Note:
+                                        If SSDs are not attached, it also contains
+                                        the HDFS data blocks and Hadoop working directories.'
+                                      type: number
+                                    bootDiskType:
+                                      description: The disk type of the primary disk
+                                        attached to each node. One of "pd-ssd" or
+                                        "pd-standard". Defaults to "pd-standard".
+                                      type: string
+                                    numLocalSsds:
+                                      description: The amount of local SSD disks that
+                                        will be attached to each master cluster node.
+                                        Defaults to 0.
+                                      type: number
+                                  type: object
+                                type: array
+                              imageUri:
+                                description: The URI for the image to use for this
+                                  worker.  See the guide for more information.
+                                type: string
+                              machineType:
+                                description: The name of a Google Compute Engine machine
+                                  type to create for the worker nodes. If not specified,
+                                  GCP will default to a predetermined computed value
+                                  (currently n1-standard-4).
+                                type: string
+                              minCpuPlatform:
+                                description: The name of a minimum generation of CPU
+                                  family for the master. If not specified, GCP will
+                                  default to a predetermined computed value for each
+                                  zone. See the guide for details about which CPU
+                                  families are available (and defaulted) for each
+                                  zone.
+                                type: string
+                              numInstances:
+                                description: Specifies the number of worker nodes
+                                  to create. If not specified, GCP will default to
+                                  a predetermined computed value (currently 2). There
+                                  is currently a beta feature which allows you to
+                                  run a Single Node Cluster. In order to take advantage
+                                  of this you need to set "dataproc:dataproc.allow.zero.workers"
+                                  = "true" in cluster_config.software_config.properties
+                                type: number
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  gracefulDecommissionTimeout:
+                    description: Does not affect auto scaling decomissioning from
+                      an autoscaling policy. Graceful decommissioning allows removing
+                      nodes from the cluster without interrupting jobs in progress.
+                      Timeout specifies how long to wait for jobs in progress to finish
+                      before forcefully removing nodes (and potentially interrupting
+                      jobs). Default timeout is 0 (for forceful decommission), and
+                      the maximum allowed timeout is 1 day. (see JSON representation
+                      of Duration). Only supported on Dataproc image versions 1.2
+                      and higher. For more context see the docs
+                    type: string
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: The list of labels (key/value pairs) to be applied
+                      to instances in the cluster. GCP generates some itself including
+                      goog-dataproc-cluster-name which is the name of the cluster.
+                    type: object
+                  name:
+                    description: The name of the cluster, unique within the project
+                      and zone.
+                    type: string
+                  project:
+                    description: The ID of the project in which the cluster will exist.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  region:
+                    description: The region in which the cluster and associated nodes
+                      will be created in. Defaults to global.
+                    type: string
+                  virtualClusterConfig:
+                    description: Allows you to configure a virtual Dataproc on GKE
+                      cluster. Structure defined below.
+                    items:
+                      properties:
+                        auxiliaryServicesConfig:
+                          description: Configuration of auxiliary services used by
+                            this cluster. Structure defined below.
+                          items:
+                            properties:
+                              metastoreConfig:
+                                description: The config setting for metastore service
+                                  with the cluster. Structure defined below.
+                                items:
+                                  properties:
+                                    dataprocMetastoreService:
+                                      description: Resource name of an existing Dataproc
+                                        Metastore service.
+                                      type: string
+                                  type: object
+                                type: array
+                              sparkHistoryServerConfig:
+                                description: The Spark History Server configuration
+                                  for the workload.
+                                items:
+                                  properties:
+                                    dataprocCluster:
+                                      description: Resource name of an existing Dataproc
+                                        Cluster to act as a Spark History Server for
+                                        the workload.
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                        kubernetesClusterConfig:
+                          description: The configuration for running the Dataproc
+                            cluster on Kubernetes. Structure defined below.
+                          items:
+                            properties:
+                              gkeClusterConfig:
+                                description: The configuration for running the Dataproc
+                                  cluster on GKE.
+                                items:
+                                  properties:
+                                    gkeClusterTarget:
+                                      description: A target GKE cluster to deploy
+                                        to. It must be in the same project and region
+                                        as the Dataproc cluster (the GKE cluster can
+                                        be zonal or regional)
+                                      type: string
+                                    nodePoolTarget:
+                                      description: GKE node pools where workloads
+                                        will be scheduled. At least one node pool
+                                        must be assigned the DEFAULT GkeNodePoolTarget.Role.
+                                        If a GkeNodePoolTarget is not specified, Dataproc
+                                        constructs a DEFAULT GkeNodePoolTarget. Each
+                                        role can be given to only one GkeNodePoolTarget.
+                                        All node pools must have the same location
+                                        settings.
+                                      items:
+                                        properties:
+                                          nodePool:
+                                            description: The target GKE node pool.
+                                            type: string
+                                          nodePoolConfig:
+                                            description: (Input only) The configuration
+                                              for the GKE node pool. If specified,
+                                              Dataproc attempts to create a node pool
+                                              with the specified shape. If one with
+                                              the same name already exists, it is
+                                              verified against all specified fields.
+                                              If a field differs, the virtual cluster
+                                              creation will fail.
+                                            items:
+                                              properties:
+                                                autoscaling:
+                                                  description: The autoscaler configuration
+                                                    for this node pool. The autoscaler
+                                                    is enabled only when a valid configuration
+                                                    is present.
+                                                  items:
+                                                    properties:
+                                                      maxNodeCount:
+                                                        description: The maximum number
+                                                          of nodes in the node pool.
+                                                          Must be >= minNodeCount,
+                                                          and must be > 0.
+                                                        type: number
+                                                      minNodeCount:
+                                                        description: The minimum number
+                                                          of nodes in the node pool.
+                                                          Must be >= 0 and <= maxNodeCount.
+                                                        type: number
+                                                    type: object
+                                                  type: array
+                                                config:
+                                                  description: The node pool configuration.
+                                                  items:
+                                                    properties:
+                                                      localSsdCount:
+                                                        description: The number of
+                                                          local SSD disks to attach
+                                                          to the node, which is limited
+                                                          by the maximum number of
+                                                          disks allowable per zone.
+                                                        type: number
+                                                      machineType:
+                                                        description: The name of a
+                                                          Compute Engine machine type.
+                                                        type: string
+                                                      minCpuPlatform:
+                                                        description: Minimum CPU platform
+                                                          to be used by this instance.
+                                                          The instance may be scheduled
+                                                          on the specified or a newer
+                                                          CPU platform. Specify the
+                                                          friendly names of CPU platforms,
+                                                          such as "Intel Haswell"
+                                                          or "Intel Sandy Bridge".
+                                                        type: string
+                                                      preemptible:
+                                                        description: Whether the nodes
+                                                          are created as preemptible
+                                                          VM instances. Preemptible
+                                                          nodes cannot be used in
+                                                          a node pool with the CONTROLLER
+                                                          role or in the DEFAULT node
+                                                          pool if the CONTROLLER role
+                                                          is not assigned (the DEFAULT
+                                                          node pool will assume the
+                                                          CONTROLLER role).
+                                                        type: boolean
+                                                      spot:
+                                                        description: Spot flag for
+                                                          enabling Spot VM, which
+                                                          is a rebrand of the existing
+                                                          preemptible flag.
+                                                        type: boolean
+                                                    type: object
+                                                  type: array
+                                                locations:
+                                                  description: The list of Compute
+                                                    Engine zones where node pool nodes
+                                                    associated with a Dataproc on
+                                                    GKE virtual cluster will be located.
+                                                  items:
+                                                    type: string
+                                                  type: array
+                                              type: object
+                                            type: array
+                                          roles:
+                                            description: The roles associated with
+                                              the GKE node pool. One of "DEFAULT",
+                                              "CONTROLLER", "SPARK_DRIVER" or "SPARK_EXECUTOR".
+                                            items:
+                                              type: string
+                                            type: array
+                                        type: object
+                                      type: array
+                                  type: object
+                                type: array
+                              kubernetesNamespace:
+                                description: A namespace within the Kubernetes cluster
+                                  to deploy into. If this namespace does not exist,
+                                  it is created. If it  exists, Dataproc verifies
+                                  that another Dataproc VirtualCluster is not installed
+                                  into it. If not specified, the name of the Dataproc
+                                  Cluster is used.
+                                type: string
+                              kubernetesSoftwareConfig:
+                                description: The software configuration for this Dataproc
+                                  cluster running on Kubernetes.
+                                items:
+                                  properties:
+                                    componentVersion:
+                                      additionalProperties:
+                                        type: string
+                                      description: The components that should be installed
+                                        in this Dataproc cluster. The key must be
+                                        a string from the KubernetesComponent enumeration.
+                                        The value is the version of the software to
+                                        be installed. At least one entry must be specified.
+                                      type: object
+                                    properties:
+                                      additionalProperties:
+                                        type: string
+                                      description: The properties to set on daemon
+                                        config files. Property keys are specified
+                                        in prefix:property format, for example spark:spark.kubernetes.container.image.
+                                      type: object
+                                  type: object
+                                type: array
                             type: object
                           type: array
                         stagingBucket:
@@ -1192,7 +1963,8 @@ spec:
             x-kubernetes-validations:
             - message: name is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.name)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.name)
+                || has(self.initProvider.name)'
           status:
             description: ClusterStatus defines the observed state of Cluster.
             properties:

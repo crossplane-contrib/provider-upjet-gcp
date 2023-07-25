@@ -25,6 +25,15 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type ClusterSelectorInitParameters struct {
+
+	// Required. The cluster labels. Cluster must have all labels to match.
+	ClusterLabels map[string]*string `json:"clusterLabels,omitempty" tf:"cluster_labels,omitempty"`
+
+	// Optional. The zone where the Compute Engine cluster will be located. On a create request, it is required in the "global" region. If omitted in a non-global Dataproc region, the service will pick a zone in the corresponding Compute Engine region. On a get request, zone will always be present. A full URL, partial URI, or short name are valid. Examples: * https://www.googleapis.com/compute/v1/projects/ * us-central1-f
+	Zone *string `json:"zone,omitempty" tf:"zone,omitempty"`
+}
+
 type ClusterSelectorObservation struct {
 
 	// Required. The cluster labels. Cluster must have all labels to match.
@@ -37,12 +46,16 @@ type ClusterSelectorObservation struct {
 type ClusterSelectorParameters struct {
 
 	// Required. The cluster labels. Cluster must have all labels to match.
-	// +kubebuilder:validation:Required
-	ClusterLabels map[string]*string `json:"clusterLabels" tf:"cluster_labels,omitempty"`
+	ClusterLabels map[string]*string `json:"clusterLabels,omitempty" tf:"cluster_labels,omitempty"`
 
 	// Optional. The zone where the Compute Engine cluster will be located. On a create request, it is required in the "global" region. If omitted in a non-global Dataproc region, the service will pick a zone in the corresponding Compute Engine region. On a get request, zone will always be present. A full URL, partial URI, or short name are valid. Examples: * https://www.googleapis.com/compute/v1/projects/ * us-central1-f
-	// +kubebuilder:validation:Optional
 	Zone *string `json:"zone,omitempty" tf:"zone,omitempty"`
+}
+
+type ConfigAutoscalingConfigInitParameters struct {
+
+	// Optional. The autoscaling policy used by the cluster. Only resource names including projectid and location (region) are valid. Examples: * https://www.googleapis.com/compute/v1/projects/ Note that the policy must be in the same project and Dataproc region.
+	Policy *string `json:"policy,omitempty" tf:"policy,omitempty"`
 }
 
 type ConfigAutoscalingConfigObservation struct {
@@ -54,8 +67,13 @@ type ConfigAutoscalingConfigObservation struct {
 type ConfigAutoscalingConfigParameters struct {
 
 	// Optional. The autoscaling policy used by the cluster. Only resource names including projectid and location (region) are valid. Examples: * https://www.googleapis.com/compute/v1/projects/ Note that the policy must be in the same project and Dataproc region.
-	// +kubebuilder:validation:Optional
 	Policy *string `json:"policy,omitempty" tf:"policy,omitempty"`
+}
+
+type ConfigEncryptionConfigInitParameters struct {
+
+	// Optional. The Cloud KMS key name to use for PD disk encryption for all instances in the cluster.
+	GcePdKMSKeyName *string `json:"gcePdKmsKeyName,omitempty" tf:"gce_pd_kms_key_name,omitempty"`
 }
 
 type ConfigEncryptionConfigObservation struct {
@@ -67,8 +85,13 @@ type ConfigEncryptionConfigObservation struct {
 type ConfigEncryptionConfigParameters struct {
 
 	// Optional. The Cloud KMS key name to use for PD disk encryption for all instances in the cluster.
-	// +kubebuilder:validation:Optional
 	GcePdKMSKeyName *string `json:"gcePdKmsKeyName,omitempty" tf:"gce_pd_kms_key_name,omitempty"`
+}
+
+type ConfigEndpointConfigInitParameters struct {
+
+	// Optional. If true, enable http access to specific ports on the cluster from external sources. Defaults to false.
+	EnableHTTPPortAccess *bool `json:"enableHttpPortAccess,omitempty" tf:"enable_http_port_access,omitempty"`
 }
 
 type ConfigEndpointConfigObservation struct {
@@ -83,8 +106,46 @@ type ConfigEndpointConfigObservation struct {
 type ConfigEndpointConfigParameters struct {
 
 	// Optional. If true, enable http access to specific ports on the cluster from external sources. Defaults to false.
-	// +kubebuilder:validation:Optional
 	EnableHTTPPortAccess *bool `json:"enableHttpPortAccess,omitempty" tf:"enable_http_port_access,omitempty"`
+}
+
+type ConfigGceClusterConfigInitParameters struct {
+
+	// Optional. If true, all instances in the cluster will only have internal IP addresses. By default, clusters are not restricted to internal IP addresses, and will have ephemeral external IP addresses assigned to each instance. This internal_ip_only restriction can only be enabled for subnetwork enabled networks, and all off-cluster dependencies must be configured to be accessible without external IP addresses.
+	InternalIPOnly *bool `json:"internalIpOnly,omitempty" tf:"internal_ip_only,omitempty"`
+
+	// The Compute Engine metadata entries to add to all instances (see (https://cloud.google.com/compute/docs/storing-retrieving-metadata#project_and_instance_metadata)).
+	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
+
+	// Optional. The Compute Engine network to be used for machine communications. Cannot be specified with subnetwork_uri. If neither network_uri nor subnetwork_uri is specified, the "default" network of the project is used, if it exists. Cannot be a "Custom Subnet Network" (see /regions/global/default*default`
+	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
+	// Optional. Node Group Affinity for sole-tenant clusters.
+	NodeGroupAffinity []GceClusterConfigNodeGroupAffinityInitParameters `json:"nodeGroupAffinity,omitempty" tf:"node_group_affinity,omitempty"`
+
+	// Optional. The type of IPv6 access for a cluster. Possible values: PRIVATE_IPV6_GOOGLE_ACCESS_UNSPECIFIED, INHERIT_FROM_SUBNETWORK, OUTBOUND, BIDIRECTIONAL
+	PrivateIPv6GoogleAccess *string `json:"privateIpv6GoogleAccess,omitempty" tf:"private_ipv6_google_access,omitempty"`
+
+	// Optional. Reservation Affinity for consuming Zonal reservation.
+	ReservationAffinity []GceClusterConfigReservationAffinityInitParameters `json:"reservationAffinity,omitempty" tf:"reservation_affinity,omitempty"`
+
+	// Optional. The (https://cloud.google.com/compute/docs/access/service-accounts#default_service_account) is used.
+	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
+
+	// Optional. The URIs of service account scopes to be included in Compute Engine instances. The following base set of scopes is always included: * https://www.googleapis.com/auth/cloud.useraccounts.readonly * https://www.googleapis.com/auth/devstorage.read_write * https://www.googleapis.com/auth/logging.write If no scopes are specified, the following defaults are also provided: * https://www.googleapis.com/auth/bigquery * https://www.googleapis.com/auth/bigtable.admin.table * https://www.googleapis.com/auth/bigtable.data * https://www.googleapis.com/auth/devstorage.full_control
+	ServiceAccountScopes []*string `json:"serviceAccountScopes,omitempty" tf:"service_account_scopes,omitempty"`
+
+	// Optional. Shielded Instance Config for clusters using Compute Engine Shielded VMs. Structure defined below.
+	ShieldedInstanceConfig []GceClusterConfigShieldedInstanceConfigInitParameters `json:"shieldedInstanceConfig,omitempty" tf:"shielded_instance_config,omitempty"`
+
+	// Optional. The Compute Engine subnetwork to be used for machine communications. Cannot be specified with network_uri. A full URL, partial URI, or short name are valid. Examples: * https://www.googleapis.com/compute/v1/projects//regions/us-east1/subnetworks/sub0 * sub0
+	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
+
+	// The Compute Engine tags to add to all instances (see (https://cloud.google.com/compute/docs/label-or-tag-resources#tags)).
+	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
+
+	// Optional. The zone where the Compute Engine cluster will be located. On a create request, it is required in the "global" region. If omitted in a non-global Dataproc region, the service will pick a zone in the corresponding Compute Engine region. On a get request, zone will always be present. A full URL, partial URI, or short name are valid. Examples: * https://www.googleapis.com/compute/v1/projects/ * us-central1-f
+	Zone *string `json:"zone,omitempty" tf:"zone,omitempty"`
 }
 
 type ConfigGceClusterConfigObservation struct {
@@ -129,52 +190,52 @@ type ConfigGceClusterConfigObservation struct {
 type ConfigGceClusterConfigParameters struct {
 
 	// Optional. If true, all instances in the cluster will only have internal IP addresses. By default, clusters are not restricted to internal IP addresses, and will have ephemeral external IP addresses assigned to each instance. This internal_ip_only restriction can only be enabled for subnetwork enabled networks, and all off-cluster dependencies must be configured to be accessible without external IP addresses.
-	// +kubebuilder:validation:Optional
 	InternalIPOnly *bool `json:"internalIpOnly,omitempty" tf:"internal_ip_only,omitempty"`
 
 	// The Compute Engine metadata entries to add to all instances (see (https://cloud.google.com/compute/docs/storing-retrieving-metadata#project_and_instance_metadata)).
-	// +kubebuilder:validation:Optional
 	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
 
 	// Optional. The Compute Engine network to be used for machine communications. Cannot be specified with subnetwork_uri. If neither network_uri nor subnetwork_uri is specified, the "default" network of the project is used, if it exists. Cannot be a "Custom Subnet Network" (see /regions/global/default*default`
-	// +kubebuilder:validation:Optional
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
 	// Optional. Node Group Affinity for sole-tenant clusters.
-	// +kubebuilder:validation:Optional
 	NodeGroupAffinity []GceClusterConfigNodeGroupAffinityParameters `json:"nodeGroupAffinity,omitempty" tf:"node_group_affinity,omitempty"`
 
 	// Optional. The type of IPv6 access for a cluster. Possible values: PRIVATE_IPV6_GOOGLE_ACCESS_UNSPECIFIED, INHERIT_FROM_SUBNETWORK, OUTBOUND, BIDIRECTIONAL
-	// +kubebuilder:validation:Optional
 	PrivateIPv6GoogleAccess *string `json:"privateIpv6GoogleAccess,omitempty" tf:"private_ipv6_google_access,omitempty"`
 
 	// Optional. Reservation Affinity for consuming Zonal reservation.
-	// +kubebuilder:validation:Optional
 	ReservationAffinity []GceClusterConfigReservationAffinityParameters `json:"reservationAffinity,omitempty" tf:"reservation_affinity,omitempty"`
 
 	// Optional. The (https://cloud.google.com/compute/docs/access/service-accounts#default_service_account) is used.
-	// +kubebuilder:validation:Optional
 	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
 
 	// Optional. The URIs of service account scopes to be included in Compute Engine instances. The following base set of scopes is always included: * https://www.googleapis.com/auth/cloud.useraccounts.readonly * https://www.googleapis.com/auth/devstorage.read_write * https://www.googleapis.com/auth/logging.write If no scopes are specified, the following defaults are also provided: * https://www.googleapis.com/auth/bigquery * https://www.googleapis.com/auth/bigtable.admin.table * https://www.googleapis.com/auth/bigtable.data * https://www.googleapis.com/auth/devstorage.full_control
-	// +kubebuilder:validation:Optional
 	ServiceAccountScopes []*string `json:"serviceAccountScopes,omitempty" tf:"service_account_scopes,omitempty"`
 
 	// Optional. Shielded Instance Config for clusters using Compute Engine Shielded VMs. Structure defined below.
-	// +kubebuilder:validation:Optional
 	ShieldedInstanceConfig []GceClusterConfigShieldedInstanceConfigParameters `json:"shieldedInstanceConfig,omitempty" tf:"shielded_instance_config,omitempty"`
 
 	// Optional. The Compute Engine subnetwork to be used for machine communications. Cannot be specified with network_uri. A full URL, partial URI, or short name are valid. Examples: * https://www.googleapis.com/compute/v1/projects//regions/us-east1/subnetworks/sub0 * sub0
-	// +kubebuilder:validation:Optional
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 
 	// The Compute Engine tags to add to all instances (see (https://cloud.google.com/compute/docs/label-or-tag-resources#tags)).
-	// +kubebuilder:validation:Optional
 	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
 	// Optional. The zone where the Compute Engine cluster will be located. On a create request, it is required in the "global" region. If omitted in a non-global Dataproc region, the service will pick a zone in the corresponding Compute Engine region. On a get request, zone will always be present. A full URL, partial URI, or short name are valid. Examples: * https://www.googleapis.com/compute/v1/projects/ * us-central1-f
-	// +kubebuilder:validation:Optional
 	Zone *string `json:"zone,omitempty" tf:"zone,omitempty"`
+}
+
+type ConfigLifecycleConfigInitParameters struct {
+
+	// Optional. The lifetime duration of cluster. The cluster will be auto-deleted at the end of this period. Minimum value is 10 minutes; maximum value is 14 days (see JSON representation of (https://developers.google.com/protocol-buffers/docs/proto3#json)).
+	AutoDeleteTTL *string `json:"autoDeleteTtl,omitempty" tf:"auto_delete_ttl,omitempty"`
+
+	// Optional. The time when cluster will be auto-deleted (see JSON representation of (https://developers.google.com/protocol-buffers/docs/proto3#json)).
+	AutoDeleteTime *string `json:"autoDeleteTime,omitempty" tf:"auto_delete_time,omitempty"`
+
+	// Optional. The duration to keep the cluster alive while idling (when no jobs are running). Passing this threshold will cause the cluster to be deleted. Minimum value is 5 minutes; maximum value is 14 days (see JSON representation of (https://developers.google.com/protocol-buffers/docs/proto3#json).
+	IdleDeleteTTL *string `json:"idleDeleteTtl,omitempty" tf:"idle_delete_ttl,omitempty"`
 }
 
 type ConfigLifecycleConfigObservation struct {
@@ -195,16 +256,37 @@ type ConfigLifecycleConfigObservation struct {
 type ConfigLifecycleConfigParameters struct {
 
 	// Optional. The lifetime duration of cluster. The cluster will be auto-deleted at the end of this period. Minimum value is 10 minutes; maximum value is 14 days (see JSON representation of (https://developers.google.com/protocol-buffers/docs/proto3#json)).
-	// +kubebuilder:validation:Optional
 	AutoDeleteTTL *string `json:"autoDeleteTtl,omitempty" tf:"auto_delete_ttl,omitempty"`
 
 	// Optional. The time when cluster will be auto-deleted (see JSON representation of (https://developers.google.com/protocol-buffers/docs/proto3#json)).
-	// +kubebuilder:validation:Optional
 	AutoDeleteTime *string `json:"autoDeleteTime,omitempty" tf:"auto_delete_time,omitempty"`
 
 	// Optional. The duration to keep the cluster alive while idling (when no jobs are running). Passing this threshold will cause the cluster to be deleted. Minimum value is 5 minutes; maximum value is 14 days (see JSON representation of (https://developers.google.com/protocol-buffers/docs/proto3#json).
-	// +kubebuilder:validation:Optional
 	IdleDeleteTTL *string `json:"idleDeleteTtl,omitempty" tf:"idle_delete_ttl,omitempty"`
+}
+
+type ConfigMasterConfigInitParameters struct {
+
+	// Optional. The Compute Engine accelerator configuration for these instances.
+	Accelerators []MasterConfigAcceleratorsInitParameters `json:"accelerators,omitempty" tf:"accelerators,omitempty"`
+
+	// Optional. Disk option config settings.
+	DiskConfig []MasterConfigDiskConfigInitParameters `json:"diskConfig,omitempty" tf:"disk_config,omitempty"`
+
+	// Optional. The Compute Engine image resource used for cluster instances. The URI can represent an image or image family. Image examples: * https://www.googleapis.com/compute/beta/projects/ If the URI is unspecified, it will be inferred from SoftwareConfig.image_version or the system default.
+	Image *string `json:"image,omitempty" tf:"image,omitempty"`
+
+	// Optional. The Compute Engine machine type used for cluster instances. A full URL, partial URI, or short name are valid. Examples: * https://www.googleapis.com/compute/v1/projects/(https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement) feature, you must use the short name of the machine type resource, for example, n1-standard-2`.
+	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
+
+	// Optional. Specifies the minimum cpu platform for the Instance Group. See (https://cloud.google.com/dataproc/docs/concepts/compute/dataproc-min-cpu).
+	MinCPUPlatform *string `json:"minCpuPlatform,omitempty" tf:"min_cpu_platform,omitempty"`
+
+	// Optional. The number of VM instances in the instance group. For master instance groups, must be set to 1.
+	NumInstances *float64 `json:"numInstances,omitempty" tf:"num_instances,omitempty"`
+
+	// Optional. Specifies the preemptibility of the instance group. The default value for master and worker groups is NON_PREEMPTIBLE. This default cannot be changed. The default value for secondary instances is PREEMPTIBLE. Possible values: PREEMPTIBILITY_UNSPECIFIED, NON_PREEMPTIBLE, PREEMPTIBLE
+	Preemptibility *string `json:"preemptibility,omitempty" tf:"preemptibility,omitempty"`
 }
 
 type ConfigMasterConfigObservation struct {
@@ -243,31 +325,48 @@ type ConfigMasterConfigObservation struct {
 type ConfigMasterConfigParameters struct {
 
 	// Optional. The Compute Engine accelerator configuration for these instances.
-	// +kubebuilder:validation:Optional
 	Accelerators []MasterConfigAcceleratorsParameters `json:"accelerators,omitempty" tf:"accelerators,omitempty"`
 
 	// Optional. Disk option config settings.
-	// +kubebuilder:validation:Optional
 	DiskConfig []MasterConfigDiskConfigParameters `json:"diskConfig,omitempty" tf:"disk_config,omitempty"`
 
 	// Optional. The Compute Engine image resource used for cluster instances. The URI can represent an image or image family. Image examples: * https://www.googleapis.com/compute/beta/projects/ If the URI is unspecified, it will be inferred from SoftwareConfig.image_version or the system default.
-	// +kubebuilder:validation:Optional
 	Image *string `json:"image,omitempty" tf:"image,omitempty"`
 
 	// Optional. The Compute Engine machine type used for cluster instances. A full URL, partial URI, or short name are valid. Examples: * https://www.googleapis.com/compute/v1/projects/(https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement) feature, you must use the short name of the machine type resource, for example, n1-standard-2`.
-	// +kubebuilder:validation:Optional
 	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
 
 	// Optional. Specifies the minimum cpu platform for the Instance Group. See (https://cloud.google.com/dataproc/docs/concepts/compute/dataproc-min-cpu).
-	// +kubebuilder:validation:Optional
 	MinCPUPlatform *string `json:"minCpuPlatform,omitempty" tf:"min_cpu_platform,omitempty"`
 
 	// Optional. The number of VM instances in the instance group. For master instance groups, must be set to 1.
-	// +kubebuilder:validation:Optional
 	NumInstances *float64 `json:"numInstances,omitempty" tf:"num_instances,omitempty"`
 
 	// Optional. Specifies the preemptibility of the instance group. The default value for master and worker groups is NON_PREEMPTIBLE. This default cannot be changed. The default value for secondary instances is PREEMPTIBLE. Possible values: PREEMPTIBILITY_UNSPECIFIED, NON_PREEMPTIBLE, PREEMPTIBLE
-	// +kubebuilder:validation:Optional
+	Preemptibility *string `json:"preemptibility,omitempty" tf:"preemptibility,omitempty"`
+}
+
+type ConfigSecondaryWorkerConfigInitParameters struct {
+
+	// Optional. The Compute Engine accelerator configuration for these instances.
+	Accelerators []SecondaryWorkerConfigAcceleratorsInitParameters `json:"accelerators,omitempty" tf:"accelerators,omitempty"`
+
+	// Optional. Disk option config settings.
+	DiskConfig []SecondaryWorkerConfigDiskConfigInitParameters `json:"diskConfig,omitempty" tf:"disk_config,omitempty"`
+
+	// Optional. The Compute Engine image resource used for cluster instances. The URI can represent an image or image family. Image examples: * https://www.googleapis.com/compute/beta/projects/ If the URI is unspecified, it will be inferred from SoftwareConfig.image_version or the system default.
+	Image *string `json:"image,omitempty" tf:"image,omitempty"`
+
+	// Optional. The Compute Engine machine type used for cluster instances. A full URL, partial URI, or short name are valid. Examples: * https://www.googleapis.com/compute/v1/projects/(https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement) feature, you must use the short name of the machine type resource, for example, n1-standard-2`.
+	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
+
+	// Optional. Specifies the minimum cpu platform for the Instance Group. See (https://cloud.google.com/dataproc/docs/concepts/compute/dataproc-min-cpu).
+	MinCPUPlatform *string `json:"minCpuPlatform,omitempty" tf:"min_cpu_platform,omitempty"`
+
+	// Optional. The number of VM instances in the instance group. For master instance groups, must be set to 1.
+	NumInstances *float64 `json:"numInstances,omitempty" tf:"num_instances,omitempty"`
+
+	// Optional. Specifies the preemptibility of the instance group. The default value for master and worker groups is NON_PREEMPTIBLE. This default cannot be changed. The default value for secondary instances is PREEMPTIBLE. Possible values: PREEMPTIBILITY_UNSPECIFIED, NON_PREEMPTIBLE, PREEMPTIBLE
 	Preemptibility *string `json:"preemptibility,omitempty" tf:"preemptibility,omitempty"`
 }
 
@@ -307,32 +406,31 @@ type ConfigSecondaryWorkerConfigObservation struct {
 type ConfigSecondaryWorkerConfigParameters struct {
 
 	// Optional. The Compute Engine accelerator configuration for these instances.
-	// +kubebuilder:validation:Optional
 	Accelerators []SecondaryWorkerConfigAcceleratorsParameters `json:"accelerators,omitempty" tf:"accelerators,omitempty"`
 
 	// Optional. Disk option config settings.
-	// +kubebuilder:validation:Optional
 	DiskConfig []SecondaryWorkerConfigDiskConfigParameters `json:"diskConfig,omitempty" tf:"disk_config,omitempty"`
 
 	// Optional. The Compute Engine image resource used for cluster instances. The URI can represent an image or image family. Image examples: * https://www.googleapis.com/compute/beta/projects/ If the URI is unspecified, it will be inferred from SoftwareConfig.image_version or the system default.
-	// +kubebuilder:validation:Optional
 	Image *string `json:"image,omitempty" tf:"image,omitempty"`
 
 	// Optional. The Compute Engine machine type used for cluster instances. A full URL, partial URI, or short name are valid. Examples: * https://www.googleapis.com/compute/v1/projects/(https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement) feature, you must use the short name of the machine type resource, for example, n1-standard-2`.
-	// +kubebuilder:validation:Optional
 	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
 
 	// Optional. Specifies the minimum cpu platform for the Instance Group. See (https://cloud.google.com/dataproc/docs/concepts/compute/dataproc-min-cpu).
-	// +kubebuilder:validation:Optional
 	MinCPUPlatform *string `json:"minCpuPlatform,omitempty" tf:"min_cpu_platform,omitempty"`
 
 	// Optional. The number of VM instances in the instance group. For master instance groups, must be set to 1.
-	// +kubebuilder:validation:Optional
 	NumInstances *float64 `json:"numInstances,omitempty" tf:"num_instances,omitempty"`
 
 	// Optional. Specifies the preemptibility of the instance group. The default value for master and worker groups is NON_PREEMPTIBLE. This default cannot be changed. The default value for secondary instances is PREEMPTIBLE. Possible values: PREEMPTIBILITY_UNSPECIFIED, NON_PREEMPTIBLE, PREEMPTIBLE
-	// +kubebuilder:validation:Optional
 	Preemptibility *string `json:"preemptibility,omitempty" tf:"preemptibility,omitempty"`
+}
+
+type ConfigSecurityConfigInitParameters struct {
+
+	// Kerberos related configuration.
+	KerberosConfig []SecurityConfigKerberosConfigInitParameters `json:"kerberosConfig,omitempty" tf:"kerberos_config,omitempty"`
 }
 
 type ConfigSecurityConfigObservation struct {
@@ -344,8 +442,18 @@ type ConfigSecurityConfigObservation struct {
 type ConfigSecurityConfigParameters struct {
 
 	// Kerberos related configuration.
-	// +kubebuilder:validation:Optional
 	KerberosConfig []SecurityConfigKerberosConfigParameters `json:"kerberosConfig,omitempty" tf:"kerberos_config,omitempty"`
+}
+
+type ConfigSoftwareConfigInitParameters struct {
+
+	// Optional. The version of software inside the cluster. It must be one of the supported (https://cloud.google.com/dataproc/docs/concepts/versioning/dataproc-versions#other_versions). If unspecified, it defaults to the latest Debian version.
+	ImageVersion *string `json:"imageVersion,omitempty" tf:"image_version,omitempty"`
+
+	OptionalComponents []*string `json:"optionalComponents,omitempty" tf:"optional_components,omitempty"`
+
+	// Optional. A mapping of property names to values, used to configure Spark SQL's SparkConf. Properties that conflict with values set by the Dataproc API may be overwritten.
+	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
 }
 
 type ConfigSoftwareConfigObservation struct {
@@ -362,15 +470,21 @@ type ConfigSoftwareConfigObservation struct {
 type ConfigSoftwareConfigParameters struct {
 
 	// Optional. The version of software inside the cluster. It must be one of the supported (https://cloud.google.com/dataproc/docs/concepts/versioning/dataproc-versions#other_versions). If unspecified, it defaults to the latest Debian version.
-	// +kubebuilder:validation:Optional
 	ImageVersion *string `json:"imageVersion,omitempty" tf:"image_version,omitempty"`
 
-	// +kubebuilder:validation:Optional
 	OptionalComponents []*string `json:"optionalComponents,omitempty" tf:"optional_components,omitempty"`
 
 	// Optional. A mapping of property names to values, used to configure Spark SQL's SparkConf. Properties that conflict with values set by the Dataproc API may be overwritten.
-	// +kubebuilder:validation:Optional
 	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
+}
+
+type ConfigWorkerConfigAcceleratorsInitParameters struct {
+
+	// The number of the accelerator cards of this type exposed to this instance.
+	AcceleratorCount *float64 `json:"acceleratorCount,omitempty" tf:"accelerator_count,omitempty"`
+
+	// Full URL, partial URI, or short name of the accelerator type resource to expose to this instance. See (https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement) feature, you must use the short name of the accelerator type resource, for example, nvidia-tesla-k80.
+	AcceleratorType *string `json:"acceleratorType,omitempty" tf:"accelerator_type,omitempty"`
 }
 
 type ConfigWorkerConfigAcceleratorsObservation struct {
@@ -385,12 +499,22 @@ type ConfigWorkerConfigAcceleratorsObservation struct {
 type ConfigWorkerConfigAcceleratorsParameters struct {
 
 	// The number of the accelerator cards of this type exposed to this instance.
-	// +kubebuilder:validation:Optional
 	AcceleratorCount *float64 `json:"acceleratorCount,omitempty" tf:"accelerator_count,omitempty"`
 
 	// Full URL, partial URI, or short name of the accelerator type resource to expose to this instance. See (https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement) feature, you must use the short name of the accelerator type resource, for example, nvidia-tesla-k80.
-	// +kubebuilder:validation:Optional
 	AcceleratorType *string `json:"acceleratorType,omitempty" tf:"accelerator_type,omitempty"`
+}
+
+type ConfigWorkerConfigDiskConfigInitParameters struct {
+
+	// Optional. Size in GB of the boot disk (default is 500GB).
+	BootDiskSizeGb *float64 `json:"bootDiskSizeGb,omitempty" tf:"boot_disk_size_gb,omitempty"`
+
+	// Optional. Type of the boot disk (default is "pd-standard"). Valid values: "pd-ssd" (Persistent Disk Solid State Drive) or "pd-standard" (Persistent Disk Hard Disk Drive).
+	BootDiskType *string `json:"bootDiskType,omitempty" tf:"boot_disk_type,omitempty"`
+
+	// Optional. Number of attached SSDs, from 0 to 4 (default is 0). If SSDs are not attached, the boot disk is used to store runtime logs and (https://hadoop.apache.org/docs/r1.2.1/hdfs_user_guide.html) data. If one or more SSDs are attached, this runtime bulk data is spread across them, and the boot disk contains only basic config and installed binaries.
+	NumLocalSsds *float64 `json:"numLocalSsds,omitempty" tf:"num_local_ssds,omitempty"`
 }
 
 type ConfigWorkerConfigDiskConfigObservation struct {
@@ -408,16 +532,37 @@ type ConfigWorkerConfigDiskConfigObservation struct {
 type ConfigWorkerConfigDiskConfigParameters struct {
 
 	// Optional. Size in GB of the boot disk (default is 500GB).
-	// +kubebuilder:validation:Optional
 	BootDiskSizeGb *float64 `json:"bootDiskSizeGb,omitempty" tf:"boot_disk_size_gb,omitempty"`
 
 	// Optional. Type of the boot disk (default is "pd-standard"). Valid values: "pd-ssd" (Persistent Disk Solid State Drive) or "pd-standard" (Persistent Disk Hard Disk Drive).
-	// +kubebuilder:validation:Optional
 	BootDiskType *string `json:"bootDiskType,omitempty" tf:"boot_disk_type,omitempty"`
 
 	// Optional. Number of attached SSDs, from 0 to 4 (default is 0). If SSDs are not attached, the boot disk is used to store runtime logs and (https://hadoop.apache.org/docs/r1.2.1/hdfs_user_guide.html) data. If one or more SSDs are attached, this runtime bulk data is spread across them, and the boot disk contains only basic config and installed binaries.
-	// +kubebuilder:validation:Optional
 	NumLocalSsds *float64 `json:"numLocalSsds,omitempty" tf:"num_local_ssds,omitempty"`
+}
+
+type ConfigWorkerConfigInitParameters struct {
+
+	// Optional. The Compute Engine accelerator configuration for these instances.
+	Accelerators []ConfigWorkerConfigAcceleratorsInitParameters `json:"accelerators,omitempty" tf:"accelerators,omitempty"`
+
+	// Optional. Disk option config settings.
+	DiskConfig []ConfigWorkerConfigDiskConfigInitParameters `json:"diskConfig,omitempty" tf:"disk_config,omitempty"`
+
+	// Optional. The Compute Engine image resource used for cluster instances. The URI can represent an image or image family. Image examples: * https://www.googleapis.com/compute/beta/projects/ If the URI is unspecified, it will be inferred from SoftwareConfig.image_version or the system default.
+	Image *string `json:"image,omitempty" tf:"image,omitempty"`
+
+	// Optional. The Compute Engine machine type used for cluster instances. A full URL, partial URI, or short name are valid. Examples: * https://www.googleapis.com/compute/v1/projects/(https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement) feature, you must use the short name of the machine type resource, for example, n1-standard-2`.
+	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
+
+	// Optional. Specifies the minimum cpu platform for the Instance Group. See (https://cloud.google.com/dataproc/docs/concepts/compute/dataproc-min-cpu).
+	MinCPUPlatform *string `json:"minCpuPlatform,omitempty" tf:"min_cpu_platform,omitempty"`
+
+	// Optional. The number of VM instances in the instance group. For master instance groups, must be set to 1.
+	NumInstances *float64 `json:"numInstances,omitempty" tf:"num_instances,omitempty"`
+
+	// Optional. Specifies the preemptibility of the instance group. The default value for master and worker groups is NON_PREEMPTIBLE. This default cannot be changed. The default value for secondary instances is PREEMPTIBLE. Possible values: PREEMPTIBILITY_UNSPECIFIED, NON_PREEMPTIBLE, PREEMPTIBLE
+	Preemptibility *string `json:"preemptibility,omitempty" tf:"preemptibility,omitempty"`
 }
 
 type ConfigWorkerConfigObservation struct {
@@ -456,32 +601,31 @@ type ConfigWorkerConfigObservation struct {
 type ConfigWorkerConfigParameters struct {
 
 	// Optional. The Compute Engine accelerator configuration for these instances.
-	// +kubebuilder:validation:Optional
 	Accelerators []ConfigWorkerConfigAcceleratorsParameters `json:"accelerators,omitempty" tf:"accelerators,omitempty"`
 
 	// Optional. Disk option config settings.
-	// +kubebuilder:validation:Optional
 	DiskConfig []ConfigWorkerConfigDiskConfigParameters `json:"diskConfig,omitempty" tf:"disk_config,omitempty"`
 
 	// Optional. The Compute Engine image resource used for cluster instances. The URI can represent an image or image family. Image examples: * https://www.googleapis.com/compute/beta/projects/ If the URI is unspecified, it will be inferred from SoftwareConfig.image_version or the system default.
-	// +kubebuilder:validation:Optional
 	Image *string `json:"image,omitempty" tf:"image,omitempty"`
 
 	// Optional. The Compute Engine machine type used for cluster instances. A full URL, partial URI, or short name are valid. Examples: * https://www.googleapis.com/compute/v1/projects/(https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement) feature, you must use the short name of the machine type resource, for example, n1-standard-2`.
-	// +kubebuilder:validation:Optional
 	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
 
 	// Optional. Specifies the minimum cpu platform for the Instance Group. See (https://cloud.google.com/dataproc/docs/concepts/compute/dataproc-min-cpu).
-	// +kubebuilder:validation:Optional
 	MinCPUPlatform *string `json:"minCpuPlatform,omitempty" tf:"min_cpu_platform,omitempty"`
 
 	// Optional. The number of VM instances in the instance group. For master instance groups, must be set to 1.
-	// +kubebuilder:validation:Optional
 	NumInstances *float64 `json:"numInstances,omitempty" tf:"num_instances,omitempty"`
 
 	// Optional. Specifies the preemptibility of the instance group. The default value for master and worker groups is NON_PREEMPTIBLE. This default cannot be changed. The default value for secondary instances is PREEMPTIBLE. Possible values: PREEMPTIBILITY_UNSPECIFIED, NON_PREEMPTIBLE, PREEMPTIBLE
-	// +kubebuilder:validation:Optional
 	Preemptibility *string `json:"preemptibility,omitempty" tf:"preemptibility,omitempty"`
+}
+
+type GceClusterConfigNodeGroupAffinityInitParameters struct {
+
+	// Required. The URI of a sole-tenant /zones/us-central1-a/nodeGroups/node-group-1*node-group-1`
+	NodeGroup *string `json:"nodeGroup,omitempty" tf:"node_group,omitempty"`
 }
 
 type GceClusterConfigNodeGroupAffinityObservation struct {
@@ -493,8 +637,19 @@ type GceClusterConfigNodeGroupAffinityObservation struct {
 type GceClusterConfigNodeGroupAffinityParameters struct {
 
 	// Required. The URI of a sole-tenant /zones/us-central1-a/nodeGroups/node-group-1*node-group-1`
-	// +kubebuilder:validation:Required
-	NodeGroup *string `json:"nodeGroup" tf:"node_group,omitempty"`
+	NodeGroup *string `json:"nodeGroup,omitempty" tf:"node_group,omitempty"`
+}
+
+type GceClusterConfigReservationAffinityInitParameters struct {
+
+	// Optional. Type of reservation to consume Possible values: TYPE_UNSPECIFIED, NO_RESERVATION, ANY_RESERVATION, SPECIFIC_RESERVATION
+	ConsumeReservationType *string `json:"consumeReservationType,omitempty" tf:"consume_reservation_type,omitempty"`
+
+	// Optional. Corresponds to the label key of reservation resource.
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	// Required. List of allowed values for the parameter.
+	Values []*string `json:"values,omitempty" tf:"values,omitempty"`
 }
 
 type GceClusterConfigReservationAffinityObservation struct {
@@ -512,16 +667,25 @@ type GceClusterConfigReservationAffinityObservation struct {
 type GceClusterConfigReservationAffinityParameters struct {
 
 	// Optional. Type of reservation to consume Possible values: TYPE_UNSPECIFIED, NO_RESERVATION, ANY_RESERVATION, SPECIFIC_RESERVATION
-	// +kubebuilder:validation:Optional
 	ConsumeReservationType *string `json:"consumeReservationType,omitempty" tf:"consume_reservation_type,omitempty"`
 
 	// Optional. Corresponds to the label key of reservation resource.
-	// +kubebuilder:validation:Optional
 	Key *string `json:"key,omitempty" tf:"key,omitempty"`
 
 	// Required. List of allowed values for the parameter.
-	// +kubebuilder:validation:Optional
 	Values []*string `json:"values,omitempty" tf:"values,omitempty"`
+}
+
+type GceClusterConfigShieldedInstanceConfigInitParameters struct {
+
+	// Optional. Defines whether instances have Integrity Monitoring enabled.
+	EnableIntegrityMonitoring *bool `json:"enableIntegrityMonitoring,omitempty" tf:"enable_integrity_monitoring,omitempty"`
+
+	// Optional. Defines whether instances have Secure Boot enabled.
+	EnableSecureBoot *bool `json:"enableSecureBoot,omitempty" tf:"enable_secure_boot,omitempty"`
+
+	// Optional. Defines whether instances have the vTPM enabled.
+	EnableVtpm *bool `json:"enableVtpm,omitempty" tf:"enable_vtpm,omitempty"`
 }
 
 type GceClusterConfigShieldedInstanceConfigObservation struct {
@@ -539,16 +703,46 @@ type GceClusterConfigShieldedInstanceConfigObservation struct {
 type GceClusterConfigShieldedInstanceConfigParameters struct {
 
 	// Optional. Defines whether instances have Integrity Monitoring enabled.
-	// +kubebuilder:validation:Optional
 	EnableIntegrityMonitoring *bool `json:"enableIntegrityMonitoring,omitempty" tf:"enable_integrity_monitoring,omitempty"`
 
 	// Optional. Defines whether instances have Secure Boot enabled.
-	// +kubebuilder:validation:Optional
 	EnableSecureBoot *bool `json:"enableSecureBoot,omitempty" tf:"enable_secure_boot,omitempty"`
 
 	// Optional. Defines whether instances have the vTPM enabled.
-	// +kubebuilder:validation:Optional
 	EnableVtpm *bool `json:"enableVtpm,omitempty" tf:"enable_vtpm,omitempty"`
+}
+
+type HadoopJobInitParameters struct {
+
+	// Optional. HCFS URIs of archives to be extracted into the working directory of each executor. Supported file types: .jar, .tar, .tar.gz, .tgz, and .zip.
+	ArchiveUris []*string `json:"archiveUris,omitempty" tf:"archive_uris,omitempty"`
+
+	// Optional. The arguments to pass to the driver. Do not include arguments, such as --conf, that can be set as job properties, since a collision may occur that causes an incorrect job submission.
+	Args []*string `json:"args,omitempty" tf:"args,omitempty"`
+
+	// Optional. HCFS URIs of files to be placed in the working directory of each executor. Useful for naively parallel tasks.
+	FileUris []*string `json:"fileUris,omitempty" tf:"file_uris,omitempty"`
+
+	// Optional. HCFS URIs of jar files to be added to the Spark CLASSPATH.
+	JarFileUris []*string `json:"jarFileUris,omitempty" tf:"jar_file_uris,omitempty"`
+
+	// Optional. The runtime log config for job execution.
+	LoggingConfig []HadoopJobLoggingConfigInitParameters `json:"loggingConfig,omitempty" tf:"logging_config,omitempty"`
+
+	// The name of the driver's main class. The jar file that contains the class must be in the default CLASSPATH or specified in jar_file_uris.
+	MainClass *string `json:"mainClass,omitempty" tf:"main_class,omitempty"`
+
+	// The HCFS URI of the jar file that contains the main class.
+	MainJarFileURI *string `json:"mainJarFileUri,omitempty" tf:"main_jar_file_uri,omitempty"`
+
+	// Optional. A mapping of property names to values, used to configure Spark SQL's SparkConf. Properties that conflict with values set by the Dataproc API may be overwritten.
+	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
+}
+
+type HadoopJobLoggingConfigInitParameters struct {
+
+	// The per-package log levels for the driver. This may include "root" package name to configure rootLogger. Examples: 'com.google = FATAL', 'root = INFO', 'org.apache = DEBUG'
+	DriverLogLevels map[string]*string `json:"driverLogLevels,omitempty" tf:"driver_log_levels,omitempty"`
 }
 
 type HadoopJobLoggingConfigObservation struct {
@@ -560,7 +754,6 @@ type HadoopJobLoggingConfigObservation struct {
 type HadoopJobLoggingConfigParameters struct {
 
 	// The per-package log levels for the driver. This may include "root" package name to configure rootLogger. Examples: 'com.google = FATAL', 'root = INFO', 'org.apache = DEBUG'
-	// +kubebuilder:validation:Optional
 	DriverLogLevels map[string]*string `json:"driverLogLevels,omitempty" tf:"driver_log_levels,omitempty"`
 }
 
@@ -594,36 +787,49 @@ type HadoopJobObservation struct {
 type HadoopJobParameters struct {
 
 	// Optional. HCFS URIs of archives to be extracted into the working directory of each executor. Supported file types: .jar, .tar, .tar.gz, .tgz, and .zip.
-	// +kubebuilder:validation:Optional
 	ArchiveUris []*string `json:"archiveUris,omitempty" tf:"archive_uris,omitempty"`
 
 	// Optional. The arguments to pass to the driver. Do not include arguments, such as --conf, that can be set as job properties, since a collision may occur that causes an incorrect job submission.
-	// +kubebuilder:validation:Optional
 	Args []*string `json:"args,omitempty" tf:"args,omitempty"`
 
 	// Optional. HCFS URIs of files to be placed in the working directory of each executor. Useful for naively parallel tasks.
-	// +kubebuilder:validation:Optional
 	FileUris []*string `json:"fileUris,omitempty" tf:"file_uris,omitempty"`
 
 	// Optional. HCFS URIs of jar files to be added to the Spark CLASSPATH.
-	// +kubebuilder:validation:Optional
 	JarFileUris []*string `json:"jarFileUris,omitempty" tf:"jar_file_uris,omitempty"`
 
 	// Optional. The runtime log config for job execution.
-	// +kubebuilder:validation:Optional
 	LoggingConfig []HadoopJobLoggingConfigParameters `json:"loggingConfig,omitempty" tf:"logging_config,omitempty"`
 
 	// The name of the driver's main class. The jar file that contains the class must be in the default CLASSPATH or specified in jar_file_uris.
-	// +kubebuilder:validation:Optional
 	MainClass *string `json:"mainClass,omitempty" tf:"main_class,omitempty"`
 
 	// The HCFS URI of the jar file that contains the main class.
-	// +kubebuilder:validation:Optional
 	MainJarFileURI *string `json:"mainJarFileUri,omitempty" tf:"main_jar_file_uri,omitempty"`
 
 	// Optional. A mapping of property names to values, used to configure Spark SQL's SparkConf. Properties that conflict with values set by the Dataproc API may be overwritten.
-	// +kubebuilder:validation:Optional
 	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
+}
+
+type HiveJobInitParameters struct {
+
+	// Optional. Whether to continue executing queries if a query fails. The default value is false. Setting to true can be useful when executing independent parallel queries.
+	ContinueOnFailure *bool `json:"continueOnFailure,omitempty" tf:"continue_on_failure,omitempty"`
+
+	// Optional. HCFS URIs of jar files to be added to the Spark CLASSPATH.
+	JarFileUris []*string `json:"jarFileUris,omitempty" tf:"jar_file_uris,omitempty"`
+
+	// Optional. A mapping of property names to values, used to configure Spark SQL's SparkConf. Properties that conflict with values set by the Dataproc API may be overwritten.
+	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
+
+	// The HCFS URI of the script that contains SQL queries.
+	QueryFileURI *string `json:"queryFileUri,omitempty" tf:"query_file_uri,omitempty"`
+
+	// A list of queries.
+	QueryList []QueryListInitParameters `json:"queryList,omitempty" tf:"query_list,omitempty"`
+
+	// Optional. Mapping of query variable names to values (equivalent to the Spark SQL command: SET name="value";).
+	ScriptVariables map[string]*string `json:"scriptVariables,omitempty" tf:"script_variables,omitempty"`
 }
 
 type HiveJobObservation struct {
@@ -650,28 +856,31 @@ type HiveJobObservation struct {
 type HiveJobParameters struct {
 
 	// Optional. Whether to continue executing queries if a query fails. The default value is false. Setting to true can be useful when executing independent parallel queries.
-	// +kubebuilder:validation:Optional
 	ContinueOnFailure *bool `json:"continueOnFailure,omitempty" tf:"continue_on_failure,omitempty"`
 
 	// Optional. HCFS URIs of jar files to be added to the Spark CLASSPATH.
-	// +kubebuilder:validation:Optional
 	JarFileUris []*string `json:"jarFileUris,omitempty" tf:"jar_file_uris,omitempty"`
 
 	// Optional. A mapping of property names to values, used to configure Spark SQL's SparkConf. Properties that conflict with values set by the Dataproc API may be overwritten.
-	// +kubebuilder:validation:Optional
 	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
 
 	// The HCFS URI of the script that contains SQL queries.
-	// +kubebuilder:validation:Optional
 	QueryFileURI *string `json:"queryFileUri,omitempty" tf:"query_file_uri,omitempty"`
 
 	// A list of queries.
-	// +kubebuilder:validation:Optional
 	QueryList []QueryListParameters `json:"queryList,omitempty" tf:"query_list,omitempty"`
 
 	// Optional. Mapping of query variable names to values (equivalent to the Spark SQL command: SET name="value";).
-	// +kubebuilder:validation:Optional
 	ScriptVariables map[string]*string `json:"scriptVariables,omitempty" tf:"script_variables,omitempty"`
+}
+
+type InitializationActionsInitParameters struct {
+
+	// Required. Cloud Storage URI of executable file.
+	ExecutableFile *string `json:"executableFile,omitempty" tf:"executable_file,omitempty"`
+
+	// Optional. Amount of time executable has to complete. Default is 10 minutes (see JSON representation of (https://developers.google.com/protocol-buffers/docs/proto3#json)). Cluster creation fails with an explanatory error message (the name of the executable that caused the error and the exceeded timeout period) if the executable is not completed at end of the timeout period.
+	ExecutionTimeout *string `json:"executionTimeout,omitempty" tf:"execution_timeout,omitempty"`
 }
 
 type InitializationActionsObservation struct {
@@ -686,12 +895,49 @@ type InitializationActionsObservation struct {
 type InitializationActionsParameters struct {
 
 	// Required. Cloud Storage URI of executable file.
-	// +kubebuilder:validation:Optional
 	ExecutableFile *string `json:"executableFile,omitempty" tf:"executable_file,omitempty"`
 
 	// Optional. Amount of time executable has to complete. Default is 10 minutes (see JSON representation of (https://developers.google.com/protocol-buffers/docs/proto3#json)). Cluster creation fails with an explanatory error message (the name of the executable that caused the error and the exceeded timeout period) if the executable is not completed at end of the timeout period.
-	// +kubebuilder:validation:Optional
 	ExecutionTimeout *string `json:"executionTimeout,omitempty" tf:"execution_timeout,omitempty"`
+}
+
+type JobsInitParameters struct {
+
+	// Optional. Job is a Hadoop job.
+	HadoopJob []HadoopJobInitParameters `json:"hadoopJob,omitempty" tf:"hadoop_job,omitempty"`
+
+	// Optional. Job is a Hive job.
+	HiveJob []HiveJobInitParameters `json:"hiveJob,omitempty" tf:"hive_job,omitempty"`
+
+	// Optional. The labels to associate with this job. Label keys must be between 1 and 63 characters long, and must conform to the following regular expression: {0,63} No more than 32 labels can be associated with a given job.
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// Optional. Job is a Pig job.
+	PigJob []PigJobInitParameters `json:"pigJob,omitempty" tf:"pig_job,omitempty"`
+
+	// Optional. The optional list of prerequisite job step_ids. If not specified, the job will start at the beginning of workflow.
+	PrerequisiteStepIds []*string `json:"prerequisiteStepIds,omitempty" tf:"prerequisite_step_ids,omitempty"`
+
+	// Optional. Job is a Presto job.
+	PrestoJob []PrestoJobInitParameters `json:"prestoJob,omitempty" tf:"presto_job,omitempty"`
+
+	// Optional. Job is a PySpark job.
+	PysparkJob []PysparkJobInitParameters `json:"pysparkJob,omitempty" tf:"pyspark_job,omitempty"`
+
+	// Optional. Job scheduling configuration.
+	Scheduling []JobsSchedulingInitParameters `json:"scheduling,omitempty" tf:"scheduling,omitempty"`
+
+	// Optional. Job is a Spark job.
+	SparkJob []SparkJobInitParameters `json:"sparkJob,omitempty" tf:"spark_job,omitempty"`
+
+	// Optional. Job is a SparkR job.
+	SparkRJob []SparkRJobInitParameters `json:"sparkRJob,omitempty" tf:"spark_r_job,omitempty"`
+
+	// Optional. Job is a SparkSql job.
+	SparkSQLJob []SparkSQLJobInitParameters `json:"sparkSqlJob,omitempty" tf:"spark_sql_job,omitempty"`
+
+	// Required. The step id. The id must be unique among all jobs within the template. The step id is used as prefix for job id, as job goog-dataproc-workflow-step-id label, and in field from other steps. The id must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). Cannot begin or end with underscore or hyphen. Must consist of between 3 and 50 characters.
+	StepID *string `json:"stepId,omitempty" tf:"step_id,omitempty"`
 }
 
 type JobsObservation struct {
@@ -736,52 +982,49 @@ type JobsObservation struct {
 type JobsParameters struct {
 
 	// Optional. Job is a Hadoop job.
-	// +kubebuilder:validation:Optional
 	HadoopJob []HadoopJobParameters `json:"hadoopJob,omitempty" tf:"hadoop_job,omitempty"`
 
 	// Optional. Job is a Hive job.
-	// +kubebuilder:validation:Optional
 	HiveJob []HiveJobParameters `json:"hiveJob,omitempty" tf:"hive_job,omitempty"`
 
 	// Optional. The labels to associate with this job. Label keys must be between 1 and 63 characters long, and must conform to the following regular expression: {0,63} No more than 32 labels can be associated with a given job.
-	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Optional. Job is a Pig job.
-	// +kubebuilder:validation:Optional
 	PigJob []PigJobParameters `json:"pigJob,omitempty" tf:"pig_job,omitempty"`
 
 	// Optional. The optional list of prerequisite job step_ids. If not specified, the job will start at the beginning of workflow.
-	// +kubebuilder:validation:Optional
 	PrerequisiteStepIds []*string `json:"prerequisiteStepIds,omitempty" tf:"prerequisite_step_ids,omitempty"`
 
 	// Optional. Job is a Presto job.
-	// +kubebuilder:validation:Optional
 	PrestoJob []PrestoJobParameters `json:"prestoJob,omitempty" tf:"presto_job,omitempty"`
 
 	// Optional. Job is a PySpark job.
-	// +kubebuilder:validation:Optional
 	PysparkJob []PysparkJobParameters `json:"pysparkJob,omitempty" tf:"pyspark_job,omitempty"`
 
 	// Optional. Job scheduling configuration.
-	// +kubebuilder:validation:Optional
 	Scheduling []JobsSchedulingParameters `json:"scheduling,omitempty" tf:"scheduling,omitempty"`
 
 	// Optional. Job is a Spark job.
-	// +kubebuilder:validation:Optional
 	SparkJob []SparkJobParameters `json:"sparkJob,omitempty" tf:"spark_job,omitempty"`
 
 	// Optional. Job is a SparkR job.
-	// +kubebuilder:validation:Optional
 	SparkRJob []SparkRJobParameters `json:"sparkRJob,omitempty" tf:"spark_r_job,omitempty"`
 
 	// Optional. Job is a SparkSql job.
-	// +kubebuilder:validation:Optional
 	SparkSQLJob []SparkSQLJobParameters `json:"sparkSqlJob,omitempty" tf:"spark_sql_job,omitempty"`
 
 	// Required. The step id. The id must be unique among all jobs within the template. The step id is used as prefix for job id, as job goog-dataproc-workflow-step-id label, and in field from other steps. The id must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). Cannot begin or end with underscore or hyphen. Must consist of between 3 and 50 characters.
-	// +kubebuilder:validation:Required
-	StepID *string `json:"stepId" tf:"step_id,omitempty"`
+	StepID *string `json:"stepId,omitempty" tf:"step_id,omitempty"`
+}
+
+type JobsSchedulingInitParameters struct {
+
+	// Optional. Maximum number of times per hour a driver may be restarted as a result of driver exiting with non-zero code before job is reported failed. A job may be reported as thrashing if driver exits with non-zero code 4 times within 10 minute window. Maximum value is 10.
+	MaxFailuresPerHour *float64 `json:"maxFailuresPerHour,omitempty" tf:"max_failures_per_hour,omitempty"`
+
+	// Optional. Maximum number of times in total a driver may be restarted as a result of driver exiting with non-zero code before job is reported failed. Maximum value is 240
+	MaxFailuresTotal *float64 `json:"maxFailuresTotal,omitempty" tf:"max_failures_total,omitempty"`
 }
 
 type JobsSchedulingObservation struct {
@@ -796,12 +1039,52 @@ type JobsSchedulingObservation struct {
 type JobsSchedulingParameters struct {
 
 	// Optional. Maximum number of times per hour a driver may be restarted as a result of driver exiting with non-zero code before job is reported failed. A job may be reported as thrashing if driver exits with non-zero code 4 times within 10 minute window. Maximum value is 10.
-	// +kubebuilder:validation:Optional
 	MaxFailuresPerHour *float64 `json:"maxFailuresPerHour,omitempty" tf:"max_failures_per_hour,omitempty"`
 
 	// Optional. Maximum number of times in total a driver may be restarted as a result of driver exiting with non-zero code before job is reported failed. Maximum value is 240
-	// +kubebuilder:validation:Optional
 	MaxFailuresTotal *float64 `json:"maxFailuresTotal,omitempty" tf:"max_failures_total,omitempty"`
+}
+
+type ManagedClusterConfigInitParameters struct {
+
+	// Optional. Autoscaling config for the policy associated with the cluster. Cluster does not autoscale if this field is unset.
+	AutoscalingConfig []ConfigAutoscalingConfigInitParameters `json:"autoscalingConfig,omitempty" tf:"autoscaling_config,omitempty"`
+
+	// Optional. Encryption settings for the cluster.
+	EncryptionConfig []ConfigEncryptionConfigInitParameters `json:"encryptionConfig,omitempty" tf:"encryption_config,omitempty"`
+
+	// Optional. Port/endpoint configuration for this cluster
+	EndpointConfig []ConfigEndpointConfigInitParameters `json:"endpointConfig,omitempty" tf:"endpoint_config,omitempty"`
+
+	// Optional. The shared Compute Engine config settings for all instances in a cluster.
+	GceClusterConfig []ConfigGceClusterConfigInitParameters `json:"gceClusterConfig,omitempty" tf:"gce_cluster_config,omitempty"`
+
+	// Optional. Commands to execute on each node after config is completed. By default, executables are run on master and all worker nodes. You can test a node's role metadata to run an executable on a master or worker node, as shown below using curl (you can also use wget): ROLE=$(curl -H Metadata-Flavor:Google http://metadata/computeMetadata/v1/instance/attributes/dataproc-role) if ; then ... master specific actions ... else ... worker specific actions ... fi
+	InitializationActions []InitializationActionsInitParameters `json:"initializationActions,omitempty" tf:"initialization_actions,omitempty"`
+
+	// Optional. Lifecycle setting for the cluster.
+	LifecycleConfig []ConfigLifecycleConfigInitParameters `json:"lifecycleConfig,omitempty" tf:"lifecycle_config,omitempty"`
+
+	// Optional. The Compute Engine config settings for additional worker instances in a cluster.
+	MasterConfig []ConfigMasterConfigInitParameters `json:"masterConfig,omitempty" tf:"master_config,omitempty"`
+
+	// Optional. The Compute Engine config settings for additional worker instances in a cluster.
+	SecondaryWorkerConfig []ConfigSecondaryWorkerConfigInitParameters `json:"secondaryWorkerConfig,omitempty" tf:"secondary_worker_config,omitempty"`
+
+	// Optional. Security settings for the cluster.
+	SecurityConfig []ConfigSecurityConfigInitParameters `json:"securityConfig,omitempty" tf:"security_config,omitempty"`
+
+	// Optional. The config settings for software inside the cluster.
+	SoftwareConfig []ConfigSoftwareConfigInitParameters `json:"softwareConfig,omitempty" tf:"software_config,omitempty"`
+
+	// Optional. A Cloud Storage bucket used to stage job dependencies, config files, and job driver console output. If you do not specify a staging bucket, Cloud Dataproc will determine a Cloud Storage location (US, ASIA, or EU) for your cluster's staging bucket according to the Compute Engine zone where your cluster is deployed, and then create and manage this project-level, per-location bucket (see (https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/staging-bucket)).
+	StagingBucket *string `json:"stagingBucket,omitempty" tf:"staging_bucket,omitempty"`
+
+	// Optional. A Cloud Storage bucket used to store ephemeral cluster and jobs data, such as Spark and MapReduce history files. If you do not specify a temp bucket, Dataproc will determine a Cloud Storage location (US, ASIA, or EU) for your cluster's temp bucket according to the Compute Engine zone where your cluster is deployed, and then create and manage this project-level, per-location bucket. The default bucket has a TTL of 90 days, but you can use any TTL (or none) if you specify a bucket.
+	TempBucket *string `json:"tempBucket,omitempty" tf:"temp_bucket,omitempty"`
+
+	// Optional. The Compute Engine config settings for additional worker instances in a cluster.
+	WorkerConfig []ConfigWorkerConfigInitParameters `json:"workerConfig,omitempty" tf:"worker_config,omitempty"`
 }
 
 type ManagedClusterConfigObservation struct {
@@ -849,56 +1132,55 @@ type ManagedClusterConfigObservation struct {
 type ManagedClusterConfigParameters struct {
 
 	// Optional. Autoscaling config for the policy associated with the cluster. Cluster does not autoscale if this field is unset.
-	// +kubebuilder:validation:Optional
 	AutoscalingConfig []ConfigAutoscalingConfigParameters `json:"autoscalingConfig,omitempty" tf:"autoscaling_config,omitempty"`
 
 	// Optional. Encryption settings for the cluster.
-	// +kubebuilder:validation:Optional
 	EncryptionConfig []ConfigEncryptionConfigParameters `json:"encryptionConfig,omitempty" tf:"encryption_config,omitempty"`
 
 	// Optional. Port/endpoint configuration for this cluster
-	// +kubebuilder:validation:Optional
 	EndpointConfig []ConfigEndpointConfigParameters `json:"endpointConfig,omitempty" tf:"endpoint_config,omitempty"`
 
 	// Optional. The shared Compute Engine config settings for all instances in a cluster.
-	// +kubebuilder:validation:Optional
 	GceClusterConfig []ConfigGceClusterConfigParameters `json:"gceClusterConfig,omitempty" tf:"gce_cluster_config,omitempty"`
 
 	// Optional. Commands to execute on each node after config is completed. By default, executables are run on master and all worker nodes. You can test a node's role metadata to run an executable on a master or worker node, as shown below using curl (you can also use wget): ROLE=$(curl -H Metadata-Flavor:Google http://metadata/computeMetadata/v1/instance/attributes/dataproc-role) if ; then ... master specific actions ... else ... worker specific actions ... fi
-	// +kubebuilder:validation:Optional
 	InitializationActions []InitializationActionsParameters `json:"initializationActions,omitempty" tf:"initialization_actions,omitempty"`
 
 	// Optional. Lifecycle setting for the cluster.
-	// +kubebuilder:validation:Optional
 	LifecycleConfig []ConfigLifecycleConfigParameters `json:"lifecycleConfig,omitempty" tf:"lifecycle_config,omitempty"`
 
 	// Optional. The Compute Engine config settings for additional worker instances in a cluster.
-	// +kubebuilder:validation:Optional
 	MasterConfig []ConfigMasterConfigParameters `json:"masterConfig,omitempty" tf:"master_config,omitempty"`
 
 	// Optional. The Compute Engine config settings for additional worker instances in a cluster.
-	// +kubebuilder:validation:Optional
 	SecondaryWorkerConfig []ConfigSecondaryWorkerConfigParameters `json:"secondaryWorkerConfig,omitempty" tf:"secondary_worker_config,omitempty"`
 
 	// Optional. Security settings for the cluster.
-	// +kubebuilder:validation:Optional
 	SecurityConfig []ConfigSecurityConfigParameters `json:"securityConfig,omitempty" tf:"security_config,omitempty"`
 
 	// Optional. The config settings for software inside the cluster.
-	// +kubebuilder:validation:Optional
 	SoftwareConfig []ConfigSoftwareConfigParameters `json:"softwareConfig,omitempty" tf:"software_config,omitempty"`
 
 	// Optional. A Cloud Storage bucket used to stage job dependencies, config files, and job driver console output. If you do not specify a staging bucket, Cloud Dataproc will determine a Cloud Storage location (US, ASIA, or EU) for your cluster's staging bucket according to the Compute Engine zone where your cluster is deployed, and then create and manage this project-level, per-location bucket (see (https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/staging-bucket)).
-	// +kubebuilder:validation:Optional
 	StagingBucket *string `json:"stagingBucket,omitempty" tf:"staging_bucket,omitempty"`
 
 	// Optional. A Cloud Storage bucket used to store ephemeral cluster and jobs data, such as Spark and MapReduce history files. If you do not specify a temp bucket, Dataproc will determine a Cloud Storage location (US, ASIA, or EU) for your cluster's temp bucket according to the Compute Engine zone where your cluster is deployed, and then create and manage this project-level, per-location bucket. The default bucket has a TTL of 90 days, but you can use any TTL (or none) if you specify a bucket.
-	// +kubebuilder:validation:Optional
 	TempBucket *string `json:"tempBucket,omitempty" tf:"temp_bucket,omitempty"`
 
 	// Optional. The Compute Engine config settings for additional worker instances in a cluster.
-	// +kubebuilder:validation:Optional
 	WorkerConfig []ConfigWorkerConfigParameters `json:"workerConfig,omitempty" tf:"worker_config,omitempty"`
+}
+
+type ManagedClusterInitParameters struct {
+
+	// Required. The cluster name prefix. A unique cluster name will be formed by appending a random suffix. The name must contain only lower-case letters (a-z), numbers (0-9), and hyphens (-). Must begin with a letter. Cannot begin or end with hyphen. Must consist of between 2 and 35 characters.
+	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
+
+	// Required. The cluster configuration.
+	Config []ManagedClusterConfigInitParameters `json:"config,omitempty" tf:"config,omitempty"`
+
+	// Optional. The labels to associate with this cluster. Label keys must be between 1 and 63 characters long, and must conform to the following PCRE regular expression: {0,63} No more than 32 labels can be associated with a given cluster.
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 }
 
 type ManagedClusterObservation struct {
@@ -916,16 +1198,16 @@ type ManagedClusterObservation struct {
 type ManagedClusterParameters struct {
 
 	// Required. The cluster name prefix. A unique cluster name will be formed by appending a random suffix. The name must contain only lower-case letters (a-z), numbers (0-9), and hyphens (-). Must begin with a letter. Cannot begin or end with hyphen. Must consist of between 2 and 35 characters.
-	// +kubebuilder:validation:Required
-	ClusterName *string `json:"clusterName" tf:"cluster_name,omitempty"`
+	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
 
 	// Required. The cluster configuration.
-	// +kubebuilder:validation:Required
-	Config []ManagedClusterConfigParameters `json:"config" tf:"config,omitempty"`
+	Config []ManagedClusterConfigParameters `json:"config,omitempty" tf:"config,omitempty"`
 
 	// Optional. The labels to associate with this cluster. Label keys must be between 1 and 63 characters long, and must conform to the following PCRE regular expression: {0,63} No more than 32 labels can be associated with a given cluster.
-	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+}
+
+type ManagedGroupConfigInitParameters struct {
 }
 
 type ManagedGroupConfigObservation struct {
@@ -940,6 +1222,15 @@ type ManagedGroupConfigObservation struct {
 type ManagedGroupConfigParameters struct {
 }
 
+type MasterConfigAcceleratorsInitParameters struct {
+
+	// The number of the accelerator cards of this type exposed to this instance.
+	AcceleratorCount *float64 `json:"acceleratorCount,omitempty" tf:"accelerator_count,omitempty"`
+
+	// Full URL, partial URI, or short name of the accelerator type resource to expose to this instance. See (https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement) feature, you must use the short name of the accelerator type resource, for example, nvidia-tesla-k80.
+	AcceleratorType *string `json:"acceleratorType,omitempty" tf:"accelerator_type,omitempty"`
+}
+
 type MasterConfigAcceleratorsObservation struct {
 
 	// The number of the accelerator cards of this type exposed to this instance.
@@ -952,12 +1243,22 @@ type MasterConfigAcceleratorsObservation struct {
 type MasterConfigAcceleratorsParameters struct {
 
 	// The number of the accelerator cards of this type exposed to this instance.
-	// +kubebuilder:validation:Optional
 	AcceleratorCount *float64 `json:"acceleratorCount,omitempty" tf:"accelerator_count,omitempty"`
 
 	// Full URL, partial URI, or short name of the accelerator type resource to expose to this instance. See (https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement) feature, you must use the short name of the accelerator type resource, for example, nvidia-tesla-k80.
-	// +kubebuilder:validation:Optional
 	AcceleratorType *string `json:"acceleratorType,omitempty" tf:"accelerator_type,omitempty"`
+}
+
+type MasterConfigDiskConfigInitParameters struct {
+
+	// Optional. Size in GB of the boot disk (default is 500GB).
+	BootDiskSizeGb *float64 `json:"bootDiskSizeGb,omitempty" tf:"boot_disk_size_gb,omitempty"`
+
+	// Optional. Type of the boot disk (default is "pd-standard"). Valid values: "pd-ssd" (Persistent Disk Solid State Drive) or "pd-standard" (Persistent Disk Hard Disk Drive).
+	BootDiskType *string `json:"bootDiskType,omitempty" tf:"boot_disk_type,omitempty"`
+
+	// Optional. Number of attached SSDs, from 0 to 4 (default is 0). If SSDs are not attached, the boot disk is used to store runtime logs and (https://hadoop.apache.org/docs/r1.2.1/hdfs_user_guide.html) data. If one or more SSDs are attached, this runtime bulk data is spread across them, and the boot disk contains only basic config and installed binaries.
+	NumLocalSsds *float64 `json:"numLocalSsds,omitempty" tf:"num_local_ssds,omitempty"`
 }
 
 type MasterConfigDiskConfigObservation struct {
@@ -975,16 +1276,28 @@ type MasterConfigDiskConfigObservation struct {
 type MasterConfigDiskConfigParameters struct {
 
 	// Optional. Size in GB of the boot disk (default is 500GB).
-	// +kubebuilder:validation:Optional
 	BootDiskSizeGb *float64 `json:"bootDiskSizeGb,omitempty" tf:"boot_disk_size_gb,omitempty"`
 
 	// Optional. Type of the boot disk (default is "pd-standard"). Valid values: "pd-ssd" (Persistent Disk Solid State Drive) or "pd-standard" (Persistent Disk Hard Disk Drive).
-	// +kubebuilder:validation:Optional
 	BootDiskType *string `json:"bootDiskType,omitempty" tf:"boot_disk_type,omitempty"`
 
 	// Optional. Number of attached SSDs, from 0 to 4 (default is 0). If SSDs are not attached, the boot disk is used to store runtime logs and (https://hadoop.apache.org/docs/r1.2.1/hdfs_user_guide.html) data. If one or more SSDs are attached, this runtime bulk data is spread across them, and the boot disk contains only basic config and installed binaries.
-	// +kubebuilder:validation:Optional
 	NumLocalSsds *float64 `json:"numLocalSsds,omitempty" tf:"num_local_ssds,omitempty"`
+}
+
+type ParametersInitParameters struct {
+
+	// Optional. Brief description of the parameter. Must not exceed 1024 characters.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Required. Paths to all fields that the parameter replaces. A field is allowed to appear in at most one parameter's list of field paths. A field path is similar in syntax to a .sparkJob.args
+	Fields []*string `json:"fields,omitempty" tf:"fields,omitempty"`
+
+	// Required. Parameter name. The parameter name is used as the key, and paired with the parameter value, which are passed to the template when the template is instantiated. The name must contain only capital letters (A-Z), numbers (0-9), and underscores (_), and must not start with a number. The maximum length is 40 characters.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Optional. Validation rules to be applied to this parameter's value.
+	Validation []ValidationInitParameters `json:"validation,omitempty" tf:"validation,omitempty"`
 }
 
 type ParametersObservation struct {
@@ -1005,20 +1318,46 @@ type ParametersObservation struct {
 type ParametersParameters struct {
 
 	// Optional. Brief description of the parameter. Must not exceed 1024 characters.
-	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Required. Paths to all fields that the parameter replaces. A field is allowed to appear in at most one parameter's list of field paths. A field path is similar in syntax to a .sparkJob.args
-	// +kubebuilder:validation:Required
-	Fields []*string `json:"fields" tf:"fields,omitempty"`
+	Fields []*string `json:"fields,omitempty" tf:"fields,omitempty"`
 
 	// Required. Parameter name. The parameter name is used as the key, and paired with the parameter value, which are passed to the template when the template is instantiated. The name must contain only capital letters (A-Z), numbers (0-9), and underscores (_), and must not start with a number. The maximum length is 40 characters.
-	// +kubebuilder:validation:Required
-	Name *string `json:"name" tf:"name,omitempty"`
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// Optional. Validation rules to be applied to this parameter's value.
-	// +kubebuilder:validation:Optional
 	Validation []ValidationParameters `json:"validation,omitempty" tf:"validation,omitempty"`
+}
+
+type PigJobInitParameters struct {
+
+	// Optional. Whether to continue executing queries if a query fails. The default value is false. Setting to true can be useful when executing independent parallel queries.
+	ContinueOnFailure *bool `json:"continueOnFailure,omitempty" tf:"continue_on_failure,omitempty"`
+
+	// Optional. HCFS URIs of jar files to be added to the Spark CLASSPATH.
+	JarFileUris []*string `json:"jarFileUris,omitempty" tf:"jar_file_uris,omitempty"`
+
+	// Optional. The runtime log config for job execution.
+	LoggingConfig []PigJobLoggingConfigInitParameters `json:"loggingConfig,omitempty" tf:"logging_config,omitempty"`
+
+	// Optional. A mapping of property names to values, used to configure Spark SQL's SparkConf. Properties that conflict with values set by the Dataproc API may be overwritten.
+	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
+
+	// The HCFS URI of the script that contains SQL queries.
+	QueryFileURI *string `json:"queryFileUri,omitempty" tf:"query_file_uri,omitempty"`
+
+	// A list of queries.
+	QueryList []PigJobQueryListInitParameters `json:"queryList,omitempty" tf:"query_list,omitempty"`
+
+	// Optional. Mapping of query variable names to values (equivalent to the Spark SQL command: SET name="value";).
+	ScriptVariables map[string]*string `json:"scriptVariables,omitempty" tf:"script_variables,omitempty"`
+}
+
+type PigJobLoggingConfigInitParameters struct {
+
+	// The per-package log levels for the driver. This may include "root" package name to configure rootLogger. Examples: 'com.google = FATAL', 'root = INFO', 'org.apache = DEBUG'
+	DriverLogLevels map[string]*string `json:"driverLogLevels,omitempty" tf:"driver_log_levels,omitempty"`
 }
 
 type PigJobLoggingConfigObservation struct {
@@ -1030,7 +1369,6 @@ type PigJobLoggingConfigObservation struct {
 type PigJobLoggingConfigParameters struct {
 
 	// The per-package log levels for the driver. This may include "root" package name to configure rootLogger. Examples: 'com.google = FATAL', 'root = INFO', 'org.apache = DEBUG'
-	// +kubebuilder:validation:Optional
 	DriverLogLevels map[string]*string `json:"driverLogLevels,omitempty" tf:"driver_log_levels,omitempty"`
 }
 
@@ -1061,32 +1399,31 @@ type PigJobObservation struct {
 type PigJobParameters struct {
 
 	// Optional. Whether to continue executing queries if a query fails. The default value is false. Setting to true can be useful when executing independent parallel queries.
-	// +kubebuilder:validation:Optional
 	ContinueOnFailure *bool `json:"continueOnFailure,omitempty" tf:"continue_on_failure,omitempty"`
 
 	// Optional. HCFS URIs of jar files to be added to the Spark CLASSPATH.
-	// +kubebuilder:validation:Optional
 	JarFileUris []*string `json:"jarFileUris,omitempty" tf:"jar_file_uris,omitempty"`
 
 	// Optional. The runtime log config for job execution.
-	// +kubebuilder:validation:Optional
 	LoggingConfig []PigJobLoggingConfigParameters `json:"loggingConfig,omitempty" tf:"logging_config,omitempty"`
 
 	// Optional. A mapping of property names to values, used to configure Spark SQL's SparkConf. Properties that conflict with values set by the Dataproc API may be overwritten.
-	// +kubebuilder:validation:Optional
 	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
 
 	// The HCFS URI of the script that contains SQL queries.
-	// +kubebuilder:validation:Optional
 	QueryFileURI *string `json:"queryFileUri,omitempty" tf:"query_file_uri,omitempty"`
 
 	// A list of queries.
-	// +kubebuilder:validation:Optional
 	QueryList []PigJobQueryListParameters `json:"queryList,omitempty" tf:"query_list,omitempty"`
 
 	// Optional. Mapping of query variable names to values (equivalent to the Spark SQL command: SET name="value";).
-	// +kubebuilder:validation:Optional
 	ScriptVariables map[string]*string `json:"scriptVariables,omitempty" tf:"script_variables,omitempty"`
+}
+
+type PigJobQueryListInitParameters struct {
+
+	// Required. The queries to execute. You do not need to end a query expression with a semicolon. Multiple queries can be specified in one string by separating each with a semicolon. Here is an example of a Dataproc API snippet that uses a QueryList to specify a HiveJob: "hiveJob": { "queryList": { "queries": } }
+	Queries []*string `json:"queries,omitempty" tf:"queries,omitempty"`
 }
 
 type PigJobQueryListObservation struct {
@@ -1098,8 +1435,37 @@ type PigJobQueryListObservation struct {
 type PigJobQueryListParameters struct {
 
 	// Required. The queries to execute. You do not need to end a query expression with a semicolon. Multiple queries can be specified in one string by separating each with a semicolon. Here is an example of a Dataproc API snippet that uses a QueryList to specify a HiveJob: "hiveJob": { "queryList": { "queries": } }
-	// +kubebuilder:validation:Required
-	Queries []*string `json:"queries" tf:"queries,omitempty"`
+	Queries []*string `json:"queries,omitempty" tf:"queries,omitempty"`
+}
+
+type PrestoJobInitParameters struct {
+
+	// Optional. Presto client tags to attach to this query
+	ClientTags []*string `json:"clientTags,omitempty" tf:"client_tags,omitempty"`
+
+	// Optional. Whether to continue executing queries if a query fails. The default value is false. Setting to true can be useful when executing independent parallel queries.
+	ContinueOnFailure *bool `json:"continueOnFailure,omitempty" tf:"continue_on_failure,omitempty"`
+
+	// Optional. The runtime log config for job execution.
+	LoggingConfig []PrestoJobLoggingConfigInitParameters `json:"loggingConfig,omitempty" tf:"logging_config,omitempty"`
+
+	// Optional. The format in which query output will be displayed. See the Presto documentation for supported output formats
+	OutputFormat *string `json:"outputFormat,omitempty" tf:"output_format,omitempty"`
+
+	// Optional. A mapping of property names to values, used to configure Spark SQL's SparkConf. Properties that conflict with values set by the Dataproc API may be overwritten.
+	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
+
+	// The HCFS URI of the script that contains SQL queries.
+	QueryFileURI *string `json:"queryFileUri,omitempty" tf:"query_file_uri,omitempty"`
+
+	// A list of queries.
+	QueryList []PrestoJobQueryListInitParameters `json:"queryList,omitempty" tf:"query_list,omitempty"`
+}
+
+type PrestoJobLoggingConfigInitParameters struct {
+
+	// The per-package log levels for the driver. This may include "root" package name to configure rootLogger. Examples: 'com.google = FATAL', 'root = INFO', 'org.apache = DEBUG'
+	DriverLogLevels map[string]*string `json:"driverLogLevels,omitempty" tf:"driver_log_levels,omitempty"`
 }
 
 type PrestoJobLoggingConfigObservation struct {
@@ -1111,7 +1477,6 @@ type PrestoJobLoggingConfigObservation struct {
 type PrestoJobLoggingConfigParameters struct {
 
 	// The per-package log levels for the driver. This may include "root" package name to configure rootLogger. Examples: 'com.google = FATAL', 'root = INFO', 'org.apache = DEBUG'
-	// +kubebuilder:validation:Optional
 	DriverLogLevels map[string]*string `json:"driverLogLevels,omitempty" tf:"driver_log_levels,omitempty"`
 }
 
@@ -1142,32 +1507,31 @@ type PrestoJobObservation struct {
 type PrestoJobParameters struct {
 
 	// Optional. Presto client tags to attach to this query
-	// +kubebuilder:validation:Optional
 	ClientTags []*string `json:"clientTags,omitempty" tf:"client_tags,omitempty"`
 
 	// Optional. Whether to continue executing queries if a query fails. The default value is false. Setting to true can be useful when executing independent parallel queries.
-	// +kubebuilder:validation:Optional
 	ContinueOnFailure *bool `json:"continueOnFailure,omitempty" tf:"continue_on_failure,omitempty"`
 
 	// Optional. The runtime log config for job execution.
-	// +kubebuilder:validation:Optional
 	LoggingConfig []PrestoJobLoggingConfigParameters `json:"loggingConfig,omitempty" tf:"logging_config,omitempty"`
 
 	// Optional. The format in which query output will be displayed. See the Presto documentation for supported output formats
-	// +kubebuilder:validation:Optional
 	OutputFormat *string `json:"outputFormat,omitempty" tf:"output_format,omitempty"`
 
 	// Optional. A mapping of property names to values, used to configure Spark SQL's SparkConf. Properties that conflict with values set by the Dataproc API may be overwritten.
-	// +kubebuilder:validation:Optional
 	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
 
 	// The HCFS URI of the script that contains SQL queries.
-	// +kubebuilder:validation:Optional
 	QueryFileURI *string `json:"queryFileUri,omitempty" tf:"query_file_uri,omitempty"`
 
 	// A list of queries.
-	// +kubebuilder:validation:Optional
 	QueryList []PrestoJobQueryListParameters `json:"queryList,omitempty" tf:"query_list,omitempty"`
+}
+
+type PrestoJobQueryListInitParameters struct {
+
+	// Required. The queries to execute. You do not need to end a query expression with a semicolon. Multiple queries can be specified in one string by separating each with a semicolon. Here is an example of a Dataproc API snippet that uses a QueryList to specify a HiveJob: "hiveJob": { "queryList": { "queries": } }
+	Queries []*string `json:"queries,omitempty" tf:"queries,omitempty"`
 }
 
 type PrestoJobQueryListObservation struct {
@@ -1179,8 +1543,40 @@ type PrestoJobQueryListObservation struct {
 type PrestoJobQueryListParameters struct {
 
 	// Required. The queries to execute. You do not need to end a query expression with a semicolon. Multiple queries can be specified in one string by separating each with a semicolon. Here is an example of a Dataproc API snippet that uses a QueryList to specify a HiveJob: "hiveJob": { "queryList": { "queries": } }
-	// +kubebuilder:validation:Required
-	Queries []*string `json:"queries" tf:"queries,omitempty"`
+	Queries []*string `json:"queries,omitempty" tf:"queries,omitempty"`
+}
+
+type PysparkJobInitParameters struct {
+
+	// Optional. HCFS URIs of archives to be extracted into the working directory of each executor. Supported file types: .jar, .tar, .tar.gz, .tgz, and .zip.
+	ArchiveUris []*string `json:"archiveUris,omitempty" tf:"archive_uris,omitempty"`
+
+	// Optional. The arguments to pass to the driver. Do not include arguments, such as --conf, that can be set as job properties, since a collision may occur that causes an incorrect job submission.
+	Args []*string `json:"args,omitempty" tf:"args,omitempty"`
+
+	// Optional. HCFS URIs of files to be placed in the working directory of each executor. Useful for naively parallel tasks.
+	FileUris []*string `json:"fileUris,omitempty" tf:"file_uris,omitempty"`
+
+	// Optional. HCFS URIs of jar files to be added to the Spark CLASSPATH.
+	JarFileUris []*string `json:"jarFileUris,omitempty" tf:"jar_file_uris,omitempty"`
+
+	// Optional. The runtime log config for job execution.
+	LoggingConfig []PysparkJobLoggingConfigInitParameters `json:"loggingConfig,omitempty" tf:"logging_config,omitempty"`
+
+	// Required. The HCFS URI of the main Python file to use as the driver. Must be a .py file.
+	MainPythonFileURI *string `json:"mainPythonFileUri,omitempty" tf:"main_python_file_uri,omitempty"`
+
+	// Optional. A mapping of property names to values, used to configure Spark SQL's SparkConf. Properties that conflict with values set by the Dataproc API may be overwritten.
+	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
+
+	// Optional. HCFS file URIs of Python files to pass to the PySpark framework. Supported file types: .py, .egg, and .zip.
+	PythonFileUris []*string `json:"pythonFileUris,omitempty" tf:"python_file_uris,omitempty"`
+}
+
+type PysparkJobLoggingConfigInitParameters struct {
+
+	// The per-package log levels for the driver. This may include "root" package name to configure rootLogger. Examples: 'com.google = FATAL', 'root = INFO', 'org.apache = DEBUG'
+	DriverLogLevels map[string]*string `json:"driverLogLevels,omitempty" tf:"driver_log_levels,omitempty"`
 }
 
 type PysparkJobLoggingConfigObservation struct {
@@ -1192,7 +1588,6 @@ type PysparkJobLoggingConfigObservation struct {
 type PysparkJobLoggingConfigParameters struct {
 
 	// The per-package log levels for the driver. This may include "root" package name to configure rootLogger. Examples: 'com.google = FATAL', 'root = INFO', 'org.apache = DEBUG'
-	// +kubebuilder:validation:Optional
 	DriverLogLevels map[string]*string `json:"driverLogLevels,omitempty" tf:"driver_log_levels,omitempty"`
 }
 
@@ -1226,36 +1621,34 @@ type PysparkJobObservation struct {
 type PysparkJobParameters struct {
 
 	// Optional. HCFS URIs of archives to be extracted into the working directory of each executor. Supported file types: .jar, .tar, .tar.gz, .tgz, and .zip.
-	// +kubebuilder:validation:Optional
 	ArchiveUris []*string `json:"archiveUris,omitempty" tf:"archive_uris,omitempty"`
 
 	// Optional. The arguments to pass to the driver. Do not include arguments, such as --conf, that can be set as job properties, since a collision may occur that causes an incorrect job submission.
-	// +kubebuilder:validation:Optional
 	Args []*string `json:"args,omitempty" tf:"args,omitempty"`
 
 	// Optional. HCFS URIs of files to be placed in the working directory of each executor. Useful for naively parallel tasks.
-	// +kubebuilder:validation:Optional
 	FileUris []*string `json:"fileUris,omitempty" tf:"file_uris,omitempty"`
 
 	// Optional. HCFS URIs of jar files to be added to the Spark CLASSPATH.
-	// +kubebuilder:validation:Optional
 	JarFileUris []*string `json:"jarFileUris,omitempty" tf:"jar_file_uris,omitempty"`
 
 	// Optional. The runtime log config for job execution.
-	// +kubebuilder:validation:Optional
 	LoggingConfig []PysparkJobLoggingConfigParameters `json:"loggingConfig,omitempty" tf:"logging_config,omitempty"`
 
 	// Required. The HCFS URI of the main Python file to use as the driver. Must be a .py file.
-	// +kubebuilder:validation:Required
-	MainPythonFileURI *string `json:"mainPythonFileUri" tf:"main_python_file_uri,omitempty"`
+	MainPythonFileURI *string `json:"mainPythonFileUri,omitempty" tf:"main_python_file_uri,omitempty"`
 
 	// Optional. A mapping of property names to values, used to configure Spark SQL's SparkConf. Properties that conflict with values set by the Dataproc API may be overwritten.
-	// +kubebuilder:validation:Optional
 	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
 
 	// Optional. HCFS file URIs of Python files to pass to the PySpark framework. Supported file types: .py, .egg, and .zip.
-	// +kubebuilder:validation:Optional
 	PythonFileUris []*string `json:"pythonFileUris,omitempty" tf:"python_file_uris,omitempty"`
+}
+
+type QueryListInitParameters struct {
+
+	// Required. The queries to execute. You do not need to end a query expression with a semicolon. Multiple queries can be specified in one string by separating each with a semicolon. Here is an example of a Dataproc API snippet that uses a QueryList to specify a HiveJob: "hiveJob": { "queryList": { "queries": } }
+	Queries []*string `json:"queries,omitempty" tf:"queries,omitempty"`
 }
 
 type QueryListObservation struct {
@@ -1267,8 +1660,13 @@ type QueryListObservation struct {
 type QueryListParameters struct {
 
 	// Required. The queries to execute. You do not need to end a query expression with a semicolon. Multiple queries can be specified in one string by separating each with a semicolon. Here is an example of a Dataproc API snippet that uses a QueryList to specify a HiveJob: "hiveJob": { "queryList": { "queries": } }
-	// +kubebuilder:validation:Required
-	Queries []*string `json:"queries" tf:"queries,omitempty"`
+	Queries []*string `json:"queries,omitempty" tf:"queries,omitempty"`
+}
+
+type RegexInitParameters struct {
+
+	// Required. RE2 regular expressions used to validate the parameter's value. The value must match the regex in its entirety (substring matches are not sufficient).
+	Regexes []*string `json:"regexes,omitempty" tf:"regexes,omitempty"`
 }
 
 type RegexObservation struct {
@@ -1280,8 +1678,16 @@ type RegexObservation struct {
 type RegexParameters struct {
 
 	// Required. RE2 regular expressions used to validate the parameter's value. The value must match the regex in its entirety (substring matches are not sufficient).
-	// +kubebuilder:validation:Required
-	Regexes []*string `json:"regexes" tf:"regexes,omitempty"`
+	Regexes []*string `json:"regexes,omitempty" tf:"regexes,omitempty"`
+}
+
+type SecondaryWorkerConfigAcceleratorsInitParameters struct {
+
+	// The number of the accelerator cards of this type exposed to this instance.
+	AcceleratorCount *float64 `json:"acceleratorCount,omitempty" tf:"accelerator_count,omitempty"`
+
+	// Full URL, partial URI, or short name of the accelerator type resource to expose to this instance. See (https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement) feature, you must use the short name of the accelerator type resource, for example, nvidia-tesla-k80.
+	AcceleratorType *string `json:"acceleratorType,omitempty" tf:"accelerator_type,omitempty"`
 }
 
 type SecondaryWorkerConfigAcceleratorsObservation struct {
@@ -1296,12 +1702,22 @@ type SecondaryWorkerConfigAcceleratorsObservation struct {
 type SecondaryWorkerConfigAcceleratorsParameters struct {
 
 	// The number of the accelerator cards of this type exposed to this instance.
-	// +kubebuilder:validation:Optional
 	AcceleratorCount *float64 `json:"acceleratorCount,omitempty" tf:"accelerator_count,omitempty"`
 
 	// Full URL, partial URI, or short name of the accelerator type resource to expose to this instance. See (https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement) feature, you must use the short name of the accelerator type resource, for example, nvidia-tesla-k80.
-	// +kubebuilder:validation:Optional
 	AcceleratorType *string `json:"acceleratorType,omitempty" tf:"accelerator_type,omitempty"`
+}
+
+type SecondaryWorkerConfigDiskConfigInitParameters struct {
+
+	// Optional. Size in GB of the boot disk (default is 500GB).
+	BootDiskSizeGb *float64 `json:"bootDiskSizeGb,omitempty" tf:"boot_disk_size_gb,omitempty"`
+
+	// Optional. Type of the boot disk (default is "pd-standard"). Valid values: "pd-ssd" (Persistent Disk Solid State Drive) or "pd-standard" (Persistent Disk Hard Disk Drive).
+	BootDiskType *string `json:"bootDiskType,omitempty" tf:"boot_disk_type,omitempty"`
+
+	// Optional. Number of attached SSDs, from 0 to 4 (default is 0). If SSDs are not attached, the boot disk is used to store runtime logs and (https://hadoop.apache.org/docs/r1.2.1/hdfs_user_guide.html) data. If one or more SSDs are attached, this runtime bulk data is spread across them, and the boot disk contains only basic config and installed binaries.
+	NumLocalSsds *float64 `json:"numLocalSsds,omitempty" tf:"num_local_ssds,omitempty"`
 }
 
 type SecondaryWorkerConfigDiskConfigObservation struct {
@@ -1319,16 +1735,16 @@ type SecondaryWorkerConfigDiskConfigObservation struct {
 type SecondaryWorkerConfigDiskConfigParameters struct {
 
 	// Optional. Size in GB of the boot disk (default is 500GB).
-	// +kubebuilder:validation:Optional
 	BootDiskSizeGb *float64 `json:"bootDiskSizeGb,omitempty" tf:"boot_disk_size_gb,omitempty"`
 
 	// Optional. Type of the boot disk (default is "pd-standard"). Valid values: "pd-ssd" (Persistent Disk Solid State Drive) or "pd-standard" (Persistent Disk Hard Disk Drive).
-	// +kubebuilder:validation:Optional
 	BootDiskType *string `json:"bootDiskType,omitempty" tf:"boot_disk_type,omitempty"`
 
 	// Optional. Number of attached SSDs, from 0 to 4 (default is 0). If SSDs are not attached, the boot disk is used to store runtime logs and (https://hadoop.apache.org/docs/r1.2.1/hdfs_user_guide.html) data. If one or more SSDs are attached, this runtime bulk data is spread across them, and the boot disk contains only basic config and installed binaries.
-	// +kubebuilder:validation:Optional
 	NumLocalSsds *float64 `json:"numLocalSsds,omitempty" tf:"num_local_ssds,omitempty"`
+}
+
+type SecondaryWorkerConfigManagedGroupConfigInitParameters struct {
 }
 
 type SecondaryWorkerConfigManagedGroupConfigObservation struct {
@@ -1341,6 +1757,54 @@ type SecondaryWorkerConfigManagedGroupConfigObservation struct {
 }
 
 type SecondaryWorkerConfigManagedGroupConfigParameters struct {
+}
+
+type SecurityConfigKerberosConfigInitParameters struct {
+
+	// Optional. The admin server (IP or hostname) for the remote trusted realm in a cross realm trust relationship.
+	CrossRealmTrustAdminServer *string `json:"crossRealmTrustAdminServer,omitempty" tf:"cross_realm_trust_admin_server,omitempty"`
+
+	// Optional. The KDC (IP or hostname) for the remote trusted realm in a cross realm trust relationship.
+	CrossRealmTrustKdc *string `json:"crossRealmTrustKdc,omitempty" tf:"cross_realm_trust_kdc,omitempty"`
+
+	// Optional. The remote realm the Dataproc on-cluster KDC will trust, should the user enable cross realm trust.
+	CrossRealmTrustRealm *string `json:"crossRealmTrustRealm,omitempty" tf:"cross_realm_trust_realm,omitempty"`
+
+	// Optional. The Cloud Storage URI of a KMS encrypted file containing the shared password between the on-cluster Kerberos realm and the remote trusted realm, in a cross realm trust relationship.
+	CrossRealmTrustSharedPassword *string `json:"crossRealmTrustSharedPassword,omitempty" tf:"cross_realm_trust_shared_password,omitempty"`
+
+	// Optional. Flag to indicate whether to Kerberize the cluster (default: false). Set this field to true to enable Kerberos on a cluster.
+	EnableKerberos *bool `json:"enableKerberos,omitempty" tf:"enable_kerberos,omitempty"`
+
+	// Optional. The uri of the KMS key used to encrypt various sensitive files.
+	KMSKey *string `json:"kmsKey,omitempty" tf:"kms_key,omitempty"`
+
+	// Optional. The Cloud Storage URI of a KMS encrypted file containing the master key of the KDC database.
+	KdcDBKey *string `json:"kdcDbKey,omitempty" tf:"kdc_db_key,omitempty"`
+
+	// Optional. The Cloud Storage URI of a KMS encrypted file containing the password to the user provided key. For the self-signed certificate, this password is generated by Dataproc.
+	KeyPassword *string `json:"keyPassword,omitempty" tf:"key_password,omitempty"`
+
+	// Optional. The Cloud Storage URI of the keystore file used for SSL encryption. If not provided, Dataproc will provide a self-signed certificate.
+	Keystore *string `json:"keystore,omitempty" tf:"keystore,omitempty"`
+
+	// Optional. The Cloud Storage URI of a KMS encrypted file containing the password to the user provided keystore. For the self-signed certificate, this password is generated by Dataproc.
+	KeystorePassword *string `json:"keystorePassword,omitempty" tf:"keystore_password,omitempty"`
+
+	// Optional. The name of the on-cluster Kerberos realm. If not specified, the uppercased domain of hostnames will be the realm.
+	Realm *string `json:"realm,omitempty" tf:"realm,omitempty"`
+
+	// Optional. The Cloud Storage URI of a KMS encrypted file containing the root principal password.
+	RootPrincipalPassword *string `json:"rootPrincipalPassword,omitempty" tf:"root_principal_password,omitempty"`
+
+	// Optional. The lifetime of the ticket granting ticket, in hours. If not specified, or user specifies 0, then default value 10 will be used.
+	TgtLifetimeHours *float64 `json:"tgtLifetimeHours,omitempty" tf:"tgt_lifetime_hours,omitempty"`
+
+	// Optional. The Cloud Storage URI of the truststore file used for SSL encryption. If not provided, Dataproc will provide a self-signed certificate.
+	Truststore *string `json:"truststore,omitempty" tf:"truststore,omitempty"`
+
+	// Optional. The Cloud Storage URI of a KMS encrypted file containing the password to the user provided truststore. For the self-signed certificate, this password is generated by Dataproc.
+	TruststorePassword *string `json:"truststorePassword,omitempty" tf:"truststore_password,omitempty"`
 }
 
 type SecurityConfigKerberosConfigObservation struct {
@@ -1394,64 +1858,82 @@ type SecurityConfigKerberosConfigObservation struct {
 type SecurityConfigKerberosConfigParameters struct {
 
 	// Optional. The admin server (IP or hostname) for the remote trusted realm in a cross realm trust relationship.
-	// +kubebuilder:validation:Optional
 	CrossRealmTrustAdminServer *string `json:"crossRealmTrustAdminServer,omitempty" tf:"cross_realm_trust_admin_server,omitempty"`
 
 	// Optional. The KDC (IP or hostname) for the remote trusted realm in a cross realm trust relationship.
-	// +kubebuilder:validation:Optional
 	CrossRealmTrustKdc *string `json:"crossRealmTrustKdc,omitempty" tf:"cross_realm_trust_kdc,omitempty"`
 
 	// Optional. The remote realm the Dataproc on-cluster KDC will trust, should the user enable cross realm trust.
-	// +kubebuilder:validation:Optional
 	CrossRealmTrustRealm *string `json:"crossRealmTrustRealm,omitempty" tf:"cross_realm_trust_realm,omitempty"`
 
 	// Optional. The Cloud Storage URI of a KMS encrypted file containing the shared password between the on-cluster Kerberos realm and the remote trusted realm, in a cross realm trust relationship.
-	// +kubebuilder:validation:Optional
 	CrossRealmTrustSharedPassword *string `json:"crossRealmTrustSharedPassword,omitempty" tf:"cross_realm_trust_shared_password,omitempty"`
 
 	// Optional. Flag to indicate whether to Kerberize the cluster (default: false). Set this field to true to enable Kerberos on a cluster.
-	// +kubebuilder:validation:Optional
 	EnableKerberos *bool `json:"enableKerberos,omitempty" tf:"enable_kerberos,omitempty"`
 
 	// Optional. The uri of the KMS key used to encrypt various sensitive files.
-	// +kubebuilder:validation:Optional
 	KMSKey *string `json:"kmsKey,omitempty" tf:"kms_key,omitempty"`
 
 	// Optional. The Cloud Storage URI of a KMS encrypted file containing the master key of the KDC database.
-	// +kubebuilder:validation:Optional
 	KdcDBKey *string `json:"kdcDbKey,omitempty" tf:"kdc_db_key,omitempty"`
 
 	// Optional. The Cloud Storage URI of a KMS encrypted file containing the password to the user provided key. For the self-signed certificate, this password is generated by Dataproc.
-	// +kubebuilder:validation:Optional
 	KeyPassword *string `json:"keyPassword,omitempty" tf:"key_password,omitempty"`
 
 	// Optional. The Cloud Storage URI of the keystore file used for SSL encryption. If not provided, Dataproc will provide a self-signed certificate.
-	// +kubebuilder:validation:Optional
 	Keystore *string `json:"keystore,omitempty" tf:"keystore,omitempty"`
 
 	// Optional. The Cloud Storage URI of a KMS encrypted file containing the password to the user provided keystore. For the self-signed certificate, this password is generated by Dataproc.
-	// +kubebuilder:validation:Optional
 	KeystorePassword *string `json:"keystorePassword,omitempty" tf:"keystore_password,omitempty"`
 
 	// Optional. The name of the on-cluster Kerberos realm. If not specified, the uppercased domain of hostnames will be the realm.
-	// +kubebuilder:validation:Optional
 	Realm *string `json:"realm,omitempty" tf:"realm,omitempty"`
 
 	// Optional. The Cloud Storage URI of a KMS encrypted file containing the root principal password.
-	// +kubebuilder:validation:Optional
 	RootPrincipalPassword *string `json:"rootPrincipalPassword,omitempty" tf:"root_principal_password,omitempty"`
 
 	// Optional. The lifetime of the ticket granting ticket, in hours. If not specified, or user specifies 0, then default value 10 will be used.
-	// +kubebuilder:validation:Optional
 	TgtLifetimeHours *float64 `json:"tgtLifetimeHours,omitempty" tf:"tgt_lifetime_hours,omitempty"`
 
 	// Optional. The Cloud Storage URI of the truststore file used for SSL encryption. If not provided, Dataproc will provide a self-signed certificate.
-	// +kubebuilder:validation:Optional
 	Truststore *string `json:"truststore,omitempty" tf:"truststore,omitempty"`
 
 	// Optional. The Cloud Storage URI of a KMS encrypted file containing the password to the user provided truststore. For the self-signed certificate, this password is generated by Dataproc.
-	// +kubebuilder:validation:Optional
 	TruststorePassword *string `json:"truststorePassword,omitempty" tf:"truststore_password,omitempty"`
+}
+
+type SparkJobInitParameters struct {
+
+	// Optional. HCFS URIs of archives to be extracted into the working directory of each executor. Supported file types: .jar, .tar, .tar.gz, .tgz, and .zip.
+	ArchiveUris []*string `json:"archiveUris,omitempty" tf:"archive_uris,omitempty"`
+
+	// Optional. The arguments to pass to the driver. Do not include arguments, such as --conf, that can be set as job properties, since a collision may occur that causes an incorrect job submission.
+	Args []*string `json:"args,omitempty" tf:"args,omitempty"`
+
+	// Optional. HCFS URIs of files to be placed in the working directory of each executor. Useful for naively parallel tasks.
+	FileUris []*string `json:"fileUris,omitempty" tf:"file_uris,omitempty"`
+
+	// Optional. HCFS URIs of jar files to be added to the Spark CLASSPATH.
+	JarFileUris []*string `json:"jarFileUris,omitempty" tf:"jar_file_uris,omitempty"`
+
+	// Optional. The runtime log config for job execution.
+	LoggingConfig []SparkJobLoggingConfigInitParameters `json:"loggingConfig,omitempty" tf:"logging_config,omitempty"`
+
+	// The name of the driver's main class. The jar file that contains the class must be in the default CLASSPATH or specified in jar_file_uris.
+	MainClass *string `json:"mainClass,omitempty" tf:"main_class,omitempty"`
+
+	// The HCFS URI of the jar file that contains the main class.
+	MainJarFileURI *string `json:"mainJarFileUri,omitempty" tf:"main_jar_file_uri,omitempty"`
+
+	// Optional. A mapping of property names to values, used to configure Spark SQL's SparkConf. Properties that conflict with values set by the Dataproc API may be overwritten.
+	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
+}
+
+type SparkJobLoggingConfigInitParameters struct {
+
+	// The per-package log levels for the driver. This may include "root" package name to configure rootLogger. Examples: 'com.google = FATAL', 'root = INFO', 'org.apache = DEBUG'
+	DriverLogLevels map[string]*string `json:"driverLogLevels,omitempty" tf:"driver_log_levels,omitempty"`
 }
 
 type SparkJobLoggingConfigObservation struct {
@@ -1463,7 +1945,6 @@ type SparkJobLoggingConfigObservation struct {
 type SparkJobLoggingConfigParameters struct {
 
 	// The per-package log levels for the driver. This may include "root" package name to configure rootLogger. Examples: 'com.google = FATAL', 'root = INFO', 'org.apache = DEBUG'
-	// +kubebuilder:validation:Optional
 	DriverLogLevels map[string]*string `json:"driverLogLevels,omitempty" tf:"driver_log_levels,omitempty"`
 }
 
@@ -1497,36 +1978,55 @@ type SparkJobObservation struct {
 type SparkJobParameters struct {
 
 	// Optional. HCFS URIs of archives to be extracted into the working directory of each executor. Supported file types: .jar, .tar, .tar.gz, .tgz, and .zip.
-	// +kubebuilder:validation:Optional
 	ArchiveUris []*string `json:"archiveUris,omitempty" tf:"archive_uris,omitempty"`
 
 	// Optional. The arguments to pass to the driver. Do not include arguments, such as --conf, that can be set as job properties, since a collision may occur that causes an incorrect job submission.
-	// +kubebuilder:validation:Optional
 	Args []*string `json:"args,omitempty" tf:"args,omitempty"`
 
 	// Optional. HCFS URIs of files to be placed in the working directory of each executor. Useful for naively parallel tasks.
-	// +kubebuilder:validation:Optional
 	FileUris []*string `json:"fileUris,omitempty" tf:"file_uris,omitempty"`
 
 	// Optional. HCFS URIs of jar files to be added to the Spark CLASSPATH.
-	// +kubebuilder:validation:Optional
 	JarFileUris []*string `json:"jarFileUris,omitempty" tf:"jar_file_uris,omitempty"`
 
 	// Optional. The runtime log config for job execution.
-	// +kubebuilder:validation:Optional
 	LoggingConfig []SparkJobLoggingConfigParameters `json:"loggingConfig,omitempty" tf:"logging_config,omitempty"`
 
 	// The name of the driver's main class. The jar file that contains the class must be in the default CLASSPATH or specified in jar_file_uris.
-	// +kubebuilder:validation:Optional
 	MainClass *string `json:"mainClass,omitempty" tf:"main_class,omitempty"`
 
 	// The HCFS URI of the jar file that contains the main class.
-	// +kubebuilder:validation:Optional
 	MainJarFileURI *string `json:"mainJarFileUri,omitempty" tf:"main_jar_file_uri,omitempty"`
 
 	// Optional. A mapping of property names to values, used to configure Spark SQL's SparkConf. Properties that conflict with values set by the Dataproc API may be overwritten.
-	// +kubebuilder:validation:Optional
 	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
+}
+
+type SparkRJobInitParameters struct {
+
+	// Optional. HCFS URIs of archives to be extracted into the working directory of each executor. Supported file types: .jar, .tar, .tar.gz, .tgz, and .zip.
+	ArchiveUris []*string `json:"archiveUris,omitempty" tf:"archive_uris,omitempty"`
+
+	// Optional. The arguments to pass to the driver. Do not include arguments, such as --conf, that can be set as job properties, since a collision may occur that causes an incorrect job submission.
+	Args []*string `json:"args,omitempty" tf:"args,omitempty"`
+
+	// Optional. HCFS URIs of files to be placed in the working directory of each executor. Useful for naively parallel tasks.
+	FileUris []*string `json:"fileUris,omitempty" tf:"file_uris,omitempty"`
+
+	// Optional. The runtime log config for job execution.
+	LoggingConfig []SparkRJobLoggingConfigInitParameters `json:"loggingConfig,omitempty" tf:"logging_config,omitempty"`
+
+	// Required. The HCFS URI of the main R file to use as the driver. Must be a .R file.
+	MainRFileURI *string `json:"mainRFileUri,omitempty" tf:"main_r_file_uri,omitempty"`
+
+	// Optional. A mapping of property names to values, used to configure Spark SQL's SparkConf. Properties that conflict with values set by the Dataproc API may be overwritten.
+	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
+}
+
+type SparkRJobLoggingConfigInitParameters struct {
+
+	// The per-package log levels for the driver. This may include "root" package name to configure rootLogger. Examples: 'com.google = FATAL', 'root = INFO', 'org.apache = DEBUG'
+	DriverLogLevels map[string]*string `json:"driverLogLevels,omitempty" tf:"driver_log_levels,omitempty"`
 }
 
 type SparkRJobLoggingConfigObservation struct {
@@ -1538,7 +2038,6 @@ type SparkRJobLoggingConfigObservation struct {
 type SparkRJobLoggingConfigParameters struct {
 
 	// The per-package log levels for the driver. This may include "root" package name to configure rootLogger. Examples: 'com.google = FATAL', 'root = INFO', 'org.apache = DEBUG'
-	// +kubebuilder:validation:Optional
 	DriverLogLevels map[string]*string `json:"driverLogLevels,omitempty" tf:"driver_log_levels,omitempty"`
 }
 
@@ -1566,28 +2065,49 @@ type SparkRJobObservation struct {
 type SparkRJobParameters struct {
 
 	// Optional. HCFS URIs of archives to be extracted into the working directory of each executor. Supported file types: .jar, .tar, .tar.gz, .tgz, and .zip.
-	// +kubebuilder:validation:Optional
 	ArchiveUris []*string `json:"archiveUris,omitempty" tf:"archive_uris,omitempty"`
 
 	// Optional. The arguments to pass to the driver. Do not include arguments, such as --conf, that can be set as job properties, since a collision may occur that causes an incorrect job submission.
-	// +kubebuilder:validation:Optional
 	Args []*string `json:"args,omitempty" tf:"args,omitempty"`
 
 	// Optional. HCFS URIs of files to be placed in the working directory of each executor. Useful for naively parallel tasks.
-	// +kubebuilder:validation:Optional
 	FileUris []*string `json:"fileUris,omitempty" tf:"file_uris,omitempty"`
 
 	// Optional. The runtime log config for job execution.
-	// +kubebuilder:validation:Optional
 	LoggingConfig []SparkRJobLoggingConfigParameters `json:"loggingConfig,omitempty" tf:"logging_config,omitempty"`
 
 	// Required. The HCFS URI of the main R file to use as the driver. Must be a .R file.
-	// +kubebuilder:validation:Required
-	MainRFileURI *string `json:"mainRFileUri" tf:"main_r_file_uri,omitempty"`
+	MainRFileURI *string `json:"mainRFileUri,omitempty" tf:"main_r_file_uri,omitempty"`
 
 	// Optional. A mapping of property names to values, used to configure Spark SQL's SparkConf. Properties that conflict with values set by the Dataproc API may be overwritten.
-	// +kubebuilder:validation:Optional
 	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
+}
+
+type SparkSQLJobInitParameters struct {
+
+	// Optional. HCFS URIs of jar files to be added to the Spark CLASSPATH.
+	JarFileUris []*string `json:"jarFileUris,omitempty" tf:"jar_file_uris,omitempty"`
+
+	// Optional. The runtime log config for job execution.
+	LoggingConfig []SparkSQLJobLoggingConfigInitParameters `json:"loggingConfig,omitempty" tf:"logging_config,omitempty"`
+
+	// Optional. A mapping of property names to values, used to configure Spark SQL's SparkConf. Properties that conflict with values set by the Dataproc API may be overwritten.
+	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
+
+	// The HCFS URI of the script that contains SQL queries.
+	QueryFileURI *string `json:"queryFileUri,omitempty" tf:"query_file_uri,omitempty"`
+
+	// A list of queries.
+	QueryList []SparkSQLJobQueryListInitParameters `json:"queryList,omitempty" tf:"query_list,omitempty"`
+
+	// Optional. Mapping of query variable names to values (equivalent to the Spark SQL command: SET name="value";).
+	ScriptVariables map[string]*string `json:"scriptVariables,omitempty" tf:"script_variables,omitempty"`
+}
+
+type SparkSQLJobLoggingConfigInitParameters struct {
+
+	// The per-package log levels for the driver. This may include "root" package name to configure rootLogger. Examples: 'com.google = FATAL', 'root = INFO', 'org.apache = DEBUG'
+	DriverLogLevels map[string]*string `json:"driverLogLevels,omitempty" tf:"driver_log_levels,omitempty"`
 }
 
 type SparkSQLJobLoggingConfigObservation struct {
@@ -1599,7 +2119,6 @@ type SparkSQLJobLoggingConfigObservation struct {
 type SparkSQLJobLoggingConfigParameters struct {
 
 	// The per-package log levels for the driver. This may include "root" package name to configure rootLogger. Examples: 'com.google = FATAL', 'root = INFO', 'org.apache = DEBUG'
-	// +kubebuilder:validation:Optional
 	DriverLogLevels map[string]*string `json:"driverLogLevels,omitempty" tf:"driver_log_levels,omitempty"`
 }
 
@@ -1627,28 +2146,28 @@ type SparkSQLJobObservation struct {
 type SparkSQLJobParameters struct {
 
 	// Optional. HCFS URIs of jar files to be added to the Spark CLASSPATH.
-	// +kubebuilder:validation:Optional
 	JarFileUris []*string `json:"jarFileUris,omitempty" tf:"jar_file_uris,omitempty"`
 
 	// Optional. The runtime log config for job execution.
-	// +kubebuilder:validation:Optional
 	LoggingConfig []SparkSQLJobLoggingConfigParameters `json:"loggingConfig,omitempty" tf:"logging_config,omitempty"`
 
 	// Optional. A mapping of property names to values, used to configure Spark SQL's SparkConf. Properties that conflict with values set by the Dataproc API may be overwritten.
-	// +kubebuilder:validation:Optional
 	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
 
 	// The HCFS URI of the script that contains SQL queries.
-	// +kubebuilder:validation:Optional
 	QueryFileURI *string `json:"queryFileUri,omitempty" tf:"query_file_uri,omitempty"`
 
 	// A list of queries.
-	// +kubebuilder:validation:Optional
 	QueryList []SparkSQLJobQueryListParameters `json:"queryList,omitempty" tf:"query_list,omitempty"`
 
 	// Optional. Mapping of query variable names to values (equivalent to the Spark SQL command: SET name="value";).
-	// +kubebuilder:validation:Optional
 	ScriptVariables map[string]*string `json:"scriptVariables,omitempty" tf:"script_variables,omitempty"`
+}
+
+type SparkSQLJobQueryListInitParameters struct {
+
+	// Required. The queries to execute. You do not need to end a query expression with a semicolon. Multiple queries can be specified in one string by separating each with a semicolon. Here is an example of a Dataproc API snippet that uses a QueryList to specify a HiveJob: "hiveJob": { "queryList": { "queries": } }
+	Queries []*string `json:"queries,omitempty" tf:"queries,omitempty"`
 }
 
 type SparkSQLJobQueryListObservation struct {
@@ -1660,8 +2179,16 @@ type SparkSQLJobQueryListObservation struct {
 type SparkSQLJobQueryListParameters struct {
 
 	// Required. The queries to execute. You do not need to end a query expression with a semicolon. Multiple queries can be specified in one string by separating each with a semicolon. Here is an example of a Dataproc API snippet that uses a QueryList to specify a HiveJob: "hiveJob": { "queryList": { "queries": } }
-	// +kubebuilder:validation:Required
-	Queries []*string `json:"queries" tf:"queries,omitempty"`
+	Queries []*string `json:"queries,omitempty" tf:"queries,omitempty"`
+}
+
+type ValidationInitParameters struct {
+
+	// Validation based on regular expressions.
+	Regex []RegexInitParameters `json:"regex,omitempty" tf:"regex,omitempty"`
+
+	// Required. List of allowed values for the parameter.
+	Values []ValuesInitParameters `json:"values,omitempty" tf:"values,omitempty"`
 }
 
 type ValidationObservation struct {
@@ -1676,12 +2203,16 @@ type ValidationObservation struct {
 type ValidationParameters struct {
 
 	// Validation based on regular expressions.
-	// +kubebuilder:validation:Optional
 	Regex []RegexParameters `json:"regex,omitempty" tf:"regex,omitempty"`
 
 	// Required. List of allowed values for the parameter.
-	// +kubebuilder:validation:Optional
 	Values []ValuesParameters `json:"values,omitempty" tf:"values,omitempty"`
+}
+
+type ValuesInitParameters struct {
+
+	// Required. List of allowed values for the parameter.
+	Values []*string `json:"values,omitempty" tf:"values,omitempty"`
 }
 
 type ValuesObservation struct {
@@ -1693,8 +2224,10 @@ type ValuesObservation struct {
 type ValuesParameters struct {
 
 	// Required. List of allowed values for the parameter.
-	// +kubebuilder:validation:Required
-	Values []*string `json:"values" tf:"values,omitempty"`
+	Values []*string `json:"values,omitempty" tf:"values,omitempty"`
+}
+
+type WorkerConfigManagedGroupConfigInitParameters struct {
 }
 
 type WorkerConfigManagedGroupConfigObservation struct {
@@ -1707,6 +2240,30 @@ type WorkerConfigManagedGroupConfigObservation struct {
 }
 
 type WorkerConfigManagedGroupConfigParameters struct {
+}
+
+type WorkflowTemplateInitParameters struct {
+
+	// (Beta only) Optional. Timeout duration for the DAG of jobs. You can use "s", "m", "h", and "d" suffixes for second, minute, hour, and day duration values, respectively. The timeout duration must be from 10 minutes ("10m") to 24 hours ("24h" or "1d"). The timer begins when the first job is submitted. If the workflow is running at the end of the timeout period, any remaining jobs are cancelled, the workflow is ended, and if the workflow was running on a (/dataproc/docs/concepts/workflows/using-workflows#configuring_or_selecting_a_cluster), the cluster is deleted.
+	DagTimeout *string `json:"dagTimeout,omitempty" tf:"dag_timeout,omitempty"`
+
+	// Required. The Directed Acyclic Graph of Jobs to submit.
+	Jobs []JobsInitParameters `json:"jobs,omitempty" tf:"jobs,omitempty"`
+
+	// Optional. The labels to associate with this cluster. Label keys must be between 1 and 63 characters long, and must conform to the following PCRE regular expression: {0,63} No more than 32 labels can be associated with a given cluster.
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// Optional. Template parameters whose values are substituted into the template. Values for parameters must be provided when the template is instantiated.
+	Parameters []ParametersInitParameters `json:"parameters,omitempty" tf:"parameters,omitempty"`
+
+	// Required. WorkflowTemplate scheduling information.
+	Placement []WorkflowTemplatePlacementInitParameters `json:"placement,omitempty" tf:"placement,omitempty"`
+
+	// The project for the resource
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Optional. Used to perform a consistent read-modify-write. This field should be left blank for a CreateWorkflowTemplate request. It is required for an UpdateWorkflowTemplate request, and must match the current server version. A typical update template flow would fetch the current template with a GetWorkflowTemplate request, which will return the current template with the version field filled in with the current server version. The user updates other fields in the template, then returns it as part of the UpdateWorkflowTemplate request.
+	Version *float64 `json:"version,omitempty" tf:"version,omitempty"`
 }
 
 type WorkflowTemplateObservation struct {
@@ -1748,15 +2305,12 @@ type WorkflowTemplateObservation struct {
 type WorkflowTemplateParameters struct {
 
 	// (Beta only) Optional. Timeout duration for the DAG of jobs. You can use "s", "m", "h", and "d" suffixes for second, minute, hour, and day duration values, respectively. The timeout duration must be from 10 minutes ("10m") to 24 hours ("24h" or "1d"). The timer begins when the first job is submitted. If the workflow is running at the end of the timeout period, any remaining jobs are cancelled, the workflow is ended, and if the workflow was running on a (/dataproc/docs/concepts/workflows/using-workflows#configuring_or_selecting_a_cluster), the cluster is deleted.
-	// +kubebuilder:validation:Optional
 	DagTimeout *string `json:"dagTimeout,omitempty" tf:"dag_timeout,omitempty"`
 
 	// Required. The Directed Acyclic Graph of Jobs to submit.
-	// +kubebuilder:validation:Optional
 	Jobs []JobsParameters `json:"jobs,omitempty" tf:"jobs,omitempty"`
 
 	// Optional. The labels to associate with this cluster. Label keys must be between 1 and 63 characters long, and must conform to the following PCRE regular expression: {0,63} No more than 32 labels can be associated with a given cluster.
-	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The location for the resource
@@ -1764,20 +2318,25 @@ type WorkflowTemplateParameters struct {
 	Location *string `json:"location" tf:"location,omitempty"`
 
 	// Optional. Template parameters whose values are substituted into the template. Values for parameters must be provided when the template is instantiated.
-	// +kubebuilder:validation:Optional
 	Parameters []ParametersParameters `json:"parameters,omitempty" tf:"parameters,omitempty"`
 
 	// Required. WorkflowTemplate scheduling information.
-	// +kubebuilder:validation:Optional
 	Placement []WorkflowTemplatePlacementParameters `json:"placement,omitempty" tf:"placement,omitempty"`
 
 	// The project for the resource
-	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Optional. Used to perform a consistent read-modify-write. This field should be left blank for a CreateWorkflowTemplate request. It is required for an UpdateWorkflowTemplate request, and must match the current server version. A typical update template flow would fetch the current template with a GetWorkflowTemplate request, which will return the current template with the version field filled in with the current server version. The user updates other fields in the template, then returns it as part of the UpdateWorkflowTemplate request.
-	// +kubebuilder:validation:Optional
 	Version *float64 `json:"version,omitempty" tf:"version,omitempty"`
+}
+
+type WorkflowTemplatePlacementInitParameters struct {
+
+	// Optional. A selector that chooses target cluster for jobs based on metadata. The selector is evaluated at the time each job is submitted.
+	ClusterSelector []ClusterSelectorInitParameters `json:"clusterSelector,omitempty" tf:"cluster_selector,omitempty"`
+
+	// A cluster that is managed by the workflow.
+	ManagedCluster []ManagedClusterInitParameters `json:"managedCluster,omitempty" tf:"managed_cluster,omitempty"`
 }
 
 type WorkflowTemplatePlacementObservation struct {
@@ -1792,11 +2351,9 @@ type WorkflowTemplatePlacementObservation struct {
 type WorkflowTemplatePlacementParameters struct {
 
 	// Optional. A selector that chooses target cluster for jobs based on metadata. The selector is evaluated at the time each job is submitted.
-	// +kubebuilder:validation:Optional
 	ClusterSelector []ClusterSelectorParameters `json:"clusterSelector,omitempty" tf:"cluster_selector,omitempty"`
 
 	// A cluster that is managed by the workflow.
-	// +kubebuilder:validation:Optional
 	ManagedCluster []ManagedClusterParameters `json:"managedCluster,omitempty" tf:"managed_cluster,omitempty"`
 }
 
@@ -1804,6 +2361,10 @@ type WorkflowTemplatePlacementParameters struct {
 type WorkflowTemplateSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     WorkflowTemplateParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	InitProvider WorkflowTemplateInitParameters `json:"initProvider,omitempty"`
 }
 
 // WorkflowTemplateStatus defines the observed state of WorkflowTemplate.
@@ -1824,8 +2385,8 @@ type WorkflowTemplateStatus struct {
 type WorkflowTemplate struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.jobs)",message="jobs is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.placement)",message="placement is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.jobs) || has(self.initProvider.jobs)",message="jobs is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.placement) || has(self.initProvider.placement)",message="placement is a required parameter"
 	Spec   WorkflowTemplateSpec   `json:"spec"`
 	Status WorkflowTemplateStatus `json:"status,omitempty"`
 }

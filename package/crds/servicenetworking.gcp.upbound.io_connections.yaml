@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.0
+    controller-gen.kubebuilder.io/version: v0.12.1
   name: connections.servicenetworking.gcp.upbound.io
 spec:
   group: servicenetworking.gcp.upbound.io
@@ -236,6 +236,17 @@ spec:
                       services that support this functionality it is 'servicenetworking.googleapis.com'.
                     type: string
                 type: object
+              initProvider:
+                description: THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice.
+                properties:
+                  service:
+                    description: Provider peering service that is managing peering
+                      connectivity for a service provider organization. For Google
+                      services that support this functionality it is 'servicenetworking.googleapis.com'.
+                    type: string
+                type: object
               managementPolicies:
                 default:
                 - '*'
@@ -436,7 +447,8 @@ spec:
             x-kubernetes-validations:
             - message: service is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.service)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.service)
+                || has(self.initProvider.service)'
           status:
             description: ConnectionStatus defines the observed state of Connection.
             properties:

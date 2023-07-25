@@ -94,26 +94,21 @@ type ServiceAccountKeyObservation struct {
 type ServiceAccountKeyParameters struct {
 
 	// Arbitrary map of values that, when changed, will trigger a new key to be generated.
-	// +kubebuilder:validation:Optional
 	Keepers map[string]string `json:"keepers,omitempty" tf:"keepers,omitempty"`
 
 	// The algorithm used to generate the key. KEY_ALG_RSA_2048 is the default algorithm.
 	// Valid values are listed at
 	// ServiceAccountPrivateKeyType
 	// (only used on create)
-	// +kubebuilder:validation:Optional
 	KeyAlgorithm *string `json:"keyAlgorithm,omitempty" tf:"key_algorithm,omitempty"`
 
 	// The output format of the private key. TYPE_GOOGLE_CREDENTIALS_FILE is the default output format.
-	// +kubebuilder:validation:Optional
 	PrivateKeyType *string `json:"privateKeyType,omitempty" tf:"private_key_type,omitempty"`
 
 	// Public key data to create a service account key for given service account. The expected format for this field is a base64 encoded X509_PEM and it conflicts with public_key_type and private_key_type.
-	// +kubebuilder:validation:Optional
 	PublicKeyData *string `json:"publicKeyData,omitempty" tf:"public_key_data,omitempty"`
 
 	// The output format of the public key requested. TYPE_X509_PEM_FILE is the default output format.
-	// +kubebuilder:validation:Optional
 	PublicKeyType *string `json:"publicKeyType,omitempty" tf:"public_key_type,omitempty"`
 
 	// The Service account id of the Key. This can be a string in the format
@@ -143,14 +138,6 @@ type ServiceAccountKeySpec struct {
 	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
 	// unless the relevant Crossplane feature flag is enabled, and may be
 	// changed or removed without notice.
-	// InitProvider holds the same fields as ForProvider, with the exception
-	// of Identifier and other resource reference fields. The fields that are
-	// in InitProvider are merged into ForProvider when the resource is created.
-	// The same fields are also added to the terraform ignore_changes hook, to
-	// avoid updating them after creation. This is useful for fields that are
-	// required on creation, but we do not desire to update them after creation,
-	// for example because of an external controller is managing them, like an
-	// autoscaler.
 	InitProvider ServiceAccountKeyInitParameters `json:"initProvider,omitempty"`
 }
 

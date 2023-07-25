@@ -25,6 +25,14 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type ConditionInitParameters struct {
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	Expression *string `json:"expression,omitempty" tf:"expression,omitempty"`
+
+	Title *string `json:"title,omitempty" tf:"title,omitempty"`
+}
+
 type ConditionObservation struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -34,15 +42,19 @@ type ConditionObservation struct {
 }
 
 type ConditionParameters struct {
-
-	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// +kubebuilder:validation:Required
-	Expression *string `json:"expression" tf:"expression,omitempty"`
+	Expression *string `json:"expression,omitempty" tf:"expression,omitempty"`
 
-	// +kubebuilder:validation:Required
-	Title *string `json:"title" tf:"title,omitempty"`
+	Title *string `json:"title,omitempty" tf:"title,omitempty"`
+}
+
+type InstanceIAMBindingInitParameters struct {
+	Condition []ConditionInitParameters `json:"condition,omitempty" tf:"condition,omitempty"`
+
+	Members []*string `json:"members,omitempty" tf:"members,omitempty"`
+
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 
 type InstanceIAMBindingObservation struct {
@@ -62,17 +74,13 @@ type InstanceIAMBindingObservation struct {
 }
 
 type InstanceIAMBindingParameters struct {
-
-	// +kubebuilder:validation:Optional
 	Condition []ConditionParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
 	// +kubebuilder:validation:Required
 	Instance *string `json:"instance" tf:"instance,omitempty"`
 
-	// +kubebuilder:validation:Optional
 	Members []*string `json:"members,omitempty" tf:"members,omitempty"`
 
-	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -83,6 +91,10 @@ type InstanceIAMBindingParameters struct {
 type InstanceIAMBindingSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     InstanceIAMBindingParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	InitProvider InstanceIAMBindingInitParameters `json:"initProvider,omitempty"`
 }
 
 // InstanceIAMBindingStatus defines the observed state of InstanceIAMBinding.
@@ -103,7 +115,7 @@ type InstanceIAMBindingStatus struct {
 type InstanceIAMBinding struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.members)",message="members is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.members) || has(self.initProvider.members)",message="members is a required parameter"
 	Spec   InstanceIAMBindingSpec   `json:"spec"`
 	Status InstanceIAMBindingStatus `json:"status,omitempty"`
 }

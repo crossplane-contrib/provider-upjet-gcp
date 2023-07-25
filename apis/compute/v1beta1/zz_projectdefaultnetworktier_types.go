@@ -25,6 +25,17 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type ProjectDefaultNetworkTierInitParameters struct {
+
+	// The default network tier to be configured for the project.
+	// This field can take the following values: PREMIUM or STANDARD.
+	NetworkTier *string `json:"networkTier,omitempty" tf:"network_tier,omitempty"`
+
+	// The ID of the project in which the resource belongs. If it
+	// is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+}
+
 type ProjectDefaultNetworkTierObservation struct {
 
 	// an identifier for the resource with format {{project}}
@@ -43,12 +54,10 @@ type ProjectDefaultNetworkTierParameters struct {
 
 	// The default network tier to be configured for the project.
 	// This field can take the following values: PREMIUM or STANDARD.
-	// +kubebuilder:validation:Optional
 	NetworkTier *string `json:"networkTier,omitempty" tf:"network_tier,omitempty"`
 
 	// The ID of the project in which the resource belongs. If it
 	// is not provided, the provider project is used.
-	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 
@@ -56,6 +65,10 @@ type ProjectDefaultNetworkTierParameters struct {
 type ProjectDefaultNetworkTierSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     ProjectDefaultNetworkTierParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	InitProvider ProjectDefaultNetworkTierInitParameters `json:"initProvider,omitempty"`
 }
 
 // ProjectDefaultNetworkTierStatus defines the observed state of ProjectDefaultNetworkTier.
@@ -76,7 +89,7 @@ type ProjectDefaultNetworkTierStatus struct {
 type ProjectDefaultNetworkTier struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.networkTier)",message="networkTier is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.networkTier) || has(self.initProvider.networkTier)",message="networkTier is a required parameter"
 	Spec   ProjectDefaultNetworkTierSpec   `json:"spec"`
 	Status ProjectDefaultNetworkTierStatus `json:"status,omitempty"`
 }

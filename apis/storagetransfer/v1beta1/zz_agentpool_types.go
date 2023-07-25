@@ -63,16 +63,13 @@ type AgentPoolParameters struct {
 
 	// Specifies the bandwidth limit details. If this field is unspecified, the default value is set as 'No Limit'.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	BandwidthLimit []BandwidthLimitParameters `json:"bandwidthLimit,omitempty" tf:"bandwidth_limit,omitempty"`
 
 	// Specifies the client-specified AgentPool description.
-	// +kubebuilder:validation:Optional
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
-	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 
@@ -91,7 +88,6 @@ type BandwidthLimitObservation struct {
 type BandwidthLimitParameters struct {
 
 	// Bandwidth rate in megabytes per second, distributed across all the agents in the pool.
-	// +kubebuilder:validation:Optional
 	LimitMbps *string `json:"limitMbps,omitempty" tf:"limit_mbps,omitempty"`
 }
 
@@ -102,14 +98,6 @@ type AgentPoolSpec struct {
 	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
 	// unless the relevant Crossplane feature flag is enabled, and may be
 	// changed or removed without notice.
-	// InitProvider holds the same fields as ForProvider, with the exception
-	// of Identifier and other resource reference fields. The fields that are
-	// in InitProvider are merged into ForProvider when the resource is created.
-	// The same fields are also added to the terraform ignore_changes hook, to
-	// avoid updating them after creation. This is useful for fields that are
-	// required on creation, but we do not desire to update them after creation,
-	// for example because of an external controller is managing them, like an
-	// autoscaler.
 	InitProvider AgentPoolInitParameters `json:"initProvider,omitempty"`
 }
 

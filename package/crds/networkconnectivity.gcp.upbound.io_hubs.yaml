@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.0
+    controller-gen.kubebuilder.io/version: v0.12.1
   name: hubs.networkconnectivity.gcp.upbound.io
 spec:
   group: networkconnectivity.gcp.upbound.io
@@ -66,6 +66,28 @@ spec:
                 - Delete
                 type: string
               forProvider:
+                properties:
+                  description:
+                    description: An optional description of the hub.
+                    type: string
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: Optional labels in key:value format. For more information
+                      about labels, see Requirements for labels.
+                    type: object
+                  name:
+                    description: 'Immutable. The name of the hub. Hub names must be
+                      unique. They use the following form: projects/{project_number}/locations/global/hubs/{hub_id}'
+                    type: string
+                  project:
+                    description: The project for the resource
+                    type: string
+                type: object
+              initProvider:
+                description: THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice.
                 properties:
                   description:
                     description: An optional description of the hub.
@@ -284,7 +306,8 @@ spec:
             x-kubernetes-validations:
             - message: name is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.name)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.name)
+                || has(self.initProvider.name)'
           status:
             description: HubStatus defines the observed state of Hub.
             properties:

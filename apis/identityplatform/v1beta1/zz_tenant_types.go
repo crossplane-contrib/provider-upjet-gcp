@@ -25,6 +25,27 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type TenantInitParameters struct {
+
+	// Whether to allow email/password user authentication.
+	AllowPasswordSignup *bool `json:"allowPasswordSignup,omitempty" tf:"allow_password_signup,omitempty"`
+
+	// Whether authentication is disabled for the tenant. If true, the users under
+	// the disabled tenant are not allowed to sign-in. Admins of the disabled tenant
+	// are not able to manage its users.
+	DisableAuth *bool `json:"disableAuth,omitempty" tf:"disable_auth,omitempty"`
+
+	// Human friendly display name of the tenant.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// Whether to enable email link user authentication.
+	EnableEmailLinkSignin *bool `json:"enableEmailLinkSignin,omitempty" tf:"enable_email_link_signin,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+}
+
 type TenantObservation struct {
 
 	// Whether to allow email/password user authentication.
@@ -55,26 +76,21 @@ type TenantObservation struct {
 type TenantParameters struct {
 
 	// Whether to allow email/password user authentication.
-	// +kubebuilder:validation:Optional
 	AllowPasswordSignup *bool `json:"allowPasswordSignup,omitempty" tf:"allow_password_signup,omitempty"`
 
 	// Whether authentication is disabled for the tenant. If true, the users under
 	// the disabled tenant are not allowed to sign-in. Admins of the disabled tenant
 	// are not able to manage its users.
-	// +kubebuilder:validation:Optional
 	DisableAuth *bool `json:"disableAuth,omitempty" tf:"disable_auth,omitempty"`
 
 	// Human friendly display name of the tenant.
-	// +kubebuilder:validation:Optional
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// Whether to enable email link user authentication.
-	// +kubebuilder:validation:Optional
 	EnableEmailLinkSignin *bool `json:"enableEmailLinkSignin,omitempty" tf:"enable_email_link_signin,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
-	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 
@@ -82,6 +98,10 @@ type TenantParameters struct {
 type TenantSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     TenantParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	InitProvider TenantInitParameters `json:"initProvider,omitempty"`
 }
 
 // TenantStatus defines the observed state of Tenant.
@@ -102,7 +122,7 @@ type TenantStatus struct {
 type Tenant struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.displayName)",message="displayName is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.displayName) || has(self.initProvider.displayName)",message="displayName is a required parameter"
 	Spec   TenantSpec   `json:"spec"`
 	Status TenantStatus `json:"status,omitempty"`
 }

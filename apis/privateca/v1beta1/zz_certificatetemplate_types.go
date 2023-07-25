@@ -52,15 +52,12 @@ type CertificateTemplateIdentityConstraintsObservation struct {
 type CertificateTemplateIdentityConstraintsParameters struct {
 
 	// Required. If this is true, the SubjectAltNames extension may be copied from a certificate request into the signed certificate. Otherwise, the requested SubjectAltNames will be discarded.
-	// +kubebuilder:validation:Optional
 	AllowSubjectAltNamesPassthrough *bool `json:"allowSubjectAltNamesPassthrough,omitempty" tf:"allow_subject_alt_names_passthrough,omitempty"`
 
 	// Required. If this is true, the Subject field may be copied from a certificate request into the signed certificate. Otherwise, the requested Subject will be discarded.
-	// +kubebuilder:validation:Optional
 	AllowSubjectPassthrough *bool `json:"allowSubjectPassthrough,omitempty" tf:"allow_subject_passthrough,omitempty"`
 
 	// Optional. A CEL expression that may be used to validate the resolved X.509 Subject and/or Subject Alternative Name before a certificate is signed. To see the full allowed syntax and some examples, see https://cloud.google.com/certificate-authority-service/docs/using-cel
-	// +kubebuilder:validation:Optional
 	CelExpression []IdentityConstraintsCelExpressionParameters `json:"celExpression,omitempty" tf:"cel_expression,omitempty"`
 }
 
@@ -121,15 +118,12 @@ type CertificateTemplateObservation struct {
 type CertificateTemplateParameters struct {
 
 	// Optional. A human-readable description of scenarios this template is intended for.
-	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Optional. Describes constraints on identities that may be appear in Certificates issued using this template. If this is omitted, then this template will not add restrictions on a certificate's identity.
-	// +kubebuilder:validation:Optional
 	IdentityConstraints []CertificateTemplateIdentityConstraintsParameters `json:"identityConstraints,omitempty" tf:"identity_constraints,omitempty"`
 
 	// Optional. Labels with user-defined metadata.
-	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The location for the resource
@@ -137,15 +131,12 @@ type CertificateTemplateParameters struct {
 	Location *string `json:"location" tf:"location,omitempty"`
 
 	// Optional. Describes the set of X.509 extensions that may appear in a Certificate issued using this CertificateTemplate. If a certificate request sets extensions that don't appear in the passthrough_extensions, those extensions will be dropped. If the issuing CaPool's IssuancePolicy defines baseline_values that don't appear here, the certificate issuance request will fail. If this is omitted, then this template will not add restrictions on a certificate's X.509 extensions. These constraints do not apply to X.509 extensions set in this CertificateTemplate's predefined_values.
-	// +kubebuilder:validation:Optional
 	PassthroughExtensions []PassthroughExtensionsParameters `json:"passthroughExtensions,omitempty" tf:"passthrough_extensions,omitempty"`
 
 	// Optional. A set of X.509 values that will be applied to all issued certificates that use this template. If the certificate request includes conflicting values for the same properties, they will be overwritten by the values defined here. If the issuing CaPool's IssuancePolicy defines conflicting baseline_values for the same properties, the certificate issuance request will fail.
-	// +kubebuilder:validation:Optional
 	PredefinedValues []PredefinedValuesParameters `json:"predefinedValues,omitempty" tf:"predefined_values,omitempty"`
 
 	// The project for the resource
-	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 
@@ -179,11 +170,9 @@ type IdentityConstraintsCelExpressionObservation struct {
 type IdentityConstraintsCelExpressionParameters struct {
 
 	// Optional. A human-readable description of scenarios this template is intended for.
-	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Textual representation of an expression in Common Expression Language syntax.
-	// +kubebuilder:validation:Optional
 	Expression *string `json:"expression,omitempty" tf:"expression,omitempty"`
 
 	// The location for the resource
@@ -191,7 +180,6 @@ type IdentityConstraintsCelExpressionParameters struct {
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
 	// Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression.
-	// +kubebuilder:validation:Optional
 	Title *string `json:"title,omitempty" tf:"title,omitempty"`
 }
 
@@ -210,7 +198,6 @@ type PassthroughExtensionsAdditionalExtensionsObservation struct {
 type PassthroughExtensionsAdditionalExtensionsParameters struct {
 
 	// Required. The parts of an OID path. The most significant parts of the path come first.
-	// +kubebuilder:validation:Optional
 	ObjectIDPath []*float64 `json:"objectIdPath,omitempty" tf:"object_id_path,omitempty"`
 }
 
@@ -235,11 +222,9 @@ type PassthroughExtensionsObservation struct {
 type PassthroughExtensionsParameters struct {
 
 	// Optional. A set of ObjectIds identifying custom X.509 extensions. Will be combined with known_extensions to determine the full set of X.509 extensions.
-	// +kubebuilder:validation:Optional
 	AdditionalExtensions []PassthroughExtensionsAdditionalExtensionsParameters `json:"additionalExtensions,omitempty" tf:"additional_extensions,omitempty"`
 
 	// Optional. A set of named X.509 extensions. Will be combined with additional_extensions to determine the full set of X.509 extensions.
-	// +kubebuilder:validation:Optional
 	KnownExtensions []*string `json:"knownExtensions,omitempty" tf:"known_extensions,omitempty"`
 }
 
@@ -270,7 +255,6 @@ type PredefinedValuesAdditionalExtensionsObjectIDObservation struct {
 type PredefinedValuesAdditionalExtensionsObjectIDParameters struct {
 
 	// Required. The parts of an OID path. The most significant parts of the path come first.
-	// +kubebuilder:validation:Optional
 	ObjectIDPath []*float64 `json:"objectIdPath,omitempty" tf:"object_id_path,omitempty"`
 }
 
@@ -289,15 +273,12 @@ type PredefinedValuesAdditionalExtensionsObservation struct {
 type PredefinedValuesAdditionalExtensionsParameters struct {
 
 	// Optional. Indicates whether or not this extension is critical (i.e., if the client does not know how to handle this extension, the client should consider this to be an error).
-	// +kubebuilder:validation:Optional
 	Critical *bool `json:"critical,omitempty" tf:"critical,omitempty"`
 
 	// Required. The OID for this X.509 extension.
-	// +kubebuilder:validation:Optional
 	ObjectID []PredefinedValuesAdditionalExtensionsObjectIDParameters `json:"objectId,omitempty" tf:"object_id,omitempty"`
 
 	// Required. The value of this X.509 extension.
-	// +kubebuilder:validation:Optional
 	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
 
@@ -322,11 +303,9 @@ type PredefinedValuesCAOptionsObservation struct {
 type PredefinedValuesCAOptionsParameters struct {
 
 	// Optional. Refers to the "CA" X.509 extension, which is a boolean value. When this value is missing, the extension will be omitted from the CA certificate.
-	// +kubebuilder:validation:Optional
 	IsCA *bool `json:"isCa,omitempty" tf:"is_ca,omitempty"`
 
 	// Optional. Refers to the path length restriction X.509 extension. For a CA certificate, this value describes the depth of subordinate CA certificates that are allowed. If this value is less than 0, the request will fail. If this value is missing, the max path length will be omitted from the CA certificate.
-	// +kubebuilder:validation:Optional
 	MaxIssuerPathLength *float64 `json:"maxIssuerPathLength,omitempty" tf:"max_issuer_path_length,omitempty"`
 }
 
@@ -411,39 +390,30 @@ type PredefinedValuesKeyUsageBaseKeyUsageObservation struct {
 type PredefinedValuesKeyUsageBaseKeyUsageParameters struct {
 
 	// The key may be used to sign certificates.
-	// +kubebuilder:validation:Optional
 	CertSign *bool `json:"certSign,omitempty" tf:"cert_sign,omitempty"`
 
 	// The key may be used for cryptographic commitments. Note that this may also be referred to as "non-repudiation".
-	// +kubebuilder:validation:Optional
 	ContentCommitment *bool `json:"contentCommitment,omitempty" tf:"content_commitment,omitempty"`
 
 	// The key may be used sign certificate revocation lists.
-	// +kubebuilder:validation:Optional
 	CrlSign *bool `json:"crlSign,omitempty" tf:"crl_sign,omitempty"`
 
 	// The key may be used to encipher data.
-	// +kubebuilder:validation:Optional
 	DataEncipherment *bool `json:"dataEncipherment,omitempty" tf:"data_encipherment,omitempty"`
 
 	// The key may be used to decipher only.
-	// +kubebuilder:validation:Optional
 	DecipherOnly *bool `json:"decipherOnly,omitempty" tf:"decipher_only,omitempty"`
 
 	// The key may be used for digital signatures.
-	// +kubebuilder:validation:Optional
 	DigitalSignature *bool `json:"digitalSignature,omitempty" tf:"digital_signature,omitempty"`
 
 	// The key may be used to encipher only.
-	// +kubebuilder:validation:Optional
 	EncipherOnly *bool `json:"encipherOnly,omitempty" tf:"encipher_only,omitempty"`
 
 	// The key may be used in a key agreement protocol.
-	// +kubebuilder:validation:Optional
 	KeyAgreement *bool `json:"keyAgreement,omitempty" tf:"key_agreement,omitempty"`
 
 	// The key may be used to encipher other keys.
-	// +kubebuilder:validation:Optional
 	KeyEncipherment *bool `json:"keyEncipherment,omitempty" tf:"key_encipherment,omitempty"`
 }
 
@@ -492,27 +462,21 @@ type PredefinedValuesKeyUsageExtendedKeyUsageObservation struct {
 type PredefinedValuesKeyUsageExtendedKeyUsageParameters struct {
 
 	// Corresponds to OID 1.3.6.1.5.5.7.3.2. Officially described as "TLS WWW client authentication", though regularly used for non-WWW TLS.
-	// +kubebuilder:validation:Optional
 	ClientAuth *bool `json:"clientAuth,omitempty" tf:"client_auth,omitempty"`
 
 	// Corresponds to OID 1.3.6.1.5.5.7.3.3. Officially described as "Signing of downloadable executable code client authentication".
-	// +kubebuilder:validation:Optional
 	CodeSigning *bool `json:"codeSigning,omitempty" tf:"code_signing,omitempty"`
 
 	// Corresponds to OID 1.3.6.1.5.5.7.3.4. Officially described as "Email protection".
-	// +kubebuilder:validation:Optional
 	EmailProtection *bool `json:"emailProtection,omitempty" tf:"email_protection,omitempty"`
 
 	// Corresponds to OID 1.3.6.1.5.5.7.3.9. Officially described as "Signing OCSP responses".
-	// +kubebuilder:validation:Optional
 	OcspSigning *bool `json:"ocspSigning,omitempty" tf:"ocsp_signing,omitempty"`
 
 	// Corresponds to OID 1.3.6.1.5.5.7.3.1. Officially described as "TLS WWW server authentication", though regularly used for non-WWW TLS.
-	// +kubebuilder:validation:Optional
 	ServerAuth *bool `json:"serverAuth,omitempty" tf:"server_auth,omitempty"`
 
 	// Corresponds to OID 1.3.6.1.5.5.7.3.8. Officially described as "Binding the hash of an object to a time".
-	// +kubebuilder:validation:Optional
 	TimeStamping *bool `json:"timeStamping,omitempty" tf:"time_stamping,omitempty"`
 }
 
@@ -543,15 +507,12 @@ type PredefinedValuesKeyUsageObservation struct {
 type PredefinedValuesKeyUsageParameters struct {
 
 	// Describes high-level ways in which a key may be used.
-	// +kubebuilder:validation:Optional
 	BaseKeyUsage []PredefinedValuesKeyUsageBaseKeyUsageParameters `json:"baseKeyUsage,omitempty" tf:"base_key_usage,omitempty"`
 
 	// Detailed scenarios in which a key may be used.
-	// +kubebuilder:validation:Optional
 	ExtendedKeyUsage []PredefinedValuesKeyUsageExtendedKeyUsageParameters `json:"extendedKeyUsage,omitempty" tf:"extended_key_usage,omitempty"`
 
 	// Used to describe extended key usages that are not listed in the KeyUsage.ExtendedKeyUsageOptions message.
-	// +kubebuilder:validation:Optional
 	UnknownExtendedKeyUsages []PredefinedValuesKeyUsageUnknownExtendedKeyUsagesParameters `json:"unknownExtendedKeyUsages,omitempty" tf:"unknown_extended_key_usages,omitempty"`
 }
 
@@ -570,7 +531,6 @@ type PredefinedValuesKeyUsageUnknownExtendedKeyUsagesObservation struct {
 type PredefinedValuesKeyUsageUnknownExtendedKeyUsagesParameters struct {
 
 	// Required. The parts of an OID path. The most significant parts of the path come first.
-	// +kubebuilder:validation:Optional
 	ObjectIDPath []*float64 `json:"objectIdPath,omitempty" tf:"object_id_path,omitempty"`
 }
 
@@ -595,23 +555,18 @@ type PredefinedValuesObservation struct {
 type PredefinedValuesParameters struct {
 
 	// Optional. Describes custom X.509 extensions.
-	// +kubebuilder:validation:Optional
 	AdditionalExtensions []PredefinedValuesAdditionalExtensionsParameters `json:"additionalExtensions,omitempty" tf:"additional_extensions,omitempty"`
 
 	// Optional. Describes Online Certificate Status Protocol (OCSP) endpoint addresses that appear in the "Authority Information Access" extension in the certificate.
-	// +kubebuilder:validation:Optional
 	AiaOcspServers []*string `json:"aiaOcspServers,omitempty" tf:"aia_ocsp_servers,omitempty"`
 
 	// Optional. Describes options in this X509Parameters that are relevant in a CA certificate.
-	// +kubebuilder:validation:Optional
 	CAOptions []PredefinedValuesCAOptionsParameters `json:"caOptions,omitempty" tf:"ca_options,omitempty"`
 
 	// Optional. Indicates the intended use for keys that correspond to a certificate.
-	// +kubebuilder:validation:Optional
 	KeyUsage []PredefinedValuesKeyUsageParameters `json:"keyUsage,omitempty" tf:"key_usage,omitempty"`
 
 	// Optional. Describes the X.509 certificate policy object identifiers, per https://tools.ietf.org/html/rfc5280#section-4.2.1.4.
-	// +kubebuilder:validation:Optional
 	PolicyIds []PredefinedValuesPolicyIdsParameters `json:"policyIds,omitempty" tf:"policy_ids,omitempty"`
 }
 
@@ -630,7 +585,6 @@ type PredefinedValuesPolicyIdsObservation struct {
 type PredefinedValuesPolicyIdsParameters struct {
 
 	// Required. The parts of an OID path. The most significant parts of the path come first.
-	// +kubebuilder:validation:Optional
 	ObjectIDPath []*float64 `json:"objectIdPath,omitempty" tf:"object_id_path,omitempty"`
 }
 
@@ -641,14 +595,6 @@ type CertificateTemplateSpec struct {
 	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
 	// unless the relevant Crossplane feature flag is enabled, and may be
 	// changed or removed without notice.
-	// InitProvider holds the same fields as ForProvider, with the exception
-	// of Identifier and other resource reference fields. The fields that are
-	// in InitProvider are merged into ForProvider when the resource is created.
-	// The same fields are also added to the terraform ignore_changes hook, to
-	// avoid updating them after creation. This is useful for fields that are
-	// required on creation, but we do not desire to update them after creation,
-	// for example because of an external controller is managing them, like an
-	// autoscaler.
 	InitProvider CertificateTemplateInitParameters `json:"initProvider,omitempty"`
 }
 

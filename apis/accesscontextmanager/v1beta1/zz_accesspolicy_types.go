@@ -69,16 +69,13 @@ type AccessPolicyParameters struct {
 
 	// The parent of this AccessPolicy in the Cloud Resource Hierarchy.
 	// Format: organizations/{organization_id}
-	// +kubebuilder:validation:Optional
 	Parent *string `json:"parent,omitempty" tf:"parent,omitempty"`
 
 	// Folder or project on which this policy is applicable.
 	// Format: folders/{{folder_id}} or projects/{{project_id}}
-	// +kubebuilder:validation:Optional
 	Scopes []*string `json:"scopes,omitempty" tf:"scopes,omitempty"`
 
 	// Human readable title. Does not affect behavior.
-	// +kubebuilder:validation:Optional
 	Title *string `json:"title,omitempty" tf:"title,omitempty"`
 }
 
@@ -89,14 +86,6 @@ type AccessPolicySpec struct {
 	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
 	// unless the relevant Crossplane feature flag is enabled, and may be
 	// changed or removed without notice.
-	// InitProvider holds the same fields as ForProvider, with the exception
-	// of Identifier and other resource reference fields. The fields that are
-	// in InitProvider are merged into ForProvider when the resource is created.
-	// The same fields are also added to the terraform ignore_changes hook, to
-	// avoid updating them after creation. This is useful for fields that are
-	// required on creation, but we do not desire to update them after creation,
-	// for example because of an external controller is managing them, like an
-	// autoscaler.
 	InitProvider AccessPolicyInitParameters `json:"initProvider,omitempty"`
 }
 

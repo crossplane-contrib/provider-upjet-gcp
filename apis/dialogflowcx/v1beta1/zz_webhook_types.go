@@ -25,6 +25,18 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type GenericWebServiceInitParameters struct {
+
+	// Specifies a list of allowed custom CA certificates (in DER format) for HTTPS verification.
+	AllowedCACerts []*string `json:"allowedCaCerts,omitempty" tf:"allowed_ca_certs,omitempty"`
+
+	// The HTTP request headers to send together with webhook requests.
+	RequestHeaders map[string]*string `json:"requestHeaders,omitempty" tf:"request_headers,omitempty"`
+
+	// Whether to use speech adaptation for speech recognition.
+	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`
+}
+
 type GenericWebServiceObservation struct {
 
 	// Specifies a list of allowed custom CA certificates (in DER format) for HTTPS verification.
@@ -40,16 +52,25 @@ type GenericWebServiceObservation struct {
 type GenericWebServiceParameters struct {
 
 	// Specifies a list of allowed custom CA certificates (in DER format) for HTTPS verification.
-	// +kubebuilder:validation:Optional
 	AllowedCACerts []*string `json:"allowedCaCerts,omitempty" tf:"allowed_ca_certs,omitempty"`
 
 	// The HTTP request headers to send together with webhook requests.
-	// +kubebuilder:validation:Optional
 	RequestHeaders map[string]*string `json:"requestHeaders,omitempty" tf:"request_headers,omitempty"`
 
 	// Whether to use speech adaptation for speech recognition.
-	// +kubebuilder:validation:Required
-	URI *string `json:"uri" tf:"uri,omitempty"`
+	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`
+}
+
+type ServiceDirectoryGenericWebServiceInitParameters struct {
+
+	// Specifies a list of allowed custom CA certificates (in DER format) for HTTPS verification.
+	AllowedCACerts []*string `json:"allowedCaCerts,omitempty" tf:"allowed_ca_certs,omitempty"`
+
+	// The HTTP request headers to send together with webhook requests.
+	RequestHeaders map[string]*string `json:"requestHeaders,omitempty" tf:"request_headers,omitempty"`
+
+	// Whether to use speech adaptation for speech recognition.
+	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`
 }
 
 type ServiceDirectoryGenericWebServiceObservation struct {
@@ -67,16 +88,23 @@ type ServiceDirectoryGenericWebServiceObservation struct {
 type ServiceDirectoryGenericWebServiceParameters struct {
 
 	// Specifies a list of allowed custom CA certificates (in DER format) for HTTPS verification.
-	// +kubebuilder:validation:Optional
 	AllowedCACerts []*string `json:"allowedCaCerts,omitempty" tf:"allowed_ca_certs,omitempty"`
 
 	// The HTTP request headers to send together with webhook requests.
-	// +kubebuilder:validation:Optional
 	RequestHeaders map[string]*string `json:"requestHeaders,omitempty" tf:"request_headers,omitempty"`
 
 	// Whether to use speech adaptation for speech recognition.
-	// +kubebuilder:validation:Required
-	URI *string `json:"uri" tf:"uri,omitempty"`
+	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`
+}
+
+type ServiceDirectoryInitParameters struct {
+
+	// The name of Service Directory service.
+	// Structure is documented below.
+	GenericWebService []ServiceDirectoryGenericWebServiceInitParameters `json:"genericWebService,omitempty" tf:"generic_web_service,omitempty"`
+
+	// The name of Service Directory service.
+	Service *string `json:"service,omitempty" tf:"service,omitempty"`
 }
 
 type ServiceDirectoryObservation struct {
@@ -93,12 +121,39 @@ type ServiceDirectoryParameters struct {
 
 	// The name of Service Directory service.
 	// Structure is documented below.
-	// +kubebuilder:validation:Required
-	GenericWebService []ServiceDirectoryGenericWebServiceParameters `json:"genericWebService" tf:"generic_web_service,omitempty"`
+	GenericWebService []ServiceDirectoryGenericWebServiceParameters `json:"genericWebService,omitempty" tf:"generic_web_service,omitempty"`
 
 	// The name of Service Directory service.
-	// +kubebuilder:validation:Required
-	Service *string `json:"service" tf:"service,omitempty"`
+	Service *string `json:"service,omitempty" tf:"service,omitempty"`
+}
+
+type WebhookInitParameters struct {
+
+	// Indicates whether the webhook is disabled.
+	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
+
+	// The human-readable name of the webhook, unique within the agent.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// Indicates if automatic spell correction is enabled in detect intent requests.
+	EnableSpellCorrection *bool `json:"enableSpellCorrection,omitempty" tf:"enable_spell_correction,omitempty"`
+
+	// Determines whether this agent should log conversation queries.
+	EnableStackdriverLogging *bool `json:"enableStackdriverLogging,omitempty" tf:"enable_stackdriver_logging,omitempty"`
+
+	// Configuration for a generic web service.
+	// Structure is documented below.
+	GenericWebService []GenericWebServiceInitParameters `json:"genericWebService,omitempty" tf:"generic_web_service,omitempty"`
+
+	// Name of the SecuritySettings reference for the agent. Format: projects//locations//securitySettings/.
+	SecuritySettings *string `json:"securitySettings,omitempty" tf:"security_settings,omitempty"`
+
+	// Configuration for a Service Directory service.
+	// Structure is documented below.
+	ServiceDirectory []ServiceDirectoryInitParameters `json:"serviceDirectory,omitempty" tf:"service_directory,omitempty"`
+
+	// Webhook execution timeout.
+	Timeout *string `json:"timeout,omitempty" tf:"timeout,omitempty"`
 }
 
 type WebhookObservation struct {
@@ -147,24 +202,19 @@ type WebhookObservation struct {
 type WebhookParameters struct {
 
 	// Indicates whether the webhook is disabled.
-	// +kubebuilder:validation:Optional
 	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
 
 	// The human-readable name of the webhook, unique within the agent.
-	// +kubebuilder:validation:Optional
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// Indicates if automatic spell correction is enabled in detect intent requests.
-	// +kubebuilder:validation:Optional
 	EnableSpellCorrection *bool `json:"enableSpellCorrection,omitempty" tf:"enable_spell_correction,omitempty"`
 
 	// Determines whether this agent should log conversation queries.
-	// +kubebuilder:validation:Optional
 	EnableStackdriverLogging *bool `json:"enableStackdriverLogging,omitempty" tf:"enable_stackdriver_logging,omitempty"`
 
 	// Configuration for a generic web service.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	GenericWebService []GenericWebServiceParameters `json:"genericWebService,omitempty" tf:"generic_web_service,omitempty"`
 
 	// The agent to create a webhook for.
@@ -183,16 +233,13 @@ type WebhookParameters struct {
 	ParentSelector *v1.Selector `json:"parentSelector,omitempty" tf:"-"`
 
 	// Name of the SecuritySettings reference for the agent. Format: projects//locations//securitySettings/.
-	// +kubebuilder:validation:Optional
 	SecuritySettings *string `json:"securitySettings,omitempty" tf:"security_settings,omitempty"`
 
 	// Configuration for a Service Directory service.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	ServiceDirectory []ServiceDirectoryParameters `json:"serviceDirectory,omitempty" tf:"service_directory,omitempty"`
 
 	// Webhook execution timeout.
-	// +kubebuilder:validation:Optional
 	Timeout *string `json:"timeout,omitempty" tf:"timeout,omitempty"`
 }
 
@@ -200,6 +247,10 @@ type WebhookParameters struct {
 type WebhookSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     WebhookParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	InitProvider WebhookInitParameters `json:"initProvider,omitempty"`
 }
 
 // WebhookStatus defines the observed state of Webhook.
@@ -220,7 +271,7 @@ type WebhookStatus struct {
 type Webhook struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.displayName)",message="displayName is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.displayName) || has(self.initProvider.displayName)",message="displayName is a required parameter"
 	Spec   WebhookSpec   `json:"spec"`
 	Status WebhookStatus `json:"status,omitempty"`
 }

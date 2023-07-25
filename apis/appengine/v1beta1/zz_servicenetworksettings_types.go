@@ -25,6 +25,14 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type NetworkSettingsInitParameters struct {
+
+	// The ingress settings for version or service.
+	// Default value is INGRESS_TRAFFIC_ALLOWED_UNSPECIFIED.
+	// Possible values are: INGRESS_TRAFFIC_ALLOWED_UNSPECIFIED, INGRESS_TRAFFIC_ALLOWED_ALL, INGRESS_TRAFFIC_ALLOWED_INTERNAL_ONLY, INGRESS_TRAFFIC_ALLOWED_INTERNAL_AND_LB.
+	IngressTrafficAllowed *string `json:"ingressTrafficAllowed,omitempty" tf:"ingress_traffic_allowed,omitempty"`
+}
+
 type NetworkSettingsObservation struct {
 
 	// The ingress settings for version or service.
@@ -38,8 +46,18 @@ type NetworkSettingsParameters struct {
 	// The ingress settings for version or service.
 	// Default value is INGRESS_TRAFFIC_ALLOWED_UNSPECIFIED.
 	// Possible values are: INGRESS_TRAFFIC_ALLOWED_UNSPECIFIED, INGRESS_TRAFFIC_ALLOWED_ALL, INGRESS_TRAFFIC_ALLOWED_INTERNAL_ONLY, INGRESS_TRAFFIC_ALLOWED_INTERNAL_AND_LB.
-	// +kubebuilder:validation:Optional
 	IngressTrafficAllowed *string `json:"ingressTrafficAllowed,omitempty" tf:"ingress_traffic_allowed,omitempty"`
+}
+
+type ServiceNetworkSettingsInitParameters struct {
+
+	// Ingress settings for this service. Will apply to all versions.
+	// Structure is documented below.
+	NetworkSettings []NetworkSettingsInitParameters `json:"networkSettings,omitempty" tf:"network_settings,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 
 type ServiceNetworkSettingsObservation struct {
@@ -63,12 +81,10 @@ type ServiceNetworkSettingsParameters struct {
 
 	// Ingress settings for this service. Will apply to all versions.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	NetworkSettings []NetworkSettingsParameters `json:"networkSettings,omitempty" tf:"network_settings,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
-	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The name of the service these settings apply to.
@@ -90,6 +106,10 @@ type ServiceNetworkSettingsParameters struct {
 type ServiceNetworkSettingsSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     ServiceNetworkSettingsParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	InitProvider ServiceNetworkSettingsInitParameters `json:"initProvider,omitempty"`
 }
 
 // ServiceNetworkSettingsStatus defines the observed state of ServiceNetworkSettings.
@@ -110,7 +130,7 @@ type ServiceNetworkSettingsStatus struct {
 type ServiceNetworkSettings struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.networkSettings)",message="networkSettings is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.networkSettings) || has(self.initProvider.networkSettings)",message="networkSettings is a required parameter"
 	Spec   ServiceNetworkSettingsSpec   `json:"spec"`
 	Status ServiceNetworkSettingsStatus `json:"status,omitempty"`
 }

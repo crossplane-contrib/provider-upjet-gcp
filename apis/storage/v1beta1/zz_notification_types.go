@@ -25,6 +25,21 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type NotificationInitParameters struct {
+
+	// A set of key/value attribute pairs to attach to each Cloud PubSub message published for this notification subscription
+	CustomAttributes map[string]*string `json:"customAttributes,omitempty" tf:"custom_attributes,omitempty"`
+
+	// List of event type filters for this notification config. If not specified, Cloud Storage will send notifications for all event types. The valid types are: "OBJECT_FINALIZE", "OBJECT_METADATA_UPDATE", "OBJECT_DELETE", "OBJECT_ARCHIVE"
+	EventTypes []*string `json:"eventTypes,omitempty" tf:"event_types,omitempty"`
+
+	// Specifies a prefix path filter for this notification config. Cloud Storage will only send notifications for objects in this bucket whose names begin with the specified prefix.
+	ObjectNamePrefix *string `json:"objectNamePrefix,omitempty" tf:"object_name_prefix,omitempty"`
+
+	// The desired content of the Payload. One of "JSON_API_V1" or "NONE".
+	PayloadFormat *string `json:"payloadFormat,omitempty" tf:"payload_format,omitempty"`
+}
+
 type NotificationObservation struct {
 
 	// The name of the bucket.
@@ -73,19 +88,15 @@ type NotificationParameters struct {
 	BucketSelector *v1.Selector `json:"bucketSelector,omitempty" tf:"-"`
 
 	// A set of key/value attribute pairs to attach to each Cloud PubSub message published for this notification subscription
-	// +kubebuilder:validation:Optional
 	CustomAttributes map[string]*string `json:"customAttributes,omitempty" tf:"custom_attributes,omitempty"`
 
 	// List of event type filters for this notification config. If not specified, Cloud Storage will send notifications for all event types. The valid types are: "OBJECT_FINALIZE", "OBJECT_METADATA_UPDATE", "OBJECT_DELETE", "OBJECT_ARCHIVE"
-	// +kubebuilder:validation:Optional
 	EventTypes []*string `json:"eventTypes,omitempty" tf:"event_types,omitempty"`
 
 	// Specifies a prefix path filter for this notification config. Cloud Storage will only send notifications for objects in this bucket whose names begin with the specified prefix.
-	// +kubebuilder:validation:Optional
 	ObjectNamePrefix *string `json:"objectNamePrefix,omitempty" tf:"object_name_prefix,omitempty"`
 
 	// The desired content of the Payload. One of "JSON_API_V1" or "NONE".
-	// +kubebuilder:validation:Optional
 	PayloadFormat *string `json:"payloadFormat,omitempty" tf:"payload_format,omitempty"`
 
 	// The Cloud PubSub topic to which this subscription publishes. Expects either the
@@ -110,6 +121,10 @@ type NotificationParameters struct {
 type NotificationSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     NotificationParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	InitProvider NotificationInitParameters `json:"initProvider,omitempty"`
 }
 
 // NotificationStatus defines the observed state of Notification.
@@ -130,7 +145,7 @@ type NotificationStatus struct {
 type Notification struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.payloadFormat)",message="payloadFormat is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.payloadFormat) || has(self.initProvider.payloadFormat)",message="payloadFormat is a required parameter"
 	Spec   NotificationSpec   `json:"spec"`
 	Status NotificationStatus `json:"status,omitempty"`
 }

@@ -91,6 +91,15 @@ func (tr *ConnectionProfile) GetInitParameters() (map[string]any, error) {
 	return base, json.TFParser.Unmarshal(p, &base)
 }
 
+// SetInitParameters for this ConnectionProfile
+func (tr *ConnectionProfile) SetInitParameters(params map[string]any) error {
+	p, err := json.TFParser.Marshal(params)
+	if err != nil {
+		return err
+	}
+	return json.TFParser.Unmarshal(p, &tr.Spec.InitProvider)
+}
+
 // LateInitialize this ConnectionProfile using its observed tfState.
 // returns True if there are any spec changes for the resource.
 func (tr *ConnectionProfile) LateInitialize(attrs []byte) (bool, error) {
@@ -173,6 +182,15 @@ func (tr *PrivateConnection) GetInitParameters() (map[string]any, error) {
 	}
 	base := map[string]any{}
 	return base, json.TFParser.Unmarshal(p, &base)
+}
+
+// SetInitParameters for this PrivateConnection
+func (tr *PrivateConnection) SetInitParameters(params map[string]any) error {
+	p, err := json.TFParser.Marshal(params)
+	if err != nil {
+		return err
+	}
+	return json.TFParser.Unmarshal(p, &tr.Spec.InitProvider)
 }
 
 // LateInitialize this PrivateConnection using its observed tfState.

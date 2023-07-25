@@ -85,17 +85,14 @@ type InstanceGroupParameters struct {
 
 	// An optional textual description of the instance
 	// group.
-	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// The list of instances in the group, in self_link format.
 	// When adding instances they must all be in the same network and zone as the instance group.
-	// +kubebuilder:validation:Optional
 	Instances []*string `json:"instances,omitempty" tf:"instances,omitempty"`
 
 	// The named port configuration. See the section below
 	// for details on configuration. Structure is documented below.
-	// +kubebuilder:validation:Optional
 	NamedPort []NamedPortParameters `json:"namedPort,omitempty" tf:"named_port,omitempty"`
 
 	// The URL of the network the instance group is in. If
@@ -117,7 +114,6 @@ type InstanceGroupParameters struct {
 
 	// The ID of the project in which the resource belongs. If it
 	// is not provided, the provider project is used.
-	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The zone that this instance group should be created in.
@@ -146,11 +142,9 @@ type NamedPortObservation struct {
 type NamedPortParameters struct {
 
 	// The name which the port will be mapped to.
-	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// The port number to map the name to.
-	// +kubebuilder:validation:Optional
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
 }
 
@@ -161,14 +155,6 @@ type InstanceGroupSpec struct {
 	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
 	// unless the relevant Crossplane feature flag is enabled, and may be
 	// changed or removed without notice.
-	// InitProvider holds the same fields as ForProvider, with the exception
-	// of Identifier and other resource reference fields. The fields that are
-	// in InitProvider are merged into ForProvider when the resource is created.
-	// The same fields are also added to the terraform ignore_changes hook, to
-	// avoid updating them after creation. This is useful for fields that are
-	// required on creation, but we do not desire to update them after creation,
-	// for example because of an external controller is managing them, like an
-	// autoscaler.
 	InitProvider InstanceGroupInitParameters `json:"initProvider,omitempty"`
 }
 

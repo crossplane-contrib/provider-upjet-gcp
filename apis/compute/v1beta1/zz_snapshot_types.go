@@ -53,18 +53,15 @@ type SnapshotEncryptionKeyObservation struct {
 type SnapshotEncryptionKeyParameters struct {
 
 	// The name of the encryption key that is stored in Google Cloud KMS.
-	// +kubebuilder:validation:Optional
 	KMSKeySelfLink *string `json:"kmsKeySelfLink,omitempty" tf:"kms_key_self_link,omitempty"`
 
 	// The service account used for the encryption request for the given KMS key.
 	// If absent, the Compute Engine Service Agent service account is used.
-	// +kubebuilder:validation:Optional
 	KMSKeyServiceAccount *string `json:"kmsKeyServiceAccount,omitempty" tf:"kms_key_service_account,omitempty"`
 
 	// Specifies a 256-bit customer-supplied encryption key, encoded in
 	// RFC 4648 base64 to either encrypt or decrypt this resource.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	// +kubebuilder:validation:Optional
 	RawKeySecretRef *v1.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
 }
 
@@ -201,20 +198,16 @@ type SnapshotParameters struct {
 	// service owners who needs to create separate snapshot chains, for
 	// example, for chargeback tracking.  When you describe your snapshot
 	// resource, this field is visible only if it has a non-empty value.
-	// +kubebuilder:validation:Optional
 	ChainName *string `json:"chainName,omitempty" tf:"chain_name,omitempty"`
 
 	// An optional description of this resource.
-	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Labels to apply to this Snapshot.
-	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
-	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Encrypts the snapshot using a customer-supplied encryption key.
@@ -228,7 +221,6 @@ type SnapshotParameters struct {
 	// then the snapshot will be encrypted using an automatically generated
 	// key and you do not need to provide a key to use the snapshot later.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	SnapshotEncryptionKey []SnapshotEncryptionKeyParameters `json:"snapshotEncryptionKey,omitempty" tf:"snapshot_encryption_key,omitempty"`
 
 	// A reference to the disk used to create this snapshot.
@@ -241,7 +233,6 @@ type SnapshotParameters struct {
 	// if the source snapshot is protected by a customer-supplied encryption
 	// key.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	SourceDiskEncryptionKey []SourceDiskEncryptionKeyParameters `json:"sourceDiskEncryptionKey,omitempty" tf:"source_disk_encryption_key,omitempty"`
 
 	// Reference to a Disk in compute to populate sourceDisk.
@@ -253,11 +244,9 @@ type SnapshotParameters struct {
 	SourceDiskSelector *v1.Selector `json:"sourceDiskSelector,omitempty" tf:"-"`
 
 	// Cloud Storage bucket storage location of the snapshot (regional or multi-regional).
-	// +kubebuilder:validation:Optional
 	StorageLocations []*string `json:"storageLocations,omitempty" tf:"storage_locations,omitempty"`
 
 	// A reference to the zone where the disk is hosted.
-	// +kubebuilder:validation:Optional
 	Zone *string `json:"zone,omitempty" tf:"zone,omitempty"`
 }
 
@@ -279,13 +268,11 @@ type SourceDiskEncryptionKeyParameters struct {
 
 	// The service account used for the encryption request for the given KMS key.
 	// If absent, the Compute Engine Service Agent service account is used.
-	// +kubebuilder:validation:Optional
 	KMSKeyServiceAccount *string `json:"kmsKeyServiceAccount,omitempty" tf:"kms_key_service_account,omitempty"`
 
 	// Specifies a 256-bit customer-supplied encryption key, encoded in
 	// RFC 4648 base64 to either encrypt or decrypt this resource.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	// +kubebuilder:validation:Optional
 	RawKeySecretRef *v1.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
 }
 
@@ -296,14 +283,6 @@ type SnapshotSpec struct {
 	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
 	// unless the relevant Crossplane feature flag is enabled, and may be
 	// changed or removed without notice.
-	// InitProvider holds the same fields as ForProvider, with the exception
-	// of Identifier and other resource reference fields. The fields that are
-	// in InitProvider are merged into ForProvider when the resource is created.
-	// The same fields are also added to the terraform ignore_changes hook, to
-	// avoid updating them after creation. This is useful for fields that are
-	// required on creation, but we do not desire to update them after creation,
-	// for example because of an external controller is managing them, like an
-	// autoscaler.
 	InitProvider SnapshotInitParameters `json:"initProvider,omitempty"`
 }
 

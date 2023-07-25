@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.0
+    controller-gen.kubebuilder.io/version: v0.12.1
   name: targetsslproxies.compute.gcp.upbound.io
 spec:
   group: compute.gcp.upbound.io
@@ -248,6 +248,35 @@ spec:
                             type: string
                         type: object
                     type: object
+                  sslPolicy:
+                    description: A reference to the SslPolicy resource that will be
+                      associated with the TargetSslProxy resource. If not set, the
+                      TargetSslProxy resource will not have any SSL policy configured.
+                    type: string
+                type: object
+              initProvider:
+                description: THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice.
+                properties:
+                  certificateMap:
+                    description: A reference to the CertificateMap resource uri that
+                      identifies a certificate map associated with the given target
+                      proxy. This field can only be set for global target proxies.
+                      Accepted format is //certificatemanager.googleapis.com/projects/{project}/locations/{location}/certificateMaps/{resourceName}.
+                    type: string
+                  description:
+                    description: An optional description of this resource.
+                    type: string
+                  project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  proxyHeader:
+                    description: 'Specifies the type of proxy header to append before
+                      sending data to the backend. Default value is NONE. Possible
+                      values are: NONE, PROXY_V1.'
+                    type: string
                   sslPolicy:
                     description: A reference to the SslPolicy resource that will be
                       associated with the TargetSslProxy resource. If not set, the

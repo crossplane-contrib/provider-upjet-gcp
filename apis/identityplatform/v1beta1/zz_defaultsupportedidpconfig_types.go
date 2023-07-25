@@ -25,6 +25,19 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type DefaultSupportedIdPConfigInitParameters struct {
+
+	// If this IDP allows the user to sign in
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+
+	// ID of the IDP. Possible values include:
+	IdPID *string `json:"idpId,omitempty" tf:"idp_id,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+}
+
 type DefaultSupportedIdPConfigObservation struct {
 
 	// If this IDP allows the user to sign in
@@ -47,24 +60,19 @@ type DefaultSupportedIdPConfigObservation struct {
 type DefaultSupportedIdPConfigParameters struct {
 
 	// OAuth client ID
-	// +kubebuilder:validation:Optional
 	ClientIDSecretRef v1.SecretKeySelector `json:"clientIdSecretRef" tf:"-"`
 
 	// OAuth client secret
-	// +kubebuilder:validation:Optional
 	ClientSecretSecretRef v1.SecretKeySelector `json:"clientSecretSecretRef" tf:"-"`
 
 	// If this IDP allows the user to sign in
-	// +kubebuilder:validation:Optional
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 
 	// ID of the IDP. Possible values include:
-	// +kubebuilder:validation:Optional
 	IdPID *string `json:"idpId,omitempty" tf:"idp_id,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
-	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 
@@ -72,6 +80,10 @@ type DefaultSupportedIdPConfigParameters struct {
 type DefaultSupportedIdPConfigSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     DefaultSupportedIdPConfigParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	InitProvider DefaultSupportedIdPConfigInitParameters `json:"initProvider,omitempty"`
 }
 
 // DefaultSupportedIdPConfigStatus defines the observed state of DefaultSupportedIdPConfig.
@@ -94,7 +106,7 @@ type DefaultSupportedIdPConfig struct {
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.clientIdSecretRef)",message="clientIdSecretRef is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.clientSecretSecretRef)",message="clientSecretSecretRef is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.idpId)",message="idpId is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.idpId) || has(self.initProvider.idpId)",message="idpId is a required parameter"
 	Spec   DefaultSupportedIdPConfigSpec   `json:"spec"`
 	Status DefaultSupportedIdPConfigStatus `json:"status,omitempty"`
 }

@@ -25,6 +25,22 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type BackupInitParameters struct {
+
+	// A description of the backup with 2048 characters or less. Requests with longer descriptions will be rejected.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Resource labels to represent user-provided metadata.
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Name of the file share in the source Cloud Filestore instance that the backup is created from.
+	SourceFileShare *string `json:"sourceFileShare,omitempty" tf:"source_file_share,omitempty"`
+}
+
 type BackupObservation struct {
 
 	// The amount of bytes needed to allocate a full copy of the snapshot content.
@@ -74,11 +90,9 @@ type BackupObservation struct {
 type BackupParameters struct {
 
 	// A description of the backup with 2048 characters or less. Requests with longer descriptions will be rejected.
-	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Resource labels to represent user-provided metadata.
-	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The name of the location of the instance. This can be a region for ENTERPRISE tier instances.
@@ -87,11 +101,9 @@ type BackupParameters struct {
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
-	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Name of the file share in the source Cloud Filestore instance that the backup is created from.
-	// +kubebuilder:validation:Optional
 	SourceFileShare *string `json:"sourceFileShare,omitempty" tf:"source_file_share,omitempty"`
 
 	// The resource name of the source Cloud Filestore instance, in the format projects/{projectId}/locations/{locationId}/instances/{instanceId}, used to create this backup.
@@ -113,6 +125,10 @@ type BackupParameters struct {
 type BackupSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     BackupParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	InitProvider BackupInitParameters `json:"initProvider,omitempty"`
 }
 
 // BackupStatus defines the observed state of Backup.
@@ -133,7 +149,7 @@ type BackupStatus struct {
 type Backup struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.sourceFileShare)",message="sourceFileShare is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.sourceFileShare) || has(self.initProvider.sourceFileShare)",message="sourceFileShare is a required parameter"
 	Spec   BackupSpec   `json:"spec"`
 	Status BackupStatus `json:"status,omitempty"`
 }

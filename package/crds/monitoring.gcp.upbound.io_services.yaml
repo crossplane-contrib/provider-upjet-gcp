@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.0
+    controller-gen.kubebuilder.io/version: v0.12.1
   name: services.monitoring.gcp.upbound.io
 spec:
   group: monitoring.gcp.upbound.io
@@ -67,6 +67,50 @@ spec:
                 - Delete
                 type: string
               forProvider:
+                properties:
+                  basicService:
+                    description: A well-known service type, defined by its service
+                      type and service labels. Valid values of service types and services
+                      labels are described at https://cloud.google.com/stackdriver/docs/solutions/slo-monitoring/api/api-structures#basic-svc-w-basic-sli
+                      Structure is documented below.
+                    items:
+                      properties:
+                        serviceLabels:
+                          additionalProperties:
+                            type: string
+                          description: Labels that specify the resource that emits
+                            the monitoring data which is used for SLO reporting of
+                            this Service.
+                          type: object
+                        serviceType:
+                          description: The type of service that this basic service
+                            defines, e.g. APP_ENGINE service type
+                          type: string
+                      type: object
+                    type: array
+                  displayName:
+                    description: Name used for UI elements listing this Service.
+                    type: string
+                  project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  userLabels:
+                    additionalProperties:
+                      type: string
+                    description: Labels which have been used to annotate the service.
+                      Label keys must start with a letter. Label keys and values may
+                      contain lowercase letters, numbers, underscores, and dashes.
+                      Label keys and values have a maximum length of 63 characters,
+                      and must be less than 128 bytes in size. Up to 64 label entries
+                      may be stored. For labels which do not have a semantic value,
+                      the empty string may be supplied for the label value.
+                    type: object
+                type: object
+              initProvider:
+                description: THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice.
                 properties:
                   basicService:
                     description: A well-known service type, defined by its service

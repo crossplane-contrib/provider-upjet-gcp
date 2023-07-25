@@ -96,7 +96,6 @@ type DatabaseParameters struct {
 	// and Postgres' Character Set Support
 	// for more details and supported values. Postgres databases only support
 	// a value of UTF8 at creation time.
-	// +kubebuilder:validation:Optional
 	Charset *string `json:"charset,omitempty" tf:"charset,omitempty"`
 
 	// The collation value. See MySQL's
@@ -104,14 +103,12 @@ type DatabaseParameters struct {
 	// and Postgres' Collation Support
 	// for more details and supported values. Postgres databases only support
 	// a value of en_US.UTF8 at creation time.
-	// +kubebuilder:validation:Optional
 	Collation *string `json:"collation,omitempty" tf:"collation,omitempty"`
 
 	// The deletion policy for the database. Setting ABANDON allows the resource
 	// to be abandoned rather than deleted. This is useful for Postgres, where databases cannot be
 	// deleted from the API if there are users other than cloudsqlsuperuser with access. Possible
 	// values are: "ABANDON", "DELETE". Defaults to "DELETE".
-	// +kubebuilder:validation:Optional
 	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The name of the Cloud SQL instance. This does not include the project
@@ -130,7 +127,6 @@ type DatabaseParameters struct {
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
-	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 
@@ -141,14 +137,6 @@ type DatabaseSpec struct {
 	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
 	// unless the relevant Crossplane feature flag is enabled, and may be
 	// changed or removed without notice.
-	// InitProvider holds the same fields as ForProvider, with the exception
-	// of Identifier and other resource reference fields. The fields that are
-	// in InitProvider are merged into ForProvider when the resource is created.
-	// The same fields are also added to the terraform ignore_changes hook, to
-	// avoid updating them after creation. This is useful for fields that are
-	// required on creation, but we do not desire to update them after creation,
-	// for example because of an external controller is managing them, like an
-	// autoscaler.
 	InitProvider DatabaseInitParameters `json:"initProvider,omitempty"`
 }
 

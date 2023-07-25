@@ -70,15 +70,12 @@ type BucketACLParameters struct {
 	BucketSelector *v1.Selector `json:"bucketSelector,omitempty" tf:"-"`
 
 	// Configure this ACL to be the default ACL.
-	// +kubebuilder:validation:Optional
 	DefaultACL *string `json:"defaultAcl,omitempty" tf:"default_acl,omitempty"`
 
 	// The canned GCS ACL to apply. Must be set if role_entity is not.
-	// +kubebuilder:validation:Optional
 	PredefinedACL *string `json:"predefinedAcl,omitempty" tf:"predefined_acl,omitempty"`
 
 	// List of role/entity pairs in the form ROLE:entity. See GCS Bucket ACL documentation  for more details. Must be set if predefined_acl is not.
-	// +kubebuilder:validation:Optional
 	RoleEntity []*string `json:"roleEntity,omitempty" tf:"role_entity,omitempty"`
 }
 
@@ -89,14 +86,6 @@ type BucketACLSpec struct {
 	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
 	// unless the relevant Crossplane feature flag is enabled, and may be
 	// changed or removed without notice.
-	// InitProvider holds the same fields as ForProvider, with the exception
-	// of Identifier and other resource reference fields. The fields that are
-	// in InitProvider are merged into ForProvider when the resource is created.
-	// The same fields are also added to the terraform ignore_changes hook, to
-	// avoid updating them after creation. This is useful for fields that are
-	// required on creation, but we do not desire to update them after creation,
-	// for example because of an external controller is managing them, like an
-	// autoscaler.
 	InitProvider BucketACLInitParameters `json:"initProvider,omitempty"`
 }
 

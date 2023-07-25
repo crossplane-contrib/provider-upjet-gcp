@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.0
+    controller-gen.kubebuilder.io/version: v0.12.1
   name: packetmirrorings.compute.gcp.upbound.io
 spec:
   group: compute.gcp.upbound.io
@@ -289,8 +289,6 @@ spec:
                                 description: The URL of the subnetwork where this
                                   rule should be active.
                                 type: string
-                            required:
-                            - url
                             type: object
                           type: array
                         tags:
@@ -406,6 +404,93 @@ spec:
                     type: string
                 required:
                 - region
+                type: object
+              initProvider:
+                description: THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice.
+                properties:
+                  collectorIlb:
+                    description: The Forwarding Rule resource (of type load_balancing_scheme=INTERNAL)
+                      that will be used as collector for mirrored traffic. The specified
+                      forwarding rule must have is_mirroring_collector set to true.
+                      Structure is documented below.
+                    items:
+                      type: object
+                    type: array
+                  description:
+                    description: A human-readable description of the rule.
+                    type: string
+                  filter:
+                    description: A filter for mirrored traffic.  If unset, all traffic
+                      is mirrored. Structure is documented below.
+                    items:
+                      properties:
+                        cidrRanges:
+                          description: IP CIDR ranges that apply as a filter on the
+                            source (ingress) or destination (egress) IP in the IP
+                            header. Only IPv4 is supported.
+                          items:
+                            type: string
+                          type: array
+                        direction:
+                          description: 'Direction of traffic to mirror. Default value
+                            is BOTH. Possible values are: INGRESS, EGRESS, BOTH.'
+                          type: string
+                        ipProtocols:
+                          description: Possible IP protocols including tcp, udp, icmp
+                            and esp
+                          items:
+                            type: string
+                          type: array
+                      type: object
+                    type: array
+                  mirroredResources:
+                    description: A means of specifying which resources to mirror.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        instances:
+                          description: All the listed instances will be mirrored.  Specify
+                            at most 50. Structure is documented below.
+                          items:
+                            type: object
+                          type: array
+                        subnetworks:
+                          description: All instances in one of these subnetworks will
+                            be mirrored. Structure is documented below.
+                          items:
+                            properties:
+                              url:
+                                description: The URL of the subnetwork where this
+                                  rule should be active.
+                                type: string
+                            type: object
+                          type: array
+                        tags:
+                          description: All instances with these tags will be mirrored.
+                          items:
+                            type: string
+                          type: array
+                      type: object
+                    type: array
+                  network:
+                    description: Specifies the mirrored VPC network. Only packets
+                      in this network will be mirrored. All mirrored VMs should have
+                      a NIC in the given network. All mirrored subnetworks should
+                      belong to the given network. Structure is documented below.
+                    items:
+                      type: object
+                    type: array
+                  priority:
+                    description: Since only one rule can be active at a time, priority
+                      is used to break ties in the case of two rules that apply to
+                      the same instances.
+                    type: number
+                  project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
                 type: object
               managementPolicies:
                 default:
@@ -607,13 +692,16 @@ spec:
             x-kubernetes-validations:
             - message: collectorIlb is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.collectorIlb)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.collectorIlb)
+                || has(self.initProvider.collectorIlb)'
             - message: mirroredResources is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.mirroredResources)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.mirroredResources)
+                || has(self.initProvider.mirroredResources)'
             - message: network is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.network)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.network)
+                || has(self.initProvider.network)'
           status:
             description: PacketMirroringStatus defines the observed state of PacketMirroring.
             properties:

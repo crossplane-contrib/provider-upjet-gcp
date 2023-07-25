@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.0
+    controller-gen.kubebuilder.io/version: v0.12.1
   name: cryptokeyiammembers.kms.gcp.upbound.io
 spec:
   group: kms.gcp.upbound.io
@@ -76,9 +76,6 @@ spec:
                           type: string
                         title:
                           type: string
-                      required:
-                      - expression
-                      - title
                       type: object
                     type: array
                   cryptoKeyId:
@@ -156,6 +153,27 @@ spec:
                             type: string
                         type: object
                     type: object
+                  member:
+                    type: string
+                  role:
+                    type: string
+                type: object
+              initProvider:
+                description: THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice.
+                properties:
+                  condition:
+                    items:
+                      properties:
+                        description:
+                          type: string
+                        expression:
+                          type: string
+                        title:
+                          type: string
+                      type: object
+                    type: array
                   member:
                     type: string
                   role:
@@ -361,10 +379,12 @@ spec:
             x-kubernetes-validations:
             - message: member is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.member)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.member)
+                || has(self.initProvider.member)'
             - message: role is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.role)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.role)
+                || has(self.initProvider.role)'
           status:
             description: CryptoKeyIAMMemberStatus defines the observed state of CryptoKeyIAMMember.
             properties:

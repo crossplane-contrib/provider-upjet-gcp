@@ -25,6 +25,16 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type ObjectAccessControlInitParameters struct {
+
+	// The entity holding the permission, in one of the following forms:
+	Entity *string `json:"entity,omitempty" tf:"entity,omitempty"`
+
+	// The access permission for the entity.
+	// Possible values are: OWNER, READER.
+	Role *string `json:"role,omitempty" tf:"role,omitempty"`
+}
+
 type ObjectAccessControlObservation struct {
 
 	// The name of the bucket.
@@ -76,7 +86,6 @@ type ObjectAccessControlParameters struct {
 	BucketSelector *v1.Selector `json:"bucketSelector,omitempty" tf:"-"`
 
 	// The entity holding the permission, in one of the following forms:
-	// +kubebuilder:validation:Optional
 	Entity *string `json:"entity,omitempty" tf:"entity,omitempty"`
 
 	// The name of the object to apply the access control to.
@@ -95,8 +104,10 @@ type ObjectAccessControlParameters struct {
 
 	// The access permission for the entity.
 	// Possible values are: OWNER, READER.
-	// +kubebuilder:validation:Optional
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
+}
+
+type ObjectAccessControlProjectTeamInitParameters struct {
 }
 
 type ObjectAccessControlProjectTeamObservation struct {
@@ -116,6 +127,10 @@ type ObjectAccessControlProjectTeamParameters struct {
 type ObjectAccessControlSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     ObjectAccessControlParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	InitProvider ObjectAccessControlInitParameters `json:"initProvider,omitempty"`
 }
 
 // ObjectAccessControlStatus defines the observed state of ObjectAccessControl.
@@ -136,8 +151,8 @@ type ObjectAccessControlStatus struct {
 type ObjectAccessControl struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.entity)",message="entity is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.role)",message="role is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.entity) || has(self.initProvider.entity)",message="entity is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.role) || has(self.initProvider.role)",message="role is a required parameter"
 	Spec   ObjectAccessControlSpec   `json:"spec"`
 	Status ObjectAccessControlStatus `json:"status,omitempty"`
 }

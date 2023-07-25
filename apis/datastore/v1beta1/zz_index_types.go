@@ -25,6 +25,25 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type IndexInitParameters struct {
+
+	// Policy for including ancestors in the index.
+	// Default value is NONE.
+	// Possible values are: NONE, ALL_ANCESTORS.
+	Ancestor *string `json:"ancestor,omitempty" tf:"ancestor,omitempty"`
+
+	// The entity kind which the index applies to.
+	Kind *string `json:"kind,omitempty" tf:"kind,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// An ordered list of properties to index on.
+	// Structure is documented below.
+	Properties []PropertiesInitParameters `json:"properties,omitempty" tf:"properties,omitempty"`
+}
+
 type IndexObservation struct {
 
 	// Policy for including ancestors in the index.
@@ -55,22 +74,28 @@ type IndexParameters struct {
 	// Policy for including ancestors in the index.
 	// Default value is NONE.
 	// Possible values are: NONE, ALL_ANCESTORS.
-	// +kubebuilder:validation:Optional
 	Ancestor *string `json:"ancestor,omitempty" tf:"ancestor,omitempty"`
 
 	// The entity kind which the index applies to.
-	// +kubebuilder:validation:Optional
 	Kind *string `json:"kind,omitempty" tf:"kind,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
-	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// An ordered list of properties to index on.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	Properties []PropertiesParameters `json:"properties,omitempty" tf:"properties,omitempty"`
+}
+
+type PropertiesInitParameters struct {
+
+	// The direction the index should optimize for sorting.
+	// Possible values are: ASCENDING, DESCENDING.
+	Direction *string `json:"direction,omitempty" tf:"direction,omitempty"`
+
+	// The property name to index.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 }
 
 type PropertiesObservation struct {
@@ -87,18 +112,20 @@ type PropertiesParameters struct {
 
 	// The direction the index should optimize for sorting.
 	// Possible values are: ASCENDING, DESCENDING.
-	// +kubebuilder:validation:Required
-	Direction *string `json:"direction" tf:"direction,omitempty"`
+	Direction *string `json:"direction,omitempty" tf:"direction,omitempty"`
 
 	// The property name to index.
-	// +kubebuilder:validation:Required
-	Name *string `json:"name" tf:"name,omitempty"`
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 }
 
 // IndexSpec defines the desired state of Index
 type IndexSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     IndexParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	InitProvider IndexInitParameters `json:"initProvider,omitempty"`
 }
 
 // IndexStatus defines the observed state of Index.
@@ -119,7 +146,7 @@ type IndexStatus struct {
 type Index struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.kind)",message="kind is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.kind) || has(self.initProvider.kind)",message="kind is a required parameter"
 	Spec   IndexSpec   `json:"spec"`
 	Status IndexStatus `json:"status,omitempty"`
 }

@@ -25,6 +25,23 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type GlobalNetworkEndpointInitParameters struct {
+
+	// Fully qualified domain name of network endpoint.
+	// This can only be specified when network_endpoint_type of the NEG is INTERNET_FQDN_PORT.
+	Fqdn *string `json:"fqdn,omitempty" tf:"fqdn,omitempty"`
+
+	// IPv4 address external endpoint.
+	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
+
+	// Port number of the external endpoint.
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+}
+
 type GlobalNetworkEndpointObservation struct {
 
 	// Fully qualified domain name of network endpoint.
@@ -52,7 +69,6 @@ type GlobalNetworkEndpointParameters struct {
 
 	// Fully qualified domain name of network endpoint.
 	// This can only be specified when network_endpoint_type of the NEG is INTERNET_FQDN_PORT.
-	// +kubebuilder:validation:Optional
 	Fqdn *string `json:"fqdn,omitempty" tf:"fqdn,omitempty"`
 
 	// The global network endpoint group this endpoint is part of.
@@ -69,16 +85,13 @@ type GlobalNetworkEndpointParameters struct {
 	GlobalNetworkEndpointGroupSelector *v1.Selector `json:"globalNetworkEndpointGroupSelector,omitempty" tf:"-"`
 
 	// IPv4 address external endpoint.
-	// +kubebuilder:validation:Optional
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
 
 	// Port number of the external endpoint.
-	// +kubebuilder:validation:Optional
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
-	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 
@@ -86,6 +99,10 @@ type GlobalNetworkEndpointParameters struct {
 type GlobalNetworkEndpointSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     GlobalNetworkEndpointParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	InitProvider GlobalNetworkEndpointInitParameters `json:"initProvider,omitempty"`
 }
 
 // GlobalNetworkEndpointStatus defines the observed state of GlobalNetworkEndpoint.
@@ -106,7 +123,7 @@ type GlobalNetworkEndpointStatus struct {
 type GlobalNetworkEndpoint struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.port)",message="port is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.port) || has(self.initProvider.port)",message="port is a required parameter"
 	Spec   GlobalNetworkEndpointSpec   `json:"spec"`
 	Status GlobalNetworkEndpointStatus `json:"status,omitempty"`
 }

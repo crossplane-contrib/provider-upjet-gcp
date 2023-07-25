@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.0
+    controller-gen.kubebuilder.io/version: v0.12.1
   name: consentstores.healthcare.gcp.upbound.io
 spec:
   group: healthcare.gcp.upbound.io
@@ -147,6 +147,40 @@ spec:
                             type: string
                         type: object
                     type: object
+                  defaultConsentTtl:
+                    description: 'Default time to live for consents in this store.
+                      Must be at least 24 hours. Updating this field will not affect
+                      the expiration time of existing consents. A duration in seconds
+                      with up to nine fractional digits, terminated by ''s''. Example:
+                      "3.5s".'
+                    type: string
+                  enableConsentCreateOnUpdate:
+                    description: If true, [consents.patch] [google.cloud.healthcare.v1.consent.UpdateConsent]
+                      creates the consent if it does not already exist.
+                    type: boolean
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: 'User-supplied key-value pairs used to organize Consent
+                      stores. Label keys must be between 1 and 63 characters long,
+                      have a UTF-8 encoding of maximum 128 bytes, and must conform
+                      to the following PCRE regular expression: [\p{Ll}\p{Lo}][\p{Ll}\p{Lo}\p{N}_-]{0,62}
+                      Label values are optional, must be between 1 and 63 characters
+                      long, have a UTF-8 encoding of maximum 128 bytes, and must conform
+                      to the following PCRE regular expression: [\p{Ll}\p{Lo}\p{N}_-]{0,63}
+                      No more than 64 labels can be associated with a given store.
+                      An object containing a list of "key": value pairs. Example:
+                      { "name": "wrench", "mass": "1.3kg", "count": "3" }.'
+                    type: object
+                  name:
+                    description: 'The name of this ConsentStore, for example: "consent1"'
+                    type: string
+                type: object
+              initProvider:
+                description: THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice.
+                properties:
                   defaultConsentTtl:
                     description: 'Default time to live for consents in this store.
                       Must be at least 24 hours. Updating this field will not affect
@@ -376,7 +410,8 @@ spec:
             x-kubernetes-validations:
             - message: name is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.name)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.name)
+                || has(self.initProvider.name)'
           status:
             description: ConsentStoreStatus defines the observed state of ConsentStore.
             properties:

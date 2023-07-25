@@ -25,6 +25,12 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type FirewallPolicyAssociationInitParameters struct {
+
+	// The name for an association.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+}
+
 type FirewallPolicyAssociationObservation struct {
 
 	// The target that the firewall policy is attached to.
@@ -74,7 +80,6 @@ type FirewallPolicyAssociationParameters struct {
 	FirewallPolicySelector *v1.Selector `json:"firewallPolicySelector,omitempty" tf:"-"`
 
 	// The name for an association.
-	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 }
 
@@ -82,6 +87,10 @@ type FirewallPolicyAssociationParameters struct {
 type FirewallPolicyAssociationSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     FirewallPolicyAssociationParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	InitProvider FirewallPolicyAssociationInitParameters `json:"initProvider,omitempty"`
 }
 
 // FirewallPolicyAssociationStatus defines the observed state of FirewallPolicyAssociation.
@@ -102,7 +111,7 @@ type FirewallPolicyAssociationStatus struct {
 type FirewallPolicyAssociation struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.name)",message="name is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.name) || has(self.initProvider.name)",message="name is a required parameter"
 	Spec   FirewallPolicyAssociationSpec   `json:"spec"`
 	Status FirewallPolicyAssociationStatus `json:"status,omitempty"`
 }

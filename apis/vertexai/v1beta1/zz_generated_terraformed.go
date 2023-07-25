@@ -91,6 +91,15 @@ func (tr *Dataset) GetInitParameters() (map[string]any, error) {
 	return base, json.TFParser.Unmarshal(p, &base)
 }
 
+// SetInitParameters for this Dataset
+func (tr *Dataset) SetInitParameters(params map[string]any) error {
+	p, err := json.TFParser.Marshal(params)
+	if err != nil {
+		return err
+	}
+	return json.TFParser.Unmarshal(p, &tr.Spec.InitProvider)
+}
+
 // LateInitialize this Dataset using its observed tfState.
 // returns True if there are any spec changes for the resource.
 func (tr *Dataset) LateInitialize(attrs []byte) (bool, error) {
@@ -173,6 +182,15 @@ func (tr *Featurestore) GetInitParameters() (map[string]any, error) {
 	}
 	base := map[string]any{}
 	return base, json.TFParser.Unmarshal(p, &base)
+}
+
+// SetInitParameters for this Featurestore
+func (tr *Featurestore) SetInitParameters(params map[string]any) error {
+	p, err := json.TFParser.Marshal(params)
+	if err != nil {
+		return err
+	}
+	return json.TFParser.Unmarshal(p, &tr.Spec.InitProvider)
 }
 
 // LateInitialize this Featurestore using its observed tfState.
@@ -259,6 +277,15 @@ func (tr *FeaturestoreEntitytype) GetInitParameters() (map[string]any, error) {
 	return base, json.TFParser.Unmarshal(p, &base)
 }
 
+// SetInitParameters for this FeaturestoreEntitytype
+func (tr *FeaturestoreEntitytype) SetInitParameters(params map[string]any) error {
+	p, err := json.TFParser.Marshal(params)
+	if err != nil {
+		return err
+	}
+	return json.TFParser.Unmarshal(p, &tr.Spec.InitProvider)
+}
+
 // LateInitialize this FeaturestoreEntitytype using its observed tfState.
 // returns True if there are any spec changes for the resource.
 func (tr *FeaturestoreEntitytype) LateInitialize(attrs []byte) (bool, error) {
@@ -341,6 +368,15 @@ func (tr *Tensorboard) GetInitParameters() (map[string]any, error) {
 	}
 	base := map[string]any{}
 	return base, json.TFParser.Unmarshal(p, &base)
+}
+
+// SetInitParameters for this Tensorboard
+func (tr *Tensorboard) SetInitParameters(params map[string]any) error {
+	p, err := json.TFParser.Marshal(params)
+	if err != nil {
+		return err
+	}
+	return json.TFParser.Unmarshal(p, &tr.Spec.InitProvider)
 }
 
 // LateInitialize this Tensorboard using its observed tfState.

@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.0
+    controller-gen.kubebuilder.io/version: v0.12.1
   name: litetopics.pubsub.gcp.upbound.io
 spec:
   group: pubsub.gcp.upbound.io
@@ -85,17 +85,12 @@ spec:
                                 description: Publish throughput capacity per partition
                                   in MiB/s. Must be >= 4 and <= 16.
                                 type: number
-                            required:
-                            - publishMibPerSec
-                            - subscribeMibPerSec
                             type: object
                           type: array
                         count:
                           description: The number of partitions in the topic. Must
                             be at least 1.
                           type: number
-                      required:
-                      - count
                       type: object
                     type: array
                   project:
@@ -213,8 +208,6 @@ spec:
                             A duration in seconds with up to nine fractional digits,
                             terminated by ''s''. Example: "3.5s".'
                           type: string
-                      required:
-                      - perPartitionBytes
                       type: object
                     type: array
                   zone:
@@ -222,6 +215,72 @@ spec:
                     type: string
                 required:
                 - zone
+                type: object
+              initProvider:
+                description: THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice.
+                properties:
+                  partitionConfig:
+                    description: The settings for this topic's partitions. Structure
+                      is documented below.
+                    items:
+                      properties:
+                        capacity:
+                          description: The capacity configuration. Structure is documented
+                            below.
+                          items:
+                            properties:
+                              publishMibPerSec:
+                                description: Subscribe throughput capacity per partition
+                                  in MiB/s. Must be >= 4 and <= 16.
+                                type: number
+                              subscribeMibPerSec:
+                                description: Publish throughput capacity per partition
+                                  in MiB/s. Must be >= 4 and <= 16.
+                                type: number
+                            type: object
+                          type: array
+                        count:
+                          description: The number of partitions in the topic. Must
+                            be at least 1.
+                          type: number
+                      type: object
+                    type: array
+                  project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  region:
+                    description: The region of the pubsub lite topic.
+                    type: string
+                  reservationConfig:
+                    description: The settings for this topic's Reservation usage.
+                      Structure is documented below.
+                    items:
+                      type: object
+                    type: array
+                  retentionConfig:
+                    description: The settings for a topic's message retention. Structure
+                      is documented below.
+                    items:
+                      properties:
+                        perPartitionBytes:
+                          description: The provisioned storage, in bytes, per partition.
+                            If the number of bytes stored in any of the topic's partitions
+                            grows beyond this value, older messages will be dropped
+                            to make room for newer ones, regardless of the value of
+                            period.
+                          type: string
+                        period:
+                          description: 'How long a published message is retained.
+                            If unset, messages will be retained as long as the bytes
+                            retained for each partition is below perPartitionBytes.
+                            A duration in seconds with up to nine fractional digits,
+                            terminated by ''s''. Example: "3.5s".'
+                          type: string
+                      type: object
+                    type: array
                 type: object
               managementPolicies:
                 default:
@@ -423,10 +482,12 @@ spec:
             x-kubernetes-validations:
             - message: partitionConfig is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.partitionConfig)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.partitionConfig)
+                || has(self.initProvider.partitionConfig)'
             - message: retentionConfig is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.retentionConfig)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.retentionConfig)
+                || has(self.initProvider.retentionConfig)'
           status:
             description: LiteTopicStatus defines the observed state of LiteTopic.
             properties:

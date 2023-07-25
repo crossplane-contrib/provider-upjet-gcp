@@ -25,6 +25,34 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type CertificateMapEntryInitParameters struct {
+
+	// A set of Certificates defines for the given hostname.
+	// There can be defined up to fifteen certificates in each Certificate Map Entry.
+	// Each certificate must match pattern projects//locations//certificates/*.
+	Certificates []*string `json:"certificates,omitempty" tf:"certificates,omitempty"`
+
+	// A human-readable description of the resource.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// A Hostname (FQDN, e.g. example.com) or a wildcard hostname expression (*.example.com)
+	// for a set of hostnames with common suffix. Used as Server Name Indication (SNI) for
+	// selecting a proper certificate.
+	Hostname *string `json:"hostname,omitempty" tf:"hostname,omitempty"`
+
+	// Set of labels associated with a Certificate Map Entry.
+	// An object containing a list of "key": value pairs.
+	// Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }.
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// A predefined matcher for particular cases, other than SNI selection
+	Matcher *string `json:"matcher,omitempty" tf:"matcher,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+}
+
 type CertificateMapEntryObservation struct {
 
 	// A set of Certificates defines for the given hostname.
@@ -77,23 +105,19 @@ type CertificateMapEntryParameters struct {
 	// A set of Certificates defines for the given hostname.
 	// There can be defined up to fifteen certificates in each Certificate Map Entry.
 	// Each certificate must match pattern projects//locations//certificates/*.
-	// +kubebuilder:validation:Optional
 	Certificates []*string `json:"certificates,omitempty" tf:"certificates,omitempty"`
 
 	// A human-readable description of the resource.
-	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// A Hostname (FQDN, e.g. example.com) or a wildcard hostname expression (*.example.com)
 	// for a set of hostnames with common suffix. Used as Server Name Indication (SNI) for
 	// selecting a proper certificate.
-	// +kubebuilder:validation:Optional
 	Hostname *string `json:"hostname,omitempty" tf:"hostname,omitempty"`
 
 	// Set of labels associated with a Certificate Map Entry.
 	// An object containing a list of "key": value pairs.
 	// Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }.
-	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// A map entry that is inputted into the cetrificate map
@@ -110,12 +134,10 @@ type CertificateMapEntryParameters struct {
 	MapSelector *v1.Selector `json:"mapSelector,omitempty" tf:"-"`
 
 	// A predefined matcher for particular cases, other than SNI selection
-	// +kubebuilder:validation:Optional
 	Matcher *string `json:"matcher,omitempty" tf:"matcher,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
-	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 
@@ -123,6 +145,10 @@ type CertificateMapEntryParameters struct {
 type CertificateMapEntrySpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     CertificateMapEntryParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	InitProvider CertificateMapEntryInitParameters `json:"initProvider,omitempty"`
 }
 
 // CertificateMapEntryStatus defines the observed state of CertificateMapEntry.
@@ -143,7 +169,7 @@ type CertificateMapEntryStatus struct {
 type CertificateMapEntry struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.certificates)",message="certificates is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.certificates) || has(self.initProvider.certificates)",message="certificates is a required parameter"
 	Spec   CertificateMapEntrySpec   `json:"spec"`
 	Status CertificateMapEntryStatus `json:"status,omitempty"`
 }

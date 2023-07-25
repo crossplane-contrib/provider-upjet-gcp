@@ -25,6 +25,13 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type SecretCiphertextInitParameters struct {
+
+	// The plaintext to be encrypted.
+	// Note: This property is sensitive and will not be displayed in the plan.
+	Plaintext *string `json:"plaintext,omitempty" tf:"plaintext,omitempty"`
+}
+
 type SecretCiphertextObservation struct {
 
 	// Contains the result of encrypting the provided plaintext, encoded in base64.
@@ -46,7 +53,6 @@ type SecretCiphertextParameters struct {
 
 	// The additional authenticated data used for integrity checks during encryption and decryption.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	// +kubebuilder:validation:Optional
 	AdditionalAuthenticatedDataSecretRef *v1.SecretKeySelector `json:"additionalAuthenticatedDataSecretRef,omitempty" tf:"-"`
 
 	// The full name of the CryptoKey that will be used to encrypt the provided plaintext.
@@ -66,7 +72,6 @@ type SecretCiphertextParameters struct {
 
 	// The plaintext to be encrypted.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	// +kubebuilder:validation:Optional
 	Plaintext *string `json:"plaintext,omitempty" tf:"plaintext,omitempty"`
 }
 
@@ -74,6 +79,10 @@ type SecretCiphertextParameters struct {
 type SecretCiphertextSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     SecretCiphertextParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	InitProvider SecretCiphertextInitParameters `json:"initProvider,omitempty"`
 }
 
 // SecretCiphertextStatus defines the observed state of SecretCiphertext.
@@ -94,7 +103,7 @@ type SecretCiphertextStatus struct {
 type SecretCiphertext struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.plaintext)",message="plaintext is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.plaintext) || has(self.initProvider.plaintext)",message="plaintext is a required parameter"
 	Spec   SecretCiphertextSpec   `json:"spec"`
 	Status SecretCiphertextStatus `json:"status,omitempty"`
 }

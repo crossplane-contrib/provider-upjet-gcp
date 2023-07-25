@@ -25,6 +25,15 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type ServiceNetworkingPeeredDNSDomainInitParameters struct {
+
+	// The DNS domain suffix of the peered DNS domain. Make sure to suffix with a . (dot).
+	DNSSuffix *string `json:"dnsSuffix,omitempty" tf:"dns_suffix,omitempty"`
+
+	// The producer project number. If not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+}
+
 type ServiceNetworkingPeeredDNSDomainObservation struct {
 
 	// The DNS domain suffix of the peered DNS domain. Make sure to suffix with a . (dot).
@@ -49,7 +58,6 @@ type ServiceNetworkingPeeredDNSDomainObservation struct {
 type ServiceNetworkingPeeredDNSDomainParameters struct {
 
 	// The DNS domain suffix of the peered DNS domain. Make sure to suffix with a . (dot).
-	// +kubebuilder:validation:Optional
 	DNSSuffix *string `json:"dnsSuffix,omitempty" tf:"dns_suffix,omitempty"`
 
 	// The network in the consumer project.
@@ -57,7 +65,6 @@ type ServiceNetworkingPeeredDNSDomainParameters struct {
 	Network *string `json:"network" tf:"network,omitempty"`
 
 	// The producer project number. If not provided, the provider project is used.
-	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Private service connection between service and consumer network, defaults to servicenetworking.googleapis.com
@@ -69,6 +76,10 @@ type ServiceNetworkingPeeredDNSDomainParameters struct {
 type ServiceNetworkingPeeredDNSDomainSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     ServiceNetworkingPeeredDNSDomainParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	InitProvider ServiceNetworkingPeeredDNSDomainInitParameters `json:"initProvider,omitempty"`
 }
 
 // ServiceNetworkingPeeredDNSDomainStatus defines the observed state of ServiceNetworkingPeeredDNSDomain.
@@ -89,7 +100,7 @@ type ServiceNetworkingPeeredDNSDomainStatus struct {
 type ServiceNetworkingPeeredDNSDomain struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.dnsSuffix)",message="dnsSuffix is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.dnsSuffix) || has(self.initProvider.dnsSuffix)",message="dnsSuffix is a required parameter"
 	Spec   ServiceNetworkingPeeredDNSDomainSpec   `json:"spec"`
 	Status ServiceNetworkingPeeredDNSDomainStatus `json:"status,omitempty"`
 }

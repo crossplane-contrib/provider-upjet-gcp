@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.0
+    controller-gen.kubebuilder.io/version: v0.12.1
   name: pages.dialogflowcx.gcp.upbound.io
 spec:
   group: dialogflowcx.gcp.upbound.io
@@ -555,6 +555,339 @@ spec:
                       type: object
                     type: array
                 type: object
+              initProvider:
+                description: THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice.
+                properties:
+                  displayName:
+                    description: The human-readable name of the page, unique within
+                      the agent.
+                    type: string
+                  entryFulfillment:
+                    description: The fulfillment to call when the session is entering
+                      the page. Structure is documented below.
+                    items:
+                      properties:
+                        messages:
+                          description: The list of rich message responses to present
+                            to the user. Structure is documented below.
+                          items:
+                            properties:
+                              text:
+                                description: A collection of text responses.
+                                items:
+                                  properties:
+                                    text:
+                                      description: A collection of text responses.
+                                      items:
+                                        type: string
+                                      type: array
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                        returnPartialResponses:
+                          description: 'Whether Dialogflow should return currently
+                            queued fulfillment response messages in streaming APIs.
+                            If a webhook is specified, it happens before Dialogflow
+                            invokes webhook. Warning: 1) This flag only affects streaming
+                            API. Responses are still queued and returned once in non-streaming
+                            API. 2) The flag can be enabled in any fulfillment but
+                            only the first 3 partial responses will be returned. You
+                            may only want to apply it to fulfillments that have slow
+                            webhooks.'
+                          type: boolean
+                        tag:
+                          description: The tag used by the webhook to identify which
+                            fulfillment is being called. This field is required if
+                            webhook is specified.
+                          type: string
+                        webhook:
+                          description: 'The webhook to call. Format: projects//locations//agents//webhooks/.'
+                          type: string
+                      type: object
+                    type: array
+                  eventHandlers:
+                    description: Handlers associated with the page to handle events
+                      such as webhook errors, no match or no input. Structure is documented
+                      below.
+                    items:
+                      properties:
+                        event:
+                          description: The name of the event to handle.
+                          type: string
+                        targetFlow:
+                          description: 'The target flow to transition to. Format:
+                            projects//locations//agents//flows/.'
+                          type: string
+                        targetPage:
+                          description: 'The target page to transition to. Format:
+                            projects//locations//agents//flows//pages/.'
+                          type: string
+                        triggerFulfillment:
+                          description: The fulfillment to call when the event occurs.
+                            Handling webhook errors with a fulfillment enabled with
+                            webhook could cause infinite loop. It is invalid to specify
+                            such fulfillment for a handler handling webhooks. Structure
+                            is documented below.
+                          items:
+                            properties:
+                              messages:
+                                description: The list of rich message responses to
+                                  present to the user. Structure is documented below.
+                                items:
+                                  properties:
+                                    text:
+                                      description: A collection of text responses.
+                                      items:
+                                        properties:
+                                          text:
+                                            description: A collection of text responses.
+                                            items:
+                                              type: string
+                                            type: array
+                                        type: object
+                                      type: array
+                                  type: object
+                                type: array
+                              returnPartialResponses:
+                                description: 'Whether Dialogflow should return currently
+                                  queued fulfillment response messages in streaming
+                                  APIs. If a webhook is specified, it happens before
+                                  Dialogflow invokes webhook. Warning: 1) This flag
+                                  only affects streaming API. Responses are still
+                                  queued and returned once in non-streaming API. 2)
+                                  The flag can be enabled in any fulfillment but only
+                                  the first 3 partial responses will be returned.
+                                  You may only want to apply it to fulfillments that
+                                  have slow webhooks.'
+                                type: boolean
+                              tag:
+                                description: The tag used by the webhook to identify
+                                  which fulfillment is being called. This field is
+                                  required if webhook is specified.
+                                type: string
+                              webhook:
+                                description: 'The webhook to call. Format: projects//locations//agents//webhooks/.'
+                                type: string
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  form:
+                    description: The form associated with the page, used for collecting
+                      parameters relevant to the page. Structure is documented below.
+                    items:
+                      properties:
+                        parameters:
+                          description: Parameters to collect from the user. Structure
+                            is documented below.
+                          items:
+                            properties:
+                              displayName:
+                                description: The human-readable name of the parameter,
+                                  unique within the form.
+                                type: string
+                              entityType:
+                                description: 'The entity type of the parameter. Format:
+                                  projects/-/locations/-/agents/-/entityTypes/ for
+                                  system entity types (for example, projects/-/locations/-/agents/-/entityTypes/sys.date),
+                                  or projects//locations//agents//entityTypes/ for
+                                  developer entity types.'
+                                type: string
+                              fillBehavior:
+                                description: Defines fill behavior for the parameter.
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    initialPromptFulfillment:
+                                      description: The fulfillment to provide the
+                                        initial prompt that the agent can present
+                                        to the user in order to fill the parameter.
+                                        Structure is documented below.
+                                      items:
+                                        properties:
+                                          messages:
+                                            description: The list of rich message
+                                              responses to present to the user. Structure
+                                              is documented below.
+                                            items:
+                                              properties:
+                                                text:
+                                                  description: A collection of text
+                                                    responses.
+                                                  items:
+                                                    properties:
+                                                      text:
+                                                        description: A collection
+                                                          of text responses.
+                                                        items:
+                                                          type: string
+                                                        type: array
+                                                    type: object
+                                                  type: array
+                                              type: object
+                                            type: array
+                                          returnPartialResponses:
+                                            description: 'Whether Dialogflow should
+                                              return currently queued fulfillment
+                                              response messages in streaming APIs.
+                                              If a webhook is specified, it happens
+                                              before Dialogflow invokes webhook. Warning:
+                                              1) This flag only affects streaming
+                                              API. Responses are still queued and
+                                              returned once in non-streaming API.
+                                              2) The flag can be enabled in any fulfillment
+                                              but only the first 3 partial responses
+                                              will be returned. You may only want
+                                              to apply it to fulfillments that have
+                                              slow webhooks.'
+                                            type: boolean
+                                          tag:
+                                            description: The tag used by the webhook
+                                              to identify which fulfillment is being
+                                              called. This field is required if webhook
+                                              is specified.
+                                            type: string
+                                          webhook:
+                                            description: 'The webhook to call. Format:
+                                              projects//locations//agents//webhooks/.'
+                                            type: string
+                                        type: object
+                                      type: array
+                                  type: object
+                                type: array
+                              isList:
+                                description: Indicates whether the parameter represents
+                                  a list of values.
+                                type: boolean
+                              redact:
+                                description: 'Indicates whether the parameter content
+                                  should be redacted in log. If redaction is enabled,
+                                  the parameter content will be replaced by parameter
+                                  name during logging. Note: the parameter content
+                                  is subject to redaction if either parameter level
+                                  redaction or entity type level redaction is enabled.'
+                                type: boolean
+                              required:
+                                description: Indicates whether the parameter is required.
+                                  Optional parameters will not trigger prompts; however,
+                                  they are filled if the user specifies them. Required
+                                  parameters must be filled before form filling concludes.
+                                type: boolean
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  languageCode:
+                    description: 'The language of the following fields in page: Page.entry_fulfillment.messages
+                      Page.entry_fulfillment.conditional_cases Page.event_handlers.trigger_fulfillment.messages
+                      Page.event_handlers.trigger_fulfillment.conditional_cases Page.form.parameters.fill_behavior.initial_prompt_fulfillment.messages
+                      Page.form.parameters.fill_behavior.initial_prompt_fulfillment.conditional_cases
+                      Page.form.parameters.fill_behavior.reprompt_event_handlers.messages
+                      Page.form.parameters.fill_behavior.reprompt_event_handlers.conditional_cases
+                      Page.transition_routes.trigger_fulfillment.messages Page.transition_routes.trigger_fulfillment.conditional_cases
+                      If not specified, the agent''s default language is used. Many
+                      languages are supported. Note: languages must be enabled in
+                      the agent before they can be used.'
+                    type: string
+                  transitionRouteGroups:
+                    description: 'Ordered list of TransitionRouteGroups associated
+                      with the page. Transition route groups must be unique within
+                      a page. If multiple transition routes within a page scope refer
+                      to the same intent, then the precedence order is: page''s transition
+                      route -> page''s transition route group -> flow''s transition
+                      routes. If multiple transition route groups within a page contain
+                      the same intent, then the first group in the ordered list takes
+                      precedence. Format:projects//locations//agents//flows//transitionRouteGroups/.'
+                    items:
+                      type: string
+                    type: array
+                  transitionRoutes:
+                    description: 'A list of transitions for the transition rules of
+                      this page. They route the conversation to another page in the
+                      same flow, or another flow. When we are in a certain page, the
+                      TransitionRoutes are evalauted in the following order: TransitionRoutes
+                      defined in the page with intent specified. TransitionRoutes
+                      defined in the transition route groups with intent specified.
+                      TransitionRoutes defined in flow with intent specified. TransitionRoutes
+                      defined in the transition route groups with intent specified.
+                      TransitionRoutes defined in the page with only condition specified.
+                      TransitionRoutes defined in the transition route groups with
+                      only condition specified. Structure is documented below.'
+                    items:
+                      properties:
+                        condition:
+                          description: The condition to evaluate against form parameters
+                            or session parameters. At least one of intent or condition
+                            must be specified. When both intent and condition are
+                            specified, the transition can only happen when both are
+                            fulfilled.
+                          type: string
+                        intent:
+                          description: 'The unique identifier of an Intent. Format:
+                            projects//locations//agents//intents/. Indicates that
+                            the transition can only happen when the given intent is
+                            matched. At least one of intent or condition must be specified.
+                            When both intent and condition are specified, the transition
+                            can only happen when both are fulfilled.'
+                          type: string
+                        targetFlow:
+                          description: 'The target flow to transition to. Format:
+                            projects//locations//agents//flows/.'
+                          type: string
+                        triggerFulfillment:
+                          description: The fulfillment to call when the event occurs.
+                            Handling webhook errors with a fulfillment enabled with
+                            webhook could cause infinite loop. It is invalid to specify
+                            such fulfillment for a handler handling webhooks. Structure
+                            is documented below.
+                          items:
+                            properties:
+                              messages:
+                                description: The list of rich message responses to
+                                  present to the user. Structure is documented below.
+                                items:
+                                  properties:
+                                    text:
+                                      description: A collection of text responses.
+                                      items:
+                                        properties:
+                                          text:
+                                            description: A collection of text responses.
+                                            items:
+                                              type: string
+                                            type: array
+                                        type: object
+                                      type: array
+                                  type: object
+                                type: array
+                              returnPartialResponses:
+                                description: 'Whether Dialogflow should return currently
+                                  queued fulfillment response messages in streaming
+                                  APIs. If a webhook is specified, it happens before
+                                  Dialogflow invokes webhook. Warning: 1) This flag
+                                  only affects streaming API. Responses are still
+                                  queued and returned once in non-streaming API. 2)
+                                  The flag can be enabled in any fulfillment but only
+                                  the first 3 partial responses will be returned.
+                                  You may only want to apply it to fulfillments that
+                                  have slow webhooks.'
+                                type: boolean
+                              tag:
+                                description: The tag used by the webhook to identify
+                                  which fulfillment is being called. This field is
+                                  required if webhook is specified.
+                                type: string
+                              webhook:
+                                description: 'The webhook to call. Format: projects//locations//agents//webhooks/.'
+                                type: string
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                type: object
               managementPolicies:
                 default:
                 - '*'
@@ -755,7 +1088,8 @@ spec:
             x-kubernetes-validations:
             - message: displayName is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.displayName)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.displayName)
+                || has(self.initProvider.displayName)'
           status:
             description: PageStatus defines the observed state of Page.
             properties:

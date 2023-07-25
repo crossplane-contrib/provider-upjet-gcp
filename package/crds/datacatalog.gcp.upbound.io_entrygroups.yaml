@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.0
+    controller-gen.kubebuilder.io/version: v0.12.1
   name: entrygroups.datacatalog.gcp.upbound.io
 spec:
   group: datacatalog.gcp.upbound.io
@@ -67,6 +67,32 @@ spec:
                 - Delete
                 type: string
               forProvider:
+                properties:
+                  description:
+                    description: Entry group description, which can consist of several
+                      sentences or paragraphs that describe entry group contents.
+                    type: string
+                  displayName:
+                    description: A short name to identify the entry group, for example,
+                      "analytics data - jan 2011".
+                    type: string
+                  entryGroupId:
+                    description: The id of the entry group to create. The id must
+                      begin with a letter or underscore, contain only English letters,
+                      numbers and underscores, and be at most 64 characters.
+                    type: string
+                  project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  region:
+                    description: EntryGroup location region.
+                    type: string
+                type: object
+              initProvider:
+                description: THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice.
                 properties:
                   description:
                     description: Entry group description, which can consist of several
@@ -289,7 +315,8 @@ spec:
             x-kubernetes-validations:
             - message: entryGroupId is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.entryGroupId)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.entryGroupId)
+                || has(self.initProvider.entryGroupId)'
           status:
             description: EntryGroupStatus defines the observed state of EntryGroup.
             properties:

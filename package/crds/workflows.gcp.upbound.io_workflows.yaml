@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.0
+    controller-gen.kubebuilder.io/version: v0.12.1
   name: workflows.workflows.gcp.upbound.io
 spec:
   group: workflows.gcp.upbound.io
@@ -183,6 +183,44 @@ spec:
                             type: string
                         type: object
                     type: object
+                  sourceContents:
+                    description: Workflow code to be executed. The size limit is 32KB.
+                    type: string
+                type: object
+              initProvider:
+                description: THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice.
+                properties:
+                  cryptoKeyName:
+                    description: 'The KMS key used to encrypt workflow and execution
+                      data. Format: projects/{project}/locations/{location}/keyRings/{keyRing}/cryptoKeys/{cryptoKey}'
+                    type: string
+                  description:
+                    description: Description of the workflow provided by the user.
+                      Must be at most 1000 unicode characters long.
+                    type: string
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: A set of key/value label pairs to assign to this
+                      Workflow.
+                    type: object
+                  name:
+                    description: Name of the Workflow.
+                    type: string
+                  namePrefix:
+                    description: Creates a unique name beginning with the specified
+                      prefix. If this and name are unspecified, a random value is
+                      chosen for the name.
+                    type: string
+                  project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  region:
+                    description: The region of the workflow.
+                    type: string
                   sourceContents:
                     description: Workflow code to be executed. The size limit is 32KB.
                     type: string

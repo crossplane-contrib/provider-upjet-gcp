@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.0
+    controller-gen.kubebuilder.io/version: v0.12.1
   name: servicenetworkingpeereddnsdomains.cloudplatform.gcp.upbound.io
 spec:
   group: cloudplatform.gcp.upbound.io
@@ -86,6 +86,20 @@ spec:
                 required:
                 - network
                 - service
+                type: object
+              initProvider:
+                description: THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice.
+                properties:
+                  dnsSuffix:
+                    description: The DNS domain suffix of the peered DNS domain. Make
+                      sure to suffix with a . (dot).
+                    type: string
+                  project:
+                    description: The producer project number. If not provided, the
+                      provider project is used.
+                    type: string
                 type: object
               managementPolicies:
                 default:
@@ -287,7 +301,8 @@ spec:
             x-kubernetes-validations:
             - message: dnsSuffix is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.dnsSuffix)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.dnsSuffix)
+                || has(self.initProvider.dnsSuffix)'
           status:
             description: ServiceNetworkingPeeredDNSDomainStatus defines the observed
               state of ServiceNetworkingPeeredDNSDomain.

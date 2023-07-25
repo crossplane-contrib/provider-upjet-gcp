@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.0
+    controller-gen.kubebuilder.io/version: v0.12.1
   name: backups.filestore.gcp.upbound.io
 spec:
   group: filestore.gcp.upbound.io
@@ -170,6 +170,29 @@ spec:
                     type: object
                 required:
                 - location
+                type: object
+              initProvider:
+                description: THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice.
+                properties:
+                  description:
+                    description: A description of the backup with 2048 characters
+                      or less. Requests with longer descriptions will be rejected.
+                    type: string
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: Resource labels to represent user-provided metadata.
+                    type: object
+                  project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  sourceFileShare:
+                    description: Name of the file share in the source Cloud Filestore
+                      instance that the backup is created from.
+                    type: string
                 type: object
               managementPolicies:
                 default:
@@ -371,7 +394,8 @@ spec:
             x-kubernetes-validations:
             - message: sourceFileShare is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.sourceFileShare)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.sourceFileShare)
+                || has(self.initProvider.sourceFileShare)'
           status:
             description: BackupStatus defines the observed state of Backup.
             properties:

@@ -105,22 +105,18 @@ type AppGatewayObservation struct {
 type AppGatewayParameters struct {
 
 	// An arbitrary user-provided name for the AppGateway.
-	// +kubebuilder:validation:Optional
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// The type of hosting used by the AppGateway.
 	// Default value is HOST_TYPE_UNSPECIFIED.
 	// Possible values are: HOST_TYPE_UNSPECIFIED, GCP_REGIONAL_MIG.
-	// +kubebuilder:validation:Optional
 	HostType *string `json:"hostType,omitempty" tf:"host_type,omitempty"`
 
 	// Resource labels to represent user provided metadata.
-	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
-	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The region of the AppGateway.
@@ -130,7 +126,6 @@ type AppGatewayParameters struct {
 	// The type of network connectivity used by the AppGateway.
 	// Default value is TYPE_UNSPECIFIED.
 	// Possible values are: TYPE_UNSPECIFIED, TCP_PROXY.
-	// +kubebuilder:validation:Optional
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
@@ -141,14 +136,6 @@ type AppGatewaySpec struct {
 	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
 	// unless the relevant Crossplane feature flag is enabled, and may be
 	// changed or removed without notice.
-	// InitProvider holds the same fields as ForProvider, with the exception
-	// of Identifier and other resource reference fields. The fields that are
-	// in InitProvider are merged into ForProvider when the resource is created.
-	// The same fields are also added to the terraform ignore_changes hook, to
-	// avoid updating them after creation. This is useful for fields that are
-	// required on creation, but we do not desire to update them after creation,
-	// for example because of an external controller is managing them, like an
-	// autoscaler.
 	InitProvider AppGatewayInitParameters `json:"initProvider,omitempty"`
 }
 

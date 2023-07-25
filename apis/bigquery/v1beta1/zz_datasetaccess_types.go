@@ -56,7 +56,6 @@ type DatasetAccessDatasetDatasetParameters struct {
 	DatasetIDSelector *v1.Selector `json:"datasetIdSelector,omitempty" tf:"-"`
 
 	// The ID of the project containing this table.
-	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 }
 
@@ -86,12 +85,10 @@ type DatasetAccessDatasetParameters struct {
 
 	// The dataset this entry applies to
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	Dataset []DatasetAccessDatasetDatasetParameters `json:"dataset,omitempty" tf:"dataset,omitempty"`
 
 	// Which resources in the dataset this entry applies to. Currently, only views are supported,
 	// but additional target types may be added in the future. Possible values: VIEWS
-	// +kubebuilder:validation:Optional
 	TargetTypes []*string `json:"targetTypes,omitempty" tf:"target_types,omitempty"`
 }
 
@@ -210,7 +207,6 @@ type DatasetAccessParameters struct {
 
 	// Grants all resources of particular types in a particular dataset read access to the current dataset.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	Dataset []DatasetAccessDatasetParameters `json:"dataset,omitempty" tf:"dataset,omitempty"`
 
 	// A unique ID for this dataset, without the project name. The ID
@@ -230,21 +226,17 @@ type DatasetAccessParameters struct {
 
 	// A domain to grant access to. Any users signed in with the
 	// domain specified will be granted the specified access
-	// +kubebuilder:validation:Optional
 	Domain *string `json:"domain,omitempty" tf:"domain,omitempty"`
 
 	// An email address of a Google Group to grant access to.
-	// +kubebuilder:validation:Optional
 	GroupByEmail *string `json:"groupByEmail,omitempty" tf:"group_by_email,omitempty"`
 
 	// Some other type of member that appears in the IAM Policy but isn't a user,
 	// group, domain, or special group. For example: allUsers
-	// +kubebuilder:validation:Optional
 	IAMMember *string `json:"iamMember,omitempty" tf:"iam_member,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
-	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Describes the rights granted to the user specified by the other
@@ -253,7 +245,6 @@ type DatasetAccessParameters struct {
 	// swapped by the API to their basic counterparts, and will show a diff
 	// post-create. See
 	// official docs.
-	// +kubebuilder:validation:Optional
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 
 	// A routine from a different dataset to grant access to. Queries
@@ -262,11 +253,9 @@ type DatasetAccessParameters struct {
 	// set. If that routine is updated by any user, access to the routine
 	// needs to be granted again via an update operation.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	Routine []DatasetAccessRoutineParameters `json:"routine,omitempty" tf:"routine,omitempty"`
 
 	// A special group to grant access to. Possible values include:
-	// +kubebuilder:validation:Optional
 	SpecialGroup *string `json:"specialGroup,omitempty" tf:"special_group,omitempty"`
 
 	// An email address of a user to grant access to. For example:
@@ -290,7 +279,6 @@ type DatasetAccessParameters struct {
 	// set. If that view is updated by any user, access to the view
 	// needs to be granted again via an update operation.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	View []DatasetAccessViewParameters `json:"view,omitempty" tf:"view,omitempty"`
 }
 
@@ -393,7 +381,6 @@ type DatasetAccessViewParameters struct {
 	DatasetIDSelector *v1.Selector `json:"datasetIdSelector,omitempty" tf:"-"`
 
 	// The ID of the project containing this table.
-	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// The ID of the table. The ID must contain only letters (a-z,
@@ -419,14 +406,6 @@ type DatasetAccessSpec struct {
 	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
 	// unless the relevant Crossplane feature flag is enabled, and may be
 	// changed or removed without notice.
-	// InitProvider holds the same fields as ForProvider, with the exception
-	// of Identifier and other resource reference fields. The fields that are
-	// in InitProvider are merged into ForProvider when the resource is created.
-	// The same fields are also added to the terraform ignore_changes hook, to
-	// avoid updating them after creation. This is useful for fields that are
-	// required on creation, but we do not desire to update them after creation,
-	// for example because of an external controller is managing them, like an
-	// autoscaler.
 	InitProvider DatasetAccessInitParameters `json:"initProvider,omitempty"`
 }
 

@@ -25,6 +25,23 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type BucketOptionsInitParameters struct {
+
+	// Specifies a set of buckets with arbitrary widths.
+	// Structure is documented below.
+	ExplicitBuckets []ExplicitBucketsInitParameters `json:"explicitBuckets,omitempty" tf:"explicit_buckets,omitempty"`
+
+	// Specifies an exponential sequence of buckets that have a width that is proportional to the value of
+	// the lower bound. Each bucket represents a constant relative uncertainty on a specific value in the bucket.
+	// Structure is documented below.
+	ExponentialBuckets []ExponentialBucketsInitParameters `json:"exponentialBuckets,omitempty" tf:"exponential_buckets,omitempty"`
+
+	// Specifies a linear sequence of buckets that all have the same width (except overflow and underflow).
+	// Each bucket represents a constant absolute uncertainty on the specific value in the bucket.
+	// Structure is documented below.
+	LinearBuckets []LinearBucketsInitParameters `json:"linearBuckets,omitempty" tf:"linear_buckets,omitempty"`
+}
+
 type BucketOptionsObservation struct {
 
 	// Specifies a set of buckets with arbitrary widths.
@@ -46,20 +63,23 @@ type BucketOptionsParameters struct {
 
 	// Specifies a set of buckets with arbitrary widths.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	ExplicitBuckets []ExplicitBucketsParameters `json:"explicitBuckets,omitempty" tf:"explicit_buckets,omitempty"`
 
 	// Specifies an exponential sequence of buckets that have a width that is proportional to the value of
 	// the lower bound. Each bucket represents a constant relative uncertainty on a specific value in the bucket.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	ExponentialBuckets []ExponentialBucketsParameters `json:"exponentialBuckets,omitempty" tf:"exponential_buckets,omitempty"`
 
 	// Specifies a linear sequence of buckets that all have the same width (except overflow and underflow).
 	// Each bucket represents a constant absolute uncertainty on the specific value in the bucket.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	LinearBuckets []LinearBucketsParameters `json:"linearBuckets,omitempty" tf:"linear_buckets,omitempty"`
+}
+
+type ExplicitBucketsInitParameters struct {
+
+	// The values must be monotonically increasing.
+	Bounds []*float64 `json:"bounds,omitempty" tf:"bounds,omitempty"`
 }
 
 type ExplicitBucketsObservation struct {
@@ -71,8 +91,19 @@ type ExplicitBucketsObservation struct {
 type ExplicitBucketsParameters struct {
 
 	// The values must be monotonically increasing.
-	// +kubebuilder:validation:Required
-	Bounds []*float64 `json:"bounds" tf:"bounds,omitempty"`
+	Bounds []*float64 `json:"bounds,omitempty" tf:"bounds,omitempty"`
+}
+
+type ExponentialBucketsInitParameters struct {
+
+	// Must be greater than 1.
+	GrowthFactor *float64 `json:"growthFactor,omitempty" tf:"growth_factor,omitempty"`
+
+	// Must be greater than 0.
+	NumFiniteBuckets *float64 `json:"numFiniteBuckets,omitempty" tf:"num_finite_buckets,omitempty"`
+
+	// Must be greater than 0.
+	Scale *float64 `json:"scale,omitempty" tf:"scale,omitempty"`
 }
 
 type ExponentialBucketsObservation struct {
@@ -90,16 +121,28 @@ type ExponentialBucketsObservation struct {
 type ExponentialBucketsParameters struct {
 
 	// Must be greater than 1.
-	// +kubebuilder:validation:Optional
 	GrowthFactor *float64 `json:"growthFactor,omitempty" tf:"growth_factor,omitempty"`
 
 	// Must be greater than 0.
-	// +kubebuilder:validation:Optional
 	NumFiniteBuckets *float64 `json:"numFiniteBuckets,omitempty" tf:"num_finite_buckets,omitempty"`
 
 	// Must be greater than 0.
-	// +kubebuilder:validation:Optional
 	Scale *float64 `json:"scale,omitempty" tf:"scale,omitempty"`
+}
+
+type LabelsInitParameters struct {
+
+	// A human-readable description for the label.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// The label key.
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	// Whether the measurement is an integer, a floating-point number, etc.
+	// Some combinations of metricKind and valueType might not be supported.
+	// For counter metrics, set this to INT64.
+	// Possible values are: BOOL, INT64, DOUBLE, STRING, DISTRIBUTION, MONEY.
+	ValueType *string `json:"valueType,omitempty" tf:"value_type,omitempty"`
 }
 
 type LabelsObservation struct {
@@ -120,19 +163,28 @@ type LabelsObservation struct {
 type LabelsParameters struct {
 
 	// A human-readable description for the label.
-	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// The label key.
-	// +kubebuilder:validation:Required
-	Key *string `json:"key" tf:"key,omitempty"`
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
 
 	// Whether the measurement is an integer, a floating-point number, etc.
 	// Some combinations of metricKind and valueType might not be supported.
 	// For counter metrics, set this to INT64.
 	// Possible values are: BOOL, INT64, DOUBLE, STRING, DISTRIBUTION, MONEY.
-	// +kubebuilder:validation:Optional
 	ValueType *string `json:"valueType,omitempty" tf:"value_type,omitempty"`
+}
+
+type LinearBucketsInitParameters struct {
+
+	// Must be greater than 0.
+	NumFiniteBuckets *float64 `json:"numFiniteBuckets,omitempty" tf:"num_finite_buckets,omitempty"`
+
+	// Lower bound of the first bucket.
+	Offset *float64 `json:"offset,omitempty" tf:"offset,omitempty"`
+
+	// Must be greater than 0.
+	Width *float64 `json:"width,omitempty" tf:"width,omitempty"`
 }
 
 type LinearBucketsObservation struct {
@@ -150,16 +202,45 @@ type LinearBucketsObservation struct {
 type LinearBucketsParameters struct {
 
 	// Must be greater than 0.
-	// +kubebuilder:validation:Optional
 	NumFiniteBuckets *float64 `json:"numFiniteBuckets,omitempty" tf:"num_finite_buckets,omitempty"`
 
 	// Lower bound of the first bucket.
-	// +kubebuilder:validation:Optional
 	Offset *float64 `json:"offset,omitempty" tf:"offset,omitempty"`
 
 	// Must be greater than 0.
-	// +kubebuilder:validation:Optional
 	Width *float64 `json:"width,omitempty" tf:"width,omitempty"`
+}
+
+type MetricDescriptorInitParameters struct {
+
+	// A concise name for the metric, which can be displayed in user interfaces. Use sentence case
+	// without an ending period, for example "Request count". This field is optional but it is
+	// recommended to be set for any metrics associated with user-visible concepts, such as Quota.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// The set of labels that can be used to describe a specific instance of this metric type. For
+	// example, the appengine.googleapis.com/http/server/response_latencies metric type has a label
+	// for the HTTP response code, response_code, so you can look at latencies for successful responses
+	// or just for responses that failed.
+	// Structure is documented below.
+	Labels []LabelsInitParameters `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// Whether the metric records instantaneous values, changes to a value, etc.
+	// Some combinations of metricKind and valueType might not be supported.
+	// For counter metrics, set this to DELTA.
+	// Possible values are: DELTA, GAUGE, CUMULATIVE.
+	MetricKind *string `json:"metricKind,omitempty" tf:"metric_kind,omitempty"`
+
+	// The unit in which the metric value is reported. It is only applicable if the valueType is
+	// INT64, DOUBLE, or DISTRIBUTION. The supported units are a subset of
+	// The Unified Code for Units of Measure standard
+	Unit *string `json:"unit,omitempty" tf:"unit,omitempty"`
+
+	// Whether the measurement is an integer, a floating-point number, etc.
+	// Some combinations of metricKind and valueType might not be supported.
+	// For counter metrics, set this to INT64.
+	// Possible values are: BOOL, INT64, DOUBLE, STRING, DISTRIBUTION, MONEY.
+	ValueType *string `json:"valueType,omitempty" tf:"value_type,omitempty"`
 }
 
 type MetricDescriptorObservation struct {
@@ -199,7 +280,6 @@ type MetricDescriptorParameters struct {
 	// A concise name for the metric, which can be displayed in user interfaces. Use sentence case
 	// without an ending period, for example "Request count". This field is optional but it is
 	// recommended to be set for any metrics associated with user-visible concepts, such as Quota.
-	// +kubebuilder:validation:Optional
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// The set of labels that can be used to describe a specific instance of this metric type. For
@@ -207,28 +287,69 @@ type MetricDescriptorParameters struct {
 	// for the HTTP response code, response_code, so you can look at latencies for successful responses
 	// or just for responses that failed.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	Labels []LabelsParameters `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Whether the metric records instantaneous values, changes to a value, etc.
 	// Some combinations of metricKind and valueType might not be supported.
 	// For counter metrics, set this to DELTA.
 	// Possible values are: DELTA, GAUGE, CUMULATIVE.
-	// +kubebuilder:validation:Required
-	MetricKind *string `json:"metricKind" tf:"metric_kind,omitempty"`
+	MetricKind *string `json:"metricKind,omitempty" tf:"metric_kind,omitempty"`
 
 	// The unit in which the metric value is reported. It is only applicable if the valueType is
 	// INT64, DOUBLE, or DISTRIBUTION. The supported units are a subset of
 	// The Unified Code for Units of Measure standard
-	// +kubebuilder:validation:Optional
 	Unit *string `json:"unit,omitempty" tf:"unit,omitempty"`
 
 	// Whether the measurement is an integer, a floating-point number, etc.
 	// Some combinations of metricKind and valueType might not be supported.
 	// For counter metrics, set this to INT64.
 	// Possible values are: BOOL, INT64, DOUBLE, STRING, DISTRIBUTION, MONEY.
-	// +kubebuilder:validation:Required
-	ValueType *string `json:"valueType" tf:"value_type,omitempty"`
+	ValueType *string `json:"valueType,omitempty" tf:"value_type,omitempty"`
+}
+
+type MetricInitParameters struct {
+
+	// The bucketOptions are required when the logs-based metric is using a DISTRIBUTION value type and it
+	// describes the bucket boundaries used to create a histogram of the extracted values.
+	// Structure is documented below.
+	BucketOptions []BucketOptionsInitParameters `json:"bucketOptions,omitempty" tf:"bucket_options,omitempty"`
+
+	// A description of this metric, which is used in documentation. The maximum length of the
+	// description is 8000 characters.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// If set to True, then this metric is disabled and it does not generate any points.
+	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
+
+	// An advanced logs filter (https://cloud.google.com/logging/docs/view/advanced-filters) which
+	// is used to match log entries.
+	Filter *string `json:"filter,omitempty" tf:"filter,omitempty"`
+
+	// A map from a label key string to an extractor expression which is used to extract data from a log
+	// entry field and assign as the label value. Each label key specified in the LabelDescriptor must
+	// have an associated extractor expression in this map. The syntax of the extractor expression is
+	// the same as for the valueExtractor field.
+	LabelExtractors map[string]*string `json:"labelExtractors,omitempty" tf:"label_extractors,omitempty"`
+
+	// The optional metric descriptor associated with the logs-based metric.
+	// If unspecified, it uses a default metric descriptor with a DELTA metric kind,
+	// INT64 value type, with no labels and a unit of "1". Such a metric counts the
+	// number of log entries matching the filter expression.
+	// Structure is documented below.
+	MetricDescriptor []MetricDescriptorInitParameters `json:"metricDescriptor,omitempty" tf:"metric_descriptor,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// A valueExtractor is required when using a distribution logs-based metric to extract the values to
+	// record from a log entry. Two functions are supported for value extraction - EXTRACT(field) or
+	// REGEXP_EXTRACT(field, regex). The argument are 1. field - The name of the log entry field from which
+	// the value is to be extracted. 2. regex - A regular expression using the Google RE2 syntax
+	// (https://github.com/google/re2/wiki/Syntax) with a single capture group to extract data from the specified
+	// log entry field. The value of the field is converted to a string before applying the regex. It is an
+	// error to specify a regex that does not include exactly one capture group.
+	ValueExtractor *string `json:"valueExtractor,omitempty" tf:"value_extractor,omitempty"`
 }
 
 type MetricObservation struct {
@@ -303,28 +424,23 @@ type MetricParameters struct {
 	// The bucketOptions are required when the logs-based metric is using a DISTRIBUTION value type and it
 	// describes the bucket boundaries used to create a histogram of the extracted values.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	BucketOptions []BucketOptionsParameters `json:"bucketOptions,omitempty" tf:"bucket_options,omitempty"`
 
 	// A description of this metric, which is used in documentation. The maximum length of the
 	// description is 8000 characters.
-	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// If set to True, then this metric is disabled and it does not generate any points.
-	// +kubebuilder:validation:Optional
 	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
 
 	// An advanced logs filter (https://cloud.google.com/logging/docs/view/advanced-filters) which
 	// is used to match log entries.
-	// +kubebuilder:validation:Optional
 	Filter *string `json:"filter,omitempty" tf:"filter,omitempty"`
 
 	// A map from a label key string to an extractor expression which is used to extract data from a log
 	// entry field and assign as the label value. Each label key specified in the LabelDescriptor must
 	// have an associated extractor expression in this map. The syntax of the extractor expression is
 	// the same as for the valueExtractor field.
-	// +kubebuilder:validation:Optional
 	LabelExtractors map[string]*string `json:"labelExtractors,omitempty" tf:"label_extractors,omitempty"`
 
 	// The optional metric descriptor associated with the logs-based metric.
@@ -332,12 +448,10 @@ type MetricParameters struct {
 	// INT64 value type, with no labels and a unit of "1". Such a metric counts the
 	// number of log entries matching the filter expression.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	MetricDescriptor []MetricDescriptorParameters `json:"metricDescriptor,omitempty" tf:"metric_descriptor,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
-	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// A valueExtractor is required when using a distribution logs-based metric to extract the values to
@@ -347,7 +461,6 @@ type MetricParameters struct {
 	// (https://github.com/google/re2/wiki/Syntax) with a single capture group to extract data from the specified
 	// log entry field. The value of the field is converted to a string before applying the regex. It is an
 	// error to specify a regex that does not include exactly one capture group.
-	// +kubebuilder:validation:Optional
 	ValueExtractor *string `json:"valueExtractor,omitempty" tf:"value_extractor,omitempty"`
 }
 
@@ -355,6 +468,10 @@ type MetricParameters struct {
 type MetricSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     MetricParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	InitProvider MetricInitParameters `json:"initProvider,omitempty"`
 }
 
 // MetricStatus defines the observed state of Metric.
@@ -375,7 +492,7 @@ type MetricStatus struct {
 type Metric struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.filter)",message="filter is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.filter) || has(self.initProvider.filter)",message="filter is a required parameter"
 	Spec   MetricSpec   `json:"spec"`
 	Status MetricStatus `json:"status,omitempty"`
 }

@@ -87,22 +87,18 @@ type CustomServiceObservation struct {
 type CustomServiceParameters struct {
 
 	// Name used for UI elements listing this Service.
-	// +kubebuilder:validation:Optional
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
-	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// An optional service ID to use. If not given, the server will generate a
 	// service ID.
-	// +kubebuilder:validation:Optional
 	ServiceID *string `json:"serviceId,omitempty" tf:"service_id,omitempty"`
 
 	// Configuration for how to query telemetry on a Service.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	Telemetry []TelemetryParameters `json:"telemetry,omitempty" tf:"telemetry,omitempty"`
 
 	// Labels which have been used to annotate the service. Label keys must start
@@ -111,7 +107,6 @@ type CustomServiceParameters struct {
 	// length of 63 characters, and must be less than 128 bytes in size. Up to 64
 	// label entries may be stored. For labels which do not have a semantic value,
 	// the empty string may be supplied for the label value.
-	// +kubebuilder:validation:Optional
 	UserLabels map[string]*string `json:"userLabels,omitempty" tf:"user_labels,omitempty"`
 }
 
@@ -136,7 +131,6 @@ type TelemetryParameters struct {
 	// The full name of the resource that defines this service.
 	// Formatted as described in
 	// https://cloud.google.com/apis/design/resource_names.
-	// +kubebuilder:validation:Optional
 	ResourceName *string `json:"resourceName,omitempty" tf:"resource_name,omitempty"`
 }
 
@@ -147,14 +141,6 @@ type CustomServiceSpec struct {
 	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
 	// unless the relevant Crossplane feature flag is enabled, and may be
 	// changed or removed without notice.
-	// InitProvider holds the same fields as ForProvider, with the exception
-	// of Identifier and other resource reference fields. The fields that are
-	// in InitProvider are merged into ForProvider when the resource is created.
-	// The same fields are also added to the terraform ignore_changes hook, to
-	// avoid updating them after creation. This is useful for fields that are
-	// required on creation, but we do not desire to update them after creation,
-	// for example because of an external controller is managing them, like an
-	// autoscaler.
 	InitProvider CustomServiceInitParameters `json:"initProvider,omitempty"`
 }
 

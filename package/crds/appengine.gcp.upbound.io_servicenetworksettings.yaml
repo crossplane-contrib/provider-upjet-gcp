@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.0
+    controller-gen.kubebuilder.io/version: v0.12.1
   name: servicenetworksettings.appengine.gcp.upbound.io
 spec:
   group: appengine.gcp.upbound.io
@@ -164,6 +164,30 @@ spec:
                             type: string
                         type: object
                     type: object
+                type: object
+              initProvider:
+                description: THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice.
+                properties:
+                  networkSettings:
+                    description: Ingress settings for this service. Will apply to
+                      all versions. Structure is documented below.
+                    items:
+                      properties:
+                        ingressTrafficAllowed:
+                          description: 'The ingress settings for version or service.
+                            Default value is INGRESS_TRAFFIC_ALLOWED_UNSPECIFIED.
+                            Possible values are: INGRESS_TRAFFIC_ALLOWED_UNSPECIFIED,
+                            INGRESS_TRAFFIC_ALLOWED_ALL, INGRESS_TRAFFIC_ALLOWED_INTERNAL_ONLY,
+                            INGRESS_TRAFFIC_ALLOWED_INTERNAL_AND_LB.'
+                          type: string
+                      type: object
+                    type: array
+                  project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
                 type: object
               managementPolicies:
                 default:
@@ -365,7 +389,8 @@ spec:
             x-kubernetes-validations:
             - message: networkSettings is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.networkSettings)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.networkSettings)
+                || has(self.initProvider.networkSettings)'
           status:
             description: ServiceNetworkSettingsStatus defines the observed state of
               ServiceNetworkSettings.

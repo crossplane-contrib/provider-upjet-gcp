@@ -91,6 +91,15 @@ func (tr *Function) GetInitParameters() (map[string]any, error) {
 	return base, json.TFParser.Unmarshal(p, &base)
 }
 
+// SetInitParameters for this Function
+func (tr *Function) SetInitParameters(params map[string]any) error {
+	p, err := json.TFParser.Marshal(params)
+	if err != nil {
+		return err
+	}
+	return json.TFParser.Unmarshal(p, &tr.Spec.InitProvider)
+}
+
 // LateInitialize this Function using its observed tfState.
 // returns True if there are any spec changes for the resource.
 func (tr *Function) LateInitialize(attrs []byte) (bool, error) {
@@ -173,6 +182,15 @@ func (tr *FunctionIAMMember) GetInitParameters() (map[string]any, error) {
 	}
 	base := map[string]any{}
 	return base, json.TFParser.Unmarshal(p, &base)
+}
+
+// SetInitParameters for this FunctionIAMMember
+func (tr *FunctionIAMMember) SetInitParameters(params map[string]any) error {
+	p, err := json.TFParser.Marshal(params)
+	if err != nil {
+		return err
+	}
+	return json.TFParser.Unmarshal(p, &tr.Spec.InitProvider)
 }
 
 // LateInitialize this FunctionIAMMember using its observed tfState.

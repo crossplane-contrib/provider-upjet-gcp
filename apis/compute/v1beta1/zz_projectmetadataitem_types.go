@@ -25,6 +25,19 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type ProjectMetadataItemInitParameters struct {
+
+	// The metadata key to set.
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	// The ID of the project in which the resource belongs. If it
+	// is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The value to set for the given metadata key.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
 type ProjectMetadataItemObservation struct {
 
 	// an identifier for the resource with format `{{key}}`
@@ -44,16 +57,13 @@ type ProjectMetadataItemObservation struct {
 type ProjectMetadataItemParameters struct {
 
 	// The metadata key to set.
-	// +kubebuilder:validation:Optional
 	Key *string `json:"key,omitempty" tf:"key,omitempty"`
 
 	// The ID of the project in which the resource belongs. If it
 	// is not provided, the provider project is used.
-	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The value to set for the given metadata key.
-	// +kubebuilder:validation:Optional
 	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
 
@@ -61,6 +71,10 @@ type ProjectMetadataItemParameters struct {
 type ProjectMetadataItemSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     ProjectMetadataItemParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	InitProvider ProjectMetadataItemInitParameters `json:"initProvider,omitempty"`
 }
 
 // ProjectMetadataItemStatus defines the observed state of ProjectMetadataItem.
@@ -81,8 +95,8 @@ type ProjectMetadataItemStatus struct {
 type ProjectMetadataItem struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.key)",message="key is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.value)",message="value is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.key) || has(self.initProvider.key)",message="key is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.value) || has(self.initProvider.value)",message="value is a required parameter"
 	Spec   ProjectMetadataItemSpec   `json:"spec"`
 	Status ProjectMetadataItemStatus `json:"status,omitempty"`
 }

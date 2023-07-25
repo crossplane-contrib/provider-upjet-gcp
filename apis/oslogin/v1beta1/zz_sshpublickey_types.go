@@ -25,6 +25,18 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type SSHPublicKeyInitParameters struct {
+
+	// An expiration time in microseconds since epoch.
+	ExpirationTimeUsec *string `json:"expirationTimeUsec,omitempty" tf:"expiration_time_usec,omitempty"`
+
+	// The project ID of the Google Cloud Platform project.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The user email.
+	User *string `json:"user,omitempty" tf:"user,omitempty"`
+}
+
 type SSHPublicKeyObservation struct {
 
 	// An expiration time in microseconds since epoch.
@@ -46,19 +58,15 @@ type SSHPublicKeyObservation struct {
 type SSHPublicKeyParameters struct {
 
 	// An expiration time in microseconds since epoch.
-	// +kubebuilder:validation:Optional
 	ExpirationTimeUsec *string `json:"expirationTimeUsec,omitempty" tf:"expiration_time_usec,omitempty"`
 
 	// Public key text in SSH format, defined by RFC4253 section 6.6.
-	// +kubebuilder:validation:Optional
 	KeySecretRef v1.SecretKeySelector `json:"keySecretRef" tf:"-"`
 
 	// The project ID of the Google Cloud Platform project.
-	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The user email.
-	// +kubebuilder:validation:Optional
 	User *string `json:"user,omitempty" tf:"user,omitempty"`
 }
 
@@ -66,6 +74,10 @@ type SSHPublicKeyParameters struct {
 type SSHPublicKeySpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     SSHPublicKeyParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	InitProvider SSHPublicKeyInitParameters `json:"initProvider,omitempty"`
 }
 
 // SSHPublicKeyStatus defines the observed state of SSHPublicKey.
@@ -87,7 +99,7 @@ type SSHPublicKey struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.keySecretRef)",message="keySecretRef is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.user)",message="user is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.user) || has(self.initProvider.user)",message="user is a required parameter"
 	Spec   SSHPublicKeySpec   `json:"spec"`
 	Status SSHPublicKeyStatus `json:"status,omitempty"`
 }

@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.0
+    controller-gen.kubebuilder.io/version: v0.12.1
   name: instances.apigee.gcp.upbound.io
 spec:
   group: apigee.gcp.upbound.io
@@ -259,6 +259,47 @@ spec:
                       by the instance. For valid values, see CidrRange on the documentation.
                     type: string
                 type: object
+              initProvider:
+                description: THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice.
+                properties:
+                  consumerAcceptList:
+                    description: Optional. Customer accept list represents the list
+                      of projects (id/number) on customer side that can privately
+                      connect to the service attachment. It is an optional field which
+                      the customers can provide during the instance creation. By default,
+                      the customer project associated with the Apigee organization
+                      will be included to the list.
+                    items:
+                      type: string
+                    type: array
+                  description:
+                    description: Description of the instance.
+                    type: string
+                  displayName:
+                    description: Display name of the instance.
+                    type: string
+                  ipRange:
+                    description: 'IP range represents the customer-provided CIDR block
+                      of length 22 that will be used for the Apigee instance creation.
+                      This optional range, if provided, should be freely available
+                      as part of larger named range the customer has allocated to
+                      the Service Networking peering. If this is not provided, Apigee
+                      will automatically request for any available /22 CIDR block
+                      from Service Networking. The customer should use this CIDR block
+                      for configuring their firewall needs to allow traffic from Apigee.
+                      Input format: "a.b.c.d/22"'
+                    type: string
+                  location:
+                    description: Required. Compute Engine location where the instance
+                      resides.
+                    type: string
+                  peeringCidrRange:
+                    description: The size of the CIDR block range that will be reserved
+                      by the instance. For valid values, see CidrRange on the documentation.
+                    type: string
+                type: object
               managementPolicies:
                 default:
                 - '*'
@@ -459,7 +500,8 @@ spec:
             x-kubernetes-validations:
             - message: location is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.location)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.location)
+                || has(self.initProvider.location)'
           status:
             description: InstanceStatus defines the observed state of Instance.
             properties:

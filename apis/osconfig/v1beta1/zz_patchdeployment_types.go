@@ -25,6 +25,18 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type GcsObjectInitParameters struct {
+
+	// Bucket of the Cloud Storage object.
+	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
+
+	// Generation number of the Cloud Storage object. This is used to ensure that the ExecStep specified by this PatchJob does not change.
+	GenerationNumber *string `json:"generationNumber,omitempty" tf:"generation_number,omitempty"`
+
+	// Name of the Cloud Storage object.
+	Object *string `json:"object,omitempty" tf:"object,omitempty"`
+}
+
 type GcsObjectObservation struct {
 
 	// Bucket of the Cloud Storage object.
@@ -40,16 +52,19 @@ type GcsObjectObservation struct {
 type GcsObjectParameters struct {
 
 	// Bucket of the Cloud Storage object.
-	// +kubebuilder:validation:Required
-	Bucket *string `json:"bucket" tf:"bucket,omitempty"`
+	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
 
 	// Generation number of the Cloud Storage object. This is used to ensure that the ExecStep specified by this PatchJob does not change.
-	// +kubebuilder:validation:Required
-	GenerationNumber *string `json:"generationNumber" tf:"generation_number,omitempty"`
+	GenerationNumber *string `json:"generationNumber,omitempty" tf:"generation_number,omitempty"`
 
 	// Name of the Cloud Storage object.
-	// +kubebuilder:validation:Required
-	Object *string `json:"object" tf:"object,omitempty"`
+	Object *string `json:"object,omitempty" tf:"object,omitempty"`
+}
+
+type GroupLabelsInitParameters struct {
+
+	// Compute Engine instance labels that must be present for a VM instance to be targeted by this filter
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 }
 
 type GroupLabelsObservation struct {
@@ -61,8 +76,19 @@ type GroupLabelsObservation struct {
 type GroupLabelsParameters struct {
 
 	// Compute Engine instance labels that must be present for a VM instance to be targeted by this filter
-	// +kubebuilder:validation:Required
-	Labels map[string]*string `json:"labels" tf:"labels,omitempty"`
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+}
+
+type LinuxExecStepConfigGcsObjectInitParameters struct {
+
+	// Bucket of the Cloud Storage object.
+	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
+
+	// Generation number of the Cloud Storage object. This is used to ensure that the ExecStep specified by this PatchJob does not change.
+	GenerationNumber *string `json:"generationNumber,omitempty" tf:"generation_number,omitempty"`
+
+	// Name of the Cloud Storage object.
+	Object *string `json:"object,omitempty" tf:"object,omitempty"`
 }
 
 type LinuxExecStepConfigGcsObjectObservation struct {
@@ -80,16 +106,31 @@ type LinuxExecStepConfigGcsObjectObservation struct {
 type LinuxExecStepConfigGcsObjectParameters struct {
 
 	// Bucket of the Cloud Storage object.
-	// +kubebuilder:validation:Required
-	Bucket *string `json:"bucket" tf:"bucket,omitempty"`
+	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
 
 	// Generation number of the Cloud Storage object. This is used to ensure that the ExecStep specified by this PatchJob does not change.
-	// +kubebuilder:validation:Required
-	GenerationNumber *string `json:"generationNumber" tf:"generation_number,omitempty"`
+	GenerationNumber *string `json:"generationNumber,omitempty" tf:"generation_number,omitempty"`
 
 	// Name of the Cloud Storage object.
-	// +kubebuilder:validation:Required
-	Object *string `json:"object" tf:"object,omitempty"`
+	Object *string `json:"object,omitempty" tf:"object,omitempty"`
+}
+
+type LinuxExecStepConfigInitParameters struct {
+
+	// Defaults to [0]. A list of possible return values that the execution can return to indicate a success.
+	AllowedSuccessCodes []*float64 `json:"allowedSuccessCodes,omitempty" tf:"allowed_success_codes,omitempty"`
+
+	// A Cloud Storage object containing the executable.
+	// Structure is documented below.
+	GcsObject []GcsObjectInitParameters `json:"gcsObject,omitempty" tf:"gcs_object,omitempty"`
+
+	// The script interpreter to use to run the script. If no interpreter is specified the script will
+	// be executed directly, which will likely only succeed for scripts with shebang lines.
+	// Possible values are: SHELL, POWERSHELL.
+	Interpreter *string `json:"interpreter,omitempty" tf:"interpreter,omitempty"`
+
+	// An absolute path to the executable on the VM.
+	LocalPath *string `json:"localPath,omitempty" tf:"local_path,omitempty"`
 }
 
 type LinuxExecStepConfigObservation struct {
@@ -113,23 +154,31 @@ type LinuxExecStepConfigObservation struct {
 type LinuxExecStepConfigParameters struct {
 
 	// Defaults to [0]. A list of possible return values that the execution can return to indicate a success.
-	// +kubebuilder:validation:Optional
 	AllowedSuccessCodes []*float64 `json:"allowedSuccessCodes,omitempty" tf:"allowed_success_codes,omitempty"`
 
 	// A Cloud Storage object containing the executable.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	GcsObject []GcsObjectParameters `json:"gcsObject,omitempty" tf:"gcs_object,omitempty"`
 
 	// The script interpreter to use to run the script. If no interpreter is specified the script will
 	// be executed directly, which will likely only succeed for scripts with shebang lines.
 	// Possible values are: SHELL, POWERSHELL.
-	// +kubebuilder:validation:Optional
 	Interpreter *string `json:"interpreter,omitempty" tf:"interpreter,omitempty"`
 
 	// An absolute path to the executable on the VM.
-	// +kubebuilder:validation:Optional
 	LocalPath *string `json:"localPath,omitempty" tf:"local_path,omitempty"`
+}
+
+type MonthlyInitParameters struct {
+
+	// One day of the month. 1-31 indicates the 1st to the 31st day. -1 indicates the last day of the month.
+	// Months without the target day will be skipped. For example, a schedule to run "every month on the 31st"
+	// will not run in February, April, June, etc.
+	MonthDay *float64 `json:"monthDay,omitempty" tf:"month_day,omitempty"`
+
+	// Week day in a month.
+	// Structure is documented below.
+	WeekDayOfMonth []WeekDayOfMonthInitParameters `json:"weekDayOfMonth,omitempty" tf:"week_day_of_month,omitempty"`
 }
 
 type MonthlyObservation struct {
@@ -149,13 +198,18 @@ type MonthlyParameters struct {
 	// One day of the month. 1-31 indicates the 1st to the 31st day. -1 indicates the last day of the month.
 	// Months without the target day will be skipped. For example, a schedule to run "every month on the 31st"
 	// will not run in February, April, June, etc.
-	// +kubebuilder:validation:Optional
 	MonthDay *float64 `json:"monthDay,omitempty" tf:"month_day,omitempty"`
 
 	// Week day in a month.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	WeekDayOfMonth []WeekDayOfMonthParameters `json:"weekDayOfMonth,omitempty" tf:"week_day_of_month,omitempty"`
+}
+
+type OneTimeScheduleInitParameters struct {
+
+	// The desired patch job execution time. A timestamp in RFC3339 UTC "Zulu" format,
+	// accurate to nanoseconds. Example: "2014-10-02T15:01:23.045123456Z".
+	ExecuteTime *string `json:"executeTime,omitempty" tf:"execute_time,omitempty"`
 }
 
 type OneTimeScheduleObservation struct {
@@ -169,8 +223,22 @@ type OneTimeScheduleParameters struct {
 
 	// The desired patch job execution time. A timestamp in RFC3339 UTC "Zulu" format,
 	// accurate to nanoseconds. Example: "2014-10-02T15:01:23.045123456Z".
-	// +kubebuilder:validation:Required
-	ExecuteTime *string `json:"executeTime" tf:"execute_time,omitempty"`
+	ExecuteTime *string `json:"executeTime,omitempty" tf:"execute_time,omitempty"`
+}
+
+type PatchConfigAptInitParameters struct {
+
+	// List of packages to exclude from update.
+	Excludes []*string `json:"excludes,omitempty" tf:"excludes,omitempty"`
+
+	// An exclusive list of packages to be updated. These are the only packages that will be updated.
+	// If these packages are not installed, they will be ignored. This field cannot be specified with
+	// any other patch configuration fields.
+	ExclusivePackages []*string `json:"exclusivePackages,omitempty" tf:"exclusive_packages,omitempty"`
+
+	// By changing the type to DIST, the patching is performed using apt-get dist-upgrade instead.
+	// Possible values are: DIST, UPGRADE.
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type PatchConfigAptObservation struct {
@@ -191,19 +259,22 @@ type PatchConfigAptObservation struct {
 type PatchConfigAptParameters struct {
 
 	// List of packages to exclude from update.
-	// +kubebuilder:validation:Optional
 	Excludes []*string `json:"excludes,omitempty" tf:"excludes,omitempty"`
 
 	// An exclusive list of packages to be updated. These are the only packages that will be updated.
 	// If these packages are not installed, they will be ignored. This field cannot be specified with
 	// any other patch configuration fields.
-	// +kubebuilder:validation:Optional
 	ExclusivePackages []*string `json:"exclusivePackages,omitempty" tf:"exclusive_packages,omitempty"`
 
 	// By changing the type to DIST, the patching is performed using apt-get dist-upgrade instead.
 	// Possible values are: DIST, UPGRADE.
-	// +kubebuilder:validation:Optional
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+}
+
+type PatchConfigGooInitParameters struct {
+
+	// goo update settings. Use this setting to override the default goo patch rules.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 }
 
 type PatchConfigGooObservation struct {
@@ -215,8 +286,45 @@ type PatchConfigGooObservation struct {
 type PatchConfigGooParameters struct {
 
 	// goo update settings. Use this setting to override the default goo patch rules.
-	// +kubebuilder:validation:Required
-	Enabled *bool `json:"enabled" tf:"enabled,omitempty"`
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+}
+
+type PatchConfigInitParameters struct {
+
+	// Apt update settings. Use this setting to override the default apt patch rules.
+	// Structure is documented below.
+	Apt []PatchConfigAptInitParameters `json:"apt,omitempty" tf:"apt,omitempty"`
+
+	// goo update settings. Use this setting to override the default goo patch rules.
+	// Structure is documented below.
+	Goo []PatchConfigGooInitParameters `json:"goo,omitempty" tf:"goo,omitempty"`
+
+	// Allows the patch job to run on Managed instance groups (MIGs).
+	MigInstancesAllowed *bool `json:"migInstancesAllowed,omitempty" tf:"mig_instances_allowed,omitempty"`
+
+	// The ExecStep to run after the patch update.
+	// Structure is documented below.
+	PostStep []PostStepInitParameters `json:"postStep,omitempty" tf:"post_step,omitempty"`
+
+	// The ExecStep to run before the patch update.
+	// Structure is documented below.
+	PreStep []PreStepInitParameters `json:"preStep,omitempty" tf:"pre_step,omitempty"`
+
+	// Post-patch reboot settings.
+	// Possible values are: DEFAULT, ALWAYS, NEVER.
+	RebootConfig *string `json:"rebootConfig,omitempty" tf:"reboot_config,omitempty"`
+
+	// Windows update settings. Use this setting to override the default Windows patch rules.
+	// Structure is documented below.
+	WindowsUpdate []WindowsUpdateInitParameters `json:"windowsUpdate,omitempty" tf:"windows_update,omitempty"`
+
+	// Yum update settings. Use this setting to override the default yum patch rules.
+	// Structure is documented below.
+	Yum []PatchConfigYumInitParameters `json:"yum,omitempty" tf:"yum,omitempty"`
+
+	// zypper update settings. Use this setting to override the default zypper patch rules.
+	// Structure is documented below.
+	Zypper []PatchConfigZypperInitParameters `json:"zypper,omitempty" tf:"zypper,omitempty"`
 }
 
 type PatchConfigObservation struct {
@@ -261,47 +369,55 @@ type PatchConfigParameters struct {
 
 	// Apt update settings. Use this setting to override the default apt patch rules.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	Apt []PatchConfigAptParameters `json:"apt,omitempty" tf:"apt,omitempty"`
 
 	// goo update settings. Use this setting to override the default goo patch rules.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	Goo []PatchConfigGooParameters `json:"goo,omitempty" tf:"goo,omitempty"`
 
 	// Allows the patch job to run on Managed instance groups (MIGs).
-	// +kubebuilder:validation:Optional
 	MigInstancesAllowed *bool `json:"migInstancesAllowed,omitempty" tf:"mig_instances_allowed,omitempty"`
 
 	// The ExecStep to run after the patch update.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	PostStep []PostStepParameters `json:"postStep,omitempty" tf:"post_step,omitempty"`
 
 	// The ExecStep to run before the patch update.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	PreStep []PreStepParameters `json:"preStep,omitempty" tf:"pre_step,omitempty"`
 
 	// Post-patch reboot settings.
 	// Possible values are: DEFAULT, ALWAYS, NEVER.
-	// +kubebuilder:validation:Optional
 	RebootConfig *string `json:"rebootConfig,omitempty" tf:"reboot_config,omitempty"`
 
 	// Windows update settings. Use this setting to override the default Windows patch rules.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	WindowsUpdate []WindowsUpdateParameters `json:"windowsUpdate,omitempty" tf:"windows_update,omitempty"`
 
 	// Yum update settings. Use this setting to override the default yum patch rules.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	Yum []PatchConfigYumParameters `json:"yum,omitempty" tf:"yum,omitempty"`
 
 	// zypper update settings. Use this setting to override the default zypper patch rules.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	Zypper []PatchConfigZypperParameters `json:"zypper,omitempty" tf:"zypper,omitempty"`
+}
+
+type PatchConfigYumInitParameters struct {
+
+	// List of packages to exclude from update.
+	Excludes []*string `json:"excludes,omitempty" tf:"excludes,omitempty"`
+
+	// An exclusive list of packages to be updated. These are the only packages that will be updated.
+	// If these packages are not installed, they will be ignored. This field cannot be specified with
+	// any other patch configuration fields.
+	ExclusivePackages []*string `json:"exclusivePackages,omitempty" tf:"exclusive_packages,omitempty"`
+
+	// Will cause patch to run yum update-minimal instead.
+	Minimal *bool `json:"minimal,omitempty" tf:"minimal,omitempty"`
+
+	// Adds the --security flag to yum update. Not supported on all platforms.
+	Security *bool `json:"security,omitempty" tf:"security,omitempty"`
 }
 
 type PatchConfigYumObservation struct {
@@ -324,22 +440,40 @@ type PatchConfigYumObservation struct {
 type PatchConfigYumParameters struct {
 
 	// List of packages to exclude from update.
-	// +kubebuilder:validation:Optional
 	Excludes []*string `json:"excludes,omitempty" tf:"excludes,omitempty"`
 
 	// An exclusive list of packages to be updated. These are the only packages that will be updated.
 	// If these packages are not installed, they will be ignored. This field cannot be specified with
 	// any other patch configuration fields.
-	// +kubebuilder:validation:Optional
 	ExclusivePackages []*string `json:"exclusivePackages,omitempty" tf:"exclusive_packages,omitempty"`
 
 	// Will cause patch to run yum update-minimal instead.
-	// +kubebuilder:validation:Optional
 	Minimal *bool `json:"minimal,omitempty" tf:"minimal,omitempty"`
 
 	// Adds the --security flag to yum update. Not supported on all platforms.
-	// +kubebuilder:validation:Optional
 	Security *bool `json:"security,omitempty" tf:"security,omitempty"`
+}
+
+type PatchConfigZypperInitParameters struct {
+
+	// Install only patches with these categories. Common categories include security, recommended, and feature.
+	Categories []*string `json:"categories,omitempty" tf:"categories,omitempty"`
+
+	// List of packages to exclude from update.
+	Excludes []*string `json:"excludes,omitempty" tf:"excludes,omitempty"`
+
+	// An exclusive list of patches to be updated. These are the only patches that will be installed using 'zypper patch patch:' command.
+	// This field must not be used with any other patch configuration fields.
+	ExclusivePatches []*string `json:"exclusivePatches,omitempty" tf:"exclusive_patches,omitempty"`
+
+	// Install only patches with these severities. Common severities include critical, important, moderate, and low.
+	Severities []*string `json:"severities,omitempty" tf:"severities,omitempty"`
+
+	// Adds the --with-optional flag to zypper patch.
+	WithOptional *bool `json:"withOptional,omitempty" tf:"with_optional,omitempty"`
+
+	// Adds the --with-update flag, to zypper patch.
+	WithUpdate *bool `json:"withUpdate,omitempty" tf:"with_update,omitempty"`
 }
 
 type PatchConfigZypperObservation struct {
@@ -367,29 +501,79 @@ type PatchConfigZypperObservation struct {
 type PatchConfigZypperParameters struct {
 
 	// Install only patches with these categories. Common categories include security, recommended, and feature.
-	// +kubebuilder:validation:Optional
 	Categories []*string `json:"categories,omitempty" tf:"categories,omitempty"`
 
 	// List of packages to exclude from update.
-	// +kubebuilder:validation:Optional
 	Excludes []*string `json:"excludes,omitempty" tf:"excludes,omitempty"`
 
 	// An exclusive list of patches to be updated. These are the only patches that will be installed using 'zypper patch patch:' command.
 	// This field must not be used with any other patch configuration fields.
-	// +kubebuilder:validation:Optional
 	ExclusivePatches []*string `json:"exclusivePatches,omitempty" tf:"exclusive_patches,omitempty"`
 
 	// Install only patches with these severities. Common severities include critical, important, moderate, and low.
-	// +kubebuilder:validation:Optional
 	Severities []*string `json:"severities,omitempty" tf:"severities,omitempty"`
 
 	// Adds the --with-optional flag to zypper patch.
-	// +kubebuilder:validation:Optional
 	WithOptional *bool `json:"withOptional,omitempty" tf:"with_optional,omitempty"`
 
 	// Adds the --with-update flag, to zypper patch.
-	// +kubebuilder:validation:Optional
 	WithUpdate *bool `json:"withUpdate,omitempty" tf:"with_update,omitempty"`
+}
+
+type PatchDeploymentInitParameters struct {
+
+	// Description of the patch deployment. Length of the description is limited to 1024 characters.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Duration of the patch. After the duration ends, the patch times out.
+	// A duration in seconds with up to nine fractional digits, terminated by 's'. Example: "3.5s"
+	Duration *string `json:"duration,omitempty" tf:"duration,omitempty"`
+
+	// VM instances to patch.
+	// Structure is documented below.
+	InstanceFilter []PatchDeploymentInstanceFilterInitParameters `json:"instanceFilter,omitempty" tf:"instance_filter,omitempty"`
+
+	// Schedule a one-time execution.
+	// Structure is documented below.
+	OneTimeSchedule []OneTimeScheduleInitParameters `json:"oneTimeSchedule,omitempty" tf:"one_time_schedule,omitempty"`
+
+	// Patch configuration that is applied.
+	// Structure is documented below.
+	PatchConfig []PatchConfigInitParameters `json:"patchConfig,omitempty" tf:"patch_config,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Schedule recurring executions.
+	// Structure is documented below.
+	RecurringSchedule []RecurringScheduleInitParameters `json:"recurringSchedule,omitempty" tf:"recurring_schedule,omitempty"`
+
+	// Rollout strategy of the patch job.
+	// Structure is documented below.
+	Rollout []PatchDeploymentRolloutInitParameters `json:"rollout,omitempty" tf:"rollout,omitempty"`
+}
+
+type PatchDeploymentInstanceFilterInitParameters struct {
+
+	// Target all VM instances in the project. If true, no other criteria is permitted.
+	All *bool `json:"all,omitempty" tf:"all,omitempty"`
+
+	// Targets VM instances matching ANY of these GroupLabels. This allows targeting of disparate groups of VM instances.
+	// Structure is documented below.
+	GroupLabels []GroupLabelsInitParameters `json:"groupLabels,omitempty" tf:"group_labels,omitempty"`
+
+	// Targets VMs whose name starts with one of these prefixes. Similar to labels, this is another way to group
+	// VMs when targeting configs, for example prefix="prod-".
+	InstanceNamePrefixes []*string `json:"instanceNamePrefixes,omitempty" tf:"instance_name_prefixes,omitempty"`
+
+	// Targets any of the VM instances specified. Instances are specified by their URI in the form zones/{{zone}}/instances/{{instance_name}},
+	// projects/{{project_id}}/zones/{{zone}}/instances/{{instance_name}}, or
+	// https://www.googleapis.com/compute/v1/projects/{{project_id}}/zones/{{zone}}/instances/{{instance_name}}
+	Instances []*string `json:"instances,omitempty" tf:"instances,omitempty"`
+
+	// Targets VM instances in ANY of these zones. Leave empty to target VM instances in any zone.
+	Zones []*string `json:"zones,omitempty" tf:"zones,omitempty"`
 }
 
 type PatchDeploymentInstanceFilterObservation struct {
@@ -417,27 +601,22 @@ type PatchDeploymentInstanceFilterObservation struct {
 type PatchDeploymentInstanceFilterParameters struct {
 
 	// Target all VM instances in the project. If true, no other criteria is permitted.
-	// +kubebuilder:validation:Optional
 	All *bool `json:"all,omitempty" tf:"all,omitempty"`
 
 	// Targets VM instances matching ANY of these GroupLabels. This allows targeting of disparate groups of VM instances.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	GroupLabels []GroupLabelsParameters `json:"groupLabels,omitempty" tf:"group_labels,omitempty"`
 
 	// Targets VMs whose name starts with one of these prefixes. Similar to labels, this is another way to group
 	// VMs when targeting configs, for example prefix="prod-".
-	// +kubebuilder:validation:Optional
 	InstanceNamePrefixes []*string `json:"instanceNamePrefixes,omitempty" tf:"instance_name_prefixes,omitempty"`
 
 	// Targets any of the VM instances specified. Instances are specified by their URI in the form zones/{{zone}}/instances/{{instance_name}},
 	// projects/{{project_id}}/zones/{{zone}}/instances/{{instance_name}}, or
 	// https://www.googleapis.com/compute/v1/projects/{{project_id}}/zones/{{zone}}/instances/{{instance_name}}
-	// +kubebuilder:validation:Optional
 	Instances []*string `json:"instances,omitempty" tf:"instances,omitempty"`
 
 	// Targets VM instances in ANY of these zones. Leave empty to target VM instances in any zone.
-	// +kubebuilder:validation:Optional
 	Zones []*string `json:"zones,omitempty" tf:"zones,omitempty"`
 }
 
@@ -497,43 +676,50 @@ type PatchDeploymentObservation struct {
 type PatchDeploymentParameters struct {
 
 	// Description of the patch deployment. Length of the description is limited to 1024 characters.
-	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Duration of the patch. After the duration ends, the patch times out.
 	// A duration in seconds with up to nine fractional digits, terminated by 's'. Example: "3.5s"
-	// +kubebuilder:validation:Optional
 	Duration *string `json:"duration,omitempty" tf:"duration,omitempty"`
 
 	// VM instances to patch.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	InstanceFilter []PatchDeploymentInstanceFilterParameters `json:"instanceFilter,omitempty" tf:"instance_filter,omitempty"`
 
 	// Schedule a one-time execution.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	OneTimeSchedule []OneTimeScheduleParameters `json:"oneTimeSchedule,omitempty" tf:"one_time_schedule,omitempty"`
 
 	// Patch configuration that is applied.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	PatchConfig []PatchConfigParameters `json:"patchConfig,omitempty" tf:"patch_config,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
-	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Schedule recurring executions.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	RecurringSchedule []RecurringScheduleParameters `json:"recurringSchedule,omitempty" tf:"recurring_schedule,omitempty"`
 
 	// Rollout strategy of the patch job.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	Rollout []PatchDeploymentRolloutParameters `json:"rollout,omitempty" tf:"rollout,omitempty"`
+}
+
+type PatchDeploymentRolloutInitParameters struct {
+
+	// The maximum number (or percentage) of VMs per zone to disrupt at any given moment. The number of VMs calculated from multiplying the percentage by the total number of VMs in a zone is rounded up.
+	// During patching, a VM is considered disrupted from the time the agent is notified to begin until patching has completed. This disruption time includes the time to complete reboot and any post-patch steps.
+	// A VM contributes to the disruption budget if its patching operation fails either when applying the patches, running pre or post patch steps, or if it fails to respond with a success notification before timing out. VMs that are not running or do not have an active agent do not count toward this disruption budget.
+	// For zone-by-zone rollouts, if the disruption budget in a zone is exceeded, the patch job stops, because continuing to the next zone requires completion of the patch process in the previous zone.
+	// For example, if the disruption budget has a fixed value of 10, and 8 VMs fail to patch in the current zone, the patch job continues to patch 2 VMs at a time until the zone is completed. When that zone is completed successfully, patching begins with 10 VMs at a time in the next zone. If 10 VMs in the next zone fail to patch, the patch job stops.
+	// Structure is documented below.
+	DisruptionBudget []RolloutDisruptionBudgetInitParameters `json:"disruptionBudget,omitempty" tf:"disruption_budget,omitempty"`
+
+	// Mode of the patch rollout.
+	// Possible values are: ZONE_BY_ZONE, CONCURRENT_ZONES.
+	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
 }
 
 type PatchDeploymentRolloutObservation struct {
@@ -559,13 +745,22 @@ type PatchDeploymentRolloutParameters struct {
 	// For zone-by-zone rollouts, if the disruption budget in a zone is exceeded, the patch job stops, because continuing to the next zone requires completion of the patch process in the previous zone.
 	// For example, if the disruption budget has a fixed value of 10, and 8 VMs fail to patch in the current zone, the patch job continues to patch 2 VMs at a time until the zone is completed. When that zone is completed successfully, patching begins with 10 VMs at a time in the next zone. If 10 VMs in the next zone fail to patch, the patch job stops.
 	// Structure is documented below.
-	// +kubebuilder:validation:Required
-	DisruptionBudget []RolloutDisruptionBudgetParameters `json:"disruptionBudget" tf:"disruption_budget,omitempty"`
+	DisruptionBudget []RolloutDisruptionBudgetParameters `json:"disruptionBudget,omitempty" tf:"disruption_budget,omitempty"`
 
 	// Mode of the patch rollout.
 	// Possible values are: ZONE_BY_ZONE, CONCURRENT_ZONES.
-	// +kubebuilder:validation:Required
-	Mode *string `json:"mode" tf:"mode,omitempty"`
+	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
+}
+
+type PostStepInitParameters struct {
+
+	// The ExecStepConfig for all Linux VMs targeted by the PatchJob.
+	// Structure is documented below.
+	LinuxExecStepConfig []LinuxExecStepConfigInitParameters `json:"linuxExecStepConfig,omitempty" tf:"linux_exec_step_config,omitempty"`
+
+	// The ExecStepConfig for all Windows VMs targeted by the PatchJob.
+	// Structure is documented below.
+	WindowsExecStepConfig []WindowsExecStepConfigInitParameters `json:"windowsExecStepConfig,omitempty" tf:"windows_exec_step_config,omitempty"`
 }
 
 type PostStepObservation struct {
@@ -583,13 +778,40 @@ type PostStepParameters struct {
 
 	// The ExecStepConfig for all Linux VMs targeted by the PatchJob.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	LinuxExecStepConfig []LinuxExecStepConfigParameters `json:"linuxExecStepConfig,omitempty" tf:"linux_exec_step_config,omitempty"`
 
 	// The ExecStepConfig for all Windows VMs targeted by the PatchJob.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	WindowsExecStepConfig []WindowsExecStepConfigParameters `json:"windowsExecStepConfig,omitempty" tf:"windows_exec_step_config,omitempty"`
+}
+
+type PreStepInitParameters struct {
+
+	// The ExecStepConfig for all Linux VMs targeted by the PatchJob.
+	// Structure is documented below.
+	LinuxExecStepConfig []PreStepLinuxExecStepConfigInitParameters `json:"linuxExecStepConfig,omitempty" tf:"linux_exec_step_config,omitempty"`
+
+	// The ExecStepConfig for all Windows VMs targeted by the PatchJob.
+	// Structure is documented below.
+	WindowsExecStepConfig []PreStepWindowsExecStepConfigInitParameters `json:"windowsExecStepConfig,omitempty" tf:"windows_exec_step_config,omitempty"`
+}
+
+type PreStepLinuxExecStepConfigInitParameters struct {
+
+	// Defaults to [0]. A list of possible return values that the execution can return to indicate a success.
+	AllowedSuccessCodes []*float64 `json:"allowedSuccessCodes,omitempty" tf:"allowed_success_codes,omitempty"`
+
+	// A Cloud Storage object containing the executable.
+	// Structure is documented below.
+	GcsObject []LinuxExecStepConfigGcsObjectInitParameters `json:"gcsObject,omitempty" tf:"gcs_object,omitempty"`
+
+	// The script interpreter to use to run the script. If no interpreter is specified the script will
+	// be executed directly, which will likely only succeed for scripts with shebang lines.
+	// Possible values are: SHELL, POWERSHELL.
+	Interpreter *string `json:"interpreter,omitempty" tf:"interpreter,omitempty"`
+
+	// An absolute path to the executable on the VM.
+	LocalPath *string `json:"localPath,omitempty" tf:"local_path,omitempty"`
 }
 
 type PreStepLinuxExecStepConfigObservation struct {
@@ -613,22 +835,18 @@ type PreStepLinuxExecStepConfigObservation struct {
 type PreStepLinuxExecStepConfigParameters struct {
 
 	// Defaults to [0]. A list of possible return values that the execution can return to indicate a success.
-	// +kubebuilder:validation:Optional
 	AllowedSuccessCodes []*float64 `json:"allowedSuccessCodes,omitempty" tf:"allowed_success_codes,omitempty"`
 
 	// A Cloud Storage object containing the executable.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	GcsObject []LinuxExecStepConfigGcsObjectParameters `json:"gcsObject,omitempty" tf:"gcs_object,omitempty"`
 
 	// The script interpreter to use to run the script. If no interpreter is specified the script will
 	// be executed directly, which will likely only succeed for scripts with shebang lines.
 	// Possible values are: SHELL, POWERSHELL.
-	// +kubebuilder:validation:Optional
 	Interpreter *string `json:"interpreter,omitempty" tf:"interpreter,omitempty"`
 
 	// An absolute path to the executable on the VM.
-	// +kubebuilder:validation:Optional
 	LocalPath *string `json:"localPath,omitempty" tf:"local_path,omitempty"`
 }
 
@@ -647,13 +865,23 @@ type PreStepParameters struct {
 
 	// The ExecStepConfig for all Linux VMs targeted by the PatchJob.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	LinuxExecStepConfig []PreStepLinuxExecStepConfigParameters `json:"linuxExecStepConfig,omitempty" tf:"linux_exec_step_config,omitempty"`
 
 	// The ExecStepConfig for all Windows VMs targeted by the PatchJob.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	WindowsExecStepConfig []PreStepWindowsExecStepConfigParameters `json:"windowsExecStepConfig,omitempty" tf:"windows_exec_step_config,omitempty"`
+}
+
+type PreStepWindowsExecStepConfigGcsObjectInitParameters struct {
+
+	// Bucket of the Cloud Storage object.
+	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
+
+	// Generation number of the Cloud Storage object. This is used to ensure that the ExecStep specified by this PatchJob does not change.
+	GenerationNumber *string `json:"generationNumber,omitempty" tf:"generation_number,omitempty"`
+
+	// Name of the Cloud Storage object.
+	Object *string `json:"object,omitempty" tf:"object,omitempty"`
 }
 
 type PreStepWindowsExecStepConfigGcsObjectObservation struct {
@@ -671,16 +899,31 @@ type PreStepWindowsExecStepConfigGcsObjectObservation struct {
 type PreStepWindowsExecStepConfigGcsObjectParameters struct {
 
 	// Bucket of the Cloud Storage object.
-	// +kubebuilder:validation:Required
-	Bucket *string `json:"bucket" tf:"bucket,omitempty"`
+	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
 
 	// Generation number of the Cloud Storage object. This is used to ensure that the ExecStep specified by this PatchJob does not change.
-	// +kubebuilder:validation:Required
-	GenerationNumber *string `json:"generationNumber" tf:"generation_number,omitempty"`
+	GenerationNumber *string `json:"generationNumber,omitempty" tf:"generation_number,omitempty"`
 
 	// Name of the Cloud Storage object.
-	// +kubebuilder:validation:Required
-	Object *string `json:"object" tf:"object,omitempty"`
+	Object *string `json:"object,omitempty" tf:"object,omitempty"`
+}
+
+type PreStepWindowsExecStepConfigInitParameters struct {
+
+	// Defaults to [0]. A list of possible return values that the execution can return to indicate a success.
+	AllowedSuccessCodes []*float64 `json:"allowedSuccessCodes,omitempty" tf:"allowed_success_codes,omitempty"`
+
+	// A Cloud Storage object containing the executable.
+	// Structure is documented below.
+	GcsObject []PreStepWindowsExecStepConfigGcsObjectInitParameters `json:"gcsObject,omitempty" tf:"gcs_object,omitempty"`
+
+	// The script interpreter to use to run the script. If no interpreter is specified the script will
+	// be executed directly, which will likely only succeed for scripts with shebang lines.
+	// Possible values are: SHELL, POWERSHELL.
+	Interpreter *string `json:"interpreter,omitempty" tf:"interpreter,omitempty"`
+
+	// An absolute path to the executable on the VM.
+	LocalPath *string `json:"localPath,omitempty" tf:"local_path,omitempty"`
 }
 
 type PreStepWindowsExecStepConfigObservation struct {
@@ -704,23 +947,47 @@ type PreStepWindowsExecStepConfigObservation struct {
 type PreStepWindowsExecStepConfigParameters struct {
 
 	// Defaults to [0]. A list of possible return values that the execution can return to indicate a success.
-	// +kubebuilder:validation:Optional
 	AllowedSuccessCodes []*float64 `json:"allowedSuccessCodes,omitempty" tf:"allowed_success_codes,omitempty"`
 
 	// A Cloud Storage object containing the executable.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	GcsObject []PreStepWindowsExecStepConfigGcsObjectParameters `json:"gcsObject,omitempty" tf:"gcs_object,omitempty"`
 
 	// The script interpreter to use to run the script. If no interpreter is specified the script will
 	// be executed directly, which will likely only succeed for scripts with shebang lines.
 	// Possible values are: SHELL, POWERSHELL.
-	// +kubebuilder:validation:Optional
 	Interpreter *string `json:"interpreter,omitempty" tf:"interpreter,omitempty"`
 
 	// An absolute path to the executable on the VM.
-	// +kubebuilder:validation:Optional
 	LocalPath *string `json:"localPath,omitempty" tf:"local_path,omitempty"`
+}
+
+type RecurringScheduleInitParameters struct {
+
+	// The end time at which a recurring patch deployment schedule is no longer active.
+	// A timestamp in RFC3339 UTC "Zulu" format, accurate to nanoseconds. Example: "2014-10-02T15:01:23.045123456Z".
+	EndTime *string `json:"endTime,omitempty" tf:"end_time,omitempty"`
+
+	// Schedule with monthly executions.
+	// Structure is documented below.
+	Monthly []MonthlyInitParameters `json:"monthly,omitempty" tf:"monthly,omitempty"`
+
+	// The time that the recurring schedule becomes effective. Defaults to createTime of the patch deployment.
+	// A timestamp in RFC3339 UTC "Zulu" format, accurate to nanoseconds. Example: "2014-10-02T15:01:23.045123456Z".
+	StartTime *string `json:"startTime,omitempty" tf:"start_time,omitempty"`
+
+	// Time of the day to run a recurring deployment.
+	// Structure is documented below.
+	TimeOfDay []TimeOfDayInitParameters `json:"timeOfDay,omitempty" tf:"time_of_day,omitempty"`
+
+	// Defines the time zone that timeOfDay is relative to. The rules for daylight saving time are
+	// determined by the chosen time zone.
+	// Structure is documented below.
+	TimeZone []TimeZoneInitParameters `json:"timeZone,omitempty" tf:"time_zone,omitempty"`
+
+	// Schedule with weekly executions.
+	// Structure is documented below.
+	Weekly []WeeklyInitParameters `json:"weekly,omitempty" tf:"weekly,omitempty"`
 }
 
 type RecurringScheduleObservation struct {
@@ -765,34 +1032,37 @@ type RecurringScheduleParameters struct {
 
 	// The end time at which a recurring patch deployment schedule is no longer active.
 	// A timestamp in RFC3339 UTC "Zulu" format, accurate to nanoseconds. Example: "2014-10-02T15:01:23.045123456Z".
-	// +kubebuilder:validation:Optional
 	EndTime *string `json:"endTime,omitempty" tf:"end_time,omitempty"`
 
 	// Schedule with monthly executions.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	Monthly []MonthlyParameters `json:"monthly,omitempty" tf:"monthly,omitempty"`
 
 	// The time that the recurring schedule becomes effective. Defaults to createTime of the patch deployment.
 	// A timestamp in RFC3339 UTC "Zulu" format, accurate to nanoseconds. Example: "2014-10-02T15:01:23.045123456Z".
-	// +kubebuilder:validation:Optional
 	StartTime *string `json:"startTime,omitempty" tf:"start_time,omitempty"`
 
 	// Time of the day to run a recurring deployment.
 	// Structure is documented below.
-	// +kubebuilder:validation:Required
-	TimeOfDay []TimeOfDayParameters `json:"timeOfDay" tf:"time_of_day,omitempty"`
+	TimeOfDay []TimeOfDayParameters `json:"timeOfDay,omitempty" tf:"time_of_day,omitempty"`
 
 	// Defines the time zone that timeOfDay is relative to. The rules for daylight saving time are
 	// determined by the chosen time zone.
 	// Structure is documented below.
-	// +kubebuilder:validation:Required
-	TimeZone []TimeZoneParameters `json:"timeZone" tf:"time_zone,omitempty"`
+	TimeZone []TimeZoneParameters `json:"timeZone,omitempty" tf:"time_zone,omitempty"`
 
 	// Schedule with weekly executions.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	Weekly []WeeklyParameters `json:"weekly,omitempty" tf:"weekly,omitempty"`
+}
+
+type RolloutDisruptionBudgetInitParameters struct {
+
+	// Specifies a fixed value.
+	Fixed *float64 `json:"fixed,omitempty" tf:"fixed,omitempty"`
+
+	// Specifies the relative value defined as a percentage, which will be multiplied by a reference value.
+	Percentage *float64 `json:"percentage,omitempty" tf:"percentage,omitempty"`
 }
 
 type RolloutDisruptionBudgetObservation struct {
@@ -807,12 +1077,26 @@ type RolloutDisruptionBudgetObservation struct {
 type RolloutDisruptionBudgetParameters struct {
 
 	// Specifies a fixed value.
-	// +kubebuilder:validation:Optional
 	Fixed *float64 `json:"fixed,omitempty" tf:"fixed,omitempty"`
 
 	// Specifies the relative value defined as a percentage, which will be multiplied by a reference value.
-	// +kubebuilder:validation:Optional
 	Percentage *float64 `json:"percentage,omitempty" tf:"percentage,omitempty"`
+}
+
+type TimeOfDayInitParameters struct {
+
+	// Hours of day in 24 hour format. Should be from 0 to 23.
+	// An API may choose to allow the value "24:00:00" for scenarios like business closing time.
+	Hours *float64 `json:"hours,omitempty" tf:"hours,omitempty"`
+
+	// Minutes of hour of day. Must be from 0 to 59.
+	Minutes *float64 `json:"minutes,omitempty" tf:"minutes,omitempty"`
+
+	// Fractions of seconds in nanoseconds. Must be from 0 to 999,999,999.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Seconds of minutes of the time. Must normally be from 0 to 59. An API may allow the value 60 if it allows leap-seconds.
+	Seconds *float64 `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
 type TimeOfDayObservation struct {
@@ -835,20 +1119,25 @@ type TimeOfDayParameters struct {
 
 	// Hours of day in 24 hour format. Should be from 0 to 23.
 	// An API may choose to allow the value "24:00:00" for scenarios like business closing time.
-	// +kubebuilder:validation:Optional
 	Hours *float64 `json:"hours,omitempty" tf:"hours,omitempty"`
 
 	// Minutes of hour of day. Must be from 0 to 59.
-	// +kubebuilder:validation:Optional
 	Minutes *float64 `json:"minutes,omitempty" tf:"minutes,omitempty"`
 
 	// Fractions of seconds in nanoseconds. Must be from 0 to 999,999,999.
-	// +kubebuilder:validation:Optional
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
 	// Seconds of minutes of the time. Must normally be from 0 to 59. An API may allow the value 60 if it allows leap-seconds.
-	// +kubebuilder:validation:Optional
 	Seconds *float64 `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type TimeZoneInitParameters struct {
+
+	// IANA Time Zone Database time zone, e.g. "America/New_York".
+	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// IANA Time Zone Database version number, e.g. "2019a".
+	Version *string `json:"version,omitempty" tf:"version,omitempty"`
 }
 
 type TimeZoneObservation struct {
@@ -863,12 +1152,20 @@ type TimeZoneObservation struct {
 type TimeZoneParameters struct {
 
 	// IANA Time Zone Database time zone, e.g. "America/New_York".
-	// +kubebuilder:validation:Required
-	ID *string `json:"id" tf:"id,omitempty"`
+	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// IANA Time Zone Database version number, e.g. "2019a".
-	// +kubebuilder:validation:Optional
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
+}
+
+type WeekDayOfMonthInitParameters struct {
+
+	// IANA Time Zone Database time zone, e.g. "America/New_York".
+	// Possible values are: MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY.
+	DayOfWeek *string `json:"dayOfWeek,omitempty" tf:"day_of_week,omitempty"`
+
+	// Week number in a month. 1-4 indicates the 1st to 4th week of the month. -1 indicates the last week of the month.
+	WeekOrdinal *float64 `json:"weekOrdinal,omitempty" tf:"week_ordinal,omitempty"`
 }
 
 type WeekDayOfMonthObservation struct {
@@ -885,12 +1182,17 @@ type WeekDayOfMonthParameters struct {
 
 	// IANA Time Zone Database time zone, e.g. "America/New_York".
 	// Possible values are: MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY.
-	// +kubebuilder:validation:Required
-	DayOfWeek *string `json:"dayOfWeek" tf:"day_of_week,omitempty"`
+	DayOfWeek *string `json:"dayOfWeek,omitempty" tf:"day_of_week,omitempty"`
 
 	// Week number in a month. 1-4 indicates the 1st to 4th week of the month. -1 indicates the last week of the month.
-	// +kubebuilder:validation:Required
-	WeekOrdinal *float64 `json:"weekOrdinal" tf:"week_ordinal,omitempty"`
+	WeekOrdinal *float64 `json:"weekOrdinal,omitempty" tf:"week_ordinal,omitempty"`
+}
+
+type WeeklyInitParameters struct {
+
+	// IANA Time Zone Database time zone, e.g. "America/New_York".
+	// Possible values are: MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY.
+	DayOfWeek *string `json:"dayOfWeek,omitempty" tf:"day_of_week,omitempty"`
 }
 
 type WeeklyObservation struct {
@@ -904,8 +1206,19 @@ type WeeklyParameters struct {
 
 	// IANA Time Zone Database time zone, e.g. "America/New_York".
 	// Possible values are: MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY.
-	// +kubebuilder:validation:Required
-	DayOfWeek *string `json:"dayOfWeek" tf:"day_of_week,omitempty"`
+	DayOfWeek *string `json:"dayOfWeek,omitempty" tf:"day_of_week,omitempty"`
+}
+
+type WindowsExecStepConfigGcsObjectInitParameters struct {
+
+	// Bucket of the Cloud Storage object.
+	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
+
+	// Generation number of the Cloud Storage object. This is used to ensure that the ExecStep specified by this PatchJob does not change.
+	GenerationNumber *string `json:"generationNumber,omitempty" tf:"generation_number,omitempty"`
+
+	// Name of the Cloud Storage object.
+	Object *string `json:"object,omitempty" tf:"object,omitempty"`
 }
 
 type WindowsExecStepConfigGcsObjectObservation struct {
@@ -923,16 +1236,31 @@ type WindowsExecStepConfigGcsObjectObservation struct {
 type WindowsExecStepConfigGcsObjectParameters struct {
 
 	// Bucket of the Cloud Storage object.
-	// +kubebuilder:validation:Required
-	Bucket *string `json:"bucket" tf:"bucket,omitempty"`
+	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
 
 	// Generation number of the Cloud Storage object. This is used to ensure that the ExecStep specified by this PatchJob does not change.
-	// +kubebuilder:validation:Required
-	GenerationNumber *string `json:"generationNumber" tf:"generation_number,omitempty"`
+	GenerationNumber *string `json:"generationNumber,omitempty" tf:"generation_number,omitempty"`
 
 	// Name of the Cloud Storage object.
-	// +kubebuilder:validation:Required
-	Object *string `json:"object" tf:"object,omitempty"`
+	Object *string `json:"object,omitempty" tf:"object,omitempty"`
+}
+
+type WindowsExecStepConfigInitParameters struct {
+
+	// Defaults to [0]. A list of possible return values that the execution can return to indicate a success.
+	AllowedSuccessCodes []*float64 `json:"allowedSuccessCodes,omitempty" tf:"allowed_success_codes,omitempty"`
+
+	// A Cloud Storage object containing the executable.
+	// Structure is documented below.
+	GcsObject []WindowsExecStepConfigGcsObjectInitParameters `json:"gcsObject,omitempty" tf:"gcs_object,omitempty"`
+
+	// The script interpreter to use to run the script. If no interpreter is specified the script will
+	// be executed directly, which will likely only succeed for scripts with shebang lines.
+	// Possible values are: SHELL, POWERSHELL.
+	Interpreter *string `json:"interpreter,omitempty" tf:"interpreter,omitempty"`
+
+	// An absolute path to the executable on the VM.
+	LocalPath *string `json:"localPath,omitempty" tf:"local_path,omitempty"`
 }
 
 type WindowsExecStepConfigObservation struct {
@@ -956,23 +1284,33 @@ type WindowsExecStepConfigObservation struct {
 type WindowsExecStepConfigParameters struct {
 
 	// Defaults to [0]. A list of possible return values that the execution can return to indicate a success.
-	// +kubebuilder:validation:Optional
 	AllowedSuccessCodes []*float64 `json:"allowedSuccessCodes,omitempty" tf:"allowed_success_codes,omitempty"`
 
 	// A Cloud Storage object containing the executable.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	GcsObject []WindowsExecStepConfigGcsObjectParameters `json:"gcsObject,omitempty" tf:"gcs_object,omitempty"`
 
 	// The script interpreter to use to run the script. If no interpreter is specified the script will
 	// be executed directly, which will likely only succeed for scripts with shebang lines.
 	// Possible values are: SHELL, POWERSHELL.
-	// +kubebuilder:validation:Optional
 	Interpreter *string `json:"interpreter,omitempty" tf:"interpreter,omitempty"`
 
 	// An absolute path to the executable on the VM.
-	// +kubebuilder:validation:Optional
 	LocalPath *string `json:"localPath,omitempty" tf:"local_path,omitempty"`
+}
+
+type WindowsUpdateInitParameters struct {
+
+	// Only apply updates of these windows update classifications. If empty, all updates are applied.
+	// Each value may be one of: CRITICAL, SECURITY, DEFINITION, DRIVER, FEATURE_PACK, SERVICE_PACK, TOOL, UPDATE_ROLLUP, UPDATE.
+	Classifications []*string `json:"classifications,omitempty" tf:"classifications,omitempty"`
+
+	// List of packages to exclude from update.
+	Excludes []*string `json:"excludes,omitempty" tf:"excludes,omitempty"`
+
+	// An exclusive list of patches to be updated. These are the only patches that will be installed using 'zypper patch patch:' command.
+	// This field must not be used with any other patch configuration fields.
+	ExclusivePatches []*string `json:"exclusivePatches,omitempty" tf:"exclusive_patches,omitempty"`
 }
 
 type WindowsUpdateObservation struct {
@@ -993,16 +1331,13 @@ type WindowsUpdateParameters struct {
 
 	// Only apply updates of these windows update classifications. If empty, all updates are applied.
 	// Each value may be one of: CRITICAL, SECURITY, DEFINITION, DRIVER, FEATURE_PACK, SERVICE_PACK, TOOL, UPDATE_ROLLUP, UPDATE.
-	// +kubebuilder:validation:Optional
 	Classifications []*string `json:"classifications,omitempty" tf:"classifications,omitempty"`
 
 	// List of packages to exclude from update.
-	// +kubebuilder:validation:Optional
 	Excludes []*string `json:"excludes,omitempty" tf:"excludes,omitempty"`
 
 	// An exclusive list of patches to be updated. These are the only patches that will be installed using 'zypper patch patch:' command.
 	// This field must not be used with any other patch configuration fields.
-	// +kubebuilder:validation:Optional
 	ExclusivePatches []*string `json:"exclusivePatches,omitempty" tf:"exclusive_patches,omitempty"`
 }
 
@@ -1010,6 +1345,10 @@ type WindowsUpdateParameters struct {
 type PatchDeploymentSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     PatchDeploymentParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	InitProvider PatchDeploymentInitParameters `json:"initProvider,omitempty"`
 }
 
 // PatchDeploymentStatus defines the observed state of PatchDeployment.
@@ -1030,7 +1369,7 @@ type PatchDeploymentStatus struct {
 type PatchDeployment struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.instanceFilter)",message="instanceFilter is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.instanceFilter) || has(self.initProvider.instanceFilter)",message="instanceFilter is a required parameter"
 	Spec   PatchDeploymentSpec   `json:"spec"`
 	Status PatchDeploymentStatus `json:"status,omitempty"`
 }

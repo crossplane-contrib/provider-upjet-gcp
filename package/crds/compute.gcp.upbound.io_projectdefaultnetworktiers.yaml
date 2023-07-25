@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.0
+    controller-gen.kubebuilder.io/version: v0.12.1
   name: projectdefaultnetworktiers.compute.gcp.upbound.io
 spec:
   group: compute.gcp.upbound.io
@@ -67,6 +67,21 @@ spec:
                 - Delete
                 type: string
               forProvider:
+                properties:
+                  networkTier:
+                    description: 'The default network tier to be configured for the
+                      project. This field can take the following values: PREMIUM or
+                      STANDARD.'
+                    type: string
+                  project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                type: object
+              initProvider:
+                description: THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice.
                 properties:
                   networkTier:
                     description: 'The default network tier to be configured for the
@@ -278,7 +293,8 @@ spec:
             x-kubernetes-validations:
             - message: networkTier is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.networkTier)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.networkTier)
+                || has(self.initProvider.networkTier)'
           status:
             description: ProjectDefaultNetworkTierStatus defines the observed state
               of ProjectDefaultNetworkTier.

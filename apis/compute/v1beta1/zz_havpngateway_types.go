@@ -80,7 +80,6 @@ type HaVPNGatewayObservation struct {
 type HaVPNGatewayParameters struct {
 
 	// An optional description of this resource.
-	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// The network this VPN gateway is accepting traffic for.
@@ -99,7 +98,6 @@ type HaVPNGatewayParameters struct {
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
-	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The region this gateway should sit in.
@@ -110,12 +108,10 @@ type HaVPNGatewayParameters struct {
 	// If not specified, IPV4_ONLY will be used.
 	// Default value is IPV4_ONLY.
 	// Possible values are: IPV4_ONLY, IPV4_IPV6.
-	// +kubebuilder:validation:Optional
 	StackType *string `json:"stackType,omitempty" tf:"stack_type,omitempty"`
 
 	// A list of interfaces on this VPN gateway.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	VPNInterfaces []VPNInterfacesParameters `json:"vpnInterfaces,omitempty" tf:"vpn_interfaces,omitempty"`
 }
 
@@ -146,7 +142,6 @@ type VPNInterfacesObservation struct {
 type VPNInterfacesParameters struct {
 
 	// The numeric ID of this VPN gateway interface.
-	// +kubebuilder:validation:Optional
 	ID *float64 `json:"id,omitempty" tf:"id,omitempty"`
 
 	// URL of the interconnect attachment resource. When the value
@@ -176,14 +171,6 @@ type HaVPNGatewaySpec struct {
 	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
 	// unless the relevant Crossplane feature flag is enabled, and may be
 	// changed or removed without notice.
-	// InitProvider holds the same fields as ForProvider, with the exception
-	// of Identifier and other resource reference fields. The fields that are
-	// in InitProvider are merged into ForProvider when the resource is created.
-	// The same fields are also added to the terraform ignore_changes hook, to
-	// avoid updating them after creation. This is useful for fields that are
-	// required on creation, but we do not desire to update them after creation,
-	// for example because of an external controller is managing them, like an
-	// autoscaler.
 	InitProvider HaVPNGatewayInitParameters `json:"initProvider,omitempty"`
 }
 

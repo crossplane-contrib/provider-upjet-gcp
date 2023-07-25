@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.0
+    controller-gen.kubebuilder.io/version: v0.12.1
   name: networkpeerings.compute.gcp.upbound.io
 spec:
   group: compute.gcp.upbound.io
@@ -241,6 +241,38 @@ spec:
                             type: string
                         type: object
                     type: object
+                  stackType:
+                    description: 'Which IP version(s) of traffic and routes are allowed
+                      to be imported or exported between peer networks. The default
+                      value is IPV4_ONLY. Possible values: ["IPV4_ONLY", "IPV4_IPV6"].'
+                    type: string
+                type: object
+              initProvider:
+                description: THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice.
+                properties:
+                  exportCustomRoutes:
+                    description: Whether to export the custom routes to the peer network.
+                      Defaults to false.
+                    type: boolean
+                  exportSubnetRoutesWithPublicIp:
+                    description: Whether subnet routes with public IP range are exported.
+                      The default value is true, all subnet routes are exported. The
+                      IPv4 special-use ranges (https://en.wikipedia.org/wiki/IPv4#Special_addresses)
+                      are always exported to peers and are not controlled by this
+                      field.
+                    type: boolean
+                  importCustomRoutes:
+                    description: Whether to import the custom routes from the peer
+                      network. Defaults to false.
+                    type: boolean
+                  importSubnetRoutesWithPublicIp:
+                    description: Whether subnet routes with public IP range are imported.
+                      The default value is false. The IPv4 special-use ranges (https://en.wikipedia.org/wiki/IPv4#Special_addresses)
+                      are always imported from peers and are not controlled by this
+                      field.
+                    type: boolean
                   stackType:
                     description: 'Which IP version(s) of traffic and routes are allowed
                       to be imported or exported between peer networks. The default

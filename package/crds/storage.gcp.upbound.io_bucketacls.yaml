@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.0
+    controller-gen.kubebuilder.io/version: v0.12.1
   name: bucketacls.storage.gcp.upbound.io
 spec:
   group: storage.gcp.upbound.io
@@ -143,6 +143,26 @@ spec:
                             type: string
                         type: object
                     type: object
+                  defaultAcl:
+                    description: Configure this ACL to be the default ACL.
+                    type: string
+                  predefinedAcl:
+                    description: The canned GCS ACL to apply. Must be set if role_entity
+                      is not.
+                    type: string
+                  roleEntity:
+                    description: List of role/entity pairs in the form ROLE:entity.
+                      See GCS Bucket ACL documentation  for more details. Must be
+                      set if predefined_acl is not.
+                    items:
+                      type: string
+                    type: array
+                type: object
+              initProvider:
+                description: THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice.
+                properties:
                   defaultAcl:
                     description: Configure this ACL to be the default ACL.
                     type: string

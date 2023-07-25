@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.0
+    controller-gen.kubebuilder.io/version: v0.12.1
   name: patchdeployments.osconfig.gcp.upbound.io
 spec:
   group: osconfig.gcp.upbound.io
@@ -98,8 +98,6 @@ spec:
                                   be present for a VM instance to be targeted by this
                                   filter
                                 type: object
-                            required:
-                            - labels
                             type: object
                           type: array
                         instanceNamePrefixes:
@@ -135,8 +133,6 @@ spec:
                             in RFC3339 UTC "Zulu" format, accurate to nanoseconds.
                             Example: "2014-10-02T15:01:23.045123456Z".'
                           type: string
-                      required:
-                      - executeTime
                       type: object
                     type: array
                   patchConfig:
@@ -179,8 +175,6 @@ spec:
                                 description: goo update settings. Use this setting
                                   to override the default goo patch rules.
                                 type: boolean
-                            required:
-                            - enabled
                             type: object
                           type: array
                         migInstancesAllowed:
@@ -224,10 +218,6 @@ spec:
                                             description: Name of the Cloud Storage
                                               object.
                                             type: string
-                                        required:
-                                        - bucket
-                                        - generationNumber
-                                        - object
                                         type: object
                                       type: array
                                     interpreter:
@@ -276,10 +266,6 @@ spec:
                                             description: Name of the Cloud Storage
                                               object.
                                             type: string
-                                        required:
-                                        - bucket
-                                        - generationNumber
-                                        - object
                                         type: object
                                       type: array
                                     interpreter:
@@ -335,10 +321,6 @@ spec:
                                             description: Name of the Cloud Storage
                                               object.
                                             type: string
-                                        required:
-                                        - bucket
-                                        - generationNumber
-                                        - object
                                         type: object
                                       type: array
                                     interpreter:
@@ -387,10 +369,6 @@ spec:
                                             description: Name of the Cloud Storage
                                               object.
                                             type: string
-                                        required:
-                                        - bucket
-                                        - generationNumber
-                                        - object
                                         type: object
                                       type: array
                                     interpreter:
@@ -562,9 +540,6 @@ spec:
                                         the 1st to 4th week of the month. -1 indicates
                                         the last week of the month.
                                       type: number
-                                  required:
-                                  - dayOfWeek
-                                  - weekOrdinal
                                   type: object
                                 type: array
                             type: object
@@ -615,8 +590,6 @@ spec:
                                 description: IANA Time Zone Database version number,
                                   e.g. "2019a".
                                 type: string
-                            required:
-                            - id
                             type: object
                           type: array
                         weekly:
@@ -630,13 +603,8 @@ spec:
                                   TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY,
                                   SUNDAY.'
                                 type: string
-                            required:
-                            - dayOfWeek
                             type: object
                           type: array
-                      required:
-                      - timeOfDay
-                      - timeZone
                       type: object
                     type: array
                   rollout:
@@ -684,9 +652,598 @@ spec:
                           description: 'Mode of the patch rollout. Possible values
                             are: ZONE_BY_ZONE, CONCURRENT_ZONES.'
                           type: string
-                      required:
-                      - disruptionBudget
-                      - mode
+                      type: object
+                    type: array
+                type: object
+              initProvider:
+                description: THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice.
+                properties:
+                  description:
+                    description: Description of the patch deployment. Length of the
+                      description is limited to 1024 characters.
+                    type: string
+                  duration:
+                    description: 'Duration of the patch. After the duration ends,
+                      the patch times out. A duration in seconds with up to nine fractional
+                      digits, terminated by ''s''. Example: "3.5s"'
+                    type: string
+                  instanceFilter:
+                    description: VM instances to patch. Structure is documented below.
+                    items:
+                      properties:
+                        all:
+                          description: Target all VM instances in the project. If
+                            true, no other criteria is permitted.
+                          type: boolean
+                        groupLabels:
+                          description: Targets VM instances matching ANY of these
+                            GroupLabels. This allows targeting of disparate groups
+                            of VM instances. Structure is documented below.
+                          items:
+                            properties:
+                              labels:
+                                additionalProperties:
+                                  type: string
+                                description: Compute Engine instance labels that must
+                                  be present for a VM instance to be targeted by this
+                                  filter
+                                type: object
+                            type: object
+                          type: array
+                        instanceNamePrefixes:
+                          description: Targets VMs whose name starts with one of these
+                            prefixes. Similar to labels, this is another way to group
+                            VMs when targeting configs, for example prefix="prod-".
+                          items:
+                            type: string
+                          type: array
+                        instances:
+                          description: Targets any of the VM instances specified.
+                            Instances are specified by their URI in the form zones/{{zone}}/instances/{{instance_name}},
+                            projects/{{project_id}}/zones/{{zone}}/instances/{{instance_name}},
+                            or https://www.googleapis.com/compute/v1/projects/{{project_id}}/zones/{{zone}}/instances/{{instance_name}}
+                          items:
+                            type: string
+                          type: array
+                        zones:
+                          description: Targets VM instances in ANY of these zones.
+                            Leave empty to target VM instances in any zone.
+                          items:
+                            type: string
+                          type: array
+                      type: object
+                    type: array
+                  oneTimeSchedule:
+                    description: Schedule a one-time execution. Structure is documented
+                      below.
+                    items:
+                      properties:
+                        executeTime:
+                          description: 'The desired patch job execution time. A timestamp
+                            in RFC3339 UTC "Zulu" format, accurate to nanoseconds.
+                            Example: "2014-10-02T15:01:23.045123456Z".'
+                          type: string
+                      type: object
+                    type: array
+                  patchConfig:
+                    description: Patch configuration that is applied. Structure is
+                      documented below.
+                    items:
+                      properties:
+                        apt:
+                          description: Apt update settings. Use this setting to override
+                            the default apt patch rules. Structure is documented below.
+                          items:
+                            properties:
+                              excludes:
+                                description: List of packages to exclude from update.
+                                items:
+                                  type: string
+                                type: array
+                              exclusivePackages:
+                                description: An exclusive list of packages to be updated.
+                                  These are the only packages that will be updated.
+                                  If these packages are not installed, they will be
+                                  ignored. This field cannot be specified with any
+                                  other patch configuration fields.
+                                items:
+                                  type: string
+                                type: array
+                              type:
+                                description: 'By changing the type to DIST, the patching
+                                  is performed using apt-get dist-upgrade instead.
+                                  Possible values are: DIST, UPGRADE.'
+                                type: string
+                            type: object
+                          type: array
+                        goo:
+                          description: goo update settings. Use this setting to override
+                            the default goo patch rules. Structure is documented below.
+                          items:
+                            properties:
+                              enabled:
+                                description: goo update settings. Use this setting
+                                  to override the default goo patch rules.
+                                type: boolean
+                            type: object
+                          type: array
+                        migInstancesAllowed:
+                          description: Allows the patch job to run on Managed instance
+                            groups (MIGs).
+                          type: boolean
+                        postStep:
+                          description: The ExecStep to run after the patch update.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              linuxExecStepConfig:
+                                description: The ExecStepConfig for all Linux VMs
+                                  targeted by the PatchJob. Structure is documented
+                                  below.
+                                items:
+                                  properties:
+                                    allowedSuccessCodes:
+                                      description: Defaults to [0]. A list of possible
+                                        return values that the execution can return
+                                        to indicate a success.
+                                      items:
+                                        type: number
+                                      type: array
+                                    gcsObject:
+                                      description: A Cloud Storage object containing
+                                        the executable. Structure is documented below.
+                                      items:
+                                        properties:
+                                          bucket:
+                                            description: Bucket of the Cloud Storage
+                                              object.
+                                            type: string
+                                          generationNumber:
+                                            description: Generation number of the
+                                              Cloud Storage object. This is used to
+                                              ensure that the ExecStep specified by
+                                              this PatchJob does not change.
+                                            type: string
+                                          object:
+                                            description: Name of the Cloud Storage
+                                              object.
+                                            type: string
+                                        type: object
+                                      type: array
+                                    interpreter:
+                                      description: 'The script interpreter to use
+                                        to run the script. If no interpreter is specified
+                                        the script will be executed directly, which
+                                        will likely only succeed for scripts with
+                                        shebang lines. Possible values are: SHELL,
+                                        POWERSHELL.'
+                                      type: string
+                                    localPath:
+                                      description: An absolute path to the executable
+                                        on the VM.
+                                      type: string
+                                  type: object
+                                type: array
+                              windowsExecStepConfig:
+                                description: The ExecStepConfig for all Windows VMs
+                                  targeted by the PatchJob. Structure is documented
+                                  below.
+                                items:
+                                  properties:
+                                    allowedSuccessCodes:
+                                      description: Defaults to [0]. A list of possible
+                                        return values that the execution can return
+                                        to indicate a success.
+                                      items:
+                                        type: number
+                                      type: array
+                                    gcsObject:
+                                      description: A Cloud Storage object containing
+                                        the executable. Structure is documented below.
+                                      items:
+                                        properties:
+                                          bucket:
+                                            description: Bucket of the Cloud Storage
+                                              object.
+                                            type: string
+                                          generationNumber:
+                                            description: Generation number of the
+                                              Cloud Storage object. This is used to
+                                              ensure that the ExecStep specified by
+                                              this PatchJob does not change.
+                                            type: string
+                                          object:
+                                            description: Name of the Cloud Storage
+                                              object.
+                                            type: string
+                                        type: object
+                                      type: array
+                                    interpreter:
+                                      description: 'The script interpreter to use
+                                        to run the script. If no interpreter is specified
+                                        the script will be executed directly, which
+                                        will likely only succeed for scripts with
+                                        shebang lines. Possible values are: SHELL,
+                                        POWERSHELL.'
+                                      type: string
+                                    localPath:
+                                      description: An absolute path to the executable
+                                        on the VM.
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                        preStep:
+                          description: The ExecStep to run before the patch update.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              linuxExecStepConfig:
+                                description: The ExecStepConfig for all Linux VMs
+                                  targeted by the PatchJob. Structure is documented
+                                  below.
+                                items:
+                                  properties:
+                                    allowedSuccessCodes:
+                                      description: Defaults to [0]. A list of possible
+                                        return values that the execution can return
+                                        to indicate a success.
+                                      items:
+                                        type: number
+                                      type: array
+                                    gcsObject:
+                                      description: A Cloud Storage object containing
+                                        the executable. Structure is documented below.
+                                      items:
+                                        properties:
+                                          bucket:
+                                            description: Bucket of the Cloud Storage
+                                              object.
+                                            type: string
+                                          generationNumber:
+                                            description: Generation number of the
+                                              Cloud Storage object. This is used to
+                                              ensure that the ExecStep specified by
+                                              this PatchJob does not change.
+                                            type: string
+                                          object:
+                                            description: Name of the Cloud Storage
+                                              object.
+                                            type: string
+                                        type: object
+                                      type: array
+                                    interpreter:
+                                      description: 'The script interpreter to use
+                                        to run the script. If no interpreter is specified
+                                        the script will be executed directly, which
+                                        will likely only succeed for scripts with
+                                        shebang lines. Possible values are: SHELL,
+                                        POWERSHELL.'
+                                      type: string
+                                    localPath:
+                                      description: An absolute path to the executable
+                                        on the VM.
+                                      type: string
+                                  type: object
+                                type: array
+                              windowsExecStepConfig:
+                                description: The ExecStepConfig for all Windows VMs
+                                  targeted by the PatchJob. Structure is documented
+                                  below.
+                                items:
+                                  properties:
+                                    allowedSuccessCodes:
+                                      description: Defaults to [0]. A list of possible
+                                        return values that the execution can return
+                                        to indicate a success.
+                                      items:
+                                        type: number
+                                      type: array
+                                    gcsObject:
+                                      description: A Cloud Storage object containing
+                                        the executable. Structure is documented below.
+                                      items:
+                                        properties:
+                                          bucket:
+                                            description: Bucket of the Cloud Storage
+                                              object.
+                                            type: string
+                                          generationNumber:
+                                            description: Generation number of the
+                                              Cloud Storage object. This is used to
+                                              ensure that the ExecStep specified by
+                                              this PatchJob does not change.
+                                            type: string
+                                          object:
+                                            description: Name of the Cloud Storage
+                                              object.
+                                            type: string
+                                        type: object
+                                      type: array
+                                    interpreter:
+                                      description: 'The script interpreter to use
+                                        to run the script. If no interpreter is specified
+                                        the script will be executed directly, which
+                                        will likely only succeed for scripts with
+                                        shebang lines. Possible values are: SHELL,
+                                        POWERSHELL.'
+                                      type: string
+                                    localPath:
+                                      description: An absolute path to the executable
+                                        on the VM.
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                        rebootConfig:
+                          description: 'Post-patch reboot settings. Possible values
+                            are: DEFAULT, ALWAYS, NEVER.'
+                          type: string
+                        windowsUpdate:
+                          description: Windows update settings. Use this setting to
+                            override the default Windows patch rules. Structure is
+                            documented below.
+                          items:
+                            properties:
+                              classifications:
+                                description: 'Only apply updates of these windows
+                                  update classifications. If empty, all updates are
+                                  applied. Each value may be one of: CRITICAL, SECURITY,
+                                  DEFINITION, DRIVER, FEATURE_PACK, SERVICE_PACK,
+                                  TOOL, UPDATE_ROLLUP, UPDATE.'
+                                items:
+                                  type: string
+                                type: array
+                              excludes:
+                                description: List of packages to exclude from update.
+                                items:
+                                  type: string
+                                type: array
+                              exclusivePatches:
+                                description: An exclusive list of patches to be updated.
+                                  These are the only patches that will be installed
+                                  using 'zypper patch patch:' command. This field
+                                  must not be used with any other patch configuration
+                                  fields.
+                                items:
+                                  type: string
+                                type: array
+                            type: object
+                          type: array
+                        yum:
+                          description: Yum update settings. Use this setting to override
+                            the default yum patch rules. Structure is documented below.
+                          items:
+                            properties:
+                              excludes:
+                                description: List of packages to exclude from update.
+                                items:
+                                  type: string
+                                type: array
+                              exclusivePackages:
+                                description: An exclusive list of packages to be updated.
+                                  These are the only packages that will be updated.
+                                  If these packages are not installed, they will be
+                                  ignored. This field cannot be specified with any
+                                  other patch configuration fields.
+                                items:
+                                  type: string
+                                type: array
+                              minimal:
+                                description: Will cause patch to run yum update-minimal
+                                  instead.
+                                type: boolean
+                              security:
+                                description: Adds the --security flag to yum update.
+                                  Not supported on all platforms.
+                                type: boolean
+                            type: object
+                          type: array
+                        zypper:
+                          description: zypper update settings. Use this setting to
+                            override the default zypper patch rules. Structure is
+                            documented below.
+                          items:
+                            properties:
+                              categories:
+                                description: Install only patches with these categories.
+                                  Common categories include security, recommended,
+                                  and feature.
+                                items:
+                                  type: string
+                                type: array
+                              excludes:
+                                description: List of packages to exclude from update.
+                                items:
+                                  type: string
+                                type: array
+                              exclusivePatches:
+                                description: An exclusive list of patches to be updated.
+                                  These are the only patches that will be installed
+                                  using 'zypper patch patch:' command. This field
+                                  must not be used with any other patch configuration
+                                  fields.
+                                items:
+                                  type: string
+                                type: array
+                              severities:
+                                description: Install only patches with these severities.
+                                  Common severities include critical, important, moderate,
+                                  and low.
+                                items:
+                                  type: string
+                                type: array
+                              withOptional:
+                                description: Adds the --with-optional flag to zypper
+                                  patch.
+                                type: boolean
+                              withUpdate:
+                                description: Adds the --with-update flag, to zypper
+                                  patch.
+                                type: boolean
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  recurringSchedule:
+                    description: Schedule recurring executions. Structure is documented
+                      below.
+                    items:
+                      properties:
+                        endTime:
+                          description: 'The end time at which a recurring patch deployment
+                            schedule is no longer active. A timestamp in RFC3339 UTC
+                            "Zulu" format, accurate to nanoseconds. Example: "2014-10-02T15:01:23.045123456Z".'
+                          type: string
+                        monthly:
+                          description: Schedule with monthly executions. Structure
+                            is documented below.
+                          items:
+                            properties:
+                              monthDay:
+                                description: One day of the month. 1-31 indicates
+                                  the 1st to the 31st day. -1 indicates the last day
+                                  of the month. Months without the target day will
+                                  be skipped. For example, a schedule to run "every
+                                  month on the 31st" will not run in February, April,
+                                  June, etc.
+                                type: number
+                              weekDayOfMonth:
+                                description: Week day in a month. Structure is documented
+                                  below.
+                                items:
+                                  properties:
+                                    dayOfWeek:
+                                      description: 'IANA Time Zone Database time zone,
+                                        e.g. "America/New_York". Possible values are:
+                                        MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY,
+                                        SATURDAY, SUNDAY.'
+                                      type: string
+                                    weekOrdinal:
+                                      description: Week number in a month. 1-4 indicates
+                                        the 1st to 4th week of the month. -1 indicates
+                                        the last week of the month.
+                                      type: number
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                        startTime:
+                          description: 'The time that the recurring schedule becomes
+                            effective. Defaults to createTime of the patch deployment.
+                            A timestamp in RFC3339 UTC "Zulu" format, accurate to
+                            nanoseconds. Example: "2014-10-02T15:01:23.045123456Z".'
+                          type: string
+                        timeOfDay:
+                          description: Time of the day to run a recurring deployment.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              hours:
+                                description: Hours of day in 24 hour format. Should
+                                  be from 0 to 23. An API may choose to allow the
+                                  value "24:00:00" for scenarios like business closing
+                                  time.
+                                type: number
+                              minutes:
+                                description: Minutes of hour of day. Must be from
+                                  0 to 59.
+                                type: number
+                              nanos:
+                                description: Fractions of seconds in nanoseconds.
+                                  Must be from 0 to 999,999,999.
+                                type: number
+                              seconds:
+                                description: Seconds of minutes of the time. Must
+                                  normally be from 0 to 59. An API may allow the value
+                                  60 if it allows leap-seconds.
+                                type: number
+                            type: object
+                          type: array
+                        timeZone:
+                          description: Defines the time zone that timeOfDay is relative
+                            to. The rules for daylight saving time are determined
+                            by the chosen time zone. Structure is documented below.
+                          items:
+                            properties:
+                              id:
+                                description: IANA Time Zone Database time zone, e.g.
+                                  "America/New_York".
+                                type: string
+                              version:
+                                description: IANA Time Zone Database version number,
+                                  e.g. "2019a".
+                                type: string
+                            type: object
+                          type: array
+                        weekly:
+                          description: Schedule with weekly executions. Structure
+                            is documented below.
+                          items:
+                            properties:
+                              dayOfWeek:
+                                description: 'IANA Time Zone Database time zone, e.g.
+                                  "America/New_York". Possible values are: MONDAY,
+                                  TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY,
+                                  SUNDAY.'
+                                type: string
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  rollout:
+                    description: Rollout strategy of the patch job. Structure is documented
+                      below.
+                    items:
+                      properties:
+                        disruptionBudget:
+                          description: The maximum number (or percentage) of VMs per
+                            zone to disrupt at any given moment. The number of VMs
+                            calculated from multiplying the percentage by the total
+                            number of VMs in a zone is rounded up. During patching,
+                            a VM is considered disrupted from the time the agent is
+                            notified to begin until patching has completed. This disruption
+                            time includes the time to complete reboot and any post-patch
+                            steps. A VM contributes to the disruption budget if its
+                            patching operation fails either when applying the patches,
+                            running pre or post patch steps, or if it fails to respond
+                            with a success notification before timing out. VMs that
+                            are not running or do not have an active agent do not
+                            count toward this disruption budget. For zone-by-zone
+                            rollouts, if the disruption budget in a zone is exceeded,
+                            the patch job stops, because continuing to the next zone
+                            requires completion of the patch process in the previous
+                            zone. For example, if the disruption budget has a fixed
+                            value of 10, and 8 VMs fail to patch in the current zone,
+                            the patch job continues to patch 2 VMs at a time until
+                            the zone is completed. When that zone is completed successfully,
+                            patching begins with 10 VMs at a time in the next zone.
+                            If 10 VMs in the next zone fail to patch, the patch job
+                            stops. Structure is documented below.
+                          items:
+                            properties:
+                              fixed:
+                                description: Specifies a fixed value.
+                                type: number
+                              percentage:
+                                description: Specifies the relative value defined
+                                  as a percentage, which will be multiplied by a reference
+                                  value.
+                                type: number
+                            type: object
+                          type: array
+                        mode:
+                          description: 'Mode of the patch rollout. Possible values
+                            are: ZONE_BY_ZONE, CONCURRENT_ZONES.'
+                          type: string
                       type: object
                     type: array
                 type: object
@@ -890,7 +1447,8 @@ spec:
             x-kubernetes-validations:
             - message: instanceFilter is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.instanceFilter)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.instanceFilter)
+                || has(self.initProvider.instanceFilter)'
           status:
             description: PatchDeploymentStatus defines the observed state of PatchDeployment.
             properties:

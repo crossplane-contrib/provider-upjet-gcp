@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.0
+    controller-gen.kubebuilder.io/version: v0.12.1
   name: projects.cloudplatform.gcp.upbound.io
 spec:
   group: cloudplatform.gcp.upbound.io
@@ -162,6 +162,48 @@ spec:
                             type: string
                         type: object
                     type: object
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: A set of key/value label pairs to assign to the project.
+                    type: object
+                  name:
+                    description: The display name of the project.
+                    type: string
+                  orgId:
+                    description: The numeric ID of the organization this project belongs
+                      to. Changing this forces a new project to be created.  Only
+                      one of org_id or folder_id may be specified. If the org_id is
+                      specified then the project is created at the top level. Changing
+                      this forces the project to be migrated to the newly specified
+                      organization. The numeric ID of the organization this project
+                      belongs to.
+                    type: string
+                  projectId:
+                    description: The project ID. Changing this forces a new project
+                      to be created.
+                    type: string
+                  skipDelete:
+                    type: boolean
+                type: object
+              initProvider:
+                description: THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice.
+                properties:
+                  autoCreateNetwork:
+                    description: Controls whether the 'default' network exists on
+                      the project. Defaults to true, where it is created. Therefore,
+                      for quota purposes, you will still need to have 1 network slot
+                      available to create the project successfully, even if you set
+                      auto_create_network to false.googleapis.com on the project to
+                      interact with the GCE API and currently leaves it enabled.
+                    type: boolean
+                  billingAccount:
+                    description: The alphanumeric ID of the billing account this project
+                      belongs to.user) on the billing account. See Google Cloud Billing
+                      API Access Control for more details.
+                    type: string
                   labels:
                     additionalProperties:
                       type: string
@@ -386,10 +428,12 @@ spec:
             x-kubernetes-validations:
             - message: name is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.name)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.name)
+                || has(self.initProvider.name)'
             - message: projectId is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.projectId)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.projectId)
+                || has(self.initProvider.projectId)'
           status:
             description: ProjectStatus defines the observed state of Project.
             properties:

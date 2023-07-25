@@ -25,10 +25,53 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type BigqueryProfileInitParameters struct {
+}
+
 type BigqueryProfileObservation struct {
 }
 
 type BigqueryProfileParameters struct {
+}
+
+type ConnectionProfileInitParameters struct {
+
+	// BigQuery warehouse profile.
+	BigqueryProfile []BigqueryProfileInitParameters `json:"bigqueryProfile,omitempty" tf:"bigquery_profile,omitempty"`
+
+	// Display name.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// Forward SSH tunnel connectivity.
+	// Structure is documented below.
+	ForwardSSHConnectivity []ForwardSSHConnectivityInitParameters `json:"forwardSshConnectivity,omitempty" tf:"forward_ssh_connectivity,omitempty"`
+
+	// Cloud Storage bucket profile.
+	// Structure is documented below.
+	GcsProfile []GcsProfileInitParameters `json:"gcsProfile,omitempty" tf:"gcs_profile,omitempty"`
+
+	// Labels.
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// MySQL database profile.
+	// Structure is documented below.
+	MySQLProfile []MySQLProfileInitParameters `json:"mysqlProfile,omitempty" tf:"mysql_profile,omitempty"`
+
+	// Oracle database profile.
+	// Structure is documented below.
+	OracleProfile []OracleProfileInitParameters `json:"oracleProfile,omitempty" tf:"oracle_profile,omitempty"`
+
+	// PostgreSQL database profile.
+	// Structure is documented below.
+	PostgresqlProfile []PostgresqlProfileInitParameters `json:"postgresqlProfile,omitempty" tf:"postgresql_profile,omitempty"`
+
+	// Private connectivity.
+	// Structure is documented below.
+	PrivateConnectivity []PrivateConnectivityInitParameters `json:"privateConnectivity,omitempty" tf:"private_connectivity,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 
 type ConnectionProfileObservation struct {
@@ -83,25 +126,20 @@ type ConnectionProfileObservation struct {
 type ConnectionProfileParameters struct {
 
 	// BigQuery warehouse profile.
-	// +kubebuilder:validation:Optional
 	BigqueryProfile []BigqueryProfileParameters `json:"bigqueryProfile,omitempty" tf:"bigquery_profile,omitempty"`
 
 	// Display name.
-	// +kubebuilder:validation:Optional
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// Forward SSH tunnel connectivity.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	ForwardSSHConnectivity []ForwardSSHConnectivityParameters `json:"forwardSshConnectivity,omitempty" tf:"forward_ssh_connectivity,omitempty"`
 
 	// Cloud Storage bucket profile.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	GcsProfile []GcsProfileParameters `json:"gcsProfile,omitempty" tf:"gcs_profile,omitempty"`
 
 	// Labels.
-	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The name of the location this connection profile is located in.
@@ -110,28 +148,35 @@ type ConnectionProfileParameters struct {
 
 	// MySQL database profile.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	MySQLProfile []MySQLProfileParameters `json:"mysqlProfile,omitempty" tf:"mysql_profile,omitempty"`
 
 	// Oracle database profile.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	OracleProfile []OracleProfileParameters `json:"oracleProfile,omitempty" tf:"oracle_profile,omitempty"`
 
 	// PostgreSQL database profile.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	PostgresqlProfile []PostgresqlProfileParameters `json:"postgresqlProfile,omitempty" tf:"postgresql_profile,omitempty"`
 
 	// Private connectivity.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	PrivateConnectivity []PrivateConnectivityParameters `json:"privateConnectivity,omitempty" tf:"private_connectivity,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
-	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+}
+
+type ForwardSSHConnectivityInitParameters struct {
+
+	// Hostname for the SSH tunnel.
+	Hostname *string `json:"hostname,omitempty" tf:"hostname,omitempty"`
+
+	// Port for the SSH tunnel.
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+
+	// Username for the SSH tunnel.
+	Username *string `json:"username,omitempty" tf:"username,omitempty"`
 }
 
 type ForwardSSHConnectivityObservation struct {
@@ -149,26 +194,30 @@ type ForwardSSHConnectivityObservation struct {
 type ForwardSSHConnectivityParameters struct {
 
 	// Hostname for the SSH tunnel.
-	// +kubebuilder:validation:Required
-	Hostname *string `json:"hostname" tf:"hostname,omitempty"`
+	Hostname *string `json:"hostname,omitempty" tf:"hostname,omitempty"`
 
 	// SSH password.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	// +kubebuilder:validation:Optional
 	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
 	// Port for the SSH tunnel.
-	// +kubebuilder:validation:Optional
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
 
 	// SSH private key.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	// +kubebuilder:validation:Optional
 	PrivateKeySecretRef *v1.SecretKeySelector `json:"privateKeySecretRef,omitempty" tf:"-"`
 
 	// Username for the SSH tunnel.
-	// +kubebuilder:validation:Required
-	Username *string `json:"username" tf:"username,omitempty"`
+	Username *string `json:"username,omitempty" tf:"username,omitempty"`
+}
+
+type GcsProfileInitParameters struct {
+
+	// The Cloud Storage bucket name.
+	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
+
+	// The root path inside the Cloud Storage bucket.
+	RootPath *string `json:"rootPath,omitempty" tf:"root_path,omitempty"`
 }
 
 type GcsProfileObservation struct {
@@ -183,12 +232,26 @@ type GcsProfileObservation struct {
 type GcsProfileParameters struct {
 
 	// The Cloud Storage bucket name.
-	// +kubebuilder:validation:Required
-	Bucket *string `json:"bucket" tf:"bucket,omitempty"`
+	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
 
 	// The root path inside the Cloud Storage bucket.
-	// +kubebuilder:validation:Optional
 	RootPath *string `json:"rootPath,omitempty" tf:"root_path,omitempty"`
+}
+
+type MySQLProfileInitParameters struct {
+
+	// Hostname for the MySQL connection.
+	Hostname *string `json:"hostname,omitempty" tf:"hostname,omitempty"`
+
+	// Port for the MySQL connection.
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+
+	// SSL configuration for the MySQL connection.
+	// Structure is documented below.
+	SSLConfig []SSLConfigInitParameters `json:"sslConfig,omitempty" tf:"ssl_config,omitempty"`
+
+	// Username for the MySQL connection.
+	Username *string `json:"username,omitempty" tf:"username,omitempty"`
 }
 
 type MySQLProfileObservation struct {
@@ -210,26 +273,39 @@ type MySQLProfileObservation struct {
 type MySQLProfileParameters struct {
 
 	// Hostname for the MySQL connection.
-	// +kubebuilder:validation:Required
-	Hostname *string `json:"hostname" tf:"hostname,omitempty"`
+	Hostname *string `json:"hostname,omitempty" tf:"hostname,omitempty"`
 
 	// Password for the MySQL connection.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	// +kubebuilder:validation:Required
 	PasswordSecretRef v1.SecretKeySelector `json:"passwordSecretRef" tf:"-"`
 
 	// Port for the MySQL connection.
-	// +kubebuilder:validation:Optional
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
 
 	// SSL configuration for the MySQL connection.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	SSLConfig []SSLConfigParameters `json:"sslConfig,omitempty" tf:"ssl_config,omitempty"`
 
 	// Username for the MySQL connection.
-	// +kubebuilder:validation:Required
-	Username *string `json:"username" tf:"username,omitempty"`
+	Username *string `json:"username,omitempty" tf:"username,omitempty"`
+}
+
+type OracleProfileInitParameters struct {
+
+	// Connection string attributes
+	ConnectionAttributes map[string]*string `json:"connectionAttributes,omitempty" tf:"connection_attributes,omitempty"`
+
+	// Database for the Oracle connection.
+	DatabaseService *string `json:"databaseService,omitempty" tf:"database_service,omitempty"`
+
+	// Hostname for the Oracle connection.
+	Hostname *string `json:"hostname,omitempty" tf:"hostname,omitempty"`
+
+	// Port for the Oracle connection.
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+
+	// Username for the Oracle connection.
+	Username *string `json:"username,omitempty" tf:"username,omitempty"`
 }
 
 type OracleProfileObservation struct {
@@ -253,29 +329,29 @@ type OracleProfileObservation struct {
 type OracleProfileParameters struct {
 
 	// Connection string attributes
-	// +kubebuilder:validation:Optional
 	ConnectionAttributes map[string]*string `json:"connectionAttributes,omitempty" tf:"connection_attributes,omitempty"`
 
 	// Database for the Oracle connection.
-	// +kubebuilder:validation:Required
-	DatabaseService *string `json:"databaseService" tf:"database_service,omitempty"`
+	DatabaseService *string `json:"databaseService,omitempty" tf:"database_service,omitempty"`
 
 	// Hostname for the Oracle connection.
-	// +kubebuilder:validation:Required
-	Hostname *string `json:"hostname" tf:"hostname,omitempty"`
+	Hostname *string `json:"hostname,omitempty" tf:"hostname,omitempty"`
 
 	// Password for the Oracle connection.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	// +kubebuilder:validation:Required
 	PasswordSecretRef v1.SecretKeySelector `json:"passwordSecretRef" tf:"-"`
 
 	// Port for the Oracle connection.
-	// +kubebuilder:validation:Optional
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
 
 	// Username for the Oracle connection.
-	// +kubebuilder:validation:Required
-	Username *string `json:"username" tf:"username,omitempty"`
+	Username *string `json:"username,omitempty" tf:"username,omitempty"`
+}
+
+type PostgresqlProfileInitParameters struct {
+
+	// Port for the PostgreSQL connection.
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
 }
 
 type PostgresqlProfileObservation struct {
@@ -324,11 +400,9 @@ type PostgresqlProfileParameters struct {
 
 	// Password for the PostgreSQL connection.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	// +kubebuilder:validation:Required
 	PasswordSecretRef v1.SecretKeySelector `json:"passwordSecretRef" tf:"-"`
 
 	// Port for the PostgreSQL connection.
-	// +kubebuilder:validation:Optional
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
 
 	// Username for the PostgreSQL connection.
@@ -343,6 +417,9 @@ type PostgresqlProfileParameters struct {
 	// Selector for a User in sql to populate username.
 	// +kubebuilder:validation:Optional
 	UsernameSelector *v1.Selector `json:"usernameSelector,omitempty" tf:"-"`
+}
+
+type PrivateConnectivityInitParameters struct {
 }
 
 type PrivateConnectivityObservation struct {
@@ -368,6 +445,9 @@ type PrivateConnectivityParameters struct {
 	PrivateConnectionSelector *v1.Selector `json:"privateConnectionSelector,omitempty" tf:"-"`
 }
 
+type SSLConfigInitParameters struct {
+}
+
 type SSLConfigObservation struct {
 
 	// (Output)
@@ -388,7 +468,6 @@ type SSLConfigParameters struct {
 	// PEM-encoded certificate of the CA that signed the source database
 	// server's certificate.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	// +kubebuilder:validation:Optional
 	CACertificateSecretRef *v1.SecretKeySelector `json:"caCertificateSecretRef,omitempty" tf:"-"`
 
 	// PEM-encoded certificate that will be used by the replica to
@@ -396,14 +475,12 @@ type SSLConfigParameters struct {
 	// is used then the 'clientKey' and the 'caCertificate' fields are
 	// mandatory.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	// +kubebuilder:validation:Optional
 	ClientCertificateSecretRef *v1.SecretKeySelector `json:"clientCertificateSecretRef,omitempty" tf:"-"`
 
 	// PEM-encoded private key associated with the Client Certificate.
 	// If this field is used then the 'client_certificate' and the
 	// 'ca_certificate' fields are mandatory.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	// +kubebuilder:validation:Optional
 	ClientKeySecretRef *v1.SecretKeySelector `json:"clientKeySecretRef,omitempty" tf:"-"`
 }
 
@@ -411,6 +488,10 @@ type SSLConfigParameters struct {
 type ConnectionProfileSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     ConnectionProfileParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	InitProvider ConnectionProfileInitParameters `json:"initProvider,omitempty"`
 }
 
 // ConnectionProfileStatus defines the observed state of ConnectionProfile.
@@ -431,7 +512,7 @@ type ConnectionProfileStatus struct {
 type ConnectionProfile struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.displayName)",message="displayName is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.displayName) || has(self.initProvider.displayName)",message="displayName is a required parameter"
 	Spec   ConnectionProfileSpec   `json:"spec"`
 	Status ConnectionProfileStatus `json:"status,omitempty"`
 }

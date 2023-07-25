@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.0
+    controller-gen.kubebuilder.io/version: v0.12.1
   name: topiciammembers.pubsub.gcp.upbound.io
 spec:
   group: pubsub.gcp.upbound.io
@@ -76,9 +76,6 @@ spec:
                           type: string
                         title:
                           type: string
-                      required:
-                      - expression
-                      - title
                       type: object
                     type: array
                   member:
@@ -162,6 +159,29 @@ spec:
                             type: string
                         type: object
                     type: object
+                type: object
+              initProvider:
+                description: THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice.
+                properties:
+                  condition:
+                    items:
+                      properties:
+                        description:
+                          type: string
+                        expression:
+                          type: string
+                        title:
+                          type: string
+                      type: object
+                    type: array
+                  member:
+                    type: string
+                  project:
+                    type: string
+                  role:
+                    type: string
                 type: object
               managementPolicies:
                 default:
@@ -363,10 +383,12 @@ spec:
             x-kubernetes-validations:
             - message: member is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.member)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.member)
+                || has(self.initProvider.member)'
             - message: role is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.role)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.role)
+                || has(self.initProvider.role)'
           status:
             description: TopicIAMMemberStatus defines the observed state of TopicIAMMember.
             properties:

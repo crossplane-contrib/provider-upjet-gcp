@@ -25,6 +25,23 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type ProjectServiceInitParameters struct {
+
+	// If true, services that are enabled
+	// and which depend on this service should also be disabled when this service is
+	// destroyed. If false or unset, an error will be generated if any enabled
+	// services depend on this service when destroying it.
+	DisableDependentServices *bool `json:"disableDependentServices,omitempty" tf:"disable_dependent_services,omitempty"`
+
+	// Defaults to true. May be useful in the event
+	// that a project is long-lived but the infrastructure running in that project
+	// changes frequently.
+	DisableOnDestroy *bool `json:"disableOnDestroy,omitempty" tf:"disable_on_destroy,omitempty"`
+
+	// The service to enable.
+	Service *string `json:"service,omitempty" tf:"service,omitempty"`
+}
+
 type ProjectServiceObservation struct {
 
 	// If true, services that are enabled
@@ -55,13 +72,11 @@ type ProjectServiceParameters struct {
 	// and which depend on this service should also be disabled when this service is
 	// destroyed. If false or unset, an error will be generated if any enabled
 	// services depend on this service when destroying it.
-	// +kubebuilder:validation:Optional
 	DisableDependentServices *bool `json:"disableDependentServices,omitempty" tf:"disable_dependent_services,omitempty"`
 
 	// Defaults to true. May be useful in the event
 	// that a project is long-lived but the infrastructure running in that project
 	// changes frequently.
-	// +kubebuilder:validation:Optional
 	DisableOnDestroy *bool `json:"disableOnDestroy,omitempty" tf:"disable_on_destroy,omitempty"`
 
 	// The project ID. If not provided, the provider project
@@ -79,7 +94,6 @@ type ProjectServiceParameters struct {
 	ProjectSelector *v1.Selector `json:"projectSelector,omitempty" tf:"-"`
 
 	// The service to enable.
-	// +kubebuilder:validation:Optional
 	Service *string `json:"service,omitempty" tf:"service,omitempty"`
 }
 
@@ -87,6 +101,10 @@ type ProjectServiceParameters struct {
 type ProjectServiceSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     ProjectServiceParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	InitProvider ProjectServiceInitParameters `json:"initProvider,omitempty"`
 }
 
 // ProjectServiceStatus defines the observed state of ProjectService.
@@ -107,7 +125,7 @@ type ProjectServiceStatus struct {
 type ProjectService struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.service)",message="service is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.service) || has(self.initProvider.service)",message="service is a required parameter"
 	Spec   ProjectServiceSpec   `json:"spec"`
 	Status ProjectServiceStatus `json:"status,omitempty"`
 }

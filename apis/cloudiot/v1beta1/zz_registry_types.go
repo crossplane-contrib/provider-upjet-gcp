@@ -25,6 +25,16 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type EventNotificationConfigsInitParameters struct {
+
+	// If the subfolder name matches this string exactly, this
+	// configuration will be used. The string must not include the
+	// leading '/' character. If empty, all strings are matched. Empty
+	// value can only be used for the last event_notification_configs
+	// item.
+	SubfolderMatches *string `json:"subfolderMatches,omitempty" tf:"subfolder_matches,omitempty"`
+}
+
 type EventNotificationConfigsObservation struct {
 
 	// PubSub topic name to publish device events.
@@ -59,8 +69,13 @@ type EventNotificationConfigsParameters struct {
 	// leading '/' character. If empty, all strings are matched. Empty
 	// value can only be used for the last event_notification_configs
 	// item.
-	// +kubebuilder:validation:Optional
 	SubfolderMatches *string `json:"subfolderMatches,omitempty" tf:"subfolder_matches,omitempty"`
+}
+
+type RegistryCredentialsInitParameters struct {
+
+	// A public key certificate format and data.
+	PublicKeyCertificate map[string]string `json:"publicKeyCertificate,omitempty" tf:"public_key_certificate,omitempty"`
 }
 
 type RegistryCredentialsObservation struct {
@@ -72,8 +87,51 @@ type RegistryCredentialsObservation struct {
 type RegistryCredentialsParameters struct {
 
 	// A public key certificate format and data.
-	// +kubebuilder:validation:Required
-	PublicKeyCertificate map[string]string `json:"publicKeyCertificate" tf:"public_key_certificate,omitempty"`
+	PublicKeyCertificate map[string]string `json:"publicKeyCertificate,omitempty" tf:"public_key_certificate,omitempty"`
+}
+
+type RegistryInitParameters struct {
+
+	// List of public key certificates to authenticate devices.
+	// The structure is documented below.
+	Credentials []RegistryCredentialsInitParameters `json:"credentials,omitempty" tf:"credentials,omitempty"`
+
+	// List of configurations for event notifications, such as PubSub topics
+	// to publish device events to.
+	// Structure is documented below.
+	EventNotificationConfigs []EventNotificationConfigsInitParameters `json:"eventNotificationConfigs,omitempty" tf:"event_notification_configs,omitempty"`
+
+	// Activate or deactivate HTTP.
+	// The structure is documented below.
+	HTTPConfig map[string]string `json:"httpConfig,omitempty" tf:"http_config,omitempty"`
+
+	// The default logging verbosity for activity from devices in this
+	// registry. Specifies which events should be written to logs. For
+	// example, if the LogLevel is ERROR, only events that terminate in
+	// errors will be logged. LogLevel is inclusive; enabling INFO logging
+	// will also enable ERROR logging.
+	// Default value is NONE.
+	// Possible values are: NONE, ERROR, INFO, DEBUG.
+	LogLevel *string `json:"logLevel,omitempty" tf:"log_level,omitempty"`
+
+	// Activate or deactivate MQTT.
+	// The structure is documented below.
+	MqttConfig map[string]string `json:"mqttConfig,omitempty" tf:"mqtt_config,omitempty"`
+
+	// A unique name for the resource, required by device registry.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The region in which the created registry should reside.
+	// If it is not provided, the provider region is used.
+	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+
+	// A PubSub topic to publish device state updates.
+	// The structure is documented below.
+	StateNotificationConfig map[string]string `json:"stateNotificationConfig,omitempty" tf:"state_notification_config,omitempty"`
 }
 
 type RegistryObservation struct {
@@ -127,18 +185,15 @@ type RegistryParameters struct {
 
 	// List of public key certificates to authenticate devices.
 	// The structure is documented below.
-	// +kubebuilder:validation:Optional
 	Credentials []RegistryCredentialsParameters `json:"credentials,omitempty" tf:"credentials,omitempty"`
 
 	// List of configurations for event notifications, such as PubSub topics
 	// to publish device events to.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	EventNotificationConfigs []EventNotificationConfigsParameters `json:"eventNotificationConfigs,omitempty" tf:"event_notification_configs,omitempty"`
 
 	// Activate or deactivate HTTP.
 	// The structure is documented below.
-	// +kubebuilder:validation:Optional
 	HTTPConfig map[string]string `json:"httpConfig,omitempty" tf:"http_config,omitempty"`
 
 	// The default logging verbosity for activity from devices in this
@@ -148,31 +203,25 @@ type RegistryParameters struct {
 	// will also enable ERROR logging.
 	// Default value is NONE.
 	// Possible values are: NONE, ERROR, INFO, DEBUG.
-	// +kubebuilder:validation:Optional
 	LogLevel *string `json:"logLevel,omitempty" tf:"log_level,omitempty"`
 
 	// Activate or deactivate MQTT.
 	// The structure is documented below.
-	// +kubebuilder:validation:Optional
 	MqttConfig map[string]string `json:"mqttConfig,omitempty" tf:"mqtt_config,omitempty"`
 
 	// A unique name for the resource, required by device registry.
-	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
-	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The region in which the created registry should reside.
 	// If it is not provided, the provider region is used.
-	// +kubebuilder:validation:Optional
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
 	// A PubSub topic to publish device state updates.
 	// The structure is documented below.
-	// +kubebuilder:validation:Optional
 	StateNotificationConfig map[string]string `json:"stateNotificationConfig,omitempty" tf:"state_notification_config,omitempty"`
 }
 
@@ -180,6 +229,10 @@ type RegistryParameters struct {
 type RegistrySpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     RegistryParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	InitProvider RegistryInitParameters `json:"initProvider,omitempty"`
 }
 
 // RegistryStatus defines the observed state of Registry.
@@ -200,7 +253,7 @@ type RegistryStatus struct {
 type Registry struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.name)",message="name is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.name) || has(self.initProvider.name)",message="name is a required parameter"
 	Spec   RegistrySpec   `json:"spec"`
 	Status RegistryStatus `json:"status,omitempty"`
 }

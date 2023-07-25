@@ -107,20 +107,16 @@ type GlobalAddressParameters struct {
 	// The IP address or beginning of the address range represented by this
 	// resource. This can be supplied as an input to reserve a specific
 	// address or omitted to allow GCP to choose a valid one for you.
-	// +kubebuilder:validation:Optional
 	Address *string `json:"address,omitempty" tf:"address,omitempty"`
 
 	// The type of the address to reserve.
-	// +kubebuilder:validation:Optional
 	AddressType *string `json:"addressType,omitempty" tf:"address_type,omitempty"`
 
 	// An optional description of this resource.
-	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// The IP Version that will be used by this address. The default value is IPV4.
 	// Possible values are: IPV4, IPV6.
-	// +kubebuilder:validation:Optional
 	IPVersion *string `json:"ipVersion,omitempty" tf:"ip_version,omitempty"`
 
 	// The URL of the network in which to reserve the IP range. The IP range
@@ -144,16 +140,13 @@ type GlobalAddressParameters struct {
 	// address field is a single IP address.
 	// This field is not applicable to addresses with addressType=EXTERNAL,
 	// or addressType=INTERNAL when purpose=PRIVATE_SERVICE_CONNECT
-	// +kubebuilder:validation:Optional
 	PrefixLength *float64 `json:"prefixLength,omitempty" tf:"prefix_length,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
-	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The purpose of the resource. Possible values include:
-	// +kubebuilder:validation:Optional
 	Purpose *string `json:"purpose,omitempty" tf:"purpose,omitempty"`
 }
 
@@ -164,14 +157,6 @@ type GlobalAddressSpec struct {
 	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
 	// unless the relevant Crossplane feature flag is enabled, and may be
 	// changed or removed without notice.
-	// InitProvider holds the same fields as ForProvider, with the exception
-	// of Identifier and other resource reference fields. The fields that are
-	// in InitProvider are merged into ForProvider when the resource is created.
-	// The same fields are also added to the terraform ignore_changes hook, to
-	// avoid updating them after creation. This is useful for fields that are
-	// required on creation, but we do not desire to update them after creation,
-	// for example because of an external controller is managing them, like an
-	// autoscaler.
 	InitProvider GlobalAddressInitParameters `json:"initProvider,omitempty"`
 }
 

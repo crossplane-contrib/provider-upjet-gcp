@@ -25,6 +25,28 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type EntryFulfillmentInitParameters struct {
+
+	// The list of rich message responses to present to the user.
+	// Structure is documented below.
+	Messages []EntryFulfillmentMessagesInitParameters `json:"messages,omitempty" tf:"messages,omitempty"`
+
+	// Whether Dialogflow should return currently queued fulfillment response messages in streaming APIs. If a webhook is specified, it happens before Dialogflow invokes webhook. Warning: 1) This flag only affects streaming API. Responses are still queued and returned once in non-streaming API. 2) The flag can be enabled in any fulfillment but only the first 3 partial responses will be returned. You may only want to apply it to fulfillments that have slow webhooks.
+	ReturnPartialResponses *bool `json:"returnPartialResponses,omitempty" tf:"return_partial_responses,omitempty"`
+
+	// The tag used by the webhook to identify which fulfillment is being called. This field is required if webhook is specified.
+	Tag *string `json:"tag,omitempty" tf:"tag,omitempty"`
+
+	// The webhook to call. Format: projects//locations//agents//webhooks/.
+	Webhook *string `json:"webhook,omitempty" tf:"webhook,omitempty"`
+}
+
+type EntryFulfillmentMessagesInitParameters struct {
+
+	// A collection of text responses.
+	Text []EntryFulfillmentMessagesTextInitParameters `json:"text,omitempty" tf:"text,omitempty"`
+}
+
 type EntryFulfillmentMessagesObservation struct {
 
 	// A collection of text responses.
@@ -34,8 +56,13 @@ type EntryFulfillmentMessagesObservation struct {
 type EntryFulfillmentMessagesParameters struct {
 
 	// A collection of text responses.
-	// +kubebuilder:validation:Optional
 	Text []EntryFulfillmentMessagesTextParameters `json:"text,omitempty" tf:"text,omitempty"`
+}
+
+type EntryFulfillmentMessagesTextInitParameters struct {
+
+	// A collection of text responses.
+	Text []*string `json:"text,omitempty" tf:"text,omitempty"`
 }
 
 type EntryFulfillmentMessagesTextObservation struct {
@@ -51,7 +78,6 @@ type EntryFulfillmentMessagesTextObservation struct {
 type EntryFulfillmentMessagesTextParameters struct {
 
 	// A collection of text responses.
-	// +kubebuilder:validation:Optional
 	Text []*string `json:"text,omitempty" tf:"text,omitempty"`
 }
 
@@ -75,20 +101,38 @@ type EntryFulfillmentParameters struct {
 
 	// The list of rich message responses to present to the user.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	Messages []EntryFulfillmentMessagesParameters `json:"messages,omitempty" tf:"messages,omitempty"`
 
 	// Whether Dialogflow should return currently queued fulfillment response messages in streaming APIs. If a webhook is specified, it happens before Dialogflow invokes webhook. Warning: 1) This flag only affects streaming API. Responses are still queued and returned once in non-streaming API. 2) The flag can be enabled in any fulfillment but only the first 3 partial responses will be returned. You may only want to apply it to fulfillments that have slow webhooks.
-	// +kubebuilder:validation:Optional
 	ReturnPartialResponses *bool `json:"returnPartialResponses,omitempty" tf:"return_partial_responses,omitempty"`
 
 	// The tag used by the webhook to identify which fulfillment is being called. This field is required if webhook is specified.
-	// +kubebuilder:validation:Optional
 	Tag *string `json:"tag,omitempty" tf:"tag,omitempty"`
 
 	// The webhook to call. Format: projects//locations//agents//webhooks/.
-	// +kubebuilder:validation:Optional
 	Webhook *string `json:"webhook,omitempty" tf:"webhook,omitempty"`
+}
+
+type EventHandlersTriggerFulfillmentInitParameters struct {
+
+	// The list of rich message responses to present to the user.
+	// Structure is documented below.
+	Messages []EventHandlersTriggerFulfillmentMessagesInitParameters `json:"messages,omitempty" tf:"messages,omitempty"`
+
+	// Whether Dialogflow should return currently queued fulfillment response messages in streaming APIs. If a webhook is specified, it happens before Dialogflow invokes webhook. Warning: 1) This flag only affects streaming API. Responses are still queued and returned once in non-streaming API. 2) The flag can be enabled in any fulfillment but only the first 3 partial responses will be returned. You may only want to apply it to fulfillments that have slow webhooks.
+	ReturnPartialResponses *bool `json:"returnPartialResponses,omitempty" tf:"return_partial_responses,omitempty"`
+
+	// The tag used by the webhook to identify which fulfillment is being called. This field is required if webhook is specified.
+	Tag *string `json:"tag,omitempty" tf:"tag,omitempty"`
+
+	// The webhook to call. Format: projects//locations//agents//webhooks/.
+	Webhook *string `json:"webhook,omitempty" tf:"webhook,omitempty"`
+}
+
+type EventHandlersTriggerFulfillmentMessagesInitParameters struct {
+
+	// A collection of text responses.
+	Text []TriggerFulfillmentMessagesTextInitParameters `json:"text,omitempty" tf:"text,omitempty"`
 }
 
 type EventHandlersTriggerFulfillmentMessagesObservation struct {
@@ -100,7 +144,6 @@ type EventHandlersTriggerFulfillmentMessagesObservation struct {
 type EventHandlersTriggerFulfillmentMessagesParameters struct {
 
 	// A collection of text responses.
-	// +kubebuilder:validation:Optional
 	Text []TriggerFulfillmentMessagesTextParameters `json:"text,omitempty" tf:"text,omitempty"`
 }
 
@@ -124,20 +167,23 @@ type EventHandlersTriggerFulfillmentParameters struct {
 
 	// The list of rich message responses to present to the user.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	Messages []EventHandlersTriggerFulfillmentMessagesParameters `json:"messages,omitempty" tf:"messages,omitempty"`
 
 	// Whether Dialogflow should return currently queued fulfillment response messages in streaming APIs. If a webhook is specified, it happens before Dialogflow invokes webhook. Warning: 1) This flag only affects streaming API. Responses are still queued and returned once in non-streaming API. 2) The flag can be enabled in any fulfillment but only the first 3 partial responses will be returned. You may only want to apply it to fulfillments that have slow webhooks.
-	// +kubebuilder:validation:Optional
 	ReturnPartialResponses *bool `json:"returnPartialResponses,omitempty" tf:"return_partial_responses,omitempty"`
 
 	// The tag used by the webhook to identify which fulfillment is being called. This field is required if webhook is specified.
-	// +kubebuilder:validation:Optional
 	Tag *string `json:"tag,omitempty" tf:"tag,omitempty"`
 
 	// The webhook to call. Format: projects//locations//agents//webhooks/.
-	// +kubebuilder:validation:Optional
 	Webhook *string `json:"webhook,omitempty" tf:"webhook,omitempty"`
+}
+
+type FillBehaviorInitParameters struct {
+
+	// The fulfillment to provide the initial prompt that the agent can present to the user in order to fill the parameter.
+	// Structure is documented below.
+	InitialPromptFulfillment []InitialPromptFulfillmentInitParameters `json:"initialPromptFulfillment,omitempty" tf:"initial_prompt_fulfillment,omitempty"`
 }
 
 type FillBehaviorObservation struct {
@@ -151,8 +197,14 @@ type FillBehaviorParameters struct {
 
 	// The fulfillment to provide the initial prompt that the agent can present to the user in order to fill the parameter.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	InitialPromptFulfillment []InitialPromptFulfillmentParameters `json:"initialPromptFulfillment,omitempty" tf:"initial_prompt_fulfillment,omitempty"`
+}
+
+type FormInitParameters struct {
+
+	// Parameters to collect from the user.
+	// Structure is documented below.
+	Parameters []FormParametersInitParameters `json:"parameters,omitempty" tf:"parameters,omitempty"`
 }
 
 type FormObservation struct {
@@ -166,8 +218,32 @@ type FormParameters struct {
 
 	// Parameters to collect from the user.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	Parameters []FormParametersParameters `json:"parameters,omitempty" tf:"parameters,omitempty"`
+}
+
+type FormParametersInitParameters struct {
+
+	// The human-readable name of the parameter, unique within the form.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// The entity type of the parameter.
+	// Format: projects/-/locations/-/agents/-/entityTypes/ for system entity types (for example, projects/-/locations/-/agents/-/entityTypes/sys.date), or projects//locations//agents//entityTypes/ for developer entity types.
+	EntityType *string `json:"entityType,omitempty" tf:"entity_type,omitempty"`
+
+	// Defines fill behavior for the parameter.
+	// Structure is documented below.
+	FillBehavior []FillBehaviorInitParameters `json:"fillBehavior,omitempty" tf:"fill_behavior,omitempty"`
+
+	// Indicates whether the parameter represents a list of values.
+	IsList *bool `json:"isList,omitempty" tf:"is_list,omitempty"`
+
+	// Indicates whether the parameter content should be redacted in log.
+	// If redaction is enabled, the parameter content will be replaced by parameter name during logging. Note: the parameter content is subject to redaction if either parameter level redaction or entity type level redaction is enabled.
+	Redact *bool `json:"redact,omitempty" tf:"redact,omitempty"`
+
+	// Indicates whether the parameter is required. Optional parameters will not trigger prompts; however, they are filled if the user specifies them.
+	// Required parameters must be filled before form filling concludes.
+	Required *bool `json:"required,omitempty" tf:"required,omitempty"`
 }
 
 type FormParametersObservation struct {
@@ -198,32 +274,48 @@ type FormParametersObservation struct {
 type FormParametersParameters struct {
 
 	// The human-readable name of the parameter, unique within the form.
-	// +kubebuilder:validation:Optional
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// The entity type of the parameter.
 	// Format: projects/-/locations/-/agents/-/entityTypes/ for system entity types (for example, projects/-/locations/-/agents/-/entityTypes/sys.date), or projects//locations//agents//entityTypes/ for developer entity types.
-	// +kubebuilder:validation:Optional
 	EntityType *string `json:"entityType,omitempty" tf:"entity_type,omitempty"`
 
 	// Defines fill behavior for the parameter.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	FillBehavior []FillBehaviorParameters `json:"fillBehavior,omitempty" tf:"fill_behavior,omitempty"`
 
 	// Indicates whether the parameter represents a list of values.
-	// +kubebuilder:validation:Optional
 	IsList *bool `json:"isList,omitempty" tf:"is_list,omitempty"`
 
 	// Indicates whether the parameter content should be redacted in log.
 	// If redaction is enabled, the parameter content will be replaced by parameter name during logging. Note: the parameter content is subject to redaction if either parameter level redaction or entity type level redaction is enabled.
-	// +kubebuilder:validation:Optional
 	Redact *bool `json:"redact,omitempty" tf:"redact,omitempty"`
 
 	// Indicates whether the parameter is required. Optional parameters will not trigger prompts; however, they are filled if the user specifies them.
 	// Required parameters must be filled before form filling concludes.
-	// +kubebuilder:validation:Optional
 	Required *bool `json:"required,omitempty" tf:"required,omitempty"`
+}
+
+type InitialPromptFulfillmentInitParameters struct {
+
+	// The list of rich message responses to present to the user.
+	// Structure is documented below.
+	Messages []InitialPromptFulfillmentMessagesInitParameters `json:"messages,omitempty" tf:"messages,omitempty"`
+
+	// Whether Dialogflow should return currently queued fulfillment response messages in streaming APIs. If a webhook is specified, it happens before Dialogflow invokes webhook. Warning: 1) This flag only affects streaming API. Responses are still queued and returned once in non-streaming API. 2) The flag can be enabled in any fulfillment but only the first 3 partial responses will be returned. You may only want to apply it to fulfillments that have slow webhooks.
+	ReturnPartialResponses *bool `json:"returnPartialResponses,omitempty" tf:"return_partial_responses,omitempty"`
+
+	// The tag used by the webhook to identify which fulfillment is being called. This field is required if webhook is specified.
+	Tag *string `json:"tag,omitempty" tf:"tag,omitempty"`
+
+	// The webhook to call. Format: projects//locations//agents//webhooks/.
+	Webhook *string `json:"webhook,omitempty" tf:"webhook,omitempty"`
+}
+
+type InitialPromptFulfillmentMessagesInitParameters struct {
+
+	// A collection of text responses.
+	Text []InitialPromptFulfillmentMessagesTextInitParameters `json:"text,omitempty" tf:"text,omitempty"`
 }
 
 type InitialPromptFulfillmentMessagesObservation struct {
@@ -235,8 +327,13 @@ type InitialPromptFulfillmentMessagesObservation struct {
 type InitialPromptFulfillmentMessagesParameters struct {
 
 	// A collection of text responses.
-	// +kubebuilder:validation:Optional
 	Text []InitialPromptFulfillmentMessagesTextParameters `json:"text,omitempty" tf:"text,omitempty"`
+}
+
+type InitialPromptFulfillmentMessagesTextInitParameters struct {
+
+	// A collection of text responses.
+	Text []*string `json:"text,omitempty" tf:"text,omitempty"`
 }
 
 type InitialPromptFulfillmentMessagesTextObservation struct {
@@ -252,7 +349,6 @@ type InitialPromptFulfillmentMessagesTextObservation struct {
 type InitialPromptFulfillmentMessagesTextParameters struct {
 
 	// A collection of text responses.
-	// +kubebuilder:validation:Optional
 	Text []*string `json:"text,omitempty" tf:"text,omitempty"`
 }
 
@@ -276,20 +372,34 @@ type InitialPromptFulfillmentParameters struct {
 
 	// The list of rich message responses to present to the user.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	Messages []InitialPromptFulfillmentMessagesParameters `json:"messages,omitempty" tf:"messages,omitempty"`
 
 	// Whether Dialogflow should return currently queued fulfillment response messages in streaming APIs. If a webhook is specified, it happens before Dialogflow invokes webhook. Warning: 1) This flag only affects streaming API. Responses are still queued and returned once in non-streaming API. 2) The flag can be enabled in any fulfillment but only the first 3 partial responses will be returned. You may only want to apply it to fulfillments that have slow webhooks.
-	// +kubebuilder:validation:Optional
 	ReturnPartialResponses *bool `json:"returnPartialResponses,omitempty" tf:"return_partial_responses,omitempty"`
 
 	// The tag used by the webhook to identify which fulfillment is being called. This field is required if webhook is specified.
-	// +kubebuilder:validation:Optional
 	Tag *string `json:"tag,omitempty" tf:"tag,omitempty"`
 
 	// The webhook to call. Format: projects//locations//agents//webhooks/.
-	// +kubebuilder:validation:Optional
 	Webhook *string `json:"webhook,omitempty" tf:"webhook,omitempty"`
+}
+
+type PageEventHandlersInitParameters struct {
+
+	// The name of the event to handle.
+	Event *string `json:"event,omitempty" tf:"event,omitempty"`
+
+	// The target flow to transition to.
+	// Format: projects//locations//agents//flows/.
+	TargetFlow *string `json:"targetFlow,omitempty" tf:"target_flow,omitempty"`
+
+	// The target page to transition to.
+	// Format: projects//locations//agents//flows//pages/.
+	TargetPage *string `json:"targetPage,omitempty" tf:"target_page,omitempty"`
+
+	// The fulfillment to call when the event occurs. Handling webhook errors with a fulfillment enabled with webhook could cause infinite loop. It is invalid to specify such fulfillment for a handler handling webhooks.
+	// Structure is documented below.
+	TriggerFulfillment []EventHandlersTriggerFulfillmentInitParameters `json:"triggerFulfillment,omitempty" tf:"trigger_fulfillment,omitempty"`
 }
 
 type PageEventHandlersObservation struct {
@@ -317,23 +427,68 @@ type PageEventHandlersObservation struct {
 type PageEventHandlersParameters struct {
 
 	// The name of the event to handle.
-	// +kubebuilder:validation:Optional
 	Event *string `json:"event,omitempty" tf:"event,omitempty"`
 
 	// The target flow to transition to.
 	// Format: projects//locations//agents//flows/.
-	// +kubebuilder:validation:Optional
 	TargetFlow *string `json:"targetFlow,omitempty" tf:"target_flow,omitempty"`
 
 	// The target page to transition to.
 	// Format: projects//locations//agents//flows//pages/.
-	// +kubebuilder:validation:Optional
 	TargetPage *string `json:"targetPage,omitempty" tf:"target_page,omitempty"`
 
 	// The fulfillment to call when the event occurs. Handling webhook errors with a fulfillment enabled with webhook could cause infinite loop. It is invalid to specify such fulfillment for a handler handling webhooks.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	TriggerFulfillment []EventHandlersTriggerFulfillmentParameters `json:"triggerFulfillment,omitempty" tf:"trigger_fulfillment,omitempty"`
+}
+
+type PageInitParameters struct {
+
+	// The human-readable name of the page, unique within the agent.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// The fulfillment to call when the session is entering the page.
+	// Structure is documented below.
+	EntryFulfillment []EntryFulfillmentInitParameters `json:"entryFulfillment,omitempty" tf:"entry_fulfillment,omitempty"`
+
+	// Handlers associated with the page to handle events such as webhook errors, no match or no input.
+	// Structure is documented below.
+	EventHandlers []PageEventHandlersInitParameters `json:"eventHandlers,omitempty" tf:"event_handlers,omitempty"`
+
+	// The form associated with the page, used for collecting parameters relevant to the page.
+	// Structure is documented below.
+	Form []FormInitParameters `json:"form,omitempty" tf:"form,omitempty"`
+
+	// The language of the following fields in page:
+	// Page.entry_fulfillment.messages
+	// Page.entry_fulfillment.conditional_cases
+	// Page.event_handlers.trigger_fulfillment.messages
+	// Page.event_handlers.trigger_fulfillment.conditional_cases
+	// Page.form.parameters.fill_behavior.initial_prompt_fulfillment.messages
+	// Page.form.parameters.fill_behavior.initial_prompt_fulfillment.conditional_cases
+	// Page.form.parameters.fill_behavior.reprompt_event_handlers.messages
+	// Page.form.parameters.fill_behavior.reprompt_event_handlers.conditional_cases
+	// Page.transition_routes.trigger_fulfillment.messages
+	// Page.transition_routes.trigger_fulfillment.conditional_cases
+	// If not specified, the agent's default language is used. Many languages are supported. Note: languages must be enabled in the agent before they can be used.
+	LanguageCode *string `json:"languageCode,omitempty" tf:"language_code,omitempty"`
+
+	// Ordered list of TransitionRouteGroups associated with the page. Transition route groups must be unique within a page.
+	// If multiple transition routes within a page scope refer to the same intent, then the precedence order is: page's transition route -> page's transition route group -> flow's transition routes.
+	// If multiple transition route groups within a page contain the same intent, then the first group in the ordered list takes precedence.
+	// Format:projects//locations//agents//flows//transitionRouteGroups/.
+	TransitionRouteGroups []*string `json:"transitionRouteGroups,omitempty" tf:"transition_route_groups,omitempty"`
+
+	// A list of transitions for the transition rules of this page. They route the conversation to another page in the same flow, or another flow.
+	// When we are in a certain page, the TransitionRoutes are evalauted in the following order:
+	// TransitionRoutes defined in the page with intent specified.
+	// TransitionRoutes defined in the transition route groups with intent specified.
+	// TransitionRoutes defined in flow with intent specified.
+	// TransitionRoutes defined in the transition route groups with intent specified.
+	// TransitionRoutes defined in the page with only condition specified.
+	// TransitionRoutes defined in the transition route groups with only condition specified.
+	// Structure is documented below.
+	TransitionRoutes []PageTransitionRoutesInitParameters `json:"transitionRoutes,omitempty" tf:"transition_routes,omitempty"`
 }
 
 type PageObservation struct {
@@ -399,22 +554,18 @@ type PageObservation struct {
 type PageParameters struct {
 
 	// The human-readable name of the page, unique within the agent.
-	// +kubebuilder:validation:Optional
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// The fulfillment to call when the session is entering the page.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	EntryFulfillment []EntryFulfillmentParameters `json:"entryFulfillment,omitempty" tf:"entry_fulfillment,omitempty"`
 
 	// Handlers associated with the page to handle events such as webhook errors, no match or no input.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	EventHandlers []PageEventHandlersParameters `json:"eventHandlers,omitempty" tf:"event_handlers,omitempty"`
 
 	// The form associated with the page, used for collecting parameters relevant to the page.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	Form []FormParameters `json:"form,omitempty" tf:"form,omitempty"`
 
 	// The language of the following fields in page:
@@ -429,7 +580,6 @@ type PageParameters struct {
 	// Page.transition_routes.trigger_fulfillment.messages
 	// Page.transition_routes.trigger_fulfillment.conditional_cases
 	// If not specified, the agent's default language is used. Many languages are supported. Note: languages must be enabled in the agent before they can be used.
-	// +kubebuilder:validation:Optional
 	LanguageCode *string `json:"languageCode,omitempty" tf:"language_code,omitempty"`
 
 	// The flow to create a page for.
@@ -451,7 +601,6 @@ type PageParameters struct {
 	// If multiple transition routes within a page scope refer to the same intent, then the precedence order is: page's transition route -> page's transition route group -> flow's transition routes.
 	// If multiple transition route groups within a page contain the same intent, then the first group in the ordered list takes precedence.
 	// Format:projects//locations//agents//flows//transitionRouteGroups/.
-	// +kubebuilder:validation:Optional
 	TransitionRouteGroups []*string `json:"transitionRouteGroups,omitempty" tf:"transition_route_groups,omitempty"`
 
 	// A list of transitions for the transition rules of this page. They route the conversation to another page in the same flow, or another flow.
@@ -463,8 +612,26 @@ type PageParameters struct {
 	// TransitionRoutes defined in the page with only condition specified.
 	// TransitionRoutes defined in the transition route groups with only condition specified.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	TransitionRoutes []PageTransitionRoutesParameters `json:"transitionRoutes,omitempty" tf:"transition_routes,omitempty"`
+}
+
+type PageTransitionRoutesInitParameters struct {
+
+	// The condition to evaluate against form parameters or session parameters.
+	// At least one of intent or condition must be specified. When both intent and condition are specified, the transition can only happen when both are fulfilled.
+	Condition *string `json:"condition,omitempty" tf:"condition,omitempty"`
+
+	// The unique identifier of an Intent.
+	// Format: projects//locations//agents//intents/. Indicates that the transition can only happen when the given intent is matched. At least one of intent or condition must be specified. When both intent and condition are specified, the transition can only happen when both are fulfilled.
+	Intent *string `json:"intent,omitempty" tf:"intent,omitempty"`
+
+	// The target flow to transition to.
+	// Format: projects//locations//agents//flows/.
+	TargetFlow *string `json:"targetFlow,omitempty" tf:"target_flow,omitempty"`
+
+	// The fulfillment to call when the event occurs. Handling webhook errors with a fulfillment enabled with webhook could cause infinite loop. It is invalid to specify such fulfillment for a handler handling webhooks.
+	// Structure is documented below.
+	TriggerFulfillment []PageTransitionRoutesTriggerFulfillmentInitParameters `json:"triggerFulfillment,omitempty" tf:"trigger_fulfillment,omitempty"`
 }
 
 type PageTransitionRoutesObservation struct {
@@ -498,17 +665,14 @@ type PageTransitionRoutesParameters struct {
 
 	// The condition to evaluate against form parameters or session parameters.
 	// At least one of intent or condition must be specified. When both intent and condition are specified, the transition can only happen when both are fulfilled.
-	// +kubebuilder:validation:Optional
 	Condition *string `json:"condition,omitempty" tf:"condition,omitempty"`
 
 	// The unique identifier of an Intent.
 	// Format: projects//locations//agents//intents/. Indicates that the transition can only happen when the given intent is matched. At least one of intent or condition must be specified. When both intent and condition are specified, the transition can only happen when both are fulfilled.
-	// +kubebuilder:validation:Optional
 	Intent *string `json:"intent,omitempty" tf:"intent,omitempty"`
 
 	// The target flow to transition to.
 	// Format: projects//locations//agents//flows/.
-	// +kubebuilder:validation:Optional
 	TargetFlow *string `json:"targetFlow,omitempty" tf:"target_flow,omitempty"`
 
 	// The target page to transition to.
@@ -528,8 +692,23 @@ type PageTransitionRoutesParameters struct {
 
 	// The fulfillment to call when the event occurs. Handling webhook errors with a fulfillment enabled with webhook could cause infinite loop. It is invalid to specify such fulfillment for a handler handling webhooks.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	TriggerFulfillment []PageTransitionRoutesTriggerFulfillmentParameters `json:"triggerFulfillment,omitempty" tf:"trigger_fulfillment,omitempty"`
+}
+
+type PageTransitionRoutesTriggerFulfillmentInitParameters struct {
+
+	// The list of rich message responses to present to the user.
+	// Structure is documented below.
+	Messages []TransitionRoutesTriggerFulfillmentMessagesInitParameters `json:"messages,omitempty" tf:"messages,omitempty"`
+
+	// Whether Dialogflow should return currently queued fulfillment response messages in streaming APIs. If a webhook is specified, it happens before Dialogflow invokes webhook. Warning: 1) This flag only affects streaming API. Responses are still queued and returned once in non-streaming API. 2) The flag can be enabled in any fulfillment but only the first 3 partial responses will be returned. You may only want to apply it to fulfillments that have slow webhooks.
+	ReturnPartialResponses *bool `json:"returnPartialResponses,omitempty" tf:"return_partial_responses,omitempty"`
+
+	// The tag used by the webhook to identify which fulfillment is being called. This field is required if webhook is specified.
+	Tag *string `json:"tag,omitempty" tf:"tag,omitempty"`
+
+	// The webhook to call. Format: projects//locations//agents//webhooks/.
+	Webhook *string `json:"webhook,omitempty" tf:"webhook,omitempty"`
 }
 
 type PageTransitionRoutesTriggerFulfillmentObservation struct {
@@ -552,20 +731,22 @@ type PageTransitionRoutesTriggerFulfillmentParameters struct {
 
 	// The list of rich message responses to present to the user.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	Messages []TransitionRoutesTriggerFulfillmentMessagesParameters `json:"messages,omitempty" tf:"messages,omitempty"`
 
 	// Whether Dialogflow should return currently queued fulfillment response messages in streaming APIs. If a webhook is specified, it happens before Dialogflow invokes webhook. Warning: 1) This flag only affects streaming API. Responses are still queued and returned once in non-streaming API. 2) The flag can be enabled in any fulfillment but only the first 3 partial responses will be returned. You may only want to apply it to fulfillments that have slow webhooks.
-	// +kubebuilder:validation:Optional
 	ReturnPartialResponses *bool `json:"returnPartialResponses,omitempty" tf:"return_partial_responses,omitempty"`
 
 	// The tag used by the webhook to identify which fulfillment is being called. This field is required if webhook is specified.
-	// +kubebuilder:validation:Optional
 	Tag *string `json:"tag,omitempty" tf:"tag,omitempty"`
 
 	// The webhook to call. Format: projects//locations//agents//webhooks/.
-	// +kubebuilder:validation:Optional
 	Webhook *string `json:"webhook,omitempty" tf:"webhook,omitempty"`
+}
+
+type TransitionRoutesTriggerFulfillmentMessagesInitParameters struct {
+
+	// A collection of text responses.
+	Text []TransitionRoutesTriggerFulfillmentMessagesTextInitParameters `json:"text,omitempty" tf:"text,omitempty"`
 }
 
 type TransitionRoutesTriggerFulfillmentMessagesObservation struct {
@@ -577,8 +758,13 @@ type TransitionRoutesTriggerFulfillmentMessagesObservation struct {
 type TransitionRoutesTriggerFulfillmentMessagesParameters struct {
 
 	// A collection of text responses.
-	// +kubebuilder:validation:Optional
 	Text []TransitionRoutesTriggerFulfillmentMessagesTextParameters `json:"text,omitempty" tf:"text,omitempty"`
+}
+
+type TransitionRoutesTriggerFulfillmentMessagesTextInitParameters struct {
+
+	// A collection of text responses.
+	Text []*string `json:"text,omitempty" tf:"text,omitempty"`
 }
 
 type TransitionRoutesTriggerFulfillmentMessagesTextObservation struct {
@@ -594,7 +780,12 @@ type TransitionRoutesTriggerFulfillmentMessagesTextObservation struct {
 type TransitionRoutesTriggerFulfillmentMessagesTextParameters struct {
 
 	// A collection of text responses.
-	// +kubebuilder:validation:Optional
+	Text []*string `json:"text,omitempty" tf:"text,omitempty"`
+}
+
+type TriggerFulfillmentMessagesTextInitParameters struct {
+
+	// A collection of text responses.
 	Text []*string `json:"text,omitempty" tf:"text,omitempty"`
 }
 
@@ -611,7 +802,6 @@ type TriggerFulfillmentMessagesTextObservation struct {
 type TriggerFulfillmentMessagesTextParameters struct {
 
 	// A collection of text responses.
-	// +kubebuilder:validation:Optional
 	Text []*string `json:"text,omitempty" tf:"text,omitempty"`
 }
 
@@ -619,6 +809,10 @@ type TriggerFulfillmentMessagesTextParameters struct {
 type PageSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     PageParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	InitProvider PageInitParameters `json:"initProvider,omitempty"`
 }
 
 // PageStatus defines the observed state of Page.
@@ -639,7 +833,7 @@ type PageStatus struct {
 type Page struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.displayName)",message="displayName is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.displayName) || has(self.initProvider.displayName)",message="displayName is a required parameter"
 	Spec   PageSpec   `json:"spec"`
 	Status PageStatus `json:"status,omitempty"`
 }

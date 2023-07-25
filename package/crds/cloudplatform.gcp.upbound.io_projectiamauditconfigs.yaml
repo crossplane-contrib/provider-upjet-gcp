@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.0
+    controller-gen.kubebuilder.io/version: v0.12.1
   name: projectiamauditconfigs.cloudplatform.gcp.upbound.io
 spec:
   group: cloudplatform.gcp.upbound.io
@@ -76,8 +76,6 @@ spec:
                           type: array
                         logType:
                           type: string
-                      required:
-                      - logType
                       type: object
                     type: array
                   project:
@@ -155,6 +153,25 @@ spec:
                             type: string
                         type: object
                     type: object
+                  service:
+                    type: string
+                type: object
+              initProvider:
+                description: THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice.
+                properties:
+                  auditLogConfig:
+                    items:
+                      properties:
+                        exemptedMembers:
+                          items:
+                            type: string
+                          type: array
+                        logType:
+                          type: string
+                      type: object
+                    type: array
                   service:
                     type: string
                 type: object
@@ -358,10 +375,12 @@ spec:
             x-kubernetes-validations:
             - message: auditLogConfig is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.auditLogConfig)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.auditLogConfig)
+                || has(self.initProvider.auditLogConfig)'
             - message: service is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.service)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.service)
+                || has(self.initProvider.service)'
           status:
             description: ProjectIAMAuditConfigStatus defines the observed state of
               ProjectIAMAuditConfig.

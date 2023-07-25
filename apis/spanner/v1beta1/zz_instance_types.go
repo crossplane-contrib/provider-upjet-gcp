@@ -25,6 +25,39 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type InstanceInitParameters struct {
+
+	// The name of the instance's configuration (similar but not
+	// quite the same as a region) which defines the geographic placement and
+	// replication of your databases in this instance. It determines where your data
+	// is stored. Values are typically of the form regional-europe-west1 , us-central etc.
+	// In order to obtain a valid list please consult the
+	// Configuration section of the docs.
+	Config *string `json:"config,omitempty" tf:"config,omitempty"`
+
+	// The descriptive name for this instance as it appears in UIs. Must be
+	// unique per project and between 4 and 30 characters in length.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// When deleting a spanner instance, this boolean option will delete all backups of this instance.
+	// This must be set to true if you created a backup manually in the console.
+	ForceDestroy *bool `json:"forceDestroy,omitempty" tf:"force_destroy,omitempty"`
+
+	// An object containing a list of "key": value pairs.
+	// Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }.
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// The number of nodes allocated to this instance.
+	NumNodes *float64 `json:"numNodes,omitempty" tf:"num_nodes,omitempty"`
+
+	// The number of processing units allocated to this instance.
+	ProcessingUnits *float64 `json:"processingUnits,omitempty" tf:"processing_units,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+}
+
 type InstanceObservation struct {
 
 	// The name of the instance's configuration (similar but not
@@ -72,35 +105,28 @@ type InstanceParameters struct {
 	// is stored. Values are typically of the form regional-europe-west1 , us-central etc.
 	// In order to obtain a valid list please consult the
 	// Configuration section of the docs.
-	// +kubebuilder:validation:Optional
 	Config *string `json:"config,omitempty" tf:"config,omitempty"`
 
 	// The descriptive name for this instance as it appears in UIs. Must be
 	// unique per project and between 4 and 30 characters in length.
-	// +kubebuilder:validation:Optional
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// When deleting a spanner instance, this boolean option will delete all backups of this instance.
 	// This must be set to true if you created a backup manually in the console.
-	// +kubebuilder:validation:Optional
 	ForceDestroy *bool `json:"forceDestroy,omitempty" tf:"force_destroy,omitempty"`
 
 	// An object containing a list of "key": value pairs.
 	// Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }.
-	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The number of nodes allocated to this instance.
-	// +kubebuilder:validation:Optional
 	NumNodes *float64 `json:"numNodes,omitempty" tf:"num_nodes,omitempty"`
 
 	// The number of processing units allocated to this instance.
-	// +kubebuilder:validation:Optional
 	ProcessingUnits *float64 `json:"processingUnits,omitempty" tf:"processing_units,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
-	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 
@@ -108,6 +134,10 @@ type InstanceParameters struct {
 type InstanceSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     InstanceParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	InitProvider InstanceInitParameters `json:"initProvider,omitempty"`
 }
 
 // InstanceStatus defines the observed state of Instance.
@@ -128,8 +158,8 @@ type InstanceStatus struct {
 type Instance struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.config)",message="config is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.displayName)",message="displayName is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.config) || has(self.initProvider.config)",message="config is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.displayName) || has(self.initProvider.displayName)",message="displayName is a required parameter"
 	Spec   InstanceSpec   `json:"spec"`
 	Status InstanceStatus `json:"status,omitempty"`
 }

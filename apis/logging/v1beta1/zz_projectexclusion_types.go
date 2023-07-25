@@ -25,6 +25,25 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type ProjectExclusionInitParameters struct {
+
+	// A human-readable description.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Whether this exclusion rule should be disabled or not. This defaults to
+	// false.
+	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
+
+	// The filter to apply when excluding logs. Only log entries that match the filter are excluded.
+	// See Advanced Log Filters for information on how to
+	// write a filter.
+	Filter *string `json:"filter,omitempty" tf:"filter,omitempty"`
+
+	// The project to create the exclusion in. If omitted, the project associated with the provider is
+	// used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+}
+
 type ProjectExclusionObservation struct {
 
 	// A human-readable description.
@@ -50,23 +69,19 @@ type ProjectExclusionObservation struct {
 type ProjectExclusionParameters struct {
 
 	// A human-readable description.
-	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Whether this exclusion rule should be disabled or not. This defaults to
 	// false.
-	// +kubebuilder:validation:Optional
 	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
 
 	// The filter to apply when excluding logs. Only log entries that match the filter are excluded.
 	// See Advanced Log Filters for information on how to
 	// write a filter.
-	// +kubebuilder:validation:Optional
 	Filter *string `json:"filter,omitempty" tf:"filter,omitempty"`
 
 	// The project to create the exclusion in. If omitted, the project associated with the provider is
 	// used.
-	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 
@@ -74,6 +89,10 @@ type ProjectExclusionParameters struct {
 type ProjectExclusionSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     ProjectExclusionParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	InitProvider ProjectExclusionInitParameters `json:"initProvider,omitempty"`
 }
 
 // ProjectExclusionStatus defines the observed state of ProjectExclusion.
@@ -94,7 +113,7 @@ type ProjectExclusionStatus struct {
 type ProjectExclusion struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.filter)",message="filter is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.filter) || has(self.initProvider.filter)",message="filter is a required parameter"
 	Spec   ProjectExclusionSpec   `json:"spec"`
 	Status ProjectExclusionStatus `json:"status,omitempty"`
 }

@@ -91,6 +91,15 @@ func (tr *ConnectivityTest) GetInitParameters() (map[string]any, error) {
 	return base, json.TFParser.Unmarshal(p, &base)
 }
 
+// SetInitParameters for this ConnectivityTest
+func (tr *ConnectivityTest) SetInitParameters(params map[string]any) error {
+	p, err := json.TFParser.Marshal(params)
+	if err != nil {
+		return err
+	}
+	return json.TFParser.Unmarshal(p, &tr.Spec.InitProvider)
+}
+
 // LateInitialize this ConnectivityTest using its observed tfState.
 // returns True if there are any spec changes for the resource.
 func (tr *ConnectivityTest) LateInitialize(attrs []byte) (bool, error) {

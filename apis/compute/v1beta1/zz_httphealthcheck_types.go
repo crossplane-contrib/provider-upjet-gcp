@@ -120,49 +120,40 @@ type HTTPHealthCheckParameters_2 struct {
 
 	// How often (in seconds) to send a health check. The default value is 5
 	// seconds.
-	// +kubebuilder:validation:Optional
 	CheckIntervalSec *float64 `json:"checkIntervalSec,omitempty" tf:"check_interval_sec,omitempty"`
 
 	// An optional description of this resource. Provide this property when
 	// you create the resource.
-	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// A so-far unhealthy instance will be marked healthy after this many
 	// consecutive successes. The default value is 2.
-	// +kubebuilder:validation:Optional
 	HealthyThreshold *float64 `json:"healthyThreshold,omitempty" tf:"healthy_threshold,omitempty"`
 
 	// The value of the host header in the HTTP health check request. If
 	// left empty (default value), the public IP on behalf of which this
 	// health check is performed will be used.
-	// +kubebuilder:validation:Optional
 	Host *string `json:"host,omitempty" tf:"host,omitempty"`
 
 	// The TCP port number for the HTTP health check request.
 	// The default value is 80.
-	// +kubebuilder:validation:Optional
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
-	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The request path of the HTTP health check request.
 	// The default value is /.
-	// +kubebuilder:validation:Optional
 	RequestPath *string `json:"requestPath,omitempty" tf:"request_path,omitempty"`
 
 	// How long (in seconds) to wait before claiming failure.
 	// The default value is 5 seconds.  It is invalid for timeoutSec to have
 	// greater value than checkIntervalSec.
-	// +kubebuilder:validation:Optional
 	TimeoutSec *float64 `json:"timeoutSec,omitempty" tf:"timeout_sec,omitempty"`
 
 	// A so-far healthy instance will be marked unhealthy after this many
 	// consecutive failures. The default value is 2.
-	// +kubebuilder:validation:Optional
 	UnhealthyThreshold *float64 `json:"unhealthyThreshold,omitempty" tf:"unhealthy_threshold,omitempty"`
 }
 
@@ -173,14 +164,6 @@ type HTTPHealthCheckSpec struct {
 	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
 	// unless the relevant Crossplane feature flag is enabled, and may be
 	// changed or removed without notice.
-	// InitProvider holds the same fields as ForProvider, with the exception
-	// of Identifier and other resource reference fields. The fields that are
-	// in InitProvider are merged into ForProvider when the resource is created.
-	// The same fields are also added to the terraform ignore_changes hook, to
-	// avoid updating them after creation. This is useful for fields that are
-	// required on creation, but we do not desire to update them after creation,
-	// for example because of an external controller is managing them, like an
-	// autoscaler.
 	InitProvider HTTPHealthCheckInitParameters_2 `json:"initProvider,omitempty"`
 }
 

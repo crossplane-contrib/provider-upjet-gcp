@@ -74,7 +74,6 @@ type AppEngineParameters struct {
 	// Optional serving service.
 	// The service name must be 1-63 characters long, and comply with RFC1035.
 	// Example value: "default", "my-service".
-	// +kubebuilder:validation:Optional
 	Service *string `json:"service,omitempty" tf:"service,omitempty"`
 
 	// A template to parse service and version fields from a request URL.
@@ -84,13 +83,11 @@ type AppEngineParameters struct {
 	// "foo1-dot-appname.appspot.com/v2" can be backed by the same Serverless NEG with
 	// URL mask "-dot-appname.appspot.com/". The URL mask will parse
 	// them to { service = "foo1", version = "v1" } and { service = "foo1", version = "v2" } respectively.
-	// +kubebuilder:validation:Optional
 	URLMask *string `json:"urlMask,omitempty" tf:"url_mask,omitempty"`
 
 	// Optional serving version.
 	// The version must be 1-63 characters long, and comply with RFC1035.
 	// Example value: "v1", "v2".
-	// +kubebuilder:validation:Optional
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
 }
 
@@ -144,7 +141,6 @@ type CloudFunctionParameters struct {
 	// For example, request URLs "mydomain.com/function1" and "mydomain.com/function2"
 	// can be backed by the same Serverless NEG with URL mask "/". The URL mask
 	// will parse them to { function = "function1" } and { function = "function2" } respectively.
-	// +kubebuilder:validation:Optional
 	URLMask *string `json:"urlMask,omitempty" tf:"url_mask,omitempty"`
 }
 
@@ -210,7 +206,6 @@ type CloudRunParameters struct {
 	// additional fine-grained traffic routing information.
 	// The tag must be 1-63 characters long, and comply with RFC1035.
 	// Example value: "revision-0010".
-	// +kubebuilder:validation:Optional
 	Tag *string `json:"tag,omitempty" tf:"tag,omitempty"`
 
 	// A template to parse service and tag fields from a request URL.
@@ -220,7 +215,6 @@ type CloudRunParameters struct {
 	// an be backed by the same Serverless Network Endpoint Group (NEG) with
 	// URL mask ".domain.com/". The URL mask will parse them to { service="bar1", tag="foo1" }
 	// and { service="bar2", tag="foo2" } respectively.
-	// +kubebuilder:validation:Optional
 	URLMask *string `json:"urlMask,omitempty" tf:"url_mask,omitempty"`
 }
 
@@ -313,24 +307,20 @@ type RegionNetworkEndpointGroupParameters struct {
 	// Only valid when networkEndpointType is "SERVERLESS".
 	// Only one of cloud_run, app_engine, cloud_function or serverless_deployment may be set.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	AppEngine []AppEngineParameters `json:"appEngine,omitempty" tf:"app_engine,omitempty"`
 
 	// Only valid when networkEndpointType is "SERVERLESS".
 	// Only one of cloud_run, app_engine, cloud_function or serverless_deployment may be set.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	CloudFunction []CloudFunctionParameters `json:"cloudFunction,omitempty" tf:"cloud_function,omitempty"`
 
 	// Only valid when networkEndpointType is "SERVERLESS".
 	// Only one of cloud_run, app_engine, cloud_function or serverless_deployment may be set.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	CloudRun []CloudRunParameters `json:"cloudRun,omitempty" tf:"cloud_run,omitempty"`
 
 	// An optional description of this resource. Provide this property when
 	// you create the resource.
-	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// This field is only used for PSC.
@@ -344,7 +334,6 @@ type RegionNetworkEndpointGroupParameters struct {
 	// Type of network endpoints in this network endpoint group. Defaults to SERVERLESS
 	// Default value is SERVERLESS.
 	// Possible values are: SERVERLESS, PRIVATE_SERVICE_CONNECT.
-	// +kubebuilder:validation:Optional
 	NetworkEndpointType *string `json:"networkEndpointType,omitempty" tf:"network_endpoint_type,omitempty"`
 
 	// Reference to a Network in compute to populate network.
@@ -357,7 +346,6 @@ type RegionNetworkEndpointGroupParameters struct {
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
-	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The target service url used to set up private service connection to
@@ -402,14 +390,6 @@ type RegionNetworkEndpointGroupSpec struct {
 	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
 	// unless the relevant Crossplane feature flag is enabled, and may be
 	// changed or removed without notice.
-	// InitProvider holds the same fields as ForProvider, with the exception
-	// of Identifier and other resource reference fields. The fields that are
-	// in InitProvider are merged into ForProvider when the resource is created.
-	// The same fields are also added to the terraform ignore_changes hook, to
-	// avoid updating them after creation. This is useful for fields that are
-	// required on creation, but we do not desire to update them after creation,
-	// for example because of an external controller is managing them, like an
-	// autoscaler.
 	InitProvider RegionNetworkEndpointGroupInitParameters `json:"initProvider,omitempty"`
 }
 

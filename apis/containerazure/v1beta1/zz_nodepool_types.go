@@ -25,6 +25,15 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type AutoscalingInitParameters struct {
+
+	// Maximum number of nodes in the node pool. Must be >= min_node_count.
+	MaxNodeCount *float64 `json:"maxNodeCount,omitempty" tf:"max_node_count,omitempty"`
+
+	// Minimum number of nodes in the node pool. Must be >= 1 and <= max_node_count.
+	MinNodeCount *float64 `json:"minNodeCount,omitempty" tf:"min_node_count,omitempty"`
+}
+
 type AutoscalingObservation struct {
 
 	// Maximum number of nodes in the node pool. Must be >= min_node_count.
@@ -37,12 +46,28 @@ type AutoscalingObservation struct {
 type AutoscalingParameters struct {
 
 	// Maximum number of nodes in the node pool. Must be >= min_node_count.
-	// +kubebuilder:validation:Required
-	MaxNodeCount *float64 `json:"maxNodeCount" tf:"max_node_count,omitempty"`
+	MaxNodeCount *float64 `json:"maxNodeCount,omitempty" tf:"max_node_count,omitempty"`
 
 	// Minimum number of nodes in the node pool. Must be >= 1 and <= max_node_count.
-	// +kubebuilder:validation:Required
-	MinNodeCount *float64 `json:"minNodeCount" tf:"min_node_count,omitempty"`
+	MinNodeCount *float64 `json:"minNodeCount,omitempty" tf:"min_node_count,omitempty"`
+}
+
+type ConfigInitParameters struct {
+
+	// Proxy configuration for outbound HTTP(S) traffic.
+	ProxyConfig []ConfigProxyConfigInitParameters `json:"proxyConfig,omitempty" tf:"proxy_config,omitempty"`
+
+	// Optional. Configuration related to the root volume provisioned for each node pool machine. When unspecified, it defaults to a 32-GiB Azure Disk.
+	RootVolume []ConfigRootVolumeInitParameters `json:"rootVolume,omitempty" tf:"root_volume,omitempty"`
+
+	// SSH configuration for how to access the node pool machines.
+	SSHConfig []ConfigSSHConfigInitParameters `json:"sshConfig,omitempty" tf:"ssh_config,omitempty"`
+
+	// Optional. A set of tags to apply to all underlying Azure resources for this node pool. This currently only includes Virtual Machine Scale Sets. Specify at most 50 pairs containing alphanumerics, spaces, and symbols (.+-=_:@/). Keys can be up to 127 Unicode characters. Values can be up to 255 Unicode characters.
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
+
+	// Optional. The Azure VM size name. Example: Standard_DS2_v2. See (/anthos/clusters/docs/azure/reference/supported-vms) for options. When unspecified, it defaults to Standard_DS2_v2.
+	VMSize *string `json:"vmSize,omitempty" tf:"vm_size,omitempty"`
 }
 
 type ConfigObservation struct {
@@ -66,24 +91,28 @@ type ConfigObservation struct {
 type ConfigParameters struct {
 
 	// Proxy configuration for outbound HTTP(S) traffic.
-	// +kubebuilder:validation:Optional
 	ProxyConfig []ConfigProxyConfigParameters `json:"proxyConfig,omitempty" tf:"proxy_config,omitempty"`
 
 	// Optional. Configuration related to the root volume provisioned for each node pool machine. When unspecified, it defaults to a 32-GiB Azure Disk.
-	// +kubebuilder:validation:Optional
 	RootVolume []ConfigRootVolumeParameters `json:"rootVolume,omitempty" tf:"root_volume,omitempty"`
 
 	// SSH configuration for how to access the node pool machines.
-	// +kubebuilder:validation:Required
-	SSHConfig []ConfigSSHConfigParameters `json:"sshConfig" tf:"ssh_config,omitempty"`
+	SSHConfig []ConfigSSHConfigParameters `json:"sshConfig,omitempty" tf:"ssh_config,omitempty"`
 
 	// Optional. A set of tags to apply to all underlying Azure resources for this node pool. This currently only includes Virtual Machine Scale Sets. Specify at most 50 pairs containing alphanumerics, spaces, and symbols (.+-=_:@/). Keys can be up to 127 Unicode characters. Values can be up to 255 Unicode characters.
-	// +kubebuilder:validation:Optional
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
 	// Optional. The Azure VM size name. Example: Standard_DS2_v2. See (/anthos/clusters/docs/azure/reference/supported-vms) for options. When unspecified, it defaults to Standard_DS2_v2.
-	// +kubebuilder:validation:Optional
 	VMSize *string `json:"vmSize,omitempty" tf:"vm_size,omitempty"`
+}
+
+type ConfigProxyConfigInitParameters struct {
+
+	// The ARM ID the of the resource group containing proxy keyvault. Resource group ids are formatted as /subscriptions/<subscription-id>/resourceGroups/<resource-group-name>
+	ResourceGroupID *string `json:"resourceGroupId,omitempty" tf:"resource_group_id,omitempty"`
+
+	// The URL the of the proxy setting secret with its version. Secret ids are formatted as https:<key-vault-name>.vault.azure.net/secrets/<secret-name>/<secret-version>.
+	SecretID *string `json:"secretId,omitempty" tf:"secret_id,omitempty"`
 }
 
 type ConfigProxyConfigObservation struct {
@@ -98,12 +127,16 @@ type ConfigProxyConfigObservation struct {
 type ConfigProxyConfigParameters struct {
 
 	// The ARM ID the of the resource group containing proxy keyvault. Resource group ids are formatted as /subscriptions/<subscription-id>/resourceGroups/<resource-group-name>
-	// +kubebuilder:validation:Required
-	ResourceGroupID *string `json:"resourceGroupId" tf:"resource_group_id,omitempty"`
+	ResourceGroupID *string `json:"resourceGroupId,omitempty" tf:"resource_group_id,omitempty"`
 
 	// The URL the of the proxy setting secret with its version. Secret ids are formatted as https:<key-vault-name>.vault.azure.net/secrets/<secret-name>/<secret-version>.
-	// +kubebuilder:validation:Required
-	SecretID *string `json:"secretId" tf:"secret_id,omitempty"`
+	SecretID *string `json:"secretId,omitempty" tf:"secret_id,omitempty"`
+}
+
+type ConfigRootVolumeInitParameters struct {
+
+	// Optional. The size of the disk, in GiBs. When unspecified, a default value is provided. See the specific reference in the parent resource.
+	SizeGib *float64 `json:"sizeGib,omitempty" tf:"size_gib,omitempty"`
 }
 
 type ConfigRootVolumeObservation struct {
@@ -115,8 +148,13 @@ type ConfigRootVolumeObservation struct {
 type ConfigRootVolumeParameters struct {
 
 	// Optional. The size of the disk, in GiBs. When unspecified, a default value is provided. See the specific reference in the parent resource.
-	// +kubebuilder:validation:Optional
 	SizeGib *float64 `json:"sizeGib,omitempty" tf:"size_gib,omitempty"`
+}
+
+type ConfigSSHConfigInitParameters struct {
+
+	// The SSH public key data for VMs managed by Anthos. This accepts the authorized_keys file format used in OpenSSH according to the sshd(8) manual page.
+	AuthorizedKey *string `json:"authorizedKey,omitempty" tf:"authorized_key,omitempty"`
 }
 
 type ConfigSSHConfigObservation struct {
@@ -128,8 +166,13 @@ type ConfigSSHConfigObservation struct {
 type ConfigSSHConfigParameters struct {
 
 	// The SSH public key data for VMs managed by Anthos. This accepts the authorized_keys file format used in OpenSSH according to the sshd(8) manual page.
-	// +kubebuilder:validation:Required
-	AuthorizedKey *string `json:"authorizedKey" tf:"authorized_key,omitempty"`
+	AuthorizedKey *string `json:"authorizedKey,omitempty" tf:"authorized_key,omitempty"`
+}
+
+type MaxPodsConstraintInitParameters struct {
+
+	// The maximum number of pods to schedule on a single node.
+	MaxPodsPerNode *float64 `json:"maxPodsPerNode,omitempty" tf:"max_pods_per_node,omitempty"`
 }
 
 type MaxPodsConstraintObservation struct {
@@ -141,8 +184,34 @@ type MaxPodsConstraintObservation struct {
 type MaxPodsConstraintParameters struct {
 
 	// The maximum number of pods to schedule on a single node.
-	// +kubebuilder:validation:Required
-	MaxPodsPerNode *float64 `json:"maxPodsPerNode" tf:"max_pods_per_node,omitempty"`
+	MaxPodsPerNode *float64 `json:"maxPodsPerNode,omitempty" tf:"max_pods_per_node,omitempty"`
+}
+
+type NodePoolInitParameters struct {
+
+	// Optional. Annotations on the node pool. This field has the same restrictions as Kubernetes annotations. The total size of all keys and values combined is limited to 256k. Keys can have 2 segments: prefix  and name , separated by a slash (/). Prefix must be a DNS subdomain. Name must be 63 characters or less, begin and end with alphanumerics, with dashes (-), underscores (_), dots (.), and alphanumerics between.
+	Annotations map[string]*string `json:"annotations,omitempty" tf:"annotations,omitempty"`
+
+	// Autoscaler configuration for this node pool.
+	Autoscaling []AutoscalingInitParameters `json:"autoscaling,omitempty" tf:"autoscaling,omitempty"`
+
+	// Optional. The Azure availability zone of the nodes in this nodepool. When unspecified, it defaults to 1.
+	AzureAvailabilityZone *string `json:"azureAvailabilityZone,omitempty" tf:"azure_availability_zone,omitempty"`
+
+	// The node configuration of the node pool.
+	Config []ConfigInitParameters `json:"config,omitempty" tf:"config,omitempty"`
+
+	// The constraint on the maximum number of pods that can be run simultaneously on a node in the node pool.
+	MaxPodsConstraint []MaxPodsConstraintInitParameters `json:"maxPodsConstraint,omitempty" tf:"max_pods_constraint,omitempty"`
+
+	// The project for the resource
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The ARM ID of the subnet where the node pool VMs run. Make sure it's a subnet under the virtual network in the cluster configuration.
+	SubnetID *string `json:"subnetId,omitempty" tf:"subnet_id,omitempty"`
+
+	// The Kubernetes version (e.g. 1.19.10-gke.1000) running on this node pool.
+	Version *string `json:"version,omitempty" tf:"version,omitempty"`
 }
 
 type NodePoolObservation struct {
@@ -202,15 +271,12 @@ type NodePoolObservation struct {
 type NodePoolParameters struct {
 
 	// Optional. Annotations on the node pool. This field has the same restrictions as Kubernetes annotations. The total size of all keys and values combined is limited to 256k. Keys can have 2 segments: prefix  and name , separated by a slash (/). Prefix must be a DNS subdomain. Name must be 63 characters or less, begin and end with alphanumerics, with dashes (-), underscores (_), dots (.), and alphanumerics between.
-	// +kubebuilder:validation:Optional
 	Annotations map[string]*string `json:"annotations,omitempty" tf:"annotations,omitempty"`
 
 	// Autoscaler configuration for this node pool.
-	// +kubebuilder:validation:Optional
 	Autoscaling []AutoscalingParameters `json:"autoscaling,omitempty" tf:"autoscaling,omitempty"`
 
 	// Optional. The Azure availability zone of the nodes in this nodepool. When unspecified, it defaults to 1.
-	// +kubebuilder:validation:Optional
 	AzureAvailabilityZone *string `json:"azureAvailabilityZone,omitempty" tf:"azure_availability_zone,omitempty"`
 
 	// The azureCluster for the resource
@@ -227,7 +293,6 @@ type NodePoolParameters struct {
 	ClusterSelector *v1.Selector `json:"clusterSelector,omitempty" tf:"-"`
 
 	// The node configuration of the node pool.
-	// +kubebuilder:validation:Optional
 	Config []ConfigParameters `json:"config,omitempty" tf:"config,omitempty"`
 
 	// The location for the resource
@@ -235,19 +300,15 @@ type NodePoolParameters struct {
 	Location *string `json:"location" tf:"location,omitempty"`
 
 	// The constraint on the maximum number of pods that can be run simultaneously on a node in the node pool.
-	// +kubebuilder:validation:Optional
 	MaxPodsConstraint []MaxPodsConstraintParameters `json:"maxPodsConstraint,omitempty" tf:"max_pods_constraint,omitempty"`
 
 	// The project for the resource
-	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The ARM ID of the subnet where the node pool VMs run. Make sure it's a subnet under the virtual network in the cluster configuration.
-	// +kubebuilder:validation:Optional
 	SubnetID *string `json:"subnetId,omitempty" tf:"subnet_id,omitempty"`
 
 	// The Kubernetes version (e.g. 1.19.10-gke.1000) running on this node pool.
-	// +kubebuilder:validation:Optional
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
 }
 
@@ -255,6 +316,10 @@ type NodePoolParameters struct {
 type NodePoolSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     NodePoolParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	InitProvider NodePoolInitParameters `json:"initProvider,omitempty"`
 }
 
 // NodePoolStatus defines the observed state of NodePool.
@@ -275,11 +340,11 @@ type NodePoolStatus struct {
 type NodePool struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.autoscaling)",message="autoscaling is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.config)",message="config is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.maxPodsConstraint)",message="maxPodsConstraint is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.subnetId)",message="subnetId is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.version)",message="version is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.autoscaling) || has(self.initProvider.autoscaling)",message="autoscaling is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.config) || has(self.initProvider.config)",message="config is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.maxPodsConstraint) || has(self.initProvider.maxPodsConstraint)",message="maxPodsConstraint is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.subnetId) || has(self.initProvider.subnetId)",message="subnetId is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.version) || has(self.initProvider.version)",message="version is a required parameter"
 	Spec   NodePoolSpec   `json:"spec"`
 	Status NodePoolStatus `json:"status,omitempty"`
 }

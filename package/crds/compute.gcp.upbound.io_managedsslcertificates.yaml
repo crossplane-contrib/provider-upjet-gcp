@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.0
+    controller-gen.kubebuilder.io/version: v0.12.1
   name: managedsslcertificates.compute.gcp.upbound.io
 spec:
   group: compute.gcp.upbound.io
@@ -86,8 +86,42 @@ spec:
                           items:
                             type: string
                           type: array
-                      required:
-                      - domains
+                      type: object
+                    type: array
+                  project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  type:
+                    description: 'Enum field whose value is always MANAGED - used
+                      to signal to the API which type this is. Default value is MANAGED.
+                      Possible values are: MANAGED.'
+                    type: string
+                type: object
+              initProvider:
+                description: THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice.
+                properties:
+                  certificateId:
+                    description: The unique identifier for the resource.
+                    type: number
+                  description:
+                    description: An optional description of this resource.
+                    type: string
+                  managed:
+                    description: Properties relevant to a managed certificate.  These
+                      will be used if the certificate is managed (as indicated by
+                      a value of MANAGED in type). Structure is documented below.
+                    items:
+                      properties:
+                        domains:
+                          description: Domains for which a managed SSL certificate
+                            will be valid.  Currently, there can be up to 100 domains
+                            in this list.
+                          items:
+                            type: string
+                          type: array
                       type: object
                     type: array
                   project:

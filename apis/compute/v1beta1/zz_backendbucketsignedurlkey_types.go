@@ -25,6 +25,16 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type BackendBucketSignedURLKeyInitParameters struct {
+
+	// Name of the signed URL key.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+}
+
 type BackendBucketSignedURLKeyObservation struct {
 
 	// The backend bucket this signed URL key belongs.
@@ -59,16 +69,13 @@ type BackendBucketSignedURLKeyParameters struct {
 	// 128-bit key value used for signing the URL. The key value must be a
 	// valid RFC 4648 Section 5 base64url encoded string.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	// +kubebuilder:validation:Optional
 	KeyValueSecretRef v1.SecretKeySelector `json:"keyValueSecretRef" tf:"-"`
 
 	// Name of the signed URL key.
-	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
-	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 
@@ -76,6 +83,10 @@ type BackendBucketSignedURLKeyParameters struct {
 type BackendBucketSignedURLKeySpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     BackendBucketSignedURLKeyParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	InitProvider BackendBucketSignedURLKeyInitParameters `json:"initProvider,omitempty"`
 }
 
 // BackendBucketSignedURLKeyStatus defines the observed state of BackendBucketSignedURLKey.
@@ -97,7 +108,7 @@ type BackendBucketSignedURLKey struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.keyValueSecretRef)",message="keyValueSecretRef is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.name)",message="name is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.name) || has(self.initProvider.name)",message="name is a required parameter"
 	Spec   BackendBucketSignedURLKeySpec   `json:"spec"`
 	Status BackendBucketSignedURLKeyStatus `json:"status,omitempty"`
 }

@@ -25,6 +25,14 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type DatasetIAMBindingConditionInitParameters struct {
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	Expression *string `json:"expression,omitempty" tf:"expression,omitempty"`
+
+	Title *string `json:"title,omitempty" tf:"title,omitempty"`
+}
+
 type DatasetIAMBindingConditionObservation struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -34,15 +42,19 @@ type DatasetIAMBindingConditionObservation struct {
 }
 
 type DatasetIAMBindingConditionParameters struct {
-
-	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// +kubebuilder:validation:Required
-	Expression *string `json:"expression" tf:"expression,omitempty"`
+	Expression *string `json:"expression,omitempty" tf:"expression,omitempty"`
 
-	// +kubebuilder:validation:Required
-	Title *string `json:"title" tf:"title,omitempty"`
+	Title *string `json:"title,omitempty" tf:"title,omitempty"`
+}
+
+type DatasetIAMBindingInitParameters struct {
+	Condition []DatasetIAMBindingConditionInitParameters `json:"condition,omitempty" tf:"condition,omitempty"`
+
+	Members []*string `json:"members,omitempty" tf:"members,omitempty"`
+
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 
 type DatasetIAMBindingObservation struct {
@@ -62,8 +74,6 @@ type DatasetIAMBindingObservation struct {
 }
 
 type DatasetIAMBindingParameters struct {
-
-	// +kubebuilder:validation:Optional
 	Condition []DatasetIAMBindingConditionParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/bigquery/v1beta1.Dataset
@@ -78,10 +88,8 @@ type DatasetIAMBindingParameters struct {
 	// +kubebuilder:validation:Optional
 	DatasetIDSelector *v1.Selector `json:"datasetIdSelector,omitempty" tf:"-"`
 
-	// +kubebuilder:validation:Optional
 	Members []*string `json:"members,omitempty" tf:"members,omitempty"`
 
-	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -92,6 +100,10 @@ type DatasetIAMBindingParameters struct {
 type DatasetIAMBindingSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     DatasetIAMBindingParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	InitProvider DatasetIAMBindingInitParameters `json:"initProvider,omitempty"`
 }
 
 // DatasetIAMBindingStatus defines the observed state of DatasetIAMBinding.
@@ -112,7 +124,7 @@ type DatasetIAMBindingStatus struct {
 type DatasetIAMBinding struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.members)",message="members is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.members) || has(self.initProvider.members)",message="members is a required parameter"
 	Spec   DatasetIAMBindingSpec   `json:"spec"`
 	Status DatasetIAMBindingStatus `json:"status,omitempty"`
 }

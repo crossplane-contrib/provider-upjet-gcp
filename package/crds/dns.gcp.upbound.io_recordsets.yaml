@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.0
+    controller-gen.kubebuilder.io/version: v0.12.1
   name: recordsets.dns.gcp.upbound.io
 spec:
   group: dns.gcp.upbound.io
@@ -214,17 +214,8 @@ spec:
                                             description: The region of the load balancer.
                                               Only needed for regional load balancers.
                                             type: string
-                                        required:
-                                        - ipAddress
-                                        - ipProtocol
-                                        - loadBalancerType
-                                        - networkUrl
-                                        - port
-                                        - project
                                         type: object
                                       type: array
-                                  required:
-                                  - internalLoadBalancers
                                   type: object
                                 type: array
                               location:
@@ -235,8 +226,6 @@ spec:
                                 items:
                                   type: string
                                 type: array
-                            required:
-                            - location
                             type: object
                           type: array
                         primaryBackup:
@@ -303,17 +292,8 @@ spec:
                                                     balancer. Only needed for regional
                                                     load balancers.
                                                   type: string
-                                              required:
-                                              - ipAddress
-                                              - ipProtocol
-                                              - loadBalancerType
-                                              - networkUrl
-                                              - port
-                                              - project
                                               type: object
                                             type: array
-                                        required:
-                                        - internalLoadBalancers
                                         type: object
                                       type: array
                                     location:
@@ -325,8 +305,6 @@ spec:
                                       items:
                                         type: string
                                       type: array
-                                  required:
-                                  - location
                                   type: object
                                 type: array
                               enableGeoFencingForBackups:
@@ -739,14 +717,8 @@ spec:
                                                     type: string
                                                 type: object
                                             type: object
-                                        required:
-                                        - ipProtocol
-                                        - loadBalancerType
-                                        - port
                                         type: object
                                       type: array
-                                  required:
-                                  - internalLoadBalancers
                                   type: object
                                 type: array
                               trickleRatio:
@@ -754,9 +726,6 @@ spec:
                                   send to the backup targets even when the primary
                                   targets are healthy.
                                 type: number
-                            required:
-                            - backupGeo
-                            - primary
                             type: object
                           type: array
                         wrr:
@@ -812,17 +781,8 @@ spec:
                                             description: The region of the load balancer.
                                               Only needed for regional load balancers.
                                             type: string
-                                        required:
-                                        - ipAddress
-                                        - ipProtocol
-                                        - loadBalancerType
-                                        - networkUrl
-                                        - port
-                                        - project
                                         type: object
                                       type: array
-                                  required:
-                                  - internalLoadBalancers
                                   type: object
                                 type: array
                               rrdatas:
@@ -833,8 +793,299 @@ spec:
                               weight:
                                 description: The ratio of traffic routed to the target.
                                 type: number
-                            required:
-                            - weight
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  rrdatas:
+                    description: The string data for the records in this record set
+                      whose meaning depends on the DNS type. For TXT record, if the
+                      string data contains spaces, add surrounding \" if you don't
+                      want your string to get split on spaces.g. "first255characters\"
+                      \"morecharacters").
+                    items:
+                      type: string
+                    type: array
+                  ttl:
+                    description: The time-to-live of this record set (seconds).
+                    type: number
+                  type:
+                    description: The DNS record set type.
+                    type: string
+                type: object
+              initProvider:
+                description: THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice.
+                properties:
+                  name:
+                    description: The DNS name this record set will apply to.
+                    type: string
+                  project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  routingPolicy:
+                    description: The configuration for steering traffic based on query.
+                      Now you can specify either Weighted Round Robin(WRR) type or
+                      Geolocation(GEO) type. Structure is documented below.
+                    items:
+                      properties:
+                        enableGeoFencing:
+                          description: Specifies whether to enable fencing for geo
+                            queries.
+                          type: boolean
+                        geo:
+                          description: The configuration for Geolocation based routing
+                            policy. Structure is document below.
+                          items:
+                            properties:
+                              healthCheckedTargets:
+                                description: The list of targets to be health checked.
+                                  Note that if DNSSEC is enabled for this zone, only
+                                  one of rrdatas or health_checked_targets can be
+                                  set. Structure is document below.
+                                items:
+                                  properties:
+                                    internalLoadBalancers:
+                                      description: The list of internal load balancers
+                                        to health check. Structure is document below.
+                                      items:
+                                        properties:
+                                          ipAddress:
+                                            description: The frontend IP address of
+                                              the load balancer.
+                                            type: string
+                                          ipProtocol:
+                                            description: 'The configured IP protocol
+                                              of the load balancer. This value is
+                                              case-sensitive. Possible values: ["tcp",
+                                              "udp"]'
+                                            type: string
+                                          loadBalancerType:
+                                            description: 'The type of load balancer.
+                                              This value is case-sensitive. Possible
+                                              values: ["regionalL4ilb"]'
+                                            type: string
+                                          networkUrl:
+                                            description: The fully qualified url of
+                                              the network in which the load balancer
+                                              belongs. This should be formatted like
+                                              projects/{project}/global/networks/{network}
+                                              or https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}.
+                                            type: string
+                                          port:
+                                            description: The configured port of the
+                                              load balancer.
+                                            type: string
+                                          project:
+                                            description: The ID of the project in
+                                              which the resource belongs. If it is
+                                              not provided, the provider project is
+                                              used.
+                                            type: string
+                                          region:
+                                            description: The region of the load balancer.
+                                              Only needed for regional load balancers.
+                                            type: string
+                                        type: object
+                                      type: array
+                                  type: object
+                                type: array
+                              location:
+                                description: The location name defined in Google Cloud.
+                                type: string
+                              rrdatas:
+                                description: Same as rrdatas above.
+                                items:
+                                  type: string
+                                type: array
+                            type: object
+                          type: array
+                        primaryBackup:
+                          description: The configuration for a primary-backup policy
+                            with global to regional failover. Queries are responded
+                            to with the global primary targets, but if none of the
+                            primary targets are healthy, then we fallback to a regional
+                            failover policy. Structure is document below.
+                          items:
+                            properties:
+                              backupGeo:
+                                description: The backup geo targets, which provide
+                                  a regional failover policy for the otherwise global
+                                  primary targets. Structure is document above.
+                                items:
+                                  properties:
+                                    healthCheckedTargets:
+                                      description: The list of targets to be health
+                                        checked. Note that if DNSSEC is enabled for
+                                        this zone, only one of rrdatas or health_checked_targets
+                                        can be set. Structure is document below.
+                                      items:
+                                        properties:
+                                          internalLoadBalancers:
+                                            description: The list of internal load
+                                              balancers to health check. Structure
+                                              is document below.
+                                            items:
+                                              properties:
+                                                ipAddress:
+                                                  description: The frontend IP address
+                                                    of the load balancer.
+                                                  type: string
+                                                ipProtocol:
+                                                  description: 'The configured IP
+                                                    protocol of the load balancer.
+                                                    This value is case-sensitive.
+                                                    Possible values: ["tcp", "udp"]'
+                                                  type: string
+                                                loadBalancerType:
+                                                  description: 'The type of load balancer.
+                                                    This value is case-sensitive.
+                                                    Possible values: ["regionalL4ilb"]'
+                                                  type: string
+                                                networkUrl:
+                                                  description: The fully qualified
+                                                    url of the network in which the
+                                                    load balancer belongs. This should
+                                                    be formatted like projects/{project}/global/networks/{network}
+                                                    or https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}.
+                                                  type: string
+                                                port:
+                                                  description: The configured port
+                                                    of the load balancer.
+                                                  type: string
+                                                project:
+                                                  description: The ID of the project
+                                                    in which the resource belongs.
+                                                    If it is not provided, the provider
+                                                    project is used.
+                                                  type: string
+                                                region:
+                                                  description: The region of the load
+                                                    balancer. Only needed for regional
+                                                    load balancers.
+                                                  type: string
+                                              type: object
+                                            type: array
+                                        type: object
+                                      type: array
+                                    location:
+                                      description: The location name defined in Google
+                                        Cloud.
+                                      type: string
+                                    rrdatas:
+                                      description: Same as rrdatas above.
+                                      items:
+                                        type: string
+                                      type: array
+                                  type: object
+                                type: array
+                              enableGeoFencingForBackups:
+                                description: Specifies whether to enable fencing for
+                                  backup geo queries.
+                                type: boolean
+                              primary:
+                                description: The list of global primary targets to
+                                  be health checked. Structure is document below.
+                                items:
+                                  properties:
+                                    internalLoadBalancers:
+                                      description: The list of internal load balancers
+                                        to health check. Structure is document below.
+                                      items:
+                                        properties:
+                                          ipProtocol:
+                                            description: 'The configured IP protocol
+                                              of the load balancer. This value is
+                                              case-sensitive. Possible values: ["tcp",
+                                              "udp"]'
+                                            type: string
+                                          loadBalancerType:
+                                            description: 'The type of load balancer.
+                                              This value is case-sensitive. Possible
+                                              values: ["regionalL4ilb"]'
+                                            type: string
+                                          port:
+                                            description: The configured port of the
+                                              load balancer.
+                                            type: string
+                                        type: object
+                                      type: array
+                                  type: object
+                                type: array
+                              trickleRatio:
+                                description: Specifies the percentage of traffic to
+                                  send to the backup targets even when the primary
+                                  targets are healthy.
+                                type: number
+                            type: object
+                          type: array
+                        wrr:
+                          description: The configuration for Weighted Round Robin
+                            based routing policy. Structure is document below.
+                          items:
+                            properties:
+                              healthCheckedTargets:
+                                description: The list of targets to be health checked.
+                                  Note that if DNSSEC is enabled for this zone, only
+                                  one of rrdatas or health_checked_targets can be
+                                  set. Structure is document below.
+                                items:
+                                  properties:
+                                    internalLoadBalancers:
+                                      description: The list of internal load balancers
+                                        to health check. Structure is document below.
+                                      items:
+                                        properties:
+                                          ipAddress:
+                                            description: The frontend IP address of
+                                              the load balancer.
+                                            type: string
+                                          ipProtocol:
+                                            description: 'The configured IP protocol
+                                              of the load balancer. This value is
+                                              case-sensitive. Possible values: ["tcp",
+                                              "udp"]'
+                                            type: string
+                                          loadBalancerType:
+                                            description: 'The type of load balancer.
+                                              This value is case-sensitive. Possible
+                                              values: ["regionalL4ilb"]'
+                                            type: string
+                                          networkUrl:
+                                            description: The fully qualified url of
+                                              the network in which the load balancer
+                                              belongs. This should be formatted like
+                                              projects/{project}/global/networks/{network}
+                                              or https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}.
+                                            type: string
+                                          port:
+                                            description: The configured port of the
+                                              load balancer.
+                                            type: string
+                                          project:
+                                            description: The ID of the project in
+                                              which the resource belongs. If it is
+                                              not provided, the provider project is
+                                              used.
+                                            type: string
+                                          region:
+                                            description: The region of the load balancer.
+                                              Only needed for regional load balancers.
+                                            type: string
+                                        type: object
+                                      type: array
+                                  type: object
+                                type: array
+                              rrdatas:
+                                description: Same as rrdatas above.
+                                items:
+                                  type: string
+                                type: array
+                              weight:
+                                description: The ratio of traffic routed to the target.
+                                type: number
                             type: object
                           type: array
                       type: object
@@ -1055,10 +1306,12 @@ spec:
             x-kubernetes-validations:
             - message: name is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.name)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.name)
+                || has(self.initProvider.name)'
             - message: type is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.type)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.type)
+                || has(self.initProvider.type)'
           status:
             description: RecordSetStatus defines the observed state of RecordSet.
             properties:

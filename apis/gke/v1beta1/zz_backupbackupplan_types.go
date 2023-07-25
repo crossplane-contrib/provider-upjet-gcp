@@ -118,12 +118,10 @@ type BackupBackupPlanParameters struct {
 
 	// Defines the configuration of Backups created via this BackupPlan.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	BackupConfig []BackupConfigParameters `json:"backupConfig,omitempty" tf:"backup_config,omitempty"`
 
 	// Defines a schedule for automatic Backup creation via this BackupPlan.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	BackupSchedule []BackupScheduleParameters `json:"backupSchedule,omitempty" tf:"backup_schedule,omitempty"`
 
 	// The source cluster from which Backups will be created via this BackupPlan.
@@ -144,17 +142,14 @@ type BackupBackupPlanParameters struct {
 	// Setting this field to True locks the BackupPlan such that no further updates will be allowed
 	// (except deletes), including the deactivated field itself. It also prevents any new Backups
 	// from being created via this BackupPlan (including scheduled Backups).
-	// +kubebuilder:validation:Optional
 	Deactivated *bool `json:"deactivated,omitempty" tf:"deactivated,omitempty"`
 
 	// User specified descriptive string for this BackupPlan.
-	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Description: A set of custom labels supplied by the user.
 	// A list of key->value pairs.
 	// Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }.
-	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The region of the Backup Plan.
@@ -163,12 +158,10 @@ type BackupBackupPlanParameters struct {
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
-	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// RetentionPolicy governs lifecycle of Backups created under this plan.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	RetentionPolicy []RetentionPolicyParameters `json:"retentionPolicy,omitempty" tf:"retention_policy,omitempty"`
 }
 
@@ -229,33 +222,27 @@ type BackupConfigObservation struct {
 type BackupConfigParameters struct {
 
 	// If True, include all namespaced resources.
-	// +kubebuilder:validation:Optional
 	AllNamespaces *bool `json:"allNamespaces,omitempty" tf:"all_namespaces,omitempty"`
 
 	// This defines a customer managed encryption key that will be used to encrypt the "config"
 	// portion (the Kubernetes resources) of Backups created via this plan.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	EncryptionKey []EncryptionKeyParameters `json:"encryptionKey,omitempty" tf:"encryption_key,omitempty"`
 
 	// This flag specifies whether Kubernetes Secret resources should be included
 	// when they fall into the scope of Backups.
-	// +kubebuilder:validation:Optional
 	IncludeSecrets *bool `json:"includeSecrets,omitempty" tf:"include_secrets,omitempty"`
 
 	// This flag specifies whether volume data should be backed up when PVCs are
 	// included in the scope of a Backup.
-	// +kubebuilder:validation:Optional
 	IncludeVolumeData *bool `json:"includeVolumeData,omitempty" tf:"include_volume_data,omitempty"`
 
 	// A list of namespaced Kubernetes Resources.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	SelectedApplications []SelectedApplicationsParameters `json:"selectedApplications,omitempty" tf:"selected_applications,omitempty"`
 
 	// If set, include just the resources in the listed namespaces.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	SelectedNamespaces []SelectedNamespacesParameters `json:"selectedNamespaces,omitempty" tf:"selected_namespaces,omitempty"`
 }
 
@@ -286,11 +273,9 @@ type BackupScheduleParameters struct {
 	// A standard cron string that defines a repeating schedule for
 	// creating Backups via this BackupPlan.
 	// If this is defined, then backupRetainDays must also be defined.
-	// +kubebuilder:validation:Optional
 	CronSchedule *string `json:"cronSchedule,omitempty" tf:"cron_schedule,omitempty"`
 
 	// This flag denotes whether automatic Backup creation is paused for this BackupPlan.
-	// +kubebuilder:validation:Optional
 	Paused *bool `json:"paused,omitempty" tf:"paused,omitempty"`
 }
 
@@ -341,11 +326,9 @@ type NamespacedNamesObservation struct {
 type NamespacedNamesParameters struct {
 
 	// The name of a Kubernetes Resource.
-	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// The namespace of a Kubernetes Resource.
-	// +kubebuilder:validation:Optional
 	Namespace *string `json:"namespace,omitempty" tf:"namespace,omitempty"`
 }
 
@@ -413,7 +396,6 @@ type RetentionPolicyParameters struct {
 	// until it reaches Backup's (create time + backup_delete_lock_days).
 	// Updating this field of a BackupPlan does not affect existing Backups.
 	// Backups created after a successful update will inherit this new value.
-	// +kubebuilder:validation:Optional
 	BackupDeleteLockDays *float64 `json:"backupDeleteLockDays,omitempty" tf:"backup_delete_lock_days,omitempty"`
 
 	// The default maximum age of a Backup created via this BackupPlan.
@@ -426,13 +408,11 @@ type RetentionPolicyParameters struct {
 	// will automatically pick up the new value.
 	// NOTE: backupRetainDays must be >= backupDeleteLockDays.
 	// If cronSchedule is defined, then this must be <= 360 * the creation interval.]
-	// +kubebuilder:validation:Optional
 	BackupRetainDays *float64 `json:"backupRetainDays,omitempty" tf:"backup_retain_days,omitempty"`
 
 	// This flag denotes whether the retention policy of this BackupPlan is locked.
 	// If set to True, no further update is allowed on this policy, including
 	// the locked field itself.
-	// +kubebuilder:validation:Optional
 	Locked *bool `json:"locked,omitempty" tf:"locked,omitempty"`
 }
 
@@ -454,7 +434,6 @@ type SelectedApplicationsParameters struct {
 
 	// A list of namespaced Kubernetes resources.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	NamespacedNames []NamespacedNamesParameters `json:"namespacedNames,omitempty" tf:"namespaced_names,omitempty"`
 }
 
@@ -473,7 +452,6 @@ type SelectedNamespacesObservation struct {
 type SelectedNamespacesParameters struct {
 
 	// A list of Kubernetes Namespaces.
-	// +kubebuilder:validation:Optional
 	Namespaces []*string `json:"namespaces,omitempty" tf:"namespaces,omitempty"`
 }
 
@@ -484,14 +462,6 @@ type BackupBackupPlanSpec struct {
 	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
 	// unless the relevant Crossplane feature flag is enabled, and may be
 	// changed or removed without notice.
-	// InitProvider holds the same fields as ForProvider, with the exception
-	// of Identifier and other resource reference fields. The fields that are
-	// in InitProvider are merged into ForProvider when the resource is created.
-	// The same fields are also added to the terraform ignore_changes hook, to
-	// avoid updating them after creation. This is useful for fields that are
-	// required on creation, but we do not desire to update them after creation,
-	// for example because of an external controller is managing them, like an
-	// autoscaler.
 	InitProvider BackupBackupPlanInitParameters `json:"initProvider,omitempty"`
 }
 

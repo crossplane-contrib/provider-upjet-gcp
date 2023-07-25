@@ -25,6 +25,18 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type ClientInitParameters struct {
+
+	// The Azure Active Directory Application ID.
+	ApplicationID *string `json:"applicationId,omitempty" tf:"application_id,omitempty"`
+
+	// The project for the resource
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The Azure Active Directory Tenant ID.
+	TenantID *string `json:"tenantId,omitempty" tf:"tenant_id,omitempty"`
+}
+
 type ClientObservation struct {
 
 	// The Azure Active Directory Application ID.
@@ -55,7 +67,6 @@ type ClientObservation struct {
 type ClientParameters struct {
 
 	// The Azure Active Directory Application ID.
-	// +kubebuilder:validation:Optional
 	ApplicationID *string `json:"applicationId,omitempty" tf:"application_id,omitempty"`
 
 	// The location for the resource
@@ -63,11 +74,9 @@ type ClientParameters struct {
 	Location *string `json:"location" tf:"location,omitempty"`
 
 	// The project for the resource
-	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The Azure Active Directory Tenant ID.
-	// +kubebuilder:validation:Optional
 	TenantID *string `json:"tenantId,omitempty" tf:"tenant_id,omitempty"`
 }
 
@@ -75,6 +84,10 @@ type ClientParameters struct {
 type ClientSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     ClientParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	InitProvider ClientInitParameters `json:"initProvider,omitempty"`
 }
 
 // ClientStatus defines the observed state of Client.
@@ -95,8 +108,8 @@ type ClientStatus struct {
 type Client struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.applicationId)",message="applicationId is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.tenantId)",message="tenantId is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.applicationId) || has(self.initProvider.applicationId)",message="applicationId is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.tenantId) || has(self.initProvider.tenantId)",message="tenantId is a required parameter"
 	Spec   ClientSpec   `json:"spec"`
 	Status ClientStatus `json:"status,omitempty"`
 }

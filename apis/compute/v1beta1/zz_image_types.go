@@ -43,7 +43,6 @@ type GuestOsFeaturesParameters struct {
 
 	// The type of supported feature. Read Enabling guest operating system features to see a list of available options.
 	// Possible values are: MULTI_IP_SUBNET, SECURE_BOOT, SEV_CAPABLE, UEFI_COMPATIBLE, VIRTIO_SCSI_MULTIQUEUE, WINDOWS, GVNIC, SEV_LIVE_MIGRATABLE, SEV_SNP_CAPABLE, SUSPEND_RESUME_COMPATIBLE, TDX_CAPABLE.
-	// +kubebuilder:validation:Optional
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
@@ -75,13 +74,11 @@ type ImageEncryptionKeyParameters struct {
 
 	// The self link of the encryption key that is stored in Google Cloud
 	// KMS.
-	// +kubebuilder:validation:Optional
 	KMSKeySelfLink *string `json:"kmsKeySelfLink,omitempty" tf:"kms_key_self_link,omitempty"`
 
 	// The service account being used for the encryption request for the
 	// given KMS key. If absent, the Compute Engine default service
 	// account is used.
-	// +kubebuilder:validation:Optional
 	KMSKeyServiceAccount *string `json:"kmsKeyServiceAccount,omitempty" tf:"kms_key_service_account,omitempty"`
 }
 
@@ -228,11 +225,9 @@ type ImageParameters struct {
 
 	// An optional description of this resource. Provide this property when
 	// you create the resource.
-	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Size of the image when restored onto a persistent disk (in GB).
-	// +kubebuilder:validation:Optional
 	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
 
 	// The name of the image family to which this image belongs. You can
@@ -240,13 +235,11 @@ type ImageParameters struct {
 	// image name. The image family always returns its latest image that is
 	// not deprecated. The name of the image family must comply with
 	// RFC1035.
-	// +kubebuilder:validation:Optional
 	Family *string `json:"family,omitempty" tf:"family,omitempty"`
 
 	// A list of features to enable on the guest operating system.
 	// Applicable only for bootable images.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	GuestOsFeatures []GuestOsFeaturesParameters `json:"guestOsFeatures,omitempty" tf:"guest_os_features,omitempty"`
 
 	// Encrypts the image using a customer-supplied encryption key.
@@ -254,47 +247,38 @@ type ImageParameters struct {
 	// provide the same key if you use the image later (e.g. to create a
 	// disk from the image)
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	ImageEncryptionKey []ImageEncryptionKeyParameters `json:"imageEncryptionKey,omitempty" tf:"image_encryption_key,omitempty"`
 
 	// Labels to apply to this Image.
-	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// Any applicable license URI.
-	// +kubebuilder:validation:Optional
 	Licenses []*string `json:"licenses,omitempty" tf:"licenses,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
-	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The parameters of the raw disk image.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	RawDisk []RawDiskParameters `json:"rawDisk,omitempty" tf:"raw_disk,omitempty"`
 
 	// The source disk to create this image based on.
 	// You must provide either this property or the
 	// rawDisk.source property but not both to create an image.
-	// +kubebuilder:validation:Optional
 	SourceDisk *string `json:"sourceDisk,omitempty" tf:"source_disk,omitempty"`
 
 	// URL of the source image used to create this image. In order to create an image, you must provide the full or partial
 	// URL of one of the following:
-	// +kubebuilder:validation:Optional
 	SourceImage *string `json:"sourceImage,omitempty" tf:"source_image,omitempty"`
 
 	// URL of the source snapshot used to create this image.
 	// In order to create an image, you must provide the full or partial URL of one of the following:
-	// +kubebuilder:validation:Optional
 	SourceSnapshot *string `json:"sourceSnapshot,omitempty" tf:"source_snapshot,omitempty"`
 
 	// Cloud Storage bucket storage location of the image
 	// (regional or multi-regional).
 	// Reference link: https://cloud.google.com/compute/docs/reference/rest/v1/images
-	// +kubebuilder:validation:Optional
 	StorageLocations []*string `json:"storageLocations,omitempty" tf:"storage_locations,omitempty"`
 }
 
@@ -346,18 +330,15 @@ type RawDiskParameters struct {
 	// image is created.
 	// Default value is TAR.
 	// Possible values are: TAR.
-	// +kubebuilder:validation:Optional
 	ContainerType *string `json:"containerType,omitempty" tf:"container_type,omitempty"`
 
 	// An optional SHA1 checksum of the disk image before unpackaging.
 	// This is provided by the client when the disk image is created.
-	// +kubebuilder:validation:Optional
 	Sha1 *string `json:"sha1,omitempty" tf:"sha1,omitempty"`
 
 	// The full Google Cloud Storage URL where disk storage is stored
 	// You must provide either this property or the sourceDisk property
 	// but not both.
-	// +kubebuilder:validation:Optional
 	Source *string `json:"source,omitempty" tf:"source,omitempty"`
 }
 
@@ -368,14 +349,6 @@ type ImageSpec struct {
 	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
 	// unless the relevant Crossplane feature flag is enabled, and may be
 	// changed or removed without notice.
-	// InitProvider holds the same fields as ForProvider, with the exception
-	// of Identifier and other resource reference fields. The fields that are
-	// in InitProvider are merged into ForProvider when the resource is created.
-	// The same fields are also added to the terraform ignore_changes hook, to
-	// avoid updating them after creation. This is useful for fields that are
-	// required on creation, but we do not desire to update them after creation,
-	// for example because of an external controller is managing them, like an
-	// autoscaler.
 	InitProvider ImageInitParameters `json:"initProvider,omitempty"`
 }
 

@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.0
+    controller-gen.kubebuilder.io/version: v0.12.1
   name: domains.activedirectory.gcp.upbound.io
 spec:
   group: activedirectory.gcp.upbound.io
@@ -66,6 +66,51 @@ spec:
                 - Delete
                 type: string
               forProvider:
+                properties:
+                  admin:
+                    description: The name of delegated administrator account used
+                      to perform Active Directory operations. If not specified, setupadmin
+                      will be used.
+                    type: string
+                  authorizedNetworks:
+                    description: The full names of the Google Compute Engine networks
+                      the domain instance is connected to. The domain is only available
+                      on networks listed in authorizedNetworks. If CIDR subnets overlap
+                      between networks, domain creation will fail.
+                    items:
+                      type: string
+                    type: array
+                  domainName:
+                    description: The fully qualified domain name. e.g. mydomain.myorganization.com,
+                      with the restrictions, https://cloud.google.com/managed-microsoft-ad/reference/rest/v1/projects.locations.global.domains.
+                    type: string
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: Resource labels that can contain user-provided metadata
+                    type: object
+                  locations:
+                    description: Locations where domain needs to be provisioned. [regions][compute/docs/regions-zones/]
+                      e.g. us-west1 or us-east4 Service supports up to 4 locations
+                      at once. Each location will use a /26 block.
+                    items:
+                      type: string
+                    type: array
+                  project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  reservedIpRange:
+                    description: The CIDR range of internal addresses that are reserved
+                      for this domain. Reserved networks must be /24 or larger. Ranges
+                      must be unique and non-overlapping with existing subnets in
+                      authorizedNetworks
+                    type: string
+                type: object
+              initProvider:
+                description: THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice.
                 properties:
                   admin:
                     description: The name of delegated administrator account used
@@ -307,13 +352,16 @@ spec:
             x-kubernetes-validations:
             - message: domainName is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.domainName)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.domainName)
+                || has(self.initProvider.domainName)'
             - message: locations is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.locations)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.locations)
+                || has(self.initProvider.locations)'
             - message: reservedIpRange is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.reservedIpRange)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.reservedIpRange)
+                || has(self.initProvider.reservedIpRange)'
           status:
             description: DomainStatus defines the observed state of Domain.
             properties:

@@ -43,7 +43,6 @@ type ManagedParameters struct {
 
 	// Domains for which a managed SSL certificate will be valid.  Currently,
 	// there can be up to 100 domains in this list.
-	// +kubebuilder:validation:Optional
 	Domains []*string `json:"domains,omitempty" tf:"domains,omitempty"`
 }
 
@@ -113,29 +112,24 @@ type ManagedSSLCertificateObservation struct {
 type ManagedSSLCertificateParameters struct {
 
 	// The unique identifier for the resource.
-	// +kubebuilder:validation:Optional
 	CertificateID *float64 `json:"certificateId,omitempty" tf:"certificate_id,omitempty"`
 
 	// An optional description of this resource.
-	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Properties relevant to a managed certificate.  These will be used if the
 	// certificate is managed (as indicated by a value of MANAGED in type).
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	Managed []ManagedParameters `json:"managed,omitempty" tf:"managed,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
-	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Enum field whose value is always MANAGED - used to signal to the API
 	// which type this is.
 	// Default value is MANAGED.
 	// Possible values are: MANAGED.
-	// +kubebuilder:validation:Optional
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
@@ -146,14 +140,6 @@ type ManagedSSLCertificateSpec struct {
 	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
 	// unless the relevant Crossplane feature flag is enabled, and may be
 	// changed or removed without notice.
-	// InitProvider holds the same fields as ForProvider, with the exception
-	// of Identifier and other resource reference fields. The fields that are
-	// in InitProvider are merged into ForProvider when the resource is created.
-	// The same fields are also added to the terraform ignore_changes hook, to
-	// avoid updating them after creation. This is useful for fields that are
-	// required on creation, but we do not desire to update them after creation,
-	// for example because of an external controller is managing them, like an
-	// autoscaler.
 	InitProvider ManagedSSLCertificateInitParameters `json:"initProvider,omitempty"`
 }
 

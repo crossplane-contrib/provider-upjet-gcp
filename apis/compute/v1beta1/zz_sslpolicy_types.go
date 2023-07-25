@@ -128,18 +128,15 @@ type SSLPolicyParameters struct {
 	// for which ciphers are available to use. Note: this argument
 	// must be present when using the CUSTOM profile. This argument
 	// must not be present when using any other profile.
-	// +kubebuilder:validation:Optional
 	CustomFeatures []*string `json:"customFeatures,omitempty" tf:"custom_features,omitempty"`
 
 	// An optional description of this resource.
-	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// The minimum version of SSL protocol that can be used by the clients
 	// to establish a connection with the load balancer.
 	// Default value is TLS_1_0.
 	// Possible values are: TLS_1_0, TLS_1_1, TLS_1_2.
-	// +kubebuilder:validation:Optional
 	MinTLSVersion *string `json:"minTlsVersion,omitempty" tf:"min_tls_version,omitempty"`
 
 	// Profile specifies the set of SSL features that can be used by the
@@ -151,12 +148,10 @@ type SSLPolicyParameters struct {
 	// CUSTOM is used, the custom_features attribute must be set.
 	// Default value is COMPATIBLE.
 	// Possible values are: COMPATIBLE, MODERN, RESTRICTED, CUSTOM.
-	// +kubebuilder:validation:Optional
 	Profile *string `json:"profile,omitempty" tf:"profile,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
-	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 
@@ -167,14 +162,6 @@ type SSLPolicySpec struct {
 	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
 	// unless the relevant Crossplane feature flag is enabled, and may be
 	// changed or removed without notice.
-	// InitProvider holds the same fields as ForProvider, with the exception
-	// of Identifier and other resource reference fields. The fields that are
-	// in InitProvider are merged into ForProvider when the resource is created.
-	// The same fields are also added to the terraform ignore_changes hook, to
-	// avoid updating them after creation. This is useful for fields that are
-	// required on creation, but we do not desire to update them after creation,
-	// for example because of an external controller is managing them, like an
-	// autoscaler.
 	InitProvider SSLPolicyInitParameters `json:"initProvider,omitempty"`
 }
 

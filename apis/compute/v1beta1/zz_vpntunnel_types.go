@@ -148,20 +148,17 @@ type VPNTunnelObservation struct {
 type VPNTunnelParameters struct {
 
 	// An optional description of this resource.
-	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// IKE protocol version to use when establishing the VPN tunnel with
 	// peer VPN gateway.
 	// Acceptable IKE versions are 1 or 2. Default version is 2.
-	// +kubebuilder:validation:Optional
 	IkeVersion *float64 `json:"ikeVersion,omitempty" tf:"ike_version,omitempty"`
 
 	// Local traffic selector to use when establishing the VPN tunnel with
 	// peer VPN gateway. The value should be a CIDR formatted string,
 	// for example 192.168.0.0/16. The ranges should be disjoint.
 	// Only IPv4 is supported.
-	// +kubebuilder:validation:Optional
 	LocalTrafficSelector []*string `json:"localTrafficSelector,omitempty" tf:"local_traffic_selector,omitempty"`
 
 	// URL of the peer side external VPN gateway to which this VPN tunnel is connected.
@@ -170,7 +167,6 @@ type VPNTunnelParameters struct {
 	PeerExternalGateway *string `json:"peerExternalGateway,omitempty" tf:"peer_external_gateway,omitempty"`
 
 	// The interface ID of the external VPN gateway to which this VPN tunnel is connected.
-	// +kubebuilder:validation:Optional
 	PeerExternalGatewayInterface *float64 `json:"peerExternalGatewayInterface,omitempty" tf:"peer_external_gateway_interface,omitempty"`
 
 	// Reference to a ExternalVPNGateway to populate peerExternalGateway.
@@ -185,16 +181,13 @@ type VPNTunnelParameters struct {
 	// If provided, the VPN tunnel will automatically use the same vpn_gateway_interface
 	// ID in the peer GCP VPN gateway.
 	// This field must reference a google_compute_ha_vpn_gateway resource.
-	// +kubebuilder:validation:Optional
 	PeerGCPGateway *string `json:"peerGcpGateway,omitempty" tf:"peer_gcp_gateway,omitempty"`
 
 	// IP address of the peer VPN gateway. Only IPv4 is supported.
-	// +kubebuilder:validation:Optional
 	PeerIP *string `json:"peerIp,omitempty" tf:"peer_ip,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
-	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The region where the tunnel is located. If unset, is set to the region of target_vpn_gateway.
@@ -205,7 +198,6 @@ type VPNTunnelParameters struct {
 	// peer VPN gateway. The value should be a CIDR formatted string,
 	// for example 192.168.0.0/16. The ranges should be disjoint.
 	// Only IPv4 is supported.
-	// +kubebuilder:validation:Optional
 	RemoteTrafficSelector []*string `json:"remoteTrafficSelector,omitempty" tf:"remote_traffic_selector,omitempty"`
 
 	// URL of router resource to be used for dynamic routing.
@@ -224,7 +216,6 @@ type VPNTunnelParameters struct {
 	// Shared secret used to set the secure session between the Cloud VPN
 	// gateway and the peer VPN gateway.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	// +kubebuilder:validation:Optional
 	SharedSecretSecretRef v1.SecretKeySelector `json:"sharedSecretSecretRef" tf:"-"`
 
 	// URL of the Target VPN gateway with which this VPN tunnel is
@@ -250,7 +241,6 @@ type VPNTunnelParameters struct {
 	VPNGateway *string `json:"vpnGateway,omitempty" tf:"vpn_gateway,omitempty"`
 
 	// The interface ID of the VPN gateway with which this VPN tunnel is associated.
-	// +kubebuilder:validation:Optional
 	VPNGatewayInterface *float64 `json:"vpnGatewayInterface,omitempty" tf:"vpn_gateway_interface,omitempty"`
 
 	// Reference to a HaVPNGateway to populate vpnGateway.
@@ -269,14 +259,6 @@ type VPNTunnelSpec struct {
 	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
 	// unless the relevant Crossplane feature flag is enabled, and may be
 	// changed or removed without notice.
-	// InitProvider holds the same fields as ForProvider, with the exception
-	// of Identifier and other resource reference fields. The fields that are
-	// in InitProvider are merged into ForProvider when the resource is created.
-	// The same fields are also added to the terraform ignore_changes hook, to
-	// avoid updating them after creation. This is useful for fields that are
-	// required on creation, but we do not desire to update them after creation,
-	// for example because of an external controller is managing them, like an
-	// autoscaler.
 	InitProvider VPNTunnelInitParameters `json:"initProvider,omitempty"`
 }
 

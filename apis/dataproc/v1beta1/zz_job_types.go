@@ -25,6 +25,32 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type HadoopConfigInitParameters struct {
+
+	// HCFS URIs of archives to be extracted in the working directory of .jar, .tar, .tar.gz, .tgz, and .zip.
+	ArchiveUris []*string `json:"archiveUris,omitempty" tf:"archive_uris,omitempty"`
+
+	// The arguments to pass to the driver. Do not include arguments, such as -libjars or -Dfoo=bar, that can be set as job properties, since a collision may occur that causes an incorrect job submission.
+	Args []*string `json:"args,omitempty" tf:"args,omitempty"`
+
+	// HCFS URIs of files to be copied to the working directory of Hadoop drivers and distributed tasks. Useful for naively parallel tasks.
+	FileUris []*string `json:"fileUris,omitempty" tf:"file_uris,omitempty"`
+
+	// HCFS URIs of jar files to add to the CLASSPATHs of the Spark driver and tasks.
+	JarFileUris []*string `json:"jarFileUris,omitempty" tf:"jar_file_uris,omitempty"`
+
+	LoggingConfig []LoggingConfigInitParameters `json:"loggingConfig,omitempty" tf:"logging_config,omitempty"`
+
+	// The name of the driver's main class. The jar file containing the class must be in the default CLASSPATH or specified in jar_file_uris. Conflicts with main_jar_file_uri
+	MainClass *string `json:"mainClass,omitempty" tf:"main_class,omitempty"`
+
+	// The HCFS URI of the jar file containing the main class. Examples: 'gs://foo-bucket/analytics-binaries/extract-useful-metrics-mr.jar' 'hdfs:/tmp/test-samples/custom-wordcount.jar' 'file:///home/usr/lib/hadoop-mapreduce/hadoop-mapreduce-examples.jar'. Conflicts with main_class
+	MainJarFileURI *string `json:"mainJarFileUri,omitempty" tf:"main_jar_file_uri,omitempty"`
+
+	// A mapping of property names to values, used to configure Hadoop. Properties that conflict with values set by the Cloud Dataproc API may be overwritten. Can include properties set in /etc/hadoop/conf/*-site and classes in user code..
+	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
+}
+
 type HadoopConfigObservation struct {
 
 	// HCFS URIs of archives to be extracted in the working directory of .jar, .tar, .tar.gz, .tgz, and .zip.
@@ -54,35 +80,50 @@ type HadoopConfigObservation struct {
 type HadoopConfigParameters struct {
 
 	// HCFS URIs of archives to be extracted in the working directory of .jar, .tar, .tar.gz, .tgz, and .zip.
-	// +kubebuilder:validation:Optional
 	ArchiveUris []*string `json:"archiveUris,omitempty" tf:"archive_uris,omitempty"`
 
 	// The arguments to pass to the driver. Do not include arguments, such as -libjars or -Dfoo=bar, that can be set as job properties, since a collision may occur that causes an incorrect job submission.
-	// +kubebuilder:validation:Optional
 	Args []*string `json:"args,omitempty" tf:"args,omitempty"`
 
 	// HCFS URIs of files to be copied to the working directory of Hadoop drivers and distributed tasks. Useful for naively parallel tasks.
-	// +kubebuilder:validation:Optional
 	FileUris []*string `json:"fileUris,omitempty" tf:"file_uris,omitempty"`
 
 	// HCFS URIs of jar files to add to the CLASSPATHs of the Spark driver and tasks.
-	// +kubebuilder:validation:Optional
 	JarFileUris []*string `json:"jarFileUris,omitempty" tf:"jar_file_uris,omitempty"`
 
-	// +kubebuilder:validation:Optional
 	LoggingConfig []LoggingConfigParameters `json:"loggingConfig,omitempty" tf:"logging_config,omitempty"`
 
 	// The name of the driver's main class. The jar file containing the class must be in the default CLASSPATH or specified in jar_file_uris. Conflicts with main_jar_file_uri
-	// +kubebuilder:validation:Optional
 	MainClass *string `json:"mainClass,omitempty" tf:"main_class,omitempty"`
 
 	// The HCFS URI of the jar file containing the main class. Examples: 'gs://foo-bucket/analytics-binaries/extract-useful-metrics-mr.jar' 'hdfs:/tmp/test-samples/custom-wordcount.jar' 'file:///home/usr/lib/hadoop-mapreduce/hadoop-mapreduce-examples.jar'. Conflicts with main_class
-	// +kubebuilder:validation:Optional
 	MainJarFileURI *string `json:"mainJarFileUri,omitempty" tf:"main_jar_file_uri,omitempty"`
 
 	// A mapping of property names to values, used to configure Hadoop. Properties that conflict with values set by the Cloud Dataproc API may be overwritten. Can include properties set in /etc/hadoop/conf/*-site and classes in user code..
-	// +kubebuilder:validation:Optional
 	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
+}
+
+type HiveConfigInitParameters struct {
+
+	// Whether to continue executing queries if a query fails. The default value is false. Setting to true can be useful when executing independent parallel queries. Defaults to false.
+	ContinueOnFailure *bool `json:"continueOnFailure,omitempty" tf:"continue_on_failure,omitempty"`
+
+	// HCFS URIs of jar files to add to the CLASSPATH of the Hive server and Hadoop MapReduce (MR) tasks. Can contain Hive SerDes and UDFs.
+	JarFileUris []*string `json:"jarFileUris,omitempty" tf:"jar_file_uris,omitempty"`
+
+	// A mapping of property names and values, used to configure Hive. Properties that conflict with values set by the Cloud Dataproc API may be overwritten. Can include properties set in /etc/hadoop/conf/*-site.xml, /etc/hive/conf/hive-site.xml, and classes in user code..
+	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
+
+	// HCFS URI of file containing Hive script to execute as the job.
+	// Conflicts with query_list
+	QueryFileURI *string `json:"queryFileUri,omitempty" tf:"query_file_uri,omitempty"`
+
+	// The list of Hive queries or statements to execute as part of the job.
+	// Conflicts with query_file_uri
+	QueryList []*string `json:"queryList,omitempty" tf:"query_list,omitempty"`
+
+	// Mapping of query variable names to values (equivalent to the Hive command: SET name="value";).
+	ScriptVariables map[string]*string `json:"scriptVariables,omitempty" tf:"script_variables,omitempty"`
 }
 
 type HiveConfigObservation struct {
@@ -111,30 +152,59 @@ type HiveConfigObservation struct {
 type HiveConfigParameters struct {
 
 	// Whether to continue executing queries if a query fails. The default value is false. Setting to true can be useful when executing independent parallel queries. Defaults to false.
-	// +kubebuilder:validation:Optional
 	ContinueOnFailure *bool `json:"continueOnFailure,omitempty" tf:"continue_on_failure,omitempty"`
 
 	// HCFS URIs of jar files to add to the CLASSPATH of the Hive server and Hadoop MapReduce (MR) tasks. Can contain Hive SerDes and UDFs.
-	// +kubebuilder:validation:Optional
 	JarFileUris []*string `json:"jarFileUris,omitempty" tf:"jar_file_uris,omitempty"`
 
 	// A mapping of property names and values, used to configure Hive. Properties that conflict with values set by the Cloud Dataproc API may be overwritten. Can include properties set in /etc/hadoop/conf/*-site.xml, /etc/hive/conf/hive-site.xml, and classes in user code..
-	// +kubebuilder:validation:Optional
 	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
 
 	// HCFS URI of file containing Hive script to execute as the job.
 	// Conflicts with query_list
-	// +kubebuilder:validation:Optional
 	QueryFileURI *string `json:"queryFileUri,omitempty" tf:"query_file_uri,omitempty"`
 
 	// The list of Hive queries or statements to execute as part of the job.
 	// Conflicts with query_file_uri
-	// +kubebuilder:validation:Optional
 	QueryList []*string `json:"queryList,omitempty" tf:"query_list,omitempty"`
 
 	// Mapping of query variable names to values (equivalent to the Hive command: SET name="value";).
-	// +kubebuilder:validation:Optional
 	ScriptVariables map[string]*string `json:"scriptVariables,omitempty" tf:"script_variables,omitempty"`
+}
+
+type JobInitParameters struct {
+
+	// By default, you can only delete inactive jobs within
+	// Dataproc. Setting this to true, and calling destroy, will ensure that the
+	// job is first cancelled before issuing the delete.
+	ForceDelete *bool `json:"forceDelete,omitempty" tf:"force_delete,omitempty"`
+
+	HadoopConfig []HadoopConfigInitParameters `json:"hadoopConfig,omitempty" tf:"hadoop_config,omitempty"`
+
+	HiveConfig []HiveConfigInitParameters `json:"hiveConfig,omitempty" tf:"hive_config,omitempty"`
+
+	// The list of labels (key/value pairs) to add to the job.
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	PigConfig []PigConfigInitParameters `json:"pigConfig,omitempty" tf:"pig_config,omitempty"`
+
+	Placement []PlacementInitParameters `json:"placement,omitempty" tf:"placement,omitempty"`
+
+	PrestoConfig []PrestoConfigInitParameters `json:"prestoConfig,omitempty" tf:"presto_config,omitempty"`
+
+	// The project in which the cluster can be found and jobs
+	// subsequently run against. If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	PysparkConfig []PysparkConfigInitParameters `json:"pysparkConfig,omitempty" tf:"pyspark_config,omitempty"`
+
+	Reference []ReferenceInitParameters `json:"reference,omitempty" tf:"reference,omitempty"`
+
+	Scheduling []SchedulingInitParameters `json:"scheduling,omitempty" tf:"scheduling,omitempty"`
+
+	SparkConfig []SparkConfigInitParameters `json:"sparkConfig,omitempty" tf:"spark_config,omitempty"`
+
+	SparksqlConfig []SparksqlConfigInitParameters `json:"sparksqlConfig,omitempty" tf:"sparksql_config,omitempty"`
 }
 
 type JobObservation struct {
@@ -191,37 +261,27 @@ type JobParameters struct {
 	// By default, you can only delete inactive jobs within
 	// Dataproc. Setting this to true, and calling destroy, will ensure that the
 	// job is first cancelled before issuing the delete.
-	// +kubebuilder:validation:Optional
 	ForceDelete *bool `json:"forceDelete,omitempty" tf:"force_delete,omitempty"`
 
-	// +kubebuilder:validation:Optional
 	HadoopConfig []HadoopConfigParameters `json:"hadoopConfig,omitempty" tf:"hadoop_config,omitempty"`
 
-	// +kubebuilder:validation:Optional
 	HiveConfig []HiveConfigParameters `json:"hiveConfig,omitempty" tf:"hive_config,omitempty"`
 
 	// The list of labels (key/value pairs) to add to the job.
-	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
-	// +kubebuilder:validation:Optional
 	PigConfig []PigConfigParameters `json:"pigConfig,omitempty" tf:"pig_config,omitempty"`
 
-	// +kubebuilder:validation:Optional
 	Placement []PlacementParameters `json:"placement,omitempty" tf:"placement,omitempty"`
 
-	// +kubebuilder:validation:Optional
 	PrestoConfig []PrestoConfigParameters `json:"prestoConfig,omitempty" tf:"presto_config,omitempty"`
 
 	// The project in which the cluster can be found and jobs
 	// subsequently run against. If it is not provided, the provider project is used.
-	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
-	// +kubebuilder:validation:Optional
 	PysparkConfig []PysparkConfigParameters `json:"pysparkConfig,omitempty" tf:"pyspark_config,omitempty"`
 
-	// +kubebuilder:validation:Optional
 	Reference []ReferenceParameters `json:"reference,omitempty" tf:"reference,omitempty"`
 
 	// The Cloud Dataproc region. This essentially determines which clusters are available
@@ -239,14 +299,17 @@ type JobParameters struct {
 	// +kubebuilder:validation:Optional
 	RegionSelector *v1.Selector `json:"regionSelector,omitempty" tf:"-"`
 
-	// +kubebuilder:validation:Optional
 	Scheduling []SchedulingParameters `json:"scheduling,omitempty" tf:"scheduling,omitempty"`
 
-	// +kubebuilder:validation:Optional
 	SparkConfig []SparkConfigParameters `json:"sparkConfig,omitempty" tf:"spark_config,omitempty"`
 
-	// +kubebuilder:validation:Optional
 	SparksqlConfig []SparksqlConfigParameters `json:"sparksqlConfig,omitempty" tf:"sparksql_config,omitempty"`
+}
+
+type LoggingConfigInitParameters struct {
+
+	// The per-package log levels for the driver. This may include 'root' package name to configure rootLogger. Examples: 'com.google = FATAL', 'root = INFO', 'org.apache = DEBUG'
+	DriverLogLevels map[string]*string `json:"driverLogLevels,omitempty" tf:"driver_log_levels,omitempty"`
 }
 
 type LoggingConfigObservation struct {
@@ -258,8 +321,38 @@ type LoggingConfigObservation struct {
 type LoggingConfigParameters struct {
 
 	// The per-package log levels for the driver. This may include 'root' package name to configure rootLogger. Examples: 'com.google = FATAL', 'root = INFO', 'org.apache = DEBUG'
-	// +kubebuilder:validation:Required
-	DriverLogLevels map[string]*string `json:"driverLogLevels" tf:"driver_log_levels,omitempty"`
+	DriverLogLevels map[string]*string `json:"driverLogLevels,omitempty" tf:"driver_log_levels,omitempty"`
+}
+
+type PigConfigInitParameters struct {
+
+	// Whether to continue executing queries if a query fails. The default value is false. Setting to true can be useful when executing independent parallel queries. Defaults to false.
+	ContinueOnFailure *bool `json:"continueOnFailure,omitempty" tf:"continue_on_failure,omitempty"`
+
+	// HCFS URIs of jar files to add to the CLASSPATH of the Pig Client and Hadoop MapReduce (MR) tasks. Can contain Pig UDFs.
+	JarFileUris []*string `json:"jarFileUris,omitempty" tf:"jar_file_uris,omitempty"`
+
+	LoggingConfig []PigConfigLoggingConfigInitParameters `json:"loggingConfig,omitempty" tf:"logging_config,omitempty"`
+
+	// A mapping of property names to values, used to configure Pig. Properties that conflict with values set by the Cloud Dataproc API may be overwritten. Can include properties set in /etc/hadoop/conf/*-site.xml, /etc/pig/conf/pig.properties, and classes in user code.
+	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
+
+	// HCFS URI of file containing Hive script to execute as the job.
+	// Conflicts with query_list
+	QueryFileURI *string `json:"queryFileUri,omitempty" tf:"query_file_uri,omitempty"`
+
+	// The list of Hive queries or statements to execute as part of the job.
+	// Conflicts with query_file_uri
+	QueryList []*string `json:"queryList,omitempty" tf:"query_list,omitempty"`
+
+	// Mapping of query variable names to values (equivalent to the Pig command: name=[value]).
+	ScriptVariables map[string]*string `json:"scriptVariables,omitempty" tf:"script_variables,omitempty"`
+}
+
+type PigConfigLoggingConfigInitParameters struct {
+
+	// The per-package log levels for the driver. This may include 'root' package name to configure rootLogger. Examples: 'com.google = FATAL', 'root = INFO', 'org.apache = DEBUG'
+	DriverLogLevels map[string]*string `json:"driverLogLevels,omitempty" tf:"driver_log_levels,omitempty"`
 }
 
 type PigConfigLoggingConfigObservation struct {
@@ -271,8 +364,7 @@ type PigConfigLoggingConfigObservation struct {
 type PigConfigLoggingConfigParameters struct {
 
 	// The per-package log levels for the driver. This may include 'root' package name to configure rootLogger. Examples: 'com.google = FATAL', 'root = INFO', 'org.apache = DEBUG'
-	// +kubebuilder:validation:Required
-	DriverLogLevels map[string]*string `json:"driverLogLevels" tf:"driver_log_levels,omitempty"`
+	DriverLogLevels map[string]*string `json:"driverLogLevels,omitempty" tf:"driver_log_levels,omitempty"`
 }
 
 type PigConfigObservation struct {
@@ -303,33 +395,29 @@ type PigConfigObservation struct {
 type PigConfigParameters struct {
 
 	// Whether to continue executing queries if a query fails. The default value is false. Setting to true can be useful when executing independent parallel queries. Defaults to false.
-	// +kubebuilder:validation:Optional
 	ContinueOnFailure *bool `json:"continueOnFailure,omitempty" tf:"continue_on_failure,omitempty"`
 
 	// HCFS URIs of jar files to add to the CLASSPATH of the Pig Client and Hadoop MapReduce (MR) tasks. Can contain Pig UDFs.
-	// +kubebuilder:validation:Optional
 	JarFileUris []*string `json:"jarFileUris,omitempty" tf:"jar_file_uris,omitempty"`
 
-	// +kubebuilder:validation:Optional
 	LoggingConfig []PigConfigLoggingConfigParameters `json:"loggingConfig,omitempty" tf:"logging_config,omitempty"`
 
 	// A mapping of property names to values, used to configure Pig. Properties that conflict with values set by the Cloud Dataproc API may be overwritten. Can include properties set in /etc/hadoop/conf/*-site.xml, /etc/pig/conf/pig.properties, and classes in user code.
-	// +kubebuilder:validation:Optional
 	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
 
 	// HCFS URI of file containing Hive script to execute as the job.
 	// Conflicts with query_list
-	// +kubebuilder:validation:Optional
 	QueryFileURI *string `json:"queryFileUri,omitempty" tf:"query_file_uri,omitempty"`
 
 	// The list of Hive queries or statements to execute as part of the job.
 	// Conflicts with query_file_uri
-	// +kubebuilder:validation:Optional
 	QueryList []*string `json:"queryList,omitempty" tf:"query_list,omitempty"`
 
 	// Mapping of query variable names to values (equivalent to the Pig command: name=[value]).
-	// +kubebuilder:validation:Optional
 	ScriptVariables map[string]*string `json:"scriptVariables,omitempty" tf:"script_variables,omitempty"`
+}
+
+type PlacementInitParameters struct {
 }
 
 type PlacementObservation struct {
@@ -360,6 +448,37 @@ type PlacementParameters struct {
 	ClusterNameSelector *v1.Selector `json:"clusterNameSelector,omitempty" tf:"-"`
 }
 
+type PrestoConfigInitParameters struct {
+
+	// Presto client tags to attach to this query.
+	ClientTags []*string `json:"clientTags,omitempty" tf:"client_tags,omitempty"`
+
+	// Whether to continue executing queries if a query fails. Setting to true can be useful when executing independent parallel queries. Defaults to false.
+	ContinueOnFailure *bool `json:"continueOnFailure,omitempty" tf:"continue_on_failure,omitempty"`
+
+	LoggingConfig []PrestoConfigLoggingConfigInitParameters `json:"loggingConfig,omitempty" tf:"logging_config,omitempty"`
+
+	// The format in which query output will be displayed. See the Presto documentation for supported output formats.
+	OutputFormat *string `json:"outputFormat,omitempty" tf:"output_format,omitempty"`
+
+	// A mapping of property names to values. Used to set Presto session properties Equivalent to using the --session flag in the Presto CLI.
+	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
+
+	// The HCFS URI of the script that contains SQL queries.
+	// Conflicts with query_list
+	QueryFileURI *string `json:"queryFileUri,omitempty" tf:"query_file_uri,omitempty"`
+
+	// The list of SQL queries or statements to execute as part of the job.
+	// Conflicts with query_file_uri
+	QueryList []*string `json:"queryList,omitempty" tf:"query_list,omitempty"`
+}
+
+type PrestoConfigLoggingConfigInitParameters struct {
+
+	// The per-package log levels for the driver. This may include 'root' package name to configure rootLogger. Examples: 'com.google = FATAL', 'root = INFO', 'org.apache = DEBUG'
+	DriverLogLevels map[string]*string `json:"driverLogLevels,omitempty" tf:"driver_log_levels,omitempty"`
+}
+
 type PrestoConfigLoggingConfigObservation struct {
 
 	// The per-package log levels for the driver. This may include 'root' package name to configure rootLogger. Examples: 'com.google = FATAL', 'root = INFO', 'org.apache = DEBUG'
@@ -369,8 +488,7 @@ type PrestoConfigLoggingConfigObservation struct {
 type PrestoConfigLoggingConfigParameters struct {
 
 	// The per-package log levels for the driver. This may include 'root' package name to configure rootLogger. Examples: 'com.google = FATAL', 'root = INFO', 'org.apache = DEBUG'
-	// +kubebuilder:validation:Required
-	DriverLogLevels map[string]*string `json:"driverLogLevels" tf:"driver_log_levels,omitempty"`
+	DriverLogLevels map[string]*string `json:"driverLogLevels,omitempty" tf:"driver_log_levels,omitempty"`
 }
 
 type PrestoConfigObservation struct {
@@ -401,33 +519,58 @@ type PrestoConfigObservation struct {
 type PrestoConfigParameters struct {
 
 	// Presto client tags to attach to this query.
-	// +kubebuilder:validation:Optional
 	ClientTags []*string `json:"clientTags,omitempty" tf:"client_tags,omitempty"`
 
 	// Whether to continue executing queries if a query fails. Setting to true can be useful when executing independent parallel queries. Defaults to false.
-	// +kubebuilder:validation:Optional
 	ContinueOnFailure *bool `json:"continueOnFailure,omitempty" tf:"continue_on_failure,omitempty"`
 
-	// +kubebuilder:validation:Optional
 	LoggingConfig []PrestoConfigLoggingConfigParameters `json:"loggingConfig,omitempty" tf:"logging_config,omitempty"`
 
 	// The format in which query output will be displayed. See the Presto documentation for supported output formats.
-	// +kubebuilder:validation:Optional
 	OutputFormat *string `json:"outputFormat,omitempty" tf:"output_format,omitempty"`
 
 	// A mapping of property names to values. Used to set Presto session properties Equivalent to using the --session flag in the Presto CLI.
-	// +kubebuilder:validation:Optional
 	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
 
 	// The HCFS URI of the script that contains SQL queries.
 	// Conflicts with query_list
-	// +kubebuilder:validation:Optional
 	QueryFileURI *string `json:"queryFileUri,omitempty" tf:"query_file_uri,omitempty"`
 
 	// The list of SQL queries or statements to execute as part of the job.
 	// Conflicts with query_file_uri
-	// +kubebuilder:validation:Optional
 	QueryList []*string `json:"queryList,omitempty" tf:"query_list,omitempty"`
+}
+
+type PysparkConfigInitParameters struct {
+
+	// HCFS URIs of archives to be extracted in the working directory of .jar, .tar, .tar.gz, .tgz, and .zip.
+	ArchiveUris []*string `json:"archiveUris,omitempty" tf:"archive_uris,omitempty"`
+
+	// The arguments to pass to the driver.
+	Args []*string `json:"args,omitempty" tf:"args,omitempty"`
+
+	// HCFS URIs of files to be copied to the working directory of Python drivers and distributed tasks. Useful for naively parallel tasks.
+	FileUris []*string `json:"fileUris,omitempty" tf:"file_uris,omitempty"`
+
+	// HCFS URIs of jar files to add to the CLASSPATHs of the Python driver and tasks.
+	JarFileUris []*string `json:"jarFileUris,omitempty" tf:"jar_file_uris,omitempty"`
+
+	LoggingConfig []PysparkConfigLoggingConfigInitParameters `json:"loggingConfig,omitempty" tf:"logging_config,omitempty"`
+
+	// The HCFS URI of the main Python file to use as the driver. Must be a .py file.
+	MainPythonFileURI *string `json:"mainPythonFileUri,omitempty" tf:"main_python_file_uri,omitempty"`
+
+	// A mapping of property names to values, used to configure PySpark. Properties that conflict with values set by the Cloud Dataproc API may be overwritten. Can include properties set in /etc/spark/conf/spark-defaults.conf and classes in user code.
+	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
+
+	// HCFS file URIs of Python files to pass to the PySpark framework. Supported file types: .py, .egg, and .zip.
+	PythonFileUris []*string `json:"pythonFileUris,omitempty" tf:"python_file_uris,omitempty"`
+}
+
+type PysparkConfigLoggingConfigInitParameters struct {
+
+	// The per-package log levels for the driver. This may include 'root' package name to configure rootLogger. Examples: 'com.google = FATAL', 'root = INFO', 'org.apache = DEBUG'
+	DriverLogLevels map[string]*string `json:"driverLogLevels,omitempty" tf:"driver_log_levels,omitempty"`
 }
 
 type PysparkConfigLoggingConfigObservation struct {
@@ -439,8 +582,7 @@ type PysparkConfigLoggingConfigObservation struct {
 type PysparkConfigLoggingConfigParameters struct {
 
 	// The per-package log levels for the driver. This may include 'root' package name to configure rootLogger. Examples: 'com.google = FATAL', 'root = INFO', 'org.apache = DEBUG'
-	// +kubebuilder:validation:Required
-	DriverLogLevels map[string]*string `json:"driverLogLevels" tf:"driver_log_levels,omitempty"`
+	DriverLogLevels map[string]*string `json:"driverLogLevels,omitempty" tf:"driver_log_levels,omitempty"`
 }
 
 type PysparkConfigObservation struct {
@@ -472,35 +614,31 @@ type PysparkConfigObservation struct {
 type PysparkConfigParameters struct {
 
 	// HCFS URIs of archives to be extracted in the working directory of .jar, .tar, .tar.gz, .tgz, and .zip.
-	// +kubebuilder:validation:Optional
 	ArchiveUris []*string `json:"archiveUris,omitempty" tf:"archive_uris,omitempty"`
 
 	// The arguments to pass to the driver.
-	// +kubebuilder:validation:Optional
 	Args []*string `json:"args,omitempty" tf:"args,omitempty"`
 
 	// HCFS URIs of files to be copied to the working directory of Python drivers and distributed tasks. Useful for naively parallel tasks.
-	// +kubebuilder:validation:Optional
 	FileUris []*string `json:"fileUris,omitempty" tf:"file_uris,omitempty"`
 
 	// HCFS URIs of jar files to add to the CLASSPATHs of the Python driver and tasks.
-	// +kubebuilder:validation:Optional
 	JarFileUris []*string `json:"jarFileUris,omitempty" tf:"jar_file_uris,omitempty"`
 
-	// +kubebuilder:validation:Optional
 	LoggingConfig []PysparkConfigLoggingConfigParameters `json:"loggingConfig,omitempty" tf:"logging_config,omitempty"`
 
 	// The HCFS URI of the main Python file to use as the driver. Must be a .py file.
-	// +kubebuilder:validation:Required
-	MainPythonFileURI *string `json:"mainPythonFileUri" tf:"main_python_file_uri,omitempty"`
+	MainPythonFileURI *string `json:"mainPythonFileUri,omitempty" tf:"main_python_file_uri,omitempty"`
 
 	// A mapping of property names to values, used to configure PySpark. Properties that conflict with values set by the Cloud Dataproc API may be overwritten. Can include properties set in /etc/spark/conf/spark-defaults.conf and classes in user code.
-	// +kubebuilder:validation:Optional
 	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
 
 	// HCFS file URIs of Python files to pass to the PySpark framework. Supported file types: .py, .egg, and .zip.
-	// +kubebuilder:validation:Optional
 	PythonFileUris []*string `json:"pythonFileUris,omitempty" tf:"python_file_uris,omitempty"`
+}
+
+type ReferenceInitParameters struct {
+	JobID *string `json:"jobId,omitempty" tf:"job_id,omitempty"`
 }
 
 type ReferenceObservation struct {
@@ -508,9 +646,16 @@ type ReferenceObservation struct {
 }
 
 type ReferenceParameters struct {
-
-	// +kubebuilder:validation:Optional
 	JobID *string `json:"jobId,omitempty" tf:"job_id,omitempty"`
+}
+
+type SchedulingInitParameters struct {
+
+	// Maximum number of times per hour a driver may be restarted as a result of driver exiting with non-zero code before job is reported failed.
+	MaxFailuresPerHour *float64 `json:"maxFailuresPerHour,omitempty" tf:"max_failures_per_hour,omitempty"`
+
+	// Maximum number of times in total a driver may be restarted as a result of driver exiting with non-zero code before job is reported failed.
+	MaxFailuresTotal *float64 `json:"maxFailuresTotal,omitempty" tf:"max_failures_total,omitempty"`
 }
 
 type SchedulingObservation struct {
@@ -525,12 +670,44 @@ type SchedulingObservation struct {
 type SchedulingParameters struct {
 
 	// Maximum number of times per hour a driver may be restarted as a result of driver exiting with non-zero code before job is reported failed.
-	// +kubebuilder:validation:Required
-	MaxFailuresPerHour *float64 `json:"maxFailuresPerHour" tf:"max_failures_per_hour,omitempty"`
+	MaxFailuresPerHour *float64 `json:"maxFailuresPerHour,omitempty" tf:"max_failures_per_hour,omitempty"`
 
 	// Maximum number of times in total a driver may be restarted as a result of driver exiting with non-zero code before job is reported failed.
-	// +kubebuilder:validation:Required
-	MaxFailuresTotal *float64 `json:"maxFailuresTotal" tf:"max_failures_total,omitempty"`
+	MaxFailuresTotal *float64 `json:"maxFailuresTotal,omitempty" tf:"max_failures_total,omitempty"`
+}
+
+type SparkConfigInitParameters struct {
+
+	// HCFS URIs of archives to be extracted in the working directory of .jar, .tar, .tar.gz, .tgz, and .zip.
+	ArchiveUris []*string `json:"archiveUris,omitempty" tf:"archive_uris,omitempty"`
+
+	// The arguments to pass to the driver.
+	Args []*string `json:"args,omitempty" tf:"args,omitempty"`
+
+	// HCFS URIs of files to be copied to the working directory of Spark drivers and distributed tasks. Useful for naively parallel tasks.
+	FileUris []*string `json:"fileUris,omitempty" tf:"file_uris,omitempty"`
+
+	// HCFS URIs of jar files to add to the CLASSPATHs of the Spark driver and tasks.
+	JarFileUris []*string `json:"jarFileUris,omitempty" tf:"jar_file_uris,omitempty"`
+
+	LoggingConfig []SparkConfigLoggingConfigInitParameters `json:"loggingConfig,omitempty" tf:"logging_config,omitempty"`
+
+	// The class containing the main method of the driver. Must be in a
+	// provided jar or jar that is already on the classpath. Conflicts with main_jar_file_uri
+	MainClass *string `json:"mainClass,omitempty" tf:"main_class,omitempty"`
+
+	// The HCFS URI of jar file containing
+	// the driver jar. Conflicts with main_class
+	MainJarFileURI *string `json:"mainJarFileUri,omitempty" tf:"main_jar_file_uri,omitempty"`
+
+	// A mapping of property names to values, used to configure Spark. Properties that conflict with values set by the Cloud Dataproc API may be overwritten. Can include properties set in /etc/spark/conf/spark-defaults.conf and classes in user code.
+	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
+}
+
+type SparkConfigLoggingConfigInitParameters struct {
+
+	// The per-package log levels for the driver. This may include 'root' package name to configure rootLogger. Examples: 'com.google = FATAL', 'root = INFO', 'org.apache = DEBUG'
+	DriverLogLevels map[string]*string `json:"driverLogLevels,omitempty" tf:"driver_log_levels,omitempty"`
 }
 
 type SparkConfigLoggingConfigObservation struct {
@@ -542,8 +719,7 @@ type SparkConfigLoggingConfigObservation struct {
 type SparkConfigLoggingConfigParameters struct {
 
 	// The per-package log levels for the driver. This may include 'root' package name to configure rootLogger. Examples: 'com.google = FATAL', 'root = INFO', 'org.apache = DEBUG'
-	// +kubebuilder:validation:Required
-	DriverLogLevels map[string]*string `json:"driverLogLevels" tf:"driver_log_levels,omitempty"`
+	DriverLogLevels map[string]*string `json:"driverLogLevels,omitempty" tf:"driver_log_levels,omitempty"`
 }
 
 type SparkConfigObservation struct {
@@ -577,37 +753,57 @@ type SparkConfigObservation struct {
 type SparkConfigParameters struct {
 
 	// HCFS URIs of archives to be extracted in the working directory of .jar, .tar, .tar.gz, .tgz, and .zip.
-	// +kubebuilder:validation:Optional
 	ArchiveUris []*string `json:"archiveUris,omitempty" tf:"archive_uris,omitempty"`
 
 	// The arguments to pass to the driver.
-	// +kubebuilder:validation:Optional
 	Args []*string `json:"args,omitempty" tf:"args,omitempty"`
 
 	// HCFS URIs of files to be copied to the working directory of Spark drivers and distributed tasks. Useful for naively parallel tasks.
-	// +kubebuilder:validation:Optional
 	FileUris []*string `json:"fileUris,omitempty" tf:"file_uris,omitempty"`
 
 	// HCFS URIs of jar files to add to the CLASSPATHs of the Spark driver and tasks.
-	// +kubebuilder:validation:Optional
 	JarFileUris []*string `json:"jarFileUris,omitempty" tf:"jar_file_uris,omitempty"`
 
-	// +kubebuilder:validation:Optional
 	LoggingConfig []SparkConfigLoggingConfigParameters `json:"loggingConfig,omitempty" tf:"logging_config,omitempty"`
 
 	// The class containing the main method of the driver. Must be in a
 	// provided jar or jar that is already on the classpath. Conflicts with main_jar_file_uri
-	// +kubebuilder:validation:Optional
 	MainClass *string `json:"mainClass,omitempty" tf:"main_class,omitempty"`
 
 	// The HCFS URI of jar file containing
 	// the driver jar. Conflicts with main_class
-	// +kubebuilder:validation:Optional
 	MainJarFileURI *string `json:"mainJarFileUri,omitempty" tf:"main_jar_file_uri,omitempty"`
 
 	// A mapping of property names to values, used to configure Spark. Properties that conflict with values set by the Cloud Dataproc API may be overwritten. Can include properties set in /etc/spark/conf/spark-defaults.conf and classes in user code.
-	// +kubebuilder:validation:Optional
 	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
+}
+
+type SparksqlConfigInitParameters struct {
+
+	// HCFS URIs of jar files to be added to the Spark CLASSPATH.
+	JarFileUris []*string `json:"jarFileUris,omitempty" tf:"jar_file_uris,omitempty"`
+
+	LoggingConfig []SparksqlConfigLoggingConfigInitParameters `json:"loggingConfig,omitempty" tf:"logging_config,omitempty"`
+
+	// A mapping of property names to values, used to configure Spark SQL's SparkConf. Properties that conflict with values set by the Cloud Dataproc API may be overwritten.
+	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
+
+	// The HCFS URI of the script that contains SQL queries.
+	// Conflicts with query_list
+	QueryFileURI *string `json:"queryFileUri,omitempty" tf:"query_file_uri,omitempty"`
+
+	// The list of SQL queries or statements to execute as part of the job.
+	// Conflicts with query_file_uri
+	QueryList []*string `json:"queryList,omitempty" tf:"query_list,omitempty"`
+
+	// Mapping of query variable names to values (equivalent to the Spark SQL command: SET name="value";).
+	ScriptVariables map[string]*string `json:"scriptVariables,omitempty" tf:"script_variables,omitempty"`
+}
+
+type SparksqlConfigLoggingConfigInitParameters struct {
+
+	// The per-package log levels for the driver. This may include 'root' package name to configure rootLogger. Examples: 'com.google = FATAL', 'root = INFO', 'org.apache = DEBUG'
+	DriverLogLevels map[string]*string `json:"driverLogLevels,omitempty" tf:"driver_log_levels,omitempty"`
 }
 
 type SparksqlConfigLoggingConfigObservation struct {
@@ -619,8 +815,7 @@ type SparksqlConfigLoggingConfigObservation struct {
 type SparksqlConfigLoggingConfigParameters struct {
 
 	// The per-package log levels for the driver. This may include 'root' package name to configure rootLogger. Examples: 'com.google = FATAL', 'root = INFO', 'org.apache = DEBUG'
-	// +kubebuilder:validation:Required
-	DriverLogLevels map[string]*string `json:"driverLogLevels" tf:"driver_log_levels,omitempty"`
+	DriverLogLevels map[string]*string `json:"driverLogLevels,omitempty" tf:"driver_log_levels,omitempty"`
 }
 
 type SparksqlConfigObservation struct {
@@ -648,29 +843,26 @@ type SparksqlConfigObservation struct {
 type SparksqlConfigParameters struct {
 
 	// HCFS URIs of jar files to be added to the Spark CLASSPATH.
-	// +kubebuilder:validation:Optional
 	JarFileUris []*string `json:"jarFileUris,omitempty" tf:"jar_file_uris,omitempty"`
 
-	// +kubebuilder:validation:Optional
 	LoggingConfig []SparksqlConfigLoggingConfigParameters `json:"loggingConfig,omitempty" tf:"logging_config,omitempty"`
 
 	// A mapping of property names to values, used to configure Spark SQL's SparkConf. Properties that conflict with values set by the Cloud Dataproc API may be overwritten.
-	// +kubebuilder:validation:Optional
 	Properties map[string]*string `json:"properties,omitempty" tf:"properties,omitempty"`
 
 	// The HCFS URI of the script that contains SQL queries.
 	// Conflicts with query_list
-	// +kubebuilder:validation:Optional
 	QueryFileURI *string `json:"queryFileUri,omitempty" tf:"query_file_uri,omitempty"`
 
 	// The list of SQL queries or statements to execute as part of the job.
 	// Conflicts with query_file_uri
-	// +kubebuilder:validation:Optional
 	QueryList []*string `json:"queryList,omitempty" tf:"query_list,omitempty"`
 
 	// Mapping of query variable names to values (equivalent to the Spark SQL command: SET name="value";).
-	// +kubebuilder:validation:Optional
 	ScriptVariables map[string]*string `json:"scriptVariables,omitempty" tf:"script_variables,omitempty"`
+}
+
+type StatusInitParameters struct {
 }
 
 type StatusObservation struct {
@@ -695,6 +887,10 @@ type StatusParameters struct {
 type JobSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     JobParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	InitProvider JobInitParameters `json:"initProvider,omitempty"`
 }
 
 // JobStatus defines the observed state of Job.
@@ -715,7 +911,7 @@ type JobStatus struct {
 type Job struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.placement)",message="placement is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.placement) || has(self.initProvider.placement)",message="placement is a required parameter"
 	Spec   JobSpec   `json:"spec"`
 	Status JobStatus `json:"status,omitempty"`
 }

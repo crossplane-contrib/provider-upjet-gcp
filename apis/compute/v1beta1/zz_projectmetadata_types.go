@@ -25,6 +25,16 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type ProjectMetadataInitParameters struct {
+
+	// A series of key value pairs.
+	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
+
+	// The ID of the project in which the resource belongs. If it
+	// is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+}
+
 type ProjectMetadataObservation struct {
 
 	// an identifier for the resource with format {{project}}
@@ -41,12 +51,10 @@ type ProjectMetadataObservation struct {
 type ProjectMetadataParameters struct {
 
 	// A series of key value pairs.
-	// +kubebuilder:validation:Optional
 	Metadata map[string]*string `json:"metadata,omitempty" tf:"metadata,omitempty"`
 
 	// The ID of the project in which the resource belongs. If it
 	// is not provided, the provider project is used.
-	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 
@@ -54,6 +62,10 @@ type ProjectMetadataParameters struct {
 type ProjectMetadataSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     ProjectMetadataParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	InitProvider ProjectMetadataInitParameters `json:"initProvider,omitempty"`
 }
 
 // ProjectMetadataStatus defines the observed state of ProjectMetadata.
@@ -74,7 +86,7 @@ type ProjectMetadataStatus struct {
 type ProjectMetadata struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.metadata)",message="metadata is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.metadata) || has(self.initProvider.metadata)",message="metadata is a required parameter"
 	Spec   ProjectMetadataSpec   `json:"spec"`
 	Status ProjectMetadataStatus `json:"status,omitempty"`
 }

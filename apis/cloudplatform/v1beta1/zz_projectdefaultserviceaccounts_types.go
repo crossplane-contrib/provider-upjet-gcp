@@ -25,6 +25,18 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type ProjectDefaultServiceAccountsInitParameters struct {
+
+	// The action to be performed in the default service accounts. Valid values are: DEPRIVILEGE, DELETE, DISABLE. Note that DEPRIVILEGE action will ignore the REVERT configuration in the restore_policy
+	Action *string `json:"action,omitempty" tf:"action,omitempty"`
+
+	// The action to be performed in the default service accounts on the resource destroy.
+	// Valid values are NONE, REVERT and REVERT_AND_IGNORE_FAILURE. It is applied for any action but in the DEPRIVILEGE.
+	// If set to REVERT it attempts to restore all default SAs but the DEPRIVILEGE action.
+	// If set to REVERT_AND_IGNORE_FAILURE it is the same behavior as REVERT but ignores errors returned by the API.
+	RestorePolicy *string `json:"restorePolicy,omitempty" tf:"restore_policy,omitempty"`
+}
+
 type ProjectDefaultServiceAccountsObservation struct {
 
 	// The action to be performed in the default service accounts. Valid values are: DEPRIVILEGE, DELETE, DISABLE. Note that DEPRIVILEGE action will ignore the REVERT configuration in the restore_policy
@@ -49,7 +61,6 @@ type ProjectDefaultServiceAccountsObservation struct {
 type ProjectDefaultServiceAccountsParameters struct {
 
 	// The action to be performed in the default service accounts. Valid values are: DEPRIVILEGE, DELETE, DISABLE. Note that DEPRIVILEGE action will ignore the REVERT configuration in the restore_policy
-	// +kubebuilder:validation:Optional
 	Action *string `json:"action,omitempty" tf:"action,omitempty"`
 
 	// The project ID where service accounts are created.
@@ -69,7 +80,6 @@ type ProjectDefaultServiceAccountsParameters struct {
 	// Valid values are NONE, REVERT and REVERT_AND_IGNORE_FAILURE. It is applied for any action but in the DEPRIVILEGE.
 	// If set to REVERT it attempts to restore all default SAs but the DEPRIVILEGE action.
 	// If set to REVERT_AND_IGNORE_FAILURE it is the same behavior as REVERT but ignores errors returned by the API.
-	// +kubebuilder:validation:Optional
 	RestorePolicy *string `json:"restorePolicy,omitempty" tf:"restore_policy,omitempty"`
 }
 
@@ -77,6 +87,10 @@ type ProjectDefaultServiceAccountsParameters struct {
 type ProjectDefaultServiceAccountsSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     ProjectDefaultServiceAccountsParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	InitProvider ProjectDefaultServiceAccountsInitParameters `json:"initProvider,omitempty"`
 }
 
 // ProjectDefaultServiceAccountsStatus defines the observed state of ProjectDefaultServiceAccounts.
@@ -97,7 +111,7 @@ type ProjectDefaultServiceAccountsStatus struct {
 type ProjectDefaultServiceAccounts struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.action)",message="action is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.action) || has(self.initProvider.action)",message="action is a required parameter"
 	Spec   ProjectDefaultServiceAccountsSpec   `json:"spec"`
 	Status ProjectDefaultServiceAccountsStatus `json:"status,omitempty"`
 }

@@ -113,21 +113,17 @@ type NodeTemplateParameters struct {
 	// CPU overcommit.
 	// Default value is NONE.
 	// Possible values are: ENABLED, NONE.
-	// +kubebuilder:validation:Optional
 	CPUOvercommitType *string `json:"cpuOvercommitType,omitempty" tf:"cpu_overcommit_type,omitempty"`
 
 	// An optional textual description of the resource.
-	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Labels to use for node affinity, which will be used in
 	// instance scheduling.
-	// +kubebuilder:validation:Optional
 	NodeAffinityLabels map[string]*string `json:"nodeAffinityLabels,omitempty" tf:"node_affinity_labels,omitempty"`
 
 	// Node type to use for nodes group that are created from this template.
 	// Only one of nodeTypeFlexibility and nodeType can be specified.
-	// +kubebuilder:validation:Optional
 	NodeType *string `json:"nodeType,omitempty" tf:"node_type,omitempty"`
 
 	// Flexible properties for the desired node type. Node groups that
@@ -135,12 +131,10 @@ type NodeTemplateParameters struct {
 	// these properties. Only one of nodeTypeFlexibility and nodeType can
 	// be specified.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	NodeTypeFlexibility []NodeTypeFlexibilityParameters `json:"nodeTypeFlexibility,omitempty" tf:"node_type_flexibility,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
-	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Region where nodes using the node template will be created.
@@ -151,7 +145,6 @@ type NodeTemplateParameters struct {
 	// The server binding policy for nodes using this template. Determines
 	// where the nodes should restart following a maintenance event.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	ServerBinding []ServerBindingParameters `json:"serverBinding,omitempty" tf:"server_binding,omitempty"`
 }
 
@@ -180,11 +173,9 @@ type NodeTypeFlexibilityObservation struct {
 type NodeTypeFlexibilityParameters struct {
 
 	// Number of virtual CPUs to use.
-	// +kubebuilder:validation:Optional
 	Cpus *string `json:"cpus,omitempty" tf:"cpus,omitempty"`
 
 	// Physical memory available to the node, defined in MB.
-	// +kubebuilder:validation:Optional
 	Memory *string `json:"memory,omitempty" tf:"memory,omitempty"`
 }
 
@@ -236,7 +227,6 @@ type ServerBindingParameters struct {
 	// additional licenses when maintenance occurs. However, VMs on such
 	// nodes will experience outages while maintenance is applied.
 	// Possible values are: RESTART_NODE_ON_ANY_SERVER, RESTART_NODE_ON_MINIMAL_SERVERS.
-	// +kubebuilder:validation:Optional
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
@@ -247,14 +237,6 @@ type NodeTemplateSpec struct {
 	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
 	// unless the relevant Crossplane feature flag is enabled, and may be
 	// changed or removed without notice.
-	// InitProvider holds the same fields as ForProvider, with the exception
-	// of Identifier and other resource reference fields. The fields that are
-	// in InitProvider are merged into ForProvider when the resource is created.
-	// The same fields are also added to the terraform ignore_changes hook, to
-	// avoid updating them after creation. This is useful for fields that are
-	// required on creation, but we do not desire to update them after creation,
-	// for example because of an external controller is managing them, like an
-	// autoscaler.
 	InitProvider NodeTemplateInitParameters `json:"initProvider,omitempty"`
 }
 

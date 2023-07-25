@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.0
+    controller-gen.kubebuilder.io/version: v0.12.1
   name: domainmappings.cloudrun.gcp.upbound.io
 spec:
   group: cloudrun.gcp.upbound.io
@@ -283,6 +283,65 @@ spec:
                       type: object
                     type: array
                 type: object
+              initProvider:
+                description: THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice.
+                properties:
+                  location:
+                    description: The location of the cloud run instance. eg us-central1
+                    type: string
+                  metadata:
+                    description: Metadata associated with this DomainMapping. Structure
+                      is documented below.
+                    items:
+                      properties:
+                        annotations:
+                          additionalProperties:
+                            type: string
+                          description: 'Annotations is a key value map stored with
+                            a resource that may be set by external tools to store
+                            and retrieve arbitrary metadata. More info: http://kubernetes.io/docs/user-guide/annotations
+                            Note: The Cloud Run API may add additional annotations
+                            that were not provided in your config.ignore_changes rule
+                            to the metadata.0.annotations field.'
+                          type: object
+                        labels:
+                          additionalProperties:
+                            type: string
+                          description: 'Map of string keys and values that can be
+                            used to organize and categorize (scope and select) objects.
+                            May match selectors of replication controllers and routes.
+                            More info: http://kubernetes.io/docs/user-guide/labels'
+                          type: object
+                      type: object
+                    type: array
+                  name:
+                    description: Name should be a verified domain
+                    type: string
+                  project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  spec:
+                    description: The spec for this DomainMapping. Structure is documented
+                      below.
+                    items:
+                      properties:
+                        certificateMode:
+                          description: 'The mode of the certificate. Default value
+                            is AUTOMATIC. Possible values are: NONE, AUTOMATIC.'
+                          type: string
+                        forceOverride:
+                          description: If set, the mapping will override any mapping
+                            set before this spec was set. It is recommended that the
+                            user leaves this empty to receive an error warning about
+                            a potential conflict and only set it once the respective
+                            UI has given such a warning.
+                          type: boolean
+                      type: object
+                    type: array
+                type: object
               managementPolicies:
                 default:
                 - '*'
@@ -483,16 +542,20 @@ spec:
             x-kubernetes-validations:
             - message: location is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.location)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.location)
+                || has(self.initProvider.location)'
             - message: metadata is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.metadata)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.metadata)
+                || has(self.initProvider.metadata)'
             - message: name is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.name)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.name)
+                || has(self.initProvider.name)'
             - message: spec is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.spec)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.spec)
+                || has(self.initProvider.spec)'
           status:
             description: DomainMappingStatus defines the observed state of DomainMapping.
             properties:

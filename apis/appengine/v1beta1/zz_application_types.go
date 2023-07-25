@@ -25,6 +25,33 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type ApplicationInitParameters struct {
+
+	// The domain to authenticate users with when using App Engine's User API.
+	AuthDomain *string `json:"authDomain,omitempty" tf:"auth_domain,omitempty"`
+
+	// The type of the Cloud Firestore or Cloud Datastore database associated with this application.
+	// Can be CLOUD_FIRESTORE or CLOUD_DATASTORE_COMPATIBILITY for new
+	// instances.  To support old instances, the value CLOUD_DATASTORE is accepted by the provider, but will be rejected by the API.
+	// To create a Cloud Firestore database without creating an App Engine application, use the
+	// google_firestore_database
+	// resource instead.
+	DatabaseType *string `json:"databaseType,omitempty" tf:"database_type,omitempty"`
+
+	// A block of optional settings to configure specific App Engine features:
+	FeatureSettings []FeatureSettingsInitParameters `json:"featureSettings,omitempty" tf:"feature_settings,omitempty"`
+
+	// Settings for enabling Cloud Identity Aware Proxy
+	Iap []IapInitParameters `json:"iap,omitempty" tf:"iap,omitempty"`
+
+	// The location
+	// to serve the app from.
+	LocationID *string `json:"locationId,omitempty" tf:"location_id,omitempty"`
+
+	// The serving status of the app.
+	ServingStatus *string `json:"servingStatus,omitempty" tf:"serving_status,omitempty"`
+}
+
 type ApplicationObservation struct {
 
 	// Identifier of the app, usually {PROJECT_ID}
@@ -84,7 +111,6 @@ type ApplicationObservation struct {
 type ApplicationParameters struct {
 
 	// The domain to authenticate users with when using App Engine's User API.
-	// +kubebuilder:validation:Optional
 	AuthDomain *string `json:"authDomain,omitempty" tf:"auth_domain,omitempty"`
 
 	// The type of the Cloud Firestore or Cloud Datastore database associated with this application.
@@ -93,20 +119,16 @@ type ApplicationParameters struct {
 	// To create a Cloud Firestore database without creating an App Engine application, use the
 	// google_firestore_database
 	// resource instead.
-	// +kubebuilder:validation:Optional
 	DatabaseType *string `json:"databaseType,omitempty" tf:"database_type,omitempty"`
 
 	// A block of optional settings to configure specific App Engine features:
-	// +kubebuilder:validation:Optional
 	FeatureSettings []FeatureSettingsParameters `json:"featureSettings,omitempty" tf:"feature_settings,omitempty"`
 
 	// Settings for enabling Cloud Identity Aware Proxy
-	// +kubebuilder:validation:Optional
 	Iap []IapParameters `json:"iap,omitempty" tf:"iap,omitempty"`
 
 	// The location
 	// to serve the app from.
-	// +kubebuilder:validation:Optional
 	LocationID *string `json:"locationId,omitempty" tf:"location_id,omitempty"`
 
 	// The project ID to create the application under.
@@ -126,8 +148,14 @@ type ApplicationParameters struct {
 	ProjectSelector *v1.Selector `json:"projectSelector,omitempty" tf:"-"`
 
 	// The serving status of the app.
-	// +kubebuilder:validation:Optional
 	ServingStatus *string `json:"servingStatus,omitempty" tf:"serving_status,omitempty"`
+}
+
+type FeatureSettingsInitParameters struct {
+
+	// Set to false to use the legacy health check instead of the readiness
+	// and liveness checks.
+	SplitHealthChecks *bool `json:"splitHealthChecks,omitempty" tf:"split_health_checks,omitempty"`
 }
 
 type FeatureSettingsObservation struct {
@@ -141,8 +169,17 @@ type FeatureSettingsParameters struct {
 
 	// Set to false to use the legacy health check instead of the readiness
 	// and liveness checks.
-	// +kubebuilder:validation:Required
-	SplitHealthChecks *bool `json:"splitHealthChecks" tf:"split_health_checks,omitempty"`
+	SplitHealthChecks *bool `json:"splitHealthChecks,omitempty" tf:"split_health_checks,omitempty"`
+}
+
+type IapInitParameters struct {
+
+	// Whether the serving infrastructure will authenticate and authorize all incoming requests.
+	// (default is false)
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+
+	// OAuth2 client ID to use for the authentication flow.
+	Oauth2ClientID *string `json:"oauth2ClientId,omitempty" tf:"oauth2_client_id,omitempty"`
 }
 
 type IapObservation struct {
@@ -159,17 +196,17 @@ type IapParameters struct {
 
 	// Whether the serving infrastructure will authenticate and authorize all incoming requests.
 	// (default is false)
-	// +kubebuilder:validation:Optional
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 
 	// OAuth2 client ID to use for the authentication flow.
-	// +kubebuilder:validation:Required
-	Oauth2ClientID *string `json:"oauth2ClientId" tf:"oauth2_client_id,omitempty"`
+	Oauth2ClientID *string `json:"oauth2ClientId,omitempty" tf:"oauth2_client_id,omitempty"`
 
 	// OAuth2 client secret to use for the authentication flow.
 	// The SHA-256 hash of the value is returned in the oauth2ClientSecretSha256 field.
-	// +kubebuilder:validation:Required
 	Oauth2ClientSecretSecretRef v1.SecretKeySelector `json:"oauth2ClientSecretSecretRef" tf:"-"`
+}
+
+type URLDispatchRuleInitParameters struct {
 }
 
 type URLDispatchRuleObservation struct {
@@ -187,6 +224,10 @@ type URLDispatchRuleParameters struct {
 type ApplicationSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     ApplicationParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	InitProvider ApplicationInitParameters `json:"initProvider,omitempty"`
 }
 
 // ApplicationStatus defines the observed state of Application.
@@ -207,7 +248,7 @@ type ApplicationStatus struct {
 type Application struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.locationId)",message="locationId is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.locationId) || has(self.initProvider.locationId)",message="locationId is a required parameter"
 	Spec   ApplicationSpec   `json:"spec"`
 	Status ApplicationStatus `json:"status,omitempty"`
 }

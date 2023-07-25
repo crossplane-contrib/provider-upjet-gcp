@@ -25,6 +25,13 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type AutoHealingPoliciesInitParameters struct {
+
+	// The number of seconds that the managed instance group waits before
+	// it applies autohealing policies to new instances or recently recreated instances. Between 0 and 3600.
+	InitialDelaySec *float64 `json:"initialDelaySec,omitempty" tf:"initial_delay_sec,omitempty"`
+}
+
 type AutoHealingPoliciesObservation struct {
 
 	// The health check resource that signals autohealing.
@@ -53,8 +60,77 @@ type AutoHealingPoliciesParameters struct {
 
 	// The number of seconds that the managed instance group waits before
 	// it applies autohealing policies to new instances or recently recreated instances. Between 0 and 3600.
-	// +kubebuilder:validation:Required
-	InitialDelaySec *float64 `json:"initialDelaySec" tf:"initial_delay_sec,omitempty"`
+	InitialDelaySec *float64 `json:"initialDelaySec,omitempty" tf:"initial_delay_sec,omitempty"`
+}
+
+type InstanceGroupManagerInitParameters struct {
+
+	// The autohealing policies for this managed instance
+	// group. You can specify only one value. Structure is documented below. For more information, see the official documentation.
+	AutoHealingPolicies []AutoHealingPoliciesInitParameters `json:"autoHealingPolicies,omitempty" tf:"auto_healing_policies,omitempty"`
+
+	// The base instance name to use for
+	// instances in this group. The value must be a valid
+	// RFC1035 name. Supported characters
+	// are lowercase letters, numbers, and hyphens (-). Instances are named by
+	// appending a hyphen and a random four-character string to the base instance
+	// name.
+	BaseInstanceName *string `json:"baseInstanceName,omitempty" tf:"base_instance_name,omitempty"`
+
+	// An optional textual description of the instance
+	// group manager.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Pagination behavior of the listManagedInstances API
+	// method for this managed instance group. Valid values are: PAGELESS, PAGINATED.
+	// If PAGELESS (default), Pagination is disabled for the group's listManagedInstances API method.
+	// maxResults and pageToken query parameters are ignored and all instances are returned in a single
+	// response. If PAGINATED, pagination is enabled, maxResults and pageToken query parameters are
+	// respected.
+	ListManagedInstancesResults *string `json:"listManagedInstancesResults,omitempty" tf:"list_managed_instances_results,omitempty"`
+
+	// The named port configuration. See the section below
+	// for details on configuration.
+	NamedPort []InstanceGroupManagerNamedPortInitParameters `json:"namedPort,omitempty" tf:"named_port,omitempty"`
+
+	// The ID of the project in which the resource belongs. If it
+	// is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Disks created on the instances that will be preserved on instance delete, update, etc. Structure is documented below. For more information see the official documentation.
+	StatefulDisk []StatefulDiskInitParameters `json:"statefulDisk,omitempty" tf:"stateful_disk,omitempty"`
+
+	// The target number of running instances for this managed
+	// instance group. This value should always be explicitly set unless this resource is attached to
+	// an autoscaler, in which case it should never be set. Defaults to 0.
+	TargetSize *float64 `json:"targetSize,omitempty" tf:"target_size,omitempty"`
+
+	// The update policy for this managed instance group. Structure is documented below. For more information, see the official documentation and API
+	UpdatePolicy []UpdatePolicyInitParameters `json:"updatePolicy,omitempty" tf:"update_policy,omitempty"`
+
+	// Application versions managed by this instance group. Each
+	// version deals with a specific instance template, allowing canary release scenarios.
+	// Structure is documented below.
+	Version []VersionInitParameters `json:"version,omitempty" tf:"version,omitempty"`
+
+	// Whether to wait for all instances to be created/updated before
+	// returning.
+	WaitForInstances *bool `json:"waitForInstances,omitempty" tf:"wait_for_instances,omitempty"`
+
+	// When used with wait_for_instances it specifies the status to wait for.
+	// When STABLE is specified this resource will wait until the instances are stable before returning. When UPDATED is
+	// set, it will wait for the version target to be reached and any per instance configs to be effective as well as all
+	// instances to be stable before returning. The possible values are STABLE and UPDATED
+	WaitForInstancesStatus *string `json:"waitForInstancesStatus,omitempty" tf:"wait_for_instances_status,omitempty"`
+}
+
+type InstanceGroupManagerNamedPortInitParameters struct {
+
+	// The name of the port.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The port number.
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
 }
 
 type InstanceGroupManagerNamedPortObservation struct {
@@ -69,12 +145,10 @@ type InstanceGroupManagerNamedPortObservation struct {
 type InstanceGroupManagerNamedPortParameters struct {
 
 	// The name of the port.
-	// +kubebuilder:validation:Required
-	Name *string `json:"name" tf:"name,omitempty"`
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// The port number.
-	// +kubebuilder:validation:Required
-	Port *float64 `json:"port" tf:"port,omitempty"`
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
 }
 
 type InstanceGroupManagerObservation struct {
@@ -168,7 +242,6 @@ type InstanceGroupManagerParameters struct {
 
 	// The autohealing policies for this managed instance
 	// group. You can specify only one value. Structure is documented below. For more information, see the official documentation.
-	// +kubebuilder:validation:Optional
 	AutoHealingPolicies []AutoHealingPoliciesParameters `json:"autoHealingPolicies,omitempty" tf:"auto_healing_policies,omitempty"`
 
 	// The base instance name to use for
@@ -177,12 +250,10 @@ type InstanceGroupManagerParameters struct {
 	// are lowercase letters, numbers, and hyphens (-). Instances are named by
 	// appending a hyphen and a random four-character string to the base instance
 	// name.
-	// +kubebuilder:validation:Optional
 	BaseInstanceName *string `json:"baseInstanceName,omitempty" tf:"base_instance_name,omitempty"`
 
 	// An optional textual description of the instance
 	// group manager.
-	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Pagination behavior of the listManagedInstances API
@@ -191,21 +262,17 @@ type InstanceGroupManagerParameters struct {
 	// maxResults and pageToken query parameters are ignored and all instances are returned in a single
 	// response. If PAGINATED, pagination is enabled, maxResults and pageToken query parameters are
 	// respected.
-	// +kubebuilder:validation:Optional
 	ListManagedInstancesResults *string `json:"listManagedInstancesResults,omitempty" tf:"list_managed_instances_results,omitempty"`
 
 	// The named port configuration. See the section below
 	// for details on configuration.
-	// +kubebuilder:validation:Optional
 	NamedPort []InstanceGroupManagerNamedPortParameters `json:"namedPort,omitempty" tf:"named_port,omitempty"`
 
 	// The ID of the project in which the resource belongs. If it
 	// is not provided, the provider project is used.
-	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Disks created on the instances that will be preserved on instance delete, update, etc. Structure is documented below. For more information see the official documentation.
-	// +kubebuilder:validation:Optional
 	StatefulDisk []StatefulDiskParameters `json:"statefulDisk,omitempty" tf:"stateful_disk,omitempty"`
 
 	// The full URL of all target pools to which new
@@ -227,35 +294,33 @@ type InstanceGroupManagerParameters struct {
 	// The target number of running instances for this managed
 	// instance group. This value should always be explicitly set unless this resource is attached to
 	// an autoscaler, in which case it should never be set. Defaults to 0.
-	// +kubebuilder:validation:Optional
 	TargetSize *float64 `json:"targetSize,omitempty" tf:"target_size,omitempty"`
 
 	// The update policy for this managed instance group. Structure is documented below. For more information, see the official documentation and API
-	// +kubebuilder:validation:Optional
 	UpdatePolicy []UpdatePolicyParameters `json:"updatePolicy,omitempty" tf:"update_policy,omitempty"`
 
 	// Application versions managed by this instance group. Each
 	// version deals with a specific instance template, allowing canary release scenarios.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	Version []VersionParameters `json:"version,omitempty" tf:"version,omitempty"`
 
 	// Whether to wait for all instances to be created/updated before
 	// returning.
-	// +kubebuilder:validation:Optional
 	WaitForInstances *bool `json:"waitForInstances,omitempty" tf:"wait_for_instances,omitempty"`
 
 	// When used with wait_for_instances it specifies the status to wait for.
 	// When STABLE is specified this resource will wait until the instances are stable before returning. When UPDATED is
 	// set, it will wait for the version target to be reached and any per instance configs to be effective as well as all
 	// instances to be stable before returning. The possible values are STABLE and UPDATED
-	// +kubebuilder:validation:Optional
 	WaitForInstancesStatus *string `json:"waitForInstancesStatus,omitempty" tf:"wait_for_instances_status,omitempty"`
 
 	// The zone that instances in this group should be created
 	// in.
 	// +kubebuilder:validation:Required
 	Zone *string `json:"zone" tf:"zone,omitempty"`
+}
+
+type PerInstanceConfigsInitParameters struct {
 }
 
 type PerInstanceConfigsObservation struct {
@@ -265,6 +330,15 @@ type PerInstanceConfigsObservation struct {
 }
 
 type PerInstanceConfigsParameters struct {
+}
+
+type StatefulDiskInitParameters struct {
+
+	// , A value that prescribes what should happen to the stateful disk when the VM instance is deleted. The available options are NEVER and ON_PERMANENT_INSTANCE_DELETION. NEVER - detach the disk when the VM is deleted, but do not delete the disk. ON_PERMANENT_INSTANCE_DELETION will delete the stateful disk when the VM is permanently deleted from the instance group. The default is NEVER.
+	DeleteRule *string `json:"deleteRule,omitempty" tf:"delete_rule,omitempty"`
+
+	// , The device name of the disk to be attached.
+	DeviceName *string `json:"deviceName,omitempty" tf:"device_name,omitempty"`
 }
 
 type StatefulDiskObservation struct {
@@ -279,12 +353,13 @@ type StatefulDiskObservation struct {
 type StatefulDiskParameters struct {
 
 	// , A value that prescribes what should happen to the stateful disk when the VM instance is deleted. The available options are NEVER and ON_PERMANENT_INSTANCE_DELETION. NEVER - detach the disk when the VM is deleted, but do not delete the disk. ON_PERMANENT_INSTANCE_DELETION will delete the stateful disk when the VM is permanently deleted from the instance group. The default is NEVER.
-	// +kubebuilder:validation:Optional
 	DeleteRule *string `json:"deleteRule,omitempty" tf:"delete_rule,omitempty"`
 
 	// , The device name of the disk to be attached.
-	// +kubebuilder:validation:Required
-	DeviceName *string `json:"deviceName" tf:"device_name,omitempty"`
+	DeviceName *string `json:"deviceName,omitempty" tf:"device_name,omitempty"`
+}
+
+type StatefulInitParameters struct {
 }
 
 type StatefulObservation struct {
@@ -297,6 +372,9 @@ type StatefulObservation struct {
 }
 
 type StatefulParameters struct {
+}
+
+type StatusInitParameters struct {
 }
 
 type StatusObservation struct {
@@ -314,6 +392,17 @@ type StatusObservation struct {
 type StatusParameters struct {
 }
 
+type TargetSizeInitParameters struct {
+
+	// , The number of instances which are managed for this version. Conflicts with percent.
+	Fixed *float64 `json:"fixed,omitempty" tf:"fixed,omitempty"`
+
+	// , The number of instances (calculated as percentage) which are managed for this version. Conflicts with fixed.
+	// Note that when using percent, rounding will be in favor of explicitly set target_size values; a managed instance group with 2 instances and 2 versions,
+	// one of which has a target_size.percent of 60 will create 2 instances of that version.
+	Percent *float64 `json:"percent,omitempty" tf:"percent,omitempty"`
+}
+
 type TargetSizeObservation struct {
 
 	// , The number of instances which are managed for this version. Conflicts with percent.
@@ -328,14 +417,39 @@ type TargetSizeObservation struct {
 type TargetSizeParameters struct {
 
 	// , The number of instances which are managed for this version. Conflicts with percent.
-	// +kubebuilder:validation:Optional
 	Fixed *float64 `json:"fixed,omitempty" tf:"fixed,omitempty"`
 
 	// , The number of instances (calculated as percentage) which are managed for this version. Conflicts with fixed.
 	// Note that when using percent, rounding will be in favor of explicitly set target_size values; a managed instance group with 2 instances and 2 versions,
 	// one of which has a target_size.percent of 60 will create 2 instances of that version.
-	// +kubebuilder:validation:Optional
 	Percent *float64 `json:"percent,omitempty" tf:"percent,omitempty"`
+}
+
+type UpdatePolicyInitParameters struct {
+
+	// , The maximum number of instances that can be created above the specified targetSize during the update process. Conflicts with max_surge_percent. If neither is set, defaults to 1
+	MaxSurgeFixed *float64 `json:"maxSurgeFixed,omitempty" tf:"max_surge_fixed,omitempty"`
+
+	// , The maximum number of instances(calculated as percentage) that can be created above the specified targetSize during the update process. Conflicts with max_surge_fixed.
+	MaxSurgePercent *float64 `json:"maxSurgePercent,omitempty" tf:"max_surge_percent,omitempty"`
+
+	// , The maximum number of instances that can be unavailable during the update process. Conflicts with max_unavailable_percent. If neither is set, defaults to 1
+	MaxUnavailableFixed *float64 `json:"maxUnavailableFixed,omitempty" tf:"max_unavailable_fixed,omitempty"`
+
+	// , The maximum number of instances(calculated as percentage) that can be unavailable during the update process. Conflicts with max_unavailable_fixed.
+	MaxUnavailablePercent *float64 `json:"maxUnavailablePercent,omitempty" tf:"max_unavailable_percent,omitempty"`
+
+	// - Minimal action to be taken on an instance. You can specify either REFRESH to update without stopping instances, RESTART to restart existing instances or REPLACE to delete and create new instances from the target template. If you specify a REFRESH, the Updater will attempt to perform that action only. However, if the Updater determines that the minimal action you specify is not enough to perform the update, it might perform a more disruptive action.
+	MinimalAction *string `json:"minimalAction,omitempty" tf:"minimal_action,omitempty"`
+
+	// - Most disruptive action that is allowed to be taken on an instance. You can specify either NONE to forbid any actions, REFRESH to allow actions that do not need instance restart, RESTART to allow actions that can be applied without instance replacing or REPLACE to allow all possible actions. If the Updater determines that the minimal update action needed is more disruptive than most disruptive allowed action you specify it will not perform the update at all.
+	MostDisruptiveAllowedAction *string `json:"mostDisruptiveAllowedAction,omitempty" tf:"most_disruptive_allowed_action,omitempty"`
+
+	// , The instance replacement method for managed instance groups. Valid values are: "RECREATE", "SUBSTITUTE". If SUBSTITUTE (default), the group replaces VM instances with new instances that have randomly generated names. If RECREATE, instance names are preserved.  You must also set max_unavailable_fixed or max_unavailable_percent to be greater than 0.
+	ReplacementMethod *string `json:"replacementMethod,omitempty" tf:"replacement_method,omitempty"`
+
+	// - The type of update process. You can specify either PROACTIVE so that the instance group manager proactively executes actions in order to bring instances to their target versions or OPPORTUNISTIC so that no action is proactively executed but the update will be performed as part of other actions (for example, resizes or recreateInstances calls).
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type UpdatePolicyObservation struct {
@@ -368,36 +482,37 @@ type UpdatePolicyObservation struct {
 type UpdatePolicyParameters struct {
 
 	// , The maximum number of instances that can be created above the specified targetSize during the update process. Conflicts with max_surge_percent. If neither is set, defaults to 1
-	// +kubebuilder:validation:Optional
 	MaxSurgeFixed *float64 `json:"maxSurgeFixed,omitempty" tf:"max_surge_fixed,omitempty"`
 
 	// , The maximum number of instances(calculated as percentage) that can be created above the specified targetSize during the update process. Conflicts with max_surge_fixed.
-	// +kubebuilder:validation:Optional
 	MaxSurgePercent *float64 `json:"maxSurgePercent,omitempty" tf:"max_surge_percent,omitempty"`
 
 	// , The maximum number of instances that can be unavailable during the update process. Conflicts with max_unavailable_percent. If neither is set, defaults to 1
-	// +kubebuilder:validation:Optional
 	MaxUnavailableFixed *float64 `json:"maxUnavailableFixed,omitempty" tf:"max_unavailable_fixed,omitempty"`
 
 	// , The maximum number of instances(calculated as percentage) that can be unavailable during the update process. Conflicts with max_unavailable_fixed.
-	// +kubebuilder:validation:Optional
 	MaxUnavailablePercent *float64 `json:"maxUnavailablePercent,omitempty" tf:"max_unavailable_percent,omitempty"`
 
 	// - Minimal action to be taken on an instance. You can specify either REFRESH to update without stopping instances, RESTART to restart existing instances or REPLACE to delete and create new instances from the target template. If you specify a REFRESH, the Updater will attempt to perform that action only. However, if the Updater determines that the minimal action you specify is not enough to perform the update, it might perform a more disruptive action.
-	// +kubebuilder:validation:Required
-	MinimalAction *string `json:"minimalAction" tf:"minimal_action,omitempty"`
+	MinimalAction *string `json:"minimalAction,omitempty" tf:"minimal_action,omitempty"`
 
 	// - Most disruptive action that is allowed to be taken on an instance. You can specify either NONE to forbid any actions, REFRESH to allow actions that do not need instance restart, RESTART to allow actions that can be applied without instance replacing or REPLACE to allow all possible actions. If the Updater determines that the minimal update action needed is more disruptive than most disruptive allowed action you specify it will not perform the update at all.
-	// +kubebuilder:validation:Optional
 	MostDisruptiveAllowedAction *string `json:"mostDisruptiveAllowedAction,omitempty" tf:"most_disruptive_allowed_action,omitempty"`
 
 	// , The instance replacement method for managed instance groups. Valid values are: "RECREATE", "SUBSTITUTE". If SUBSTITUTE (default), the group replaces VM instances with new instances that have randomly generated names. If RECREATE, instance names are preserved.  You must also set max_unavailable_fixed or max_unavailable_percent to be greater than 0.
-	// +kubebuilder:validation:Optional
 	ReplacementMethod *string `json:"replacementMethod,omitempty" tf:"replacement_method,omitempty"`
 
 	// - The type of update process. You can specify either PROACTIVE so that the instance group manager proactively executes actions in order to bring instances to their target versions or OPPORTUNISTIC so that no action is proactively executed but the update will be performed as part of other actions (for example, resizes or recreateInstances calls).
-	// +kubebuilder:validation:Required
-	Type *string `json:"type" tf:"type,omitempty"`
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+}
+
+type VersionInitParameters struct {
+
+	// - Version name.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// - The number of instances calculated as a fixed number or a percentage depending on the settings. Structure is documented below.
+	TargetSize []TargetSizeInitParameters `json:"targetSize,omitempty" tf:"target_size,omitempty"`
 }
 
 type VersionObservation struct {
@@ -429,12 +544,13 @@ type VersionParameters struct {
 	InstanceTemplateSelector *v1.Selector `json:"instanceTemplateSelector,omitempty" tf:"-"`
 
 	// - Version name.
-	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// - The number of instances calculated as a fixed number or a percentage depending on the settings. Structure is documented below.
-	// +kubebuilder:validation:Optional
 	TargetSize []TargetSizeParameters `json:"targetSize,omitempty" tf:"target_size,omitempty"`
+}
+
+type VersionTargetInitParameters struct {
 }
 
 type VersionTargetObservation struct {
@@ -448,6 +564,10 @@ type VersionTargetParameters struct {
 type InstanceGroupManagerSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     InstanceGroupManagerParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	InitProvider InstanceGroupManagerInitParameters `json:"initProvider,omitempty"`
 }
 
 // InstanceGroupManagerStatus defines the observed state of InstanceGroupManager.
@@ -468,8 +588,8 @@ type InstanceGroupManagerStatus struct {
 type InstanceGroupManager struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.baseInstanceName)",message="baseInstanceName is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.version)",message="version is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.baseInstanceName) || has(self.initProvider.baseInstanceName)",message="baseInstanceName is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.version) || has(self.initProvider.version)",message="version is a required parameter"
 	Spec   InstanceGroupManagerSpec   `json:"spec"`
 	Status InstanceGroupManagerStatus `json:"status,omitempty"`
 }

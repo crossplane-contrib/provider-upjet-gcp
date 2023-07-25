@@ -25,6 +25,12 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type AdminUsersInitParameters struct {
+
+	// The name of the user, e.g. my-gcp-id@gmail.com.
+	Username *string `json:"username,omitempty" tf:"username,omitempty"`
+}
+
 type AdminUsersObservation struct {
 
 	// The name of the user, e.g. my-gcp-id@gmail.com.
@@ -34,8 +40,13 @@ type AdminUsersObservation struct {
 type AdminUsersParameters struct {
 
 	// The name of the user, e.g. my-gcp-id@gmail.com.
-	// +kubebuilder:validation:Required
-	Username *string `json:"username" tf:"username,omitempty"`
+	Username *string `json:"username,omitempty" tf:"username,omitempty"`
+}
+
+type AuthorizationInitParameters struct {
+
+	// Users that can perform operations as a cluster admin. A new ClusterRoleBinding will be created to grant the cluster-admin ClusterRole to the users. Up to ten admin users can be provided. For more info on RBAC, see https://kubernetes.io/docs/reference/access-authn-authz/rbac/#user-facing-roles
+	AdminUsers []AdminUsersInitParameters `json:"adminUsers,omitempty" tf:"admin_users,omitempty"`
 }
 
 type AuthorizationObservation struct {
@@ -47,8 +58,16 @@ type AuthorizationObservation struct {
 type AuthorizationParameters struct {
 
 	// Users that can perform operations as a cluster admin. A new ClusterRoleBinding will be created to grant the cluster-admin ClusterRole to the users. Up to ten admin users can be provided. For more info on RBAC, see https://kubernetes.io/docs/reference/access-authn-authz/rbac/#user-facing-roles
-	// +kubebuilder:validation:Required
-	AdminUsers []AdminUsersParameters `json:"adminUsers" tf:"admin_users,omitempty"`
+	AdminUsers []AdminUsersParameters `json:"adminUsers,omitempty" tf:"admin_users,omitempty"`
+}
+
+type AzureServicesAuthenticationInitParameters struct {
+
+	// The Azure Active Directory Application ID for Authentication configuration.
+	ApplicationID *string `json:"applicationId,omitempty" tf:"application_id,omitempty"`
+
+	// The Azure Active Directory Tenant ID for Authentication configuration.
+	TenantID *string `json:"tenantId,omitempty" tf:"tenant_id,omitempty"`
 }
 
 type AzureServicesAuthenticationObservation struct {
@@ -63,12 +82,46 @@ type AzureServicesAuthenticationObservation struct {
 type AzureServicesAuthenticationParameters struct {
 
 	// The Azure Active Directory Application ID for Authentication configuration.
-	// +kubebuilder:validation:Required
-	ApplicationID *string `json:"applicationId" tf:"application_id,omitempty"`
+	ApplicationID *string `json:"applicationId,omitempty" tf:"application_id,omitempty"`
 
 	// The Azure Active Directory Tenant ID for Authentication configuration.
-	// +kubebuilder:validation:Required
-	TenantID *string `json:"tenantId" tf:"tenant_id,omitempty"`
+	TenantID *string `json:"tenantId,omitempty" tf:"tenant_id,omitempty"`
+}
+
+type ClusterInitParameters struct {
+
+	// Optional. Annotations on the cluster. This field has the same restrictions as Kubernetes annotations. The total size of all keys and values combined is limited to 256k. Keys can have 2 segments: prefix  and name , separated by a slash (/). Prefix must be a DNS subdomain. Name must be 63 characters or less, begin and end with alphanumerics, with dashes (-), underscores (_), dots (.), and alphanumerics between.
+	Annotations map[string]*string `json:"annotations,omitempty" tf:"annotations,omitempty"`
+
+	// Configuration related to the cluster RBAC settings.
+	Authorization []AuthorizationInitParameters `json:"authorization,omitempty" tf:"authorization,omitempty"`
+
+	// The Azure region where the cluster runs. Each Google Cloud region supports a subset of nearby Azure regions. You can call to list all supported Azure regions within a given Google Cloud region.
+	AzureRegion *string `json:"azureRegion,omitempty" tf:"azure_region,omitempty"`
+
+	// Azure authentication configuration for management of Azure resources
+	AzureServicesAuthentication []AzureServicesAuthenticationInitParameters `json:"azureServicesAuthentication,omitempty" tf:"azure_services_authentication,omitempty"`
+
+	// Name of the AzureClient. The AzureClient resource must reside on the same GCP project and region as the AzureCluster. AzureClient names are formatted as projects/<project-number>/locations/<region>/azureClients/<client-id>. See Resource Names (https:cloud.google.com/apis/design/resource_names) for more details on Google Cloud resource names.
+	Client *string `json:"client,omitempty" tf:"client,omitempty"`
+
+	// Configuration related to the cluster control plane.
+	ControlPlane []ControlPlaneInitParameters `json:"controlPlane,omitempty" tf:"control_plane,omitempty"`
+
+	// Optional. A human readable description of this cluster. Cannot be longer than 255 UTF-8 encoded bytes.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Fleet configuration.
+	Fleet []FleetInitParameters `json:"fleet,omitempty" tf:"fleet,omitempty"`
+
+	// Cluster-wide networking configuration.
+	Networking []NetworkingInitParameters `json:"networking,omitempty" tf:"networking,omitempty"`
+
+	// The project for the resource
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The ARM ID of the resource group where the cluster resources are deployed. For example: /subscriptions/*/resourceGroups/*
+	ResourceGroupID *string `json:"resourceGroupId,omitempty" tf:"resource_group_id,omitempty"`
 }
 
 type ClusterObservation struct {
@@ -140,35 +193,27 @@ type ClusterObservation struct {
 type ClusterParameters struct {
 
 	// Optional. Annotations on the cluster. This field has the same restrictions as Kubernetes annotations. The total size of all keys and values combined is limited to 256k. Keys can have 2 segments: prefix  and name , separated by a slash (/). Prefix must be a DNS subdomain. Name must be 63 characters or less, begin and end with alphanumerics, with dashes (-), underscores (_), dots (.), and alphanumerics between.
-	// +kubebuilder:validation:Optional
 	Annotations map[string]*string `json:"annotations,omitempty" tf:"annotations,omitempty"`
 
 	// Configuration related to the cluster RBAC settings.
-	// +kubebuilder:validation:Optional
 	Authorization []AuthorizationParameters `json:"authorization,omitempty" tf:"authorization,omitempty"`
 
 	// The Azure region where the cluster runs. Each Google Cloud region supports a subset of nearby Azure regions. You can call to list all supported Azure regions within a given Google Cloud region.
-	// +kubebuilder:validation:Optional
 	AzureRegion *string `json:"azureRegion,omitempty" tf:"azure_region,omitempty"`
 
 	// Azure authentication configuration for management of Azure resources
-	// +kubebuilder:validation:Optional
 	AzureServicesAuthentication []AzureServicesAuthenticationParameters `json:"azureServicesAuthentication,omitempty" tf:"azure_services_authentication,omitempty"`
 
 	// Name of the AzureClient. The AzureClient resource must reside on the same GCP project and region as the AzureCluster. AzureClient names are formatted as projects/<project-number>/locations/<region>/azureClients/<client-id>. See Resource Names (https:cloud.google.com/apis/design/resource_names) for more details on Google Cloud resource names.
-	// +kubebuilder:validation:Optional
 	Client *string `json:"client,omitempty" tf:"client,omitempty"`
 
 	// Configuration related to the cluster control plane.
-	// +kubebuilder:validation:Optional
 	ControlPlane []ControlPlaneParameters `json:"controlPlane,omitempty" tf:"control_plane,omitempty"`
 
 	// Optional. A human readable description of this cluster. Cannot be longer than 255 UTF-8 encoded bytes.
-	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Fleet configuration.
-	// +kubebuilder:validation:Optional
 	Fleet []FleetParameters `json:"fleet,omitempty" tf:"fleet,omitempty"`
 
 	// The location for the resource
@@ -176,16 +221,46 @@ type ClusterParameters struct {
 	Location *string `json:"location" tf:"location,omitempty"`
 
 	// Cluster-wide networking configuration.
-	// +kubebuilder:validation:Optional
 	Networking []NetworkingParameters `json:"networking,omitempty" tf:"networking,omitempty"`
 
 	// The project for the resource
-	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The ARM ID of the resource group where the cluster resources are deployed. For example: /subscriptions/*/resourceGroups/*
-	// +kubebuilder:validation:Optional
 	ResourceGroupID *string `json:"resourceGroupId,omitempty" tf:"resource_group_id,omitempty"`
+}
+
+type ControlPlaneInitParameters struct {
+
+	// Optional. Configuration related to application-layer secrets encryption.
+	DatabaseEncryption []DatabaseEncryptionInitParameters `json:"databaseEncryption,omitempty" tf:"database_encryption,omitempty"`
+
+	// Optional. Configuration related to the main volume provisioned for each control plane replica. The main volume is in charge of storing all of the cluster's etcd state. When unspecified, it defaults to a 8-GiB Azure Disk.
+	MainVolume []MainVolumeInitParameters `json:"mainVolume,omitempty" tf:"main_volume,omitempty"`
+
+	// Proxy configuration for outbound HTTP(S) traffic.
+	ProxyConfig []ProxyConfigInitParameters `json:"proxyConfig,omitempty" tf:"proxy_config,omitempty"`
+
+	// Configuration for where to place the control plane replicas. Up to three replica placement instances can be specified. If replica_placements is set, the replica placement instances will be applied to the three control plane replicas as evenly as possible.
+	ReplicaPlacements []ReplicaPlacementsInitParameters `json:"replicaPlacements,omitempty" tf:"replica_placements,omitempty"`
+
+	// Optional. Configuration related to the root volume provisioned for each control plane replica. When unspecified, it defaults to 32-GiB Azure Disk.
+	RootVolume []RootVolumeInitParameters `json:"rootVolume,omitempty" tf:"root_volume,omitempty"`
+
+	// SSH configuration for how to access the underlying control plane machines.
+	SSHConfig []SSHConfigInitParameters `json:"sshConfig,omitempty" tf:"ssh_config,omitempty"`
+
+	// The ARM ID of the subnet where the control plane VMs are deployed. Example: /subscriptions//resourceGroups//providers/Microsoft.Network/virtualNetworks//subnets/default.
+	SubnetID *string `json:"subnetId,omitempty" tf:"subnet_id,omitempty"`
+
+	// Optional. A set of tags to apply to all underlying control plane Azure resources.
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
+
+	// Optional. The Azure VM size name. Example: Standard_DS2_v2. For available VM sizes, see https://docs.microsoft.com/en-us/azure/virtual-machines/vm-naming-conventions. When unspecified, it defaults to Standard_DS2_v2.
+	VMSize *string `json:"vmSize,omitempty" tf:"vm_size,omitempty"`
+
+	// The Kubernetes version to run on control plane replicas (e.g. 1.19.10-gke.1000). You can list all supported versions on a given Google Cloud region by calling GetAzureServerConfig.
+	Version *string `json:"version,omitempty" tf:"version,omitempty"`
 }
 
 type ControlPlaneObservation struct {
@@ -224,44 +299,40 @@ type ControlPlaneObservation struct {
 type ControlPlaneParameters struct {
 
 	// Optional. Configuration related to application-layer secrets encryption.
-	// +kubebuilder:validation:Optional
 	DatabaseEncryption []DatabaseEncryptionParameters `json:"databaseEncryption,omitempty" tf:"database_encryption,omitempty"`
 
 	// Optional. Configuration related to the main volume provisioned for each control plane replica. The main volume is in charge of storing all of the cluster's etcd state. When unspecified, it defaults to a 8-GiB Azure Disk.
-	// +kubebuilder:validation:Optional
 	MainVolume []MainVolumeParameters `json:"mainVolume,omitempty" tf:"main_volume,omitempty"`
 
 	// Proxy configuration for outbound HTTP(S) traffic.
-	// +kubebuilder:validation:Optional
 	ProxyConfig []ProxyConfigParameters `json:"proxyConfig,omitempty" tf:"proxy_config,omitempty"`
 
 	// Configuration for where to place the control plane replicas. Up to three replica placement instances can be specified. If replica_placements is set, the replica placement instances will be applied to the three control plane replicas as evenly as possible.
-	// +kubebuilder:validation:Optional
 	ReplicaPlacements []ReplicaPlacementsParameters `json:"replicaPlacements,omitempty" tf:"replica_placements,omitempty"`
 
 	// Optional. Configuration related to the root volume provisioned for each control plane replica. When unspecified, it defaults to 32-GiB Azure Disk.
-	// +kubebuilder:validation:Optional
 	RootVolume []RootVolumeParameters `json:"rootVolume,omitempty" tf:"root_volume,omitempty"`
 
 	// SSH configuration for how to access the underlying control plane machines.
-	// +kubebuilder:validation:Required
-	SSHConfig []SSHConfigParameters `json:"sshConfig" tf:"ssh_config,omitempty"`
+	SSHConfig []SSHConfigParameters `json:"sshConfig,omitempty" tf:"ssh_config,omitempty"`
 
 	// The ARM ID of the subnet where the control plane VMs are deployed. Example: /subscriptions//resourceGroups//providers/Microsoft.Network/virtualNetworks//subnets/default.
-	// +kubebuilder:validation:Required
-	SubnetID *string `json:"subnetId" tf:"subnet_id,omitempty"`
+	SubnetID *string `json:"subnetId,omitempty" tf:"subnet_id,omitempty"`
 
 	// Optional. A set of tags to apply to all underlying control plane Azure resources.
-	// +kubebuilder:validation:Optional
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
 	// Optional. The Azure VM size name. Example: Standard_DS2_v2. For available VM sizes, see https://docs.microsoft.com/en-us/azure/virtual-machines/vm-naming-conventions. When unspecified, it defaults to Standard_DS2_v2.
-	// +kubebuilder:validation:Optional
 	VMSize *string `json:"vmSize,omitempty" tf:"vm_size,omitempty"`
 
 	// The Kubernetes version to run on control plane replicas (e.g. 1.19.10-gke.1000). You can list all supported versions on a given Google Cloud region by calling GetAzureServerConfig.
-	// +kubebuilder:validation:Required
-	Version *string `json:"version" tf:"version,omitempty"`
+	Version *string `json:"version,omitempty" tf:"version,omitempty"`
+}
+
+type DatabaseEncryptionInitParameters struct {
+
+	// The ARM ID of the Azure Key Vault key to encrypt / decrypt data. For example: /subscriptions/<subscription-id>/resourceGroups/<resource-group-id>/providers/Microsoft.KeyVault/vaults/<key-vault-id>/keys/<key-name> Encryption will always take the latest version of the key and hence specific version is not supported.
+	KeyID *string `json:"keyId,omitempty" tf:"key_id,omitempty"`
 }
 
 type DatabaseEncryptionObservation struct {
@@ -273,8 +344,13 @@ type DatabaseEncryptionObservation struct {
 type DatabaseEncryptionParameters struct {
 
 	// The ARM ID of the Azure Key Vault key to encrypt / decrypt data. For example: /subscriptions/<subscription-id>/resourceGroups/<resource-group-id>/providers/Microsoft.KeyVault/vaults/<key-vault-id>/keys/<key-name> Encryption will always take the latest version of the key and hence specific version is not supported.
-	// +kubebuilder:validation:Required
-	KeyID *string `json:"keyId" tf:"key_id,omitempty"`
+	KeyID *string `json:"keyId,omitempty" tf:"key_id,omitempty"`
+}
+
+type FleetInitParameters struct {
+
+	// The number of the Fleet host project where this cluster will be registered.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 
 type FleetObservation struct {
@@ -289,8 +365,13 @@ type FleetObservation struct {
 type FleetParameters struct {
 
 	// The number of the Fleet host project where this cluster will be registered.
-	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+}
+
+type MainVolumeInitParameters struct {
+
+	// Optional. The size of the disk, in GiBs. When unspecified, a default value is provided. See the specific reference in the parent resource.
+	SizeGib *float64 `json:"sizeGib,omitempty" tf:"size_gib,omitempty"`
 }
 
 type MainVolumeObservation struct {
@@ -302,8 +383,19 @@ type MainVolumeObservation struct {
 type MainVolumeParameters struct {
 
 	// Optional. The size of the disk, in GiBs. When unspecified, a default value is provided. See the specific reference in the parent resource.
-	// +kubebuilder:validation:Optional
 	SizeGib *float64 `json:"sizeGib,omitempty" tf:"size_gib,omitempty"`
+}
+
+type NetworkingInitParameters struct {
+
+	// The IP address range of the pods in this cluster, in CIDR notation (e.g. 10.96.0.0/14). All pods in the cluster get assigned a unique RFC1918 IPv4 address from these ranges. Only a single range is supported. This field cannot be changed after creation.
+	PodAddressCidrBlocks []*string `json:"podAddressCidrBlocks,omitempty" tf:"pod_address_cidr_blocks,omitempty"`
+
+	// The IP address range for services in this cluster, in CIDR notation (e.g. 10.96.0.0/14). All services in the cluster get assigned a unique RFC1918 IPv4 address from these ranges. Only a single range is supported. This field cannot be changed after creating a cluster.
+	ServiceAddressCidrBlocks []*string `json:"serviceAddressCidrBlocks,omitempty" tf:"service_address_cidr_blocks,omitempty"`
+
+	// The Azure Resource Manager (ARM) ID of the VNet associated with your cluster. All components in the cluster (i.e. control plane and node pools) run on a single VNet. Example: /subscriptions/*/resourceGroups/*/providers/Microsoft.Network/virtualNetworks/* This field cannot be changed after creation.
+	VirtualNetworkID *string `json:"virtualNetworkId,omitempty" tf:"virtual_network_id,omitempty"`
 }
 
 type NetworkingObservation struct {
@@ -321,16 +413,22 @@ type NetworkingObservation struct {
 type NetworkingParameters struct {
 
 	// The IP address range of the pods in this cluster, in CIDR notation (e.g. 10.96.0.0/14). All pods in the cluster get assigned a unique RFC1918 IPv4 address from these ranges. Only a single range is supported. This field cannot be changed after creation.
-	// +kubebuilder:validation:Required
-	PodAddressCidrBlocks []*string `json:"podAddressCidrBlocks" tf:"pod_address_cidr_blocks,omitempty"`
+	PodAddressCidrBlocks []*string `json:"podAddressCidrBlocks,omitempty" tf:"pod_address_cidr_blocks,omitempty"`
 
 	// The IP address range for services in this cluster, in CIDR notation (e.g. 10.96.0.0/14). All services in the cluster get assigned a unique RFC1918 IPv4 address from these ranges. Only a single range is supported. This field cannot be changed after creating a cluster.
-	// +kubebuilder:validation:Required
-	ServiceAddressCidrBlocks []*string `json:"serviceAddressCidrBlocks" tf:"service_address_cidr_blocks,omitempty"`
+	ServiceAddressCidrBlocks []*string `json:"serviceAddressCidrBlocks,omitempty" tf:"service_address_cidr_blocks,omitempty"`
 
 	// The Azure Resource Manager (ARM) ID of the VNet associated with your cluster. All components in the cluster (i.e. control plane and node pools) run on a single VNet. Example: /subscriptions/*/resourceGroups/*/providers/Microsoft.Network/virtualNetworks/* This field cannot be changed after creation.
-	// +kubebuilder:validation:Required
-	VirtualNetworkID *string `json:"virtualNetworkId" tf:"virtual_network_id,omitempty"`
+	VirtualNetworkID *string `json:"virtualNetworkId,omitempty" tf:"virtual_network_id,omitempty"`
+}
+
+type ProxyConfigInitParameters struct {
+
+	// The ARM ID of the resource group where the cluster resources are deployed. For example: /subscriptions/*/resourceGroups/*
+	ResourceGroupID *string `json:"resourceGroupId,omitempty" tf:"resource_group_id,omitempty"`
+
+	// The URL the of the proxy setting secret with its version. Secret ids are formatted as https:<key-vault-name>.vault.azure.net/secrets/<secret-name>/<secret-version>.
+	SecretID *string `json:"secretId,omitempty" tf:"secret_id,omitempty"`
 }
 
 type ProxyConfigObservation struct {
@@ -345,12 +443,19 @@ type ProxyConfigObservation struct {
 type ProxyConfigParameters struct {
 
 	// The ARM ID of the resource group where the cluster resources are deployed. For example: /subscriptions/*/resourceGroups/*
-	// +kubebuilder:validation:Required
-	ResourceGroupID *string `json:"resourceGroupId" tf:"resource_group_id,omitempty"`
+	ResourceGroupID *string `json:"resourceGroupId,omitempty" tf:"resource_group_id,omitempty"`
 
 	// The URL the of the proxy setting secret with its version. Secret ids are formatted as https:<key-vault-name>.vault.azure.net/secrets/<secret-name>/<secret-version>.
-	// +kubebuilder:validation:Required
-	SecretID *string `json:"secretId" tf:"secret_id,omitempty"`
+	SecretID *string `json:"secretId,omitempty" tf:"secret_id,omitempty"`
+}
+
+type ReplicaPlacementsInitParameters struct {
+
+	// For a given replica, the Azure availability zone where to provision the control plane VM and the ETCD disk.
+	AzureAvailabilityZone *string `json:"azureAvailabilityZone,omitempty" tf:"azure_availability_zone,omitempty"`
+
+	// For a given replica, the ARM ID of the subnet where the control plane VM is deployed. Make sure it's a subnet under the virtual network in the cluster configuration.
+	SubnetID *string `json:"subnetId,omitempty" tf:"subnet_id,omitempty"`
 }
 
 type ReplicaPlacementsObservation struct {
@@ -365,12 +470,16 @@ type ReplicaPlacementsObservation struct {
 type ReplicaPlacementsParameters struct {
 
 	// For a given replica, the Azure availability zone where to provision the control plane VM and the ETCD disk.
-	// +kubebuilder:validation:Required
-	AzureAvailabilityZone *string `json:"azureAvailabilityZone" tf:"azure_availability_zone,omitempty"`
+	AzureAvailabilityZone *string `json:"azureAvailabilityZone,omitempty" tf:"azure_availability_zone,omitempty"`
 
 	// For a given replica, the ARM ID of the subnet where the control plane VM is deployed. Make sure it's a subnet under the virtual network in the cluster configuration.
-	// +kubebuilder:validation:Required
-	SubnetID *string `json:"subnetId" tf:"subnet_id,omitempty"`
+	SubnetID *string `json:"subnetId,omitempty" tf:"subnet_id,omitempty"`
+}
+
+type RootVolumeInitParameters struct {
+
+	// Optional. The size of the disk, in GiBs. When unspecified, a default value is provided. See the specific reference in the parent resource.
+	SizeGib *float64 `json:"sizeGib,omitempty" tf:"size_gib,omitempty"`
 }
 
 type RootVolumeObservation struct {
@@ -382,8 +491,13 @@ type RootVolumeObservation struct {
 type RootVolumeParameters struct {
 
 	// Optional. The size of the disk, in GiBs. When unspecified, a default value is provided. See the specific reference in the parent resource.
-	// +kubebuilder:validation:Optional
 	SizeGib *float64 `json:"sizeGib,omitempty" tf:"size_gib,omitempty"`
+}
+
+type SSHConfigInitParameters struct {
+
+	// The SSH public key data for VMs managed by Anthos. This accepts the authorized_keys file format used in OpenSSH according to the sshd(8) manual page.
+	AuthorizedKey *string `json:"authorizedKey,omitempty" tf:"authorized_key,omitempty"`
 }
 
 type SSHConfigObservation struct {
@@ -395,8 +509,10 @@ type SSHConfigObservation struct {
 type SSHConfigParameters struct {
 
 	// The SSH public key data for VMs managed by Anthos. This accepts the authorized_keys file format used in OpenSSH according to the sshd(8) manual page.
-	// +kubebuilder:validation:Required
-	AuthorizedKey *string `json:"authorizedKey" tf:"authorized_key,omitempty"`
+	AuthorizedKey *string `json:"authorizedKey,omitempty" tf:"authorized_key,omitempty"`
+}
+
+type WorkloadIdentityConfigInitParameters struct {
 }
 
 type WorkloadIdentityConfigObservation struct {
@@ -414,6 +530,10 @@ type WorkloadIdentityConfigParameters struct {
 type ClusterSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     ClusterParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	InitProvider ClusterInitParameters `json:"initProvider,omitempty"`
 }
 
 // ClusterStatus defines the observed state of Cluster.
@@ -434,12 +554,12 @@ type ClusterStatus struct {
 type Cluster struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.authorization)",message="authorization is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.azureRegion)",message="azureRegion is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.controlPlane)",message="controlPlane is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.fleet)",message="fleet is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.networking)",message="networking is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.resourceGroupId)",message="resourceGroupId is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.authorization) || has(self.initProvider.authorization)",message="authorization is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.azureRegion) || has(self.initProvider.azureRegion)",message="azureRegion is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.controlPlane) || has(self.initProvider.controlPlane)",message="controlPlane is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.fleet) || has(self.initProvider.fleet)",message="fleet is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.networking) || has(self.initProvider.networking)",message="networking is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.resourceGroupId) || has(self.initProvider.resourceGroupId)",message="resourceGroupId is a required parameter"
 	Spec   ClusterSpec   `json:"spec"`
 	Status ClusterStatus `json:"status,omitempty"`
 }

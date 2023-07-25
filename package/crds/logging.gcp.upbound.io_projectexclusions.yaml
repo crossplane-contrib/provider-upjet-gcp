@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.0
+    controller-gen.kubebuilder.io/version: v0.12.1
   name: projectexclusions.logging.gcp.upbound.io
 spec:
   group: logging.gcp.upbound.io
@@ -66,6 +66,28 @@ spec:
                 - Delete
                 type: string
               forProvider:
+                properties:
+                  description:
+                    description: A human-readable description.
+                    type: string
+                  disabled:
+                    description: Whether this exclusion rule should be disabled or
+                      not. This defaults to false.
+                    type: boolean
+                  filter:
+                    description: The filter to apply when excluding logs. Only log
+                      entries that match the filter are excluded. See Advanced Log
+                      Filters for information on how to write a filter.
+                    type: string
+                  project:
+                    description: The project to create the exclusion in. If omitted,
+                      the project associated with the provider is used.
+                    type: string
+                type: object
+              initProvider:
+                description: THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice.
                 properties:
                   description:
                     description: A human-readable description.
@@ -284,7 +306,8 @@ spec:
             x-kubernetes-validations:
             - message: filter is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.filter)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.filter)
+                || has(self.initProvider.filter)'
           status:
             description: ProjectExclusionStatus defines the observed state of ProjectExclusion.
             properties:

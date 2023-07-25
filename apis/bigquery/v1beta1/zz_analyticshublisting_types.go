@@ -25,6 +25,46 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type AnalyticsHubListingInitParameters struct {
+
+	// Shared dataset i.e. BigQuery dataset source.
+	// Structure is documented below.
+	BigqueryDataset []BigqueryDatasetInitParameters `json:"bigqueryDataset,omitempty" tf:"bigquery_dataset,omitempty"`
+
+	// Categories of the listing. Up to two categories are allowed.
+	Categories []*string `json:"categories,omitempty" tf:"categories,omitempty"`
+
+	// Details of the data provider who owns the source data.
+	// Structure is documented below.
+	DataProvider []DataProviderInitParameters `json:"dataProvider,omitempty" tf:"data_provider,omitempty"`
+
+	// Short description of the listing. The description must not contain Unicode non-characters and C0 and C1 control codes except tabs (HT), new lines (LF), carriage returns (CR), and page breaks (FF).
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Human-readable display name of the listing. The display name must contain only Unicode letters, numbers (0-9), underscores (_), dashes (-), spaces ( ), ampersands (&) and can't start or end with spaces.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// Documentation describing the listing.
+	Documentation *string `json:"documentation,omitempty" tf:"documentation,omitempty"`
+
+	// Base64 encoded image representing the listing.
+	Icon *string `json:"icon,omitempty" tf:"icon,omitempty"`
+
+	// Email or URL of the listing publisher.
+	PrimaryContact *string `json:"primaryContact,omitempty" tf:"primary_contact,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Details of the publisher who owns the listing and who can share the source data.
+	// Structure is documented below.
+	Publisher []PublisherInitParameters `json:"publisher,omitempty" tf:"publisher,omitempty"`
+
+	// Email or URL of the request access of the listing. Subscribers can use this reference to request access.
+	RequestAccess *string `json:"requestAccess,omitempty" tf:"request_access,omitempty"`
+}
+
 type AnalyticsHubListingObservation struct {
 
 	// Shared dataset i.e. BigQuery dataset source.
@@ -81,11 +121,9 @@ type AnalyticsHubListingParameters struct {
 
 	// Shared dataset i.e. BigQuery dataset source.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	BigqueryDataset []BigqueryDatasetParameters `json:"bigqueryDataset,omitempty" tf:"bigquery_dataset,omitempty"`
 
 	// Categories of the listing. Up to two categories are allowed.
-	// +kubebuilder:validation:Optional
 	Categories []*string `json:"categories,omitempty" tf:"categories,omitempty"`
 
 	// The ID of the data exchange. Must contain only Unicode letters, numbers (0-9), underscores (_). Should not use characters that require URL-escaping, or characters outside of ASCII, spaces.
@@ -104,23 +142,18 @@ type AnalyticsHubListingParameters struct {
 
 	// Details of the data provider who owns the source data.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	DataProvider []DataProviderParameters `json:"dataProvider,omitempty" tf:"data_provider,omitempty"`
 
 	// Short description of the listing. The description must not contain Unicode non-characters and C0 and C1 control codes except tabs (HT), new lines (LF), carriage returns (CR), and page breaks (FF).
-	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Human-readable display name of the listing. The display name must contain only Unicode letters, numbers (0-9), underscores (_), dashes (-), spaces ( ), ampersands (&) and can't start or end with spaces.
-	// +kubebuilder:validation:Optional
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// Documentation describing the listing.
-	// +kubebuilder:validation:Optional
 	Documentation *string `json:"documentation,omitempty" tf:"documentation,omitempty"`
 
 	// Base64 encoded image representing the listing.
-	// +kubebuilder:validation:Optional
 	Icon *string `json:"icon,omitempty" tf:"icon,omitempty"`
 
 	// The name of the location this data exchange listing.
@@ -128,22 +161,21 @@ type AnalyticsHubListingParameters struct {
 	Location *string `json:"location" tf:"location,omitempty"`
 
 	// Email or URL of the listing publisher.
-	// +kubebuilder:validation:Optional
 	PrimaryContact *string `json:"primaryContact,omitempty" tf:"primary_contact,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
-	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Details of the publisher who owns the listing and who can share the source data.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	Publisher []PublisherParameters `json:"publisher,omitempty" tf:"publisher,omitempty"`
 
 	// Email or URL of the request access of the listing. Subscribers can use this reference to request access.
-	// +kubebuilder:validation:Optional
 	RequestAccess *string `json:"requestAccess,omitempty" tf:"request_access,omitempty"`
+}
+
+type BigqueryDatasetInitParameters struct {
 }
 
 type BigqueryDatasetObservation struct {
@@ -169,6 +201,15 @@ type BigqueryDatasetParameters struct {
 	DatasetSelector *v1.Selector `json:"datasetSelector,omitempty" tf:"-"`
 }
 
+type DataProviderInitParameters struct {
+
+	// Name of the data provider.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Email or URL of the data provider.
+	PrimaryContact *string `json:"primaryContact,omitempty" tf:"primary_contact,omitempty"`
+}
+
 type DataProviderObservation struct {
 
 	// Name of the data provider.
@@ -181,11 +222,18 @@ type DataProviderObservation struct {
 type DataProviderParameters struct {
 
 	// Name of the data provider.
-	// +kubebuilder:validation:Required
-	Name *string `json:"name" tf:"name,omitempty"`
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// Email or URL of the data provider.
-	// +kubebuilder:validation:Optional
+	PrimaryContact *string `json:"primaryContact,omitempty" tf:"primary_contact,omitempty"`
+}
+
+type PublisherInitParameters struct {
+
+	// Name of the listing publisher.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Email or URL of the listing publisher.
 	PrimaryContact *string `json:"primaryContact,omitempty" tf:"primary_contact,omitempty"`
 }
 
@@ -201,11 +249,9 @@ type PublisherObservation struct {
 type PublisherParameters struct {
 
 	// Name of the listing publisher.
-	// +kubebuilder:validation:Required
-	Name *string `json:"name" tf:"name,omitempty"`
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// Email or URL of the listing publisher.
-	// +kubebuilder:validation:Optional
 	PrimaryContact *string `json:"primaryContact,omitempty" tf:"primary_contact,omitempty"`
 }
 
@@ -213,6 +259,10 @@ type PublisherParameters struct {
 type AnalyticsHubListingSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     AnalyticsHubListingParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	InitProvider AnalyticsHubListingInitParameters `json:"initProvider,omitempty"`
 }
 
 // AnalyticsHubListingStatus defines the observed state of AnalyticsHubListing.
@@ -233,8 +283,8 @@ type AnalyticsHubListingStatus struct {
 type AnalyticsHubListing struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.bigqueryDataset)",message="bigqueryDataset is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.displayName)",message="displayName is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.bigqueryDataset) || has(self.initProvider.bigqueryDataset)",message="bigqueryDataset is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.displayName) || has(self.initProvider.displayName)",message="displayName is a required parameter"
 	Spec   AnalyticsHubListingSpec   `json:"spec"`
 	Status AnalyticsHubListingStatus `json:"status,omitempty"`
 }

@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.0
+    controller-gen.kubebuilder.io/version: v0.12.1
   name: workerpools.cloudbuild.gcp.upbound.io
 spec:
   group: cloudbuild.gcp.upbound.io
@@ -209,6 +209,62 @@ spec:
                     type: array
                 required:
                 - location
+                type: object
+              initProvider:
+                description: THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice.
+                properties:
+                  annotations:
+                    additionalProperties:
+                      type: string
+                    type: object
+                  displayName:
+                    description: User-defined name of the WorkerPool.
+                    type: string
+                  networkConfig:
+                    description: Network configuration for the WorkerPool. Structure
+                      is documented below.
+                    items:
+                      properties:
+                        peeredNetworkIpRange:
+                          description: Immutable. Subnet IP range within the peered
+                            network. This is specified in CIDR notation with a slash
+                            and the subnet prefix size. You can optionally specify
+                            an IP address before the subnet prefix value. e.g. 192.168.0.0/29
+                            would specify an IP range starting at 192.168.0.0 with
+                            a prefix size of 29 bits. /16 would specify a prefix size
+                            of 16 bits, with an automatically determined IP within
+                            the peered VPC. If unspecified, a value of /24 will be
+                            used.
+                          type: string
+                      type: object
+                    type: array
+                  project:
+                    description: The project for the resource
+                    type: string
+                  workerConfig:
+                    description: Configuration to be used for a creating workers in
+                      the WorkerPool. Structure is documented below.
+                    items:
+                      properties:
+                        diskSizeGb:
+                          description: Size of the disk attached to the worker, in
+                            GB. See (https://cloud.google.com/cloud-build/docs/custom-workers/worker-pool-config-file).
+                            Specify a value of up to 1000. If 0 is specified, Cloud
+                            Build will use a standard disk size.
+                          type: number
+                        machineType:
+                          description: Machine type of a worker, such as n1-standard-1.
+                            See (https://cloud.google.com/cloud-build/docs/custom-workers/worker-pool-config-file).
+                            If left blank, Cloud Build will use n1-standard-1.
+                          type: string
+                        noExternalIp:
+                          description: If true, workers are created without any public
+                            address, which prevents network egress to public IPs.
+                          type: boolean
+                      type: object
+                    type: array
                 type: object
               managementPolicies:
                 default:

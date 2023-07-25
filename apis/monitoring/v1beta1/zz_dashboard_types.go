@@ -25,6 +25,17 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type DashboardInitParameters struct {
+
+	// The JSON representation of a dashboard, following the format at https://cloud.google.com/monitoring/api/ref_v3/rest/v1/projects.dashboards.
+	// The representation of an existing dashboard can be found by using the API Explorer
+	DashboardJSON *string `json:"dashboardJson,omitempty" tf:"dashboard_json,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+}
+
 type DashboardObservation struct {
 
 	// The JSON representation of a dashboard, following the format at https://cloud.google.com/monitoring/api/ref_v3/rest/v1/projects.dashboards.
@@ -43,12 +54,10 @@ type DashboardParameters struct {
 
 	// The JSON representation of a dashboard, following the format at https://cloud.google.com/monitoring/api/ref_v3/rest/v1/projects.dashboards.
 	// The representation of an existing dashboard can be found by using the API Explorer
-	// +kubebuilder:validation:Optional
 	DashboardJSON *string `json:"dashboardJson,omitempty" tf:"dashboard_json,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
-	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 
@@ -56,6 +65,10 @@ type DashboardParameters struct {
 type DashboardSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     DashboardParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	InitProvider DashboardInitParameters `json:"initProvider,omitempty"`
 }
 
 // DashboardStatus defines the observed state of Dashboard.
@@ -76,7 +89,7 @@ type DashboardStatus struct {
 type Dashboard struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.dashboardJson)",message="dashboardJson is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.dashboardJson) || has(self.initProvider.dashboardJson)",message="dashboardJson is a required parameter"
 	Spec   DashboardSpec   `json:"spec"`
 	Status DashboardStatus `json:"status,omitempty"`
 }

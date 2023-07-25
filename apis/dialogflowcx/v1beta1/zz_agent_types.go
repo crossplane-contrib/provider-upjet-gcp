@@ -25,6 +25,52 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type AgentInitParameters struct {
+
+	// The URI of the agent's avatar. Avatars are used throughout the Dialogflow console and in the self-hosted Web Demo integration.
+	AvatarURI *string `json:"avatarUri,omitempty" tf:"avatar_uri,omitempty"`
+
+	// The default language of the agent as a language tag. See Language Support
+	// for a list of the currently supported language codes. This field cannot be updated after creation.
+	DefaultLanguageCode *string `json:"defaultLanguageCode,omitempty" tf:"default_language_code,omitempty"`
+
+	// The description of this agent. The maximum length is 500 characters. If exceeded, the request is rejected.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// The human-readable name of the agent, unique within the location.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// Indicates if automatic spell correction is enabled in detect intent requests.
+	EnableSpellCorrection *bool `json:"enableSpellCorrection,omitempty" tf:"enable_spell_correction,omitempty"`
+
+	// Determines whether this agent should log conversation queries.
+	EnableStackdriverLogging *bool `json:"enableStackdriverLogging,omitempty" tf:"enable_stackdriver_logging,omitempty"`
+
+	// The name of the location this agent is located in.
+	// ~> Note: The first time you are deploying an Agent in your project you must configure location settings.
+	// This is a one time step but at the moment you can only configure location settings via the Dialogflow CX console.
+	// Another options is to use global location so you don't need to manually configure location settings.
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Name of the SecuritySettings reference for the agent. Format: projects//locations//securitySettings/.
+	SecuritySettings *string `json:"securitySettings,omitempty" tf:"security_settings,omitempty"`
+
+	// Settings related to speech recognition.
+	// Structure is documented below.
+	SpeechToTextSettings []SpeechToTextSettingsInitParameters `json:"speechToTextSettings,omitempty" tf:"speech_to_text_settings,omitempty"`
+
+	// The list of all languages supported by this agent (except for the default_language_code).
+	SupportedLanguageCodes []*string `json:"supportedLanguageCodes,omitempty" tf:"supported_language_codes,omitempty"`
+
+	// The time zone of this agent from the time zone database, e.g., America/New_York,
+	// Europe/Paris.
+	TimeZone *string `json:"timeZone,omitempty" tf:"time_zone,omitempty"`
+}
+
 type AgentObservation struct {
 
 	// The URI of the agent's avatar. Avatars are used throughout the Dialogflow console and in the self-hosted Web Demo integration.
@@ -83,59 +129,53 @@ type AgentObservation struct {
 type AgentParameters struct {
 
 	// The URI of the agent's avatar. Avatars are used throughout the Dialogflow console and in the self-hosted Web Demo integration.
-	// +kubebuilder:validation:Optional
 	AvatarURI *string `json:"avatarUri,omitempty" tf:"avatar_uri,omitempty"`
 
 	// The default language of the agent as a language tag. See Language Support
 	// for a list of the currently supported language codes. This field cannot be updated after creation.
-	// +kubebuilder:validation:Optional
 	DefaultLanguageCode *string `json:"defaultLanguageCode,omitempty" tf:"default_language_code,omitempty"`
 
 	// The description of this agent. The maximum length is 500 characters. If exceeded, the request is rejected.
-	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// The human-readable name of the agent, unique within the location.
-	// +kubebuilder:validation:Optional
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// Indicates if automatic spell correction is enabled in detect intent requests.
-	// +kubebuilder:validation:Optional
 	EnableSpellCorrection *bool `json:"enableSpellCorrection,omitempty" tf:"enable_spell_correction,omitempty"`
 
 	// Determines whether this agent should log conversation queries.
-	// +kubebuilder:validation:Optional
 	EnableStackdriverLogging *bool `json:"enableStackdriverLogging,omitempty" tf:"enable_stackdriver_logging,omitempty"`
 
 	// The name of the location this agent is located in.
 	// ~> Note: The first time you are deploying an Agent in your project you must configure location settings.
 	// This is a one time step but at the moment you can only configure location settings via the Dialogflow CX console.
 	// Another options is to use global location so you don't need to manually configure location settings.
-	// +kubebuilder:validation:Optional
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
-	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Name of the SecuritySettings reference for the agent. Format: projects//locations//securitySettings/.
-	// +kubebuilder:validation:Optional
 	SecuritySettings *string `json:"securitySettings,omitempty" tf:"security_settings,omitempty"`
 
 	// Settings related to speech recognition.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	SpeechToTextSettings []SpeechToTextSettingsParameters `json:"speechToTextSettings,omitempty" tf:"speech_to_text_settings,omitempty"`
 
 	// The list of all languages supported by this agent (except for the default_language_code).
-	// +kubebuilder:validation:Optional
 	SupportedLanguageCodes []*string `json:"supportedLanguageCodes,omitempty" tf:"supported_language_codes,omitempty"`
 
 	// The time zone of this agent from the time zone database, e.g., America/New_York,
 	// Europe/Paris.
-	// +kubebuilder:validation:Optional
 	TimeZone *string `json:"timeZone,omitempty" tf:"time_zone,omitempty"`
+}
+
+type SpeechToTextSettingsInitParameters struct {
+
+	// Whether to use speech adaptation for speech recognition.
+	EnableSpeechAdaptation *bool `json:"enableSpeechAdaptation,omitempty" tf:"enable_speech_adaptation,omitempty"`
 }
 
 type SpeechToTextSettingsObservation struct {
@@ -147,7 +187,6 @@ type SpeechToTextSettingsObservation struct {
 type SpeechToTextSettingsParameters struct {
 
 	// Whether to use speech adaptation for speech recognition.
-	// +kubebuilder:validation:Optional
 	EnableSpeechAdaptation *bool `json:"enableSpeechAdaptation,omitempty" tf:"enable_speech_adaptation,omitempty"`
 }
 
@@ -155,6 +194,10 @@ type SpeechToTextSettingsParameters struct {
 type AgentSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     AgentParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	InitProvider AgentInitParameters `json:"initProvider,omitempty"`
 }
 
 // AgentStatus defines the observed state of Agent.
@@ -175,10 +218,10 @@ type AgentStatus struct {
 type Agent struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.defaultLanguageCode)",message="defaultLanguageCode is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.displayName)",message="displayName is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.location)",message="location is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.timeZone)",message="timeZone is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.defaultLanguageCode) || has(self.initProvider.defaultLanguageCode)",message="defaultLanguageCode is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.displayName) || has(self.initProvider.displayName)",message="displayName is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.location) || has(self.initProvider.location)",message="location is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.timeZone) || has(self.initProvider.timeZone)",message="timeZone is a required parameter"
 	Spec   AgentSpec   `json:"spec"`
 	Status AgentStatus `json:"status,omitempty"`
 }

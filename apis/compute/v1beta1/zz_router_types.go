@@ -48,12 +48,10 @@ type AdvertisedIPRangesObservation struct {
 type AdvertisedIPRangesParameters struct {
 
 	// An optional description of this resource.
-	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// The IP range to advertise. The value must be a
 	// CIDR-formatted string.
-	// +kubebuilder:validation:Optional
 	Range *string `json:"range,omitempty" tf:"range,omitempty"`
 }
 
@@ -144,7 +142,6 @@ type BGPParameters struct {
 	// User-specified flag to indicate which mode to use for advertisement.
 	// Default value is DEFAULT.
 	// Possible values are: DEFAULT, CUSTOM.
-	// +kubebuilder:validation:Optional
 	AdvertiseMode *string `json:"advertiseMode,omitempty" tf:"advertise_mode,omitempty"`
 
 	// User-specified list of prefix groups to advertise in custom mode.
@@ -153,7 +150,6 @@ type BGPParameters struct {
 	// advertised in addition to any specified prefixes. Leave this field
 	// blank to advertise no custom groups.
 	// This enum field has the one valid value: ALL_SUBNETS
-	// +kubebuilder:validation:Optional
 	AdvertisedGroups []*string `json:"advertisedGroups,omitempty" tf:"advertised_groups,omitempty"`
 
 	// User-specified list of individual IP ranges to advertise in
@@ -162,14 +158,12 @@ type BGPParameters struct {
 	// ranges will be advertised in addition to any specified groups.
 	// Leave this field blank to advertise no custom IP ranges.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	AdvertisedIPRanges []AdvertisedIPRangesParameters `json:"advertisedIpRanges,omitempty" tf:"advertised_ip_ranges,omitempty"`
 
 	// Local BGP Autonomous System Number (ASN). Must be an RFC6996
 	// private ASN, either 16-bit or 32-bit. The value will be fixed for
 	// this router resource. All VPN tunnels that link to this router
 	// will have the same local ASN.
-	// +kubebuilder:validation:Optional
 	Asn *float64 `json:"asn,omitempty" tf:"asn,omitempty"`
 
 	// The interval in seconds between BGP keepalive messages that are sent
@@ -181,7 +175,6 @@ type BGPParameters struct {
 	// peer's hold time value as the hold time for the BGP connection
 	// between the two peers. If set, this value must be between 20 and 60.
 	// The default is 20.
-	// +kubebuilder:validation:Optional
 	KeepaliveInterval *float64 `json:"keepaliveInterval,omitempty" tf:"keepalive_interval,omitempty"`
 }
 
@@ -240,16 +233,13 @@ type RouterParameters struct {
 
 	// BGP information specific to this router.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	BGP []BGPParameters `json:"bgp,omitempty" tf:"bgp,omitempty"`
 
 	// An optional description of this resource.
-	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Indicates if a router is dedicated for use with encrypted VLAN
 	// attachments (interconnectAttachments).
-	// +kubebuilder:validation:Optional
 	EncryptedInterconnectRouter *bool `json:"encryptedInterconnectRouter,omitempty" tf:"encrypted_interconnect_router,omitempty"`
 
 	// A reference to the network to which this router belongs.
@@ -268,7 +258,6 @@ type RouterParameters struct {
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
-	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Region where the router resides.
@@ -283,14 +272,6 @@ type RouterSpec struct {
 	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
 	// unless the relevant Crossplane feature flag is enabled, and may be
 	// changed or removed without notice.
-	// InitProvider holds the same fields as ForProvider, with the exception
-	// of Identifier and other resource reference fields. The fields that are
-	// in InitProvider are merged into ForProvider when the resource is created.
-	// The same fields are also added to the terraform ignore_changes hook, to
-	// avoid updating them after creation. This is useful for fields that are
-	// required on creation, but we do not desire to update them after creation,
-	// for example because of an external controller is managing them, like an
-	// autoscaler.
 	InitProvider RouterInitParameters `json:"initProvider,omitempty"`
 }
 

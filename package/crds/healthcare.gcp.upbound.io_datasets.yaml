@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.0
+    controller-gen.kubebuilder.io/version: v0.12.1
   name: datasets.healthcare.gcp.upbound.io
 spec:
   group: healthcare.gcp.upbound.io
@@ -65,6 +65,29 @@ spec:
                 - Delete
                 type: string
               forProvider:
+                properties:
+                  location:
+                    description: The location for the Dataset.
+                    type: string
+                  name:
+                    description: The resource name for the Dataset.
+                    type: string
+                  project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  timeZone:
+                    description: The default timezone used by this dataset. Must be
+                      a either a valid IANA time zone name such as "America/New_York"
+                      or empty, which defaults to UTC. This is used for parsing times
+                      in resources (e.g., HL7 messages) where no explicit timezone
+                      is specified.
+                    type: string
+                type: object
+              initProvider:
+                description: THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice.
                 properties:
                   location:
                     description: The location for the Dataset.
@@ -284,10 +307,12 @@ spec:
             x-kubernetes-validations:
             - message: location is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.location)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.location)
+                || has(self.initProvider.location)'
             - message: name is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.name)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.name)
+                || has(self.initProvider.name)'
           status:
             description: DatasetStatus defines the observed state of Dataset.
             properties:

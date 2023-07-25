@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.0
+    controller-gen.kubebuilder.io/version: v0.12.1
   name: spokes.networkconnectivity.gcp.upbound.io
 spec:
   group: networkconnectivity.gcp.upbound.io
@@ -174,9 +174,6 @@ spec:
                           items:
                             type: string
                           type: array
-                      required:
-                      - siteToSiteDataTransfer
-                      - uris
                       type: object
                     type: array
                   linkedRouterApplianceInstances:
@@ -280,9 +277,6 @@ spec:
                             data transfer is enabled for these resources. Note that
                             data transfer is available only in supported locations.
                           type: boolean
-                      required:
-                      - instances
-                      - siteToSiteDataTransfer
                       type: object
                     type: array
                   linkedVpnTunnels:
@@ -299,9 +293,88 @@ spec:
                           items:
                             type: string
                           type: array
-                      required:
-                      - siteToSiteDataTransfer
-                      - uris
+                      type: object
+                    type: array
+                  location:
+                    description: The location for the resource
+                    type: string
+                  name:
+                    description: Immutable. The name of the spoke. Spoke names must
+                      be unique.
+                    type: string
+                  project:
+                    description: The project for the resource
+                    type: string
+                type: object
+              initProvider:
+                description: THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice.
+                properties:
+                  description:
+                    description: An optional description of the spoke.
+                    type: string
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: Optional labels in key:value format. For more information
+                      about labels, see Requirements for labels.
+                    type: object
+                  linkedInterconnectAttachments:
+                    description: A collection of VLAN attachment resources. These
+                      resources should be redundant attachments that all advertise
+                      the same prefixes to Google Cloud. Alternatively, in active/passive
+                      configurations, all attachments should be capable of advertising
+                      the same prefixes.
+                    items:
+                      properties:
+                        siteToSiteDataTransfer:
+                          description: A value that controls whether site-to-site
+                            data transfer is enabled for these resources. Note that
+                            data transfer is available only in supported locations.
+                          type: boolean
+                        uris:
+                          description: The URIs of linked interconnect attachment
+                            resources
+                          items:
+                            type: string
+                          type: array
+                      type: object
+                    type: array
+                  linkedRouterApplianceInstances:
+                    description: The URIs of linked Router appliance resources
+                    items:
+                      properties:
+                        instances:
+                          description: The list of router appliance instances
+                          items:
+                            properties:
+                              ipAddress:
+                                description: The IP address on the VM to use for peering.
+                                type: string
+                            type: object
+                          type: array
+                        siteToSiteDataTransfer:
+                          description: A value that controls whether site-to-site
+                            data transfer is enabled for these resources. Note that
+                            data transfer is available only in supported locations.
+                          type: boolean
+                      type: object
+                    type: array
+                  linkedVpnTunnels:
+                    description: The URIs of linked VPN tunnel resources
+                    items:
+                      properties:
+                        siteToSiteDataTransfer:
+                          description: A value that controls whether site-to-site
+                            data transfer is enabled for these resources. Note that
+                            data transfer is available only in supported locations.
+                          type: boolean
+                        uris:
+                          description: The URIs of linked VPN tunnel resources.
+                          items:
+                            type: string
+                          type: array
                       type: object
                     type: array
                   location:
@@ -515,10 +588,12 @@ spec:
             x-kubernetes-validations:
             - message: location is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.location)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.location)
+                || has(self.initProvider.location)'
             - message: name is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.name)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.name)
+                || has(self.initProvider.name)'
           status:
             description: SpokeStatus defines the observed state of Spoke.
             properties:

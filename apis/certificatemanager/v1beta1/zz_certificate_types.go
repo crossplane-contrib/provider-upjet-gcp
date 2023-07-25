@@ -127,11 +127,9 @@ type CertificateObservation struct {
 type CertificateParameters struct {
 
 	// A human-readable description of the resource.
-	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Set of label tags associated with the Certificate resource.
-	// +kubebuilder:validation:Optional
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The Certificate Manager location. If not specified, "global" is used.
@@ -142,12 +140,10 @@ type CertificateParameters struct {
 	// Certificate Manager provisions and renews Managed Certificates
 	// automatically, for as long as it's authorized to do so.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	Managed []ManagedParameters `json:"managed,omitempty" tf:"managed,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
-	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The scope of the certificate.
@@ -156,14 +152,12 @@ type CertificateParameters struct {
 	// EDGE_CACHE: Certificates with scope EDGE_CACHE are special-purposed certificates,
 	// served from non-core Google data centers.
 	// Currently allowed only for managed certificates.
-	// +kubebuilder:validation:Optional
 	Scope *string `json:"scope,omitempty" tf:"scope,omitempty"`
 
 	// Certificate data for a SelfManaged Certificate.
 	// SelfManaged Certificates are uploaded by the user. Updating such
 	// certificates before they expire remains the user's responsibility.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	SelfManaged []SelfManagedParameters `json:"selfManaged,omitempty" tf:"self_managed,omitempty"`
 }
 
@@ -205,12 +199,10 @@ type ManagedObservation struct {
 type ManagedParameters struct {
 
 	// Authorizations that will be used for performing domain authorization
-	// +kubebuilder:validation:Optional
 	DNSAuthorizations []*string `json:"dnsAuthorizations,omitempty" tf:"dns_authorizations,omitempty"`
 
 	// The domains for which a managed SSL certificate will be generated.
 	// Wildcard domains are only supported with DNS challenge resolution
-	// +kubebuilder:validation:Optional
 	Domains []*string `json:"domains,omitempty" tf:"domains,omitempty"`
 }
 
@@ -252,22 +244,18 @@ type SelfManagedParameters struct {
 	// Deprecated The certificate chain in PEM-encoded form.
 	// Leaf certificate comes first, followed by intermediate ones if any.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	// +kubebuilder:validation:Optional
 	CertificatePemSecretRef *v1.SecretKeySelector `json:"certificatePemSecretRef,omitempty" tf:"-"`
 
 	// The certificate chain in PEM-encoded form.
 	// Leaf certificate comes first, followed by intermediate ones if any.
-	// +kubebuilder:validation:Optional
 	PemCertificate *string `json:"pemCertificate,omitempty" tf:"pem_certificate,omitempty"`
 
 	// The private key of the leaf certificate in PEM-encoded form.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	// +kubebuilder:validation:Optional
 	PemPrivateKeySecretRef *v1.SecretKeySelector `json:"pemPrivateKeySecretRef,omitempty" tf:"-"`
 
 	// Deprecated The private key of the leaf certificate in PEM-encoded form.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	// +kubebuilder:validation:Optional
 	PrivateKeyPemSecretRef *v1.SecretKeySelector `json:"privateKeyPemSecretRef,omitempty" tf:"-"`
 }
 
@@ -278,14 +266,6 @@ type CertificateSpec struct {
 	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
 	// unless the relevant Crossplane feature flag is enabled, and may be
 	// changed or removed without notice.
-	// InitProvider holds the same fields as ForProvider, with the exception
-	// of Identifier and other resource reference fields. The fields that are
-	// in InitProvider are merged into ForProvider when the resource is created.
-	// The same fields are also added to the terraform ignore_changes hook, to
-	// avoid updating them after creation. This is useful for fields that are
-	// required on creation, but we do not desire to update them after creation,
-	// for example because of an external controller is managing them, like an
-	// autoscaler.
 	InitProvider CertificateInitParameters `json:"initProvider,omitempty"`
 }
 

@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.0
+    controller-gen.kubebuilder.io/version: v0.12.1
   name: policies.dns.gcp.upbound.io
 spec:
   group: dns.gcp.upbound.io
@@ -95,12 +95,8 @@ spec:
                               ipv4Address:
                                 description: IPv4 address to forward to.
                                 type: string
-                            required:
-                            - ipv4Address
                             type: object
                           type: array
-                      required:
-                      - targetNameServers
                       type: object
                     type: array
                   description:
@@ -204,6 +200,67 @@ spec:
                             to forward queries to. This should be formatted like projects/{project}/global/networks/{network}
                             or https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}
                           type: string
+                      type: object
+                    type: array
+                  project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                type: object
+              initProvider:
+                description: THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice.
+                properties:
+                  alternativeNameServerConfig:
+                    description: Sets an alternative name server for the associated
+                      networks. When specified, all DNS queries are forwarded to a
+                      name server that you choose. Names such as .internal are not
+                      available when an alternative name server is specified. Structure
+                      is documented below.
+                    items:
+                      properties:
+                        targetNameServers:
+                          description: Sets an alternative name server for the associated
+                            networks. When specified, all DNS queries are forwarded
+                            to a name server that you choose. Names such as .internal
+                            are not available when an alternative name server is specified.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              forwardingPath:
+                                description: 'Forwarding path for this TargetNameServer.
+                                  If unset or default Cloud DNS will make forwarding
+                                  decision based on address ranges, i.e. RFC1918 addresses
+                                  go to the VPC, Non-RFC1918 addresses go to the Internet.
+                                  When set to private, Cloud DNS will always send
+                                  queries through VPC for this target Possible values
+                                  are: default, private.'
+                                type: string
+                              ipv4Address:
+                                description: IPv4 address to forward to.
+                                type: string
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  description:
+                    description: A textual description field.
+                    type: string
+                  enableInboundForwarding:
+                    description: Allows networks bound to this policy to receive DNS
+                      queries sent by VMs or applications over VPN connections. When
+                      enabled, a virtual IP address will be allocated from each of
+                      the sub-networks that are bound to this policy.
+                    type: boolean
+                  enableLogging:
+                    description: Controls whether logging is enabled for the networks
+                      bound to this policy. Defaults to no logging if not set.
+                    type: boolean
+                  networks:
+                    description: List of network names specifying networks to which
+                      this policy is applied. Structure is documented below.
+                    items:
                       type: object
                     type: array
                   project:

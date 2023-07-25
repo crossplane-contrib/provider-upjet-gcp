@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.0
+    controller-gen.kubebuilder.io/version: v0.12.1
   name: sshpublickeys.oslogin.gcp.upbound.io
 spec:
   group: oslogin.gcp.upbound.io
@@ -88,6 +88,23 @@ spec:
                     - name
                     - namespace
                     type: object
+                  project:
+                    description: The project ID of the Google Cloud Platform project.
+                    type: string
+                  user:
+                    description: The user email.
+                    type: string
+                required:
+                - keySecretRef
+                type: object
+              initProvider:
+                description: THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice.
+                properties:
+                  expirationTimeUsec:
+                    description: An expiration time in microseconds since epoch.
+                    type: string
                   project:
                     description: The project ID of the Google Cloud Platform project.
                     type: string
@@ -298,7 +315,8 @@ spec:
                 || ''Update'' in self.managementPolicies) || has(self.forProvider.keySecretRef)'
             - message: user is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.user)'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.user)
+                || has(self.initProvider.user)'
           status:
             description: SSHPublicKeyStatus defines the observed state of SSHPublicKey.
             properties:

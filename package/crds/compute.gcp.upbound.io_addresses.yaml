@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.0
+    controller-gen.kubebuilder.io/version: v0.12.1
   name: addresses.compute.gcp.upbound.io
 spec:
   group: compute.gcp.upbound.io
@@ -264,6 +264,46 @@ spec:
                     type: object
                 required:
                 - region
+                type: object
+              initProvider:
+                description: THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice.
+                properties:
+                  address:
+                    description: The static external IP address represented by this
+                      resource. Only IPv4 is supported. An address may only be specified
+                      for INTERNAL address types. The IP address must be inside the
+                      specified subnetwork, if any. Set by the API if undefined.
+                    type: string
+                  addressType:
+                    description: 'The type of address to reserve. Note: if you set
+                      this argument''s value as INTERNAL you need to leave the network_tier
+                      argument unset in that resource block. Default value is EXTERNAL.
+                      Possible values are: INTERNAL, EXTERNAL.'
+                    type: string
+                  description:
+                    description: An optional description of this resource.
+                    type: string
+                  networkTier:
+                    description: 'The networking tier used for configuring this address.
+                      If this field is not specified, it is assumed to be PREMIUM.
+                      This argument should not be used when configuring Internal addresses,
+                      because network tier cannot be set for internal traffic; it''s
+                      always Premium. Possible values are: PREMIUM, STANDARD.'
+                    type: string
+                  prefixLength:
+                    description: The prefix length if the resource represents an IP
+                      range.
+                    type: number
+                  project:
+                    description: The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  purpose:
+                    description: The purpose of this resource, which can be one of
+                      the following values.
+                    type: string
                 type: object
               managementPolicies:
                 default:

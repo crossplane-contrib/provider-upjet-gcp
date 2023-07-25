@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.0
+    controller-gen.kubebuilder.io/version: v0.12.1
   name: channels.eventarc.gcp.upbound.io
 spec:
   group: eventarc.gcp.upbound.io
@@ -86,6 +86,26 @@ spec:
                     type: string
                 required:
                 - location
+                type: object
+              initProvider:
+                description: THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice.
+                properties:
+                  cryptoKeyName:
+                    description: Optional. Resource name of a KMS crypto key (managed
+                      by the user) used to encrypt/decrypt their event data. It must
+                      match the pattern projects/*/locations/*/keyRings/*/cryptoKeys/*.
+                    type: string
+                  project:
+                    description: The project for the resource
+                    type: string
+                  thirdPartyProvider:
+                    description: 'The name of the event provider (e.g. Eventarc SaaS
+                      partner) associated with the channel. This provider will be
+                      granted permissions to publish events to the channel. Format:
+                      projects/{project}/locations/{location}/providers/{provider_id}.'
+                    type: string
                 type: object
               managementPolicies:
                 default:

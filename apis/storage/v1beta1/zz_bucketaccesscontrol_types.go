@@ -25,6 +25,30 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type BucketAccessControlInitParameters struct {
+
+	// The entity holding the permission, in one of the following forms:
+	// user-userId
+	// user-email
+	// group-groupId
+	// group-email
+	// domain-domain
+	// project-team-projectId
+	// allUsers
+	// allAuthenticatedUsers
+	// Examples:
+	// The user liz@example.com would be user-liz@example.com.
+	// The group example@googlegroups.com would be
+	// group-example@googlegroups.com.
+	// To refer to all members of the Google Apps for Business domain
+	// example.com, the entity would be domain-example.com.
+	Entity *string `json:"entity,omitempty" tf:"entity,omitempty"`
+
+	// The access permission for the entity.
+	// Possible values are: OWNER, READER, WRITER.
+	Role *string `json:"role,omitempty" tf:"role,omitempty"`
+}
+
 type BucketAccessControlObservation struct {
 
 	// The name of the bucket.
@@ -91,12 +115,10 @@ type BucketAccessControlParameters struct {
 	// group-example@googlegroups.com.
 	// To refer to all members of the Google Apps for Business domain
 	// example.com, the entity would be domain-example.com.
-	// +kubebuilder:validation:Optional
 	Entity *string `json:"entity,omitempty" tf:"entity,omitempty"`
 
 	// The access permission for the entity.
 	// Possible values are: OWNER, READER, WRITER.
-	// +kubebuilder:validation:Optional
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 }
 
@@ -104,6 +126,10 @@ type BucketAccessControlParameters struct {
 type BucketAccessControlSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     BucketAccessControlParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	InitProvider BucketAccessControlInitParameters `json:"initProvider,omitempty"`
 }
 
 // BucketAccessControlStatus defines the observed state of BucketAccessControl.
@@ -124,7 +150,7 @@ type BucketAccessControlStatus struct {
 type BucketAccessControl struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.entity)",message="entity is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.entity) || has(self.initProvider.entity)",message="entity is a required parameter"
 	Spec   BucketAccessControlSpec   `json:"spec"`
 	Status BucketAccessControlStatus `json:"status,omitempty"`
 }

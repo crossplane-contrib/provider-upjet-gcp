@@ -40,7 +40,6 @@ type AwsObservation struct {
 type AwsParameters struct {
 
 	// The AWS account ID.
-	// +kubebuilder:validation:Optional
 	AccountID *string `json:"accountId,omitempty" tf:"account_id,omitempty"`
 }
 
@@ -83,11 +82,9 @@ type OidcParameters struct {
 	// If this list is empty, the OIDC token audience must be equal to the full canonical
 	// resource name of the WorkloadIdentityPoolProvider, with or without the HTTPS prefix.
 	// For example:
-	// +kubebuilder:validation:Optional
 	AllowedAudiences []*string `json:"allowedAudiences,omitempty" tf:"allowed_audiences,omitempty"`
 
 	// The OIDC issuer URL.
-	// +kubebuilder:validation:Optional
 	IssuerURI *string `json:"issuerUri,omitempty" tf:"issuer_uri,omitempty"`
 }
 
@@ -189,42 +186,34 @@ type WorkloadIdentityPoolProviderParameters struct {
 	// provider should not be accepted.
 	// The expression must output a boolean representing whether to allow the federation.
 	// The following keywords may be referenced in the expressions:
-	// +kubebuilder:validation:Optional
 	AttributeCondition *string `json:"attributeCondition,omitempty" tf:"attribute_condition,omitempty"`
 
 	// Maps attributes from authentication credentials issued by an external identity provider
 	// to Google Cloud attributes, such as subject and segment.
 	// Each key must be a string specifying the Google Cloud IAM attribute to map to.
 	// The following keys are supported:
-	// +kubebuilder:validation:Optional
 	AttributeMapping map[string]*string `json:"attributeMapping,omitempty" tf:"attribute_mapping,omitempty"`
 
 	// An Amazon Web Services identity provider. Not compatible with the property oidc.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	Aws []AwsParameters `json:"aws,omitempty" tf:"aws,omitempty"`
 
 	// A description for the provider. Cannot exceed 256 characters.
-	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Whether the provider is disabled. You cannot use a disabled provider to exchange tokens.
 	// However, existing tokens still grant access.
-	// +kubebuilder:validation:Optional
 	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
 
 	// A display name for the provider. Cannot exceed 32 characters.
-	// +kubebuilder:validation:Optional
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// An OpenId Connect 1.0 identity provider. Not compatible with the property aws.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	Oidc []OidcParameters `json:"oidc,omitempty" tf:"oidc,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
-	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The ID used for the pool, which is the final component of the pool resource name. This
@@ -250,14 +239,6 @@ type WorkloadIdentityPoolProviderSpec struct {
 	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
 	// unless the relevant Crossplane feature flag is enabled, and may be
 	// changed or removed without notice.
-	// InitProvider holds the same fields as ForProvider, with the exception
-	// of Identifier and other resource reference fields. The fields that are
-	// in InitProvider are merged into ForProvider when the resource is created.
-	// The same fields are also added to the terraform ignore_changes hook, to
-	// avoid updating them after creation. This is useful for fields that are
-	// required on creation, but we do not desire to update them after creation,
-	// for example because of an external controller is managing them, like an
-	// autoscaler.
 	InitProvider WorkloadIdentityPoolProviderInitParameters `json:"initProvider,omitempty"`
 }
 

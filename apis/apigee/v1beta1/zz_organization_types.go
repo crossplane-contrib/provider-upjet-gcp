@@ -25,6 +25,41 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type OrganizationInitParameters struct {
+
+	// Primary GCP region for analytics data storage. For valid values, see Create an Apigee organization.
+	AnalyticsRegion *string `json:"analyticsRegion,omitempty" tf:"analytics_region,omitempty"`
+
+	// Billing type of the Apigee organization. See Apigee pricing.
+	BillingType *string `json:"billingType,omitempty" tf:"billing_type,omitempty"`
+
+	// Description of the Apigee organization.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// The display name of the Apigee organization.
+	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// The project ID associated with the Apigee organization.
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	// Properties defined in the Apigee organization profile.
+	// Structure is documented below.
+	Properties []PropertiesInitParameters `json:"properties,omitempty" tf:"properties,omitempty"`
+
+	// Optional. This setting is applicable only for organizations that are soft-deleted (i.e., BillingType
+	// is not EVALUATION). It controls how long Organization data will be retained after the initial delete
+	// operation completes. During this period, the Organization may be restored to its last known state.
+	// After this period, the Organization will no longer be able to be restored.
+	// Default value is DELETION_RETENTION_UNSPECIFIED.
+	// Possible values are: DELETION_RETENTION_UNSPECIFIED, MINIMUM.
+	Retention *string `json:"retention,omitempty" tf:"retention,omitempty"`
+
+	// Runtime type of the Apigee organization based on the Apigee subscription purchased.
+	// Default value is CLOUD.
+	// Possible values are: CLOUD, HYBRID.
+	RuntimeType *string `json:"runtimeType,omitempty" tf:"runtime_type,omitempty"`
+}
+
 type OrganizationObservation struct {
 
 	// Primary GCP region for analytics data storage. For valid values, see Create an Apigee organization.
@@ -88,7 +123,6 @@ type OrganizationObservation struct {
 type OrganizationParameters struct {
 
 	// Primary GCP region for analytics data storage. For valid values, see Create an Apigee organization.
-	// +kubebuilder:validation:Optional
 	AnalyticsRegion *string `json:"analyticsRegion,omitempty" tf:"analytics_region,omitempty"`
 
 	// Compute Engine network used for Service Networking to be peered with Apigee runtime instances.
@@ -108,24 +142,19 @@ type OrganizationParameters struct {
 	AuthorizedNetworkSelector *v1.Selector `json:"authorizedNetworkSelector,omitempty" tf:"-"`
 
 	// Billing type of the Apigee organization. See Apigee pricing.
-	// +kubebuilder:validation:Optional
 	BillingType *string `json:"billingType,omitempty" tf:"billing_type,omitempty"`
 
 	// Description of the Apigee organization.
-	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// The display name of the Apigee organization.
-	// +kubebuilder:validation:Optional
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// The project ID associated with the Apigee organization.
-	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// Properties defined in the Apigee organization profile.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	Properties []PropertiesParameters `json:"properties,omitempty" tf:"properties,omitempty"`
 
 	// Optional. This setting is applicable only for organizations that are soft-deleted (i.e., BillingType
@@ -134,7 +163,6 @@ type OrganizationParameters struct {
 	// After this period, the Organization will no longer be able to be restored.
 	// Default value is DELETION_RETENTION_UNSPECIFIED.
 	// Possible values are: DELETION_RETENTION_UNSPECIFIED, MINIMUM.
-	// +kubebuilder:validation:Optional
 	Retention *string `json:"retention,omitempty" tf:"retention,omitempty"`
 
 	// Cloud KMS key name used for encrypting the data that is stored and replicated across runtime instances.
@@ -157,8 +185,14 @@ type OrganizationParameters struct {
 	// Runtime type of the Apigee organization based on the Apigee subscription purchased.
 	// Default value is CLOUD.
 	// Possible values are: CLOUD, HYBRID.
-	// +kubebuilder:validation:Optional
 	RuntimeType *string `json:"runtimeType,omitempty" tf:"runtime_type,omitempty"`
+}
+
+type PropertiesInitParameters struct {
+
+	// List of all properties in the object.
+	// Structure is documented below.
+	Property []PropertyInitParameters `json:"property,omitempty" tf:"property,omitempty"`
 }
 
 type PropertiesObservation struct {
@@ -172,8 +206,16 @@ type PropertiesParameters struct {
 
 	// List of all properties in the object.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
 	Property []PropertyParameters `json:"property,omitempty" tf:"property,omitempty"`
+}
+
+type PropertyInitParameters struct {
+
+	// Name of the property.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Value of the property.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
 
 type PropertyObservation struct {
@@ -188,11 +230,9 @@ type PropertyObservation struct {
 type PropertyParameters struct {
 
 	// Name of the property.
-	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// Value of the property.
-	// +kubebuilder:validation:Optional
 	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
 
@@ -200,6 +240,10 @@ type PropertyParameters struct {
 type OrganizationSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     OrganizationParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	InitProvider OrganizationInitParameters `json:"initProvider,omitempty"`
 }
 
 // OrganizationStatus defines the observed state of Organization.
@@ -220,7 +264,7 @@ type OrganizationStatus struct {
 type Organization struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.projectId)",message="projectId is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.projectId) || has(self.initProvider.projectId)",message="projectId is a required parameter"
 	Spec   OrganizationSpec   `json:"spec"`
 	Status OrganizationStatus `json:"status,omitempty"`
 }

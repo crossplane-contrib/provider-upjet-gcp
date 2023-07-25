@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.0
+    controller-gen.kubebuilder.io/version: v0.12.1
   name: cryptokeys.kms.gcp.upbound.io
 spec:
   group: kms.gcp.upbound.io
@@ -192,8 +192,64 @@ spec:
                             "SOFTWARE", "HSM", "EXTERNAL", "EXTERNAL_VPC". Defaults
                             to "SOFTWARE".
                           type: string
-                      required:
-                      - algorithm
+                      type: object
+                    type: array
+                type: object
+              initProvider:
+                description: THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice.
+                properties:
+                  destroyScheduledDuration:
+                    description: The period of time that versions of this key spend
+                      in the DESTROY_SCHEDULED state before transitioning to DESTROYED.
+                      If not specified at creation time, the default duration is 24
+                      hours.
+                    type: string
+                  importOnly:
+                    description: Whether this key may contain imported versions only.
+                    type: boolean
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: Labels with user-defined metadata to apply to this
+                      resource.
+                    type: object
+                  purpose:
+                    description: 'The immutable purpose of this CryptoKey. See the
+                      purpose reference for possible inputs. Default value is ENCRYPT_DECRYPT.
+                      Possible values are: ENCRYPT_DECRYPT, ASYMMETRIC_SIGN, ASYMMETRIC_DECRYPT,
+                      MAC.'
+                    type: string
+                  rotationPeriod:
+                    description: Every time this period passes, generate a new CryptoKeyVersion
+                      and set it as the primary. The first rotation will take place
+                      after the specified period. The rotation period has the format
+                      of a decimal number with up to 9 fractional digits, followed
+                      by the letter s (seconds). It must be greater than a day (ie,
+                      86400).
+                    type: string
+                  skipInitialVersionCreation:
+                    description: If set to true, the request will create a CryptoKey
+                      without any CryptoKeyVersions. You must use the google_kms_key_ring_import_job
+                      resource to import the CryptoKeyVersion.
+                    type: boolean
+                  versionTemplate:
+                    description: A template describing settings for new crypto key
+                      versions. Structure is documented below.
+                    items:
+                      properties:
+                        algorithm:
+                          description: The algorithm to use when creating a version
+                            based on this template. See the algorithm reference for
+                            possible inputs.
+                          type: string
+                        protectionLevel:
+                          description: The protection level to use when creating a
+                            version based on this template. Possible values include
+                            "SOFTWARE", "HSM", "EXTERNAL", "EXTERNAL_VPC". Defaults
+                            to "SOFTWARE".
+                          type: string
                       type: object
                     type: array
                 type: object
