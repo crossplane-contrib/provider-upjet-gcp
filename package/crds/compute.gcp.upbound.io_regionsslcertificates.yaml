@@ -119,8 +119,6 @@ spec:
                       used.
                     type: string
                 required:
-                - certificateSecretRef
-                - privateKeySecretRef
                 - region
                 type: object
               initProvider:

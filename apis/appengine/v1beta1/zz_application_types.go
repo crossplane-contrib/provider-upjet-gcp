@@ -203,6 +203,7 @@ type IapParameters struct {
 
 	// OAuth2 client secret to use for the authentication flow.
 	// The SHA-256 hash of the value is returned in the oauth2ClientSecretSha256 field.
+	// +kubebuilder:validation:Required
 	Oauth2ClientSecretSecretRef v1.SecretKeySelector `json:"oauth2ClientSecretSecretRef" tf:"-"`
 }
 

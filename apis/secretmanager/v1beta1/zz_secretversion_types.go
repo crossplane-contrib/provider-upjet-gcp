@@ -68,6 +68,7 @@ type SecretVersionParameters struct {
 	Secret *string `json:"secret,omitempty" tf:"secret,omitempty"`
 
 	// The secret data. Must be no larger than 64KiB.
+	// +kubebuilder:validation:Optional
 	SecretDataSecretRef v1.SecretKeySelector `json:"secretDataSecretRef" tf:"-"`
 
 	// Reference to a Secret to populate secret.

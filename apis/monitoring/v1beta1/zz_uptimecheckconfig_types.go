@@ -71,6 +71,7 @@ type AuthInfoParameters struct {
 
 	// The password to authenticate.
 	// Note: This property is sensitive and will not be displayed in the plan.
+	// +kubebuilder:validation:Required
 	PasswordSecretRef v1.SecretKeySelector `json:"passwordSecretRef" tf:"-"`
 
 	// The username to authenticate.

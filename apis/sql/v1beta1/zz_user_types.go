@@ -187,6 +187,7 @@ type UserParameters struct {
 	// instances this is a Required field, unless type is set to either CLOUD_IAM_USER
 	// or CLOUD_IAM_SERVICE_ACCOUNT. Don't set this field for CLOUD_IAM_USER
 	// and CLOUD_IAM_SERVICE_ACCOUNT user types for any Cloud SQL instance.
+	// +kubebuilder:validation:Optional
 	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
 	// The ID of the project in which the resource belongs. If it

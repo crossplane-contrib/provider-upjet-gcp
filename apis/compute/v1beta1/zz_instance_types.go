@@ -225,6 +225,7 @@ type BootDiskParameters struct {
 	// encoded in RFC 4648 base64
 	// to encrypt this disk. Only one of kms_key_self_link and disk_encryption_key_raw
 	// may be set.
+	// +kubebuilder:validation:Optional
 	DiskEncryptionKeyRawSecretRef *v1.SecretKeySelector `json:"diskEncryptionKeyRawSecretRef,omitempty" tf:"-"`
 
 	// Parameters for a new disk that will be created
@@ -461,6 +462,7 @@ type InstanceAttachedDiskParameters struct {
 	// (https://cloud.google.com/compute/docs/disks/customer-supplied-encryption),
 	// encoded in RFC 4648 base64
 	// to encrypt this disk. Only one of kms_key_self_link and disk_encryption_key_raw may be set.
+	// +kubebuilder:validation:Optional
 	DiskEncryptionKeyRawSecretRef *v1.SecretKeySelector `json:"diskEncryptionKeyRawSecretRef,omitempty" tf:"-"`
 
 	// The self_link of the encryption key that is

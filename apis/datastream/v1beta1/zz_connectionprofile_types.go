@@ -198,6 +198,7 @@ type ForwardSSHConnectivityParameters struct {
 
 	// SSH password.
 	// Note: This property is sensitive and will not be displayed in the plan.
+	// +kubebuilder:validation:Optional
 	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
 	// Port for the SSH tunnel.
@@ -205,6 +206,7 @@ type ForwardSSHConnectivityParameters struct {
 
 	// SSH private key.
 	// Note: This property is sensitive and will not be displayed in the plan.
+	// +kubebuilder:validation:Optional
 	PrivateKeySecretRef *v1.SecretKeySelector `json:"privateKeySecretRef,omitempty" tf:"-"`
 
 	// Username for the SSH tunnel.
@@ -277,6 +279,7 @@ type MySQLProfileParameters struct {
 
 	// Password for the MySQL connection.
 	// Note: This property is sensitive and will not be displayed in the plan.
+	// +kubebuilder:validation:Required
 	PasswordSecretRef v1.SecretKeySelector `json:"passwordSecretRef" tf:"-"`
 
 	// Port for the MySQL connection.
@@ -339,6 +342,7 @@ type OracleProfileParameters struct {
 
 	// Password for the Oracle connection.
 	// Note: This property is sensitive and will not be displayed in the plan.
+	// +kubebuilder:validation:Required
 	PasswordSecretRef v1.SecretKeySelector `json:"passwordSecretRef" tf:"-"`
 
 	// Port for the Oracle connection.
@@ -400,6 +404,7 @@ type PostgresqlProfileParameters struct {
 
 	// Password for the PostgreSQL connection.
 	// Note: This property is sensitive and will not be displayed in the plan.
+	// +kubebuilder:validation:Required
 	PasswordSecretRef v1.SecretKeySelector `json:"passwordSecretRef" tf:"-"`
 
 	// Port for the PostgreSQL connection.
@@ -468,6 +473,7 @@ type SSLConfigParameters struct {
 	// PEM-encoded certificate of the CA that signed the source database
 	// server's certificate.
 	// Note: This property is sensitive and will not be displayed in the plan.
+	// +kubebuilder:validation:Optional
 	CACertificateSecretRef *v1.SecretKeySelector `json:"caCertificateSecretRef,omitempty" tf:"-"`
 
 	// PEM-encoded certificate that will be used by the replica to
@@ -475,12 +481,14 @@ type SSLConfigParameters struct {
 	// is used then the 'clientKey' and the 'caCertificate' fields are
 	// mandatory.
 	// Note: This property is sensitive and will not be displayed in the plan.
+	// +kubebuilder:validation:Optional
 	ClientCertificateSecretRef *v1.SecretKeySelector `json:"clientCertificateSecretRef,omitempty" tf:"-"`
 
 	// PEM-encoded private key associated with the Client Certificate.
 	// If this field is used then the 'client_certificate' and the
 	// 'ca_certificate' fields are mandatory.
 	// Note: This property is sensitive and will not be displayed in the plan.
+	// +kubebuilder:validation:Optional
 	ClientKeySecretRef *v1.SecretKeySelector `json:"clientKeySecretRef,omitempty" tf:"-"`
 }
 

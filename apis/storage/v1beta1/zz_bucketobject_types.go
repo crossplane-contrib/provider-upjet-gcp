@@ -236,6 +236,7 @@ type CustomerEncryptionParameters struct {
 	EncryptionAlgorithm *string `json:"encryptionAlgorithm,omitempty" tf:"encryption_algorithm,omitempty"`
 
 	// Base64 encoded Customer-Supplied Encryption Key.
+	// +kubebuilder:validation:Required
 	EncryptionKeySecretRef v1.SecretKeySelector `json:"encryptionKeySecretRef" tf:"-"`
 }
 

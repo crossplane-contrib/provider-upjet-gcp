@@ -94,8 +94,6 @@ spec:
                   user:
                     description: The user email.
                     type: string
-                required:
-                - keySecretRef
                 type: object
               initProvider:
                 description: THIS IS AN ALPHA FIELD. Do not use it in production.

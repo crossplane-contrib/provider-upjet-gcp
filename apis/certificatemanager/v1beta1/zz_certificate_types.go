@@ -244,6 +244,7 @@ type SelfManagedParameters struct {
 	// Deprecated The certificate chain in PEM-encoded form.
 	// Leaf certificate comes first, followed by intermediate ones if any.
 	// Note: This property is sensitive and will not be displayed in the plan.
+	// +kubebuilder:validation:Optional
 	CertificatePemSecretRef *v1.SecretKeySelector `json:"certificatePemSecretRef,omitempty" tf:"-"`
 
 	// The certificate chain in PEM-encoded form.
@@ -252,10 +253,12 @@ type SelfManagedParameters struct {
 
 	// The private key of the leaf certificate in PEM-encoded form.
 	// Note: This property is sensitive and will not be displayed in the plan.
+	// +kubebuilder:validation:Optional
 	PemPrivateKeySecretRef *v1.SecretKeySelector `json:"pemPrivateKeySecretRef,omitempty" tf:"-"`
 
 	// Deprecated The private key of the leaf certificate in PEM-encoded form.
 	// Note: This property is sensitive and will not be displayed in the plan.
+	// +kubebuilder:validation:Optional
 	PrivateKeyPemSecretRef *v1.SecretKeySelector `json:"privateKeyPemSecretRef,omitempty" tf:"-"`
 }
 

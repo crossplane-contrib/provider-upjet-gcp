@@ -1333,6 +1333,7 @@ type IapParameters struct {
 
 	// OAuth2 Client Secret for IAP
 	// Note: This property is sensitive and will not be displayed in the plan.
+	// +kubebuilder:validation:Required
 	Oauth2ClientSecretSecretRef v1.SecretKeySelector `json:"oauth2ClientSecretSecretRef" tf:"-"`
 }
 

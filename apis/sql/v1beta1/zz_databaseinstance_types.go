@@ -498,6 +498,7 @@ type DatabaseInstanceParameters struct {
 	RestoreBackupContext []RestoreBackupContextParameters `json:"restoreBackupContext,omitempty" tf:"restore_backup_context,omitempty"`
 
 	// Initial root password. Can be updated. Required for MS SQL Server.
+	// +kubebuilder:validation:Optional
 	RootPasswordSecretRef *v1.SecretKeySelector `json:"rootPasswordSecretRef,omitempty" tf:"-"`
 
 	// The settings to use for the database. The
@@ -957,6 +958,7 @@ type ReplicaConfigurationParameters struct {
 	MasterHeartbeatPeriod *float64 `json:"masterHeartbeatPeriod,omitempty" tf:"master_heartbeat_period,omitempty"`
 
 	// Password for the replication connection.
+	// +kubebuilder:validation:Optional
 	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
 	SSLCipher *string `json:"sslCipher,omitempty" tf:"ssl_cipher,omitempty"`

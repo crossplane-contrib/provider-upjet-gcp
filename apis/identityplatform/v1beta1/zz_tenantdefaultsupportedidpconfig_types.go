@@ -63,9 +63,11 @@ type TenantDefaultSupportedIdPConfigObservation struct {
 type TenantDefaultSupportedIdPConfigParameters struct {
 
 	// OAuth client ID
+	// +kubebuilder:validation:Optional
 	ClientIDSecretRef v1.SecretKeySelector `json:"clientIdSecretRef" tf:"-"`
 
 	// OAuth client secret
+	// +kubebuilder:validation:Optional
 	ClientSecretSecretRef v1.SecretKeySelector `json:"clientSecretSecretRef" tf:"-"`
 
 	// If this IDP allows the user to sign in

@@ -66,6 +66,7 @@ type SSLCertificateParameters struct {
 	// The certificate chain must be no greater than 5 certs long.
 	// The chain must include at least one intermediate cert.
 	// Note: This property is sensitive and will not be displayed in the plan.
+	// +kubebuilder:validation:Optional
 	CertificateSecretRef v1.SecretKeySelector `json:"certificateSecretRef" tf:"-"`
 
 	// An optional description of this resource.
@@ -73,6 +74,7 @@ type SSLCertificateParameters struct {
 
 	// The write-only private key in PEM format.
 	// Note: This property is sensitive and will not be displayed in the plan.
+	// +kubebuilder:validation:Optional
 	PrivateKeySecretRef v1.SecretKeySelector `json:"privateKeySecretRef" tf:"-"`
 
 	// The ID of the project in which the resource belongs.

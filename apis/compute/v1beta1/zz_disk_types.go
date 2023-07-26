@@ -74,12 +74,14 @@ type DiskEncryptionKeyParameters struct {
 	// Specifies a 256-bit customer-supplied encryption key, encoded in
 	// RFC 4648 base64 to either encrypt or decrypt this resource.
 	// Note: This property is sensitive and will not be displayed in the plan.
+	// +kubebuilder:validation:Optional
 	RawKeySecretRef *v1.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
 
 	// Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit
 	// customer-supplied encryption key to either encrypt or decrypt
 	// this resource. You can provide either the rawKey or the rsaEncryptedKey.
 	// Note: This property is sensitive and will not be displayed in the plan.
+	// +kubebuilder:validation:Optional
 	RsaEncryptedKeySecretRef *v1.SecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
 }
 

@@ -53,6 +53,7 @@ type SecretCiphertextParameters struct {
 
 	// The additional authenticated data used for integrity checks during encryption and decryption.
 	// Note: This property is sensitive and will not be displayed in the plan.
+	// +kubebuilder:validation:Optional
 	AdditionalAuthenticatedDataSecretRef *v1.SecretKeySelector `json:"additionalAuthenticatedDataSecretRef,omitempty" tf:"-"`
 
 	// The full name of the CryptoKey that will be used to encrypt the provided plaintext.

@@ -61,6 +61,7 @@ type SSHPublicKeyParameters struct {
 	ExpirationTimeUsec *string `json:"expirationTimeUsec,omitempty" tf:"expiration_time_usec,omitempty"`
 
 	// Public key text in SSH format, defined by RFC4253 section 6.6.
+	// +kubebuilder:validation:Optional
 	KeySecretRef v1.SecretKeySelector `json:"keySecretRef" tf:"-"`
 
 	// The project ID of the Google Cloud Platform project.

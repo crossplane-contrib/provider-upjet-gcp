@@ -216,6 +216,7 @@ type VPNTunnelParameters struct {
 	// Shared secret used to set the secure session between the Cloud VPN
 	// gateway and the peer VPN gateway.
 	// Note: This property is sensitive and will not be displayed in the plan.
+	// +kubebuilder:validation:Optional
 	SharedSecretSecretRef v1.SecretKeySelector `json:"sharedSecretSecretRef" tf:"-"`
 
 	// URL of the Target VPN gateway with which this VPN tunnel is

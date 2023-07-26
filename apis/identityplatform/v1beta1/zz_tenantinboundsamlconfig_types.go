@@ -35,6 +35,7 @@ type IdPConfigIdPCertificatesParameters struct {
 
 	// (Output)
 	// The x509 certificate
+	// +kubebuilder:validation:Optional
 	X509CertificateSecretRef *v1.SecretKeySelector `json:"x509CertificateSecretRef,omitempty" tf:"-"`
 }
 

@@ -125,6 +125,7 @@ type SourceRepresentationInstanceParameters struct {
 
 	// The password for the replication user account.
 	// Note: This property is sensitive and will not be displayed in the plan.
+	// +kubebuilder:validation:Optional
 	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
 	// The externally accessible port for the source database server.

@@ -177,6 +177,7 @@ type InstanceFromTemplateBootDiskParameters struct {
 	// Changing this forces a new resource to be created.
 	DeviceName *string `json:"deviceName,omitempty" tf:"device_name,omitempty"`
 
+	// +kubebuilder:validation:Optional
 	DiskEncryptionKeyRawSecretRef *v1.SecretKeySelector `json:"diskEncryptionKeyRawSecretRef,omitempty" tf:"-"`
 
 	InitializeParams []BootDiskInitializeParamsParameters `json:"initializeParams,omitempty" tf:"initialize_params,omitempty"`

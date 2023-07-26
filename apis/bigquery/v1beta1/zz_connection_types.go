@@ -392,6 +392,7 @@ type CredentialParameters struct {
 
 	// Password for database.
 	// Note: This property is sensitive and will not be displayed in the plan.
+	// +kubebuilder:validation:Required
 	PasswordSecretRef v1.SecretKeySelector `json:"passwordSecretRef" tf:"-"`
 
 	// Username for database.
